@@ -1,0 +1,54 @@
+package svc
+
+import (
+	"github.com/ve-weiyi/go-sdk/utils/glog"
+	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository"
+	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
+	"github.com/ve-weiyi/ve-admin-store/server/config"
+	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/captcha"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/jjwt"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/rabbitmq/handler"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/rbac"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/upload"
+)
+
+// 注册需要用到的gorm、redis、model
+type ServiceContext struct {
+	*repository.AppRepository
+
+	Config *config.Config
+	//MainDB *gorm.DB
+	//DBList map[string]*gorm.DB
+	//Cache  *redis.Client
+	Log            *glog.Glogger
+	Token          *jjwt.JwtToken
+	RBAC           *rbac.CachedEnforcer
+	Captcha        *captcha.CaptchaRepository
+	EmailPublisher rabbitmq.MessagePublisher
+	Uploader       upload.Uploader
+}
+
+func NewServiceContext(cfg *config.Config) *ServiceContext {
+	ctx := svc.NewRepositoryContext(cfg)
+	repo := repository.NewRepository(ctx)
+	if repo == nil {
+		panic("repository cannot be null")
+	}
+
+	email := handler.NewEmailHandler(cfg.RabbitMQ.GetUrl())
+	return &ServiceContext{
+		Config: cfg,
+		//MainDB: global.DB,
+		//DBList: global.DBList,
+		//Cache:  global.REDIS,
+		Log:            global.LOG,
+		Token:          global.JWT,
+		RBAC:           global.RbacEnforcer,
+		Captcha:        captcha.NewCaptchaRepository(),
+		EmailPublisher: email.Publisher(),
+		AppRepository:  repo,
+		Uploader:       upload.NewOss(&cfg.Upload),
+	}
+}

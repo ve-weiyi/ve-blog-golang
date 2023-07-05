@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-web
+  annotations:
+    ve-weiyi/ve-admin-store: ui
+    github: "https://github.com/ve-weiyi/ve-admin-store.git"
+    app.kubernetes.io/version: 0.0.1
+  labels:
+    app: blog-web
+    version: blog-vue3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-web
+      version: blog-vue3
+  template:
+    metadata:
+      labels:
+        app: blog-web
+        version: blog-vue3
+    spec:
+      containers:
+        - name: ve77-nginx-container
+          image: registry.cn-hangzhou.aliyuncs.com/blog/web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9090
+              name: http
+          readinessProbe:
+            tcpSocket:
+              port: 9090
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/
+              name: nginx-config
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: my.conf
