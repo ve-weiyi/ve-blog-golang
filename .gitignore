@@ -1,0 +1,35 @@
+.idea/
+/web/node_modules
+/web/dist
+
+.DS_Store
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+*.iml
+*.log
+web/.pnpm-debug.log
+web/pnpm-lock.yaml
+config.yaml
+*.sum
+
+/rm_file
+/server/runtime/
+/server/quickstart/api/
