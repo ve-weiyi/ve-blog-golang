@@ -32,6 +32,7 @@ type AppService struct {
 	ArticleTagService       *logic.ArticleTagService       //文章标签映射
 	CaptchaService          *logic.CaptchaService          //验证码
 	UploadService           *logic.UploadService           //文件上传
+	ChatRecordService       *logic.ChatRecordService       //聊天记录
 }
 
 func NewService(svcCtx *svc.ServiceContext) *AppService {
@@ -62,5 +63,6 @@ func NewService(svcCtx *svc.ServiceContext) *AppService {
 		ArticleTagService:       logic.NewArticleTagService(svcCtx),
 		CaptchaService:          logic.NewCaptchaService(svcCtx),
 		UploadService:           logic.NewUploadService(svcCtx),
+		ChatRecordService:       logic.NewChatRecordService(svcCtx),
 	}
 }
