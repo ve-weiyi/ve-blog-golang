@@ -1,11 +1,10 @@
 package initialize
 
 import (
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq/handler"
-
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // 订阅消息

@@ -33,3 +33,4 @@ yarn-error.log*
 web/.pnpm-debug.log
 web/pnpm-lock.yaml
 config.yaml
+*.sum
