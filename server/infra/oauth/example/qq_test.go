@@ -1,9 +1,10 @@
 package example
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
 	"log"
 	"testing"
+
+	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
 )
 
 func TestQQ(t *testing.T) {

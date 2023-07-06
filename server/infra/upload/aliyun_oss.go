@@ -2,14 +2,15 @@ package upload
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/go-sdk/utils/crypto"
-	"github.com/ve-weiyi/ve-admin-store/server/config/properties"
 	"mime/multipart"
 	"path"
 	"strings"
 	"time"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+
+	"github.com/ve-weiyi/go-sdk/utils/crypto"
+	"github.com/ve-weiyi/ve-admin-store/server/config/properties"
 )
 
 type AliyunOSS struct {

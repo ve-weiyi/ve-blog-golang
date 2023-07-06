@@ -2,10 +2,12 @@ package easycode
 
 import (
 	"fmt"
+	"path/filepath"
+
+	"gorm.io/gorm"
+
 	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
-	"gorm.io/gorm"
-	"path/filepath"
 )
 
 type Config struct {

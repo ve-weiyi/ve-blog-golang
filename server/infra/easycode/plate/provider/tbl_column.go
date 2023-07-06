@@ -2,10 +2,12 @@ package provider
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
-	"gorm.io/gorm"
 	"reflect"
 	"strings"
+
+	"gorm.io/gorm"
+
+	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
 )
 
 // 需要的数据

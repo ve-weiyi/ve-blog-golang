@@ -62,6 +62,14 @@ go run main.go run --config=./conf/config.yaml
 go fmt ./...
 ```
 
+格式化导入包
+
+```shell
+go get golang.org/x/tools/cmd/goimports
+go install golang.org/x/tools/cmd/goimports
+goimports -w .
+```
+
 格式化swagger注解
 
 ```shell

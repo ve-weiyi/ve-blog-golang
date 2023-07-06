@@ -2,11 +2,13 @@ package oauth
 
 import (
 	"errors"
+	"log"
+
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/https"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/result"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/utils"
-	"log"
 )
 
 // 微博授权登录

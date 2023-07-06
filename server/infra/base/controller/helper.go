@@ -2,10 +2,12 @@ package controller
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin/render"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"net/http"
 	"strings"
+
+	"github.com/gin-gonic/gin/render"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // json解析忽略大小写

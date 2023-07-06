@@ -2,9 +2,11 @@ package captcha
 
 import (
 	"context"
-	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"time"
+
+	"github.com/redis/go-redis/v9"
+
+	"github.com/ve-weiyi/ve-admin-store/server/global"
 )
 
 // 验证码存储

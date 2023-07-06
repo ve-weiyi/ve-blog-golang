@@ -1,9 +1,10 @@
 package initialize
 
 import (
-	"gorm.io/gorm"
 	"log"
 	"os"
+
+	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/database"

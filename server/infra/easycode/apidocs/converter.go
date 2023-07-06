@@ -3,10 +3,11 @@ package apidocs
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
 	"os"
 	"strings"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
 )
 
 type SwaggerConverter struct {

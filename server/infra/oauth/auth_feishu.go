@@ -2,10 +2,11 @@ package oauth
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/https"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/result"
-	"log"
 )
 
 // Feishu授权登录

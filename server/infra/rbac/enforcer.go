@@ -1,12 +1,14 @@
 package rbac
 
 import (
+	"log"
+
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
 	"gorm.io/gorm"
-	"log"
+
+	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
 )
 
 type CachedEnforcer struct {

@@ -1,8 +1,9 @@
 package properties
 
 import (
-	"go.uber.org/zap/zapcore"
 	"strings"
+
+	"go.uber.org/zap/zapcore"
 )
 
 type Zap struct {

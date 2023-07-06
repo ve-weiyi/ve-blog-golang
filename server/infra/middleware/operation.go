@@ -2,9 +2,11 @@ package middleware
 
 import (
 	"bytes"
-	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"sync"
+
+	"github.com/gin-gonic/gin"
+
+	"github.com/ve-weiyi/ve-admin-store/server/global"
 )
 
 var respPool sync.Pool

@@ -1,9 +1,10 @@
 package test
 
 import (
+	"go/ast"
+
 	"github.com/dave/dst"
 	jsoniter "github.com/json-iterator/go"
-	"go/ast"
 )
 
 // 注册需要用到的rpc

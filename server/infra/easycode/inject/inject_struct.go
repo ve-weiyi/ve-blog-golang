@@ -2,10 +2,11 @@ package inject
 
 import (
 	"fmt"
-	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 	"go/parser"
 	"go/token"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 )
 
 // 插入 FieldName  FieldType.SelName

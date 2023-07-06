@@ -2,8 +2,9 @@ package easycode
 
 import (
 	"fmt"
+
 	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
-	tmpl2 "github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
 )
 
 func (g *Generator) InitPackage(tableName string) {
@@ -14,25 +15,25 @@ func (g *Generator) InitPackage(tableName string) {
 	replace := false
 	//context 是下层引用
 	routerContext := &plate.PlateMeta{
-		TemplateString: tmpl2.RouterContext,
+		TemplateString: tmpl.RouterContext,
 		AutoCodePath:   fmt.Sprintf("%v/router/svc/%s.rt.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        replace,
 	}
 	controllerContext := &plate.PlateMeta{
-		TemplateString: tmpl2.ControllerContext,
+		TemplateString: tmpl.ControllerContext,
 		AutoCodePath:   fmt.Sprintf("%v/controller/svc/%s.ctl.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        replace,
 	}
 	serviceContext := &plate.PlateMeta{
-		TemplateString: tmpl2.ServiceContext,
+		TemplateString: tmpl.ServiceContext,
 		AutoCodePath:   fmt.Sprintf("%v/service/svc/%s.sv.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        replace,
 	}
 	repositoryContext := &plate.PlateMeta{
-		TemplateString: tmpl2.RepositoryContext,
+		TemplateString: tmpl.RepositoryContext,
 		AutoCodePath:   fmt.Sprintf("%v/repository/svc/%s.rp.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        replace,
@@ -54,25 +55,25 @@ func (g *Generator) InitPackage(tableName string) {
 	}
 
 	routerCollector := &plate.PlateMeta{
-		TemplateString: tmpl2.AppRouter,
+		TemplateString: tmpl.AppRouter,
 		AutoCodePath:   fmt.Sprintf("%v/router/router.go", temporaryRoot),
 		Data:           data,
 		Replace:        replace,
 	}
 	controllerCollector := &plate.PlateMeta{
-		TemplateString: tmpl2.AppController,
+		TemplateString: tmpl.AppController,
 		AutoCodePath:   fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
 		Data:           data,
 		Replace:        replace,
 	}
 	serviceCollector := &plate.PlateMeta{
-		TemplateString: tmpl2.AppService,
+		TemplateString: tmpl.AppService,
 		AutoCodePath:   fmt.Sprintf("%v/service/service.go", temporaryRoot),
 		Data:           data,
 		Replace:        replace,
 	}
 	repositoryCollector := &plate.PlateMeta{
-		TemplateString: tmpl2.AppRepository,
+		TemplateString: tmpl.AppRepository,
 		AutoCodePath:   fmt.Sprintf("%v/repository/repository.go", temporaryRoot),
 		Data:           data,
 		Replace:        replace,

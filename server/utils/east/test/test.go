@@ -1,8 +1,9 @@
 package test
 
 import (
-	jsoniter "github.com/json-iterator/go"
 	"go/ast"
+
+	jsoniter "github.com/json-iterator/go"
 )
 
 type ApiGroup struct {

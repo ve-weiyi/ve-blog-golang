@@ -3,16 +3,18 @@ package captcha
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mojocn/base64Captcha"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"log"
 	"net/http"
 	"testing"
+
+	"github.com/mojocn/base64Captcha"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 func TestRedisStore_RandCode(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		code := NewCaptchaRepository().GetCodeCaptcha()
+		code := NewCaptchaRepository().GetCodeCaptcha("key")
 		t.Log(code)
 	}
 }

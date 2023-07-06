@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"github.com/ve-weiyi/ve-admin-store/server/initialize"
-	"go.uber.org/zap"
 )
 
 type server interface {

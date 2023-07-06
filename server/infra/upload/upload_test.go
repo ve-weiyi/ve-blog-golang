@@ -1,10 +1,11 @@
 package upload
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
 	"log"
 	"mime/multipart"
 	"testing"
+
+	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
 )
 
 func TestUpload(t *testing.T) {

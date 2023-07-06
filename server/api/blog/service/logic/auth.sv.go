@@ -2,6 +2,10 @@ package logic
 
 import (
 	"fmt"
+	"math/rand"
+	"strconv"
+	"time"
+
 	"github.com/ve-weiyi/go-sdk/utils/crypto"
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	templateUtil "github.com/ve-weiyi/go-sdk/utils/temp"
@@ -14,9 +18,6 @@ import (
 	"github.com/ve-weiyi/ve-admin-store/server/infra/constant"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/mail"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
-	"math/rand"
-	"strconv"
-	"time"
 )
 
 type AuthService struct {
