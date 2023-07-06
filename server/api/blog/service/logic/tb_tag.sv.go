@@ -18,30 +18,30 @@ func NewTagService(svcCtx *svc.ServiceContext) *TagService {
 
 // 创建Tag记录
 func (s *TagService) CreateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.CreateTag(tag)
+	return s.svcCtx.TagRepository.CreateTag(reqCtx, tag)
 }
 
 // 删除Tag记录
 func (s *TagService) DeleteTag(reqCtx *request.Context, tag *entity.Tag) (rows int64, err error) {
-	return s.svcCtx.TagRepository.DeleteTag(tag)
+	return s.svcCtx.TagRepository.DeleteTag(reqCtx, tag)
 }
 
 // 更新Tag记录
 func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.UpdateTag(tag)
+	return s.svcCtx.TagRepository.UpdateTag(reqCtx, tag)
 }
 
-// 根据id获取Tag记录
-func (s *TagService) FindTag(reqCtx *request.Context, id int) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.FindTag(id)
+// 查询Tag记录
+func (s *TagService) GetTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
+	return s.svcCtx.TagRepository.GetTag(reqCtx, tag.ID)
 }
 
 // 批量删除Tag记录
 func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.TagRepository.DeleteTagByIds(ids)
+	return s.svcCtx.TagRepository.DeleteTagByIds(reqCtx, ids)
 }
 
 // 分页获取Tag记录
-func (s *TagService) GetTagList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Tag, total int64, err error) {
-	return s.svcCtx.TagRepository.GetTagList(page)
+func (s *TagService) FindTagList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Tag, total int64, err error) {
+	return s.svcCtx.TagRepository.FindTagList(reqCtx, page)
 }

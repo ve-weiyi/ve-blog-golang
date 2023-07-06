@@ -468,7 +468,7 @@ const docTemplate = `{
                 "summary": "创建接口",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -579,7 +579,7 @@ const docTemplate = `{
             }
         },
         "/api/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -662,7 +662,7 @@ const docTemplate = `{
                 "summary": "查询接口",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -712,7 +712,7 @@ const docTemplate = `{
                 "summary": "更新接口",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -828,12 +828,12 @@ const docTemplate = `{
                 "summary": "文章归档",
                 "parameters": [
                     {
-                        "description": "创建文章",
-                        "name": "data",
+                        "description": "分页获取文章列表",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Article"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -943,7 +943,7 @@ const docTemplate = `{
                 "summary": "创建文章",
                 "parameters": [
                     {
-                        "description": "创建文章",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -993,7 +993,7 @@ const docTemplate = `{
                 "summary": "删除文章",
                 "parameters": [
                     {
-                        "description": "删除文章",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1031,7 +1031,7 @@ const docTemplate = `{
                 "summary": "批量删除文章",
                 "parameters": [
                     {
-                        "description": "批量删除文章",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1048,56 +1048,6 @@ const docTemplate = `{
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/article/find": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Article"
-                ],
-                "summary": "用id查询文章",
-                "parameters": [
-                    {
-                        "description": "用id查询文章",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Article"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Article"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -1172,7 +1122,7 @@ const docTemplate = `{
                 "summary": "分页获取文章列表",
                 "parameters": [
                     {
-                        "description": "分页获取文章列表",
+                        "description": "分页参数",
                         "name": "page",
                         "in": "body",
                         "required": true,
@@ -1218,6 +1168,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/article/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "查询文章",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Article"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Article"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/article/update": {
             "put": {
                 "security": [
@@ -1237,7 +1237,7 @@ const docTemplate = `{
                 "summary": "更新文章",
                 "parameters": [
                     {
-                        "description": "更新文章",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1376,7 +1376,7 @@ const docTemplate = `{
                 "summary": "创建文章分类",
                 "parameters": [
                     {
-                        "description": "创建文章分类",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1426,7 +1426,7 @@ const docTemplate = `{
                 "summary": "删除文章分类",
                 "parameters": [
                     {
-                        "description": "删除文章分类",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1464,7 +1464,7 @@ const docTemplate = `{
                 "summary": "批量删除文章分类",
                 "parameters": [
                     {
-                        "description": "批量删除文章分类",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1486,58 +1486,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Category"
-                ],
-                "summary": "用id查询文章分类",
-                "parameters": [
-                    {
-                        "description": "用id查询文章分类",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Category"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Category"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/category/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1555,7 +1505,7 @@ const docTemplate = `{
                 "summary": "分页获取文章分类列表",
                 "parameters": [
                     {
-                        "description": "分页获取文章分类列表",
+                        "description": "分页参数",
                         "name": "page",
                         "in": "body",
                         "required": true,
@@ -1601,6 +1551,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/category/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "查询文章分类",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/category/update": {
             "put": {
                 "security": [
@@ -1620,7 +1620,7 @@ const docTemplate = `{
                 "summary": "更新文章分类",
                 "parameters": [
                     {
-                        "description": "更新文章分类",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1701,56 +1701,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/:id/like": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Comment"
-                ],
-                "summary": "点赞评论",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Comment"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Comment"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/comment/create": {
             "post": {
                 "security": [
@@ -1770,7 +1720,7 @@ const docTemplate = `{
                 "summary": "创建评论",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1880,58 +1830,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/id:/reply_list": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Comment"
-                ],
-                "summary": "查询评论回复列表",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Comment"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/comment/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2014,7 +1914,7 @@ const docTemplate = `{
                 "summary": "查询评论",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2064,7 +1964,7 @@ const docTemplate = `{
                 "summary": "更新评论",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2164,7 +2064,7 @@ const docTemplate = `{
                 "summary": "创建友链",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2275,7 +2175,7 @@ const docTemplate = `{
             }
         },
         "/friendLink/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2358,7 +2258,7 @@ const docTemplate = `{
                 "summary": "查询友链",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2408,7 +2308,7 @@ const docTemplate = `{
                 "summary": "更新友链",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2550,7 +2450,7 @@ const docTemplate = `{
                 "summary": "创建菜单",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2661,7 +2561,7 @@ const docTemplate = `{
             }
         },
         "/menu/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2744,7 +2644,7 @@ const docTemplate = `{
                 "summary": "查询菜单",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2794,7 +2694,7 @@ const docTemplate = `{
                 "summary": "更新菜单",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2944,7 +2844,7 @@ const docTemplate = `{
                 "summary": "创建页面",
                 "parameters": [
                     {
-                        "description": "创建页面",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2994,7 +2894,7 @@ const docTemplate = `{
                 "summary": "删除页面",
                 "parameters": [
                     {
-                        "description": "删除页面",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3032,7 +2932,7 @@ const docTemplate = `{
                 "summary": "批量删除页面",
                 "parameters": [
                     {
-                        "description": "批量删除页面",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3054,58 +2954,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/page/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Page"
-                ],
-                "summary": "用id查询页面",
-                "parameters": [
-                    {
-                        "description": "用id查询页面",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Page"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Page"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/page/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3123,7 +2973,7 @@ const docTemplate = `{
                 "summary": "分页获取页面列表",
                 "parameters": [
                     {
-                        "description": "分页获取页面列表",
+                        "description": "分页参数",
                         "name": "page",
                         "in": "body",
                         "required": true,
@@ -3169,6 +3019,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/page/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "查询页面",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Page"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Page"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/page/update": {
             "put": {
                 "security": [
@@ -3188,7 +3088,7 @@ const docTemplate = `{
                 "summary": "更新页面",
                 "parameters": [
                     {
-                        "description": "更新页面",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3238,7 +3138,7 @@ const docTemplate = `{
                 "summary": "创建相片",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3349,7 +3249,7 @@ const docTemplate = `{
             }
         },
         "/photo/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3432,7 +3332,7 @@ const docTemplate = `{
                 "summary": "查询相片",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3482,7 +3382,7 @@ const docTemplate = `{
                 "summary": "更新相片",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3532,7 +3432,7 @@ const docTemplate = `{
                 "summary": "创建相册",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3643,7 +3543,7 @@ const docTemplate = `{
             }
         },
         "/photoAlbum/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3726,7 +3626,7 @@ const docTemplate = `{
                 "summary": "查询相册",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3776,7 +3676,7 @@ const docTemplate = `{
                 "summary": "更新相册",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3902,7 +3802,7 @@ const docTemplate = `{
                 "summary": "创建角色",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4013,7 +3913,7 @@ const docTemplate = `{
             }
         },
         "/role/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4096,7 +3996,7 @@ const docTemplate = `{
                 "summary": "查询角色",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4146,7 +4046,7 @@ const docTemplate = `{
                 "summary": "更新角色",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4196,7 +4096,7 @@ const docTemplate = `{
                 "summary": "创建文章标签",
                 "parameters": [
                     {
-                        "description": "创建文章标签",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4246,7 +4146,7 @@ const docTemplate = `{
                 "summary": "删除文章标签",
                 "parameters": [
                     {
-                        "description": "删除文章标签",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4284,7 +4184,7 @@ const docTemplate = `{
                 "summary": "批量删除文章标签",
                 "parameters": [
                     {
-                        "description": "批量删除文章标签",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4306,58 +4206,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/tag/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tag"
-                ],
-                "summary": "用id查询文章标签",
-                "parameters": [
-                    {
-                        "description": "用id查询文章标签",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Tag"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Tag"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/tag/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4375,7 +4225,7 @@ const docTemplate = `{
                 "summary": "分页获取文章标签列表",
                 "parameters": [
                     {
-                        "description": "分页获取文章标签列表",
+                        "description": "分页参数",
                         "name": "page",
                         "in": "body",
                         "required": true,
@@ -4421,6 +4271,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/tag/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "查询文章标签",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Tag"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/tag/update": {
             "put": {
                 "security": [
@@ -4440,7 +4340,7 @@ const docTemplate = `{
                 "summary": "更新文章标签",
                 "parameters": [
                     {
-                        "description": "更新文章标签",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4490,7 +4390,7 @@ const docTemplate = `{
                 "summary": "创建说说",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4601,7 +4501,7 @@ const docTemplate = `{
             }
         },
         "/talk/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4684,7 +4584,7 @@ const docTemplate = `{
                 "summary": "查询说说",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4734,7 +4634,7 @@ const docTemplate = `{
                 "summary": "更新说说",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,

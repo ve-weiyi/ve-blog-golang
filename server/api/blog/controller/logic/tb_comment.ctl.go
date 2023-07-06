@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
@@ -16,10 +15,10 @@ type CommentController struct {
 	svcCtx *svc.ControllerContext
 }
 
-func NewCommentController(ctx *svc.ControllerContext) *CommentController {
+func NewCommentController(svcCtx *svc.ControllerContext) *CommentController {
 	return &CommentController{
-		svcCtx:         ctx,
-		BaseController: controller.NewBaseController(ctx),
+		svcCtx:         svcCtx,
+		BaseController: controller.NewBaseController(svcCtx),
 	}
 }
 
@@ -28,7 +27,7 @@ func NewCommentController(ctx *svc.ControllerContext) *CommentController {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Comment							true	"请求body"
+// @Param		data	body		entity.Comment							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
 // @Router		/comment/create [post]
 func (s *CommentController) CreateComment(c *gin.Context) {
@@ -59,8 +58,8 @@ func (s *CommentController) CreateComment(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Comment		true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		data	body	 	entity.Comment 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
 // @Router		/comment/delete [delete]
 func (s *CommentController) DeleteComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -85,14 +84,14 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Comment
+// @Tags 	 	Comment
 // @Summary		更新评论
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Comment							true	"请求body"
+// @Param 	 	data	body 	 	entity.Comment							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router		/comment/update [put]
+// @Router 		/comment/update [put]
 func (s *CommentController) UpdateComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -116,14 +115,14 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Comment
+// @Tags 	 	Comment
 // @Summary		查询评论
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Comment							true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router		/comment/query [get]
+// @Param 	 	data		body		entity.Comment							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Comment}	"返回信息"
+// @Router 		/comment/query [get]
 func (s *CommentController) GetComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -147,12 +146,12 @@ func (s *CommentController) GetComment(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Comment
+// @Tags 	 	Comment
 // @Summary		批量删除评论
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
 // @Produce		application/json
-// @Param		data	body		[]int				true	"删除id列表"
+// @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
 // @Router		/comment/deleteByIds [delete]
 func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
@@ -178,14 +177,14 @@ func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Comment
+// @Tags 	 	Comment
 // @Summary		分页获取评论列表
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo													true	"分页参数"
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
-// @Router		/comment/list [get]
+// @Router		/comment/list [post]
 func (s *CommentController) FindCommentList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -212,68 +211,4 @@ func (s *CommentController) FindCommentList(c *gin.Context) {
 		Page:     page.Page,
 		PageSize: page.Limit(),
 	})
-}
-
-// @Tags		Comment
-// @Summary		查询评论回复列表
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		request.PageInfo						true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router		/comment/id:/reply_list [post]
-func (s *CommentController) ReplyComment(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	id := cast.ToInt(c.Param("id"))
-	s.Log.Println(id)
-	var page request.PageInfo
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.CommentService.FindCommonReplyList(reqCtx, id, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.Limit(),
-	})
-}
-
-// @Tags		Comment
-// @Summary		点赞评论
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		entity.Comment							true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router		/comment/:id/like [post]
-func (s *CommentController) LikeComment(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	id := cast.ToInt(c.Param("id"))
-
-	data, err := s.svcCtx.CommentService.LikeComment(reqCtx, id)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
 }

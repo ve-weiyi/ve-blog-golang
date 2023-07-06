@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
@@ -22,7 +24,7 @@ func NewPhotoAlbumRepository(svcCtx *svc.RepositoryContext) *PhotoAlbumRepositor
 }
 
 // 创建PhotoAlbum记录
-func (s *PhotoAlbumRepository) CreatePhotoAlbum(photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
+func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
 	db := s.DbEngin
 	err = db.Create(&photoAlbum).Error
 	if err != nil {
@@ -32,7 +34,7 @@ func (s *PhotoAlbumRepository) CreatePhotoAlbum(photoAlbum *entity.PhotoAlbum) (
 }
 
 // 删除PhotoAlbum记录
-func (s *PhotoAlbumRepository) DeletePhotoAlbum(photoAlbum *entity.PhotoAlbum) (rows int64, err error) {
+func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&photoAlbum)
 	err = query.Error
@@ -41,7 +43,7 @@ func (s *PhotoAlbumRepository) DeletePhotoAlbum(photoAlbum *entity.PhotoAlbum) (
 }
 
 // 更新PhotoAlbum记录
-func (s *PhotoAlbumRepository) UpdatePhotoAlbum(photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
+func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
 	db := s.DbEngin
 	err = db.Save(&photoAlbum).Error
 	if err != nil {
@@ -51,7 +53,7 @@ func (s *PhotoAlbumRepository) UpdatePhotoAlbum(photoAlbum *entity.PhotoAlbum) (
 }
 
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumRepository) GetPhotoAlbum(id int) (out *entity.PhotoAlbum, err error) {
+func (s *PhotoAlbumRepository) GetPhotoAlbum(ctx context.Context, id int) (out *entity.PhotoAlbum, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -61,7 +63,7 @@ func (s *PhotoAlbumRepository) GetPhotoAlbum(id int) (out *entity.PhotoAlbum, er
 }
 
 // 批量删除PhotoAlbum记录
-func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ids []int) (rows int64, err error) {
+func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.PhotoAlbum{}, "id in ?", ids)
 	err = query.Error
@@ -70,7 +72,7 @@ func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ids []int) (rows int64, err
 }
 
 // 分页查询PhotoAlbum记录
-func (s *PhotoAlbumRepository) FindPhotoAlbumList(page *request.PageInfo) (list []*entity.PhotoAlbum, total int64, err error) {
+func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *request.PageInfo) (list []*entity.PhotoAlbum, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

@@ -18,30 +18,30 @@ func NewPhotoAlbumService(svcCtx *svc.ServiceContext) *PhotoAlbumService {
 
 // 创建PhotoAlbum记录
 func (s *PhotoAlbumService) CreatePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.CreatePhotoAlbum(photoAlbum)
+	return s.svcCtx.PhotoAlbumRepository.CreatePhotoAlbum(reqCtx, photoAlbum)
 }
 
 // 删除PhotoAlbum记录
 func (s *PhotoAlbumService) DeletePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (rows int64, err error) {
-	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbum(photoAlbum)
+	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbum(reqCtx, photoAlbum)
 }
 
 // 更新PhotoAlbum记录
 func (s *PhotoAlbumService) UpdatePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.UpdatePhotoAlbum(photoAlbum)
+	return s.svcCtx.PhotoAlbumRepository.UpdatePhotoAlbum(reqCtx, photoAlbum)
 }
 
 // 查询PhotoAlbum记录
 func (s *PhotoAlbumService) GetPhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.GetPhotoAlbum(photoAlbum.ID)
+	return s.svcCtx.PhotoAlbumRepository.GetPhotoAlbum(reqCtx, photoAlbum.ID)
 }
 
 // 批量删除PhotoAlbum记录
 func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbumByIds(ids)
+	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbumByIds(reqCtx, ids)
 }
 
 // 分页获取PhotoAlbum记录
 func (s *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.PhotoAlbum, total int64, err error) {
-	return s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(page)
+	return s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, page)
 }

@@ -10,26 +10,25 @@ type PageRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewPageRouter(ctx *svc.RouterContext) *PageRouter {
+func NewPageRouter(svcCtx *svc.RouterContext) *PageRouter {
 	return &PageRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 
 // 初始化 Page 路由信息
+// publicRouter 公开路由，不登录就可以访问
+// loginRouter  登录路由，登录后才可以访问
 func (s *PageRouter) InitPageRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	pageRouter := publicRouter.Group("blog/page")
-	pageTraceRouter := loginRouter.Group("admin/page")
 
-	var self = s.svcCtx.AppController.PageController
+	var handler = s.svcCtx.AppController.PageController
 	{
-		pageRouter.GET("find", self.FindPage)    // 根据ID获取Page
-		pageRouter.GET("list", self.GetPageList) // 获取Page列表
-	}
-	{
-		pageTraceRouter.POST("create", self.CreatePage)             // 新建Page
-		pageTraceRouter.DELETE("delete", self.DeletePage)           // 删除Page
-		pageTraceRouter.PUT("update", self.UpdatePage)              // 更新Page
-		pageTraceRouter.DELETE("deleteByIds", self.DeletePageByIds) // 批量删除Page
+		publicRouter.POST("page/create", handler.CreatePage)   // 新建Page
+		publicRouter.PUT("page/update", handler.UpdatePage)    // 更新Page
+		publicRouter.DELETE("page/delete", handler.DeletePage) // 删除Page
+		publicRouter.POST("page/query", handler.GetPage)       // 查询Page
+
+		publicRouter.DELETE("page/deleteByIds", handler.DeletePageByIds) // 批量删除Page列表
+		publicRouter.POST("page/list", handler.FindPageList)             // 分页查询Page列表
 	}
 }

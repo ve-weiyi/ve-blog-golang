@@ -26,7 +26,7 @@ func NewCommentRepository(svcCtx *svc.RepositoryContext) *CommentRepository {
 }
 
 // 创建Comment记录
-func (s *CommentRepository) CreateComment(comment *entity.Comment) (out *entity.Comment, err error) {
+func (s *CommentRepository) CreateComment(ctx context.Context, comment *entity.Comment) (out *entity.Comment, err error) {
 	db := s.DbEngin
 	err = db.Create(&comment).Error
 	if err != nil {
@@ -36,7 +36,7 @@ func (s *CommentRepository) CreateComment(comment *entity.Comment) (out *entity.
 }
 
 // 删除Comment记录
-func (s *CommentRepository) DeleteComment(comment *entity.Comment) (rows int64, err error) {
+func (s *CommentRepository) DeleteComment(ctx context.Context, comment *entity.Comment) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&comment)
 	err = query.Error
@@ -45,7 +45,7 @@ func (s *CommentRepository) DeleteComment(comment *entity.Comment) (rows int64, 
 }
 
 // 更新Comment记录
-func (s *CommentRepository) UpdateComment(comment *entity.Comment) (out *entity.Comment, err error) {
+func (s *CommentRepository) UpdateComment(ctx context.Context, comment *entity.Comment) (out *entity.Comment, err error) {
 	db := s.DbEngin
 	err = db.Save(&comment).Error
 	if err != nil {
@@ -55,7 +55,7 @@ func (s *CommentRepository) UpdateComment(comment *entity.Comment) (out *entity.
 }
 
 // 查询Comment记录
-func (s *CommentRepository) GetComment(id int) (out *entity.Comment, err error) {
+func (s *CommentRepository) GetComment(ctx context.Context, id int) (out *entity.Comment, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *CommentRepository) GetComment(id int) (out *entity.Comment, err error) 
 }
 
 // 批量删除Comment记录
-func (s *CommentRepository) DeleteCommentByIds(ids []int) (rows int64, err error) {
+func (s *CommentRepository) DeleteCommentByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.Comment{}, "id in ?", ids)
 	err = query.Error
@@ -74,7 +74,7 @@ func (s *CommentRepository) DeleteCommentByIds(ids []int) (rows int64, err error
 }
 
 // 分页查询Comment记录
-func (s *CommentRepository) FindCommentList(page *request.PageInfo) (list []*entity.Comment, total int64, err error) {
+func (s *CommentRepository) FindCommentList(ctx context.Context, page *request.PageInfo) (list []*entity.Comment, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -121,7 +121,7 @@ func (s *CommentRepository) FindCommentReplyList(id int, page *request.PageInfo)
 		Value: id,
 	})
 
-	return s.FindCommentList(page)
+	return s.FindCommentList(nil, page)
 }
 
 // 点赞评论

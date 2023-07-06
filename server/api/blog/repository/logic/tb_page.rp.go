@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"fmt"
+	"context"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -24,7 +24,7 @@ func NewPageRepository(svcCtx *svc.RepositoryContext) *PageRepository {
 }
 
 // 创建Page记录
-func (s *PageRepository) CreatePage(page *entity.Page) (out *entity.Page, err error) {
+func (s *PageRepository) CreatePage(ctx context.Context, page *entity.Page) (out *entity.Page, err error) {
 	db := s.DbEngin
 	err = db.Create(&page).Error
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *PageRepository) CreatePage(page *entity.Page) (out *entity.Page, err er
 }
 
 // 删除Page记录
-func (s *PageRepository) DeletePage(page *entity.Page) (rows int64, err error) {
+func (s *PageRepository) DeletePage(ctx context.Context, page *entity.Page) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&page)
 	err = query.Error
@@ -43,7 +43,7 @@ func (s *PageRepository) DeletePage(page *entity.Page) (rows int64, err error) {
 }
 
 // 更新Page记录
-func (s *PageRepository) UpdatePage(page *entity.Page) (out *entity.Page, err error) {
+func (s *PageRepository) UpdatePage(ctx context.Context, page *entity.Page) (out *entity.Page, err error) {
 	db := s.DbEngin
 	err = db.Save(&page).Error
 	if err != nil {
@@ -52,8 +52,8 @@ func (s *PageRepository) UpdatePage(page *entity.Page) (out *entity.Page, err er
 	return page, err
 }
 
-// 根据id获取Page记录
-func (s *PageRepository) FindPage(id int) (out *entity.Page, err error) {
+// 查询Page记录
+func (s *PageRepository) GetPage(ctx context.Context, id int) (out *entity.Page, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -63,7 +63,7 @@ func (s *PageRepository) FindPage(id int) (out *entity.Page, err error) {
 }
 
 // 批量删除Page记录
-func (s *PageRepository) DeletePageByIds(ids []int) (rows int64, err error) {
+func (s *PageRepository) DeletePageByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.Page{}, "id in ?", ids)
 	err = query.Error
@@ -71,27 +71,40 @@ func (s *PageRepository) DeletePageByIds(ids []int) (rows int64, err error) {
 	return rows, err
 }
 
-// 分页获取Page记录
-func (s *PageRepository) GetPageList(page *request.PageInfo) (list []*entity.Page, total int64, err error) {
-	limit := page.Limit()
-	offset := page.Offset()
+// 分页查询Page记录
+func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageInfo) (list []*entity.Page, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
-	var pages []*entity.Page
-	// 如果有条件搜索 下方会自动创建搜索语句
-	if page.Order != "" && page.OrderKey != "" {
-		db = db.Order(fmt.Sprintf("`%v` %v", page.Order, page.OrderKey))
+
+	// 如果有搜索条件
+	if len(page.Conditions) != 0 {
+		query, args := page.WhereClause()
+		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&pages).Count(&total).Error
+	// 如果有排序参数
+	if len(page.Orders) != 0 {
+		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	err = db.Limit(limit).Offset(offset).Find(&pages).Error
+	// 如果有分页参数
+	if page.Page != 0 || page.PageSize != 0 {
+		limit := page.Limit()
+		offset := page.Offset()
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	return pages, total, nil
+	return list, total, nil
 }

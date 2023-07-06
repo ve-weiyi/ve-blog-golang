@@ -10,29 +10,29 @@ type ArticleRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewArticleRouter(ctx *svc.RouterContext) *ArticleRouter {
+func NewArticleRouter(svcCtx *svc.RouterContext) *ArticleRouter {
 	return &ArticleRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 
 // 初始化 Article 路由信息
+// publicRouter 公开路由，不登录就可以访问
+// loginRouter  登录路由，登录后才可以访问
 func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	articleRouter := publicRouter.Group("blog/article")
-	articleTraceRouter := loginRouter.Group("admin/article")
 
-	var self = s.svcCtx.AppController.ArticleController
+	var handler = s.svcCtx.AppController.ArticleController
 	{
-		articleRouter.POST("find", self.FindArticle)    // 根据ID获取Article
-		articleRouter.POST("list", self.GetArticleList) // 获取Article列表
+		publicRouter.POST("article/create", handler.CreateArticle)   // 新建Article
+		publicRouter.PUT("article/update", handler.UpdateArticle)    // 更新Article
+		publicRouter.DELETE("article/delete", handler.DeleteArticle) // 删除Article
+		publicRouter.POST("article/query", handler.GetArticle)       // 查询Article
 
-		articleRouter.POST("condition", self.GetArticleListByCondition) // 根据条件获取Article列表
-		articleRouter.GET("archives", self.GetArticleArchives)          // 文章归档
+		publicRouter.DELETE("article/deleteByIds", handler.DeleteArticleByIds) // 批量删除Article列表
+		publicRouter.POST("article/list", handler.FindArticleList)             // 分页查询Article列表
 	}
 	{
-		articleTraceRouter.POST("create", self.CreateArticle)             // 新建Article
-		articleTraceRouter.DELETE("delete", self.DeleteArticle)           // 删除Article
-		articleTraceRouter.PUT("update", self.UpdateArticle)              // 更新Article
-		articleTraceRouter.DELETE("deleteByIds", self.DeleteArticleByIds) // 批量删除Article
+		publicRouter.POST("article/condition", handler.GetArticleListByCondition) // 根据条件获取Article列表
+		publicRouter.GET("article/archives", handler.GetArticleArchives)          // 文章归档
 	}
 }

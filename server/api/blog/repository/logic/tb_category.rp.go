@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
@@ -22,7 +24,7 @@ func NewCategoryRepository(svcCtx *svc.RepositoryContext) *CategoryRepository {
 }
 
 // 创建Category记录
-func (s *CategoryRepository) CreateCategory(category *entity.Category) (out *entity.Category, err error) {
+func (s *CategoryRepository) CreateCategory(ctx context.Context, category *entity.Category) (out *entity.Category, err error) {
 	db := s.DbEngin
 	err = db.Create(&category).Error
 	if err != nil {
@@ -32,7 +34,7 @@ func (s *CategoryRepository) CreateCategory(category *entity.Category) (out *ent
 }
 
 // 删除Category记录
-func (s *CategoryRepository) DeleteCategory(category *entity.Category) (rows int64, err error) {
+func (s *CategoryRepository) DeleteCategory(ctx context.Context, category *entity.Category) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&category)
 	err = query.Error
@@ -41,7 +43,7 @@ func (s *CategoryRepository) DeleteCategory(category *entity.Category) (rows int
 }
 
 // 更新Category记录
-func (s *CategoryRepository) UpdateCategory(category *entity.Category) (out *entity.Category, err error) {
+func (s *CategoryRepository) UpdateCategory(ctx context.Context, category *entity.Category) (out *entity.Category, err error) {
 	db := s.DbEngin
 	err = db.Save(&category).Error
 	if err != nil {
@@ -50,8 +52,8 @@ func (s *CategoryRepository) UpdateCategory(category *entity.Category) (out *ent
 	return category, err
 }
 
-// 根据id获取Category记录
-func (s *CategoryRepository) FindCategory(id int) (out *entity.Category, err error) {
+// 查询Category记录
+func (s *CategoryRepository) GetCategory(ctx context.Context, id int) (out *entity.Category, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -61,7 +63,7 @@ func (s *CategoryRepository) FindCategory(id int) (out *entity.Category, err err
 }
 
 // 批量删除Category记录
-func (s *CategoryRepository) DeleteCategoryByIds(ids []int) (rows int64, err error) {
+func (s *CategoryRepository) DeleteCategoryByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.Category{}, "id in ?", ids)
 	err = query.Error
@@ -69,8 +71,8 @@ func (s *CategoryRepository) DeleteCategoryByIds(ids []int) (rows int64, err err
 	return rows, err
 }
 
-// 分页获取Category记录
-func (s *CategoryRepository) GetCategoryList(page *request.PageInfo) (list []*entity.Category, total int64, err error) {
+// 分页查询Category记录
+func (s *CategoryRepository) FindCategoryList(ctx context.Context, page *request.PageInfo) (list []*entity.Category, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -81,8 +83,14 @@ func (s *CategoryRepository) GetCategoryList(page *request.PageInfo) (list []*en
 	}
 
 	// 如果有排序参数
-	if page.Order != "" && page.OrderKey != "" {
+	if len(page.Orders) != 0 {
 		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
+	if err != nil {
+		return nil, 0, err
 	}
 
 	// 如果有分页参数
@@ -98,10 +106,5 @@ func (s *CategoryRepository) GetCategoryList(page *request.PageInfo) (list []*en
 		return nil, 0, err
 	}
 
-	// 查询总数
-	err = db.Model(&list).Count(&total).Error
-	if err != nil {
-		return nil, 0, err
-	}
 	return list, total, nil
 }

@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"
 )
 
 type RoleRouter struct {
@@ -21,8 +20,6 @@ func NewRoleRouter(svcCtx *svc.RouterContext) *RoleRouter {
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	roleTraceRouter := loginRouter.Group("admin")
-	roleTraceRouter.Use(middleware.OperationRecord())
 
 	var handler = s.svcCtx.AppController.RoleController
 	{

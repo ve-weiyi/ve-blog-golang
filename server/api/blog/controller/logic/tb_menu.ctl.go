@@ -27,7 +27,7 @@ func NewMenuController(svcCtx *svc.ControllerContext) *MenuController {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Menu							true	"请求body"
+// @Param		data	body		entity.Menu							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
 // @Router		/menu/create [post]
 func (s *MenuController) CreateMenu(c *gin.Context) {
@@ -58,8 +58,8 @@ func (s *MenuController) CreateMenu(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Menu			true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		data	body	 	entity.Menu 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
 // @Router		/menu/delete [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -84,14 +84,14 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		更新菜单
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Menu							true	"请求body"
+// @Param 	 	data	body 	 	entity.Menu							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/menu/update [put]
+// @Router 		/menu/update [put]
 func (s *MenuController) UpdateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +115,14 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		查询菜单
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Menu							true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/menu/query [get]
+// @Param 	 	data		body		entity.Menu							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Menu}	"返回信息"
+// @Router 		/menu/query [get]
 func (s *MenuController) GetMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -146,12 +146,12 @@ func (s *MenuController) GetMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		批量删除菜单
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
 // @Produce		application/json
-// @Param		data	body		[]int				true	"删除id列表"
+// @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
 // @Router		/menu/deleteByIds [delete]
 func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
@@ -177,14 +177,14 @@ func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		分页获取菜单列表
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo												true	"分页参数"
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Menu}}	"返回信息"
-// @Router		/menu/list [get]
+// @Router		/menu/list [post]
 func (s *MenuController) FindMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

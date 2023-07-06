@@ -10,9 +10,9 @@ type PhotoAlbumRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewPhotoAlbumRouter(ctx *svc.RouterContext) *PhotoAlbumRouter {
+func NewPhotoAlbumRouter(svcCtx *svc.RouterContext) *PhotoAlbumRouter {
 	return &PhotoAlbumRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 

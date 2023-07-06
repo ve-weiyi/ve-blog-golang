@@ -18,30 +18,30 @@ func NewFriendLinkService(svcCtx *svc.ServiceContext) *FriendLinkService {
 
 // 创建FriendLink记录
 func (s *FriendLinkService) CreateFriendLink(reqCtx *request.Context, friendLink *entity.FriendLink) (data *entity.FriendLink, err error) {
-	return s.svcCtx.FriendLinkRepository.CreateFriendLink(friendLink)
+	return s.svcCtx.FriendLinkRepository.CreateFriendLink(reqCtx, friendLink)
 }
 
 // 删除FriendLink记录
 func (s *FriendLinkService) DeleteFriendLink(reqCtx *request.Context, friendLink *entity.FriendLink) (rows int64, err error) {
-	return s.svcCtx.FriendLinkRepository.DeleteFriendLink(friendLink)
+	return s.svcCtx.FriendLinkRepository.DeleteFriendLink(reqCtx, friendLink)
 }
 
 // 更新FriendLink记录
 func (s *FriendLinkService) UpdateFriendLink(reqCtx *request.Context, friendLink *entity.FriendLink) (data *entity.FriendLink, err error) {
-	return s.svcCtx.FriendLinkRepository.UpdateFriendLink(friendLink)
+	return s.svcCtx.FriendLinkRepository.UpdateFriendLink(reqCtx, friendLink)
 }
 
 // 查询FriendLink记录
 func (s *FriendLinkService) GetFriendLink(reqCtx *request.Context, friendLink *entity.FriendLink) (data *entity.FriendLink, err error) {
-	return s.svcCtx.FriendLinkRepository.GetFriendLink(friendLink.ID)
+	return s.svcCtx.FriendLinkRepository.GetFriendLink(reqCtx, friendLink.ID)
 }
 
 // 批量删除FriendLink记录
 func (s *FriendLinkService) DeleteFriendLinkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.FriendLinkRepository.DeleteFriendLinkByIds(ids)
+	return s.svcCtx.FriendLinkRepository.DeleteFriendLinkByIds(reqCtx, ids)
 }
 
 // 分页获取FriendLink记录
 func (s *FriendLinkService) FindFriendLinkList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.FriendLink, total int64, err error) {
-	return s.svcCtx.FriendLinkRepository.FindFriendLinkList(page)
+	return s.svcCtx.FriendLinkRepository.FindFriendLinkList(reqCtx, page)
 }

@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
@@ -22,7 +24,7 @@ func NewFriendLinkRepository(svcCtx *svc.RepositoryContext) *FriendLinkRepositor
 }
 
 // 创建FriendLink记录
-func (s *FriendLinkRepository) CreateFriendLink(friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
+func (s *FriendLinkRepository) CreateFriendLink(ctx context.Context, friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
 	db := s.DbEngin
 	err = db.Create(&friendLink).Error
 	if err != nil {
@@ -32,7 +34,7 @@ func (s *FriendLinkRepository) CreateFriendLink(friendLink *entity.FriendLink) (
 }
 
 // 删除FriendLink记录
-func (s *FriendLinkRepository) DeleteFriendLink(friendLink *entity.FriendLink) (rows int64, err error) {
+func (s *FriendLinkRepository) DeleteFriendLink(ctx context.Context, friendLink *entity.FriendLink) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&friendLink)
 	err = query.Error
@@ -41,7 +43,7 @@ func (s *FriendLinkRepository) DeleteFriendLink(friendLink *entity.FriendLink) (
 }
 
 // 更新FriendLink记录
-func (s *FriendLinkRepository) UpdateFriendLink(friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
+func (s *FriendLinkRepository) UpdateFriendLink(ctx context.Context, friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
 	db := s.DbEngin
 	err = db.Save(&friendLink).Error
 	if err != nil {
@@ -51,7 +53,7 @@ func (s *FriendLinkRepository) UpdateFriendLink(friendLink *entity.FriendLink) (
 }
 
 // 查询FriendLink记录
-func (s *FriendLinkRepository) GetFriendLink(id int) (out *entity.FriendLink, err error) {
+func (s *FriendLinkRepository) GetFriendLink(ctx context.Context, id int) (out *entity.FriendLink, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -61,7 +63,7 @@ func (s *FriendLinkRepository) GetFriendLink(id int) (out *entity.FriendLink, er
 }
 
 // 批量删除FriendLink记录
-func (s *FriendLinkRepository) DeleteFriendLinkByIds(ids []int) (rows int64, err error) {
+func (s *FriendLinkRepository) DeleteFriendLinkByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.FriendLink{}, "id in ?", ids)
 	err = query.Error
@@ -70,7 +72,7 @@ func (s *FriendLinkRepository) DeleteFriendLinkByIds(ids []int) (rows int64, err
 }
 
 // 分页查询FriendLink记录
-func (s *FriendLinkRepository) FindFriendLinkList(page *request.PageInfo) (list []*entity.FriendLink, total int64, err error) {
+func (s *FriendLinkRepository) FindFriendLinkList(ctx context.Context, page *request.PageInfo) (list []*entity.FriendLink, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

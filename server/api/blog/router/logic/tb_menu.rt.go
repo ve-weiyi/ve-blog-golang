@@ -31,7 +31,4 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.DELETE("menu/deleteByIds", handler.DeleteMenuByIds) // 批量删除Menu列表
 		publicRouter.POST("menu/list", handler.FindMenuList)             // 分页查询Menu列表
 	}
-	{
-
-	}
 }

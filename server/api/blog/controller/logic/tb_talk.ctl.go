@@ -15,10 +15,10 @@ type TalkController struct {
 	svcCtx *svc.ControllerContext
 }
 
-func NewTalkController(ctx *svc.ControllerContext) *TalkController {
+func NewTalkController(svcCtx *svc.ControllerContext) *TalkController {
 	return &TalkController{
-		svcCtx:         ctx,
-		BaseController: controller.NewBaseController(ctx),
+		svcCtx:         svcCtx,
+		BaseController: controller.NewBaseController(svcCtx),
 	}
 }
 
@@ -27,7 +27,7 @@ func NewTalkController(ctx *svc.ControllerContext) *TalkController {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Talk							true	"请求body"
+// @Param		data	body		entity.Talk							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
 // @Router		/talk/create [post]
 func (s *TalkController) CreateTalk(c *gin.Context) {
@@ -58,8 +58,8 @@ func (s *TalkController) CreateTalk(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Talk			true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		data	body	 	entity.Talk 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
 // @Router		/talk/delete [delete]
 func (s *TalkController) DeleteTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -84,14 +84,14 @@ func (s *TalkController) DeleteTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		更新说说
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Talk							true	"请求body"
+// @Param 	 	data	body 	 	entity.Talk							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router		/talk/update [put]
+// @Router 		/talk/update [put]
 func (s *TalkController) UpdateTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +115,14 @@ func (s *TalkController) UpdateTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		查询说说
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Talk							true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router		/talk/query [get]
+// @Param 	 	data		body		entity.Talk							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Talk}	"返回信息"
+// @Router 		/talk/query [get]
 func (s *TalkController) GetTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -146,12 +146,12 @@ func (s *TalkController) GetTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		批量删除说说
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
 // @Produce		application/json
-// @Param		data	body		[]int				true	"删除id列表"
+// @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
 // @Router		/talk/deleteByIds [delete]
 func (s *TalkController) DeleteTalkByIds(c *gin.Context) {
@@ -177,14 +177,14 @@ func (s *TalkController) DeleteTalkByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		分页获取说说列表
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo												true	"分页参数"
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Talk}}	"返回信息"
-// @Router		/talk/list [get]
+// @Router		/talk/list [post]
 func (s *TalkController) FindTalkList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

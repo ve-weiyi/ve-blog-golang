@@ -19,33 +19,32 @@ func NewCommentService(svcCtx *svc.ServiceContext) *CommentService {
 
 // 创建Comment记录
 func (s *CommentService) CreateComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
-	comment.UserID = reqCtx.UID
-	return s.svcCtx.CommentRepository.CreateComment(comment)
+	return s.svcCtx.CommentRepository.CreateComment(reqCtx, comment)
 }
 
 // 删除Comment记录
 func (s *CommentService) DeleteComment(reqCtx *request.Context, comment *entity.Comment) (rows int64, err error) {
-	return s.svcCtx.CommentRepository.DeleteComment(comment)
+	return s.svcCtx.CommentRepository.DeleteComment(reqCtx, comment)
 }
 
 // 更新Comment记录
 func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
-	return s.svcCtx.CommentRepository.UpdateComment(comment)
+	return s.svcCtx.CommentRepository.UpdateComment(reqCtx, comment)
 }
 
 // 查询Comment记录
 func (s *CommentService) GetComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
-	return s.svcCtx.CommentRepository.GetComment(comment.ID)
+	return s.svcCtx.CommentRepository.GetComment(reqCtx, comment.ID)
 }
 
 // 批量删除Comment记录
 func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.CommentRepository.DeleteCommentByIds(ids)
+	return s.svcCtx.CommentRepository.DeleteCommentByIds(reqCtx, ids)
 }
 
 // 分页获取Comment记录
 func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.PageInfo) (list []*response.CommentDTO, total int64, err error) {
-	commentList, total, err := s.svcCtx.CommentRepository.FindCommentList(page)
+	commentList, total, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -10,9 +10,9 @@ type TalkRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewTalkRouter(ctx *svc.RouterContext) *TalkRouter {
+func NewTalkRouter(svcCtx *svc.RouterContext) *TalkRouter {
 	return &TalkRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 

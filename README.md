@@ -68,6 +68,7 @@ go fmt ./...
 go get golang.org/x/tools/cmd/goimports
 go install golang.org/x/tools/cmd/goimports
 goimports -w .
+./scripts/gofmt.sh
 ```
 
 格式化swagger注解

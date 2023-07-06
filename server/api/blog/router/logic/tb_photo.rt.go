@@ -10,9 +10,9 @@ type PhotoRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewPhotoRouter(ctx *svc.RouterContext) *PhotoRouter {
+func NewPhotoRouter(svcCtx *svc.RouterContext) *PhotoRouter {
 	return &PhotoRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 

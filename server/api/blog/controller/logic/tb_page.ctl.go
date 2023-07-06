@@ -27,7 +27,7 @@ func NewPageController(svcCtx *svc.ControllerContext) *PageController {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Page							true	"创建页面"
+// @Param		data	body		entity.Page							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
 // @Router		/page/create [post]
 func (s *PageController) CreatePage(c *gin.Context) {
@@ -38,7 +38,7 @@ func (s *PageController) CreatePage(c *gin.Context) {
 	}
 
 	var page entity.Page
-	err = s.ShouldBindJSON(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -53,16 +53,14 @@ func (s *PageController) CreatePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// DeletePage 删除页面
-//
-//	@Tags		Page
-//	@Summary		删除页面
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Page			true	"删除页面"
-//	@Success	200		{object}	response.Response{}	"返回信息"
-//	@Router		/page/delete [delete]
+// @Tags		Page
+// @Summary		删除页面
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body	 	entity.Page 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/page/delete [delete]
 func (s *PageController) DeletePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -71,7 +69,7 @@ func (s *PageController) DeletePage(c *gin.Context) {
 	}
 
 	var page entity.Page
-	err = s.ShouldBindJSON(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -86,14 +84,14 @@ func (s *PageController) DeletePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		更新页面
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Page							true	"更新页面"
+// @Param 	 	data	body 	 	entity.Page							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router		/page/update [put]
+// @Router 		/page/update [put]
 func (s *PageController) UpdatePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -102,7 +100,7 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 	}
 
 	var page entity.Page
-	err = s.ShouldBindJSON(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -117,15 +115,15 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
-// @Summary		用id查询页面
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Tags 	 	Page
+// @Summary		查询页面
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Page							true	"用id查询页面"
-// @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router		/page/find [get]
-func (s *PageController) FindPage(c *gin.Context) {
+// @Param 	 	data		body		entity.Page							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Page}	"返回信息"
+// @Router 		/page/query [get]
+func (s *PageController) GetPage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -139,7 +137,7 @@ func (s *PageController) FindPage(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.PageService.FindPage(reqCtx, page.ID)
+	data, err := s.svcCtx.PageService.GetPage(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -148,12 +146,12 @@ func (s *PageController) FindPage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		批量删除页面
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
 // @Produce		application/json
-// @Param		data	body		[]int				true	"批量删除页面"
+// @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
 // @Router		/page/deleteByIds [delete]
 func (s *PageController) DeletePageByIds(c *gin.Context) {
@@ -164,7 +162,7 @@ func (s *PageController) DeletePageByIds(c *gin.Context) {
 	}
 
 	var IDS []int
-	err = s.ShouldBindJSON(c, &IDS)
+	err = s.ShouldBind(c, &IDS)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -179,15 +177,15 @@ func (s *PageController) DeletePageByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		分页获取页面列表
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo												true	"分页获取页面列表"
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Page}}	"返回信息"
-// @Router		/page/list [get]
-func (s *PageController) GetPageList(c *gin.Context) {
+// @Router		/page/list [post]
+func (s *PageController) FindPageList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -201,7 +199,7 @@ func (s *PageController) GetPageList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.PageService.GetPageList(reqCtx, &page)
+	list, total, err := s.svcCtx.PageService.FindPageList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

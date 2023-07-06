@@ -10,26 +10,25 @@ type TagRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewTagRouter(ctx *svc.RouterContext) *TagRouter {
+func NewTagRouter(svcCtx *svc.RouterContext) *TagRouter {
 	return &TagRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 
 // 初始化 Tag 路由信息
+// publicRouter 公开路由，不登录就可以访问
+// loginRouter  登录路由，登录后才可以访问
 func (s *TagRouter) InitTagRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	tagRouter := publicRouter.Group("blog/tag")
-	tagTraceRouter := loginRouter.Group("admin/tag")
 
-	var self = s.svcCtx.AppController.TagController
+	var handler = s.svcCtx.AppController.TagController
 	{
-		tagRouter.GET("find", self.FindTag)    // 根据ID获取Tag
-		tagRouter.GET("list", self.GetTagList) // 获取Tag列表
-	}
-	{
-		tagTraceRouter.POST("create", self.CreateTag)             // 新建Tag
-		tagTraceRouter.DELETE("delete", self.DeleteTag)           // 删除Tag
-		tagTraceRouter.PUT("update", self.UpdateTag)              // 更新Tag
-		tagTraceRouter.DELETE("deleteByIds", self.DeleteTagByIds) // 批量删除Tag
+		publicRouter.POST("tag/create", handler.CreateTag)   // 新建Tag
+		publicRouter.PUT("tag/update", handler.UpdateTag)    // 更新Tag
+		publicRouter.DELETE("tag/delete", handler.DeleteTag) // 删除Tag
+		publicRouter.POST("tag/query", handler.GetTag)       // 查询Tag
+
+		publicRouter.DELETE("tag/deleteByIds", handler.DeleteTagByIds) // 批量删除Tag列表
+		publicRouter.POST("tag/list", handler.FindTagList)             // 分页查询Tag列表
 	}
 }

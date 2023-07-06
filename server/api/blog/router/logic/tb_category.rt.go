@@ -10,26 +10,25 @@ type CategoryRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewCategoryRouter(ctx *svc.RouterContext) *CategoryRouter {
+func NewCategoryRouter(svcCtx *svc.RouterContext) *CategoryRouter {
 	return &CategoryRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 
 // 初始化 Category 路由信息
+// publicRouter 公开路由，不登录就可以访问
+// loginRouter  登录路由，登录后才可以访问
 func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	categoryRouter := publicRouter.Group("blog/category")
-	categoryTraceRouter := loginRouter.Group("admin/category")
 
-	var self = s.svcCtx.AppController.CategoryController
+	var handler = s.svcCtx.AppController.CategoryController
 	{
-		categoryRouter.GET("find", self.FindCategory)    // 根据ID获取Category
-		categoryRouter.GET("list", self.GetCategoryList) // 获取Category列表
-	}
-	{
-		categoryTraceRouter.POST("create", self.CreateCategory)             // 新建Category
-		categoryTraceRouter.DELETE("delete", self.DeleteCategory)           // 删除Category
-		categoryTraceRouter.PUT("update", self.UpdateCategory)              // 更新Category
-		categoryTraceRouter.DELETE("deleteByIds", self.DeleteCategoryByIds) // 批量删除Category
+		publicRouter.POST("category/create", handler.CreateCategory)   // 新建Category
+		publicRouter.PUT("category/update", handler.UpdateCategory)    // 更新Category
+		publicRouter.DELETE("category/delete", handler.DeleteCategory) // 删除Category
+		publicRouter.POST("category/query", handler.GetCategory)       // 查询Category
+
+		publicRouter.DELETE("category/deleteByIds", handler.DeleteCategoryByIds) // 批量删除Category列表
+		publicRouter.POST("category/list", handler.FindCategoryList)             // 分页查询Category列表
 	}
 }

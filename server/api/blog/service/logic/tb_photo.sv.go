@@ -18,30 +18,30 @@ func NewPhotoService(svcCtx *svc.ServiceContext) *PhotoService {
 
 // 创建Photo记录
 func (s *PhotoService) CreatePhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
-	return s.svcCtx.PhotoRepository.CreatePhoto(photo)
+	return s.svcCtx.PhotoRepository.CreatePhoto(reqCtx, photo)
 }
 
 // 删除Photo记录
 func (s *PhotoService) DeletePhoto(reqCtx *request.Context, photo *entity.Photo) (rows int64, err error) {
-	return s.svcCtx.PhotoRepository.DeletePhoto(photo)
+	return s.svcCtx.PhotoRepository.DeletePhoto(reqCtx, photo)
 }
 
 // 更新Photo记录
 func (s *PhotoService) UpdatePhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
-	return s.svcCtx.PhotoRepository.UpdatePhoto(photo)
+	return s.svcCtx.PhotoRepository.UpdatePhoto(reqCtx, photo)
 }
 
 // 查询Photo记录
 func (s *PhotoService) GetPhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
-	return s.svcCtx.PhotoRepository.GetPhoto(photo.ID)
+	return s.svcCtx.PhotoRepository.GetPhoto(reqCtx, photo.ID)
 }
 
 // 批量删除Photo记录
 func (s *PhotoService) DeletePhotoByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.PhotoRepository.DeletePhotoByIds(ids)
+	return s.svcCtx.PhotoRepository.DeletePhotoByIds(reqCtx, ids)
 }
 
 // 分页获取Photo记录
 func (s *PhotoService) FindPhotoList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Photo, total int64, err error) {
-	return s.svcCtx.PhotoRepository.FindPhotoList(page)
+	return s.svcCtx.PhotoRepository.FindPhotoList(reqCtx, page)
 }

@@ -27,7 +27,7 @@ func NewCategoryController(svcCtx *svc.ControllerContext) *CategoryController {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Category							true	"创建文章分类"
+// @Param		data	body		entity.Category							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
 // @Router		/category/create [post]
 func (s *CategoryController) CreateCategory(c *gin.Context) {
@@ -38,7 +38,7 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 	}
 
 	var category entity.Category
-	err = s.ShouldBindJSON(c, &category)
+	err = s.ShouldBind(c, &category)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -58,8 +58,8 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Category		true	"删除文章分类"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		data	body	 	entity.Category 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
 // @Router		/category/delete [delete]
 func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -69,7 +69,7 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	}
 
 	var category entity.Category
-	err = s.ShouldBindJSON(c, &category)
+	err = s.ShouldBind(c, &category)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -84,14 +84,14 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
+// @Tags 	 	Category
 // @Summary		更新文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Category							true	"更新文章分类"
+// @Param 	 	data	body 	 	entity.Category							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category/update [put]
+// @Router 		/category/update [put]
 func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -100,7 +100,7 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	}
 
 	var category entity.Category
-	err = s.ShouldBindJSON(c, &category)
+	err = s.ShouldBind(c, &category)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -115,15 +115,15 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary		用id查询文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Tags 	 	Category
+// @Summary		查询文章分类
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Category							true	"用id查询文章分类"
-// @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category/find [get]
-func (s *CategoryController) FindCategory(c *gin.Context) {
+// @Param 	 	data		body		entity.Category							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Category}	"返回信息"
+// @Router 		/category/query [get]
+func (s *CategoryController) GetCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +137,7 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.FindCategory(reqCtx, category.ID)
+	data, err := s.svcCtx.CategoryService.GetCategory(reqCtx, &category)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -146,12 +146,12 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
+// @Tags 	 	Category
 // @Summary		批量删除文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
 // @Produce		application/json
-// @Param		data	body		[]int				true	"批量删除文章分类"
+// @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
 // @Router		/category/deleteByIds [delete]
 func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
@@ -162,7 +162,7 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	}
 
 	var IDS []int
-	err = s.ShouldBindJSON(c, &IDS)
+	err = s.ShouldBind(c, &IDS)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -177,15 +177,15 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
+// @Tags 	 	Category
 // @Summary		分页获取文章分类列表
-// @Security	ApiKeyAuth
-// @accept		application/json
+// @Security 	ApiKeyAuth
+// @accept 		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo													true	"分页获取文章分类列表"
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
-// @Router		/category/list [get]
-func (s *CategoryController) GetCategoryList(c *gin.Context) {
+// @Router		/category/list [post]
+func (s *CategoryController) FindCategoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -199,7 +199,7 @@ func (s *CategoryController) GetCategoryList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.CategoryService.GetCategoryList(reqCtx, &page)
+	list, total, err := s.svcCtx.CategoryService.FindCategoryList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

@@ -10,9 +10,9 @@ type FriendLinkRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewFriendLinkRouter(ctx *svc.RouterContext) *FriendLinkRouter {
+func NewFriendLinkRouter(svcCtx *svc.RouterContext) *FriendLinkRouter {
 	return &FriendLinkRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 
