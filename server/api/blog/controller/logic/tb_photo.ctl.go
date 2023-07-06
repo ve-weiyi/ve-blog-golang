@@ -2,6 +2,7 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
@@ -21,14 +22,14 @@ func NewPhotoController(ctx *svc.ControllerContext) *PhotoController {
 	}
 }
 
-// @Tags	 Photo
-// @Summary  创建相片
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Photo		true  "请求body"
-// @Success  200   {object}  response.Response{data=entity.Photo}  	"返回信息"
-// @Router /photo/create [post]
+// @Tags		Photo
+// @Summary		创建相片
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Photo							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
+// @Router		/photo/create [post]
 func (s *PhotoController) CreatePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,14 +53,14 @@ func (s *PhotoController) CreatePhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Photo
-// @Summary 删除相片
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.Photo 		true "请求body"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /photo/delete [delete]
+// @Tags		Photo
+// @Summary		删除相片
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Photo		true	"请求body"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/photo/delete [delete]
 func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -83,14 +84,14 @@ func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Photo
-// @Summary 更新相片
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Photo 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Photo}  	"返回信息"
-// @Router /photo/update [put]
+// @Tags		Photo
+// @Summary		更新相片
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Photo							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
+// @Router		/photo/update [put]
 func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -114,14 +115,14 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Photo
-// @Summary 查询相片
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.Photo 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Photo}  	"返回信息"
-// @Router /photo/query [get]
+// @Tags		Photo
+// @Summary		查询相片
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Photo							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
+// @Router		/photo/query [get]
 func (s *PhotoController) GetPhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -145,14 +146,14 @@ func (s *PhotoController) GetPhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Photo
-// @Summary 批量删除相片
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "删除id列表"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /photo/deleteByIds [delete]
+// @Tags		Photo
+// @Summary		批量删除相片
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		[]int				true	"删除id列表"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/photo/deleteByIds [delete]
 func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -176,14 +177,14 @@ func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Photo
-// @Summary 分页获取相片列表
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页参数"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Photo}}  	"返回信息"
-// @Router /photo/list [get]
+// @Tags		Photo
+// @Summary		分页获取相片列表
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		page	body		request.PageInfo													true	"分页参数"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Photo}}	"返回信息"
+// @Router		/photo/list [get]
 func (s *PhotoController) FindPhotoList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

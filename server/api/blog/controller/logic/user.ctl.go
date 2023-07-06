@@ -2,6 +2,7 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
@@ -21,15 +22,14 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 	}
 }
 
-// GetUserinfo 获取用户信息
-// @Tags 	User
-// @Summary 获取用户信息
-// @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /user/info [get]
+// @Tags		User
+// @Summary		获取用户信息
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.User			true	"请求数据"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/user/info [get]
 func (m *UserController) GetUserinfo(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {
@@ -46,15 +46,14 @@ func (m *UserController) GetUserinfo(c *gin.Context) {
 	m.ResponseOk(c, data)
 }
 
-// GetUserMenus
-// @Tags 	User
-// @Summary 获取用户菜单
-// @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /user/menus [post]
+// @Tags		User
+// @Summary		获取用户菜单
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.User			true	"请求数据"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/user/menus [post]
 func (m *UserController) GetUserMenus(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {
@@ -72,14 +71,15 @@ func (m *UserController) GetUserMenus(c *gin.Context) {
 }
 
 // GetUserResources
-// @Tags 	User
-// @Summary 获取用户资源
-// @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /user/apis [post]
+//
+//	@Tags		User
+//	@Summary		获取用户资源
+//	@Security	ApiKeyUser
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.User			true	"请求数据"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/user/apis [post]
 func (m *UserController) GetUserResources(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {
@@ -96,15 +96,14 @@ func (m *UserController) GetUserResources(c *gin.Context) {
 	m.ResponseOk(c, data)
 }
 
-// DeleteUser 获取用户登录历史
-// @Tags 	User
-// @Summary 获取用户登录历史
-// @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /user/login_history [get]
+// @Tags		User
+// @Summary		获取用户登录历史
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.User			true	"请求数据"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/user/login_history [get]
 func (m *UserController) GetLoginHistory(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {
@@ -133,15 +132,14 @@ func (m *UserController) GetLoginHistory(c *gin.Context) {
 	})
 }
 
-// DeleteUser 获取用户列表
-// @Tags 	User
-// @Summary 获取用户列表
-// @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /admin/user/list [post]
+// @Tags		User
+// @Summary		获取用户列表
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.User			true	"请求数据"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/user/list [post]
 func (m *UserController) GetUserList(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {
@@ -170,14 +168,14 @@ func (m *UserController) GetUserList(c *gin.Context) {
 	})
 }
 
-// @Tags	 Role
-// @Summary  修改用户角色
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 request.UpdateUserRoles		true  "请求数据"
-// @Success  200   {object}  response.Response{data=entity.Role}  	"返回信息"
-// @Router /admin/user/update_roles [post]
+// @Tags		Role
+// @Summary		修改用户角色
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		request.UpdateUserRoles				true	"请求数据"
+// @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
+// @Router		/admin/user/update_roles [post]
 func (m *UserController) UpdateUserRoles(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {
@@ -201,14 +199,14 @@ func (m *UserController) UpdateUserRoles(c *gin.Context) {
 	m.ResponseOk(c, data)
 }
 
-// @Tags	 Role
-// @Summary  修改用户状态
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.UserAccount		true  "请求数据"
-// @Success  200   {object}  response.Response{}  	"返回信息"
-// @Router /admin/user/update_status [post]
+// @Tags		Role
+// @Summary		修改用户状态
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.UserAccount	true	"请求数据"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/user/update_status [post]
 func (m *UserController) UpdateUserStatus(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
 	if err != nil {

@@ -39,20 +39,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Api"
+                    "Blog"
                 ],
-                "summary": "创建api路由",
-                "parameters": [
-                    {
-                        "description": "创建api路由",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Api"
-                        }
-                    }
-                ],
+                "summary": "关于我",
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -599,28 +588,13 @@ const docTemplate = `{
                 "summary": "分页获取接口列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -679,64 +653,13 @@ const docTemplate = `{
                 "summary": "查询接口",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "访问类型 0需要认证，0公开接口",
-                        "name": "access_type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api请求方法",
-                        "name": "method",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api名称",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "分组id",
-                        "name": "parent_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api路径",
-                        "name": "path",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "状态 1开，2关",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Api"
+                        }
                     }
                 ],
                 "responses": {
@@ -820,7 +743,7 @@ const docTemplate = `{
                 ],
                 "description": "描述,可以有多个",
                 "tags": [
-                    "标签"
+                    "Blog"
                 ],
                 "summary": "标题",
                 "parameters": [
@@ -891,7 +814,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "文章归档",
                 "parameters": [
@@ -941,33 +864,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页获取文章列表",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -1021,7 +929,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "创建文章",
                 "parameters": [
@@ -1071,7 +979,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "删除文章",
                 "parameters": [
@@ -1109,7 +1017,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "批量删除文章",
                 "parameters": [
@@ -1150,86 +1058,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "用id查询文章",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "内容",
-                        "name": "article_content",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章缩略图",
-                        "name": "article_cover",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "标题",
-                        "name": "article_title",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "文章分类",
-                        "name": "category_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "发表时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否删除  0否 1是",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否置顶 0否 1是",
-                        "name": "is_top",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "原文链接",
-                        "name": "original_url",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "状态值 1公开 2私密 3评论可见",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "文章类型 1原创 2转载 3翻译",
-                        "name": "type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "作者",
-                        "name": "user_id",
-                        "in": "query"
+                        "description": "用id查询文章",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Article"
+                        }
                     }
                 ],
                 "responses": {
@@ -1268,7 +1108,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "更新文章",
                 "parameters": [
@@ -1318,33 +1158,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页获取文章列表",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -1398,7 +1223,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "更新文章",
                 "parameters": [
@@ -1671,27 +1496,13 @@ const docTemplate = `{
                 "summary": "用id查询文章分类",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "分类名",
-                        "name": "category_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "用id查询文章分类",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Category"
+                        }
                     }
                 ],
                 "responses": {
@@ -1735,28 +1546,13 @@ const docTemplate = `{
                 "summary": "分页获取文章分类列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页获取文章分类列表",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -1837,6 +1633,56 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/records": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "查询聊天记录",
+                "parameters": [
+                    {
+                        "description": "分页信息",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.ChatRecord"
                                         }
                                     }
                                 }
@@ -2094,28 +1940,13 @@ const docTemplate = `{
                 "summary": "分页获取评论列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -2174,70 +2005,13 @@ const docTemplate = `{
                 "summary": "查询评论",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "评论内容",
-                        "name": "comment_content",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "评论时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "是否删除  0否 1是",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否审核",
-                        "name": "is_review",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "父评论id",
-                        "name": "parent_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "回复用户id",
-                        "name": "reply_user_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "评论主题id",
-                        "name": "topic_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "评论类型 1.文章 2.友链 3.说说",
-                        "name": "type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "评论用户Id",
-                        "name": "user_id",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Comment"
+                        }
                     }
                 ],
                 "responses": {
@@ -2510,28 +2284,13 @@ const docTemplate = `{
                 "summary": "分页获取友链列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -2590,45 +2349,13 @@ const docTemplate = `{
                 "summary": "查询友链",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接地址",
-                        "name": "link_address",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接头像",
-                        "name": "link_avatar",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接介绍",
-                        "name": "link_intro",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接名",
-                        "name": "link_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.FriendLink"
+                        }
                     }
                 ],
                 "responses": {
@@ -2851,28 +2578,13 @@ const docTemplate = `{
                 "summary": "分页获取菜单列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -2931,64 +2643,13 @@ const docTemplate = `{
                 "summary": "查询菜单",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "组件",
-                        "name": "component",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "菜单icon",
-                        "name": "icon",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否隐藏  0否1是",
-                        "name": "is_hidden",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "菜单名",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "父id",
-                        "name": "parent_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "菜单路径",
-                        "name": "path",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "排序",
-                        "name": "rank",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
                     }
                 ],
                 "responses": {
@@ -3211,40 +2872,13 @@ const docTemplate = `{
                 "summary": "用id查询页面",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页面id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "页面封面",
-                        "name": "page_cover",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "页面标签",
-                        "name": "page_label",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "页面名",
-                        "name": "page_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "用id查询页面",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Page"
+                        }
                     }
                 ],
                 "responses": {
@@ -3288,28 +2922,13 @@ const docTemplate = `{
                 "summary": "分页获取页面列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页获取页面列表",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3547,28 +3166,13 @@ const docTemplate = `{
                 "summary": "分页获取相片列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3627,52 +3231,13 @@ const docTemplate = `{
                 "summary": "查询相片",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "相册id",
-                        "name": "album_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否删除",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "照片描述",
-                        "name": "photo_desc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "照片名",
-                        "name": "photo_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "照片地址",
-                        "name": "photo_src",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Photo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3895,28 +3460,13 @@ const docTemplate = `{
                 "summary": "分页获取相册列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3975,52 +3525,13 @@ const docTemplate = `{
                 "summary": "查询相册",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "相册封面",
-                        "name": "album_cover",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "相册描述",
-                        "name": "album_desc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "相册名",
-                        "name": "album_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否删除",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "状态值 1公开 2私密",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.PhotoAlbum"
+                        }
                     }
                 ],
                 "responses": {
@@ -4243,28 +3754,13 @@ const docTemplate = `{
                 "summary": "分页获取角色列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -4323,58 +3819,13 @@ const docTemplate = `{
                 "summary": "查询角色",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否默认角色 0否 1是",
-                        "name": "is_default",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否禁用  0否 1是",
-                        "name": "is_disable",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "角色备注",
-                        "name": "role_comment",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "角色域",
-                        "name": "role_domain",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "角色名",
-                        "name": "role_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "父角色id",
-                        "name": "role_pid",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Role"
+                        }
                     }
                 ],
                 "responses": {
@@ -4597,27 +4048,13 @@ const docTemplate = `{
                 "summary": "用id查询文章标签",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "标签名",
-                        "name": "tag_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "用id查询文章标签",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Tag"
+                        }
                     }
                 ],
                 "responses": {
@@ -4661,28 +4098,13 @@ const docTemplate = `{
                 "summary": "分页获取文章标签列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页获取文章标签列表",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -4920,28 +4342,13 @@ const docTemplate = `{
                 "summary": "分页获取说说列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -5000,52 +4407,13 @@ const docTemplate = `{
                 "summary": "查询说说",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "说说内容",
-                        "name": "content",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "说说id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "图片",
-                        "name": "images",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否置顶",
-                        "name": "is_top",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "状态 1.公开 2.私密",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "用户id",
-                        "name": "user_id",
-                        "in": "query"
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Talk"
+                        }
                     }
                 ],
                 "responses": {
@@ -5685,6 +5053,15 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/ws": {
+            "get": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "查询聊天记录",
+                "responses": {}
+            }
         }
     },
     "definitions": {
@@ -5815,6 +5192,51 @@ const docTemplate = `{
                 "updated_at": {
                     "description": "更新时间",
                     "type": "string"
+                }
+            }
+        },
+        "entity.ChatRecord": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "content": {
+                    "description": "聊天内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "ip_address": {
+                    "description": "ip地址",
+                    "type": "string"
+                },
+                "ip_source": {
+                    "description": "ip来源",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "integer"
                 }
             }
         },

@@ -30,6 +30,9 @@ type AppRepository struct {
 	TalkRepository             *logic.TalkRepository             //说说
 	ArticleTagRepository       *logic.ArticleTagRepository       //文章标签映射
 	UploadRepository           *logic.UploadRepository           //文件上传
+	ChatRecordRepository       *logic.ChatRecordRepository       //聊天记录
+	UniqueViewRepository       *logic.UniqueViewRepository       //页面访问数量
+	OperationLogRepository     *logic.OperationLogRepository     //操作记录
 }
 
 func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
@@ -57,5 +60,8 @@ func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
 		TalkRepository:             logic.NewTalkRepository(svcCtx),
 		ArticleTagRepository:       logic.NewArticleTagRepository(svcCtx),
 		UploadRepository:           logic.NewUploadRepository(svcCtx),
+		ChatRecordRepository:       logic.NewChatRecordRepository(svcCtx),
+		UniqueViewRepository:       logic.NewUniqueViewRepository(svcCtx),
+		OperationLogRepository:     logic.NewOperationLogRepository(svcCtx),
 	}
 }

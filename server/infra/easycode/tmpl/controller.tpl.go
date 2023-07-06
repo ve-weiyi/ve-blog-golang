@@ -64,14 +64,14 @@ func New{{.StructName}}Controller(svcCtx *svc.ControllerContext) *{{.StructName}
 	}
 }
 
-// @Tags	 {{.StructName}}
-// @Summary  创建{{.StructComment}}
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.{{.StructName}}		true  "请求body"
-// @Success  200   {object}  response.Response{data=entity.{{.StructName}}}  	"返回信息"
-// @Router /{{.ValueName}}/create [post]
+// @Tags	 	{{.StructName}}
+// @Summary  	创建{{.StructComment}}
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce  	application/json
+// @Param 	 	data  	body 	 	entity.{{.StructName}}							true  	"请求参数"
+// @Success  	200   	{object}  	response.Response{data=entity.{{.StructName}}}  "返回信息"
+// @Router 		/{{.ValueName}}/create	[post]
 func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -95,14 +95,14 @@ func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	{{.StructName}}
-// @Summary 删除{{.StructComment}}
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.{{.StructName}} 		true "请求body"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /{{.ValueName}}/delete [delete]
+// @Tags	 	{{.StructName}}
+// @Summary  	删除{{.StructComment}}
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce  	application/json
+// @Param 	 	data 	body	 	entity.{{.StructName}} 		true "请求body"
+// @Success  	200  	{object}  	response.Response{}  	"返回信息"
+// @Router		/{{.ValueName}}/delete	[delete]
 func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -126,14 +126,14 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	{{.StructName}}
-// @Summary 更新{{.StructComment}}
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.{{.StructName}} 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.{{.StructName}}}  	"返回信息"
-// @Router /{{.ValueName}}/update [put]
+// @Tags 	 	{{.StructName}}
+// @Summary  	更新{{.StructComment}}
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce  	application/json
+// @Param 	 	data  	body 	 	entity.{{.StructName}}							true  	"请求参数"
+// @Success  	200   	{object}  	response.Response{data=entity.{{.StructName}}}  "返回信息"
+// @Router 		/{{.ValueName}}/update	[put]
 func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -157,14 +157,14 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	{{.StructName}}
-// @Summary 查询{{.StructComment}}
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.{{.StructName}} 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.{{.StructName}}}  	"返回信息"
-// @Router /{{.ValueName}}/query [get]
+// @Tags 	 	{{.StructName}}
+// @Summary  	查询{{.StructComment}}
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce  	application/json
+// @Param 	 	data  	body 	 	entity.{{.StructName}}							true  	"请求参数"
+// @Success  	200   	{object}  	response.Response{data=entity.{{.StructName}}}  "返回信息"
+// @Router 		/{{.ValueName}}/query	[get]
 func (s *{{.StructName}}Controller) Get{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -188,14 +188,14 @@ func (s *{{.StructName}}Controller) Get{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	{{.StructName}}
-// @Summary 批量删除{{.StructComment}}
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "删除id列表"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /{{.ValueName}}/deleteByIds [delete]
+// @Tags 	 	{{.StructName}}
+// @Summary  	批量删除{{.StructComment}}
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
+// @Produce  	application/json
+// @Param		data 	body 		[]int 					true "删除id列表"
+// @Success  	200  	{object}  	response.Response{}  	"返回信息"
+// @Router		/{{.ValueName}}/deleteByIds	[delete]
 func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -219,14 +219,14 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	{{.StructName}}
-// @Summary 分页获取{{.StructComment}}列表
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页参数"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.{{.StructName}}}}  	"返回信息"
-// @Router /{{.ValueName}}/list [get]
+// @Tags 	 	{{.StructName}}
+// @Summary  	分页获取{{.StructComment}}列表
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce  	application/json
+// @Param 	 	page 	body 		request.PageInfo 	true "分页参数"
+// @Success  	200		{object}	response.Response{data=response.PageResult{list=[]entity.{{.StructName}}}}  	"返回信息"
+// @Router		/{{.ValueName}}/list	[get]
 func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

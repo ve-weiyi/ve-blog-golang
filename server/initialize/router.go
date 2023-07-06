@@ -49,16 +49,13 @@ func Routers() *gin.Engine {
 		PublicGroup.GET("/version", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "1.0.0")
 		})
-		// websocket
-		PublicGroup.GET("/ws", func(c *gin.Context) {
-			handleWebSocket(c.Writer, c.Request)
-		})
 	}
 	//后台接口，需要token和角色认证，
 	AdminGroup := Router.Group(global.CONFIG.System.RouterPrefix)
 	AdminGroup.Use(middleware.JwtToken(true))
 
 	{
+		blogRouter.BlogRouter.InitBlogRouter(PublicGroup, AdminGroup)
 		blogRouter.AuthRouter.InitAuthRouter(PublicGroup, AdminGroup)
 		blogRouter.UserRouter.InitUserRouter(PublicGroup, AdminGroup)
 		blogRouter.ApiRouter.InitApiRouter(PublicGroup, AdminGroup)

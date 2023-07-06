@@ -2,18 +2,19 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
 )
 
-// @Tags	 ArticleDTO
-// @Summary  文章归档
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Article		true  "创建文章"
-// @Success  200   {object}  response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/archives [get]
+// @Tags		Article
+// @Summary		文章归档
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Article							true	"创建文章"
+// @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
+// @Router		/article/archives [get]
 func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

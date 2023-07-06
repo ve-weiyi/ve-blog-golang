@@ -1,8 +1,7 @@
-package initialize
+package ws
 
 import (
 	"github.com/gorilla/websocket"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"log"
 	"net/http"
 )
@@ -20,7 +19,7 @@ var (
 	clients = make(map[*websocket.Conn]bool)
 )
 
-func handleWebSocket(w http.ResponseWriter, r *http.Request) {
+func HandleWebSocket(w http.ResponseWriter, r *http.Request, onReceive func(msg []byte)) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("Failed to upgrade connection:", err)
@@ -39,7 +38,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		global.LOG.Println(string(msg))
+		onReceive(msg)
 
 		// 将消息广播给所有连接的客户端
 		for client := range clients {

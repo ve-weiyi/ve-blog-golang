@@ -7,6 +7,7 @@ import (
 
 type AppController struct {
 	svcCtx               *svc.ControllerContext      //持有的service层引用
+	BlogController       *logic.BlogController       //博客
 	AuthController       *logic.AuthController       //登录权限认证
 	UserController       *logic.UserController       //用户登录注册
 	RbacController       *logic.RBACController       //rbac权限认证
@@ -29,6 +30,7 @@ type AppController struct {
 func NewController(svcCtx *svc.ControllerContext) *AppController {
 	return &AppController{
 		svcCtx:               svcCtx,
+		BlogController:       logic.NewBlogController(svcCtx),
 		AuthController:       logic.NewAuthController(svcCtx),
 		RbacController:       logic.NewRBACController(svcCtx),
 		UserController:       logic.NewUserController(svcCtx),

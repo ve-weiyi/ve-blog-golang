@@ -3,6 +3,7 @@ package easycode
 import (
 	"fmt"
 	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -49,8 +50,8 @@ func TestPlate(t *testing.T) {
 			return fmt.Sprintf("tb_%v", tableName)
 		},
 		IgnoreMap: map[string]string{
-			//tmpl.KeyRouter:     "",
-			//tmpl.KeyController: "",
+			tmpl.KeyRouter:     "",
+			tmpl.KeyController: "",
 			//tmpl.KeyService:    "",
 			//tmpl.KeyRepository: "",
 			//tmpl.KeyModel:      "",
@@ -90,7 +91,10 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_login_history", "用户登录历史"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("upload", "文件上传"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("upload", "文件上传"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("chat_record", "聊天记录"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("unique_view", "页面访问数量"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
 	//gen.GenerateCommonFile("upload", "文件上传")
 
 	//gen.RollBack()

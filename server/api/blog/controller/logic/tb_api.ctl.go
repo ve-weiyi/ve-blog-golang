@@ -2,6 +2,7 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
@@ -21,14 +22,14 @@ func NewApiController(svcCtx *svc.ControllerContext) *ApiController {
 	}
 }
 
-// @Tags	 Api
-// @Summary  创建接口
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Api		true  "请求body"
-// @Success  200   {object}  response.Response{data=entity.Api}  	"返回信息"
-// @Router /api/create [post]
+// @Tags		Api
+// @Summary		创建接口
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Api							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
+// @Router		/api/create [post]
 func (s *ApiController) CreateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,14 +53,14 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Api
-// @Summary 删除接口
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.Api 		true "请求body"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /api/delete [delete]
+// @Tags		Api
+// @Summary		删除接口
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Api			true	"请求body"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/api/delete [delete]
 func (s *ApiController) DeleteApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -83,14 +84,14 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Api
-// @Summary 更新接口
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Api 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Api}  	"返回信息"
-// @Router /api/update [put]
+// @Tags		Api
+// @Summary		更新接口
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Api							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
+// @Router		/api/update [put]
 func (s *ApiController) UpdateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -114,14 +115,14 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Api
-// @Summary 查询接口
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.Api 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Api}  	"返回信息"
-// @Router /api/query [get]
+// @Tags		Api
+// @Summary		查询接口
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Api							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
+// @Router		/api/query [get]
 func (s *ApiController) GetApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -145,14 +146,14 @@ func (s *ApiController) GetApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Api
-// @Summary 批量删除接口
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "删除id列表"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /api/deleteByIds [delete]
+// @Tags		Api
+// @Summary		批量删除接口
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		[]int				true	"删除id列表"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/api/deleteByIds [delete]
 func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -176,14 +177,14 @@ func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	Api
-// @Summary 分页获取接口列表
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页参数"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Api}}  	"返回信息"
-// @Router /api/list [get]
+// @Tags		Api
+// @Summary		分页获取接口列表
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		page	body		request.PageInfo												true	"分页参数"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Api}}	"返回信息"
+// @Router		/api/list [get]
 func (s *ApiController) FindApiList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

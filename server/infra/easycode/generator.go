@@ -2,6 +2,12 @@ package easycode
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"strings"
+
+	"gorm.io/gorm"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/inject"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
@@ -9,10 +15,6 @@ import (
 	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/provider"
 	tmpl2 "github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
 	"github.com/ve-weiyi/ve-admin-store/server/utils/dbdriver"
-	"gorm.io/gorm"
-	"log"
-	"os"
-	"strings"
 )
 
 type Generator struct {

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/base/controller"
 )
@@ -18,14 +19,14 @@ func NewUploadController(svcCtx *svc.ControllerContext) *UploadController {
 	}
 }
 
-// @Tags	 Upload
-// @Summary  文件上传
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Upload		true  "请求body"
-// @Success  200   {object}  response.Response{data=entity.Upload}  	"返回信息"
-// @Router /file/upload/:label [post]
+// @Tags		Upload
+// @Summary		文件上传
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Upload							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
+// @Router		/file/upload/:label [post]
 func (s *UploadController) UploadFile(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
