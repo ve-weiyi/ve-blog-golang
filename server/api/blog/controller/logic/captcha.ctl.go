@@ -21,10 +21,10 @@ func NewCaptchaController(svcCtx *svc.ControllerContext) *CaptchaController {
 
 // @Summary 发送验证码
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	request.CaptchaEmail 		true "请求body"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	request.CaptchaEmail 		true "请求body"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /captcha/email [post]
 func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

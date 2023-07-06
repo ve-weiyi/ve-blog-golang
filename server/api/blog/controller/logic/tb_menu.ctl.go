@@ -53,12 +53,12 @@ func (s *MenuController) CreateMenu(c *gin.Context) {
 }
 
 // @Tags 	Menu
-// @Summary 删除菜单
+// @Summary  删除菜单
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.Menu 		true "请求body"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.Menu 		true "请求body"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /menu/delete [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -84,12 +84,12 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 }
 
 // @Tags 	Menu
-// @Summary 更新菜单
+// @Summary  更新菜单
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Menu 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Menu}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body 		entity.Menu 		true "请求body"
+// @Success  200  	{object}  	response.Response{data=entity.Menu}  	"返回信息"
 // @Router /menu/update [put]
 func (s *MenuController) UpdateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -115,12 +115,12 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 }
 
 // @Tags 	Menu
-// @Summary 查询菜单
+// @Summary  查询菜单
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.Menu 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Menu}  	"返回信息"
+// @accept	 application/json
+// @Produce  application/json
+// @Param 	 data 	body 		entity.Menu 		true "请求body"
+// @Success  200  	{object}  	response.Response{data=entity.Menu}  	"返回信息"
 // @Router /menu/query [get]
 func (s *MenuController) GetMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -146,12 +146,12 @@ func (s *MenuController) GetMenu(c *gin.Context) {
 }
 
 // @Tags 	Menu
-// @Summary 批量删除菜单
+// @Summary  批量删除菜单
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "删除id列表"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body 		[]int 					true "删除id列表"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /menu/deleteByIds [delete]
 func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -177,12 +177,12 @@ func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 }
 
 // @Tags 	Menu
-// @Summary 分页获取菜单列表
+// @Summary  分页获取菜单列表
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页参数"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Menu}}  	"返回信息"
+// @accept	 application/json
+// @Produce  application/json
+// @Param 	 page 	body 		request.PageInfo 	true "分页参数"
+// @Success  200  	{object}  	response.Response{data=response.PageResult{list=[]entity.Menu}}  	"返回信息"
 // @Router /menu/list [get]
 func (s *MenuController) FindMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

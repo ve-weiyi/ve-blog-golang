@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
 )
 
-// @Tags	 ArticleDTO
+// @Tags	 Article
 // @Summary  文章归档
 // @Security ApiKeyAuth
 // @accept 	 application/json

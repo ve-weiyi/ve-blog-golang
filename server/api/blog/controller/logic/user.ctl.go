@@ -25,10 +25,10 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 // @Tags 	User
 // @Summary 获取用户信息
 // @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.User 		true "请求数据"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /user/info [get]
 func (m *UserController) GetUserinfo(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
@@ -50,10 +50,10 @@ func (m *UserController) GetUserinfo(c *gin.Context) {
 // @Tags 	User
 // @Summary 获取用户菜单
 // @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.User 		true "请求数据"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /user/menus [post]
 func (m *UserController) GetUserMenus(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
@@ -75,10 +75,10 @@ func (m *UserController) GetUserMenus(c *gin.Context) {
 // @Tags 	User
 // @Summary 获取用户资源
 // @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.User 		true "请求数据"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /user/apis [post]
 func (m *UserController) GetUserResources(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
@@ -100,10 +100,10 @@ func (m *UserController) GetUserResources(c *gin.Context) {
 // @Tags 	User
 // @Summary 获取用户登录历史
 // @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.User 		true "请求数据"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /user/login_history [get]
 func (m *UserController) GetLoginHistory(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)
@@ -137,10 +137,10 @@ func (m *UserController) GetLoginHistory(c *gin.Context) {
 // @Tags 	User
 // @Summary 获取用户列表
 // @Security ApiKeyUser
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.User 		true "请求数据"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.User 		true "请求数据"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /admin/user/list [post]
 func (m *UserController) GetUserList(c *gin.Context) {
 	reqCtx, err := m.GetRequestContext(c)

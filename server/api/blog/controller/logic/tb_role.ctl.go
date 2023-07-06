@@ -53,12 +53,12 @@ func (s *RoleController) CreateRole(c *gin.Context) {
 }
 
 // @Tags 	Role
-// @Summary 删除角色
+// @Summary  删除角色
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.Role 		true "请求body"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body	 	entity.Role 		true "请求body"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /role/delete [delete]
 func (s *RoleController) DeleteRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -84,12 +84,12 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 }
 
 // @Tags 	Role
-// @Summary 更新角色
+// @Summary  更新角色
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Role 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Role}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body 		entity.Role 		true "请求body"
+// @Success  200  	{object}  	response.Response{data=entity.Role}  	"返回信息"
 // @Router /role/update [put]
 func (s *RoleController) UpdateRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -115,12 +115,12 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 }
 
 // @Tags 	Role
-// @Summary 查询角色
+// @Summary  查询角色
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.Role 		true "请求body"
-// @Success 200  {object}  	response.Response{data=entity.Role}  	"返回信息"
+// @accept	 application/json
+// @Produce  application/json
+// @Param 	 data 	body 		entity.Role 		true "请求body"
+// @Success  200  	{object}  	response.Response{data=entity.Role}  	"返回信息"
 // @Router /role/query [get]
 func (s *RoleController) GetRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -146,12 +146,12 @@ func (s *RoleController) GetRole(c *gin.Context) {
 }
 
 // @Tags 	Role
-// @Summary 批量删除角色
+// @Summary  批量删除角色
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "删除id列表"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
+// @accept 	 application/json
+// @Produce  application/json
+// @Param 	 data 	body 		[]int 					true "删除id列表"
+// @Success  200  	{object}  	response.Response{}  	"返回信息"
 // @Router /role/deleteByIds [delete]
 func (s *RoleController) DeleteRoleByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -177,12 +177,12 @@ func (s *RoleController) DeleteRoleByIds(c *gin.Context) {
 }
 
 // @Tags 	Role
-// @Summary 分页获取角色列表
+// @Summary  分页获取角色列表
 // @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页参数"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Role}}  	"返回信息"
+// @accept	 application/json
+// @Produce  application/json
+// @Param 	 page 	body 		request.PageInfo 	true "分页参数"
+// @Success  200  	{object}  	response.Response{data=response.PageResult{list=[]entity.Role}}  	"返回信息"
 // @Router /role/list [get]
 func (s *RoleController) FindRoleList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
