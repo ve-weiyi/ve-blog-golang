@@ -19,16 +19,14 @@ func NewAuthController(svcCtx *svc.ControllerContext) *AuthController {
 	}
 }
 
-// Login
-//
-//	@Tags		Auth
-//	@Summary	登录
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth							true	"创建权限认证"
-//	@Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
-//	@Router		/user/login [post]
+// @Tags		Auth
+// @Summary	登录
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce	application/json
+// @Param		data	body		entity.Auth							true	"创建权限认证"
+// @Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
+// @Router		/user/login [post]
 func (s *AuthController) Login(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,16 +50,14 @@ func (s *AuthController) Login(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// Logout
-//
-//	@Tags		Auth
-//	@Summary	登出
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth							true	"创建权限认证"
-//	@Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
-//	@Router		/user/logout [get]
+// @Tags		Auth
+// @Summary	登出
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce	application/json
+// @Param		data	body		entity.Auth							true	"创建权限认证"
+// @Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
+// @Router		/user/logout [get]
 func (s *AuthController) Logout(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
