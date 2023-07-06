@@ -2,6 +2,7 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/base/controller"
@@ -19,14 +20,14 @@ func NewAuthController(svcCtx *svc.ControllerContext) *AuthController {
 	}
 }
 
-//	@Tags		Auth
-//	@Summary	登录
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth							true	"创建权限认证"
-//	@Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
-//	@Router		/user/login [post]
+// @Tags		Auth
+// @Summary		登录
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Auth							true	"创建权限认证"
+// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
+// @Router		/user/login [post]
 func (s *AuthController) Login(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -50,14 +51,14 @@ func (s *AuthController) Login(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	登出
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth							true	"创建权限认证"
-//	@Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
-//	@Router		/user/logout [get]
+// @Tags		Auth
+// @Summary		登出
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Auth							true	"创建权限认证"
+// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
+// @Router		/user/logout [get]
 func (s *AuthController) Logout(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -75,14 +76,14 @@ func (s *AuthController) Logout(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	注销
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth			true	"请求body"
-//	@Success	200		{object}	response.Response{}	"返回信息"
-//	@Router		/user/logoff [post]
+// @Tags		Auth
+// @Summary		注销
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Auth			true	"请求body"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/user/logoff [post]
 func (s *AuthController) Logoff(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -99,14 +100,14 @@ func (s *AuthController) Logoff(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	注册
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth			true	"删除权限认证"
-//	@Success	200		{object}	response.Response{}	"返回信息"
-//	@Router		/user/register [post]
+// @Tags		Auth
+// @Summary		注册
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Auth			true	"删除权限认证"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/user/register [post]
 func (s *AuthController) Register(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +131,14 @@ func (s *AuthController) Register(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	重置密码
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth							true	"创建权限认证"
-//	@Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
-//	@Router		/user/password/reset [post]
+// @Tags		Auth
+// @Summary		重置密码
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Auth							true	"创建权限认证"
+// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
+// @Router		/user/password/reset [post]
 func (s *AuthController) ResetPassword(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -164,7 +165,7 @@ func (s *AuthController) ResetPassword(c *gin.Context) {
 // Register
 //
 //	@Tags		Auth
-//	@Summary	发送注册邮件
+//	@Summary		发送注册邮件
 //	@Security	ApiKeyAuth
 //	@accept		application/json
 //	@Produce	application/json
@@ -194,14 +195,14 @@ func (s *AuthController) RegisterEmail(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	发送忘记密码邮件
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth							true	"创建权限认证"
-//	@Success	200		{object}	response.Response{data=entity.Auth}	"返回信息"
-//	@Router		/user/password/forget [post]
+// @Tags		Auth
+// @Summary		发送忘记密码邮件
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Auth							true	"创建权限认证"
+// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
+// @Router		/user/password/forget [post]
 func (s *AuthController) ForgetPasswordEmail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -225,14 +226,14 @@ func (s *AuthController) ForgetPasswordEmail(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	获取授权地址
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		request.OauthLoginReq							true	"请求body信息"
-//	@Success	200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
-//	@Router		/user/oauth/login [post]
+// @Tags		Auth
+// @Summary		获取授权地址
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		request.OauthLoginReq							true	"请求body信息"
+// @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
+// @Router		/user/oauth/login [post]
 func (s *AuthController) OauthLogin(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -256,14 +257,14 @@ func (s *AuthController) OauthLogin(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-//	@Tags		Auth
-//	@Summary	获取授权地址
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		request.OauthLoginReq							true	"请求body信息"
-//	@Success	200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
-//	@Router		/user/oauth/url [post]
+// @Tags		Auth
+// @Summary		获取授权地址
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		request.OauthLoginReq							true	"请求body信息"
+// @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
+// @Router		/user/oauth/url [post]
 func (s *AuthController) GetAuthorizeUrl(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

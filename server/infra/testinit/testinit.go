@@ -3,12 +3,18 @@ package testinit
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+	"path"
+	"time"
+
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/fsnotify/fsnotify"
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
+
 	"github.com/ve-weiyi/go-sdk/utils/copy"
 	"github.com/ve-weiyi/go-sdk/utils/file"
 	"github.com/ve-weiyi/go-sdk/utils/glog"
@@ -17,23 +23,19 @@ import (
 	"github.com/ve-weiyi/ve-admin-store/server/infra/database"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/database/orm"
 	"github.com/ve-weiyi/ve-admin-store/server/infra/rbac"
-	"log"
-	"os"
-	"path"
-	"time"
 )
 
 func init() {
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 }
 
-//	@title						Swagger Example API
-//	@version					0.0.1
-//	@description				This is a sample Server pets
-//	@securityDefinitions.apikey	ApiKeyAuth
-//	@in							header
-//	@name						x-token
-//	@BasePath					/
+// @title						Swagger Example API
+// @version					0.0.1
+// @description				This is a sample Server pets
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						x-token
+// @BasePath					/
 func Init(configPath ...string) {
 	log.Println("let's go")
 	var filepath string

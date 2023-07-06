@@ -45,6 +45,7 @@ go mod tidy
 ```
 
 ### 3.项目本地启动
+
 复制 [config.default.yaml](server%2Fconfig.default.yaml) 文件，命名为config.yaml  
 修改config.yaml配置文件中的配置信息，然后执行以下命令启动项目
 
@@ -54,7 +55,19 @@ go run main.go run --config=./conf/config.yaml
 ```
 
 ### 4.更新swagger文档
+
+格式化代码
+
+```shell
+go fmt ./...
+```
+
+格式化swagger注解
+
 ```shell
 swag fmt
+```
+
+```shell
 swag init
 ```

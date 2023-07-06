@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/core"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"log"
 
+	"github.com/ve-weiyi/ve-admin-store/server/core"
+	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"github.com/ve-weiyi/ve-admin-store/server/initialize"
 )
 
@@ -17,23 +17,23 @@ func init() {
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 }
 
-//	@title						Swagger Example API
-//	@version					1.0
-//	@description				This is a sample server celler server.
-//	@termsOfService				http://swagger.io/terms/
-//	@contact.name				API Support
-//	@contact.url				http://www.swagger.io/support
-//	@contact.email				support@swagger.io
-//	@license.name				Apache 2.0
-//	@license.url				http://www.apache.org/licenses/LICENSE-2.0.html
-//	@host						localhost:9999
-//	@BasePath					/api/v1
-//	@securityDefinitions.basic	BasicAuth
-//	@securityDefinitions.apikey	ApiKeyAuth
-//	@in							header
-//	@name						x-token
-//	@externalDocs.description	OpenAPI
-//	@externalDocs.url			https://swagger.io/resources/open-api/
+// @title						Swagger Example API
+// @version					1.0
+// @description				This is a sample server celler server.
+// @termsOfService				http://swagger.io/terms/
+// @contact.name				API Support
+// @contact.url				http://www.swagger.io/support
+// @contact.email				support@swagger.io
+// @license.name				Apache 2.0
+// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+// @host						localhost:9999
+// @BasePath					/api/v1
+// @securityDefinitions.basic	BasicAuth
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						x-token
+// @externalDocs.description	OpenAPI
+// @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	log.Println("let's go")
 
