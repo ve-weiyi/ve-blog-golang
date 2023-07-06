@@ -55,5 +55,6 @@ go run main.go run --config=./conf/config.yaml
 
 ### 4.更新swagger文档
 ```shell
+swag fmt
 swag init
 ```

@@ -22,14 +22,15 @@ func NewArticleController(svcCtx *svc.ControllerContext) *ArticleController {
 }
 
 // CreateArticle 创建文章
-// @Tags	 Article
-// @Summary  创建文章
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Article		true  "创建文章"
-// @Success  200   {object}  response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/create [post]
+//
+//	@Tags		Article
+//	@Summary	创建文章
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Article							true	"创建文章"
+//	@Success	200		{object}	response.Response{data=entity.Article}	"返回信息"
+//	@Router		/article/create [post]
 func (s *ArticleController) CreateArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -54,14 +55,15 @@ func (s *ArticleController) CreateArticle(c *gin.Context) {
 }
 
 // DeleteArticle 删除文章
-// @Tags	 Article
-// @Summary  删除文章
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data 	body	 	entity.Article 		true "删除文章"
-// @Success  200  	{object}  	response.Response{}  	"返回信息"
-// @Router /article/delete [delete]
+//
+//	@Tags		Article
+//	@Summary	删除文章
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Article		true	"删除文章"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/article/delete [delete]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -86,14 +88,15 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 }
 
 // UpdateArticle 更新文章
-// @Tags	 Article
-// @Summary  更新文章
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data 	body 		entity.Article 		true "更新文章"
-// @Success  200  	{object}  	response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/update [put]
+//
+//	@Tags		Article
+//	@Summary	更新文章
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Article							true	"更新文章"
+//	@Success	200		{object}	response.Response{data=entity.Article}	"返回信息"
+//	@Router		/article/update [put]
 func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -118,14 +121,15 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 }
 
 // FindArticle 用id查询文章
-// @Tags	 Article
-// @Summary 用id查询文章
-// @Security ApiKeyAuth
-// @accept	 application/json
-// @Produce  application/json
-// @Param 	 data 	body 		entity.Article 		true "用id查询文章"
-// @Success  200  	{object}  	response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/find [post]
+//
+//	@Tags		Article
+//	@Summary	用id查询文章
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Article							true	"用id查询文章"
+//	@Success	200		{object}	response.Response{data=entity.Article}	"返回信息"
+//	@Router		/article/find [post]
 func (s *ArticleController) FindArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -150,14 +154,15 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 }
 
 // DeleteArticleByIds 批量删除文章
-// @Tags	 Article
-// @Summary  批量删除文章
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data 	body 		[]int 					true "批量删除文章"
-// @Success  200  	{object}  	response.Response{}  	"返回信息"
-// @Router /article/deleteByIds [delete]
+//
+//	@Tags		Article
+//	@Summary	批量删除文章
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		[]int				true	"批量删除文章"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/article/deleteByIds [delete]
 func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -182,14 +187,15 @@ func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 }
 
 // GetArticleList 分页获取文章列表
-// @Tags	 Article
-// @Summary  分页获取文章列表
-// @Security ApiKeyAuth
-// @accept	 application/json
-// @Produce  application/json
-// @Param 	 page 	body 		request.PageInfo 	true "分页获取文章列表"
-// @Success  200  	{object}  	response.Response{data=response.PageResult{list=[]entity.Article}}  	"返回信息"
-// @Router /article/list [post]
+//
+//	@Tags		Article
+//	@Summary	分页获取文章列表
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		page	body		request.PageInfo													true	"分页获取文章列表"
+//	@Success	200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
+//	@Router		/article/list [post]
 func (s *ArticleController) GetArticleList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -219,14 +225,15 @@ func (s *ArticleController) GetArticleList(c *gin.Context) {
 }
 
 // GetArticleList 分页获取文章列表
-// @Tags	 Article
-// @Summary  分页获取文章列表
-// @Security ApiKeyAuth
-// @accept	 application/json
-// @Produce  application/json
-// @Param 	 page 	body 		request.PageInfo 	true "分页获取文章列表"
-// @Success  200  	{object}  	response.Response{data=response.PageResult{list=[]entity.Article}}  	"返回信息"
-// @Router /article/condition [post]
+//
+//	@Tags		Article
+//	@Summary	分页获取文章列表
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		page	body		request.PageInfo													true	"分页获取文章列表"
+//	@Success	200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
+//	@Router		/article/condition [post]
 func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -250,14 +257,14 @@ func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags	 Article
-// @Summary  更新文章
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data 	body 		entity.Article 		true "更新文章"
-// @Success  200  	{object}  	response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/like [put]
+// @Tags		Article
+// @Summary	更新文章
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce	application/json
+// @Param		data	body		entity.Article							true	"更新文章"
+// @Success	200		{object}	response.Response{data=entity.Article}	"返回信息"
+// @Router		/article/like [put]
 func (s *ArticleController) LikeArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

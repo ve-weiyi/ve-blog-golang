@@ -6,14 +6,14 @@ import (
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
 )
 
-// @Tags	 Role
-// @Summary  获取角色列表
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Role		true  "创建角色"
-// @Success  200   {object}  response.Response{data=entity.Role}  	"返回信息"
-// @Router /admin/roles [post]
+// @Tags		Role
+// @Summary	获取角色列表
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce	application/json
+// @Param		data	body		entity.Role							true	"创建角色"
+// @Success	200		{object}	response.Response{data=entity.Role}	"返回信息"
+// @Router		/admin/roles [post]
 func (s *RoleController) GetRoleTreeList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -42,14 +42,14 @@ func (s *RoleController) GetRoleTreeList(c *gin.Context) {
 	})
 }
 
-// @Tags	 Role
-// @Summary  更新角色菜单
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Role		true  "创建角色"
-// @Success  200   {object}  response.Response{data=entity.Role}  	"返回信息"
-// @Router /admin/role/update_menus [post]
+// @Tags		Role
+// @Summary	更新角色菜单
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce	application/json
+// @Param		data	body		entity.Role							true	"创建角色"
+// @Success	200		{object}	response.Response{data=entity.Role}	"返回信息"
+// @Router		/admin/role/update_menus [post]
 func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -73,14 +73,14 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags	 Role
-// @Summary  更新角色资源
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Role		true  "创建角色"
-// @Success  200   {object}  response.Response{data=entity.Role}  	"返回信息"
-// @Router /admin/role/update_resources [post]
+// @Tags		Role
+// @Summary	更新角色资源
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce	application/json
+// @Param		data	body		entity.Role							true	"创建角色"
+// @Success	200		{object}	response.Response{data=entity.Role}	"返回信息"
+// @Router		/admin/role/update_resources [post]
 func (s *RoleController) UpdateRoleResources(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
