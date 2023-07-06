@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 )
 
 func TestFeishu(t *testing.T) {

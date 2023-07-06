@@ -5,7 +5,7 @@ import (
 	"mime/multipart"
 	"testing"
 
-	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 )
 
 func TestUpload(t *testing.T) {

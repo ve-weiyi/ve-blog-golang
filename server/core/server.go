@@ -6,8 +6,8 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/initialize"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
 type server interface {

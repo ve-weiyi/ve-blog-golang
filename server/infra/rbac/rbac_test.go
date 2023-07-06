@@ -12,13 +12,14 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
 )
 
 var enforcer *casbin.SyncedEnforcer

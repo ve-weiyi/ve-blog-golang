@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service/logic"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/logic"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
 )
 
 type AppService struct {

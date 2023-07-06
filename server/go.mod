@@ -1,4 +1,4 @@
-module github.com/ve-weiyi/ve-admin-store/server
+module github.com/ve-weiyi/ve-blog-golang/server
 
 go 1.18
 

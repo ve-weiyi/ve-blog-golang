@@ -8,13 +8,14 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/inject"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/provider"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/dbdriver"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/inject"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/provider"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
-	"github.com/ve-weiyi/ve-admin-store/server/utils/dbdriver"
 )
 
 type Generator struct {
@@ -145,11 +146,11 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		StructComment:  tableComment,
 		Fields:         fields,
 		ImportPkgPaths: []string{
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/controller",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/model/response",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/controller",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/model/response",
 		},
 	}
 	g.plateData = append(g.plateData, data)
@@ -298,11 +299,11 @@ func (g *Generator) GenerateCommonFile(tableName string, tableComment string) er
 		StructComment:  tableComment,
 		Fields:         nil,
 		ImportPkgPaths: []string{
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/controller",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/model/response",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/controller",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/model/response",
 		},
 	}
 

@@ -1,6 +1,6 @@
 FROM golang:alpine as builder
 
-WORKDIR /go/src/github.com/ve-weiyi/ve-admin-store/server
+WORKDIR /go/src/github.com/ve-weiyi/ve-blog-golang/server
 COPY . .
 
 RUN go env -w GO111MODULE=on \
@@ -14,11 +14,11 @@ FROM alpine:latest
 
 LABEL MAINTAINER="SliverHorn@sliver_horn@qq.com"
 
-WORKDIR /go/src/github.com/ve-weiyi/ve-admin-store/server
+WORKDIR /go/src/github.com/ve-weiyi/ve-blog-golang/server
 
-COPY --from=0 /go/src/github.com/ve-weiyi/ve-admin-store/server/server ./
-COPY --from=0 /go/src/github.com/ve-weiyi/ve-admin-store/server/resource ./resource/
-COPY --from=0 /go/src/github.com/ve-weiyi/ve-admin-store/server/config.docker.yaml ./
+COPY --from=0 /go/src/github.com/ve-weiyi/ve-blog-golang/server/server ./
+COPY --from=0 /go/src/github.com/ve-weiyi/ve-blog-golang/server/resource ./resource/
+COPY --from=0 /go/src/github.com/ve-weiyi/ve-blog-golang/server/config.docker.yaml ./
 
 EXPOSE 9999
 ENTRYPOINT ./server -c config.docker.yaml

@@ -1,8 +1,8 @@
 package request
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/codes"
-	"github.com/ve-weiyi/ve-admin-store/server/utils/fmtplus"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/fmtplus"
 )
 
 // 验证码生成

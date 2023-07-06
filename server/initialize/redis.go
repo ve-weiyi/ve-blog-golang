@@ -7,7 +7,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 func Redis() {

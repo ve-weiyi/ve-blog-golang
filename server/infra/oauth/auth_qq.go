@@ -5,10 +5,11 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/https"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/utils"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/https"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/result"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/utils"
 )
 
 // QQ授权登录

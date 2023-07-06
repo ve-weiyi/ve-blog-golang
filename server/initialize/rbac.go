@@ -3,10 +3,10 @@ package initialize
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/logic"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/rbac"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/logic"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 )
 
 func RBAC() {

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 // GinLogger 用于替换gin框架的Logger中间件，不传参数，直接这样写

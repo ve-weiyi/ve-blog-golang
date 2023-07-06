@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/config/properties"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 )
 
 type Config struct {

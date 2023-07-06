@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
 	"gorm.io/gorm"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
 type UserLoginHistoryRepository struct {

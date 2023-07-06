@@ -7,11 +7,11 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/docs"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/middleware"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/docs"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"
 )
 
 // 初始化总路由

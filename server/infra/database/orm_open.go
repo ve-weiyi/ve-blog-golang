@@ -9,8 +9,8 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-admin-store/server/infra/database/orm"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/database/ormlog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/ormlog"
 )
 
 func Open(cfg orm.DsnProvider) *gorm.DB {

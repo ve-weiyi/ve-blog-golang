@@ -5,7 +5,7 @@ import (
 
 	"github.com/orca-zhang/ecache"
 
-	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 func OtherInit() {

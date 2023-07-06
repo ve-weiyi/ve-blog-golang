@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 var respPool sync.Pool

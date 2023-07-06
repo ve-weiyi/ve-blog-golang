@@ -11,8 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志

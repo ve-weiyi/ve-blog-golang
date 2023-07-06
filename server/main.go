@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	"github.com/ve-weiyi/ve-admin-store/server/core"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/initialize"
+	"github.com/ve-weiyi/ve-blog-golang/server/core"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
 //go:generate go env -w GO111MODULE=on

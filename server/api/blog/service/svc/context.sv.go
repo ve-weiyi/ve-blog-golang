@@ -1,17 +1,18 @@
 package svc
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/captcha"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq/handler"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
+
 	"github.com/ve-weiyi/go-sdk/utils/glog"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/config"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/captcha"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/jjwt"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/rabbitmq"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/rabbitmq/handler"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/rbac"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/upload"
 )
 
 // 注册需要用到的gorm、redis、model

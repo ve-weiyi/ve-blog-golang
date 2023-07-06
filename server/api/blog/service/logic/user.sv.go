@@ -3,11 +3,11 @@ package logic
 import (
 	"time"
 
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
 )
 
 type UserService struct {

@@ -11,8 +11,9 @@ import (
 	"github.com/qiniu/api.v7/v7/auth/qbox"
 	"github.com/qiniu/api.v7/v7/storage"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
+
 	"github.com/ve-weiyi/go-sdk/utils/crypto"
-	"github.com/ve-weiyi/ve-admin-store/server/config/properties"
 )
 
 // https://developer.qiniu.com/kodo/1238/go

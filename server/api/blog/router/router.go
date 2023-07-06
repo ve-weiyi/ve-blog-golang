@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/logic"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/logic"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
 type AppRouter struct {

@@ -1,9 +1,9 @@
 package svc
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/config"
 )
 
 // 注册需要用到的api

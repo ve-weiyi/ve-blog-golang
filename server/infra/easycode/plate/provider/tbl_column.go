@@ -7,7 +7,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
 )
 
 // 需要的数据

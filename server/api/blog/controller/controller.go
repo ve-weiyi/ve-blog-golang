@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/logic"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/logic"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 )
 
 type AppController struct {

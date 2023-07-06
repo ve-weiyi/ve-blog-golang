@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 // 获取所有匿名Api记录
