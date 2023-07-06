@@ -3,11 +3,12 @@ package plate
 import (
 	"errors"
 	"fmt"
-	"golang.org/x/tools/imports"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"golang.org/x/tools/imports"
 )
 
 // fileExist 判断文件是否存在

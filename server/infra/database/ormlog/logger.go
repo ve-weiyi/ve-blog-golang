@@ -2,12 +2,14 @@ package ormlog
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"go.uber.org/zap"
-	"gorm.io/gorm/logger"
 	"runtime"
 	"strconv"
 	"strings"
+
+	"go.uber.org/zap"
+	"gorm.io/gorm/logger"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 type gormWriter struct {

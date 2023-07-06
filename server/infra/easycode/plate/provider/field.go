@@ -1,8 +1,9 @@
 package provider
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
 	"strings"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
 )
 
 type Field struct {

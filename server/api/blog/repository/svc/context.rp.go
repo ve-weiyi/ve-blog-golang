@@ -2,10 +2,12 @@ package svc
 
 import (
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/go-sdk/utils/glog"
-	"github.com/ve-weiyi/ve-admin-store/server/config"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"gorm.io/gorm"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+
+	"github.com/ve-weiyi/go-sdk/utils/glog"
 )
 
 // 注册需要用到的gorm、redis、model

@@ -1,9 +1,10 @@
 package upload
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/config/properties"
 	"log"
 	"mime/multipart"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 )
 
 // Uploader 对象存储接口

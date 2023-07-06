@@ -2,15 +2,17 @@ package easycode
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 	"log"
 	"path"
 	"testing"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000

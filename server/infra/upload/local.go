@@ -2,13 +2,14 @@ package upload
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/go-sdk/utils/crypto"
 	"io"
 	"mime/multipart"
 	"os"
 	"path"
 	"strings"
 	"time"
+
+	"github.com/ve-weiyi/go-sdk/utils/crypto"
 )
 
 type Local struct {

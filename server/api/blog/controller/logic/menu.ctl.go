@@ -3,8 +3,8 @@ package logic
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 // @Tags		Menu

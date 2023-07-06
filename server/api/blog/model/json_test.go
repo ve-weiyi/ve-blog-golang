@@ -1,12 +1,15 @@
 package model
 
 import (
-	jsoniter "github.com/json-iterator/go"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
 	"log"
 	"reflect"
 	"testing"
+
+	jsoniter "github.com/json-iterator/go"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 func TestJson(t *testing.T) {

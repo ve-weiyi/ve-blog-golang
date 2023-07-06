@@ -8,13 +8,14 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/inject"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/provider"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/dbdriver"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/inject"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/provider"
-	tmpl2 "github.com/ve-weiyi/ve-admin-store/server/infra/easycode/tmpl"
-	"github.com/ve-weiyi/ve-admin-store/server/utils/dbdriver"
 )
 
 type Generator struct {
@@ -145,11 +146,11 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		StructComment:  tableComment,
 		Fields:         fields,
 		ImportPkgPaths: []string{
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/controller",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/model/response",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/controller",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/model/response",
 		},
 	}
 	g.plateData = append(g.plateData, data)
@@ -158,36 +159,36 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	fileName := g.cfg.OutFileNS(tableName)
 
 	metaModel := &plate.PlateMeta{
-		Key:            tmpl2.KeyModel,
-		TemplateString: tmpl2.Model,
+		Key:            tmpl.KeyModel,
+		TemplateString: tmpl.Model,
 		AutoCodePath:   fmt.Sprintf("%v/model/entity/%s.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        g.cfg.Replace,
 	}
 	metaRepository := &plate.PlateMeta{
-		Key:            tmpl2.KeyRepository,
-		TemplateString: tmpl2.Repository,
+		Key:            tmpl.KeyRepository,
+		TemplateString: tmpl.Repository,
 		AutoCodePath:   fmt.Sprintf("%v/repository/logic/%s.rp.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        g.cfg.Replace,
 	}
 	metaService := &plate.PlateMeta{
-		Key:            tmpl2.KeyService,
-		TemplateString: tmpl2.Service,
+		Key:            tmpl.KeyService,
+		TemplateString: tmpl.Service,
 		AutoCodePath:   fmt.Sprintf("%v/service/logic/%s.sv.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        g.cfg.Replace,
 	}
 	metaController := &plate.PlateMeta{
-		Key:            tmpl2.KeyController,
-		TemplateString: tmpl2.Controller,
+		Key:            tmpl.KeyController,
+		TemplateString: tmpl.Controller,
 		AutoCodePath:   fmt.Sprintf("%v/controller/logic/%s.ctl.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        g.cfg.Replace,
 	}
 	metaRouter := &plate.PlateMeta{
-		Key:            tmpl2.KeyRouter,
-		TemplateString: tmpl2.Router,
+		Key:            tmpl.KeyRouter,
+		TemplateString: tmpl.Router,
 		AutoCodePath:   fmt.Sprintf("%v/router/logic/%s.rt.go", temporaryRoot, fileName),
 		Data:           data,
 		Replace:        g.cfg.Replace,
@@ -205,7 +206,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	var injectMetas []*inject.AstInjectMeta
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
-		Key:      tmpl2.KeyRepository,
+		Key:      tmpl.KeyRepository,
 		FilePath: fmt.Sprintf("%v/repository/repository.go", temporaryRoot),
 		StructMetas: []*inject.StructMeta{
 			inject.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.StructName, data.StructName, data.StructComment)),
@@ -218,7 +219,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	})
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
-		Key:      tmpl2.KeyController,
+		Key:      tmpl.KeyController,
 		FilePath: fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
 		StructMetas: []*inject.StructMeta{
 			inject.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.StructName, data.StructName, data.StructComment)),
@@ -231,7 +232,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	})
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
-		Key:      tmpl2.KeyRouter,
+		Key:      tmpl.KeyRouter,
 		FilePath: fmt.Sprintf("%v/router/router.go", temporaryRoot),
 		StructMetas: []*inject.StructMeta{
 			inject.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.StructName, data.StructName, data.StructComment)),
@@ -244,7 +245,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	})
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
-		Key:      tmpl2.KeyService,
+		Key:      tmpl.KeyService,
 		FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
 		StructMetas: []*inject.StructMeta{
 			inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.StructComment)),
@@ -298,11 +299,11 @@ func (g *Generator) GenerateCommonFile(tableName string, tableComment string) er
 		StructComment:  tableComment,
 		Fields:         nil,
 		ImportPkgPaths: []string{
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/controller",
-			//"github.com/ve-weiyi/ve-admin-store/server/api/common/model/response",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/controller",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/model/response",
 		},
 	}
 
@@ -318,27 +319,27 @@ func (g *Generator) GenerateCommonFile(tableName string, tableComment string) er
 		//}
 
 		metaCommonRepository := &plate.PlateMeta{
-			TemplateString: tmpl2.CommonRepository,
+			TemplateString: tmpl.CommonRepository,
 			AutoCodePath:   fmt.Sprintf("%v/repository/logic/%s.rp.go", temporaryRoot, fileName),
 			Data:           data,
 			Replace:        g.cfg.ReplaceCommon,
 		}
 
 		metaCommonService := &plate.PlateMeta{
-			TemplateString: tmpl2.CommonService,
+			TemplateString: tmpl.CommonService,
 			AutoCodePath:   fmt.Sprintf("%v/service/logic/%s.sv.go", temporaryRoot, fileName),
 			Data:           data,
 			Replace:        g.cfg.ReplaceCommon,
 		}
 
 		metaCommonController := &plate.PlateMeta{
-			TemplateString: tmpl2.CommonController,
+			TemplateString: tmpl.CommonController,
 			AutoCodePath:   fmt.Sprintf("%v/controller/logic/%s.ctl.go", temporaryRoot, fileName),
 			Data:           data,
 			Replace:        g.cfg.ReplaceCommon,
 		}
 		metaCommonRouter := &plate.PlateMeta{
-			TemplateString: tmpl2.CommonRouter,
+			TemplateString: tmpl.CommonRouter,
 			AutoCodePath:   fmt.Sprintf("%v/router/logic/%s.rt.go", temporaryRoot, fileName),
 			Data:           data,
 			Replace:        g.cfg.ReplaceCommon,

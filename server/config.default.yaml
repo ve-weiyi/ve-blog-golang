@@ -25,7 +25,7 @@ jwt:
 zap:
   level: info
   format: console
-  prefix: "[ve-admin-store]"
+  prefix: "[ve-blog-golang]"
   director: runtime/log
   show-line: true
   encode-level: LowercaseLevelEncoder

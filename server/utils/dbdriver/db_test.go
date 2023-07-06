@@ -2,12 +2,14 @@ package dbdriver
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"log"
+	"testing"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"log"
-	"testing"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000

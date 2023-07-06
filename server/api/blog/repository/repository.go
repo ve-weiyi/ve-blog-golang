@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/logic"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/logic"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
 // 对应go-zero rpc层服务

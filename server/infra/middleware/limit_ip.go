@@ -9,7 +9,8 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 type LimitConfig struct {

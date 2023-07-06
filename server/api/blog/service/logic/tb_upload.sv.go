@@ -1,11 +1,13 @@
 package logic
 
 import (
-	"github.com/ve-weiyi/go-sdk/utils/crypto"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service/svc"
 	"mime/multipart"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
+
+	"github.com/ve-weiyi/go-sdk/utils/crypto"
 )
 
 type UploadService struct {

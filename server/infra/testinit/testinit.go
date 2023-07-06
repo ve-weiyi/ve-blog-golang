@@ -15,14 +15,15 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
+
 	"github.com/ve-weiyi/go-sdk/utils/copy"
 	"github.com/ve-weiyi/go-sdk/utils/file"
 	"github.com/ve-weiyi/go-sdk/utils/glog"
 	"github.com/ve-weiyi/go-sdk/utils/glog/zaplog"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/database"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/database/orm"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/rbac"
 )
 
 func init() {

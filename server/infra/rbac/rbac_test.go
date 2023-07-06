@@ -1,22 +1,25 @@
 package rbac
 
 import (
-	"github.com/casbin/casbin/v2"
-	"github.com/casbin/casbin/v2/model"
-	gormadapter "github.com/casbin/gorm-adapter/v3"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/testinit"
-	"go.uber.org/zap"
-	"gorm.io/gorm"
 	"log"
 	"path"
 	"reflect"
 	"testing"
+
+	"github.com/casbin/casbin/v2"
+	"github.com/casbin/casbin/v2/model"
+	gormadapter "github.com/casbin/gorm-adapter/v3"
+	"go.uber.org/zap"
+	"gorm.io/gorm"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 var enforcer *casbin.SyncedEnforcer
@@ -167,7 +170,7 @@ func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenu, error) 
 
 	var mids []int
 	for _, item := range urs {
-		mids = append(mids, item.MenuId)
+		mids = append(mids, item.MenuID)
 	}
 
 	var menus []entity.Menu

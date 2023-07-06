@@ -28,9 +28,9 @@ ve-blog-golang项目是博客项目的后台服务支撑。
 [博客前台项目地址](https://github.com/ve-weiyi/ve-blog-vite)
  
 ### 预览页面
-![img.png](docs%2Fimg.png)
+![img.png](images%2Fimg.png)
 
-![img_1.png](docs%2Fimg_1.png)
+![img_1.png](images%2Fimg_1.png)
 ## 项目启动
 
 ### 1.拉取submodule
@@ -60,6 +60,14 @@ go run main.go run --config=./conf/config.yaml
 
 ```shell
 go fmt ./...
+```
+
+格式化导入包
+
+```shell
+go get golang.org/x/tools/cmd/goimports
+go install golang.org/x/tools/cmd/goimports
+goimports -w .
 ```
 
 格式化swagger注解

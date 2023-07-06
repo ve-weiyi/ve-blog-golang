@@ -1,8 +1,9 @@
 package apidocs
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 	"testing"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 func TestSwagger(t *testing.T) {
