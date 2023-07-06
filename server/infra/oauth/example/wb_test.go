@@ -1,9 +1,10 @@
 package example
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
 	"log"
 	"testing"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 )
 
 func TestWeibo(t *testing.T) {
@@ -23,7 +24,7 @@ func TestWeibo(t *testing.T) {
 	//log.Println("refresh:", err, refresh)
 
 	//获取用户信息
-	userInfo, err := auth.GetUserInfo("2.00OYpWYGPTpttCaf929b916cL6FMXD", "6007017078")
-	log.Println("userInfo:", err, userInfo)
+	//userInfo, err := auth.GetUserInfo("2.00OYpWYGPTpttCaf929b916cL6FMXD", "6007017078")
+	//log.Println("userInfo:", err, userInfo)
 
 }

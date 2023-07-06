@@ -2,11 +2,12 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/base/controller"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
 )
 
 type ArticleController struct {
@@ -21,15 +22,14 @@ func NewArticleController(svcCtx *svc.ControllerContext) *ArticleController {
 	}
 }
 
-// CreateArticle 创建文章
-// @Tags	 ArticleDTO
-// @Summary  创建文章
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Article		true  "创建文章"
-// @Success  200   {object}  response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/create [post]
+// @Tags		Article
+// @Summary		创建文章
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Article							true		"请求参数"
+// @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
+// @Router		/article/create [post]
 func (s *ArticleController) CreateArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -38,7 +38,7 @@ func (s *ArticleController) CreateArticle(c *gin.Context) {
 	}
 
 	var article entity.Article
-	err = s.ShouldBindJSON(c, &article)
+	err = s.ShouldBind(c, &article)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -53,15 +53,14 @@ func (s *ArticleController) CreateArticle(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// DeleteArticle 删除文章
-// @Tags 	ArticleDTO
-// @Summary 删除文章
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.Article 		true "删除文章"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /article/delete [delete]
+// @Tags		Article
+// @Summary		删除文章
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body	 	entity.Article 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/article/delete [delete]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -70,7 +69,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	}
 
 	var article entity.Article
-	err = s.ShouldBindJSON(c, &article)
+	err = s.ShouldBind(c, &article)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -85,15 +84,14 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// UpdateArticle 更新文章
-// @Tags 	ArticleDTO
-// @Summary 更新文章
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Article 		true "更新文章"
-// @Success 200  {object}  	response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/update [put]
+// @Tags 	 	Article
+// @Summary		更新文章
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce		application/json
+// @Param 	 	data	body 	 	entity.Article							true		"请求参数"
+// @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
+// @Router 		/article/update [put]
 func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -102,7 +100,7 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	}
 
 	var article entity.Article
-	err = s.ShouldBindJSON(c, &article)
+	err = s.ShouldBind(c, &article)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -117,16 +115,15 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// FindArticle 用id查询文章
-// @Tags 	ArticleDTO
-// @Summary 用id查询文章
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.Article 		true "用id查询文章"
-// @Success 200  {object}  	response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/find [post]
-func (s *ArticleController) FindArticle(c *gin.Context) {
+// @Tags 	 	Article
+// @Summary		查询文章
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce		application/json
+// @Param 	 	data		body		entity.Article							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Article}	"返回信息"
+// @Router 		/article/query [get]
+func (s *ArticleController) GetArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -134,13 +131,13 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 	}
 
 	var article entity.Article
-	err = s.ShouldBindJSON(c, &article)
+	err = s.ShouldBind(c, &article)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.GetArticleDetails(reqCtx, article.ID)
+	data, err := s.svcCtx.ArticleService.GetArticle(reqCtx, &article)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -149,15 +146,14 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// DeleteArticleByIds 批量删除文章
-// @Tags 	ArticleDTO
-// @Summary 批量删除文章
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "批量删除文章"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /article/deleteByIds [delete]
+// @Tags 	 	Article
+// @Summary		批量删除文章
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
+// @Produce		application/json
+// @Param		data 	body		[]int 				true "删除id列表"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/article/deleteByIds [delete]
 func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -166,7 +162,7 @@ func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 	}
 
 	var IDS []int
-	err = s.ShouldBindJSON(c, &IDS)
+	err = s.ShouldBind(c, &IDS)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -181,16 +177,15 @@ func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// GetArticleList 分页获取文章列表
-// @Tags 	ArticleDTO
-// @Summary 分页获取文章列表
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页获取文章列表"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Article}}  	"返回信息"
-// @Router /article/list [post]
-func (s *ArticleController) GetArticleList(c *gin.Context) {
+// @Tags 	 	Article
+// @Summary		分页获取文章列表
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce		application/json
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
+// @Router		/article/list [post]
+func (s *ArticleController) FindArticleList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -204,7 +199,7 @@ func (s *ArticleController) GetArticleList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.ArticleService.GetArticleList(reqCtx, &page)
+	list, total, err := s.svcCtx.ArticleService.FindArticleList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -216,67 +211,4 @@ func (s *ArticleController) GetArticleList(c *gin.Context) {
 		Page:     page.Page,
 		PageSize: page.Limit(),
 	})
-}
-
-// GetArticleList 分页获取文章列表
-// @Tags 	ArticleDTO
-// @Summary 分页获取文章列表
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页获取文章列表"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Article}}  	"返回信息"
-// @Router /article/condition [post]
-func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.ArticleCondition
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ArticleService.GetArticleListByCondition(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	ArticleDTO
-// @Summary 更新文章
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Article 		true "更新文章"
-// @Success 200  {object}  	response.Response{data=entity.Article}  	"返回信息"
-// @Router /article/like [put]
-func (s *ArticleController) LikeArticle(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var article entity.Article
-	err = s.ShouldBindJSON(c, &article)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ArticleService.UpdateArticle(reqCtx, &article)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
 }

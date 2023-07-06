@@ -2,7 +2,8 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/svc"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
 type MenuRouter struct {
@@ -29,8 +30,5 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 		publicRouter.DELETE("menu/deleteByIds", handler.DeleteMenuByIds) // 批量删除Menu列表
 		publicRouter.POST("menu/list", handler.FindMenuList)             // 分页查询Menu列表
-	}
-	{
-
 	}
 }

@@ -2,12 +2,13 @@ package inject
 
 import (
 	"bytes"
-	"github.com/dave/dst"
-	"github.com/dave/dst/decorator"
 	"go/parser"
 	"go/token"
 	"log"
 	"os"
+
+	"github.com/dave/dst"
+	"github.com/dave/dst/decorator"
 )
 
 type Meta interface {

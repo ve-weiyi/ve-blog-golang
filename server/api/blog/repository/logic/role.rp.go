@@ -2,7 +2,8 @@ package logic
 
 import (
 	"context"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 func (s *RoleRepository) FindUserRoles(userId int) (out []*entity.Role, err error) {

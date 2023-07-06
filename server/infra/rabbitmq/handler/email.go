@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 )
 
 const (

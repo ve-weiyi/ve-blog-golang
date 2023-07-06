@@ -2,16 +2,17 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/svc"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
 type TalkRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewTalkRouter(ctx *svc.RouterContext) *TalkRouter {
+func NewTalkRouter(svcCtx *svc.RouterContext) *TalkRouter {
 	return &TalkRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 

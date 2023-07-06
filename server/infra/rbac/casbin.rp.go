@@ -1,7 +1,7 @@
 package rbac
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 // 删除CasbinRule记录

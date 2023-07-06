@@ -2,11 +2,12 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/controller/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/base/controller"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
 )
 
 type TagController struct {
@@ -21,15 +22,14 @@ func NewTagController(svcCtx *svc.ControllerContext) *TagController {
 	}
 }
 
-// CreateTag 创建文章标签
-// @Tags	 Tag
-// @Summary  创建文章标签
-// @Security ApiKeyAuth
-// @accept 	 application/json
-// @Produce  application/json
-// @Param 	 data  body 	 entity.Tag		true  "创建文章标签"
-// @Success  200   {object}  response.Response{data=entity.Tag}  	"返回信息"
-// @Router /tag/create [post]
+// @Tags		Tag
+// @Summary		创建文章标签
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		entity.Tag							true		"请求参数"
+// @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Router		/tag/create [post]
 func (s *TagController) CreateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -38,7 +38,7 @@ func (s *TagController) CreateTag(c *gin.Context) {
 	}
 
 	var tag entity.Tag
-	err = s.ShouldBindJSON(c, &tag)
+	err = s.ShouldBind(c, &tag)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -53,15 +53,14 @@ func (s *TagController) CreateTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// DeleteTag 删除文章标签
-// @Tags 	Tag
-// @Summary 删除文章标签
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body	 	entity.Tag 		true "删除文章标签"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /tag/delete [delete]
+// @Tags		Tag
+// @Summary		删除文章标签
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body	 	entity.Tag 		true "请求body"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/tag/delete [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -70,7 +69,7 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 	}
 
 	var tag entity.Tag
-	err = s.ShouldBindJSON(c, &tag)
+	err = s.ShouldBind(c, &tag)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -85,15 +84,14 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// UpdateTag 更新文章标签
-// @Tags 	Tag
-// @Summary 更新文章标签
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		entity.Tag 		true "更新文章标签"
-// @Success 200  {object}  	response.Response{data=entity.Tag}  	"返回信息"
-// @Router /tag/update [put]
+// @Tags 	 	Tag
+// @Summary		更新文章标签
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce		application/json
+// @Param 	 	data	body 	 	entity.Tag							true		"请求参数"
+// @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Router 		/tag/update [put]
 func (s *TagController) UpdateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -102,7 +100,7 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 	}
 
 	var tag entity.Tag
-	err = s.ShouldBindJSON(c, &tag)
+	err = s.ShouldBind(c, &tag)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -117,16 +115,15 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// FindTag 用id查询文章标签
-// @Tags 	Tag
-// @Summary 用id查询文章标签
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		entity.Tag 		true "用id查询文章标签"
-// @Success 200  {object}  	response.Response{data=entity.Tag}  	"返回信息"
-// @Router /tag/find [get]
-func (s *TagController) FindTag(c *gin.Context) {
+// @Tags 	 	Tag
+// @Summary		查询文章标签
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce		application/json
+// @Param 	 	data		body		entity.Tag							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Router 		/tag/query [get]
+func (s *TagController) GetTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -140,7 +137,7 @@ func (s *TagController) FindTag(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.TagService.FindTag(reqCtx, tag.ID)
+	data, err := s.svcCtx.TagService.GetTag(reqCtx, &tag)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -149,15 +146,14 @@ func (s *TagController) FindTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// DeleteTagByIds 批量删除文章标签
-// @Tags 	Tag
-// @Summary 批量删除文章标签
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce application/json
-// @Param 	data body 		[]int 					true "批量删除文章标签"
-// @Success 200  {object}  	response.Response{}  	"返回信息"
-// @Router /tag/deleteByIds [delete]
+// @Tags 	 	Tag
+// @Summary		批量删除文章标签
+// @Security 	ApiKeyAuth
+// @accept 	 	application/json
+// @Produce		application/json
+// @Param		data 	body		[]int 				true "删除id列表"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/tag/deleteByIds [delete]
 func (s *TagController) DeleteTagByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -166,7 +162,7 @@ func (s *TagController) DeleteTagByIds(c *gin.Context) {
 	}
 
 	var IDS []int
-	err = s.ShouldBindJSON(c, &IDS)
+	err = s.ShouldBind(c, &IDS)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -181,16 +177,15 @@ func (s *TagController) DeleteTagByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// GetTagList 分页获取文章标签列表
-// @Tags 	Tag
-// @Summary 分页获取文章标签列表
-// @Security ApiKeyAuth
-// @accept 	application/json
-// @Produce	application/json
-// @Param 	data query 		request.PageInfo 	true "分页获取文章标签列表"
-// @Success 200  {object}  	response.Response{data=response.PageResult{list=[]entity.Tag}}  	"返回信息"
-// @Router /tag/list [get]
-func (s *TagController) GetTagList(c *gin.Context) {
+// @Tags 	 	Tag
+// @Summary		分页获取文章标签列表
+// @Security 	ApiKeyAuth
+// @accept 		application/json
+// @Produce		application/json
+// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Tag}}	"返回信息"
+// @Router		/tag/list [post]
+func (s *TagController) FindTagList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -204,7 +199,7 @@ func (s *TagController) GetTagList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.TagService.GetTagList(reqCtx, &page)
+	list, total, err := s.svcCtx.TagService.FindTagList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

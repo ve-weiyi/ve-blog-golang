@@ -1,9 +1,10 @@
 package example
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
 	"log"
 	"testing"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 )
 
 func TestFeishu(t *testing.T) {

@@ -1,9 +1,10 @@
 package plate
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/provider"
+
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/field"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/easycode/plate/provider"
 )
 
 //type CodeStructMeta interface {

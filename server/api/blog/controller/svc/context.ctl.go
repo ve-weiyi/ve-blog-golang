@@ -1,9 +1,9 @@
 package svc
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/config"
 )
 
 // 注册需要用到的rpc

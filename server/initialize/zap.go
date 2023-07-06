@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+
 	"github.com/ve-weiyi/go-sdk/utils/copy"
 	"github.com/ve-weiyi/go-sdk/utils/file"
 	"github.com/ve-weiyi/go-sdk/utils/glog"
 	"github.com/ve-weiyi/go-sdk/utils/glog/zaplog"
-	"github.com/ve-weiyi/ve-admin-store/server/global"
 )
 
 // Zap 获取 zap.Logger

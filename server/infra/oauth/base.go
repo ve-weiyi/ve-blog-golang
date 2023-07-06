@@ -1,8 +1,8 @@
 package oauth
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/result"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth/source"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/source"
 )
 
 // 基本配置

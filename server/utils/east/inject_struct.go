@@ -2,13 +2,14 @@ package east
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
 	"regexp"
 	"strings"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // 插入 FieldName  FieldType.SelName

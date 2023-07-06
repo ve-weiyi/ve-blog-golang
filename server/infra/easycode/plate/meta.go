@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"text/template"
 )
@@ -52,10 +53,15 @@ func (tempMeta *PlateMeta) CreateTempFile() error {
 		return err
 	}
 
-	err = output(tempMeta.AutoCodePath, buf.Bytes())
-	if err != nil {
-		return err
+	if path.Ext(tempMeta.AutoCodePath) == ".go" {
+		err = output(tempMeta.AutoCodePath, buf.Bytes())
+		if err != nil {
+			return err
+		}
+	} else {
+		os.WriteFile(tempMeta.AutoCodePath, buf.Bytes(), 0640)
 	}
+
 	return nil
 }
 

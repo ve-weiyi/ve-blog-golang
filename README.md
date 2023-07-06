@@ -28,9 +28,9 @@ ve-blog-golang项目是博客项目的后台服务支撑。
 [博客前台项目地址](https://github.com/ve-weiyi/ve-blog-vite)
  
 ### 预览页面
-![img.png](docs%2Fimg.png)
+![img.png](images%2Fimg.png)
 
-![img_1.png](docs%2Fimg_1.png)
+![img_1.png](images%2Fimg_1.png)
 ## 项目启动
 
 ### 1.拉取submodule
@@ -45,6 +45,7 @@ go mod tidy
 ```
 
 ### 3.项目本地启动
+
 复制 [config.default.yaml](server%2Fconfig.default.yaml) 文件，命名为config.yaml  
 修改config.yaml配置文件中的配置信息，然后执行以下命令启动项目
 
@@ -54,6 +55,28 @@ go run main.go run --config=./conf/config.yaml
 ```
 
 ### 4.更新swagger文档
+
+格式化代码
+
+```shell
+go fmt ./...
+```
+
+格式化导入包
+
+```shell
+go get golang.org/x/tools/cmd/goimports
+go install golang.org/x/tools/cmd/goimports
+goimports -w .
+./scripts/gofmt.sh
+```
+
+格式化swagger注解
+
+```shell
+swag fmt
+```
+
 ```shell
 swag init
 ```

@@ -2,21 +2,23 @@ package logic
 
 import (
 	"fmt"
-	"github.com/ve-weiyi/go-sdk/utils/crypto"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
-	templateUtil "github.com/ve-weiyi/go-sdk/utils/temp"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/service/svc"
-	"github.com/ve-weiyi/ve-admin-store/server/config/properties"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/codes"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/constant"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/mail"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/oauth"
 	"math/rand"
 	"strconv"
 	"time"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
+
+	"github.com/ve-weiyi/go-sdk/utils/crypto"
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	templateUtil "github.com/ve-weiyi/go-sdk/utils/temp"
 )
 
 type AuthService struct {

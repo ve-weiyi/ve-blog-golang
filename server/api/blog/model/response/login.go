@@ -1,6 +1,6 @@
 package response
 
-import "github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
+import "github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 
 type Login struct {
 	Token    string     `json:"token"`

@@ -2,16 +2,17 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/svc"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
 type FriendLinkRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewFriendLinkRouter(ctx *svc.RouterContext) *FriendLinkRouter {
+func NewFriendLinkRouter(svcCtx *svc.RouterContext) *FriendLinkRouter {
 	return &FriendLinkRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 

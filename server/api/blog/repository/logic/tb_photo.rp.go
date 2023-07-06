@@ -1,11 +1,14 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
 	"gorm.io/gorm"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
 type PhotoRepository struct {
@@ -21,7 +24,7 @@ func NewPhotoRepository(svcCtx *svc.RepositoryContext) *PhotoRepository {
 }
 
 // 创建Photo记录
-func (s *PhotoRepository) CreatePhoto(photo *entity.Photo) (out *entity.Photo, err error) {
+func (s *PhotoRepository) CreatePhoto(ctx context.Context, photo *entity.Photo) (out *entity.Photo, err error) {
 	db := s.DbEngin
 	err = db.Create(&photo).Error
 	if err != nil {
@@ -31,7 +34,7 @@ func (s *PhotoRepository) CreatePhoto(photo *entity.Photo) (out *entity.Photo, e
 }
 
 // 删除Photo记录
-func (s *PhotoRepository) DeletePhoto(photo *entity.Photo) (rows int64, err error) {
+func (s *PhotoRepository) DeletePhoto(ctx context.Context, photo *entity.Photo) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&photo)
 	err = query.Error
@@ -40,7 +43,7 @@ func (s *PhotoRepository) DeletePhoto(photo *entity.Photo) (rows int64, err erro
 }
 
 // 更新Photo记录
-func (s *PhotoRepository) UpdatePhoto(photo *entity.Photo) (out *entity.Photo, err error) {
+func (s *PhotoRepository) UpdatePhoto(ctx context.Context, photo *entity.Photo) (out *entity.Photo, err error) {
 	db := s.DbEngin
 	err = db.Save(&photo).Error
 	if err != nil {
@@ -50,7 +53,7 @@ func (s *PhotoRepository) UpdatePhoto(photo *entity.Photo) (out *entity.Photo, e
 }
 
 // 查询Photo记录
-func (s *PhotoRepository) GetPhoto(id int) (out *entity.Photo, err error) {
+func (s *PhotoRepository) GetPhoto(ctx context.Context, id int) (out *entity.Photo, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -60,7 +63,7 @@ func (s *PhotoRepository) GetPhoto(id int) (out *entity.Photo, err error) {
 }
 
 // 批量删除Photo记录
-func (s *PhotoRepository) DeletePhotoByIds(ids []int) (rows int64, err error) {
+func (s *PhotoRepository) DeletePhotoByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.Photo{}, "id in ?", ids)
 	err = query.Error
@@ -69,7 +72,7 @@ func (s *PhotoRepository) DeletePhotoByIds(ids []int) (rows int64, err error) {
 }
 
 // 分页查询Photo记录
-func (s *PhotoRepository) FindPhotoList(page *request.PageInfo) (list []*entity.Photo, total int64, err error) {
+func (s *PhotoRepository) FindPhotoList(ctx context.Context, page *request.PageInfo) (list []*entity.Photo, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

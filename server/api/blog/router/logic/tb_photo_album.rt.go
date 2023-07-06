@@ -2,16 +2,17 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/router/svc"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
 type PhotoAlbumRouter struct {
 	svcCtx *svc.RouterContext
 }
 
-func NewPhotoAlbumRouter(ctx *svc.RouterContext) *PhotoAlbumRouter {
+func NewPhotoAlbumRouter(svcCtx *svc.RouterContext) *PhotoAlbumRouter {
 	return &PhotoAlbumRouter{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 

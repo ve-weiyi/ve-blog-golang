@@ -1,11 +1,14 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-admin-store/server/api/blog/repository/svc"
 	"gorm.io/gorm"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
 type TalkRepository struct {
@@ -21,7 +24,7 @@ func NewTalkRepository(svcCtx *svc.RepositoryContext) *TalkRepository {
 }
 
 // 创建Talk记录
-func (s *TalkRepository) CreateTalk(talk *entity.Talk) (out *entity.Talk, err error) {
+func (s *TalkRepository) CreateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
 	db := s.DbEngin
 	err = db.Create(&talk).Error
 	if err != nil {
@@ -31,7 +34,7 @@ func (s *TalkRepository) CreateTalk(talk *entity.Talk) (out *entity.Talk, err er
 }
 
 // 删除Talk记录
-func (s *TalkRepository) DeleteTalk(talk *entity.Talk) (rows int64, err error) {
+func (s *TalkRepository) DeleteTalk(ctx context.Context, talk *entity.Talk) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&talk)
 	err = query.Error
@@ -40,7 +43,7 @@ func (s *TalkRepository) DeleteTalk(talk *entity.Talk) (rows int64, err error) {
 }
 
 // 更新Talk记录
-func (s *TalkRepository) UpdateTalk(talk *entity.Talk) (out *entity.Talk, err error) {
+func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
 	db := s.DbEngin
 	err = db.Save(&talk).Error
 	if err != nil {
@@ -50,7 +53,7 @@ func (s *TalkRepository) UpdateTalk(talk *entity.Talk) (out *entity.Talk, err er
 }
 
 // 查询Talk记录
-func (s *TalkRepository) GetTalk(id int) (out *entity.Talk, err error) {
+func (s *TalkRepository) GetTalk(ctx context.Context, id int) (out *entity.Talk, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -60,7 +63,7 @@ func (s *TalkRepository) GetTalk(id int) (out *entity.Talk, err error) {
 }
 
 // 批量删除Talk记录
-func (s *TalkRepository) DeleteTalkByIds(ids []int) (rows int64, err error) {
+func (s *TalkRepository) DeleteTalkByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.Talk{}, "id in ?", ids)
 	err = query.Error
@@ -69,7 +72,7 @@ func (s *TalkRepository) DeleteTalkByIds(ids []int) (rows int64, err error) {
 }
 
 // 分页查询Talk记录
-func (s *TalkRepository) FindTalkList(page *request.PageInfo) (list []*entity.Talk, total int64, err error) {
+func (s *TalkRepository) FindTalkList(ctx context.Context, page *request.PageInfo) (list []*entity.Talk, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

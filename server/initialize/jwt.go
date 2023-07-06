@@ -1,8 +1,8 @@
 package initialize
 
 import (
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	"github.com/ve-weiyi/ve-admin-store/server/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 )
 
 func JwtToken() {

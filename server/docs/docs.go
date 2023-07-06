@@ -39,20 +39,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Api"
+                    "Blog"
                 ],
-                "summary": "创建api路由",
-                "parameters": [
-                    {
-                        "description": "创建api路由",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Api"
-                        }
-                    }
-                ],
+                "summary": "关于我",
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -89,17 +78,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Api"
+                    "Admin"
                 ],
                 "summary": "获取api列表",
                 "parameters": [
                     {
-                        "description": "创建api路由",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Api"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -115,7 +104,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Api"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.Api"
+                                            }
                                         }
                                     }
                                 }
@@ -139,17 +131,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Menu"
+                    "Admin"
                 ],
                 "summary": "获取菜单列表",
                 "parameters": [
                     {
-                        "description": "创建菜单",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Menu"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -165,7 +157,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Menu"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.Menu"
+                                            }
                                         }
                                     }
                                 }
@@ -239,7 +234,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "更新角色资源",
                 "parameters": [
@@ -289,17 +284,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "获取角色列表",
                 "parameters": [
                     {
-                        "description": "创建角色",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Role"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -315,7 +310,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.Role"
+                                            }
                                         }
                                     }
                                 }
@@ -325,45 +323,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/user/list": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyUser": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "获取用户列表",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/user/update_roles": {
+        "/admin/update_roles": {
             "post": {
                 "security": [
                     {
@@ -377,7 +337,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "修改用户角色",
                 "parameters": [
@@ -413,7 +373,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/user/update_status": {
+        "/admin/update_status": {
             "post": {
                 "security": [
                     {
@@ -427,7 +387,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "修改用户状态",
                 "parameters": [
@@ -438,6 +398,44 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/entity.UserAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/users": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyUser": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "获取用户列表",
+                "parameters": [
+                    {
+                        "description": "分页参数",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -470,7 +468,7 @@ const docTemplate = `{
                 "summary": "创建接口",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -581,7 +579,7 @@ const docTemplate = `{
             }
         },
         "/api/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -599,28 +597,13 @@ const docTemplate = `{
                 "summary": "分页获取接口列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -679,64 +662,13 @@ const docTemplate = `{
                 "summary": "查询接口",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "访问类型 0需要认证，0公开接口",
-                        "name": "access_type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api分组",
-                        "name": "group",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api请求方法",
-                        "name": "method",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api名称",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "分组id",
-                        "name": "parent_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "api路径",
-                        "name": "path",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "状态 1开，2关",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Api"
+                        }
                     }
                 ],
                 "responses": {
@@ -780,7 +712,7 @@ const docTemplate = `{
                 "summary": "更新接口",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -820,7 +752,7 @@ const docTemplate = `{
                 ],
                 "description": "描述,可以有多个",
                 "tags": [
-                    "标签"
+                    "Blog"
                 ],
                 "summary": "标题",
                 "parameters": [
@@ -891,17 +823,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "文章归档",
                 "parameters": [
                     {
-                        "description": "创建文章",
-                        "name": "data",
+                        "description": "分页获取文章列表",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Article"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -941,33 +873,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页获取文章列表",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -1021,12 +938,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "创建文章",
                 "parameters": [
                     {
-                        "description": "创建文章",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1071,12 +988,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "删除文章",
                 "parameters": [
                     {
-                        "description": "删除文章",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1109,12 +1026,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "批量删除文章",
                 "parameters": [
                     {
-                        "description": "批量删除文章",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1136,124 +1053,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/article/find": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "ArticleDTO"
-                ],
-                "summary": "用id查询文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "内容",
-                        "name": "article_content",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "文章缩略图",
-                        "name": "article_cover",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "标题",
-                        "name": "article_title",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "文章分类",
-                        "name": "category_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "发表时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否删除  0否 1是",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否置顶 0否 1是",
-                        "name": "is_top",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "原文链接",
-                        "name": "original_url",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "状态值 1公开 2私密 3评论可见",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "文章类型 1原创 2转载 3翻译",
-                        "name": "type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "作者",
-                        "name": "user_id",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Article"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/article/like": {
             "put": {
                 "security": [
@@ -1268,7 +1067,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "更新文章",
                 "parameters": [
@@ -1318,33 +1117,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -1384,6 +1168,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/article/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "查询文章",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Article"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Article"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/article/update": {
             "put": {
                 "security": [
@@ -1398,12 +1232,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ArticleDTO"
+                    "Article"
                 ],
                 "summary": "更新文章",
                 "parameters": [
                     {
-                        "description": "更新文章",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1542,7 +1376,7 @@ const docTemplate = `{
                 "summary": "创建文章分类",
                 "parameters": [
                     {
-                        "description": "创建文章分类",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1592,7 +1426,7 @@ const docTemplate = `{
                 "summary": "删除文章分类",
                 "parameters": [
                     {
-                        "description": "删除文章分类",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1630,7 +1464,7 @@ const docTemplate = `{
                 "summary": "批量删除文章分类",
                 "parameters": [
                     {
-                        "description": "批量删除文章分类",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1652,72 +1486,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Category"
-                ],
-                "summary": "用id查询文章分类",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "分类名",
-                        "name": "category_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Category"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/category/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1735,28 +1505,13 @@ const docTemplate = `{
                 "summary": "分页获取文章分类列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -1796,8 +1551,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/update": {
-            "put": {
+        "/category/query": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1812,10 +1567,10 @@ const docTemplate = `{
                 "tags": [
                     "Category"
                 ],
-                "summary": "更新文章分类",
+                "summary": "查询文章分类",
                 "parameters": [
                     {
-                        "description": "更新文章分类",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -1846,8 +1601,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/:id/like": {
-            "post": {
+        "/category/update": {
+            "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1860,17 +1615,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Comment"
+                    "Category"
                 ],
-                "summary": "点赞评论",
+                "summary": "更新文章分类",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Comment"
+                            "$ref": "#/definitions/entity.Category"
                         }
                     }
                 ],
@@ -1886,7 +1641,57 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Comment"
+                                            "$ref": "#/definitions/entity.Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/chat/records": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "查询聊天记录",
+                "parameters": [
+                    {
+                        "description": "分页信息",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.ChatRecord"
                                         }
                                     }
                                 }
@@ -1915,7 +1720,7 @@ const docTemplate = `{
                 "summary": "创建评论",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2025,58 +1830,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/id:/reply_list": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Comment"
-                ],
-                "summary": "查询评论回复列表",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Comment"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/comment/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2094,28 +1849,13 @@ const docTemplate = `{
                 "summary": "分页获取评论列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -2174,70 +1914,13 @@ const docTemplate = `{
                 "summary": "查询评论",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "评论内容",
-                        "name": "comment_content",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "评论时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "是否删除  0否 1是",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否审核",
-                        "name": "is_review",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "父评论id",
-                        "name": "parent_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "回复用户id",
-                        "name": "reply_user_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "评论主题id",
-                        "name": "topic_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "评论类型 1.文章 2.友链 3.说说",
-                        "name": "type",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "评论用户Id",
-                        "name": "user_id",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Comment"
+                        }
                     }
                 ],
                 "responses": {
@@ -2281,7 +1964,7 @@ const docTemplate = `{
                 "summary": "更新评论",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2381,7 +2064,7 @@ const docTemplate = `{
                 "summary": "创建友链",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2492,7 +2175,7 @@ const docTemplate = `{
             }
         },
         "/friendLink/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2510,28 +2193,13 @@ const docTemplate = `{
                 "summary": "分页获取友链列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -2590,45 +2258,13 @@ const docTemplate = `{
                 "summary": "查询友链",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接地址",
-                        "name": "link_address",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接头像",
-                        "name": "link_avatar",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接介绍",
-                        "name": "link_intro",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "链接名",
-                        "name": "link_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.FriendLink"
+                        }
                     }
                 ],
                 "responses": {
@@ -2672,7 +2308,7 @@ const docTemplate = `{
                 "summary": "更新友链",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2703,6 +2339,98 @@ const docTemplate = `{
                 }
             }
         },
+        "/login": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "创建权限认证",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/logoff": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "注销",
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "登出",
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/menu/create": {
             "post": {
                 "security": [
@@ -2722,7 +2450,7 @@ const docTemplate = `{
                 "summary": "创建菜单",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2833,7 +2561,7 @@ const docTemplate = `{
             }
         },
         "/menu/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2851,28 +2579,13 @@ const docTemplate = `{
                 "summary": "分页获取菜单列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -2931,64 +2644,13 @@ const docTemplate = `{
                 "summary": "查询菜单",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "组件",
-                        "name": "component",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "菜单icon",
-                        "name": "icon",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否隐藏  0否1是",
-                        "name": "is_hidden",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "菜单名",
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "父id",
-                        "name": "parent_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "菜单路径",
-                        "name": "path",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "排序",
-                        "name": "rank",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
                     }
                 ],
                 "responses": {
@@ -3032,7 +2694,7 @@ const docTemplate = `{
                 "summary": "更新菜单",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3063,6 +2725,106 @@ const docTemplate = `{
                 }
             }
         },
+        "/oauth/login": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "获取授权地址",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.OauthLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.OauthLoginUrl"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/url": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "获取授权地址",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.OauthLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.OauthLoginUrl"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/page/create": {
             "post": {
                 "security": [
@@ -3082,7 +2844,7 @@ const docTemplate = `{
                 "summary": "创建页面",
                 "parameters": [
                     {
-                        "description": "创建页面",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3132,7 +2894,7 @@ const docTemplate = `{
                 "summary": "删除页面",
                 "parameters": [
                     {
-                        "description": "删除页面",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3170,7 +2932,7 @@ const docTemplate = `{
                 "summary": "批量删除页面",
                 "parameters": [
                     {
-                        "description": "批量删除页面",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3192,85 +2954,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/page/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Page"
-                ],
-                "summary": "用id查询页面",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页面id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "页面封面",
-                        "name": "page_cover",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "页面标签",
-                        "name": "page_label",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "页面名",
-                        "name": "page_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Page"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/page/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3288,28 +2973,13 @@ const docTemplate = `{
                 "summary": "分页获取页面列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3349,6 +3019,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/page/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "查询页面",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Page"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Page"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/page/update": {
             "put": {
                 "security": [
@@ -3368,7 +3088,7 @@ const docTemplate = `{
                 "summary": "更新页面",
                 "parameters": [
                     {
-                        "description": "更新页面",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3418,7 +3138,7 @@ const docTemplate = `{
                 "summary": "创建相片",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3529,7 +3249,7 @@ const docTemplate = `{
             }
         },
         "/photo/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3547,28 +3267,13 @@ const docTemplate = `{
                 "summary": "分页获取相片列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3627,52 +3332,13 @@ const docTemplate = `{
                 "summary": "查询相片",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "相册id",
-                        "name": "album_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否删除",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "照片描述",
-                        "name": "photo_desc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "照片名",
-                        "name": "photo_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "照片地址",
-                        "name": "photo_src",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Photo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3716,7 +3382,7 @@ const docTemplate = `{
                 "summary": "更新相片",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3766,7 +3432,7 @@ const docTemplate = `{
                 "summary": "创建相册",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -3877,7 +3543,7 @@ const docTemplate = `{
             }
         },
         "/photoAlbum/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3895,28 +3561,13 @@ const docTemplate = `{
                 "summary": "分页获取相册列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -3975,52 +3626,13 @@ const docTemplate = `{
                 "summary": "查询相册",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "相册封面",
-                        "name": "album_cover",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "相册描述",
-                        "name": "album_desc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "相册名",
-                        "name": "album_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否删除",
-                        "name": "is_delete",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "状态值 1公开 2私密",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.PhotoAlbum"
+                        }
                     }
                 ],
                 "responses": {
@@ -4064,7 +3676,7 @@ const docTemplate = `{
                 "summary": "更新相册",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4095,6 +3707,82 @@ const docTemplate = `{
                 }
             }
         },
+        "/register": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "注册",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/email": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "发送注册邮件",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserEmail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/role/create": {
             "post": {
                 "security": [
@@ -4114,7 +3802,7 @@ const docTemplate = `{
                 "summary": "创建角色",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4225,7 +3913,7 @@ const docTemplate = `{
             }
         },
         "/role/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4243,28 +3931,13 @@ const docTemplate = `{
                 "summary": "分页获取角色列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -4323,58 +3996,13 @@ const docTemplate = `{
                 "summary": "查询角色",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "主键id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否默认角色 0否 1是",
-                        "name": "is_default",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否禁用  0否 1是",
-                        "name": "is_disable",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "角色备注",
-                        "name": "role_comment",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "角色域",
-                        "name": "role_domain",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "角色名",
-                        "name": "role_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "父角色id",
-                        "name": "role_pid",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Role"
+                        }
                     }
                 ],
                 "responses": {
@@ -4418,7 +4046,7 @@ const docTemplate = `{
                 "summary": "更新角色",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4468,7 +4096,7 @@ const docTemplate = `{
                 "summary": "创建文章标签",
                 "parameters": [
                     {
-                        "description": "创建文章标签",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4518,7 +4146,7 @@ const docTemplate = `{
                 "summary": "删除文章标签",
                 "parameters": [
                     {
-                        "description": "删除文章标签",
+                        "description": "请求body",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4556,7 +4184,7 @@ const docTemplate = `{
                 "summary": "批量删除文章标签",
                 "parameters": [
                     {
-                        "description": "批量删除文章标签",
+                        "description": "删除id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4578,72 +4206,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/tag/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tag"
-                ],
-                "summary": "用id查询文章标签",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "标签名",
-                        "name": "tag_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Tag"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/tag/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4661,28 +4225,13 @@ const docTemplate = `{
                 "summary": "分页获取文章标签列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -4722,6 +4271,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/tag/query": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "查询文章标签",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Tag"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/tag/update": {
             "put": {
                 "security": [
@@ -4741,7 +4340,7 @@ const docTemplate = `{
                 "summary": "更新文章标签",
                 "parameters": [
                     {
-                        "description": "更新文章标签",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4791,7 +4390,7 @@ const docTemplate = `{
                 "summary": "创建说说",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -4902,7 +4501,7 @@ const docTemplate = `{
             }
         },
         "/talk/list": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4920,28 +4519,13 @@ const docTemplate = `{
                 "summary": "分页获取说说列表",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "排序关键词",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "排序 asc|desc",
-                        "name": "order_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "页码",
+                        "description": "分页参数",
                         "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页大小",
-                        "name": "page_size",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
                     }
                 ],
                 "responses": {
@@ -5000,52 +4584,13 @@ const docTemplate = `{
                 "summary": "查询说说",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "说说内容",
-                        "name": "content",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "创建时间",
-                        "name": "created_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "说说id",
-                        "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "图片",
-                        "name": "images",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "是否置顶",
-                        "name": "is_top",
-                        "in": "query"
-                    },
-                    {
-                        "type": "boolean",
-                        "description": "状态 1.公开 2.私密",
-                        "name": "status",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "更新时间",
-                        "name": "updated_at",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "用户id",
-                        "name": "user_id",
-                        "in": "query"
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Talk"
+                        }
                     }
                 ],
                 "responses": {
@@ -5089,7 +4634,7 @@ const docTemplate = `{
                 "summary": "更新说说",
                 "parameters": [
                     {
-                        "description": "请求body",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -5136,18 +4681,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "获取用户资源",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
+                "summary": "获取用户接口权限",
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -5175,72 +4709,11 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "获取用户信息",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/login": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "登录",
-                "parameters": [
-                    {
-                        "description": "创建权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -5265,12 +4738,12 @@ const docTemplate = `{
                 "summary": "获取用户登录历史",
                 "parameters": [
                     {
-                        "description": "请求数据",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.User"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -5279,94 +4752,6 @@ const docTemplate = `{
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/logoff": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "注销",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/logout": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "登出",
-                "parameters": [
-                    {
-                        "description": "创建权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -5388,123 +4773,12 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "获取用户菜单",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
+                "summary": "获取用户菜单权限",
                 "responses": {
                     "200": {
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/oauth/login": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "获取授权地址",
-                "parameters": [
-                    {
-                        "description": "请求body信息",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.OauthLoginReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/response.OauthLoginUrl"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/user/oauth/url": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "获取授权地址",
-                "parameters": [
-                    {
-                        "description": "请求body信息",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.OauthLoginReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/response.OauthLoginUrl"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -5529,12 +4803,12 @@ const docTemplate = `{
                 "summary": "发送忘记密码邮件",
                 "parameters": [
                     {
-                        "description": "创建权限认证",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Auth"
+                            "$ref": "#/definitions/request.UserEmail"
                         }
                     }
                 ],
@@ -5542,19 +4816,7 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -5579,62 +4841,12 @@ const docTemplate = `{
                 "summary": "重置密码",
                 "parameters": [
                     {
-                        "description": "创建权限认证",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/user/register": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "注册",
-                "parameters": [
-                    {
-                        "description": "删除权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
+                            "$ref": "#/definitions/request.ResetPasswordReq"
                         }
                     }
                 ],
@@ -5648,42 +4860,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/register/email": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
+        "/ws": {
+            "get": {
                 "tags": [
-                    "Auth"
+                    "Blog"
                 ],
-                "summary": "发送注册邮件",
-                "parameters": [
-                    {
-                        "description": "删除权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
+                "summary": "查询聊天记录",
+                "responses": {}
             }
         }
     },
@@ -5789,15 +4972,6 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.Auth": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "ID",
-                    "type": "integer"
-                }
-            }
-        },
         "entity.Category": {
             "type": "object",
             "properties": {
@@ -5815,6 +4989,51 @@ const docTemplate = `{
                 "updated_at": {
                     "description": "更新时间",
                     "type": "string"
+                }
+            }
+        },
+        "entity.ChatRecord": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "content": {
+                    "description": "聊天内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键",
+                    "type": "integer"
+                },
+                "ip_address": {
+                    "description": "ip地址",
+                    "type": "string"
+                },
+                "ip_source": {
+                    "description": "ip来源",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "integer"
                 }
             }
         },
@@ -6186,15 +5405,6 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.User": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "ID",
-                    "type": "integer"
-                }
-            }
-        },
         "entity.UserAccount": {
             "type": "object",
             "properties": {
@@ -6341,6 +5551,23 @@ const docTemplate = `{
                 }
             }
         },
+        "request.ResetPasswordReq": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": ""
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin@qq.com"
+                }
+            }
+        },
         "request.UpdateUserRoles": {
             "type": "object",
             "properties": {
@@ -6352,6 +5579,32 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "request.User": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": ""
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin@qq.com"
+                }
+            }
+        },
+        "request.UserEmail": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "example": "admin@qq.com"
                 }
             }
         },

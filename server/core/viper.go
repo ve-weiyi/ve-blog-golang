@@ -3,15 +3,16 @@ package core
 import (
 	"flag"
 	"fmt"
-	"github.com/fsnotify/fsnotify"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
-	"github.com/ve-weiyi/ve-admin-store/server/core/internal"
 	"log"
 	"os"
 
-	"github.com/ve-weiyi/ve-admin-store/server/global"
-	_ "github.com/ve-weiyi/ve-admin-store/server/packfile"
+	"github.com/fsnotify/fsnotify"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/core/internal"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	_ "github.com/ve-weiyi/ve-blog-golang/server/packfile"
 )
 
 // Viper //
