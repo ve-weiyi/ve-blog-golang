@@ -6,13 +6,14 @@ import (
 )
 
 type AppRouter struct {
-	svcCtx           *svc.RouterContext //持有的controller引用
-	BlogRouter       *logic.BlogRouter  //博客
-	AuthRouter       *logic.AuthRouter  //权限认证
-	UserRouter       *logic.UserRouter  //权限认证
-	ApiRouter        *logic.ApiRouter
-	MenuRouter       *logic.MenuRouter //菜单
-	RoleRouter       *logic.RoleRouter
+	svcCtx           *svc.RouterContext      //持有的controller引用
+	BlogRouter       *logic.BlogRouter       //博客
+	AuthRouter       *logic.AuthRouter       //权限认证
+	AdminRouter      *logic.AdminRouter      //管理员
+	UserRouter       *logic.UserRouter       //用户
+	ApiRouter        *logic.ApiRouter        //api
+	MenuRouter       *logic.MenuRouter       //菜单
+	RoleRouter       *logic.RoleRouter       //角色
 	ArticleRouter    *logic.ArticleRouter    //文章
 	CategoryRouter   *logic.CategoryRouter   //文章分类
 	FriendLinkRouter *logic.FriendLinkRouter //文章分类
@@ -31,6 +32,7 @@ func NewRouter(svcCtx *svc.RouterContext) *AppRouter {
 		svcCtx:           svcCtx,
 		BlogRouter:       logic.NewBlogRouter(svcCtx),
 		AuthRouter:       logic.NewAuthRouter(svcCtx),
+		AdminRouter:      logic.NewAdminRouter(svcCtx),
 		UserRouter:       logic.NewUserRouter(svcCtx),
 		ApiRouter:        logic.NewApiRouter(svcCtx),
 		MenuRouter:       logic.NewMenuRouter(svcCtx),

@@ -25,9 +25,9 @@ func NewAuthController(svcCtx *svc.ControllerContext) *AuthController {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Auth							true	"创建权限认证"
-// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
-// @Router		/user/login [post]
+// @Param		data	body		request.User		true	"创建权限认证"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/login [post]
 func (s *AuthController) Login(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -56,9 +56,8 @@ func (s *AuthController) Login(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Auth							true	"创建权限认证"
-// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
-// @Router		/user/logout [get]
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/logout [get]
 func (s *AuthController) Logout(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -81,9 +80,8 @@ func (s *AuthController) Logout(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Auth			true	"请求body"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/user/logoff [post]
+// @Router		/logoff [post]
 func (s *AuthController) Logoff(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -105,9 +103,9 @@ func (s *AuthController) Logoff(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Auth			true	"删除权限认证"
+// @Param		data	body		request.User		true	"请求body"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/user/register [post]
+// @Router		/register [post]
 func (s *AuthController) Register(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -132,46 +130,13 @@ func (s *AuthController) Register(c *gin.Context) {
 }
 
 // @Tags		Auth
-// @Summary		重置密码
+// @Summary		发送注册邮件
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Auth							true	"创建权限认证"
-// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
-// @Router		/user/password/reset [post]
-func (s *AuthController) ResetPassword(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var user request.ResetPasswordReq
-	err = s.ShouldBind(c, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.AuthService.ResetPassword(reqCtx, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// Register
-//
-//	@Tags		Auth
-//	@Summary		发送注册邮件
-//	@Security	ApiKeyAuth
-//	@accept		application/json
-//	@Produce	application/json
-//	@Param		data	body		entity.Auth			true	"删除权限认证"
-//	@Success	200		{object}	response.Response{}	"返回信息"
-//	@Router		/user/register/email [post]
+// @Param		data	body		request.UserEmail	true	"请求body"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/register/email [post]
 func (s *AuthController) RegisterEmail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -196,44 +161,13 @@ func (s *AuthController) RegisterEmail(c *gin.Context) {
 }
 
 // @Tags		Auth
-// @Summary		发送忘记密码邮件
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		entity.Auth							true	"创建权限认证"
-// @Success		200		{object}	response.Response{data=entity.Auth}	"返回信息"
-// @Router		/user/password/forget [post]
-func (s *AuthController) ForgetPasswordEmail(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var user request.UserEmail
-	err = s.ShouldBind(c, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.AuthService.SendForgetPwdEmail(reqCtx, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		Auth
 // @Summary		获取授权地址
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.OauthLoginReq							true	"请求body信息"
+// @Param		data	body		request.OauthLoginReq							true	"请求body"
 // @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
-// @Router		/user/oauth/login [post]
+// @Router		/oauth/login [post]
 func (s *AuthController) OauthLogin(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -262,9 +196,9 @@ func (s *AuthController) OauthLogin(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.OauthLoginReq							true	"请求body信息"
+// @Param		data	body		request.OauthLoginReq							true	"请求body"
 // @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
-// @Router		/user/oauth/url [post]
+// @Router		/oauth/url [post]
 func (s *AuthController) GetAuthorizeUrl(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

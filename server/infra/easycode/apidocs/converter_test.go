@@ -11,5 +11,5 @@ func TestSwagger(t *testing.T) {
 
 	converter.ReadSwagJSON(global.GetRuntimeRoot() + "/server/docs/swagger.json")
 
-	converter.toTypeScriptApis("./preview")
+	converter.toTypeScriptApis("./api")
 }

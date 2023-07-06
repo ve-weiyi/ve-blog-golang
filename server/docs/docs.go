@@ -78,17 +78,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Api"
+                    "Admin"
                 ],
                 "summary": "获取api列表",
                 "parameters": [
                     {
-                        "description": "创建api路由",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Api"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -104,7 +104,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Api"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.Api"
+                                            }
                                         }
                                     }
                                 }
@@ -128,17 +131,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Menu"
+                    "Admin"
                 ],
                 "summary": "获取菜单列表",
                 "parameters": [
                     {
-                        "description": "创建菜单",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Menu"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -154,7 +157,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Menu"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.Menu"
+                                            }
                                         }
                                     }
                                 }
@@ -228,7 +234,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "更新角色资源",
                 "parameters": [
@@ -278,17 +284,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "获取角色列表",
                 "parameters": [
                     {
-                        "description": "创建角色",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Role"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -304,7 +310,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/entity.Role"
+                                            }
                                         }
                                     }
                                 }
@@ -314,45 +323,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/user/list": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyUser": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "获取用户列表",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/user/update_roles": {
+        "/admin/update_roles": {
             "post": {
                 "security": [
                     {
@@ -366,7 +337,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "修改用户角色",
                 "parameters": [
@@ -402,7 +373,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/user/update_status": {
+        "/admin/update_status": {
             "post": {
                 "security": [
                     {
@@ -416,7 +387,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Role"
+                    "Admin"
                 ],
                 "summary": "修改用户状态",
                 "parameters": [
@@ -427,6 +398,44 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/entity.UserAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/users": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyUser": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "获取用户列表",
+                "parameters": [
+                    {
+                        "description": "分页参数",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -2430,6 +2439,98 @@ const docTemplate = `{
                 }
             }
         },
+        "/login": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "创建权限认证",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/logoff": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "注销",
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "登出",
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/menu/create": {
             "post": {
                 "security": [
@@ -2715,6 +2816,106 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.Menu"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/login": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "获取授权地址",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.OauthLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.OauthLoginUrl"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/oauth/url": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "获取授权地址",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.OauthLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.OauthLoginUrl"
                                         }
                                     }
                                 }
@@ -3601,6 +3802,82 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "注册",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/register/email": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "发送注册邮件",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserEmail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -4504,18 +4781,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "获取用户资源",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
+                "summary": "获取用户接口权限",
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -4543,72 +4809,11 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "获取用户信息",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/login": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "登录",
-                "parameters": [
-                    {
-                        "description": "创建权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -4633,12 +4838,12 @@ const docTemplate = `{
                 "summary": "获取用户登录历史",
                 "parameters": [
                     {
-                        "description": "请求数据",
-                        "name": "data",
+                        "description": "分页参数",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.User"
+                            "$ref": "#/definitions/request.PageInfo"
                         }
                     }
                 ],
@@ -4647,94 +4852,6 @@ const docTemplate = `{
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/logoff": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "注销",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/logout": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "登出",
-                "parameters": [
-                    {
-                        "description": "创建权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -4756,123 +4873,12 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "获取用户菜单",
-                "parameters": [
-                    {
-                        "description": "请求数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
+                "summary": "获取用户菜单权限",
                 "responses": {
                     "200": {
                         "description": "返回信息",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/oauth/login": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "获取授权地址",
-                "parameters": [
-                    {
-                        "description": "请求body信息",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.OauthLoginReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/response.OauthLoginUrl"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/user/oauth/url": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "获取授权地址",
-                "parameters": [
-                    {
-                        "description": "请求body信息",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.OauthLoginReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/response.OauthLoginUrl"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -4897,12 +4903,12 @@ const docTemplate = `{
                 "summary": "发送忘记密码邮件",
                 "parameters": [
                     {
-                        "description": "创建权限认证",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Auth"
+                            "$ref": "#/definitions/request.UserEmail"
                         }
                     }
                 ],
@@ -4910,19 +4916,7 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -4947,100 +4941,12 @@ const docTemplate = `{
                 "summary": "重置密码",
                 "parameters": [
                     {
-                        "description": "创建权限认证",
+                        "description": "请求参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Auth"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/user/register": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "注册",
-                "parameters": [
-                    {
-                        "description": "删除权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/register/email": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "发送注册邮件",
-                "parameters": [
-                    {
-                        "description": "删除权限认证",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Auth"
+                            "$ref": "#/definitions/request.ResetPasswordReq"
                         }
                     }
                 ],
@@ -5162,15 +5068,6 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "description": "作者",
-                    "type": "integer"
-                }
-            }
-        },
-        "entity.Auth": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "ID",
                     "type": "integer"
                 }
             }
@@ -5608,15 +5505,6 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.User": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "ID",
-                    "type": "integer"
-                }
-            }
-        },
         "entity.UserAccount": {
             "type": "object",
             "properties": {
@@ -5763,6 +5651,23 @@ const docTemplate = `{
                 }
             }
         },
+        "request.ResetPasswordReq": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": ""
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin@qq.com"
+                }
+            }
+        },
         "request.UpdateUserRoles": {
             "type": "object",
             "properties": {
@@ -5774,6 +5679,32 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "request.User": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": ""
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin@qq.com"
+                }
+            }
+        },
+        "request.UserEmail": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "example": "admin@qq.com"
                 }
             }
         },

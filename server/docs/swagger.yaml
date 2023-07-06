@@ -74,12 +74,6 @@ definitions:
         description: 作者
         type: integer
     type: object
-  entity.Auth:
-    properties:
-      id:
-        description: ID
-        type: integer
-    type: object
   entity.Category:
     properties:
       category_name:
@@ -395,12 +389,6 @@ definitions:
         description: 用户id
         type: integer
     type: object
-  entity.User:
-    properties:
-      id:
-        description: ID
-        type: integer
-    type: object
   entity.UserAccount:
     properties:
       created_at:
@@ -506,6 +494,18 @@ definitions:
         description: 每页大小
         type: integer
     type: object
+  request.ResetPasswordReq:
+    properties:
+      code:
+        example: ""
+        type: string
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: admin@qq.com
+        type: string
+    type: object
   request.UpdateUserRoles:
     properties:
       role_ids:
@@ -514,6 +514,24 @@ definitions:
         type: array
       user_id:
         type: integer
+    type: object
+  request.User:
+    properties:
+      code:
+        example: ""
+        type: string
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: admin@qq.com
+        type: string
+    type: object
+  request.UserEmail:
+    properties:
+      username:
+        example: admin@qq.com
+        type: string
     type: object
   response.OauthLoginUrl:
     properties:
@@ -524,7 +542,7 @@ definitions:
     type: object
   response.PageResult:
     properties:
-      list: {}
+      list: { }
       page:
         type: integer
       pageSize:
@@ -580,12 +598,12 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 创建api路由
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Api'
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
       produces:
       - application/json
       responses:
@@ -596,24 +614,26 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/entity.Api'
+                  items:
+                    $ref: '#/definitions/entity.Api'
+                  type: array
               type: object
       security:
       - ApiKeyAuth: []
       summary: 获取api列表
       tags:
-      - Api
+        - Admin
   /admin/menus:
     post:
       consumes:
       - application/json
       parameters:
-      - description: 创建菜单
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Menu'
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
       produces:
       - application/json
       responses:
@@ -624,13 +644,15 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/entity.Menu'
+                  items:
+                    $ref: '#/definitions/entity.Menu'
+                  type: array
               type: object
       security:
       - ApiKeyAuth: []
       summary: 获取菜单列表
       tags:
-      - Menu
+        - Admin
   /admin/role/update_menus:
     post:
       consumes:
@@ -686,18 +708,18 @@ paths:
       - ApiKeyAuth: []
       summary: 更新角色资源
       tags:
-      - Role
+        - Admin
   /admin/roles:
     post:
       consumes:
       - application/json
       parameters:
-      - description: 创建角色
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Role'
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
       produces:
       - application/json
       responses:
@@ -705,50 +727,29 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/entity.Role'
+                    type: array
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 获取角色列表
       tags:
-      - Role
-  /admin/user/list:
+        - Admin
+  /admin/update_roles:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
+        - description: 请求数据
+          in: body
+          name: data
+          required: true
           schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - ApiKeyUser: []
-      summary: 获取用户列表
-      tags:
-      - User
-  /admin/user/update_roles:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.UpdateUserRoles'
+            $ref: '#/definitions/request.UpdateUserRoles'
       produces:
       - application/json
       responses:
@@ -756,39 +757,62 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Role'
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 修改用户角色
       tags:
-      - Role
-  /admin/user/update_status:
+        - Admin
+  /admin/update_status:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.UserAccount'
+        - description: 请求数据
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.UserAccount'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 修改用户状态
       tags:
-      - Role
+        - Admin
+  /admin/users:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyUser: [ ]
+      summary: 获取用户列表
+      tags:
+        - Admin
   /api/create:
     post:
       consumes:
@@ -1910,26 +1934,81 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.FriendLink'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.FriendLink'
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 更新友链
       tags:
-      - FriendLink
+        - FriendLink
+  /login:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 创建权限认证
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.User'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 登录
+      tags:
+        - Auth
+  /logoff:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 注销
+      tags:
+        - Auth
+  /logout:
+    get:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 登出
+      tags:
+        - Auth
   /menu/create:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: 请求body
-        in: body
-        name: data
-        required: true
-        schema:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
           $ref: '#/definitions/entity.Menu'
       produces:
       - application/json
@@ -2077,26 +2156,82 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Menu'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Menu'
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 更新菜单
       tags:
-      - Menu
+        - Menu
+  /oauth/login:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.OauthLoginReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/response.OauthLoginUrl'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 获取授权地址
+      tags:
+        - Auth
+  /oauth/url:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.OauthLoginReq'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/response.OauthLoginUrl'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 获取授权地址
+      tags:
+        - Auth
   /page/create:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: 创建页面
-        in: body
-        name: data
-        required: true
-        schema:
+        - description: 创建页面
+          in: body
+          name: data
+          required: true
+          schema:
           $ref: '#/definitions/entity.Page'
       produces:
       - application/json
@@ -2578,26 +2713,72 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.PhotoAlbum'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.PhotoAlbum'
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 更新相册
       tags:
-      - PhotoAlbum
+        - PhotoAlbum
+  /register:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.User'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 注册
+      tags:
+        - Auth
+  /register/email:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.UserEmail'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 发送注册邮件
+      tags:
+        - Auth
   /role/create:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - description: 请求body
-        in: body
-        name: data
-        required: true
-        schema:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
           $ref: '#/definitions/entity.Role'
       produces:
       - application/json
@@ -3093,13 +3274,6 @@ paths:
     post:
       consumes:
       - application/json
-      parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
       produces:
       - application/json
       responses:
@@ -3109,20 +3283,13 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - ApiKeyUser: []
-      summary: 获取用户资源
+      summary: 获取用户接口权限
       tags:
       - User
   /user/info:
     get:
       consumes:
       - application/json
-      parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
       produces:
       - application/json
       responses:
@@ -3135,45 +3302,17 @@ paths:
       summary: 获取用户信息
       tags:
       - User
-  /user/login:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 创建权限认证
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Auth'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 登录
-      tags:
-      - Auth
   /user/login_history:
     get:
       consumes:
       - application/json
       parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
       produces:
       - application/json
       responses:
@@ -3186,68 +3325,10 @@ paths:
       summary: 获取用户登录历史
       tags:
       - User
-  /user/logoff:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - ApiKeyAuth: []
-      summary: 注销
-      tags:
-      - Auth
-  /user/logout:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: 创建权限认证
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Auth'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 登出
-      tags:
-      - Auth
   /user/menus:
     post:
       consumes:
       - application/json
-      parameters:
-      - description: 请求数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
       produces:
       - application/json
       responses:
@@ -3257,88 +3338,27 @@ paths:
             $ref: '#/definitions/response.Response'
       security:
       - ApiKeyUser: []
-      summary: 获取用户菜单
+      summary: 获取用户菜单权限
       tags:
       - User
-  /user/oauth/login:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求body信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.OauthLoginReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.OauthLoginUrl'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 获取授权地址
-      tags:
-      - Auth
-  /user/oauth/url:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求body信息
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.OauthLoginReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.OauthLoginUrl'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 获取授权地址
-      tags:
-      - Auth
   /user/password/forget:
     post:
       consumes:
       - application/json
       parameters:
-      - description: 创建权限认证
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.UserEmail'
       produces:
       - application/json
       responses:
         "200":
           description: 返回信息
           schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Auth'
-              type: object
+            $ref: '#/definitions/response.Response'
       security:
       - ApiKeyAuth: []
       summary: 发送忘记密码邮件
@@ -3349,73 +3369,22 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 创建权限认证
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.ResetPasswordReq'
       produces:
       - application/json
       responses:
         "200":
           description: 返回信息
           schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Auth'
-              type: object
+            $ref: '#/definitions/response.Response'
       security:
       - ApiKeyAuth: []
       summary: 重置密码
-      tags:
-      - Auth
-  /user/register:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 删除权限认证
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - ApiKeyAuth: []
-      summary: 注册
-      tags:
-      - Auth
-  /user/register/email:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 删除权限认证
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Auth'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - ApiKeyAuth: []
-      summary: 发送注册邮件
       tags:
       - Auth
   /ws:

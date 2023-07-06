@@ -10,7 +10,7 @@ type AppController struct {
 	BlogController       *logic.BlogController       //博客
 	AuthController       *logic.AuthController       //登录权限认证
 	UserController       *logic.UserController       //用户登录注册
-	RbacController       *logic.RBACController       //rbac权限认证
+	AdminController      *logic.AdminController      //管理员
 	ApiController        *logic.ApiController        //api路由
 	MenuController       *logic.MenuController       //菜单
 	RoleController       *logic.RoleController       //角色
@@ -32,7 +32,7 @@ func NewController(svcCtx *svc.ControllerContext) *AppController {
 		svcCtx:               svcCtx,
 		BlogController:       logic.NewBlogController(svcCtx),
 		AuthController:       logic.NewAuthController(svcCtx),
-		RbacController:       logic.NewRBACController(svcCtx),
+		AdminController:      logic.NewAdminController(svcCtx),
 		UserController:       logic.NewUserController(svcCtx),
 		ApiController:        logic.NewApiController(svcCtx),
 		MenuController:       logic.NewMenuController(svcCtx),

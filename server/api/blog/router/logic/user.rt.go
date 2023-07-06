@@ -32,11 +32,6 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.GET("user/info", self.GetUserinfo)              // 用户信息
 		loginRouter.GET("user/login_history", self.GetLoginHistory) // 用户信息
 		loginRouter.GET("user/menus", self.GetUserMenus)            // 用户菜单
-		loginRouter.GET("user/resources", self.GetUserResources)    // 用户资源
-
-		roleRouter.GET("user/list", self.GetUserList) // 用户信息
-
-		traceRouter.POST("user/update_roles", self.UpdateUserRoles)   // 用户信息
-		traceRouter.POST("user/update_status", self.UpdateUserStatus) // 用户信息
+		loginRouter.GET("user/resources", self.GetUserApis)         // 用户资源
 	}
 }

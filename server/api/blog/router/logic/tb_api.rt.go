@@ -31,8 +31,4 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 		publicRouter.DELETE("api/deleteByIds", handler.DeleteApiByIds) // 批量删除Api列表
 		publicRouter.POST("api/list", handler.FindApiList)             // 分页查询Api列表
 	}
-
-	{
-		loginRouter.GET("apis", handler.GetApiTreeList) // 获取Api列表
-	}
 }
