@@ -21,14 +21,14 @@ func NewFriendLinkController(ctx *svc.ControllerContext) *FriendLinkController {
 	}
 }
 
-// @Tags		FriendLink
-// @Summary	创建友链
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.FriendLink							true	"请求body"
-// @Success	200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router		/friendLink/create [post]
+//	@Tags		FriendLink
+//	@Summary	创建友链
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.FriendLink							true	"请求body"
+//	@Success	200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
+//	@Router		/friendLink/create [post]
 func (s *FriendLinkController) CreateFriendLink(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,14 +52,14 @@ func (s *FriendLinkController) CreateFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		FriendLink
-// @Summary	删除友链
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.FriendLink	true	"请求body"
-// @Success	200		{object}	response.Response{}	"返回信息"
-// @Router		/friendLink/delete [delete]
+//	@Tags		FriendLink
+//	@Summary	删除友链
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.FriendLink	true	"请求body"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/friendLink/delete [delete]
 func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -83,14 +83,14 @@ func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		FriendLink
-// @Summary	更新友链
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.FriendLink							true	"请求body"
-// @Success	200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router		/friendLink/update [put]
+//	@Tags		FriendLink
+//	@Summary	更新友链
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.FriendLink							true	"请求body"
+//	@Success	200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
+//	@Router		/friendLink/update [put]
 func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -114,14 +114,14 @@ func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		FriendLink
-// @Summary	查询友链
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.FriendLink							true	"请求body"
-// @Success	200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router		/friendLink/query [get]
+//	@Tags		FriendLink
+//	@Summary	查询友链
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.FriendLink							true	"请求body"
+//	@Success	200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
+//	@Router		/friendLink/query [get]
 func (s *FriendLinkController) GetFriendLink(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -145,14 +145,14 @@ func (s *FriendLinkController) GetFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		FriendLink
-// @Summary	批量删除友链
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		[]int				true	"删除id列表"
-// @Success	200		{object}	response.Response{}	"返回信息"
-// @Router		/friendLink/deleteByIds [delete]
+//	@Tags		FriendLink
+//	@Summary	批量删除友链
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		[]int				true	"删除id列表"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/friendLink/deleteByIds [delete]
 func (s *FriendLinkController) DeleteFriendLinkByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -176,14 +176,14 @@ func (s *FriendLinkController) DeleteFriendLinkByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		FriendLink
-// @Summary	分页获取友链列表
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		page	body		request.PageInfo														true	"分页参数"
-// @Success	200		{object}	response.Response{data=response.PageResult{list=[]entity.FriendLink}}	"返回信息"
-// @Router		/friendLink/list [get]
+//	@Tags		FriendLink
+//	@Summary	分页获取友链列表
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		page	body		request.PageInfo														true	"分页参数"
+//	@Success	200		{object}	response.Response{data=response.PageResult{list=[]entity.FriendLink}}	"返回信息"
+//	@Router		/friendLink/list [get]
 func (s *FriendLinkController) FindFriendLinkList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

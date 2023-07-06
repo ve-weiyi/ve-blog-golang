@@ -6,14 +6,14 @@ import (
 	"github.com/ve-weiyi/ve-admin-store/server/api/blog/model/response"
 )
 
-// @Tags		Menu
-// @Summary	获取菜单列表
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.Menu							true	"创建菜单"
-// @Success	200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/admin/menus [post]
+//	@Tags		Menu
+//	@Summary	获取菜单列表
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Menu							true	"创建菜单"
+//	@Success	200		{object}	response.Response{data=entity.Menu}	"返回信息"
+//	@Router		/admin/menus [post]
 func (s *MenuController) GetMenuTreeList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

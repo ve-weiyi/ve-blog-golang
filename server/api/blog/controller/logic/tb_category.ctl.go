@@ -21,14 +21,14 @@ func NewCategoryController(svcCtx *svc.ControllerContext) *CategoryController {
 	}
 }
 
-// @Tags		Category
-// @Summary	创建文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.Category							true	"创建文章分类"
-// @Success	200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category/create [post]
+//	@Tags		Category
+//	@Summary	创建文章分类
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Category							true	"创建文章分类"
+//	@Success	200		{object}	response.Response{data=entity.Category}	"返回信息"
+//	@Router		/category/create [post]
 func (s *CategoryController) CreateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,14 +52,14 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary	删除文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.Category		true	"删除文章分类"
-// @Success	200		{object}	response.Response{}	"返回信息"
-// @Router		/category/delete [delete]
+//	@Tags		Category
+//	@Summary	删除文章分类
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Category		true	"删除文章分类"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/category/delete [delete]
 func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -83,14 +83,14 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary	更新文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.Category							true	"更新文章分类"
-// @Success	200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category/update [put]
+//	@Tags		Category
+//	@Summary	更新文章分类
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Category							true	"更新文章分类"
+//	@Success	200		{object}	response.Response{data=entity.Category}	"返回信息"
+//	@Router		/category/update [put]
 func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -114,14 +114,14 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary	用id查询文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		entity.Category							true	"用id查询文章分类"
-// @Success	200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category/find [get]
+//	@Tags		Category
+//	@Summary	用id查询文章分类
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		entity.Category							true	"用id查询文章分类"
+//	@Success	200		{object}	response.Response{data=entity.Category}	"返回信息"
+//	@Router		/category/find [get]
 func (s *CategoryController) FindCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -145,14 +145,14 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary	批量删除文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		data	body		[]int				true	"批量删除文章分类"
-// @Success	200		{object}	response.Response{}	"返回信息"
-// @Router		/category/deleteByIds [delete]
+//	@Tags		Category
+//	@Summary	批量删除文章分类
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		[]int				true	"批量删除文章分类"
+//	@Success	200		{object}	response.Response{}	"返回信息"
+//	@Router		/category/deleteByIds [delete]
 func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -176,14 +176,14 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary	分页获取文章分类列表
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce	application/json
-// @Param		page	body		request.PageInfo													true	"分页获取文章分类列表"
-// @Success	200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
-// @Router		/category/list [get]
+//	@Tags		Category
+//	@Summary	分页获取文章分类列表
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		page	body		request.PageInfo													true	"分页获取文章分类列表"
+//	@Success	200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
+//	@Router		/category/list [get]
 func (s *CategoryController) GetCategoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
