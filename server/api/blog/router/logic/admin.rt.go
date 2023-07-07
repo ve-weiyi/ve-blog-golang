@@ -24,11 +24,16 @@ func (s *AdminRouter) InitAdminRouter(publicRouter *gin.RouterGroup, loginRouter
 	var handler = s.svcCtx.AppController.AdminController
 
 	{
-		loginRouter.GET("roles", handler.GetRoleTreeList)                      // 获取Role列表
-		loginRouter.POST("role/update_menus", handler.UpdateRoleMenus)         // 获取Role列表
-		loginRouter.POST("role/update_resources", handler.UpdateRoleResources) // 获取Role列表
+		loginRouter.POST("admin/roles", handler.GetRoleTreeList) // 获取Role列表
+		loginRouter.POST("admin/menus", handler.GetMenuTreeList) // 获取Menu列表
+		loginRouter.POST("admin/apis", handler.GetApiTreeList)   // 获取Api列表
+
+		loginRouter.POST("admin/role/update_menus", handler.UpdateRoleMenus)         // 获取Role列表
+		loginRouter.POST("admin/role/update_resources", handler.UpdateRoleResources) // 获取Role列表
 	}
 	{
-		loginRouter.GET("apis", handler.GetApiTreeList) // 获取Api列表
+		loginRouter.GET("admin/home", handler.GetHomeInfo)         // 获取首页信息
+		loginRouter.POST("admin/users", handler.GetUserList)       // 获取用户列表
+		loginRouter.POST("admin/user/areas", handler.GetUserAreas) // 获取用户地区
 	}
 }

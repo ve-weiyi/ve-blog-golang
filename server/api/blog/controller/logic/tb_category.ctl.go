@@ -22,7 +22,7 @@ func NewCategoryController(svcCtx *svc.ControllerContext) *CategoryController {
 	}
 }
 
-// @Tags		Category
+// @Tags		CategoryDTO
 // @Summary		创建文章分类
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -53,7 +53,7 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
+// @Tags		CategoryDTO
 // @Summary		删除文章分类
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -84,7 +84,7 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Category
+// @Tags 	 	CategoryDTO
 // @Summary		更新文章分类
 // @Security 	ApiKeyAuth
 // @accept 		application/json
@@ -115,7 +115,7 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Category
+// @Tags 	 	CategoryDTO
 // @Summary		查询文章分类
 // @Security 	ApiKeyAuth
 // @accept 		application/json
@@ -146,7 +146,7 @@ func (s *CategoryController) GetCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Category
+// @Tags 	 	CategoryDTO
 // @Summary		批量删除文章分类
 // @Security 	ApiKeyAuth
 // @accept 	 	application/json
@@ -177,7 +177,7 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Category
+// @Tags 	 	CategoryDTO
 // @Summary		分页获取文章分类列表
 // @Security 	ApiKeyAuth
 // @accept 		application/json

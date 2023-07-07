@@ -10,7 +10,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
@@ -339,14 +338,6 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 		Url: auth.GetRedirectUrl(req.State),
 	}
 	return resp, nil
-}
-
-func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
-	return &oauth.AuthConfig{
-		ClientID:     conf.ClientID,
-		ClientSecret: conf.ClientSecret,
-		RedirectUrl:  conf.RedirectUrl,
-	}
 }
 
 func (s *AuthService) generateToken(userId int) (token string, err error) {

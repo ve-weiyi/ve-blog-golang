@@ -2,7 +2,7 @@ package response
 
 import "time"
 
-type Category struct {
+type CategoryDTO struct {
 	ID           int       `json:"id"`
 	CategoryName string    `json:"category_name"` // 分类名
 	ArticleCount int64     `json:"article_count"`

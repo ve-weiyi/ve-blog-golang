@@ -3,6 +3,7 @@ package inject
 import (
 	"go/token"
 	"reflect"
+	"strconv"
 )
 
 func tokenToKind(t token.Token) reflect.Kind {
@@ -33,4 +34,27 @@ func kindToToken(k reflect.Kind) token.Token {
 	default:
 		return token.ILLEGAL
 	}
+}
+
+func inferType(str string) (interface{}, error) {
+	// 尝试将字符串解析为int
+	i, err := strconv.Atoi(str)
+	if err == nil {
+		return i, nil
+	}
+
+	// 尝试将字符串解析为float
+	f, err := strconv.ParseFloat(str, 64)
+	if err == nil {
+		return f, nil
+	}
+
+	// 尝试将字符串解析为带引号的string
+	s, err := strconv.Unquote(str)
+	if err == nil {
+		return s, nil
+	}
+
+	// 如果都不匹配，则返回原始字符串
+	return str, nil
 }

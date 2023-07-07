@@ -10,7 +10,6 @@ import (
 	"github.com/dave/dst/decorator"
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/go-sdk/utils/convert"
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
@@ -283,7 +282,7 @@ func %v(){
 						for _, arg := range callExpr.Args {
 							switch arg.(type) {
 							case *dst.BasicLit:
-								value, _ := convert.InferType(arg.(*dst.BasicLit).Value)
+								value, _ := inferType(arg.(*dst.BasicLit).Value)
 								parameters = append(parameters, value)
 							case *dst.Ident:
 								parameters = append(parameters, arg.(*dst.Ident).Name)
@@ -314,7 +313,7 @@ func %v(){
 					for _, arg := range callExpr.Args {
 						switch arg.(type) {
 						case *dst.BasicLit:
-							value, _ := convert.InferType(arg.(*dst.BasicLit).Value)
+							value, _ := inferType(arg.(*dst.BasicLit).Value)
 							parameters = append(parameters, value)
 						case *dst.Ident:
 							parameters = append(parameters, arg.(*dst.Ident).Name)

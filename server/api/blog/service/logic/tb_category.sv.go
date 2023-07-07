@@ -43,32 +43,31 @@ func (s *CategoryService) DeleteCategoryByIds(reqCtx *request.Context, ids []int
 }
 
 // 分页获取Category记录
-func (s *CategoryService) FindCategoryList(reqCtx *request.Context, page *request.PageInfo) (list []*response.Category, total int64, err error) {
-	categorys, total, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+func (s *CategoryService) FindCategoryList(reqCtx *request.Context, page *request.PageInfo) (list []*response.CategoryDTO, total int64, err error) {
+	categories, total, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	for _, item := range categorys {
+	// 查询分类下的文章数量
 
-		list = append(list, s.convertCategoryResponse(item))
+	for _, in := range categories {
+
+		_, articleCount, err := s.svcCtx.ArticleRepository.GetArticleListByCategoryId(in.ID)
+		if err != nil {
+			return nil, 0, err
+		}
+
+		out := &response.CategoryDTO{
+			ID:           in.ID,
+			CategoryName: in.CategoryName,
+			ArticleCount: articleCount,
+			CreatedAt:    in.CreatedAt,
+			UpdatedAt:    in.UpdatedAt,
+		}
+
+		list = append(list, out)
 	}
 
 	return list, total, err
-}
-
-func (s *CategoryService) convertCategoryResponse(in *entity.Category) *response.Category {
-	_, articleCount, err := s.svcCtx.ArticleRepository.GetArticleListByCategoryId(in.ID)
-	if err != nil {
-		return nil
-	}
-	out := &response.Category{
-		ID:           in.ID,
-		CategoryName: in.CategoryName,
-		ArticleCount: articleCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
-	}
-
-	return out
 }
