@@ -108,13 +108,3 @@ func (s *UserLoginHistoryRepository) FindUserLoginHistoryList(ctx context.Contex
 
 	return list, total, nil
 }
-
-// 根据id获取UserLoginHistory记录
-func (s *UserLoginHistoryRepository) FindLastLoginHistoryBuUID(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
-	db := s.DbEngin
-	err = db.Where("user_id = ?", uid).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}

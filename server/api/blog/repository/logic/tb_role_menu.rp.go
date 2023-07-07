@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"fmt"
+	"context"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -24,7 +24,7 @@ func NewRoleMenuRepository(svcCtx *svc.RepositoryContext) *RoleMenuRepository {
 }
 
 // 创建RoleMenu记录
-func (s *RoleMenuRepository) CreateRoleMenu(roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
+func (s *RoleMenuRepository) CreateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
 	db := s.DbEngin
 	err = db.Create(&roleMenu).Error
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *RoleMenuRepository) CreateRoleMenu(roleMenu *entity.RoleMenu) (out *ent
 }
 
 // 删除RoleMenu记录
-func (s *RoleMenuRepository) DeleteRoleMenu(roleMenu *entity.RoleMenu) (rows int64, err error) {
+func (s *RoleMenuRepository) DeleteRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&roleMenu)
 	err = query.Error
@@ -43,7 +43,7 @@ func (s *RoleMenuRepository) DeleteRoleMenu(roleMenu *entity.RoleMenu) (rows int
 }
 
 // 更新RoleMenu记录
-func (s *RoleMenuRepository) UpdateRoleMenu(roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
+func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
 	db := s.DbEngin
 	err = db.Save(&roleMenu).Error
 	if err != nil {
@@ -52,8 +52,8 @@ func (s *RoleMenuRepository) UpdateRoleMenu(roleMenu *entity.RoleMenu) (out *ent
 	return roleMenu, err
 }
 
-// 根据id获取RoleMenu记录
-func (s *RoleMenuRepository) FindRoleMenu(id int) (out *entity.RoleMenu, err error) {
+// 查询RoleMenu记录
+func (s *RoleMenuRepository) GetRoleMenu(ctx context.Context, id int) (out *entity.RoleMenu, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -63,7 +63,7 @@ func (s *RoleMenuRepository) FindRoleMenu(id int) (out *entity.RoleMenu, err err
 }
 
 // 批量删除RoleMenu记录
-func (s *RoleMenuRepository) DeleteRoleMenuByIds(ids []int) (rows int64, err error) {
+func (s *RoleMenuRepository) DeleteRoleMenuByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.RoleMenu{}, "id in ?", ids)
 	err = query.Error
@@ -71,27 +71,40 @@ func (s *RoleMenuRepository) DeleteRoleMenuByIds(ids []int) (rows int64, err err
 	return rows, err
 }
 
-// 分页获取RoleMenu记录
-func (s *RoleMenuRepository) GetRoleMenuList(page *request.PageInfo) (list []*entity.RoleMenu, total int64, err error) {
-	limit := page.Limit()
-	offset := page.Offset()
+// 分页查询RoleMenu记录
+func (s *RoleMenuRepository) FindRoleMenuList(ctx context.Context, page *request.PageInfo) (list []*entity.RoleMenu, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
-	var roleMenus []*entity.RoleMenu
-	// 如果有条件搜索 下方会自动创建搜索语句
-	if page.Order != "" && page.OrderKey != "" {
-		db = db.Order(fmt.Sprintf("`%v` %v", page.Order, page.OrderKey))
+
+	// 如果有搜索条件
+	if len(page.Conditions) != 0 {
+		query, args := page.WhereClause()
+		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&roleMenus).Count(&total).Error
+	// 如果有排序参数
+	if len(page.Orders) != 0 {
+		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	err = db.Limit(limit).Offset(offset).Find(&roleMenus).Error
+	// 如果有分页参数
+	if page.Page != 0 || page.PageSize != 0 {
+		limit := page.Limit()
+		offset := page.Offset()
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	return roleMenus, total, nil
+	return list, total, nil
 }

@@ -263,30 +263,6 @@ func (g *Generator) GetTemplateDatas() []*plate.AutoCodeStructData {
 	return g.plateData
 }
 
-func (g *Generator) generateModelFile() error {
-
-	for _, item := range g.plateMetas {
-		if _, ok := g.cfg.IgnoreMap[item.Key]; ok {
-			continue
-		}
-		err := item.CreateTempFile()
-		if err != nil {
-			g.Logger.Printf("%v:%v", item.AutoCodePath, err)
-		}
-	}
-
-	for _, item := range g.InjectMetas {
-		if _, ok := g.cfg.IgnoreMap[item.Key]; ok {
-			continue
-		}
-		err := item.Inject()
-		if err != nil {
-			g.Logger.Println(err)
-		}
-	}
-	return nil
-}
-
 func (g *Generator) GenerateCommonFile(tableName string, tableComment string) error {
 	db := g.cfg.db
 	dbName := db.Migrator().CurrentDatabase()
@@ -363,8 +339,35 @@ func (g *Generator) GenerateCommonFile(tableName string, tableComment string) er
 	return nil
 }
 
+func (g *Generator) generateModelFile() error {
+
+	for _, item := range g.plateMetas {
+		if _, ok := g.cfg.GenerateMap[item.Key]; !ok {
+			continue
+		}
+		err := item.CreateTempFile()
+		if err != nil {
+			g.Logger.Printf("%v:%v", item.AutoCodePath, err)
+		}
+	}
+
+	for _, item := range g.InjectMetas {
+		if _, ok := g.cfg.GenerateMap[item.Key]; !ok {
+			continue
+		}
+		err := item.Inject()
+		if err != nil {
+			g.Logger.Println(err)
+		}
+	}
+	return nil
+}
+
 func (g *Generator) rollback() error {
 	for _, item := range g.plateMetas {
+		if _, ok := g.cfg.GenerateMap[item.Key]; !ok {
+			continue
+		}
 		err := item.RollBack()
 		if err != nil {
 			return err
@@ -372,6 +375,9 @@ func (g *Generator) rollback() error {
 	}
 
 	for _, item := range g.InjectMetas {
+		if _, ok := g.cfg.GenerateMap[item.Key]; !ok {
+			continue
+		}
 		err := item.RollBack()
 		if err != nil {
 			return err

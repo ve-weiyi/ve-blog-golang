@@ -11,49 +11,49 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
-type UserRoleRepository struct {
+type MessageRepository struct {
 	DbEngin *gorm.DB
 	Cache   *redis.Client
 }
 
-func NewUserRoleRepository(svcCtx *svc.RepositoryContext) *UserRoleRepository {
-	return &UserRoleRepository{
+func NewMessageRepository(svcCtx *svc.RepositoryContext) *MessageRepository {
+	return &MessageRepository{
 		DbEngin: svcCtx.DbEngin,
 		Cache:   svcCtx.Cache,
 	}
 }
 
-// 创建UserRole记录
-func (s *UserRoleRepository) CreateUserRole(ctx context.Context, userRole *entity.UserRole) (out *entity.UserRole, err error) {
+// 创建Message记录
+func (s *MessageRepository) CreateMessage(ctx context.Context, message *entity.Message) (out *entity.Message, err error) {
 	db := s.DbEngin
-	err = db.Create(&userRole).Error
+	err = db.Create(&message).Error
 	if err != nil {
 		return nil, err
 	}
-	return userRole, err
+	return message, err
 }
 
-// 删除UserRole记录
-func (s *UserRoleRepository) DeleteUserRole(ctx context.Context, userRole *entity.UserRole) (rows int64, err error) {
+// 删除Message记录
+func (s *MessageRepository) DeleteMessage(ctx context.Context, message *entity.Message) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&userRole)
+	query := db.Delete(&message)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err
 }
 
-// 更新UserRole记录
-func (s *UserRoleRepository) UpdateUserRole(ctx context.Context, userRole *entity.UserRole) (out *entity.UserRole, err error) {
+// 更新Message记录
+func (s *MessageRepository) UpdateMessage(ctx context.Context, message *entity.Message) (out *entity.Message, err error) {
 	db := s.DbEngin
-	err = db.Save(&userRole).Error
+	err = db.Save(&message).Error
 	if err != nil {
 		return nil, err
 	}
-	return userRole, err
+	return message, err
 }
 
-// 查询UserRole记录
-func (s *UserRoleRepository) GetUserRole(ctx context.Context, id int) (out *entity.UserRole, err error) {
+// 查询Message记录
+func (s *MessageRepository) GetMessage(ctx context.Context, id int) (out *entity.Message, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -62,17 +62,17 @@ func (s *UserRoleRepository) GetUserRole(ctx context.Context, id int) (out *enti
 	return out, err
 }
 
-// 批量删除UserRole记录
-func (s *UserRoleRepository) DeleteUserRoleByIds(ctx context.Context, ids []int) (rows int64, err error) {
+// 批量删除Message记录
+func (s *MessageRepository) DeleteMessageByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.UserRole{}, "id in ?", ids)
+	query := db.Delete(&[]entity.Message{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err
 }
 
-// 分页查询UserRole记录
-func (s *UserRoleRepository) FindUserRoleList(ctx context.Context, page *request.PageInfo) (list []*entity.UserRole, total int64, err error) {
+// 分页查询Message记录
+func (s *MessageRepository) FindMessageList(ctx context.Context, page *request.PageInfo) (list []*entity.Message, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

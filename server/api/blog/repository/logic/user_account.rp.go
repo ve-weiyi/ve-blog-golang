@@ -153,15 +153,36 @@ func (s *UserAccountRepository) LoadUserByUsername(username string) (data *entit
 	return data, nil
 }
 
-func (s *UserAccountRepository) GetUserDetails(userid string) (data *entity.UserInformation, err error) {
+// 根据条件获取UserOauth记录
+func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform string) (out *entity.UserOauth, err error) {
+	db := s.DbEngin
+	err = db.Where("open_id = ? and platform = ?", openId, platform).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
+// 查询用户信息
+func (s *UserAccountRepository) GetUserinfo(userId int) (out *entity.UserInformation, err error) {
 	// 创建db
 	db := s.DbEngin
 
 	//查询用户信息
-	err = db.Where("user_id = ?", userid).First(&data).Error
+	err = db.Where("user_id = ?", userId).First(&out).Error
 	if err != nil {
 		return nil, err
 	}
 
-	return data, nil
+	return out, nil
+}
+
+// 根据id获取UserLoginHistory记录
+func (s *UserAccountRepository) GetLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
+	db := s.DbEngin
+	err = db.Where("user_id = ?", uid).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
 }

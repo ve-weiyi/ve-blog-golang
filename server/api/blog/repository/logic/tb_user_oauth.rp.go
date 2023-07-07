@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
@@ -22,7 +24,7 @@ func NewUserOauthRepository(svcCtx *svc.RepositoryContext) *UserOauthRepository 
 }
 
 // 创建UserOauth记录
-func (s *UserOauthRepository) CreateUserOauth(userOauth *entity.UserOauth) (out *entity.UserOauth, err error) {
+func (s *UserOauthRepository) CreateUserOauth(ctx context.Context, userOauth *entity.UserOauth) (out *entity.UserOauth, err error) {
 	db := s.DbEngin
 	err = db.Create(&userOauth).Error
 	if err != nil {
@@ -32,7 +34,7 @@ func (s *UserOauthRepository) CreateUserOauth(userOauth *entity.UserOauth) (out 
 }
 
 // 删除UserOauth记录
-func (s *UserOauthRepository) DeleteUserOauth(userOauth *entity.UserOauth) (rows int64, err error) {
+func (s *UserOauthRepository) DeleteUserOauth(ctx context.Context, userOauth *entity.UserOauth) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&userOauth)
 	err = query.Error
@@ -41,7 +43,7 @@ func (s *UserOauthRepository) DeleteUserOauth(userOauth *entity.UserOauth) (rows
 }
 
 // 更新UserOauth记录
-func (s *UserOauthRepository) UpdateUserOauth(userOauth *entity.UserOauth) (out *entity.UserOauth, err error) {
+func (s *UserOauthRepository) UpdateUserOauth(ctx context.Context, userOauth *entity.UserOauth) (out *entity.UserOauth, err error) {
 	db := s.DbEngin
 	err = db.Save(&userOauth).Error
 	if err != nil {
@@ -50,8 +52,8 @@ func (s *UserOauthRepository) UpdateUserOauth(userOauth *entity.UserOauth) (out 
 	return userOauth, err
 }
 
-// 根据id获取UserOauth记录
-func (s *UserOauthRepository) FindUserOauth(id int) (out *entity.UserOauth, err error) {
+// 查询UserOauth记录
+func (s *UserOauthRepository) GetUserOauth(ctx context.Context, id int) (out *entity.UserOauth, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -61,7 +63,7 @@ func (s *UserOauthRepository) FindUserOauth(id int) (out *entity.UserOauth, err 
 }
 
 // 批量删除UserOauth记录
-func (s *UserOauthRepository) DeleteUserOauthByIds(ids []int) (rows int64, err error) {
+func (s *UserOauthRepository) DeleteUserOauthByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.UserOauth{}, "id in ?", ids)
 	err = query.Error
@@ -69,10 +71,11 @@ func (s *UserOauthRepository) DeleteUserOauthByIds(ids []int) (rows int64, err e
 	return rows, err
 }
 
-// 分页获取UserOauth记录
-func (s *UserOauthRepository) GetUserOauthList(page *request.PageInfo) (list []*entity.UserOauth, total int64, err error) {
+// 分页查询UserOauth记录
+func (s *UserOauthRepository) FindUserOauthList(ctx context.Context, page *request.PageInfo) (list []*entity.UserOauth, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
+
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {
 		query, args := page.WhereClause()
@@ -80,8 +83,14 @@ func (s *UserOauthRepository) GetUserOauthList(page *request.PageInfo) (list []*
 	}
 
 	// 如果有排序参数
-	if page.Order != "" && page.OrderKey != "" {
+	if len(page.Orders) != 0 {
 		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
+	if err != nil {
+		return nil, 0, err
 	}
 
 	// 如果有分页参数
@@ -97,21 +106,5 @@ func (s *UserOauthRepository) GetUserOauthList(page *request.PageInfo) (list []*
 		return nil, 0, err
 	}
 
-	// 查询表记录总数
-	err = db.Model(&list).Count(&total).Error
-	if err != nil {
-		return nil, 0, err
-	}
-
 	return list, total, nil
-}
-
-// 根据条件获取UserOauth记录
-func (s *UserOauthRepository) FindUserOauthByOpenid(openId string, platform string) (out *entity.UserOauth, err error) {
-	db := s.DbEngin
-	err = db.Where("open_id = ? and platform = ?", openId, platform).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
 }

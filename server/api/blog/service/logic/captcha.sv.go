@@ -32,7 +32,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 		return nil, codes.ErrorUserNotExist
 	}
 
-	userinfo, err := s.svcCtx.UserInformationRepository.FindUserinfoByUID(account.ID)
+	userinfo, err := s.svcCtx.UserAccountRepository.GetUserinfo(account.ID)
 	if err != nil {
 		return nil, codes.ErrorUserNotExist
 	}

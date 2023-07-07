@@ -33,6 +33,7 @@ type AppRepository struct {
 	ChatRecordRepository       *logic.ChatRecordRepository       //聊天记录
 	UniqueViewRepository       *logic.UniqueViewRepository       //页面访问数量
 	OperationLogRepository     *logic.OperationLogRepository     //操作记录
+	MessageRepository          *logic.MessageRepository          //message
 }
 
 func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
@@ -63,5 +64,6 @@ func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
 		ChatRecordRepository:       logic.NewChatRecordRepository(svcCtx),
 		UniqueViewRepository:       logic.NewUniqueViewRepository(svcCtx),
 		OperationLogRepository:     logic.NewOperationLogRepository(svcCtx),
+		MessageRepository:          logic.NewMessageRepository(svcCtx),
 	}
 }

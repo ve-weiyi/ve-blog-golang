@@ -11,6 +11,7 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 )
 
@@ -50,10 +51,10 @@ func TestPlate(t *testing.T) {
 		OutFileNS: func(tableName string) (fileName string) {
 			return fmt.Sprintf("tb_%v", tableName)
 		},
-		IgnoreMap: map[string]string{
+		GenerateMap: map[string]string{
 			//tmpl.KeyRouter:     "",
 			//tmpl.KeyController: "",
-			//tmpl.KeyService:    "",
+			tmpl.KeyService: "",
 			//tmpl.KeyRepository: "",
 			//tmpl.KeyModel:      "",
 		},
@@ -105,6 +106,6 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
 	//gen.GenerateCommonFile("upload", "文件上传")
 
-	//gen.RollBack()
+	gen.RollBack()
 	gen.Execute()
 }
