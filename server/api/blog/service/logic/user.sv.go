@@ -26,12 +26,12 @@ func (s *UserService) GetUserinfo(reqCtx *request.Context, userId int) (result *
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 
-	info, err := s.svcCtx.UserInformationRepository.FindUserinfoByUID(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.GetUserinfo(account.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	history, err := s.svcCtx.UserLoginHistoryRepository.FindLastLoginHistoryBuUID(reqCtx, account.ID)
+	history, err := s.svcCtx.UserAccountRepository.GetLastLoginHistory(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}

@@ -14,7 +14,7 @@ const TableNameUpload = "upload"
 // Upload mapped from table <upload>
 type Upload struct {
 	ID        int       `gorm:"column:id;type:bigint;primaryKey;autoIncrement:true;comment:id" json:"id"`                           // id
-	UserID    int       `gorm:"column:user_id;type:int;not null;uniqueIndex:idx_uid,priority:1;comment:用户id" json:"user_id"`        // 用户id
+	UserID    int       `gorm:"column:user_id;type:int;not null;index:idx_uid,priority:1;comment:用户id" json:"user_id"`              // 用户id
 	Label     string    `gorm:"column:label;type:varchar(128);not null;comment:标签" json:"label"`                                    // 标签
 	FileName  string    `gorm:"column:file_name;type:varchar(64);not null;comment:文件名称" json:"file_name"`                           // 文件名称
 	FileSize  int       `gorm:"column:file_size;type:int;not null;comment:文件大小" json:"file_size"`                                   // 文件大小

@@ -95,6 +95,10 @@ func (s *BlogController) WebSocket(c *gin.Context) {
 		if chat.Content == "" {
 			return
 		}
+		if reqCtx.UID != 0 {
+			chat.UserID = reqCtx.UID
+		}
+
 		_, err = s.svcCtx.ChatRecordService.CreateChatRecord(reqCtx, &chat)
 		if err != nil {
 			global.LOG.Error(err)

@@ -57,7 +57,7 @@ func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 	}
 
 	// 查询用户
-	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(&request.PageInfo{
+	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageInfo{
 		Conditions: []*request.Condition{{
 			Field: "id",
 			Rule:  "in",
@@ -121,7 +121,7 @@ func (s *CommentService) FindCommonReplyList(reqCtx *request.Context, commentId 
 	}
 
 	// 查询用户
-	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(&request.PageInfo{
+	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageInfo{
 		Conditions: []*request.Condition{{
 			Field: "id",
 			Rule:  "in",

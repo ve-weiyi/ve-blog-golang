@@ -45,7 +45,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	}
 
 	//获取用户信息
-	info, err := s.svcCtx.UserInformationRepository.FindUserinfoByUID(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.GetUserinfo(account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -271,7 +271,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	}
 
 	// 查询用户是否存在
-	userOauth, err := s.svcCtx.UserOauthRepository.FindUserOauthByOpenid(info.OpenID, req.Platform)
+	userOauth, err := s.svcCtx.UserAccountRepository.FindUserOauthByOpenid(info.OpenID, req.Platform)
 	if userOauth == nil {
 		// 用户未注册,先注册用户
 		pwd := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(16)
@@ -301,7 +301,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 			Platform: req.Platform,
 		}
 
-		_, err = s.svcCtx.UserOauthRepository.CreateUserOauth(userOauth)
+		_, err = s.svcCtx.UserOauthRepository.CreateUserOauth(reqCtx, userOauth)
 		if err != nil {
 			return nil, err
 		}

@@ -1,16 +1,14 @@
 package logic
 
 import (
-	"fmt"
+	"context"
 
 	"github.com/redis/go-redis/v9"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
-
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
 type CasbinRuleRepository struct {
@@ -26,7 +24,7 @@ func NewCasbinRuleRepository(svcCtx *svc.RepositoryContext) *CasbinRuleRepositor
 }
 
 // 创建CasbinRule记录
-func (s *CasbinRuleRepository) CreateCasbinRule(casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
+func (s *CasbinRuleRepository) CreateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
 	db := s.DbEngin
 	err = db.Create(&casbinRule).Error
 	if err != nil {
@@ -36,7 +34,7 @@ func (s *CasbinRuleRepository) CreateCasbinRule(casbinRule *entity.CasbinRule) (
 }
 
 // 删除CasbinRule记录
-func (s *CasbinRuleRepository) DeleteCasbinRule(casbinRule *entity.CasbinRule) (rows int64, err error) {
+func (s *CasbinRuleRepository) DeleteCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&casbinRule)
 	err = query.Error
@@ -45,7 +43,7 @@ func (s *CasbinRuleRepository) DeleteCasbinRule(casbinRule *entity.CasbinRule) (
 }
 
 // 更新CasbinRule记录
-func (s *CasbinRuleRepository) UpdateCasbinRule(casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
+func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
 	db := s.DbEngin
 	err = db.Save(&casbinRule).Error
 	if err != nil {
@@ -54,8 +52,8 @@ func (s *CasbinRuleRepository) UpdateCasbinRule(casbinRule *entity.CasbinRule) (
 	return casbinRule, err
 }
 
-// 根据id获取CasbinRule记录
-func (s *CasbinRuleRepository) FindCasbinRule(id int) (out *entity.CasbinRule, err error) {
+// 查询CasbinRule记录
+func (s *CasbinRuleRepository) GetCasbinRule(ctx context.Context, id int) (out *entity.CasbinRule, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +63,7 @@ func (s *CasbinRuleRepository) FindCasbinRule(id int) (out *entity.CasbinRule, e
 }
 
 // 批量删除CasbinRule记录
-func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ids []int) (rows int64, err error) {
+func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.CasbinRule{}, "id in ?", ids)
 	err = query.Error
@@ -73,27 +71,40 @@ func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ids []int) (rows int64, err
 	return rows, err
 }
 
-// 分页获取CasbinRule记录
-func (s *CasbinRuleRepository) GetCasbinRuleList(page *request.PageInfo) (list []*entity.CasbinRule, total int64, err error) {
-	limit := page.Limit()
-	offset := page.Offset()
+// 分页查询CasbinRule记录
+func (s *CasbinRuleRepository) FindCasbinRuleList(ctx context.Context, page *request.PageInfo) (list []*entity.CasbinRule, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
-	var casbinRules []*entity.CasbinRule
-	// 如果有条件搜索 下方会自动创建搜索语句
-	if page.Order != "" && page.OrderKey != "" {
-		db = db.Order(fmt.Sprintf("`%v` %v", page.Order, page.OrderKey))
+
+	// 如果有搜索条件
+	if len(page.Conditions) != 0 {
+		query, args := page.WhereClause()
+		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&casbinRules).Count(&total).Error
+	// 如果有排序参数
+	if len(page.Orders) != 0 {
+		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	err = db.Limit(limit).Offset(offset).Find(&casbinRules).Error
+	// 如果有分页参数
+	if page.Page != 0 || page.PageSize != 0 {
+		limit := page.Limit()
+		offset := page.Offset()
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	return casbinRules, total, nil
+	return list, total, nil
 }

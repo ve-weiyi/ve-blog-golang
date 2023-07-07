@@ -30,7 +30,7 @@ type Config struct {
 
 	fieldNameNS    func(columnName string) (fieldName string)
 	fieldJSONTagNS func(columnName string) (tagContent string)
-	IgnoreMap      map[string]string
+	GenerateMap    map[string]string
 }
 
 // WithDataTypeMap specify data type mapping relationship, only work when syncing table from db

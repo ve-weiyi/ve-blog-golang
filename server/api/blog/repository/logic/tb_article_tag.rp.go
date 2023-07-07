@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"fmt"
+	"context"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -24,7 +24,7 @@ func NewArticleTagRepository(svcCtx *svc.RepositoryContext) *ArticleTagRepositor
 }
 
 // 创建ArticleTag记录
-func (s *ArticleTagRepository) CreateArticleTag(articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin
 	err = db.Create(&articleTag).Error
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *ArticleTagRepository) CreateArticleTag(articleTag *entity.ArticleTag) (
 }
 
 // 删除ArticleTag记录
-func (s *ArticleTagRepository) DeleteArticleTag(articleTag *entity.ArticleTag) (rows int64, err error) {
+func (s *ArticleTagRepository) DeleteArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&articleTag)
 	err = query.Error
@@ -43,7 +43,7 @@ func (s *ArticleTagRepository) DeleteArticleTag(articleTag *entity.ArticleTag) (
 }
 
 // 更新ArticleTag记录
-func (s *ArticleTagRepository) UpdateArticleTag(articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin
 	err = db.Save(&articleTag).Error
 	if err != nil {
@@ -52,8 +52,8 @@ func (s *ArticleTagRepository) UpdateArticleTag(articleTag *entity.ArticleTag) (
 	return articleTag, err
 }
 
-// 根据id获取ArticleTag记录
-func (s *ArticleTagRepository) FindArticleTag(id int) (out *entity.ArticleTag, err error) {
+// 查询ArticleTag记录
+func (s *ArticleTagRepository) GetArticleTag(ctx context.Context, id int) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -63,7 +63,7 @@ func (s *ArticleTagRepository) FindArticleTag(id int) (out *entity.ArticleTag, e
 }
 
 // 批量删除ArticleTag记录
-func (s *ArticleTagRepository) DeleteArticleTagByIds(ids []int) (rows int64, err error) {
+func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.ArticleTag{}, "id in ?", ids)
 	err = query.Error
@@ -71,14 +71,26 @@ func (s *ArticleTagRepository) DeleteArticleTagByIds(ids []int) (rows int64, err
 	return rows, err
 }
 
-// 分页获取ArticleTag记录
-func (s *ArticleTagRepository) GetArticleTagList(page *request.PageInfo) (list []*entity.ArticleTag, total int64, err error) {
+// 分页查询ArticleTag记录
+func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *request.PageInfo) (list []*entity.ArticleTag, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 
 	// 如果有搜索条件
-	if page.Order != "" && page.OrderKey != "" {
-		db = db.Order(fmt.Sprintf("`%v` %v", page.Order, page.OrderKey))
+	if len(page.Conditions) != 0 {
+		query, args := page.WhereClause()
+		db = db.Where(query, args...)
+	}
+
+	// 如果有排序参数
+	if len(page.Orders) != 0 {
+		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
+	if err != nil {
+		return nil, 0, err
 	}
 
 	// 如果有分页参数
@@ -90,12 +102,6 @@ func (s *ArticleTagRepository) GetArticleTagList(page *request.PageInfo) (list [
 
 	// 查询数据
 	err = db.Find(&list).Error
-	if err != nil {
-		return nil, 0, err
-	}
-
-	// 查询表记录总数
-	err = db.Model(&list).Count(&total).Error
 	if err != nil {
 		return nil, 0, err
 	}

@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
@@ -22,7 +24,7 @@ func NewUserInformationRepository(svcCtx *svc.RepositoryContext) *UserInformatio
 }
 
 // 创建UserInformation记录
-func (s *UserInformationRepository) CreateUserInformation(userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
+func (s *UserInformationRepository) CreateUserInformation(ctx context.Context, userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
 	db := s.DbEngin
 	err = db.Create(&userInformation).Error
 	if err != nil {
@@ -32,7 +34,7 @@ func (s *UserInformationRepository) CreateUserInformation(userInformation *entit
 }
 
 // 删除UserInformation记录
-func (s *UserInformationRepository) DeleteUserInformation(userInformation *entity.UserInformation) (rows int64, err error) {
+func (s *UserInformationRepository) DeleteUserInformation(ctx context.Context, userInformation *entity.UserInformation) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&userInformation)
 	err = query.Error
@@ -41,7 +43,7 @@ func (s *UserInformationRepository) DeleteUserInformation(userInformation *entit
 }
 
 // 更新UserInformation记录
-func (s *UserInformationRepository) UpdateUserInformation(userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
+func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
 	db := s.DbEngin
 	err = db.Save(&userInformation).Error
 	if err != nil {
@@ -51,7 +53,7 @@ func (s *UserInformationRepository) UpdateUserInformation(userInformation *entit
 }
 
 // 查询UserInformation记录
-func (s *UserInformationRepository) GetUserInformation(id int) (out *entity.UserInformation, err error) {
+func (s *UserInformationRepository) GetUserInformation(ctx context.Context, id int) (out *entity.UserInformation, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -61,7 +63,7 @@ func (s *UserInformationRepository) GetUserInformation(id int) (out *entity.User
 }
 
 // 批量删除UserInformation记录
-func (s *UserInformationRepository) DeleteUserInformationByIds(ids []int) (rows int64, err error) {
+func (s *UserInformationRepository) DeleteUserInformationByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.UserInformation{}, "id in ?", ids)
 	err = query.Error
@@ -70,7 +72,7 @@ func (s *UserInformationRepository) DeleteUserInformationByIds(ids []int) (rows 
 }
 
 // 分页查询UserInformation记录
-func (s *UserInformationRepository) FindUserInformationList(page *request.PageInfo) (list []*entity.UserInformation, total int64, err error) {
+func (s *UserInformationRepository) FindUserInformationList(ctx context.Context, page *request.PageInfo) (list []*entity.UserInformation, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -105,17 +107,4 @@ func (s *UserInformationRepository) FindUserInformationList(page *request.PageIn
 	}
 
 	return list, total, nil
-}
-
-func (s *UserInformationRepository) FindUserinfoByUID(userId int) (out *entity.UserInformation, err error) {
-	// 创建db
-	db := s.DbEngin
-
-	//查询用户信息
-	err = db.Where("user_id = ?", userId).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return out, nil
 }

@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"fmt"
+	"context"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -24,7 +24,7 @@ func NewRoleApiRepository(svcCtx *svc.RepositoryContext) *RoleApiRepository {
 }
 
 // 创建RoleApi记录
-func (s *RoleApiRepository) CreateRoleApi(roleApi *entity.RoleApi) (out *entity.RoleApi, err error) {
+func (s *RoleApiRepository) CreateRoleApi(ctx context.Context, roleApi *entity.RoleApi) (out *entity.RoleApi, err error) {
 	db := s.DbEngin
 	err = db.Create(&roleApi).Error
 	if err != nil {
@@ -34,7 +34,7 @@ func (s *RoleApiRepository) CreateRoleApi(roleApi *entity.RoleApi) (out *entity.
 }
 
 // 删除RoleApi记录
-func (s *RoleApiRepository) DeleteRoleApi(roleApi *entity.RoleApi) (rows int64, err error) {
+func (s *RoleApiRepository) DeleteRoleApi(ctx context.Context, roleApi *entity.RoleApi) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&roleApi)
 	err = query.Error
@@ -43,7 +43,7 @@ func (s *RoleApiRepository) DeleteRoleApi(roleApi *entity.RoleApi) (rows int64, 
 }
 
 // 更新RoleApi记录
-func (s *RoleApiRepository) UpdateRoleApi(roleApi *entity.RoleApi) (out *entity.RoleApi, err error) {
+func (s *RoleApiRepository) UpdateRoleApi(ctx context.Context, roleApi *entity.RoleApi) (out *entity.RoleApi, err error) {
 	db := s.DbEngin
 	err = db.Save(&roleApi).Error
 	if err != nil {
@@ -52,8 +52,8 @@ func (s *RoleApiRepository) UpdateRoleApi(roleApi *entity.RoleApi) (out *entity.
 	return roleApi, err
 }
 
-// 根据id获取RoleApi记录
-func (s *RoleApiRepository) FindRoleApi(id int) (out *entity.RoleApi, err error) {
+// 查询RoleApi记录
+func (s *RoleApiRepository) GetRoleApi(ctx context.Context, id int) (out *entity.RoleApi, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -63,7 +63,7 @@ func (s *RoleApiRepository) FindRoleApi(id int) (out *entity.RoleApi, err error)
 }
 
 // 批量删除RoleApi记录
-func (s *RoleApiRepository) DeleteRoleApiByIds(ids []int) (rows int64, err error) {
+func (s *RoleApiRepository) DeleteRoleApiByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
 	query := db.Delete(&[]entity.RoleApi{}, "id in ?", ids)
 	err = query.Error
@@ -71,27 +71,40 @@ func (s *RoleApiRepository) DeleteRoleApiByIds(ids []int) (rows int64, err error
 	return rows, err
 }
 
-// 分页获取RoleApi记录
-func (s *RoleApiRepository) GetRoleApiList(page *request.PageInfo) (list []*entity.RoleApi, total int64, err error) {
-	limit := page.Limit()
-	offset := page.Offset()
+// 分页查询RoleApi记录
+func (s *RoleApiRepository) FindRoleApiList(ctx context.Context, page *request.PageInfo) (list []*entity.RoleApi, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
-	var roleApis []*entity.RoleApi
-	// 如果有条件搜索 下方会自动创建搜索语句
-	if page.Order != "" && page.OrderKey != "" {
-		db = db.Order(fmt.Sprintf("`%v` %v", page.Order, page.OrderKey))
+
+	// 如果有搜索条件
+	if len(page.Conditions) != 0 {
+		query, args := page.WhereClause()
+		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&roleApis).Count(&total).Error
+	// 如果有排序参数
+	if len(page.Orders) != 0 {
+		db = db.Order(page.OrderClause())
+	}
+
+	// 查询总数,要在使用limit之前
+	err = db.Model(&list).Count(&total).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	err = db.Limit(limit).Offset(offset).Find(&roleApis).Error
+	// 如果有分页参数
+	if page.Page != 0 || page.PageSize != 0 {
+		limit := page.Limit()
+		offset := page.Offset()
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
 	if err != nil {
 		return nil, 0, err
 	}
 
-	return roleApis, total, nil
+	return list, total, nil
 }
