@@ -23,6 +23,65 @@ func NewAdminController(svcCtx *svc.ControllerContext) *AdminController {
 }
 
 // @Tags		Admin
+// @Summary		获取用户地区
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/home [post]
+func (s *AdminController) GetHomeInfo(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.BlogService.GetAdminHomeInfo(reqCtx, nil)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Admin
+// @Summary		获取用户地区
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		page	body		request.PageInfo	true	"分页参数"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/user/areas [post]
+func (s *AdminController) GetUserAreas(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageInfo
+	err = s.ShouldBindQuery(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.UserService.GetUserAreas(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.Limit(),
+	})
+}
+
+// @Tags		Admin
 // @Summary		获取用户列表
 // @Security	ApiKeyUser
 // @accept		application/json

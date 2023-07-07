@@ -2,16 +2,14 @@ package east
 
 import (
 	"fmt"
+	"github.com/spf13/cast"
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
 	"reflect"
-
-	"github.com/spf13/cast"
-
-	"github.com/ve-weiyi/go-sdk/utils/convert"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"strconv"
 )
 
 const (
@@ -252,7 +250,7 @@ func NewFuncMete(importCode string) {
 				for _, arg := range callExpr.Args {
 					switch arg.(type) {
 					case *ast.BasicLit:
-						value, _ := convert.InferType(arg.(*ast.BasicLit).Value)
+						value, _ := InferType(arg.(*ast.BasicLit).Value)
 						parameters = append(parameters, value)
 					case *ast.Ident:
 						parameters = append(parameters, arg.(*ast.Ident).Name)
@@ -284,7 +282,7 @@ func NewFuncMete(importCode string) {
 			for _, arg := range callExpr.Args {
 				switch arg.(type) {
 				case *ast.BasicLit:
-					value, _ := convert.InferType(arg.(*ast.BasicLit).Value)
+					value, _ := InferType(arg.(*ast.BasicLit).Value)
 					parameters = append(parameters, value)
 				case *ast.Ident:
 					parameters = append(parameters, arg.(*ast.Ident).Name)
@@ -328,4 +326,27 @@ func extractIdents(node ast.Node) []*ast.Ident {
 
 func insertStatements(stmts []ast.Stmt, pos int, toInsert ...ast.Stmt) []ast.Stmt {
 	return append(stmts[:pos], append(toInsert, stmts[pos:]...)...)
+}
+
+func InferType(str string) (interface{}, error) {
+	// 尝试将字符串解析为int
+	i, err := strconv.Atoi(str)
+	if err == nil {
+		return i, nil
+	}
+
+	// 尝试将字符串解析为float
+	f, err := strconv.ParseFloat(str, 64)
+	if err == nil {
+		return f, nil
+	}
+
+	// 尝试将字符串解析为带引号的string
+	s, err := strconv.Unquote(str)
+	if err == nil {
+		return s, nil
+	}
+
+	// 如果都不匹配，则返回原始字符串
+	return str, nil
 }

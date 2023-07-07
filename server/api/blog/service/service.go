@@ -7,6 +7,7 @@ import (
 
 type AppService struct {
 	svcCtx                  *svc.ServiceContext            //持有的repository层引用
+	BlogService             *logic.BlogService             //博客
 	AuthService             *logic.AuthService             //登录权限认证
 	UserService             *logic.UserService             //用户
 	UserAccountService      *logic.UserAccountService      //用户登录信息
@@ -31,6 +32,7 @@ type AppService struct {
 func NewService(svcCtx *svc.ServiceContext) *AppService {
 	return &AppService{
 		svcCtx:                  svcCtx,
+		BlogService:             logic.NewBlogService(svcCtx),
 		AuthService:             logic.NewAuthService(svcCtx),
 		UserService:             logic.NewUserService(svcCtx),
 		UserAccountService:      logic.NewUserAccountService(svcCtx),

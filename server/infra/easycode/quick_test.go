@@ -87,6 +87,7 @@ func TestPlate(t *testing.T) {
 	gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
 	gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
 	gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
+
 	gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
 	gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
 	gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))

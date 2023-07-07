@@ -60,6 +60,32 @@ func (s *UserService) GetUserinfo(reqCtx *request.Context, userId int) (result *
 	return userinfo, nil
 }
 
+func (s *UserService) GetUserAreas(reqCtx *request.Context, page *request.PageInfo) (result []*response.UserArea, total int64, err error) {
+	list, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// 分类
+	AreaMap := make(map[string]int)
+	for _, item := range list {
+		key := item.IpSource[:4]
+		if _, ok := AreaMap[key]; ok {
+			AreaMap[key]++
+		} else {
+			AreaMap[key] = 1
+		}
+	}
+
+	for k, v := range AreaMap {
+		result = append(result, &response.UserArea{
+			Name:  k,
+			Value: v,
+		})
+	}
+	return result, int64(len(result)), nil
+}
+
 func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.PageInfo) (result []*response.LoginHistory, total int64, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, reqCtx.UID)

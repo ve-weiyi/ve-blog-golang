@@ -1,6 +1,7 @@
 package inject
 
 import (
+	"fmt"
 	"log"
 	"testing"
 )
@@ -50,4 +51,19 @@ func TestNewAst(t *testing.T) {
 	NewFuncMete("NewApiContext", `return &Context{
 		visitor: ast.NewIdent("hello"),
 	}`)
+}
+
+func TestType(t *testing.T) {
+
+	strings := []string{"11.0", "\"22\"", "11"}
+
+	for _, str := range strings {
+		result, err := inferType(str)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+		} else {
+			fmt.Printf("Result: %v (type: %T)\n", result, result)
+		}
+	}
+
 }
