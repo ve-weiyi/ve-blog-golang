@@ -11,7 +11,7 @@ type Context struct {
 	Token           string `json:"token" header:"token" example:""`
 	UID             int    `json:"uid" header:"-" example:""`
 	Username        string `json:"username" header:"-" example:""`
-	Ip              string `json:"ip" header:"-" example:""`
+	IpAddress       string `json:"ip_address" header:"-" example:""`
 	IpSource        string `json:"ip_source" header:"-" example:""`
 }
 

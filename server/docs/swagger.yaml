@@ -611,22 +611,38 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/entity.Api'
-                  type: array
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/entity.Api'
+                    type: array
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 获取api列表
+      tags:
+        - Admin
+  /admin/home:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyUser: [ ]
+      summary: 获取用户地区
       tags:
         - Admin
   /admin/menus:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
         - description: 分页参数
           in: body
@@ -790,6 +806,29 @@ paths:
       summary: 修改用户状态
       tags:
         - Admin
+  /admin/user/areas:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyUser: [ ]
+      summary: 获取用户地区
+      tags:
+        - Admin
   /admin/users:
     post:
       consumes:
@@ -878,17 +917,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除接口
       tags:
-      - Api
+        - Api
+  /api/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Api'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Api'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询接口
+      tags:
+        - Api
   /api/list:
     post:
       consumes:
@@ -911,45 +978,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Api'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.Api'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取接口列表
-      tags:
-      - Api
-  /api/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Api'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Api'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询接口
       tags:
       - Api
   /api/update:
@@ -1148,7 +1187,7 @@ paths:
               type: integer
             type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -1157,6 +1196,34 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除文章
+      tags:
+        - Article
+  /article/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Article'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Article'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询文章
       tags:
         - Article
   /article/like:
@@ -1218,36 +1285,8 @@ paths:
                       type: object
               type: object
       security:
-        - ApiKeyAuth: [ ]
-      summary: 分页获取文章列表
-      tags:
-        - Article
-  /article/query:
-    get:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Article'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Article'
-              type: object
-      security:
       - ApiKeyAuth: []
-      summary: 查询文章
+      summary: 分页获取文章列表
       tags:
       - Article
   /article/update:
@@ -1396,7 +1435,7 @@ paths:
               type: integer
             type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -1405,6 +1444,34 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除文章分类
+      tags:
+        - Category
+  /category/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Category'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Category'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询文章分类
       tags:
         - Category
   /category/list:
@@ -1440,34 +1507,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 分页获取文章分类列表
-      tags:
-      - Category
-  /category/query:
-    get:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Category'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Category'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询文章分类
       tags:
       - Category
   /category/update:
@@ -1591,17 +1630,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除评论
       tags:
-      - Comment
+        - Comment
+  /comment/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Comment'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询评论
+      tags:
+        - Comment
   /comment/list:
     post:
       consumes:
@@ -1624,45 +1691,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Comment'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.Comment'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取评论列表
-      tags:
-      - Comment
-  /comment/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Comment'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Comment'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询评论
       tags:
       - Comment
   /comment/update:
@@ -1786,17 +1825,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除友链
       tags:
-      - FriendLink
+        - FriendLink
+  /friendLink/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.FriendLink'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.FriendLink'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询友链
+      tags:
+        - FriendLink
   /friendLink/list:
     post:
       consumes:
@@ -1819,45 +1886,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.FriendLink'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.FriendLink'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取友链列表
-      tags:
-      - FriendLink
-  /friendLink/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.FriendLink'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.FriendLink'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询友链
       tags:
       - FriendLink
   /friendLink/update:
@@ -2008,17 +2047,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除菜单
       tags:
-      - Menu
+        - Menu
+  /menu/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Menu'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询菜单
+      tags:
+        - Menu
   /menu/list:
     post:
       consumes:
@@ -2041,45 +2108,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Menu'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.Menu'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取菜单列表
-      tags:
-      - Menu
-  /menu/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Menu'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Menu'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询菜单
       tags:
       - Menu
   /menu/update:
@@ -2231,7 +2270,7 @@ paths:
               type: integer
             type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -2240,6 +2279,34 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除页面
+      tags:
+        - Page
+  /page/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Page'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Page'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询页面
       tags:
         - Page
   /page/list:
@@ -2275,34 +2342,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 分页获取页面列表
-      tags:
-      - Page
-  /page/query:
-    get:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Page'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Page'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询页面
       tags:
       - Page
   /page/update:
@@ -2398,17 +2437,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除相片
       tags:
-      - Photo
+        - Photo
+  /photo/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Photo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Photo'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询相片
+      tags:
+        - Photo
   /photo/list:
     post:
       consumes:
@@ -2431,45 +2498,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Photo'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.Photo'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取相片列表
-      tags:
-      - Photo
-  /photo/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Photo'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Photo'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询相片
       tags:
       - Photo
   /photo/update:
@@ -2565,17 +2604,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除相册
       tags:
-      - PhotoAlbum
+        - PhotoAlbum
+  /photoAlbum/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.PhotoAlbum'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.PhotoAlbum'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询相册
+      tags:
+        - PhotoAlbum
   /photoAlbum/list:
     post:
       consumes:
@@ -2598,45 +2665,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.PhotoAlbum'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.PhotoAlbum'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取相册列表
-      tags:
-      - PhotoAlbum
-  /photoAlbum/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.PhotoAlbum'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.PhotoAlbum'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询相册
       tags:
       - PhotoAlbum
   /photoAlbum/update:
@@ -2778,17 +2817,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除角色
       tags:
-      - Role
+        - Role
+  /role/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Role'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询角色
+      tags:
+        - Role
   /role/list:
     post:
       consumes:
@@ -2811,45 +2878,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Role'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.Role'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取角色列表
-      tags:
-      - Role
-  /role/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Role'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询角色
       tags:
       - Role
   /role/update:
@@ -2945,7 +2984,7 @@ paths:
               type: integer
             type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -2954,6 +2993,34 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除文章标签
+      tags:
+        - Tag
+  /tag/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Tag'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Tag'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询文章标签
       tags:
         - Tag
   /tag/list:
@@ -2989,34 +3056,6 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 分页获取文章标签列表
-      tags:
-      - Tag
-  /tag/query:
-    get:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Tag'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Tag'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询文章标签
       tags:
       - Tag
   /tag/update:
@@ -3112,17 +3151,45 @@ paths:
             type: integer
           type: array
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 批量删除说说
       tags:
-      - Talk
+        - Talk
+  /talk/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Talk'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Talk'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询说说
+      tags:
+        - Talk
   /talk/list:
     post:
       consumes:
@@ -3145,45 +3212,17 @@ paths:
             - properties:
                 data:
                   allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Talk'
-                        type: array
-                    type: object
+                    - $ref: '#/definitions/response.PageResult'
+                    - properties:
+                        list:
+                          items:
+                            $ref: '#/definitions/entity.Talk'
+                          type: array
+                      type: object
               type: object
       security:
       - ApiKeyAuth: []
       summary: 分页获取说说列表
-      tags:
-      - Talk
-  /talk/query:
-    get:
-      consumes:
-      - application/json
-      parameters:
-        - description: 请求参数
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Talk'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Talk'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询说说
       tags:
       - Talk
   /talk/update:

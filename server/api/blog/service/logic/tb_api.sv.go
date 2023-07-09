@@ -32,7 +32,7 @@ func (s *ApiService) UpdateApi(reqCtx *request.Context, api *entity.Api) (data *
 }
 
 // 查询Api记录
-func (s *ApiService) GetApi(reqCtx *request.Context, api *entity.Api) (data *entity.Api, err error) {
+func (s *ApiService) FindApi(reqCtx *request.Context, api *entity.Api) (data *entity.Api, err error) {
 	return s.svcCtx.ApiRepository.GetApi(reqCtx, api.ID)
 }
 

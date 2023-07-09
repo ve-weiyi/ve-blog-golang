@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.POST("talk/create", handler.CreateTalk)   // 新建Talk
 		publicRouter.PUT("talk/update", handler.UpdateTalk)    // 更新Talk
 		publicRouter.DELETE("talk/delete", handler.DeleteTalk) // 删除Talk
-		publicRouter.POST("talk/query", handler.GetTalk)       // 查询Talk
+		publicRouter.POST("talk/find", handler.FindTalk)       // 查询Talk
 
 		publicRouter.DELETE("talk/deleteByIds", handler.DeleteTalkByIds) // 批量删除Talk列表
 		publicRouter.POST("talk/list", handler.FindTalkList)             // 分页查询Talk列表

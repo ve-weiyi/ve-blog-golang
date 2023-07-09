@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,13 +25,9 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 		publicRouter.POST("article/create", handler.CreateArticle)   // 新建Article
 		publicRouter.PUT("article/update", handler.UpdateArticle)    // 更新Article
 		publicRouter.DELETE("article/delete", handler.DeleteArticle) // 删除Article
-		publicRouter.POST("article/query", handler.GetArticle)       // 查询Article
+		publicRouter.POST("article/find", handler.FindArticle)       // 查询Article
 
 		publicRouter.DELETE("article/deleteByIds", handler.DeleteArticleByIds) // 批量删除Article列表
 		publicRouter.POST("article/list", handler.FindArticleList)             // 分页查询Article列表
-	}
-	{
-		publicRouter.POST("article/condition", handler.GetArticleListByCondition) // 根据条件获取Article列表
-		publicRouter.GET("article/archives", handler.GetArticleArchives)          // 文章归档
 	}
 }

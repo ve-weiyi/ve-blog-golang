@@ -33,7 +33,7 @@ func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.
 }
 
 // 查询Comment记录
-func (s *CommentService) GetComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
+func (s *CommentService) FindComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
 	return s.svcCtx.CommentRepository.GetComment(reqCtx, comment.ID)
 }
 

@@ -38,7 +38,7 @@ func Routers() *gin.Engine {
 	//global.LOG.Info("use middleware cors")
 	// Generate Swagger JSON file
 	docs.SwaggerInfo.BasePath = global.CONFIG.System.RouterPrefix
-	Router.GET(global.CONFIG.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	global.LOG.Info("register swagger handler")
 	// 方便统一添加路由组前缀 多服务器上线使用
 

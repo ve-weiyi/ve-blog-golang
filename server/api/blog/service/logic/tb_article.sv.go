@@ -32,7 +32,7 @@ func (s *ArticleService) UpdateArticle(reqCtx *request.Context, article *entity.
 }
 
 // 查询Article记录
-func (s *ArticleService) GetArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
+func (s *ArticleService) FindArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
 	return s.svcCtx.ArticleRepository.GetArticle(reqCtx, article.ID)
 }
 

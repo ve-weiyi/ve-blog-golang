@@ -43,7 +43,7 @@ func (s *UserController) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.AuthService.ResetPassword(reqCtx, &user)
+	data, err := s.svcCtx.UserService.ResetPassword(reqCtx, &user)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -74,7 +74,7 @@ func (s *UserController) ForgetPasswordEmail(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.AuthService.SendForgetPwdEmail(reqCtx, &user)
+	data, err := s.svcCtx.UserService.SendForgetPwdEmail(reqCtx, &user)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

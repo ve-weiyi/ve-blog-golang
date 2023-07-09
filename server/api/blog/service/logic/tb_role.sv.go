@@ -32,7 +32,7 @@ func (s *RoleService) UpdateRole(reqCtx *request.Context, role *entity.Role) (da
 }
 
 // 查询Role记录
-func (s *RoleService) GetRole(reqCtx *request.Context, role *entity.Role) (data *entity.Role, err error) {
+func (s *RoleService) FindRole(reqCtx *request.Context, role *entity.Role) (data *entity.Role, err error) {
 	return s.svcCtx.RoleRepository.GetRole(reqCtx, role.ID)
 }
 

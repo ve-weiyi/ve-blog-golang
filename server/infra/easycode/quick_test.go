@@ -52,9 +52,9 @@ func TestPlate(t *testing.T) {
 			return fmt.Sprintf("tb_%v", tableName)
 		},
 		GenerateMap: map[string]string{
-			//tmpl.KeyRouter:     "",
-			//tmpl.KeyController: "",
-			tmpl.KeyService: "",
+			tmpl.KeyRouter:     "",
+			tmpl.KeyController: "",
+			//tmpl.KeyService:    "",
 			//tmpl.KeyRepository: "",
 			//tmpl.KeyModel:      "",
 		},
@@ -107,6 +107,6 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
 	//gen.GenerateCommonFile("upload", "文件上传")
 
-	gen.RollBack()
+	//gen.RollBack()
 	gen.Execute()
 }

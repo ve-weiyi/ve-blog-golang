@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -122,8 +121,8 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.Tag							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router 		/tag/query [get]
-func (s *TagController) GetTag(c *gin.Context) {
+// @Router 		/tag/find [get]
+func (s *TagController) FindTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *TagController) GetTag(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.TagService.GetTag(reqCtx, &tag)
+	data, err := s.svcCtx.TagService.FindTag(reqCtx, &tag)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

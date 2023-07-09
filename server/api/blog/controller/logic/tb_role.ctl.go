@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -122,8 +121,8 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.Role							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router 		/role/query [get]
-func (s *RoleController) GetRole(c *gin.Context) {
+// @Router 		/role/find [get]
+func (s *RoleController) FindRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *RoleController) GetRole(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.RoleService.GetRole(reqCtx, &role)
+	data, err := s.svcCtx.RoleService.FindRole(reqCtx, &role)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

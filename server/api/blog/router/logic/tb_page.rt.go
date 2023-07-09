@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *PageRouter) InitPageRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.POST("page/create", handler.CreatePage)   // 新建Page
 		publicRouter.PUT("page/update", handler.UpdatePage)    // 更新Page
 		publicRouter.DELETE("page/delete", handler.DeletePage) // 删除Page
-		publicRouter.POST("page/query", handler.GetPage)       // 查询Page
+		publicRouter.POST("page/find", handler.FindPage)       // 查询Page
 
 		publicRouter.DELETE("page/deleteByIds", handler.DeletePageByIds) // 批量删除Page列表
 		publicRouter.POST("page/list", handler.FindPageList)             // 分页查询Page列表

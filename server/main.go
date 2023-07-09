@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/core"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
@@ -18,14 +17,14 @@ func init() {
 }
 
 // @title						Swagger Example API
-// @version					1.0
-// @description				This is a sample server celler server.
+// @version						1.0
+// @description					This is a sample server celler server.
 // @termsOfService				http://swagger.io/terms/
 // @contact.name				API Support
-// @contact.url				http://www.swagger.io/support
+// @contact.url					http://www.swagger.io/support
 // @contact.email				support@swagger.io
 // @license.name				Apache 2.0
-// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.url					http://www.apache.org/licenses/LICENSE-2.0.html
 // @host						localhost:9999
 // @BasePath					/api/v1
 // @securityDefinitions.basic	BasicAuth
@@ -36,8 +35,8 @@ func init() {
 // @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
 	log.Println("let's go")
-
-	global.VP = core.Viper() // 初始化Viper
+	// 初始化Viper
+	initialize.Viper()
 	// 初始化zap日志库
 	initialize.Zap()
 	// 初始化gorm数据库
@@ -60,5 +59,5 @@ func main() {
 		defer db.Close()
 	}
 
-	core.RunWindowsServer()
+	initialize.RunWindowsServer()
 }

@@ -32,7 +32,7 @@ func (s *PhotoService) UpdatePhoto(reqCtx *request.Context, photo *entity.Photo)
 }
 
 // 查询Photo记录
-func (s *PhotoService) GetPhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
+func (s *PhotoService) FindPhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
 	return s.svcCtx.PhotoRepository.GetPhoto(reqCtx, photo.ID)
 }
 
