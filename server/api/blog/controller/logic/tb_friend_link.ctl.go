@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -122,8 +121,8 @@ func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.FriendLink							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router 		/friendLink/query [get]
-func (s *FriendLinkController) GetFriendLink(c *gin.Context) {
+// @Router 		/friendLink/find [get]
+func (s *FriendLinkController) FindFriendLink(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *FriendLinkController) GetFriendLink(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.FriendLinkService.GetFriendLink(reqCtx, &friendLink)
+	data, err := s.svcCtx.FriendLinkService.FindFriendLink(reqCtx, &friendLink)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

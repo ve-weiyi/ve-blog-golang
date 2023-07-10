@@ -32,7 +32,7 @@ func (s *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 }
 
 // 查询Talk记录
-func (s *TalkService) GetTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
+func (s *TalkService) FindTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
 	return s.svcCtx.TalkRepository.GetTalk(reqCtx, talk.ID)
 }
 

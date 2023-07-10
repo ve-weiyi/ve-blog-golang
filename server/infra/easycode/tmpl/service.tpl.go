@@ -75,7 +75,7 @@ func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, 
 }
 
 // 查询{{.StructName}}记录
-func (s *{{.StructName}}Service) Get{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
+func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
 	return s.svcCtx.{{.StructName}}Repository.Get{{.StructName}}(reqCtx, {{.ValueName}}.ID)
 }
 

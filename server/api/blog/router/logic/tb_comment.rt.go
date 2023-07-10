@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 		publicRouter.POST("comment/create", handler.CreateComment)   // 新建Comment
 		publicRouter.PUT("comment/update", handler.UpdateComment)    // 更新Comment
 		publicRouter.DELETE("comment/delete", handler.DeleteComment) // 删除Comment
-		publicRouter.POST("comment/query", handler.GetComment)       // 查询Comment
+		publicRouter.POST("comment/find", handler.FindComment)       // 查询Comment
 
 		publicRouter.DELETE("comment/deleteByIds", handler.DeleteCommentByIds) // 批量删除Comment列表
 		publicRouter.POST("comment/list", handler.FindCommentList)             // 分页查询Comment列表

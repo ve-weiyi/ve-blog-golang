@@ -72,7 +72,7 @@ func (s *{{.StructName}}Router) Init{{.StructName}}Router(publicRouter *gin.Rout
 		publicRouter.POST("{{.ValueName}}/create", handler.Create{{.StructName}})             // 新建{{.StructName}}
 		publicRouter.PUT("{{.ValueName}}/update", handler.Update{{.StructName}})              // 更新{{.StructName}}
 		publicRouter.DELETE("{{.ValueName}}/delete", handler.Delete{{.StructName}})           // 删除{{.StructName}}
-		publicRouter.POST("{{.ValueName}}/query", handler.Get{{.StructName}})				  // 查询{{.StructName}}
+		publicRouter.POST("{{.ValueName}}/find", handler.Find{{.StructName}})				  // 查询{{.StructName}}
 
 		publicRouter.DELETE("{{.ValueName}}/deleteByIds", handler.Delete{{.StructName}}ByIds)	// 批量删除{{.StructName}}列表
 		publicRouter.POST("{{.ValueName}}/list", handler.Find{{.StructName}}List)  				// 分页查询{{.StructName}}列表

@@ -3,9 +3,10 @@ package initialize
 import (
 	"flag"
 	"fmt"
+	"log"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
-	"log"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )

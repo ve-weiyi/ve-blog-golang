@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *TagRouter) InitTagRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 		publicRouter.POST("tag/create", handler.CreateTag)   // 新建Tag
 		publicRouter.PUT("tag/update", handler.UpdateTag)    // 更新Tag
 		publicRouter.DELETE("tag/delete", handler.DeleteTag) // 删除Tag
-		publicRouter.POST("tag/query", handler.GetTag)       // 查询Tag
+		publicRouter.POST("tag/find", handler.FindTag)       // 查询Tag
 
 		publicRouter.DELETE("tag/deleteByIds", handler.DeleteTagByIds) // 批量删除Tag列表
 		publicRouter.POST("tag/list", handler.FindTagList)             // 分页查询Tag列表

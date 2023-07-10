@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.POST("role/create", handler.CreateRole)   // 新建Role
 		publicRouter.PUT("role/update", handler.UpdateRole)    // 更新Role
 		publicRouter.DELETE("role/delete", handler.DeleteRole) // 删除Role
-		publicRouter.POST("role/query", handler.GetRole)       // 查询Role
+		publicRouter.POST("role/find", handler.FindRole)       // 查询Role
 
 		publicRouter.DELETE("role/deleteByIds", handler.DeleteRoleByIds) // 批量删除Role列表
 		publicRouter.POST("role/list", handler.FindRoleList)             // 分页查询Role列表

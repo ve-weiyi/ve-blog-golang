@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -22,7 +21,7 @@ func NewCategoryController(svcCtx *svc.ControllerContext) *CategoryController {
 	}
 }
 
-// @Tags		CategoryDTO
+// @Tags		Category
 // @Summary		创建文章分类
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -53,7 +52,7 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		CategoryDTO
+// @Tags		Category
 // @Summary		删除文章分类
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -84,7 +83,7 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	CategoryDTO
+// @Tags 	 	Category
 // @Summary		更新文章分类
 // @Security 	ApiKeyAuth
 // @accept 		application/json
@@ -115,15 +114,15 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	CategoryDTO
+// @Tags 	 	Category
 // @Summary		查询文章分类
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
 // @Param 	 	data		body		entity.Category							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router 		/category/query [get]
-func (s *CategoryController) GetCategory(c *gin.Context) {
+// @Router 		/category/find [get]
+func (s *CategoryController) FindCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *CategoryController) GetCategory(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.GetCategory(reqCtx, &category)
+	data, err := s.svcCtx.CategoryService.FindCategory(reqCtx, &category)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -146,7 +145,7 @@ func (s *CategoryController) GetCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	CategoryDTO
+// @Tags 	 	Category
 // @Summary		批量删除文章分类
 // @Security 	ApiKeyAuth
 // @accept 	 	application/json
@@ -177,7 +176,7 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	CategoryDTO
+// @Tags 	 	Category
 // @Summary		分页获取文章分类列表
 // @Security 	ApiKeyAuth
 // @accept 		application/json
