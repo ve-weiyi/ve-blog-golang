@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -122,8 +121,8 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.Menu							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router 		/menu/query [get]
-func (s *MenuController) GetMenu(c *gin.Context) {
+// @Router 		/menu/find [get]
+func (s *MenuController) FindMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *MenuController) GetMenu(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.GetMenu(reqCtx, &menu)
+	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, &menu)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

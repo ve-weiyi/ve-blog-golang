@@ -32,7 +32,7 @@ func (s *PageService) UpdatePage(reqCtx *request.Context, page *entity.Page) (da
 }
 
 // 查询Page记录
-func (s *PageService) GetPage(reqCtx *request.Context, page *entity.Page) (data *entity.Page, err error) {
+func (s *PageService) FindPage(reqCtx *request.Context, page *entity.Page) (data *entity.Page, err error) {
 	return s.svcCtx.PageRepository.GetPage(reqCtx, page.ID)
 }
 

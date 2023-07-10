@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 		publicRouter.POST("api/create", handler.CreateApi)   // 新建Api
 		publicRouter.PUT("api/update", handler.UpdateApi)    // 更新Api
 		publicRouter.DELETE("api/delete", handler.DeleteApi) // 删除Api
-		publicRouter.POST("api/query", handler.GetApi)       // 查询Api
+		publicRouter.POST("api/find", handler.FindApi)       // 查询Api
 
 		publicRouter.DELETE("api/deleteByIds", handler.DeleteApiByIds) // 批量删除Api列表
 		publicRouter.POST("api/list", handler.FindApiList)             // 分页查询Api列表

@@ -32,7 +32,7 @@ func (s *FriendLinkService) UpdateFriendLink(reqCtx *request.Context, friendLink
 }
 
 // 查询FriendLink记录
-func (s *FriendLinkService) GetFriendLink(reqCtx *request.Context, friendLink *entity.FriendLink) (data *entity.FriendLink, err error) {
+func (s *FriendLinkService) FindFriendLink(reqCtx *request.Context, friendLink *entity.FriendLink) (data *entity.FriendLink, err error) {
 	return s.svcCtx.FriendLinkRepository.GetFriendLink(reqCtx, friendLink.ID)
 }
 

@@ -4,7 +4,7 @@ const AppService = `
 package service
 
 import (
-	"{{.SvcPackage }}"
+
 )
 
 type AppService struct {
@@ -27,16 +27,23 @@ import (
 
 // 注册需要用到的gorm、redis、model
 type ServiceContext struct {
+	*repository.AppRepository
 	Config *config.Config
 	Log    *glog.Glogger
 	//下面是引用的repository
 }
 
 func NewServiceContext(cfg *config.Config) *ServiceContext {
-	return &ServiceContext{
-		Config: cfg,
-		Log:    global.LOG,
+	ctx := svc.NewRepositoryContext(cfg)
+	repo := repository.NewRepository(ctx)
+	if repo == nil {
+		panic("repository cannot be null")
+	}
 
+	return &ServiceContext{
+		AppRepository: repo,
+		Config:        cfg,
+		Log:           global.LOG,
 	}
 }
 
@@ -75,7 +82,7 @@ func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, 
 }
 
 // 查询{{.StructName}}记录
-func (s *{{.StructName}}Service) Get{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
+func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
 	return s.svcCtx.{{.StructName}}Repository.Get{{.StructName}}(reqCtx, {{.ValueName}}.ID)
 }
 
@@ -96,7 +103,6 @@ package logic
 import (
 
 )
-
 
 type {{.StructName}}Service struct {
 	svcCtx *svc.ServiceContext

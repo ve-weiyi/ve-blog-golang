@@ -117,7 +117,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		Password:     crypto.BcryptHash(req.Password),
 		Status:       1,
 		RegisterType: req.LoginType,
-		IpAddress:    reqCtx.Ip,
+		IpAddress:    reqCtx.IpAddress,
 		IpSource:     reqCtx.IpSource,
 	}
 	info := entity.UserInformation{}
@@ -150,64 +150,6 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 	}
 
 	return resp, nil
-}
-
-func (s *AuthService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
-	// 验证code是否正确
-	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
-	if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-		return nil, codes.ErrorCaptchaVerify
-	}
-
-	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
-	if account == nil {
-		return nil, codes.ErrorUserNotExist
-	}
-
-	// 更新密码
-	account.Password = crypto.BcryptHash(req.Password)
-	_, err = s.svcCtx.UserAccountRepository.UpdateUserAccount(reqCtx, account)
-	if err != nil {
-		return nil, err
-	}
-
-	return true, nil
-}
-
-func (s *AuthService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
-	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
-	if account == nil {
-		return nil, codes.ErrorUserNotExist
-	}
-
-	// 获取code
-	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
-	code := s.svcCtx.Captcha.GetCodeCaptcha(key)
-	data := mail.CaptchaEmail{
-		Username: req.Username,
-		Code:     code,
-	}
-
-	// 组装邮件内容
-	content, err := templateUtil.TempParseString(mail.TempForgetPassword, data)
-	if err != nil {
-		return nil, err
-	}
-
-	msg := &mail.EmailMessage{
-		To:      []string{req.Username},
-		Subject: "忘记密码",
-		Content: content,
-		Type:    0,
-	}
-	// 发送邮件
-	err = s.svcCtx.EmailPublisher.SendMessage(jsonconv.ObjectToJson(msg))
-	if err != nil {
-		return nil, err
-	}
-	return true, nil
 }
 
 func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
@@ -279,7 +221,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 			Username:     info.OpenID,
 			Password:     strconv.Itoa(pwd),
 			RegisterType: req.Platform,
-			IpAddress:    reqCtx.Ip,
+			IpAddress:    reqCtx.IpAddress,
 			IpSource:     reqCtx.IpSource,
 		}
 

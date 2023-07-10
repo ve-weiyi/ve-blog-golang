@@ -1,13 +1,19 @@
 package logic
 
 import (
+	"fmt"
 	"time"
 
+	"github.com/ve-weiyi/go-sdk/utils/crypto"
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	templateUtil "github.com/ve-weiyi/go-sdk/utils/temp"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 )
 
 type UserService struct {
@@ -112,6 +118,64 @@ func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.Pag
 		result = append(result, his)
 	}
 	return result, total, nil
+}
+
+func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
+	// 验证code是否正确
+	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
+		return nil, codes.ErrorCaptchaVerify
+	}
+
+	// 验证用户是否存在
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	if account == nil {
+		return nil, codes.ErrorUserNotExist
+	}
+
+	// 更新密码
+	account.Password = crypto.BcryptHash(req.Password)
+	_, err = s.svcCtx.UserAccountRepository.UpdateUserAccount(reqCtx, account)
+	if err != nil {
+		return nil, err
+	}
+
+	return true, nil
+}
+
+func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
+	// 验证用户是否存在
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	if account == nil {
+		return nil, codes.ErrorUserNotExist
+	}
+
+	// 获取code
+	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	code := s.svcCtx.Captcha.GetCodeCaptcha(key)
+	data := mail.CaptchaEmail{
+		Username: req.Username,
+		Code:     code,
+	}
+
+	// 组装邮件内容
+	content, err := templateUtil.TempParseString(mail.TempForgetPassword, data)
+	if err != nil {
+		return nil, err
+	}
+
+	msg := &mail.EmailMessage{
+		To:      []string{req.Username},
+		Subject: "忘记密码",
+		Content: content,
+		Type:    0,
+	}
+	// 发送邮件
+	err = s.svcCtx.EmailPublisher.SendMessage(jsonconv.ObjectToJson(msg))
+	if err != nil {
+		return nil, err
+	}
+	return true, nil
 }
 
 func (s *UserService) ChangePassword(req request.ChangePasswordReq) (auth *entity.UserAccount, err error) {

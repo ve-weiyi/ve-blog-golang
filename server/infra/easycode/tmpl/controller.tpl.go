@@ -4,16 +4,16 @@ const AppController = `
 package controller
 
 import (
-	"{{.SvcPackage }}"
+
 )
 
 type AppController struct {
 	svcCtx *svc.ControllerContext //持有的service引用
 }
 
-func NewController(ctx *svc.ControllerContext) *AppController {
+func NewController(svcCtx *svc.ControllerContext) *AppController {
 	return &AppController{
-		svcCtx: ctx,
+		svcCtx: svcCtx,
 	}
 }
 `
@@ -164,8 +164,8 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.{{.StructName}}							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router 		/{{.ValueName}}/query [get]
-func (s *{{.StructName}}Controller) Get{{.StructName}}(c *gin.Context) {
+// @Router 		/{{.ValueName}}/find [get]
+func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -179,7 +179,7 @@ func (s *{{.StructName}}Controller) Get{{.StructName}}(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Get{{.StructName}}(reqCtx, &{{.ValueName}});
+	data, err := s.svcCtx.{{.StructName}}Service.Find{{.StructName}}(reqCtx, &{{.ValueName}});
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -260,8 +260,7 @@ const CommonController = `
 package logic
 
 import (
-	"github.com/gin-gonic/gin"
-	{{range .ImportPkgPaths}}{{.}} ` + "\n" + `{{end}}
+
 )
 
 type {{.StructName}}Controller struct {

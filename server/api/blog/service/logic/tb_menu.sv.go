@@ -32,7 +32,7 @@ func (s *MenuService) UpdateMenu(reqCtx *request.Context, menu *entity.Menu) (da
 }
 
 // 查询Menu记录
-func (s *MenuService) GetMenu(reqCtx *request.Context, menu *entity.Menu) (data *entity.Menu, err error) {
+func (s *MenuService) FindMenu(reqCtx *request.Context, menu *entity.Menu) (data *entity.Menu, err error) {
 	return s.svcCtx.MenuRepository.GetMenu(reqCtx, menu.ID)
 }
 
