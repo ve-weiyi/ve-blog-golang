@@ -118,6 +118,43 @@ func (s *AdminController) GetUserList(c *gin.Context) {
 }
 
 // @Tags		Admin
+// @Summary		获取用户列表
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		page	body		request.PageInfo	true	"分页参数"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/comments [post]
+func (s *AdminController) GetAdminComments(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageInfo
+	err = s.ShouldBindQuery(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.Log.JsonIndent(page)
+	list, total, err := s.svcCtx.CommentService.FindCommonBackList(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.Limit(),
+	})
+}
+
+// @Tags		Admin
 // @Summary		获取角色列表
 // @Security	ApiKeyAuth
 // @accept		application/json

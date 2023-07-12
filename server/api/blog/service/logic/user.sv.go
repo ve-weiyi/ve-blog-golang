@@ -2,6 +2,7 @@ package logic
 
 import (
 	"fmt"
+	"mime/multipart"
 	"time"
 
 	"github.com/ve-weiyi/go-sdk/utils/crypto"
@@ -27,7 +28,7 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 }
 
 func (s *UserService) GetUserinfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx.Username)
+	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, userId)
 	if err != nil {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
@@ -190,12 +191,41 @@ func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInf
 	for _, ua := range userAccounts {
 		ui, err := s.GetUserinfo(reqCtx, ua.ID)
 		if err != nil {
-			return nil, 0, err
+			continue
 		}
 		list = append(list, ui)
 	}
 
 	return list, total, nil
+}
+
+// 修改用户角色
+func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.FileHeader) (data interface{}, err error) {
+	label := "avatar"
+	url, err := s.svcCtx.Uploader.UploadFile(label, file)
+	if err != nil {
+		return nil, err
+	}
+
+	// 保存上传记录
+	up := &entity.Upload{
+		UserID:   reqCtx.UID,
+		Label:    label,
+		FileName: file.Filename,
+		FileSize: int(file.Size),
+		FileMd5:  crypto.MD5V([]byte(file.Filename)),
+		FileUrl:  url,
+	}
+	s.svcCtx.UploadRepository.CreateUpload(reqCtx, up)
+
+	// 更新用户信息
+	information, err := s.svcCtx.UserInformationRepository.GetUserInformation(reqCtx, reqCtx.UID)
+	if err != nil {
+		return nil, err
+	}
+	information.Avatar = url
+
+	return s.svcCtx.UserInformationRepository.UpdateUserInformation(reqCtx, information)
 }
 
 // 修改用户角色

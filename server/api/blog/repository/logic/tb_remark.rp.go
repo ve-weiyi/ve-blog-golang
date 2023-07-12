@@ -11,49 +11,49 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 )
 
-type MessageRepository struct {
+type RemarkRepository struct {
 	DbEngin *gorm.DB
 	Cache   *redis.Client
 }
 
-func NewMessageRepository(svcCtx *svc.RepositoryContext) *MessageRepository {
-	return &MessageRepository{
+func NewRemarkRepository(svcCtx *svc.RepositoryContext) *RemarkRepository {
+	return &RemarkRepository{
 		DbEngin: svcCtx.DbEngin,
 		Cache:   svcCtx.Cache,
 	}
 }
 
-// 创建Message记录
-func (s *MessageRepository) CreateMessage(ctx context.Context, message *entity.Message) (out *entity.Message, err error) {
+// 创建Remark记录
+func (s *RemarkRepository) CreateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
 	db := s.DbEngin
-	err = db.Create(&message).Error
+	err = db.Create(&remark).Error
 	if err != nil {
 		return nil, err
 	}
-	return message, err
+	return remark, err
 }
 
-// 删除Message记录
-func (s *MessageRepository) DeleteMessage(ctx context.Context, message *entity.Message) (rows int64, err error) {
+// 删除Remark记录
+func (s *RemarkRepository) DeleteRemark(ctx context.Context, remark *entity.Remark) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&message)
+	query := db.Delete(&remark)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err
 }
 
-// 更新Message记录
-func (s *MessageRepository) UpdateMessage(ctx context.Context, message *entity.Message) (out *entity.Message, err error) {
+// 更新Remark记录
+func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
 	db := s.DbEngin
-	err = db.Save(&message).Error
+	err = db.Save(&remark).Error
 	if err != nil {
 		return nil, err
 	}
-	return message, err
+	return remark, err
 }
 
-// 查询Message记录
-func (s *MessageRepository) GetMessage(ctx context.Context, id int) (out *entity.Message, err error) {
+// 查询Remark记录
+func (s *RemarkRepository) GetRemark(ctx context.Context, id int) (out *entity.Remark, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -62,17 +62,17 @@ func (s *MessageRepository) GetMessage(ctx context.Context, id int) (out *entity
 	return out, err
 }
 
-// 批量删除Message记录
-func (s *MessageRepository) DeleteMessageByIds(ctx context.Context, ids []int) (rows int64, err error) {
+// 批量删除Remark记录
+func (s *RemarkRepository) DeleteRemarkByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Message{}, "id in ?", ids)
+	query := db.Delete(&[]entity.Remark{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err
 }
 
-// 分页查询Message记录
-func (s *MessageRepository) FindMessageList(ctx context.Context, page *request.PageInfo) (list []*entity.Message, total int64, err error) {
+// 分页查询Remark记录
+func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *request.PageInfo) (list []*entity.Remark, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

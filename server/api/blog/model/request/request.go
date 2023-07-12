@@ -23,8 +23,6 @@ func (s *Context) GetContext() context.Context {
 type PageInfo struct {
 	Page       int          `json:"page" form:"page"`             // 页码
 	PageSize   int          `json:"page_size" form:"page_size"`   // 每页大小
-	Order      string       `json:"order" form:"order"`           // 排序关键词
-	OrderKey   string       `json:"order_key" form:"order_key"`   // 排序 asc|desc
 	Orders     []*Order     `json:"orders" form:"orders"`         // 排序
 	Conditions []*Condition `json:"conditions" form:"conditions"` // 使用条件语句查询
 }
@@ -95,18 +93,27 @@ func (page *PageInfo) WhereClause() (string, []interface{}) {
 
 		switch condition.Rule {
 		case "like":
-			query += fmt.Sprintf(" %s %s %s ? ", flag, condition.Field, condition.Rule)
+			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
 			args = append(args, "%"+condition.Value.(string)+"%")
 		case "in":
-			query += fmt.Sprintf(" %s %s %s (?) ", flag, condition.Field, condition.Rule)
+			query += fmt.Sprintf("%s %s %s (?) ", flag, condition.Field, condition.Rule)
 			args = append(args, condition.Value)
 		default:
-			query += fmt.Sprintf(" %s %s %s ? ", flag, condition.Field, condition.Rule)
+			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
 			args = append(args, condition.Value)
 		}
 	}
 
 	return query, args
+}
+
+func (page *PageInfo) FindCondition(name string) *Condition {
+	for _, condition := range page.Conditions {
+		if condition.Field == name {
+			return condition
+		}
+	}
+	return nil
 }
 
 // GetByID Find by id structure
