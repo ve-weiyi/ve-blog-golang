@@ -34,6 +34,7 @@ type AppRepository struct {
 	UniqueViewRepository       *logic.UniqueViewRepository       //页面访问数量
 	OperationLogRepository     *logic.OperationLogRepository     //操作记录
 	MessageRepository          *logic.MessageRepository          //message
+	RemarkRepository           *logic.RemarkRepository           //留言
 }
 
 func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
@@ -65,5 +66,6 @@ func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
 		UniqueViewRepository:       logic.NewUniqueViewRepository(svcCtx),
 		OperationLogRepository:     logic.NewOperationLogRepository(svcCtx),
 		MessageRepository:          logic.NewMessageRepository(svcCtx),
+		RemarkRepository:           logic.NewRemarkRepository(svcCtx),
 	}
 }

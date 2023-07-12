@@ -27,6 +27,8 @@ type AppService struct {
 	PageService             *logic.PageService             //页面
 	TalkService             *logic.TalkService             //说说
 	FriendLinkService       *logic.FriendLinkService       //友链
+	OperationLogService     *logic.OperationLogService     //操作记录
+	RemarkService           *logic.RemarkService           //留言
 }
 
 func NewService(svcCtx *svc.ServiceContext) *AppService {
@@ -52,5 +54,7 @@ func NewService(svcCtx *svc.ServiceContext) *AppService {
 		PageService:             logic.NewPageService(svcCtx),
 		TalkService:             logic.NewTalkService(svcCtx),
 		FriendLinkService:       logic.NewFriendLinkService(svcCtx),
+		OperationLogService:     logic.NewOperationLogService(svcCtx),
+		RemarkService:           logic.NewRemarkService(svcCtx),
 	}
 }

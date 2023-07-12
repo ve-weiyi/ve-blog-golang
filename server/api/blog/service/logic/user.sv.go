@@ -27,7 +27,7 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 }
 
 func (s *UserService) GetUserinfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx.Username)
+	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, userId)
 	if err != nil {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
@@ -190,7 +190,7 @@ func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInf
 	for _, ua := range userAccounts {
 		ui, err := s.GetUserinfo(reqCtx, ua.ID)
 		if err != nil {
-			return nil, 0, err
+			continue
 		}
 		list = append(list, ui)
 	}

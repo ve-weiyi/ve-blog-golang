@@ -167,6 +167,87 @@ func (s *CommentService) FindCommonReplyList(reqCtx *request.Context, commentId 
 	return list, total, nil
 }
 
+// 查询Comment后台记录
+func (s *CommentService) FindCommonBackList(reqCtx *request.Context, page *request.PageInfo) (list []*response.CommentBackDTO, total int64, err error) {
+	// 使用用户昵称查询
+	username := page.FindCondition("username")
+	if username != nil {
+		accounts, _, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, &request.PageInfo{
+			Page:       0,
+			PageSize:   0,
+			Orders:     nil,
+			Conditions: []*request.Condition{username},
+		})
+		if err != nil {
+			return nil, 0, err
+		}
+
+		var userIds []int
+		for _, item := range accounts {
+			userIds = append(userIds, item.ID)
+		}
+		// 替换查询条件
+		username.Field = "user_id"
+		username.Value = userIds
+		username.Rule = "in"
+	}
+
+	// 查询评论下所有回复列表
+	replyList, total, _ := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+
+	// 收集需要查询的用户id
+	var userIds []int
+	for _, item := range replyList {
+		userIds = append(userIds, item.UserID)
+		userIds = append(userIds, item.ReplyUserID)
+	}
+
+	// 查询用户
+	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageInfo{
+		Conditions: []*request.Condition{{
+			Field: "id",
+			Rule:  "in",
+			Value: userIds,
+		}},
+	})
+	var userMap = make(map[int]*entity.UserInformation)
+	for _, item := range users {
+		userMap[item.ID] = item
+	}
+
+	// 组装返回数据
+	for _, item := range replyList {
+
+		data := &response.CommentBackDTO{
+			ID:             0,
+			Avatar:         "",
+			Nickname:       "",
+			ReplyNickname:  "",
+			ArticleTitle:   "测试",
+			CommentContent: item.CommentContent,
+			Type:           item.Type,
+			IsReview:       item.IsReview,
+			CreatedAt:      item.CreatedAt,
+		}
+
+		// 用户信息
+		info, _ := userMap[item.UserID]
+		if info != nil {
+			data.Nickname = info.Nickname
+			data.Avatar = info.Avatar
+		}
+
+		// 回复的用户信息
+		rinfo, _ := userMap[item.ReplyUserID]
+		if rinfo != nil {
+			data.ReplyNickname = rinfo.Nickname
+		}
+
+		list = append(list, data)
+	}
+	return list, total, nil
+}
+
 // 点赞Comment
 func (s *CommentService) LikeComment(reqCtx *request.Context, commentId int) (data interface{}, err error) {
 

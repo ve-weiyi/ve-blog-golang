@@ -32,8 +32,9 @@ func (s *AdminRouter) InitAdminRouter(publicRouter *gin.RouterGroup, loginRouter
 		loginRouter.POST("admin/role/update_resources", handler.UpdateRoleResources) // 获取Role列表
 	}
 	{
-		loginRouter.GET("admin/home", handler.GetHomeInfo)         // 获取首页信息
-		loginRouter.POST("admin/users", handler.GetUserList)       // 获取用户列表
-		loginRouter.POST("admin/user/areas", handler.GetUserAreas) // 获取用户地区
+		loginRouter.GET("admin/home", handler.GetHomeInfo)           // 获取首页信息
+		loginRouter.POST("admin/users", handler.GetUserList)         // 获取用户列表
+		loginRouter.POST("admin/user/areas", handler.GetUserAreas)   // 获取用户地区
+		loginRouter.POST("admin/comments", handler.GetAdminComments) // 获取评论列表
 	}
 }

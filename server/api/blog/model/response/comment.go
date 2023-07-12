@@ -31,3 +31,15 @@ type ReplyDTO struct {
 	LikeCount      int       `json:"likeCount"`      // 点赞数
 	CreatedAt      time.Time `json:"createdAt"`      // 评论时间
 }
+
+type CommentBackDTO struct {
+	ID             int       `json:"id"`
+	Avatar         string    `json:"avatar"`
+	Nickname       string    `json:"nickname"`
+	ReplyNickname  string    `json:"replyNickname"`
+	ArticleTitle   string    `json:"articleTitle"`
+	CommentContent string    `json:"commentContent"`
+	Type           int       `json:"type"`
+	IsReview       bool      `json:"isReview"`
+	CreatedAt      time.Time `json:"createdAt"`
+}
