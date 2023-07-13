@@ -23,6 +23,6 @@ func (s *UploadRouter) InitUploadRouter(publicRouter *gin.RouterGroup, loginRout
 
 	var handler = s.svcCtx.AppController.UploadController
 	{
-		publicRouter.POST("upload/file/*label", handler.UploadFile) // 上传文件
+		publicRouter.POST("upload/*label", handler.UploadFile) // 上传文件
 	}
 }

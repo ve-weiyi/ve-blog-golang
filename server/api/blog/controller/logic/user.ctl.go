@@ -187,3 +187,34 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 		PageSize: page.Limit(),
 	})
 }
+
+// @Tags		Upload
+// @Summary		更换用户头像
+// @Security	ApiKeyAuth
+// @accept		multipart/form-data
+// @Produce		application/json
+// @Param		data	body		entity.Upload							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
+// @Router		/user/avatar [post]
+func (s *UserController) UpdateUserAvatar(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	// 获取上传的文件
+	file, err := c.FormFile("file")
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.UserService.UpdateUserAvatar(reqCtx, file)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}

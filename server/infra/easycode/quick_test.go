@@ -107,8 +107,8 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
 	//gen.GenerateCommonFile("upload", "文件上传")
 
-	gen.ApplyMetas(gen.GenerateMetasFromTable("remark", "留言"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("message", "留言"))
 
-	//gen.RollBack()
-	gen.Execute()
+	gen.RollBack()
+	//gen.Execute()
 }
