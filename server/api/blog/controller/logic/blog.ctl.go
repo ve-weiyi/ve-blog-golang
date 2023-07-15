@@ -56,14 +56,7 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 		return
 	}
 
-	var api entity.Api
-	err = s.ShouldBindJSON(c, &api)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ApiService.CreateApi(reqCtx, &api)
+	data, err := s.svcCtx.WebsiteConfigService.GetAboutMe(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

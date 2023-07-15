@@ -3,6 +3,8 @@ package request
 import (
 	"context"
 	"fmt"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -66,7 +68,7 @@ func (page *PageInfo) OrderClause() string {
 		} else {
 			flag = ","
 		}
-		query += fmt.Sprintf("%s %s %s", flag, order.Field, order.Rule)
+		query += fmt.Sprintf("%s %s %s", flag, jsonconv.Camel2Case(order.Field), order.Rule)
 	}
 
 	return query

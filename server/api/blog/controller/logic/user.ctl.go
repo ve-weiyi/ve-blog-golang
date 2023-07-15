@@ -168,7 +168,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 	}
 
 	var page request.PageInfo
-	err = s.ShouldBindQuery(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
