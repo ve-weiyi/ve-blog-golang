@@ -213,6 +213,54 @@ definitions:
         description: 更新时间
         type: string
     type: object
+  entity.OperationLog:
+    properties:
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: 主键id
+        type: integer
+      ip_address:
+        description: 操作ip
+        type: string
+      ip_source:
+        description: 操作地址
+        type: string
+      nickname:
+        description: 用户昵称
+        type: string
+      opt_desc:
+        description: 操作描述
+        type: string
+      opt_method:
+        description: 操作方法
+        type: string
+      opt_module:
+        description: 操作模块
+        type: string
+      opt_type:
+        description: 操作类型
+        type: string
+      opt_url:
+        description: 操作url
+        type: string
+      request_method:
+        description: 请求方式
+        type: string
+      request_param:
+        description: 请求参数
+        type: string
+      response_data:
+        description: 返回数据
+        type: string
+      updated_at:
+        description: 更新时间
+        type: string
+      user_id:
+        description: 用户id
+        type: integer
+    type: object
   entity.Page:
     properties:
       created_at:
@@ -286,6 +334,39 @@ definitions:
         type: boolean
       updated_at:
         description: 更新时间
+        type: string
+    type: object
+  entity.Remark:
+    properties:
+      avatar:
+        description: 头像
+        type: string
+      created_at:
+        description: 发布时间
+        type: string
+      id:
+        description: 主键id
+        type: integer
+      ip_address:
+        description: 用户ip
+        type: string
+      ip_source:
+        description: 用户地址
+        type: string
+      is_review:
+        description: 是否审核
+        type: boolean
+      message_content:
+        description: 留言内容
+        type: string
+      nickname:
+        description: 昵称
+        type: string
+      time:
+        description: 弹幕速度
+        type: integer
+      updated_at:
+        description: 修改时间
         type: string
     type: object
   entity.Role:
@@ -440,7 +521,7 @@ definitions:
         description: 标识 and、or,默认and
         type: string
       rule:
-        description: 规则 =、like、in
+        description: 规则 =、like、in、<、>
         type: string
       value:
         description: 值
@@ -476,12 +557,6 @@ definitions:
         items:
           $ref: '#/definitions/request.Condition'
         type: array
-      order:
-        description: 排序关键词
-        type: string
-      order_key:
-        description: 排序 asc|desc
-        type: string
       orders:
         description: 排序
         items:
@@ -583,20 +658,36 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Api'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Api'
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 关于我
       tags:
-      - Blog
+        - Blog
+  /admin/about:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyUser: [ ]
+      summary: 更新我的信息
+      tags:
+        - Admin
   /admin/apis:
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
         - description: 分页参数
           in: body
@@ -621,6 +712,29 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 获取api列表
+      tags:
+        - Admin
+  /admin/comments:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyUser: [ ]
+      summary: 获取用户列表
       tags:
         - Admin
   /admin/home:
@@ -696,7 +810,7 @@ paths:
       - ApiKeyAuth: []
       summary: 更新角色菜单
       tags:
-      - Role
+        - Admin
   /admin/role/update_resources:
     post:
       consumes:
@@ -755,57 +869,6 @@ paths:
       summary: 获取角色列表
       tags:
         - Admin
-  /admin/update_roles:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求数据
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/request.UpdateUserRoles'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    $ref: '#/definitions/entity.Role'
-                type: object
-      security:
-        - ApiKeyAuth: [ ]
-      summary: 修改用户角色
-      tags:
-        - Admin
-  /admin/update_status:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: 请求数据
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.UserAccount'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-        - ApiKeyAuth: [ ]
-      summary: 修改用户状态
-      tags:
-        - Admin
   /admin/user/areas:
     post:
       consumes:
@@ -827,6 +890,57 @@ paths:
       security:
         - ApiKeyUser: [ ]
       summary: 获取用户地区
+      tags:
+        - Admin
+  /admin/user/update_roles:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求数据
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.UpdateUserRoles'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Role'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 修改用户角色
+      tags:
+        - Admin
+  /admin/user/update_status:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求数据
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.UserAccount'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 修改用户状态
       tags:
         - Admin
   /admin/users:
@@ -1019,46 +1133,6 @@ paths:
       summary: 更新接口
       tags:
       - Api
-  /api/version:
-    get:
-      description: 描述,可以有多个
-      parameters:
-      - description: 上传文件
-        in: formData
-        name: file
-        required: true
-        type: file
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      - description: 创建api路由
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Api'
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Api'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 标题
-      tags:
-      - Blog
   /article/archives:
     get:
       consumes:
@@ -1329,15 +1403,17 @@ paths:
         schema:
           $ref: '#/definitions/request.CaptchaEmail'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 发送验证码
+      tags:
+        - Captcha
   /captcha/image:
     post:
       consumes:
@@ -1732,34 +1808,6 @@ paths:
       summary: 更新评论
       tags:
       - Comment
-  /file/upload/:label:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Upload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Upload'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 文件上传
-      tags:
-      - Upload
   /friendLink/create:
     post:
       consumes:
@@ -2205,6 +2253,173 @@ paths:
       summary: 获取授权地址
       tags:
         - Auth
+  /operationLog/create:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.OperationLog'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.OperationLog'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 创建操作记录
+      tags:
+        - OperationLog
+  /operationLog/delete:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.OperationLog'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 删除操作记录
+      tags:
+        - OperationLog
+  /operationLog/deleteByIds:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 删除id列表
+          in: body
+          name: data
+          required: true
+          schema:
+            items:
+              type: integer
+            type: array
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 批量删除操作记录
+      tags:
+        - OperationLog
+  /operationLog/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.OperationLog'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.OperationLog'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询操作记录
+      tags:
+        - OperationLog
+  /operationLog/list:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/entity.OperationLog'
+                            type: array
+                        type: object
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 分页获取操作记录列表
+      tags:
+        - OperationLog
+  /operationLog/update:
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.OperationLog'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.OperationLog'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 更新操作记录
+      tags:
+        - OperationLog
   /page/create:
     post:
       consumes:
@@ -2752,6 +2967,173 @@ paths:
       summary: 发送注册邮件
       tags:
         - Auth
+  /remark/create:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Remark'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Remark'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 创建留言
+      tags:
+        - Remark
+  /remark/delete:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Remark'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 删除留言
+      tags:
+        - Remark
+  /remark/deleteByIds:
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - description: 删除id列表
+          in: body
+          name: data
+          required: true
+          schema:
+            items:
+              type: integer
+            type: array
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 批量删除留言
+      tags:
+        - Remark
+  /remark/find:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Remark'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Remark'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询留言
+      tags:
+        - Remark
+  /remark/list:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageInfo'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/entity.Remark'
+                            type: array
+                        type: object
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 分页获取留言列表
+      tags:
+        - Remark
+  /remark/update:
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求参数
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Remark'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Remark'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 更新留言
+      tags:
+        - Remark
   /role/create:
     post:
       consumes:
@@ -3243,38 +3625,94 @@ paths:
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Talk'
-              type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Talk'
+                type: object
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 更新说说
       tags:
-      - Talk
+        - Talk
+  /upload/:label:
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Upload'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Upload'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 文件上传
+      tags:
+        - Upload
   /user/apis:
     post:
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyUser: []
+        - ApiKeyUser: [ ]
       summary: 获取用户接口权限
       tags:
-      - User
+        - User
+  /user/avatar:
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Upload'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Upload'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 更换用户头像
+      tags:
+        - User
   /user/info:
     get:
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -3346,7 +3784,7 @@ paths:
       - ApiKeyAuth: []
       summary: 发送忘记密码邮件
       tags:
-      - Auth
+        - User
   /user/password/reset:
     post:
       consumes:
@@ -3359,23 +3797,63 @@ paths:
           schema:
             $ref: '#/definitions/request.ResetPasswordReq'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: [ ]
       summary: 重置密码
       tags:
-      - Auth
+        - User
+  /version:
+    get:
+      description: 描述,可以有多个。https://www.jianshu.com/p/4bb4283632e4
+      parameters:
+        - description: 上传文件
+          in: formData
+          name: file
+          required: true
+          type: file
+        - description: id
+          in: path
+          name: id
+          required: true
+          type: integer
+        - description: token
+          in: header
+          name: token
+          required: true
+          type: string
+        - description: 创建api路由
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Api'
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Api'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 创建api路由
+      tags:
+        - Blog
   /ws:
     get:
-      responses: {}
+      responses: { }
       summary: 查询聊天记录
       tags:
-      - Blog
+        - Blog
 securityDefinitions:
   ApiKeyAuth:
     in: header

@@ -20,6 +20,7 @@ func NewCaptchaController(svcCtx *svc.ControllerContext) *CaptchaController {
 	}
 }
 
+// @Tags		Captcha
 // @Summary		发送验证码
 // @Security	ApiKeyAuth
 // @accept		application/json

@@ -3,6 +3,8 @@ package request
 import (
 	"context"
 	"fmt"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -36,7 +38,7 @@ type Order struct {
 type Condition struct {
 	Flag  string      `json:"flag"`  // 标识 and、or,默认and
 	Field string      `json:"field"` // 表字段
-	Rule  string      `json:"rule"`  // 规则 =、like、in
+	Rule  string      `json:"rule"`  // 规则 =、like、in、<、>
 	Value interface{} `json:"value"` // 值
 }
 
@@ -66,7 +68,7 @@ func (page *PageInfo) OrderClause() string {
 		} else {
 			flag = ","
 		}
-		query += fmt.Sprintf("%s %s %s", flag, order.Field, order.Rule)
+		query += fmt.Sprintf("%s %s %s", flag, jsonconv.Camel2Case(order.Field), order.Rule)
 	}
 
 	return query

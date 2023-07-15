@@ -24,7 +24,7 @@ func (s *BlogRouter) InitBlogRouter(publicRouter *gin.RouterGroup, loginRouter *
 	var handler = s.svcCtx.BlogController
 	{
 		publicRouter.GET("ws", handler.WebSocket)                  // websocket
-		publicRouter.POST("about", handler.GetAboutMe)             // 查询关于我
+		publicRouter.GET("about", handler.GetAboutMe)              // 查询关于我
 		publicRouter.POST("chat/records", handler.FindChatRecords) // 查询聊天记录
 	}
 }

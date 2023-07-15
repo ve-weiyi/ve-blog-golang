@@ -29,6 +29,7 @@ type AppService struct {
 	FriendLinkService       *logic.FriendLinkService       //友链
 	OperationLogService     *logic.OperationLogService     //操作记录
 	RemarkService           *logic.RemarkService           //留言
+	WebsiteConfigService    *logic.WebsiteConfigService    //网站设置
 }
 
 func NewService(svcCtx *svc.ServiceContext) *AppService {
@@ -56,5 +57,6 @@ func NewService(svcCtx *svc.ServiceContext) *AppService {
 		FriendLinkService:       logic.NewFriendLinkService(svcCtx),
 		OperationLogService:     logic.NewOperationLogService(svcCtx),
 		RemarkService:           logic.NewRemarkService(svcCtx),
+		WebsiteConfigService:    logic.NewWebsiteConfigService(svcCtx),
 	}
 }

@@ -23,6 +23,36 @@ func NewAdminController(svcCtx *svc.ControllerContext) *AdminController {
 }
 
 // @Tags		Admin
+// @Summary		更新我的信息
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/about [post]
+func (s *AdminController) UpdateAbout(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req string
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteConfigService.UpdateAboutMe(reqCtx, req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Admin
 // @Summary		获取用户地区
 // @Security	ApiKeyUser
 // @accept		application/json
@@ -46,42 +76,6 @@ func (s *AdminController) GetHomeInfo(c *gin.Context) {
 }
 
 // @Tags		Admin
-// @Summary		获取用户地区
-// @Security	ApiKeyUser
-// @accept		application/json
-// @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/admin/user/areas [post]
-func (s *AdminController) GetUserAreas(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page request.PageInfo
-	err = s.ShouldBindQuery(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.UserService.GetUserAreas(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.Limit(),
-	})
-}
-
-// @Tags		Admin
 // @Summary		获取用户列表
 // @Security	ApiKeyUser
 // @accept		application/json
@@ -97,7 +91,7 @@ func (s *AdminController) GetUserList(c *gin.Context) {
 	}
 
 	var page request.PageInfo
-	err = s.ShouldBindQuery(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -133,7 +127,7 @@ func (s *AdminController) GetAdminComments(c *gin.Context) {
 	}
 
 	var page request.PageInfo
-	err = s.ShouldBindQuery(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -262,7 +256,7 @@ func (s *AdminController) GetApiTreeList(c *gin.Context) {
 	})
 }
 
-// @Tags		Role
+// @Tags		Admin
 // @Summary		更新角色菜单
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -331,7 +325,7 @@ func (s *AdminController) UpdateRoleResources(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		request.UpdateUserRoles				true	"请求数据"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/admin/update_roles [post]
+// @Router		/admin/user/update_roles [post]
 func (s *AdminController) UpdateUserRoles(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -362,7 +356,7 @@ func (s *AdminController) UpdateUserRoles(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		entity.UserAccount	true	"请求数据"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/admin/update_status [post]
+// @Router		/admin/user/update_status [post]
 func (s *AdminController) UpdateUserStatus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -384,4 +378,40 @@ func (s *AdminController) UpdateUserStatus(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
+}
+
+// @Tags		Admin
+// @Summary		获取用户地区
+// @Security	ApiKeyUser
+// @accept		application/json
+// @Produce		application/json
+// @Param		page	body		request.PageInfo	true	"分页参数"
+// @Success		200		{object}	response.Response{}	"返回信息"
+// @Router		/admin/user/areas [post]
+func (s *AdminController) GetUserAreas(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageInfo
+	err = s.ShouldBind(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.UserService.GetUserAreas(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.Limit(),
+	})
 }
