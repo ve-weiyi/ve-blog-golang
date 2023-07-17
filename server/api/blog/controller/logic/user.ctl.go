@@ -21,7 +21,7 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 	}
 }
 
-// @Tags		Auth
+// @Tags		User
 // @Summary		重置密码
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -52,7 +52,7 @@ func (s *UserController) ResetPassword(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Auth
+// @Tags		User
 // @Summary		发送忘记密码邮件
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -188,7 +188,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 	})
 }
 
-// @Tags		Upload
+// @Tags		User
 // @Summary		更换用户头像
 // @Security	ApiKeyAuth
 // @accept		multipart/form-data

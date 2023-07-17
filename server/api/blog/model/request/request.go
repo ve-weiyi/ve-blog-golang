@@ -38,7 +38,7 @@ type Order struct {
 type Condition struct {
 	Flag  string      `json:"flag"`  // 标识 and、or,默认and
 	Field string      `json:"field"` // 表字段
-	Rule  string      `json:"rule"`  // 规则 =、like、in
+	Rule  string      `json:"rule"`  // 规则 =、like、in、<、>
 	Value interface{} `json:"value"` // 值
 }
 
