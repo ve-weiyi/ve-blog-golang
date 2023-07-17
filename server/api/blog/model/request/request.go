@@ -3,6 +3,8 @@ package request
 import (
 	"context"
 	"fmt"
+
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -11,7 +13,7 @@ type Context struct {
 	Token           string `json:"token" header:"token" example:""`
 	UID             int    `json:"uid" header:"-" example:""`
 	Username        string `json:"username" header:"-" example:""`
-	Ip              string `json:"ip" header:"-" example:""`
+	IpAddress       string `json:"ip_address" header:"-" example:""`
 	IpSource        string `json:"ip_source" header:"-" example:""`
 }
 
@@ -23,8 +25,6 @@ func (s *Context) GetContext() context.Context {
 type PageInfo struct {
 	Page       int          `json:"page" form:"page"`             // 页码
 	PageSize   int          `json:"page_size" form:"page_size"`   // 每页大小
-	Order      string       `json:"order" form:"order"`           // 排序关键词
-	OrderKey   string       `json:"order_key" form:"order_key"`   // 排序 asc|desc
 	Orders     []*Order     `json:"orders" form:"orders"`         // 排序
 	Conditions []*Condition `json:"conditions" form:"conditions"` // 使用条件语句查询
 }
@@ -38,7 +38,7 @@ type Order struct {
 type Condition struct {
 	Flag  string      `json:"flag"`  // 标识 and、or,默认and
 	Field string      `json:"field"` // 表字段
-	Rule  string      `json:"rule"`  // 规则 =、like、in
+	Rule  string      `json:"rule"`  // 规则 =、like、in、<、>
 	Value interface{} `json:"value"` // 值
 }
 
@@ -68,7 +68,7 @@ func (page *PageInfo) OrderClause() string {
 		} else {
 			flag = ","
 		}
-		query += fmt.Sprintf("%s %s %s", flag, order.Field, order.Rule)
+		query += fmt.Sprintf("%s %s %s", flag, jsonconv.Camel2Case(order.Field), order.Rule)
 	}
 
 	return query
@@ -95,18 +95,27 @@ func (page *PageInfo) WhereClause() (string, []interface{}) {
 
 		switch condition.Rule {
 		case "like":
-			query += fmt.Sprintf(" %s %s %s ? ", flag, condition.Field, condition.Rule)
+			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
 			args = append(args, "%"+condition.Value.(string)+"%")
 		case "in":
-			query += fmt.Sprintf(" %s %s %s (?) ", flag, condition.Field, condition.Rule)
+			query += fmt.Sprintf("%s %s %s (?) ", flag, condition.Field, condition.Rule)
 			args = append(args, condition.Value)
 		default:
-			query += fmt.Sprintf(" %s %s %s ? ", flag, condition.Field, condition.Rule)
+			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
 			args = append(args, condition.Value)
 		}
 	}
 
 	return query, args
+}
+
+func (page *PageInfo) FindCondition(name string) *Condition {
+	for _, condition := range page.Conditions {
+		if condition.Field == name {
+			return condition
+		}
+	}
+	return nil
 }
 
 // GetByID Find by id structure

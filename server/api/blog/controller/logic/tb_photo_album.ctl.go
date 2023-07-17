@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -122,8 +121,8 @@ func (s *PhotoAlbumController) UpdatePhotoAlbum(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.PhotoAlbum							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
-// @Router 		/photoAlbum/query [get]
-func (s *PhotoAlbumController) GetPhotoAlbum(c *gin.Context) {
+// @Router 		/photoAlbum/find [get]
+func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *PhotoAlbumController) GetPhotoAlbum(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.PhotoAlbumService.GetPhotoAlbum(reqCtx, &photoAlbum)
+	data, err := s.svcCtx.PhotoAlbumService.FindPhotoAlbum(reqCtx, &photoAlbum)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

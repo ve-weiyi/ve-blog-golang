@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 )
 
@@ -26,7 +25,7 @@ func (s *PhotoAlbumRouter) InitPhotoAlbumRouter(publicRouter *gin.RouterGroup, l
 		publicRouter.POST("photoAlbum/create", handler.CreatePhotoAlbum)   // 新建PhotoAlbum
 		publicRouter.PUT("photoAlbum/update", handler.UpdatePhotoAlbum)    // 更新PhotoAlbum
 		publicRouter.DELETE("photoAlbum/delete", handler.DeletePhotoAlbum) // 删除PhotoAlbum
-		publicRouter.POST("photoAlbum/query", handler.GetPhotoAlbum)       // 查询PhotoAlbum
+		publicRouter.POST("photoAlbum/find", handler.FindPhotoAlbum)       // 查询PhotoAlbum
 
 		publicRouter.DELETE("photoAlbum/deleteByIds", handler.DeletePhotoAlbumByIds) // 批量删除PhotoAlbum列表
 		publicRouter.POST("photoAlbum/list", handler.FindPhotoAlbumList)             // 分页查询PhotoAlbum列表

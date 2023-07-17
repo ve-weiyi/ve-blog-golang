@@ -2,7 +2,6 @@ package initialize
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -20,11 +19,11 @@ func Redis() {
 	})
 	pong, err := client.Ping(context.Background()).Result()
 	if err != nil {
-		log.Printf("Redis 连接失败, err:%v", err)
+		global.LOG.Printf("Redis 连接失败, err:%v", err)
 		return
 	}
 	client.Set(context.Background(), "connect", time.Now().String(), -1)
 	global.REDIS = client
 
-	log.Printf("Redis 连接成功%v! address:%v db:%v", pong, address, redisCfg.DB)
+	global.LOG.Printf("Redis 连接成功%v! address:%v db:%v", pong, address, redisCfg.DB)
 }

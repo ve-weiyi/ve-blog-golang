@@ -40,7 +40,8 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 
 	email := handler.NewEmailHandler(cfg.RabbitMQ.GetUrl())
 	return &ServiceContext{
-		Config: cfg,
+		AppRepository: repo,
+		Config:        cfg,
 		//MainDB: global.DB,
 		//DBList: global.DBList,
 		//Cache:  global.REDIS,
@@ -49,7 +50,6 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 		RBAC:           global.RbacEnforcer,
 		Captcha:        captcha.NewCaptchaRepository(),
 		EmailPublisher: email.Publisher(),
-		AppRepository:  repo,
 		Uploader:       upload.NewOss(&cfg.Upload),
 	}
 }

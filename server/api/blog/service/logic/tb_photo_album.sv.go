@@ -32,7 +32,7 @@ func (s *PhotoAlbumService) UpdatePhotoAlbum(reqCtx *request.Context, photoAlbum
 }
 
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumService) GetPhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
+func (s *PhotoAlbumService) FindPhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
 	return s.svcCtx.PhotoAlbumRepository.GetPhotoAlbum(reqCtx, photoAlbum.ID)
 }
 

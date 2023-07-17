@@ -2,7 +2,6 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -122,8 +121,8 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data		body		entity.Comment							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router 		/comment/query [get]
-func (s *CommentController) GetComment(c *gin.Context) {
+// @Router 		/comment/find [get]
+func (s *CommentController) FindComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -137,7 +136,7 @@ func (s *CommentController) GetComment(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.CommentService.GetComment(reqCtx, &comment)
+	data, err := s.svcCtx.CommentService.FindComment(reqCtx, &comment)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

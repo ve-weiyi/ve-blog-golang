@@ -19,7 +19,7 @@ func RBAC() {
 	//
 	//m, err := model.NewModelFromString(SubjectDomainObjectAction)
 	//if err != nil {
-	//	log.Fatalln("字符串加载模型失败!", err)
+	//	global.LOG.Fatalln("字符串加载模型失败!", err)
 	//}
 	//
 	//syncedCachedEnforcer, _ := casbin.NewSyncedCachedEnforcer(m, adapter)

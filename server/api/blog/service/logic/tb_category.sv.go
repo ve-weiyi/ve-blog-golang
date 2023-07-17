@@ -33,7 +33,7 @@ func (s *CategoryService) UpdateCategory(reqCtx *request.Context, category *enti
 }
 
 // 查询Category记录
-func (s *CategoryService) GetCategory(reqCtx *request.Context, category *entity.Category) (data *entity.Category, err error) {
+func (s *CategoryService) FindCategory(reqCtx *request.Context, category *entity.Category) (data *entity.Category, err error) {
 	return s.svcCtx.CategoryRepository.GetCategory(reqCtx, category.ID)
 }
 

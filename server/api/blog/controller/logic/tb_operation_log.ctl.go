@@ -2,6 +2,7 @@ package logic
 
 import (
 	"github.com/gin-gonic/gin"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
@@ -9,41 +10,41 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
 )
 
-type FriendLinkController struct {
+type OperationLogController struct {
 	controller.BaseController
 	svcCtx *svc.ControllerContext
 }
 
-func NewFriendLinkController(svcCtx *svc.ControllerContext) *FriendLinkController {
-	return &FriendLinkController{
+func NewOperationLogController(svcCtx *svc.ControllerContext) *OperationLogController {
+	return &OperationLogController{
 		svcCtx:         svcCtx,
 		BaseController: controller.NewBaseController(svcCtx),
 	}
 }
 
-// @Tags		FriendLink
-// @Summary		创建友链
+// @Tags		OperationLog
+// @Summary		创建操作记录
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.FriendLink							true		"请求参数"
-// @Success		200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router		/friendLink/create [post]
-func (s *FriendLinkController) CreateFriendLink(c *gin.Context) {
+// @Param		data	body		entity.OperationLog							true		"请求参数"
+// @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
+// @Router		/operationLog/create [post]
+func (s *OperationLogController) CreateOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var friendLink entity.FriendLink
-	err = s.ShouldBind(c, &friendLink)
+	var operationLog entity.OperationLog
+	err = s.ShouldBind(c, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.FriendLinkService.CreateFriendLink(reqCtx, &friendLink)
+	data, err := s.svcCtx.OperationLogService.CreateOperationLog(reqCtx, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -52,29 +53,29 @@ func (s *FriendLinkController) CreateFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		FriendLink
-// @Summary		删除友链
+// @Tags		OperationLog
+// @Summary		删除操作记录
 // @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body	 	entity.FriendLink 		true "请求body"
+// @Param		data	body	 	entity.OperationLog 		true "请求body"
 // @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/friendLink/delete [delete]
-func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
+// @Router		/operationLog/delete [delete]
+func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var friendLink entity.FriendLink
-	err = s.ShouldBind(c, &friendLink)
+	var operationLog entity.OperationLog
+	err = s.ShouldBind(c, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.FriendLinkService.DeleteFriendLink(reqCtx, &friendLink)
+	data, err := s.svcCtx.OperationLogService.DeleteOperationLog(reqCtx, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -83,29 +84,29 @@ func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	FriendLink
-// @Summary		更新友链
+// @Tags 	 	OperationLog
+// @Summary		更新操作记录
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data	body 	 	entity.FriendLink							true		"请求参数"
-// @Success		200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router 		/friendLink/update [put]
-func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
+// @Param 	 	data	body 	 	entity.OperationLog							true		"请求参数"
+// @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
+// @Router 		/operationLog/update [put]
+func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var friendLink entity.FriendLink
-	err = s.ShouldBind(c, &friendLink)
+	var operationLog entity.OperationLog
+	err = s.ShouldBind(c, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.FriendLinkService.UpdateFriendLink(reqCtx, &friendLink)
+	data, err := s.svcCtx.OperationLogService.UpdateOperationLog(reqCtx, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -114,29 +115,29 @@ func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	FriendLink
-// @Summary		查询友链
+// @Tags 	 	OperationLog
+// @Summary		查询操作记录
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.FriendLink							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.FriendLink}	"返回信息"
-// @Router 		/friendLink/find [get]
-func (s *FriendLinkController) FindFriendLink(c *gin.Context) {
+// @Param 	 	data		body		entity.OperationLog							true		"请求参数"
+// @Success		200			{object}	response.Response{data=entity.OperationLog}	"返回信息"
+// @Router 		/operationLog/find [get]
+func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var friendLink entity.FriendLink
-	err = s.ShouldBind(c, &friendLink)
+	var operationLog entity.OperationLog
+	err = s.ShouldBind(c, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.FriendLinkService.FindFriendLink(reqCtx, &friendLink)
+	data, err := s.svcCtx.OperationLogService.FindOperationLog(reqCtx, &operationLog)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -145,15 +146,15 @@ func (s *FriendLinkController) FindFriendLink(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	FriendLink
-// @Summary		批量删除友链
+// @Tags 	 	OperationLog
+// @Summary		批量删除操作记录
 // @Security 	ApiKeyAuth
 // @accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/friendLink/deleteByIds [delete]
-func (s *FriendLinkController) DeleteFriendLinkByIds(c *gin.Context) {
+// @Router		/operationLog/deleteByIds [delete]
+func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -167,7 +168,7 @@ func (s *FriendLinkController) DeleteFriendLinkByIds(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.FriendLinkService.DeleteFriendLinkByIds(reqCtx, IDS)
+	data, err := s.svcCtx.OperationLogService.DeleteOperationLogByIds(reqCtx, IDS)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -176,15 +177,15 @@ func (s *FriendLinkController) DeleteFriendLinkByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	FriendLink
-// @Summary		分页获取友链列表
+// @Tags 	 	OperationLog
+// @Summary		分页获取操作记录列表
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.FriendLink}}	"返回信息"
-// @Router		/friendLink/list [post]
-func (s *FriendLinkController) FindFriendLinkList(c *gin.Context) {
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.OperationLog}}	"返回信息"
+// @Router		/operationLog/list [post]
+func (s *OperationLogController) FindOperationLogList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -198,7 +199,7 @@ func (s *FriendLinkController) FindFriendLinkList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.FriendLinkService.FindFriendLinkList(reqCtx, &page)
+	list, total, err := s.svcCtx.OperationLogService.FindOperationLogList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

@@ -1,13 +1,20 @@
 package logic
 
 import (
+	"fmt"
+	"mime/multipart"
 	"time"
 
+	"github.com/ve-weiyi/go-sdk/utils/crypto"
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	templateUtil "github.com/ve-weiyi/go-sdk/utils/temp"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 )
 
 type UserService struct {
@@ -21,7 +28,7 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 }
 
 func (s *UserService) GetUserinfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx.Username)
+	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, userId)
 	if err != nil {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
@@ -114,6 +121,64 @@ func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.Pag
 	return result, total, nil
 }
 
+func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
+	// 验证code是否正确
+	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
+		return nil, codes.ErrorCaptchaVerify
+	}
+
+	// 验证用户是否存在
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	if account == nil {
+		return nil, codes.ErrorUserNotExist
+	}
+
+	// 更新密码
+	account.Password = crypto.BcryptHash(req.Password)
+	_, err = s.svcCtx.UserAccountRepository.UpdateUserAccount(reqCtx, account)
+	if err != nil {
+		return nil, err
+	}
+
+	return true, nil
+}
+
+func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
+	// 验证用户是否存在
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	if account == nil {
+		return nil, codes.ErrorUserNotExist
+	}
+
+	// 获取code
+	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	code := s.svcCtx.Captcha.GetCodeCaptcha(key)
+	data := mail.CaptchaEmail{
+		Username: req.Username,
+		Code:     code,
+	}
+
+	// 组装邮件内容
+	content, err := templateUtil.TempParseString(mail.TempForgetPassword, data)
+	if err != nil {
+		return nil, err
+	}
+
+	msg := &mail.EmailMessage{
+		To:      []string{req.Username},
+		Subject: "忘记密码",
+		Content: content,
+		Type:    0,
+	}
+	// 发送邮件
+	err = s.svcCtx.EmailPublisher.SendMessage(jsonconv.ObjectToJson(msg))
+	if err != nil {
+		return nil, err
+	}
+	return true, nil
+}
+
 func (s *UserService) ChangePassword(req request.ChangePasswordReq) (auth *entity.UserAccount, err error) {
 
 	return auth, nil
@@ -126,12 +191,41 @@ func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInf
 	for _, ua := range userAccounts {
 		ui, err := s.GetUserinfo(reqCtx, ua.ID)
 		if err != nil {
-			return nil, 0, err
+			continue
 		}
 		list = append(list, ui)
 	}
 
 	return list, total, nil
+}
+
+// 修改用户角色
+func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.FileHeader) (data interface{}, err error) {
+	label := "avatar"
+	url, err := s.svcCtx.Uploader.UploadFile(label, file)
+	if err != nil {
+		return nil, err
+	}
+
+	// 保存上传记录
+	up := &entity.Upload{
+		UserID:   reqCtx.UID,
+		Label:    label,
+		FileName: file.Filename,
+		FileSize: int(file.Size),
+		FileMd5:  crypto.MD5V([]byte(file.Filename)),
+		FileUrl:  url,
+	}
+	s.svcCtx.UploadRepository.CreateUpload(reqCtx, up)
+
+	// 更新用户信息
+	information, err := s.svcCtx.UserInformationRepository.GetUserInformation(reqCtx, reqCtx.UID)
+	if err != nil {
+		return nil, err
+	}
+	information.Avatar = url
+
+	return s.svcCtx.UserInformationRepository.UpdateUserInformation(reqCtx, information)
 }
 
 // 修改用户角色

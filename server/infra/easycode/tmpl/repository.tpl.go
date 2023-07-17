@@ -29,11 +29,11 @@ import (
 
 // 注册需要用到的gorm、redis、model
 type RepositoryContext struct {
-	DbEngin *config.Config
-	GormDB  *gorm.DB
-	DBList  map[string]*gorm.DB
-	Cache   *redis.Client
-	Log     *glog.Glogger
+	Config   *config.Config
+	DbEngin  *gorm.DB
+	DBList   map[string]*gorm.DB
+	Cache    *redis.Client
+	Log      *glog.Glogger
 	//下面是一些Model
 }
 
@@ -159,7 +159,7 @@ const CommonRepository = `
 package logic
 
 import (
-	{{range .ImportPkgPaths}}{{.}} ` + "\n" + `{{end}}
+
 )
 
 type {{.StructName}}Repository struct {

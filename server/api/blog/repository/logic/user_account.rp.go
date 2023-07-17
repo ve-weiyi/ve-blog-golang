@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
@@ -180,8 +181,10 @@ func (s *UserAccountRepository) GetUserinfo(userId int) (out *entity.UserInforma
 // 根据id获取UserLoginHistory记录
 func (s *UserAccountRepository) GetLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin
+
+	out = &entity.UserLoginHistory{}
 	err = db.Where("user_id = ?", uid).First(&out).Error
-	if err != nil {
+	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
 	return out, err

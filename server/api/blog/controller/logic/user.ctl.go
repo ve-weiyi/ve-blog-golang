@@ -21,7 +21,7 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 	}
 }
 
-// @Tags		Auth
+// @Tags		User
 // @Summary		重置密码
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -43,7 +43,7 @@ func (s *UserController) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.AuthService.ResetPassword(reqCtx, &user)
+	data, err := s.svcCtx.UserService.ResetPassword(reqCtx, &user)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -52,7 +52,7 @@ func (s *UserController) ResetPassword(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Auth
+// @Tags		User
 // @Summary		发送忘记密码邮件
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -74,7 +74,7 @@ func (s *UserController) ForgetPasswordEmail(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.AuthService.SendForgetPwdEmail(reqCtx, &user)
+	data, err := s.svcCtx.UserService.SendForgetPwdEmail(reqCtx, &user)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -168,7 +168,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 	}
 
 	var page request.PageInfo
-	err = s.ShouldBindQuery(c, &page)
+	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -186,4 +186,35 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 		Page:     page.Page,
 		PageSize: page.Limit(),
 	})
+}
+
+// @Tags		User
+// @Summary		更换用户头像
+// @Security	ApiKeyAuth
+// @accept		multipart/form-data
+// @Produce		application/json
+// @Param		data	body		entity.Upload							true	"请求body"
+// @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
+// @Router		/user/avatar [post]
+func (s *UserController) UpdateUserAvatar(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	// 获取上传的文件
+	file, err := c.FormFile("file")
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.UserService.UpdateUserAvatar(reqCtx, file)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }

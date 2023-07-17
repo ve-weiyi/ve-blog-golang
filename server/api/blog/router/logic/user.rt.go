@@ -33,5 +33,6 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.GET("user/login_history", self.GetLoginHistory) // 用户信息
 		loginRouter.GET("user/menus", self.GetUserMenus)            // 用户菜单
 		loginRouter.GET("user/resources", self.GetUserApis)         // 用户资源
+		loginRouter.POST("user/avatar", self.UpdateUserAvatar)      // 更新用户头像
 	}
 }

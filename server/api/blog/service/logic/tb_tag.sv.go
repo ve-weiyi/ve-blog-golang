@@ -32,7 +32,7 @@ func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *
 }
 
 // 查询Tag记录
-func (s *TagService) GetTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
+func (s *TagService) FindTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
 	return s.svcCtx.TagRepository.GetTag(reqCtx, tag.ID)
 }
 
