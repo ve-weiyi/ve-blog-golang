@@ -1,4 +1,3 @@
-
 # system configuration
 system:
   env: develop # 运行环境 可选值: develop、test、production
