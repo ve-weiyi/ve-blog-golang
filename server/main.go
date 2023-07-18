@@ -51,7 +51,7 @@ func main() {
 	initialize.OtherInit()
 
 	// 创建协程运行rabbitmq订阅消息
-	initialize.RabbitMq()
+	go initialize.RabbitMq()
 	// 程序结束前关闭数据库链接
 	if global.DB != nil {
 		initialize.RegisterTables(global.DB) // 初始化表

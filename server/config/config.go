@@ -18,5 +18,6 @@ type Config struct {
 	Mysql  orm.Mysql           `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	DBList []orm.SpecializedDB `mapstructure:"db-list" json:"db-list" yaml:"db-list"`
 	// oss
-	Upload properties.Upload `mapstructure:"upload" json:"upload" yaml:"upload"`
+	Upload  properties.Upload  `mapstructure:"upload" json:"upload" yaml:"upload"`
+	ChatGPT properties.ChatGPT `mapstructure:"chatgpt" json:"chatgpt" yaml:"chatgpt"`
 }
