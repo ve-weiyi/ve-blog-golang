@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/https"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
 
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )

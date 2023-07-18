@@ -75,6 +75,7 @@ func Routers() *gin.Engine {
 		blogRouter.UploadRouter.InitUploadRouter(PublicGroup, AdminGroup)
 		blogRouter.RemarkRouter.InitRemarkRouter(PublicGroup, AdminGroup)
 		blogRouter.OperationLogRouter.InitOperationLogRouter(PublicGroup, AdminGroup)
+		blogRouter.AIRouter.InitAIRouter(PublicGroup, AdminGroup)
 	}
 
 	global.LOG.Info("router register success")
