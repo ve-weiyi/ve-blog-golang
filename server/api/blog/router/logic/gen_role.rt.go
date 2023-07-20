@@ -30,5 +30,9 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 		publicRouter.DELETE("role/deleteByIds", handler.DeleteRoleByIds) // 批量删除Role列表
 		publicRouter.POST("role/list", handler.FindRoleList)             // 分页查询Role列表
+
+		loginRouter.POST("admin/roles", handler.GetRoles)                            // 获取Role列表
+		loginRouter.POST("admin/role/update_menus", handler.UpdateRoleMenus)         // 获取Role列表
+		loginRouter.POST("admin/role/update_resources", handler.UpdateRoleResources) // 获取Role列表
 	}
 }
