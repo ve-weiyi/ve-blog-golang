@@ -236,7 +236,7 @@ func (vi *FuncMeta) GetNode() dst.Node {
 	return insertStmt
 }
 
-func (vi *FuncMeta) InjectCode() string {
+func (vi *FuncMeta) GetCode() string {
 	injectCode := fmt.Sprintf("import")
 
 	return injectCode
@@ -337,7 +337,7 @@ func %v(){
 		return true
 	})
 
-	//log.Println("InjectCode", meta.InjectCode())
+	//log.Println("GetCode", meta.GetCode())
 	//log.Println("NewFuncMete", jsonconv.ObjectToJsonIndent(meta))
 	return meta
 }

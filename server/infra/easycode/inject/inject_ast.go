@@ -12,16 +12,20 @@ import (
 )
 
 type Meta interface {
-	InjectCode() string
+	Visit(node dst.Node) dst.Visitor
+	RollBack(node dst.Node) dst.Visitor
+
 	GetNode() dst.Node
+	GetCode() string
 }
 
 type AstInjectMeta struct {
 	Key         string
 	FilePath    string
-	ImportMetas []*ImportMeta
-	StructMetas []*StructMeta
-	FuncMetas   []*FuncMeta
+	ImportMetas []*ImportMeta // 导入包
+	StructMetas []*StructMeta // 结构体中插入属性
+	FuncMetas   []*FuncMeta   // 函数中插入代码
+	DeclMeta    []*DeclMeta   // 文件中插入定义声明
 }
 
 func (vi *AstInjectMeta) Visit(node dst.Node) dst.Visitor {
@@ -101,6 +105,13 @@ func (vi *AstInjectMeta) Inject() error {
 		})
 	}
 	for _, vi := range vi.FuncMetas {
+		vi.fset = fSet
+		dst.Inspect(fParser, func(node dst.Node) bool {
+			vi.Visit(node)
+			return true
+		})
+	}
+	for _, vi := range vi.DeclMeta {
 		vi.fset = fSet
 		dst.Inspect(fParser, func(node dst.Node) bool {
 			vi.Visit(node)

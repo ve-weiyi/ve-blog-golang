@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"gorm.io/gorm"
 
@@ -79,8 +78,9 @@ func (g *Generator) GenFieldConfig() *field.FieldConfig {
 		FieldWithIndexTag: g.cfg.FieldWithIndexTag,
 		FieldWithTypeTag:  g.cfg.FieldWithTypeTag,
 
-		FieldNameNS:    func(column string) string { return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID") },
-		FieldJSONTagNS: g.cfg.fieldJSONTagNS,
+		FieldNameNS:  g.cfg.FieldNameNS,
+		FieldJsonNS:  g.cfg.FieldJsonNS,
+		FieldValueNS: g.cfg.FieldValueNS,
 	}
 }
 
@@ -193,6 +193,13 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		Data:           data,
 		Replace:        g.cfg.Replace,
 	}
+	metaApi := &plate.PlateMeta{
+		Key:            tmpl.KeyApi,
+		TemplateString: tmpl.Api,
+		AutoCodePath:   fmt.Sprintf("%v/api/%s.ts", temporaryRoot, tableName),
+		Data:           data,
+		Replace:        g.cfg.Replace,
+	}
 
 	metas := []*plate.PlateMeta{
 		/** server start */
@@ -201,6 +208,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		metaService,
 		metaController,
 		metaRouter,
+		metaApi,
 	}
 
 	var injectMetas []*inject.AstInjectMeta
@@ -214,6 +222,19 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		FuncMetas: []*inject.FuncMeta{
 			inject.NewFuncMete("NewRepository", fmt.Sprintf(`return &AppRepository{
 			%vRepository: logic.New%vRepository(svcCtx),
+			}`, data.StructName, data.StructName)),
+		},
+	})
+
+	injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		Key:      tmpl.KeyService,
+		FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
+		StructMetas: []*inject.StructMeta{
+			inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.StructComment)),
+		},
+		FuncMetas: []*inject.FuncMeta{
+			inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
+			%vService: logic.New%vService(svcCtx),
 			}`, data.StructName, data.StructName)),
 		},
 	})
@@ -245,21 +266,21 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	})
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
-		Key:      tmpl.KeyService,
-		FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
-		StructMetas: []*inject.StructMeta{
-			inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.StructComment)),
-		},
-		FuncMetas: []*inject.FuncMeta{
-			inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
-			%vService: logic.New%vService(svcCtx),
-			}`, data.StructName, data.StructName)),
-		},
+		Key:      tmpl.KeyRouter,
+		FilePath: fmt.Sprintf("%v/router/logic/register.rt.go", temporaryRoot),
+		DeclMeta: []*inject.DeclMeta{inject.NewDeclMeta(fmt.Sprintf(`
+	// 初始化 %s 路由信息
+	// publicRouter 公开路由，不登录就可以访问
+	// loginRouter  登录路由，登录后才可以访问
+	func (s *%sRouter) Init%sRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+		s.Init%sGenRouter(publicRouter, loginRouter)
+	}
+`, data.StructName, data.StructName, data.StructName, data.StructName))},
 	})
 	return metas, injectMetas
 }
 
-func (g *Generator) GetTemplateDatas() []*plate.AutoCodeStructData {
+func (g *Generator) GetTemplateDataList() []*plate.AutoCodeStructData {
 	return g.plateData
 }
 

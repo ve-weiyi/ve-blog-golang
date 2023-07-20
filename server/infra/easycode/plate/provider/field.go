@@ -8,9 +8,11 @@ import (
 
 type Field struct {
 	Name             string `json:"name"`
-	FieldName        string `json:"field_name"`     // Field名
-	FieldType        string `json:"field_type"`     // Field数据类型
-	ColumnComment    string `json:"column_comment"` // 数据库字段描述
+	FieldName        string `json:"field_name"`      // Field名
+	FieldType        string `json:"field_type"`      // Field数据类型
+	FieldJsonName    string `json:"field_jsonName"`  // FieldJson名
+	FieldValueName   string `json:"field_valueName"` // Field值名
+	ColumnComment    string `json:"column_comment"`  // 数据库字段描述
 	MultilineComment bool
 	Tag              field.Tag
 	GORMTag          field.GormTag

@@ -3,13 +3,13 @@ package constant
 const WebName = "blog"
 
 const (
-	LoginJwtToken = "jwt"
-	LoginEmail    = "email"
-	LoginQQ       = "qq"
-	LoginWechat   = "wechat"
-	LoginWeibo    = "weibo"
-	LoginFeishu   = "feishu"
-	LoginGithub   = "github"
+	LoginPwd    = "pwd"
+	LoginEmail  = "email"
+	LoginQQ     = "qq"
+	LoginWechat = "wechat"
+	LoginWeibo  = "weibo"
+	LoginFeishu = "feishu"
+	LoginGithub = "github"
 )
 
 const (

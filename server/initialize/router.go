@@ -43,38 +43,45 @@ func Routers() *gin.Engine {
 	// 方便统一添加路由组前缀 多服务器上线使用
 
 	//公开接口，不需要token
-	PublicGroup := Router.Group(global.CONFIG.System.RouterPrefix)
-	PublicGroup.Use(middleware.JwtToken(false))
+	publicGroup := Router.Group(global.CONFIG.System.RouterPrefix)
+	publicGroup.Use(middleware.GinLogger())
+	publicGroup.Use(middleware.LimitIP())
 	{
 		// 健康监测
-		PublicGroup.GET("/version", func(c *gin.Context) {
+		publicGroup.GET("/version", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "1.0.0")
 		})
 	}
-	//后台接口，需要token和角色认证，
-	AdminGroup := Router.Group(global.CONFIG.System.RouterPrefix)
-	AdminGroup.Use(middleware.JwtToken(true))
-
+	// 后台接口，需要token和角色认证，
+	adminGroup := Router.Group(global.CONFIG.System.RouterPrefix)
+	// 日志收集
+	adminGroup.Use(middleware.GinLogger())
+	// 限制IP
+	adminGroup.Use(middleware.LimitIP())
+	// 鉴权中间件
+	adminGroup.Use(middleware.JwtToken())
+	// 操作记录
+	adminGroup.Use(middleware.OperationRecord())
 	{
-		blogRouter.BlogRouter.InitBlogRouter(PublicGroup, AdminGroup)
-		blogRouter.AuthRouter.InitAuthRouter(PublicGroup, AdminGroup)
-		blogRouter.AdminRouter.InitAdminRouter(PublicGroup, AdminGroup)
-		blogRouter.UserRouter.InitUserRouter(PublicGroup, AdminGroup)
-		blogRouter.ApiRouter.InitApiRouter(PublicGroup, AdminGroup)
-		blogRouter.MenuRouter.InitMenuRouter(PublicGroup, AdminGroup)
-		blogRouter.RoleRouter.InitRoleRouter(PublicGroup, AdminGroup)
-		blogRouter.ArticleRouter.InitArticleRouter(PublicGroup, AdminGroup)
-		blogRouter.CategoryRouter.InitCategoryRouter(PublicGroup, AdminGroup)
-		blogRouter.TagRouter.InitTagRouter(PublicGroup, AdminGroup)
-		blogRouter.FriendLinkRouter.InitFriendLinkRouter(PublicGroup, AdminGroup)
-		blogRouter.CommentRouter.InitCommentRouter(PublicGroup, AdminGroup)
-		blogRouter.PhotoRouter.InitPhotoRouter(PublicGroup, AdminGroup)
-		blogRouter.PhotoAlbumRouter.InitPhotoAlbumRouter(PublicGroup, AdminGroup)
-		blogRouter.TalkRouter.InitTalkRouter(PublicGroup, AdminGroup)
-		blogRouter.CaptchaRouter.InitCaptchaRouter(PublicGroup, AdminGroup)
-		blogRouter.UploadRouter.InitUploadRouter(PublicGroup, AdminGroup)
-		blogRouter.RemarkRouter.InitRemarkRouter(PublicGroup, AdminGroup)
-		blogRouter.OperationLogRouter.InitOperationLogRouter(PublicGroup, AdminGroup)
+		blogRouter.BlogRouter.InitBlogRouter(publicGroup, adminGroup)
+		blogRouter.AuthRouter.InitAuthRouter(publicGroup, adminGroup)
+		blogRouter.AdminRouter.InitAdminRouter(publicGroup, adminGroup)
+		blogRouter.UserRouter.InitUserRouter(publicGroup, adminGroup)
+		blogRouter.ApiRouter.InitApiRouter(publicGroup, adminGroup)
+		blogRouter.MenuRouter.InitMenuRouter(publicGroup, adminGroup)
+		blogRouter.RoleRouter.InitRoleRouter(publicGroup, adminGroup)
+		blogRouter.ArticleRouter.InitArticleRouter(publicGroup, adminGroup)
+		blogRouter.CategoryRouter.InitCategoryRouter(publicGroup, adminGroup)
+		blogRouter.TagRouter.InitTagRouter(publicGroup, adminGroup)
+		blogRouter.FriendLinkRouter.InitFriendLinkRouter(publicGroup, adminGroup)
+		blogRouter.CommentRouter.InitCommentRouter(publicGroup, adminGroup)
+		blogRouter.PhotoRouter.InitPhotoRouter(publicGroup, adminGroup)
+		blogRouter.PhotoAlbumRouter.InitPhotoAlbumRouter(publicGroup, adminGroup)
+		blogRouter.TalkRouter.InitTalkRouter(publicGroup, adminGroup)
+		blogRouter.CaptchaRouter.InitCaptchaRouter(publicGroup, adminGroup)
+		blogRouter.UploadRouter.InitUploadRouter(publicGroup, adminGroup)
+		blogRouter.RemarkRouter.InitRemarkRouter(publicGroup, adminGroup)
+		blogRouter.OperationLogRouter.InitOperationLogRouter(publicGroup, adminGroup)
 	}
 
 	global.LOG.Info("router register success")

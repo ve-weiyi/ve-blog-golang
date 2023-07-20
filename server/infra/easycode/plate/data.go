@@ -1,10 +1,7 @@
 package plate
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/provider"
-
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 //type CodeStructMeta interface {
@@ -29,45 +26,45 @@ type AutoCodeStructData struct {
 	ImportPkgPaths []string
 }
 
-func (m *AutoCodeStructData) Reverse() *AutoCodeStructData {
-	if m.TableName == "" {
-		return nil
-	}
-
-	tableName := m.TableName
-	if m.Package == "" {
-		m.Package = jsonconv.Case2CamelNotFirst(tableName)
-	}
-
-	if m.StructName == "" {
-		m.StructName = jsonconv.Case2Camel(tableName)
-	}
-
-	if m.ValueName == "" {
-		m.ValueName = jsonconv.Case2CamelNotFirst(tableName)
-	}
-
-	if m.JsonName == "" {
-		m.Package = jsonconv.Camel2Case(tableName)
-	}
-
-	if m.Fields == nil {
-		m.Fields = []*provider.Field{
-			&provider.Field{
-				FieldName: "ID",
-				FieldType: "int",
-				Tag: map[string]string{
-					"json": "id",
-				},
-				GORMTag: field.GormTag{
-					"column":     []string{"id"},
-					"type":       []string{"int"},
-					"primaryKey": []string{"autoIncrement:true"},
-				},
-				ColumnComment:    "ID",
-				MultilineComment: false,
-			},
-		}
-	}
-	return m
-}
+//func (m *AutoCodeStructData) Reverse() *AutoCodeStructData {
+//	if m.TableName == "" {
+//		return nil
+//	}
+//
+//	tableName := m.TableName
+//	if m.Package == "" {
+//		m.Package = jsonconv.Case2CamelNotFirst(tableName)
+//	}
+//
+//	if m.StructName == "" {
+//		m.StructName = jsonconv.Case2Camel(tableName)
+//	}
+//
+//	if m.ValueName == "" {
+//		m.ValueName = jsonconv.Case2CamelNotFirst(tableName)
+//	}
+//
+//	if m.JsonName == "" {
+//		m.Package = jsonconv.Camel2Case(tableName)
+//	}
+//
+//	if m.Fields == nil {
+//		m.Fields = []*provider.Field{
+//			&provider.Field{
+//				FieldName: "ID",
+//				FieldType: "int",
+//				Tag: map[string]string{
+//					"json": "id",
+//				},
+//				GORMTag: field.GormTag{
+//					"column":     []string{"id"},
+//					"type":       []string{"int"},
+//					"primaryKey": []string{"autoIncrement:true"},
+//				},
+//				ColumnComment:    "ID",
+//				MultilineComment: false,
+//			},
+//		}
+//	}
+//	return m
+//}

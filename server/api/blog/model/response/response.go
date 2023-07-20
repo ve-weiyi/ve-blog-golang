@@ -9,13 +9,13 @@ import (
 type PageResult struct {
 	List     interface{} `json:"list"`
 	Page     int         `json:"page"`
-	PageSize int         `json:"pageSize"`
+	PageSize int         `json:"page_size"`
 	Total    int64       `json:"total"`
 }
 
 type PageInfo struct {
 	Page     int   `json:"page"`
-	PageSize int   `json:"pageSize"`
+	PageSize int   `json:"page_size"`
 	Total    int64 `json:"total"`
 }
 

@@ -80,7 +80,7 @@ func (vi *ImportMeta) GetNode() dst.Node {
 	return importSpec
 }
 
-func (vi *ImportMeta) InjectCode() string {
+func (vi *ImportMeta) GetCode() string {
 	injectCode := fmt.Sprintf("import %v %v", vi.ImportAlias, vi.ImportPackage)
 
 	return injectCode
@@ -111,7 +111,7 @@ import (%s)
 		return true
 	})
 
-	//log.Println("InjectCode", meta.InjectCode())
+	//log.Println("GetCode", meta.GetCode())
 	//log.Println("NewImportMete", jsonconv.ObjectToJsonIndent(meta))
 	return meta
 }

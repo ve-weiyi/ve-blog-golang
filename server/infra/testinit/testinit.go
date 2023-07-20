@@ -15,15 +15,13 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
-
 	"github.com/ve-weiyi/go-sdk/utils/copy"
 	"github.com/ve-weiyi/go-sdk/utils/file"
 	"github.com/ve-weiyi/go-sdk/utils/glog"
 	"github.com/ve-weiyi/go-sdk/utils/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 )
 
 func init() {
@@ -161,5 +159,5 @@ func RBAC() {
 	syncedCachedEnforcer.SetExpireTime(60 * 60)
 	_ = syncedCachedEnforcer.LoadPolicy()
 
-	global.RbacEnforcer = rbac.NewCachedEnforcer(global.DB)
+	//global.RbacEnforcer = rbac.NewCachedEnforcer(global.DB)
 }

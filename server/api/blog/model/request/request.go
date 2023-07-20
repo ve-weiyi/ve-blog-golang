@@ -25,21 +25,21 @@ func (s *Context) GetContext() context.Context {
 type PageInfo struct {
 	Page       int          `json:"page" form:"page"`             // 页码
 	PageSize   int          `json:"page_size" form:"page_size"`   // 每页大小
-	Orders     []*Order     `json:"orders" form:"orders"`         // 排序
+	Sorts      []*Sort      `json:"sorts" form:"sorts"`           // 排序
 	Conditions []*Condition `json:"conditions" form:"conditions"` // 使用条件语句查询
 }
 
-type Order struct {
-	Field string `json:"field"` // 表字段
-	Rule  string `json:"rule"`  // 排序规则 asc|desc
+type Sort struct {
+	Field string `json:"field"`                  // 表字段
+	Order string `json:"order" enums:"asc,desc"` // 排序规则 asc|desc
 }
 
 // 字段，关键字，匹配规则
 type Condition struct {
-	Flag  string      `json:"flag"`  // 标识 and、or,默认and
-	Field string      `json:"field"` // 表字段
-	Rule  string      `json:"rule"`  // 规则 =、like、in、<、>
-	Value interface{} `json:"value"` // 值
+	Flag  string      `json:"flag" enums:"and,or"`        // 标识 and、or,默认and
+	Field string      `json:"field"`                      // 表字段
+	Rule  string      `json:"rule" enums:"=,like,in,<,>"` // 规则 =,like,in,<,>
+	Value interface{} `json:"value"`                      // 值
 }
 
 func (page *PageInfo) Limit() int {
@@ -56,19 +56,19 @@ func (page *PageInfo) Offset() int {
 
 // 排序语句
 func (page *PageInfo) OrderClause() string {
-	if len(page.Orders) == 0 {
+	if len(page.Sorts) == 0 {
 		return ""
 	}
 
 	var query string
 	var flag string
-	for i, order := range page.Orders {
+	for i, order := range page.Sorts {
 		if i == 0 {
 			flag = ""
 		} else {
 			flag = ","
 		}
-		query += fmt.Sprintf("%s %s %s", flag, jsonconv.Camel2Case(order.Field), order.Rule)
+		query += fmt.Sprintf("%s %s %s", flag, jsonconv.Camel2Case(order.Field), order.Order)
 	}
 
 	return query
@@ -116,16 +116,4 @@ func (page *PageInfo) FindCondition(name string) *Condition {
 		}
 	}
 	return nil
-}
-
-// GetByID Find by id structure
-type GetByID struct {
-	ID int `json:"id" form:"id"` // 主键ID
-}
-
-type IDsReq struct {
-	IDs []int `json:"ids" form:"ids"`
-}
-
-type EmptyRequest struct {
 }

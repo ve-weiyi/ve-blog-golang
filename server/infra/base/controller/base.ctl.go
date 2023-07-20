@@ -131,7 +131,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 	//err = jsonconv.UnmarshalJSONIgnoreCase([]byte(js), req)
 	err = jsoniter.Unmarshal([]byte(js), req)
 	//m.Log.Println(js)
-	m.Log.JsonIndent(req)
+	//m.Log.JsonIndent(req)
 	if err != nil {
 		m.Log.Error(err)
 	}

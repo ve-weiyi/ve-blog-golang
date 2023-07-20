@@ -4,13 +4,7 @@ const Model = NotEditMark + `
 package entity
 
 import (
-	"encoding/json"
-	"time"
 
-	"gorm.io/datatypes"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
-	{{range .ImportPkgPaths}}{{.}} ` + "\n" + `{{end}}
 )
 
 // TableName{{.StructName}} return the table name of <{{.TableName}}>

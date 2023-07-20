@@ -19,8 +19,9 @@ type FieldConfig struct {
 	FieldWithIndexTag bool // generate with gorm index tag
 	FieldWithTypeTag  bool // generate with gorm column type tag
 
-	FieldNameNS    func(columnName string) string
-	FieldJSONTagNS func(columnName string) string
+	FieldNameNS  func(columnName string) string
+	FieldJsonNS  func(columnName string) string
+	FieldValueNS func(columnName string) string
 }
 
 // SetDataTypeMap set data type map

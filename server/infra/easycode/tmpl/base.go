@@ -11,8 +11,9 @@ import(
 )
 `
 
+const KeyApi = "api"
+const KeyRouter = "router"
 const KeyController = "controller"
 const KeyService = "service"
-const KeyRouter = "router"
 const KeyRepository = "repository"
 const KeyModel = "model"

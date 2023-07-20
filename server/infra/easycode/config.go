@@ -28,19 +28,15 @@ type Config struct {
 
 	dataTypeMap map[string]func(columnType gorm.ColumnType) (dataType string)
 
-	fieldNameNS    func(columnName string) (fieldName string)
-	fieldJSONTagNS func(columnName string) (tagContent string)
-	GenerateMap    map[string]string
+	FieldNameNS  func(columnName string) (fieldName string)
+	FieldJsonNS  func(columnName string) (jsonName string)
+	FieldValueNS func(columnName string) (valueName string)
+	GenerateMap  map[string]string
 }
 
 // WithDataTypeMap specify data type mapping relationship, only work when syncing table from db
 func (cfg *Config) WithDataTypeMap(newMap map[string]func(columnType gorm.ColumnType) (dataType string)) {
 	cfg.dataTypeMap = newMap
-}
-
-// WithJSONTagNameStrategy specify json tag naming strategy
-func (cfg *Config) WithJSONTagNameStrategy(ns func(columnName string) (tagContent string)) {
-	cfg.fieldJSONTagNS = ns
 }
 
 func (cfg *Config) Revise() (err error) {
