@@ -120,7 +120,7 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Tag							true		"请求参数"
+// @Param 	 	data		query		entity.Tag							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Tag}	"返回信息"
 // @Router 		/tag/find [get]
 func (s *TagController) FindTag(c *gin.Context) {

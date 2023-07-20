@@ -21,7 +21,7 @@ func (s *MenuService) GetAllMenusList(reqCtx *request.Context, page *request.Pag
 	return list, int64(len(list)), nil
 }
 
-func (s *MenuService) GetUserMenus(reqCtx *request.Context, req *request.EmptyRequest) (data []*response.MenuTree, err error) {
+func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuTree, err error) {
 	// 创建db
 	//db := s.svcCtx.MainDB
 

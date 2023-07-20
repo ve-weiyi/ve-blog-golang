@@ -35,8 +35,8 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 	page := &request.PageInfo{
 		Page:     0,
 		PageSize: 5,
-		Orders: []*request.Order{
-			{Field: "id", Rule: "desc"},
+		Sorts: []*request.Sort{
+			{Field: "id", Order: "desc"},
 		},
 	}
 	newestArticle, _, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
@@ -126,8 +126,8 @@ func (s *ArticleService) GetArticleListByCondition(reqCtx *request.Context, req 
 }
 
 func (s *ArticleService) GetArticleArchives(reqCtx *request.Context, page *request.PageInfo) (list []*response.ArticleRecommendDTO, total int64, err error) {
-	page.Orders = []*request.Order{
-		{Field: "id", Rule: "desc"},
+	page.Sorts = []*request.Sort{
+		{Field: "id", Order: "desc"},
 	}
 	newestArticle, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {

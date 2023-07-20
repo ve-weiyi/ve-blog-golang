@@ -120,7 +120,7 @@ func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.OperationLog							true		"请求参数"
+// @Param 	 	data		query		entity.OperationLog							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.OperationLog}	"返回信息"
 // @Router 		/operationLog/find [get]
 func (s *OperationLogController) FindOperationLog(c *gin.Context) {

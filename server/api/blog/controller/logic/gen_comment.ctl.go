@@ -120,7 +120,7 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Comment							true		"请求参数"
+// @Param 	 	data		query		entity.Comment							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Comment}	"返回信息"
 // @Router 		/comment/find [get]
 func (s *CommentController) FindComment(c *gin.Context) {

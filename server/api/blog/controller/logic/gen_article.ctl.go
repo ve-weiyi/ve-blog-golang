@@ -120,7 +120,7 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Article							true		"请求参数"
+// @Param 	 	data		query		entity.Article							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router 		/article/find [get]
 func (s *ArticleController) FindArticle(c *gin.Context) {

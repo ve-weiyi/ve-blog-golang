@@ -22,7 +22,7 @@ func (s *ApiService) GetAllApiList(reqCtx *request.Context, page *request.PageIn
 	return list, int64(len(list)), nil
 }
 
-func (s *ApiService) GetUserApis(reqCtx *request.Context, req *request.EmptyRequest) (data []*response.ApiTree, err error) {
+func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiTree, err error) {
 	//查询用户信息
 	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {

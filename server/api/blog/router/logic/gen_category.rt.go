@@ -30,5 +30,7 @@ func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, login
 
 		publicRouter.DELETE("category/deleteByIds", handler.DeleteCategoryByIds) // 批量删除Category列表
 		publicRouter.POST("category/list", handler.FindCategoryList)             // 分页查询Category列表
+
+		publicRouter.POST("categories", handler.FindCategoryDetailList) // 查询Category详情列表
 	}
 }

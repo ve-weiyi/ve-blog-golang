@@ -162,7 +162,7 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.{{.StructName}}							true		"请求参数"
+// @Param 	 	data		query		entity.{{.StructName}}							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
 // @Router 		/{{.ValueName}}/find [get]
 func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {

@@ -120,7 +120,7 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Photo							true		"请求参数"
+// @Param 	 	data		query		entity.Photo							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Photo}	"返回信息"
 // @Router 		/photo/find [get]
 func (s *PhotoController) FindPhoto(c *gin.Context) {

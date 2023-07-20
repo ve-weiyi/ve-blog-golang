@@ -120,7 +120,7 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Api							true		"请求参数"
+// @Param 	 	data		query		entity.Api							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Api}	"返回信息"
 // @Router 		/api/find [get]
 func (s *ApiController) FindApi(c *gin.Context) {

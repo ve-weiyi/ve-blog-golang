@@ -83,7 +83,7 @@ func (s *RoleApiRepository) FindRoleApiList(ctx context.Context, page *request.P
 	}
 
 	// 如果有排序参数
-	if len(page.Orders) != 0 {
+	if len(page.Sorts) != 0 {
 		db = db.Order(page.OrderClause())
 	}
 

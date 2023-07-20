@@ -139,7 +139,7 @@ func (s *CommentService) FindCommonBackList(reqCtx *request.Context, page *reque
 		accounts, _, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, &request.PageInfo{
 			Page:       0,
 			PageSize:   0,
-			Orders:     nil,
+			Sorts:      nil,
 			Conditions: []*request.Condition{username},
 		})
 		if err != nil {

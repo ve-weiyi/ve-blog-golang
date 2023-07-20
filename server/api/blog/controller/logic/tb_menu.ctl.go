@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
-// @Tags		Admin
+// @Tags		Menu
 // @Summary		获取菜单列表
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -15,7 +15,7 @@ import (
 // @Param		page	body		request.PageInfo						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Menu}	"返回信息"
 // @Router		/admin/menus [post]
-func (s *AdminController) GetMenus(c *gin.Context) {
+func (s *MenuController) GetMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)

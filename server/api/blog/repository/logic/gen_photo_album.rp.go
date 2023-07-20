@@ -83,7 +83,7 @@ func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *req
 	}
 
 	// 如果有排序参数
-	if len(page.Orders) != 0 {
+	if len(page.Sorts) != 0 {
 		db = db.Order(page.OrderClause())
 	}
 

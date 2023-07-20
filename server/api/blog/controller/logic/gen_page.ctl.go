@@ -120,7 +120,7 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Page							true		"请求参数"
+// @Param 	 	data		query		entity.Page							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Page}	"返回信息"
 // @Router 		/page/find [get]
 func (s *PageController) FindPage(c *gin.Context) {

@@ -24,10 +24,6 @@ func (s *AdminRouter) InitAdminRouter(publicRouter *gin.RouterGroup, loginRouter
 	var handler = s.svcCtx.AppController.AdminController
 
 	{
-		loginRouter.POST("admin/menus", handler.GetMenus) // 获取Menu列表
-		loginRouter.POST("admin/apis", handler.GetApis)   // 获取Api列表
-	}
-	{
 		loginRouter.GET("admin/home", handler.GetHomeInfo)     // 获取首页信息
 		loginRouter.POST("admin/about", handler.UpdateAboutMe) // 获取首页信息
 	}

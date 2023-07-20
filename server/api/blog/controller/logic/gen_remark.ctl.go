@@ -120,7 +120,7 @@ func (s *RemarkController) UpdateRemark(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Remark							true		"请求参数"
+// @Param 	 	data		query		entity.Remark							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Remark}	"返回信息"
 // @Router 		/remark/find [get]
 func (s *RemarkController) FindRemark(c *gin.Context) {

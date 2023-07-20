@@ -120,7 +120,7 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.Role							true		"请求参数"
+// @Param 	 	data		query		entity.Role							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.Role}	"返回信息"
 // @Router 		/role/find [get]
 func (s *RoleController) FindRole(c *gin.Context) {

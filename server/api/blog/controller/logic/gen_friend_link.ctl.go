@@ -120,7 +120,7 @@ func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.FriendLink							true		"请求参数"
+// @Param 	 	data		query		entity.FriendLink							true		"请求参数"
 // @Success		200			{object}	response.Response{data=entity.FriendLink}	"返回信息"
 // @Router 		/friendLink/find [get]
 func (s *FriendLinkController) FindFriendLink(c *gin.Context) {

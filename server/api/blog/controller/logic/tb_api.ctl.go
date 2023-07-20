@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
-// @Tags		Admin
+// @Tags		Api
 // @Summary		获取api列表
 // @Security	ApiKeyAuth
 // @accept		application/json
@@ -15,7 +15,7 @@ import (
 // @Param		page	body		request.PageInfo						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Api}	"返回信息"
 // @Router		/admin/apis [post]
-func (s *AdminController) GetApis(c *gin.Context) {
+func (s *ApiController) GetApis(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
