@@ -165,7 +165,7 @@ func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform st
 }
 
 // 查询用户信息
-func (s *UserAccountRepository) GetUserinfo(userId int) (out *entity.UserInformation, err error) {
+func (s *UserAccountRepository) GetUserInfo(userId int) (out *entity.UserInformation, err error) {
 	// 创建db
 	db := s.DbEngin
 

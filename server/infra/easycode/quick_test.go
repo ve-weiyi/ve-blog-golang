@@ -3,7 +3,10 @@ package easycode
 import (
 	"fmt"
 	"log"
+	"os"
 	"path"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"gorm.io/driver/mysql"
@@ -111,4 +114,45 @@ func TestPlate(t *testing.T) {
 	gen.ApplyMetas(gen.GenerateMetasFromTable("website_config", "网站设置"))
 	//gen.RollBack()
 	gen.Execute()
+}
+
+func visitFile(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		fmt.Println("Error:", err)
+		return nil
+	}
+
+	if !info.IsDir() {
+		fmt.Println("File:", path)
+		// 获取原始文件名
+		oldName := info.Name()
+
+		if strings.HasPrefix(oldName, "gen_") {
+			return nil
+		}
+
+		if strings.HasSuffix(oldName, "rt.go") || strings.HasSuffix(oldName, "ctl.go") || strings.HasSuffix(oldName, "sv.go") || strings.HasSuffix(oldName, "rp.go") {
+			// 添加前缀 "gen_" 到文件名
+			newName := strings.Replace(oldName, "tb_context", "context", 1)
+
+			// 修改文件名
+			err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))
+			if err != nil {
+				fmt.Println("Error renaming file:", err)
+			} else {
+				fmt.Println("Renamed file:", newName)
+			}
+		}
+	}
+
+	return nil
+}
+
+func TestVisitFile(t *testing.T) {
+	root := path.Join(global.GetRuntimeRoot(), "server/api", "blog")
+	err := filepath.Walk(root, visitFile)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
 }

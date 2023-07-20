@@ -27,13 +27,28 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 	}
 }
 
-func (s *UserService) GetUserinfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
+// 分页获取UserAccount记录
+func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInfo) (list []*response.UserDetail, total int64, err error) {
+	userAccounts, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+
+	for _, ua := range userAccounts {
+		ui, err := s.GetUserInfo(reqCtx, ua.ID)
+		if err != nil {
+			continue
+		}
+		list = append(list, ui)
+	}
+
+	return list, total, nil
+}
+
+func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
 	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, userId)
 	if err != nil {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 
-	info, err := s.svcCtx.UserAccountRepository.GetUserinfo(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.GetUserInfo(account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +91,7 @@ func (s *UserService) GetUserAreas(reqCtx *request.Context, page *request.PageIn
 	// 分类
 	AreaMap := make(map[string]int)
 	for _, item := range list {
-		key := item.IpSource[:4]
+		key := item.IpSource
 		if _, ok := AreaMap[key]; ok {
 			AreaMap[key]++
 		} else {
@@ -121,29 +136,6 @@ func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.Pag
 	return result, total, nil
 }
 
-func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
-	// 验证code是否正确
-	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
-	if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-		return nil, codes.ErrorCaptchaVerify
-	}
-
-	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
-	if account == nil {
-		return nil, codes.ErrorUserNotExist
-	}
-
-	// 更新密码
-	account.Password = crypto.BcryptHash(req.Password)
-	_, err = s.svcCtx.UserAccountRepository.UpdateUserAccount(reqCtx, account)
-	if err != nil {
-		return nil, err
-	}
-
-	return true, nil
-}
-
 func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
@@ -179,24 +171,27 @@ func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	return true, nil
 }
 
-func (s *UserService) ChangePassword(req request.ChangePasswordReq) (auth *entity.UserAccount, err error) {
-
-	return auth, nil
-}
-
-// 分页获取UserAccount记录
-func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInfo) (list []*response.UserDetail, total int64, err error) {
-	userAccounts, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
-
-	for _, ua := range userAccounts {
-		ui, err := s.GetUserinfo(reqCtx, ua.ID)
-		if err != nil {
-			continue
-		}
-		list = append(list, ui)
+func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
+	// 验证code是否正确
+	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
+		return nil, codes.ErrorCaptchaVerify
 	}
 
-	return list, total, nil
+	// 验证用户是否存在
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	if account == nil {
+		return nil, codes.ErrorUserNotExist
+	}
+
+	// 更新密码
+	account.Password = crypto.BcryptHash(req.Password)
+	_, err = s.svcCtx.UserAccountRepository.UpdateUserAccount(reqCtx, account)
+	if err != nil {
+		return nil, err
+	}
+
+	return true, nil
 }
 
 // 修改用户角色
@@ -249,4 +244,23 @@ func (s *UserService) UpdateUserStatus(reqCtx *request.Context, req *entity.User
 	}
 
 	return account, err
+}
+
+// 修改用户信息
+func (s *UserService) UpdateUserInfo(reqCtx *request.Context, req *entity.UserInformation) (data *entity.UserInformation, err error) {
+	// 创建db
+	info, err := s.svcCtx.UserInformationRepository.GetUserInformation(reqCtx, req.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	info.Nickname = req.Nickname
+	info.Intro = req.Intro
+	info.WebSite = req.WebSite
+	_, err = s.svcCtx.UserInformationRepository.UpdateUserInformation(reqCtx, info)
+	if err != nil {
+		return nil, err
+	}
+
+	return info, err
 }

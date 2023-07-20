@@ -44,7 +44,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	}
 
 	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.GetUserinfo(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.GetUserInfo(account.ID)
 	if err != nil {
 		return nil, err
 	}

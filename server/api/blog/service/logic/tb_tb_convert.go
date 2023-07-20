@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"math/rand"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
@@ -135,7 +137,7 @@ func convertUniqueViewList(list []*entity.UniqueView) []*response.UniqueViewDTO 
 	for _, item := range list {
 		at := &response.UniqueViewDTO{
 			Day:   item.CreatedAt.Format("2006-01-02"),
-			Count: 100,
+			Count: rand.Int63n(100),
 		}
 		out = append(out, at)
 	}
@@ -149,7 +151,7 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
 		at := &response.ArticleRankDTO{
 			ID:           item.ID,
 			ArticleTitle: item.ArticleTitle,
-			Count:        100,
+			Count:        rand.Int63n(100),
 		}
 		out = append(out, at)
 	}
