@@ -30,5 +30,8 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 
 		publicRouter.DELETE("comment/deleteByIds", handler.DeleteCommentByIds) // 批量删除Comment列表
 		publicRouter.POST("comment/list", handler.FindCommentList)             // 分页查询Comment列表
+
+		publicRouter.POST("comments", handler.FindCommentDetailList) // 分页查询Comment列表
+		publicRouter.POST("admin/comments", handler.GetComments)     // 分页查询Comment列表
 	}
 }

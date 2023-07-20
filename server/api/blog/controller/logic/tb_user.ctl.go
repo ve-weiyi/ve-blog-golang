@@ -86,7 +86,7 @@ func (s *UserController) ResetPassword(c *gin.Context) {
 
 // @Tags		User
 // @Summary		获取用户菜单权限
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{}	"返回信息"
@@ -109,7 +109,7 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 
 // @Tags		User
 // @Summary		获取用户接口权限
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{}	"返回信息"
@@ -132,7 +132,7 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 
 // @Tags		User
 // @Summary		获取用户登录历史
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo	true	"分页参数"
@@ -168,7 +168,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 
 // @Tags		User
 // @Summary		获取用户信息
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{}	"返回信息"
@@ -253,7 +253,7 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 
 // @Tags		User
 // @Summary		获取用户列表
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo	true	"分页参数"
@@ -289,7 +289,7 @@ func (s *UserController) GetUserList(c *gin.Context) {
 
 // @Tags		User
 // @Summary		获取用户地区
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo	true	"分页参数"

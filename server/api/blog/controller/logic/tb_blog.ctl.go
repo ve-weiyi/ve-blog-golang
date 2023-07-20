@@ -29,7 +29,7 @@ func NewBlogController(svcCtx *svc.ControllerContext) *BlogController {
 // @Tags		Blog
 // @Summary		创建api路由
 // @Description	描述,可以有多个。https://www.jianshu.com/p/4bb4283632e4
-// @Security	ApiKeyAuth
+// @Security	ApiKeyUser
 // @Param		file	formData	file								true	"上传文件"
 // @Param		id		path		int									true	"id"
 // @Param		token	header		string								true	"token"
@@ -79,7 +79,7 @@ func (s *BlogController) WebSocket(c *gin.Context) {
 
 // @Tags		Admin
 // @Summary		获取用户地区
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{}	"返回信息"
@@ -125,7 +125,7 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 
 // @Tags		Admin
 // @Summary		更新我的信息
-// @Security	ApiKeyUser
+// @Security	ApiKeyAuth
 // @accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{}	"返回信息"

@@ -61,7 +61,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -141,7 +141,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -179,7 +179,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -412,7 +412,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -538,7 +538,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5317,7 +5317,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5394,7 +5394,7 @@
             "get": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5421,7 +5421,7 @@
             "get": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5459,7 +5459,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                      "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [

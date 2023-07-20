@@ -680,7 +680,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-        - ApiKeyUser: [ ]
+        - ApiKeyAuth: [ ]
       summary: 更新我的信息
       tags:
         - Admin
@@ -733,7 +733,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-        - ApiKeyUser: [ ]
+        - ApiKeyAuth: [ ]
       summary: 获取用户列表
       tags:
         - Admin
@@ -749,7 +749,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-        - ApiKeyUser: [ ]
+        - ApiKeyAuth: [ ]
       summary: 获取用户地区
       tags:
         - Admin
@@ -888,7 +888,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-        - ApiKeyUser: [ ]
+        - ApiKeyAuth: [ ]
       summary: 获取用户地区
       tags:
         - Admin
@@ -962,7 +962,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-        - ApiKeyUser: [ ]
+        - ApiKeyAuth: [ ]
       summary: 获取用户列表
       tags:
         - Admin
@@ -3675,7 +3675,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-        - ApiKeyUser: [ ]
+        - ApiKeyAuth: [ ]
       summary: 获取用户接口权限
       tags:
         - User
@@ -3719,7 +3719,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyUser: []
+        - ApiKeyAuth: [ ]
       summary: 获取用户信息
       tags:
       - User
@@ -3742,7 +3742,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyUser: []
+        - ApiKeyAuth: [ ]
       summary: 获取用户登录历史
       tags:
       - User
@@ -3758,7 +3758,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       security:
-      - ApiKeyUser: []
+        - ApiKeyAuth: [ ]
       summary: 获取用户菜单权限
       tags:
       - User

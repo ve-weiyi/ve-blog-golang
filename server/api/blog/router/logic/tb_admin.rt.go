@@ -28,8 +28,7 @@ func (s *AdminRouter) InitAdminRouter(publicRouter *gin.RouterGroup, loginRouter
 		loginRouter.POST("admin/apis", handler.GetApis)   // 获取Api列表
 	}
 	{
-		loginRouter.GET("admin/home", handler.GetHomeInfo)      // 获取首页信息
-		loginRouter.POST("admin/comments", handler.GetComments) // 获取评论列表
-		loginRouter.POST("admin/about", handler.UpdateAboutMe)  // 获取首页信息
+		loginRouter.GET("admin/home", handler.GetHomeInfo)     // 获取首页信息
+		loginRouter.POST("admin/about", handler.UpdateAboutMe) // 获取首页信息
 	}
 }

@@ -68,7 +68,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -148,7 +148,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -186,7 +186,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -419,7 +419,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -545,7 +545,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5324,7 +5324,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5401,7 +5401,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5428,7 +5428,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5466,7 +5466,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
