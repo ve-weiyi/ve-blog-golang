@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"gorm.io/gorm"
 
@@ -79,8 +78,9 @@ func (g *Generator) GenFieldConfig() *field.FieldConfig {
 		FieldWithIndexTag: g.cfg.FieldWithIndexTag,
 		FieldWithTypeTag:  g.cfg.FieldWithTypeTag,
 
-		FieldNameNS:    func(column string) string { return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID") },
-		FieldJSONTagNS: g.cfg.fieldJSONTagNS,
+		FieldNameNS:  g.cfg.FieldNameNS,
+		FieldJsonNS:  g.cfg.FieldJsonNS,
+		FieldValueNS: g.cfg.FieldValueNS,
 	}
 }
 
@@ -193,6 +193,13 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		Data:           data,
 		Replace:        g.cfg.Replace,
 	}
+	metaApi := &plate.PlateMeta{
+		Key:            tmpl.KeyApi,
+		TemplateString: tmpl.Api,
+		AutoCodePath:   fmt.Sprintf("%v/api/%s.ts", temporaryRoot, tableName),
+		Data:           data,
+		Replace:        g.cfg.Replace,
+	}
 
 	metas := []*plate.PlateMeta{
 		/** server start */
@@ -201,6 +208,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 		metaService,
 		metaController,
 		metaRouter,
+		metaApi,
 	}
 
 	var injectMetas []*inject.AstInjectMeta

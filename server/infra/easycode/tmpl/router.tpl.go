@@ -74,8 +74,8 @@ func (s *{{.StructName}}Router) Init{{.StructName}}GenRouter(publicRouter *gin.R
 		publicRouter.DELETE("{{.JsonName}}/:id", handler.Delete{{.StructName}})           // 删除{{.StructName}}
 		publicRouter.GET("{{.JsonName}}/:id", handler.Find{{.StructName}})				  // 查询{{.StructName}}
 
-		publicRouter.DELETE("{{.ValueName}}/batch_delete", handler.Delete{{.StructName}}ByIds)	// 批量删除{{.StructName}}列表
-		publicRouter.POST("{{.ValueName}}/list", handler.Find{{.StructName}}List)  				// 分页查询{{.StructName}}列表
+		publicRouter.DELETE("{{.JsonName}}/batch_delete", handler.Delete{{.StructName}}ByIds)	// 批量删除{{.StructName}}列表
+		publicRouter.POST("{{.JsonName}}/list", handler.Find{{.StructName}}List)  				// 分页查询{{.StructName}}列表
 	}
 }
 `

@@ -25,7 +25,7 @@ import (
 var enforcer *casbin.SyncedEnforcer
 var db *gorm.DB
 
-func init() {
+func Init() {
 	testinit.Init(path.Join(global.GetRuntimeRoot() + "server/config.yaml"))
 	db = global.DB
 	adapter, err := gormadapter.NewAdapterByDB(db)
@@ -67,8 +67,6 @@ func TestCasbin(t *testing.T) {
 	//force, err := enforcer.Enforce("admin", "blog", "home", "login")
 	//log.Println("-->", force)
 
-	enforcer := global.RbacEnforcer
-
 	//为角色添加规则
 	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/roles", "GET")
 	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/list", "GET")
@@ -109,7 +107,7 @@ func TestAddAllPolicy(t *testing.T) {
 	ctx := svc.NewRepositoryContext(&global.CONFIG)
 	rp := repository.NewRepository(ctx)
 
-	re := global.RbacEnforcer
+	re := NewCachedEnforcer(global.DB)
 	policy, err := re.DeleteRolePolicy("admin", "blog")
 	if err != nil {
 		return

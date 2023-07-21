@@ -19,3 +19,28 @@ func (s *ApiRepository) FindAllPublicApis(ctx context.Context) (list []*entity.A
 
 	return apis, nil
 }
+
+// 获取Api记录
+func (s *ApiRepository) FindApiRoles(apiId int) (list []*entity.Role, err error) {
+	// 创建db
+	db := s.DbEngin
+	var roleApis []*entity.RoleApi
+
+	err = db.Where("api_id = ?", apiId).Find(&roleApis).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var roleIds []int
+	for _, item := range roleApis {
+		roleIds = append(roleIds, item.ApiID)
+	}
+
+	var roles []*entity.Role
+	err = db.Where("id in (?)", roleIds).Find(&roles).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return roles, nil
+}

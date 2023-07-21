@@ -28,7 +28,7 @@ func (s *OperationLogRouter) InitOperationLogGenRouter(publicRouter *gin.RouterG
 		publicRouter.DELETE("operation_log/:id", handler.DeleteOperationLog) // 删除OperationLog
 		publicRouter.GET("operation_log/:id", handler.FindOperationLog)      // 查询OperationLog
 
-		publicRouter.DELETE("operationLog/batch_delete", handler.DeleteOperationLogByIds) // 批量删除OperationLog列表
-		publicRouter.POST("operationLog/list", handler.FindOperationLogList)              // 分页查询OperationLog列表
+		publicRouter.DELETE("operation_log/batch_delete", handler.DeleteOperationLogByIds) // 批量删除OperationLog列表
+		publicRouter.POST("operation_log/list", handler.FindOperationLogList)              // 分页查询OperationLog列表
 	}
 }

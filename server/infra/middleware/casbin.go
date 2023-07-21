@@ -8,14 +8,14 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 )
 
-// CasbinHandler 拦截器
 func CasbinHandler() gin.HandlerFunc {
+	enforcer := rbac.NewCachedEnforcer(global.DB) // 判断策略中是否存在
 	return func(c *gin.Context) {
 		if global.CONFIG.System.Env != "develop" {
 			//claims, err := global.JWT.ParseTokenByGin(c)
-			enforcer := global.RbacEnforcer // 判断策略中是否存在
 			//获取请求的PATH
 			obj := c.Request.URL.Path
 			// 获取请求方法

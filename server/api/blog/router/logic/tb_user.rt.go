@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"
 )
 
 type UserRouter struct {
@@ -19,13 +18,6 @@ func NewUserRouter(ctx *svc.RouterContext) *UserRouter {
 
 // InitUserRouter 初始化 User 路由信息
 func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	// 需要用户角色验证
-	roleRouter := publicRouter.Group("")
-	roleRouter.Use(middleware.CasbinHandler())
-
-	// 留下操作记录
-	traceRouter := loginRouter.Group("")
-	traceRouter.Use(middleware.OperationRecord())
 
 	var handler = s.svcCtx.AppController.UserController
 	{

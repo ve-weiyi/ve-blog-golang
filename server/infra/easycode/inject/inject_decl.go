@@ -6,8 +6,6 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
-
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 type DeclMeta struct {
@@ -158,6 +156,6 @@ package main
 	})
 
 	//log.Println("GetCode", meta.GetCode())
-	fmt.Println("NewFuncMete", jsonconv.ObjectToJsonIndent(meta))
+	//fmt.Println("NewFuncMete", jsonconv.ObjectToJsonIndent(meta))
 	return meta
 }

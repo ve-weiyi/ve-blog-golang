@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameWebsiteConfig return the table name of <website_config>
 const TableNameWebsiteConfig = "website_config"

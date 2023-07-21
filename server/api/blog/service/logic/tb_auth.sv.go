@@ -75,7 +75,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 		LastLoginTime: history.CreatedAt.String(),
 	}
 
-	token, err := s.generateToken(userinfo.ID)
+	token, err := s.svcCtx.Token.CreateClaims(account.ID, account.Username, req.LoginType)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +140,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		IpSource:  account.IpSource,
 	}
 
-	token, err := s.generateToken(userinfo.ID)
+	token, err := s.svcCtx.Token.CreateClaims(account.ID, account.Username, constant.LoginPwd)
 	if err != nil {
 		return nil, err
 	}
@@ -282,21 +282,21 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 	return resp, nil
 }
 
-func (s *AuthService) generateToken(userId int) (token string, err error) {
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(nil, userId)
-	if err != nil {
-		return "", err
-	}
-
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(userId)
-	if err != nil {
-		return "", err
-	}
-
-	var roleLabels []string
-	for _, item := range roles {
-		roleLabels = append(roleLabels, item.RoleName)
-	}
-
-	return s.svcCtx.Token.CreateClaims(account.ID, account.Username, roleLabels)
-}
+//func (s *AuthService) generateToken(userId int) (token string, err error) {
+//	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(nil, userId)
+//	if err != nil {
+//		return "", err
+//	}
+//
+//	roles, err := s.svcCtx.RoleRepository.FindUserRoles(userId)
+//	if err != nil {
+//		return "", err
+//	}
+//
+//	var roleLabels []string
+//	for _, item := range roles {
+//		roleLabels = append(roleLabels, item.RoleName)
+//	}
+//
+//	return s.svcCtx.Token.CreateClaims(account.ID, account.Username, roleLabels)
+//}

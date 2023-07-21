@@ -13,6 +13,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
@@ -54,12 +55,25 @@ func TestPlate(t *testing.T) {
 		OutFileNS: func(tableName string) (fileName string) {
 			return fmt.Sprintf("gen_%v", tableName)
 		},
+		FieldNameNS: func(column string) string {
+			return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID")
+		},
+		FieldJsonNS: func(column string) string {
+			return jsonconv.Camel2Case(column)
+		},
+		FieldValueNS: func(columnName string) (valueName string) {
+			if columnName == "id" {
+				return "id"
+			}
+			return jsonconv.Case2CamelNotFirst(columnName)
+		},
 		GenerateMap: map[string]string{
-			tmpl.KeyRouter: "",
+			//tmpl.KeyApi: "",
+			//tmpl.KeyRouter: "",
 			//tmpl.KeyController: "",
 			//tmpl.KeyService:    "",
 			//tmpl.KeyRepository: "",
-			//tmpl.KeyModel:      "",
+			tmpl.KeyModel: "",
 		},
 	}
 	typeInt := "int"
@@ -74,34 +88,27 @@ func TestPlate(t *testing.T) {
 		//"datetime":  func(columnType gorm.ColumnType) (dataType string) { return "*time.Time" },
 	}
 	cfg.WithDataTypeMap(dataMap)
-	cfg.WithJSONTagNameStrategy(func(columnName string) (tagContent string) {
-		//toStringField := "time"
-		//if strings.Contains(columnName, toStringField) {
-		// return columnName + "\" example:\"2022-11-16T16:00:00.000Z"
-		//}
-		return columnName
-	})
 
 	gen := NewGenerator(cfg)
 	gen.UseDB(db)
 	//gen.InitPackage("hello")
-	//gen.ApplyMetas(gen.GenerateMetasFromSchema())
+	gen.ApplyMetas(gen.GenerateMetasFromSchema())
 
-	gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
-
-	gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("photo", "相片"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("photo_album", "相册"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("page", "页面"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("friend_link", "友链"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("remark", "留言"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
+	//
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("photo", "相片"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("photo_album", "相册"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("page", "页面"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("friend_link", "友链"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("remark", "留言"))
 
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_account", "用户账号信息"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_information", "用户信息"))

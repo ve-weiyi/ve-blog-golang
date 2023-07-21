@@ -28,7 +28,7 @@ func (s *PhotoAlbumRouter) InitPhotoAlbumGenRouter(publicRouter *gin.RouterGroup
 		publicRouter.DELETE("photo_album/:id", handler.DeletePhotoAlbum) // 删除PhotoAlbum
 		publicRouter.GET("photo_album/:id", handler.FindPhotoAlbum)      // 查询PhotoAlbum
 
-		publicRouter.DELETE("photoAlbum/batch_delete", handler.DeletePhotoAlbumByIds) // 批量删除PhotoAlbum列表
-		publicRouter.POST("photoAlbum/list", handler.FindPhotoAlbumList)              // 分页查询PhotoAlbum列表
+		publicRouter.DELETE("photo_album/batch_delete", handler.DeletePhotoAlbumByIds) // 批量删除PhotoAlbum列表
+		publicRouter.POST("photo_album/list", handler.FindPhotoAlbumList)              // 分页查询PhotoAlbum列表
 	}
 }

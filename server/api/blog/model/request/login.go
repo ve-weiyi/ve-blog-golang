@@ -10,7 +10,6 @@ type User struct {
 	Password  string `json:"password" from:"password" example:"123456"`
 	Code      string `json:"code" from:"code" example:""`
 	LoginType string `json:"-" from:"-" example:""` // 登录类型
-	Avatar    string `json:"-" from:"-" example:""` // 头像
 }
 
 func (m User) IsValid() error {

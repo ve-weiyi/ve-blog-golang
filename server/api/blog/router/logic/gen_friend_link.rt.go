@@ -28,7 +28,7 @@ func (s *FriendLinkRouter) InitFriendLinkGenRouter(publicRouter *gin.RouterGroup
 		publicRouter.DELETE("friend_link/:id", handler.DeleteFriendLink) // 删除FriendLink
 		publicRouter.GET("friend_link/:id", handler.FindFriendLink)      // 查询FriendLink
 
-		publicRouter.DELETE("friendLink/batch_delete", handler.DeleteFriendLinkByIds) // 批量删除FriendLink列表
-		publicRouter.POST("friendLink/list", handler.FindFriendLinkList)              // 分页查询FriendLink列表
+		publicRouter.DELETE("friend_link/batch_delete", handler.DeleteFriendLinkByIds) // 批量删除FriendLink列表
+		publicRouter.POST("friend_link/list", handler.FindFriendLinkList)              // 分页查询FriendLink列表
 	}
 }
