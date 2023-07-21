@@ -219,6 +219,19 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	})
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		Key:      tmpl.KeyService,
+		FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
+		StructMetas: []*inject.StructMeta{
+			inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.StructComment)),
+		},
+		FuncMetas: []*inject.FuncMeta{
+			inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
+			%vService: logic.New%vService(svcCtx),
+			}`, data.StructName, data.StructName)),
+		},
+	})
+
+	injectMetas = append(injectMetas, &inject.AstInjectMeta{
 		Key:      tmpl.KeyController,
 		FilePath: fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
 		StructMetas: []*inject.StructMeta{
@@ -245,21 +258,21 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	})
 
 	injectMetas = append(injectMetas, &inject.AstInjectMeta{
-		Key:      tmpl.KeyService,
-		FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
-		StructMetas: []*inject.StructMeta{
-			inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.StructComment)),
-		},
-		FuncMetas: []*inject.FuncMeta{
-			inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
-			%vService: logic.New%vService(svcCtx),
-			}`, data.StructName, data.StructName)),
-		},
+		Key:      tmpl.KeyRouter,
+		FilePath: fmt.Sprintf("%v/router/logic/register.rt.go", temporaryRoot),
+		DeclMeta: []*inject.DeclMeta{inject.NewDeclMeta(fmt.Sprintf(`
+	// 初始化 %s 路由信息
+	// publicRouter 公开路由，不登录就可以访问
+	// loginRouter  登录路由，登录后才可以访问
+	func (s *%sRouter) Init%sRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+		s.Init%sGenRouter(publicRouter, loginRouter)
+	}
+`, data.StructName, data.StructName, data.StructName, data.StructName))},
 	})
 	return metas, injectMetas
 }
 
-func (g *Generator) GetTemplateDatas() []*plate.AutoCodeStructData {
+func (g *Generator) GetTemplateDataList() []*plate.AutoCodeStructData {
 	return g.plateData
 }
 

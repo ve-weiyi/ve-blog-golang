@@ -19,18 +19,16 @@ func NewMenuRouter(svcCtx *svc.RouterContext) *MenuRouter {
 // 初始化 Menu 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *MenuRouter) InitMenuGenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.MenuController
 	{
-		publicRouter.POST("menu/create", handler.CreateMenu)   // 新建Menu
-		publicRouter.PUT("menu/update", handler.UpdateMenu)    // 更新Menu
-		publicRouter.DELETE("menu/delete", handler.DeleteMenu) // 删除Menu
-		publicRouter.POST("menu/find", handler.FindMenu)       // 查询Menu
+		publicRouter.POST("menu", handler.CreateMenu)       // 新建Menu
+		publicRouter.PUT("menu", handler.UpdateMenu)        // 更新Menu
+		publicRouter.DELETE("menu/:id", handler.DeleteMenu) // 删除Menu
+		publicRouter.GET("menu/:id", handler.FindMenu)      // 查询Menu
 
-		publicRouter.DELETE("menu/deleteByIds", handler.DeleteMenuByIds) // 批量删除Menu列表
-		publicRouter.POST("menu/list", handler.FindMenuList)             // 分页查询Menu列表
-
-		loginRouter.POST("admin/menus", handler.GetMenus) // 获取Menu列表
+		publicRouter.DELETE("menu/batch_delete", handler.DeleteMenuByIds) // 批量删除Menu列表
+		publicRouter.POST("menu/list", handler.FindMenuList)              // 分页查询Menu列表
 	}
 }

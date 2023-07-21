@@ -43,17 +43,17 @@ func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInf
 }
 
 func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
-	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, userId)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, userId)
 	if err != nil {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 
-	info, err := s.svcCtx.UserAccountRepository.GetUserInfo(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(account.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	history, err := s.svcCtx.UserAccountRepository.GetLastLoginHistory(reqCtx, account.ID)
+	history, err := s.svcCtx.UserAccountRepository.FindLastLoginHistory(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +110,7 @@ func (s *UserService) GetUserAreas(reqCtx *request.Context, page *request.PageIn
 
 func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.PageInfo) (result []*response.LoginHistory, total int64, err error) {
 	//获取用户
-	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, reqCtx.UID)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, 0, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
@@ -214,7 +214,7 @@ func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.
 	s.svcCtx.UploadRepository.CreateUpload(reqCtx, up)
 
 	// 更新用户信息
-	information, err := s.svcCtx.UserInformationRepository.GetUserInformation(reqCtx, reqCtx.UID)
+	information, err := s.svcCtx.UserInformationRepository.FindUserInformation(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func (s *UserService) UpdateUserRoles(reqCtx *request.Context, req *request.Upda
 // 修改用户状态
 func (s *UserService) UpdateUserStatus(reqCtx *request.Context, req *entity.UserAccount) (data *entity.UserAccount, err error) {
 	// 创建db
-	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, req.ID)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, req.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -249,7 +249,7 @@ func (s *UserService) UpdateUserStatus(reqCtx *request.Context, req *entity.User
 // 修改用户信息
 func (s *UserService) UpdateUserInfo(reqCtx *request.Context, req *entity.UserInformation) (data *entity.UserInformation, err error) {
 	// 创建db
-	info, err := s.svcCtx.UserInformationRepository.GetUserInformation(reqCtx, req.ID)
+	info, err := s.svcCtx.UserInformationRepository.FindUserInformation(reqCtx, req.ID)
 	if err != nil {
 		return nil, err
 	}

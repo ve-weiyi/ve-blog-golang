@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewPhotoAlbumController(svcCtx *svc.ControllerContext) *PhotoAlbumControlle
 // @Produce		application/json
 // @Param		data	body		entity.PhotoAlbum							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
-// @Router		/photoAlbum/create [post]
+// @Router		/photo_album [post]
 func (s *PhotoAlbumController) CreatePhotoAlbum(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *PhotoAlbumController) CreatePhotoAlbum(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		PhotoAlbum
-// @Summary		删除相册
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.PhotoAlbum 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/photoAlbum/delete [delete]
-func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var photoAlbum entity.PhotoAlbum
-	err = s.ShouldBind(c, &photoAlbum)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.PhotoAlbumService.DeletePhotoAlbum(reqCtx, &photoAlbum)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	PhotoAlbum
 // @Summary		更新相册
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.PhotoAlbum							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
-// @Router 		/photoAlbum/update [put]
+// @Router 		/photo_album [put]
 func (s *PhotoAlbumController) UpdatePhotoAlbum(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *PhotoAlbumController) UpdatePhotoAlbum(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		PhotoAlbum
+// @Summary		删除相册
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"PhotoAlbum id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/photo_album/{id} [delete]
+func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.PhotoAlbumService.DeletePhotoAlbum(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	PhotoAlbum
 // @Summary		查询相册
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.PhotoAlbum							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
-// @Router 		/photoAlbum/find [get]
+// @Param 	 	id		path		string								true		"PhotoAlbum id"
+// @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
+// @Router 		/photo_album/{id} [get]
 func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {
 		return
 	}
 
-	var photoAlbum entity.PhotoAlbum
-	err = s.ShouldBind(c, &photoAlbum)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PhotoAlbumService.FindPhotoAlbum(reqCtx, &photoAlbum)
+	data, err := s.svcCtx.PhotoAlbumService.FindPhotoAlbum(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/photoAlbum/deleteByIds [delete]
+// @Router		/photo_album/batch_delete [delete]
 func (s *PhotoAlbumController) DeletePhotoAlbumByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *PhotoAlbumController) DeletePhotoAlbumByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PhotoAlbumService.DeletePhotoAlbumByIds(reqCtx, IDS)
+	data, err := s.svcCtx.PhotoAlbumService.DeletePhotoAlbumByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -184,7 +186,7 @@ func (s *PhotoAlbumController) DeletePhotoAlbumByIds(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.PhotoAlbum}}	"返回信息"
-// @Router		/photoAlbum/list [post]
+// @Router		/photo_album/list [post]
 func (s *PhotoAlbumController) FindPhotoAlbumList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

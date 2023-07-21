@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameFriendLink return the table name of <friend_link>
 const TableNameFriendLink = "friend_link"

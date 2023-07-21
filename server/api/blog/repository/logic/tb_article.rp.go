@@ -3,7 +3,7 @@ package logic
 import "github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 
 // 根据分类id获取文章
-func (s *ArticleRepository) GetArticleListByCategoryId(categoryId int) (list []*entity.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleListByCategoryId(categoryId int) (list []*entity.Article, total int64, err error) {
 	db := s.DbEngin
 	err = db.Model(&entity.Article{}).Where("category_id = ?", categoryId).Find(&list).Error
 	if err != nil {
@@ -15,7 +15,7 @@ func (s *ArticleRepository) GetArticleListByCategoryId(categoryId int) (list []*
 }
 
 // 根据标签id获取文章
-func (s *ArticleRepository) GetArticleListByTagId(tagId int) (list []*entity.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleListByTagId(tagId int) (list []*entity.Article, total int64, err error) {
 	db := s.DbEngin
 
 	// 获取文章标签映射
@@ -42,7 +42,7 @@ func (s *ArticleRepository) GetArticleListByTagId(tagId int) (list []*entity.Art
 }
 
 // 获取推荐文章,与id相同分类的文章
-func (s *ArticleRepository) GetRecommendArticle(cateId int) (list []*entity.Article, err error) {
+func (s *ArticleRepository) FindRecommendArticle(cateId int) (list []*entity.Article, err error) {
 	db := s.DbEngin
 	err = db.Where("category_id = ?", cateId).Limit(5).Find(&list).Error
 	if err != nil {
@@ -52,7 +52,7 @@ func (s *ArticleRepository) GetRecommendArticle(cateId int) (list []*entity.Arti
 }
 
 // 获取上一篇文章
-func (s *ArticleRepository) GetLastArticle(id int) (out *entity.Article, err error) {
+func (s *ArticleRepository) FindLastArticle(id int) (out *entity.Article, err error) {
 	db := s.DbEngin
 	var lastArticle entity.Article
 	err = db.Where("id < ?", id).Order("`id` desc").First(&lastArticle).Error
@@ -64,7 +64,7 @@ func (s *ArticleRepository) GetLastArticle(id int) (out *entity.Article, err err
 }
 
 // 获取下一篇文章
-func (s *ArticleRepository) GetNextArticle(id int) (out *entity.Article, err error) {
+func (s *ArticleRepository) FindNextArticle(id int) (out *entity.Article, err error) {
 	db := s.DbEngin
 	var nextArticle entity.Article
 	err = db.Where("id > ?", id).Order("`id` asc").First(&nextArticle).Error

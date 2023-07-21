@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameMenu return the table name of <menu>
 const TableNameMenu = "menu"

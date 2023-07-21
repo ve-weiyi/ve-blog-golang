@@ -21,19 +21,19 @@ func (s *PhotoService) CreatePhoto(reqCtx *request.Context, photo *entity.Photo)
 	return s.svcCtx.PhotoRepository.CreatePhoto(reqCtx, photo)
 }
 
-// 删除Photo记录
-func (s *PhotoService) DeletePhoto(reqCtx *request.Context, photo *entity.Photo) (rows int64, err error) {
-	return s.svcCtx.PhotoRepository.DeletePhoto(reqCtx, photo)
-}
-
 // 更新Photo记录
 func (s *PhotoService) UpdatePhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
 	return s.svcCtx.PhotoRepository.UpdatePhoto(reqCtx, photo)
 }
 
+// 删除Photo记录
+func (s *PhotoService) DeletePhoto(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.PhotoRepository.DeletePhoto(reqCtx, id)
+}
+
 // 查询Photo记录
-func (s *PhotoService) FindPhoto(reqCtx *request.Context, photo *entity.Photo) (data *entity.Photo, err error) {
-	return s.svcCtx.PhotoRepository.GetPhoto(reqCtx, photo.ID)
+func (s *PhotoService) FindPhoto(reqCtx *request.Context, id int) (data *entity.Photo, err error) {
+	return s.svcCtx.PhotoRepository.FindPhoto(reqCtx, id)
 }
 
 // 批量删除Photo记录

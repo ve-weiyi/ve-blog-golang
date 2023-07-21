@@ -33,15 +33,6 @@ func (s *ArticleRepository) CreateArticle(ctx context.Context, article *entity.A
 	return article, err
 }
 
-// 删除Article记录
-func (s *ArticleRepository) DeleteArticle(ctx context.Context, article *entity.Article) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&article)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Article记录
 func (s *ArticleRepository) UpdateArticle(ctx context.Context, article *entity.Article) (out *entity.Article, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *ArticleRepository) UpdateArticle(ctx context.Context, article *entity.A
 	return article, err
 }
 
+// 删除Article记录
+func (s *ArticleRepository) DeleteArticle(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Article{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Article记录
-func (s *ArticleRepository) GetArticle(ctx context.Context, id int) (out *entity.Article, err error) {
+func (s *ArticleRepository) FindArticle(ctx context.Context, id int) (out *entity.Article, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *ArticleRepository) GetArticle(ctx context.Context, id int) (out *entity
 // 批量删除Article记录
 func (s *ArticleRepository) DeleteArticleByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Article{}, "id in ?", ids)
+	query := db.Delete(&entity.Article{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

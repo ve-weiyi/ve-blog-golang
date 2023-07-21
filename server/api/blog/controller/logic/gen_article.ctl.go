@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewArticleController(svcCtx *svc.ControllerContext) *ArticleController {
 // @Produce		application/json
 // @Param		data	body		entity.Article							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
-// @Router		/article/create [post]
+// @Router		/article [post]
 func (s *ArticleController) CreateArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *ArticleController) CreateArticle(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Article
-// @Summary		删除文章
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Article 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/article/delete [delete]
-func (s *ArticleController) DeleteArticle(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var article entity.Article
-	err = s.ShouldBind(c, &article)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ArticleService.DeleteArticle(reqCtx, &article)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Article
 // @Summary		更新文章
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Article							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
-// @Router 		/article/update [put]
+// @Router 		/article [put]
 func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Article
+// @Summary		删除文章
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Article id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/article/{id} [delete]
+func (s *ArticleController) DeleteArticle(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.ArticleService.DeleteArticle(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Article
 // @Summary		查询文章
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Article							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Article}	"返回信息"
-// @Router 		/article/find [get]
+// @Param 	 	id		path		string								true		"Article id"
+// @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
+// @Router 		/article/{id} [get]
 func (s *ArticleController) FindArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 		return
 	}
 
-	var article entity.Article
-	err = s.ShouldBind(c, &article)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.FindArticle(reqCtx, &article)
+	data, err := s.svcCtx.ArticleService.FindArticle(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/article/deleteByIds [delete]
+// @Router		/article/batch_delete [delete]
 func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *ArticleController) DeleteArticleByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.DeleteArticleByIds(reqCtx, IDS)
+	data, err := s.svcCtx.ArticleService.DeleteArticleByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

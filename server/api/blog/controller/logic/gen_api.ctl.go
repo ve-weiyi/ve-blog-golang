@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewApiController(svcCtx *svc.ControllerContext) *ApiController {
 // @Produce		application/json
 // @Param		data	body		entity.Api							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router		/api/create [post]
+// @Router		/api [post]
 func (s *ApiController) CreateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Api
-// @Summary		删除接口
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Api 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/api/delete [delete]
-func (s *ApiController) DeleteApi(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var api entity.Api
-	err = s.ShouldBind(c, &api)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ApiService.DeleteApi(reqCtx, &api)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Api
 // @Summary		更新接口
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Api							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router 		/api/update [put]
+// @Router 		/api [put]
 func (s *ApiController) UpdateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Api
+// @Summary		删除接口
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Api id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/api/{id} [delete]
+func (s *ApiController) DeleteApi(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.ApiService.DeleteApi(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Api
 // @Summary		查询接口
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Api							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router 		/api/find [get]
+// @Param 	 	id		path		string								true		"Api id"
+// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
+// @Router 		/api/{id} [get]
 func (s *ApiController) FindApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *ApiController) FindApi(c *gin.Context) {
 		return
 	}
 
-	var api entity.Api
-	err = s.ShouldBind(c, &api)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.FindApi(reqCtx, &api)
+	data, err := s.svcCtx.ApiService.FindApi(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *ApiController) FindApi(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/api/deleteByIds [delete]
+// @Router		/api/batch_delete [delete]
 func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.DeleteApiByIds(reqCtx, IDS)
+	data, err := s.svcCtx.ApiService.DeleteApiByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

@@ -52,14 +52,14 @@ func TestPlate(t *testing.T) {
 		GenerateCommon: true,
 		OutPath:        out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("tb_%v", tableName)
+			return fmt.Sprintf("gen_%v", tableName)
 		},
 		GenerateMap: map[string]string{
-			tmpl.KeyRouter:     "",
-			tmpl.KeyController: "",
-			tmpl.KeyService:    "",
-			tmpl.KeyRepository: "",
-			tmpl.KeyModel:      "",
+			tmpl.KeyRouter: "",
+			//tmpl.KeyController: "",
+			//tmpl.KeyService:    "",
+			//tmpl.KeyRepository: "",
+			//tmpl.KeyModel:      "",
 		},
 	}
 	typeInt := "int"
@@ -87,19 +87,21 @@ func TestPlate(t *testing.T) {
 	//gen.InitPackage("hello")
 	//gen.ApplyMetas(gen.GenerateMetasFromSchema())
 
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
-	//
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("photo", "相片"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("photo_album", "相册"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("page", "页面"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("friend_link", "友链"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
+
+	gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("photo", "相片"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("photo_album", "相册"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("page", "页面"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("friend_link", "友链"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
+	gen.ApplyMetas(gen.GenerateMetasFromTable("remark", "留言"))
 
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_account", "用户账号信息"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_information", "用户信息"))
@@ -107,11 +109,9 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("upload", "文件上传"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("chat_record", "聊天记录"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("unique_view", "页面访问数量"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
 	//gen.GenerateCommonFile("upload", "文件上传")
 
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("message", "留言"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("website_config", "网站设置"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("website_config", "网站设置"))
 	//gen.RollBack()
 	gen.Execute()
 }
@@ -131,17 +131,15 @@ func visitFile(path string, info os.FileInfo, err error) error {
 			return nil
 		}
 
-		if strings.HasSuffix(oldName, "rt.go") || strings.HasSuffix(oldName, "ctl.go") || strings.HasSuffix(oldName, "sv.go") || strings.HasSuffix(oldName, "rp.go") {
-			// 添加前缀 "gen_" 到文件名
-			newName := strings.Replace(oldName, "tb_context", "context", 1)
+		// 添加前缀 "gen_" 到文件名
+		newName := strings.Replace(oldName, "tb_tb_", "tb_", 1)
 
-			// 修改文件名
-			err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))
-			if err != nil {
-				fmt.Println("Error renaming file:", err)
-			} else {
-				fmt.Println("Renamed file:", newName)
-			}
+		// 修改文件名
+		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))
+		if err != nil {
+			fmt.Println("Error renaming file:", err)
+		} else {
+			fmt.Println("Renamed file:", newName)
 		}
 	}
 

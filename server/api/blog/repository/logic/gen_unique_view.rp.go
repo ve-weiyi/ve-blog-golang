@@ -53,7 +53,7 @@ func (s *UniqueViewRepository) UpdateUniqueView(ctx context.Context, uniqueView 
 }
 
 // 查询UniqueView记录
-func (s *UniqueViewRepository) GetUniqueView(ctx context.Context, id int) (out *entity.UniqueView, err error) {
+func (s *UniqueViewRepository) FindUniqueView(ctx context.Context, id int) (out *entity.UniqueView, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

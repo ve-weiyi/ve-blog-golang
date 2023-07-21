@@ -33,15 +33,6 @@ func (s *RoleRepository) CreateRole(ctx context.Context, role *entity.Role) (out
 	return role, err
 }
 
-// 删除Role记录
-func (s *RoleRepository) DeleteRole(ctx context.Context, role *entity.Role) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&role)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Role记录
 func (s *RoleRepository) UpdateRole(ctx context.Context, role *entity.Role) (out *entity.Role, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *RoleRepository) UpdateRole(ctx context.Context, role *entity.Role) (out
 	return role, err
 }
 
+// 删除Role记录
+func (s *RoleRepository) DeleteRole(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Role{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Role记录
-func (s *RoleRepository) GetRole(ctx context.Context, id int) (out *entity.Role, err error) {
+func (s *RoleRepository) FindRole(ctx context.Context, id int) (out *entity.Role, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *RoleRepository) GetRole(ctx context.Context, id int) (out *entity.Role,
 // 批量删除Role记录
 func (s *RoleRepository) DeleteRoleByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Role{}, "id in ?", ids)
+	query := db.Delete(&entity.Role{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

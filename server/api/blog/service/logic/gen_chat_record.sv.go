@@ -34,7 +34,7 @@ func (s *ChatRecordService) UpdateChatRecord(reqCtx *request.Context, chatRecord
 
 // 查询ChatRecord记录
 func (s *ChatRecordService) GetChatRecord(reqCtx *request.Context, chatRecord *entity.ChatRecord) (data *entity.ChatRecord, err error) {
-	return s.svcCtx.ChatRecordRepository.GetChatRecord(reqCtx, chatRecord.ID)
+	return s.svcCtx.ChatRecordRepository.FindChatRecord(reqCtx, chatRecord.ID)
 }
 
 // 批量删除ChatRecord记录

@@ -53,7 +53,7 @@ func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websi
 }
 
 // 查询WebsiteConfig记录
-func (s *WebsiteConfigRepository) GetWebsiteConfig(ctx context.Context, key string) (out *entity.WebsiteConfig, err error) {
+func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, key string) (out *entity.WebsiteConfig, err error) {
 	db := s.DbEngin
 	err = db.Where("`key` = ?", key).First(&out).Error
 	if err != nil {

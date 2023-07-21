@@ -33,15 +33,6 @@ func (s *MenuRepository) CreateMenu(ctx context.Context, menu *entity.Menu) (out
 	return menu, err
 }
 
-// 删除Menu记录
-func (s *MenuRepository) DeleteMenu(ctx context.Context, menu *entity.Menu) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&menu)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Menu记录
 func (s *MenuRepository) UpdateMenu(ctx context.Context, menu *entity.Menu) (out *entity.Menu, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *MenuRepository) UpdateMenu(ctx context.Context, menu *entity.Menu) (out
 	return menu, err
 }
 
+// 删除Menu记录
+func (s *MenuRepository) DeleteMenu(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Menu{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Menu记录
-func (s *MenuRepository) GetMenu(ctx context.Context, id int) (out *entity.Menu, err error) {
+func (s *MenuRepository) FindMenu(ctx context.Context, id int) (out *entity.Menu, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *MenuRepository) GetMenu(ctx context.Context, id int) (out *entity.Menu,
 // 批量删除Menu记录
 func (s *MenuRepository) DeleteMenuByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Menu{}, "id in ?", ids)
+	query := db.Delete(&entity.Menu{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

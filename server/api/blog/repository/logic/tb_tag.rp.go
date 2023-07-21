@@ -2,7 +2,7 @@ package logic
 
 import "github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 
-func (s *TagRepository) GetArticleTagList(articleId int) (list []*entity.Tag, err error) {
+func (s *TagRepository) FindArticleTagList(articleId int) (list []*entity.Tag, err error) {
 	// 创建db
 	db := s.DbEngin
 	var ats []*entity.ArticleTag

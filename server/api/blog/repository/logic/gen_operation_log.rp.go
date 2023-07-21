@@ -33,15 +33,6 @@ func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operati
 	return operationLog, err
 }
 
-// 删除OperationLog记录
-func (s *OperationLogRepository) DeleteOperationLog(ctx context.Context, operationLog *entity.OperationLog) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&operationLog)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新OperationLog记录
 func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operationLog *entity.OperationLog) (out *entity.OperationLog, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operati
 	return operationLog, err
 }
 
+// 删除OperationLog记录
+func (s *OperationLogRepository) DeleteOperationLog(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.OperationLog{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询OperationLog记录
-func (s *OperationLogRepository) GetOperationLog(ctx context.Context, id int) (out *entity.OperationLog, err error) {
+func (s *OperationLogRepository) FindOperationLog(ctx context.Context, id int) (out *entity.OperationLog, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *OperationLogRepository) GetOperationLog(ctx context.Context, id int) (o
 // 批量删除OperationLog记录
 func (s *OperationLogRepository) DeleteOperationLogByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.OperationLog{}, "id in ?", ids)
+	query := db.Delete(&entity.OperationLog{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

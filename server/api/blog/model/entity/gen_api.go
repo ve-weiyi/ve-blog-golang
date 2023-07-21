@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameApi return the table name of <api>
 const TableNameApi = "api"

@@ -21,19 +21,19 @@ func (s *OperationLogService) CreateOperationLog(reqCtx *request.Context, operat
 	return s.svcCtx.OperationLogRepository.CreateOperationLog(reqCtx, operationLog)
 }
 
-// 删除OperationLog记录
-func (s *OperationLogService) DeleteOperationLog(reqCtx *request.Context, operationLog *entity.OperationLog) (rows int64, err error) {
-	return s.svcCtx.OperationLogRepository.DeleteOperationLog(reqCtx, operationLog)
-}
-
 // 更新OperationLog记录
 func (s *OperationLogService) UpdateOperationLog(reqCtx *request.Context, operationLog *entity.OperationLog) (data *entity.OperationLog, err error) {
 	return s.svcCtx.OperationLogRepository.UpdateOperationLog(reqCtx, operationLog)
 }
 
+// 删除OperationLog记录
+func (s *OperationLogService) DeleteOperationLog(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.OperationLogRepository.DeleteOperationLog(reqCtx, id)
+}
+
 // 查询OperationLog记录
-func (s *OperationLogService) FindOperationLog(reqCtx *request.Context, operationLog *entity.OperationLog) (data *entity.OperationLog, err error) {
-	return s.svcCtx.OperationLogRepository.GetOperationLog(reqCtx, operationLog.ID)
+func (s *OperationLogService) FindOperationLog(reqCtx *request.Context, id int) (data *entity.OperationLog, err error) {
+	return s.svcCtx.OperationLogRepository.FindOperationLog(reqCtx, id)
 }
 
 // 批量删除OperationLog记录

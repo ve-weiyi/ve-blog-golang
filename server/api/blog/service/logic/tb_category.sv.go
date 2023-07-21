@@ -16,7 +16,7 @@ func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page 
 
 	for _, in := range categories {
 
-		_, articleCount, err := s.svcCtx.ArticleRepository.GetArticleListByCategoryId(in.ID)
+		_, articleCount, err := s.svcCtx.ArticleRepository.FindArticleListByCategoryId(in.ID)
 		if err != nil {
 			return nil, 0, err
 		}

@@ -33,15 +33,6 @@ func (s *PageRepository) CreatePage(ctx context.Context, page *entity.Page) (out
 	return page, err
 }
 
-// 删除Page记录
-func (s *PageRepository) DeletePage(ctx context.Context, page *entity.Page) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&page)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Page记录
 func (s *PageRepository) UpdatePage(ctx context.Context, page *entity.Page) (out *entity.Page, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *PageRepository) UpdatePage(ctx context.Context, page *entity.Page) (out
 	return page, err
 }
 
+// 删除Page记录
+func (s *PageRepository) DeletePage(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Page{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Page记录
-func (s *PageRepository) GetPage(ctx context.Context, id int) (out *entity.Page, err error) {
+func (s *PageRepository) FindPage(ctx context.Context, id int) (out *entity.Page, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *PageRepository) GetPage(ctx context.Context, id int) (out *entity.Page,
 // 批量删除Page记录
 func (s *PageRepository) DeletePageByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Page{}, "id in ?", ids)
+	query := db.Delete(&entity.Page{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

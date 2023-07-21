@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewOperationLogController(svcCtx *svc.ControllerContext) *OperationLogContr
 // @Produce		application/json
 // @Param		data	body		entity.OperationLog							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
-// @Router		/operationLog/create [post]
+// @Router		/operation_log [post]
 func (s *OperationLogController) CreateOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *OperationLogController) CreateOperationLog(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		OperationLog
-// @Summary		删除操作记录
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.OperationLog 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/operationLog/delete [delete]
-func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var operationLog entity.OperationLog
-	err = s.ShouldBind(c, &operationLog)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.OperationLogService.DeleteOperationLog(reqCtx, &operationLog)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	OperationLog
 // @Summary		更新操作记录
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.OperationLog							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
-// @Router 		/operationLog/update [put]
+// @Router 		/operation_log [put]
 func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		OperationLog
+// @Summary		删除操作记录
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"OperationLog id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/operation_log/{id} [delete]
+func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.OperationLogService.DeleteOperationLog(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	OperationLog
 // @Summary		查询操作记录
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.OperationLog							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.OperationLog}	"返回信息"
-// @Router 		/operationLog/find [get]
+// @Param 	 	id		path		string								true		"OperationLog id"
+// @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
+// @Router 		/operation_log/{id} [get]
 func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 		return
 	}
 
-	var operationLog entity.OperationLog
-	err = s.ShouldBind(c, &operationLog)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.OperationLogService.FindOperationLog(reqCtx, &operationLog)
+	data, err := s.svcCtx.OperationLogService.FindOperationLog(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/operationLog/deleteByIds [delete]
+// @Router		/operation_log/batch_delete [delete]
 func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.OperationLogService.DeleteOperationLogByIds(reqCtx, IDS)
+	data, err := s.svcCtx.OperationLogService.DeleteOperationLogByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -184,7 +186,7 @@ func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.OperationLog}}	"返回信息"
-// @Router		/operationLog/list [post]
+// @Router		/operation_log/list [post]
 func (s *OperationLogController) FindOperationLogList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

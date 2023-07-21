@@ -24,7 +24,7 @@ func (s *ApiService) GetAllApiList(reqCtx *request.Context, page *request.PageIn
 
 func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiTree, err error) {
 	//查询用户信息
-	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, reqCtx.UID)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}

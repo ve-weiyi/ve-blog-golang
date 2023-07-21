@@ -53,7 +53,7 @@ func (s *UploadRepository) UpdateUpload(ctx context.Context, upload *entity.Uplo
 }
 
 // 查询Upload记录
-func (s *UploadRepository) GetUpload(ctx context.Context, id int) (out *entity.Upload, err error) {
+func (s *UploadRepository) FindUpload(ctx context.Context, id int) (out *entity.Upload, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

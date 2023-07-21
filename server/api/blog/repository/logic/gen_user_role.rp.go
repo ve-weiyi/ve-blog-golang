@@ -53,7 +53,7 @@ func (s *UserRoleRepository) UpdateUserRole(ctx context.Context, userRole *entit
 }
 
 // 查询UserRole记录
-func (s *UserRoleRepository) GetUserRole(ctx context.Context, id int) (out *entity.UserRole, err error) {
+func (s *UserRoleRepository) FindUserRole(ctx context.Context, id int) (out *entity.UserRole, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

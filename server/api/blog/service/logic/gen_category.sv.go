@@ -21,19 +21,19 @@ func (s *CategoryService) CreateCategory(reqCtx *request.Context, category *enti
 	return s.svcCtx.CategoryRepository.CreateCategory(reqCtx, category)
 }
 
-// 删除Category记录
-func (s *CategoryService) DeleteCategory(reqCtx *request.Context, category *entity.Category) (rows int64, err error) {
-	return s.svcCtx.CategoryRepository.DeleteCategory(reqCtx, category)
-}
-
 // 更新Category记录
 func (s *CategoryService) UpdateCategory(reqCtx *request.Context, category *entity.Category) (data *entity.Category, err error) {
 	return s.svcCtx.CategoryRepository.UpdateCategory(reqCtx, category)
 }
 
+// 删除Category记录
+func (s *CategoryService) DeleteCategory(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.CategoryRepository.DeleteCategory(reqCtx, id)
+}
+
 // 查询Category记录
-func (s *CategoryService) FindCategory(reqCtx *request.Context, category *entity.Category) (data *entity.Category, err error) {
-	return s.svcCtx.CategoryRepository.GetCategory(reqCtx, category.ID)
+func (s *CategoryService) FindCategory(reqCtx *request.Context, id int) (data *entity.Category, err error) {
+	return s.svcCtx.CategoryRepository.FindCategory(reqCtx, id)
 }
 
 // 批量删除Category记录

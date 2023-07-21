@@ -33,15 +33,6 @@ func (s *ApiRepository) CreateApi(ctx context.Context, api *entity.Api) (out *en
 	return api, err
 }
 
-// 删除Api记录
-func (s *ApiRepository) DeleteApi(ctx context.Context, api *entity.Api) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&api)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Api记录
 func (s *ApiRepository) UpdateApi(ctx context.Context, api *entity.Api) (out *entity.Api, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *ApiRepository) UpdateApi(ctx context.Context, api *entity.Api) (out *en
 	return api, err
 }
 
+// 删除Api记录
+func (s *ApiRepository) DeleteApi(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Api{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Api记录
-func (s *ApiRepository) GetApi(ctx context.Context, id int) (out *entity.Api, err error) {
+func (s *ApiRepository) FindApi(ctx context.Context, id int) (out *entity.Api, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *ApiRepository) GetApi(ctx context.Context, id int) (out *entity.Api, er
 // 批量删除Api记录
 func (s *ApiRepository) DeleteApiByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Api{}, "id in ?", ids)
+	query := db.Delete(&entity.Api{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

@@ -117,7 +117,7 @@ func (vi *StructMeta) GetNode() dst.Node {
 	return f
 }
 
-func (vi *StructMeta) InjectCode() string {
+func (vi *StructMeta) GetCode() string {
 	injectCode := fmt.Sprintf("%s", vi.FieldType)
 
 	if vi.FieldIdent != "" {
@@ -198,7 +198,7 @@ type %s struct {
 		return true
 	})
 
-	//log.Println("InjectCode", meta.InjectCode())
+	//log.Println("GetCode", meta.GetCode())
 	//log.Println("NewStructMete", jsonconv.ObjectToJsonIndent(meta))
 	return meta
 }

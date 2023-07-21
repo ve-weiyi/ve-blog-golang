@@ -21,19 +21,19 @@ func (s *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Rem
 	return s.svcCtx.RemarkRepository.CreateRemark(reqCtx, remark)
 }
 
-// 删除Remark记录
-func (s *RemarkService) DeleteRemark(reqCtx *request.Context, remark *entity.Remark) (rows int64, err error) {
-	return s.svcCtx.RemarkRepository.DeleteRemark(reqCtx, remark)
-}
-
 // 更新Remark记录
 func (s *RemarkService) UpdateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
 	return s.svcCtx.RemarkRepository.UpdateRemark(reqCtx, remark)
 }
 
+// 删除Remark记录
+func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.RemarkRepository.DeleteRemark(reqCtx, id)
+}
+
 // 查询Remark记录
-func (s *RemarkService) FindRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.GetRemark(reqCtx, remark.ID)
+func (s *RemarkService) FindRemark(reqCtx *request.Context, id int) (data *entity.Remark, err error) {
+	return s.svcCtx.RemarkRepository.FindRemark(reqCtx, id)
 }
 
 // 批量删除Remark记录

@@ -33,7 +33,7 @@ func (s *UserAccountService) UpdateUserAccount(reqCtx *request.Context, userAcco
 
 // 查询UserAccount记录
 func (s *UserAccountService) GetUserAccount(reqCtx *request.Context, userAccount *entity.UserAccount) (data *entity.UserAccount, err error) {
-	return s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, userAccount.ID)
+	return s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, userAccount.ID)
 }
 
 // 批量删除UserAccount记录

@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewRoleController(svcCtx *svc.ControllerContext) *RoleController {
 // @Produce		application/json
 // @Param		data	body		entity.Role							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/role/create [post]
+// @Router		/role [post]
 func (s *RoleController) CreateRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *RoleController) CreateRole(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Role
-// @Summary		删除角色
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Role 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/role/delete [delete]
-func (s *RoleController) DeleteRole(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var role entity.Role
-	err = s.ShouldBind(c, &role)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.RoleService.DeleteRole(reqCtx, &role)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Role
 // @Summary		更新角色
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Role							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router 		/role/update [put]
+// @Router 		/role [put]
 func (s *RoleController) UpdateRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Role
+// @Summary		删除角色
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Role id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/role/{id} [delete]
+func (s *RoleController) DeleteRole(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.RoleService.DeleteRole(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Role
 // @Summary		查询角色
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Role							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router 		/role/find [get]
+// @Param 	 	id		path		string								true		"Role id"
+// @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
+// @Router 		/role/{id} [get]
 func (s *RoleController) FindRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *RoleController) FindRole(c *gin.Context) {
 		return
 	}
 
-	var role entity.Role
-	err = s.ShouldBind(c, &role)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.RoleService.FindRole(reqCtx, &role)
+	data, err := s.svcCtx.RoleService.FindRole(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *RoleController) FindRole(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/role/deleteByIds [delete]
+// @Router		/role/batch_delete [delete]
 func (s *RoleController) DeleteRoleByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *RoleController) DeleteRoleByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.RoleService.DeleteRoleByIds(reqCtx, IDS)
+	data, err := s.svcCtx.RoleService.DeleteRoleByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

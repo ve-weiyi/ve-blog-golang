@@ -44,7 +44,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	}
 
 	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.GetUserInfo(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -283,7 +283,7 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 }
 
 func (s *AuthService) generateToken(userId int) (token string, err error) {
-	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(nil, userId)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(nil, userId)
 	if err != nil {
 		return "", err
 	}

@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewRemarkController(svcCtx *svc.ControllerContext) *RemarkController {
 // @Produce		application/json
 // @Param		data	body		entity.Remark							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
-// @Router		/remark/create [post]
+// @Router		/remark [post]
 func (s *RemarkController) CreateRemark(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *RemarkController) CreateRemark(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Remark
-// @Summary		删除留言
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Remark 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/remark/delete [delete]
-func (s *RemarkController) DeleteRemark(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var remark entity.Remark
-	err = s.ShouldBind(c, &remark)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.RemarkService.DeleteRemark(reqCtx, &remark)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Remark
 // @Summary		更新留言
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *RemarkController) DeleteRemark(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Remark							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
-// @Router 		/remark/update [put]
+// @Router 		/remark [put]
 func (s *RemarkController) UpdateRemark(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *RemarkController) UpdateRemark(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Remark
+// @Summary		删除留言
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Remark id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/remark/{id} [delete]
+func (s *RemarkController) DeleteRemark(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.RemarkService.DeleteRemark(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Remark
 // @Summary		查询留言
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Remark							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Remark}	"返回信息"
-// @Router 		/remark/find [get]
+// @Param 	 	id		path		string								true		"Remark id"
+// @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
+// @Router 		/remark/{id} [get]
 func (s *RemarkController) FindRemark(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *RemarkController) FindRemark(c *gin.Context) {
 		return
 	}
 
-	var remark entity.Remark
-	err = s.ShouldBind(c, &remark)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.RemarkService.FindRemark(reqCtx, &remark)
+	data, err := s.svcCtx.RemarkService.FindRemark(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *RemarkController) FindRemark(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/remark/deleteByIds [delete]
+// @Router		/remark/batch_delete [delete]
 func (s *RemarkController) DeleteRemarkByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *RemarkController) DeleteRemarkByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.RemarkService.DeleteRemarkByIds(reqCtx, IDS)
+	data, err := s.svcCtx.RemarkService.DeleteRemarkByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

@@ -33,7 +33,7 @@ func (s *UserLoginHistoryService) UpdateUserLoginHistory(reqCtx *request.Context
 
 // 查询UserLoginHistory记录
 func (s *UserLoginHistoryService) GetUserLoginHistory(reqCtx *request.Context, userLoginHistory *entity.UserLoginHistory) (data *entity.UserLoginHistory, err error) {
-	return s.svcCtx.UserLoginHistoryRepository.GetUserLoginHistory(reqCtx, userLoginHistory.ID)
+	return s.svcCtx.UserLoginHistoryRepository.FindUserLoginHistory(reqCtx, userLoginHistory.ID)
 }
 
 // 批量删除UserLoginHistory记录

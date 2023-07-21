@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameCategory return the table name of <category>
 const TableNameCategory = "category"

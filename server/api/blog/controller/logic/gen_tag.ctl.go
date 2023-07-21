@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewTagController(svcCtx *svc.ControllerContext) *TagController {
 // @Produce		application/json
 // @Param		data	body		entity.Tag							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router		/tag/create [post]
+// @Router		/tag [post]
 func (s *TagController) CreateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *TagController) CreateTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Tag
-// @Summary		删除文章标签
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Tag 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/tag/delete [delete]
-func (s *TagController) DeleteTag(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var tag entity.Tag
-	err = s.ShouldBind(c, &tag)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.TagService.DeleteTag(reqCtx, &tag)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Tag
 // @Summary		更新文章标签
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Tag							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router 		/tag/update [put]
+// @Router 		/tag [put]
 func (s *TagController) UpdateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Tag
+// @Summary		删除文章标签
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Tag id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/tag/{id} [delete]
+func (s *TagController) DeleteTag(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.TagService.DeleteTag(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Tag
 // @Summary		查询文章标签
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Tag							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router 		/tag/find [get]
+// @Param 	 	id		path		string								true		"Tag id"
+// @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Router 		/tag/{id} [get]
 func (s *TagController) FindTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *TagController) FindTag(c *gin.Context) {
 		return
 	}
 
-	var tag entity.Tag
-	err = s.ShouldBind(c, &tag)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.FindTag(reqCtx, &tag)
+	data, err := s.svcCtx.TagService.FindTag(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *TagController) FindTag(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/tag/deleteByIds [delete]
+// @Router		/tag/batch_delete [delete]
 func (s *TagController) DeleteTagByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *TagController) DeleteTagByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.DeleteTagByIds(reqCtx, IDS)
+	data, err := s.svcCtx.TagService.DeleteTagByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

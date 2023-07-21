@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewCategoryController(svcCtx *svc.ControllerContext) *CategoryController {
 // @Produce		application/json
 // @Param		data	body		entity.Category							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category/create [post]
+// @Router		/category [post]
 func (s *CategoryController) CreateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Category
-// @Summary		删除文章分类
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Category 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/category/delete [delete]
-func (s *CategoryController) DeleteCategory(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var category entity.Category
-	err = s.ShouldBind(c, &category)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.CategoryService.DeleteCategory(reqCtx, &category)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Category
 // @Summary		更新文章分类
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Category							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router 		/category/update [put]
+// @Router 		/category [put]
 func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Category
+// @Summary		删除文章分类
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Category id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/category/{id} [delete]
+func (s *CategoryController) DeleteCategory(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.CategoryService.DeleteCategory(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Category
 // @Summary		查询文章分类
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Category							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router 		/category/find [get]
+// @Param 	 	id		path		string								true		"Category id"
+// @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
+// @Router 		/category/{id} [get]
 func (s *CategoryController) FindCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 		return
 	}
 
-	var category entity.Category
-	err = s.ShouldBind(c, &category)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.FindCategory(reqCtx, &category)
+	data, err := s.svcCtx.CategoryService.FindCategory(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/category/deleteByIds [delete]
+// @Router		/category/batch_delete [delete]
 func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.DeleteCategoryByIds(reqCtx, IDS)
+	data, err := s.svcCtx.CategoryService.DeleteCategoryByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

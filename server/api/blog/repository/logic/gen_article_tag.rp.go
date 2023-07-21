@@ -53,7 +53,7 @@ func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag 
 }
 
 // 查询ArticleTag记录
-func (s *ArticleTagRepository) GetArticleTag(ctx context.Context, id int) (out *entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, id int) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

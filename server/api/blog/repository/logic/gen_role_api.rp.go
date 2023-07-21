@@ -53,7 +53,7 @@ func (s *RoleApiRepository) UpdateRoleApi(ctx context.Context, roleApi *entity.R
 }
 
 // 查询RoleApi记录
-func (s *RoleApiRepository) GetRoleApi(ctx context.Context, id int) (out *entity.RoleApi, err error) {
+func (s *RoleApiRepository) FindRoleApi(ctx context.Context, id int) (out *entity.RoleApi, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

@@ -21,19 +21,19 @@ func (s *PageService) CreatePage(reqCtx *request.Context, page *entity.Page) (da
 	return s.svcCtx.PageRepository.CreatePage(reqCtx, page)
 }
 
-// 删除Page记录
-func (s *PageService) DeletePage(reqCtx *request.Context, page *entity.Page) (rows int64, err error) {
-	return s.svcCtx.PageRepository.DeletePage(reqCtx, page)
-}
-
 // 更新Page记录
 func (s *PageService) UpdatePage(reqCtx *request.Context, page *entity.Page) (data *entity.Page, err error) {
 	return s.svcCtx.PageRepository.UpdatePage(reqCtx, page)
 }
 
+// 删除Page记录
+func (s *PageService) DeletePage(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.PageRepository.DeletePage(reqCtx, id)
+}
+
 // 查询Page记录
-func (s *PageService) FindPage(reqCtx *request.Context, page *entity.Page) (data *entity.Page, err error) {
-	return s.svcCtx.PageRepository.GetPage(reqCtx, page.ID)
+func (s *PageService) FindPage(reqCtx *request.Context, id int) (data *entity.Page, err error) {
+	return s.svcCtx.PageRepository.FindPage(reqCtx, id)
 }
 
 // 批量删除Page记录

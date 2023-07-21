@@ -53,7 +53,7 @@ func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entit
 }
 
 // 查询RoleMenu记录
-func (s *RoleMenuRepository) GetRoleMenu(ctx context.Context, id int) (out *entity.RoleMenu, err error) {
+func (s *RoleMenuRepository) FindRoleMenu(ctx context.Context, id int) (out *entity.RoleMenu, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

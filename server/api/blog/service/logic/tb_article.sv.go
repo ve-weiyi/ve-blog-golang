@@ -9,25 +9,25 @@ import (
 // 根据id获取Article记录
 func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (data *response.ArticleDetails, err error) {
 	// 查询id对应文章
-	article, err := s.svcCtx.ArticleRepository.GetArticle(reqCtx, id)
+	article, err := s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章分类
-	category, err := s.svcCtx.CategoryRepository.GetCategory(reqCtx, article.CategoryID)
+	category, err := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章标签
-	tags, err := s.svcCtx.TagRepository.GetArticleTagList(article.ID)
+	tags, err := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询推荐文章
-	rmArticle, err := s.svcCtx.ArticleRepository.GetRecommendArticle(article.CategoryID)
+	rmArticle, err := s.svcCtx.ArticleRepository.FindRecommendArticle(article.CategoryID)
 	if err != nil {
 		return nil, err
 	}
@@ -44,12 +44,12 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 		return nil, err
 	}
 	// 查询上一篇文章
-	lastArticle, err := s.svcCtx.ArticleRepository.GetLastArticle(id)
+	lastArticle, err := s.svcCtx.ArticleRepository.FindLastArticle(id)
 	if err != nil {
 		return nil, err
 	}
 	// 查询下一篇文章
-	nextArticle, err := s.svcCtx.ArticleRepository.GetNextArticle(id)
+	nextArticle, err := s.svcCtx.ArticleRepository.FindNextArticle(id)
 	if err != nil {
 		return nil, err
 	}
@@ -74,9 +74,9 @@ func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.P
 
 	for _, article := range articles {
 		//查询文章分类
-		category, _ := s.svcCtx.CategoryRepository.GetCategory(reqCtx, article.CategoryID)
+		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
 		// 查询文章标签
-		tags, _ := s.svcCtx.TagRepository.GetArticleTagList(article.ID)
+		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
 
 		articleVO := convertArticle(article)
 		articleVO.CategoryName = category.CategoryName
@@ -93,27 +93,27 @@ func (s *ArticleService) GetArticleListByCondition(reqCtx *request.Context, req 
 	var articles []*entity.Article
 
 	if req.CategoryID != 0 {
-		category, err := s.svcCtx.CategoryRepository.GetCategory(reqCtx, req.CategoryID)
+		category, err := s.svcCtx.CategoryRepository.FindCategory(reqCtx, req.CategoryID)
 		if err != nil {
 			return nil, err
 		}
-		articles, _, err = s.svcCtx.ArticleRepository.GetArticleListByCategoryId(category.ID)
+		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(category.ID)
 		resp.ConditionName = category.CategoryName
 	} else if req.TagID != 0 {
-		tag, err := s.svcCtx.TagRepository.GetTag(reqCtx, req.TagID)
+		tag, err := s.svcCtx.TagRepository.FindTag(reqCtx, req.TagID)
 		if err != nil {
 			return nil, err
 		}
-		articles, _, err = s.svcCtx.ArticleRepository.GetArticleListByTagId(tag.ID)
+		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(tag.ID)
 		resp.ConditionName = tag.TagName
 	}
 
 	var list []*response.ArticleDTO
 	for _, article := range articles {
 		//查询文章分类
-		category, _ := s.svcCtx.CategoryRepository.GetCategory(reqCtx, article.CategoryID)
+		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
 		// 查询文章标签
-		tags, _ := s.svcCtx.TagRepository.GetArticleTagList(article.ID)
+		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
 
 		articleVO := convertArticle(article)
 		articleVO.CategoryName = category.CategoryName

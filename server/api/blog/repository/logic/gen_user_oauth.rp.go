@@ -53,7 +53,7 @@ func (s *UserOauthRepository) UpdateUserOauth(ctx context.Context, userOauth *en
 }
 
 // 查询UserOauth记录
-func (s *UserOauthRepository) GetUserOauth(ctx context.Context, id int) (out *entity.UserOauth, err error) {
+func (s *UserOauthRepository) FindUserOauth(ctx context.Context, id int) (out *entity.UserOauth, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

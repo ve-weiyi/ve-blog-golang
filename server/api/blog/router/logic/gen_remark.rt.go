@@ -19,16 +19,16 @@ func NewRemarkRouter(svcCtx *svc.RouterContext) *RemarkRouter {
 // 初始化 Remark 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *RemarkRouter) InitRemarkRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *RemarkRouter) InitRemarkGenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.RemarkController
 	{
-		publicRouter.POST("remark/create", handler.CreateRemark)   // 新建Remark
-		publicRouter.PUT("remark/update", handler.UpdateRemark)    // 更新Remark
-		publicRouter.DELETE("remark/delete", handler.DeleteRemark) // 删除Remark
-		publicRouter.POST("remark/find", handler.FindRemark)       // 查询Remark
+		publicRouter.POST("remark", handler.CreateRemark)       // 新建Remark
+		publicRouter.PUT("remark", handler.UpdateRemark)        // 更新Remark
+		publicRouter.DELETE("remark/:id", handler.DeleteRemark) // 删除Remark
+		publicRouter.GET("remark/:id", handler.FindRemark)      // 查询Remark
 
-		publicRouter.DELETE("remark/deleteByIds", handler.DeleteRemarkByIds) // 批量删除Remark列表
-		publicRouter.POST("remark/list", handler.FindRemarkList)             // 分页查询Remark列表
+		publicRouter.DELETE("remark/batch_delete", handler.DeleteRemarkByIds) // 批量删除Remark列表
+		publicRouter.POST("remark/list", handler.FindRemarkList)              // 分页查询Remark列表
 	}
 }

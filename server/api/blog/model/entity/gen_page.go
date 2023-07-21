@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNamePage return the table name of <page>
 const TableNamePage = "page"

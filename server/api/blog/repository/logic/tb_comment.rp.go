@@ -46,7 +46,7 @@ func (s *CommentRepository) LikeComment(ctx context.Context, uid int, commentId 
 }
 
 // 获取用户点赞记录
-func (s *CommentRepository) GetUserLikeComment(ctx context.Context, uid int) (data []string, err error) {
+func (s *CommentRepository) FindUserLikeComment(ctx context.Context, uid int) (data []string, err error) {
 	// 用户点赞的评论列表
 	commentUserLikeKey := constant.RedisWrapKey("comment_user_like", uid)
 	return global.REDIS.SMembers(ctx, commentUserLikeKey).Result()

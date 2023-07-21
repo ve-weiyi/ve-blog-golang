@@ -53,7 +53,7 @@ func (s *UserAccountRepository) UpdateUserAccount(ctx context.Context, userAccou
 }
 
 // 查询UserAccount记录
-func (s *UserAccountRepository) GetUserAccount(ctx context.Context, id int) (out *entity.UserAccount, err error) {
+func (s *UserAccountRepository) FindUserAccount(ctx context.Context, id int) (out *entity.UserAccount, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

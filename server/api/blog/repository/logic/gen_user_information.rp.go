@@ -53,7 +53,7 @@ func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, u
 }
 
 // 查询UserInformation记录
-func (s *UserInformationRepository) GetUserInformation(ctx context.Context, id int) (out *entity.UserInformation, err error) {
+func (s *UserInformationRepository) FindUserInformation(ctx context.Context, id int) (out *entity.UserInformation, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

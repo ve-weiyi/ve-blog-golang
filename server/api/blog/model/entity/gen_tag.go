@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameTag return the table name of <tag>
 const TableNameTag = "tag"

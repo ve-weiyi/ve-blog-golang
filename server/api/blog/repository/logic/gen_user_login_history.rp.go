@@ -53,7 +53,7 @@ func (s *UserLoginHistoryRepository) UpdateUserLoginHistory(ctx context.Context,
 }
 
 // 查询UserLoginHistory记录
-func (s *UserLoginHistoryRepository) GetUserLoginHistory(ctx context.Context, id int) (out *entity.UserLoginHistory, err error) {
+func (s *UserLoginHistoryRepository) FindUserLoginHistory(ctx context.Context, id int) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

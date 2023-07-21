@@ -21,19 +21,19 @@ func (s *CommentService) CreateComment(reqCtx *request.Context, comment *entity.
 	return s.svcCtx.CommentRepository.CreateComment(reqCtx, comment)
 }
 
-// 删除Comment记录
-func (s *CommentService) DeleteComment(reqCtx *request.Context, comment *entity.Comment) (rows int64, err error) {
-	return s.svcCtx.CommentRepository.DeleteComment(reqCtx, comment)
-}
-
 // 更新Comment记录
 func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
 	return s.svcCtx.CommentRepository.UpdateComment(reqCtx, comment)
 }
 
+// 删除Comment记录
+func (s *CommentService) DeleteComment(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.CommentRepository.DeleteComment(reqCtx, id)
+}
+
 // 查询Comment记录
-func (s *CommentService) FindComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
-	return s.svcCtx.CommentRepository.GetComment(reqCtx, comment.ID)
+func (s *CommentService) FindComment(reqCtx *request.Context, id int) (data *entity.Comment, err error) {
+	return s.svcCtx.CommentRepository.FindComment(reqCtx, id)
 }
 
 // 批量删除Comment记录

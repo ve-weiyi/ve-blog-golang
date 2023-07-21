@@ -21,19 +21,19 @@ func (s *MenuService) CreateMenu(reqCtx *request.Context, menu *entity.Menu) (da
 	return s.svcCtx.MenuRepository.CreateMenu(reqCtx, menu)
 }
 
-// 删除Menu记录
-func (s *MenuService) DeleteMenu(reqCtx *request.Context, menu *entity.Menu) (rows int64, err error) {
-	return s.svcCtx.MenuRepository.DeleteMenu(reqCtx, menu)
-}
-
 // 更新Menu记录
 func (s *MenuService) UpdateMenu(reqCtx *request.Context, menu *entity.Menu) (data *entity.Menu, err error) {
 	return s.svcCtx.MenuRepository.UpdateMenu(reqCtx, menu)
 }
 
+// 删除Menu记录
+func (s *MenuService) DeleteMenu(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.MenuRepository.DeleteMenu(reqCtx, id)
+}
+
 // 查询Menu记录
-func (s *MenuService) FindMenu(reqCtx *request.Context, menu *entity.Menu) (data *entity.Menu, err error) {
-	return s.svcCtx.MenuRepository.GetMenu(reqCtx, menu.ID)
+func (s *MenuService) FindMenu(reqCtx *request.Context, id int) (data *entity.Menu, err error) {
+	return s.svcCtx.MenuRepository.FindMenu(reqCtx, id)
 }
 
 // 批量删除Menu记录

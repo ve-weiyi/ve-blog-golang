@@ -21,19 +21,19 @@ func (s *ApiService) CreateApi(reqCtx *request.Context, api *entity.Api) (data *
 	return s.svcCtx.ApiRepository.CreateApi(reqCtx, api)
 }
 
-// 删除Api记录
-func (s *ApiService) DeleteApi(reqCtx *request.Context, api *entity.Api) (rows int64, err error) {
-	return s.svcCtx.ApiRepository.DeleteApi(reqCtx, api)
-}
-
 // 更新Api记录
 func (s *ApiService) UpdateApi(reqCtx *request.Context, api *entity.Api) (data *entity.Api, err error) {
 	return s.svcCtx.ApiRepository.UpdateApi(reqCtx, api)
 }
 
+// 删除Api记录
+func (s *ApiService) DeleteApi(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.ApiRepository.DeleteApi(reqCtx, id)
+}
+
 // 查询Api记录
-func (s *ApiService) FindApi(reqCtx *request.Context, api *entity.Api) (data *entity.Api, err error) {
-	return s.svcCtx.ApiRepository.GetApi(reqCtx, api.ID)
+func (s *ApiService) FindApi(reqCtx *request.Context, id int) (data *entity.Api, err error) {
+	return s.svcCtx.ApiRepository.FindApi(reqCtx, id)
 }
 
 // 批量删除Api记录

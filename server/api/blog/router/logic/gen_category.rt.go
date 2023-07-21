@@ -19,18 +19,16 @@ func NewCategoryRouter(svcCtx *svc.RouterContext) *CategoryRouter {
 // 初始化 Category 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *CategoryRouter) InitCategoryGenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.CategoryController
 	{
-		publicRouter.POST("category/create", handler.CreateCategory)   // 新建Category
-		publicRouter.PUT("category/update", handler.UpdateCategory)    // 更新Category
-		publicRouter.DELETE("category/delete", handler.DeleteCategory) // 删除Category
-		publicRouter.POST("category/find", handler.FindCategory)       // 查询Category
+		publicRouter.POST("category", handler.CreateCategory)       // 新建Category
+		publicRouter.PUT("category", handler.UpdateCategory)        // 更新Category
+		publicRouter.DELETE("category/:id", handler.DeleteCategory) // 删除Category
+		publicRouter.GET("category/:id", handler.FindCategory)      // 查询Category
 
-		publicRouter.DELETE("category/deleteByIds", handler.DeleteCategoryByIds) // 批量删除Category列表
-		publicRouter.POST("category/list", handler.FindCategoryList)             // 分页查询Category列表
-
-		publicRouter.POST("categories", handler.FindCategoryDetailList) // 查询Category详情列表
+		publicRouter.DELETE("category/batch_delete", handler.DeleteCategoryByIds) // 批量删除Category列表
+		publicRouter.POST("category/list", handler.FindCategoryList)              // 分页查询Category列表
 	}
 }

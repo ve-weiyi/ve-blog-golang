@@ -33,15 +33,6 @@ func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum 
 	return photoAlbum, err
 }
 
-// 删除PhotoAlbum记录
-func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&photoAlbum)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新PhotoAlbum记录
 func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum 
 	return photoAlbum, err
 }
 
+// 删除PhotoAlbum记录
+func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.PhotoAlbum{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumRepository) GetPhotoAlbum(ctx context.Context, id int) (out *entity.PhotoAlbum, err error) {
+func (s *PhotoAlbumRepository) FindPhotoAlbum(ctx context.Context, id int) (out *entity.PhotoAlbum, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *PhotoAlbumRepository) GetPhotoAlbum(ctx context.Context, id int) (out *
 // 批量删除PhotoAlbum记录
 func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.PhotoAlbum{}, "id in ?", ids)
+	query := db.Delete(&entity.PhotoAlbum{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

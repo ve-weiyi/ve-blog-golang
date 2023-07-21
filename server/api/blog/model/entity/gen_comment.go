@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameComment return the table name of <comment>
 const TableNameComment = "comment"

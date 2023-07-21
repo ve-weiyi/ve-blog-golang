@@ -21,19 +21,19 @@ func (s *ArticleService) CreateArticle(reqCtx *request.Context, article *entity.
 	return s.svcCtx.ArticleRepository.CreateArticle(reqCtx, article)
 }
 
-// 删除Article记录
-func (s *ArticleService) DeleteArticle(reqCtx *request.Context, article *entity.Article) (rows int64, err error) {
-	return s.svcCtx.ArticleRepository.DeleteArticle(reqCtx, article)
-}
-
 // 更新Article记录
 func (s *ArticleService) UpdateArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
 	return s.svcCtx.ArticleRepository.UpdateArticle(reqCtx, article)
 }
 
+// 删除Article记录
+func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.ArticleRepository.DeleteArticle(reqCtx, id)
+}
+
 // 查询Article记录
-func (s *ArticleService) FindArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
-	return s.svcCtx.ArticleRepository.GetArticle(reqCtx, article.ID)
+func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *entity.Article, err error) {
+	return s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
 }
 
 // 批量删除Article记录

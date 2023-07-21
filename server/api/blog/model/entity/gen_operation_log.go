@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameOperationLog return the table name of <operation_log>
 const TableNameOperationLog = "operation_log"

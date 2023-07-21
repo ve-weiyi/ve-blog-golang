@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewMenuController(svcCtx *svc.ControllerContext) *MenuController {
 // @Produce		application/json
 // @Param		data	body		entity.Menu							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/menu/create [post]
+// @Router		/menu [post]
 func (s *MenuController) CreateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *MenuController) CreateMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
-// @Summary		删除菜单
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Menu 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/menu/delete [delete]
-func (s *MenuController) DeleteMenu(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var menu entity.Menu
-	err = s.ShouldBind(c, &menu)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.MenuService.DeleteMenu(reqCtx, &menu)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Menu
 // @Summary		更新菜单
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Menu							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router 		/menu/update [put]
+// @Router 		/menu [put]
 func (s *MenuController) UpdateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Menu
+// @Summary		删除菜单
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Menu id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/menu/{id} [delete]
+func (s *MenuController) DeleteMenu(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.MenuService.DeleteMenu(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Menu
 // @Summary		查询菜单
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Menu							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router 		/menu/find [get]
+// @Param 	 	id		path		string								true		"Menu id"
+// @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
+// @Router 		/menu/{id} [get]
 func (s *MenuController) FindMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *MenuController) FindMenu(c *gin.Context) {
 		return
 	}
 
-	var menu entity.Menu
-	err = s.ShouldBind(c, &menu)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, &menu)
+	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *MenuController) FindMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/menu/deleteByIds [delete]
+// @Router		/menu/batch_delete [delete]
 func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.DeleteMenuByIds(reqCtx, IDS)
+	data, err := s.svcCtx.MenuService.DeleteMenuByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

@@ -21,19 +21,19 @@ func (s *TagService) CreateTag(reqCtx *request.Context, tag *entity.Tag) (data *
 	return s.svcCtx.TagRepository.CreateTag(reqCtx, tag)
 }
 
-// 删除Tag记录
-func (s *TagService) DeleteTag(reqCtx *request.Context, tag *entity.Tag) (rows int64, err error) {
-	return s.svcCtx.TagRepository.DeleteTag(reqCtx, tag)
-}
-
 // 更新Tag记录
 func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
 	return s.svcCtx.TagRepository.UpdateTag(reqCtx, tag)
 }
 
+// 删除Tag记录
+func (s *TagService) DeleteTag(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.TagRepository.DeleteTag(reqCtx, id)
+}
+
 // 查询Tag记录
-func (s *TagService) FindTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.GetTag(reqCtx, tag.ID)
+func (s *TagService) FindTag(reqCtx *request.Context, id int) (data *entity.Tag, err error) {
+	return s.svcCtx.TagRepository.FindTag(reqCtx, id)
 }
 
 // 批量删除Tag记录

@@ -16,7 +16,7 @@ func NewWebsiteConfigService(svcCtx *svc.ServiceContext) *WebsiteConfigService {
 }
 
 func (s *WebsiteConfigService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.GetWebsiteConfig(reqCtx, "about")
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, "about")
 	if err != nil {
 		return "", err
 	}
@@ -25,7 +25,7 @@ func (s *WebsiteConfigService) GetAboutMe(reqCtx *request.Context, req interface
 }
 
 func (s *WebsiteConfigService) UpdateAboutMe(reqCtx *request.Context, req string) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.GetWebsiteConfig(reqCtx, "about")
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, "about")
 	if err != nil {
 		return "", err
 	}

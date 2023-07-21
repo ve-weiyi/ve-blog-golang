@@ -53,7 +53,7 @@ func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule 
 }
 
 // 查询CasbinRule记录
-func (s *CasbinRuleRepository) GetCasbinRule(ctx context.Context, id int) (out *entity.CasbinRule, err error) {
+func (s *CasbinRuleRepository) FindCasbinRule(ctx context.Context, id int) (out *entity.CasbinRule, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

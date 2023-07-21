@@ -33,15 +33,6 @@ func (s *CategoryRepository) CreateCategory(ctx context.Context, category *entit
 	return category, err
 }
 
-// 删除Category记录
-func (s *CategoryRepository) DeleteCategory(ctx context.Context, category *entity.Category) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&category)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Category记录
 func (s *CategoryRepository) UpdateCategory(ctx context.Context, category *entity.Category) (out *entity.Category, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *CategoryRepository) UpdateCategory(ctx context.Context, category *entit
 	return category, err
 }
 
+// 删除Category记录
+func (s *CategoryRepository) DeleteCategory(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Category{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Category记录
-func (s *CategoryRepository) GetCategory(ctx context.Context, id int) (out *entity.Category, err error) {
+func (s *CategoryRepository) FindCategory(ctx context.Context, id int) (out *entity.Category, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *CategoryRepository) GetCategory(ctx context.Context, id int) (out *enti
 // 批量删除Category记录
 func (s *CategoryRepository) DeleteCategoryByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Category{}, "id in ?", ids)
+	query := db.Delete(&entity.Category{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"time"
-)
+import "time"
 
 // TableNameArticle return the table name of <article>
 const TableNameArticle = "article"

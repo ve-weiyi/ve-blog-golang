@@ -297,7 +297,7 @@ func NewFuncMete(importCode string) {
 		return true
 	})
 
-	log.Println("InjectCode", meta.InjectCode)
+	log.Println("GetCode", meta.InjectCode)
 	log.Println("NewStructMete", jsonconv.ObjectToJsonIndent(meta))
 
 }

@@ -165,7 +165,7 @@ func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform st
 }
 
 // 查询用户信息
-func (s *UserAccountRepository) GetUserInfo(userId int) (out *entity.UserInformation, err error) {
+func (s *UserAccountRepository) FindUserInfo(userId int) (out *entity.UserInformation, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -179,7 +179,7 @@ func (s *UserAccountRepository) GetUserInfo(userId int) (out *entity.UserInforma
 }
 
 // 根据id获取UserLoginHistory记录
-func (s *UserAccountRepository) GetLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
+func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin
 
 	out = &entity.UserLoginHistory{}

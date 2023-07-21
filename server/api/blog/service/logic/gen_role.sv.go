@@ -21,19 +21,19 @@ func (s *RoleService) CreateRole(reqCtx *request.Context, role *entity.Role) (da
 	return s.svcCtx.RoleRepository.CreateRole(reqCtx, role)
 }
 
-// 删除Role记录
-func (s *RoleService) DeleteRole(reqCtx *request.Context, role *entity.Role) (rows int64, err error) {
-	return s.svcCtx.RoleRepository.DeleteRole(reqCtx, role)
-}
-
 // 更新Role记录
 func (s *RoleService) UpdateRole(reqCtx *request.Context, role *entity.Role) (data *entity.Role, err error) {
 	return s.svcCtx.RoleRepository.UpdateRole(reqCtx, role)
 }
 
+// 删除Role记录
+func (s *RoleService) DeleteRole(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.RoleRepository.DeleteRole(reqCtx, id)
+}
+
 // 查询Role记录
-func (s *RoleService) FindRole(reqCtx *request.Context, role *entity.Role) (data *entity.Role, err error) {
-	return s.svcCtx.RoleRepository.GetRole(reqCtx, role.ID)
+func (s *RoleService) FindRole(reqCtx *request.Context, id int) (data *entity.Role, err error) {
+	return s.svcCtx.RoleRepository.FindRole(reqCtx, id)
 }
 
 // 批量删除Role记录

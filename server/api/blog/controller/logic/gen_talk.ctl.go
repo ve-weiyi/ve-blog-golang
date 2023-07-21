@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewTalkController(svcCtx *svc.ControllerContext) *TalkController {
 // @Produce		application/json
 // @Param		data	body		entity.Talk							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router		/talk/create [post]
+// @Router		/talk [post]
 func (s *TalkController) CreateTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *TalkController) CreateTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
-// @Summary		删除说说
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Talk 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/talk/delete [delete]
-func (s *TalkController) DeleteTalk(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var talk entity.Talk
-	err = s.ShouldBind(c, &talk)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.TalkService.DeleteTalk(reqCtx, &talk)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Talk
 // @Summary		更新说说
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *TalkController) DeleteTalk(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Talk							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router 		/talk/update [put]
+// @Router 		/talk [put]
 func (s *TalkController) UpdateTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *TalkController) UpdateTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Talk
+// @Summary		删除说说
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Talk id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/talk/{id} [delete]
+func (s *TalkController) DeleteTalk(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.TalkService.DeleteTalk(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Talk
 // @Summary		查询说说
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Talk							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router 		/talk/find [get]
+// @Param 	 	id		path		string								true		"Talk id"
+// @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
+// @Router 		/talk/{id} [get]
 func (s *TalkController) FindTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *TalkController) FindTalk(c *gin.Context) {
 		return
 	}
 
-	var talk entity.Talk
-	err = s.ShouldBind(c, &talk)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TalkService.FindTalk(reqCtx, &talk)
+	data, err := s.svcCtx.TalkService.FindTalk(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *TalkController) FindTalk(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/talk/deleteByIds [delete]
+// @Router		/talk/batch_delete [delete]
 func (s *TalkController) DeleteTalkByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *TalkController) DeleteTalkByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TalkService.DeleteTalkByIds(reqCtx, IDS)
+	data, err := s.svcCtx.TalkService.DeleteTalkByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

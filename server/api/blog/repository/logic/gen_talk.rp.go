@@ -4,11 +4,10 @@ import (
 	"context"
 
 	"github.com/redis/go-redis/v9"
-	"gorm.io/gorm"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
+	"gorm.io/gorm"
 )
 
 type TalkRepository struct {
@@ -33,15 +32,6 @@ func (s *TalkRepository) CreateTalk(ctx context.Context, talk *entity.Talk) (out
 	return talk, err
 }
 
-// 删除Talk记录
-func (s *TalkRepository) DeleteTalk(ctx context.Context, talk *entity.Talk) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&talk)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Talk记录
 func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
 	db := s.DbEngin
@@ -52,8 +42,17 @@ func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk) (out
 	return talk, err
 }
 
+// 删除Talk记录
+func (s *TalkRepository) DeleteTalk(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Talk{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Talk记录
-func (s *TalkRepository) GetTalk(ctx context.Context, id int) (out *entity.Talk, err error) {
+func (s *TalkRepository) FindTalk(ctx context.Context, id int) (out *entity.Talk, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +64,7 @@ func (s *TalkRepository) GetTalk(ctx context.Context, id int) (out *entity.Talk,
 // 批量删除Talk记录
 func (s *TalkRepository) DeleteTalkByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Talk{}, "id in ?", ids)
+	query := db.Delete(&entity.Talk{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

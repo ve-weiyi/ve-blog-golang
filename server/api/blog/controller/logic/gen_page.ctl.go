@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
@@ -29,7 +31,7 @@ func NewPageController(svcCtx *svc.ControllerContext) *PageController {
 // @Produce		application/json
 // @Param		data	body		entity.Page							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router		/page/create [post]
+// @Router		/page [post]
 func (s *PageController) CreatePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,37 +55,6 @@ func (s *PageController) CreatePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
-// @Summary		删除页面
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.Page 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/page/delete [delete]
-func (s *PageController) DeletePage(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page entity.Page
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.PageService.DeletePage(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	Page
 // @Summary		更新页面
 // @Security 	ApiKeyAuth
@@ -91,7 +62,7 @@ func (s *PageController) DeletePage(c *gin.Context) {
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Page							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router 		/page/update [put]
+// @Router 		/page [put]
 func (s *PageController) UpdatePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -115,14 +86,45 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		Page
+// @Summary		删除页面
+// @Security	ApiKeyAuth
+// @accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		string					true		"Page id"
+// @Success		200		{object}	response.Response{}		"返回信息"
+// @Router		/page/{id} [delete]
+func (s *PageController) DeletePage(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.PageService.DeletePage(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	Page
 // @Summary		查询页面
 // @Security 	ApiKeyAuth
 // @accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		query		entity.Page							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router 		/page/find [get]
+// @Param 	 	id		path		string								true		"Page id"
+// @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
+// @Router 		/page/{id} [get]
 func (s *PageController) FindPage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -130,14 +132,14 @@ func (s *PageController) FindPage(c *gin.Context) {
 		return
 	}
 
-	var page entity.Page
-	err = s.ShouldBind(c, &page)
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PageService.FindPage(reqCtx, &page)
+	data, err := s.svcCtx.PageService.FindPage(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,7 +155,7 @@ func (s *PageController) FindPage(c *gin.Context) {
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
 // @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/page/deleteByIds [delete]
+// @Router		/page/batch_delete [delete]
 func (s *PageController) DeletePageByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -161,14 +163,14 @@ func (s *PageController) DeletePageByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PageService.DeletePageByIds(reqCtx, IDS)
+	data, err := s.svcCtx.PageService.DeletePageByIds(reqCtx, ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

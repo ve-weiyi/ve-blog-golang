@@ -33,15 +33,6 @@ func (s *CommentRepository) CreateComment(ctx context.Context, comment *entity.C
 	return comment, err
 }
 
-// 删除Comment记录
-func (s *CommentRepository) DeleteComment(ctx context.Context, comment *entity.Comment) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&comment)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Comment记录
 func (s *CommentRepository) UpdateComment(ctx context.Context, comment *entity.Comment) (out *entity.Comment, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *CommentRepository) UpdateComment(ctx context.Context, comment *entity.C
 	return comment, err
 }
 
+// 删除Comment记录
+func (s *CommentRepository) DeleteComment(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Comment{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Comment记录
-func (s *CommentRepository) GetComment(ctx context.Context, id int) (out *entity.Comment, err error) {
+func (s *CommentRepository) FindComment(ctx context.Context, id int) (out *entity.Comment, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *CommentRepository) GetComment(ctx context.Context, id int) (out *entity
 // 批量删除Comment记录
 func (s *CommentRepository) DeleteCommentByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Comment{}, "id in ?", ids)
+	query := db.Delete(&entity.Comment{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

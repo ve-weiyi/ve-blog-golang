@@ -26,7 +26,7 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 	//db := s.svcCtx.MainDB
 
 	//查询用户信息
-	account, err := s.svcCtx.UserAccountRepository.GetUserAccount(reqCtx, reqCtx.UID)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}

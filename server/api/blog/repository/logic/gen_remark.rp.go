@@ -33,15 +33,6 @@ func (s *RemarkRepository) CreateRemark(ctx context.Context, remark *entity.Rema
 	return remark, err
 }
 
-// 删除Remark记录
-func (s *RemarkRepository) DeleteRemark(ctx context.Context, remark *entity.Remark) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&remark)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Remark记录
 func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
 	db := s.DbEngin
@@ -52,8 +43,17 @@ func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Rema
 	return remark, err
 }
 
+// 删除Remark记录
+func (s *RemarkRepository) DeleteRemark(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Remark{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Remark记录
-func (s *RemarkRepository) GetRemark(ctx context.Context, id int) (out *entity.Remark, err error) {
+func (s *RemarkRepository) FindRemark(ctx context.Context, id int) (out *entity.Remark, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *RemarkRepository) GetRemark(ctx context.Context, id int) (out *entity.R
 // 批量删除Remark记录
 func (s *RemarkRepository) DeleteRemarkByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Remark{}, "id in ?", ids)
+	query := db.Delete(&entity.Remark{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

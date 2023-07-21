@@ -53,7 +53,7 @@ func (s *ChatRecordRepository) UpdateChatRecord(ctx context.Context, chatRecord 
 }
 
 // 查询ChatRecord记录
-func (s *ChatRecordRepository) GetChatRecord(ctx context.Context, id int) (out *entity.ChatRecord, err error) {
+func (s *ChatRecordRepository) FindChatRecord(ctx context.Context, id int) (out *entity.ChatRecord, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {

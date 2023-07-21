@@ -4,11 +4,10 @@ import (
 	"context"
 
 	"github.com/redis/go-redis/v9"
-	"gorm.io/gorm"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
+	"gorm.io/gorm"
 )
 
 type TagRepository struct {
@@ -33,15 +32,6 @@ func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag) (out *en
 	return tag, err
 }
 
-// 删除Tag记录
-func (s *TagRepository) DeleteTag(ctx context.Context, tag *entity.Tag) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&tag)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新Tag记录
 func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
 	db := s.DbEngin
@@ -52,8 +42,17 @@ func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *en
 	return tag, err
 }
 
+// 删除Tag记录
+func (s *TagRepository) DeleteTag(ctx context.Context, id int) (rows int64, err error) {
+	db := s.DbEngin
+	query := db.Delete(&entity.Tag{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询Tag记录
-func (s *TagRepository) GetTag(ctx context.Context, id int) (out *entity.Tag, err error) {
+func (s *TagRepository) FindTag(ctx context.Context, id int) (out *entity.Tag, err error) {
 	db := s.DbEngin
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -65,7 +64,7 @@ func (s *TagRepository) GetTag(ctx context.Context, id int) (out *entity.Tag, er
 // 批量删除Tag记录
 func (s *TagRepository) DeleteTagByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db := s.DbEngin
-	query := db.Delete(&[]entity.Tag{}, "id in ?", ids)
+	query := db.Delete(&entity.Tag{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err

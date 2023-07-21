@@ -65,16 +65,16 @@ func New{{.StructName}}Router(svcCtx *svc.RouterContext) *{{.StructName}}Router 
 // 初始化 {{.StructName}} 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *{{.StructName}}Router) Init{{.StructName}}Router(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *{{.StructName}}Router) Init{{.StructName}}GenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.{{.StructName}}Controller
 	{
-		publicRouter.POST("{{.ValueName}}/create", handler.Create{{.StructName}})             // 新建{{.StructName}}
-		publicRouter.PUT("{{.ValueName}}/update", handler.Update{{.StructName}})              // 更新{{.StructName}}
-		publicRouter.DELETE("{{.ValueName}}/delete", handler.Delete{{.StructName}})           // 删除{{.StructName}}
-		publicRouter.POST("{{.ValueName}}/find", handler.Find{{.StructName}})				  // 查询{{.StructName}}
+		publicRouter.POST("{{.JsonName}}", handler.Create{{.StructName}})             // 新建{{.StructName}}
+		publicRouter.PUT("{{.JsonName}}", handler.Update{{.StructName}})              // 更新{{.StructName}}
+		publicRouter.DELETE("{{.JsonName}}/:id", handler.Delete{{.StructName}})           // 删除{{.StructName}}
+		publicRouter.GET("{{.JsonName}}/:id", handler.Find{{.StructName}})				  // 查询{{.StructName}}
 
-		publicRouter.DELETE("{{.ValueName}}/deleteByIds", handler.Delete{{.StructName}}ByIds)	// 批量删除{{.StructName}}列表
+		publicRouter.DELETE("{{.ValueName}}/batch_delete", handler.Delete{{.StructName}}ByIds)	// 批量删除{{.StructName}}列表
 		publicRouter.POST("{{.ValueName}}/list", handler.Find{{.StructName}}List)  				// 分页查询{{.StructName}}列表
 	}
 }
