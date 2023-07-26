@@ -22,69 +22,73 @@ type PlateMeta struct {
 	Data interface{} //填充内容
 }
 
-func (tempMeta *PlateMeta) CreateTempFile() error {
-	if !tempMeta.Replace {
-		if fileExist(tempMeta.AutoCodePath) {
-			return errors.New(fmt.Sprintf("目标文件已存在:%s\n", tempMeta.AutoCodePath))
+func (meta *PlateMeta) CreateTempFile() error {
+	if !meta.Replace {
+		if fileExist(meta.AutoCodePath) {
+			return errors.New(fmt.Sprintf("目标文件已存在:%s\n", meta.AutoCodePath))
 		}
 	}
 
 	//创建文件夹
-	err := os.MkdirAll(filepath.Dir(tempMeta.AutoCodePath), 0755)
+	err := os.MkdirAll(filepath.Dir(meta.AutoCodePath), 0755)
 	if err != nil {
 		return err
 	}
 	//创建.go文件
-	f, err := os.Create(tempMeta.AutoCodePath)
+	f, err := os.Create(meta.AutoCodePath)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
 	//解析模板
-	temp, err := tempMeta.getTemplate()
+	temp, err := meta.getTemplate()
 	if err != nil {
 		return err
 	}
 
 	var buf bytes.Buffer
-	err = temp.Execute(&buf, tempMeta.Data)
+	err = temp.Execute(&buf, meta.Data)
 	if err != nil {
 		return err
 	}
 
-	if path.Ext(tempMeta.AutoCodePath) == ".go" {
-		err = output(tempMeta.AutoCodePath, buf.Bytes())
+	if path.Ext(meta.AutoCodePath) == ".go" {
+		err = output(meta.AutoCodePath, buf.Bytes())
 		if err != nil {
 			return err
 		}
 	} else {
-		os.WriteFile(tempMeta.AutoCodePath, buf.Bytes(), 0640)
+		//fmt.Println("生成文件:", meta.AutoCodePath, buf.String())
+		err := os.WriteFile(meta.AutoCodePath, buf.Bytes(), 0640)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
-func (tempMeta *PlateMeta) RollBack() error {
-	if !tempMeta.Replace {
+func (meta *PlateMeta) RollBack() error {
+	if !meta.Replace {
 		return nil
 	}
 
-	err := deLFile(tempMeta.AutoCodePath)
+	err := deLFile(meta.AutoCodePath)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (tempMeta *PlateMeta) MoveTempFile(movePath string) error {
+func (meta *PlateMeta) MoveTempFile(movePath string) error {
 	//判断目标文件是否都可以移动
 	if movePath != "" {
 		if fileExist(movePath) {
 			return errors.New(fmt.Sprintf("目标文件已存在:%s\n", movePath))
 		}
 
-		if err := fileMove(tempMeta.AutoCodePath, movePath); err != nil {
+		if err := fileMove(meta.AutoCodePath, movePath); err != nil {
 			return err
 		}
 		log.Println("file move success:", movePath)
@@ -92,19 +96,19 @@ func (tempMeta *PlateMeta) MoveTempFile(movePath string) error {
 	return nil
 }
 
-func (tempMeta *PlateMeta) getTemplate() (*template.Template, error) {
-	//if tempMeta.TemplatePath != "" {
+func (meta *PlateMeta) getTemplate() (*template.Template, error) {
+	//if meta.TemplatePath != "" {
 	//	//解析模板
-	//	temp, err := template.ParseFiles(tempMeta.TemplatePath)
+	//	temp, err := template.ParseFiles(meta.TemplatePath)
 	//	if err != nil {
 	//		return nil, err
 	//	}
 	//	return temp, nil
 	//}
 
-	if tempMeta.TemplateString != "" {
+	if meta.TemplateString != "" {
 		//解析模板
-		temp, err := template.New("temp").Parse(tempMeta.TemplateString)
+		temp, err := template.New("temp").Parse(meta.TemplateString)
 		if err != nil {
 			return nil, err
 		}

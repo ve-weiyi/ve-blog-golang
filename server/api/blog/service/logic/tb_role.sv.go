@@ -6,7 +6,7 @@ import (
 )
 
 // 分页获取Role记录
-func (s *RoleService) GetRoles(reqCtx *request.Context, page *request.PageInfo) (list []*response.RoleInfo, total int64, err error) {
+func (s *RoleService) GetRoles(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleInfo, total int64, err error) {
 
 	roles, total, err := s.svcCtx.RoleRepository.FindRoleList(reqCtx, page)
 
@@ -61,7 +61,7 @@ func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.
 	}
 
 	// 查询资源列表
-	page := &request.PageInfo{Conditions: []*request.Condition{
+	page := &request.PageQuery{Conditions: []*request.Condition{
 		{
 			Flag:  "and",
 			Field: "api_id",

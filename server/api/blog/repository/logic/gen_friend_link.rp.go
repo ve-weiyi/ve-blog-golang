@@ -72,7 +72,7 @@ func (s *FriendLinkRepository) DeleteFriendLinkByIds(ctx context.Context, ids []
 }
 
 // 分页查询FriendLink记录
-func (s *FriendLinkRepository) FindFriendLinkList(ctx context.Context, page *request.PageInfo) (list []*entity.FriendLink, total int64, err error) {
+func (s *FriendLinkRepository) FindFriendLinkList(ctx context.Context, page *request.PageQuery) (list []*entity.FriendLink, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

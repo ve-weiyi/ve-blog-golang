@@ -9,13 +9,13 @@ import (
 )
 
 type BaiduIpResp struct {
-	Status       string     `json:"status"`
-	T            string     `json:"t"`
-	SetCacheTime string     `json:"set_cache_time"`
-	Data         []*Address `json:"data"`
+	Status       string           `json:"status"`
+	T            string           `json:"t"`
+	SetCacheTime string           `json:"set_cache_time"`
+	Data         []*BaiduLocation `json:"data"`
 }
 
-type Address struct {
+type BaiduLocation struct {
 	ExtendedLocation string `json:"ExtendedLocation"` // 扩展位置信息
 	OriginQuery      string `json:"OriginQuery"`      // 查询的原始地址
 	Appinfo          string `json:"appinfo"`          // 应用信息
@@ -34,7 +34,7 @@ type Address struct {
 }
 
 // GetIpSource 获取ip对应的城市地区
-func GetIpInfoByBaidu(ip string) (*Address, error) {
+func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
 	resp, err := http.Get(fmt.Sprintf("http://opendata.baidu.com/api.php?query=" + ip + "&co=&resource_id=6006&oe=utf8"))
 	if err != nil {
 		return nil, err

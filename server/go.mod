@@ -29,7 +29,7 @@ require (
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.1
 	github.com/unrolled/secure v1.13.0
-	github.com/ve-weiyi/go-sdk v0.0.0-20230718030559-75669b93c4e8
+	github.com/ve-weiyi/go-sdk v0.0.0-20230727093328-4864d4fb2c18
 	go.uber.org/zap v1.24.0
 	golang.org/x/tools v0.11.0
 	gorm.io/driver/mysql v1.5.1

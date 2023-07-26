@@ -42,6 +42,6 @@ func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows 
 }
 
 // 分页获取Talk记录
-func (s *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Talk, total int64, err error) {
+func (s *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
 	return s.svcCtx.TalkRepository.FindTalkList(reqCtx, page)
 }

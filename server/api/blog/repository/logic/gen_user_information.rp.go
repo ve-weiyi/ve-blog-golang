@@ -72,7 +72,7 @@ func (s *UserInformationRepository) DeleteUserInformationByIds(ctx context.Conte
 }
 
 // 分页查询UserInformation记录
-func (s *UserInformationRepository) FindUserInformationList(ctx context.Context, page *request.PageInfo) (list []*entity.UserInformation, total int64, err error) {
+func (s *UserInformationRepository) FindUserInformationList(ctx context.Context, page *request.PageQuery) (list []*entity.UserInformation, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

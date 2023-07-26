@@ -10,9 +10,9 @@ import (
 // @Tags 	 	Category
 // @Summary		分页获取文章分类详情列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
 // @Router		/categories [post]
 func (s *CategoryController) FindCategoryDetailList(c *gin.Context) {
@@ -22,7 +22,7 @@ func (s *CategoryController) FindCategoryDetailList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

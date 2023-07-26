@@ -43,6 +43,6 @@ func (s *ChatRecordService) DeleteChatRecordByIds(reqCtx *request.Context, ids [
 }
 
 // 分页获取ChatRecord记录
-func (s *ChatRecordService) FindChatRecordList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.ChatRecord, total int64, err error) {
+func (s *ChatRecordService) FindChatRecordList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.ChatRecord, total int64, err error) {
 	return s.svcCtx.ChatRecordRepository.FindChatRecordList(reqCtx, page)
 }

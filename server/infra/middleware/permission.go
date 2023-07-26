@@ -30,9 +30,9 @@ func PermissionHandler() gin.HandlerFunc {
 		if !ok {
 			c.JSON(http.StatusForbidden,
 				response.Response{
-					Code: codes.CodeRoleNoPerPermission,
-					Msg:  "角色权限不足",
-					Data: nil,
+					Code:    codes.CodeRoleNoPerPermission,
+					Message: "角色权限不足",
+					Data:    nil,
 				})
 			c.Abort()
 			return

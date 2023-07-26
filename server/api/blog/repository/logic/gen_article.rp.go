@@ -72,7 +72,7 @@ func (s *ArticleRepository) DeleteArticleByIds(ctx context.Context, ids []int) (
 }
 
 // 分页查询Article记录
-func (s *ArticleRepository) FindArticleList(ctx context.Context, page *request.PageInfo) (list []*entity.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleList(ctx context.Context, page *request.PageQuery) (list []*entity.Article, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

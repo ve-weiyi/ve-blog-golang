@@ -72,7 +72,7 @@ func (s *UserAccountRepository) DeleteUserAccountByIds(ctx context.Context, ids 
 }
 
 // 分页查询UserAccount记录
-func (s *UserAccountRepository) FindUserAccountList(ctx context.Context, page *request.PageInfo) (list []*entity.UserAccount, total int64, err error) {
+func (s *UserAccountRepository) FindUserAccountList(ctx context.Context, page *request.PageQuery) (list []*entity.UserAccount, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

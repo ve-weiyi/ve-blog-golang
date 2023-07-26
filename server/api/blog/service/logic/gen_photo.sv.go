@@ -42,6 +42,6 @@ func (s *PhotoService) DeletePhotoByIds(reqCtx *request.Context, ids []int) (row
 }
 
 // 分页获取Photo记录
-func (s *PhotoService) FindPhotoList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Photo, total int64, err error) {
+func (s *PhotoService) FindPhotoList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Photo, total int64, err error) {
 	return s.svcCtx.PhotoRepository.FindPhotoList(reqCtx, page)
 }

@@ -27,7 +27,7 @@ func NewApiController(svcCtx *svc.ControllerContext) *ApiController {
 // @Tags		Api
 // @Summary		创建接口
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.Api							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
@@ -58,7 +58,7 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 // @Tags 	 	Api
 // @Summary		更新接口
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Api							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
@@ -89,10 +89,10 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 // @Tags		Api
 // @Summary		删除接口
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Api id"
-// @Success		200		{object}	response.Response{}		"返回信息"
+// @Param 	 	id		path		int					true		"Api id"
+// @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/api/{id} [delete]
 func (s *ApiController) DeleteApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,9 +120,9 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 // @Tags 	 	Api
 // @Summary		查询接口
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Api id"
+// @Param 	 	id		path		int									true		"Api id"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
 // @Router 		/api/{id} [get]
 func (s *ApiController) FindApi(c *gin.Context) {
@@ -151,10 +151,10 @@ func (s *ApiController) FindApi(c *gin.Context) {
 // @Tags 	 	Api
 // @Summary		批量删除接口
 // @Security 	ApiKeyAuth
-// @accept 	 	application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/api/batch_delete [delete]
 func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -182,9 +182,9 @@ func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 // @Tags 	 	Api
 // @Summary		分页获取接口列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Api}}	"返回信息"
 // @Router		/api/list [post]
 func (s *ApiController) FindApiList(c *gin.Context) {
@@ -194,7 +194,7 @@ func (s *ApiController) FindApiList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

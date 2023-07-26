@@ -72,7 +72,7 @@ func (s *PageRepository) DeletePageByIds(ctx context.Context, ids []int) (rows i
 }
 
 // 分页查询Page记录
-func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageInfo) (list []*entity.Page, total int64, err error) {
+func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageQuery) (list []*entity.Page, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

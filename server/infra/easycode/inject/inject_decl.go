@@ -90,7 +90,7 @@ package main
 					parameters := []interface{}{}
 					switch callExpr := s.Rhs[0].(type) {
 					case *dst.CallExpr:
-						idents := extractIdents(callExpr.Fun)
+						idents := ExtractIdents(callExpr.Fun)
 						for _, ident := range idents {
 							indentNames = append(indentNames, ident.Name)
 						}
@@ -104,7 +104,7 @@ package main
 							}
 						}
 					case *dst.SelectorExpr:
-						idents := extractIdents(callExpr)
+						idents := ExtractIdents(callExpr)
 						for _, ident := range idents {
 							indentNames = append(indentNames, ident.Name)
 						}
@@ -119,7 +119,7 @@ package main
 
 					indentNames := []string{}
 					callExpr := s.X.(*dst.CallExpr)
-					idents := extractIdents(callExpr.Fun)
+					idents := ExtractIdents(callExpr.Fun)
 					for _, ident := range idents {
 						indentNames = append(indentNames, ident.Name)
 					}

@@ -17,7 +17,7 @@ func NewBlogService(svcCtx *svc.ServiceContext) *BlogService {
 }
 
 func (s *BlogService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.BlogBackInfoDTO, err error) {
-	page := &request.PageInfo{}
+	page := &request.PageQuery{}
 	// 查询消息数量
 	_, msgCount, err := s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, page)
 	if err != nil {

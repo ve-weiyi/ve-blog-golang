@@ -4,10 +4,11 @@ import (
 	"context"
 
 	"github.com/redis/go-redis/v9"
+	"gorm.io/gorm"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
-	"gorm.io/gorm"
 )
 
 type TalkRepository struct {
@@ -71,7 +72,7 @@ func (s *TalkRepository) DeleteTalkByIds(ctx context.Context, ids []int) (rows i
 }
 
 // 分页查询Talk记录
-func (s *TalkRepository) FindTalkList(ctx context.Context, page *request.PageInfo) (list []*entity.Talk, total int64, err error) {
+func (s *TalkRepository) FindTalkList(ctx context.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

@@ -72,7 +72,7 @@ func (s *ApiRepository) DeleteApiByIds(ctx context.Context, ids []int) (rows int
 }
 
 // 分页查询Api记录
-func (s *ApiRepository) FindApiList(ctx context.Context, page *request.PageInfo) (list []*entity.Api, total int64, err error) {
+func (s *ApiRepository) FindApiList(ctx context.Context, page *request.PageQuery) (list []*entity.Api, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

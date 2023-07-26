@@ -21,8 +21,8 @@ func (s *Context) GetContext() context.Context {
 	return s.Context
 }
 
-// PageInfo Paging common input parameter structure
-type PageInfo struct {
+// PageQuery Paging common input parameter structure
+type PageQuery struct {
 	Page       int          `json:"page" form:"page"`             // 页码
 	PageSize   int          `json:"page_size" form:"page_size"`   // 每页大小
 	Sorts      []*Sort      `json:"sorts" form:"sorts"`           // 排序
@@ -42,20 +42,20 @@ type Condition struct {
 	Value interface{} `json:"value"`                      // 值
 }
 
-func (page *PageInfo) Limit() int {
+func (page *PageQuery) Limit() int {
 	if page.PageSize == 0 {
 		page.PageSize = 10
 	}
 	return page.PageSize
 }
 
-func (page *PageInfo) Offset() int {
+func (page *PageQuery) Offset() int {
 
 	return (page.Page - 1) * page.Limit()
 }
 
 // 排序语句
-func (page *PageInfo) OrderClause() string {
+func (page *PageQuery) OrderClause() string {
 	if len(page.Sorts) == 0 {
 		return ""
 	}
@@ -75,7 +75,7 @@ func (page *PageInfo) OrderClause() string {
 }
 
 // 条件语句
-func (page *PageInfo) WhereClause() (string, []interface{}) {
+func (page *PageQuery) WhereClause() (string, []interface{}) {
 	if len(page.Conditions) == 0 {
 		return "", nil
 	}
@@ -109,7 +109,7 @@ func (page *PageInfo) WhereClause() (string, []interface{}) {
 	return query, args
 }
 
-func (page *PageInfo) FindCondition(name string) *Condition {
+func (page *PageQuery) FindCondition(name string) *Condition {
 	for _, condition := range page.Conditions {
 		if condition.Field == name {
 			return condition

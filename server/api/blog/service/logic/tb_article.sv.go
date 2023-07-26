@@ -32,7 +32,7 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 		return nil, err
 	}
 	// 查询最新文章
-	page := &request.PageInfo{
+	page := &request.PageQuery{
 		Page:     0,
 		PageSize: 5,
 		Sorts: []*request.Sort{
@@ -65,7 +65,7 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 }
 
 // 分页获取Article记录
-func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.PageInfo) (list []*response.ArticleDTO, total int64, err error) {
+func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
 	// 查询文章列表
 	articles, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
@@ -125,7 +125,7 @@ func (s *ArticleService) GetArticleListByCondition(reqCtx *request.Context, req 
 	return resp, err
 }
 
-func (s *ArticleService) GetArticleArchives(reqCtx *request.Context, page *request.PageInfo) (list []*response.ArticleRecommendDTO, total int64, err error) {
+func (s *ArticleService) GetArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
 	page.Sorts = []*request.Sort{
 		{Field: "id", Order: "desc"},
 	}

@@ -1,8 +1,11 @@
 package east
 
 import (
+	"go/ast"
+	"go/parser"
 	"go/token"
 	"reflect"
+	"strconv"
 )
 
 func tokenToKind(t token.Token) reflect.Kind {
@@ -33,4 +36,55 @@ func kindToToken(k reflect.Kind) token.Token {
 	default:
 		return token.ILLEGAL
 	}
+}
+
+func parseStatements(fset *token.FileSet, src string) ([]ast.Stmt, error) {
+	node, err := parser.ParseFile(fset, "", "package main; func _() {"+src+"}", 0)
+	if err != nil {
+		return nil, err
+	}
+
+	fn := node.Decls[0].(*ast.FuncDecl)
+	return fn.Body.List, nil
+}
+
+func extractIdents(node ast.Node) []*ast.Ident {
+	var idents []*ast.Ident
+
+	switch n := node.(type) {
+	case *ast.SelectorExpr:
+		idents = append(idents, extractIdents(n.X)...)
+		idents = append(idents, extractIdents(n.Sel)...)
+	case *ast.Ident:
+		idents = append(idents, n)
+	}
+
+	return idents
+}
+
+func insertStatements(stmts []ast.Stmt, pos int, toInsert ...ast.Stmt) []ast.Stmt {
+	return append(stmts[:pos], append(toInsert, stmts[pos:]...)...)
+}
+
+func InferType(str string) (interface{}, error) {
+	// 尝试将字符串解析为int
+	i, err := strconv.Atoi(str)
+	if err == nil {
+		return i, nil
+	}
+
+	// 尝试将字符串解析为float
+	f, err := strconv.ParseFloat(str, 64)
+	if err == nil {
+		return f, nil
+	}
+
+	// 尝试将字符串解析为带引号的string
+	s, err := strconv.Unquote(str)
+	if err == nil {
+		return s, nil
+	}
+
+	// 如果都不匹配，则返回原始字符串
+	return str, nil
 }

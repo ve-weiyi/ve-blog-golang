@@ -72,7 +72,7 @@ func (s *CategoryRepository) DeleteCategoryByIds(ctx context.Context, ids []int)
 }
 
 // 分页查询Category记录
-func (s *CategoryRepository) FindCategoryList(ctx context.Context, page *request.PageInfo) (list []*entity.Category, total int64, err error) {
+func (s *CategoryRepository) FindCategoryList(ctx context.Context, page *request.PageQuery) (list []*entity.Category, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

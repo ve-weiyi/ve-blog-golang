@@ -14,14 +14,13 @@ func GinLogger() gin.HandlerFunc {
 	logger := global.LOG
 	return func(c *gin.Context) {
 		start := time.Now()
-		path := c.Request.URL.Path
 		c.Next() // 执行视图函数
 		// 视图函数执行完成，统计时间，记录日志
 		cost := time.Since(start)
-		logger.Info(path,
+		logger.Info(
 			zap.Int("status", c.Writer.Status()),
+			zap.String("path", c.Request.URL.Path),
 			zap.String("method", c.Request.Method),
-			zap.String("path", c.Request.RequestURI),
 			zap.String("query", c.Request.URL.RawQuery),
 			zap.String("ip", c.ClientIP()),
 			zap.String("user-agent", c.Request.UserAgent()),

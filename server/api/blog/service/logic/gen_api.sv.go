@@ -42,6 +42,6 @@ func (s *ApiService) DeleteApiByIds(reqCtx *request.Context, ids []int) (rows in
 }
 
 // 分页获取Api记录
-func (s *ApiService) FindApiList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Api, total int64, err error) {
+func (s *ApiService) FindApiList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Api, total int64, err error) {
 	return s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
 }

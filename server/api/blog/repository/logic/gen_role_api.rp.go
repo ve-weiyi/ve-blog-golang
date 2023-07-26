@@ -72,7 +72,7 @@ func (s *RoleApiRepository) DeleteRoleApiByIds(ctx context.Context, ids []int) (
 }
 
 // 分页查询RoleApi记录
-func (s *RoleApiRepository) FindRoleApiList(ctx context.Context, page *request.PageInfo) (list []*entity.RoleApi, total int64, err error) {
+func (s *RoleApiRepository) FindRoleApiList(ctx context.Context, page *request.PageQuery) (list []*entity.RoleApi, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

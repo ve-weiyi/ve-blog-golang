@@ -23,74 +23,12 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 }
 
 // @Tags		User
-// @Summary		发送忘记密码邮件
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		request.UserEmail					true	"请求参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/user/password/forget [post]
-func (s *UserController) ForgetPasswordEmail(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var user request.UserEmail
-	err = s.ShouldBind(c, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.UserService.SendForgetPwdEmail(reqCtx, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		User
-// @Summary		重置密码
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		request.ResetPasswordReq			true	"请求参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/user/password/reset [post]
-func (s *UserController) ResetPassword(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var user request.ResetPasswordReq
-	err = s.ShouldBind(c, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.UserService.ResetPassword(reqCtx, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		User
 // @Summary		获取用户菜单权限
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/user/menus [post]
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/user/menus [get]
 func (s *UserController) GetUserMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -110,10 +48,10 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 // @Tags		User
 // @Summary		获取用户接口权限
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/user/apis [post]
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/user/apis [get]
 func (s *UserController) GetUserApis(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -133,10 +71,10 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 // @Tags		User
 // @Summary		获取用户登录历史
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		page	body		request.PageQuery	true	"分页参数"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/user/login_history [get]
 func (s *UserController) GetLoginHistory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -145,7 +83,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -169,9 +107,9 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 // @Tags		User
 // @Summary		获取用户信息
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/user/info [get]
 func (s *UserController) GetUserInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -192,7 +130,7 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 // @Tags		User
 // @Summary		修改用户信息
 // @Security	ApiKeyAuth
-// @accept		multipart/form-data
+// @Accept		multipart/form-data
 // @Produce		application/json
 // @Param		data	body		entity.UserInformation					true	"请求body"
 // @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
@@ -223,7 +161,7 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 // @Tags		User
 // @Summary		更换用户头像
 // @Security	ApiKeyAuth
-// @accept		multipart/form-data
+// @Accept		multipart/form-data
 // @Produce		application/json
 // @Param		data	body		entity.Upload							true	"请求body"
 // @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
@@ -254,10 +192,10 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 // @Tags		User
 // @Summary		获取用户列表
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		page	body		request.PageQuery	true	"分页参数"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/users [post]
 func (s *UserController) GetUserList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -266,7 +204,7 @@ func (s *UserController) GetUserList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -290,10 +228,10 @@ func (s *UserController) GetUserList(c *gin.Context) {
 // @Tags		User
 // @Summary		获取用户地区
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Param		page	body		request.PageQuery	true	"分页参数"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/user/areas [post]
 func (s *UserController) GetUserAreas(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -302,7 +240,7 @@ func (s *UserController) GetUserAreas(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -326,10 +264,10 @@ func (s *UserController) GetUserAreas(c *gin.Context) {
 // @Tags		User
 // @Summary		修改用户状态
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.UserAccount	true	"请求数据"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/user/update_status [post]
 func (s *UserController) UpdateUserStatus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -357,7 +295,7 @@ func (s *UserController) UpdateUserStatus(c *gin.Context) {
 // @Tags		User
 // @Summary		修改用户角色
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.UpdateUserRoles				true	"请求数据"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"

@@ -42,6 +42,6 @@ func (s *PageService) DeletePageByIds(reqCtx *request.Context, ids []int) (rows 
 }
 
 // 分页获取Page记录
-func (s *PageService) FindPageList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Page, total int64, err error) {
+func (s *PageService) FindPageList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Page, total int64, err error) {
 	return s.svcCtx.PageRepository.FindPageList(reqCtx, page)
 }

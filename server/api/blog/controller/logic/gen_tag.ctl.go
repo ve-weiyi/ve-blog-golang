@@ -27,7 +27,7 @@ func NewTagController(svcCtx *svc.ControllerContext) *TagController {
 // @Tags		Tag
 // @Summary		创建文章标签
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.Tag							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
@@ -58,7 +58,7 @@ func (s *TagController) CreateTag(c *gin.Context) {
 // @Tags 	 	Tag
 // @Summary		更新文章标签
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Tag							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
@@ -89,10 +89,10 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Tags		Tag
 // @Summary		删除文章标签
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Tag id"
-// @Success		200		{object}	response.Response{}		"返回信息"
+// @Param 	 	id		path		int					true		"Tag id"
+// @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/tag/{id} [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,9 +120,9 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 // @Tags 	 	Tag
 // @Summary		查询文章标签
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Tag id"
+// @Param 	 	id		path		int									true		"Tag id"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
 // @Router 		/tag/{id} [get]
 func (s *TagController) FindTag(c *gin.Context) {
@@ -151,10 +151,10 @@ func (s *TagController) FindTag(c *gin.Context) {
 // @Tags 	 	Tag
 // @Summary		批量删除文章标签
 // @Security 	ApiKeyAuth
-// @accept 	 	application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/tag/batch_delete [delete]
 func (s *TagController) DeleteTagByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -182,9 +182,9 @@ func (s *TagController) DeleteTagByIds(c *gin.Context) {
 // @Tags 	 	Tag
 // @Summary		分页获取文章标签列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Tag}}	"返回信息"
 // @Router		/tag/list [post]
 func (s *TagController) FindTagList(c *gin.Context) {
@@ -194,7 +194,7 @@ func (s *TagController) FindTagList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

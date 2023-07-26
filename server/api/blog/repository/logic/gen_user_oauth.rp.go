@@ -72,7 +72,7 @@ func (s *UserOauthRepository) DeleteUserOauthByIds(ctx context.Context, ids []in
 }
 
 // 分页查询UserOauth记录
-func (s *UserOauthRepository) FindUserOauthList(ctx context.Context, page *request.PageInfo) (list []*entity.UserOauth, total int64, err error) {
+func (s *UserOauthRepository) FindUserOauthList(ctx context.Context, page *request.PageQuery) (list []*entity.UserOauth, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

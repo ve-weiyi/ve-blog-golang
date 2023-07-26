@@ -3,7 +3,6 @@ package constant
 const WebName = "blog"
 
 const (
-	LoginPwd    = "pwd"
 	LoginEmail  = "email"
 	LoginQQ     = "qq"
 	LoginWechat = "wechat"
@@ -13,6 +12,7 @@ const (
 )
 
 const (
-	StatusEnable  = 1
-	StatusDisable = 0
+	UserStatusDeleted  = -1
+	UserStatusEnable   = 0
+	UserStatusDisabled = 1
 )

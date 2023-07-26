@@ -72,7 +72,7 @@ func (s *UserRoleRepository) DeleteUserRoleByIds(ctx context.Context, ids []int)
 }
 
 // 分页查询UserRole记录
-func (s *UserRoleRepository) FindUserRoleList(ctx context.Context, page *request.PageInfo) (list []*entity.UserRole, total int64, err error) {
+func (s *UserRoleRepository) FindUserRoleList(ctx context.Context, page *request.PageQuery) (list []*entity.UserRole, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

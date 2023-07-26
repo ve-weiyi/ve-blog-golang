@@ -2,8 +2,11 @@ package inject
 
 import (
 	"go/token"
+	"log"
 	"reflect"
 	"strconv"
+
+	"github.com/dave/dst"
 )
 
 func tokenToKind(t token.Token) reflect.Kind {
@@ -57,4 +60,39 @@ func inferType(str string) (interface{}, error) {
 
 	// 如果都不匹配，则返回原始字符串
 	return str, nil
+}
+
+func ExtractIdents(node dst.Node) []*dst.Ident {
+	var idents []*dst.Ident
+
+	switch n := node.(type) {
+	case *dst.AssignStmt:
+		return ExtractIdents(n.Rhs[0])
+
+	case *dst.SelectorExpr:
+		log.Println("SelectorExpr", n.Sel.Name)
+		idents = append(idents, ExtractIdents(n.X)...)
+		idents = append(idents, ExtractIdents(n.Sel)...)
+	case *dst.Ident:
+		log.Println("Ident", n.Name)
+		idents = append(idents, n)
+	case *dst.KeyValueExpr:
+		log.Println("KeyValueExpr", n.Key)
+		// 判断是否是复合字面值表达式的键值对
+		idents = append(idents, ExtractIdents(n.Value)...)
+	case *dst.CompositeLit:
+		log.Println("CompositeLit", n.Type)
+		idents = append(idents, ExtractIdents(n.Type)...)
+		for _, elt := range n.Elts {
+			idents = append(idents, ExtractIdents(elt)...)
+		}
+	default:
+		log.Printf("default %T", n)
+	}
+
+	return idents
+}
+
+func insertStatements(stmts []dst.Stmt, pos int, toInsert ...dst.Stmt) []dst.Stmt {
+	return append(stmts[:pos], append(toInsert, stmts[pos:]...)...)
 }

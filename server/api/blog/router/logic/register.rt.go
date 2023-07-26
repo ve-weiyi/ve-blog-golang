@@ -32,8 +32,10 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 	var handler = s.svcCtx.AppController.CommentController
 
 	{
-		publicRouter.POST("comments", handler.FindCommentDetailList) // 分页查询Comment列表
-		publicRouter.POST("admin/comments", handler.GetComments)     // 分页查询Comment列表
+		publicRouter.POST("comment/:id/like", handler.LikeComment)                // 点赞评论
+		publicRouter.POST("comment/:id/reply_list", handler.FindCommentReplyList) // 分页查询Comment列表
+		publicRouter.POST("comments", handler.FindCommentDetailList)              // 分页查询Comment列表
+		publicRouter.POST("admin/comments", handler.FindCommentBackList)          // 分页查询Comment列表
 	}
 }
 
@@ -56,6 +58,11 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 // loginRouter  登录路由，登录后才可以访问
 func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitArticleGenRouter(publicRouter, loginRouter)
+	var handler = s.svcCtx.AppController.ArticleController
+	{
+		publicRouter.GET("article/archives", handler.GetArticleArchives)          // 文章归档
+		publicRouter.POST("article/condition", handler.GetArticleListByCondition) // 根据条件获取Article列表
+	}
 }
 
 // 初始化 Tag 路由信息

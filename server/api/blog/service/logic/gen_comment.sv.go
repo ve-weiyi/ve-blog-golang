@@ -42,6 +42,6 @@ func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) 
 }
 
 // 分页获取Comment记录
-func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Comment, total int64, err error) {
+func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Comment, total int64, err error) {
 	return s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
 }

@@ -72,7 +72,7 @@ func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []
 }
 
 // 分页查询PhotoAlbum记录
-func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *request.PageInfo) (list []*entity.PhotoAlbum, total int64, err error) {
+func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

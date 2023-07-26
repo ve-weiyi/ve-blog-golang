@@ -96,6 +96,7 @@ func OperationRecord() gin.HandlerFunc {
 			_ = global.DB.Create(&op).Error
 		}
 
+		global.LOG.JsonIndent(op)
 		//// 记录日志，包含请求和响应信息
 		//global.LOG.Infow(
 		//	fmt.Sprintf("[%s|%v]", c.Request.URL.String(), cost),
