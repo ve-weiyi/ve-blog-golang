@@ -2,8 +2,11 @@ package inject
 
 import (
 	"go/token"
+	"log"
 	"reflect"
 	"strconv"
+
+	"github.com/dave/dst"
 )
 
 func tokenToKind(t token.Token) reflect.Kind {
@@ -57,4 +60,70 @@ func inferType(str string) (interface{}, error) {
 
 	// 如果都不匹配，则返回原始字符串
 	return str, nil
+}
+
+func ExtractIdents(node dst.Node) []*dst.Ident {
+	var idents []*dst.Ident
+
+	switch n := node.(type) {
+	case *dst.AssignStmt:
+		return ExtractIdents(n.Rhs[0])
+
+	case *dst.SelectorExpr:
+		log.Println("SelectorExpr", n.Sel.Name)
+		idents = append(idents, ExtractIdents(n.X)...)
+		idents = append(idents, ExtractIdents(n.Sel)...)
+	case *dst.Ident:
+		log.Println("Ident", n.Name)
+		idents = append(idents, n)
+	case *dst.KeyValueExpr:
+		log.Println("KeyValueExpr", n.Key)
+		// 判断是否是复合字面值表达式的键值对
+		idents = append(idents, ExtractIdents(n.Value)...)
+	case *dst.CompositeLit:
+		log.Println("CompositeLit", n.Type)
+		idents = append(idents, ExtractIdents(n.Type)...)
+		for _, elt := range n.Elts {
+			idents = append(idents, ExtractIdents(elt)...)
+		}
+	default:
+		log.Printf("default %T", n)
+	}
+
+	return idents
+}
+
+func ExtractSelectors(node dst.Node) []*dst.SelectorExpr {
+	var selectors []*dst.SelectorExpr
+
+	switch n := node.(type) {
+	case *dst.AssignStmt:
+		log.Printf("default %T", n)
+		return ExtractSelectors(n.Rhs[0])
+	case *dst.ArrayType:
+		return ExtractSelectors(n.Elt)
+	case *dst.SelectorExpr:
+		log.Println("SelectorExpr", n.Sel.Name)
+		selectors = append(selectors, n)
+		selectors = append(selectors, ExtractSelectors(n.X)...)
+	case *dst.KeyValueExpr:
+		log.Println("KeyValueExpr", n.Key)
+		selectors = append(selectors, ExtractSelectors(n.Key)...)
+		selectors = append(selectors, ExtractSelectors(n.Value)...)
+	case *dst.CompositeLit:
+		log.Printf("CompositeLit %T", n.Type)
+		selectors = append(selectors, ExtractSelectors(n.Type)...)
+		for _, elt := range n.Elts {
+			selectors = append(selectors, ExtractSelectors(elt)...)
+		}
+	default:
+		// For other node types, just continue searching for selectors in their children.
+		log.Printf("default %T", n)
+	}
+
+	return selectors
+}
+
+func insertStatements(stmts []dst.Stmt, pos int, toInsert ...dst.Stmt) []dst.Stmt {
+	return append(stmts[:pos], append(toInsert, stmts[pos:]...)...)
 }

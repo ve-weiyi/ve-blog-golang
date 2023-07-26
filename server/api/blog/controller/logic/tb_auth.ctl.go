@@ -23,10 +23,10 @@ func NewAuthController(svcCtx *svc.ControllerContext) *AuthController {
 // @Tags		Auth
 // @Summary		登录
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.User		true	"创建权限认证"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/login [post]
 func (s *AuthController) Login(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -54,9 +54,9 @@ func (s *AuthController) Login(c *gin.Context) {
 // @Tags		Auth
 // @Summary		登出
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/logout [get]
 func (s *AuthController) Logout(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -78,9 +78,9 @@ func (s *AuthController) Logout(c *gin.Context) {
 // @Tags		Auth
 // @Summary		注销
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/logoff [post]
 func (s *AuthController) Logoff(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -101,10 +101,10 @@ func (s *AuthController) Logoff(c *gin.Context) {
 // @Tags		Auth
 // @Summary		注册
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.User		true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/register [post]
 func (s *AuthController) Register(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -132,10 +132,10 @@ func (s *AuthController) Register(c *gin.Context) {
 // @Tags		Auth
 // @Summary		发送注册邮件
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.UserEmail	true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/register/email [post]
 func (s *AuthController) RegisterEmail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -163,7 +163,7 @@ func (s *AuthController) RegisterEmail(c *gin.Context) {
 // @Tags		Auth
 // @Summary		获取授权地址
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.OauthLoginReq							true	"请求body"
 // @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
@@ -194,7 +194,7 @@ func (s *AuthController) OauthLogin(c *gin.Context) {
 // @Tags		Auth
 // @Summary		获取授权地址
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.OauthLoginReq							true	"请求body"
 // @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"

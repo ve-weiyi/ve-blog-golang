@@ -10,7 +10,7 @@ import (
 // @Tags		Menu
 // @Summary		获取菜单列表
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Menu}	"返回信息"

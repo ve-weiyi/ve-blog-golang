@@ -27,7 +27,7 @@ func NewOperationLogController(svcCtx *svc.ControllerContext) *OperationLogContr
 // @Tags		OperationLog
 // @Summary		创建操作记录
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.OperationLog							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
@@ -58,7 +58,7 @@ func (s *OperationLogController) CreateOperationLog(c *gin.Context) {
 // @Tags 	 	OperationLog
 // @Summary		更新操作记录
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.OperationLog							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
@@ -89,10 +89,10 @@ func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 // @Tags		OperationLog
 // @Summary		删除操作记录
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param 	 	id		path		string					true		"OperationLog id"
-// @Success		200		{object}	response.Response{}		"返回信息"
+// @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/operation_log/{id} [delete]
 func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,7 +120,7 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 // @Tags 	 	OperationLog
 // @Summary		查询操作记录
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	id		path		string								true		"OperationLog id"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
@@ -151,10 +151,10 @@ func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 // @Tags 	 	OperationLog
 // @Summary		批量删除操作记录
 // @Security 	ApiKeyAuth
-// @accept 	 	application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/operation_log/batch_delete [delete]
 func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -182,7 +182,7 @@ func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 // @Tags 	 	OperationLog
 // @Summary		分页获取操作记录列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.OperationLog}}	"返回信息"

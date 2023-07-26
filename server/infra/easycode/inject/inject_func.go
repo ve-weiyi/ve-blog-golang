@@ -275,7 +275,7 @@ func %v(){
 					parameters := []interface{}{}
 					switch callExpr := s.Rhs[0].(type) {
 					case *dst.CallExpr:
-						idents := extractIdents(callExpr.Fun)
+						idents := ExtractIdents(callExpr.Fun)
 						for _, ident := range idents {
 							indentNames = append(indentNames, ident.Name)
 						}
@@ -289,7 +289,7 @@ func %v(){
 							}
 						}
 					case *dst.SelectorExpr:
-						idents := extractIdents(callExpr)
+						idents := ExtractIdents(callExpr)
 						for _, ident := range idents {
 							indentNames = append(indentNames, ident.Name)
 						}
@@ -304,7 +304,7 @@ func %v(){
 
 					indentNames := []string{}
 					callExpr := s.X.(*dst.CallExpr)
-					idents := extractIdents(callExpr.Fun)
+					idents := ExtractIdents(callExpr.Fun)
 					for _, ident := range idents {
 						indentNames = append(indentNames, ident.Name)
 					}
@@ -340,24 +340,6 @@ func %v(){
 	//log.Println("GetCode", meta.GetCode())
 	//log.Println("NewFuncMete", jsonconv.ObjectToJsonIndent(meta))
 	return meta
-}
-
-func extractIdents(node dst.Node) []*dst.Ident {
-	var idents []*dst.Ident
-
-	switch n := node.(type) {
-	case *dst.SelectorExpr:
-		idents = append(idents, extractIdents(n.X)...)
-		idents = append(idents, extractIdents(n.Sel)...)
-	case *dst.Ident:
-		idents = append(idents, n)
-	}
-
-	return idents
-}
-
-func insertStatements(stmts []dst.Stmt, pos int, toInsert ...dst.Stmt) []dst.Stmt {
-	return append(stmts[:pos], append(toInsert, stmts[pos:]...)...)
 }
 
 func (vi *FuncMeta) GetVariables() []dst.Expr {
@@ -491,6 +473,7 @@ func (vi *FuncMeta) rollBack(block *dst.BlockStmt) dst.Visitor {
 					ret.(*dst.UnaryExpr).X.(*dst.CompositeLit).Elts = kv
 				}
 			}
+
 		}
 	}
 

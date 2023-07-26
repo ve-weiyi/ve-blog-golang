@@ -226,7 +226,11 @@ func (vi FuncMeta) RollBack(node ast.Node) ast.Visitor {
 
 func NewFuncMete(importCode string) {
 	meta := FuncMeta{}
-	input := "package main\nfunc main() {\n" + importCode + "\n}"
+	input := fmt.Sprintf(`
+package main
+func main(){
+   %v 
+}`, importCode)
 	fParse, err := parser.ParseFile(token.NewFileSet(), "", input, 0)
 	if err != nil {
 		fmt.Println("Error parsing file:", err)

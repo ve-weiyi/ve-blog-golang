@@ -10,7 +10,7 @@ import (
 // @Tags 	 	Comment
 // @Summary		分页获取评论列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
@@ -46,10 +46,10 @@ func (s *CommentController) FindCommentDetailList(c *gin.Context) {
 // @Tags		Comment
 // @Summary		获取用户评论列表
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo	true	"分页参数"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/comments [post]
 func (s *CommentController) GetComments(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

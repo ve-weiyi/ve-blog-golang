@@ -27,7 +27,7 @@ func NewPageController(svcCtx *svc.ControllerContext) *PageController {
 // @Tags		Page
 // @Summary		创建页面
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.Page							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
@@ -58,7 +58,7 @@ func (s *PageController) CreatePage(c *gin.Context) {
 // @Tags 	 	Page
 // @Summary		更新页面
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.Page							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
@@ -89,10 +89,10 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 // @Tags		Page
 // @Summary		删除页面
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param 	 	id		path		string					true		"Page id"
-// @Success		200		{object}	response.Response{}		"返回信息"
+// @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/page/{id} [delete]
 func (s *PageController) DeletePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,7 +120,7 @@ func (s *PageController) DeletePage(c *gin.Context) {
 // @Tags 	 	Page
 // @Summary		查询页面
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	id		path		string								true		"Page id"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
@@ -151,10 +151,10 @@ func (s *PageController) FindPage(c *gin.Context) {
 // @Tags 	 	Page
 // @Summary		批量删除页面
 // @Security 	ApiKeyAuth
-// @accept 	 	application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/page/batch_delete [delete]
 func (s *PageController) DeletePageByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -182,7 +182,7 @@ func (s *PageController) DeletePageByIds(c *gin.Context) {
 // @Tags 	 	Page
 // @Summary		分页获取页面列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Page}}	"返回信息"

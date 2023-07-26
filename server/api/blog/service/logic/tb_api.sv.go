@@ -36,13 +36,13 @@ func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data
 	}
 
 	//查询角色权限,取交集
-	var menuMaps map[int]*entity.Api
+	menuMaps := make(map[int]*entity.Api)
 	for _, item := range roles {
 		menus, err := s.svcCtx.RoleRepository.FindRoleApis(item.ID)
 		if err != nil {
 			return nil, err
 		}
-
+		// 去重
 		for _, m := range menus {
 			if _, ok := menuMaps[m.ID]; !ok {
 				menuMaps[m.ID] = m

@@ -24,9 +24,9 @@ func JwtToken() gin.HandlerFunc {
 			//c.AbortWithStatus(http.StatusInternalServerError)
 			// 该方式前端不报错
 			c.JSON(http.StatusOK, response.Response{
-				Code: codes.CodeRoleNoPerPermission,
-				Msg:  err.Error(),
-				Data: nil,
+				Code:    codes.CodeRoleNoPerPermission,
+				Message: err.Error(),
+				Data:    nil,
 			})
 			c.Abort()
 			return

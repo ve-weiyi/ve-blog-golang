@@ -10,7 +10,7 @@ import (
 // @Tags		Role
 // @Summary		获取角色列表
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Role}	"返回信息"
@@ -46,7 +46,7 @@ func (s *RoleController) GetRoles(c *gin.Context) {
 // @Tags		Role
 // @Summary		更新角色菜单
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.Role							true	"创建角色"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
@@ -77,7 +77,7 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 // @Tags		Role
 // @Summary		更新角色资源
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.Role							true	"创建角色"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"

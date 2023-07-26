@@ -11,11 +11,11 @@ import (
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
-type SwaggerConverter struct {
+type SwaggerApiCollector struct {
 	swagger *SwaggerDefinition
 }
 
-func (s *SwaggerConverter) ReadSwagJSON(filepath string) error {
+func (s *SwaggerApiCollector) ReadSwagJSON(filepath string) error {
 	// 读取 JSON 文件内容
 	jsonData, err := os.ReadFile(filepath)
 	if err != nil {
@@ -36,10 +36,9 @@ func (s *SwaggerConverter) ReadSwagJSON(filepath string) error {
 	return nil
 }
 
-func (s *SwaggerConverter) toTypeScriptApis(outpath string) {
+func (s *SwaggerApiCollector) GetApiTs() map[string]*ApiTs {
 	swagger := s.swagger
 	// 生成 TypeScript 代码
-	//var apiFiles map[string][]PathItem
 	apis := make(map[string]*ApiTs)
 	for path, paths := range swagger.Paths {
 		for method, pathItem := range paths {
@@ -50,33 +49,32 @@ func (s *SwaggerConverter) toTypeScriptApis(outpath string) {
 			tag := jsonconv.Camel2Case(pathItem.Tags[0])
 			if apis[tag] == nil {
 				apis[tag] = &ApiTs{
-					FileName: tag,
-					Function: make(map[string]*ApiTsMethod),
+					Tag:      tag,
+					Function: make(map[string]*ApiDeclare),
 				}
 			}
 
 			apiPath := swagger.BasePath + path
 
-			var body string
-			var params []string
-			for _, param := range pathItem.Parameters {
-				switch param.In {
-				case "body":
-					body = param.Name
-				case "query":
-					params = append(params, param.Name)
-				case "path":
-					params = append(params, param.Name)
-				default:
-				}
-			}
+			// var params []string
+			// for _, param := range pathItem.Parameters {
+			// 	switch param.In {
+			// 	case "body":
+			// 		body = param.Name
+			// 	case "query":
+			// 		params = append(params, param.Name)
+			// 	case "path":
+			// 		params = append(params, param.Name)
+			// 	default:
+			// 	}
+			// }
 
-			apiTs := &ApiTsMethod{
-				Method:      method,
-				Url:         apiPath,
-				Body:        body,
-				Params:      params,
-				Description: pathItem.Summary,
+			apiTs := &ApiDeclare{
+				Method: method,
+				Url:    apiPath,
+				// Body:   body,
+				// Params:      params,
+				// Description: pathItem.Summary,
 			}
 
 			file := apis[tag]
@@ -86,19 +84,24 @@ func (s *SwaggerConverter) toTypeScriptApis(outpath string) {
 
 	}
 
+	return apis
+}
+
+func (s *SwaggerApiCollector) toTypeScriptApis(root string, apis map[string]*ApiTs) {
+
 	metas := make([]plate.PlateMeta, 0)
 	for _, api := range apis {
 
 		meta := plate.PlateMeta{
 			Key:            "api",
-			AutoCodePath:   fmt.Sprintf("%s/%s.ts", outpath, api.FileName),
+			AutoCodePath:   fmt.Sprintf("%s/%s.ts", root, api.Tag),
 			Replace:        true,
 			TemplateString: ApiTypeScript,
 			Data:           api,
 		}
 
 		metas = append(metas, meta)
-		//fmt.Println(jsonconv.ObjectToJsonIndent(api))
+		// fmt.Println(jsonconv.ObjectToJsonIndent(api))
 	}
 
 	for _, meta := range metas {
@@ -131,11 +134,11 @@ func getFuncName(path string) string {
 	var name string
 	name = strings.ReplaceAll(path, "/", "_")
 
-	//var key []string
-	//key = strings.Split(path, "/")
-	//for i := len(key) - 1; i >= 0; i-- {
+	// var key []string
+	// key = strings.Split(path, "/")
+	// for i := len(key) - 1; i >= 0; i-- {
 	//	name = name + "_" + key[i]
-	//}
+	// }
 
 	return jsonconv.Case2CamelNotFirst(fmt.Sprintf("%s%s", name, "Api"))
 }

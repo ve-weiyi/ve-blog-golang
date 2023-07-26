@@ -27,7 +27,7 @@ func NewPhotoAlbumController(svcCtx *svc.ControllerContext) *PhotoAlbumControlle
 // @Tags		PhotoAlbum
 // @Summary		创建相册
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.PhotoAlbum							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
@@ -58,7 +58,7 @@ func (s *PhotoAlbumController) CreatePhotoAlbum(c *gin.Context) {
 // @Tags 	 	PhotoAlbum
 // @Summary		更新相册
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.PhotoAlbum							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
@@ -89,10 +89,10 @@ func (s *PhotoAlbumController) UpdatePhotoAlbum(c *gin.Context) {
 // @Tags		PhotoAlbum
 // @Summary		删除相册
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param 	 	id		path		string					true		"PhotoAlbum id"
-// @Success		200		{object}	response.Response{}		"返回信息"
+// @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/photo_album/{id} [delete]
 func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,7 +120,7 @@ func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
 // @Tags 	 	PhotoAlbum
 // @Summary		查询相册
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	id		path		string								true		"PhotoAlbum id"
 // @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
@@ -151,10 +151,10 @@ func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {
 // @Tags 	 	PhotoAlbum
 // @Summary		批量删除相册
 // @Security 	ApiKeyAuth
-// @accept 	 	application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/photo_album/batch_delete [delete]
 func (s *PhotoAlbumController) DeletePhotoAlbumByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -182,7 +182,7 @@ func (s *PhotoAlbumController) DeletePhotoAlbumByIds(c *gin.Context) {
 // @Tags 	 	PhotoAlbum
 // @Summary		分页获取相册列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.PhotoAlbum}}	"返回信息"

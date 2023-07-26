@@ -22,7 +22,7 @@ func NewUploadController(svcCtx *svc.ControllerContext) *UploadController {
 // @Tags		Upload
 // @Summary		文件上传
 // @Security	ApiKeyAuth
-// @accept		multipart/form-data
+// @Accept		multipart/form-data
 // @Produce		application/json
 // @Param		label	path		string							true	"标签"
 // @Param		file	formData	file							true	"文件"

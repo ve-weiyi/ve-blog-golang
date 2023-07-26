@@ -10,7 +10,7 @@ import (
 // @Tags 	 	Category
 // @Summary		分页获取文章分类详情列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	page 	body		request.PageInfo 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"

@@ -50,7 +50,7 @@ func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	m.Log.Error("操作失败!", err)
 	if e, ok := err.(*codes.ApiError); ok {
-		ctx.JSON(http.StatusOK, &response.Response{Code: e.Code(), Msg: e.Message()})
+		ctx.JSON(http.StatusOK, &response.Response{Code: e.Code(), Message: e.Message()})
 		return
 	}
 	m.Response(ctx, response.ERROR, "操作失败", err.Error())
@@ -58,9 +58,9 @@ func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 
 func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data interface{}) {
 	obj := response.Response{
-		Code: code,
-		Msg:  msg,
-		Data: data,
+		Code:    code,
+		Message: msg,
+		Data:    data,
 	}
 	//ctx.JSON(http.StatusOK, obj)
 

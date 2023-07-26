@@ -11,7 +11,7 @@ import (
 // @Tags		Article
 // @Summary		文章归档
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo													true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
@@ -47,7 +47,7 @@ func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 // @Tags		Article
 // @Summary		分页获取文章列表
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo													true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
@@ -78,7 +78,7 @@ func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
 // @Tags		Article
 // @Summary		更新文章
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.Article							true	"更新文章"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"

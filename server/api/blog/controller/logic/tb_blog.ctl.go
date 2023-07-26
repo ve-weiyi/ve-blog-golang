@@ -80,9 +80,9 @@ func (s *BlogController) WebSocket(c *gin.Context) {
 // @Tags		Admin
 // @Summary		获取用户地区
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/home [post]
 func (s *AdminController) GetHomeInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -103,7 +103,7 @@ func (s *AdminController) GetHomeInfo(c *gin.Context) {
 // @Tags		Blog
 // @Summary		关于我
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Success		200	{object}	response.Response{data=entity.Api}	"返回信息"
 // @Router		/about [get]
@@ -126,9 +126,9 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 // @Tags		Admin
 // @Summary		更新我的信息
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/about [post]
 func (s *AdminController) UpdateAboutMe(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -156,7 +156,7 @@ func (s *AdminController) UpdateAboutMe(c *gin.Context) {
 // @Tags		Blog
 // @Summary		查询聊天记录
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.PageInfo							true	"分页信息"
 // @Success		200		{object}	response.Response{data=entity.ChatRecord}	"返回信息"

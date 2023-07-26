@@ -10,7 +10,7 @@ import (
 // @Tags		Api
 // @Summary		获取api列表
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		page	body		request.PageInfo						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Api}	"返回信息"

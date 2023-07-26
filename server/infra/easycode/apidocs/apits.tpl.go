@@ -1,14 +1,37 @@
 package apidocs
 
-const ApiTypeScript = `import http from '@/utils/request'
-{{range $key, $value := .Function}}
-/** {{ $value.Description }} */
-export function {{ $key }}({{if $value.Body }}{{$value.Body}}?: object{{ end }}): Promise<IApiResponseData<any>> {
-	return http.request<IApiResponseData<any>>({
-		url: '{{ $value.Url }}',
-		method: '{{ $value.Method }}',
-		{{if $value.Body }}data: {{$value.Body}},{{ end }}
+const ApiTypeScript = `
+{{- range .ImportPkgPaths}}
+{{.}}
+{{- end}}
+{{range .ApiDeclares}}
+/** {{ .Summary }} */
+export function {{ .FunctionName }}(` + PathTpl + BodyTpl + `): Promise<{{.Response}}> {
+	return http.request<{{.Response}}>({
+    	url: ` + "`/api/v1/{{.Url}}`" + `,
+		method: "{{ .Method }}",
+		{{ if .Body }}data: {{ .Body.Name }},{{ end }}
 	})
 }
-{{ end }}
+{{end}}
 `
+
+const ModelTypeScript = `
+{{range $model := .}}
+interface {{ $model.Name }} {
+    {{- range $field := $model.Fields }}
+    {{ $field.Name }}: {{ $field.Type }} {{ if $field.Comment }}// {{ $field.Comment }}{{ end }}
+    {{- end }}
+}
+{{end}}
+`
+
+const PathTpl = `{{- if .Path -}}
+	{{- range .Path -}}
+	{{ .Name }}?: {{ .Type }}
+	{{- end -}}
+{{- end -}}`
+
+const BodyTpl = `{{- if .Body -}}
+	{{ .Body.Name }}?: {{ .Body.Type }}
+{{- end -}}`

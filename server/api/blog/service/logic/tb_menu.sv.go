@@ -22,9 +22,6 @@ func (s *MenuService) GetAllMenusList(reqCtx *request.Context, page *request.Pag
 }
 
 func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuTree, err error) {
-	// 创建db
-	//db := s.svcCtx.MainDB
-
 	//查询用户信息
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
@@ -38,13 +35,13 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 	}
 
 	//查询角色权限,取交集
-	var menuMaps map[int]*entity.Menu
+	menuMaps := make(map[int]*entity.Menu)
 	for _, item := range roles {
 		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(item.ID)
 		if err != nil {
 			return nil, err
 		}
-
+		// 去重
 		for _, m := range menus {
 			if _, ok := menuMaps[m.ID]; !ok {
 				menuMaps[m.ID] = m
