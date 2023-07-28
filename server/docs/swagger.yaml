@@ -2,9 +2,6 @@ basePath: /api/v1
 definitions:
   entity.Api:
     properties:
-      access_type:
-        description: 访问类型 0需要认证，0公开接口
-        type: integer
       created_at:
         description: 创建时间
         type: string
@@ -28,6 +25,9 @@ definitions:
         type: string
       status:
         description: 状态 1开，2关
+        type: integer
+      traceable:
+        description: 是否追溯操作记录 0需要，1是
         type: integer
       updated_at:
         description: 更新时间
@@ -215,6 +215,9 @@ definitions:
     type: object
   entity.OperationLog:
     properties:
+      cost:
+        description: 耗时（ms）
+        type: string
       created_at:
         description: 创建时间
         type: string
@@ -242,8 +245,8 @@ definitions:
       opt_type:
         description: 操作类型
         type: string
-      opt_url:
-        description: 操作url
+      request_header:
+        description: 请求头
         type: string
       request_method:
         description: 请求方式
@@ -251,9 +254,15 @@ definitions:
       request_param:
         description: 请求参数
         type: string
+      request_url:
+        description: 操作url
+        type: string
       response_data:
         description: 返回数据
         type: string
+      status:
+        description: 响应状态码
+        type: integer
       updated_at:
         description: 更新时间
         type: string
@@ -583,7 +592,7 @@ definitions:
         example: ""
         type: string
     type: object
-  request.PageInfo:
+  request.PageQuery:
     properties:
       conditions:
         description: 使用条件语句查询
@@ -723,7 +732,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 更新我的信息
@@ -739,7 +753,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -769,14 +783,19 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户评论列表
@@ -792,7 +811,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户地区
@@ -808,7 +832,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -894,7 +918,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -924,14 +948,19 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户地区
@@ -982,7 +1011,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 修改用户状态
@@ -998,14 +1032,19 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户列表
@@ -1082,7 +1121,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除接口
@@ -1133,7 +1177,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除接口
@@ -1149,7 +1198,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1245,7 +1294,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除文章
@@ -1287,7 +1341,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1324,7 +1378,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除文章
@@ -1340,7 +1399,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1403,7 +1462,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1445,7 +1504,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 发送验证码
@@ -1461,7 +1525,12 @@ paths:
         "200":
           description: 生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 生成验证码
@@ -1477,7 +1546,12 @@ paths:
         "200":
           description: 生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 检验验证码
@@ -1493,7 +1567,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
@@ -1589,7 +1663,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除文章分类
@@ -1640,7 +1719,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除文章分类
@@ -1656,7 +1740,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1691,7 +1775,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.PageInfo'
+          $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1780,7 +1864,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除评论
@@ -1831,7 +1920,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除评论
@@ -1847,7 +1941,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1882,7 +1976,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
@@ -1978,7 +2072,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除友链
@@ -2029,7 +2128,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除友链
@@ -2045,7 +2149,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -2087,7 +2191,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 登录
@@ -2103,7 +2212,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 注销
@@ -2119,7 +2233,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 登出
@@ -2196,7 +2315,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除菜单
@@ -2247,7 +2371,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除菜单
@@ -2263,7 +2392,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -2415,7 +2544,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除操作记录
@@ -2466,7 +2600,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除操作记录
@@ -2482,7 +2621,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
@@ -2578,7 +2717,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除页面
@@ -2629,7 +2773,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除页面
@@ -2645,7 +2794,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -2741,7 +2890,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除相片
@@ -2792,7 +2946,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除相片
@@ -2808,7 +2967,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -2904,7 +3063,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除相册
@@ -2955,7 +3119,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除相册
@@ -2971,7 +3140,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -3013,7 +3182,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 注册
@@ -3036,7 +3210,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 发送注册邮件
@@ -3113,7 +3292,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 删除留言
@@ -3164,7 +3348,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除留言
@@ -3180,7 +3369,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
         - application/json
       responses:
@@ -3276,7 +3465,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除角色
@@ -3327,7 +3521,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除角色
@@ -3343,7 +3542,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -3439,7 +3638,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除文章标签
@@ -3490,7 +3694,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除文章标签
@@ -3506,7 +3715,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -3602,7 +3811,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 删除说说
@@ -3653,7 +3867,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 批量删除说说
@@ -3669,7 +3888,7 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -3736,7 +3955,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户接口权限
@@ -3780,7 +4004,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户信息
@@ -3823,14 +4052,19 @@ paths:
           name: page
           required: true
           schema:
-            $ref: '#/definitions/request.PageInfo'
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户登录历史
@@ -3846,7 +4080,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 获取用户菜单权限
@@ -3869,7 +4108,12 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
       - ApiKeyAuth: []
       summary: 发送忘记密码邮件
@@ -3892,52 +4136,17 @@ paths:
         "200":
           description: 返回信息
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
       security:
         - ApiKeyAuth: [ ]
       summary: 重置密码
       tags:
         - User
-  /version:
-    get:
-      description: 描述,可以有多个。https://www.jianshu.com/p/4bb4283632e4
-      parameters:
-        - description: 上传文件
-          in: formData
-          name: file
-          required: true
-          type: file
-        - description: id
-          in: path
-          name: id
-          required: true
-          type: integer
-        - description: token
-          in: header
-          name: token
-          required: true
-          type: string
-        - description: 创建api路由
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Api'
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    $ref: '#/definitions/entity.Api'
-                type: object
-      security:
-        - ApiKeyUser: [ ]
-      summary: 创建api路由
-      tags:
-        - Blog
   /ws:
     get:
       responses: { }

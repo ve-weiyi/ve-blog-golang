@@ -42,6 +42,6 @@ func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids [
 }
 
 // 分页获取PhotoAlbum记录
-func (s *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.PhotoAlbum, total int64, err error) {
+func (s *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
 	return s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, page)
 }

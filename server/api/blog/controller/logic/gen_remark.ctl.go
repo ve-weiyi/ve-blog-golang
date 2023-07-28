@@ -184,7 +184,7 @@ func (s *RemarkController) DeleteRemarkByIds(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Remark}}	"返回信息"
 // @Router		/remark/list [post]
 func (s *RemarkController) FindRemarkList(c *gin.Context) {
@@ -194,7 +194,7 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

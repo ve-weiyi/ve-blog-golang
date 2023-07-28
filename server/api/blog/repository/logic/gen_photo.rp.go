@@ -72,7 +72,7 @@ func (s *PhotoRepository) DeletePhotoByIds(ctx context.Context, ids []int) (rows
 }
 
 // 分页查询Photo记录
-func (s *PhotoRepository) FindPhotoList(ctx context.Context, page *request.PageInfo) (list []*entity.Photo, total int64, err error) {
+func (s *PhotoRepository) FindPhotoList(ctx context.Context, page *request.PageQuery) (list []*entity.Photo, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

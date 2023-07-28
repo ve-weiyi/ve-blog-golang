@@ -72,7 +72,7 @@ func (s *MenuRepository) DeleteMenuByIds(ctx context.Context, ids []int) (rows i
 }
 
 // 分页查询Menu记录
-func (s *MenuRepository) FindMenuList(ctx context.Context, page *request.PageInfo) (list []*entity.Menu, total int64, err error) {
+func (s *MenuRepository) FindMenuList(ctx context.Context, page *request.PageQuery) (list []*entity.Menu, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

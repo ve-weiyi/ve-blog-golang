@@ -72,7 +72,7 @@ func (s *RoleMenuRepository) DeleteRoleMenuByIds(ctx context.Context, ids []int)
 }
 
 // 分页查询RoleMenu记录
-func (s *RoleMenuRepository) FindRoleMenuList(ctx context.Context, page *request.PageInfo) (list []*entity.RoleMenu, total int64, err error) {
+func (s *RoleMenuRepository) FindRoleMenuList(ctx context.Context, page *request.PageQuery) (list []*entity.RoleMenu, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

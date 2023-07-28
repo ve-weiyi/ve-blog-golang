@@ -72,7 +72,7 @@ func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []
 }
 
 // 分页查询ArticleTag记录
-func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *request.PageInfo) (list []*entity.ArticleTag, total int64, err error) {
+func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *request.PageQuery) (list []*entity.ArticleTag, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

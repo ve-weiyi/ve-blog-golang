@@ -6,7 +6,7 @@ import (
 )
 
 // 分页获取Category记录
-func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageInfo) (list []*response.CategoryDTO, total int64, err error) {
+func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDTO, total int64, err error) {
 	categories, total, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err

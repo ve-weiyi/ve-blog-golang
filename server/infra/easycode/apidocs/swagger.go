@@ -36,10 +36,10 @@ func (s *SwaggerApiCollector) ReadSwagJSON(filepath string) error {
 	return nil
 }
 
-func (s *SwaggerApiCollector) GetApiTs() map[string]*ApiTs {
+func (s *SwaggerApiCollector) GetApiTs() map[string]*ApiDoc {
 	swagger := s.swagger
 	// 生成 TypeScript 代码
-	apis := make(map[string]*ApiTs)
+	apis := make(map[string]*ApiDoc)
 	for path, paths := range swagger.Paths {
 		for method, pathItem := range paths {
 			if pathItem.Tags == nil {
@@ -48,7 +48,7 @@ func (s *SwaggerApiCollector) GetApiTs() map[string]*ApiTs {
 
 			tag := jsonconv.Camel2Case(pathItem.Tags[0])
 			if apis[tag] == nil {
-				apis[tag] = &ApiTs{
+				apis[tag] = &ApiDoc{
 					Tag:      tag,
 					Function: make(map[string]*ApiDeclare),
 				}
@@ -87,7 +87,7 @@ func (s *SwaggerApiCollector) GetApiTs() map[string]*ApiTs {
 	return apis
 }
 
-func (s *SwaggerApiCollector) toTypeScriptApis(root string, apis map[string]*ApiTs) {
+func (s *SwaggerApiCollector) toTypeScriptApis(root string, apis map[string]*ApiDoc) {
 
 	metas := make([]plate.PlateMeta, 0)
 	for _, api := range apis {

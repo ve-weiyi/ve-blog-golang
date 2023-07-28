@@ -42,6 +42,6 @@ func (s *UserLoginHistoryService) DeleteUserLoginHistoryByIds(reqCtx *request.Co
 }
 
 // 分页获取UserLoginHistory记录
-func (s *UserLoginHistoryService) FindUserLoginHistoryList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.UserLoginHistory, total int64, err error) {
+func (s *UserLoginHistoryService) FindUserLoginHistoryList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.UserLoginHistory, total int64, err error) {
 	return s.svcCtx.UserLoginHistoryRepository.FindUserLoginHistoryList(reqCtx, page)
 }

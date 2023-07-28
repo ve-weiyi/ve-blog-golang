@@ -72,7 +72,7 @@ func (s *UserLoginHistoryRepository) DeleteUserLoginHistoryByIds(ctx context.Con
 }
 
 // 分页查询UserLoginHistory记录
-func (s *UserLoginHistoryRepository) FindUserLoginHistoryList(ctx context.Context, page *request.PageInfo) (list []*entity.UserLoginHistory, total int64, err error) {
+func (s *UserLoginHistoryRepository) FindUserLoginHistoryList(ctx context.Context, page *request.PageQuery) (list []*entity.UserLoginHistory, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

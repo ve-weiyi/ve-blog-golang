@@ -72,7 +72,7 @@ func (s *RemarkRepository) DeleteRemarkByIds(ctx context.Context, ids []int) (ro
 }
 
 // 分页查询Remark记录
-func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *request.PageInfo) (list []*entity.Remark, total int64, err error) {
+func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

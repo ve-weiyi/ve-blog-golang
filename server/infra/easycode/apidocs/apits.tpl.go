@@ -1,29 +1,40 @@
 package apidocs
 
 const ApiTypeScript = `
-{{- range .ImportPkgPaths}}
+{{- range .ImportPkgPaths -}}
 {{.}}
-{{- end}}
-{{range .ApiDeclares}}
+{{ end }}
+
+{{- range .ModelDeclares }}
+interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
+	{{- range .Fields }}
+    {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
+    {{- end }}
+}
+{{ end }}
+
+{{- range .ApiDeclares }}
 /** {{ .Summary }} */
 export function {{ .FunctionName }}(` + PathTpl + BodyTpl + `): Promise<{{.Response}}> {
 	return http.request<{{.Response}}>({
-    	url: ` + "`/api/v1/{{.Url}}`" + `,
+		url: ` + "`/api/v1/{{.Url}}`" + `,
 		method: "{{ .Method }}",
-		{{ if .Body }}data: {{ .Body.Name }},{{ end }}
+		{{- if .Body }}
+		data: {{ .Body.Name }},
+		{{- end }}
 	})
 }
-{{end}}
+{{ end }}
 `
 
 const ModelTypeScript = `
-{{range $model := .}}
-interface {{ $model.Name }} {
-    {{- range $field := $model.Fields }}
-    {{ $field.Name }}: {{ $field.Type }} {{ if $field.Comment }}// {{ $field.Comment }}{{ end }}
+{{- range .}}
+interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
+	{{- range .Fields }}
+    {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
     {{- end }}
 }
-{{end}}
+{{ end }}
 `
 
 const PathTpl = `{{- if .Path -}}
@@ -33,5 +44,9 @@ const PathTpl = `{{- if .Path -}}
 {{- end -}}`
 
 const BodyTpl = `{{- if .Body -}}
+	{{ .Body.Name }}?: {{ .Body.Type }}
+{{- end -}}`
+
+const DataTpl = `{{- if .Body -}}
 	{{ .Body.Name }}?: {{ .Body.Type }}
 {{- end -}}`

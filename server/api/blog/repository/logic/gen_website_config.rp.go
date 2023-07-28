@@ -72,7 +72,7 @@ func (s *WebsiteConfigRepository) DeleteWebsiteConfigByIds(ctx context.Context, 
 }
 
 // 分页查询WebsiteConfig记录
-func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, page *request.PageInfo) (list []*entity.WebsiteConfig, total int64, err error) {
+func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, page *request.PageQuery) (list []*entity.WebsiteConfig, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

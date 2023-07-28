@@ -72,7 +72,7 @@ func (s *OperationLogRepository) DeleteOperationLogByIds(ctx context.Context, id
 }
 
 // 分页查询OperationLog记录
-func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page *request.PageInfo) (list []*entity.OperationLog, total int64, err error) {
+func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page *request.PageQuery) (list []*entity.OperationLog, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

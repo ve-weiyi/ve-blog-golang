@@ -28,7 +28,7 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 }
 
 // 分页获取UserAccount记录
-func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageInfo) (list []*response.UserDetail, total int64, err error) {
+func (s *UserService) GetUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserDetail, total int64, err error) {
 	userAccounts, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
 
 	for _, ua := range userAccounts {
@@ -82,7 +82,7 @@ func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *
 	return userinfo, nil
 }
 
-func (s *UserService) GetUserAreas(reqCtx *request.Context, page *request.PageInfo) (result []*response.UserArea, total int64, err error) {
+func (s *UserService) GetUserAreas(reqCtx *request.Context, page *request.PageQuery) (result []*response.UserArea, total int64, err error) {
 	list, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -108,7 +108,7 @@ func (s *UserService) GetUserAreas(reqCtx *request.Context, page *request.PageIn
 	return result, int64(len(result)), nil
 }
 
-func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.PageInfo) (result []*response.LoginHistory, total int64, err error) {
+func (s *UserService) GetLoginHistory(reqCtx *request.Context, page *request.PageQuery) (result []*response.LoginHistory, total int64, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {

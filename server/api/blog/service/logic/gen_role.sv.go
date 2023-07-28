@@ -42,6 +42,6 @@ func (s *RoleService) DeleteRoleByIds(reqCtx *request.Context, ids []int) (rows 
 }
 
 // 分页获取Role记录
-func (s *RoleService) FindRoleList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Role, total int64, err error) {
+func (s *RoleService) FindRoleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Role, total int64, err error) {
 	return s.svcCtx.RoleRepository.FindRoleList(reqCtx, page)
 }

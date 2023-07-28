@@ -72,7 +72,7 @@ func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ctx context.Context, ids []
 }
 
 // 分页查询CasbinRule记录
-func (s *CasbinRuleRepository) FindCasbinRuleList(ctx context.Context, page *request.PageInfo) (list []*entity.CasbinRule, total int64, err error) {
+func (s *CasbinRuleRepository) FindCasbinRuleList(ctx context.Context, page *request.PageQuery) (list []*entity.CasbinRule, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

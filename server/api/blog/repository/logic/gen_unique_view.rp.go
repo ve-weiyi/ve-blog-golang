@@ -72,7 +72,7 @@ func (s *UniqueViewRepository) DeleteUniqueViewByIds(ctx context.Context, ids []
 }
 
 // 分页查询UniqueView记录
-func (s *UniqueViewRepository) FindUniqueViewList(ctx context.Context, page *request.PageInfo) (list []*entity.UniqueView, total int64, err error) {
+func (s *UniqueViewRepository) FindUniqueViewList(ctx context.Context, page *request.PageQuery) (list []*entity.UniqueView, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

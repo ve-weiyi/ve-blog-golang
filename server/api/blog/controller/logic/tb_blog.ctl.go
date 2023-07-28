@@ -27,21 +27,6 @@ func NewBlogController(svcCtx *svc.ControllerContext) *BlogController {
 }
 
 // @Tags		Blog
-// @Summary		创建api路由
-// @Description	描述,可以有多个。https://www.jianshu.com/p/4bb4283632e4
-// @Security	ApiKeyUser
-// @Param		file	formData	file								true	"上传文件"
-// @Param		id		path		int									true	"id"
-// @Param		token	header		string								true	"token"
-// @Param		data	body		entity.Api							true	"创建api路由"
-// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router		/version [get]
-func (s *BlogController) ApiVersion(c *gin.Context) {
-
-	s.ResponseOk(c, nil)
-}
-
-// @Tags		Blog
 // @Summary		查询聊天记录
 // @Router		/ws [get]
 func (s *BlogController) WebSocket(c *gin.Context) {
@@ -77,29 +62,6 @@ func (s *BlogController) WebSocket(c *gin.Context) {
 	ws.HandleWebSocket(c.Writer, c.Request, receive)
 }
 
-// @Tags		Admin
-// @Summary		获取用户地区
-// @Security	ApiKeyAuth
-// @Accept		application/json
-// @Produce		application/json
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/home [post]
-func (s *AdminController) GetHomeInfo(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.BlogService.GetAdminHomeInfo(reqCtx, nil)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags		Blog
 // @Summary		关于我
 // @Security	ApiKeyAuth
@@ -123,42 +85,12 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Admin
-// @Summary		更新我的信息
-// @Security	ApiKeyAuth
-// @Accept		application/json
-// @Produce		application/json
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/about [post]
-func (s *AdminController) UpdateAboutMe(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req string
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.WebsiteConfigService.UpdateAboutMe(reqCtx, req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags		Blog
 // @Summary		查询聊天记录
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.PageInfo							true	"分页信息"
+// @Param		data	body		request.PageQuery							true	"分页信息"
 // @Success		200		{object}	response.Response{data=entity.ChatRecord}	"返回信息"
 // @Router		/chat/records [post]
 func (s *BlogController) FindChatRecords(c *gin.Context) {
@@ -168,7 +100,7 @@ func (s *BlogController) FindChatRecords(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

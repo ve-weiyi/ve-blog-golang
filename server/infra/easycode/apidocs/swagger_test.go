@@ -1,13 +1,13 @@
 package apidocs
 
 import (
+	"fmt"
 	"log"
 	"path"
 	"testing"
 
 	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/inject"
 )
 
 func TestSwagger(t *testing.T) {
@@ -24,23 +24,32 @@ func TestDst(t *testing.T) {
 	root := path.Join(global.GetRuntimeRoot(), "server/api/", "blog")
 
 	cfg := Config{
-		OutRoot:        "",
+		OutRoot:        "./api",
 		ApiRoot:        []string{path.Join(root, "controller/logic")},
 		ModelRoot:      []string{path.Join(root, "model")},
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
+		IgnoredModels:  []string{"response.PageResult", "response.Response", "request.PageQuery"},
+		ReplaceModels: map[string]string{
+			"Response": "IApiResponseData",
+		},
+		ApiFuncNameAs: func(api *ApiDeclare) string {
+			return fmt.Sprintf("%vApi", jsonconv.Lcfirst(api.FunctionName))
+		},
+		ApiFieldNameAs: func(field *ModelField) string {
+			return jsonconv.Camel2Case(field.Name)
+		},
+		ApiFieldTypeAs: func(field *ModelField) string {
+			return getTypeScriptType(field.Type)
+		},
 	}
 
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
-	aad.GenerateTypeTsFile()
-	aad.GenerateApiTsFiles()
+	//aad.GenerateTsTypeFile()
+	aad.GenerateTsApiFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {
-	code := `model:=response.Response{data:response.PageResult{list:[]entity.Article}}`
+	fmt.Println(extractFieldsByAst(`response.Response{data=entity.Api}`))
 
-	meta := inject.NewFuncMete("main", code)
-	meta.GetNode()
-	log.Println("ExtractIdents", jsonconv.ObjectToJsonIndent(inject.ExtractIdents(meta.GetNode())))
-	log.Println("ExtractSelectors", jsonconv.ObjectToJsonIndent(inject.ExtractSelectors(meta.GetNode())))
 }

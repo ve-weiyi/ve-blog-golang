@@ -135,7 +135,7 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
+// @Param		page	body		request.PageQuery	true	"分页参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/user/login_history [get]
 func (s *UserController) GetLoginHistory(c *gin.Context) {
@@ -145,7 +145,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -256,7 +256,7 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
+// @Param		page	body		request.PageQuery	true	"分页参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/users [post]
 func (s *UserController) GetUserList(c *gin.Context) {
@@ -266,7 +266,7 @@ func (s *UserController) GetUserList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -292,7 +292,7 @@ func (s *UserController) GetUserList(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo	true	"分页参数"
+// @Param		page	body		request.PageQuery	true	"分页参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/user/areas [post]
 func (s *UserController) GetUserAreas(c *gin.Context) {
@@ -302,7 +302,7 @@ func (s *UserController) GetUserAreas(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

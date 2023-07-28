@@ -72,7 +72,7 @@ func (s *UploadRepository) DeleteUploadByIds(ctx context.Context, ids []int) (ro
 }
 
 // 分页查询Upload记录
-func (s *UploadRepository) FindUploadList(ctx context.Context, page *request.PageInfo) (list []*entity.Upload, total int64, err error) {
+func (s *UploadRepository) FindUploadList(ctx context.Context, page *request.PageQuery) (list []*entity.Upload, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

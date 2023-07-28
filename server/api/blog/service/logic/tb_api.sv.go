@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取Api记录
-func (s *ApiService) GetAllApiList(reqCtx *request.Context, page *request.PageInfo) (list []*response.ApiTree, total int64, err error) {
+func (s *ApiService) GetAllApiList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiTree, total int64, err error) {
 	// 查询api信息
 	apis, _, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
 	if err != nil {

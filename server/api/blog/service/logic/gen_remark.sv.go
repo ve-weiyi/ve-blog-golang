@@ -42,6 +42,6 @@ func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (r
 }
 
 // 分页获取Remark记录
-func (s *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Remark, total int64, err error) {
+func (s *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
 	return s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, page)
 }

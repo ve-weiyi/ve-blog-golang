@@ -72,7 +72,7 @@ func (s *ChatRecordRepository) DeleteChatRecordByIds(ctx context.Context, ids []
 }
 
 // 分页查询ChatRecord记录
-func (s *ChatRecordRepository) FindChatRecordList(ctx context.Context, page *request.PageInfo) (list []*entity.ChatRecord, total int64, err error) {
+func (s *ChatRecordRepository) FindChatRecordList(ctx context.Context, page *request.PageQuery) (list []*entity.ChatRecord, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

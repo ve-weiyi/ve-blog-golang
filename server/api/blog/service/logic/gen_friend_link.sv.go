@@ -42,6 +42,6 @@ func (s *FriendLinkService) DeleteFriendLinkByIds(reqCtx *request.Context, ids [
 }
 
 // 分页获取FriendLink记录
-func (s *FriendLinkService) FindFriendLinkList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.FriendLink, total int64, err error) {
+func (s *FriendLinkService) FindFriendLinkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.FriendLink, total int64, err error) {
 	return s.svcCtx.FriendLinkRepository.FindFriendLinkList(reqCtx, page)
 }

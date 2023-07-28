@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取Menu记录
-func (s *MenuService) GetAllMenusList(reqCtx *request.Context, page *request.PageInfo) (list []*response.MenuTree, total int64, err error) {
+func (s *MenuService) GetAllMenusList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuTree, total int64, err error) {
 	// 创建db
 	menuList, _, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
 	if err != nil {

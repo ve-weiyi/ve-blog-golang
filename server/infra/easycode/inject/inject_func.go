@@ -4,13 +4,9 @@ import (
 	"fmt"
 	"go/token"
 	"log"
-	"reflect"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
-	"github.com/spf13/cast"
-
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 )
 
 const (
@@ -172,68 +168,8 @@ func (vi *FuncMeta) GetNode() dst.Node {
 	if vi.node != nil {
 		return vi.node
 	}
-	var insertStmt dst.Stmt
-	switch vi.Symbol {
-	case ":=":
-		if len(vi.Variables) == 0 || len(vi.IdentNames) == 0 {
-			panic("赋值表达式左右两边不能为null")
-		}
-		var rhs dst.Expr
-		if len(vi.Parameters) == 0 {
-			//是变量 *dst.SelectorExpr
-			rhs = vi.GetSelector()
-		} else {
-			//是调用
-			rhs = &dst.CallExpr{
-				Fun:  vi.GetSelector(),
-				Args: vi.GetParameters(),
-			}
-		}
-		//变量声明
-		insertStmt = &dst.AssignStmt{
-			// 等式左边
-			Lhs: vi.GetVariables(),
-			// := 符号
-			Tok: token.DEFINE,
-			// 等式右边
-			Rhs: []dst.Expr{
-				rhs,
-			},
-			Decs: dst.AssignStmtDecorations{
-				NodeDecs: dst.NodeDecs{
-					Start: dst.Decorations{},
-				},
-			},
-		}
-	case "{}":
-		log.Println("bbbbb")
-		insertStmt = &dst.BlockStmt{
-			List:           []dst.Stmt{},
-			RbraceHasNoPos: false,
-			Decs: dst.BlockStmtDecorations{
-				NodeDecs: dst.NodeDecs{
-					Before: dst.NewLine,
-					Start:  dst.Decorations{"//" + vi.Comments},
-				},
-				Lbrace: nil,
-			},
-		}
-	case "":
-		log.Println("aaaaa", len(vi.IdentNames))
-		// 调用语句,没有左边
-		insertStmt = &dst.ExprStmt{
-			X: &dst.CallExpr{
-				Fun:  vi.GetSelector(),
-				Args: vi.GetParameters(),
-			},
-		}
-	case token.RETURN.String():
 
-	default:
-		log.Println("default", len(vi.IdentNames))
-		return nil
-	}
-	return insertStmt
+	return nil
 }
 
 func (vi *FuncMeta) GetCode() string {
@@ -340,54 +276,6 @@ func %v(){
 	//log.Println("GetCode", meta.GetCode())
 	//log.Println("NewFuncMete", jsonconv.ObjectToJsonIndent(meta))
 	return meta
-}
-
-func (vi *FuncMeta) GetVariables() []dst.Expr {
-	var variables []dst.Expr
-	for _, item := range vi.Variables {
-		variables = append(variables, dst.NewIdent(item))
-	}
-	return variables
-}
-
-func (vi *FuncMeta) GetSelector() dst.Expr {
-	var selector interface{}
-	if len(vi.IdentNames) == 1 {
-		//var selector *dst.Ident
-		selector = dst.NewIdent(vi.IdentNames[0])
-	} else {
-		// >=2
-		selector = &dst.SelectorExpr{
-			// 只有一个 .
-			X: &dst.Ident{
-				Name: cast.ToString(vi.IdentNames[0]),
-			},
-			// IdentName.SelName
-			Sel: &dst.Ident{
-				Name: cast.ToString(vi.IdentNames[1]),
-			},
-		}
-		for _, value := range vi.IdentNames[2:] {
-			selector = &dst.SelectorExpr{
-				X: selector.(*dst.SelectorExpr),
-				//IdentName.SelName.SelName
-				Sel: dst.NewIdent(cast.ToString(value)),
-			}
-		}
-	}
-	return selector.(dst.Expr)
-}
-
-func (vi *FuncMeta) GetParameters() []dst.Expr {
-	var varExpr []dst.Expr
-	for _, value := range vi.Parameters {
-		exp := &dst.BasicLit{
-			Kind:  kindToToken(reflect.TypeOf(value).Kind()),
-			Value: jsonconv.ObjectToJson(value),
-		}
-		varExpr = append(varExpr, exp)
-	}
-	return varExpr
 }
 
 func (vi *FuncMeta) rollBack(block *dst.BlockStmt) dst.Visitor {

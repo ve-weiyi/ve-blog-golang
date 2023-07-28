@@ -72,7 +72,7 @@ func (s *CommentRepository) DeleteCommentByIds(ctx context.Context, ids []int) (
 }
 
 // 分页查询Comment记录
-func (s *CommentRepository) FindCommentList(ctx context.Context, page *request.PageInfo) (list []*entity.Comment, total int64, err error) {
+func (s *CommentRepository) FindCommentList(ctx context.Context, page *request.PageQuery) (list []*entity.Comment, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 

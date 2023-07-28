@@ -13,7 +13,7 @@ import (
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo													true	"分页获取文章列表"
+// @Param		page	body		request.PageQuery													true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router		/article/archives [get]
 func (s *ArticleController) GetArticleArchives(c *gin.Context) {
@@ -23,7 +23,7 @@ func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -49,7 +49,7 @@ func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageInfo													true	"分页获取文章列表"
+// @Param		page	body		request.PageQuery													true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
 // @Router		/article/condition [post]
 func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
