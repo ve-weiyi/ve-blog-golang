@@ -1772,7 +1772,7 @@ paths:
       parameters:
       - description: 分页信息
         in: body
-        name: data
+        name: page
         required: true
         schema:
           $ref: '#/definitions/request.PageQuery'
@@ -1899,6 +1899,62 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 查询评论
+      tags:
+        - Comment
+  /comment/{id}/like:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Comment'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Comment'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 点赞评论
+      tags:
+        - Comment
+  /comment/{id}/reply_list:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: 请求body
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Comment'
+                type: object
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 查询评论回复列表
       tags:
         - Comment
   /comment/batch_delete:

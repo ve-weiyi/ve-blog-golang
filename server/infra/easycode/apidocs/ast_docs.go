@@ -214,7 +214,10 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 
 func (s *AstApiDoc) convertTsApiDeclare(doc *ApiDeclare) *TsApiDeclare {
 	re := regexp.MustCompile(`\{(.+?)\}`)
-
+	count := len(doc.Path) + len(doc.Query) + len(doc.Form)
+	if doc.Body != nil {
+		count++
+	}
 	var tsDoc = &TsApiDeclare{
 		Tag:          doc.Tag,
 		FunctionName: s.ApiFuncNameAs(doc),
@@ -226,6 +229,7 @@ func (s *AstApiDoc) convertTsApiDeclare(doc *ApiDeclare) *TsApiDeclare {
 		Query:        s.convertTsParams(doc.Query),
 		Form:         s.convertTsParams(doc.Form),
 		Body:         s.convertTsParam(doc.Body),
+		Request:      s.convertRequestStr(doc),
 		Response:     s.convertResponseStr(doc.Response),
 	}
 
@@ -255,6 +259,48 @@ func (s *AstApiDoc) convertTsParam(in *ApiParam) *ApiParam {
 	}
 
 	return out
+}
+
+func (s *AstApiDoc) convertRequestStr(doc *ApiDeclare) string {
+	params := make([]string, 0)
+	types := make([]string, 0)
+	if doc.Header != nil {
+		for _, param := range doc.Header {
+			params = append(params, param.Name)
+			types = append(types, getTypeScriptType(param.Type))
+		}
+	}
+	if doc.Path != nil {
+		for _, param := range doc.Path {
+			params = append(params, param.Name)
+			types = append(types, getTypeScriptType(param.Type))
+		}
+	}
+	if doc.Query != nil {
+		for _, param := range doc.Query {
+			params = append(params, param.Name)
+			types = append(types, getTypeScriptType(param.Type))
+		}
+	}
+	if doc.Form != nil {
+		for _, param := range doc.Form {
+			params = append(params, param.Name)
+			types = append(types, getTypeScriptType(param.Type))
+		}
+	}
+	if doc.Body != nil {
+		params = append(params, doc.Body.Name)
+		types = append(types, getTypeScriptType(doc.Body.Type))
+	}
+
+	var result string
+	for i, param := range types {
+		if i > 0 {
+			result += ", "
+		}
+		result += fmt.Sprintf("%s: %s", params[i], param)
+	}
+	return result
 }
 
 // response.Response{data=response.PageResult{list=[]entity.Api}}-->Response<PageResult<Api>>

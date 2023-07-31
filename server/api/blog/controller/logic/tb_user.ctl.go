@@ -23,68 +23,6 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 }
 
 // @Tags		User
-// @Summary		发送忘记密码邮件
-// @Security	ApiKeyAuth
-// @Accept		application/json
-// @Produce		application/json
-// @Param		data	body		request.UserEmail					true	"请求参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/user/password/forget [post]
-func (s *UserController) ForgetPasswordEmail(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var user request.UserEmail
-	err = s.ShouldBind(c, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.UserService.SendForgetPwdEmail(reqCtx, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		User
-// @Summary		重置密码
-// @Security	ApiKeyAuth
-// @Accept		application/json
-// @Produce		application/json
-// @Param		data	body		request.ResetPasswordReq			true	"请求参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/user/password/reset [post]
-func (s *UserController) ResetPassword(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var user request.ResetPasswordReq
-	err = s.ShouldBind(c, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.UserService.ResetPassword(reqCtx, &user)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		User
 // @Summary		获取用户菜单权限
 // @Security	ApiKeyAuth
 // @Accept		application/json

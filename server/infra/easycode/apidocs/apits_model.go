@@ -60,14 +60,16 @@ type TsApiDeclare struct {
 	Summary      string
 
 	//Base     string
-	Url      string
-	Method   string
-	Header   []*ApiParam // 请求头参数
-	Path     []*ApiParam // 路径参数 path
-	Query    []*ApiParam // 查询参数 query
-	Form     []*ApiParam // 表单参数 form-data
-	Body     *ApiParam   // 请求体参数
-	Response string      // 响应参数
+	Url    string
+	Method string
+	Header []*ApiParam // 请求头参数
+	Path   []*ApiParam // 路径参数 path
+	Query  []*ApiParam // 查询参数 query
+	Form   []*ApiParam // 表单参数 form-data
+	Body   *ApiParam   // 请求体参数
+
+	Request  string // 请求参数
+	Response string // 响应参数
 }
 
 type TsModelDeclare struct {

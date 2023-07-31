@@ -1950,15 +1950,15 @@
                 ],
                 "summary": "查询聊天记录",
                 "parameters": [
-                    {
-                        "description": "分页信息",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
-                        }
+                  {
+                    "description": "分页信息",
+                    "name": "page",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                      "$ref": "#/definitions/request.PageQuery"
                     }
+                  }
                 ],
                 "responses": {
                     "200": {
@@ -2292,16 +2292,116 @@
                 }
             }
         },
-        "/comments": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
+      "/comment/{id}/like": {
+        "post": {
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "tags": [
+            "Comment"
+          ],
+          "summary": "点赞评论",
+          "parameters": [
+            {
+              "description": "请求body",
+              "name": "data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/entity.Comment"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "返回信息",
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/response.Response"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/definitions/entity.Comment"
+                      }
                     }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "/comment/{id}/reply_list": {
+        "post": {
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "tags": [
+            "Comment"
+          ],
+          "summary": "查询评论回复列表",
+          "parameters": [
+            {
+              "description": "请求body",
+              "name": "page",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/request.PageQuery"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "返回信息",
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/response.Response"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/definitions/entity.Comment"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "/comments": {
+        "post": {
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
                 "produces": [
                     "application/json"
                 ],
@@ -6233,16 +6333,16 @@
                 },
                 "method": {
                     "description": "api请求方法",
-                    "type": "string"
+                  "type": "string"
                 },
-                "name": {
-                    "description": "api名称",
-                    "type": "string"
-                },
-                "parent_id": {
-                    "description": "分组id",
-                  "type": "integer"
-                },
+              "name": {
+                "description": "api名称",
+                "type": "string"
+              },
+              "parent_id": {
+                "description": "分组id",
+                "type": "integer"
+              },
               "path": {
                 "description": "api路径",
                 "type": "string"
@@ -6525,24 +6625,24 @@
               },
               "ip_address": {
                 "description": "操作ip",
-                    "type": "string"
-                },
-                "ip_source": {
-                    "description": "操作地址",
-                    "type": "string"
-                },
-                "nickname": {
-                    "description": "用户昵称",
-                    "type": "string"
-                },
-                "opt_desc": {
-                    "description": "操作描述",
-                    "type": "string"
-                },
-                "opt_method": {
-                    "description": "操作方法",
-                  "type": "string"
-                },
+                "type": "string"
+              },
+              "ip_source": {
+                "description": "操作地址",
+                "type": "string"
+              },
+              "nickname": {
+                "description": "用户昵称",
+                "type": "string"
+              },
+              "opt_desc": {
+                "description": "操作描述",
+                "type": "string"
+              },
+              "opt_method": {
+                "description": "操作方法",
+                "type": "string"
+              },
               "opt_module": {
                 "description": "操作模块",
                 "type": "string"
@@ -7016,14 +7116,14 @@
                 },
                 "platform": {
                     "description": "平台",
-                    "type": "string",
-                    "example": ""
+                  "type": "string",
+                  "example": ""
                 },
-                "state": {
-                    "description": "状态",
-                    "type": "string",
-                    "example": ""
-                }
+              "state": {
+                "description": "状态",
+                "type": "string",
+                "example": ""
+              }
             }
         },
       "request.PageQuery": {
@@ -7037,16 +7137,16 @@
             }
           },
           "page": {
-                    "description": "页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页大小",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
+            "description": "页码",
+            "type": "integer"
+          },
+          "page_size": {
+            "description": "每页大小",
+            "type": "integer"
+          },
+          "sorts": {
+            "description": "排序",
+            "type": "array",
                     "items": {
                         "$ref": "#/definitions/request.Sort"
                     }

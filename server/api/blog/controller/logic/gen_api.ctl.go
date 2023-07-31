@@ -138,7 +138,7 @@ func (s *ApiController) FindApi(c *gin.Context) {
 		s.ResponseError(c, err)
 		return
 	}
-
+	s.Log.Println("id", id)
 	data, err := s.svcCtx.ApiService.FindApi(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)

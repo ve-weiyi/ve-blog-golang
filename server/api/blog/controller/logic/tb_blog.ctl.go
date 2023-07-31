@@ -90,7 +90,7 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.PageQuery							true	"分页信息"
+// @Param		page	body		request.PageQuery							true	"分页信息"
 // @Success		200		{object}	response.Response{data=entity.ChatRecord}	"返回信息"
 // @Router		/chat/records [post]
 func (s *BlogController) FindChatRecords(c *gin.Context) {

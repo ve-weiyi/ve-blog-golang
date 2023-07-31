@@ -15,7 +15,7 @@ interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
 
 {{- range .ApiDeclares }}
 /** {{ .Summary }} */
-export function {{ .FunctionName }}(` + PathTpl + BodyTpl + `): Promise<{{.Response}}> {
+export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
 	return http.request<{{.Response}}>({
 		url: ` + "`/api/v1/{{.Url}}`" + `,
 		method: "{{ .Method }}",
@@ -24,7 +24,7 @@ export function {{ .FunctionName }}(` + PathTpl + BodyTpl + `): Promise<{{.Respo
 		{{- end }}
 	})
 }
-{{ end }}
+{{ end -}}
 `
 
 const ModelTypeScript = `
@@ -36,6 +36,7 @@ interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
 }
 {{ end }}
 `
+const ParamsTpl = `{{- .Request -}}`
 
 const PathTpl = `{{- if .Path -}}
 	{{- range .Path -}}
@@ -44,9 +45,5 @@ const PathTpl = `{{- if .Path -}}
 {{- end -}}`
 
 const BodyTpl = `{{- if .Body -}}
-	{{ .Body.Name }}?: {{ .Body.Type }}
-{{- end -}}`
-
-const DataTpl = `{{- if .Body -}}
 	{{ .Body.Name }}?: {{ .Body.Type }}
 {{- end -}}`
