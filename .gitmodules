@@ -1,3 +1,0 @@
-[submodule "submodule/go-sdk"]
-	path = submodule/go-sdk
-	url = https://github.com/ve-weiyi/go-sdk.git
