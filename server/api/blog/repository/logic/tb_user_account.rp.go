@@ -25,7 +25,7 @@ func (s *UserAccountRepository) Logoff(ctx context.Context, id int) (data any, e
 	db.Where("id = ?", id).First(&account)
 
 	// 删除用户
-	account.Status = constant.StatusDisable
+	account.Status = constant.UserStatusDisabled
 	db.Save(&account)
 
 	// 提交事务

@@ -91,7 +91,7 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Article id"
+// @Param 	 	id		path		int					true		"Article id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/article/{id} [delete]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Article id"
+// @Param 	 	id		path		int									true		"Article id"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router 		/article/{id} [get]
 func (s *ArticleController) FindArticle(c *gin.Context) {

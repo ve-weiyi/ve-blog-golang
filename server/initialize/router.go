@@ -44,8 +44,9 @@ func Routers() *gin.Engine {
 
 	//公开接口，不需要token
 	publicGroup := Router.Group(global.CONFIG.System.RouterPrefix)
-	publicGroup.Use(middleware.GinLogger())
+	//publicGroup.Use(middleware.GinLogger())
 	publicGroup.Use(middleware.LimitIP())
+	publicGroup.Use(middleware.OperationRecord())
 	{
 		// 健康监测
 		publicGroup.GET("/version", func(c *gin.Context) {
@@ -55,7 +56,7 @@ func Routers() *gin.Engine {
 	// 后台接口，需要token和角色认证，
 	adminGroup := Router.Group(global.CONFIG.System.RouterPrefix)
 	// 日志收集
-	adminGroup.Use(middleware.GinLogger())
+	//adminGroup.Use(middleware.GinLogger())
 	// 限制IP
 	adminGroup.Use(middleware.LimitIP())
 	// 鉴权中间件

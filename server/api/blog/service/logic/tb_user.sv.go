@@ -66,8 +66,6 @@ func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *
 	userinfo := &response.UserDetail{
 		ID:            account.ID,
 		Username:      account.Username,
-		Status:        account.Status,
-		CreatedAt:     account.CreatedAt.Format(time.DateTime),
 		Nickname:      info.Nickname,
 		Avatar:        info.Avatar,
 		Intro:         info.Intro,

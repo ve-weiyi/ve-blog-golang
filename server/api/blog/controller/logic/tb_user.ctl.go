@@ -28,7 +28,7 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 // @Accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/user/menus [post]
+// @Router		/user/menus [get]
 func (s *UserController) GetUserMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -51,7 +51,7 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 // @Accept		application/json
 // @Produce		application/json
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/user/apis [post]
+// @Router		/user/apis [get]
 func (s *UserController) GetUserApis(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

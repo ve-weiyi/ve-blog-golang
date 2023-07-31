@@ -79,12 +79,11 @@ func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, 
 	//}
 
 	reqCtx := &request.Context{}
+	reqCtx.Token = ctx.Request.Header.Get("Authorization")
 	reqCtx.UID = ctx.GetInt("uid")
 	reqCtx.Username = ctx.GetString("username")
-
-	reqCtx.Token = ctx.Request.Header.Get("Authorization")
-	reqCtx.IpAddress = ctx.ClientIP()
-	reqCtx.IpSource = ctx.ClientIP()
+	reqCtx.IpAddress = ctx.GetString("ip_address")
+	reqCtx.IpSource = ctx.GetString("ip_source")
 	reqCtx.Context = ctx.Request.Context()
 	return reqCtx, nil
 }

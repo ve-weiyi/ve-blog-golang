@@ -91,7 +91,7 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Comment id"
+// @Param 	 	id		path		int					true		"Comment id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/comment/{id} [delete]
 func (s *CommentController) DeleteComment(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Comment id"
+// @Param 	 	id		path		int									true		"Comment id"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
 // @Router 		/comment/{id} [get]
 func (s *CommentController) FindComment(c *gin.Context) {

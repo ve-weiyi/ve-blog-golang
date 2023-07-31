@@ -21,13 +21,13 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 	var handler = s.svcCtx.AppController.UserController
 	{
-		loginRouter.GET("user/info", handler.GetUserInfo)              // 用户信息
 		loginRouter.GET("user/login_history", handler.GetLoginHistory) // 用户信息
+		loginRouter.GET("user/info", handler.GetUserInfo)              // 用户信息
 		loginRouter.GET("user/menus", handler.GetUserMenus)            // 用户菜单
 		loginRouter.GET("user/apis", handler.GetUserApis)              // 用户资源
 
-		loginRouter.POST("user/avatar", handler.UpdateUserAvatar) // 更新用户头像
 		loginRouter.POST("user/info", handler.UpdateUserInfo)     // 更新用户信息
+		loginRouter.POST("user/avatar", handler.UpdateUserAvatar) // 更新用户头像
 		loginRouter.POST("user/status", handler.UpdateUserInfo)   // 更新用户信息
 
 		// 管理员操作

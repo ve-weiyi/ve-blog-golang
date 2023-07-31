@@ -27,7 +27,7 @@ func NewUploadController(svcCtx *svc.ControllerContext) *UploadController {
 // @Param		label	path		string							true	"标签"
 // @Param		file	formData	file							true	"文件"
 // @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
-// @Router		/upload/:label [post]
+// @Router		/upload/{label} [post]
 func (s *UploadController) UploadFile(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

@@ -93,37 +93,6 @@ func ExtractIdents(node dst.Node) []*dst.Ident {
 	return idents
 }
 
-func ExtractSelectors(node dst.Node) []*dst.SelectorExpr {
-	var selectors []*dst.SelectorExpr
-
-	switch n := node.(type) {
-	case *dst.AssignStmt:
-		log.Printf("default %T", n)
-		return ExtractSelectors(n.Rhs[0])
-	case *dst.ArrayType:
-		return ExtractSelectors(n.Elt)
-	case *dst.SelectorExpr:
-		log.Println("SelectorExpr", n.Sel.Name)
-		selectors = append(selectors, n)
-		selectors = append(selectors, ExtractSelectors(n.X)...)
-	case *dst.KeyValueExpr:
-		log.Println("KeyValueExpr", n.Key)
-		selectors = append(selectors, ExtractSelectors(n.Key)...)
-		selectors = append(selectors, ExtractSelectors(n.Value)...)
-	case *dst.CompositeLit:
-		log.Printf("CompositeLit %T", n.Type)
-		selectors = append(selectors, ExtractSelectors(n.Type)...)
-		for _, elt := range n.Elts {
-			selectors = append(selectors, ExtractSelectors(elt)...)
-		}
-	default:
-		// For other node types, just continue searching for selectors in their children.
-		log.Printf("default %T", n)
-	}
-
-	return selectors
-}
-
 func insertStatements(stmts []dst.Stmt, pos int, toInsert ...dst.Stmt) []dst.Stmt {
 	return append(stmts[:pos], append(toInsert, stmts[pos:]...)...)
 }

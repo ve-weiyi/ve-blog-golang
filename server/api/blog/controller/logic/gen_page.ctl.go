@@ -91,7 +91,7 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Page id"
+// @Param 	 	id		path		int					true		"Page id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/page/{id} [delete]
 func (s *PageController) DeletePage(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *PageController) DeletePage(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Page id"
+// @Param 	 	id		path		int									true		"Page id"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
 // @Router 		/page/{id} [get]
 func (s *PageController) FindPage(c *gin.Context) {

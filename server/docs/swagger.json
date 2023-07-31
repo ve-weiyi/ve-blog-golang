@@ -78,19 +78,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -120,7 +120,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -173,7 +173,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -181,19 +181,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -220,19 +220,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -262,7 +262,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -415,7 +415,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -468,7 +468,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -476,19 +476,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -576,19 +576,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -618,7 +618,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -626,19 +626,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -777,19 +777,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -819,7 +819,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -936,19 +936,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1076,7 +1076,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1137,19 +1137,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1179,7 +1179,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1294,7 +1294,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1411,19 +1411,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1461,19 +1461,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1500,19 +1500,19 @@
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1539,19 +1539,19 @@
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1581,7 +1581,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1755,19 +1755,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1797,7 +1797,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1914,19 +1914,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -1950,15 +1950,15 @@
                 ],
                 "summary": "查询聊天记录",
                 "parameters": [
-                  {
-                    "description": "分页信息",
-                    "name": "page",
-                    "in": "body",
-                    "required": true,
-                    "schema": {
-                      "$ref": "#/definitions/request.PageQuery"
+                    {
+                        "description": "分页信息",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageQuery"
+                        }
                     }
-                  }
                 ],
                 "responses": {
                     "200": {
@@ -2115,19 +2115,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -2157,7 +2157,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2274,134 +2274,139 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
             }
         },
-      "/comment/{id}/like": {
-        "post": {
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "tags": [
-            "Comment"
-          ],
-          "summary": "点赞评论",
-          "parameters": [
-            {
-              "description": "请求body",
-              "name": "data",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/entity.Comment"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "返回信息",
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/response.Response"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "data": {
-                        "$ref": "#/definitions/entity.Comment"
-                      }
+        "/comment/{id}/like": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
                     }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "/comment/{id}/reply_list": {
-        "post": {
-          "security": [
-            {
-              "ApiKeyAuth": []
-            }
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "tags": [
-            "Comment"
-          ],
-          "summary": "查询评论回复列表",
-          "parameters": [
-            {
-              "description": "请求body",
-              "name": "page",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/request.PageQuery"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "返回信息",
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/definitions/response.Response"
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "data": {
-                        "$ref": "#/definitions/entity.Comment"
-                      }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "点赞评论",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
-                  }
-                ]
-              }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
-          }
-        }
-      },
-      "/comments": {
-        "post": {
-          "security": [
-            {
-              "ApiKeyAuth": []
+        },
+        "/comment/{id}/reply_list": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "查询评论回复列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "请求body",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
-          ],
-          "consumes": [
-            "application/json"
-          ],
+        },
+        "/comments": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -2416,7 +2421,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2448,6 +2453,106 @@
                                                     }
                                                 }
                                             ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/forget/password": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "发送忘记密码邮件",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserEmail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/forget/reset_password": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "重置密码",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ResetPasswordReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -2590,19 +2695,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -2632,7 +2737,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2749,19 +2854,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -2799,19 +2904,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -2838,19 +2943,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -2877,19 +2982,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -3028,19 +3133,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -3070,7 +3175,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3187,19 +3292,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -3438,19 +3543,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -3480,7 +3585,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3597,19 +3702,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -3748,19 +3853,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -3790,7 +3895,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3907,19 +4012,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4058,19 +4163,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4100,7 +4205,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -4217,19 +4322,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4368,19 +4473,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4410,7 +4515,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -4527,19 +4632,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4577,19 +4682,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4627,19 +4732,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4778,19 +4883,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -4820,7 +4925,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -4937,19 +5042,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -5088,19 +5193,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -5130,7 +5235,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -5247,19 +5352,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -5398,19 +5503,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -5440,7 +5545,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -5557,19 +5662,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -5708,19 +5813,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -5750,7 +5855,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -5867,25 +5972,25 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
             }
         },
-        "/upload/:label": {
+        "/upload/{label}": {
             "post": {
                 "security": [
                     {
@@ -5961,19 +6066,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -6050,19 +6155,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -6140,7 +6245,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                          "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -6148,19 +6253,19 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
                                 }
-                              }
-                            }
-                          ]
+                            ]
                         }
                     }
                 }
@@ -6187,106 +6292,6 @@
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
-                                }
-                              }
-                            }
-                          ]
-                        }
-                    }
-                }
-            }
-        },
-        "/user/password/forget": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "发送忘记密码邮件",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.UserEmail"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                          "allOf": [
-                            {
-                              "$ref": "#/definitions/response.Response"
-                            },
-                            {
-                              "type": "object",
-                              "properties": {
-                                "data": {
-                                  "type": "object"
-                                }
-                              }
-                            }
-                          ]
-                        }
-                    }
-                }
-            }
-        },
-        "/user/password/reset": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "重置密码",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.ResetPasswordReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -6295,7 +6300,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                          "type": "object"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -6333,32 +6338,32 @@
                 },
                 "method": {
                     "description": "api请求方法",
-                  "type": "string"
+                    "type": "string"
                 },
-              "name": {
-                "description": "api名称",
-                "type": "string"
-              },
-              "parent_id": {
-                "description": "分组id",
-                "type": "integer"
-              },
-              "path": {
-                "description": "api路径",
-                "type": "string"
-              },
-              "status": {
-                "description": "状态 1开，2关",
-                "type": "integer"
-              },
-              "traceable": {
-                "description": "是否追溯操作记录 0需要，1是",
-                "type": "integer"
-              },
-              "updated_at": {
-                "description": "更新时间",
-                "type": "string"
-              }
+                "name": {
+                    "description": "api名称",
+                    "type": "string"
+                },
+                "parent_id": {
+                    "description": "分组id",
+                    "type": "integer"
+                },
+                "path": {
+                    "description": "api路径",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态 1开，2关",
+                    "type": "integer"
+                },
+                "traceable": {
+                    "description": "是否追溯操作记录 0需要，1是",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                }
             }
         },
         "entity.Article": {
@@ -6611,78 +6616,78 @@
         "entity.OperationLog": {
             "type": "object",
             "properties": {
-              "cost": {
-                "description": "耗时（ms）",
-                "type": "string"
-              },
-              "created_at": {
-                "description": "创建时间",
-                "type": "string"
-              },
-              "id": {
-                "description": "主键id",
-                "type": "integer"
-              },
-              "ip_address": {
-                "description": "操作ip",
-                "type": "string"
-              },
-              "ip_source": {
-                "description": "操作地址",
-                "type": "string"
-              },
-              "nickname": {
-                "description": "用户昵称",
-                "type": "string"
-              },
-              "opt_desc": {
-                "description": "操作描述",
-                "type": "string"
-              },
-              "opt_method": {
-                "description": "操作方法",
-                "type": "string"
-              },
-              "opt_module": {
-                "description": "操作模块",
-                "type": "string"
-              },
-              "opt_type": {
-                "description": "操作类型",
-                "type": "string"
-              },
-              "request_header": {
-                "description": "请求头",
-                "type": "string"
-              },
-              "request_method": {
-                "description": "请求方式",
-                "type": "string"
-              },
-              "request_param": {
-                "description": "请求参数",
-                "type": "string"
-              },
-              "request_url": {
-                "description": "操作url",
-                "type": "string"
-              },
-              "response_data": {
-                "description": "返回数据",
-                "type": "string"
-              },
-              "status": {
-                "description": "响应状态码",
-                "type": "integer"
-              },
-              "updated_at": {
-                "description": "更新时间",
-                "type": "string"
-              },
-              "user_id": {
-                "description": "用户id",
-                "type": "integer"
-              }
+                "cost": {
+                    "description": "耗时（ms）",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "ip_address": {
+                    "description": "操作ip",
+                    "type": "string"
+                },
+                "ip_source": {
+                    "description": "操作地址",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "opt_desc": {
+                    "description": "操作描述",
+                    "type": "string"
+                },
+                "opt_method": {
+                    "description": "操作方法",
+                    "type": "string"
+                },
+                "opt_module": {
+                    "description": "操作模块",
+                    "type": "string"
+                },
+                "opt_type": {
+                    "description": "操作类型",
+                    "type": "string"
+                },
+                "request_header": {
+                    "description": "请求头",
+                    "type": "string"
+                },
+                "request_method": {
+                    "description": "请求方式",
+                    "type": "string"
+                },
+                "request_param": {
+                    "description": "请求参数",
+                    "type": "string"
+                },
+                "request_url": {
+                    "description": "操作url",
+                    "type": "string"
+                },
+                "response_data": {
+                    "description": "返回数据",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "响应状态码",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "integer"
+                }
             }
         },
         "entity.Page": {
@@ -7116,37 +7121,37 @@
                 },
                 "platform": {
                     "description": "平台",
-                  "type": "string",
-                  "example": ""
+                    "type": "string",
+                    "example": ""
                 },
-              "state": {
-                "description": "状态",
-                "type": "string",
-                "example": ""
-              }
+                "state": {
+                    "description": "状态",
+                    "type": "string",
+                    "example": ""
+                }
             }
         },
-      "request.PageQuery": {
-        "type": "object",
-        "properties": {
-          "conditions": {
-            "description": "使用条件语句查询",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/request.Condition"
-            }
-          },
-          "page": {
-            "description": "页码",
-            "type": "integer"
-          },
-          "page_size": {
-            "description": "每页大小",
-            "type": "integer"
-          },
-          "sorts": {
-            "description": "排序",
-            "type": "array",
+        "request.PageQuery": {
+            "type": "object",
+            "properties": {
+                "conditions": {
+                    "description": "使用条件语句查询",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.Condition"
+                    }
+                },
+                "page": {
+                    "description": "页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页大小",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/request.Sort"
                     }

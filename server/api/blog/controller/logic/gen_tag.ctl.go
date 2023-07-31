@@ -91,7 +91,7 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Tag id"
+// @Param 	 	id		path		int					true		"Tag id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/tag/{id} [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Tag id"
+// @Param 	 	id		path		int									true		"Tag id"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
 // @Router 		/tag/{id} [get]
 func (s *TagController) FindTag(c *gin.Context) {

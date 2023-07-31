@@ -91,7 +91,7 @@ func (s *TalkController) UpdateTalk(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Talk id"
+// @Param 	 	id		path		int					true		"Talk id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/talk/{id} [delete]
 func (s *TalkController) DeleteTalk(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *TalkController) DeleteTalk(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Talk id"
+// @Param 	 	id		path		int									true		"Talk id"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
 // @Router 		/talk/{id} [get]
 func (s *TalkController) FindTalk(c *gin.Context) {

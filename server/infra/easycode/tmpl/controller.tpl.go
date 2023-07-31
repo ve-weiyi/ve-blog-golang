@@ -131,7 +131,7 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"{{.StructName}} id"
+// @Param 	 	id		path		int					true		"{{.StructName}} id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/{{.JsonName}}/{id} [delete]
 func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
@@ -162,7 +162,7 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"{{.StructName}} id"
+// @Param 	 	id		path		int									true		"{{.StructName}} id"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
 // @Router 		/{{.JsonName}}/{id} [get]
 func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
@@ -224,7 +224,7 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.{{.StructName}}}}	"返回信息"
 // @Router		/{{.JsonName}}/list [post]
 func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
@@ -234,7 +234,7 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

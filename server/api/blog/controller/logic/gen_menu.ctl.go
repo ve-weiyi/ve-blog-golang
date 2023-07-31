@@ -91,7 +91,7 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Menu id"
+// @Param 	 	id		path		int					true		"Menu id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/menu/{id} [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Menu id"
+// @Param 	 	id		path		int									true		"Menu id"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
 // @Router 		/menu/{id} [get]
 func (s *MenuController) FindMenu(c *gin.Context) {

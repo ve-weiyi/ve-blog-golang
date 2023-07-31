@@ -6,10 +6,9 @@ import (
 )
 
 type User struct {
-	Username  string `json:"username" from:"username" example:"admin@qq.com"`
-	Password  string `json:"password" from:"password" example:"123456"`
-	Code      string `json:"code" from:"code" example:""`
-	LoginType string `json:"-" from:"-" example:""` // 登录类型
+	Username string `json:"username" from:"username" example:"admin@qq.com"`
+	Password string `json:"password" from:"password" example:"123456"`
+	Code     string `json:"code" from:"code" example:""`
 }
 
 func (m User) IsValid() error {

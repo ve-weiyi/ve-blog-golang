@@ -91,7 +91,7 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Api id"
+// @Param 	 	id		path		int					true		"Api id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/api/{id} [delete]
 func (s *ApiController) DeleteApi(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Api id"
+// @Param 	 	id		path		int									true		"Api id"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
 // @Router 		/api/{id} [get]
 func (s *ApiController) FindApi(c *gin.Context) {
@@ -138,7 +138,7 @@ func (s *ApiController) FindApi(c *gin.Context) {
 		s.ResponseError(c, err)
 		return
 	}
-	s.Log.Println("id", id)
+
 	data, err := s.svcCtx.ApiService.FindApi(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)

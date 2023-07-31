@@ -91,7 +91,7 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Role id"
+// @Param 	 	id		path		int					true		"Role id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/role/{id} [delete]
 func (s *RoleController) DeleteRole(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Role id"
+// @Param 	 	id		path		int									true		"Role id"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
 // @Router 		/role/{id} [get]
 func (s *RoleController) FindRole(c *gin.Context) {

@@ -13,7 +13,7 @@ type PageResult struct {
 	Total    int64       `json:"total"`
 }
 
-type PageInfo struct {
+type PageQuery struct {
 	Page     int   `json:"page"`
 	PageSize int   `json:"page_size"`
 	Total    int64 `json:"total"`

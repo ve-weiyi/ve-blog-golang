@@ -91,7 +91,7 @@ func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"OperationLog id"
+// @Param 	 	id		path		int					true		"OperationLog id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/operation_log/{id} [delete]
 func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"OperationLog id"
+// @Param 	 	id		path		int									true		"OperationLog id"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
 // @Router 		/operation_log/{id} [get]
 func (s *OperationLogController) FindOperationLog(c *gin.Context) {

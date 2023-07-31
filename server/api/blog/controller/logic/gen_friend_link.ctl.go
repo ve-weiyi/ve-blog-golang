@@ -91,7 +91,7 @@ func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"FriendLink id"
+// @Param 	 	id		path		int					true		"FriendLink id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/friend_link/{id} [delete]
 func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"FriendLink id"
+// @Param 	 	id		path		int									true		"FriendLink id"
 // @Success		200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
 // @Router 		/friend_link/{id} [get]
 func (s *FriendLinkController) FindFriendLink(c *gin.Context) {

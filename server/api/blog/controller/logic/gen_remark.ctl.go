@@ -91,7 +91,7 @@ func (s *RemarkController) UpdateRemark(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Remark id"
+// @Param 	 	id		path		int					true		"Remark id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/remark/{id} [delete]
 func (s *RemarkController) DeleteRemark(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *RemarkController) DeleteRemark(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Remark id"
+// @Param 	 	id		path		int									true		"Remark id"
 // @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
 // @Router 		/remark/{id} [get]
 func (s *RemarkController) FindRemark(c *gin.Context) {

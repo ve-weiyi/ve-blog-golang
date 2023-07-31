@@ -91,7 +91,7 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string					true		"Category id"
+// @Param 	 	id		path		int					true		"Category id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/category/{id} [delete]
 func (s *CategoryController) DeleteCategory(c *gin.Context) {
@@ -122,7 +122,7 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	id		path		string								true		"Category id"
+// @Param 	 	id		path		int									true		"Category id"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
 // @Router 		/category/{id} [get]
 func (s *CategoryController) FindCategory(c *gin.Context) {

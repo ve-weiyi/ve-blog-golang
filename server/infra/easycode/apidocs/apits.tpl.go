@@ -7,22 +7,22 @@ const ApiTypeScript = `
 
 {{- range .ModelDeclares }}
 interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
-	{{- range .Fields }}
-    {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
-    {{- end }}
+  {{- range .Fields }}
+  {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
+  {{- end }}
 }
 {{ end }}
 
 {{- range .ApiDeclares }}
 /** {{ .Summary }} */
 export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
-	return http.request<{{.Response}}>({
-		url: ` + "`/api/v1/{{.Url}}`" + `,
-		method: "{{ .Method }}",
-		{{- if .Body }}
-		data: {{ .Body.Name }},
-		{{- end }}
-	})
+  return http.request<{{.Response}}>({
+    url: ` + "`/api/v1/{{.Url}}`" + `,
+    method: "{{ .Method }}",
+    {{- if .Body }}
+    data: {{ .Body.Name }},
+    {{- end }}
+  })
 }
 {{ end -}}
 `
@@ -30,7 +30,7 @@ export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
 const ModelTypeScript = `
 {{- range .}}
 interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
-	{{- range .Fields }}
+  {{- range .Fields }}
     {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
     {{- end }}
 }
@@ -39,11 +39,11 @@ interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
 const ParamsTpl = `{{- .Request -}}`
 
 const PathTpl = `{{- if .Path -}}
-	{{- range .Path -}}
-	{{ .Name }}?: {{ .Type }}
-	{{- end -}}
+  {{- range .Path -}}
+  {{ .Name }}?: {{ .Type }}
+  {{- end -}}
 {{- end -}}`
 
 const BodyTpl = `{{- if .Body -}}
-	{{ .Body.Name }}?: {{ .Body.Type }}
+  {{ .Body.Name }}?: {{ .Body.Type }}
 {{- end -}}`

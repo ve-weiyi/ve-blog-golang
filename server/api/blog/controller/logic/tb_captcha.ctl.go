@@ -56,7 +56,8 @@ func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Success		200	{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Param		data	body		request.Captcha		true	"请求body"
+// @Success		200		{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/image [post]
 func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
 	err := s.LimitLock(c)
@@ -92,7 +93,8 @@ func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
 // @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Success		200	{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Param		data	body		request.CaptchaVerify	true	"请求body"
+// @Success		200		{object}	response.Response{data=any}		"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/verify [post]
 func (s *CaptchaController) VerifyCaptcha(c *gin.Context) {
 	err := s.LimitLock(c)
