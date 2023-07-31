@@ -78,15 +78,6 @@ func (s *{{.StructName}}Repository) Create{{.StructName}}(ctx context.Context, {
 	return {{.ValueName}}, err
 }
 
-// 删除{{.StructName}}记录
-func (s *{{.StructName}}Repository) Delete{{.StructName}}(ctx context.Context, {{.ValueName}} *entity.{{.StructName}}) (rows int64, err error) {
-	db:= s.DbEngin	
-	query := db.Delete(&{{.ValueName}})
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新{{.StructName}}记录
 func (s *{{.StructName}}Repository) Update{{.StructName}}(ctx context.Context, {{.ValueName}} *entity.{{.StructName}}) (out *entity.{{.StructName}}, err error) {
 	db:= s.DbEngin	
@@ -97,8 +88,17 @@ func (s *{{.StructName}}Repository) Update{{.StructName}}(ctx context.Context, {
 	return {{.ValueName}}, err
 }
 
+// 删除{{.StructName}}记录
+func (s *{{.StructName}}Repository) Delete{{.StructName}}(ctx context.Context, id int) (rows int64, err error) {
+	db:= s.DbEngin	
+	query := db.Delete(&entity.{{.StructName}}{}, "id = ?", id)
+	err = query.Error
+	rows = query.RowsAffected
+	return rows, err
+}
+
 // 查询{{.StructName}}记录
-func (s *{{.StructName}}Repository) Get{{.StructName}}(ctx context.Context, id int) (out *entity.{{.StructName}}, err error) {
+func (s *{{.StructName}}Repository) Find{{.StructName}}(ctx context.Context, id int) (out *entity.{{.StructName}}, err error) {
 	db:= s.DbEngin	
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
@@ -110,14 +110,14 @@ func (s *{{.StructName}}Repository) Get{{.StructName}}(ctx context.Context, id i
 // 批量删除{{.StructName}}记录
 func (s *{{.StructName}}Repository) Delete{{.StructName}}ByIds(ctx context.Context, ids []int) (rows int64, err error) {
 	db:= s.DbEngin	
-	query := db.Delete(&[]entity.{{.StructName}}{}, "id in ?", ids)
+	query := db.Delete(&entity.{{.StructName}}{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err
 }
 
 // 分页查询{{.StructName}}记录
-func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context, page *request.PageInfo) (list []*entity.{{.StructName}}, total int64, err error) {
+func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -128,7 +128,7 @@ func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context,
 	}
 
 	// 如果有排序参数
-	if len(page.Orders) != 0 {
+	if len(page.Sorts) != 0 {
 		db = db.Order(page.OrderClause())
 	}
 

@@ -57,9 +57,9 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				}
 				c.AbortWithStatusJSON(http.StatusInternalServerError,
 					response.Response{
-						Code: 504,
-						Msg:  "系统错误",
-						Data: nil,
+						Code:    504,
+						Message: "系统错误",
+						Data:    nil,
 					})
 				return
 			}

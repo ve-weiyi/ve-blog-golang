@@ -70,9 +70,11 @@ func (c *Column) ToField(cfg *field.FieldConfig) *Field {
 		Name:             c.Name(),
 		FieldName:        cfg.FieldNameNS(c.ColumnName),
 		FieldType:        fieldType,
+		FieldJsonName:    cfg.FieldJsonNS(c.ColumnName),
+		FieldValueName:   cfg.FieldValueNS(c.ColumnName),
 		ColumnComment:    comment,
 		MultilineComment: false,
-		Tag:              map[string]string{field.TagKeyJson: cfg.FieldJSONTagNS(c.Name())},
+		Tag:              map[string]string{field.TagKeyJson: cfg.FieldJsonNS(c.Name())},
 		GORMTag:          c.buildGormTag(),
 	}
 }
