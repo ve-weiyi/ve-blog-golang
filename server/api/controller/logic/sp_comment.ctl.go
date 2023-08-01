@@ -16,7 +16,7 @@ import (
 // @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
-// @Router		/comments [post]
+// @Router		/comment/list/details [post]
 func (s *CommentController) FindCommentDetailList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -53,7 +53,7 @@ func (s *CommentController) FindCommentDetailList(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/comments [post]
+// @Router		/comment/list/back [post]
 func (s *CommentController) FindCommentBackList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

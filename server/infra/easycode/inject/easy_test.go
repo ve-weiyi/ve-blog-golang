@@ -44,7 +44,7 @@ func TestInject(t *testing.T) {
 		var handler = s.svcCtx.AppController.MenuController
 	
 		{
-			loginRouter.POST("admin/menus", handler.GetMenus) // 获取Menu列表
+			loginRouter.POST("menus", handler.GetMenus) // 获取Menu列表
 		}
 	}`),
 		},
@@ -75,7 +75,7 @@ func TestNewAst(t *testing.T) {
 		var handler = s.svcCtx.AppController.MenuController
 	
 		{
-			loginRouter.POST("admin/menus", handler.GetMenus) // 获取Menu列表
+			loginRouter.POST("menus", handler.GetMenus) // 获取Menu列表
 		}
 	}`)
 

@@ -66,7 +66,6 @@ func Routers() *gin.Engine {
 	{
 		blogRouter.BlogRouter.InitBlogRouter(publicGroup, adminGroup)
 		blogRouter.AuthRouter.InitAuthRouter(publicGroup, adminGroup)
-		blogRouter.AdminRouter.InitAdminRouter(publicGroup, adminGroup)
 		blogRouter.UserRouter.InitUserRouter(publicGroup, adminGroup)
 		blogRouter.ApiRouter.InitApiRouter(publicGroup, adminGroup)
 		blogRouter.MenuRouter.InitMenuRouter(publicGroup, adminGroup)

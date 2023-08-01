@@ -750,7 +750,6 @@ paths:
       summary: 关于我
       tags:
         - Blog
-  /admin/about:
     post:
       consumes:
         - application/json
@@ -777,381 +776,7 @@ paths:
                 type: object
       summary: 更新我的信息
       tags:
-        - Admin
-  /admin/apis:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页参数
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    items:
-                      $ref: '#/definitions/entity.Api'
-                    type: array
-                type: object
-      summary: 获取api列表
-      tags:
-        - Api
-  /admin/comments:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页参数
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    type: object
-                type: object
-      summary: 获取用户评论列表
-      tags:
-        - Comment
-  /admin/home:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    type: object
-                type: object
-      summary: 获取用户地区
-      tags:
-        - Admin
-  /admin/menus:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页参数
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/entity.Menu'
-                  type: array
-              type: object
-      summary: 获取菜单列表
-      tags:
-        - Menu
-  /admin/role/update_menus:
-    post:
-      consumes:
-      - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 创建角色
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Role'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
-      summary: 更新角色菜单
-      tags:
-        - Role
-  /admin/role/update_resources:
-    post:
-      consumes:
-      - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 创建角色
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Role'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
-      summary: 更新角色资源
-      tags:
-        - Role
-  /admin/roles:
-    post:
-      consumes:
-      - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页参数
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    items:
-                      $ref: '#/definitions/entity.Role'
-                    type: array
-                type: object
-      summary: 获取角色列表
-      tags:
-        - Role
-  /admin/user/areas:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页参数
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    type: object
-                type: object
-      summary: 获取用户地区
-      tags:
-        - User
-  /admin/user/update_roles:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 请求数据
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/request.UpdateUserRoles'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    $ref: '#/definitions/entity.Role'
-                type: object
-      summary: 修改用户角色
-      tags:
-        - User
-  /admin/user/update_status:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 请求数据
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.UserAccount'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    type: object
-                type: object
-      summary: 修改用户状态
-      tags:
-        - User
-  /admin/users:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页参数
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    type: object
-                type: object
-      summary: 获取用户列表
-      tags:
-        - User
+        - Blog
   /api:
     post:
       consumes:
@@ -1359,6 +984,42 @@ paths:
                       type: object
               type: object
       summary: 分页获取接口列表
+      tags:
+        - Api
+  /apis:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/entity.Api'
+                    type: array
+                type: object
+      summary: 获取api列表
       tags:
         - Api
   /article:
@@ -2350,7 +2011,41 @@ paths:
       summary: 分页获取评论列表
       tags:
         - Comment
-  /comments:
+  /comment/list/back:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
+      summary: 获取用户评论列表
+      tags:
+        - Comment
+  /comment/list/details:
     post:
       consumes:
         - application/json
@@ -2668,6 +2363,34 @@ paths:
       summary: 分页获取友链列表
       tags:
         - FriendLink
+  /home:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
+      summary: 获取后台首页信息
+      tags:
+        - Blog
   /login:
     post:
       consumes:
@@ -2965,6 +2688,42 @@ paths:
                         type: object
                 type: object
       summary: 分页获取菜单列表
+      tags:
+        - Menu
+  /menus:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/entity.Menu'
+                    type: array
+                type: object
+      summary: 获取菜单列表
       tags:
         - Menu
   /oauth/login:
@@ -4357,6 +4116,110 @@ paths:
       summary: 分页获取角色列表
       tags:
         - Role
+  /role/update_menus:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 创建角色
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Role'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Role'
+                type: object
+      summary: 更新角色菜单
+      tags:
+        - Role
+  /role/update_resources:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 创建角色
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Role'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Role'
+                type: object
+      summary: 更新角色资源
+      tags:
+        - Role
+  /roles:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    items:
+                      $ref: '#/definitions/entity.Role'
+                    type: array
+                type: object
+      summary: 获取角色列表
+      tags:
+        - Role
   /tag:
     post:
       consumes:
@@ -4843,6 +4706,40 @@ paths:
       summary: 获取用户接口权限
       tags:
         - User
+  /user/areas:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
+      summary: 获取用户地区
+      tags:
+        - User
   /user/avatar:
     post:
       consumes:
@@ -5002,6 +4899,108 @@ paths:
                     type: object
                 type: object
       summary: 获取用户菜单权限
+      tags:
+        - User
+  /user/update_roles:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 请求数据
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.UpdateUserRoles'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Role'
+                type: object
+      summary: 修改用户角色
+      tags:
+        - User
+  /user/update_status:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 请求数据
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.UserAccount'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
+      summary: 修改用户状态
+      tags:
+        - User
+  /users:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
+      summary: 获取用户列表
       tags:
         - User
   /ws:

@@ -9,7 +9,7 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 	s.InitApiGenRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.ApiController
 	{
-		loginRouter.POST("admin/apis", handler.GetApis) // 获取Api列表
+		loginRouter.POST("apis", handler.GetApis) // 获取Api列表
 	}
 }
 
@@ -34,8 +34,8 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 	{
 		publicRouter.POST("comment/:id/like", handler.LikeComment)                // 点赞评论
 		publicRouter.POST("comment/:id/reply_list", handler.FindCommentReplyList) // 分页查询Comment列表
-		publicRouter.POST("comments", handler.FindCommentDetailList)              // 分页查询Comment列表
-		publicRouter.POST("admin/comments", handler.FindCommentBackList)          // 分页查询Comment列表
+		publicRouter.POST("comment/list/details", handler.FindCommentDetailList)  // 分页查询Comment列表
+		publicRouter.POST("comment/list/back", handler.FindCommentBackList)       // 分页查询Comment列表
 	}
 }
 

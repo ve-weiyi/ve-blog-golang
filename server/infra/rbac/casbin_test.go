@@ -68,25 +68,25 @@ func TestCasbin(t *testing.T) {
 	//log.Println("-->", force)
 
 	//为角色添加规则
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/roles", "GET")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/list", "GET")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/create", "POST")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/update", "PUT")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/delete", "DELETE")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/update_menus", "POST")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/role/update_resources", "POST")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/roles", "GET")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/role/list", "GET")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/role/create", "POST")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/role/update", "PUT")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/role/delete", "DELETE")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/role/update_menus", "POST")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/role/update_resources", "POST")
 
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/user/list", "GET")
-	enforcer.AddPolicy("admin", "blog", "/api/v1/admin/user/update_roles", "POST")
-	log.Println(enforcer.Enforce("admin", "blog", "/api/v1/admin/user/update_roles", "POST"))
+	enforcer.AddPolicy("admin", "blog", "/api/v1/user/list", "GET")
+	enforcer.AddPolicy("admin", "blog", "/api/v1/user/update_roles", "POST")
+	log.Println(enforcer.Enforce("admin", "blog", "/api/v1/user/update_roles", "POST"))
 
 	//为用户添加角色
 	//enforcer.AddRoleForUserInDomain("ve", "admin", "blog")
-	//log.Println(enforcer.Enforce("ve", "blog", "/api/v1/admin/role/list", "GET"))
+	//log.Println(enforcer.Enforce("ve", "blog", "/api/v1/role/list", "GET"))
 
 	//为用户添加单独的权限
-	//enforcer.AddPermissionForUser("hi", "blog", "/api/v1/admin/role/list", "GET")
-	//log.Println(enforcer.Enforce("hi", "blog", "/api/v1/admin/role/list", "GET"))
+	//enforcer.AddPermissionForUser("hi", "blog", "/api/v1/role/list", "GET")
+	//log.Println(enforcer.Enforce("hi", "blog", "/api/v1/role/list", "GET"))
 
 	log.Println("-->", enforcer.GetPolicy())
 	log.Println("-->", enforcer.GetAllSubjects())

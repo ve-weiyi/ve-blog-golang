@@ -205,7 +205,7 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/users [post]
+// @Router		/users [post]
 func (s *UserController) GetUserList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -242,7 +242,7 @@ func (s *UserController) GetUserList(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/user/areas [post]
+// @Router		/user/areas [post]
 func (s *UserController) GetUserAreas(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -279,7 +279,7 @@ func (s *UserController) GetUserAreas(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.UserAccount			true	"请求数据"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/user/update_status [post]
+// @Router		/user/update_status [post]
 func (s *UserController) UpdateUserStatus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -311,7 +311,7 @@ func (s *UserController) UpdateUserStatus(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.UpdateUserRoles				true	"请求数据"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/admin/user/update_roles [post]
+// @Router		/user/update_roles [post]
 func (s *UserController) UpdateUserRoles(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
