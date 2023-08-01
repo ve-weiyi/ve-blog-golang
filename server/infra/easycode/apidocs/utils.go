@@ -9,8 +9,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ve-weiyi/go-sdk/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/east"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 )
 
 func ParseApiDocsByRoot(root string) []*ApiDeclare {

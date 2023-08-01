@@ -9,7 +9,7 @@ import (
 
 	"github.com/mojocn/base64Captcha"
 
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func TestRedisStore_RandCode(t *testing.T) {

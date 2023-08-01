@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 
 	"github.com/jordan-wright/email"
 )
