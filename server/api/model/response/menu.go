@@ -1,12 +1,12 @@
 package response
 
 type UserMenu struct {
-	Id        int
-	Name      string
-	Path      string
-	Component string
-	Icon      string
-	Rank      int
-	IsHidden  bool
-	Children  []UserMenu
+	Id        int        `json:"id"`
+	Name      string     `json:"name"`
+	Path      string     `json:"path"`
+	Component string     `json:"component"`
+	Icon      string     `json:"icon"`
+	Rank      int        `json:"rank"`
+	IsHidden  bool       `json:"is_hidden"`
+	Children  []UserMenu `json:"children"`
 }

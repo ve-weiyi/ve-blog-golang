@@ -71,8 +71,21 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	}
 
 	resp = &response.Login{
-		UserInfo: convertUserDetails(account, info, history),
-		Token:    token,
+		Token: token,
+		Userinfo: &response.UserDetail{
+			ID:       account.ID,
+			Username: account.Username,
+			Nickname: info.Nickname,
+			Avatar:   info.Avatar,
+			Intro:    info.Intro,
+			Email:    info.Email,
+		},
+		LastLoginHistory: &response.LoginHistory{
+			LoginType: history.LoginType,
+			IpAddress: history.IpAddress,
+			IpSource:  history.IpSource,
+			LoginTime: history.CreatedAt.String(),
+		},
 	}
 	return resp, nil
 }
@@ -119,15 +132,12 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 
 	// 事务操作成功
 	userinfo := &response.UserDetail{
-		ID:        account.ID,
-		Username:  account.Username,
-		Nickname:  info.Nickname,
-		Avatar:    info.Avatar,
-		Intro:     info.Intro,
-		Email:     info.Email,
-		LoginType: account.RegisterType,
-		IpAddress: account.IpAddress,
-		IpSource:  account.IpSource,
+		ID:       account.ID,
+		Username: account.Username,
+		Nickname: info.Nickname,
+		Avatar:   info.Avatar,
+		Intro:    info.Intro,
+		Email:    info.Email,
 	}
 
 	token, err := s.svcCtx.Token.CreateClaims(account.ID, account.Username, account.RegisterType)
@@ -135,8 +145,9 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		return nil, err
 	}
 	resp = &response.Login{
-		UserInfo: userinfo,
-		Token:    token,
+		Token:            token,
+		Userinfo:         userinfo,
+		LastLoginHistory: nil,
 	}
 
 	return resp, nil
@@ -296,8 +307,21 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	}
 
 	resp = &response.Login{
-		UserInfo: convertUserDetails(account, info, history),
-		Token:    token,
+		Token: token,
+		Userinfo: &response.UserDetail{
+			ID:       account.ID,
+			Username: account.Username,
+			Nickname: info.Nickname,
+			Avatar:   info.Avatar,
+			Intro:    info.Intro,
+			Email:    info.Email,
+		},
+		LastLoginHistory: &response.LoginHistory{
+			LoginType: history.LoginType,
+			IpAddress: history.IpAddress,
+			IpSource:  history.IpSource,
+			LoginTime: history.CreatedAt.String(),
+		},
 	}
 	return resp, nil
 }
@@ -320,20 +344,4 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 		Url: auth.GetRedirectUrl(req.State),
 	}
 	return resp, nil
-}
-
-func convertUserDetails(user *entity.UserAccount, info *entity.UserInformation, history *entity.UserLoginHistory) *response.UserDetail {
-	userinfo := response.UserDetail{
-		ID:            user.ID,
-		Username:      user.Username,
-		Nickname:      info.Nickname,
-		Avatar:        info.Avatar,
-		Intro:         info.Intro,
-		Email:         info.Email,
-		LoginType:     history.LoginType,
-		IpAddress:     history.IpAddress,
-		IpSource:      history.IpSource,
-		LastLoginTime: history.CreatedAt.String(),
-	}
-	return &userinfo
 }

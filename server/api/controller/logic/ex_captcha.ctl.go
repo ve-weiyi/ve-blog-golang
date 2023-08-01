@@ -59,7 +59,7 @@ func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.Captcha				true	"请求body"
-// @Success		200		{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Success		200		{object}	response.Response{data=response.CaptchaResp}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/image [post]
 func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
 	err := s.LimitLock(c)

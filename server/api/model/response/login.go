@@ -5,8 +5,9 @@ import (
 )
 
 type Login struct {
-	Token    string      `json:"token"`
-	UserInfo *UserDetail `json:"userInfo"`
+	Token            string        `json:"token"`
+	Userinfo         *UserDetail   `json:"userinfo"`
+	LastLoginHistory *LoginHistory `json:"last_login_history"`
 }
 
 type OauthLoginUrl struct {
@@ -14,23 +15,19 @@ type OauthLoginUrl struct {
 }
 
 type UserDetail struct {
-	ID            int    `json:"id"`
-	Username      string `json:"username"`
-	Nickname      string `json:"nickname"`
-	Avatar        string `json:"avatar"`
-	Intro         string `json:"intro"`
-	Email         string `json:"email"`
-	LoginType     string `json:"login_type"`
-	IpAddress     string `json:"ip_address"`
-	IpSource      string `json:"ip_source"`
-	LastLoginTime string `json:"last_login_time"`
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Intro    string `json:"intro"`
+	Email    string `json:"email"`
 
 	Roles []*entity.Role
 }
 
 type LoginHistory struct {
-	LoginType string // 登录类型
-	IpAddress string // ip host
-	IpSource  string // ip 源
-	LoginTime string // 创建时间
+	LoginType string `json:"login_type"` // 登录类型
+	IpAddress string `json:"ip_address"` // ip host
+	IpSource  string `json:"ip_source"`  // ip 源
+	LoginTime string `json:"login_time"` // 创建时间
 }

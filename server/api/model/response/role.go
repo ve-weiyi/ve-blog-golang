@@ -6,16 +6,16 @@ import (
 
 type ApiTree struct {
 	entity.Api
-	Children []*ApiTree
+	Children []*ApiTree `json:"children"`
 }
 
 type MenuTree struct {
 	entity.Menu
-	Children []*MenuTree
+	Children []*MenuTree `json:"children"`
 }
 
 type RoleInfo struct {
 	entity.Role
-	MenuIdList     []int
-	ResourceIdList []int
+	MenuIdList     []int `json:"menu_id_list"`
+	ResourceIdList []int `json:"resource_id_list"`
 }

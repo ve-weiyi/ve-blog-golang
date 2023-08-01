@@ -6,7 +6,7 @@ const ApiTypeScript = `
 {{ end }}
 
 {{- range .ModelDeclares }}
-interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
+export interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
   {{- range .Fields }}
   {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
   {{- end }}
@@ -17,7 +17,7 @@ interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
 /** {{ .Summary }} */
 export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
   return http.request<{{.Response}}>({
-    url: ` + "`/api/v1/{{.Url}}`" + `,
+    url: ` + "`{{.Base}}{{.Url}}`" + `,
     method: "{{ .Method }}",
     {{- if .Body }}
     data: {{ .Body.Name }},

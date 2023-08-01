@@ -11,7 +11,7 @@ import (
 )
 
 func TestCamel2Case(t *testing.T) {
-	str := "XxYYxxxYY +YY"
+	str := "link__intro"
 	log.Println("--->", str)
 
 	cases := Camel2Case(str)

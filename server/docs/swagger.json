@@ -753,7 +753,7 @@
                 }
             }
         },
-        "/article/condition": {
+        "/article/list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -779,7 +779,7 @@
                         "in": "header"
                     },
                     {
-                        "description": "分页获取文章列表",
+                        "description": "分页参数",
                         "name": "page",
                         "in": "body",
                         "required": true,
@@ -825,64 +825,7 @@
                 }
             }
         },
-        "/article/like": {
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Article"
-                ],
-                "summary": "更新文章",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "uid",
-                        "name": "uid",
-                        "in": "header"
-                    },
-                    {
-                        "description": "更新文章",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Article"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/entity.Article"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/article/list": {
+        "/article/list/condition": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -908,7 +851,7 @@
                         "in": "header"
                     },
                     {
-                        "description": "分页参数",
+                        "description": "分页获取文章列表",
                         "name": "page",
                         "in": "body",
                         "required": true,
@@ -1053,6 +996,116 @@
                                     "properties": {
                                         "data": {
                                             "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/article/{id}/details": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "文章详情",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Article id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.ArticleDetails"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/article/{id}/like": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "点赞文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Article id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Article"
                                         }
                                     }
                                 }
@@ -8192,6 +8245,134 @@
                 }
             }
         },
+        "response.ArticleDetails": {
+            "type": "object",
+            "properties": {
+                "article_content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_tag_list": {
+                    "description": "文章标签列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.TagDTO"
+                    }
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "category_id": {
+                    "description": "文章分类ID",
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "文章分类名",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "发表时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "last_article": {
+                    "description": "上一篇文章",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/response.ArticlePaginationDTO"
+                        }
+                    ]
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "newest_article_list": {
+                    "description": "最新文章列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.ArticleRecommendDTO"
+                    }
+                },
+                "next_article": {
+                    "description": "下一篇文章",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/response.ArticlePaginationDTO"
+                        }
+                    ]
+                },
+                "original_url": {
+                    "description": "原文链接",
+                    "type": "string"
+                },
+                "recommend_article_list": {
+                    "description": "推荐文章列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.ArticleRecommendDTO"
+                    }
+                },
+                "type": {
+                    "description": "文章类型",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "views_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                }
+            }
+        },
+        "response.ArticlePaginationDTO": {
+            "type": "object",
+            "properties": {
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "pagination fields...",
+                    "type": "integer"
+                }
+            }
+        },
+        "response.ArticleRecommendDTO": {
+            "type": "object",
+            "properties": {
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "recommended article fields...",
+                    "type": "integer"
+                }
+            }
+        },
         "response.OauthLoginUrl": {
             "type": "object",
             "properties": {
@@ -8225,6 +8406,19 @@
                 },
                 "data": {},
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.TagDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "tag fields...",
+                    "type": "integer"
+                },
+                "tag_name": {
+                    "description": "标签名",
                     "type": "string"
                 }
             }

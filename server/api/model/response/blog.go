@@ -1,12 +1,12 @@
 package response
 
 type BlogHomeInfoDTO struct {
-	ArticleCount  int64            `json:"articleCount"`  // 文章数量
-	CategoryCount int64            `json:"categoryCount"` // 分类数量
-	TagCount      int64            `json:"tagCount"`      // 标签数量
-	ViewsCount    string           `json:"viewsCount"`    // 访问量
-	WebsiteConfig *WebsiteConfigVO `json:"websiteConfig"` // 网站配置
-	PageList      []*PageVO        `json:"pageList"`      // 页面列表
+	ArticleCount  int64            `json:"article_count"`  // 文章数量
+	CategoryCount int64            `json:"category_count"` // 分类数量
+	TagCount      int64            `json:"tag_count"`      // 标签数量
+	ViewsCount    string           `json:"views_count"`    // 访问量
+	WebsiteConfig *WebsiteConfigVO `json:"website_config"` // 网站配置
+	PageList      []*PageVO        `json:"page_list"`      // 页面列表
 }
 
 type WebsiteConfigVO struct {
@@ -18,15 +18,15 @@ type PageVO struct {
 }
 
 type BlogBackInfoDTO struct {
-	ViewsCount            int64                   `json:"viewsCount"`            // 访问量
-	MessageCount          int64                   `json:"messageCount"`          // 留言量
-	UserCount             int64                   `json:"userCount"`             // 用户量
-	ArticleCount          int64                   `json:"articleCount"`          // 文章量
-	CategoryDTOList       []*CategoryDTO          `json:"categoryDTOList"`       // 分类统计
-	TagDTOList            []*TagDTO               `json:"tagDTOList"`            // 标签列表
-	ArticleStatisticsList []*ArticleStatisticsDTO `json:"articleStatisticsList"` // 文章统计列表
-	UniqueViewDTOList     []*UniqueViewDTO        `json:"uniqueViewDTOList"`     // 一周用户量集合
-	ArticleRankDTOList    []*ArticleRankDTO       `json:"articleRankDTOList"`    // 文章浏览量排行
+	ViewsCount            int64                   `json:"views_count"`             // 访问量
+	MessageCount          int64                   `json:"message_count"`           // 留言量
+	UserCount             int64                   `json:"user_count"`              // 用户量
+	ArticleCount          int64                   `json:"article_count"`           // 文章量
+	CategoryDTOList       []*CategoryDTO          `json:"category_dto_list"`       // 分类统计
+	TagDTOList            []*TagDTO               `json:"tag_dto_list"`            // 标签列表
+	ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list"` // 文章统计列表
+	UniqueViewDTOList     []*UniqueViewDTO        `json:"unique_view_dto_list"`    // 一周用户量集合
+	ArticleRankDTOList    []*ArticleRankDTO       `json:"article_rank_dto_list"`   // 文章浏览量排行
 }
 
 // 文章统计字段
@@ -43,7 +43,7 @@ type UniqueViewDTO struct {
 
 // 文章浏览量排行
 type ArticleRankDTO struct {
-	ID           int    `json:"id"`           // 文章ID
-	ArticleTitle string `json:"articleTitle"` // 文章标题
-	Count        int64  `json:"count"`        // 数量
+	ID           int    `json:"id"`            // 文章ID
+	ArticleTitle string `json:"article_title"` // 文章标题
+	Count        int64  `json:"count"`         // 数量
 }

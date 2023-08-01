@@ -123,8 +123,8 @@ func (s *BlogController) UpdateAboutMe(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/home [post]
+// @Success		200		{object}	response.Response{data=response.BlogBackInfoDTO}	"返回信息"
+// @Router		/home [get]
 func (s *BlogController) GetHomeInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

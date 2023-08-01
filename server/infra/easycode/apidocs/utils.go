@@ -8,6 +8,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/east"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
@@ -84,7 +85,7 @@ func ParseApiDoc(fp string) []*ApiDeclare {
 						api.Path = append(api.Path, field)
 					case "query":
 						api.Query = append(api.Query, field)
-					case "form":
+					case "formData":
 						api.Form = append(api.Form, field)
 					case "body":
 						api.Body = field
@@ -183,16 +184,15 @@ func ParseApiModel(fp string) []*ModelDeclare {
 }
 
 func getTypeScriptType(name string) string {
-	if strings.LastIndex(name, ".") > 0 {
-		return getTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
-	}
 	if strings.HasPrefix(name, "*") {
 		return getTypeScriptType(name[1:]) // 指针
 	}
 	if strings.HasPrefix(name, "[]") {
 		return getTypeScriptType(name[2:]) + "[]" // 数组
 	}
-
+	if strings.LastIndex(name, ".") > 0 {
+		return getTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
+	}
 	switch name {
 	case "int", "int32", "int64", "uint", "uint32", "uint64", "float32", "float64":
 		return "number"
@@ -200,6 +200,8 @@ func getTypeScriptType(name string) string {
 		return "string"
 	case "bool":
 		return "boolean"
+	case "file":
+		return "File"
 	case "Time":
 		return "string"
 	case "interface{}":
@@ -311,6 +313,9 @@ func extractFieldsByAst(data string) []string {
 	// CompositeLit
 	nodes := ExtractNodes(meta.GetNode(), &ast.CompositeLit{})
 	for _, node := range nodes {
+		if len(params) > 0 {
+			break
+		}
 		idents := ExtractNodes(node.Type, &ast.Ident{})
 		if len(idents) == 1 {
 			params = append(params, idents[0].Name)
@@ -362,4 +367,18 @@ func replaceEquals(input string) string {
 	output := strings.Join(parts, "")
 
 	return output
+}
+
+func getIdentDeclareName(name string) string {
+	var englishChars []rune
+	if strings.LastIndex(name, ".") > 0 {
+		name = name[strings.LastIndex(name, ".")+1:]
+	}
+
+	for _, char := range name {
+		if unicode.IsLetter(char) {
+			englishChars = append(englishChars, char)
+		}
+	}
+	return string(englishChars)
 }

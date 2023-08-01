@@ -77,13 +77,13 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 }
 
 // 获取图片验证码
-func (s *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.Captcha) (resp *response.Captcha, err error) {
+func (s *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.Captcha) (resp *response.CaptchaResp, err error) {
 	id, b64s, err := s.svcCtx.Captcha.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = &response.Captcha{
+	resp = &response.CaptchaResp{
 		ID:         id,
 		EncodeData: b64s,
 		Length:     req.Length,

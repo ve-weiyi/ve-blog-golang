@@ -10,23 +10,25 @@ const (
 	Case  = 1 //下划线
 )
 
-var ignoreKey = map[string]string{
+var replaceKey = map[string]string{
+	"DTO": "dto",
+	"UID": "uid",
 	"ID":  "id",
 	"URL": "url",
 }
 
 /**
  * 驼峰式写法转为下划线写法
- * @description XxYx to xx_yy  XxYY to xx_y_y XxYY to XxYY
+ * @description XxYx->xx_yy	XxYY->xx_yy	URL->url  TagDTOList->tag_dto_list
  **/
 func Camel2Case(XxYY string) string {
 	xx_y_y := make([]byte, 0)
 	i := 0
 
 	for i < len(XxYY) {
-		// 检查是否存在 ignoreKey 的前缀
+		/** 替换不需要转换的字符大小写 **/
 		found := false
-		for prefix, replace := range ignoreKey {
+		for prefix, replace := range replaceKey {
 			if strings.HasPrefix(XxYY[i:], prefix) {
 				// 非首个字符
 				if len(xx_y_y) != 0 {
@@ -38,12 +40,22 @@ func Camel2Case(XxYY string) string {
 				break
 			}
 		}
-
 		if found {
 			continue
 		}
+		/**  **/
 
-		// 未找到 ignoreKey 的前缀，进行正常转换
+		flag := false
+		// 非首个字符
+		if len(xx_y_y) != 0 {
+			// 方案二:自动匹配。如果前一个字符是小写 || 后一个字符是小写
+			//if (0 < i-1 && unicode.IsLower(rune(XxYY[i-1]))) || (i+1 < len(XxYY) && unicode.IsLower(rune(XxYY[i+1]))) {
+			//	xx_y_y = append(xx_y_y, '_')
+			//}
+			flag = true
+		}
+
+		// 未找到 replaceKey ，进行正常转换
 		w := rune(XxYY[i])
 		i++
 		// 遇到数字
@@ -58,9 +70,7 @@ func Camel2Case(XxYY string) string {
 		}
 		// 如果是大写
 		if unicode.IsUpper(w) {
-
-			// 非首个字符
-			if len(xx_y_y) != 0 {
+			if flag {
 				xx_y_y = append(xx_y_y, '_')
 			}
 			xx_y_y = append(xx_y_y, byte(unicode.ToLower(w)))
@@ -81,13 +91,30 @@ func Camel2Case(XxYY string) string {
  **/
 func Case2Camel(xx_y_y string) string {
 	//id类型转换大写
-	if xx_y_y == "id" {
-		return "ID"
-	}
 	XxYY := make([]byte, 0, len(xx_y_y))
 	//是否遇到下划线,初始化值为true则转换第一个字母
 	line := true
-	for _, w := range xx_y_y {
+	i := 0
+	for i < len(xx_y_y) {
+		/** 替换不需要转换的字符大小写 **/
+		found := false
+		for key, value := range replaceKey {
+			if strings.HasPrefix(xx_y_y[i:], value) {
+				// 非首个字符
+				XxYY = append(XxYY, []byte(key)...)
+				i += len(value)
+				found = true
+				break
+			}
+		}
+		if found {
+			continue
+		}
+		/**  **/
+
+		// 未找到 replaceKey ，进行正常转换
+		w := rune(xx_y_y[i])
+		i++
 		//遇到数字
 		if unicode.IsDigit(w) {
 			XxYY = append(XxYY, byte(w))

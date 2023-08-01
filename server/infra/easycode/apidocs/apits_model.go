@@ -59,7 +59,7 @@ type TsApiDeclare struct {
 	FunctionName string
 	Summary      string
 
-	//Base     string
+	Base   string
 	Url    string
 	Method string
 	Header []*ApiParam // 请求头参数
