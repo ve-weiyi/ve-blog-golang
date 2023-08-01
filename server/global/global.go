@@ -15,7 +15,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/timer"
 
-	"github.com/ve-weiyi/go-sdk/utils/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
 )
 
 var (
