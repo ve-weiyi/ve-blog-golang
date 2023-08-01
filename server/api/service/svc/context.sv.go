@@ -8,7 +8,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq/handler"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
 
@@ -38,7 +37,6 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 		panic("repository cannot be null")
 	}
 
-	email := handler.NewEmailHandler(cfg.RabbitMQ.GetUrl())
 	return &ServiceContext{
 		AppRepository: repo,
 		Config:        cfg,
@@ -49,7 +47,7 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 		Token: global.JWT,
 		//RBAC:           global.RbacEnforcer,
 		Captcha:        captcha.NewCaptchaRepository(),
-		EmailPublisher: email.Publisher(),
+		EmailPublisher: global.EmailMQ,
 		Uploader:       upload.NewOss(&cfg.Upload),
 	}
 }

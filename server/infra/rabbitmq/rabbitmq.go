@@ -191,7 +191,7 @@ func (r *RabbitMQ) SubscribeMessage(consume func(message string)) error {
 }
 
 // 断开channel 和 connection
-func (r *RabbitMQ) Destory() {
+func (r *RabbitMQ) Destroy() {
 	r.channel.Close()
 	r.conn.Close()
 }

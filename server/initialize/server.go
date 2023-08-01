@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
@@ -35,7 +33,7 @@ func RunWindowsServer() {
 	// 保证文本顺序输出
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
-	global.LOG.Info("server run success on ", zap.String("address", address))
+	global.LOG.Infof("server run success on %v", address)
 
 	fmt.Printf(`
 	欢迎使用 ve-blog-golang

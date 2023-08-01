@@ -8,12 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
-
 	"github.com/jordan-wright/email"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 )
 
 type EmailSender struct {
@@ -27,7 +24,7 @@ type EmailSender struct {
 }
 
 func NewEmailSender(cfg *properties.Email) *EmailSender {
-	global.LOG.Println("NewEmailSender", jsonconv.ObjectToJsonIndent(cfg))
+
 	return &EmailSender{
 		Host:     cfg.Host,
 		Port:     cfg.Port,

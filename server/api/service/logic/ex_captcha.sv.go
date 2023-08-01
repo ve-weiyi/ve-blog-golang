@@ -69,7 +69,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 		Type:    0,
 	}
 
-	err = s.svcCtx.EmailPublisher.SendMessage(jsonconv.ObjectToJson(msg))
+	err = s.svcCtx.EmailPublisher.PublishMessage(jsonconv.ObjectToJson(msg))
 	if err != nil {
 		return nil, err
 	}
