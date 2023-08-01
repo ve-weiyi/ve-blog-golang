@@ -50,7 +50,7 @@ func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	m.Log.Error("操作失败!", err)
 	if e, ok := err.(*codes.ApiError); ok {
-		ctx.JSON(http.StatusOK, &response.Response{Code: e.Code(), Msg: e.Message()})
+		ctx.JSON(http.StatusOK, &response.Response{Code: e.Code(), Message: e.Message()})
 		return
 	}
 	m.Response(ctx, response.ERROR, "操作失败", err.Error())
@@ -58,9 +58,9 @@ func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 
 func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data interface{}) {
 	obj := response.Response{
-		Code: code,
-		Msg:  msg,
-		Data: data,
+		Code:    code,
+		Message: msg,
+		Data:    data,
 	}
 	//ctx.JSON(http.StatusOK, obj)
 
@@ -79,12 +79,11 @@ func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, 
 	//}
 
 	reqCtx := &request.Context{}
+	reqCtx.Token = ctx.Request.Header.Get("Authorization")
 	reqCtx.UID = ctx.GetInt("uid")
 	reqCtx.Username = ctx.GetString("username")
-
-	reqCtx.Token = ctx.Request.Header.Get("Authorization")
-	reqCtx.IpAddress = ctx.ClientIP()
-	reqCtx.IpSource = ctx.ClientIP()
+	reqCtx.IpAddress = ctx.GetString("ip_address")
+	reqCtx.IpSource = ctx.GetString("ip_source")
 	reqCtx.Context = ctx.Request.Context()
 	return reqCtx, nil
 }
@@ -131,7 +130,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 	//err = jsonconv.UnmarshalJSONIgnoreCase([]byte(js), req)
 	err = jsoniter.Unmarshal([]byte(js), req)
 	//m.Log.Println(js)
-	m.Log.JsonIndent(req)
+	//m.Log.JsonIndent(req)
 	if err != nil {
 		m.Log.Error(err)
 	}

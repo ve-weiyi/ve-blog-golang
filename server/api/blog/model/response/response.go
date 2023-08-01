@@ -9,20 +9,20 @@ import (
 type PageResult struct {
 	List     interface{} `json:"list"`
 	Page     int         `json:"page"`
-	PageSize int         `json:"pageSize"`
+	PageSize int         `json:"page_size"`
 	Total    int64       `json:"total"`
 }
 
-type PageInfo struct {
+type PageQuery struct {
 	Page     int   `json:"page"`
-	PageSize int   `json:"pageSize"`
+	PageSize int   `json:"page_size"`
 	Total    int64 `json:"total"`
 }
 
 type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"message" `
-	Data interface{} `json:"data"`
+	Code    int         `json:"code"`
+	Message string      `json:"message" `
+	Data    interface{} `json:"data"`
 }
 
 const (

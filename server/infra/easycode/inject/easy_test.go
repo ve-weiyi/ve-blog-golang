@@ -34,11 +34,25 @@ func TestInject(t *testing.T) {
 			visit: ast.NewIdent("hello"),
 			}`),
 		},
+		DeclMeta: []*DeclMeta{
+			NewDeclMeta(`
+	// 初始化 Menu 路由信息
+	// publicRouter 公开路由，不登录就可以访问
+	// loginRouter  登录路由，登录后才可以访问
+	func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+		s.InitMenuGenRouter(publicRouter, loginRouter)
+		var handler = s.svcCtx.AppController.MenuController
+	
+		{
+			loginRouter.POST("admin/menus", handler.GetMenus) // 获取Menu列表
+		}
+	}`),
+		},
 	}
 	var err error
 	inject.Walk()
-	err = inject.RollBack()
-	//err = inject.Inject()
+	//err = inject.RollBack()
+	err = inject.Inject()
 	log.Println("-->", err)
 	if err != nil {
 		return
@@ -48,9 +62,23 @@ func TestNewAst(t *testing.T) {
 	//NewImportMete(`jsoniter "github.com/json-iterator/go"`)
 	//NewStructMete("ApiGroup", `Alias   *dst.Visitor //元素别名`)
 	//NewFuncMete("NewApiContext", `json := jsoniter.ConfigCompatibleWithStandardLibrary()`)
-	NewFuncMete("NewApiContext", `return &Context{
-		visitor: ast.NewIdent("hello"),
+	//NewFuncMete("NewApiContext", `return &Context{
+	//	visitor: ast.NewIdent("hello"),
+	//}`)
+
+	NewDeclMeta(`
+	// 初始化 Menu 路由信息
+	// publicRouter 公开路由，不登录就可以访问
+	// loginRouter  登录路由，登录后才可以访问
+	func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+		s.InitMenuGenRouter(publicRouter, loginRouter)
+		var handler = s.svcCtx.AppController.MenuController
+	
+		{
+			loginRouter.POST("admin/menus", handler.GetMenus) // 获取Menu列表
+		}
 	}`)
+
 }
 
 func TestType(t *testing.T) {

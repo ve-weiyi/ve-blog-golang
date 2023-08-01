@@ -3,45 +3,136 @@ package logic
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
-type ArticleService struct {
-	svcCtx *svc.ServiceContext
-}
-
-func NewArticleService(svcCtx *svc.ServiceContext) *ArticleService {
-	return &ArticleService{
-		svcCtx: svcCtx,
+// 根据id获取Article记录
+func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (data *response.ArticleDetails, err error) {
+	// 查询id对应文章
+	article, err := s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
+	if err != nil {
+		return nil, err
 	}
-}
 
-// 创建Article记录
-func (s *ArticleService) CreateArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
-	return s.svcCtx.ArticleRepository.CreateArticle(reqCtx, article)
-}
+	// 查询文章分类
+	category, err := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
+	if err != nil {
+		return nil, err
+	}
 
-// 删除Article记录
-func (s *ArticleService) DeleteArticle(reqCtx *request.Context, article *entity.Article) (rows int64, err error) {
-	return s.svcCtx.ArticleRepository.DeleteArticle(reqCtx, article)
-}
+	// 查询文章标签
+	tags, err := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
+	if err != nil {
+		return nil, err
+	}
 
-// 更新Article记录
-func (s *ArticleService) UpdateArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
-	return s.svcCtx.ArticleRepository.UpdateArticle(reqCtx, article)
-}
+	// 查询推荐文章
+	rmArticle, err := s.svcCtx.ArticleRepository.FindRecommendArticle(article.CategoryID)
+	if err != nil {
+		return nil, err
+	}
+	// 查询最新文章
+	page := &request.PageQuery{
+		Page:     0,
+		PageSize: 5,
+		Sorts: []*request.Sort{
+			{Field: "id", Order: "desc"},
+		},
+	}
+	newestArticle, _, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	if err != nil {
+		return nil, err
+	}
+	// 查询上一篇文章
+	lastArticle, err := s.svcCtx.ArticleRepository.FindLastArticle(id)
+	if err != nil {
+		return nil, err
+	}
+	// 查询下一篇文章
+	nextArticle, err := s.svcCtx.ArticleRepository.FindNextArticle(id)
+	if err != nil {
+		return nil, err
+	}
 
-// 查询Article记录
-func (s *ArticleService) FindArticle(reqCtx *request.Context, article *entity.Article) (data *entity.Article, err error) {
-	return s.svcCtx.ArticleRepository.GetArticle(reqCtx, article.ID)
-}
-
-// 批量删除Article记录
-func (s *ArticleService) DeleteArticleByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.ArticleRepository.DeleteArticleByIds(reqCtx, ids)
+	resp := convertResponseArticle(article)
+	resp.CategoryName = category.CategoryName
+	resp.ArticleTagList = convertTagList(tags)
+	resp.RecommendArticleList = convertRecommendArticles(rmArticle)
+	resp.NewestArticleList = convertRecommendArticles(newestArticle)
+	resp.LastArticle = convertArticlePagination(lastArticle)
+	resp.NextArticle = convertArticlePagination(nextArticle)
+	return resp, nil
 }
 
 // 分页获取Article记录
-func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageInfo) (list []*entity.Article, total int64, err error) {
-	return s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
+	// 查询文章列表
+	articles, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	for _, article := range articles {
+		//查询文章分类
+		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
+		// 查询文章标签
+		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
+
+		articleVO := convertArticle(article)
+		articleVO.CategoryName = category.CategoryName
+		articleVO.ArticleTagList = convertTagList(tags)
+		list = append(list, articleVO)
+	}
+	return list, total, err
+}
+
+func (s *ArticleService) GetArticleListByCondition(reqCtx *request.Context, req *request.ArticleCondition) (data *response.ArticleConditionDTO, err error) {
+	resp := &response.ArticleConditionDTO{}
+
+	// 查询文章列表
+	var articles []*entity.Article
+
+	if req.CategoryID != 0 {
+		category, err := s.svcCtx.CategoryRepository.FindCategory(reqCtx, req.CategoryID)
+		if err != nil {
+			return nil, err
+		}
+		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(category.ID)
+		resp.ConditionName = category.CategoryName
+	} else if req.TagID != 0 {
+		tag, err := s.svcCtx.TagRepository.FindTag(reqCtx, req.TagID)
+		if err != nil {
+			return nil, err
+		}
+		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(tag.ID)
+		resp.ConditionName = tag.TagName
+	}
+
+	var list []*response.ArticleDTO
+	for _, article := range articles {
+		//查询文章分类
+		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
+		// 查询文章标签
+		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
+
+		articleVO := convertArticle(article)
+		articleVO.CategoryName = category.CategoryName
+		articleVO.ArticleTagList = convertTagList(tags)
+		list = append(list, articleVO)
+	}
+
+	resp.ArticleDTOList = list
+	return resp, err
+}
+
+func (s *ArticleService) GetArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
+	page.Sorts = []*request.Sort{
+		{Field: "id", Order: "desc"},
+	}
+	newestArticle, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return convertRecommendArticles(newestArticle), total, err
 }

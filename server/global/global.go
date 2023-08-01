@@ -33,7 +33,7 @@ var (
 	lock       sync.RWMutex
 
 	//RBAC角色访问控制器
-	RbacEnforcer *rbac.CachedEnforcer
+	Permission *rbac.ResourceEnforcer
 )
 
 // GetGlobalDBByDBName 通过名称获取db list中的db

@@ -83,6 +83,8 @@ func (rs *CaptchaRepository) GetImageCaptcha(CaptchaType string, height int, wid
 		driver = rs.DriverMath.ConvertFonts()
 	case "chinese":
 		driver = rs.DriverChinese.ConvertFonts()
+	case "digit":
+		driver = base64Captcha.NewDriverDigit(height, width, length, rs.DefaultMaxSkew, dotCount)
 	default:
 		driver = base64Captcha.NewDriverDigit(height, width, length, rs.DefaultMaxSkew, dotCount)
 	}

@@ -71,19 +71,19 @@ func (s *{{.StructName}}Service) Create{{.StructName}}(reqCtx *request.Context, 
 	return s.svcCtx.{{.StructName}}Repository.Create{{.StructName}}(reqCtx, {{.ValueName}})
 }
 
-// 删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (rows int64, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}(reqCtx, {{.ValueName}})
-}
-
 // 更新{{.StructName}}记录
 func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
 	return s.svcCtx.{{.StructName}}Repository.Update{{.StructName}}(reqCtx, {{.ValueName}})
 }
 
+// 删除{{.StructName}}记录
+func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}(reqCtx, id)
+}
+
 // 查询{{.StructName}}记录
-func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Get{{.StructName}}(reqCtx, {{.ValueName}}.ID)
+func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, id int) (data *entity.{{.StructName}}, err error) {
+	return s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}(reqCtx, id)
 }
 
 // 批量删除{{.StructName}}记录
@@ -92,7 +92,7 @@ func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Cont
 }
 
 // 分页获取{{.StructName}}记录
-func (s *{{.StructName}}Service) Find{{.StructName}}List(reqCtx *request.Context, page *request.PageInfo) (list []*entity.{{.StructName}}, total int64, err error) {
+func (s *{{.StructName}}Service) Find{{.StructName}}List(reqCtx *request.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
 	return s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}List(reqCtx, page)
 }
 `

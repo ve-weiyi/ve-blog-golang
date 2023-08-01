@@ -67,11 +67,11 @@ func New{{.StructName}}Controller(svcCtx *svc.ControllerContext) *{{.StructName}
 // @Tags		{{.StructName}}
 // @Summary		创建{{.StructComment}}
 // @Security	ApiKeyAuth
-// @accept		application/json
+// @Accept		application/json
 // @Produce		application/json
 // @Param		data	body		entity.{{.StructName}}							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router		/{{.ValueName}}/create [post]
+// @Router		/{{.JsonName}} [post]
 func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -95,45 +95,14 @@ func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		{{.StructName}}
-// @Summary		删除{{.StructComment}}
-// @Security	ApiKeyAuth
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body	 	entity.{{.StructName}} 		true "请求body"
-// @Success		200		{object}	response.Response{}		"返回信息"
-// @Router		/{{.ValueName}}/delete [delete]
-func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var {{.ValueName}} entity.{{.StructName}}
-	err = s.ShouldBind(c, &{{.ValueName}})
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.{{.StructName}}Service.Delete{{.StructName}}(reqCtx, &{{.ValueName}});
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
 // @Tags 	 	{{.StructName}}
 // @Summary		更新{{.StructComment}}
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
 // @Param 	 	data	body 	 	entity.{{.StructName}}							true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router 		/{{.ValueName}}/update [put]
+// @Router 		/{{.JsonName}} [put]
 func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -157,14 +126,45 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
+// @Tags		{{.StructName}}
+// @Summary		删除{{.StructComment}}
+// @Security	ApiKeyAuth
+// @Accept		application/json
+// @Produce		application/json
+// @Param 	 	id		path		int					true		"{{.StructName}} id"
+// @Success		200		{object}	response.Response{data=any}		"返回信息"
+// @Router		/{{.JsonName}}/{id} [delete]
+func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.{{.StructName}}Service.Delete{{.StructName}}(reqCtx, id);
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
 // @Tags 	 	{{.StructName}}
 // @Summary		查询{{.StructComment}}
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	data		body		entity.{{.StructName}}							true		"请求参数"
-// @Success		200			{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router 		/{{.ValueName}}/find [get]
+// @Param 	 	id		path		int									true		"{{.StructName}} id"
+// @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
+// @Router 		/{{.JsonName}}/{id} [get]
 func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -172,14 +172,14 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 		return
 	}
 
-	var {{.ValueName}} entity.{{.StructName}}
-	err = s.ShouldBind(c, &{{.ValueName}})
+	var id int
+	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Find{{.StructName}}(reqCtx, &{{.ValueName}});
+	data, err := s.svcCtx.{{.StructName}}Service.Find{{.StructName}}(reqCtx, id);
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -191,11 +191,11 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 // @Tags 	 	{{.StructName}}
 // @Summary		批量删除{{.StructComment}}
 // @Security 	ApiKeyAuth
-// @accept 	 	application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		data 	body		[]int 				true "删除id列表"
-// @Success		200		{object}	response.Response{}	"返回信息"
-// @Router		/{{.ValueName}}/deleteByIds [delete]
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/{{.JsonName}}/batch_delete [delete]
 func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -203,14 +203,14 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 		return
 	}
 
-	var IDS []int
-	err = s.ShouldBind(c, &IDS)
+	var ids []int
+	err = s.ShouldBind(c, &ids)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Delete{{.StructName}}ByIds(reqCtx, IDS);
+	data, err := s.svcCtx.{{.StructName}}Service.Delete{{.StructName}}ByIds(reqCtx, ids);
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -222,11 +222,11 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 // @Tags 	 	{{.StructName}}
 // @Summary		分页获取{{.StructComment}}列表
 // @Security 	ApiKeyAuth
-// @accept 		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageInfo 	true "分页参数"
+// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.{{.StructName}}}}	"返回信息"
-// @Router		/{{.ValueName}}/list [post]
+// @Router		/{{.JsonName}}/list [post]
 func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -234,7 +234,7 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
 		return
 	}
 
-	var page request.PageInfo
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)

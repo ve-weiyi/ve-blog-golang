@@ -68,7 +68,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -85,7 +85,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -105,7 +117,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Api"
                 ],
                 "summary": "获取api列表",
                 "parameters": [
@@ -115,7 +127,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -148,7 +160,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -158,9 +170,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Comment"
                 ],
-                "summary": "获取用户列表",
+                "summary": "获取用户评论列表",
                 "parameters": [
                     {
                         "description": "分页参数",
@@ -168,7 +180,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -176,7 +188,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -186,7 +210,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -203,7 +227,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -223,7 +259,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Menu"
                 ],
                 "summary": "获取菜单列表",
                 "parameters": [
@@ -233,7 +269,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -276,7 +312,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Role"
                 ],
                 "summary": "更新角色菜单",
                 "parameters": [
@@ -326,7 +362,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Role"
                 ],
                 "summary": "更新角色资源",
                 "parameters": [
@@ -376,7 +412,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Role"
                 ],
                 "summary": "获取角色列表",
                 "parameters": [
@@ -386,7 +422,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -419,7 +455,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -429,7 +465,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "User"
                 ],
                 "summary": "获取用户地区",
                 "parameters": [
@@ -439,7 +475,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -447,7 +483,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -467,7 +515,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "User"
                 ],
                 "summary": "修改用户角色",
                 "parameters": [
@@ -517,7 +565,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "User"
                 ],
                 "summary": "修改用户状态",
                 "parameters": [
@@ -535,7 +583,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -545,7 +605,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -555,7 +615,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "User"
                 ],
                 "summary": "获取用户列表",
                 "parameters": [
@@ -565,7 +625,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -573,13 +633,73 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
             }
         },
-        "/api/create": {
+        "/api": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api"
+                ],
+                "summary": "更新接口",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Api"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Api"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -629,45 +749,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Api"
-                ],
-                "summary": "删除接口",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Api"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/deleteByIds": {
+        "/api/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -702,44 +784,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Api"
-                ],
-                "summary": "查询接口",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Api"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -748,7 +792,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Api"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -782,7 +826,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -823,8 +867,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/update": {
-            "put": {
+        "/api/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -839,16 +883,14 @@ const docTemplate = `{
                 "tags": [
                     "Api"
                 ],
-                "summary": "更新接口",
+                "summary": "查询接口",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Api"
-                        }
+                        "type": "string",
+                        "description": "Api id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -871,10 +913,56 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api"
+                ],
+                "summary": "删除接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Api id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/article/archives": {
-            "get": {
+        "/article": {
+            "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -889,15 +977,15 @@ const docTemplate = `{
                 "tags": [
                     "Article"
                 ],
-                "summary": "文章归档",
+                "summary": "更新文章",
                 "parameters": [
                     {
-                        "description": "分页获取文章列表",
-                        "name": "page",
+                        "description": "请求参数",
+                        "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/entity.Article"
                         }
                     }
                 ],
@@ -921,74 +1009,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/article/condition": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Article"
-                ],
-                "summary": "分页获取文章列表",
-                "parameters": [
-                    {
-                        "description": "分页获取文章列表",
-                        "name": "page",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/response.PageResult"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "list": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/entity.Article"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/article/create": {
+            },
             "post": {
                 "security": [
                     {
@@ -1038,8 +1059,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/article/delete": {
-            "delete": {
+        "/article/archives": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1054,15 +1075,15 @@ const docTemplate = `{
                 "tags": [
                     "Article"
                 ],
-                "summary": "删除文章",
+                "summary": "文章归档",
                 "parameters": [
                     {
-                        "description": "请求body",
-                        "name": "data",
+                        "description": "分页获取文章列表",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Article"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1070,13 +1091,25 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Article"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
             }
         },
-        "/article/deleteByIds": {
+        "/article/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -1111,14 +1144,26 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
             }
         },
-        "/article/find": {
-            "get": {
+        "/article/condition": {
+            "post": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1133,15 +1178,15 @@ const docTemplate = `{
                 "tags": [
                     "Article"
                 ],
-                "summary": "查询文章",
+                "summary": "分页获取文章列表",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
+                        "description": "分页获取文章列表",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Article"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1157,7 +1202,22 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Article"
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/entity.Article"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
                                         }
                                     }
                                 }
@@ -1241,7 +1301,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1282,8 +1342,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/article/update": {
-            "put": {
+        "/article/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1298,16 +1358,14 @@ const docTemplate = `{
                 "tags": [
                     "Article"
                 ],
-                "summary": "更新文章",
+                "summary": "查询文章",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Article"
-                        }
+                        "type": "string",
+                        "description": "Article id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1323,6 +1381,52 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.Article"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Article"
+                ],
+                "summary": "删除文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Article id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -1364,7 +1468,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -1391,7 +1507,19 @@ const docTemplate = `{
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -1418,13 +1546,138 @@ const docTemplate = `{
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
             }
         },
-        "/category/create": {
+        "/categories": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "分页获取文章分类详情列表",
+                "parameters": [
+                    {
+                        "description": "分页参数",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/entity.Category"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/category": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "更新文章分类",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -1474,45 +1727,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Category"
-                ],
-                "summary": "删除文章分类",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Category"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/category/deleteByIds": {
+        "/category/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -1547,44 +1762,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/category/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Category"
-                ],
-                "summary": "查询文章分类",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Category"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -1593,7 +1770,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Category"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -1627,7 +1804,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1668,8 +1845,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/update": {
-            "put": {
+        "/category/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -1684,16 +1861,14 @@ const docTemplate = `{
                 "tags": [
                     "Category"
                 ],
-                "summary": "更新文章分类",
+                "summary": "查询文章分类",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Category"
-                        }
+                        "type": "string",
+                        "description": "Category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1709,6 +1884,52 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.Category"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "删除文章分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -1738,11 +1959,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "分页信息",
-                        "name": "data",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -1768,7 +1989,55 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/create": {
+        "/comment": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "更新评论",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -1818,45 +2087,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Comment"
-                ],
-                "summary": "删除评论",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Comment"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/comment/deleteByIds": {
+        "/comment/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -1891,44 +2122,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/comment/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Comment"
-                ],
-                "summary": "查询评论",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Comment"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -1937,7 +2130,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Comment"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -1971,7 +2164,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2012,8 +2205,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/update": {
-            "put": {
+        "/comment/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2028,15 +2221,164 @@ const docTemplate = `{
                 "tags": [
                     "Comment"
                 ],
-                "summary": "更新评论",
+                "summary": "查询评论",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
+                        "type": "string",
+                        "description": "Comment id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "删除评论",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comment id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/comment/{id}/like": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "点赞评论",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Comment"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/comment/{id}/reply_list": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "查询评论回复列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "请求body",
+                        "name": "page",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Comment"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2062,7 +2404,220 @@ const docTemplate = `{
                 }
             }
         },
-        "/friendLink/create": {
+        "/comments": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "分页获取评论列表",
+                "parameters": [
+                    {
+                        "description": "分页参数",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/entity.Comment"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/forget/password": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "发送忘记密码邮件",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserEmail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/forget/reset_password": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "重置密码",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.ResetPasswordReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/friend_link": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FriendLink"
+                ],
+                "summary": "更新友链",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.FriendLink"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.FriendLink"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -2112,45 +2667,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/friendLink/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "FriendLink"
-                ],
-                "summary": "删除友链",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.FriendLink"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/friendLink/deleteByIds": {
+        "/friend_link/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -2185,44 +2702,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/friendLink/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "FriendLink"
-                ],
-                "summary": "查询友链",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.FriendLink"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -2231,7 +2710,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.FriendLink"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -2241,7 +2720,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/friendLink/list": {
+        "/friend_link/list": {
             "post": {
                 "security": [
                     {
@@ -2265,7 +2744,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2306,8 +2785,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/friendLink/update": {
-            "put": {
+        "/friend_link/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2322,16 +2801,14 @@ const docTemplate = `{
                 "tags": [
                     "FriendLink"
                 ],
-                "summary": "更新友链",
+                "summary": "查询友链",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.FriendLink"
-                        }
+                        "type": "string",
+                        "description": "FriendLink id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2347,6 +2824,52 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.FriendLink"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FriendLink"
+                ],
+                "summary": "删除友链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "FriendLink id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -2388,7 +2911,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -2415,7 +2950,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -2442,13 +2989,73 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
             }
         },
-        "/menu/create": {
+        "/menu": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "更新菜单",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Menu"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -2498,45 +3105,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/menu/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Menu"
-                ],
-                "summary": "删除菜单",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Menu"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/menu/deleteByIds": {
+        "/menu/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -2571,44 +3140,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/menu/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Menu"
-                ],
-                "summary": "查询菜单",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Menu"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -2617,7 +3148,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Menu"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -2651,7 +3182,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -2692,8 +3223,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/menu/update": {
-            "put": {
+        "/menu/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -2708,16 +3239,14 @@ const docTemplate = `{
                 "tags": [
                     "Menu"
                 ],
-                "summary": "更新菜单",
+                "summary": "查询菜单",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Menu"
-                        }
+                        "type": "string",
+                        "description": "Menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2733,6 +3262,52 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.Menu"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Menu"
+                ],
+                "summary": "删除菜单",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -2842,7 +3417,55 @@ const docTemplate = `{
                 }
             }
         },
-        "/operationLog/create": {
+        "/operation_log": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OperationLog"
+                ],
+                "summary": "更新操作记录",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.OperationLog"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.OperationLog"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -2892,45 +3515,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/operationLog/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "OperationLog"
-                ],
-                "summary": "删除操作记录",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.OperationLog"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/operationLog/deleteByIds": {
+        "/operation_log/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -2965,44 +3550,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/operationLog/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "OperationLog"
-                ],
-                "summary": "查询操作记录",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.OperationLog"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -3011,7 +3558,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.OperationLog"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -3021,7 +3568,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/operationLog/list": {
+        "/operation_log/list": {
             "post": {
                 "security": [
                     {
@@ -3045,7 +3592,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3086,8 +3633,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/operationLog/update": {
-            "put": {
+        "/operation_log/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3102,16 +3649,14 @@ const docTemplate = `{
                 "tags": [
                     "OperationLog"
                 ],
-                "summary": "更新操作记录",
+                "summary": "查询操作记录",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.OperationLog"
-                        }
+                        "type": "string",
+                        "description": "OperationLog id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3134,9 +3679,103 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OperationLog"
+                ],
+                "summary": "删除操作记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "OperationLog id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/page/create": {
+        "/page": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "更新页面",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Page"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Page"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -3186,45 +3825,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/page/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Page"
-                ],
-                "summary": "删除页面",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Page"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/page/deleteByIds": {
+        "/page/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -3259,44 +3860,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/page/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Page"
-                ],
-                "summary": "查询页面",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Page"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -3305,7 +3868,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Page"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -3339,7 +3902,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3380,8 +3943,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/page/update": {
-            "put": {
+        "/page/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3396,16 +3959,14 @@ const docTemplate = `{
                 "tags": [
                     "Page"
                 ],
-                "summary": "更新页面",
+                "summary": "查询页面",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Page"
-                        }
+                        "type": "string",
+                        "description": "Page id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3428,9 +3989,103 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "删除页面",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Page id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/photo/create": {
+        "/photo": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "更新相片",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Photo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Photo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -3480,45 +4135,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photo/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Photo"
-                ],
-                "summary": "删除相片",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Photo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/photo/deleteByIds": {
+        "/photo/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -3553,44 +4170,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/photo/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Photo"
-                ],
-                "summary": "查询相片",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Photo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -3599,7 +4178,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Photo"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -3633,7 +4212,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3674,8 +4253,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/photo/update": {
-            "put": {
+        "/photo/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3690,16 +4269,14 @@ const docTemplate = `{
                 "tags": [
                     "Photo"
                 ],
-                "summary": "更新相片",
+                "summary": "查询相片",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Photo"
-                        }
+                        "type": "string",
+                        "description": "Photo id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3722,9 +4299,103 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Photo"
+                ],
+                "summary": "删除相片",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Photo id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/photoAlbum/create": {
+        "/photo_album": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PhotoAlbum"
+                ],
+                "summary": "更新相册",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.PhotoAlbum"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.PhotoAlbum"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -3774,45 +4445,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photoAlbum/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "PhotoAlbum"
-                ],
-                "summary": "删除相册",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.PhotoAlbum"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/photoAlbum/deleteByIds": {
+        "/photo_album/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -3847,44 +4480,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/photoAlbum/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "PhotoAlbum"
-                ],
-                "summary": "查询相册",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.PhotoAlbum"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -3893,7 +4488,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.PhotoAlbum"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -3903,7 +4498,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photoAlbum/list": {
+        "/photo_album/list": {
             "post": {
                 "security": [
                     {
@@ -3927,7 +4522,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -3968,8 +4563,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/photoAlbum/update": {
-            "put": {
+        "/photo_album/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -3984,16 +4579,14 @@ const docTemplate = `{
                 "tags": [
                     "PhotoAlbum"
                 ],
-                "summary": "更新相册",
+                "summary": "查询相册",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.PhotoAlbum"
-                        }
+                        "type": "string",
+                        "description": "PhotoAlbum id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4009,6 +4602,52 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/entity.PhotoAlbum"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "PhotoAlbum"
+                ],
+                "summary": "删除相册",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "PhotoAlbum id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -4050,7 +4689,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -4088,13 +4739,73 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
             }
         },
-        "/remark/create": {
+        "/remark": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Remark"
+                ],
+                "summary": "更新留言",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Remark"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Remark"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -4144,45 +4855,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/remark/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Remark"
-                ],
-                "summary": "删除留言",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Remark"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/remark/deleteByIds": {
+        "/remark/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -4217,44 +4890,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/remark/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Remark"
-                ],
-                "summary": "查询留言",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Remark"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -4263,7 +4898,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Remark"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -4297,7 +4932,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -4338,8 +4973,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/remark/update": {
-            "put": {
+        "/remark/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4354,16 +4989,14 @@ const docTemplate = `{
                 "tags": [
                     "Remark"
                 ],
-                "summary": "更新留言",
+                "summary": "查询留言",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Remark"
-                        }
+                        "type": "string",
+                        "description": "Remark id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4386,9 +5019,103 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Remark"
+                ],
+                "summary": "删除留言",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Remark id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/role/create": {
+        "/role": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Role"
+                ],
+                "summary": "更新角色",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Role"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Role"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -4438,45 +5165,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/role/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Role"
-                ],
-                "summary": "删除角色",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Role"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/role/deleteByIds": {
+        "/role/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -4511,44 +5200,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/role/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Role"
-                ],
-                "summary": "查询角色",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Role"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -4557,7 +5208,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -4591,7 +5242,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -4632,8 +5283,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/role/update": {
-            "put": {
+        "/role/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4648,16 +5299,14 @@ const docTemplate = `{
                 "tags": [
                     "Role"
                 ],
-                "summary": "更新角色",
+                "summary": "查询角色",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Role"
-                        }
+                        "type": "string",
+                        "description": "Role id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4680,9 +5329,103 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Role"
+                ],
+                "summary": "删除角色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Role id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/tag/create": {
+        "/tag": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "更新文章标签",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Tag"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Tag"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -4732,45 +5475,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tag/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tag"
-                ],
-                "summary": "删除文章标签",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Tag"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/tag/deleteByIds": {
+        "/tag/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -4805,44 +5510,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/tag/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tag"
-                ],
-                "summary": "查询文章标签",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Tag"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -4851,7 +5518,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Tag"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -4885,7 +5552,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -4926,8 +5593,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/tag/update": {
-            "put": {
+        "/tag/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -4942,16 +5609,14 @@ const docTemplate = `{
                 "tags": [
                     "Tag"
                 ],
-                "summary": "更新文章标签",
+                "summary": "查询文章标签",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Tag"
-                        }
+                        "type": "string",
+                        "description": "Tag id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -4974,9 +5639,103 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "删除文章标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Tag id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/talk/create": {
+        "/talk": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Talk"
+                ],
+                "summary": "更新说说",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Talk"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Talk"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -5026,45 +5785,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/talk/delete": {
-            "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Talk"
-                ],
-                "summary": "删除说说",
-                "parameters": [
-                    {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Talk"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/talk/deleteByIds": {
+        "/talk/batch_delete": {
             "delete": {
                 "security": [
                     {
@@ -5099,44 +5820,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/talk/find": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Talk"
-                ],
-                "summary": "查询说说",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Talk"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -5145,7 +5828,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Talk"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -5179,7 +5862,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -5220,8 +5903,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/talk/update": {
-            "put": {
+        "/talk/{id}": {
+            "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -5236,16 +5919,14 @@ const docTemplate = `{
                 "tags": [
                     "Talk"
                 ],
-                "summary": "更新说说",
+                "summary": "查询说说",
                 "parameters": [
                     {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Talk"
-                        }
+                        "type": "string",
+                        "description": "Talk id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -5268,9 +5949,55 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Talk"
+                ],
+                "summary": "删除说说",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Talk id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
-        "/upload/:label": {
+        "/upload/{label}": {
             "post": {
                 "security": [
                     {
@@ -5289,13 +6016,18 @@ const docTemplate = `{
                 "summary": "文件上传",
                 "parameters": [
                     {
-                        "description": "请求body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Upload"
-                        }
+                        "type": "string",
+                        "description": "标签",
+                        "name": "label",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "文件",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -5324,7 +6056,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5341,7 +6073,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -5401,7 +6145,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5418,7 +6162,67 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "修改用户信息",
+                "parameters": [
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.UserInformation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.Upload"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -5428,7 +6232,7 @@ const docTemplate = `{
             "get": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5448,7 +6252,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageInfo"
+                            "$ref": "#/definitions/request.PageQuery"
                         }
                     }
                 ],
@@ -5456,7 +6260,19 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -5466,7 +6282,7 @@ const docTemplate = `{
             "post": {
                 "security": [
                     {
-                        "ApiKeyUser": []
+                        "ApiKeyAuth": []
                     }
                 ],
                 "consumes": [
@@ -5483,136 +6299,6 @@ const docTemplate = `{
                     "200": {
                         "description": "返回信息",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/password/forget": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "发送忘记密码邮件",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.UserEmail"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/user/password/reset": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "重置密码",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.ResetPasswordReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/version": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "描述,可以有多个。https://www.jianshu.com/p/4bb4283632e4",
-                "tags": [
-                    "Blog"
-                ],
-                "summary": "创建api路由",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "上传文件",
-                        "name": "file",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "创建api路由",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Api"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
                             "allOf": [
                                 {
                                     "$ref": "#/definitions/response.Response"
@@ -5621,7 +6307,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Api"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -5645,10 +6331,6 @@ const docTemplate = `{
         "entity.Api": {
             "type": "object",
             "properties": {
-                "access_type": {
-                    "description": "访问类型 0需要认证，0公开接口",
-                    "type": "integer"
-                },
                 "created_at": {
                     "description": "创建时间",
                     "type": "string"
@@ -5679,6 +6361,10 @@ const docTemplate = `{
                 },
                 "status": {
                     "description": "状态 1开，2关",
+                    "type": "integer"
+                },
+                "traceable": {
+                    "description": "是否追溯操作记录 0需要，1是",
                     "type": "integer"
                 },
                 "updated_at": {
@@ -5937,6 +6623,10 @@ const docTemplate = `{
         "entity.OperationLog": {
             "type": "object",
             "properties": {
+                "cost": {
+                    "description": "耗时（ms）",
+                    "type": "string"
+                },
                 "created_at": {
                     "description": "创建时间",
                     "type": "string"
@@ -5973,8 +6663,8 @@ const docTemplate = `{
                     "description": "操作类型",
                     "type": "string"
                 },
-                "opt_url": {
-                    "description": "操作url",
+                "request_header": {
+                    "description": "请求头",
                     "type": "string"
                 },
                 "request_method": {
@@ -5985,9 +6675,17 @@ const docTemplate = `{
                     "description": "请求参数",
                     "type": "string"
                 },
+                "request_url": {
+                    "description": "操作url",
+                    "type": "string"
+                },
                 "response_data": {
                     "description": "返回数据",
                     "type": "string"
+                },
+                "status": {
+                    "description": "响应状态码",
+                    "type": "integer"
                 },
                 "updated_at": {
                     "description": "更新时间",
@@ -6229,11 +6927,11 @@ const docTemplate = `{
                 },
                 "is_top": {
                     "description": "是否置顶",
-                    "type": "boolean"
+                    "type": "integer"
                 },
                 "status": {
                     "description": "状态 1.公开 2.私密",
-                    "type": "boolean"
+                    "type": "integer"
                 },
                 "updated_at": {
                     "description": "更新时间",
@@ -6327,6 +7025,51 @@ const docTemplate = `{
                 }
             }
         },
+        "entity.UserInformation": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "用户邮箱",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "intro": {
+                    "description": "个人简介",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户手机号",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "integer"
+                },
+                "web_site": {
+                    "description": "个人网站",
+                    "type": "string"
+                }
+            }
+        },
         "request.CaptchaEmail": {
             "type": "object",
             "properties": {
@@ -6353,11 +7096,22 @@ const docTemplate = `{
                 },
                 "flag": {
                     "description": "标识 and、or,默认and",
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "and",
+                        "or"
+                    ]
                 },
                 "rule": {
-                    "description": "规则 =、like、in、\u003c、\u003e",
-                    "type": "string"
+                    "description": "规则 =,like,in,\u003c,\u003e",
+                    "type": "string",
+                    "enum": [
+                        "=",
+                        "like",
+                        "in",
+                        "\u003c",
+                        "\u003e"
+                    ]
                 },
                 "value": {
                     "description": "值"
@@ -6384,20 +7138,7 @@ const docTemplate = `{
                 }
             }
         },
-        "request.Order": {
-            "type": "object",
-            "properties": {
-                "field": {
-                    "description": "表字段",
-                    "type": "string"
-                },
-                "rule": {
-                    "description": "排序规则 asc|desc",
-                    "type": "string"
-                }
-            }
-        },
-        "request.PageInfo": {
+        "request.PageQuery": {
             "type": "object",
             "properties": {
                 "conditions": {
@@ -6407,13 +7148,6 @@ const docTemplate = `{
                         "$ref": "#/definitions/request.Condition"
                     }
                 },
-                "orders": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/request.Order"
-                    }
-                },
                 "page": {
                     "description": "页码",
                     "type": "integer"
@@ -6421,6 +7155,13 @@ const docTemplate = `{
                 "page_size": {
                     "description": "每页大小",
                     "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.Sort"
+                    }
                 }
             }
         },
@@ -6438,6 +7179,23 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "admin@qq.com"
+                }
+            }
+        },
+        "request.Sort": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "description": "表字段",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "排序规则 asc|desc",
+                    "type": "string",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
                 }
             }
         },
@@ -6498,7 +7256,7 @@ const docTemplate = `{
                 "page": {
                     "type": "integer"
                 },
-                "pageSize": {
+                "page_size": {
                     "type": "integer"
                 },
                 "total": {
@@ -6534,7 +7292,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:9999",
+	Host:             "localhost:9999/",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",

@@ -2,10 +2,10 @@ package jjwt
 
 import (
 	"errors"
+	"strconv"
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -16,9 +16,10 @@ type JwtToken struct {
 }
 
 type JwtClaims struct {
-	Uid      int      `json:"uid"`
-	Username string   `json:"username"`
-	Roles    []string `json:"roles"`
+	Uid       int    `json:"uid"`
+	Username  string `json:"username"`
+	LoginType string `json:"login_type"`
+	//Roles    []string `json:"roles"`
 	//UserClaims         interface{} //用户信息
 	jwt.StandardClaims //标准荷载
 }
@@ -44,17 +45,21 @@ func (j *JwtToken) parserToken(tokenString string) (*JwtClaims, error) {
 
 	if err != nil {
 		if ve, ok := err.(*jwt.ValidationError); ok {
-			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
+			switch {
+			case ve.Errors&jwt.ValidationErrorMalformed != 0:
+				// ValidationErrorMalformed是一个uint常量，表示token不可用
 				return nil, TokenMalformed
-			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
-				// Token is expired
+			case ve.Errors&jwt.ValidationErrorExpired != 0:
+				// ValidationErrorExpired表示Token过期
 				return nil, TokenExpired
-			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
+			case ve.Errors&jwt.ValidationErrorNotValidYet != 0:
+				// ValidationErrorNotValidYet表示无效token
 				return nil, TokenNotValidYet
-			} else {
+			default:
 				return nil, TokenInvalid
 			}
 		}
+		return nil, err
 	}
 
 	if token != nil {
@@ -68,12 +73,11 @@ func (j *JwtToken) parserToken(tokenString string) (*JwtClaims, error) {
 }
 
 // 根据用户登录信息生成token，
-func (j *JwtToken) CreateClaims(userId int, username string, roles []string) (string, error) {
+func (j *JwtToken) CreateClaims(userId int, username string, loginType string) (string, error) {
 	claims := JwtClaims{
-		//UserClaims: info,
-		Uid:      userId,
-		Username: username,
-		Roles:    roles,
+		Uid:       userId,
+		Username:  username,
+		LoginType: loginType,
 		StandardClaims: jwt.StandardClaims{
 			NotBefore: time.Now().Unix(),
 			ExpiresAt: time.Now().Add(7 * 24 * time.Hour).Unix(),
@@ -84,28 +88,28 @@ func (j *JwtToken) CreateClaims(userId int, username string, roles []string) (st
 	return j.createToken(claims)
 }
 
-func (j *JwtToken) ParseTokenByGin(c *gin.Context) (*JwtClaims, error) {
-	tokenHeader := c.Request.Header.Get("Authorization")
-
-	//token是空
-	if tokenHeader == "" {
-		//tokenHeader, _ = c.Cookie("token")
-		//global.LOG.Info("get token by cookie :" + tokenHeader)
+func (j *JwtToken) VerifyToken(token string, uid string) (*JwtClaims, error) {
+	if token == "" {
 		return nil, errors.New("token is null")
 	}
-
+	if uid == "" {
+		return nil, errors.New("uid is null")
+	}
 	//验证token是否 Bearer 开头的
-	ok := strings.HasPrefix(tokenHeader, j.TokenPrefix)
+	ok := strings.HasPrefix(token, j.TokenPrefix)
 	if !ok {
 		return nil, errors.New("token must be has prefix :" + j.TokenPrefix)
 	}
 
-	token := strings.TrimPrefix(tokenHeader, j.TokenPrefix)
-
+	token = strings.TrimPrefix(token, j.TokenPrefix)
 	// 解析token
 	claims, err := j.parserToken(token)
 	if err != nil {
 		return nil, err
+	}
+
+	if uid != strconv.Itoa(claims.Uid) {
+		return nil, errors.New("uid is not equal")
 	}
 	return claims, nil
 }
