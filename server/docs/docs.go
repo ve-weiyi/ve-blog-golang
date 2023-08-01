@@ -27,11 +27,6 @@ const docTemplate = `{
     "paths": {
         "/about": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -42,6 +37,20 @@ const docTemplate = `{
                     "Blog"
                 ],
                 "summary": "关于我",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -66,11 +75,6 @@ const docTemplate = `{
         },
         "/admin/about": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -81,6 +85,20 @@ const docTemplate = `{
                     "Admin"
                 ],
                 "summary": "更新我的信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -105,11 +123,6 @@ const docTemplate = `{
         },
         "/admin/apis": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -121,6 +134,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取api列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -158,11 +183,6 @@ const docTemplate = `{
         },
         "/admin/comments": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -174,6 +194,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取用户评论列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -208,11 +240,6 @@ const docTemplate = `{
         },
         "/admin/home": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -223,6 +250,20 @@ const docTemplate = `{
                     "Admin"
                 ],
                 "summary": "获取用户地区",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -247,11 +288,6 @@ const docTemplate = `{
         },
         "/admin/menus": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -263,6 +299,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取菜单列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -300,11 +348,6 @@ const docTemplate = `{
         },
         "/admin/role/update_menus": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -316,6 +359,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新角色菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "创建角色",
                         "name": "data",
@@ -350,11 +405,6 @@ const docTemplate = `{
         },
         "/admin/role/update_resources": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -366,6 +416,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新角色资源",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "创建角色",
                         "name": "data",
@@ -400,11 +462,6 @@ const docTemplate = `{
         },
         "/admin/roles": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -416,6 +473,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取角色列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -453,11 +522,6 @@ const docTemplate = `{
         },
         "/admin/user/areas": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -469,6 +533,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取用户地区",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -503,11 +579,6 @@ const docTemplate = `{
         },
         "/admin/user/update_roles": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -519,6 +590,18 @@ const docTemplate = `{
                 ],
                 "summary": "修改用户角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求数据",
                         "name": "data",
@@ -553,11 +636,6 @@ const docTemplate = `{
         },
         "/admin/user/update_status": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -569,6 +647,18 @@ const docTemplate = `{
                 ],
                 "summary": "修改用户状态",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求数据",
                         "name": "data",
@@ -603,11 +693,6 @@ const docTemplate = `{
         },
         "/admin/users": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -619,6 +704,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取用户列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -653,11 +750,6 @@ const docTemplate = `{
         },
         "/api": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -669,6 +761,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新接口",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -701,11 +805,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -717,6 +816,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建接口",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -751,11 +862,6 @@ const docTemplate = `{
         },
         "/api/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -767,6 +873,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除接口",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -804,11 +922,6 @@ const docTemplate = `{
         },
         "/api/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -820,6 +933,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取接口列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -869,11 +994,6 @@ const docTemplate = `{
         },
         "/api/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -887,6 +1007,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Api id",
                         "name": "id",
                         "in": "path",
@@ -915,11 +1047,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -933,6 +1060,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Api id",
                         "name": "id",
                         "in": "path",
@@ -963,11 +1102,6 @@ const docTemplate = `{
         },
         "/article": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -979,6 +1113,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1011,11 +1157,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1027,6 +1168,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1061,11 +1214,6 @@ const docTemplate = `{
         },
         "/article/archives": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1077,6 +1225,18 @@ const docTemplate = `{
                 ],
                 "summary": "文章归档",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页获取文章列表",
                         "name": "page",
@@ -1111,11 +1271,6 @@ const docTemplate = `{
         },
         "/article/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1127,6 +1282,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -1164,11 +1331,6 @@ const docTemplate = `{
         },
         "/article/condition": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1180,6 +1342,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页获取文章列表",
                         "name": "page",
@@ -1229,11 +1403,6 @@ const docTemplate = `{
         },
         "/article/like": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1245,6 +1414,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "更新文章",
                         "name": "data",
@@ -1279,11 +1460,6 @@ const docTemplate = `{
         },
         "/article/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1295,6 +1471,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -1344,11 +1532,6 @@ const docTemplate = `{
         },
         "/article/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1362,6 +1545,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Article id",
                         "name": "id",
                         "in": "path",
@@ -1390,11 +1585,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1408,6 +1598,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Article id",
                         "name": "id",
                         "in": "path",
@@ -1438,11 +1640,6 @@ const docTemplate = `{
         },
         "/captcha/email": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1454,6 +1651,18 @@ const docTemplate = `{
                 ],
                 "summary": "发送验证码",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -1488,11 +1697,6 @@ const docTemplate = `{
         },
         "/captcha/image": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1503,6 +1707,29 @@ const docTemplate = `{
                     "Captcha"
                 ],
                 "summary": "生成验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Captcha"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
@@ -1527,11 +1754,6 @@ const docTemplate = `{
         },
         "/captcha/verify": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1542,6 +1764,29 @@ const docTemplate = `{
                     "Captcha"
                 ],
                 "summary": "检验验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CaptchaVerify"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
@@ -1566,11 +1811,6 @@ const docTemplate = `{
         },
         "/categories": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1582,6 +1822,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取文章分类详情列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -1631,11 +1883,6 @@ const docTemplate = `{
         },
         "/category": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1647,6 +1894,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新文章分类",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1679,11 +1938,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1695,6 +1949,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建文章分类",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1729,11 +1995,6 @@ const docTemplate = `{
         },
         "/category/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1745,6 +2006,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除文章分类",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -1782,11 +2055,6 @@ const docTemplate = `{
         },
         "/category/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1798,6 +2066,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取文章分类列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -1847,11 +2127,6 @@ const docTemplate = `{
         },
         "/category/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1865,6 +2140,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Category id",
                         "name": "id",
                         "in": "path",
@@ -1893,11 +2180,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1911,6 +2193,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Category id",
                         "name": "id",
                         "in": "path",
@@ -1941,11 +2235,6 @@ const docTemplate = `{
         },
         "/chat/records": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1957,6 +2246,18 @@ const docTemplate = `{
                 ],
                 "summary": "查询聊天记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页信息",
                         "name": "page",
@@ -1991,11 +2292,6 @@ const docTemplate = `{
         },
         "/comment": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2007,6 +2303,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2039,11 +2347,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2055,6 +2358,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2089,11 +2404,6 @@ const docTemplate = `{
         },
         "/comment/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2105,6 +2415,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -2142,11 +2464,6 @@ const docTemplate = `{
         },
         "/comment/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2158,6 +2475,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取评论列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -2207,11 +2536,6 @@ const docTemplate = `{
         },
         "/comment/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2225,6 +2549,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Comment id",
                         "name": "id",
                         "in": "path",
@@ -2253,11 +2589,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2271,6 +2602,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Comment id",
                         "name": "id",
                         "in": "path",
@@ -2317,6 +2660,18 @@ const docTemplate = `{
                 ],
                 "summary": "点赞评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "id",
@@ -2366,6 +2721,18 @@ const docTemplate = `{
                 "summary": "查询评论回复列表",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
                         "type": "integer",
                         "description": "id",
                         "name": "id",
@@ -2406,11 +2773,6 @@ const docTemplate = `{
         },
         "/comments": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2422,6 +2784,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取评论列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -2471,11 +2845,6 @@ const docTemplate = `{
         },
         "/forget/password": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2487,6 +2856,18 @@ const docTemplate = `{
                 ],
                 "summary": "发送忘记密码邮件",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2521,11 +2902,6 @@ const docTemplate = `{
         },
         "/forget/reset_password": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2537,6 +2913,18 @@ const docTemplate = `{
                 ],
                 "summary": "重置密码",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2571,11 +2959,6 @@ const docTemplate = `{
         },
         "/friend_link": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2587,6 +2970,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新友链",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2619,11 +3014,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2635,6 +3025,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建友链",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2669,11 +3071,6 @@ const docTemplate = `{
         },
         "/friend_link/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2685,6 +3082,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除友链",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -2722,11 +3131,6 @@ const docTemplate = `{
         },
         "/friend_link/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2738,6 +3142,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取友链列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -2787,11 +3203,6 @@ const docTemplate = `{
         },
         "/friend_link/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2805,6 +3216,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "FriendLink id",
                         "name": "id",
                         "in": "path",
@@ -2833,11 +3256,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2851,6 +3269,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "FriendLink id",
                         "name": "id",
                         "in": "path",
@@ -2881,11 +3311,6 @@ const docTemplate = `{
         },
         "/login": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2897,6 +3322,18 @@ const docTemplate = `{
                 ],
                 "summary": "登录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "创建权限认证",
                         "name": "data",
@@ -2931,11 +3368,6 @@ const docTemplate = `{
         },
         "/logoff": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2946,6 +3378,20 @@ const docTemplate = `{
                     "Auth"
                 ],
                 "summary": "注销",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -2970,11 +3416,6 @@ const docTemplate = `{
         },
         "/logout": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2985,6 +3426,20 @@ const docTemplate = `{
                     "Auth"
                 ],
                 "summary": "登出",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -3009,11 +3464,6 @@ const docTemplate = `{
         },
         "/menu": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3025,6 +3475,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3057,11 +3519,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3073,6 +3530,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3107,11 +3576,6 @@ const docTemplate = `{
         },
         "/menu/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3123,6 +3587,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -3160,11 +3636,6 @@ const docTemplate = `{
         },
         "/menu/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3176,6 +3647,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取菜单列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -3225,11 +3708,6 @@ const docTemplate = `{
         },
         "/menu/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3243,6 +3721,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Menu id",
                         "name": "id",
                         "in": "path",
@@ -3271,11 +3761,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3289,6 +3774,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Menu id",
                         "name": "id",
                         "in": "path",
@@ -3319,11 +3816,6 @@ const docTemplate = `{
         },
         "/oauth/login": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3335,6 +3827,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取授权地址",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -3369,11 +3873,6 @@ const docTemplate = `{
         },
         "/oauth/url": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3385,6 +3884,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取授权地址",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -3419,11 +3930,6 @@ const docTemplate = `{
         },
         "/operation_log": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3435,6 +3941,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新操作记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3467,11 +3985,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3483,6 +3996,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建操作记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3517,11 +4042,6 @@ const docTemplate = `{
         },
         "/operation_log/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3533,6 +4053,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除操作记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -3570,11 +4102,6 @@ const docTemplate = `{
         },
         "/operation_log/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3586,6 +4113,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取操作记录列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -3635,11 +4174,6 @@ const docTemplate = `{
         },
         "/operation_log/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3653,6 +4187,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "OperationLog id",
                         "name": "id",
                         "in": "path",
@@ -3681,11 +4227,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3699,6 +4240,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "OperationLog id",
                         "name": "id",
                         "in": "path",
@@ -3729,11 +4282,6 @@ const docTemplate = `{
         },
         "/page": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3745,6 +4293,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新页面",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3777,11 +4337,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3793,6 +4348,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建页面",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3827,11 +4394,6 @@ const docTemplate = `{
         },
         "/page/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3843,6 +4405,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除页面",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -3880,11 +4454,6 @@ const docTemplate = `{
         },
         "/page/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3896,6 +4465,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取页面列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -3945,11 +4526,6 @@ const docTemplate = `{
         },
         "/page/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3963,6 +4539,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Page id",
                         "name": "id",
                         "in": "path",
@@ -3991,11 +4579,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4009,6 +4592,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Page id",
                         "name": "id",
                         "in": "path",
@@ -4039,11 +4634,6 @@ const docTemplate = `{
         },
         "/photo": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4055,6 +4645,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新相片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4087,11 +4689,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4103,6 +4700,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建相片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4137,11 +4746,6 @@ const docTemplate = `{
         },
         "/photo/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4153,6 +4757,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除相片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -4190,11 +4806,6 @@ const docTemplate = `{
         },
         "/photo/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4206,6 +4817,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取相片列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -4255,11 +4878,6 @@ const docTemplate = `{
         },
         "/photo/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4273,6 +4891,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Photo id",
                         "name": "id",
                         "in": "path",
@@ -4301,11 +4931,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4319,6 +4944,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Photo id",
                         "name": "id",
                         "in": "path",
@@ -4349,11 +4986,6 @@ const docTemplate = `{
         },
         "/photo_album": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4365,6 +4997,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新相册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4397,11 +5041,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4413,6 +5052,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建相册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4447,11 +5098,6 @@ const docTemplate = `{
         },
         "/photo_album/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4463,6 +5109,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除相册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -4500,11 +5158,6 @@ const docTemplate = `{
         },
         "/photo_album/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4516,6 +5169,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取相册列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -4565,11 +5230,6 @@ const docTemplate = `{
         },
         "/photo_album/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4583,6 +5243,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "PhotoAlbum id",
                         "name": "id",
                         "in": "path",
@@ -4611,11 +5283,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4629,6 +5296,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "PhotoAlbum id",
                         "name": "id",
                         "in": "path",
@@ -4659,11 +5338,6 @@ const docTemplate = `{
         },
         "/register": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4675,6 +5349,18 @@ const docTemplate = `{
                 ],
                 "summary": "注册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -4709,11 +5395,6 @@ const docTemplate = `{
         },
         "/register/email": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4725,6 +5406,18 @@ const docTemplate = `{
                 ],
                 "summary": "发送注册邮件",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -4759,11 +5452,6 @@ const docTemplate = `{
         },
         "/remark": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4775,6 +5463,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新留言",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4807,11 +5507,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4823,6 +5518,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建留言",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4857,11 +5564,6 @@ const docTemplate = `{
         },
         "/remark/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4873,6 +5575,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除留言",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -4910,11 +5624,6 @@ const docTemplate = `{
         },
         "/remark/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4926,6 +5635,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取留言列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -4975,11 +5696,6 @@ const docTemplate = `{
         },
         "/remark/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4993,6 +5709,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Remark id",
                         "name": "id",
                         "in": "path",
@@ -5021,11 +5749,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5039,6 +5762,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Remark id",
                         "name": "id",
                         "in": "path",
@@ -5069,11 +5804,6 @@ const docTemplate = `{
         },
         "/role": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5085,6 +5815,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5117,11 +5859,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5133,6 +5870,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5167,11 +5916,6 @@ const docTemplate = `{
         },
         "/role/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5183,6 +5927,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -5220,11 +5976,6 @@ const docTemplate = `{
         },
         "/role/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5236,6 +5987,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取角色列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -5285,11 +6048,6 @@ const docTemplate = `{
         },
         "/role/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5303,6 +6061,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Role id",
                         "name": "id",
                         "in": "path",
@@ -5331,11 +6101,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5349,6 +6114,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Role id",
                         "name": "id",
                         "in": "path",
@@ -5379,11 +6156,6 @@ const docTemplate = `{
         },
         "/tag": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5395,6 +6167,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新文章标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5427,11 +6211,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5443,6 +6222,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建文章标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5477,11 +6268,6 @@ const docTemplate = `{
         },
         "/tag/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5493,6 +6279,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除文章标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -5530,11 +6328,6 @@ const docTemplate = `{
         },
         "/tag/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5546,6 +6339,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取文章标签列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -5595,11 +6400,6 @@ const docTemplate = `{
         },
         "/tag/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5613,6 +6413,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Tag id",
                         "name": "id",
                         "in": "path",
@@ -5641,11 +6453,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5659,6 +6466,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Tag id",
                         "name": "id",
                         "in": "path",
@@ -5689,11 +6508,6 @@ const docTemplate = `{
         },
         "/talk": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5705,6 +6519,18 @@ const docTemplate = `{
                 ],
                 "summary": "更新说说",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5737,11 +6563,6 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5753,6 +6574,18 @@ const docTemplate = `{
                 ],
                 "summary": "创建说说",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5787,11 +6620,6 @@ const docTemplate = `{
         },
         "/talk/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5803,6 +6631,18 @@ const docTemplate = `{
                 ],
                 "summary": "批量删除说说",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -5840,11 +6680,6 @@ const docTemplate = `{
         },
         "/talk/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5856,6 +6691,18 @@ const docTemplate = `{
                 ],
                 "summary": "分页获取说说列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -5905,11 +6752,6 @@ const docTemplate = `{
         },
         "/talk/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5923,6 +6765,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Talk id",
                         "name": "id",
                         "in": "path",
@@ -5951,11 +6805,6 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5969,6 +6818,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Talk id",
                         "name": "id",
                         "in": "path",
@@ -6017,6 +6878,18 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
                         "description": "标签",
                         "name": "label",
                         "in": "path",
@@ -6053,12 +6926,7 @@ const docTemplate = `{
             }
         },
         "/user/apis": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -6069,6 +6937,20 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "获取用户接口权限",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -6110,6 +6992,18 @@ const docTemplate = `{
                 "summary": "更换用户头像",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
                         "description": "请求body",
                         "name": "data",
                         "in": "body",
@@ -6143,11 +7037,6 @@ const docTemplate = `{
         },
         "/user/info": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -6158,6 +7047,20 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "获取用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -6197,6 +7100,18 @@ const docTemplate = `{
                 "summary": "修改用户信息",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
                         "description": "请求body",
                         "name": "data",
                         "in": "body",
@@ -6230,11 +7145,6 @@ const docTemplate = `{
         },
         "/user/login_history": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -6246,6 +7156,18 @@ const docTemplate = `{
                 ],
                 "summary": "获取用户登录历史",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -6279,12 +7201,7 @@ const docTemplate = `{
             }
         },
         "/user/menus": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -6295,6 +7212,20 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "获取用户菜单权限",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -7070,6 +8001,26 @@ const docTemplate = `{
                 }
             }
         },
+        "request.Captcha": {
+            "type": "object",
+            "properties": {
+                "captcha_type": {
+                    "type": "string"
+                },
+                "height": {
+                    "description": "Height png height in pixel.",
+                    "type": "integer"
+                },
+                "length": {
+                    "description": "DefaultLen Default number of digits in captcha solution.",
+                    "type": "integer"
+                },
+                "width": {
+                    "description": "Width Captcha png width in pixel.",
+                    "type": "integer"
+                }
+            }
+        },
         "request.CaptchaEmail": {
             "type": "object",
             "properties": {
@@ -7083,6 +8034,17 @@ const docTemplate = `{
                 },
                 "service": {
                     "description": "服务",
+                    "type": "string"
+                }
+            }
+        },
+        "request.CaptchaVerify": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 }
             }

@@ -10,14 +10,14 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
 
-	"github.com/ve-weiyi/go-sdk/utils/glog"
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type BaseController struct {
@@ -73,13 +73,9 @@ func (m *BaseController) Response500(ctx *gin.Context, res interface{}) {
 }
 
 func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, error) {
-	//token := ctx.Request.Header.Get("Authorization")
-	//if token == "" {
-	//	return nil, nil
-	//}
 
 	reqCtx := &request.Context{}
-	reqCtx.Token = ctx.Request.Header.Get("Authorization")
+	reqCtx.Token = ctx.GetString("token")
 	reqCtx.UID = ctx.GetInt("uid")
 	reqCtx.Username = ctx.GetString("username")
 	reqCtx.IpAddress = ctx.GetString("ip_address")

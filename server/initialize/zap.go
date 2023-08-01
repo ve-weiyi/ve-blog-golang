@@ -6,10 +6,10 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 
-	"github.com/ve-weiyi/go-sdk/utils/copy"
-	"github.com/ve-weiyi/go-sdk/utils/files"
-	"github.com/ve-weiyi/go-sdk/utils/glog"
-	"github.com/ve-weiyi/go-sdk/utils/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/copy"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog/zaplog"
 )
 
 // Zap 获取 zap.Logger

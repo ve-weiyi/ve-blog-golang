@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ve-weiyi/go-sdk/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 )
 
 type Local struct {

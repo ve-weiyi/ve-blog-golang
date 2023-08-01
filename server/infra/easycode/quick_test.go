@@ -13,10 +13,10 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000
@@ -137,7 +137,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		}
 
 		// 添加前缀 "gen_" 到文件名
-		newName := strings.Replace(oldName, "tb_tb_", "tb_", 1)
+		newName := strings.Replace(oldName, "gen_website_config", "ex_website_config", 1)
 
 		// 修改文件名
 		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))

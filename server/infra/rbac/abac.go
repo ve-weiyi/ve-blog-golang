@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
 type Enforcer interface {

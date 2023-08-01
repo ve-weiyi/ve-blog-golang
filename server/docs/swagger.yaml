@@ -542,6 +542,20 @@ definitions:
         description: 个人网站
         type: string
     type: object
+  request.Captcha:
+    properties:
+      captcha_type:
+        type: string
+      height:
+        description: Height png height in pixel.
+        type: integer
+      length:
+        description: DefaultLen Default number of digits in captcha solution.
+        type: integer
+      width:
+        description: Width Captcha png width in pixel.
+        type: integer
+    type: object
   request.CaptchaEmail:
     properties:
       check:
@@ -552,6 +566,13 @@ definitions:
         type: string
       service:
         description: 服务
+        type: string
+    type: object
+  request.CaptchaVerify:
+    properties:
+      code:
+        type: string
+      id:
         type: string
     type: object
   request.Condition:
@@ -704,9 +725,18 @@ paths:
   /about:
     get:
       consumes:
-      - application/json
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -717,8 +747,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Api'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 关于我
       tags:
         - Blog
@@ -726,6 +754,15 @@ paths:
     post:
       consumes:
         - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
         - application/json
       responses:
@@ -738,8 +775,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 更新我的信息
       tags:
         - Admin
@@ -748,6 +783,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -768,8 +811,6 @@ paths:
                       $ref: '#/definitions/entity.Api'
                     type: array
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取api列表
       tags:
         - Api
@@ -778,6 +819,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -796,8 +845,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户评论列表
       tags:
         - Comment
@@ -805,6 +852,15 @@ paths:
     post:
       consumes:
         - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
         - application/json
       responses:
@@ -817,8 +873,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户地区
       tags:
         - Admin
@@ -827,6 +881,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -847,8 +909,6 @@ paths:
                     $ref: '#/definitions/entity.Menu'
                   type: array
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 获取菜单列表
       tags:
         - Menu
@@ -857,12 +917,20 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 创建角色
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Role'
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 创建角色
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Role'
       produces:
       - application/json
       responses:
@@ -875,8 +943,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Role'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新角色菜单
       tags:
         - Role
@@ -885,12 +951,20 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 创建角色
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Role'
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 创建角色
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/entity.Role'
       produces:
       - application/json
       responses:
@@ -903,8 +977,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Role'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新角色资源
       tags:
         - Role
@@ -913,6 +985,14 @@ paths:
       consumes:
       - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -933,8 +1013,6 @@ paths:
                       $ref: '#/definitions/entity.Role'
                     type: array
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取角色列表
       tags:
         - Role
@@ -943,6 +1021,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -961,8 +1047,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户地区
       tags:
         - User
@@ -971,6 +1055,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求数据
           in: body
           name: data
@@ -989,8 +1081,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Role'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 修改用户角色
       tags:
         - User
@@ -999,6 +1089,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求数据
           in: body
           name: data
@@ -1017,8 +1115,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 修改用户状态
       tags:
         - User
@@ -1027,6 +1123,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -1045,8 +1149,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户列表
       tags:
         - User
@@ -1055,6 +1157,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1073,8 +1183,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Api'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 创建接口
       tags:
       - Api
@@ -1082,6 +1190,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1100,8 +1216,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Api'
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新接口
       tags:
       - Api
@@ -1110,11 +1224,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Api id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -1127,8 +1249,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除接口
       tags:
         - Api
@@ -1136,11 +1256,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Api id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -1153,8 +1281,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Api'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询接口
       tags:
         - Api
@@ -1163,6 +1289,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -1183,8 +1317,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除接口
       tags:
         - Api
@@ -1193,6 +1325,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -1218,8 +1358,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取接口列表
       tags:
         - Api
@@ -1228,6 +1366,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1246,8 +1392,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Article'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建文章
       tags:
         - Article
@@ -1255,6 +1399,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1273,8 +1425,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Article'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 更新文章
       tags:
         - Article
@@ -1283,11 +1433,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Article id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -1300,8 +1458,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除文章
       tags:
       - Article
@@ -1309,11 +1465,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Article id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -1326,8 +1490,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Article'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询文章
       tags:
         - Article
@@ -1336,6 +1498,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页获取文章列表
           in: body
           name: page
@@ -1354,8 +1524,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Article'
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 文章归档
       tags:
       - Article
@@ -1364,6 +1532,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -1384,8 +1560,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除文章
       tags:
         - Article
@@ -1394,6 +1568,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页获取文章列表
           in: body
           name: page
@@ -1419,8 +1601,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取文章列表
       tags:
         - Article
@@ -1429,6 +1609,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 更新文章
           in: body
           name: data
@@ -1447,8 +1635,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Article'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 更新文章
       tags:
         - Article
@@ -1457,6 +1643,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -1482,8 +1676,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 分页获取文章列表
       tags:
       - Article
@@ -1492,12 +1684,20 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 请求body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.CaptchaEmail'
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.CaptchaEmail'
       produces:
         - application/json
       responses:
@@ -1510,17 +1710,30 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 发送验证码
       tags:
         - Captcha
   /captcha/image:
     post:
       consumes:
-      - application/json
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.Captcha'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码
@@ -1531,17 +1744,30 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 生成验证码
       tags:
       - Captcha
   /captcha/verify:
     post:
       consumes:
-      - application/json
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 请求body
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.CaptchaVerify'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码
@@ -1552,8 +1778,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 检验验证码
       tags:
         - Captcha
@@ -1562,6 +1786,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -1587,8 +1819,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取文章分类详情列表
       tags:
         - Category
@@ -1597,6 +1827,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1615,8 +1853,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Category'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 创建文章分类
       tags:
       - Category
@@ -1624,6 +1860,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1642,8 +1886,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Category'
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新文章分类
       tags:
       - Category
@@ -1652,11 +1894,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Category id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -1669,8 +1919,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除文章分类
       tags:
         - Category
@@ -1678,11 +1926,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Category id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -1695,8 +1951,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Category'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询文章分类
       tags:
         - Category
@@ -1705,6 +1959,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -1725,8 +1987,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除文章分类
       tags:
         - Category
@@ -1735,6 +1995,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -1760,8 +2028,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 分页获取文章分类列表
       tags:
       - Category
@@ -1770,12 +2036,20 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 分页信息
-        in: body
-        name: page
-        required: true
-        schema:
-          $ref: '#/definitions/request.PageQuery'
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页信息
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
       produces:
       - application/json
       responses:
@@ -1788,8 +2062,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.ChatRecord'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 查询聊天记录
       tags:
       - Blog
@@ -1798,6 +2070,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1816,8 +2096,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Comment'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 创建评论
       tags:
       - Comment
@@ -1825,6 +2103,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -1843,8 +2129,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Comment'
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新评论
       tags:
       - Comment
@@ -1853,11 +2137,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Comment id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -1870,8 +2162,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除评论
       tags:
         - Comment
@@ -1879,11 +2169,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Comment id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -1896,8 +2194,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Comment'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询评论
       tags:
         - Comment
@@ -1906,6 +2202,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: id
           in: path
           name: id
@@ -1933,6 +2237,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: id
           in: path
           name: id
@@ -1966,6 +2278,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -1986,8 +2306,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除评论
       tags:
         - Comment
@@ -1996,6 +2314,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -2021,8 +2347,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取评论列表
       tags:
         - Comment
@@ -2031,6 +2355,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -2056,8 +2388,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取评论列表
       tags:
         - Comment
@@ -2066,6 +2396,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2084,8 +2422,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 发送忘记密码邮件
       tags:
         - Auth
@@ -2094,6 +2430,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2112,8 +2456,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 重置密码
       tags:
         - Auth
@@ -2122,6 +2464,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2140,8 +2490,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.FriendLink'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 创建友链
       tags:
       - FriendLink
@@ -2149,6 +2497,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2167,8 +2523,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.FriendLink'
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新友链
       tags:
       - FriendLink
@@ -2177,11 +2531,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: FriendLink id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -2194,8 +2556,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除友链
       tags:
         - FriendLink
@@ -2203,11 +2563,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: FriendLink id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -2220,8 +2588,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.FriendLink'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询友链
       tags:
         - FriendLink
@@ -2230,6 +2596,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -2250,8 +2624,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除友链
       tags:
         - FriendLink
@@ -2260,6 +2632,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -2285,8 +2665,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取友链列表
       tags:
         - FriendLink
@@ -2295,6 +2673,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 创建权限认证
           in: body
           name: data
@@ -2313,8 +2699,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 登录
       tags:
         - Auth
@@ -2322,6 +2706,15 @@ paths:
     post:
       consumes:
         - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
         - application/json
       responses:
@@ -2334,8 +2727,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 注销
       tags:
         - Auth
@@ -2343,6 +2734,15 @@ paths:
     get:
       consumes:
         - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
         - application/json
       responses:
@@ -2355,8 +2755,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 登出
       tags:
         - Auth
@@ -2365,6 +2763,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2383,8 +2789,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Menu'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 创建菜单
       tags:
       - Menu
@@ -2392,6 +2796,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2410,8 +2822,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Menu'
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新菜单
       tags:
       - Menu
@@ -2420,11 +2830,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Menu id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -2437,8 +2855,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除菜单
       tags:
         - Menu
@@ -2446,11 +2862,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Menu id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -2463,8 +2887,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Menu'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询菜单
       tags:
         - Menu
@@ -2473,6 +2895,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -2493,8 +2923,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除菜单
       tags:
         - Menu
@@ -2503,6 +2931,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -2528,8 +2964,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取菜单列表
       tags:
         - Menu
@@ -2538,6 +2972,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求body
           in: body
           name: data
@@ -2556,8 +2998,6 @@ paths:
                   data:
                     $ref: '#/definitions/response.OauthLoginUrl'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取授权地址
       tags:
         - Auth
@@ -2566,6 +3006,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求body
           in: body
           name: data
@@ -2584,8 +3032,6 @@ paths:
                   data:
                     $ref: '#/definitions/response.OauthLoginUrl'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取授权地址
       tags:
         - Auth
@@ -2594,6 +3040,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2612,8 +3066,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.OperationLog'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建操作记录
       tags:
         - OperationLog
@@ -2621,6 +3073,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2639,8 +3099,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.OperationLog'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 更新操作记录
       tags:
         - OperationLog
@@ -2649,11 +3107,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: OperationLog id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -2666,8 +3132,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除操作记录
       tags:
         - OperationLog
@@ -2675,11 +3139,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: OperationLog id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -2692,8 +3164,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.OperationLog'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询操作记录
       tags:
         - OperationLog
@@ -2702,6 +3172,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -2722,8 +3200,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除操作记录
       tags:
         - OperationLog
@@ -2732,6 +3208,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -2757,8 +3241,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取操作记录列表
       tags:
         - OperationLog
@@ -2767,6 +3249,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2785,8 +3275,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Page'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建页面
       tags:
         - Page
@@ -2794,6 +3282,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2812,8 +3308,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Page'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新页面
       tags:
       - Page
@@ -2822,11 +3316,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Page id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -2839,8 +3341,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除页面
       tags:
       - Page
@@ -2848,11 +3348,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Page id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -2865,8 +3373,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Page'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询页面
       tags:
         - Page
@@ -2875,6 +3381,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -2895,8 +3409,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除页面
       tags:
         - Page
@@ -2905,6 +3417,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -2930,8 +3450,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取页面列表
       tags:
         - Page
@@ -2940,6 +3458,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2958,8 +3484,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Photo'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建相片
       tags:
         - Photo
@@ -2967,6 +3491,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -2985,8 +3517,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Photo'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新相片
       tags:
       - Photo
@@ -2995,11 +3525,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Photo id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -3012,8 +3550,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除相片
       tags:
       - Photo
@@ -3021,11 +3557,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Photo id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3038,8 +3582,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Photo'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询相片
       tags:
         - Photo
@@ -3048,6 +3590,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -3068,8 +3618,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除相片
       tags:
         - Photo
@@ -3078,6 +3626,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -3103,8 +3659,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取相片列表
       tags:
         - Photo
@@ -3113,6 +3667,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3131,8 +3693,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.PhotoAlbum'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建相册
       tags:
         - PhotoAlbum
@@ -3140,6 +3700,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3158,8 +3726,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.PhotoAlbum'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新相册
       tags:
       - PhotoAlbum
@@ -3168,11 +3734,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: PhotoAlbum id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -3185,8 +3759,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除相册
       tags:
       - PhotoAlbum
@@ -3194,11 +3766,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: PhotoAlbum id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3211,8 +3791,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.PhotoAlbum'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询相册
       tags:
         - PhotoAlbum
@@ -3221,6 +3799,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -3241,8 +3827,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除相册
       tags:
         - PhotoAlbum
@@ -3251,6 +3835,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -3276,8 +3868,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 分页获取相册列表
       tags:
         - PhotoAlbum
@@ -3286,6 +3876,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求body
           in: body
           name: data
@@ -3304,8 +3902,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 注册
       tags:
         - Auth
@@ -3314,6 +3910,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求body
           in: body
           name: data
@@ -3332,8 +3936,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 发送注册邮件
       tags:
         - Auth
@@ -3342,6 +3944,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3360,8 +3970,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Remark'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建留言
       tags:
         - Remark
@@ -3369,6 +3977,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3387,8 +4003,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Remark'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 更新留言
       tags:
         - Remark
@@ -3397,11 +4011,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Remark id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3414,8 +4036,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 删除留言
       tags:
         - Remark
@@ -3423,11 +4043,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Remark id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3440,8 +4068,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Remark'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询留言
       tags:
         - Remark
@@ -3450,6 +4076,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -3470,8 +4104,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除留言
       tags:
         - Remark
@@ -3480,6 +4112,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -3505,8 +4145,6 @@ paths:
                             type: array
                         type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取留言列表
       tags:
         - Remark
@@ -3515,6 +4153,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3533,8 +4179,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Role'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建角色
       tags:
         - Role
@@ -3542,6 +4186,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3560,8 +4212,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Role'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新角色
       tags:
       - Role
@@ -3570,11 +4220,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Role id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -3587,8 +4245,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除角色
       tags:
       - Role
@@ -3596,11 +4252,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Role id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3613,8 +4277,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Role'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询角色
       tags:
         - Role
@@ -3623,6 +4285,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -3643,8 +4313,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除角色
       tags:
         - Role
@@ -3653,6 +4321,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -3678,8 +4354,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取角色列表
       tags:
         - Role
@@ -3688,6 +4362,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3706,8 +4388,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Tag'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建文章标签
       tags:
         - Tag
@@ -3715,6 +4395,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3733,8 +4421,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Tag'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新文章标签
       tags:
       - Tag
@@ -3743,11 +4429,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Tag id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -3760,8 +4454,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除文章标签
       tags:
       - Tag
@@ -3769,11 +4461,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Tag id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3786,8 +4486,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Tag'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询文章标签
       tags:
         - Tag
@@ -3796,6 +4494,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -3816,8 +4522,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除文章标签
       tags:
         - Tag
@@ -3826,6 +4530,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -3851,8 +4563,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 分页获取文章标签列表
       tags:
         - Tag
@@ -3861,6 +4571,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3879,8 +4597,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Talk'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 创建说说
       tags:
         - Talk
@@ -3888,6 +4604,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求参数
           in: body
           name: data
@@ -3906,8 +4630,6 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Talk'
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 更新说说
       tags:
       - Talk
@@ -3916,11 +4638,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Talk id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
       - application/json
       responses:
@@ -3933,8 +4663,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-      - ApiKeyAuth: []
       summary: 删除说说
       tags:
       - Talk
@@ -3942,11 +4670,19 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: Talk id
           in: path
           name: id
           required: true
-          type: string
+          type: integer
       produces:
         - application/json
       responses:
@@ -3959,8 +4695,6 @@ paths:
                   data:
                     $ref: '#/definitions/entity.Talk'
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 查询说说
       tags:
         - Talk
@@ -3969,6 +4703,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 删除id列表
           in: body
           name: data
@@ -3989,8 +4731,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 批量删除说说
       tags:
         - Talk
@@ -3999,6 +4739,14 @@ paths:
       consumes:
         - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -4024,8 +4772,6 @@ paths:
                           type: array
                       type: object
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: 分页获取说说列表
       tags:
       - Talk
@@ -4034,6 +4780,14 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 标签
           in: path
           name: label
@@ -4062,9 +4816,18 @@ paths:
       tags:
         - Upload
   /user/apis:
-    post:
+    get:
       consumes:
         - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
         - application/json
       responses:
@@ -4077,8 +4840,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户接口权限
       tags:
         - User
@@ -4087,6 +4848,14 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求body
           in: body
           name: data
@@ -4114,6 +4883,15 @@ paths:
     get:
       consumes:
         - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
         - application/json
       responses:
@@ -4126,8 +4904,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户信息
       tags:
         - User
@@ -4135,6 +4911,14 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 请求body
           in: body
           name: data
@@ -4163,6 +4947,14 @@ paths:
       consumes:
       - application/json
       parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
         - description: 分页参数
           in: body
           name: page
@@ -4181,17 +4973,24 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户登录历史
       tags:
       - User
   /user/menus:
-    post:
+    get:
       consumes:
-      - application/json
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -4202,8 +5001,6 @@ paths:
                   data:
                     type: object
                 type: object
-      security:
-        - ApiKeyAuth: [ ]
       summary: 获取用户菜单权限
       tags:
         - User
