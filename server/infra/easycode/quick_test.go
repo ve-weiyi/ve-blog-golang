@@ -137,7 +137,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		}
 
 		// 添加前缀 "gen_" 到文件名
-		newName := strings.Replace(oldName, "tb_tb_", "tb_", 1)
+		newName := strings.Replace(oldName, "gen_website_config", "ex_website_config", 1)
 
 		// 修改文件名
 		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))
