@@ -26,5 +26,8 @@ func (s *BlogRouter) InitBlogRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.GET("ws", handler.WebSocket)                  // websocket
 		publicRouter.GET("about", handler.GetAboutMe)              // 查询关于我
 		publicRouter.POST("chat/records", handler.FindChatRecords) // 查询聊天记录
+
+		loginRouter.GET("home", handler.GetHomeInfo)     // 获取首页信息
+		loginRouter.POST("about", handler.UpdateAboutMe) // 更新关于我
 	}
 }

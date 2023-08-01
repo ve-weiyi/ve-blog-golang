@@ -31,7 +31,7 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.POST("user/status", handler.UpdateUserInfo)   // 更新用户信息
 
 		// 管理员操作
-		loginRouter.POST("admin/users", handler.GetUserList)       // 获取用户列表
-		loginRouter.POST("admin/user/areas", handler.GetUserAreas) // 获取用户地区
+		loginRouter.POST("users", handler.GetUserList)       // 获取用户列表
+		loginRouter.POST("user/areas", handler.GetUserAreas) // 获取用户地区
 	}
 }

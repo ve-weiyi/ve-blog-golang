@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Menu}	"返回信息"
-// @Router		/admin/menus [post]
+// @Router		/menus [post]
 func (s *MenuController) GetMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

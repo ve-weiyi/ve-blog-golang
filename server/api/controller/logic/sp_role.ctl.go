@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Role}	"返回信息"
-// @Router		/admin/roles [post]
+// @Router		/roles [post]
 func (s *RoleController) GetRoles(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,7 +52,7 @@ func (s *RoleController) GetRoles(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		entity.Role							true	"创建角色"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/admin/role/update_menus [post]
+// @Router		/role/update_menus [post]
 func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -84,7 +84,7 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		entity.Role							true	"创建角色"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/admin/role/update_resources [post]
+// @Router		/role/update_resources [post]
 func (s *RoleController) UpdateRoleResources(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
