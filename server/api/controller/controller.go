@@ -9,8 +9,8 @@ type AppController struct {
 	svcCtx                 *svc.ControllerContext        //持有的service层引用
 	BlogController         *logic.BlogController         //博客
 	AuthController         *logic.AuthController         //登录权限认证
-	UserController         *logic.UserController         //用户登录注册
-	ApiController          *logic.ApiController          //api路由
+	UserController         *logic.UserController         //用户
+	ApiController          *logic.ApiController          //路由
 	MenuController         *logic.MenuController         //菜单
 	RoleController         *logic.RoleController         //角色
 	ArticleController      *logic.ArticleController      //文章

@@ -3,20 +3,31 @@ package initialize
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq/handler"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
+const (
+	// email交换机
+	EMAIL_EXCHANGE = "email_exchange"
+	// email队列
+	EMAIL_QUEUE = "email_queue"
+)
+
 // 订阅消息
-func RabbitMqSubscribe() {
-	main()
+func RabbitMq() {
+	url := global.CONFIG.RabbitMQ.GetUrl()
+	mq := rabbitmq.NewRabbitMQ(url)
+	mq.BindQueue(EMAIL_QUEUE).BindExchange(rabbitmq.Fanout, EMAIL_EXCHANGE, "email")
+
+	global.EmailMQ = mq
+	go SubscribeMessage()
 }
 
-func main() {
-	emailMq := handler.NewEmailHandler(global.CONFIG.RabbitMQ.GetUrl())
+func SubscribeMessage() {
 	emailSender := mail.NewEmailSender(&global.CONFIG.Email)
-
-	emailMq.ReceiveMessage(func(message string) {
+	//订阅消息队列，发送邮件
+	global.EmailMQ.SubscribeMessage(func(message string) {
 		var msg mail.EmailMessage
 		jsonconv.JsonToObject(message, &msg)
 		err := emailSender.SendEmailMessage(msg)
