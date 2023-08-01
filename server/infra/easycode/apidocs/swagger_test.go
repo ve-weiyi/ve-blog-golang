@@ -21,14 +21,18 @@ func TestSwagger(t *testing.T) {
 }
 
 func TestDst(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api/", "blog")
+	root := path.Join(global.GetRuntimeRoot(), "server/api/")
 
 	cfg := Config{
 		OutRoot:        "./api",
 		ApiRoot:        []string{path.Join(root, "controller/logic")},
 		ModelRoot:      []string{path.Join(root, "model")},
+		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
-		IgnoredModels:  []string{"response.PageResult", "response.Response", "request.PageQuery"},
+		IgnoredModels: []string{
+			"response.PageResult", "response.Response", "request.PageQuery",
+			"request.Context", "request.Sort", "request.Condition",
+		},
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
 		},
@@ -45,11 +49,11 @@ func TestDst(t *testing.T) {
 
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
-	//aad.GenerateTsTypeFile()
+	aad.GenerateTsTypeFile()
 	aad.GenerateTsApiFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {
-	fmt.Println(extractFieldsByAst(`response.Response{data=entity.Api}`))
+	fmt.Println(extractFieldsByAst(`response.Response{data=response.PageResult{list=[]entity.Article}}`))
 
 }

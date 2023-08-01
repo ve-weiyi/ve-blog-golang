@@ -6,7 +6,7 @@ import (
 )
 
 // 分页获取Role记录
-func (s *RoleService) GetRoles(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleInfo, total int64, err error) {
+func (s *RoleService) FindRoleListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleInfo, total int64, err error) {
 
 	roles, total, err := s.svcCtx.RoleRepository.FindRoleList(reqCtx, page)
 

@@ -22,8 +22,8 @@ func Cors() gin.HandlerFunc {
 			c.Header("Access-Control-Allow-Headers", "*")
 			// 允许浏览器（客户端）可以解析的头部 （重要）
 			c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, Content-Language, Content-Type")
+			// 允许携带cookie
 			c.Header("Access-Control-Allow-Credentials", "true")
-
 		}
 		// 放行所有OPTIONS方法
 		if method == "OPTIONS" {

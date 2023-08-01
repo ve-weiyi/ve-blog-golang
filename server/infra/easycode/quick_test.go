@@ -43,7 +43,7 @@ func init() {
 }
 
 func TestPlate(t *testing.T) {
-	out := path.Join(global.GetRuntimeRoot(), "server/api", "blog")
+	out := path.Join(global.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
 
 	cfg := Config{
@@ -70,10 +70,10 @@ func TestPlate(t *testing.T) {
 		GenerateMap: map[string]string{
 			//tmpl.KeyApi: "",
 			//tmpl.KeyRouter:     "",
-			tmpl.KeyController: "",
+			//tmpl.KeyController: "",
 			//tmpl.KeyService:    "",
-			//tmpl.KeyRepository: "",
-			tmpl.KeyModel: "",
+			tmpl.KeyRepository: "",
+			tmpl.KeyModel:      "",
 		},
 	}
 	typeInt := "int"
@@ -95,19 +95,19 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromSchema())
 
 	gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("friend_link", "友链"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("page", "页面"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("photo", "相片"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("photo_album", "相册"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("remark", "留言"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
-	gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("friend_link", "友链"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("menu", "菜单"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("operation_log", "操作记录"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("page", "页面"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("photo", "相片"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("photo_album", "相册"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("remark", "留言"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_account", "用户账号信息"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_information", "用户信息"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_login_history", "用户登录历史"))

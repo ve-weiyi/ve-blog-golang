@@ -59,10 +59,10 @@ func Routers() *gin.Engine {
 	//adminGroup.Use(middleware.GinLogger())
 	// 限制IP
 	adminGroup.Use(middleware.LimitIP())
-	// 鉴权中间件
-	adminGroup.Use(middleware.JwtToken())
 	// 操作记录
 	adminGroup.Use(middleware.OperationRecord())
+	// 鉴权中间件
+	adminGroup.Use(middleware.JwtToken())
 	{
 		blogRouter.BlogRouter.InitBlogRouter(publicGroup, adminGroup)
 		blogRouter.AuthRouter.InitAuthRouter(publicGroup, adminGroup)

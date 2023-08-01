@@ -19,7 +19,8 @@ type PlateMeta struct {
 
 	TemplateString string //模版文件内容
 	//TemplatePath   string      //模版文件路径   tpl/api.go.tpl
-	Data interface{} //填充内容
+	FunMap map[string]any //模版函数
+	Data   interface{}    //填充内容
 }
 
 func (meta *PlateMeta) CreateTempFile() error {
@@ -108,7 +109,9 @@ func (meta *PlateMeta) getTemplate() (*template.Template, error) {
 
 	if meta.TemplateString != "" {
 		//解析模板
-		temp, err := template.New("temp").Parse(meta.TemplateString)
+		temp := template.New("temp")
+		temp.Funcs(meta.FunMap)
+		_, err := temp.Parse(meta.TemplateString)
 		if err != nil {
 			return nil, err
 		}

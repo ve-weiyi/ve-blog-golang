@@ -51,7 +51,7 @@ func Init(configPath ...string) {
 	// 初始化redis服务
 	Redis()
 
-	RBAC()
+	//RBAC()
 }
 
 func Viper(config string) *viper.Viper {

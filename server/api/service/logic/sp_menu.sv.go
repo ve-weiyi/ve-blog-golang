@@ -7,21 +7,21 @@ import (
 )
 
 // 分页获取Menu记录
-func (s *MenuService) GetAllMenusList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuTree, total int64, err error) {
+func (s *MenuService) FindMenuListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetails, total int64, err error) {
 	// 创建db
 	menuList, _, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
 	// to tree
-	var tree response.MenuTree
+	var tree response.MenuDetails
 	tree.Children = s.getMenuChildren(tree, menuList)
 
 	list = tree.Children
 	return list, int64(len(list)), nil
 }
 
-func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuTree, err error) {
+func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetails, err error) {
 	//查询用户信息
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
@@ -54,16 +54,16 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 		list = append(list, v)
 	}
 
-	var out response.MenuTree
+	var out response.MenuDetails
 	out.Children = s.getMenuChildren(out, list)
 
 	return out.Children, err
 }
 
-func (s *MenuService) getMenuChildren(root response.MenuTree, list []*entity.Menu) (leafs []*response.MenuTree) {
+func (s *MenuService) getMenuChildren(root response.MenuDetails, list []*entity.Menu) (leafs []*response.MenuDetails) {
 	for _, item := range list {
 		if item.ParentID == root.ID {
-			leaf := response.MenuTree{
+			leaf := response.MenuDetails{
 				Menu:     *item,
 				Children: nil,
 			}

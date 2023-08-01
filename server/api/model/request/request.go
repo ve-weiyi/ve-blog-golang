@@ -68,7 +68,7 @@ func (page *PageQuery) OrderClause() string {
 		} else {
 			flag = ","
 		}
-		query += fmt.Sprintf("%s %s %s", flag, jsonconv.Camel2Case(order.Field), order.Order)
+		query += fmt.Sprintf("%s `%s` %s", flag, jsonconv.Camel2Case(order.Field), order.Order)
 	}
 
 	return query

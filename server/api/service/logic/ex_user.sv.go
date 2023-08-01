@@ -3,7 +3,6 @@ package logic
 import (
 	"fmt"
 	"mime/multipart"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
@@ -53,28 +52,19 @@ func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *
 		return nil, err
 	}
 
-	history, err := s.svcCtx.UserAccountRepository.FindLastLoginHistory(reqCtx, account.ID)
-	if err != nil {
-		return nil, err
-	}
-
 	roles, err := s.svcCtx.RoleRepository.FindUserRoles(userId)
 	if err != nil {
 		return nil, err
 	}
 
 	userinfo := &response.UserDetail{
-		ID:            account.ID,
-		Username:      account.Username,
-		Nickname:      info.Nickname,
-		Avatar:        info.Avatar,
-		Intro:         info.Intro,
-		Email:         info.Email,
-		LoginType:     history.LoginType,
-		IpAddress:     history.IpAddress,
-		IpSource:      history.IpSource,
-		LastLoginTime: history.CreatedAt.Format(time.DateTime),
-		Roles:         roles,
+		ID:       account.ID,
+		Username: account.Username,
+		Nickname: info.Nickname,
+		Avatar:   info.Avatar,
+		Intro:    info.Intro,
+		Email:    info.Email,
+		Roles:    roles,
 	}
 
 	return userinfo, nil

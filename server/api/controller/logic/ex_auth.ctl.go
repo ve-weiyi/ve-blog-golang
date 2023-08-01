@@ -27,7 +27,7 @@ func NewAuthController(svcCtx *svc.ControllerContext) *AuthController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.User				true	"创建权限认证"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.Login}	"返回信息"
 // @Router		/login [post]
 func (s *AuthController) Login(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

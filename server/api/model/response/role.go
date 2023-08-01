@@ -4,18 +4,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
-type ApiTree struct {
+type ApiDetails struct {
 	entity.Api
-	Children []*ApiTree
+	Children []*ApiDetails `json:"children"`
 }
 
-type MenuTree struct {
+type MenuDetails struct {
 	entity.Menu
-	Children []*MenuTree
+	Children []*MenuDetails `json:"children"`
 }
 
 type RoleInfo struct {
 	entity.Role
-	MenuIdList     []int
-	ResourceIdList []int
+	MenuIdList     []int `json:"menu_id_list"`
+	ResourceIdList []int `json:"resource_id_list"`
 }

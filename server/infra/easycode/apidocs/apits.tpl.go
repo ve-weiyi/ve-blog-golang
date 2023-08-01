@@ -3,21 +3,13 @@ package apidocs
 const ApiTypeScript = `
 {{- range .ImportPkgPaths -}}
 {{.}}
-{{ end }}
-
-{{- range .ModelDeclares }}
-interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
-  {{- range .Fields }}
-  {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
-  {{- end }}
-}
-{{ end }}
-
-{{- range .ApiDeclares }}
+{{ end -}}
+` + ModelImportTpl + `
+{{ range .ApiDeclares }}
 /** {{ .Summary }} */
 export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
   return http.request<{{.Response}}>({
-    url: ` + "`/api/v1/{{.Url}}`" + `,
+    url: ` + "`{{.Base}}{{.Url}}`" + `,
     method: "{{ .Method }}",
     {{- if .Body }}
     data: {{ .Body.Name }},
@@ -29,12 +21,12 @@ export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
 
 const ModelTypeScript = `
 {{- range .}}
-interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
+export interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
   {{- range .Fields }}
-    {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
-    {{- end }}
+  {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
+  {{- end }}
 }
-{{ end }}
+{{ end -}}
 `
 const ParamsTpl = `{{- .Request -}}`
 
@@ -47,3 +39,5 @@ const PathTpl = `{{- if .Path -}}
 const BodyTpl = `{{- if .Body -}}
   {{ .Body.Name }}?: {{ .Body.Type }}
 {{- end -}}`
+
+const ModelImportTpl = `import { {{ joinArray .ImportModelTypes }} } from './types'`

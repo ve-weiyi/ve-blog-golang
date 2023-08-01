@@ -683,6 +683,95 @@ definitions:
         example: admin@qq.com
         type: string
     type: object
+  response.ArticleDetails:
+    properties:
+      article_content:
+        description: 内容
+        type: string
+      article_cover:
+        description: 文章缩略图
+        type: string
+      article_tag_list:
+        description: 文章标签列表
+        items:
+          $ref: '#/definitions/response.TagDTO'
+        type: array
+      article_title:
+        description: 标题
+        type: string
+      category_id:
+        description: 文章分类ID
+        type: integer
+      category_name:
+        description: 文章分类名
+        type: string
+      created_at:
+        description: 发表时间
+        type: string
+      id:
+        description: 文章ID
+        type: integer
+      last_article:
+        allOf:
+          - $ref: '#/definitions/response.ArticlePaginationDTO'
+        description: 上一篇文章
+      like_count:
+        description: 点赞量
+        type: integer
+      newest_article_list:
+        description: 最新文章列表
+        items:
+          $ref: '#/definitions/response.ArticleRecommendDTO'
+        type: array
+      next_article:
+        allOf:
+          - $ref: '#/definitions/response.ArticlePaginationDTO'
+        description: 下一篇文章
+      original_url:
+        description: 原文链接
+        type: string
+      recommend_article_list:
+        description: 推荐文章列表
+        items:
+          $ref: '#/definitions/response.ArticleRecommendDTO'
+        type: array
+      type:
+        description: 文章类型
+        type: integer
+      updated_at:
+        description: 更新时间
+        type: string
+      views_count:
+        description: 浏览量
+        type: integer
+    type: object
+  response.ArticlePaginationDTO:
+    properties:
+      article_cover:
+        description: 文章缩略图
+        type: string
+      article_title:
+        description: 标题
+        type: string
+      id:
+        description: pagination fields...
+        type: integer
+    type: object
+  response.ArticleRecommendDTO:
+    properties:
+      article_cover:
+        description: 文章缩略图
+        type: string
+      article_title:
+        description: 标题
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: recommended article fields...
+        type: integer
+    type: object
   response.OauthLoginUrl:
     properties:
       url:
@@ -704,8 +793,17 @@ definitions:
     properties:
       code:
         type: integer
-      data: {}
+      data: { }
       message:
+        type: string
+    type: object
+  response.TagDTO:
+    properties:
+      id:
+        description: tag fields...
+        type: integer
+      tag_name:
+        description: 标签名
         type: string
     type: object
 host: localhost:9999/
@@ -1154,6 +1252,72 @@ paths:
       summary: 查询文章
       tags:
         - Article
+  /article/{id}/details:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: Article id
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/response.ArticleDetails'
+                type: object
+      summary: 文章详情
+      tags:
+        - Article
+  /article/{id}/like:
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: Article id
+          in: path
+          name: id
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    $ref: '#/definitions/entity.Article'
+                type: object
+      summary: 点赞文章
+      tags:
+        - Article
   /article/archives:
     get:
       consumes:
@@ -1174,7 +1338,7 @@ paths:
           schema:
             $ref: '#/definitions/request.PageQuery'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
@@ -1187,7 +1351,7 @@ paths:
                 type: object
       summary: 文章归档
       tags:
-      - Article
+        - Article
   /article/batch_delete:
     delete:
       consumes:
@@ -1224,81 +1388,6 @@ paths:
       summary: 批量删除文章
       tags:
         - Article
-  /article/condition:
-    post:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 分页获取文章列表
-          in: body
-          name: page
-          required: true
-          schema:
-            $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    allOf:
-                      - $ref: '#/definitions/response.PageResult'
-                      - properties:
-                          list:
-                            items:
-                              $ref: '#/definitions/entity.Article'
-                            type: array
-                        type: object
-                type: object
-      summary: 分页获取文章列表
-      tags:
-        - Article
-  /article/like:
-    put:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 更新文章
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/entity.Article'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    $ref: '#/definitions/entity.Article'
-                type: object
-      summary: 更新文章
-      tags:
-        - Article
   /article/list:
     post:
       consumes:
@@ -1319,23 +1408,64 @@ paths:
           schema:
             $ref: '#/definitions/request.PageQuery'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: 返回信息
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  allOf:
-                    - $ref: '#/definitions/response.PageResult'
-                    - properties:
-                        list:
-                          items:
-                            $ref: '#/definitions/entity.Article'
-                          type: array
-                      type: object
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/entity.Article'
+                            type: array
+                        type: object
+                type: object
+      summary: 分页获取文章列表
+      tags:
+        - Article
+  /article/list/condition:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页获取文章列表
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/entity.Article'
+                            type: array
+                        type: object
               type: object
       summary: 分页获取文章列表
       tags:
