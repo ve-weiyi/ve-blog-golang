@@ -10,10 +10,11 @@ import (
 
 // @Tags		Article
 // @Summary		文章归档
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		page	body		request.PageQuery													true	"分页获取文章列表"
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		page	body		request.PageQuery						true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router		/article/archives [get]
 func (s *ArticleController) GetArticleArchives(c *gin.Context) {
@@ -46,9 +47,10 @@ func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 
 // @Tags		Article
 // @Summary		分页获取文章列表
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string																false	"token"
+// @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
 // @Router		/article/condition [post]
@@ -77,9 +79,10 @@ func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
 
 // @Tags		Article
 // @Summary		更新文章
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
 // @Param		data	body		entity.Article							true	"更新文章"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router		/article/like [put]

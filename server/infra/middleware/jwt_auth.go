@@ -13,7 +13,7 @@ import (
 // JwtToken jwt中间件
 func JwtToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("Authorization")
+		token := c.Request.Header.Get("token")
 		uid := c.Request.Header.Get("uid")
 		claims, err := global.JWT.VerifyToken(token, uid)
 		//必须要token才能过
@@ -35,6 +35,7 @@ func JwtToken() gin.HandlerFunc {
 		global.LOG.JsonIndent(claims)
 
 		c.Set("login_type", claims.LoginType)
+		c.Set("token", token)
 		c.Set("uid", claims.Uid)
 		c.Set("username", claims.Username)
 		c.Set("domain", claims.Issuer)

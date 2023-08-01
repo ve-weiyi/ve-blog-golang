@@ -65,11 +65,12 @@ func New{{.StructName}}Controller(svcCtx *svc.ControllerContext) *{{.StructName}
 }
 
 // @Tags		{{.StructName}}
-// @Summary		创建{{.StructComment}}
-// @Security	ApiKeyAuth
+// @Summary			创建{{.StructComment}}
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.{{.StructName}}							true		"请求参数"
+// @Param		token	header		string								false		"token"
+// @Param		uid		header		string								false		"uid"
+// @Param		data	body		entity.{{.StructName}}				true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
 // @Router		/{{.JsonName}} [post]
 func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
@@ -96,11 +97,13 @@ func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
 }
 
 // @Tags 	 	{{.StructName}}
-// @Summary		更新{{.StructComment}}
+// @Summary			更新{{.StructComment}}
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	data	body 	 	entity.{{.StructName}}							true		"请求参数"
+// @Param		token	header		string								false		"token"
+// @Param		uid		header		string								false		"uid"
+// @Param 	 	data	body 	 	entity.{{.StructName}}				true		"请求参数"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
 // @Router 		/{{.JsonName}} [put]
 func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
@@ -127,10 +130,11 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 }
 
 // @Tags		{{.StructName}}
-// @Summary		删除{{.StructComment}}
-// @Security	ApiKeyAuth
+// @Summary			删除{{.StructComment}}
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string				false		"token"
+// @Param		uid		header		string				false		"uid"
 // @Param 	 	id		path		int					true		"{{.StructName}} id"
 // @Success		200		{object}	response.Response{data=any}		"返回信息"
 // @Router		/{{.JsonName}}/{id} [delete]
@@ -158,10 +162,12 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 }
 
 // @Tags 	 	{{.StructName}}
-// @Summary		查询{{.StructComment}}
+// @Summary			查询{{.StructComment}}
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
+// @Param		token	header		string								false		"token"
+// @Param		uid		header		string								false		"uid"
 // @Param 	 	id		path		int									true		"{{.StructName}} id"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
 // @Router 		/{{.JsonName}}/{id} [get]
@@ -189,11 +195,13 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 }
 
 // @Tags 	 	{{.StructName}}
-// @Summary		批量删除{{.StructComment}}
+// @Summary			批量删除{{.StructComment}}
 // @Security 	ApiKeyAuth
 // @Accept 	 	application/json
 // @Produce		application/json
-// @Param		data 	body		[]int 				true "删除id列表"
+// @Param		token	header		string			false		"token"
+// @Param		uid		header		string			false		"uid"
+// @Param		data 	body		[]int 			true 		"删除id列表"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/{{.JsonName}}/batch_delete [delete]
 func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
@@ -220,11 +228,13 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 }
 
 // @Tags 	 	{{.StructName}}
-// @Summary		分页获取{{.StructComment}}列表
+// @Summary			分页获取{{.StructComment}}列表
 // @Security 	ApiKeyAuth
 // @Accept 		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
+// @Param		token	header		string						false		"token"
+// @Param		uid		header		string						false		"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 		"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.{{.StructName}}}}	"返回信息"
 // @Router		/{{.JsonName}}/list [post]
 func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {

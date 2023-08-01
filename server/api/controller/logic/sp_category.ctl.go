@@ -7,12 +7,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 )
 
-// @Tags 	 	Category
+// @Tags		Category
 // @Summary		分页获取文章分类详情列表
-// @Security 	ApiKeyAuth
-// @Accept 		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
+// @Param		token	header		string																false	"token"
+// @Param		uid		header		string																false	"uid"
+// @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
 // @Router		/categories [post]
 func (s *CategoryController) FindCategoryDetailList(c *gin.Context) {

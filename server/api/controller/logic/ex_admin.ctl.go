@@ -21,9 +21,10 @@ func NewAdminController(svcCtx *svc.ControllerContext) *AdminController {
 
 // @Tags		Admin
 // @Summary		更新我的信息
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/about [post]
 func (s *AdminController) UpdateAboutMe(c *gin.Context) {
@@ -51,9 +52,10 @@ func (s *AdminController) UpdateAboutMe(c *gin.Context) {
 
 // @Tags		Admin
 // @Summary		获取用户地区
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/home [post]
 func (s *AdminController) GetHomeInfo(c *gin.Context) {

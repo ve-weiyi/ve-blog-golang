@@ -24,8 +24,10 @@ func NewUploadController(svcCtx *svc.ControllerContext) *UploadController {
 // @Security	ApiKeyAuth
 // @Accept		multipart/form-data
 // @Produce		application/json
-// @Param		label	path		string							true	"标签"
-// @Param		file	formData	file							true	"文件"
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		label	path		string									true	"标签"
+// @Param		file	formData	file									true	"文件"
 // @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
 // @Router		/upload/{label} [post]
 func (s *UploadController) UploadFile(c *gin.Context) {

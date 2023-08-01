@@ -26,10 +26,11 @@ func NewCommentController(svcCtx *svc.ControllerContext) *CommentController {
 
 // @Tags		Comment
 // @Summary		创建评论
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		entity.Comment							true		"请求参数"
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		data	body		entity.Comment							true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
 // @Router		/comment [post]
 func (s *CommentController) CreateComment(c *gin.Context) {
@@ -55,14 +56,15 @@ func (s *CommentController) CreateComment(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Comment
+// @Tags		Comment
 // @Summary		更新评论
-// @Security 	ApiKeyAuth
-// @Accept 		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param 	 	data	body 	 	entity.Comment							true		"请求参数"
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		data	body		entity.Comment							true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router 		/comment [put]
+// @Router		/comment [put]
 func (s *CommentController) UpdateComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -88,11 +90,12 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 
 // @Tags		Comment
 // @Summary		删除评论
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		int					true		"Comment id"
-// @Success		200		{object}	response.Response{data=any}		"返回信息"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		id		path		int							true	"Comment id"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/comment/{id} [delete]
 func (s *CommentController) DeleteComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -117,14 +120,15 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Comment
+// @Tags		Comment
 // @Summary		查询评论
-// @Security 	ApiKeyAuth
-// @Accept 		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param 	 	id		path		int									true		"Comment id"
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		id		path		int										true	"Comment id"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router 		/comment/{id} [get]
+// @Router		/comment/{id} [get]
 func (s *CommentController) FindComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -148,12 +152,13 @@ func (s *CommentController) FindComment(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Comment
+// @Tags		Comment
 // @Summary		批量删除评论
-// @Security 	ApiKeyAuth
-// @Accept 	 	application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param		data 	body		[]int 				true "删除id列表"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		[]int						true	"删除id列表"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/comment/batch_delete [delete]
 func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
@@ -179,12 +184,13 @@ func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	Comment
+// @Tags		Comment
 // @Summary		分页获取评论列表
-// @Security 	ApiKeyAuth
-// @Accept 		application/json
+// @Accept		application/json
 // @Produce		application/json
-// @Param 	 	page 	body		request.PageQuery 	true "分页参数"
+// @Param		token	header		string																false	"token"
+// @Param		uid		header		string																false	"uid"
+// @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
 // @Router		/comment/list [post]
 func (s *CommentController) FindCommentList(c *gin.Context) {

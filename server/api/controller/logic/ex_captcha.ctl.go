@@ -22,11 +22,12 @@ func NewCaptchaController(svcCtx *svc.ControllerContext) *CaptchaController {
 
 // @Tags		Captcha
 // @Summary		发送验证码
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.CaptchaEmail	true	"请求body"
-// @Success		200		{object}	response.Response{data=any}		"返回信息"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		request.CaptchaEmail		true	"请求body"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/captcha/email [post]
 func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -53,10 +54,11 @@ func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 
 // @Tags		Captcha
 // @Summary		生成验证码
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.Captcha		true	"请求body"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		request.Captcha				true	"请求body"
 // @Success		200		{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/image [post]
 func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
@@ -90,11 +92,12 @@ func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
 
 // @Tags		Captcha
 // @Summary		检验验证码
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Param		data	body		request.CaptchaVerify	true	"请求body"
-// @Success		200		{object}	response.Response{data=any}		"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		request.CaptchaVerify		true	"请求body"
+// @Success		200		{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/verify [post]
 func (s *CaptchaController) VerifyCaptcha(c *gin.Context) {
 	err := s.LimitLock(c)

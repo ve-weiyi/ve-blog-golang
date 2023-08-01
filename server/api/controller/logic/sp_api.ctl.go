@@ -9,9 +9,10 @@ import (
 
 // @Tags		Api
 // @Summary		获取api列表
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=[]entity.Api}	"返回信息"
 // @Router		/admin/apis [post]

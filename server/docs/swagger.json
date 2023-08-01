@@ -20,11 +20,6 @@
     "paths": {
         "/about": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -35,6 +30,20 @@
                     "Blog"
                 ],
                 "summary": "关于我",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -59,11 +68,6 @@
         },
         "/admin/about": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -74,6 +78,20 @@
                     "Admin"
                 ],
                 "summary": "更新我的信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -98,11 +116,6 @@
         },
         "/admin/apis": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -114,6 +127,18 @@
                 ],
                 "summary": "获取api列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -151,11 +176,6 @@
         },
         "/admin/comments": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -167,6 +187,18 @@
                 ],
                 "summary": "获取用户评论列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -201,11 +233,6 @@
         },
         "/admin/home": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -216,6 +243,20 @@
                     "Admin"
                 ],
                 "summary": "获取用户地区",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -240,11 +281,6 @@
         },
         "/admin/menus": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -256,6 +292,18 @@
                 ],
                 "summary": "获取菜单列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -293,11 +341,6 @@
         },
         "/admin/role/update_menus": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -309,6 +352,18 @@
                 ],
                 "summary": "更新角色菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "创建角色",
                         "name": "data",
@@ -343,11 +398,6 @@
         },
         "/admin/role/update_resources": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -359,6 +409,18 @@
                 ],
                 "summary": "更新角色资源",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "创建角色",
                         "name": "data",
@@ -393,11 +455,6 @@
         },
         "/admin/roles": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -409,6 +466,18 @@
                 ],
                 "summary": "获取角色列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -446,11 +515,6 @@
         },
         "/admin/user/areas": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -462,6 +526,18 @@
                 ],
                 "summary": "获取用户地区",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -496,11 +572,6 @@
         },
         "/admin/user/update_roles": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -512,6 +583,18 @@
                 ],
                 "summary": "修改用户角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求数据",
                         "name": "data",
@@ -546,11 +629,6 @@
         },
         "/admin/user/update_status": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -562,6 +640,18 @@
                 ],
                 "summary": "修改用户状态",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求数据",
                         "name": "data",
@@ -596,11 +686,6 @@
         },
         "/admin/users": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -612,6 +697,18 @@
                 ],
                 "summary": "获取用户列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -646,11 +743,6 @@
         },
         "/api": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -662,6 +754,18 @@
                 ],
                 "summary": "更新接口",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -694,11 +798,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -710,6 +809,18 @@
                 ],
                 "summary": "创建接口",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -744,11 +855,6 @@
         },
         "/api/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -760,6 +866,18 @@
                 ],
                 "summary": "批量删除接口",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -797,11 +915,6 @@
         },
         "/api/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -813,6 +926,18 @@
                 ],
                 "summary": "分页获取接口列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -862,11 +987,6 @@
         },
         "/api/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -880,6 +1000,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Api id",
                         "name": "id",
                         "in": "path",
@@ -908,11 +1040,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -926,6 +1053,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Api id",
                         "name": "id",
                         "in": "path",
@@ -956,11 +1095,6 @@
         },
         "/article": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -972,6 +1106,18 @@
                 ],
                 "summary": "更新文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1004,11 +1150,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1020,6 +1161,18 @@
                 ],
                 "summary": "创建文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1054,11 +1207,6 @@
         },
         "/article/archives": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1070,6 +1218,18 @@
                 ],
                 "summary": "文章归档",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页获取文章列表",
                         "name": "page",
@@ -1104,11 +1264,6 @@
         },
         "/article/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1120,6 +1275,18 @@
                 ],
                 "summary": "批量删除文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -1157,11 +1324,6 @@
         },
         "/article/condition": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1173,6 +1335,18 @@
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页获取文章列表",
                         "name": "page",
@@ -1222,11 +1396,6 @@
         },
         "/article/like": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1238,6 +1407,18 @@
                 ],
                 "summary": "更新文章",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "更新文章",
                         "name": "data",
@@ -1272,11 +1453,6 @@
         },
         "/article/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1288,6 +1464,18 @@
                 ],
                 "summary": "分页获取文章列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -1337,11 +1525,6 @@
         },
         "/article/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1355,6 +1538,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Article id",
                         "name": "id",
                         "in": "path",
@@ -1383,11 +1578,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1401,6 +1591,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Article id",
                         "name": "id",
                         "in": "path",
@@ -1431,11 +1633,6 @@
         },
         "/captcha/email": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1447,6 +1644,18 @@
                 ],
                 "summary": "发送验证码",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -1481,11 +1690,6 @@
         },
         "/captcha/image": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1496,6 +1700,29 @@
                     "Captcha"
                 ],
                 "summary": "生成验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Captcha"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
@@ -1520,11 +1747,6 @@
         },
         "/captcha/verify": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1535,6 +1757,29 @@
                     "Captcha"
                 ],
                 "summary": "检验验证码",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "description": "请求body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.CaptchaVerify"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码",
@@ -1559,11 +1804,6 @@
         },
         "/categories": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1575,6 +1815,18 @@
                 ],
                 "summary": "分页获取文章分类详情列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -1624,11 +1876,6 @@
         },
         "/category": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1640,6 +1887,18 @@
                 ],
                 "summary": "更新文章分类",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1672,11 +1931,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1688,6 +1942,18 @@
                 ],
                 "summary": "创建文章分类",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -1722,11 +1988,6 @@
         },
         "/category/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1738,6 +1999,18 @@
                 ],
                 "summary": "批量删除文章分类",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -1775,11 +2048,6 @@
         },
         "/category/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1791,6 +2059,18 @@
                 ],
                 "summary": "分页获取文章分类列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -1840,11 +2120,6 @@
         },
         "/category/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1858,6 +2133,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Category id",
                         "name": "id",
                         "in": "path",
@@ -1886,11 +2173,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1904,6 +2186,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Category id",
                         "name": "id",
                         "in": "path",
@@ -1934,11 +2228,6 @@
         },
         "/chat/records": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1950,6 +2239,18 @@
                 ],
                 "summary": "查询聊天记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页信息",
                         "name": "page",
@@ -1984,11 +2285,6 @@
         },
         "/comment": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2000,6 +2296,18 @@
                 ],
                 "summary": "更新评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2032,11 +2340,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2048,6 +2351,18 @@
                 ],
                 "summary": "创建评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2082,11 +2397,6 @@
         },
         "/comment/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2098,6 +2408,18 @@
                 ],
                 "summary": "批量删除评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -2135,11 +2457,6 @@
         },
         "/comment/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2151,6 +2468,18 @@
                 ],
                 "summary": "分页获取评论列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -2200,11 +2529,6 @@
         },
         "/comment/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2218,6 +2542,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Comment id",
                         "name": "id",
                         "in": "path",
@@ -2246,11 +2582,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2264,6 +2595,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Comment id",
                         "name": "id",
                         "in": "path",
@@ -2310,6 +2653,18 @@
                 ],
                 "summary": "点赞评论",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "type": "integer",
                         "description": "id",
@@ -2359,6 +2714,18 @@
                 "summary": "查询评论回复列表",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
                         "type": "integer",
                         "description": "id",
                         "name": "id",
@@ -2399,11 +2766,6 @@
         },
         "/comments": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2415,6 +2777,18 @@
                 ],
                 "summary": "分页获取评论列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -2464,11 +2838,6 @@
         },
         "/forget/password": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2480,6 +2849,18 @@
                 ],
                 "summary": "发送忘记密码邮件",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2514,11 +2895,6 @@
         },
         "/forget/reset_password": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2530,6 +2906,18 @@
                 ],
                 "summary": "重置密码",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2564,11 +2952,6 @@
         },
         "/friend_link": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2580,6 +2963,18 @@
                 ],
                 "summary": "更新友链",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2612,11 +3007,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2628,6 +3018,18 @@
                 ],
                 "summary": "创建友链",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -2662,11 +3064,6 @@
         },
         "/friend_link/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2678,6 +3075,18 @@
                 ],
                 "summary": "批量删除友链",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -2715,11 +3124,6 @@
         },
         "/friend_link/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2731,6 +3135,18 @@
                 ],
                 "summary": "分页获取友链列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -2780,11 +3196,6 @@
         },
         "/friend_link/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2798,6 +3209,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "FriendLink id",
                         "name": "id",
                         "in": "path",
@@ -2826,11 +3249,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2844,6 +3262,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "FriendLink id",
                         "name": "id",
                         "in": "path",
@@ -2874,11 +3304,6 @@
         },
         "/login": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2890,6 +3315,18 @@
                 ],
                 "summary": "登录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "创建权限认证",
                         "name": "data",
@@ -2924,11 +3361,6 @@
         },
         "/logoff": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2939,6 +3371,20 @@
                     "Auth"
                 ],
                 "summary": "注销",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -2963,11 +3409,6 @@
         },
         "/logout": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -2978,6 +3419,20 @@
                     "Auth"
                 ],
                 "summary": "登出",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -3002,11 +3457,6 @@
         },
         "/menu": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3018,6 +3468,18 @@
                 ],
                 "summary": "更新菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3050,11 +3512,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3066,6 +3523,18 @@
                 ],
                 "summary": "创建菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3100,11 +3569,6 @@
         },
         "/menu/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3116,6 +3580,18 @@
                 ],
                 "summary": "批量删除菜单",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -3153,11 +3629,6 @@
         },
         "/menu/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3169,6 +3640,18 @@
                 ],
                 "summary": "分页获取菜单列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -3218,11 +3701,6 @@
         },
         "/menu/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3236,6 +3714,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Menu id",
                         "name": "id",
                         "in": "path",
@@ -3264,11 +3754,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3282,6 +3767,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Menu id",
                         "name": "id",
                         "in": "path",
@@ -3312,11 +3809,6 @@
         },
         "/oauth/login": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3328,6 +3820,18 @@
                 ],
                 "summary": "获取授权地址",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -3362,11 +3866,6 @@
         },
         "/oauth/url": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3378,6 +3877,18 @@
                 ],
                 "summary": "获取授权地址",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -3412,11 +3923,6 @@
         },
         "/operation_log": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3428,6 +3934,18 @@
                 ],
                 "summary": "更新操作记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3460,11 +3978,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3476,6 +3989,18 @@
                 ],
                 "summary": "创建操作记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3510,11 +4035,6 @@
         },
         "/operation_log/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3526,6 +4046,18 @@
                 ],
                 "summary": "批量删除操作记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -3563,11 +4095,6 @@
         },
         "/operation_log/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3579,6 +4106,18 @@
                 ],
                 "summary": "分页获取操作记录列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -3628,11 +4167,6 @@
         },
         "/operation_log/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3646,6 +4180,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "OperationLog id",
                         "name": "id",
                         "in": "path",
@@ -3674,11 +4220,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3692,6 +4233,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "OperationLog id",
                         "name": "id",
                         "in": "path",
@@ -3722,11 +4275,6 @@
         },
         "/page": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3738,6 +4286,18 @@
                 ],
                 "summary": "更新页面",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3770,11 +4330,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3786,6 +4341,18 @@
                 ],
                 "summary": "创建页面",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -3820,11 +4387,6 @@
         },
         "/page/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3836,6 +4398,18 @@
                 ],
                 "summary": "批量删除页面",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -3873,11 +4447,6 @@
         },
         "/page/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3889,6 +4458,18 @@
                 ],
                 "summary": "分页获取页面列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -3938,11 +4519,6 @@
         },
         "/page/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -3956,6 +4532,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Page id",
                         "name": "id",
                         "in": "path",
@@ -3984,11 +4572,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4002,6 +4585,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Page id",
                         "name": "id",
                         "in": "path",
@@ -4032,11 +4627,6 @@
         },
         "/photo": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4048,6 +4638,18 @@
                 ],
                 "summary": "更新相片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4080,11 +4682,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4096,6 +4693,18 @@
                 ],
                 "summary": "创建相片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4130,11 +4739,6 @@
         },
         "/photo/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4146,6 +4750,18 @@
                 ],
                 "summary": "批量删除相片",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -4183,11 +4799,6 @@
         },
         "/photo/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4199,6 +4810,18 @@
                 ],
                 "summary": "分页获取相片列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -4248,11 +4871,6 @@
         },
         "/photo/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4266,6 +4884,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Photo id",
                         "name": "id",
                         "in": "path",
@@ -4294,11 +4924,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4312,6 +4937,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Photo id",
                         "name": "id",
                         "in": "path",
@@ -4342,11 +4979,6 @@
         },
         "/photo_album": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4358,6 +4990,18 @@
                 ],
                 "summary": "更新相册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4390,11 +5034,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4406,6 +5045,18 @@
                 ],
                 "summary": "创建相册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4440,11 +5091,6 @@
         },
         "/photo_album/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4456,6 +5102,18 @@
                 ],
                 "summary": "批量删除相册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -4493,11 +5151,6 @@
         },
         "/photo_album/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4509,6 +5162,18 @@
                 ],
                 "summary": "分页获取相册列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -4558,11 +5223,6 @@
         },
         "/photo_album/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4576,6 +5236,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "PhotoAlbum id",
                         "name": "id",
                         "in": "path",
@@ -4604,11 +5276,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4622,6 +5289,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "PhotoAlbum id",
                         "name": "id",
                         "in": "path",
@@ -4652,11 +5331,6 @@
         },
         "/register": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4668,6 +5342,18 @@
                 ],
                 "summary": "注册",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -4702,11 +5388,6 @@
         },
         "/register/email": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4718,6 +5399,18 @@
                 ],
                 "summary": "发送注册邮件",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求body",
                         "name": "data",
@@ -4752,11 +5445,6 @@
         },
         "/remark": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4768,6 +5456,18 @@
                 ],
                 "summary": "更新留言",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4800,11 +5500,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4816,6 +5511,18 @@
                 ],
                 "summary": "创建留言",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -4850,11 +5557,6 @@
         },
         "/remark/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4866,6 +5568,18 @@
                 ],
                 "summary": "批量删除留言",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -4903,11 +5617,6 @@
         },
         "/remark/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4919,6 +5628,18 @@
                 ],
                 "summary": "分页获取留言列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -4968,11 +5689,6 @@
         },
         "/remark/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -4986,6 +5702,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Remark id",
                         "name": "id",
                         "in": "path",
@@ -5014,11 +5742,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5032,6 +5755,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Remark id",
                         "name": "id",
                         "in": "path",
@@ -5062,11 +5797,6 @@
         },
         "/role": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5078,6 +5808,18 @@
                 ],
                 "summary": "更新角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5110,11 +5852,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5126,6 +5863,18 @@
                 ],
                 "summary": "创建角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5160,11 +5909,6 @@
         },
         "/role/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5176,6 +5920,18 @@
                 ],
                 "summary": "批量删除角色",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -5213,11 +5969,6 @@
         },
         "/role/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5229,6 +5980,18 @@
                 ],
                 "summary": "分页获取角色列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -5278,11 +6041,6 @@
         },
         "/role/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5296,6 +6054,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Role id",
                         "name": "id",
                         "in": "path",
@@ -5324,11 +6094,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5342,6 +6107,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Role id",
                         "name": "id",
                         "in": "path",
@@ -5372,11 +6149,6 @@
         },
         "/tag": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5388,6 +6160,18 @@
                 ],
                 "summary": "更新文章标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5420,11 +6204,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5436,6 +6215,18 @@
                 ],
                 "summary": "创建文章标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5470,11 +6261,6 @@
         },
         "/tag/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5486,6 +6272,18 @@
                 ],
                 "summary": "批量删除文章标签",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -5523,11 +6321,6 @@
         },
         "/tag/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5539,6 +6332,18 @@
                 ],
                 "summary": "分页获取文章标签列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -5588,11 +6393,6 @@
         },
         "/tag/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5606,6 +6406,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Tag id",
                         "name": "id",
                         "in": "path",
@@ -5634,11 +6446,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5652,6 +6459,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Tag id",
                         "name": "id",
                         "in": "path",
@@ -5682,11 +6501,6 @@
         },
         "/talk": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5698,6 +6512,18 @@
                 ],
                 "summary": "更新说说",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5730,11 +6556,6 @@
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5746,6 +6567,18 @@
                 ],
                 "summary": "创建说说",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "请求参数",
                         "name": "data",
@@ -5780,11 +6613,6 @@
         },
         "/talk/batch_delete": {
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5796,6 +6624,18 @@
                 ],
                 "summary": "批量删除说说",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "删除id列表",
                         "name": "data",
@@ -5833,11 +6673,6 @@
         },
         "/talk/list": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5849,6 +6684,18 @@
                 ],
                 "summary": "分页获取说说列表",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -5898,11 +6745,6 @@
         },
         "/talk/{id}": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5916,6 +6758,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Talk id",
                         "name": "id",
                         "in": "path",
@@ -5944,11 +6798,6 @@
                 }
             },
             "delete": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -5962,6 +6811,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
                         "description": "Talk id",
                         "name": "id",
                         "in": "path",
@@ -6010,6 +6871,18 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
                         "description": "标签",
                         "name": "label",
                         "in": "path",
@@ -6046,12 +6919,7 @@
             }
         },
         "/user/apis": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -6062,6 +6930,20 @@
                     "User"
                 ],
                 "summary": "获取用户接口权限",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -6103,6 +6985,18 @@
                 "summary": "更换用户头像",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
                         "description": "请求body",
                         "name": "data",
                         "in": "body",
@@ -6136,11 +7030,6 @@
         },
         "/user/info": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -6151,6 +7040,20 @@
                     "User"
                 ],
                 "summary": "获取用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -6190,6 +7093,18 @@
                 "summary": "修改用户信息",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
                         "description": "请求body",
                         "name": "data",
                         "in": "body",
@@ -6223,11 +7138,6 @@
         },
         "/user/login_history": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -6239,6 +7149,18 @@
                 ],
                 "summary": "获取用户登录历史",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
                     {
                         "description": "分页参数",
                         "name": "page",
@@ -6272,12 +7194,7 @@
             }
         },
         "/user/menus": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -6288,6 +7205,20 @@
                     "User"
                 ],
                 "summary": "获取用户菜单权限",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "返回信息",
@@ -7063,6 +7994,26 @@
                 }
             }
         },
+        "request.Captcha": {
+            "type": "object",
+            "properties": {
+                "captcha_type": {
+                    "type": "string"
+                },
+                "height": {
+                    "description": "Height png height in pixel.",
+                    "type": "integer"
+                },
+                "length": {
+                    "description": "DefaultLen Default number of digits in captcha solution.",
+                    "type": "integer"
+                },
+                "width": {
+                    "description": "Width Captcha png width in pixel.",
+                    "type": "integer"
+                }
+            }
+        },
         "request.CaptchaEmail": {
             "type": "object",
             "properties": {
@@ -7076,6 +8027,17 @@
                 },
                 "service": {
                     "description": "服务",
+                    "type": "string"
+                }
+            }
+        },
+        "request.CaptchaVerify": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 }
             }

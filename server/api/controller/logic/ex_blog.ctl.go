@@ -64,10 +64,11 @@ func (s *BlogController) WebSocket(c *gin.Context) {
 
 // @Tags		Blog
 // @Summary		关于我
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
-// @Success		200	{object}	response.Response{data=entity.Api}	"返回信息"
+// @Param		token	header		string								false	"token"
+// @Param		uid		header		string								false	"uid"
+// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
 // @Router		/about [get]
 func (s *BlogController) GetAboutMe(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -87,9 +88,10 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 
 // @Tags		Blog
 // @Summary		查询聊天记录
-// @Security	ApiKeyAuth
 // @Accept		application/json
 // @Produce		application/json
+// @Param		token	header		string										false	"token"
+// @Param		uid		header		string										false	"uid"
 // @Param		page	body		request.PageQuery							true	"分页信息"
 // @Success		200		{object}	response.Response{data=entity.ChatRecord}	"返回信息"
 // @Router		/chat/records [post]

@@ -73,13 +73,9 @@ func (m *BaseController) Response500(ctx *gin.Context, res interface{}) {
 }
 
 func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, error) {
-	//token := ctx.Request.Header.Get("Authorization")
-	//if token == "" {
-	//	return nil, nil
-	//}
 
 	reqCtx := &request.Context{}
-	reqCtx.Token = ctx.Request.Header.Get("Authorization")
+	reqCtx.Token = ctx.GetString("token")
 	reqCtx.UID = ctx.GetInt("uid")
 	reqCtx.Username = ctx.GetString("username")
 	reqCtx.IpAddress = ctx.GetString("ip_address")
