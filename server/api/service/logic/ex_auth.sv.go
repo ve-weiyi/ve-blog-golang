@@ -2,12 +2,10 @@ package logic
 
 import (
 	"fmt"
-	"math/rand"
-	"strconv"
 	"time"
 
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	request2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
@@ -15,7 +13,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
@@ -31,7 +28,7 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 	}
 }
 
-func (s *AuthService) Login(reqCtx *request2.Context, req *request2.User) (resp *response.Login, err error) {
+func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
 	if err != nil {
@@ -54,7 +51,7 @@ func (s *AuthService) Login(reqCtx *request2.Context, req *request2.User) (resp 
 		return nil, err
 	}
 
-	history := &entity2.UserLoginHistory{
+	history := &entity.UserLoginHistory{
 		UserID:    account.ID,
 		LoginType: constant.LoginEmail,
 		IpAddress: reqCtx.IpAddress,
@@ -80,17 +77,17 @@ func (s *AuthService) Login(reqCtx *request2.Context, req *request2.User) (resp 
 	return resp, nil
 }
 
-func (s *AuthService) Logout(reqCtx *request2.Context, req interface{}) (resp interface{}, err error) {
+func (s *AuthService) Logout(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
 	return true, nil
 }
 
-func (s *AuthService) Logoff(reqCtx *request2.Context, req interface{}) (resp interface{}, err error) {
+func (s *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
 	s.svcCtx.Log.Info("用户注销")
 
 	return s.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.UID)
 }
 
-func (s *AuthService) Register(reqCtx *request2.Context, req *request2.User) (resp *response.Login, err error) {
+func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
 	// 验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
@@ -105,7 +102,7 @@ func (s *AuthService) Register(reqCtx *request2.Context, req *request2.User) (re
 		return nil, codes.ErrorUserAlreadyExist
 	}
 
-	account := &entity2.UserAccount{
+	account := &entity.UserAccount{
 		Username:     req.Username,
 		Password:     crypto.BcryptHash(req.Password),
 		Status:       1,
@@ -113,7 +110,7 @@ func (s *AuthService) Register(reqCtx *request2.Context, req *request2.User) (re
 		IpAddress:    reqCtx.IpAddress,
 		IpSource:     reqCtx.IpSource,
 	}
-	info := &entity2.UserInformation{}
+	info := &entity.UserInformation{}
 
 	_, _, err = s.svcCtx.UserAccountRepository.Register(reqCtx, account, info)
 	if err != nil {
@@ -145,7 +142,7 @@ func (s *AuthService) Register(reqCtx *request2.Context, req *request2.User) (re
 	return resp, nil
 }
 
-func (s *AuthService) SendRegisterEmail(reqCtx *request2.Context, req *request2.UserEmail) (resp interface{}, err error) {
+func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
 	if account != nil {
@@ -179,7 +176,7 @@ func (s *AuthService) SendRegisterEmail(reqCtx *request2.Context, req *request2.
 	return true, nil
 }
 
-func (s *AuthService) OauthLogin(reqCtx *request2.Context, req *request2.OauthLoginReq) (resp *response.Login, err error) {
+func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.Login, err error) {
 	var auth oauth.Oauth
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
@@ -200,6 +197,7 @@ func (s *AuthService) OauthLogin(reqCtx *request2.Context, req *request2.OauthLo
 
 	// 获取第三方用户信息
 	info, err := auth.GetUserInfo(token.AccessToken)
+	s.svcCtx.Log.JsonIndent("第三方用户信息", info)
 	if err != nil {
 		return nil, err
 	}
@@ -208,7 +206,7 @@ func (s *AuthService) OauthLogin(reqCtx *request2.Context, req *request2.OauthLo
 	userOauth, err := s.svcCtx.UserAccountRepository.FindUserOauthByOpenid(info.OpenID, req.Platform)
 	if userOauth == nil {
 		// 用户未注册,先注册用户
-		_, err = s.oauthRegister(reqCtx, req, info)
+		userOauth, err = s.oauthRegister(reqCtx, req, info)
 		if err != nil {
 			return nil, err
 		}
@@ -218,20 +216,25 @@ func (s *AuthService) OauthLogin(reqCtx *request2.Context, req *request2.OauthLo
 	return s.oauthLogin(reqCtx, userOauth)
 }
 
-func (s *AuthService) oauthRegister(reqCtx *request2.Context, req *request2.OauthLoginReq, info *result.UserResult) (resp *response.Login, err error) {
+func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *result.UserResult) (resp *entity.UserOauth, err error) {
 	// 用户未注册,先注册用户
-	pwd := rand.New(rand.NewSource(time.Now().UnixNano())).Intn(16)
-	userAccount := entity2.UserAccount{
-		ID:           0,
-		Username:     info.OpenID,
-		Password:     strconv.Itoa(pwd),
+	pwd := crypto.BcryptHash(info.EnName)
+	username := info.Email
+	if username == "" {
+		username = info.Mobile
+	}
+	userAccount := entity.UserAccount{
+		Username:     username,
+		Password:     pwd,
 		RegisterType: req.Platform,
 		IpAddress:    reqCtx.IpAddress,
 		IpSource:     reqCtx.IpSource,
 	}
 
-	userInfo := entity2.UserInformation{
-		Avatar: info.AvatarURL,
+	userInfo := entity.UserInformation{
+		Nickname: info.Name,
+		Avatar:   info.AvatarURL,
+		Email:    info.Email,
 	}
 
 	// 注册用户
@@ -241,7 +244,7 @@ func (s *AuthService) oauthRegister(reqCtx *request2.Context, req *request2.Oaut
 	}
 
 	// 绑定用户第三方信息
-	userOauth := &entity2.UserOauth{
+	userOauth := &entity.UserOauth{
 		UserID:   userAccount.ID,
 		OpenID:   info.OpenID,
 		Platform: req.Platform,
@@ -252,10 +255,10 @@ func (s *AuthService) oauthRegister(reqCtx *request2.Context, req *request2.Oaut
 		return nil, err
 	}
 
-	return nil, nil
+	return userOauth, nil
 }
 
-func (s *AuthService) oauthLogin(reqCtx *request2.Context, req *entity2.UserOauth) (resp *response.Login, err error) {
+func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.Login, err error) {
 
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, req.UserID)
@@ -273,7 +276,7 @@ func (s *AuthService) oauthLogin(reqCtx *request2.Context, req *entity2.UserOaut
 		return nil, err
 	}
 
-	history := &entity2.UserLoginHistory{
+	history := &entity.UserLoginHistory{
 		UserID:    account.ID,
 		LoginType: req.Platform,
 		IpAddress: reqCtx.IpAddress,
@@ -299,7 +302,7 @@ func (s *AuthService) oauthLogin(reqCtx *request2.Context, req *entity2.UserOaut
 	return resp, nil
 }
 
-func (s *AuthService) GetAuthorizeUrl(reqCtx *request2.Context, req *request2.OauthLoginReq) (resp *response.OauthLoginUrl, err error) {
+func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.OauthLoginUrl, err error) {
 	var auth oauth.Oauth
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
@@ -319,26 +322,7 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request2.Context, req *request2.Oa
 	return resp, nil
 }
 
-//func (s *AuthService) generateToken(userId int) (token string, err error) {
-//	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(nil, userId)
-//	if err != nil {
-//		return "", err
-//	}
-//
-//	roles, err := s.svcCtx.RoleRepository.FindUserRoles(userId)
-//	if err != nil {
-//		return "", err
-//	}
-//
-//	var roleLabels []string
-//	for _, item := range roles {
-//		roleLabels = append(roleLabels, item.RoleName)
-//	}
-//
-//	return s.svcCtx.Token.CreateClaims(account.ID, account.Username, roleLabels)
-//}
-
-func convertUserDetails(user *entity2.UserAccount, info *entity2.UserInformation, history *entity2.UserLoginHistory) *response.UserDetail {
+func convertUserDetails(user *entity.UserAccount, info *entity.UserInformation, history *entity.UserLoginHistory) *response.UserDetail {
 	userinfo := response.UserDetail{
 		ID:            user.ID,
 		Username:      user.Username,

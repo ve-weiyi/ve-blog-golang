@@ -2,12 +2,12 @@ package logic
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	request2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 )
 
 // 根据id获取Article记录
-func (s *ArticleService) GetArticleDetails(reqCtx *request2.Context, id int) (data *response.ArticleDetails, err error) {
+func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (data *response.ArticleDetails, err error) {
 	// 查询id对应文章
 	article, err := s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
 	if err != nil {
@@ -32,10 +32,10 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request2.Context, id int) (da
 		return nil, err
 	}
 	// 查询最新文章
-	page := &request2.PageQuery{
+	page := &request.PageQuery{
 		Page:     0,
 		PageSize: 5,
-		Sorts: []*request2.Sort{
+		Sorts: []*request.Sort{
 			{Field: "id", Order: "desc"},
 		},
 	}
@@ -65,7 +65,7 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request2.Context, id int) (da
 }
 
 // 分页获取Article记录
-func (s *ArticleService) GetArticleList(reqCtx *request2.Context, page *request2.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
+func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
 	// 查询文章列表
 	articles, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
@@ -86,7 +86,7 @@ func (s *ArticleService) GetArticleList(reqCtx *request2.Context, page *request2
 	return list, total, err
 }
 
-func (s *ArticleService) GetArticleListByCondition(reqCtx *request2.Context, req *request2.ArticleCondition) (data *response.ArticleConditionDTO, err error) {
+func (s *ArticleService) GetArticleListByCondition(reqCtx *request.Context, req *request.ArticleCondition) (data *response.ArticleConditionDTO, err error) {
 	resp := &response.ArticleConditionDTO{}
 
 	// 查询文章列表
@@ -125,8 +125,8 @@ func (s *ArticleService) GetArticleListByCondition(reqCtx *request2.Context, req
 	return resp, err
 }
 
-func (s *ArticleService) GetArticleArchives(reqCtx *request2.Context, page *request2.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
-	page.Sorts = []*request2.Sort{
+func (s *ArticleService) GetArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
+	page.Sorts = []*request.Sort{
 		{Field: "id", Order: "desc"},
 	}
 	newestArticle, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)

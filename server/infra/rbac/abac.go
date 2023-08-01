@@ -6,7 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
 type Enforcer interface {
@@ -15,8 +15,8 @@ type Enforcer interface {
 }
 
 type ApiPermission struct {
-	entity2.Api
-	Roles []*entity2.Role
+	entity.Api
+	Roles []*entity.Role
 }
 
 // 判断角色拥有哪些资源（Resource-Based Access Control）
@@ -37,7 +37,7 @@ func NewResourceEnforcer(db *gorm.DB) *ResourceEnforcer {
 // 从数据库加载角色的资源
 func (s *ResourceEnforcer) LoadPermissions() error {
 	// 查询所有资源
-	var apis []entity2.Api
+	var apis []entity.Api
 	err := s.dbEngin.Find(&apis).Error
 	if err != nil {
 		return err
@@ -73,7 +73,7 @@ func (s *ResourceEnforcer) VerifyUserPermissions(uid int, path string, method st
 	}
 
 	// 查询用户角色
-	var urs []entity2.UserRole
+	var urs []entity.UserRole
 	err := s.dbEngin.Where("user_id = ?", uid).Find(&urs).Error
 	// 用户角色为空，返回false
 	if err != nil {
@@ -104,10 +104,10 @@ func (s *ResourceEnforcer) GetApiPermission(path string, method string) *ApiPerm
 }
 
 // 获取Api记录
-func (s *ResourceEnforcer) findApiRoles(apiId int) (list []*entity2.Role, err error) {
+func (s *ResourceEnforcer) findApiRoles(apiId int) (list []*entity.Role, err error) {
 	// 创建db
 	db := s.dbEngin
-	var roleApis []*entity2.RoleApi
+	var roleApis []*entity.RoleApi
 
 	err = db.Where("api_id = ?", apiId).Find(&roleApis).Error
 	if err != nil {
@@ -119,7 +119,7 @@ func (s *ResourceEnforcer) findApiRoles(apiId int) (list []*entity2.Role, err er
 		roleIds = append(roleIds, item.ApiID)
 	}
 
-	var roles []*entity2.Role
+	var roles []*entity.Role
 	err = db.Where("id in (?)", roleIds).Find(&roles).Error
 	if err != nil {
 		return nil, err

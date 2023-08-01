@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	request2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 )
 
@@ -23,7 +23,7 @@ func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 		return
 	}
 
-	var page request2.PageQuery
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -59,7 +59,7 @@ func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
 		return
 	}
 
-	var req request2.ArticleCondition
+	var req request.ArticleCondition
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)

@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
@@ -133,7 +133,7 @@ func ResetAllPolicy(db *gorm.DB, rbac *casbin.SyncedEnforcer) {
 	}
 
 	//角色
-	var roles []entity2.Role
+	var roles []entity.Role
 	err := db.Find(&roles).Error
 	if err != nil {
 		return
@@ -160,7 +160,7 @@ func ResetAllPolicy(db *gorm.DB, rbac *casbin.SyncedEnforcer) {
 
 // 获取角色菜单权限
 func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenu, error) {
-	var urs []entity2.RoleMenu
+	var urs []entity.RoleMenu
 	err := db.Where("role_id = ?", roleId).Find(&urs).Error
 	if err != nil {
 		return nil, err
@@ -171,7 +171,7 @@ func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenu, error) 
 		mids = append(mids, item.MenuID)
 	}
 
-	var menus []entity2.Menu
+	var menus []entity.Menu
 	err = db.Where("id in (?)", mids).Find(&menus).Error
 	if err != nil {
 		return nil, err

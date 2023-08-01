@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	request2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
 )
@@ -83,7 +83,7 @@ func (s *UserController) GetLoginHistory(c *gin.Context) {
 		return
 	}
 
-	var page request2.PageQuery
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -142,7 +142,7 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 		return
 	}
 
-	var req entity2.UserInformation
+	var req entity.UserInformation
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -204,7 +204,7 @@ func (s *UserController) GetUserList(c *gin.Context) {
 		return
 	}
 
-	var page request2.PageQuery
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -240,7 +240,7 @@ func (s *UserController) GetUserAreas(c *gin.Context) {
 		return
 	}
 
-	var page request2.PageQuery
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -276,7 +276,7 @@ func (s *UserController) UpdateUserStatus(c *gin.Context) {
 		return
 	}
 
-	var req entity2.UserAccount
+	var req entity.UserAccount
 	err = s.ShouldBindJSON(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -307,7 +307,7 @@ func (s *UserController) UpdateUserRoles(c *gin.Context) {
 		return
 	}
 
-	var req request2.UpdateUserRoles
+	var req request.UpdateUserRoles
 	err = s.ShouldBindJSON(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)

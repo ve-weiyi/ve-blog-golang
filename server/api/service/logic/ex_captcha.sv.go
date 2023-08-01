@@ -3,7 +3,7 @@ package logic
 import (
 	"fmt"
 
-	request2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
@@ -25,7 +25,7 @@ func NewCaptchaService(svcCtx *svc.ServiceContext) *CaptchaService {
 }
 
 // 发送验证码
-func (s *CaptchaService) SendCaptchaEmail(reqCtx *request2.Context, req *request2.CaptchaEmail) (result interface{}, err error) {
+func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.CaptchaEmail) (result interface{}, err error) {
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Email)
 	if err != nil {
@@ -77,7 +77,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request2.Context, req *request
 }
 
 // 获取图片验证码
-func (s *CaptchaService) GetCaptchaImage(reqCtx *request2.Context, req *request2.Captcha) (resp *response.Captcha, err error) {
+func (s *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.Captcha) (resp *response.Captcha, err error) {
 	id, b64s, err := s.svcCtx.Captcha.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ func (s *CaptchaService) GetCaptchaImage(reqCtx *request2.Context, req *request2
 	return resp, nil
 }
 
-func (s *CaptchaService) VerifyImageCaptcha(reqCtx *request2.Context, req *request2.CaptchaVerify) (resp interface{}, err error) {
+func (s *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerify) (resp interface{}, err error) {
 	if !s.svcCtx.Captcha.VerifyCaptcha(req.ID, req.Code) {
 		return nil, codes.ErrorCaptchaVerify
 	}

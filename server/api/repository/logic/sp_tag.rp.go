@@ -1,14 +1,14 @@
 package logic
 
 import (
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
-func (s *TagRepository) FindArticleTagList(articleId int) (list []*entity2.Tag, err error) {
+func (s *TagRepository) FindArticleTagList(articleId int) (list []*entity.Tag, err error) {
 	// 创建db
 	db := s.DbEngin
-	var ats []*entity2.ArticleTag
-	var tags []*entity2.Tag
+	var ats []*entity.ArticleTag
+	var tags []*entity.Tag
 
 	err = db.Where("article_id = ?", articleId).Find(&ats).Error
 	if err != nil {

@@ -3,8 +3,8 @@ package logic
 import (
 	"math/rand"
 
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	response2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 )
@@ -17,10 +17,10 @@ func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
 	}
 }
 
-func convertTagList(list []*entity2.Tag) []*response2.TagDTO {
-	var tagList []*response2.TagDTO
+func convertTagList(list []*entity.Tag) []*response.TagDTO {
+	var tagList []*response.TagDTO
 	for _, tag := range list {
-		tagList = append(tagList, &response2.TagDTO{
+		tagList = append(tagList, &response.TagDTO{
 			ID:      tag.ID,
 			TagName: tag.TagName,
 		})
@@ -28,11 +28,11 @@ func convertTagList(list []*entity2.Tag) []*response2.TagDTO {
 	return tagList
 }
 
-func convertCategoryList(list []*entity2.Category) []*response2.CategoryDTO {
-	var categoryList []*response2.CategoryDTO
+func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
+	var categoryList []*response.CategoryDTO
 
 	for _, in := range list {
-		data := &response2.CategoryDTO{
+		data := &response.CategoryDTO{
 			ID:           in.ID,
 			CategoryName: in.CategoryName,
 			ArticleCount: 0,
@@ -44,8 +44,8 @@ func convertCategoryList(list []*entity2.Category) []*response2.CategoryDTO {
 	return categoryList
 }
 
-func convertResponseArticle(entity *entity2.Article) *response2.ArticleDetails {
-	return &response2.ArticleDetails{
+func convertResponseArticle(entity *entity.Article) *response.ArticleDetails {
+	return &response.ArticleDetails{
 		ID:             entity.ID,
 		ArticleCover:   entity.ArticleCover,
 		ArticleTitle:   entity.ArticleTitle,
@@ -58,7 +58,7 @@ func convertResponseArticle(entity *entity2.Article) *response2.ArticleDetails {
 		UpdatedAt:   entity.UpdatedAt,
 		CategoryID:  entity.CategoryID,
 		//CategoryName:         "",
-		ArticleTagList: []*response2.TagDTO{{1, "tag1"}, {2, "tag2"}, {3, "tag3"}},
+		ArticleTagList: []*response.TagDTO{{1, "tag1"}, {2, "tag2"}, {3, "tag3"}},
 		//LastArticle:          response.ArticlePaginationDTO{},
 		//NextArticle:          response.ArticlePaginationDTO{},
 		//RecommendArticleList: nil,
@@ -66,10 +66,10 @@ func convertResponseArticle(entity *entity2.Article) *response2.ArticleDetails {
 	}
 }
 
-func convertRecommendArticles(list []*entity2.Article) []*response2.ArticleRecommendDTO {
-	var out []*response2.ArticleRecommendDTO
+func convertRecommendArticles(list []*entity.Article) []*response.ArticleRecommendDTO {
+	var out []*response.ArticleRecommendDTO
 	for _, item := range list {
-		at := &response2.ArticleRecommendDTO{
+		at := &response.ArticleRecommendDTO{
 			ID:           item.ID,
 			ArticleCover: item.ArticleCover,
 			ArticleTitle: item.ArticleTitle,
@@ -81,19 +81,19 @@ func convertRecommendArticles(list []*entity2.Article) []*response2.ArticleRecom
 	return out
 }
 
-func convertArticlePagination(article *entity2.Article) *response2.ArticlePaginationDTO {
+func convertArticlePagination(article *entity.Article) *response.ArticlePaginationDTO {
 	if article == nil {
 		return nil
 	}
-	return &response2.ArticlePaginationDTO{
+	return &response.ArticlePaginationDTO{
 		ID:           article.ID,
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
 }
 
-func convertArticle(article *entity2.Article) *response2.ArticleDTO {
-	out := &response2.ArticleDTO{
+func convertArticle(article *entity.Article) *response.ArticleDTO {
+	out := &response.ArticleDTO{
 		ID:             article.ID,
 		ArticleCover:   article.ArticleCover,
 		ArticleTitle:   article.ArticleTitle,
@@ -109,7 +109,7 @@ func convertArticle(article *entity2.Article) *response2.ArticleDTO {
 	return out
 }
 
-func convertArticleStatisticsList(list []*entity2.Article) []*response2.ArticleStatisticsDTO {
+func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleStatisticsDTO {
 	var dateMap = make(map[string]int64)
 	for _, item := range list {
 		key := item.CreatedAt.Format("2006-01-02")
@@ -120,9 +120,9 @@ func convertArticleStatisticsList(list []*entity2.Article) []*response2.ArticleS
 		}
 	}
 	// 日期统计
-	var out []*response2.ArticleStatisticsDTO
+	var out []*response.ArticleStatisticsDTO
 	for k, v := range dateMap {
-		at := &response2.ArticleStatisticsDTO{
+		at := &response.ArticleStatisticsDTO{
 			Day:   k,
 			Count: v,
 		}
@@ -132,10 +132,10 @@ func convertArticleStatisticsList(list []*entity2.Article) []*response2.ArticleS
 	return out
 }
 
-func convertUniqueViewList(list []*entity2.UniqueView) []*response2.UniqueViewDTO {
-	var out []*response2.UniqueViewDTO
+func convertUniqueViewList(list []*entity.UniqueView) []*response.UniqueViewDTO {
+	var out []*response.UniqueViewDTO
 	for _, item := range list {
-		at := &response2.UniqueViewDTO{
+		at := &response.UniqueViewDTO{
 			Day:   item.CreatedAt.Format("2006-01-02"),
 			Count: rand.Int63n(100),
 		}
@@ -145,10 +145,10 @@ func convertUniqueViewList(list []*entity2.UniqueView) []*response2.UniqueViewDT
 	return out
 }
 
-func convertArticleRankList(list []*entity2.Article) []*response2.ArticleRankDTO {
-	var out []*response2.ArticleRankDTO
+func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
+	var out []*response.ArticleRankDTO
 	for _, item := range list {
-		at := &response2.ArticleRankDTO{
+		at := &response.ArticleRankDTO{
 			ID:           item.ID,
 			ArticleTitle: item.ArticleTitle,
 			Count:        rand.Int63n(100),

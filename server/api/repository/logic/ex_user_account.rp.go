@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
@@ -16,7 +16,7 @@ import (
 func (s *UserAccountRepository) Logoff(ctx context.Context, id int) (data any, err error) {
 	// 创建db
 	db := s.DbEngin
-	var account entity2.UserAccount
+	var account entity.UserAccount
 
 	// 开始事务
 	tx := db.Begin()
@@ -40,7 +40,7 @@ func (s *UserAccountRepository) Logoff(ctx context.Context, id int) (data any, e
 }
 
 // 注册
-func (s *UserAccountRepository) Register(ctx context.Context, account *entity2.UserAccount, info *entity2.UserInformation) (u *entity2.UserAccount, i *entity2.UserInformation, err error) {
+func (s *UserAccountRepository) Register(ctx context.Context, account *entity.UserAccount, info *entity.UserInformation) (u *entity.UserAccount, i *entity.UserInformation, err error) {
 	//var role entity.Role
 
 	db := s.DbEngin
@@ -83,12 +83,12 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity2.U
 	/** 创建用户信息 end **/
 
 	/** 创建用户角色 end **/
-	var roles []*entity2.Role
+	var roles []*entity.Role
 	db.Where("is_default = ?", 1).Find(&roles)
 
-	var userRoles []*entity2.UserRole
+	var userRoles []*entity.UserRole
 	for _, item := range roles {
-		userRoles = append(userRoles, &entity2.UserRole{
+		userRoles = append(userRoles, &entity.UserRole{
 			UserID: account.ID,
 			RoleID: item.ID,
 		})
@@ -108,19 +108,19 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity2.U
 	return account, info, nil
 }
 
-func (s *UserAccountRepository) FindUserMenus(userId int) (list []*entity2.Menu, err error) {
+func (s *UserAccountRepository) FindUserMenus(userId int) (list []*entity.Menu, err error) {
 	// 创建db
 	db := s.DbEngin
 
 	//查询用户信息
-	var account entity2.UserAccount
+	var account entity.UserAccount
 	err = db.Where("user_id = ?", userId).First(&account).Error
 	if err != nil {
 		return nil, err
 	}
 
 	//查询用户的角色
-	var roleApis []*entity2.RoleMenu
+	var roleApis []*entity.RoleMenu
 	err = db.Where("user_id = ?", userId).Find(&roleApis).Error
 	if err != nil {
 		return nil, err
@@ -131,7 +131,7 @@ func (s *UserAccountRepository) FindUserMenus(userId int) (list []*entity2.Menu,
 		ids = append(ids, item.MenuID)
 	}
 
-	var apis []*entity2.Menu
+	var apis []*entity.Menu
 	err = db.Where("id in (?)", ids).Find(&apis).Error
 	if err != nil {
 		return nil, err
@@ -141,7 +141,7 @@ func (s *UserAccountRepository) FindUserMenus(userId int) (list []*entity2.Menu,
 }
 
 // 加载用户model
-func (s *UserAccountRepository) LoadUserByUsername(username string) (data *entity2.UserAccount, err error) {
+func (s *UserAccountRepository) LoadUserByUsername(username string) (data *entity.UserAccount, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -155,7 +155,7 @@ func (s *UserAccountRepository) LoadUserByUsername(username string) (data *entit
 }
 
 // 根据条件获取UserOauth记录
-func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform string) (out *entity2.UserOauth, err error) {
+func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform string) (out *entity.UserOauth, err error) {
 	db := s.DbEngin
 	err = db.Where("open_id = ? and platform = ?", openId, platform).First(&out).Error
 	if err != nil {
@@ -165,7 +165,7 @@ func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform st
 }
 
 // 查询用户信息
-func (s *UserAccountRepository) FindUserInfo(userId int) (out *entity2.UserInformation, err error) {
+func (s *UserAccountRepository) FindUserInfo(userId int) (out *entity.UserInformation, err error) {
 	// 创建db
 	db := s.DbEngin
 
@@ -179,10 +179,10 @@ func (s *UserAccountRepository) FindUserInfo(userId int) (out *entity2.UserInfor
 }
 
 // 根据id获取UserLoginHistory记录
-func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid int) (out *entity2.UserLoginHistory, err error) {
+func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin
 
-	out = &entity2.UserLoginHistory{}
+	out = &entity.UserLoginHistory{}
 	err = db.Where("user_id = ?", uid).First(&out).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err

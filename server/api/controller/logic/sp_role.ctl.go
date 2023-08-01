@@ -3,7 +3,7 @@ package logic
 import (
 	"github.com/gin-gonic/gin"
 
-	request2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 )
 
@@ -22,7 +22,7 @@ func (s *RoleController) GetRoles(c *gin.Context) {
 		return
 	}
 
-	var page request2.PageQuery
+	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -58,7 +58,7 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 		return
 	}
 
-	var req request2.UpdateRoleMenus
+	var req request.UpdateRoleMenus
 	err = s.ShouldBindJSON(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -89,7 +89,7 @@ func (s *RoleController) UpdateRoleResources(c *gin.Context) {
 		return
 	}
 
-	var req request2.UpdateRoleResources
+	var req request.UpdateRoleResources
 	err = s.ShouldBindJSON(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)

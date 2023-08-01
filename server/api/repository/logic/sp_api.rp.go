@@ -3,15 +3,15 @@ package logic
 import (
 	"context"
 
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
 // 获取所有匿名Api记录
-func (s *ApiRepository) FindAllPublicApis(ctx context.Context) (list []*entity2.Api, err error) {
+func (s *ApiRepository) FindAllPublicApis(ctx context.Context) (list []*entity.Api, err error) {
 	// 创建db
 	db := s.DbEngin
 
-	var apis []*entity2.Api
+	var apis []*entity.Api
 	err = db.Where("access_type = ?", 1).Find(&apis).Error
 	if err != nil {
 		return nil, err
@@ -21,10 +21,10 @@ func (s *ApiRepository) FindAllPublicApis(ctx context.Context) (list []*entity2.
 }
 
 // 获取Api记录
-func (s *ApiRepository) FindApiRoles(apiId int) (list []*entity2.Role, err error) {
+func (s *ApiRepository) FindApiRoles(apiId int) (list []*entity.Role, err error) {
 	// 创建db
 	db := s.DbEngin
-	var roleApis []*entity2.RoleApi
+	var roleApis []*entity.RoleApi
 
 	err = db.Where("api_id = ?", apiId).Find(&roleApis).Error
 	if err != nil {
@@ -36,7 +36,7 @@ func (s *ApiRepository) FindApiRoles(apiId int) (list []*entity2.Role, err error
 		roleIds = append(roleIds, item.ApiID)
 	}
 
-	var roles []*entity2.Role
+	var roles []*entity.Role
 	err = db.Where("id in (?)", roleIds).Find(&roles).Error
 	if err != nil {
 		return nil, err

@@ -1,21 +1,21 @@
 package response
 
 import (
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
 type ApiTree struct {
-	entity2.Api
+	entity.Api
 	Children []*ApiTree
 }
 
 type MenuTree struct {
-	entity2.Menu
+	entity.Menu
 	Children []*MenuTree
 }
 
 type RoleInfo struct {
-	entity2.Role
+	entity.Role
 	MenuIdList     []int
 	ResourceIdList []int
 }

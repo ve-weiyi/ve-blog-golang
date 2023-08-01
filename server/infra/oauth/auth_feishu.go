@@ -2,11 +2,9 @@ package oauth
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/https"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -48,8 +46,9 @@ func (a *AuthFeishu) GetAccessToken(code string) (resp *result.TokenResult, err 
 		AddParam("code", code).
 		Post()
 
-	log.Println("status:", status)
-	log.Println("body:", body)
+	if status != 200 {
+		return nil, fmt.Errorf("authorizion fail.status:%d,resp:%v", status, body)
+	}
 
 	err = jsonconv.JsonToObject(body, &resp)
 	if err != nil {
@@ -66,8 +65,9 @@ func (a *AuthFeishu) RefreshToken(refreshToken string) (resp *result.RefreshResu
 		AddData("refresh_token", refreshToken).
 		Post()
 
-	log.Println("status:", status)
-	log.Println("body:", body)
+	if status != 200 {
+		return nil, fmt.Errorf("authorizion fail.status:%d,resp:%v", status, body)
+	}
 
 	err = jsonconv.JsonToObject(body, &resp)
 	if err != nil {
@@ -83,8 +83,9 @@ func (a *AuthFeishu) GetUserInfo(accessToken string) (resp *result.UserResult, e
 		AddHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)).
 		Get()
 
-	log.Println("status:", status)
-	log.Println("body:", body)
+	if status != 200 {
+		return nil, fmt.Errorf("authorizion fail.status:%d,resp:%v", status, body)
+	}
 
 	err = jsonconv.JsonToObject(body, &resp)
 	if err != nil {

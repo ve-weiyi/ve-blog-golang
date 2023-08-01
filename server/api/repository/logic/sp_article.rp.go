@@ -1,13 +1,13 @@
 package logic
 
 import (
-	entity2 "github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
 // 根据分类id获取文章
-func (s *ArticleRepository) FindArticleListByCategoryId(categoryId int) (list []*entity2.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleListByCategoryId(categoryId int) (list []*entity.Article, total int64, err error) {
 	db := s.DbEngin
-	err = db.Model(&entity2.Article{}).Where("category_id = ?", categoryId).Find(&list).Error
+	err = db.Model(&entity.Article{}).Where("category_id = ?", categoryId).Find(&list).Error
 	if err != nil {
 		return nil, 0, err
 	}
@@ -17,11 +17,11 @@ func (s *ArticleRepository) FindArticleListByCategoryId(categoryId int) (list []
 }
 
 // 根据标签id获取文章
-func (s *ArticleRepository) FindArticleListByTagId(tagId int) (list []*entity2.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleListByTagId(tagId int) (list []*entity.Article, total int64, err error) {
 	db := s.DbEngin
 
 	// 获取文章标签映射
-	var ats []*entity2.ArticleTag
+	var ats []*entity.ArticleTag
 	err = db.Where("tag_id = ?", tagId).Find(&ats).Error
 	if err != nil {
 		return nil, 0, err
@@ -44,7 +44,7 @@ func (s *ArticleRepository) FindArticleListByTagId(tagId int) (list []*entity2.A
 }
 
 // 获取推荐文章,与id相同分类的文章
-func (s *ArticleRepository) FindRecommendArticle(cateId int) (list []*entity2.Article, err error) {
+func (s *ArticleRepository) FindRecommendArticle(cateId int) (list []*entity.Article, err error) {
 	db := s.DbEngin
 	err = db.Where("category_id = ?", cateId).Limit(5).Find(&list).Error
 	if err != nil {
@@ -54,9 +54,9 @@ func (s *ArticleRepository) FindRecommendArticle(cateId int) (list []*entity2.Ar
 }
 
 // 获取上一篇文章
-func (s *ArticleRepository) FindLastArticle(id int) (out *entity2.Article, err error) {
+func (s *ArticleRepository) FindLastArticle(id int) (out *entity.Article, err error) {
 	db := s.DbEngin
-	var lastArticle entity2.Article
+	var lastArticle entity.Article
 	err = db.Where("id < ?", id).Order("`id` desc").First(&lastArticle).Error
 	if err != nil {
 		return nil, nil
@@ -66,9 +66,9 @@ func (s *ArticleRepository) FindLastArticle(id int) (out *entity2.Article, err e
 }
 
 // 获取下一篇文章
-func (s *ArticleRepository) FindNextArticle(id int) (out *entity2.Article, err error) {
+func (s *ArticleRepository) FindNextArticle(id int) (out *entity.Article, err error) {
 	db := s.DbEngin
-	var nextArticle entity2.Article
+	var nextArticle entity.Article
 	err = db.Where("id > ?", id).Order("`id` asc").First(&nextArticle).Error
 	if err != nil {
 		return nil, nil
