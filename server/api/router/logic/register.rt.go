@@ -9,7 +9,7 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 	s.InitApiGenRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.ApiController
 	{
-		loginRouter.POST("apis", handler.GetApis) // 获取Api列表
+		loginRouter.POST("api/list/details", handler.FindApiListDetails) // 获取Api列表
 	}
 }
 
@@ -20,7 +20,7 @@ func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, login
 	s.InitCategoryGenRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.CategoryController
 	{
-		publicRouter.POST("category/list/details", handler.FindCategoryDetailList) // 查询Category详情列表
+		publicRouter.POST("category/list/details", handler.FindCategoryListDetails) // 查询Category详情列表
 	}
 }
 
@@ -34,7 +34,7 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 	{
 		publicRouter.POST("comment/:id/like", handler.LikeComment)                // 点赞评论
 		publicRouter.POST("comment/:id/reply_list", handler.FindCommentReplyList) // 分页查询Comment列表
-		publicRouter.POST("comment/list/details", handler.FindCommentDetailList)  // 分页查询Comment列表
+		publicRouter.POST("comment/list/details", handler.FindCommentListDetails) // 分页查询Comment列表
 		publicRouter.POST("comment/list/back", handler.FindCommentBackList)       // 分页查询Comment列表
 	}
 }
@@ -44,6 +44,10 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 // loginRouter  登录路由，登录后才可以访问
 func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitRoleGenRouter(publicRouter, loginRouter)
+	var handler = s.svcCtx.AppController.RoleController
+	{
+		loginRouter.POST("role/list/details", handler.FindRoleListDetails)
+	}
 }
 
 // 初始化 Menu 路由信息
@@ -51,6 +55,10 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 // loginRouter  登录路由，登录后才可以访问
 func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitMenuGenRouter(publicRouter, loginRouter)
+	var handler = s.svcCtx.AppController.MenuController
+	{
+		loginRouter.POST("menu/list/details", handler.FindMenuListDetails)
+	}
 }
 
 // 初始化 Article 路由信息
@@ -63,8 +71,8 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 		publicRouter.GET("article/:id/details", handler.GetArticleDetails) // 获取Article详情
 		publicRouter.PUT("article/:id/like", handler.LikeArticle)          // 点赞文章
 
-		publicRouter.GET("article/archives", handler.GetArticleArchives)               // 文章归档
-		publicRouter.POST("article/list/condition", handler.GetArticleListByCondition) // 根据条件获取Article列表
+		publicRouter.GET("article/archives", handler.GetArticleArchives)                // 文章归档
+		publicRouter.POST("article/list/condition", handler.FindArticleListByCondition) // 根据条件获取Article列表
 	}
 }
 
@@ -103,8 +111,8 @@ func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *
 	s.InitTalkGenRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.TalkController
 	{
-		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)       // 获取Talk详情
-		publicRouter.POST("talk/list/details", handler.FindTalkDetailList) // 获取Talk详情列表
+		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
+		publicRouter.POST("talk/list/details", handler.FindTalkListDetails) // 获取Talk详情列表
 	}
 }
 

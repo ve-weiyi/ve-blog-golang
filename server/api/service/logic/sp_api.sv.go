@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取Api记录
-func (s *ApiService) GetAllApiList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiTree, total int64, err error) {
+func (s *ApiService) FindApiListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetails, total int64, err error) {
 	// 查询api信息
 	apis, _, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
 	if err != nil {
@@ -15,14 +15,14 @@ func (s *ApiService) GetAllApiList(reqCtx *request.Context, page *request.PageQu
 	}
 
 	// to tree
-	var tree response.ApiTree
+	var tree response.ApiDetails
 	tree.Children = s.getApiChildren(tree, apis)
 
 	list = tree.Children
 	return list, int64(len(list)), nil
 }
 
-func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiTree, err error) {
+func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiDetails, err error) {
 	//查询用户信息
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
@@ -55,16 +55,16 @@ func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data
 		list = append(list, v)
 	}
 
-	var out response.ApiTree
+	var out response.ApiDetails
 	out.Children = s.getApiChildren(out, list)
 
 	return out.Children, err
 }
 
-func (s *ApiService) getApiChildren(root response.ApiTree, list []*entity.Api) (leafs []*response.ApiTree) {
+func (s *ApiService) getApiChildren(root response.ApiDetails, list []*entity.Api) (leafs []*response.ApiDetails) {
 	for _, item := range list {
 		if item.ParentID == root.ID {
-			leaf := response.ApiTree{
+			leaf := response.ApiDetails{
 				Api:      *item,
 				Children: nil,
 			}

@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取Comment记录
-func (s *CommentService) FindCommentDetailList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
+func (s *CommentService) FindCommentListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
 	commentList, total, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err

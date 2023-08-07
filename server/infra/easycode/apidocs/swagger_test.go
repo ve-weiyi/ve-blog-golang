@@ -29,7 +29,10 @@ func TestDst(t *testing.T) {
 		ModelRoot:      []string{path.Join(root, "model")},
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
-		IgnoredModels:  []string{"response.PageResult", "response.Response", "request.PageQuery"},
+		IgnoredModels: []string{
+			"response.PageResult", "response.Response", "request.PageQuery",
+			"request.Context", "request.Sort", "request.Condition",
+		},
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
 		},
@@ -46,7 +49,7 @@ func TestDst(t *testing.T) {
 
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
-	//aad.GenerateTsTypeFile()
+	aad.GenerateTsTypeFile()
 	aad.GenerateTsApiFiles()
 }
 

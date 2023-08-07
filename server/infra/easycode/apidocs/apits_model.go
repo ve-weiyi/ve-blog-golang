@@ -48,10 +48,11 @@ type ModelField struct {
 
 // api文档信息
 type TsApiDoc struct {
-	Tag            string            // 标签、分类
-	ImportPkgPaths []string          // 导入的包
-	ModelDeclares  []*TsModelDeclare // 导入的model
-	ApiDeclares    []*TsApiDeclare   // 所有api方法
+	Tag              string            // 标签、分类
+	ImportPkgPaths   []string          // 导入的包
+	ImportModelTypes []string          // 导入的model类型
+	ModelDeclares    []*TsModelDeclare // 定义的model
+	ApiDeclares      []*TsApiDeclare   // 定义的api方法
 }
 
 type TsApiDeclare struct {

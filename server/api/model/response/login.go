@@ -22,7 +22,7 @@ type UserDetail struct {
 	Intro    string `json:"intro"`
 	Email    string `json:"email"`
 
-	Roles []*entity.Role
+	Roles []*entity.Role `json:"roles"`
 }
 
 type LoginHistory struct {

@@ -65,7 +65,7 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 }
 
 // 分页获取Article记录
-func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
+func (s *ArticleService) FindArticleListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
 	// 查询文章列表
 	articles, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
@@ -86,7 +86,7 @@ func (s *ArticleService) GetArticleList(reqCtx *request.Context, page *request.P
 	return list, total, err
 }
 
-func (s *ArticleService) GetArticleListByCondition(reqCtx *request.Context, req *request.ArticleCondition) (data *response.ArticleConditionDTO, err error) {
+func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req *request.ArticleCondition) (data *response.ArticleConditionDTO, err error) {
 	resp := &response.ArticleConditionDTO{}
 
 	// 查询文章列表

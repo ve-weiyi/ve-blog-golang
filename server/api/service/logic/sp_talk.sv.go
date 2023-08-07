@@ -6,7 +6,7 @@ import (
 )
 
 // 获取说说详情列表
-func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetails, total int64, err error) {
+func (s *TalkService) FindTalkListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetails, total int64, err error) {
 	categories, total, err := s.svcCtx.TalkRepository.FindTalkList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err

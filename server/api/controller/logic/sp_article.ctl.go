@@ -117,7 +117,7 @@ func (s *ArticleController) GetArticleArchives(c *gin.Context) {
 // @Param		page	body		request.PageQuery													true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
 // @Router		/article/list/condition [post]
-func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
+func (s *ArticleController) FindArticleListByCondition(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -131,7 +131,7 @@ func (s *ArticleController) GetArticleListByCondition(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.GetArticleListByCondition(reqCtx, &req)
+	data, err := s.svcCtx.ArticleService.FindArticleListByCondition(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

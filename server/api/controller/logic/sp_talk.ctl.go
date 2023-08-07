@@ -18,7 +18,7 @@ import (
 // @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.TalkDetails}}	"返回信息"
 // @Router		/talk/list/details [post]
-func (s *TalkController) FindTalkDetailList(c *gin.Context) {
+func (s *TalkController) FindTalkListDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -32,7 +32,7 @@ func (s *TalkController) FindTalkDetailList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.TalkService.FindTalkDetailsList(reqCtx, &page)
+	list, total, err := s.svcCtx.TalkService.FindTalkListDetails(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

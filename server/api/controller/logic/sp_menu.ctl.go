@@ -14,9 +14,9 @@ import (
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
-// @Success		200		{object}	response.Response{data=[]entity.Menu}	"返回信息"
-// @Router		/menus [post]
-func (s *MenuController) GetMenus(c *gin.Context) {
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.MenuDetails}}	"返回信息"
+// @Router		/menu/list/details [post]
+func (s *MenuController) FindMenuListDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -30,7 +30,7 @@ func (s *MenuController) GetMenus(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.MenuService.GetAllMenusList(reqCtx, &page)
+	list, total, err := s.svcCtx.MenuService.FindMenuListDetails(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
