@@ -17,6 +17,7 @@ type HttpBuilder struct {
 	params  url.Values             // ?a=1&b=2
 	headers map[string]string      // map[Content-Type:application/x-www-form-urlencoded]
 	data    map[string]interface{} // {"a":1,"b":2}
+	body    string                 //{"a":1,"b":2}
 }
 
 func NewHttpBuilder(baseUrl string) *HttpBuilder {
@@ -41,7 +42,7 @@ func (h *HttpBuilder) DoRequest(method string) (string, int) {
 
 	requestUrl := h.GetUrl()
 	headers := h.headers
-	data := h.GetDatas()
+	data := h.GetBody()
 
 	client := &http.Client{}
 	req, err := http.NewRequest(method, requestUrl, strings.NewReader(data))
@@ -81,13 +82,17 @@ func (h *HttpBuilder) GetUrl() string {
 	return h.baseUrl + "?" + h.params.Encode()
 }
 
-func (h *HttpBuilder) GetDatas() string {
-	str, err := jsoniter.MarshalToString(h.data)
-	if err != nil {
-		return ""
+func (h *HttpBuilder) GetBody() string {
+	if h.body != "" {
+		return h.body
 	}
 
-	return str
+	str, _ := jsoniter.MarshalToString(h.data)
+	if str != "" {
+		return str
+	}
+
+	return ""
 }
 
 func (h *HttpBuilder) AddParam(key string, value interface{}) *HttpBuilder {
@@ -109,6 +114,11 @@ func (h *HttpBuilder) AddHeader(key string, value interface{}) *HttpBuilder {
 func (h *HttpBuilder) AddData(key string, value interface{}) *HttpBuilder {
 
 	h.data[key] = value
+	return h
+}
+
+func (h *HttpBuilder) AddBody(value interface{}) *HttpBuilder {
+	h.body = fmt.Sprint(value)
 	return h
 }
 

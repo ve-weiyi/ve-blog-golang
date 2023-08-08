@@ -26,6 +26,7 @@ type AppController struct {
 	UploadController       *logic.UploadController       //文件上传
 	OperationLogController *logic.OperationLogController //操作记录
 	RemarkController       *logic.RemarkController       //留言
+	AIController           *logic.AIController           //AI
 }
 
 func NewController(svcCtx *svc.ControllerContext) *AppController {
@@ -50,5 +51,6 @@ func NewController(svcCtx *svc.ControllerContext) *AppController {
 		UploadController:       logic.NewUploadController(svcCtx),
 		OperationLogController: logic.NewOperationLogController(svcCtx),
 		RemarkController:       logic.NewRemarkController(svcCtx),
+		AIController:           logic.NewAIController(svcCtx),
 	}
 }

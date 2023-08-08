@@ -30,6 +30,7 @@ type AppService struct {
 	OperationLogService     *logic.OperationLogService     //操作记录
 	RemarkService           *logic.RemarkService           //留言
 	WebsiteConfigService    *logic.WebsiteConfigService    //网站设置
+	AIChatService           *logic.AIService               //AI聊天
 }
 
 func NewService(svcCtx *svc.ServiceContext) *AppService {
@@ -58,5 +59,6 @@ func NewService(svcCtx *svc.ServiceContext) *AppService {
 		OperationLogService:     logic.NewOperationLogService(svcCtx),
 		RemarkService:           logic.NewRemarkService(svcCtx),
 		WebsiteConfigService:    logic.NewWebsiteConfigService(svcCtx),
+		AIChatService:           logic.NewAIService(svcCtx),
 	}
 }

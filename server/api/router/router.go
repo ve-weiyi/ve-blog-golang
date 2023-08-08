@@ -26,6 +26,7 @@ type AppRouter struct {
 	UploadRouter       *logic.UploadRouter       //文件上传
 	OperationLogRouter *logic.OperationLogRouter //操作记录
 	RemarkRouter       *logic.RemarkRouter       //留言
+	AIRouter           *logic.AIRouter           //AI
 }
 
 func NewRouter(svcCtx *svc.RouterContext) *AppRouter {
@@ -50,5 +51,6 @@ func NewRouter(svcCtx *svc.RouterContext) *AppRouter {
 		UploadRouter:       logic.NewUploadRouter(svcCtx),
 		OperationLogRouter: logic.NewOperationLogRouter(svcCtx),
 		RemarkRouter:       logic.NewRemarkRouter(svcCtx),
+		AIRouter:           logic.NewAIRouter(svcCtx),
 	}
 }
