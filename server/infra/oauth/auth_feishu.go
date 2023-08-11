@@ -6,8 +6,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
-
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // Feishu授权登录

@@ -1,9 +1,9 @@
 package logic
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/chatgpt"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/chatgpt"
 )
 
 type AIService struct {

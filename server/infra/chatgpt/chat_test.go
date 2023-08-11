@@ -3,10 +3,10 @@ package chatgpt
 import (
 	"testing"
 
-	"github.com/ve-weiyi/go-sdk/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type Msg struct {
