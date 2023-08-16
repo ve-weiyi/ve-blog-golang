@@ -32,7 +32,6 @@ func Open(cfg orm.DsnProvider) *gorm.DB {
 	sqlDB.SetMaxOpenConns(cfg.GetConfig().MaxOpenConns)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
-	log.Printf("Mysql 数据库连接成功！%s", cfg.Dsn())
 	return db
 }
 

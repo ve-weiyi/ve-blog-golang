@@ -19,7 +19,6 @@ import (
 
 // 操作日志
 func OperationRecord() gin.HandlerFunc {
-	permission := global.Permission
 
 	return func(c *gin.Context) {
 		start := time.Now()
@@ -90,11 +89,11 @@ func OperationRecord() gin.HandlerFunc {
 			CreatedAt:     time.Now(),
 		}
 
-		apiPermission := permission.GetApiPermission(op.RequestUrl, op.RequestMethod)
-		if apiPermission != nil && apiPermission.Traceable == 1 {
-			// 保存操作日志
-			_ = global.DB.Create(&op).Error
-		}
+		//apiPermission := global.Permission.GetApiPermission(op.RequestUrl, op.RequestMethod)
+		//if apiPermission != nil && apiPermission.Traceable == 1 {
+		//	// 保存操作日志
+		//	_ = global.DB.Create(&op).Error
+		//}
 
 		global.LOG.JsonIndent(op)
 		//// 记录日志，包含请求和响应信息

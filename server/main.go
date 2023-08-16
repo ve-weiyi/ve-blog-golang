@@ -46,12 +46,12 @@ func main() {
 	// 初始化jwt
 	initialize.JwtToken()
 	// 初始化rbac角色访问控制
-	initialize.RBAC()
+	//initialize.RBAC()
 
 	initialize.OtherInit()
 
 	// 创建协程运行rabbitmq订阅消息
-	go initialize.RabbitMq()
+	//go initialize.RabbitMq()
 	// 程序结束前关闭数据库链接
 	if global.DB != nil {
 		initialize.RegisterTables(global.DB) // 初始化表

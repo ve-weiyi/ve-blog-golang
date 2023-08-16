@@ -43,11 +43,10 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 		//MainDB: global.DB,
 		//DBList: global.DBList,
 		//Cache:  global.REDIS,
-		Log:   global.LOG,
-		Token: global.JWT,
-		//RBAC:           global.RbacEnforcer,
+		Log:            global.LOG,
+		Token:          global.JWT,
 		Captcha:        captcha.NewCaptchaRepository(),
 		EmailPublisher: global.EmailMQ,
-		Uploader:       upload.NewOss(&cfg.Upload),
+		Uploader:       global.Uploader,
 	}
 }

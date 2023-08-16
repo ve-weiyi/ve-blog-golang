@@ -22,11 +22,6 @@ yarn-error.log*
 *.sln
 *.sw?
 
-/server/log/
-/server/blog
-/server/latest_log
-/server/runtime/
-/rm_file
 
 *.iml
 *.log
@@ -34,3 +29,7 @@ web/.pnpm-debug.log
 web/pnpm-lock.yaml
 config.yaml
 *.sum
+
+/rm_file
+/server/runtime/
+/server/infra/easycode/apidocs/api/

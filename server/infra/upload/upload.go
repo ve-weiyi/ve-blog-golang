@@ -1,7 +1,6 @@
 package upload
 
 import (
-	"log"
 	"mime/multipart"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
@@ -19,7 +18,6 @@ type Uploader interface {
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author [ccfish86](https://github.com/ccfish86)
 func NewOss(cfg *properties.Upload) Uploader {
-	log.Println("cfg.Mode", cfg.Mode)
 
 	switch cfg.Mode {
 	case "local":

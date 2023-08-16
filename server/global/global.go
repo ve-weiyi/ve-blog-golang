@@ -14,21 +14,22 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/timer"
-
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/timer"
 )
 
 var (
-	DB      *gorm.DB
-	DBList  map[string]*gorm.DB
-	REDIS   *redis.Client
-	CONFIG  config.Config
-	VP      *viper.Viper
-	JWT     *jjwt.JwtToken
-	LOG     *glog.Glogger
-	EmailMQ *rabbitmq.RabbitMQ
-	Timer   timer.Timer = timer.NewTimerTask()
+	VP       *viper.Viper
+	DB       *gorm.DB
+	DBList   map[string]*gorm.DB
+	REDIS    *redis.Client
+	CONFIG   config.Config
+	JWT      *jjwt.JwtToken
+	LOG      *glog.Glogger
+	EmailMQ  *rabbitmq.RabbitMQ
+	Uploader upload.Uploader
+	Timer    timer.Timer = timer.NewTimerTask()
 	//Concurrency_Control             = &singleflight.Group{}
 
 	BlackCache *ecache.Cache

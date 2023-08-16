@@ -125,7 +125,7 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 	return resp, err
 }
 
-func (s *ArticleService) GetArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
+func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
 	page.Sorts = []*request.Sort{
 		{Field: "id", Order: "desc"},
 	}
