@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
@@ -21,16 +22,17 @@ type ApiPermission struct {
 
 // 判断角色拥有哪些资源（Resource-Based Access Control）
 type ResourceEnforcer struct {
-	dbEngin *gorm.DB
-
+	dbEngin    *gorm.DB
+	cacheEngin *redis.Client
 	// 资源角色
 	apiMap map[string]ApiPermission
 }
 
-func NewResourceEnforcer(db *gorm.DB) *ResourceEnforcer {
+func NewResourceEnforcer(db *gorm.DB, rdb *redis.Client) *ResourceEnforcer {
 	return &ResourceEnforcer{
-		dbEngin: db,
-		apiMap:  make(map[string]ApiPermission),
+		dbEngin:    db,
+		cacheEngin: rdb,
+		apiMap:     make(map[string]ApiPermission),
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 )
 
 func RBAC() {
-	permission := rbac.NewResourceEnforcer(global.DB)
+	permission := rbac.NewResourceEnforcer(global.DB, global.REDIS)
 	err := permission.LoadPermissions()
 	if err != nil {
 		global.LOG.Error("permission.LoadPermissions err:", err)

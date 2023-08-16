@@ -46,7 +46,7 @@ func main() {
 	// 初始化jwt
 	initialize.JwtToken()
 	// 初始化rbac角色访问控制
-	initialize.RBAC()
+	//initialize.RBAC()
 
 	initialize.OtherInit()
 
