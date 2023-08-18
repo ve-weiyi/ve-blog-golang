@@ -71,7 +71,8 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 		publicRouter.GET("article/:id/details", handler.GetArticleDetails) // 获取Article详情
 		publicRouter.PUT("article/:id/like", handler.LikeArticle)          // 点赞文章
 
-		publicRouter.GET("article/archives", handler.GetArticleArchives)                // 文章归档
+		publicRouter.POST("article/archives", handler.FindArticleArchives)              // 文章归档
+		publicRouter.POST("article/list/details", handler.FindArticleListDetails)       // 根据条件获取Article列表
 		publicRouter.POST("article/list/condition", handler.FindArticleListByCondition) // 根据条件获取Article列表
 	}
 }
