@@ -132,7 +132,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 }
 
 // 查询Comment后台记录
-func (s *CommentService) FindCommentBackList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentBackDTO, total int64, err error) {
+func (s *CommentService) FindCommentListBack(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentBackDTO, total int64, err error) {
 	// 使用用户昵称查询
 	username := page.FindCondition("username")
 	if username != nil {

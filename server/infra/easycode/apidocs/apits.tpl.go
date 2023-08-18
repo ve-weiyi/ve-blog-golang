@@ -23,7 +23,7 @@ const ModelTypeScript = `
 {{- range .}}
 export interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
   {{- range .Fields }}
-  {{ .Name }}: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
+  {{ .Name }}?: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
   {{- end }}
 }
 {{ end -}}

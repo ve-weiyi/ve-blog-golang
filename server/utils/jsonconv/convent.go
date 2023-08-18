@@ -15,6 +15,7 @@ var replaceKey = map[string]string{
 	"UID": "uid",
 	"ID":  "id",
 	"URL": "url",
+	"AI":  "ai",
 }
 
 /**
