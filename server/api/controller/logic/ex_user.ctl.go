@@ -23,6 +23,117 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 }
 
 // @Tags		User
+// @Summary		获取用户列表
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		page	body		request.PageQuery			true	"分页参数"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/user/list [post]
+func (s *UserController) FindUserList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageQuery
+	err = s.ShouldBind(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.UserService.FindUserList(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.Limit(),
+	})
+}
+
+// @Tags		User
+// @Summary		获取用户地区
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		page	body		request.PageQuery			true	"分页参数"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/user/list/areas [post]
+func (s *UserController) FindUserListAreas(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageQuery
+	err = s.ShouldBind(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.UserService.FindUserListAreas(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.Limit(),
+	})
+}
+
+// @Tags		User
+// @Summary		获取用户登录历史
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		page	body		request.PageQuery			true	"分页参数"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/user/login_history [post]
+func (s *UserController) FindUserLoginHistory(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageQuery
+	err = s.ShouldBind(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.UserService.FindUserLoginHistory(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.Limit(),
+	})
+}
+
+// @Tags		User
 // @Summary		获取用户菜单权限
 // @Accept		application/json
 // @Produce		application/json
@@ -68,43 +179,6 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
-}
-
-// @Tags		User
-// @Summary		获取用户登录历史
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/user/login_history [get]
-func (s *UserController) GetLoginHistory(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.UserService.GetLoginHistory(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.Limit(),
-	})
 }
 
 // @Tags		User
@@ -195,80 +269,6 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
-}
-
-// @Tags		User
-// @Summary		获取用户列表
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/users [post]
-func (s *UserController) GetUserList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.UserService.GetUserList(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.Limit(),
-	})
-}
-
-// @Tags		User
-// @Summary		获取用户地区
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/user/areas [post]
-func (s *UserController) GetUserAreas(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.UserService.GetUserAreas(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.Limit(),
-	})
 }
 
 // @Tags		User
