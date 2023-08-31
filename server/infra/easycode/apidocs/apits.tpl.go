@@ -21,7 +21,7 @@ export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
 
 const ModelTypeScript = `
 {{- range .}}
-export interface {{ .Name }} {{ if .Extend }}extends {{ .Extend.Name }} {{ end }}{
+export interface {{ .Name }} {{ if .Extends }}extends {{ joinArray .Extends }} {{ end }}{
   {{- range .Fields }}
   {{ .Name }}?: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
   {{- end }}
@@ -40,4 +40,4 @@ const BodyTpl = `{{- if .Body -}}
   {{ .Body.Name }}?: {{ .Body.Type }}
 {{- end -}}`
 
-const ModelImportTpl = `import { {{ joinArray .ImportModelTypes }} } from './types'`
+const ModelImportTpl = `{{ if .ImportModelTypes }}import { {{ joinArray .ImportModelTypes }} } from './types'{{ end }}`

@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"fmt"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
@@ -183,11 +185,11 @@ func (s *CommentService) FindCommentListBack(reqCtx *request.Context, page *requ
 	for _, item := range replyList {
 
 		data := &response.CommentBackDTO{
-			ID:             0,
+			ID:             item.ID,
 			Avatar:         "",
 			Nickname:       "",
 			ReplyNickname:  "",
-			ArticleTitle:   "测试",
+			ArticleTitle:   fmt.Sprintf("%v", item.TopicID),
 			CommentContent: item.CommentContent,
 			Type:           item.Type,
 			IsReview:       item.IsReview,
@@ -197,8 +199,8 @@ func (s *CommentService) FindCommentListBack(reqCtx *request.Context, page *requ
 		// 用户信息
 		info, _ := userMap[item.UserID]
 		if info != nil {
-			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
+			data.Nickname = info.Nickname
 		}
 
 		// 回复的用户信息

@@ -26,7 +26,7 @@ func NewAIController(svcCtx *svc.ControllerContext) *AIController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		[]*chatgpt.ChatMessage				true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=chatgpt.ChatResponse}	"返回信息"
 // @Router		/ai/chat [post]
 func (s *AIController) ChatAI(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -57,7 +57,7 @@ func (s *AIController) ChatAI(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		string				true	"请求body"
-// @Success		200		{object}	response.Response{}	"返回信息"
+// @Success		200		{object}	response.Response{data=chatgpt.ChatResponse}	"返回信息"
 // @Router		/ai/cos [post]
 func (s *AIController) ChatCos(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

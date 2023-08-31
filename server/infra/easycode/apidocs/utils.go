@@ -151,17 +151,19 @@ func ParseApiModel(fp string) []*ModelDeclare {
 				if t, ok := spec.(*ast.TypeSpec); ok {
 					if s, ok := t.Type.(*ast.StructType); ok {
 						var modelFields []*ModelField
-						var extend *ModelDeclare
+						var extendFields []*ModelDeclare
 						for _, field := range s.Fields.List {
 							if len(field.Names) > 0 {
 								modelFields = append(modelFields, extractModelField(field))
 							} else {
 								ext := extractModelField(field)
-								extend = &ModelDeclare{
+								extend := &ModelDeclare{
 									Pkg:    ext.Name,
 									Name:   ext.Type,
 									Fields: nil,
 								}
+
+								extendFields = append(extendFields, extend)
 							}
 						}
 
@@ -169,7 +171,7 @@ func ParseApiModel(fp string) []*ModelDeclare {
 						model := &ModelDeclare{
 							Pkg:    file.Name.Name,
 							Name:   modelName,
-							Extend: extend,
+							Extend: extendFields,
 							Fields: modelFields,
 						}
 
@@ -243,6 +245,7 @@ func getModelDeclareName(method *ApiDeclare) []string {
 }
 
 func extractModelField(field *ast.Field) *ModelField {
+
 	if len(field.Names) > 0 {
 		name := field.Names[0].Name
 		tp := field.Type
@@ -263,14 +266,16 @@ func extractModelField(field *ast.Field) *ModelField {
 
 		return elem
 	} else {
+
+		switch tp := field.Type.(type) {
 		// 内嵌的结构体
-		if selExpr, ok := field.Type.(*ast.SelectorExpr); ok {
+		case *ast.SelectorExpr:
 			//fmt.Println("selExpr:", selExpr)
 			// Check if the embedded struct is of type "entity.Api"
-			if xIdent, ok := selExpr.X.(*ast.Ident); ok {
+			if xIdent, ok := tp.X.(*ast.Ident); ok {
 				elem := &ModelField{
 					Name: xIdent.Name,
-					Type: selExpr.Sel.Name,
+					Type: tp.Sel.Name,
 				}
 
 				// 读取字段的行尾注释
@@ -280,8 +285,28 @@ func extractModelField(field *ast.Field) *ModelField {
 
 				return elem
 			}
+		// 内嵌的指针结构体
+		case *ast.StarExpr:
+			if xIdent, ok := tp.X.(*ast.Ident); ok {
+				elem := &ModelField{
+					Name: xIdent.Name,
+					Type: xIdent.Name,
+				}
+
+				// 读取字段的行尾注释
+				if field.Comment != nil {
+					elem.Comment = strings.TrimSpace(field.Comment.Text())
+				}
+
+				return elem
+			}
+
+		default:
+			ast.Print(nil, field)
 		}
+
 	}
+
 	return nil
 }
 

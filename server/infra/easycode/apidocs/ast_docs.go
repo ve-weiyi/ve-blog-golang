@@ -90,6 +90,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		AutoCodePath:   path.Join(s.OutRoot, "types.ts"),
 		Replace:        true,
 		TemplateString: ModelTypeScript,
+		FunMap:         map[string]any{"joinArray": joinArray},
 		Data:           tsDeclares,
 	}
 
@@ -234,6 +235,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 
 	name := getTypeScriptType(model.Name)
 	tsFields := make([]*ModelField, 0)
+	tsExtends := make([]string, 0)
 
 	// 需要替换名称的model
 	for k, v := range s.ReplaceModels {
@@ -243,7 +245,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 			break
 		}
 	}
-
+	// 属性
 	for _, field := range model.Fields {
 		tsField := &ModelField{
 			Name:    jsonconv.Camel2Case(field.Name),
@@ -253,11 +255,15 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 
 		tsFields = append(tsFields, tsField)
 	}
+	// 继承
+	for _, extend := range model.Extend {
+		tsExtends = append(tsExtends, extend.Name)
+	}
 
 	tsModel := &TsModelDeclare{
-		Name:   name,
-		Extend: s.convertTsModelDeclare(model.Extend),
-		Fields: tsFields,
+		Name:    name,
+		Extends: tsExtends,
+		Fields:  tsFields,
 	}
 
 	return tsModel

@@ -34,11 +34,11 @@ func JwtToken() gin.HandlerFunc {
 
 		global.LOG.JsonIndent(claims)
 
-		c.Set("login_type", claims.LoginType)
 		c.Set("token", token)
-		c.Set("uid", claims.Uid)
-		c.Set("username", claims.Username)
 		c.Set("domain", claims.Issuer)
+		c.Set("uid", claims.Ext.Uid)
+		c.Set("username", claims.Ext.Username)
+		c.Set("login_type", claims.Ext.LoginType)
 		c.Next()
 
 	}

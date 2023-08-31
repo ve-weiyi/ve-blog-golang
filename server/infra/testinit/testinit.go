@@ -18,6 +18,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/copy"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
@@ -50,7 +51,8 @@ func Init(configPath ...string) {
 	Gorm()
 	// 初始化redis服务
 	Redis()
-
+	// 初始化jwt服务
+	JwtToken()
 	//RBAC()
 }
 
@@ -123,6 +125,14 @@ func Redis() {
 	global.REDIS = client
 
 	log.Printf("Redis 连接成功%v! address:%v db:%v", pong, address, redisCfg.DB)
+}
+
+func JwtToken() {
+	global.JWT = &jjwt.JwtToken{
+		SigningKey:  []byte(global.CONFIG.JWT.SigningKey),
+		TokenPrefix: "",
+		Issuer:      "blog",
+	}
 }
 
 const SubjectDomainObjectAction = `

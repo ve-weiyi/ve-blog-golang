@@ -68,7 +68,7 @@ func (s *BlogController) WebSocket(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/about [get]
 func (s *BlogController) GetAboutMe(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

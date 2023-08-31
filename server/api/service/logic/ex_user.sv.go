@@ -27,7 +27,7 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 }
 
 // 分页获取UserAccount记录
-func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserDetail, total int64, err error) {
+func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserInfo, total int64, err error) {
 	userAccounts, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
 
 	for _, ua := range userAccounts {
@@ -41,7 +41,7 @@ func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 	return list, total, nil
 }
 
-func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *response.UserDetail, err error) {
+func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *response.UserInfo, err error) {
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, userId)
 	if err != nil {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
@@ -57,8 +57,8 @@ func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *
 		return nil, err
 	}
 
-	userinfo := &response.UserDetail{
-		ID:       account.ID,
+	userinfo := &response.UserInfo{
+		UID:      account.ID,
 		Username: account.Username,
 		Nickname: info.Nickname,
 		Avatar:   info.Avatar,
@@ -96,7 +96,7 @@ func (s *UserService) FindUserListAreas(reqCtx *request.Context, page *request.P
 	return result, int64(len(result)), nil
 }
 
-func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *request.PageQuery) (result []*response.LoginHistory, total int64, err error) {
+func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *request.PageQuery) (result []*response.LoginInfo, total int64, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
@@ -113,7 +113,7 @@ func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *reques
 	histories, total, err := s.svcCtx.UserLoginHistoryRepository.FindUserLoginHistoryList(reqCtx, page)
 
 	for _, item := range histories {
-		his := &response.LoginHistory{
+		his := &response.LoginInfo{
 			LoginType: item.LoginType,
 			IpAddress: item.IpAddress,
 			IpSource:  item.IpSource,
