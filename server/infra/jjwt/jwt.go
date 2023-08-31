@@ -15,13 +15,27 @@ type JwtToken struct {
 	Issuer      string
 }
 
-type JwtClaims struct {
+//1. `Audience`（`aud`）：接收 JWT 的一方。这是一个字符串或字符串数组，表示 JWT 预期的接收者。当应用程序希望指定特定的接收方时，可以使用该字段。
+//2. `ExpiresAt`（`exp`）：过期时间。这是一个 Unix 时间戳（以秒为单位），表示 JWT 什么时候会过期。在过期时间之后，JWT 将不再被接受或使用。
+//3. `Id`（`jti`）：JWT ID。这是一个用于标识 JWT 的唯一标识符。通常用于防止 JWT 被重复使用。
+//4. `IssuedAt`（`iat`）：JWT 的签发时间。这是一个 Unix 时间戳，表示 JWT 什么时候被创建。
+//5. `Issuer`（`iss`）：签发者。这是一个字符串，表示 JWT 的签发者。可以用于验证 JWT 的来源是否可信。
+//6. `NotBefore`（`nbf`）：在此之前不可用。这是一个 Unix 时间戳，表示 JWT 在什么时间之前不能被接受或使用。
+//7. `Subject`（`sub`）：主题。这是一个与 JWT 相关的主题，通常是用户的唯一标识符。它表示 JWT 所涉及的实体。
+
+type TokenClaims struct {
+	//Uid       int    `json:"uid"`
+	//Username  string `json:"username"`
+	//LoginType string `json:"login_type"`
+	//Roles    []string `json:"roles"`
+	jwt.StandardClaims          //标准荷载,omitempty如果字段为空，则不展示
+	Ext                TokenExt `json:"ext,omitempty"` //用户信息,omitempty如果字段为空，则不展示
+}
+
+type TokenExt struct {
 	Uid       int    `json:"uid"`
 	Username  string `json:"username"`
 	LoginType string `json:"login_type"`
-	//Roles    []string `json:"roles"`
-	//UserClaims         interface{} //用户信息
-	jwt.StandardClaims //标准荷载
 }
 
 var (
@@ -32,14 +46,14 @@ var (
 )
 
 // createToken 生成token
-func (j *JwtToken) createToken(claims JwtClaims) (string, error) {
+func (j *JwtToken) createToken(claims TokenClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.SigningKey)
 }
 
-// parserToken 解析token
-func (j *JwtToken) parserToken(tokenString string) (*JwtClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
+// ParserToken 解析token
+func (j *JwtToken) ParserToken(tokenString string) (*TokenClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &TokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return j.SigningKey, nil
 	})
 
@@ -63,7 +77,7 @@ func (j *JwtToken) parserToken(tokenString string) (*JwtClaims, error) {
 	}
 
 	if token != nil {
-		if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
+		if claims, ok := token.Claims.(*TokenClaims); ok && token.Valid {
 			return claims, nil
 		}
 		return nil, TokenInvalid
@@ -74,10 +88,7 @@ func (j *JwtToken) parserToken(tokenString string) (*JwtClaims, error) {
 
 // 根据用户登录信息生成token，
 func (j *JwtToken) CreateClaims(userId int, username string, loginType string) (string, error) {
-	claims := JwtClaims{
-		Uid:       userId,
-		Username:  username,
-		LoginType: loginType,
+	claims := TokenClaims{
 		StandardClaims: jwt.StandardClaims{
 			NotBefore: time.Now().Unix(),
 			ExpiresAt: time.Now().Add(7 * 24 * time.Hour).Unix(),
@@ -88,7 +99,17 @@ func (j *JwtToken) CreateClaims(userId int, username string, loginType string) (
 	return j.createToken(claims)
 }
 
-func (j *JwtToken) VerifyToken(token string, uid string) (*JwtClaims, error) {
+func (j *JwtToken) CreateToken(ext TokenExt, claims jwt.StandardClaims) (string, error) {
+	jwtClaims := TokenClaims{
+		Ext:            ext,
+		StandardClaims: claims,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaims)
+	return token.SignedString(j.SigningKey)
+}
+
+func (j *JwtToken) VerifyToken(token string, uid string) (*TokenClaims, error) {
 	if token == "" {
 		return nil, errors.New("token is null")
 	}
@@ -103,12 +124,12 @@ func (j *JwtToken) VerifyToken(token string, uid string) (*JwtClaims, error) {
 
 	token = strings.TrimPrefix(token, j.TokenPrefix)
 	// 解析token
-	claims, err := j.parserToken(token)
+	claims, err := j.ParserToken(token)
 	if err != nil {
 		return nil, err
 	}
 
-	if uid != strconv.Itoa(claims.Uid) {
+	if uid != strconv.Itoa(claims.Ext.Uid) {
 		return nil, errors.New("uid is not equal")
 	}
 	return claims, nil

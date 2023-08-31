@@ -20,13 +20,13 @@ func TestSwagger(t *testing.T) {
 	converter.toTypeScriptApis("./api", converter.GetApiTs())
 }
 
-func TestDst(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api/")
+func TestApiDocs(t *testing.T) {
+	root := path.Join(global.GetRuntimeRoot(), "server/")
 
 	cfg := Config{
 		OutRoot:        "./api",
-		ApiRoot:        []string{path.Join(root, "controller/logic")},
-		ModelRoot:      []string{path.Join(root, "model")},
+		ApiRoot:        []string{path.Join(root, "api/controller/logic")},
+		ModelRoot:      []string{path.Join(root, "api/model"), path.Join(root, "infra/chatgpt/chat_model.go")},
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
 		IgnoredModels: []string{

@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/golang-jwt/jwt"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
@@ -38,13 +41,17 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	if account.Status == constant.UserStatusDisabled {
 		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户已被禁用！")
 	}
+	//验证密码是否正确
+	if !crypto.BcryptCheck(req.Password, account.Password) {
+		return nil, codes.NewError(codes.CodeForbiddenOperation, "密码错误！")
+	}
+	//验证码校验
 	if req.Code != "" {
-		//验证密码是否正确
-		if !crypto.BcryptCheck(req.Password, account.Password) {
-			return nil, codes.NewError(codes.CodeForbiddenOperation, "密码错误！")
+		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
+		if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
+			return nil, codes.ErrorCaptchaVerify
 		}
 	}
-
 	//获取用户信息
 	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(account.ID)
 	if err != nil {
@@ -65,26 +72,26 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	}
 
 	//生成token
-	token, err := s.svcCtx.Token.CreateClaims(account.ID, account.Username, history.LoginType)
+	token, err := s.CreateToken(account.ID, account.Username, history.LoginType)
 	if err != nil {
 		return nil, err
 	}
 
 	resp = &response.Login{
 		Token: token,
-		Userinfo: &response.UserDetail{
-			ID:       account.ID,
+		UserInfo: &response.UserInfo{
+			UID:      account.ID,
 			Username: account.Username,
 			Nickname: info.Nickname,
 			Avatar:   info.Avatar,
 			Intro:    info.Intro,
 			Email:    info.Email,
 		},
-		LastLoginHistory: &response.LoginHistory{
+		LoginInfo: &response.LoginInfo{
 			LoginType: history.LoginType,
 			IpAddress: history.IpAddress,
 			IpSource:  history.IpSource,
-			LoginTime: history.CreatedAt.String(),
+			LoginTime: history.CreatedAt.Format("2006-01-02 15:04:05"),
 		},
 	}
 	return resp, nil
@@ -131,8 +138,8 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 	}
 
 	// 事务操作成功
-	userinfo := &response.UserDetail{
-		ID:       account.ID,
+	userinfo := &response.UserInfo{
+		UID:      account.ID,
 		Username: account.Username,
 		Nickname: info.Nickname,
 		Avatar:   info.Avatar,
@@ -140,14 +147,14 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		Email:    info.Email,
 	}
 
-	token, err := s.svcCtx.Token.CreateClaims(account.ID, account.Username, account.RegisterType)
+	token, err := s.CreateToken(account.ID, account.Username, account.RegisterType)
 	if err != nil {
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:            token,
-		Userinfo:         userinfo,
-		LastLoginHistory: nil,
+		Token:     token,
+		UserInfo:  userinfo,
+		LoginInfo: nil,
 	}
 
 	return resp, nil
@@ -301,22 +308,22 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	}
 
 	//生成token
-	token, err := s.svcCtx.Token.CreateClaims(account.ID, account.Username, req.Platform)
+	token, err := s.CreateToken(account.ID, account.Username, req.Platform)
 	if err != nil {
 		return nil, err
 	}
 
 	resp = &response.Login{
 		Token: token,
-		Userinfo: &response.UserDetail{
-			ID:       account.ID,
+		UserInfo: &response.UserInfo{
+			UID:      account.ID,
 			Username: account.Username,
 			Nickname: info.Nickname,
 			Avatar:   info.Avatar,
 			Intro:    info.Intro,
 			Email:    info.Email,
 		},
-		LastLoginHistory: &response.LoginHistory{
+		LoginInfo: &response.LoginInfo{
 			LoginType: history.LoginType,
 			IpAddress: history.IpAddress,
 			IpSource:  history.IpSource,
@@ -344,4 +351,46 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 		Url: auth.GetRedirectUrl(req.State),
 	}
 	return resp, nil
+}
+
+func (s *AuthService) CreateToken(uid int, username string, loginType string) (token *response.Token, err error) {
+	now := time.Now().Unix()
+	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
+	refreshExpiresIn := time.Now().Add(30 * 24 * time.Hour).Unix()
+	issuer := "blog"
+
+	accessToken, err := s.svcCtx.Token.CreateToken(
+		jjwt.TokenExt{
+			Uid:       uid,
+			Username:  username,
+			LoginType: loginType,
+		},
+		jwt.StandardClaims{
+			ExpiresAt: expiresIn,
+			IssuedAt:  now,
+			Issuer:    issuer,
+		})
+
+	refreshToken, err := s.svcCtx.Token.CreateToken(
+		jjwt.TokenExt{
+			Uid:       uid,
+			Username:  username,
+			LoginType: loginType,
+		},
+		jwt.StandardClaims{
+			ExpiresAt: refreshExpiresIn,
+			IssuedAt:  now,
+			Issuer:    issuer,
+		})
+
+	token = &response.Token{
+		TokenType:        "Bearer",
+		AccessToken:      accessToken,
+		ExpiresIn:        expiresIn,
+		RefreshToken:     refreshToken,
+		RefreshExpiresIn: refreshExpiresIn,
+	}
+
+	//生成token
+	return token, nil
 }

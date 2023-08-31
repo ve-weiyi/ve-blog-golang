@@ -36,7 +36,7 @@ type ApiParam struct {
 type ModelDeclare struct {
 	Pkg    string
 	Name   string
-	Extend *ModelDeclare
+	Extend []*ModelDeclare
 	Fields []*ModelField
 }
 
@@ -74,7 +74,7 @@ type TsApiDeclare struct {
 }
 
 type TsModelDeclare struct {
-	Name   string
-	Extend *TsModelDeclare
-	Fields []*ModelField
+	Name    string
+	Extends []string
+	Fields  []*ModelField
 }
