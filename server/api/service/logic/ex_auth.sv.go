@@ -80,7 +80,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 	resp = &response.Login{
 		Token: token,
 		UserInfo: &response.UserInfo{
-			UID:      account.ID,
+			ID:       account.ID,
 			Username: account.Username,
 			Nickname: info.Nickname,
 			Avatar:   info.Avatar,
@@ -139,7 +139,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 
 	// 事务操作成功
 	userinfo := &response.UserInfo{
-		UID:      account.ID,
+		ID:       account.ID,
 		Username: account.Username,
 		Nickname: info.Nickname,
 		Avatar:   info.Avatar,
@@ -316,7 +316,7 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	resp = &response.Login{
 		Token: token,
 		UserInfo: &response.UserInfo{
-			UID:      account.ID,
+			ID:       account.ID,
 			Username: account.Username,
 			Nickname: info.Nickname,
 			Avatar:   info.Avatar,
@@ -389,6 +389,7 @@ func (s *AuthService) CreateToken(uid int, username string, loginType string) (t
 		ExpiresIn:        expiresIn,
 		RefreshToken:     refreshToken,
 		RefreshExpiresIn: refreshExpiresIn,
+		UID:              uid,
 	}
 
 	//生成token

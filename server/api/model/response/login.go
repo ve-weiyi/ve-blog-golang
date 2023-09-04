@@ -1,6 +1,8 @@
 package response
 
 import (
+	"time"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
@@ -17,15 +19,18 @@ type Token struct {
 	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
 	RefreshToken     string `json:"refresh_token"`      // 刷新token,过期时间较长。30d
 	RefreshExpiresIn int64  `json:"refresh_expires_in"` // 刷新token过期时间
+	UID              int    `json:"uid"`                // 用户id
 }
 
 type UserInfo struct {
-	UID      int    `json:"uid"`
-	Username string `json:"username"`
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
-	Intro    string `json:"intro"`
-	Email    string `json:"email"`
+	ID        int       `json:"id"`
+	Username  string    `json:"username"`
+	Status    int       `json:"status"`
+	Nickname  string    `json:"nickname"`
+	Avatar    string    `json:"avatar"`
+	Intro     string    `json:"intro"`
+	Email     string    `json:"email"`
+	CreatedAt time.Time `json:"created_at"`
 
 	Roles []*entity.Role `json:"roles"`
 }

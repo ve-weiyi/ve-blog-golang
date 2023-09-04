@@ -54,6 +54,12 @@ func (page *PageQuery) Offset() int {
 	return (page.Page - 1) * page.Limit()
 }
 
+func (page *PageQuery) ResetPage() int {
+	page.Page = 0
+	page.PageSize = 0
+	return -1
+}
+
 // 排序语句
 func (page *PageQuery) OrderClause() string {
 	if len(page.Sorts) == 0 {

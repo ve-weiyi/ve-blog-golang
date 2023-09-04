@@ -92,6 +92,7 @@ func (s *BlogController) GetAboutMe(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
+// @Param		data	body		string						true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/about [post]
 func (s *BlogController) UpdateAboutMe(c *gin.Context) {
