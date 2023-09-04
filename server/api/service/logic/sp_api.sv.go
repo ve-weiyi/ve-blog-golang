@@ -8,12 +8,13 @@ import (
 
 // 分页获取Api记录
 func (s *ApiService) FindApiListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetails, total int64, err error) {
+	page.ResetPage()
 	// 查询api信息
 	apis, _, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
-
+	s.svcCtx.Log.JsonIndent(apis)
 	// to tree
 	var tree response.ApiDetails
 	tree.Children = s.getApiChildren(tree, apis)

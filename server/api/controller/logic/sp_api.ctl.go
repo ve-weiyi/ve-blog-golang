@@ -39,7 +39,7 @@ func (s *ApiController) FindApiListDetails(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     0,
+		PageSize: len(list),
 	})
 }
