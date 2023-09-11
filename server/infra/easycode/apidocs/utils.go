@@ -185,6 +185,20 @@ func ParseApiModel(fp string) []*ModelDeclare {
 	return models
 }
 
+func getGoType(name string) string {
+	if strings.HasPrefix(name, "*") {
+		return getTypeScriptType(name[1:]) // 指针
+	}
+	if strings.HasPrefix(name, "[]") {
+		return getTypeScriptType(name[2:]) // 数组
+	}
+	if strings.LastIndex(name, ".") > 0 {
+		return getTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
+	}
+
+	return name
+}
+
 func getTypeScriptType(name string) string {
 	if strings.HasPrefix(name, "*") {
 		return getTypeScriptType(name[1:]) // 指针
