@@ -38,3 +38,27 @@ func (s *WebsiteConfigService) UpdateAboutMe(reqCtx *request.Context, req string
 
 	return config.Config, err
 }
+
+func (s *WebsiteConfigService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfig) (resp string, err error) {
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, req.Key)
+	if err != nil {
+		return "", err
+	}
+
+	return config.Config, err
+}
+
+func (s *WebsiteConfigService) UpdateConfig(reqCtx *request.Context, req *request.WebsiteConfig) (resp string, err error) {
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, req.Key)
+	if err != nil {
+		return "", err
+	}
+	// 更新
+	config.Config = req.Value
+	_, err = s.svcCtx.WebsiteConfigRepository.UpdateWebsiteConfig(reqCtx, config)
+	if err != nil {
+		return "", err
+	}
+
+	return config.Config, err
+}

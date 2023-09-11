@@ -119,6 +119,69 @@ func (s *BlogController) UpdateAboutMe(c *gin.Context) {
 }
 
 // @Tags		Blog
+// @Summary		获取网站配置
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string								false	"token"
+// @Param		uid		header		string								false	"uid"
+// @Param		data	body		request.WebsiteConfig		true	"请求信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		admin/website/config [get]
+func (s *BlogController) GetConfig(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+	var req request.WebsiteConfig
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteConfigService.GetConfig(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Blog
+// @Summary		更新网站配置
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		request.WebsiteConfig		true	"请求信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		admin/website/config [post]
+func (s *BlogController) UpdateConfig(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.WebsiteConfig
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteConfigService.UpdateConfig(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Blog
 // @Summary		获取后台首页信息
 // @Accept		application/json
 // @Produce		application/json

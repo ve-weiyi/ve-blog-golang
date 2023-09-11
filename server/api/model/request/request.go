@@ -36,10 +36,10 @@ type Sort struct {
 
 // 字段，关键字，匹配规则
 type Condition struct {
-	Flag  string      `json:"flag" enums:"and,or"`        // 标识 and、or,默认and
 	Field string      `json:"field"`                      // 表字段
-	Rule  string      `json:"rule" enums:"=,like,in,<,>"` // 规则 =,like,in,<,>
 	Value interface{} `json:"value"`                      // 值
+	Rule  string      `json:"rule" enums:"=,like,in,<,>"` // 比较运算符（Comparison Operators）。规则 =,like,in,<,>
+	Flag  string      `json:"flag" enums:"and,or"`        // 逻辑运算符（Logical Operators）。标识 and、or,默认and
 }
 
 func (page *PageQuery) Limit() int {

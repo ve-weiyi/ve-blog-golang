@@ -84,7 +84,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 			tsDeclares = append(tsDeclares, item)
 		}
 	}
-	fmt.Println("tsDeclares:", jsonconv.ObjectToJsonIndent(tsDeclares))
+	//fmt.Println("tsDeclares:", jsonconv.ObjectToJsonIndent(tsDeclares))
 	meta := plate.PlateMeta{
 		Key:            "",
 		AutoCodePath:   path.Join(s.OutRoot, "types.ts"),
@@ -150,11 +150,12 @@ func (s *AstApiDoc) GroupTsApiDocs(docs []*ApiDeclare) []*TsApiDoc {
 		//fmt.Println("apiDoc:", jsonconv.ObjectToJsonIndent(apiDoc))
 		// 添加
 		apiDoc.ApiDeclares = append(apiDoc.ApiDeclares, s.convertTsApiDeclare(doc))
-
 		// 需要导入的model
 		params := getModelDeclareName(doc)
+		fmt.Println("params:", doc.Tag, jsonconv.ObjectToJsonIndent(params))
 		var tsModels []*TsModelDeclare
 		for _, param := range params {
+			fmt.Println("tsModels:", param, jsonconv.ObjectToJsonIndent(s.findTsModelDeclareByName(param)))
 			tsModels = append(tsModels, s.findTsModelDeclareByName(param)...)
 		}
 
@@ -183,7 +184,6 @@ func (s *AstApiDoc) GroupTsApiDocs(docs []*ApiDeclare) []*TsApiDoc {
 func (s *AstApiDoc) findTsModelDeclareByName(name string) []*TsModelDeclare {
 	var tsModel []*TsModelDeclare
 	var model *ModelDeclare
-	model = s.findModelDeclare(name)
 
 	// 过滤需要忽略的model
 	for _, ign := range s.IgnoredModels {
@@ -192,18 +192,9 @@ func (s *AstApiDoc) findTsModelDeclareByName(name string) []*TsModelDeclare {
 			return nil
 		}
 	}
-
-	// 递归寻找结构体属性
-	//if model != nil {
-	//	// 添加引用的model
-	//	for _, field := range model.Fields {
-	//		tp := getIdentDeclareName(field.Type)
-	//		if unicode.IsUpper(rune(tp[0])) {
-	//
-	//			tsModel = append(tsModel, s.findTsModelDeclareByName(tp)...)
-	//		}
-	//	}
-	//}
+	// []*chatgpt.ChatMessage->chatgpt.ChatMessage
+	name = getGoType(name)
+	model = s.findModelDeclare(name)
 
 	item := s.convertTsModelDeclare(model)
 	if item != nil {
@@ -218,13 +209,14 @@ func (s *AstApiDoc) findModelDeclare(name string) *ModelDeclare {
 		if model.Name == name {
 			return model
 		}
-
+		// package name 都相等的情况
 		if model.Pkg != "" {
 			if fmt.Sprintf("%v.%v", model.Pkg, name) == model.Name {
 				return model
 			}
 		}
 	}
+
 	return nil
 }
 

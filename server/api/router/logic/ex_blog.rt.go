@@ -27,7 +27,9 @@ func (s *BlogRouter) InitBlogRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.GET("about", handler.GetAboutMe)              // 查询关于我
 		publicRouter.POST("chat/records", handler.FindChatRecords) // 查询聊天记录
 
-		loginRouter.GET("home", handler.GetHomeInfo)     // 获取首页信息
-		loginRouter.POST("about", handler.UpdateAboutMe) // 更新关于我
+		loginRouter.GET("home", handler.GetHomeInfo)                   // 获取首页信息
+		loginRouter.POST("about", handler.UpdateAboutMe)               // 更新关于我
+		loginRouter.GET("admin/website/config", handler.GetConfig)     // 获取网站配置
+		loginRouter.POST("admin/website/config", handler.UpdateConfig) // 更新网站配置
 	}
 }
