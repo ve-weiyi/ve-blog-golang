@@ -19,7 +19,7 @@ func NewApiRouter(svcCtx *svc.RouterContext) *ApiRouter {
 // 初始化 Api 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *ApiRouter) InitApiGenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *ApiRouter) InitApiBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.ApiController
 	{
