@@ -53,7 +53,7 @@ func TestPlate(t *testing.T) {
 		GenerateCommon: true,
 		OutPath:        out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("gen_%v", tableName)
+			return fmt.Sprintf("bs_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
 			return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID")
@@ -140,7 +140,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		//}
 
 		// 添加前缀 "gen_" 到文件名
-		newName := strings.Replace(oldName, "spsp_", "ex_", 1)
+		newName := strings.Replace(oldName, "ex_", "ex_", 1)
 
 		// 修改文件名
 		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))
