@@ -273,7 +273,7 @@ func (g *Generator) GenerateMetasFromModel(tableName, tableComment string, field
 	// publicRouter 公开路由，不登录就可以访问
 	// loginRouter  登录路由，登录后才可以访问
 	func (s *%sRouter) Init%sRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-		s.Init%sGenRouter(publicRouter, loginRouter)
+		s.Init%sBasicRouter(publicRouter, loginRouter)
 	}
 `, data.StructName, data.StructName, data.StructName, data.StructName))},
 	})

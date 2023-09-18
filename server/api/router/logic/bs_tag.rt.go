@@ -19,7 +19,7 @@ func NewTagRouter(svcCtx *svc.RouterContext) *TagRouter {
 // 初始化 Tag 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *TagRouter) InitTagGenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *TagRouter) InitTagBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.TagController
 	{
