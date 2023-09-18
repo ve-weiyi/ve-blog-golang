@@ -19,7 +19,7 @@ func NewPageRouter(svcCtx *svc.RouterContext) *PageRouter {
 // 初始化 Page 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *PageRouter) InitPageGenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *PageRouter) InitPageBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.PageController
 	{

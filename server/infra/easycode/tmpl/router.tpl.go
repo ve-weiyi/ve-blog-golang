@@ -65,7 +65,7 @@ func New{{.StructName}}Router(svcCtx *svc.RouterContext) *{{.StructName}}Router 
 // 初始化 {{.StructName}} 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *{{.StructName}}Router) Init{{.StructName}}GenRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *{{.StructName}}Router) Init{{.StructName}}BasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.AppController.{{.StructName}}Controller
 	{

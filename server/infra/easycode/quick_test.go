@@ -53,7 +53,7 @@ func TestPlate(t *testing.T) {
 		GenerateCommon: true,
 		OutPath:        out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("gen_%v", tableName)
+			return fmt.Sprintf("bs_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
 			return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID")
@@ -121,6 +121,9 @@ func TestPlate(t *testing.T) {
 	gen.Execute()
 }
 
+// bs_ -> base 基础文件
+// ex_ -> extend 扩展文件
+// sp_ -> special 特殊文件
 func visitFile(path string, info os.FileInfo, err error) error {
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -132,12 +135,12 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		// 获取原始文件名
 		oldName := info.Name()
 
-		if strings.HasPrefix(oldName, "gen_") {
-			return nil
-		}
+		//if strings.HasPrefix(oldName, "gen_") {
+		//	return nil
+		//}
 
 		// 添加前缀 "gen_" 到文件名
-		newName := strings.Replace(oldName, "gen_website_config", "ex_website_config", 1)
+		newName := strings.Replace(oldName, "ex_", "ex_", 1)
 
 		// 修改文件名
 		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))
@@ -152,7 +155,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 }
 
 func TestVisitFile(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api", "blog")
+	root := path.Join(global.GetRuntimeRoot(), "server/api", "")
 	err := filepath.Walk(root, visitFile)
 	if err != nil {
 		fmt.Println("Error:", err)

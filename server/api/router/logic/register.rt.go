@@ -6,7 +6,7 @@ import "github.com/gin-gonic/gin"
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitApiGenRouter(publicRouter, loginRouter)
+	s.InitApiBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.ApiController
 	{
 		loginRouter.POST("api/list/details", handler.FindApiListDetails) // 获取Api列表
@@ -17,7 +17,7 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitCategoryGenRouter(publicRouter, loginRouter)
+	s.InitCategoryBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.CategoryController
 	{
 		publicRouter.POST("category/list/details", handler.FindCategoryListDetails) // 查询Category详情列表
@@ -28,7 +28,7 @@ func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, login
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitCommentGenRouter(publicRouter, loginRouter)
+	s.InitCommentBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.CommentController
 
 	{
@@ -43,7 +43,7 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitRoleGenRouter(publicRouter, loginRouter)
+	s.InitRoleBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.RoleController
 	{
 		loginRouter.POST("role/list/details", handler.FindRoleListDetails)
@@ -54,7 +54,7 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitMenuGenRouter(publicRouter, loginRouter)
+	s.InitMenuBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.MenuController
 	{
 		loginRouter.POST("menu/list/details", handler.FindMenuListDetails)
@@ -65,7 +65,7 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitArticleGenRouter(publicRouter, loginRouter)
+	s.InitArticleBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.ArticleController
 	{
 		publicRouter.GET("article/:id/details", handler.GetArticleDetails) // 获取Article详情
@@ -81,35 +81,35 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *TagRouter) InitTagRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitTagGenRouter(publicRouter, loginRouter)
+	s.InitTagBasicRouter(publicRouter, loginRouter)
 }
 
 // 初始化 Photo 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *PhotoRouter) InitPhotoRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitPhotoGenRouter(publicRouter, loginRouter)
+	s.InitPhotoBasicRouter(publicRouter, loginRouter)
 }
 
 // 初始化 PhotoAlbum 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *PhotoAlbumRouter) InitPhotoAlbumRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitPhotoAlbumGenRouter(publicRouter, loginRouter)
+	s.InitPhotoAlbumBasicRouter(publicRouter, loginRouter)
 }
 
 // 初始化 Page 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *PageRouter) InitPageRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitPageGenRouter(publicRouter, loginRouter)
+	s.InitPageBasicRouter(publicRouter, loginRouter)
 }
 
 // 初始化 Talk 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitTalkGenRouter(publicRouter, loginRouter)
+	s.InitTalkBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.AppController.TalkController
 	{
 		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
@@ -121,19 +121,19 @@ func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *FriendLinkRouter) InitFriendLinkRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitFriendLinkGenRouter(publicRouter, loginRouter)
+	s.InitFriendLinkBasicRouter(publicRouter, loginRouter)
 }
 
 // 初始化 OperationLog 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *OperationLogRouter) InitOperationLogRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitOperationLogGenRouter(publicRouter, loginRouter)
+	s.InitOperationLogBasicRouter(publicRouter, loginRouter)
 }
 
 // 初始化 Remark 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *RemarkRouter) InitRemarkRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-	s.InitRemarkGenRouter(publicRouter, loginRouter)
+	s.InitRemarkBasicRouter(publicRouter, loginRouter)
 }

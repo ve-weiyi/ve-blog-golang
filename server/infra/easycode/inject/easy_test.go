@@ -40,7 +40,7 @@ func TestInject(t *testing.T) {
 	// publicRouter 公开路由，不登录就可以访问
 	// loginRouter  登录路由，登录后才可以访问
 	func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-		s.InitMenuGenRouter(publicRouter, loginRouter)
+		s.InitMenuBasicRouter(publicRouter, loginRouter)
 		var handler = s.svcCtx.AppController.MenuController
 	
 		{
@@ -71,7 +71,7 @@ func TestNewAst(t *testing.T) {
 	// publicRouter 公开路由，不登录就可以访问
 	// loginRouter  登录路由，登录后才可以访问
 	func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
-		s.InitMenuGenRouter(publicRouter, loginRouter)
+		s.InitMenuBasicRouter(publicRouter, loginRouter)
 		var handler = s.svcCtx.AppController.MenuController
 	
 		{
