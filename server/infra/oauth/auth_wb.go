@@ -41,7 +41,7 @@ func (a *AuthWb) GetRedirectUrl(state string) string {
 
 // 获取token
 func (a *AuthWb) GetAccessToken(code string) (*result.TokenResult, error) {
-	body, status := https.NewHttpBuilder(a.TokenUrl).
+	body, err := https.NewHttpBuilder(a.TokenUrl).
 		AddParam("grant_type", "authorization_code").
 		AddParam("code", code).
 		AddParam("client_id", a.config.ClientID).
@@ -49,10 +49,10 @@ func (a *AuthWb) GetAccessToken(code string) (*result.TokenResult, error) {
 		AddParam("redirect_uri", a.config.RedirectUrl).
 		Post()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	m := utils.JsonToMSS(body)
+	m := utils.JsonToMSS(string(body))
 	if _, ok := m["error"]; ok {
 		return nil, errors.New(m["error_description"])
 	}
@@ -68,18 +68,18 @@ func (a *AuthWb) GetAccessToken(code string) (*result.TokenResult, error) {
 }
 
 func (a *AuthWb) RefreshToken(refreshToken string) (resp *result.RefreshResult, err error) {
-	body, status := https.NewHttpBuilder(a.RefreshUrl).
+	body, err := https.NewHttpBuilder(a.RefreshUrl).
 		AddParam("grant_type", "refresh_token").
 		AddParam("client_id", a.config.ClientID).
 		AddParam("client_secret", a.config.ClientSecret).
 		AddParam("refresh_token", refreshToken).
 		Post()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
 	// 由于QQ的返回值expire_in是字符串，所以不能直接把string解析到int上
-	mss := utils.JsonToMSS(body)
+	mss := utils.JsonToMSS(string(body))
 	resp = &result.RefreshResult{
 		AccessToken:  mss["access_token"],
 		ExpiresIn:    cast.ToInt(mss["expires_in"]),
@@ -90,15 +90,15 @@ func (a *AuthWb) RefreshToken(refreshToken string) (resp *result.RefreshResult, 
 
 // 获取用户openid
 func (a *AuthWb) GetOpenid(accessToken string) (resp *result.Credentials, err error) {
-	body, status := https.NewHttpBuilder(a.openidUrl).
+	body, err := https.NewHttpBuilder(a.openidUrl).
 		AddParam("access_token", accessToken).
 		AddParam("fmt", "json").
 		Get()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	mss := utils.JsonToMSS(body)
+	mss := utils.JsonToMSS(string(body))
 	resp = &result.Credentials{
 		OpenId:  mss["openid"],
 		Unionid: mss["unionid"],
@@ -111,15 +111,15 @@ func (a *AuthWb) GetOpenid(accessToken string) (resp *result.Credentials, err er
 func (a *AuthWb) GetUserInfo(accessToken string) (resp *result.UserResult, err error) {
 	openresp, err := a.GetOpenid(accessToken)
 
-	body, status := https.NewHttpBuilder(a.userInfoUrl).
+	body, err := https.NewHttpBuilder(a.userInfoUrl).
 		AddParam("uid", openresp.OpenId).
 		AddParam("access_token", accessToken).
 		Get()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	m := utils.JsonToMSS(body)
+	m := utils.JsonToMSS(string(body))
 	if _, ok := m["error"]; ok {
 		return nil, errors.New(m["error_description"])
 	}
