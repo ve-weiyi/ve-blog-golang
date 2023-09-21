@@ -126,7 +126,7 @@ func (s *BlogController) UpdateAboutMe(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.WebsiteConfig		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		admin/website/config [get]
+// @Router		/admin/website/config [get]
 func (s *BlogController) GetConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -157,7 +157,7 @@ func (s *BlogController) GetConfig(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.WebsiteConfig		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		admin/website/config [post]
+// @Router		/admin/website/config [post]
 func (s *BlogController) UpdateConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

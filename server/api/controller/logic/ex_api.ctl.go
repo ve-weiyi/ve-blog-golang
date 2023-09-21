@@ -14,7 +14,7 @@ import (
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.ApiDetails}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ApiDetails}}	"返回信息"
 // @Router		/api/list/details [post]
 func (s *ApiController) FindApiListDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
