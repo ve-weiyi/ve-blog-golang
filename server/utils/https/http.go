@@ -38,16 +38,15 @@ func NewHttpBuilder(baseUrl string) *HttpBuilder {
 	return builder
 }
 
-func (h *HttpBuilder) DoRequest(method string) (string, int) {
+func (h *HttpBuilder) DoRequest(method string) (respBody []byte, err error) {
 
 	requestUrl := h.GetUrl()
 	headers := h.headers
 	data := h.GetBody()
 
-	client := &http.Client{}
 	req, err := http.NewRequest(method, requestUrl, strings.NewReader(data))
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 
 	if method == "POST" || method == "PUT" {
@@ -59,17 +58,23 @@ func (h *HttpBuilder) DoRequest(method string) (string, int) {
 		req.Header.Set(k, v)
 	}
 
+	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Println(err)
+		return nil, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("status code error: %d %s", resp.StatusCode, resp.Status)
 	}
 
 	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	respBody, err = io.ReadAll(resp.Body)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
-	return string(body), resp.StatusCode
+
+	return respBody, nil
 }
 
 func (h *HttpBuilder) GetUrl() string {
@@ -122,10 +127,10 @@ func (h *HttpBuilder) AddBody(value interface{}) *HttpBuilder {
 	return h
 }
 
-func (h *HttpBuilder) Post() (string, int) {
+func (h *HttpBuilder) Post() ([]byte, error) {
 	return h.DoRequest("POST")
 }
 
-func (h *HttpBuilder) Get() (string, int) {
+func (h *HttpBuilder) Get() ([]byte, error) {
 	return h.DoRequest("GET")
 }
