@@ -6,6 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 批量操作结果
+type BatchResult struct {
+	TotalCount   int `json:"total_count"`   // 总数量
+	SuccessCount int `json:"success_count"` // 成功数量
+	FailCount    int `json:"fail_count"`    // 失败数量
+}
+
+// 分页查询结果
 type PageResult struct {
 	List     interface{} `json:"list"`
 	Page     int         `json:"page"`
@@ -17,6 +25,7 @@ type Response struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message" `
 	Data    interface{} `json:"data"`
+	TraceID string      `json:"trace_id"`
 }
 
 const (
@@ -27,9 +36,9 @@ const (
 func Result(c *gin.Context, code int, msg string, data interface{}) {
 	// 开始时间
 	c.JSON(http.StatusOK, Response{
-		code,
-		msg,
-		data,
+		Code:    code,
+		Message: msg,
+		Data:    data,
 	})
 }
 

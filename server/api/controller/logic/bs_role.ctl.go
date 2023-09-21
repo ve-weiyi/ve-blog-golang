@@ -28,9 +28,9 @@ func NewRoleController(svcCtx *svc.ControllerContext) *RoleController {
 // @Summary		创建角色
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Role							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Role		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
 // @Router		/role [post]
 func (s *RoleController) CreateRole(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *RoleController) CreateRole(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Role
+// @Tags 	 	Role
 // @Summary		更新角色
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Role							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Role		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/role [put]
+// @Router 		/role [put]
 func (s *RoleController) UpdateRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Role id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Role id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/role/{id} [delete]
 func (s *RoleController) DeleteRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Role
+// @Tags 	 	Role
 // @Summary		查询角色
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		id		path		int									true	"Role id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Role id"
 // @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router		/role/{id} [get]
+// @Router 		/role/{id} [get]
 func (s *RoleController) FindRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *RoleController) FindRole(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Role
+// @Tags 	 	Role
 // @Summary		批量删除角色
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/role/batch_delete [delete]
 func (s *RoleController) DeleteRoleByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *RoleController) DeleteRoleByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Role
+// @Tags 	 	Role
 // @Summary		分页获取角色列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string															false	"token"
-// @Param		uid		header		string															false	"uid"
-// @Param		page	body		request.PageQuery												true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Role}}	"返回信息"
 // @Router		/role/list [post]
 func (s *RoleController) FindRoleList(c *gin.Context) {

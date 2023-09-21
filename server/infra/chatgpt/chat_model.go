@@ -19,7 +19,7 @@ type ChatResponse struct {
 	Created int          `json:"created"` // 创建时间戳
 	Model   string       `json:"model"`   // 模型名称
 	Choices []ChatChoice `json:"choices"` // 生成的回复列表
-	Usage   Usage        `json:"usage"`   // API 调用的使用情况
+	Usage   ChatUsage    `json:"usage"`   // API 调用的使用情况
 }
 
 // ChatChoice 表示生成的回复的结构体
@@ -29,15 +29,15 @@ type ChatChoice struct {
 	FinishReason string      `json:"finish_reason"` // 回复的完成原因
 }
 
-// Usage 表示 API 调用的使用情况的结构体
-type Usage struct {
+// ChatUsage 表示 API 调用的使用情况的结构体
+type ChatUsage struct {
 	PromptTokens     int `json:"prompt_tokens"`     // 提示 tokens 数量
 	CompletionTokens int `json:"completion_tokens"` // 生成回复的 tokens 数量
 	TotalTokens      int `json:"total_tokens"`      // 总 tokens 数量
 }
 
 // chatgpt角色的结构体
-type Role struct {
+type ChatRole struct {
 	Act    string `json:"act"`
 	Prompt string `json:"prompt"`
 }

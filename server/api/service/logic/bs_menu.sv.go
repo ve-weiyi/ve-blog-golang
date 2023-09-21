@@ -27,7 +27,7 @@ func (s *MenuService) UpdateMenu(reqCtx *request.Context, menu *entity.Menu) (da
 }
 
 // 删除Menu记录
-func (s *MenuService) DeleteMenu(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *MenuService) DeleteMenu(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.MenuRepository.DeleteMenu(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *MenuService) FindMenu(reqCtx *request.Context, id int) (data *entity.Me
 }
 
 // 批量删除Menu记录
-func (s *MenuService) DeleteMenuByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *MenuService) DeleteMenuByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.MenuRepository.DeleteMenuByIds(reqCtx, ids)
 }
 

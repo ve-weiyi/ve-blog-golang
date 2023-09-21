@@ -6,8 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
-
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -87,7 +86,7 @@ func (s *SwaggerApiCollector) GetApiTs() map[string]*ApiDoc {
 	return apis
 }
 
-func (s *SwaggerApiCollector) toTypeScriptApis(root string, apis map[string]*ApiDoc) {
+func (s *SwaggerApiCollector) ToTypeScriptApis(root string, apis map[string]*ApiDoc) {
 
 	metas := make([]plate.PlateMeta, 0)
 	for _, api := range apis {

@@ -33,7 +33,9 @@ func Routers() *gin.Engine {
 	Router.StaticFS(global.CONFIG.Upload.Local.Path, http.Dir(global.CONFIG.Upload.Local.Path)) // 为用户头像和文件提供静态地址
 	//Router.Use(middleware.LoadTls())  // 如果需要使用https 请打开此中间件 然后前往 core/server.go 将启动模式 更变为 Router.RunTLS("端口","你的cre/pem文件","你的key文件")
 	// 跨域，如需跨域可以打开下面的注释
-	Router.Use(middleware.Cors()) // 直接放行全部跨域请求
+	Router.Use(middleware.Cors())            // 直接放行全部跨域请求
+	Router.Use(middleware.TraceMiddleware()) // 打印请求的traceId
+	//Router.Use(middleware.OperationRecord()) // 操作记录
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
 	//global.LOG.Info("use middleware cors")
 	// Generate Swagger JSON file
@@ -46,11 +48,13 @@ func Routers() *gin.Engine {
 	publicGroup := Router.Group(global.CONFIG.System.RouterPrefix)
 	//publicGroup.Use(middleware.GinLogger())
 	publicGroup.Use(middleware.LimitIP())
-	publicGroup.Use(middleware.OperationRecord())
 	{
 		// 健康监测
 		publicGroup.GET("/version", func(c *gin.Context) {
-			c.JSON(http.StatusOK, "1.0.0")
+			c.JSON(http.StatusOK, gin.H{
+				"version":  "1.0.0",
+				"trace_id": c.Request.Context().Value("X-Trace-ID").(string),
+			})
 		})
 	}
 	// 后台接口，需要token和角色认证，
@@ -59,8 +63,6 @@ func Routers() *gin.Engine {
 	//adminGroup.Use(middleware.GinLogger())
 	// 限制IP
 	adminGroup.Use(middleware.LimitIP())
-	// 操作记录
-	adminGroup.Use(middleware.OperationRecord())
 	// 鉴权中间件
 	adminGroup.Use(middleware.JwtToken())
 	{
@@ -78,6 +80,7 @@ func Routers() *gin.Engine {
 		blogRouter.PhotoRouter.InitPhotoRouter(publicGroup, adminGroup)
 		blogRouter.PhotoAlbumRouter.InitPhotoAlbumRouter(publicGroup, adminGroup)
 		blogRouter.TalkRouter.InitTalkRouter(publicGroup, adminGroup)
+		blogRouter.PageRouter.InitPageRouter(publicGroup, adminGroup)
 		blogRouter.CaptchaRouter.InitCaptchaRouter(publicGroup, adminGroup)
 		blogRouter.UploadRouter.InitUploadRouter(publicGroup, adminGroup)
 		blogRouter.RemarkRouter.InitRemarkRouter(publicGroup, adminGroup)

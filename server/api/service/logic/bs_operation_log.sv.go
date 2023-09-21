@@ -27,7 +27,7 @@ func (s *OperationLogService) UpdateOperationLog(reqCtx *request.Context, operat
 }
 
 // 删除OperationLog记录
-func (s *OperationLogService) DeleteOperationLog(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *OperationLogService) DeleteOperationLog(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.OperationLogRepository.DeleteOperationLog(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *OperationLogService) FindOperationLog(reqCtx *request.Context, id int) 
 }
 
 // 批量删除OperationLog记录
-func (s *OperationLogService) DeleteOperationLogByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *OperationLogService) DeleteOperationLogByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.OperationLogRepository.DeleteOperationLogByIds(reqCtx, ids)
 }
 

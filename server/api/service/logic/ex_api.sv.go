@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取Api记录
-func (s *ApiService) FindApiListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetails, total int64, err error) {
+func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetails, total int64, err error) {
 	page.ResetPage()
 	// 查询api信息
 	apis, _, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
@@ -31,7 +31,7 @@ func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data
 	}
 
 	//查询用户角色
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(account.ID)
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data
 	//查询角色权限,取交集
 	menuMaps := make(map[int]*entity.Api)
 	for _, item := range roles {
-		menus, err := s.svcCtx.RoleRepository.FindRoleApis(item.ID)
+		menus, err := s.svcCtx.RoleRepository.FindRoleApis(reqCtx, item.ID)
 		if err != nil {
 			return nil, err
 		}

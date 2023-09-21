@@ -13,16 +13,16 @@ type User struct {
 
 func (m User) IsValid() error {
 	if m.Username == "" || m.Password == "" {
-		return codes.NewError(codes.CodeInvalidParameter, "用户名和密码不能为null")
+		return codes.NewApiError(codes.CodeInvalidParameter, "用户名和密码不能为null")
 	}
 
 	//验证邮箱格式是否正确
 	if !fmtplus.IsEmailValid(m.Username) {
-		return codes.NewError(codes.CodeInvalidParameter, "邮箱格式不正确")
+		return codes.NewApiError(codes.CodeInvalidParameter, "邮箱格式不正确")
 	}
 
 	if len(m.Password) < 6 {
-		return codes.NewError(codes.CodeInvalidParameter, "密码长度不能小于6")
+		return codes.NewApiError(codes.CodeInvalidParameter, "密码长度不能小于6")
 	}
 
 	return nil
@@ -36,7 +36,7 @@ type UserEmail struct {
 func (m UserEmail) IsValid() error {
 	//验证邮箱格式是否正确
 	if !fmtplus.IsEmailValid(m.Username) {
-		return codes.NewError(codes.CodeInvalidParameter, "邮箱格式不正确")
+		return codes.NewApiError(codes.CodeInvalidParameter, "邮箱格式不正确")
 	}
 
 	return nil

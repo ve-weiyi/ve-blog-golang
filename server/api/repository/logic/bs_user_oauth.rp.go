@@ -24,8 +24,15 @@ func NewUserOauthRepository(svcCtx *svc.RepositoryContext) *UserOauthRepository 
 }
 
 // 创建UserOauth记录
-func (s *UserOauthRepository) CreateUserOauth(ctx context.Context, userOauth *entity.UserOauth) (out *entity.UserOauth, err error) {
-	db := s.DbEngin
+func (s *UserOauthRepository) CreateUserOauth(ctx context.Context, userOauth *entity.UserOauth, conditions ...*request.Condition) (out *entity.UserOauth, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&userOauth).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *UserOauthRepository) CreateUserOauth(ctx context.Context, userOauth *en
 	return userOauth, err
 }
 
-// 删除UserOauth记录
-func (s *UserOauthRepository) DeleteUserOauth(ctx context.Context, userOauth *entity.UserOauth) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&userOauth)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新UserOauth记录
-func (s *UserOauthRepository) UpdateUserOauth(ctx context.Context, userOauth *entity.UserOauth) (out *entity.UserOauth, err error) {
-	db := s.DbEngin
+func (s *UserOauthRepository) UpdateUserOauth(ctx context.Context, userOauth *entity.UserOauth, conditions ...*request.Condition) (out *entity.UserOauth, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&userOauth).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *UserOauthRepository) UpdateUserOauth(ctx context.Context, userOauth *en
 	return userOauth, err
 }
 
+// 删除UserOauth记录
+func (s *UserOauthRepository) DeleteUserOauth(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.UserOauth{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询UserOauth记录
-func (s *UserOauthRepository) FindUserOauth(ctx context.Context, id int) (out *entity.UserOauth, err error) {
-	db := s.DbEngin
+func (s *UserOauthRepository) FindUserOauth(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.UserOauth, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *UserOauthRepository) FindUserOauth(ctx context.Context, id int) (out *e
 }
 
 // 批量删除UserOauth记录
-func (s *UserOauthRepository) DeleteUserOauthByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.UserOauth{}, "id in ?", ids)
+func (s *UserOauthRepository) DeleteUserOauthByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.UserOauth{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询UserOauth记录
-func (s *UserOauthRepository) FindUserOauthList(ctx context.Context, page *request.PageQuery) (list []*entity.UserOauth, total int64, err error) {
+func (s *UserOauthRepository) FindUserOauthList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.UserOauth, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

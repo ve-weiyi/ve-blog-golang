@@ -27,7 +27,7 @@ func (s *ArticleService) UpdateArticle(reqCtx *request.Context, article *entity.
 }
 
 // 删除Article记录
-func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.ArticleRepository.DeleteArticle(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *ent
 }
 
 // 批量删除Article记录
-func (s *ArticleService) DeleteArticleByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *ArticleService) DeleteArticleByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.ArticleRepository.DeleteArticleByIds(reqCtx, ids)
 }
 

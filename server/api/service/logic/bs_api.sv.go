@@ -27,7 +27,7 @@ func (s *ApiService) UpdateApi(reqCtx *request.Context, api *entity.Api) (data *
 }
 
 // 删除Api记录
-func (s *ApiService) DeleteApi(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *ApiService) DeleteApi(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.ApiRepository.DeleteApi(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *ApiService) FindApi(reqCtx *request.Context, id int) (data *entity.Api,
 }
 
 // 批量删除Api记录
-func (s *ApiService) DeleteApiByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *ApiService) DeleteApiByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.ApiRepository.DeleteApiByIds(reqCtx, ids)
 }
 

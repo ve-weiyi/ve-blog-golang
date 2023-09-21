@@ -34,7 +34,7 @@ func NewAIChatGPT() *AIChatGPT {
 	}
 }
 
-func (s *AIChatGPT) ReadModelJSON(filepath string) ([]*Role, error) {
+func (s *AIChatGPT) ReadModelJSON(filepath string) ([]*ChatRole, error) {
 	// 读取 JSON 文件内容
 	jsonData, err := os.ReadFile(filepath)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *AIChatGPT) ReadModelJSON(filepath string) ([]*Role, error) {
 	}
 
 	// 解析 JSON 数据到结构体
-	var roles []*Role
+	var roles []*ChatRole
 	err = json.Unmarshal(jsonData, &roles)
 	if err != nil {
 		fmt.Println("Failed to parse JSON:", err)

@@ -6,7 +6,7 @@
 [database](database)
 数据库链接服务
 
-[easycode](easycode)
+[easycode](../quickstart)
 代码生成器，快速生成api代码
 
 [middleware](middleware)

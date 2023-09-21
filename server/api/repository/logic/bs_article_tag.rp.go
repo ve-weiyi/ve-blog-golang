@@ -24,8 +24,15 @@ func NewArticleTagRepository(svcCtx *svc.RepositoryContext) *ArticleTagRepositor
 }
 
 // 创建ArticleTag记录
-func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin
+func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag *entity.ArticleTag, conditions ...*request.Condition) (out *entity.ArticleTag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&articleTag).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag 
 	return articleTag, err
 }
 
-// 删除ArticleTag记录
-func (s *ArticleTagRepository) DeleteArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&articleTag)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新ArticleTag记录
-func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin
+func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag *entity.ArticleTag, conditions ...*request.Condition) (out *entity.ArticleTag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&articleTag).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag 
 	return articleTag, err
 }
 
+// 删除ArticleTag记录
+func (s *ArticleTagRepository) DeleteArticleTag(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.ArticleTag{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询ArticleTag记录
-func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, id int) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin
+func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.ArticleTag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, id int) (out 
 }
 
 // 批量删除ArticleTag记录
-func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.ArticleTag{}, "id in ?", ids)
+func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.ArticleTag{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询ArticleTag记录
-func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *request.PageQuery) (list []*entity.ArticleTag, total int64, err error) {
+func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.ArticleTag, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

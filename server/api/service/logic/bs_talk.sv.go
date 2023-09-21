@@ -27,7 +27,7 @@ func (s *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 }
 
 // 删除Talk记录
-func (s *TalkService) DeleteTalk(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *TalkService) DeleteTalk(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.TalkRepository.DeleteTalk(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *TalkService) FindTalk(reqCtx *request.Context, id int) (data *entity.Ta
 }
 
 // 批量删除Talk记录
-func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.TalkRepository.DeleteTalkByIds(reqCtx, ids)
 }
 

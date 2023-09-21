@@ -28,9 +28,9 @@ func NewMenuController(svcCtx *svc.ControllerContext) *MenuController {
 // @Summary		创建菜单
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Menu							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Menu		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
 // @Router		/menu [post]
 func (s *MenuController) CreateMenu(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *MenuController) CreateMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		更新菜单
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Menu							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Menu		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/menu [put]
+// @Router 		/menu [put]
 func (s *MenuController) UpdateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Menu id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Menu id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/menu/{id} [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		查询菜单
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		id		path		int									true	"Menu id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Menu id"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/menu/{id} [get]
+// @Router 		/menu/{id} [get]
 func (s *MenuController) FindMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *MenuController) FindMenu(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		批量删除菜单
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/menu/batch_delete [delete]
 func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Menu
+// @Tags 	 	Menu
 // @Summary		分页获取菜单列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string															false	"token"
-// @Param		uid		header		string															false	"uid"
-// @Param		page	body		request.PageQuery												true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Menu}}	"返回信息"
 // @Router		/menu/list [post]
 func (s *MenuController) FindMenuList(c *gin.Context) {

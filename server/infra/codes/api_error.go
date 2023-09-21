@@ -7,11 +7,16 @@ type ApiError struct {
 	errMsg string
 }
 
-func NewError(code int, msg string) *ApiError {
+func NewApiError(code int, msg string) *ApiError {
 	return &ApiError{
 		code:   code,
 		errMsg: msg,
 	}
+}
+
+func (sel *ApiError) Wrap(err error) *ApiError {
+	ne := &ApiError{errMsg: fmt.Sprintf("%v,err:%v", sel.errMsg, err), code: sel.code}
+	return ne
 }
 
 func (sel *ApiError) IsErr(err error) bool {
@@ -35,9 +40,4 @@ func (sel *ApiError) Message() string {
 
 func (sel *ApiError) Error() string {
 	return sel.errMsg
-}
-
-func (sel *ApiError) Wrap(err error) *ApiError {
-	ne := &ApiError{errMsg: fmt.Sprintf("%v,err:%v", sel.errMsg, err), code: sel.code}
-	return ne
 }

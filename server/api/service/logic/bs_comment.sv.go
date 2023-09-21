@@ -27,7 +27,7 @@ func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.
 }
 
 // 删除Comment记录
-func (s *CommentService) DeleteComment(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *CommentService) DeleteComment(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.CommentRepository.DeleteComment(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *CommentService) FindComment(reqCtx *request.Context, id int) (data *ent
 }
 
 // 批量删除Comment记录
-func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.CommentRepository.DeleteCommentByIds(reqCtx, ids)
 }
 

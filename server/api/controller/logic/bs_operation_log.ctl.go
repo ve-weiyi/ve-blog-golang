@@ -28,9 +28,9 @@ func NewOperationLogController(svcCtx *svc.ControllerContext) *OperationLogContr
 // @Summary		创建操作记录
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string										false	"token"
-// @Param		uid		header		string										false	"uid"
-// @Param		data	body		entity.OperationLog							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.OperationLog		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
 // @Router		/operation_log [post]
 func (s *OperationLogController) CreateOperationLog(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *OperationLogController) CreateOperationLog(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		OperationLog
+// @Tags 	 	OperationLog
 // @Summary		更新操作记录
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string										false	"token"
-// @Param		uid		header		string										false	"uid"
-// @Param		data	body		entity.OperationLog							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.OperationLog		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
-// @Router		/operation_log [put]
+// @Router 		/operation_log [put]
 func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"OperationLog id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"OperationLog id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/operation_log/{id} [delete]
 func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		OperationLog
+// @Tags 	 	OperationLog
 // @Summary		查询操作记录
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string										false	"token"
-// @Param		uid		header		string										false	"uid"
-// @Param		id		path		int											true	"OperationLog id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"OperationLog id"
 // @Success		200		{object}	response.Response{data=entity.OperationLog}	"返回信息"
-// @Router		/operation_log/{id} [get]
+// @Router 		/operation_log/{id} [get]
 func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		OperationLog
+// @Tags 	 	OperationLog
 // @Summary		批量删除操作记录
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/operation_log/batch_delete [delete]
 func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *OperationLogController) DeleteOperationLogByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		OperationLog
+// @Tags 	 	OperationLog
 // @Summary		分页获取操作记录列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string																	false	"token"
-// @Param		uid		header		string																	false	"uid"
-// @Param		page	body		request.PageQuery														true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.OperationLog}}	"返回信息"
 // @Router		/operation_log/list [post]
 func (s *OperationLogController) FindOperationLogList(c *gin.Context) {

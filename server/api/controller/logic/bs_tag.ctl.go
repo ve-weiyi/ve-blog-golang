@@ -28,9 +28,9 @@ func NewTagController(svcCtx *svc.ControllerContext) *TagController {
 // @Summary		创建文章标签
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Tag							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Tag		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
 // @Router		/tag [post]
 func (s *TagController) CreateTag(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *TagController) CreateTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Tag
+// @Tags 	 	Tag
 // @Summary		更新文章标签
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Tag							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Tag		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router		/tag [put]
+// @Router 		/tag [put]
 func (s *TagController) UpdateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Tag id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Tag id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/tag/{id} [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Tag
+// @Tags 	 	Tag
 // @Summary		查询文章标签
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		id		path		int									true	"Tag id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Tag id"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router		/tag/{id} [get]
+// @Router 		/tag/{id} [get]
 func (s *TagController) FindTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *TagController) FindTag(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Tag
+// @Tags 	 	Tag
 // @Summary		批量删除文章标签
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/tag/batch_delete [delete]
 func (s *TagController) DeleteTagByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *TagController) DeleteTagByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Tag
+// @Tags 	 	Tag
 // @Summary		分页获取文章标签列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string															false	"token"
-// @Param		uid		header		string															false	"uid"
-// @Param		page	body		request.PageQuery												true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Tag}}	"返回信息"
 // @Router		/tag/list [post]
 func (s *TagController) FindTagList(c *gin.Context) {

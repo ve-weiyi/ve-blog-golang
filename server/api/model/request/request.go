@@ -15,6 +15,7 @@ type Context struct {
 	Username        string `json:"username" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
 	IpSource        string `json:"ip_source" header:"-" example:""`
+	Agent           string `json:"agent" header:"-" example:""`
 }
 
 func (s *Context) GetContext() context.Context {
@@ -82,14 +83,32 @@ func (page *PageQuery) OrderClause() string {
 
 // 条件语句
 func (page *PageQuery) WhereClause() (string, []interface{}) {
-	if len(page.Conditions) == 0 {
+	return WhereConditions(page.Conditions)
+}
+
+func (page *PageQuery) FindCondition(name string) *Condition {
+	return FindCondition(page.Conditions, name)
+}
+
+func FindCondition(conditions []*Condition, name string) *Condition {
+	for _, condition := range conditions {
+		if condition.Field == name {
+			return condition
+		}
+	}
+	return nil
+}
+
+// 转换条件语句
+func WhereConditions(conditions []*Condition) (string, []interface{}) {
+	if len(conditions) == 0 {
 		return "", nil
 	}
 
 	var query string
 	var args []interface{}
 	var flag string
-	for i, condition := range page.Conditions {
+	for i, condition := range conditions {
 		if i == 0 {
 			flag = ""
 		} else {
@@ -113,13 +132,4 @@ func (page *PageQuery) WhereClause() (string, []interface{}) {
 	}
 
 	return query, args
-}
-
-func (page *PageQuery) FindCondition(name string) *Condition {
-	for _, condition := range page.Conditions {
-		if condition.Field == name {
-			return condition
-		}
-	}
-	return nil
 }

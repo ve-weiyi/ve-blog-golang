@@ -46,17 +46,17 @@ cd server
 go mod tidy
 ```
 
-### 3.项目本地启动
+### 3.修改配置文件
 
-复制 [config.default.yaml](server%2Fconfig.default.yaml) 文件，命名为config.yaml  
+在server目录下新增config.yaml文件，文件内容参考[config.default.yaml](server%2Fconfig.default.yaml)  
 修改config.yaml配置文件中的配置信息，然后执行以下命令启动项目
+
+### 4.项目本地启动
 
 ```shell
 cd server
 go run main.go run --config=./conf/config.yaml 
 ```
-
-### 4.更新swagger文档
 
 格式化代码
 
@@ -81,4 +81,36 @@ swag fmt
 
 ```shell
 swag init
+```
+
+## 其他
+
+### 1.cobra使用
+
+1. 安装cobra
+
+```shell
+go get -u github.com/spf13/cobra/cobra
+```
+
+2. 初始化项目
+
+```shell
+cobra-cli init
+cobra-cli init --author "791422171@qq.com"
+cobra-cli init --license apache
+```
+
+3. 添加命令
+
+```shell
+cobra-cli add version
+cobra-cli add migrate
+```
+
+4. 运行命令
+
+```shell
+go run main.go migrate -h
+go run main.go migrate --help
 ```

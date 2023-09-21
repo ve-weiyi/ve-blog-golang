@@ -1,9 +1,9 @@
 package codes
 
 var (
-	ErrorSqlQuery         = NewError(CodeSqlQuery, "数据库查询错误")
-	ErrorUserUnLogin      = NewError(CodeForbiddenOperation, "用户未登录")
-	ErrorCaptchaVerify    = NewError(CodeCaptchaVerifyError, "验证码错误")
-	ErrorUserNotExist     = NewError(CodeUserNotExist, "用户不存在")
-	ErrorUserAlreadyExist = NewError(CodeUserAlreadyExist, "用户已存在")
+	ErrorSqlQuery         = NewApiError(CodeSqlQuery, "数据库查询错误")
+	ErrorUserUnLogin      = NewApiError(CodeForbiddenOperation, "用户未登录")
+	ErrorCaptchaVerify    = NewApiError(CodeCaptchaVerifyError, "验证码错误")
+	ErrorUserNotExist     = NewApiError(CodeUserNotExist, "用户不存在")
+	ErrorUserAlreadyExist = NewApiError(CodeUserAlreadyExist, "用户已存在")
 )

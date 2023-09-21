@@ -24,8 +24,15 @@ func NewApiRepository(svcCtx *svc.RepositoryContext) *ApiRepository {
 }
 
 // 创建Api记录
-func (s *ApiRepository) CreateApi(ctx context.Context, api *entity.Api) (out *entity.Api, err error) {
-	db := s.DbEngin
+func (s *ApiRepository) CreateApi(ctx context.Context, api *entity.Api, conditions ...*request.Condition) (out *entity.Api, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&api).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *ApiRepository) CreateApi(ctx context.Context, api *entity.Api) (out *en
 }
 
 // 更新Api记录
-func (s *ApiRepository) UpdateApi(ctx context.Context, api *entity.Api) (out *entity.Api, err error) {
-	db := s.DbEngin
+func (s *ApiRepository) UpdateApi(ctx context.Context, api *entity.Api, conditions ...*request.Condition) (out *entity.Api, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&api).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *ApiRepository) UpdateApi(ctx context.Context, api *entity.Api) (out *en
 }
 
 // 删除Api记录
-func (s *ApiRepository) DeleteApi(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *ApiRepository) DeleteApi(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Api{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询Api记录
-func (s *ApiRepository) FindApi(ctx context.Context, id int) (out *entity.Api, err error) {
-	db := s.DbEngin
+func (s *ApiRepository) FindApi(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Api, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *ApiRepository) FindApi(ctx context.Context, id int) (out *entity.Api, e
 }
 
 // 批量删除Api记录
-func (s *ApiRepository) DeleteApiByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *ApiRepository) DeleteApiByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Api{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询Api记录
-func (s *ApiRepository) FindApiList(ctx context.Context, page *request.PageQuery) (list []*entity.Api, total int64, err error) {
+func (s *ApiRepository) FindApiList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Api, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

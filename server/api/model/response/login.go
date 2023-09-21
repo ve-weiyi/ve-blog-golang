@@ -9,8 +9,8 @@ import (
 // 用户登录信息
 type Login struct {
 	*Token
-	UserInfo  *UserInfo  `json:"user_info"`
-	LoginInfo *LoginInfo `json:"login_info"`
+	UserInfo  *UserInfo     `json:"user_info"`
+	LoginInfo *LoginHistory `json:"login_info"`
 }
 
 type Token struct {
@@ -35,8 +35,10 @@ type UserInfo struct {
 	Roles []*entity.Role `json:"roles"`
 }
 
-type LoginInfo struct {
+type LoginHistory struct {
+	ID        int    `json:"id"`
 	LoginType string `json:"login_type"` // 登录类型
+	Agent     string `json:"agent"`      // 代理
 	IpAddress string `json:"ip_address"` // ip host
 	IpSource  string `json:"ip_source"`  // ip 源
 	LoginTime string `json:"login_time"` // 创建时间

@@ -18,13 +18,7 @@ func NewChatRecordService(svcCtx *svc.ServiceContext) *ChatRecordService {
 
 // 创建ChatRecord记录
 func (s *ChatRecordService) CreateChatRecord(reqCtx *request.Context, chatRecord *entity.ChatRecord) (data *entity.ChatRecord, err error) {
-	s.svcCtx.Log.Info("创建ChatRecord记录")
 	return s.svcCtx.ChatRecordRepository.CreateChatRecord(reqCtx, chatRecord)
-}
-
-// 删除ChatRecord记录
-func (s *ChatRecordService) DeleteChatRecord(reqCtx *request.Context, chatRecord *entity.ChatRecord) (rows int64, err error) {
-	return s.svcCtx.ChatRecordRepository.DeleteChatRecord(reqCtx, chatRecord)
 }
 
 // 更新ChatRecord记录
@@ -32,13 +26,18 @@ func (s *ChatRecordService) UpdateChatRecord(reqCtx *request.Context, chatRecord
 	return s.svcCtx.ChatRecordRepository.UpdateChatRecord(reqCtx, chatRecord)
 }
 
+// 删除ChatRecord记录
+func (s *ChatRecordService) DeleteChatRecord(reqCtx *request.Context, id int) (rows int, err error) {
+	return s.svcCtx.ChatRecordRepository.DeleteChatRecord(reqCtx, id)
+}
+
 // 查询ChatRecord记录
-func (s *ChatRecordService) GetChatRecord(reqCtx *request.Context, chatRecord *entity.ChatRecord) (data *entity.ChatRecord, err error) {
-	return s.svcCtx.ChatRecordRepository.FindChatRecord(reqCtx, chatRecord.ID)
+func (s *ChatRecordService) FindChatRecord(reqCtx *request.Context, id int) (data *entity.ChatRecord, err error) {
+	return s.svcCtx.ChatRecordRepository.FindChatRecord(reqCtx, id)
 }
 
 // 批量删除ChatRecord记录
-func (s *ChatRecordService) DeleteChatRecordByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *ChatRecordService) DeleteChatRecordByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.ChatRecordRepository.DeleteChatRecordByIds(reqCtx, ids)
 }
 

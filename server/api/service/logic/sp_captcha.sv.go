@@ -27,12 +27,12 @@ func NewCaptchaService(svcCtx *svc.ServiceContext) *CaptchaService {
 // 发送验证码
 func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.CaptchaEmail) (result interface{}, err error) {
 	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Email)
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Email)
 	if err != nil {
 		return nil, codes.ErrorUserNotExist
 	}
 
-	userinfo, err := s.svcCtx.UserAccountRepository.FindUserInfo(account.ID)
+	userinfo, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
 	if err != nil {
 		return nil, codes.ErrorUserNotExist
 	}

@@ -17,31 +17,15 @@ func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
 	}
 }
 
-func convertTagList(list []*entity.Tag) []*response.TagDTO {
-	var tagList []*response.TagDTO
-	for _, tag := range list {
-		tagList = append(tagList, &response.TagDTO{
-			ID:      tag.ID,
-			TagName: tag.TagName,
-		})
+func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory {
+	return &response.LoginHistory{
+		ID:        entity.ID,
+		LoginType: entity.LoginType,
+		Agent:     entity.Agent,
+		IpAddress: entity.IpAddress,
+		IpSource:  entity.IpSource,
+		LoginTime: entity.CreatedAt.String(),
 	}
-	return tagList
-}
-
-func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
-	var categoryList []*response.CategoryDTO
-
-	for _, in := range list {
-		data := &response.CategoryDTO{
-			ID:           in.ID,
-			CategoryName: in.CategoryName,
-			ArticleCount: 0,
-			CreatedAt:    in.CreatedAt,
-			UpdatedAt:    in.UpdatedAt,
-		}
-		categoryList = append(categoryList, data)
-	}
-	return categoryList
 }
 
 func convertResponseArticle(entity *entity.Article) *response.ArticleDetails {
@@ -157,4 +141,29 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
 	}
 
 	return out
+}
+
+func convertTagList(list []*entity.Tag) []*response.TagDTO {
+	var tagList []*response.TagDTO
+	for _, tag := range list {
+		tagList = append(tagList, &response.TagDTO{
+			ID:      tag.ID,
+			TagName: tag.TagName,
+		})
+	}
+	return tagList
+}
+
+func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
+	var categoryList []*response.CategoryDTO
+
+	for _, in := range list {
+		data := &response.CategoryDTO{
+			ID:           in.ID,
+			CategoryName: in.CategoryName,
+			ArticleCount: 0,
+		}
+		categoryList = append(categoryList, data)
+	}
+	return categoryList
 }

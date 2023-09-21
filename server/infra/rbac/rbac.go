@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"context"
 	"fmt"
 
 	"gorm.io/gorm"
@@ -73,8 +74,9 @@ func (s *RoleEnforcer) VerifyUserPermissions(uid int, path string, method string
 
 // 获取Api记录
 func (s *RoleEnforcer) FindRoleApis(roleId int) (list []*entity.Api, err error) {
+	ctx := context.Background()
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var roleApis []*entity.RoleApi
 
 	err = db.Where("role_id = ?", roleId).Find(&roleApis).Error

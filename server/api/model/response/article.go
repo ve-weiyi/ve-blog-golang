@@ -51,6 +51,12 @@ type TagDTO struct {
 	TagName string `json:"tag_name"` // 标签名
 }
 
+type CategoryDTO struct {
+	ID           int    `json:"id"`
+	CategoryName string `json:"category_name"` // 分类名
+	ArticleCount int64  `json:"article_count"`
+}
+
 // ArticlePaginationDTO represents pagination information for an article
 type ArticlePaginationDTO struct {
 	// pagination fields...

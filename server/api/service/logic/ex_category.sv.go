@@ -6,7 +6,7 @@ import (
 )
 
 // 分页获取Category记录
-func (s *CategoryService) FindCategoryListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDTO, total int64, err error) {
+func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
 	categories, total, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -16,12 +16,12 @@ func (s *CategoryService) FindCategoryListDetails(reqCtx *request.Context, page 
 
 	for _, in := range categories {
 
-		_, articleCount, err := s.svcCtx.ArticleRepository.FindArticleListByCategoryId(in.ID)
+		_, articleCount, err := s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.ID)
 		if err != nil {
 			return nil, 0, err
 		}
 
-		out := &response.CategoryDTO{
+		out := &response.CategoryDetailsDTO{
 			ID:           in.ID,
 			CategoryName: in.CategoryName,
 			ArticleCount: articleCount,

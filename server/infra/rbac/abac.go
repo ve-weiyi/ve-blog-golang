@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -22,7 +23,7 @@ type ApiPermission struct {
 
 // 判断角色拥有哪些资源（Resource-Based Access Control）
 type ResourceEnforcer struct {
-	dbEngin    *gorm.DB
+	DbEngin    *gorm.DB
 	cacheEngin *redis.Client
 	// 资源角色
 	apiMap map[string]ApiPermission
@@ -30,7 +31,7 @@ type ResourceEnforcer struct {
 
 func NewResourceEnforcer(db *gorm.DB, rdb *redis.Client) *ResourceEnforcer {
 	return &ResourceEnforcer{
-		dbEngin:    db,
+		DbEngin:    db,
 		cacheEngin: rdb,
 		apiMap:     make(map[string]ApiPermission),
 	}
@@ -40,7 +41,7 @@ func NewResourceEnforcer(db *gorm.DB, rdb *redis.Client) *ResourceEnforcer {
 func (s *ResourceEnforcer) LoadPermissions() error {
 	// 查询所有资源
 	var apis []entity.Api
-	err := s.dbEngin.Find(&apis).Error
+	err := s.DbEngin.Find(&apis).Error
 	if err != nil {
 		return err
 	}
@@ -76,7 +77,7 @@ func (s *ResourceEnforcer) VerifyUserPermissions(uid int, path string, method st
 
 	// 查询用户角色
 	var urs []entity.UserRole
-	err := s.dbEngin.Where("user_id = ?", uid).Find(&urs).Error
+	err := s.DbEngin.Where("user_id = ?", uid).Find(&urs).Error
 	// 用户角色为空，返回false
 	if err != nil {
 		return false, fmt.Errorf("VerifyUserPermissions fail:%v", err)
@@ -107,8 +108,9 @@ func (s *ResourceEnforcer) GetApiPermission(path string, method string) *ApiPerm
 
 // 获取Api记录
 func (s *ResourceEnforcer) findApiRoles(apiId int) (list []*entity.Role, err error) {
+	ctx := context.Background()
 	// 创建db
-	db := s.dbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var roleApis []*entity.RoleApi
 
 	err = db.Where("api_id = ?", apiId).Find(&roleApis).Error

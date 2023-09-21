@@ -24,8 +24,15 @@ func NewRemarkRepository(svcCtx *svc.RepositoryContext) *RemarkRepository {
 }
 
 // 创建Remark记录
-func (s *RemarkRepository) CreateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
-	db := s.DbEngin
+func (s *RemarkRepository) CreateRemark(ctx context.Context, remark *entity.Remark, conditions ...*request.Condition) (out *entity.Remark, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&remark).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *RemarkRepository) CreateRemark(ctx context.Context, remark *entity.Rema
 }
 
 // 更新Remark记录
-func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
-	db := s.DbEngin
+func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Remark, conditions ...*request.Condition) (out *entity.Remark, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&remark).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Rema
 }
 
 // 删除Remark记录
-func (s *RemarkRepository) DeleteRemark(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *RemarkRepository) DeleteRemark(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Remark{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询Remark记录
-func (s *RemarkRepository) FindRemark(ctx context.Context, id int) (out *entity.Remark, err error) {
-	db := s.DbEngin
+func (s *RemarkRepository) FindRemark(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Remark, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *RemarkRepository) FindRemark(ctx context.Context, id int) (out *entity.
 }
 
 // 批量删除Remark记录
-func (s *RemarkRepository) DeleteRemarkByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *RemarkRepository) DeleteRemarkByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Remark{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询Remark记录
-func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
+func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Remark, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

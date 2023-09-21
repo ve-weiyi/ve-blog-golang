@@ -27,7 +27,7 @@ func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *
 }
 
 // 删除Tag记录
-func (s *TagService) DeleteTag(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *TagService) DeleteTag(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.TagRepository.DeleteTag(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *TagService) FindTag(reqCtx *request.Context, id int) (data *entity.Tag,
 }
 
 // 批量删除Tag记录
-func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.TagRepository.DeleteTagByIds(reqCtx, ids)
 }
 

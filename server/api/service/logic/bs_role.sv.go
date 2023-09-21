@@ -27,7 +27,7 @@ func (s *RoleService) UpdateRole(reqCtx *request.Context, role *entity.Role) (da
 }
 
 // 删除Role记录
-func (s *RoleService) DeleteRole(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *RoleService) DeleteRole(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.RoleRepository.DeleteRole(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *RoleService) FindRole(reqCtx *request.Context, id int) (data *entity.Ro
 }
 
 // 批量删除Role记录
-func (s *RoleService) DeleteRoleByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *RoleService) DeleteRoleByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.RoleRepository.DeleteRoleByIds(reqCtx, ids)
 }
 

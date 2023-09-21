@@ -24,8 +24,15 @@ func NewTagRepository(svcCtx *svc.RepositoryContext) *TagRepository {
 }
 
 // 创建Tag记录
-func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
-	db := s.DbEngin
+func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag, conditions ...*request.Condition) (out *entity.Tag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&tag).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag) (out *en
 }
 
 // 更新Tag记录
-func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
-	db := s.DbEngin
+func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag, conditions ...*request.Condition) (out *entity.Tag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&tag).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *en
 }
 
 // 删除Tag记录
-func (s *TagRepository) DeleteTag(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *TagRepository) DeleteTag(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Tag{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询Tag记录
-func (s *TagRepository) FindTag(ctx context.Context, id int) (out *entity.Tag, err error) {
-	db := s.DbEngin
+func (s *TagRepository) FindTag(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Tag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *TagRepository) FindTag(ctx context.Context, id int) (out *entity.Tag, e
 }
 
 // 批量删除Tag记录
-func (s *TagRepository) DeleteTagByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *TagRepository) DeleteTagByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Tag{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询Tag记录
-func (s *TagRepository) FindTagList(ctx context.Context, page *request.PageQuery) (list []*entity.Tag, total int64, err error) {
+func (s *TagRepository) FindTagList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Tag, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

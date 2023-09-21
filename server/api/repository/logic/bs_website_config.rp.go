@@ -24,8 +24,15 @@ func NewWebsiteConfigRepository(svcCtx *svc.RepositoryContext) *WebsiteConfigRep
 }
 
 // 创建WebsiteConfig记录
-func (s *WebsiteConfigRepository) CreateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin
+func (s *WebsiteConfigRepository) CreateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig, conditions ...*request.Condition) (out *entity.WebsiteConfig, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&websiteConfig).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *WebsiteConfigRepository) CreateWebsiteConfig(ctx context.Context, websi
 	return websiteConfig, err
 }
 
-// 删除WebsiteConfig记录
-func (s *WebsiteConfigRepository) DeleteWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&websiteConfig)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新WebsiteConfig记录
-func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin
+func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig, conditions ...*request.Condition) (out *entity.WebsiteConfig, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&websiteConfig).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websi
 	return websiteConfig, err
 }
 
+// 删除WebsiteConfig记录
+func (s *WebsiteConfigRepository) DeleteWebsiteConfig(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.WebsiteConfig{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询WebsiteConfig记录
-func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, key string) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin
+func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, key string, conditions ...*request.Condition) (out *entity.WebsiteConfig, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("`key` = ?", key).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, key str
 }
 
 // 批量删除WebsiteConfig记录
-func (s *WebsiteConfigRepository) DeleteWebsiteConfigByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.WebsiteConfig{}, "id in ?", ids)
+func (s *WebsiteConfigRepository) DeleteWebsiteConfigByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.WebsiteConfig{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询WebsiteConfig记录
-func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, page *request.PageQuery) (list []*entity.WebsiteConfig, total int64, err error) {
+func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.WebsiteConfig, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

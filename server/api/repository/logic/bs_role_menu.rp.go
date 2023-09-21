@@ -24,8 +24,15 @@ func NewRoleMenuRepository(svcCtx *svc.RepositoryContext) *RoleMenuRepository {
 }
 
 // 创建RoleMenu记录
-func (s *RoleMenuRepository) CreateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
-	db := s.DbEngin
+func (s *RoleMenuRepository) CreateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu, conditions ...*request.Condition) (out *entity.RoleMenu, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&roleMenu).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *RoleMenuRepository) CreateRoleMenu(ctx context.Context, roleMenu *entit
 	return roleMenu, err
 }
 
-// 删除RoleMenu记录
-func (s *RoleMenuRepository) DeleteRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&roleMenu)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新RoleMenu记录
-func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
-	db := s.DbEngin
+func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu, conditions ...*request.Condition) (out *entity.RoleMenu, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&roleMenu).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entit
 	return roleMenu, err
 }
 
+// 删除RoleMenu记录
+func (s *RoleMenuRepository) DeleteRoleMenu(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.RoleMenu{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询RoleMenu记录
-func (s *RoleMenuRepository) FindRoleMenu(ctx context.Context, id int) (out *entity.RoleMenu, err error) {
-	db := s.DbEngin
+func (s *RoleMenuRepository) FindRoleMenu(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.RoleMenu, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *RoleMenuRepository) FindRoleMenu(ctx context.Context, id int) (out *ent
 }
 
 // 批量删除RoleMenu记录
-func (s *RoleMenuRepository) DeleteRoleMenuByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.RoleMenu{}, "id in ?", ids)
+func (s *RoleMenuRepository) DeleteRoleMenuByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.RoleMenu{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询RoleMenu记录
-func (s *RoleMenuRepository) FindRoleMenuList(ctx context.Context, page *request.PageQuery) (list []*entity.RoleMenu, total int64, err error) {
+func (s *RoleMenuRepository) FindRoleMenuList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.RoleMenu, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

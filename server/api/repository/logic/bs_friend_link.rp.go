@@ -24,8 +24,15 @@ func NewFriendLinkRepository(svcCtx *svc.RepositoryContext) *FriendLinkRepositor
 }
 
 // 创建FriendLink记录
-func (s *FriendLinkRepository) CreateFriendLink(ctx context.Context, friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
-	db := s.DbEngin
+func (s *FriendLinkRepository) CreateFriendLink(ctx context.Context, friendLink *entity.FriendLink, conditions ...*request.Condition) (out *entity.FriendLink, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&friendLink).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *FriendLinkRepository) CreateFriendLink(ctx context.Context, friendLink 
 }
 
 // 更新FriendLink记录
-func (s *FriendLinkRepository) UpdateFriendLink(ctx context.Context, friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
-	db := s.DbEngin
+func (s *FriendLinkRepository) UpdateFriendLink(ctx context.Context, friendLink *entity.FriendLink, conditions ...*request.Condition) (out *entity.FriendLink, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&friendLink).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *FriendLinkRepository) UpdateFriendLink(ctx context.Context, friendLink 
 }
 
 // 删除FriendLink记录
-func (s *FriendLinkRepository) DeleteFriendLink(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *FriendLinkRepository) DeleteFriendLink(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.FriendLink{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询FriendLink记录
-func (s *FriendLinkRepository) FindFriendLink(ctx context.Context, id int) (out *entity.FriendLink, err error) {
-	db := s.DbEngin
+func (s *FriendLinkRepository) FindFriendLink(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.FriendLink, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *FriendLinkRepository) FindFriendLink(ctx context.Context, id int) (out 
 }
 
 // 批量删除FriendLink记录
-func (s *FriendLinkRepository) DeleteFriendLinkByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *FriendLinkRepository) DeleteFriendLinkByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.FriendLink{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询FriendLink记录
-func (s *FriendLinkRepository) FindFriendLinkList(ctx context.Context, page *request.PageQuery) (list []*entity.FriendLink, total int64, err error) {
+func (s *FriendLinkRepository) FindFriendLinkList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.FriendLink, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

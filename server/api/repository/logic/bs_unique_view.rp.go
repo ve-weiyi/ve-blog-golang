@@ -24,8 +24,15 @@ func NewUniqueViewRepository(svcCtx *svc.RepositoryContext) *UniqueViewRepositor
 }
 
 // 创建UniqueView记录
-func (s *UniqueViewRepository) CreateUniqueView(ctx context.Context, uniqueView *entity.UniqueView) (out *entity.UniqueView, err error) {
-	db := s.DbEngin
+func (s *UniqueViewRepository) CreateUniqueView(ctx context.Context, uniqueView *entity.UniqueView, conditions ...*request.Condition) (out *entity.UniqueView, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&uniqueView).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *UniqueViewRepository) CreateUniqueView(ctx context.Context, uniqueView 
 	return uniqueView, err
 }
 
-// 删除UniqueView记录
-func (s *UniqueViewRepository) DeleteUniqueView(ctx context.Context, uniqueView *entity.UniqueView) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&uniqueView)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新UniqueView记录
-func (s *UniqueViewRepository) UpdateUniqueView(ctx context.Context, uniqueView *entity.UniqueView) (out *entity.UniqueView, err error) {
-	db := s.DbEngin
+func (s *UniqueViewRepository) UpdateUniqueView(ctx context.Context, uniqueView *entity.UniqueView, conditions ...*request.Condition) (out *entity.UniqueView, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&uniqueView).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *UniqueViewRepository) UpdateUniqueView(ctx context.Context, uniqueView 
 	return uniqueView, err
 }
 
+// 删除UniqueView记录
+func (s *UniqueViewRepository) DeleteUniqueView(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.UniqueView{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询UniqueView记录
-func (s *UniqueViewRepository) FindUniqueView(ctx context.Context, id int) (out *entity.UniqueView, err error) {
-	db := s.DbEngin
+func (s *UniqueViewRepository) FindUniqueView(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.UniqueView, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *UniqueViewRepository) FindUniqueView(ctx context.Context, id int) (out 
 }
 
 // 批量删除UniqueView记录
-func (s *UniqueViewRepository) DeleteUniqueViewByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.UniqueView{}, "id in ?", ids)
+func (s *UniqueViewRepository) DeleteUniqueViewByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.UniqueView{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询UniqueView记录
-func (s *UniqueViewRepository) FindUniqueViewList(ctx context.Context, page *request.PageQuery) (list []*entity.UniqueView, total int64, err error) {
+func (s *UniqueViewRepository) FindUniqueViewList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.UniqueView, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

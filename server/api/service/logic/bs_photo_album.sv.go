@@ -27,7 +27,7 @@ func (s *PhotoAlbumService) UpdatePhotoAlbum(reqCtx *request.Context, photoAlbum
 }
 
 // 删除PhotoAlbum记录
-func (s *PhotoAlbumService) DeletePhotoAlbum(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *PhotoAlbumService) DeletePhotoAlbum(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbum(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *PhotoAlbumService) FindPhotoAlbum(reqCtx *request.Context, id int) (dat
 }
 
 // 批量删除PhotoAlbum记录
-func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbumByIds(reqCtx, ids)
 }
 
