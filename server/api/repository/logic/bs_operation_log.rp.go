@@ -24,8 +24,15 @@ func NewOperationLogRepository(svcCtx *svc.RepositoryContext) *OperationLogRepos
 }
 
 // 创建OperationLog记录
-func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operationLog *entity.OperationLog) (out *entity.OperationLog, err error) {
-	db := s.DbEngin
+func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operationLog *entity.OperationLog, conditions ...*request.Condition) (out *entity.OperationLog, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&operationLog).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operati
 }
 
 // 更新OperationLog记录
-func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operationLog *entity.OperationLog) (out *entity.OperationLog, err error) {
-	db := s.DbEngin
+func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operationLog *entity.OperationLog, conditions ...*request.Condition) (out *entity.OperationLog, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&operationLog).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operati
 }
 
 // 删除OperationLog记录
-func (s *OperationLogRepository) DeleteOperationLog(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *OperationLogRepository) DeleteOperationLog(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.OperationLog{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询OperationLog记录
-func (s *OperationLogRepository) FindOperationLog(ctx context.Context, id int) (out *entity.OperationLog, err error) {
-	db := s.DbEngin
+func (s *OperationLogRepository) FindOperationLog(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.OperationLog, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *OperationLogRepository) FindOperationLog(ctx context.Context, id int) (
 }
 
 // 批量删除OperationLog记录
-func (s *OperationLogRepository) DeleteOperationLogByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *OperationLogRepository) DeleteOperationLogByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.OperationLog{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询OperationLog记录
-func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page *request.PageQuery) (list []*entity.OperationLog, total int64, err error) {
+func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.OperationLog, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

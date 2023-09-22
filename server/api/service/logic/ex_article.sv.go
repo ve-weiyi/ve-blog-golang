@@ -21,13 +21,13 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 	}
 
 	// 查询文章标签
-	tags, err := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
+	tags, err := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询推荐文章
-	rmArticle, err := s.svcCtx.ArticleRepository.FindRecommendArticle(article.CategoryID)
+	rmArticle, err := s.svcCtx.ArticleRepository.FindRecommendArticle(reqCtx, article.CategoryID)
 	if err != nil {
 		return nil, err
 	}
@@ -44,12 +44,12 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 		return nil, err
 	}
 	// 查询上一篇文章
-	lastArticle, err := s.svcCtx.ArticleRepository.FindLastArticle(id)
+	lastArticle, err := s.svcCtx.ArticleRepository.FindLastArticle(reqCtx, id)
 	if err != nil {
 		return nil, err
 	}
 	// 查询下一篇文章
-	nextArticle, err := s.svcCtx.ArticleRepository.FindNextArticle(id)
+	nextArticle, err := s.svcCtx.ArticleRepository.FindNextArticle(reqCtx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 }
 
 // 分页获取Article记录
-func (s *ArticleService) FindArticleListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
+func (s *ArticleService) FindArticleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
 	// 查询文章列表
 	articles, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
@@ -76,7 +76,7 @@ func (s *ArticleService) FindArticleListDetails(reqCtx *request.Context, page *r
 		//查询文章分类
 		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
 		// 查询文章标签
-		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
+		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
 		articleVO := convertArticle(article)
 		articleVO.CategoryName = category.CategoryName
@@ -97,14 +97,14 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 		if err != nil {
 			return nil, err
 		}
-		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(category.ID)
+		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
 		resp.ConditionName = category.CategoryName
 	} else if req.TagID != 0 {
 		tag, err := s.svcCtx.TagRepository.FindTag(reqCtx, req.TagID)
 		if err != nil {
 			return nil, err
 		}
-		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(tag.ID)
+		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
 		resp.ConditionName = tag.TagName
 	}
 
@@ -113,7 +113,7 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 		//查询文章分类
 		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
 		// 查询文章标签
-		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(article.ID)
+		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
 		articleVO := convertArticle(article)
 		articleVO.CategoryName = category.CategoryName

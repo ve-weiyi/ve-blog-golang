@@ -27,7 +27,7 @@ func (s *CategoryService) UpdateCategory(reqCtx *request.Context, category *enti
 }
 
 // 删除Category记录
-func (s *CategoryService) DeleteCategory(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *CategoryService) DeleteCategory(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.CategoryRepository.DeleteCategory(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *CategoryService) FindCategory(reqCtx *request.Context, id int) (data *e
 }
 
 // 批量删除Category记录
-func (s *CategoryService) DeleteCategoryByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *CategoryService) DeleteCategoryByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.CategoryRepository.DeleteCategoryByIds(reqCtx, ids)
 }
 

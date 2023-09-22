@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取Menu记录
-func (s *MenuService) FindMenuListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetails, total int64, err error) {
+func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetails, total int64, err error) {
 	// 创建db
 	menuList, _, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
 	if err != nil {
@@ -29,7 +29,7 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 	}
 
 	//查询用户角色
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(account.ID)
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 	//查询角色权限,取交集
 	menuMaps := make(map[int]*entity.Menu)
 	for _, item := range roles {
-		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(item.ID)
+		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.ID)
 		if err != nil {
 			return nil, err
 		}

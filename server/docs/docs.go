@@ -129,7 +129,7 @@ const docTemplate = `{
             }
         },
         "/admin/website/config": {
-            "get": {
+            "put": {
                 "consumes": [
                     "application/json"
                 ],
@@ -139,7 +139,7 @@ const docTemplate = `{
                 "tags": [
                     "Blog"
                 ],
-                "summary": "获取网站配置",
+                "summary": "更新网站配置",
                 "parameters": [
                     {
                         "type": "string",
@@ -159,7 +159,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.WebsiteConfig"
+                            "$ref": "#/definitions/request.WebsiteConfigRequest"
                         }
                     }
                 ],
@@ -194,7 +194,7 @@ const docTemplate = `{
                 "tags": [
                     "Blog"
                 ],
-                "summary": "更新网站配置",
+                "summary": "获取网站配置",
                 "parameters": [
                     {
                         "type": "string",
@@ -214,7 +214,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.WebsiteConfig"
+                            "$ref": "#/definitions/request.WebsiteConfigRequest"
                         }
                     }
                 ],
@@ -1917,7 +1917,7 @@ const docTemplate = `{
                                                         "list": {
                                                             "type": "array",
                                                             "items": {
-                                                                "$ref": "#/definitions/response.CategoryDTO"
+                                                                "$ref": "#/definitions/response.CategoryDetailsDTO"
                                                             }
                                                         }
                                                     }
@@ -6568,6 +6568,78 @@ const docTemplate = `{
                 }
             }
         },
+        "/tag/list/details": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tag"
+                ],
+                "summary": "分页获取文章分类详情列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "description": "分页参数",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/response.TagDetailsDTO"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/tag/{id}": {
             "get": {
                 "consumes": [
@@ -7260,7 +7332,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.ApiDetails"
+                                            }
                                         }
                                     }
                                 }
@@ -7370,7 +7445,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.UserInfo"
                                         }
                                     }
                                 }
@@ -7601,7 +7676,22 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/response.LoginHistory"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
                                         }
                                     }
                                 }
@@ -7649,7 +7739,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.MenuDetails"
+                                            }
                                         }
                                     }
                                 }
@@ -7848,13 +7941,13 @@ const docTemplate = `{
                     "description": "API 调用的使用情况",
                     "allOf": [
                         {
-                            "$ref": "#/definitions/chatgpt.Usage"
+                            "$ref": "#/definitions/chatgpt.ChatUsage"
                         }
                     ]
                 }
             }
         },
-        "chatgpt.Usage": {
+        "chatgpt.ChatUsage": {
             "type": "object",
             "properties": {
                 "completion_tokens": {
@@ -8809,7 +8902,7 @@ const docTemplate = `{
                 }
             }
         },
-        "request.WebsiteConfig": {
+        "request.WebsiteConfigRequest": {
             "type": "object",
             "properties": {
                 "key": {
@@ -9108,6 +9201,21 @@ const docTemplate = `{
                     "description": "分类名",
                     "type": "string"
                 },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.CategoryDetailsDTO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
                 "created_at": {
                     "description": "创建时间",
                     "type": "string"
@@ -9133,7 +9241,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "login_info": {
-                    "$ref": "#/definitions/response.LoginInfo"
+                    "$ref": "#/definitions/response.LoginHistory"
                 },
                 "refresh_expires_in": {
                     "description": "刷新token过期时间",
@@ -9156,9 +9264,13 @@ const docTemplate = `{
                 }
             }
         },
-        "response.LoginInfo": {
+        "response.LoginHistory": {
             "type": "object",
             "properties": {
+                "agent": {
+                    "description": "代理",
+                    "type": "string"
+                },
                 "ip_address": {
                     "description": "ip host",
                     "type": "string"
@@ -9262,6 +9374,9 @@ const docTemplate = `{
                 "data": {},
                 "message": {
                     "type": "string"
+                },
+                "trace_id": {
+                    "type": "string"
                 }
             }
         },
@@ -9274,6 +9389,31 @@ const docTemplate = `{
                 },
                 "tag_name": {
                     "description": "标签名",
+                    "type": "string"
+                }
+            }
+        },
+        "response.TagDetailsDTO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章数量",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "标签ID",
+                    "type": "integer"
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
                     "type": "string"
                 }
             }

@@ -40,4 +40,4 @@ const BodyTpl = `{{- if .Body -}}
   {{ .Body.Name }}?: {{ .Body.Type }}
 {{- end -}}`
 
-const ModelImportTpl = `{{ if .ImportModelTypes }}import { {{ joinArray .ImportModelTypes }} } from './types'{{ end }}`
+const ModelImportTpl = `{{ if .ImportModelTypes }}import { {{ joinArray .ImportModelTypes }} } from "./types"{{ end }}`

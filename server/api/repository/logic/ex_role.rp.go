@@ -6,8 +6,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
-func (s *RoleRepository) FindUserRoles(userId int) (out []*entity.Role, err error) {
-	db := s.DbEngin
+func (s *RoleRepository) FindUserRoles(ctx context.Context, userId int) (out []*entity.Role, err error) {
+	db := s.DbEngin.WithContext(ctx)
 	var userRoles []entity.UserRole
 	err = db.Where("user_id = ?", userId).Find(&userRoles).Error
 	if err != nil {
@@ -29,9 +29,9 @@ func (s *RoleRepository) FindUserRoles(userId int) (out []*entity.Role, err erro
 }
 
 // 获取Menu记录
-func (s *RoleRepository) FindRoleMenus(roleId int) (list []*entity.Menu, err error) {
+func (s *RoleRepository) FindRoleMenus(ctx context.Context, roleId int) (list []*entity.Menu, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var roleMenus []*entity.RoleMenu
 
 	err = db.Where("role_id = ?", roleId).Find(&roleMenus).Error
@@ -54,9 +54,9 @@ func (s *RoleRepository) FindRoleMenus(roleId int) (list []*entity.Menu, err err
 }
 
 // 获取Api记录
-func (s *RoleRepository) FindRoleApis(roleId int) (list []*entity.Api, err error) {
+func (s *RoleRepository) FindRoleApis(ctx context.Context, roleId int) (list []*entity.Api, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var roleApis []*entity.RoleApi
 
 	err = db.Where("role_id = ?", roleId).Find(&roleApis).Error
@@ -81,7 +81,7 @@ func (s *RoleRepository) FindRoleApis(roleId int) (list []*entity.Api, err error
 // 修改用户角色
 func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int, roleIds []int) (data interface{}, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var account entity.UserAccount
 	err = db.Where("user_id = ?", uid).First(&account).Error
 	if err != nil {
@@ -122,7 +122,7 @@ func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int, roleIds [
 // 设置角色菜单
 func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int, menuIds []int) (role *entity.Role, roleMenus []*entity.RoleMenu, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", roleId).First(&role).Error
 	if err != nil {
 		return nil, nil, err
@@ -161,7 +161,7 @@ func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int, menuId
 // 设置角色菜单
 func (s *RoleRepository) UpdateRoleResources(ctx context.Context, roleId int, apiIds []int) (role *entity.Role, roleApis []*entity.RoleApi, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 查询角色信息
 	err = db.Where("id = ?", roleId).First(&role).Error

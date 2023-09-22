@@ -27,7 +27,7 @@ func (s *PageService) UpdatePage(reqCtx *request.Context, page *entity.Page) (da
 }
 
 // 删除Page记录
-func (s *PageService) DeletePage(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *PageService) DeletePage(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.PageRepository.DeletePage(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *PageService) FindPage(reqCtx *request.Context, id int) (data *entity.Pa
 }
 
 // 批量删除Page记录
-func (s *PageService) DeletePageByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *PageService) DeletePageByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.PageRepository.DeletePageByIds(reqCtx, ids)
 }
 

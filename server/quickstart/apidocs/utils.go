@@ -187,27 +187,27 @@ func ParseApiModel(fp string) []*ModelDeclare {
 
 func getGoType(name string) string {
 	if strings.HasPrefix(name, "*") {
-		return getTypeScriptType(name[1:]) // 指针
+		return GetTypeScriptType(name[1:]) // 指针
 	}
 	if strings.HasPrefix(name, "[]") {
-		return getTypeScriptType(name[2:]) // 数组
+		return GetTypeScriptType(name[2:]) // 数组
 	}
 	if strings.LastIndex(name, ".") > 0 {
-		return getTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
+		return GetTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
 	}
 
 	return name
 }
 
-func getTypeScriptType(name string) string {
+func GetTypeScriptType(name string) string {
 	if strings.HasPrefix(name, "*") {
-		return getTypeScriptType(name[1:]) // 指针
+		return GetTypeScriptType(name[1:]) // 指针
 	}
 	if strings.HasPrefix(name, "[]") {
-		return getTypeScriptType(name[2:]) + "[]" // 数组
+		return GetTypeScriptType(name[2:]) + "[]" // 数组
 	}
 	if strings.LastIndex(name, ".") > 0 {
-		return getTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
+		return GetTypeScriptType(name[strings.LastIndex(name, ".")+1:]) // 去掉包名
 	}
 	switch name {
 	case "int", "int32", "int64", "uint", "uint32", "uint64", "float32", "float64":
@@ -253,7 +253,7 @@ func getModelDeclareName(method *ApiDeclare) []string {
 	}
 
 	if len(method.Response) > 0 {
-		params = append(params, extractFieldsByAst(method.Response)...)
+		params = append(params, ExtractFieldsByAst(method.Response)...)
 	}
 	return params
 }
@@ -340,7 +340,7 @@ func extractFieldsAfterDot(input string) []string {
 	return fields
 }
 
-func extractFieldsByAst(data string) []string {
+func ExtractFieldsByAst(data string) []string {
 	if data == "" {
 		return nil
 	}

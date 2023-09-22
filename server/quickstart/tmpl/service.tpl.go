@@ -77,7 +77,7 @@ func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, 
 }
 
 // 删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}(reqCtx, id)
 }
 
@@ -87,7 +87,7 @@ func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, id
 }
 
 // 批量删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}ByIds(reqCtx, ids)
 }
 

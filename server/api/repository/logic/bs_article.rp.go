@@ -24,8 +24,15 @@ func NewArticleRepository(svcCtx *svc.RepositoryContext) *ArticleRepository {
 }
 
 // 创建Article记录
-func (s *ArticleRepository) CreateArticle(ctx context.Context, article *entity.Article) (out *entity.Article, err error) {
-	db := s.DbEngin
+func (s *ArticleRepository) CreateArticle(ctx context.Context, article *entity.Article, conditions ...*request.Condition) (out *entity.Article, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&article).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *ArticleRepository) CreateArticle(ctx context.Context, article *entity.A
 }
 
 // 更新Article记录
-func (s *ArticleRepository) UpdateArticle(ctx context.Context, article *entity.Article) (out *entity.Article, err error) {
-	db := s.DbEngin
+func (s *ArticleRepository) UpdateArticle(ctx context.Context, article *entity.Article, conditions ...*request.Condition) (out *entity.Article, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&article).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *ArticleRepository) UpdateArticle(ctx context.Context, article *entity.A
 }
 
 // 删除Article记录
-func (s *ArticleRepository) DeleteArticle(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *ArticleRepository) DeleteArticle(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Article{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询Article记录
-func (s *ArticleRepository) FindArticle(ctx context.Context, id int) (out *entity.Article, err error) {
-	db := s.DbEngin
+func (s *ArticleRepository) FindArticle(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Article, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *ArticleRepository) FindArticle(ctx context.Context, id int) (out *entit
 }
 
 // 批量删除Article记录
-func (s *ArticleRepository) DeleteArticleByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *ArticleRepository) DeleteArticleByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Article{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询Article记录
-func (s *ArticleRepository) FindArticleList(ctx context.Context, page *request.PageQuery) (list []*entity.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Article, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

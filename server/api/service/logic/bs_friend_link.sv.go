@@ -27,7 +27,7 @@ func (s *FriendLinkService) UpdateFriendLink(reqCtx *request.Context, friendLink
 }
 
 // 删除FriendLink记录
-func (s *FriendLinkService) DeleteFriendLink(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *FriendLinkService) DeleteFriendLink(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.FriendLinkRepository.DeleteFriendLink(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *FriendLinkService) FindFriendLink(reqCtx *request.Context, id int) (dat
 }
 
 // 批量删除FriendLink记录
-func (s *FriendLinkService) DeleteFriendLinkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *FriendLinkService) DeleteFriendLinkByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.FriendLinkRepository.DeleteFriendLinkByIds(reqCtx, ids)
 }
 

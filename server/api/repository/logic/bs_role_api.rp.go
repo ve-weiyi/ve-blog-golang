@@ -24,8 +24,15 @@ func NewRoleApiRepository(svcCtx *svc.RepositoryContext) *RoleApiRepository {
 }
 
 // 创建RoleApi记录
-func (s *RoleApiRepository) CreateRoleApi(ctx context.Context, roleApi *entity.RoleApi) (out *entity.RoleApi, err error) {
-	db := s.DbEngin
+func (s *RoleApiRepository) CreateRoleApi(ctx context.Context, roleApi *entity.RoleApi, conditions ...*request.Condition) (out *entity.RoleApi, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&roleApi).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *RoleApiRepository) CreateRoleApi(ctx context.Context, roleApi *entity.R
 	return roleApi, err
 }
 
-// 删除RoleApi记录
-func (s *RoleApiRepository) DeleteRoleApi(ctx context.Context, roleApi *entity.RoleApi) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&roleApi)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新RoleApi记录
-func (s *RoleApiRepository) UpdateRoleApi(ctx context.Context, roleApi *entity.RoleApi) (out *entity.RoleApi, err error) {
-	db := s.DbEngin
+func (s *RoleApiRepository) UpdateRoleApi(ctx context.Context, roleApi *entity.RoleApi, conditions ...*request.Condition) (out *entity.RoleApi, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&roleApi).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *RoleApiRepository) UpdateRoleApi(ctx context.Context, roleApi *entity.R
 	return roleApi, err
 }
 
+// 删除RoleApi记录
+func (s *RoleApiRepository) DeleteRoleApi(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.RoleApi{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询RoleApi记录
-func (s *RoleApiRepository) FindRoleApi(ctx context.Context, id int) (out *entity.RoleApi, err error) {
-	db := s.DbEngin
+func (s *RoleApiRepository) FindRoleApi(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.RoleApi, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *RoleApiRepository) FindRoleApi(ctx context.Context, id int) (out *entit
 }
 
 // 批量删除RoleApi记录
-func (s *RoleApiRepository) DeleteRoleApiByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.RoleApi{}, "id in ?", ids)
+func (s *RoleApiRepository) DeleteRoleApiByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.RoleApi{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询RoleApi记录
-func (s *RoleApiRepository) FindRoleApiList(ctx context.Context, page *request.PageQuery) (list []*entity.RoleApi, total int64, err error) {
+func (s *RoleApiRepository) FindRoleApiList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.RoleApi, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

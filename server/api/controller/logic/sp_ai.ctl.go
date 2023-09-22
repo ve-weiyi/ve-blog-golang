@@ -22,7 +22,6 @@ func NewAIController(svcCtx *svc.ControllerContext) *AIController {
 
 // @Tags		AI
 // @Summary		和Chatgpt聊天
-// @Security	ApiKeyUser
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		[]chatgpt.ChatMessage				true	"请求body"
@@ -53,7 +52,6 @@ func (s *AIController) ChatAI(c *gin.Context) {
 
 // @Tags		AI
 // @Summary		Chatgpt扮演角色
-// @Security	ApiKeyUser
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		string				true	"请求body"

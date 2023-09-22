@@ -16,7 +16,7 @@ import (
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ApiDetails}}	"返回信息"
 // @Router		/api/list/details [post]
-func (s *ApiController) FindApiListDetails(c *gin.Context) {
+func (s *ApiController) FindApiDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -30,7 +30,7 @@ func (s *ApiController) FindApiListDetails(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.ApiService.FindApiListDetails(reqCtx, &page)
+	list, total, err := s.svcCtx.ApiService.FindApiDetailsList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

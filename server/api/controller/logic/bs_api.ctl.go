@@ -28,9 +28,9 @@ func NewApiController(svcCtx *svc.ControllerContext) *ApiController {
 // @Summary		创建接口
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Api							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Api		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
 // @Router		/api [post]
 func (s *ApiController) CreateApi(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Api
+// @Tags 	 	Api
 // @Summary		更新接口
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Api							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Api		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router		/api [put]
+// @Router 		/api [put]
 func (s *ApiController) UpdateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Api id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Api id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/api/{id} [delete]
 func (s *ApiController) DeleteApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Api
+// @Tags 	 	Api
 // @Summary		查询接口
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		id		path		int									true	"Api id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Api id"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router		/api/{id} [get]
+// @Router 		/api/{id} [get]
 func (s *ApiController) FindApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *ApiController) FindApi(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Api
+// @Tags 	 	Api
 // @Summary		批量删除接口
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/api/batch_delete [delete]
 func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Api
+// @Tags 	 	Api
 // @Summary		分页获取接口列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string															false	"token"
-// @Param		uid		header		string															false	"uid"
-// @Param		page	body		request.PageQuery												true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Api}}	"返回信息"
 // @Router		/api/list [post]
 func (s *ApiController) FindApiList(c *gin.Context) {

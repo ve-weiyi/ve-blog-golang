@@ -15,7 +15,7 @@ import (
 // 注销用户
 func (s *UserAccountRepository) Logoff(ctx context.Context, id int) (data any, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var account entity.UserAccount
 
 	// 开始事务
@@ -43,7 +43,7 @@ func (s *UserAccountRepository) Logoff(ctx context.Context, id int) (data any, e
 func (s *UserAccountRepository) Register(ctx context.Context, account *entity.UserAccount, info *entity.UserInformation) (u *entity.UserAccount, i *entity.UserInformation, err error) {
 	//var role entity.Role
 
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	// 开始事务
 	tx := db.Begin()
 	// 执行数据库操作
@@ -108,9 +108,9 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity.Us
 	return account, info, nil
 }
 
-func (s *UserAccountRepository) FindUserMenus(userId int) (list []*entity.Menu, err error) {
+func (s *UserAccountRepository) FindUserMenus(ctx context.Context, userId int) (list []*entity.Menu, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	//查询用户信息
 	var account entity.UserAccount
@@ -141,9 +141,9 @@ func (s *UserAccountRepository) FindUserMenus(userId int) (list []*entity.Menu, 
 }
 
 // 加载用户model
-func (s *UserAccountRepository) LoadUserByUsername(username string) (data *entity.UserAccount, err error) {
+func (s *UserAccountRepository) LoadUserByUsername(ctx context.Context, username string) (data *entity.UserAccount, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	//查询用户信息
 	err = db.Where("username = ?", username).First(&data).Error
@@ -155,8 +155,8 @@ func (s *UserAccountRepository) LoadUserByUsername(username string) (data *entit
 }
 
 // 根据条件获取UserOauth记录
-func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform string) (out *entity.UserOauth, err error) {
-	db := s.DbEngin
+func (s *UserAccountRepository) FindUserOauthByOpenid(ctx context.Context, openId string, platform string) (out *entity.UserOauth, err error) {
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("open_id = ? and platform = ?", openId, platform).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -165,9 +165,9 @@ func (s *UserAccountRepository) FindUserOauthByOpenid(openId string, platform st
 }
 
 // 查询用户信息
-func (s *UserAccountRepository) FindUserInfo(userId int) (out *entity.UserInformation, err error) {
+func (s *UserAccountRepository) FindUserInfo(ctx context.Context, userId int) (out *entity.UserInformation, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	//查询用户信息
 	err = db.Where("user_id = ?", userId).First(&out).Error
@@ -180,7 +180,7 @@ func (s *UserAccountRepository) FindUserInfo(userId int) (out *entity.UserInform
 
 // 根据id获取UserLoginHistory记录
 func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	out = &entity.UserLoginHistory{}
 	err = db.Where("user_id = ?", uid).First(&out).Error

@@ -27,7 +27,7 @@ func (s *RemarkService) UpdateRemark(reqCtx *request.Context, remark *entity.Rem
 }
 
 // 删除Remark记录
-func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.RemarkRepository.DeleteRemark(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *RemarkService) FindRemark(reqCtx *request.Context, id int) (data *entit
 }
 
 // 批量删除Remark记录
-func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.RemarkRepository.DeleteRemarkByIds(reqCtx, ids)
 }
 

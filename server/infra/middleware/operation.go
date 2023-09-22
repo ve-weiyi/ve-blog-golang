@@ -88,6 +88,7 @@ func OperationRecord() gin.HandlerFunc {
 			IpSource:      c.GetString("ip_source"),
 			CreatedAt:     time.Now(),
 		}
+		global.LOG.JsonIndent(op)
 
 		//apiPermission := global.Permission.GetApiPermission(op.RequestUrl, op.RequestMethod)
 		//if apiPermission != nil && apiPermission.Traceable == 1 {
@@ -95,7 +96,6 @@ func OperationRecord() gin.HandlerFunc {
 		//	_ = global.DB.Create(&op).Error
 		//}
 
-		global.LOG.JsonIndent(op)
 		//// 记录日志，包含请求和响应信息
 		//global.LOG.Infow(
 		//	fmt.Sprintf("[%s|%v]", c.Request.URL.String(), cost),

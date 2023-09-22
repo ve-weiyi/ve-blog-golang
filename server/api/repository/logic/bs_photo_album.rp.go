@@ -24,8 +24,15 @@ func NewPhotoAlbumRepository(svcCtx *svc.RepositoryContext) *PhotoAlbumRepositor
 }
 
 // 创建PhotoAlbum记录
-func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
-	db := s.DbEngin
+func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum, conditions ...*request.Condition) (out *entity.PhotoAlbum, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&photoAlbum).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum 
 }
 
 // 更新PhotoAlbum记录
-func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
-	db := s.DbEngin
+func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum, conditions ...*request.Condition) (out *entity.PhotoAlbum, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&photoAlbum).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum 
 }
 
 // 删除PhotoAlbum记录
-func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.PhotoAlbum{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumRepository) FindPhotoAlbum(ctx context.Context, id int) (out *entity.PhotoAlbum, err error) {
-	db := s.DbEngin
+func (s *PhotoAlbumRepository) FindPhotoAlbum(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.PhotoAlbum, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *PhotoAlbumRepository) FindPhotoAlbum(ctx context.Context, id int) (out 
 }
 
 // 批量删除PhotoAlbum记录
-func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.PhotoAlbum{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询PhotoAlbum记录
-func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
+func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.PhotoAlbum, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

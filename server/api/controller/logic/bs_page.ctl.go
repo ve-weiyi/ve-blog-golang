@@ -28,9 +28,9 @@ func NewPageController(svcCtx *svc.ControllerContext) *PageController {
 // @Summary		创建页面
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Page							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Page		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
 // @Router		/page [post]
 func (s *PageController) CreatePage(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *PageController) CreatePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		更新页面
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Page							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Page		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router		/page [put]
+// @Router 		/page [put]
 func (s *PageController) UpdatePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Page id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Page id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/page/{id} [delete]
 func (s *PageController) DeletePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *PageController) DeletePage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		查询页面
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		id		path		int									true	"Page id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Page id"
 // @Success		200		{object}	response.Response{data=entity.Page}	"返回信息"
-// @Router		/page/{id} [get]
+// @Router 		/page/{id} [get]
 func (s *PageController) FindPage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *PageController) FindPage(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		批量删除页面
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/page/batch_delete [delete]
 func (s *PageController) DeletePageByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *PageController) DeletePageByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Page
+// @Tags 	 	Page
 // @Summary		分页获取页面列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string															false	"token"
-// @Param		uid		header		string															false	"uid"
-// @Param		page	body		request.PageQuery												true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Page}}	"返回信息"
 // @Router		/page/list [post]
 func (s *PageController) FindPageList(c *gin.Context) {

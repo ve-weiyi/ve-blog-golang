@@ -33,17 +33,17 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 
 func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
 	//获取用户
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
-		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 	//判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户已被禁用！")
+		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
 	}
 	//验证密码是否正确
 	if !crypto.BcryptCheck(req.Password, account.Password) {
-		return nil, codes.NewError(codes.CodeForbiddenOperation, "密码错误！")
+		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "密码错误！")
 	}
 	//验证码校验
 	if req.Code != "" {
@@ -53,7 +53,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 		}
 	}
 	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -63,6 +63,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 		LoginType: constant.LoginEmail,
 		IpAddress: reqCtx.IpAddress,
 		IpSource:  reqCtx.IpSource,
+		Agent:     reqCtx.Agent,
 		CreatedAt: time.Now(),
 	}
 	//保存此次登录记录
@@ -87,12 +88,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 			Intro:    info.Intro,
 			Email:    info.Email,
 		},
-		LoginInfo: &response.LoginInfo{
-			LoginType: history.LoginType,
-			IpAddress: history.IpAddress,
-			IpSource:  history.IpSource,
-			LoginTime: history.CreatedAt.Format("2006-01-02 15:04:05"),
-		},
+		LoginInfo: convertLoginHistory(history),
 	}
 	return resp, nil
 }
@@ -117,7 +113,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 	}
 
 	//获取用户
-	_, err = s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	_, err = s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err == nil {
 		return nil, codes.ErrorUserAlreadyExist
 	}
@@ -162,7 +158,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 
 func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
 	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account != nil {
 		return nil, codes.ErrorUserAlreadyExist
 	}
@@ -221,7 +217,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	}
 
 	// 查询用户是否存在
-	userOauth, err := s.svcCtx.UserAccountRepository.FindUserOauthByOpenid(info.OpenID, req.Platform)
+	userOauth, err := s.svcCtx.UserAccountRepository.FindUserOauthByOpenid(reqCtx, info.OpenID, req.Platform)
 	if userOauth == nil {
 		// 用户未注册,先注册用户
 		userOauth, err = s.oauthRegister(reqCtx, req, info)
@@ -281,15 +277,15 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, req.UserID)
 	if err != nil {
-		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 	//判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户已被禁用！")
+		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
 	}
 
 	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(req.UserID)
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, req.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -299,6 +295,7 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		LoginType: req.Platform,
 		IpAddress: reqCtx.IpAddress,
 		IpSource:  reqCtx.IpSource,
+		Agent:     reqCtx.Agent,
 		CreatedAt: time.Now(),
 	}
 	//保存此次登录记录
@@ -323,12 +320,7 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 			Intro:    info.Intro,
 			Email:    info.Email,
 		},
-		LoginInfo: &response.LoginInfo{
-			LoginType: history.LoginType,
-			IpAddress: history.IpAddress,
-			IpSource:  history.IpSource,
-			LoginTime: history.CreatedAt.String(),
-		},
+		LoginInfo: convertLoginHistory(history),
 	}
 	return resp, nil
 }

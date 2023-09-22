@@ -43,10 +43,10 @@ definitions:
         type: string
       usage:
         allOf:
-          - $ref: '#/definitions/chatgpt.Usage'
+          - $ref: '#/definitions/chatgpt.ChatUsage'
         description: API 调用的使用情况
     type: object
-  chatgpt.Usage:
+  chatgpt.ChatUsage:
     properties:
       completion_tokens:
         description: 生成回复的 tokens 数量
@@ -738,7 +738,7 @@ definitions:
         example: admin@qq.com
         type: string
     type: object
-  request.WebsiteConfig:
+  request.WebsiteConfigRequest:
     properties:
       key:
         example: about
@@ -948,6 +948,16 @@ definitions:
       category_name:
         description: 分类名
         type: string
+      id:
+        type: integer
+    type: object
+  response.CategoryDetailsDTO:
+    properties:
+      article_count:
+        type: integer
+      category_name:
+        description: 分类名
+        type: string
       created_at:
         description: 创建时间
         type: string
@@ -966,7 +976,7 @@ definitions:
         description: 访问token过期时间
         type: integer
       login_info:
-        $ref: '#/definitions/response.LoginInfo'
+        $ref: '#/definitions/response.LoginHistory'
       refresh_expires_in:
         description: 刷新token过期时间
         type: integer
@@ -982,8 +992,11 @@ definitions:
       user_info:
         $ref: '#/definitions/response.UserInfo'
     type: object
-  response.LoginInfo:
+  response.LoginHistory:
     properties:
+      agent:
+        description: 代理
+        type: string
       ip_address:
         description: ip host
         type: string
@@ -1058,6 +1071,8 @@ definitions:
       data: { }
       message:
         type: string
+      trace_id:
+        type: string
     type: object
   response.TagDTO:
     properties:
@@ -1066,6 +1081,24 @@ definitions:
         type: integer
       tag_name:
         description: 标签名
+        type: string
+    type: object
+  response.TagDetailsDTO:
+    properties:
+      article_count:
+        description: 文章数量
+        type: integer
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: 标签ID
+        type: integer
+      tag_name:
+        description: 标签名
+        type: string
+      updated_at:
+        description: 更新时间
         type: string
     type: object
   response.TalkDetails:
@@ -1211,39 +1244,6 @@ paths:
       tags:
         - Blog
   /admin/website/config:
-    get:
-      consumes:
-        - application/json
-      parameters:
-        - description: token
-          in: header
-          name: token
-          type: string
-        - description: uid
-          in: header
-          name: uid
-          type: string
-        - description: 请求信息
-          in: body
-          name: data
-          required: true
-          schema:
-            $ref: '#/definitions/request.WebsiteConfig'
-      produces:
-        - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-              - $ref: '#/definitions/response.Response'
-              - properties:
-                  data:
-                    type: object
-                type: object
-      summary: 获取网站配置
-      tags:
-        - Blog
     post:
       consumes:
         - application/json
@@ -1261,7 +1261,40 @@ paths:
           name: data
           required: true
           schema:
-            $ref: '#/definitions/request.WebsiteConfig'
+            $ref: '#/definitions/request.WebsiteConfigRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    type: object
+                type: object
+      summary: 获取网站配置
+      tags:
+        - Blog
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 请求信息
+          in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/request.WebsiteConfigRequest'
       produces:
         - application/json
       responses:
@@ -2328,7 +2361,7 @@ paths:
                       - properties:
                           list:
                             items:
-                              $ref: '#/definitions/response.CategoryDTO'
+                              $ref: '#/definitions/response.CategoryDetailsDTO'
                             type: array
                         type: object
                 type: object
@@ -5082,6 +5115,47 @@ paths:
       summary: 分页获取文章标签列表
       tags:
         - Tag
+  /tag/list/details:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: token
+          in: header
+          name: token
+          type: string
+        - description: uid
+          in: header
+          name: uid
+          type: string
+        - description: 分页参数
+          in: body
+          name: page
+          required: true
+          schema:
+            $ref: '#/definitions/request.PageQuery'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+              - $ref: '#/definitions/response.Response'
+              - properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/response.TagDetailsDTO'
+                            type: array
+                        type: object
+                type: object
+      summary: 分页获取文章分类详情列表
+      tags:
+        - Tag
   /talk:
     post:
       consumes:
@@ -5428,7 +5502,9 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    items:
+                      $ref: '#/definitions/response.ApiDetails'
+                    type: array
                 type: object
       summary: 获取用户接口权限
       tags:
@@ -5492,7 +5568,7 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    $ref: '#/definitions/response.UserInfo'
                 type: object
       summary: 获取用户信息
       tags:
@@ -5629,7 +5705,14 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/response.LoginHistory'
+                            type: array
+                        type: object
                 type: object
       summary: 获取用户登录历史
       tags:
@@ -5657,7 +5740,9 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    items:
+                      $ref: '#/definitions/response.MenuDetails'
+                    type: array
                 type: object
       summary: 获取用户菜单权限
       tags:

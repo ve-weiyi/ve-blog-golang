@@ -9,21 +9,21 @@ import (
 
 func LimitIP() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		source := c.ClientIP()
-		var address string
-		switch source {
+		ip := c.ClientIP()
+		var source string
+		switch ip {
 		case "":
 		case "127.0.0.1":
-			address = "localhost"
+			source = "localhost"
 		case "localhost":
-			address = "localhost"
+			source = "localhost"
 		default:
-			location, err := iputil.GetIpInfoByBaidu(source)
+			location, err := iputil.GetIpInfoByBaidu(ip)
 			global.LOG.Println("OperationRecord GetIpInfoByBaidu:", err)
-			address = location.Location
+			source = location.Location
 		}
+		c.Set("ip_address", ip)
 		c.Set("ip_source", source)
-		c.Set("ip_address", address)
 		c.Next()
 	}
 }

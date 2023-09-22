@@ -24,8 +24,15 @@ func NewCasbinRuleRepository(svcCtx *svc.RepositoryContext) *CasbinRuleRepositor
 }
 
 // 创建CasbinRule记录
-func (s *CasbinRuleRepository) CreateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
-	db := s.DbEngin
+func (s *CasbinRuleRepository) CreateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule, conditions ...*request.Condition) (out *entity.CasbinRule, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&casbinRule).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *CasbinRuleRepository) CreateCasbinRule(ctx context.Context, casbinRule 
 	return casbinRule, err
 }
 
-// 删除CasbinRule记录
-func (s *CasbinRuleRepository) DeleteCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&casbinRule)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新CasbinRule记录
-func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
-	db := s.DbEngin
+func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule, conditions ...*request.Condition) (out *entity.CasbinRule, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&casbinRule).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule 
 	return casbinRule, err
 }
 
+// 删除CasbinRule记录
+func (s *CasbinRuleRepository) DeleteCasbinRule(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.CasbinRule{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询CasbinRule记录
-func (s *CasbinRuleRepository) FindCasbinRule(ctx context.Context, id int) (out *entity.CasbinRule, err error) {
-	db := s.DbEngin
+func (s *CasbinRuleRepository) FindCasbinRule(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.CasbinRule, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *CasbinRuleRepository) FindCasbinRule(ctx context.Context, id int) (out 
 }
 
 // 批量删除CasbinRule记录
-func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.CasbinRule{}, "id in ?", ids)
+func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.CasbinRule{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询CasbinRule记录
-func (s *CasbinRuleRepository) FindCasbinRuleList(ctx context.Context, page *request.PageQuery) (list []*entity.CasbinRule, total int64, err error) {
+func (s *CasbinRuleRepository) FindCasbinRuleList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.CasbinRule, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

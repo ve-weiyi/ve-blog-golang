@@ -28,9 +28,9 @@ func NewTalkController(svcCtx *svc.ControllerContext) *TalkController {
 // @Summary		创建说说
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Talk							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Talk		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
 // @Router		/talk [post]
 func (s *TalkController) CreateTalk(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *TalkController) CreateTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		更新说说
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		data	body		entity.Talk							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Talk		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router		/talk [put]
+// @Router 		/talk [put]
 func (s *TalkController) UpdateTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *TalkController) UpdateTalk(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Talk id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Talk id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/talk/{id} [delete]
 func (s *TalkController) DeleteTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *TalkController) DeleteTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		查询说说
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Param		id		path		int									true	"Talk id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Talk id"
 // @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router		/talk/{id} [get]
+// @Router 		/talk/{id} [get]
 func (s *TalkController) FindTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *TalkController) FindTalk(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		批量删除说说
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/talk/batch_delete [delete]
 func (s *TalkController) DeleteTalkByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *TalkController) DeleteTalkByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Talk
+// @Tags 	 	Talk
 // @Summary		分页获取说说列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string															false	"token"
-// @Param		uid		header		string															false	"uid"
-// @Param		page	body		request.PageQuery												true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Talk}}	"返回信息"
 // @Router		/talk/list [post]
 func (s *TalkController) FindTalkList(c *gin.Context) {

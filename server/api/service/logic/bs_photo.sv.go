@@ -27,7 +27,7 @@ func (s *PhotoService) UpdatePhoto(reqCtx *request.Context, photo *entity.Photo)
 }
 
 // 删除Photo记录
-func (s *PhotoService) DeletePhoto(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *PhotoService) DeletePhoto(reqCtx *request.Context, id int) (rows int, err error) {
 	return s.svcCtx.PhotoRepository.DeletePhoto(reqCtx, id)
 }
 
@@ -37,7 +37,7 @@ func (s *PhotoService) FindPhoto(reqCtx *request.Context, id int) (data *entity.
 }
 
 // 批量删除Photo记录
-func (s *PhotoService) DeletePhotoByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *PhotoService) DeletePhotoByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
 	return s.svcCtx.PhotoRepository.DeletePhotoByIds(reqCtx, ids)
 }
 

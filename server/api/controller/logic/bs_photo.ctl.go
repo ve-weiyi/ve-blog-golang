@@ -28,9 +28,9 @@ func NewPhotoController(svcCtx *svc.ControllerContext) *PhotoController {
 // @Summary		创建相片
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string									false	"token"
-// @Param		uid		header		string									false	"uid"
-// @Param		data	body		entity.Photo							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		data	body		entity.Photo		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
 // @Router		/photo [post]
 func (s *PhotoController) CreatePhoto(c *gin.Context) {
@@ -56,15 +56,15 @@ func (s *PhotoController) CreatePhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Photo
+// @Tags 	 	Photo
 // @Summary		更新相片
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string									false	"token"
-// @Param		uid		header		string									false	"uid"
-// @Param		data	body		entity.Photo							true	"请求参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	data	body 	 	entity.Photo		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
-// @Router		/photo [put]
+// @Router 		/photo [put]
 func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -94,8 +94,8 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		id		path		int							true	"Photo id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param 	 	id		path		int							true	"Photo id"
+// @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/photo/{id} [delete]
 func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,15 +120,15 @@ func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Photo
+// @Tags 	 	Photo
 // @Summary		查询相片
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string									false	"token"
-// @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"Photo id"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	id		path		int							true	"Photo id"
 // @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
-// @Router		/photo/{id} [get]
+// @Router 		/photo/{id} [get]
 func (s *PhotoController) FindPhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -152,14 +152,14 @@ func (s *PhotoController) FindPhoto(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		Photo
+// @Tags 	 	Photo
 // @Summary		批量删除相片
-// @Accept		application/json
+// @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		[]int						true	"删除id列表"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/photo/batch_delete [delete]
 func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -181,16 +181,20 @@ func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
 		return
 	}
 
-	s.ResponseOk(c, data)
+	s.ResponseOk(c, response.BatchResult{
+		TotalCount:   len(ids),
+		SuccessCount: data,
+		FailCount:    len(ids) - data,
+	})
 }
 
-// @Tags		Photo
+// @Tags 	 	Photo
 // @Summary		分页获取相片列表
-// @Accept		application/json
+// @Accept 		application/json
 // @Produce		application/json
-// @Param		token	header		string																false	"token"
-// @Param		uid		header		string																false	"uid"
-// @Param		page	body		request.PageQuery													true	"分页参数"
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Photo}}	"返回信息"
 // @Router		/photo/list [post]
 func (s *PhotoController) FindPhotoList(c *gin.Context) {

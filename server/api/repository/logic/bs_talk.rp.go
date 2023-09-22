@@ -24,8 +24,15 @@ func NewTalkRepository(svcCtx *svc.RepositoryContext) *TalkRepository {
 }
 
 // 创建Talk记录
-func (s *TalkRepository) CreateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
-	db := s.DbEngin
+func (s *TalkRepository) CreateTalk(ctx context.Context, talk *entity.Talk, conditions ...*request.Condition) (out *entity.Talk, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&talk).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *TalkRepository) CreateTalk(ctx context.Context, talk *entity.Talk) (out
 }
 
 // 更新Talk记录
-func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
-	db := s.DbEngin
+func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk, conditions ...*request.Condition) (out *entity.Talk, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&talk).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk) (out
 }
 
 // 删除Talk记录
-func (s *TalkRepository) DeleteTalk(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *TalkRepository) DeleteTalk(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Talk{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询Talk记录
-func (s *TalkRepository) FindTalk(ctx context.Context, id int) (out *entity.Talk, err error) {
-	db := s.DbEngin
+func (s *TalkRepository) FindTalk(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Talk, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *TalkRepository) FindTalk(ctx context.Context, id int) (out *entity.Talk
 }
 
 // 批量删除Talk记录
-func (s *TalkRepository) DeleteTalkByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *TalkRepository) DeleteTalkByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Talk{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询Talk记录
-func (s *TalkRepository) FindTalkList(ctx context.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
+func (s *TalkRepository) FindTalkList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Talk, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

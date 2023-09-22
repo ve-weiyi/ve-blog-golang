@@ -9,7 +9,7 @@ import (
 )
 
 // 分页获取Comment记录
-func (s *CommentService) FindCommentListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
+func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
 	commentList, total, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -77,7 +77,7 @@ func (s *CommentService) FindCommentListDetails(reqCtx *request.Context, page *r
 // 查询Comment记录
 func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId int, page *request.PageQuery) (list []*response.ReplyDTO, total int64, err error) {
 	// 查询评论下所有回复列表
-	replyList, total, _ := s.svcCtx.CommentRepository.FindCommentReplyList(commentId, page)
+	replyList, total, _ := s.svcCtx.CommentRepository.FindCommentReplyList(reqCtx, commentId, page)
 
 	// 收集需要查询的用户id
 	var userIds []int

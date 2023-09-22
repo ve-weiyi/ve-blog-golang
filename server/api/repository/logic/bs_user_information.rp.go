@@ -24,8 +24,15 @@ func NewUserInformationRepository(svcCtx *svc.RepositoryContext) *UserInformatio
 }
 
 // 创建UserInformation记录
-func (s *UserInformationRepository) CreateUserInformation(ctx context.Context, userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
-	db := s.DbEngin
+func (s *UserInformationRepository) CreateUserInformation(ctx context.Context, userInformation *entity.UserInformation, conditions ...*request.Condition) (out *entity.UserInformation, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&userInformation).Error
 	if err != nil {
 		return nil, err
@@ -33,18 +40,16 @@ func (s *UserInformationRepository) CreateUserInformation(ctx context.Context, u
 	return userInformation, err
 }
 
-// 删除UserInformation记录
-func (s *UserInformationRepository) DeleteUserInformation(ctx context.Context, userInformation *entity.UserInformation) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&userInformation)
-	err = query.Error
-	rows = query.RowsAffected
-	return rows, err
-}
-
 // 更新UserInformation记录
-func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
-	db := s.DbEngin
+func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, userInformation *entity.UserInformation, conditions ...*request.Condition) (out *entity.UserInformation, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&userInformation).Error
 	if err != nil {
 		return nil, err
@@ -52,9 +57,32 @@ func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, u
 	return userInformation, err
 }
 
+// 删除UserInformation记录
+func (s *UserInformationRepository) DeleteUserInformation(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.UserInformation{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
 // 查询UserInformation记录
-func (s *UserInformationRepository) FindUserInformation(ctx context.Context, id int) (out *entity.UserInformation, err error) {
-	db := s.DbEngin
+func (s *UserInformationRepository) FindUserInformation(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.UserInformation, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *UserInformationRepository) FindUserInformation(ctx context.Context, id 
 }
 
 // 批量删除UserInformation记录
-func (s *UserInformationRepository) DeleteUserInformationByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
-	query := db.Delete(&[]entity.UserInformation{}, "id in ?", ids)
+func (s *UserInformationRepository) DeleteUserInformationByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	query := db.Delete(&entity.UserInformation{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询UserInformation记录
-func (s *UserInformationRepository) FindUserInformationList(ctx context.Context, page *request.PageQuery) (list []*entity.UserInformation, total int64, err error) {
+func (s *UserInformationRepository) FindUserInformationList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.UserInformation, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

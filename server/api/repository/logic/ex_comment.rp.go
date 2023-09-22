@@ -10,7 +10,7 @@ import (
 )
 
 // 查看评论id集合下的回复评论
-func (s *CommentRepository) FindCommentReplyList(id int, page *request.PageQuery) (out []*entity.Comment, total int64, err error) {
+func (s *CommentRepository) FindCommentReplyList(ctx context.Context, id int, page *request.PageQuery) (out []*entity.Comment, total int64, err error) {
 
 	page.Conditions = append(page.Conditions, &request.Condition{
 		Flag:  "AND",
@@ -19,7 +19,7 @@ func (s *CommentRepository) FindCommentReplyList(id int, page *request.PageQuery
 		Value: id,
 	})
 
-	return s.FindCommentList(nil, page)
+	return s.FindCommentList(ctx, page)
 }
 
 // 点赞评论

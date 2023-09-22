@@ -69,8 +69,15 @@ func New{{.StructName}}Repository(svcCtx *svc.RepositoryContext) *{{.StructName}
 }
 
 // 创建{{.StructName}}记录
-func (s *{{.StructName}}Repository) Create{{.StructName}}(ctx context.Context, {{.ValueName}} *entity.{{.StructName}}) (out *entity.{{.StructName}}, err error) {
-	db:= s.DbEngin
+func (s *{{.StructName}}Repository) Create{{.StructName}}(ctx context.Context, {{.ValueName}} *entity.{{.StructName}}, conditions ...*request.Condition) (out *entity.{{.StructName}}, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&{{.ValueName}}).Error
 	if err != nil {
 		return nil, err
@@ -79,8 +86,15 @@ func (s *{{.StructName}}Repository) Create{{.StructName}}(ctx context.Context, {
 }
 
 // 更新{{.StructName}}记录
-func (s *{{.StructName}}Repository) Update{{.StructName}}(ctx context.Context, {{.ValueName}} *entity.{{.StructName}}) (out *entity.{{.StructName}}, err error) {
-	db:= s.DbEngin	
+func (s *{{.StructName}}Repository) Update{{.StructName}}(ctx context.Context, {{.ValueName}} *entity.{{.StructName}}, conditions ...*request.Condition) (out *entity.{{.StructName}}, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&{{.ValueName}}).Error
 	if err != nil {
 		return nil, err
@@ -89,17 +103,31 @@ func (s *{{.StructName}}Repository) Update{{.StructName}}(ctx context.Context, {
 }
 
 // 删除{{.StructName}}记录
-func (s *{{.StructName}}Repository) Delete{{.StructName}}(ctx context.Context, id int) (rows int64, err error) {
-	db:= s.DbEngin	
+func (s *{{.StructName}}Repository) Delete{{.StructName}}(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.{{.StructName}}{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询{{.StructName}}记录
-func (s *{{.StructName}}Repository) Find{{.StructName}}(ctx context.Context, id int) (out *entity.{{.StructName}}, err error) {
-	db:= s.DbEngin	
+func (s *{{.StructName}}Repository) Find{{.StructName}}(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.{{.StructName}}, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -108,18 +136,31 @@ func (s *{{.StructName}}Repository) Find{{.StructName}}(ctx context.Context, id 
 }
 
 // 批量删除{{.StructName}}记录
-func (s *{{.StructName}}Repository) Delete{{.StructName}}ByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db:= s.DbEngin	
+func (s *{{.StructName}}Repository) Delete{{.StructName}}ByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.{{.StructName}}{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询{{.StructName}}记录
-func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
+func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.{{.StructName}}, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

@@ -24,8 +24,15 @@ func NewCategoryRepository(svcCtx *svc.RepositoryContext) *CategoryRepository {
 }
 
 // 创建Category记录
-func (s *CategoryRepository) CreateCategory(ctx context.Context, category *entity.Category) (out *entity.Category, err error) {
-	db := s.DbEngin
+func (s *CategoryRepository) CreateCategory(ctx context.Context, category *entity.Category, conditions ...*request.Condition) (out *entity.Category, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Create(&category).Error
 	if err != nil {
 		return nil, err
@@ -34,8 +41,15 @@ func (s *CategoryRepository) CreateCategory(ctx context.Context, category *entit
 }
 
 // 更新Category记录
-func (s *CategoryRepository) UpdateCategory(ctx context.Context, category *entity.Category) (out *entity.Category, err error) {
-	db := s.DbEngin
+func (s *CategoryRepository) UpdateCategory(ctx context.Context, category *entity.Category, conditions ...*request.Condition) (out *entity.Category, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Save(&category).Error
 	if err != nil {
 		return nil, err
@@ -44,17 +58,31 @@ func (s *CategoryRepository) UpdateCategory(ctx context.Context, category *entit
 }
 
 // 删除Category记录
-func (s *CategoryRepository) DeleteCategory(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *CategoryRepository) DeleteCategory(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Category{}, "id = ?", id)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询Category记录
-func (s *CategoryRepository) FindCategory(ctx context.Context, id int) (out *entity.Category, err error) {
-	db := s.DbEngin
+func (s *CategoryRepository) FindCategory(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Category, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -63,18 +91,31 @@ func (s *CategoryRepository) FindCategory(ctx context.Context, id int) (out *ent
 }
 
 // 批量删除Category记录
-func (s *CategoryRepository) DeleteCategoryByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+func (s *CategoryRepository) DeleteCategoryByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
 	query := db.Delete(&entity.Category{}, "id in ?", ids)
 	err = query.Error
-	rows = query.RowsAffected
+	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 分页查询Category记录
-func (s *CategoryRepository) FindCategoryList(ctx context.Context, page *request.PageQuery) (list []*entity.Category, total int64, err error) {
+func (s *CategoryRepository) FindCategoryList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Category, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

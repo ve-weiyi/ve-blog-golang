@@ -5,7 +5,7 @@ import (
 	"path"
 	"regexp"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -225,7 +225,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 		return nil
 	}
 
-	name := getTypeScriptType(model.Name)
+	name := GetTypeScriptType(model.Name)
 	tsFields := make([]*ModelField, 0)
 	tsExtends := make([]string, 0)
 
@@ -241,7 +241,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 	for _, field := range model.Fields {
 		tsField := &ModelField{
 			Name:    jsonconv.Camel2Case(field.Name),
-			Type:    getTypeScriptType(field.Type),
+			Type:    GetTypeScriptType(field.Type),
 			Comment: field.Comment,
 		}
 
@@ -305,7 +305,7 @@ func (s *AstApiDoc) convertTsParam(in *ApiParam) *ApiParam {
 
 	out := &ApiParam{
 		Name: in.Name,
-		Type: getTypeScriptType(in.Type),
+		Type: GetTypeScriptType(in.Type),
 	}
 
 	return out
@@ -323,24 +323,24 @@ func (s *AstApiDoc) convertRequestStr(api *ApiDeclare) string {
 	if api.Path != nil {
 		for _, param := range api.Path {
 			params = append(params, param.Name)
-			types = append(types, getTypeScriptType(param.Type))
+			types = append(types, GetTypeScriptType(param.Type))
 		}
 	}
 	if api.Query != nil {
 		for _, param := range api.Query {
 			params = append(params, param.Name)
-			types = append(types, getTypeScriptType(param.Type))
+			types = append(types, GetTypeScriptType(param.Type))
 		}
 	}
 	if api.Form != nil {
 		for _, param := range api.Form {
 			params = append(params, param.Name)
-			types = append(types, getTypeScriptType(param.Type))
+			types = append(types, GetTypeScriptType(param.Type))
 		}
 	}
 	if api.Body != nil {
 		params = append(params, api.Body.Name)
-		types = append(types, getTypeScriptType(api.Body.Type))
+		types = append(types, GetTypeScriptType(api.Body.Type))
 	}
 
 	var result string
@@ -356,11 +356,11 @@ func (s *AstApiDoc) convertRequestStr(api *ApiDeclare) string {
 // response.Response{data=response.PageResult{list=[]entity.Api}}-->Response<PageResult<Api>>
 func (s *AstApiDoc) convertResponseStr(data string) string {
 	// 提取参数
-	params := extractFieldsByAst(data)
+	params := ExtractFieldsByAst(data)
 
 	// 替换ts类型
 	for i, param := range params {
-		params[i] = getTypeScriptType(param)
+		params[i] = GetTypeScriptType(param)
 	}
 
 	// 替换参数

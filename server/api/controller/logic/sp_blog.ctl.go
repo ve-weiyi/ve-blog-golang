@@ -124,16 +124,16 @@ func (s *BlogController) UpdateAboutMe(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Param		data	body		request.WebsiteConfig		true	"请求信息"
+// @Param		data	body		request.WebsiteConfigRequest		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/website/config [get]
-func (s *BlogController) GetConfig(c *gin.Context) {
+// @Router		/admin/website/config [post]
+func (s *BlogController) GetWebsiteConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
-	var req request.WebsiteConfig
+	var req request.WebsiteConfigRequest
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -153,19 +153,19 @@ func (s *BlogController) GetConfig(c *gin.Context) {
 // @Summary		更新网站配置
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.WebsiteConfig		true	"请求信息"
+// @Param		token	header		string								false	"token"
+// @Param		uid		header		string								false	"uid"
+// @Param		data	body		request.WebsiteConfigRequest		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/website/config [post]
-func (s *BlogController) UpdateConfig(c *gin.Context) {
+// @Router		/admin/website/config [put]
+func (s *BlogController) UpdateWebsiteConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var req request.WebsiteConfig
+	var req request.WebsiteConfigRequest
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
