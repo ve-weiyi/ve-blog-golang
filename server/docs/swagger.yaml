@@ -966,7 +966,7 @@ definitions:
         description: 访问token过期时间
         type: integer
       login_info:
-        $ref: '#/definitions/response.LoginInfo'
+        $ref: '#/definitions/response.LoginHistory'
       refresh_expires_in:
         description: 刷新token过期时间
         type: integer
@@ -982,8 +982,14 @@ definitions:
       user_info:
         $ref: '#/definitions/response.UserInfo'
     type: object
-  response.LoginInfo:
+  response.LoginHistory:
     properties:
+      device_name:
+        description: 设备名称
+        type: string
+      device_os:
+        description: 设备操作系统
+        type: string
       ip_address:
         description: ip host
         type: string
@@ -5428,7 +5434,9 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    items:
+                      $ref: '#/definitions/response.ApiDetails'
+                    type: array
                 type: object
       summary: 获取用户接口权限
       tags:
@@ -5492,7 +5500,7 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    $ref: '#/definitions/response.UserInfo'
                 type: object
       summary: 获取用户信息
       tags:
@@ -5629,7 +5637,14 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    allOf:
+                      - $ref: '#/definitions/response.PageResult'
+                      - properties:
+                          list:
+                            items:
+                              $ref: '#/definitions/response.LoginHistory'
+                            type: array
+                        type: object
                 type: object
       summary: 获取用户登录历史
       tags:
@@ -5657,7 +5672,9 @@ paths:
               - $ref: '#/definitions/response.Response'
               - properties:
                   data:
-                    type: object
+                    items:
+                      $ref: '#/definitions/response.MenuDetails'
+                    type: array
                 type: object
       summary: 获取用户菜单权限
       tags:

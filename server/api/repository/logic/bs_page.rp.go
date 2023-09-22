@@ -25,7 +25,7 @@ func NewPageRepository(svcCtx *svc.RepositoryContext) *PageRepository {
 
 // 创建Page记录
 func (s *PageRepository) CreatePage(ctx context.Context, page *entity.Page) (out *entity.Page, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&page).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *PageRepository) CreatePage(ctx context.Context, page *entity.Page) (out
 
 // 更新Page记录
 func (s *PageRepository) UpdatePage(ctx context.Context, page *entity.Page) (out *entity.Page, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&page).Error
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (s *PageRepository) UpdatePage(ctx context.Context, page *entity.Page) (out
 
 // 删除Page记录
 func (s *PageRepository) DeletePage(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.Page{}, "id = ?", id)
 	err = query.Error
 	rows = query.RowsAffected
@@ -54,7 +54,7 @@ func (s *PageRepository) DeletePage(ctx context.Context, id int) (rows int64, er
 
 // 查询Page记录
 func (s *PageRepository) FindPage(ctx context.Context, id int) (out *entity.Page, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *PageRepository) FindPage(ctx context.Context, id int) (out *entity.Page
 
 // 批量删除Page记录
 func (s *PageRepository) DeletePageByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.Page{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *PageRepository) DeletePageByIds(ctx context.Context, ids []int) (rows i
 // 分页查询Page记录
 func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageQuery) (list []*entity.Page, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

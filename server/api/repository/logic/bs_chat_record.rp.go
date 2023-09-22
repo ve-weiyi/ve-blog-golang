@@ -25,7 +25,7 @@ func NewChatRecordRepository(svcCtx *svc.RepositoryContext) *ChatRecordRepositor
 
 // 创建ChatRecord记录
 func (s *ChatRecordRepository) CreateChatRecord(ctx context.Context, chatRecord *entity.ChatRecord) (out *entity.ChatRecord, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&chatRecord).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *ChatRecordRepository) CreateChatRecord(ctx context.Context, chatRecord 
 
 // 删除ChatRecord记录
 func (s *ChatRecordRepository) DeleteChatRecord(ctx context.Context, chatRecord *entity.ChatRecord) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&chatRecord)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *ChatRecordRepository) DeleteChatRecord(ctx context.Context, chatRecord 
 
 // 更新ChatRecord记录
 func (s *ChatRecordRepository) UpdateChatRecord(ctx context.Context, chatRecord *entity.ChatRecord) (out *entity.ChatRecord, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&chatRecord).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *ChatRecordRepository) UpdateChatRecord(ctx context.Context, chatRecord 
 
 // 查询ChatRecord记录
 func (s *ChatRecordRepository) FindChatRecord(ctx context.Context, id int) (out *entity.ChatRecord, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *ChatRecordRepository) FindChatRecord(ctx context.Context, id int) (out 
 
 // 批量删除ChatRecord记录
 func (s *ChatRecordRepository) DeleteChatRecordByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.ChatRecord{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *ChatRecordRepository) DeleteChatRecordByIds(ctx context.Context, ids []
 // 分页查询ChatRecord记录
 func (s *ChatRecordRepository) FindChatRecordList(ctx context.Context, page *request.PageQuery) (list []*entity.ChatRecord, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

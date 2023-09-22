@@ -7260,7 +7260,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.ApiDetails"
+                                            }
                                         }
                                     }
                                 }
@@ -7370,7 +7373,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.UserInfo"
                                         }
                                     }
                                 }
@@ -7601,7 +7604,22 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/response.LoginHistory"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
                                         }
                                     }
                                 }
@@ -7649,7 +7667,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/response.MenuDetails"
+                                            }
                                         }
                                     }
                                 }
@@ -9133,7 +9154,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "login_info": {
-                    "$ref": "#/definitions/response.LoginInfo"
+                    "$ref": "#/definitions/response.LoginHistory"
                 },
                 "refresh_expires_in": {
                     "description": "刷新token过期时间",
@@ -9156,9 +9177,17 @@ const docTemplate = `{
                 }
             }
         },
-        "response.LoginInfo": {
+        "response.LoginHistory": {
             "type": "object",
             "properties": {
+                "device_name": {
+                    "description": "设备名称",
+                    "type": "string"
+                },
+                "device_os": {
+                    "description": "设备操作系统",
+                    "type": "string"
+                },
                 "ip_address": {
                     "description": "ip host",
                     "type": "string"

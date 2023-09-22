@@ -25,7 +25,7 @@ func NewFriendLinkRepository(svcCtx *svc.RepositoryContext) *FriendLinkRepositor
 
 // 创建FriendLink记录
 func (s *FriendLinkRepository) CreateFriendLink(ctx context.Context, friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&friendLink).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *FriendLinkRepository) CreateFriendLink(ctx context.Context, friendLink 
 
 // 更新FriendLink记录
 func (s *FriendLinkRepository) UpdateFriendLink(ctx context.Context, friendLink *entity.FriendLink) (out *entity.FriendLink, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&friendLink).Error
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (s *FriendLinkRepository) UpdateFriendLink(ctx context.Context, friendLink 
 
 // 删除FriendLink记录
 func (s *FriendLinkRepository) DeleteFriendLink(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.FriendLink{}, "id = ?", id)
 	err = query.Error
 	rows = query.RowsAffected
@@ -54,7 +54,7 @@ func (s *FriendLinkRepository) DeleteFriendLink(ctx context.Context, id int) (ro
 
 // 查询FriendLink记录
 func (s *FriendLinkRepository) FindFriendLink(ctx context.Context, id int) (out *entity.FriendLink, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *FriendLinkRepository) FindFriendLink(ctx context.Context, id int) (out 
 
 // 批量删除FriendLink记录
 func (s *FriendLinkRepository) DeleteFriendLinkByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.FriendLink{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *FriendLinkRepository) DeleteFriendLinkByIds(ctx context.Context, ids []
 // 分页查询FriendLink记录
 func (s *FriendLinkRepository) FindFriendLinkList(ctx context.Context, page *request.PageQuery) (list []*entity.FriendLink, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

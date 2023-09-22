@@ -25,7 +25,7 @@ func NewRoleMenuRepository(svcCtx *svc.RepositoryContext) *RoleMenuRepository {
 
 // 创建RoleMenu记录
 func (s *RoleMenuRepository) CreateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&roleMenu).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *RoleMenuRepository) CreateRoleMenu(ctx context.Context, roleMenu *entit
 
 // 删除RoleMenu记录
 func (s *RoleMenuRepository) DeleteRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&roleMenu)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *RoleMenuRepository) DeleteRoleMenu(ctx context.Context, roleMenu *entit
 
 // 更新RoleMenu记录
 func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entity.RoleMenu) (out *entity.RoleMenu, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&roleMenu).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *RoleMenuRepository) UpdateRoleMenu(ctx context.Context, roleMenu *entit
 
 // 查询RoleMenu记录
 func (s *RoleMenuRepository) FindRoleMenu(ctx context.Context, id int) (out *entity.RoleMenu, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *RoleMenuRepository) FindRoleMenu(ctx context.Context, id int) (out *ent
 
 // 批量删除RoleMenu记录
 func (s *RoleMenuRepository) DeleteRoleMenuByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.RoleMenu{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *RoleMenuRepository) DeleteRoleMenuByIds(ctx context.Context, ids []int)
 // 分页查询RoleMenu记录
 func (s *RoleMenuRepository) FindRoleMenuList(ctx context.Context, page *request.PageQuery) (list []*entity.RoleMenu, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

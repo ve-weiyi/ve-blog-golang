@@ -28,10 +28,10 @@ type CaptchaEmail struct {
 func (req *CaptchaEmail) IsValid() error {
 	// 参数校验
 	if !fmtplus.IsEmailValid(req.Email) {
-		return codes.NewError(codes.CodeInvalidParameter, "邮箱格式不正确")
+		return codes.NewApiError(codes.CodeInvalidParameter, "邮箱格式不正确")
 	}
 	if req.Service == "" {
-		return codes.NewError(codes.CodeInvalidParameter, "服务名不能为空")
+		return codes.NewApiError(codes.CodeInvalidParameter, "服务名不能为空")
 	}
 
 	return nil

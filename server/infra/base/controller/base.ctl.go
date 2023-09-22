@@ -37,6 +37,7 @@ func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, 
 	reqCtx.Username = ctx.GetString("username")
 	reqCtx.IpAddress = ctx.GetString("ip_address")
 	reqCtx.IpSource = ctx.GetString("ip_source")
+	reqCtx.Agent = ctx.Request.UserAgent()
 	reqCtx.Context = ctx.Request.Context()
 	return reqCtx, nil
 }
@@ -49,7 +50,7 @@ func (m *BaseController) LimitLock(ctx *gin.Context) error {
 		global.BlackCache.Put(key, 1)
 	}
 	if cast.ToInt(v) > 10 {
-		return codes.NewError(codes.CodeForbiddenOperation, fmt.Sprintf("操作频繁,请在10分钟后再试"))
+		return codes.NewApiError(codes.CodeForbiddenOperation, fmt.Sprintf("操作频繁,请在10分钟后再试"))
 	}
 	return nil
 }
@@ -62,12 +63,12 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	//value := reflect.ValueOf(req)
 	//if value.Kind() == reflect.Ptr && value.Elem().Kind() == reflect.Struct {
 	//	if err := m.BindJSONIgnoreCase(ctx, req); err != nil {
-	//		return codes.NewError(codes.CodeMissingParameter, "参数错误").Wrap(err)
+	//		return codes.NewApiError(codes.CodeMissingParameter, "参数错误").Wrap(err)
 	//	}
 	//}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		return codes.NewError(codes.CodeMissingParameter, "参数错误").Wrap(err)
+		return codes.NewApiError(codes.CodeMissingParameter, "参数错误").Wrap(err)
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -99,7 +100,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 func (m *BaseController) ShouldBindQuery(ctx *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := ctx.ShouldBind(req); err != nil {
-		return codes.NewError(codes.CodeMissingParameter, "参数错误")
+		return codes.NewApiError(codes.CodeMissingParameter, "参数错误")
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {
@@ -116,16 +117,16 @@ func (m *BaseController) ShouldBind(ctx *gin.Context, req interface{}) error {
 }
 
 func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
-	m.Response(ctx, response.SUCCESS, "操作成功", data)
+	m.Response(ctx, http.StatusOK, "操作成功", data)
 }
 
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	m.Log.Error("操作失败!", err)
 	if e, ok := err.(*codes.ApiError); ok {
-		ctx.JSON(http.StatusOK, &response.Response{Code: e.Code(), Message: e.Message()})
+		m.Response(ctx, e.Code(), e.Message(), err.Error())
 		return
 	}
-	m.Response(ctx, response.ERROR, "操作失败", err.Error())
+	m.Response(ctx, http.StatusInternalServerError, "操作失败", err.Error())
 }
 
 func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data interface{}) {
@@ -133,6 +134,7 @@ func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data i
 		Code:    code,
 		Message: msg,
 		Data:    data,
+		TraceID: ctx.Request.Context().Value("X-Trace-ID").(string),
 	}
 	ctx.JSON(http.StatusOK, obj)
 

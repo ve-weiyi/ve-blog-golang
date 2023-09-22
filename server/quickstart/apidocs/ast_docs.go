@@ -5,7 +5,7 @@ import (
 	"path"
 	"regexp"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 

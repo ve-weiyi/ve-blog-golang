@@ -25,7 +25,7 @@ func NewUniqueViewRepository(svcCtx *svc.RepositoryContext) *UniqueViewRepositor
 
 // 创建UniqueView记录
 func (s *UniqueViewRepository) CreateUniqueView(ctx context.Context, uniqueView *entity.UniqueView) (out *entity.UniqueView, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&uniqueView).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *UniqueViewRepository) CreateUniqueView(ctx context.Context, uniqueView 
 
 // 删除UniqueView记录
 func (s *UniqueViewRepository) DeleteUniqueView(ctx context.Context, uniqueView *entity.UniqueView) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&uniqueView)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *UniqueViewRepository) DeleteUniqueView(ctx context.Context, uniqueView 
 
 // 更新UniqueView记录
 func (s *UniqueViewRepository) UpdateUniqueView(ctx context.Context, uniqueView *entity.UniqueView) (out *entity.UniqueView, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&uniqueView).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *UniqueViewRepository) UpdateUniqueView(ctx context.Context, uniqueView 
 
 // 查询UniqueView记录
 func (s *UniqueViewRepository) FindUniqueView(ctx context.Context, id int) (out *entity.UniqueView, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *UniqueViewRepository) FindUniqueView(ctx context.Context, id int) (out 
 
 // 批量删除UniqueView记录
 func (s *UniqueViewRepository) DeleteUniqueViewByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.UniqueView{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *UniqueViewRepository) DeleteUniqueViewByIds(ctx context.Context, ids []
 // 分页查询UniqueView记录
 func (s *UniqueViewRepository) FindUniqueViewList(ctx context.Context, page *request.PageQuery) (list []*entity.UniqueView, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

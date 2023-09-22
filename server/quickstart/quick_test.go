@@ -1,4 +1,4 @@
-package easycode
+package quickstart
 
 import (
 	"fmt"
@@ -14,8 +14,8 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -70,10 +70,10 @@ func TestPlate(t *testing.T) {
 		GenerateMap: map[string]string{
 			//tmpl.KeyApi: "",
 			//tmpl.KeyRouter:     "",
-			//tmpl.KeyController: "",
+			tmpl.KeyController: "",
 			//tmpl.KeyService:    "",
-			tmpl.KeyRepository: "",
-			tmpl.KeyModel:      "",
+			//tmpl.KeyRepository: "",
+			//tmpl.KeyModel:      "",
 		},
 	}
 	typeInt := "int"
@@ -94,7 +94,7 @@ func TestPlate(t *testing.T) {
 	//gen.InitPackage("hello")
 	//gen.ApplyMetas(gen.GenerateMetasFromSchema())
 
-	gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("category", "文章分类"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("comment", "评论"))

@@ -32,4 +32,4 @@ config.yaml
 
 /rm_file
 /server/runtime/
-/server/infra/easycode/apidocs/api/
+/server/quickstart/apidocs/api/

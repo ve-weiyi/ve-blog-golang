@@ -119,7 +119,7 @@ func (s *{{.StructName}}Repository) Delete{{.StructName}}ByIds(ctx context.Conte
 // 分页查询{{.StructName}}记录
 func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

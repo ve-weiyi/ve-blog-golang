@@ -25,7 +25,7 @@ func NewUserRoleRepository(svcCtx *svc.RepositoryContext) *UserRoleRepository {
 
 // 创建UserRole记录
 func (s *UserRoleRepository) CreateUserRole(ctx context.Context, userRole *entity.UserRole) (out *entity.UserRole, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&userRole).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *UserRoleRepository) CreateUserRole(ctx context.Context, userRole *entit
 
 // 删除UserRole记录
 func (s *UserRoleRepository) DeleteUserRole(ctx context.Context, userRole *entity.UserRole) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&userRole)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *UserRoleRepository) DeleteUserRole(ctx context.Context, userRole *entit
 
 // 更新UserRole记录
 func (s *UserRoleRepository) UpdateUserRole(ctx context.Context, userRole *entity.UserRole) (out *entity.UserRole, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&userRole).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *UserRoleRepository) UpdateUserRole(ctx context.Context, userRole *entit
 
 // 查询UserRole记录
 func (s *UserRoleRepository) FindUserRole(ctx context.Context, id int) (out *entity.UserRole, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *UserRoleRepository) FindUserRole(ctx context.Context, id int) (out *ent
 
 // 批量删除UserRole记录
 func (s *UserRoleRepository) DeleteUserRoleByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.UserRole{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *UserRoleRepository) DeleteUserRoleByIds(ctx context.Context, ids []int)
 // 分页查询UserRole记录
 func (s *UserRoleRepository) FindUserRoleList(ctx context.Context, page *request.PageQuery) (list []*entity.UserRole, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

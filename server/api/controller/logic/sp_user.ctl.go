@@ -103,7 +103,7 @@ func (s *UserController) FindUserListAreas(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.LoginHistory}}	"返回信息"
 // @Router		/user/login_history [post]
 func (s *UserController) FindUserLoginHistory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -139,7 +139,7 @@ func (s *UserController) FindUserLoginHistory(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=[]response.MenuDetails}	"返回信息"
 // @Router		/user/menus [get]
 func (s *UserController) GetUserMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -163,7 +163,7 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=[]response.ApiDetails}	"返回信息"
 // @Router		/user/apis [get]
 func (s *UserController) GetUserApis(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -187,7 +187,7 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.UserInfo}	"返回信息"
 // @Router		/user/info [get]
 func (s *UserController) GetUserInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

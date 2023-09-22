@@ -25,7 +25,7 @@ func NewUserLoginHistoryRepository(svcCtx *svc.RepositoryContext) *UserLoginHist
 
 // 创建UserLoginHistory记录
 func (s *UserLoginHistoryRepository) CreateUserLoginHistory(ctx context.Context, userLoginHistory *entity.UserLoginHistory) (out *entity.UserLoginHistory, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&userLoginHistory).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *UserLoginHistoryRepository) CreateUserLoginHistory(ctx context.Context,
 
 // 删除UserLoginHistory记录
 func (s *UserLoginHistoryRepository) DeleteUserLoginHistory(ctx context.Context, userLoginHistory *entity.UserLoginHistory) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&userLoginHistory)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *UserLoginHistoryRepository) DeleteUserLoginHistory(ctx context.Context,
 
 // 更新UserLoginHistory记录
 func (s *UserLoginHistoryRepository) UpdateUserLoginHistory(ctx context.Context, userLoginHistory *entity.UserLoginHistory) (out *entity.UserLoginHistory, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&userLoginHistory).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *UserLoginHistoryRepository) UpdateUserLoginHistory(ctx context.Context,
 
 // 查询UserLoginHistory记录
 func (s *UserLoginHistoryRepository) FindUserLoginHistory(ctx context.Context, id int) (out *entity.UserLoginHistory, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *UserLoginHistoryRepository) FindUserLoginHistory(ctx context.Context, i
 
 // 批量删除UserLoginHistory记录
 func (s *UserLoginHistoryRepository) DeleteUserLoginHistoryByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.UserLoginHistory{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *UserLoginHistoryRepository) DeleteUserLoginHistoryByIds(ctx context.Con
 // 分页查询UserLoginHistory记录
 func (s *UserLoginHistoryRepository) FindUserLoginHistoryList(ctx context.Context, page *request.PageQuery) (list []*entity.UserLoginHistory, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

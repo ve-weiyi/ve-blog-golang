@@ -25,7 +25,7 @@ func NewUploadRepository(svcCtx *svc.RepositoryContext) *UploadRepository {
 
 // 创建Upload记录
 func (s *UploadRepository) CreateUpload(ctx context.Context, upload *entity.Upload) (out *entity.Upload, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&upload).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *UploadRepository) CreateUpload(ctx context.Context, upload *entity.Uplo
 
 // 删除Upload记录
 func (s *UploadRepository) DeleteUpload(ctx context.Context, upload *entity.Upload) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&upload)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *UploadRepository) DeleteUpload(ctx context.Context, upload *entity.Uplo
 
 // 更新Upload记录
 func (s *UploadRepository) UpdateUpload(ctx context.Context, upload *entity.Upload) (out *entity.Upload, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&upload).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *UploadRepository) UpdateUpload(ctx context.Context, upload *entity.Uplo
 
 // 查询Upload记录
 func (s *UploadRepository) FindUpload(ctx context.Context, id int) (out *entity.Upload, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *UploadRepository) FindUpload(ctx context.Context, id int) (out *entity.
 
 // 批量删除Upload记录
 func (s *UploadRepository) DeleteUploadByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.Upload{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *UploadRepository) DeleteUploadByIds(ctx context.Context, ids []int) (ro
 // 分页查询Upload记录
 func (s *UploadRepository) FindUploadList(ctx context.Context, page *request.PageQuery) (list []*entity.Upload, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

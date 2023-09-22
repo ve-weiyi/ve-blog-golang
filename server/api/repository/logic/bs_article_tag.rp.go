@@ -25,7 +25,7 @@ func NewArticleTagRepository(svcCtx *svc.RepositoryContext) *ArticleTagRepositor
 
 // 创建ArticleTag记录
 func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&articleTag).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag 
 
 // 删除ArticleTag记录
 func (s *ArticleTagRepository) DeleteArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&articleTag)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *ArticleTagRepository) DeleteArticleTag(ctx context.Context, articleTag 
 
 // 更新ArticleTag记录
 func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&articleTag).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag 
 
 // 查询ArticleTag记录
 func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, id int) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, id int) (out 
 
 // 批量删除ArticleTag记录
 func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.ArticleTag{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []
 // 分页查询ArticleTag记录
 func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *request.PageQuery) (list []*entity.ArticleTag, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

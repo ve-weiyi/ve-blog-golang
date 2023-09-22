@@ -25,7 +25,7 @@ func NewUserAccountRepository(svcCtx *svc.RepositoryContext) *UserAccountReposit
 
 // 创建UserAccount记录
 func (s *UserAccountRepository) CreateUserAccount(ctx context.Context, userAccount *entity.UserAccount) (out *entity.UserAccount, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&userAccount).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *UserAccountRepository) CreateUserAccount(ctx context.Context, userAccou
 
 // 删除UserAccount记录
 func (s *UserAccountRepository) DeleteUserAccount(ctx context.Context, userAccount *entity.UserAccount) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&userAccount)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *UserAccountRepository) DeleteUserAccount(ctx context.Context, userAccou
 
 // 更新UserAccount记录
 func (s *UserAccountRepository) UpdateUserAccount(ctx context.Context, userAccount *entity.UserAccount) (out *entity.UserAccount, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&userAccount).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *UserAccountRepository) UpdateUserAccount(ctx context.Context, userAccou
 
 // 查询UserAccount记录
 func (s *UserAccountRepository) FindUserAccount(ctx context.Context, id int) (out *entity.UserAccount, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *UserAccountRepository) FindUserAccount(ctx context.Context, id int) (ou
 
 // 批量删除UserAccount记录
 func (s *UserAccountRepository) DeleteUserAccountByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.UserAccount{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *UserAccountRepository) DeleteUserAccountByIds(ctx context.Context, ids 
 // 分页查询UserAccount记录
 func (s *UserAccountRepository) FindUserAccountList(ctx context.Context, page *request.PageQuery) (list []*entity.UserAccount, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

@@ -17,7 +17,7 @@ import (
 // @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
 // @Router		/comment/list/details [post]
-func (s *CommentController) FindCommentListDetails(c *gin.Context) {
+func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -31,7 +31,7 @@ func (s *CommentController) FindCommentListDetails(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.CommentService.FindCommentListDetails(reqCtx, &page)
+	list, total, err := s.svcCtx.CommentService.FindCommentDetailsList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

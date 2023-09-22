@@ -25,7 +25,7 @@ func NewTagRepository(svcCtx *svc.RepositoryContext) *TagRepository {
 
 // 创建Tag记录
 func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&tag).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag) (out *en
 
 // 更新Tag记录
 func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&tag).Error
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *en
 
 // 删除Tag记录
 func (s *TagRepository) DeleteTag(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.Tag{}, "id = ?", id)
 	err = query.Error
 	rows = query.RowsAffected
@@ -54,7 +54,7 @@ func (s *TagRepository) DeleteTag(ctx context.Context, id int) (rows int64, err 
 
 // 查询Tag记录
 func (s *TagRepository) FindTag(ctx context.Context, id int) (out *entity.Tag, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *TagRepository) FindTag(ctx context.Context, id int) (out *entity.Tag, e
 
 // 批量删除Tag记录
 func (s *TagRepository) DeleteTagByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.Tag{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *TagRepository) DeleteTagByIds(ctx context.Context, ids []int) (rows int
 // 分页查询Tag记录
 func (s *TagRepository) FindTagList(ctx context.Context, page *request.PageQuery) (list []*entity.Tag, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

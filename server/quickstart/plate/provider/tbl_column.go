@@ -7,7 +7,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
+	field2 "github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate/field"
 )
 
 // 需要的数据
@@ -30,7 +30,7 @@ type Column struct {
 }
 
 // GetDataType get data type
-func (c *Column) GetDataType(cfg *field.FieldConfig) (fieldtype string) {
+func (c *Column) GetDataType(cfg *field2.FieldConfig) (fieldtype string) {
 	if mapping, ok := cfg.DataTypeMap[c.DatabaseTypeName()]; ok {
 		return mapping(c.ColumnType)
 	}
@@ -41,7 +41,7 @@ func (c *Column) GetDataType(cfg *field.FieldConfig) (fieldtype string) {
 }
 
 // ToField convert to field
-func (c *Column) ToField(cfg *field.FieldConfig) *Field {
+func (c *Column) ToField(cfg *field2.FieldConfig) *Field {
 	fieldType := c.GetDataType(cfg)
 	if cfg.FieldSignable && strings.Contains(c.columnType(), "unsigned") && strings.HasPrefix(fieldType, "int") {
 		fieldType = "u" + fieldType
@@ -74,7 +74,7 @@ func (c *Column) ToField(cfg *field.FieldConfig) *Field {
 		FieldValueName:   cfg.FieldValueNS(c.ColumnName),
 		ColumnComment:    comment,
 		MultilineComment: false,
-		Tag:              map[string]string{field.TagKeyJson: cfg.FieldJsonNS(c.Name())},
+		Tag:              map[string]string{field2.TagKeyJson: cfg.FieldJsonNS(c.Name())},
 		GORMTag:          c.buildGormTag(),
 	}
 }
@@ -84,20 +84,20 @@ func (c *Column) multilineComment() bool {
 	return ok && strings.Contains(cm, "\n")
 }
 
-func (c *Column) buildGormTag() field.GormTag {
-	tag := field.GormTag{
-		field.TagKeyGormColumn: []string{c.Name()},
-		field.TagKeyGormType:   []string{c.columnType()},
+func (c *Column) buildGormTag() field2.GormTag {
+	tag := field2.GormTag{
+		field2.TagKeyGormColumn: []string{c.Name()},
+		field2.TagKeyGormType:   []string{c.columnType()},
 	}
 	isPriKey, ok := c.PrimaryKey()
 	isValidPriKey := ok && isPriKey
 	if isValidPriKey {
-		tag.Set(field.TagKeyGormPrimaryKey, "")
+		tag.Set(field2.TagKeyGormPrimaryKey, "")
 		if at, ok := c.AutoIncrement(); ok {
-			tag.Set(field.TagKeyGormAutoIncrement, fmt.Sprintf("%t", at))
+			tag.Set(field2.TagKeyGormAutoIncrement, fmt.Sprintf("%t", at))
 		}
 	} else if n, ok := c.Nullable(); ok && !n {
-		tag.Set(field.TagKeyGormNotNull, "")
+		tag.Set(field2.TagKeyGormNotNull, "")
 	}
 
 	for _, idx := range c.Indexes {
@@ -108,20 +108,20 @@ func (c *Column) buildGormTag() field.GormTag {
 			continue
 		}
 		if uniq, _ := idx.Unique(); uniq {
-			tag.Append(field.TagKeyGormUniqueIndex, fmt.Sprintf("%s,priority:%d", idx.Name(), idx.Priority))
+			tag.Append(field2.TagKeyGormUniqueIndex, fmt.Sprintf("%s,priority:%d", idx.Name(), idx.Priority))
 		} else {
-			tag.Append(field.TagKeyGormIndex, fmt.Sprintf("%s,priority:%d", idx.Name(), idx.Priority))
+			tag.Append(field2.TagKeyGormIndex, fmt.Sprintf("%s,priority:%d", idx.Name(), idx.Priority))
 		}
 	}
 
 	if dtValue := c.defaultTagValue(); c.needDefaultTag(dtValue) { // cannot set default tag for primary key
-		tag.Set(field.TagKeyGormDefault, dtValue)
+		tag.Set(field2.TagKeyGormDefault, dtValue)
 	}
 	if comment, ok := c.Comment(); ok && comment != "" {
 		if c.multilineComment() {
 			comment = strings.ReplaceAll(comment, "\n", "\\n")
 		}
-		tag.Set(field.TagKeyGormComment, comment)
+		tag.Set(field2.TagKeyGormComment, comment)
 	}
 	return tag
 }
