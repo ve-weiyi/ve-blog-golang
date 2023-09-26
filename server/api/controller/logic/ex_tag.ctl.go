@@ -7,16 +7,16 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 )
 
-// @Tags		Category
+// @Tags		Tag
 // @Summary		分页获取文章分类详情列表
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string																false	"token"
 // @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CategoryDetailsDTO}}	"返回信息"
-// @Router		/category/list/details [post]
-func (s *CategoryController) FindCategoryDetailsList(c *gin.Context) {
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.TagDetailsDTO}}	"返回信息"
+// @Router		/tag/list/details [post]
+func (s *TagController) FindTagDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -30,7 +30,7 @@ func (s *CategoryController) FindCategoryDetailsList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.CategoryService.FindCategoryDetailsList(reqCtx, &page)
+	list, total, err := s.svcCtx.TagService.FindTagDetailsList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

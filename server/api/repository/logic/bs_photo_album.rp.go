@@ -25,7 +25,7 @@ func NewPhotoAlbumRepository(svcCtx *svc.RepositoryContext) *PhotoAlbumRepositor
 
 // 创建PhotoAlbum记录
 func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&photoAlbum).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *PhotoAlbumRepository) CreatePhotoAlbum(ctx context.Context, photoAlbum 
 
 // 更新PhotoAlbum记录
 func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum *entity.PhotoAlbum) (out *entity.PhotoAlbum, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&photoAlbum).Error
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (s *PhotoAlbumRepository) UpdatePhotoAlbum(ctx context.Context, photoAlbum 
 
 // 删除PhotoAlbum记录
 func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, id int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.PhotoAlbum{}, "id = ?", id)
 	err = query.Error
 	rows = query.RowsAffected
@@ -54,7 +54,7 @@ func (s *PhotoAlbumRepository) DeletePhotoAlbum(ctx context.Context, id int) (ro
 
 // 查询PhotoAlbum记录
 func (s *PhotoAlbumRepository) FindPhotoAlbum(ctx context.Context, id int) (out *entity.PhotoAlbum, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *PhotoAlbumRepository) FindPhotoAlbum(ctx context.Context, id int) (out 
 
 // 批量删除PhotoAlbum记录
 func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&entity.PhotoAlbum{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *PhotoAlbumRepository) DeletePhotoAlbumByIds(ctx context.Context, ids []
 // 分页查询PhotoAlbum记录
 func (s *PhotoAlbumRepository) FindPhotoAlbumList(ctx context.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

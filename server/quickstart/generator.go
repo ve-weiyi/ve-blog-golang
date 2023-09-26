@@ -1,4 +1,4 @@
-package easycode
+package quickstart
 
 import (
 	"fmt"
@@ -7,11 +7,11 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/inject"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/provider"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/inject"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate/provider"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/dbdriver"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"

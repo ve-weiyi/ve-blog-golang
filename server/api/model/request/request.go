@@ -15,6 +15,7 @@ type Context struct {
 	Username        string `json:"username" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
 	IpSource        string `json:"ip_source" header:"-" example:""`
+	Agent           string `json:"agent" header:"-" example:""`
 }
 
 func (s *Context) GetContext() context.Context {

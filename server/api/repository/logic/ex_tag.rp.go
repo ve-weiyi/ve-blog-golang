@@ -1,12 +1,14 @@
 package logic
 
 import (
+	"context"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 )
 
-func (s *TagRepository) FindArticleTagList(articleId int) (list []*entity.Tag, err error) {
+func (s *TagRepository) FindArticleTagList(ctx context.Context, articleId int) (list []*entity.Tag, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	var ats []*entity.ArticleTag
 	var tags []*entity.Tag
 

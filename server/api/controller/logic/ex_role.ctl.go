@@ -16,7 +16,7 @@ import (
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Role}}	"返回信息"
 // @Router		/role/list/details [post]
-func (s *RoleController) FindRoleListDetails(c *gin.Context) {
+func (s *RoleController) FindRoleDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -30,7 +30,7 @@ func (s *RoleController) FindRoleListDetails(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.RoleService.FindRoleListDetails(reqCtx, &page)
+	list, total, err := s.svcCtx.RoleService.FindRoleDetailsList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

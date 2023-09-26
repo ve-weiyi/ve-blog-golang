@@ -44,7 +44,7 @@ func (a *AuthQq) GetRedirectUrl(state string) string {
 
 // 获取token
 func (a *AuthQq) GetAccessToken(code string) (resp *result.TokenResult, err error) {
-	body, status := https.NewHttpBuilder(a.TokenUrl).
+	body, err := https.NewHttpBuilder(a.TokenUrl).
 		AddParam("grant_type", "authorization_code").
 		AddParam("code", code).
 		AddParam("client_id", a.config.ClientID).
@@ -53,10 +53,10 @@ func (a *AuthQq) GetAccessToken(code string) (resp *result.TokenResult, err erro
 		AddParam("fmt", "json"). // 由于历史原因，加上这个参数则返回json格式数据
 		Get()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	err = jsonconv.JsonToObject(body, &resp)
+	err = jsonconv.JsonToObject(string(body), &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (a *AuthQq) GetAccessToken(code string) (resp *result.TokenResult, err erro
 
 // 刷新token
 func (a *AuthQq) RefreshToken(refreshToken string) (resp *result.RefreshResult, err error) {
-	body, status := https.NewHttpBuilder(a.RefreshUrl).
+	body, err := https.NewHttpBuilder(a.RefreshUrl).
 		AddParam("grant_type", "refresh_token").
 		AddParam("client_id", a.config.ClientID).
 		AddParam("client_secret", a.config.ClientSecret).
@@ -74,11 +74,11 @@ func (a *AuthQq) RefreshToken(refreshToken string) (resp *result.RefreshResult, 
 		AddParam("fmt", "json").
 		Get()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
 	// 由于QQ的返回值expire_in是字符串，所以不能直接把string解析到int上
-	mss := utils.JsonToMSS(body)
+	mss := utils.JsonToMSS(string(body))
 	resp = &result.RefreshResult{
 		AccessToken:  mss["access_token"],
 		ExpiresIn:    cast.ToInt(mss["expires_in"]),
@@ -89,15 +89,15 @@ func (a *AuthQq) RefreshToken(refreshToken string) (resp *result.RefreshResult, 
 
 // 获取用户openid
 func (a *AuthQq) GetOpenid(accessToken string) (resp *result.Credentials, err error) {
-	body, status := https.NewHttpBuilder(a.openidUrl).
+	body, err := https.NewHttpBuilder(a.openidUrl).
 		AddParam("access_token", accessToken).
 		AddParam("fmt", "json").
 		Get()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	mss := utils.JsonToMSS(body)
+	mss := utils.JsonToMSS(string(body))
 	resp = &result.Credentials{
 		OpenId:  mss["openid"],
 		Unionid: mss["unionid"],
@@ -110,16 +110,16 @@ func (a *AuthQq) GetOpenid(accessToken string) (resp *result.Credentials, err er
 func (a *AuthQq) GetUserInfo(accessToken string) (resp *result.UserResult, err error) {
 	openresp, err := a.GetOpenid(accessToken)
 
-	body, status := https.NewHttpBuilder(a.userInfoUrl).
+	body, err := https.NewHttpBuilder(a.userInfoUrl).
 		AddParam("openid", openresp.OpenId).
 		AddParam("access_token", accessToken).
 		AddParam("oauth_consumer_key", a.config.ClientID).
 		Post()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	err = jsonconv.JsonToObject(body, &resp)
+	err = jsonconv.JsonToObject(string(body), &resp)
 	if err != nil {
 		return nil, err
 	}

@@ -25,7 +25,7 @@ func NewUserInformationRepository(svcCtx *svc.RepositoryContext) *UserInformatio
 
 // 创建UserInformation记录
 func (s *UserInformationRepository) CreateUserInformation(ctx context.Context, userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&userInformation).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *UserInformationRepository) CreateUserInformation(ctx context.Context, u
 
 // 删除UserInformation记录
 func (s *UserInformationRepository) DeleteUserInformation(ctx context.Context, userInformation *entity.UserInformation) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&userInformation)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *UserInformationRepository) DeleteUserInformation(ctx context.Context, u
 
 // 更新UserInformation记录
 func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, userInformation *entity.UserInformation) (out *entity.UserInformation, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&userInformation).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *UserInformationRepository) UpdateUserInformation(ctx context.Context, u
 
 // 查询UserInformation记录
 func (s *UserInformationRepository) FindUserInformation(ctx context.Context, id int) (out *entity.UserInformation, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *UserInformationRepository) FindUserInformation(ctx context.Context, id 
 
 // 批量删除UserInformation记录
 func (s *UserInformationRepository) DeleteUserInformationByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.UserInformation{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *UserInformationRepository) DeleteUserInformationByIds(ctx context.Conte
 // 分页查询UserInformation记录
 func (s *UserInformationRepository) FindUserInformationList(ctx context.Context, page *request.PageQuery) (list []*entity.UserInformation, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

@@ -1,10 +1,10 @@
-package easycode
+package quickstart
 
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/tmpl"
 )
 
 func (g *Generator) InitPackage(tableName string) {

@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/goccy/go-json"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // Feishu授权登录
@@ -39,7 +40,7 @@ func (a *AuthFeishu) GetRedirectUrl(state string) string {
 
 // 获取token https://open.weibo.com/apps/2658270041/privilege/oauth
 func (a *AuthFeishu) GetAccessToken(code string) (resp *result.TokenResult, err error) {
-	body, status := https.NewHttpBuilder(a.TokenUrl).
+	body, err := https.NewHttpBuilder(a.TokenUrl).
 		AddParam("grant_type", "authorization_code").
 		AddParam("client_id", a.config.ClientID).
 		AddParam("client_secret", a.config.ClientSecret).
@@ -47,10 +48,10 @@ func (a *AuthFeishu) GetAccessToken(code string) (resp *result.TokenResult, err 
 		AddParam("code", code).
 		Post()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	err = jsonconv.JsonToObject(body, &resp)
+	err = json.Unmarshal(body, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -60,15 +61,15 @@ func (a *AuthFeishu) GetAccessToken(code string) (resp *result.TokenResult, err 
 
 // 获取用户信息
 func (a *AuthFeishu) RefreshToken(refreshToken string) (resp *result.RefreshResult, err error) {
-	body, status := https.NewHttpBuilder(a.RefreshUrl).
+	body, err := https.NewHttpBuilder(a.RefreshUrl).
 		AddData("grant_type", "refresh_token").
 		AddData("refresh_token", refreshToken).
 		Post()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	err = jsonconv.JsonToObject(body, &resp)
+	err = json.Unmarshal(body, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -77,15 +78,15 @@ func (a *AuthFeishu) RefreshToken(refreshToken string) (resp *result.RefreshResu
 
 // 获取用户信息
 func (a *AuthFeishu) GetUserInfo(accessToken string) (resp *result.UserResult, err error) {
-	body, status := https.NewHttpBuilder(a.userInfoUrl).
+	body, err := https.NewHttpBuilder(a.userInfoUrl).
 		AddHeader("Content-Type", "application/json;charset=UTF-8").
 		AddHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)).
 		Get()
 
-	log.Println("status:", status)
+	log.Println("err:", err)
 	log.Println("body:", body)
 
-	err = jsonconv.JsonToObject(body, &resp)
+	err = json.Unmarshal(body, &resp)
 	if err != nil {
 		return nil, err
 	}

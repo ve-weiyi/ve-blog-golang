@@ -44,15 +44,15 @@ func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *response.UserInfo, err error) {
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, userId)
 	if err != nil {
-		return nil, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(account.ID)
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(userId)
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, userId)
 	if err != nil {
 		return nil, err
 	}
@@ -98,11 +98,11 @@ func (s *UserService) FindUserListAreas(reqCtx *request.Context, page *request.P
 	return result, int64(len(result)), nil
 }
 
-func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *request.PageQuery) (result []*response.LoginInfo, total int64, err error) {
+func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *request.PageQuery) (result []*response.LoginHistory, total int64, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
 	if err != nil {
-		return nil, 0, codes.NewError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, 0, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 
 	page.Conditions = append(page.Conditions, &request.Condition{
@@ -115,12 +115,7 @@ func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *reques
 	histories, total, err := s.svcCtx.UserLoginHistoryRepository.FindUserLoginHistoryList(reqCtx, page)
 
 	for _, item := range histories {
-		his := &response.LoginInfo{
-			LoginType: item.LoginType,
-			IpAddress: item.IpAddress,
-			IpSource:  item.IpSource,
-			LoginTime: item.CreatedAt.String(),
-		}
+		his := convertLoginHistory(item)
 		result = append(result, his)
 	}
 	return result, total, nil
@@ -128,7 +123,7 @@ func (s *UserService) FindUserLoginHistory(reqCtx *request.Context, page *reques
 
 func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
 	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
 		return nil, codes.ErrorUserNotExist
 	}
@@ -169,7 +164,7 @@ func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetP
 	}
 
 	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(req.Username)
+	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
 		return nil, codes.ErrorUserNotExist
 	}

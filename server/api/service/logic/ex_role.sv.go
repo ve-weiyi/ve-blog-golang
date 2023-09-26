@@ -6,19 +6,19 @@ import (
 )
 
 // 分页获取Role记录
-func (s *RoleService) FindRoleListDetails(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleInfo, total int64, err error) {
+func (s *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleInfo, total int64, err error) {
 
 	roles, total, err := s.svcCtx.RoleRepository.FindRoleList(reqCtx, page)
 
 	for _, role := range roles {
 		var menuIds []int
-		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(role.ID)
+		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(reqCtx, role.ID)
 		if err != nil {
 			return nil, 0, err
 		}
 
 		var apiIds []int
-		apis, err := s.svcCtx.RoleRepository.FindRoleApis(role.ID)
+		apis, err := s.svcCtx.RoleRepository.FindRoleApis(reqCtx, role.ID)
 		if err != nil {
 			return nil, 0, err
 		}

@@ -17,6 +17,7 @@ type Response struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message" `
 	Data    interface{} `json:"data"`
+	TraceID string      `json:"trace_id"`
 }
 
 const (
@@ -27,9 +28,9 @@ const (
 func Result(c *gin.Context, code int, msg string, data interface{}) {
 	// 开始时间
 	c.JSON(http.StatusOK, Response{
-		code,
-		msg,
-		data,
+		Code:    code,
+		Message: msg,
+		Data:    data,
 	})
 }
 

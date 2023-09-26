@@ -25,7 +25,7 @@ func NewCasbinRuleRepository(svcCtx *svc.RepositoryContext) *CasbinRuleRepositor
 
 // 创建CasbinRule记录
 func (s *CasbinRuleRepository) CreateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&casbinRule).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *CasbinRuleRepository) CreateCasbinRule(ctx context.Context, casbinRule 
 
 // 删除CasbinRule记录
 func (s *CasbinRuleRepository) DeleteCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&casbinRule)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *CasbinRuleRepository) DeleteCasbinRule(ctx context.Context, casbinRule 
 
 // 更新CasbinRule记录
 func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule *entity.CasbinRule) (out *entity.CasbinRule, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&casbinRule).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *CasbinRuleRepository) UpdateCasbinRule(ctx context.Context, casbinRule 
 
 // 查询CasbinRule记录
 func (s *CasbinRuleRepository) FindCasbinRule(ctx context.Context, id int) (out *entity.CasbinRule, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", id).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *CasbinRuleRepository) FindCasbinRule(ctx context.Context, id int) (out 
 
 // 批量删除CasbinRule记录
 func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.CasbinRule{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *CasbinRuleRepository) DeleteCasbinRuleByIds(ctx context.Context, ids []
 // 分页查询CasbinRule记录
 func (s *CasbinRuleRepository) FindCasbinRuleList(ctx context.Context, page *request.PageQuery) (list []*entity.CasbinRule, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {

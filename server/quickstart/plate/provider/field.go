@@ -3,7 +3,7 @@ package provider
 import (
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/easycode/plate/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate/field"
 )
 
 type Field struct {

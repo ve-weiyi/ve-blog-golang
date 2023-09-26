@@ -25,7 +25,7 @@ func NewWebsiteConfigRepository(svcCtx *svc.RepositoryContext) *WebsiteConfigRep
 
 // 创建WebsiteConfig记录
 func (s *WebsiteConfigRepository) CreateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Create(&websiteConfig).Error
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (s *WebsiteConfigRepository) CreateWebsiteConfig(ctx context.Context, websi
 
 // 删除WebsiteConfig记录
 func (s *WebsiteConfigRepository) DeleteWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&websiteConfig)
 	err = query.Error
 	rows = query.RowsAffected
@@ -44,7 +44,7 @@ func (s *WebsiteConfigRepository) DeleteWebsiteConfig(ctx context.Context, websi
 
 // 更新WebsiteConfig记录
 func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Save(&websiteConfig).Error
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websi
 
 // 查询WebsiteConfig记录
 func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, key string) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("`key` = ?", key).First(&out).Error
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, key str
 
 // 批量删除WebsiteConfig记录
 func (s *WebsiteConfigRepository) DeleteWebsiteConfigByIds(ctx context.Context, ids []int) (rows int64, err error) {
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 	query := db.Delete(&[]entity.WebsiteConfig{}, "id in ?", ids)
 	err = query.Error
 	rows = query.RowsAffected
@@ -74,7 +74,7 @@ func (s *WebsiteConfigRepository) DeleteWebsiteConfigByIds(ctx context.Context, 
 // 分页查询WebsiteConfig记录
 func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, page *request.PageQuery) (list []*entity.WebsiteConfig, total int64, err error) {
 	// 创建db
-	db := s.DbEngin
+	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {
