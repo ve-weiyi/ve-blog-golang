@@ -28,32 +28,29 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 	}
 }
 
-func convertResponseArticle(entity *entity.Article) *response.ArticleDetails {
-	return &response.ArticleDetails{
-		ID:             entity.ID,
-		ArticleCover:   entity.ArticleCover,
-		ArticleTitle:   entity.ArticleTitle,
-		ArticleContent: entity.ArticleContent,
-		//LikeCount:            entity.LikeCount,
-		//ViewsCount:           entity.ViewsCount,
-		Type:        entity.Type,
-		OriginalURL: entity.OriginalUrl,
-		CreatedAt:   entity.CreatedAt,
-		UpdatedAt:   entity.UpdatedAt,
-		CategoryID:  entity.CategoryID,
-		//CategoryName:         "",
-		ArticleTagList: []*response.TagDTO{{1, "tag1"}, {2, "tag2"}, {3, "tag3"}},
-		//LastArticle:          response.ArticlePaginationDTO{},
-		//NextArticle:          response.ArticlePaginationDTO{},
-		//RecommendArticleList: nil,
-		//NewestArticleList:    nil,
+func convertArticle(article *entity.Article) response.ArticleDTO {
+	out := response.ArticleDTO{
+		ID:             article.ID,
+		ArticleCover:   article.ArticleCover,
+		ArticleTitle:   article.ArticleTitle,
+		ArticleContent: article.ArticleContent,
+		LikeCount:      100,
+		ViewsCount:     200,
+		IsTop:          article.IsTop,
+		IsDelete:       article.IsDelete,
+		Type:           article.Type,
+		Status:         article.Status,
+		OriginalURL:    article.OriginalURL,
+		CreatedAt:      article.CreatedAt,
+		UpdatedAt:      article.UpdatedAt,
 	}
+	return out
 }
 
-func convertRecommendArticles(list []*entity.Article) []*response.ArticleRecommendDTO {
-	var out []*response.ArticleRecommendDTO
+func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePreviewDTO {
+	var out []*response.ArticlePreviewDTO
 	for _, item := range list {
-		at := &response.ArticleRecommendDTO{
+		at := &response.ArticlePreviewDTO{
 			ID:           item.ID,
 			ArticleCover: item.ArticleCover,
 			ArticleTitle: item.ArticleTitle,
@@ -65,32 +62,15 @@ func convertRecommendArticles(list []*entity.Article) []*response.ArticleRecomme
 	return out
 }
 
-func convertArticlePagination(article *entity.Article) *response.ArticlePaginationDTO {
+func convertArticlePreview(article *entity.Article) *response.ArticlePreviewDTO {
 	if article == nil {
 		return nil
 	}
-	return &response.ArticlePaginationDTO{
+	return &response.ArticlePreviewDTO{
 		ID:           article.ID,
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
-}
-
-func convertArticle(article *entity.Article) *response.ArticleDTO {
-	out := &response.ArticleDTO{
-		ID:             article.ID,
-		ArticleCover:   article.ArticleCover,
-		ArticleTitle:   article.ArticleTitle,
-		ArticleContent: article.ArticleContent,
-		LikeCount:      100,
-		ViewsCount:     200,
-		Type:           article.Type,
-		OriginalURL:    article.OriginalUrl,
-		CreatedAt:      article.CreatedAt,
-		UpdatedAt:      article.UpdatedAt,
-		CategoryID:     article.CategoryID,
-	}
-	return out
 }
 
 func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleStatisticsDTO {
@@ -143,6 +123,16 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
 	return out
 }
 
+func convertCategory(entity *entity.Category) *response.CategoryDTO {
+	if entity == nil {
+		return &response.CategoryDTO{}
+	}
+	return &response.CategoryDTO{
+		ID:           entity.ID,
+		CategoryName: entity.CategoryName,
+	}
+}
+
 func convertTagList(list []*entity.Tag) []*response.TagDTO {
 	var tagList []*response.TagDTO
 	for _, tag := range list {
@@ -161,9 +151,36 @@ func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
 		data := &response.CategoryDTO{
 			ID:           in.ID,
 			CategoryName: in.CategoryName,
-			ArticleCount: 0,
 		}
 		categoryList = append(categoryList, data)
 	}
 	return categoryList
+}
+
+func convertPageList(list []*entity.Page) []*response.PageDTO {
+	var pageList []*response.PageDTO
+
+	for _, in := range list {
+		data := &response.PageDTO{
+			ID:        in.ID,
+			PageName:  in.PageName,
+			PageLabel: in.PageLabel,
+			PageCover: in.PageCover,
+		}
+		pageList = append(pageList, data)
+	}
+	return pageList
+}
+
+func convertRoleList(list []*entity.Role) []*response.RoleDTO {
+	var roleList []*response.RoleDTO
+
+	for _, in := range list {
+		data := &response.RoleDTO{
+			RoleName:    in.RoleName,
+			RoleComment: in.RoleComment,
+		}
+		roleList = append(roleList, data)
+	}
+	return roleList
 }

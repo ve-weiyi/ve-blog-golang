@@ -21,7 +21,7 @@ func NewRemarkRouter(svcCtx *svc.RouterContext) *RemarkRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *RemarkRouter) InitRemarkBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.RemarkController
+	var handler = s.svcCtx.RemarkController
 	{
 		publicRouter.POST("remark", handler.CreateRemark)       // 新建Remark
 		publicRouter.PUT("remark", handler.UpdateRemark)        // 更新Remark

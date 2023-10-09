@@ -33,3 +33,4 @@ config.yaml
 /rm_file
 /server/runtime/
 /server/quickstart/api/
+/server/cache/

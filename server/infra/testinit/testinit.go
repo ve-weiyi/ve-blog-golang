@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"path"
 	"time"
 
@@ -15,14 +14,14 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/copy"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/copyutil"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog/zaplog"
 )
 
 func init() {
@@ -37,6 +36,17 @@ func init() {
 // @name						x-token
 // @BasePath					/
 func Init(configPath ...string) {
+	InitConfig(configPath...)
+	// 初始化gorm数据库
+	Gorm()
+	// 初始化redis服务
+	Redis()
+	// 初始化jwt服务
+	JwtToken()
+	//RBAC()
+}
+
+func InitConfig(configPath ...string) {
 	log.Println("let's go")
 	var filepath string
 	if len(configPath) > 1 {
@@ -47,13 +57,6 @@ func Init(configPath ...string) {
 	global.VP = Viper(filepath) // 初始化Viper
 	// 初始化zap日志库
 	Zap()
-	// 初始化gorm数据库
-	Gorm()
-	// 初始化redis服务
-	Redis()
-	// 初始化jwt服务
-	JwtToken()
-	//RBAC()
 }
 
 func Viper(config string) *viper.Viper {
@@ -83,24 +86,23 @@ func Viper(config string) *viper.Viper {
 }
 
 func Zap() {
-	if ok, _ := files.PathExists(global.CONFIG.Zap.Director); !ok { // 判断是否有Director文件夹
-		fmt.Printf("create %v directory\n", global.CONFIG.Zap.Director)
-		_ = os.Mkdir(global.CONFIG.Zap.Director, os.ModePerm)
+	err := files.MkDirIfNotExist(global.CONFIG.Zap.CacheDir)
+	if err != nil {
+		log.Println(err)
 	}
-
 	cfg := zaplog.ZapConfig{}
 
-	copy.DeepCopyByJson(global.CONFIG.Zap, &cfg)
+	copyutil.DeepCopyByJson(global.CONFIG.Zap, &cfg)
 
-	glog.ReplaceZapGlobals(cfg)
+	//glog.ReplaceDefaultLogger(cfg)
 	global.LOG = glog.NewGlogger(1, cfg)
 
-	global.LOG.Printf("日志组件初始化成功！")
+	global.LOG.Infof("日志组件初始化成功！")
 	return
 }
 
 func Gorm() {
-	var cfg orm.DsnProvider
+	var cfg properties.DsnProvider
 
 	cfg = &global.CONFIG.Mysql
 	global.DB = database.Open(cfg)
