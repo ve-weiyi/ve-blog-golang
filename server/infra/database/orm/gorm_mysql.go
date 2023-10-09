@@ -1,6 +1,8 @@
 package orm
 
 import (
+	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -10,7 +12,7 @@ type Mysql struct {
 }
 
 func (m *Mysql) Dsn() string {
-	return m.Username + ":" + m.Password + "@tcp(" + m.Host + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", m.Username, m.Password, m.Host, m.Port, m.Dbname, m.Config)
 }
 
 func (m *Mysql) GetConnector() *gorm.Dialector {

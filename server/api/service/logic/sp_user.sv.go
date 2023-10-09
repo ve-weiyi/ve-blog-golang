@@ -1,13 +1,13 @@
 package logic
 
 import (
-	"fmt"
 	"mime/multipart"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
@@ -139,7 +139,7 @@ func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	}
 
 	// 获取code
-	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
 	code := s.svcCtx.Captcha.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: req.Username,
@@ -168,7 +168,7 @@ func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 
 func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
 	// 验证code是否正确
-	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, req.Username)
+	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
 	if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
 		return nil, codes.ErrorCaptchaVerify
 	}

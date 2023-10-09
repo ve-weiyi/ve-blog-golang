@@ -48,5 +48,5 @@ func init() {
 // @externalDocs.description	OpenAPI
 // @externalDocs.url			https://swagger.io/resources/open-api/
 func main() {
-	cmd.Execute()
+	cmd.NewRootCmd().Execute()
 }

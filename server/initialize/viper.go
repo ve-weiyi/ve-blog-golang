@@ -11,9 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
-// Viper //
-// 优先级: 命令行 > 环境变量 > 默认值
-// Author [SliverHorn](https://github.com/SliverHorn)
+// Viper 读取配置文件
 func Viper(path ...string) {
 	var config string
 

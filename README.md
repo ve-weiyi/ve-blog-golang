@@ -55,7 +55,7 @@ go mod tidy
 
 ```shell
 cd server
-go run main.go run --config=./conf/config.yaml 
+go run main.go --config=./config.yaml 
 ```
 
 格式化代码
