@@ -3,12 +3,13 @@ package logic
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 // 分页获取Role记录
-func (s *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleInfo, total int64, err error) {
+func (s *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleDetailsDTO, total int64, err error) {
 
-	roles, total, err := s.svcCtx.RoleRepository.FindRoleList(reqCtx, page)
+	roles, total, err := s.FindRoleList(reqCtx, page)
 
 	for _, role := range roles {
 		var menuIds []int
@@ -30,7 +31,7 @@ func (s *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 			apiIds = append(apiIds, api.ID)
 		}
 
-		r := response.RoleInfo{
+		r := response.RoleDetailsDTO{
 			Role:           *role,
 			MenuIdList:     menuIds,
 			ResourceIdList: apiIds,
@@ -42,7 +43,7 @@ func (s *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 }
 
 // 设置角色菜单
-func (s *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *request.UpdateRoleMenus) (data interface{}, err error) {
+func (s *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *request.UpdateRoleMenusReq) (data interface{}, err error) {
 	// 重置角色菜单权限
 	_, _, err = s.svcCtx.RoleRepository.UpdateRoleResources(reqCtx, req.RoleId, req.MenuIds)
 	if err != nil {
@@ -53,7 +54,7 @@ func (s *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *request.Upda
 }
 
 // 设置角色菜单
-func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.UpdateRoleResources) (data interface{}, err error) {
+func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.UpdateRoleApisReq) (data interface{}, err error) {
 	// 重置角色接口权限
 	role, _, err := s.svcCtx.RoleRepository.UpdateRoleResources(reqCtx, req.RoleId, req.ResourceIds)
 	if err != nil {
@@ -61,7 +62,7 @@ func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.
 	}
 
 	// 查询资源列表
-	page := &request.PageQuery{Conditions: []*request.Condition{
+	page := &request.PageQuery{Conditions: []*sqlx.Condition{
 		{
 			Flag:  "and",
 			Field: "api_id",
@@ -71,7 +72,7 @@ func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.
 	},
 	}
 
-	resources, _, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
+	resources, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, err
 	}

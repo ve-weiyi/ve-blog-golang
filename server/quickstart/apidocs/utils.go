@@ -258,73 +258,74 @@ func getModelDeclareName(method *ApiDeclare) []string {
 	return params
 }
 
-func extractModelField(field *ast.Field) *ModelField {
+func extractModelField(field ast.Node) *ModelField {
 
-	if len(field.Names) > 0 {
-		name := field.Names[0].Name
-		tp := field.Type
+	switch node := field.(type) {
+	case *ast.ArrayType:
+		return extractModelField(node.Elt)
+	case *ast.Field:
+		if len(node.Names) > 0 {
+			name := node.Names[0].Name
+			tp := node.Type
+			elem := &ModelField{
+				Name: name,
+				Type: GetNameFromExpr(tp),
+			}
+
+			// 读取字段的普通注释
+			if node.Doc != nil {
+				elem.Comment = strings.TrimSpace(node.Doc.Text())
+			}
+
+			// 读取字段的行尾注释
+			if node.Comment != nil {
+				elem.Comment = strings.TrimSpace(node.Comment.Text())
+			}
+
+			return elem
+		}
+		return extractModelField(node.Type)
+	case *ast.StarExpr:
+		return extractModelField(node.X)
+	case *ast.SelectorExpr:
+		if xIdent, ok := node.X.(*ast.Ident); ok {
+			elem := &ModelField{
+				Name: xIdent.Name,
+				Type: node.Sel.Name,
+			}
+
+			// 读取字段的行尾注释
+			//if field.Comment != nil {
+			//	elem.Comment = strings.TrimSpace(field.Comment.Text())
+			//}
+
+			return elem
+		}
+	case *ast.Ident:
 		elem := &ModelField{
-			Name: name,
-			Type: GetNameFromExpr(tp),
+			Name: node.Name,
+			Type: node.Name,
 		}
-
-		// 读取字段的普通注释
-		if field.Doc != nil {
-			elem.Comment = strings.TrimSpace(field.Doc.Text())
-		}
-
 		// 读取字段的行尾注释
-		if field.Comment != nil {
-			elem.Comment = strings.TrimSpace(field.Comment.Text())
-		}
-
+		//if node.Comment != nil {
+		//	elem.Comment = strings.TrimSpace(field.Comment.Text())
+		//}
 		return elem
-	} else {
-
-		switch tp := field.Type.(type) {
-		// 内嵌的结构体
-		case *ast.SelectorExpr:
-			//fmt.Println("selExpr:", selExpr)
-			// Check if the embedded struct is of type "entity.Api"
-			if xIdent, ok := tp.X.(*ast.Ident); ok {
-				elem := &ModelField{
-					Name: xIdent.Name,
-					Type: tp.Sel.Name,
-				}
-
-				// 读取字段的行尾注释
-				if field.Comment != nil {
-					elem.Comment = strings.TrimSpace(field.Comment.Text())
-				}
-
-				return elem
-			}
-		// 内嵌的指针结构体
-		case *ast.StarExpr:
-			if xIdent, ok := tp.X.(*ast.Ident); ok {
-				elem := &ModelField{
-					Name: xIdent.Name,
-					Type: xIdent.Name,
-				}
-
-				// 读取字段的行尾注释
-				if field.Comment != nil {
-					elem.Comment = strings.TrimSpace(field.Comment.Text())
-				}
-
-				return elem
-			}
-
-		default:
-			ast.Print(nil, field)
+	case *ast.InterfaceType:
+		return &ModelField{
+			Name: "interface{}",
+			Type: "any",
 		}
 
+	default:
+		ast.Print(nil, field)
 	}
+	ast.Print(nil, field)
 
 	return nil
 }
 
-// response.Response{data=response.PageResult{list=[]entity.Api}} --> Response、PageResult 和 Api
+// response.Response{data=response.PageResult{list=[]entity.User}} --> Response、PageResult 和 User
 func extractFieldsAfterDot(input string) []string {
 	// 定义正则表达式
 	re := regexp.MustCompile(`\.(\w+)`)
@@ -350,12 +351,12 @@ func ExtractFieldsByAst(data string) []string {
 	var params []string
 
 	// CompositeLit
-	nodes := ExtractNodes(meta.GetNode(), &ast.CompositeLit{})
+	nodes := ExtractNodes(&ast.CompositeLit{}, meta.GetNode())
 	for _, node := range nodes {
 		if len(params) > 0 {
 			break
 		}
-		idents := ExtractNodes(node.Type, &ast.Ident{})
+		idents := ExtractNodes(&ast.Ident{}, node.Type)
 		if len(idents) == 1 {
 			params = append(params, idents[0].Name)
 		} else {
@@ -365,26 +366,31 @@ func ExtractFieldsByAst(data string) []string {
 	}
 
 	// KeyValueExpr要value
-	nodes2 := ExtractNodes(meta.GetNode(), &ast.KeyValueExpr{})
+	nodes2 := ExtractNodes(&ast.KeyValueExpr{}, meta.GetNode())
 	for _, node := range nodes2 {
 		switch fmt.Sprintf("%s", node.Key) {
 		case "data":
-			idents := ExtractNodes(node.Value, &ast.Ident{})
+			idents := ExtractNodes(&ast.Ident{}, node.Value)
 			if len(idents) == 1 {
 				params = append(params, idents[0].Name)
-			} else {
+			} else if len(idents) > 1 {
 				params = append(params, idents[0].Name+"."+idents[1].Name)
+			} else {
+				fmt.Println("cannot get params for:", idents)
 			}
 		case "list":
-			idents := ExtractNodes(node.Value, &ast.Ident{})
+			idents := ExtractNodes(&ast.Ident{}, node.Value)
 			if len(idents) == 1 {
 				params = append(params, idents[0].Name)
-			} else {
+			} else if len(idents) > 1 {
 				params = append(params, idents[0].Name+"."+idents[1].Name)
+			} else {
+				fmt.Println("list cannot get params for:", idents)
 			}
 		}
 	}
 
+	fmt.Println("data:", data, "params:", params)
 	return params
 }
 

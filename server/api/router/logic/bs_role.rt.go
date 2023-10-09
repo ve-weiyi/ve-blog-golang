@@ -21,7 +21,7 @@ func NewRoleRouter(svcCtx *svc.RouterContext) *RoleRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *RoleRouter) InitRoleBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.RoleController
+	var handler = s.svcCtx.RoleController
 	{
 		publicRouter.POST("role", handler.CreateRole)       // 新建Role
 		publicRouter.PUT("role", handler.UpdateRole)        // 更新Role

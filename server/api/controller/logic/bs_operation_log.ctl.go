@@ -221,6 +221,6 @@ func (s *OperationLogController) FindOperationLogList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }

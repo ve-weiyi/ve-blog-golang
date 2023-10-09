@@ -21,7 +21,7 @@ func NewOperationLogRouter(svcCtx *svc.RouterContext) *OperationLogRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *OperationLogRouter) InitOperationLogBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.OperationLogController
+	var handler = s.svcCtx.OperationLogController
 	{
 		publicRouter.POST("operation_log", handler.CreateOperationLog)       // 新建OperationLog
 		publicRouter.PUT("operation_log", handler.UpdateOperationLog)        // 更新OperationLog
