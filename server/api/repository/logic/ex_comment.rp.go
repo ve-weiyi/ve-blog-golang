@@ -5,8 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 )
 
 // 查看评论id集合下的回复评论
@@ -25,9 +24,9 @@ func (s *CommentRepository) FindCommentReplyList(ctx context.Context, id int, pa
 // 点赞评论
 func (s *CommentRepository) LikeComment(ctx context.Context, uid int, commentId int) (data interface{}, err error) {
 	// 用户点赞的评论列表
-	commentUserLikeKey := constant.RedisWrapKey("comment_user_like", uid)
+	commentUserLikeKey := cache.WrapCacheKey(cache.CommentUserLike, uid)
 	// 当前评论的点赞量
-	commentLikeCountKey := constant.RedisWrapKey("comment_like_count", commentId)
+	commentLikeCountKey := cache.WrapCacheKey(cache.CommentLikeCount, commentId)
 
 	// 判断是否已经点赞
 	if s.Cache.SIsMember(ctx, commentUserLikeKey, commentId).Val() {
@@ -48,6 +47,6 @@ func (s *CommentRepository) LikeComment(ctx context.Context, uid int, commentId 
 // 获取用户点赞记录
 func (s *CommentRepository) FindUserLikeComment(ctx context.Context, uid int) (data []string, err error) {
 	// 用户点赞的评论列表
-	commentUserLikeKey := constant.RedisWrapKey("comment_user_like", uid)
-	return global.REDIS.SMembers(ctx, commentUserLikeKey).Result()
+	commentUserLikeKey := cache.WrapCacheKey(cache.CommentUserLike, uid)
+	return s.Cache.SMembers(ctx, commentUserLikeKey).Result()
 }

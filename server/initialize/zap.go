@@ -5,11 +5,10 @@ import (
 	"os"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/zaplog"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/copy"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog/zaplog"
 )
 
 // Zap 获取 zap.Logger
@@ -19,13 +18,16 @@ func Zap() {
 		_ = os.Mkdir(global.CONFIG.Zap.Director, os.ModePerm)
 	}
 
-	cfg := zaplog.ZapConfig{}
+	cfg := zaplog.NewFileConfig()
+	cfg.Mode = "console"
+	cfg.Encoding = zaplog.FormatConsole
+	cfg.Path = global.CONFIG.Zap.Director
+	cfg.FileName = "blog.log"
+	cfg.Prefix = ""
+	cfg.Level = "Info"
+	cfg.ShowColor = true
 
-	copy.DeepCopyByJson(global.CONFIG.Zap, &cfg)
-
-	glog.ReplaceZapGlobals(cfg)
 	global.LOG = glog.NewGlogger(1, cfg)
-
-	global.LOG.Printf("日志组件初始化成功！")
+	global.LOG.Println("日志组件初始化成功！")
 	return
 }

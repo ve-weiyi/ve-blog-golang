@@ -6,12 +6,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/captcha"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
 )
 
 // 注册需要用到的gorm、redis、model

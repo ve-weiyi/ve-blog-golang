@@ -13,6 +13,6 @@ func OtherInit() {
 	global.BlackCache = ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
 	global.Uploader = upload.NewOss(&global.CONFIG.Upload)
 	if global.Uploader != nil {
-		global.LOG.Printf("上传组件初始化成功！%v", global.CONFIG.Upload.Mode)
+		global.LOG.Infof("上传组件初始化成功！%v", global.CONFIG.Upload.Mode)
 	}
 }
