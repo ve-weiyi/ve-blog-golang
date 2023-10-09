@@ -21,7 +21,7 @@ func NewPhotoRouter(svcCtx *svc.RouterContext) *PhotoRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *PhotoRouter) InitPhotoBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.PhotoController
+	var handler = s.svcCtx.PhotoController
 	{
 		publicRouter.POST("photo", handler.CreatePhoto)       // 新建Photo
 		publicRouter.PUT("photo", handler.UpdatePhoto)        // 更新Photo

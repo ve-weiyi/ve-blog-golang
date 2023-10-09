@@ -11,11 +11,11 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/timer"
 )
 

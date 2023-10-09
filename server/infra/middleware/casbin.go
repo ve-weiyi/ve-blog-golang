@@ -42,7 +42,7 @@ func CasbinHandler() gin.HandlerFunc {
 				}
 				sub := role
 				success, _ := enforcer.Enforce(sub, domain, obj, act)
-				global.LOG.Printf("sub:%v domain:%v obj:%v act:%v", sub, domain, obj, act)
+				global.LOG.Infof("sub:%v domain:%v obj:%v act:%v", sub, domain, obj, act)
 				global.LOG.Println("success ", success)
 				if success {
 					c.Next()

@@ -15,7 +15,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/qq"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
@@ -31,7 +33,7 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 	}
 }
 
-func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
+func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp *response.Login, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
@@ -52,17 +54,12 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 			return nil, codes.ErrorCaptchaVerify
 		}
 	}
-	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
-	if err != nil {
-		return nil, err
-	}
 
 	history := &entity.UserLoginHistory{
 		UserID:    account.ID,
 		LoginType: constant.LoginEmail,
 		IpAddress: reqCtx.IpAddress,
-		IpSource:  reqCtx.IpSource,
+		IpSource:  reqCtx.GetIpSource(),
 		Agent:     reqCtx.Agent,
 		CreatedAt: time.Now(),
 	}
@@ -78,23 +75,25 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 		return nil, err
 	}
 
+	// 获取用户信息
+	info, err := s.getUserInfo(reqCtx, account)
+	if err != nil {
+		return nil, err
+	}
+
+	// 更新用户登录信息
+	_, _ = s.svcCtx.UserAccountRepository.Login(reqCtx, account)
 	resp = &response.Login{
-		Token: token,
-		UserInfo: &response.UserInfo{
-			ID:       account.ID,
-			Username: account.Username,
-			Nickname: info.Nickname,
-			Avatar:   info.Avatar,
-			Intro:    info.Intro,
-			Email:    info.Email,
-		},
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }
 
 func (s *AuthService) Logout(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
-	return true, nil
+	s.svcCtx.Log.Info("用户登出")
+	return s.svcCtx.UserAccountRepository.Logout(reqCtx, reqCtx.UID)
 }
 
 func (s *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
@@ -103,7 +102,7 @@ func (s *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp int
 	return s.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.UID)
 }
 
-func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
+func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (resp *response.Login, err error) {
 	// 验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
@@ -124,23 +123,18 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		Status:       1,
 		RegisterType: constant.LoginEmail,
 		IpAddress:    reqCtx.IpAddress,
-		IpSource:     reqCtx.IpSource,
+		IpSource:     reqCtx.GetIpSource(),
 	}
-	info := &entity.UserInformation{}
 
-	_, _, err = s.svcCtx.UserAccountRepository.Register(reqCtx, account, info)
+	_, _, err = s.svcCtx.UserAccountRepository.Register(reqCtx, account, &entity.UserInformation{})
 	if err != nil {
 		return nil, err
 	}
 
-	// 事务操作成功
-	userinfo := &response.UserInfo{
-		ID:       account.ID,
-		Username: account.Username,
-		Nickname: info.Nickname,
-		Avatar:   info.Avatar,
-		Intro:    info.Intro,
-		Email:    info.Email,
+	// 获取用户信息
+	info, err := s.getUserInfo(reqCtx, account)
+	if err != nil {
+		return nil, err
 	}
 
 	token, err := s.CreateToken(account.ID, account.Username, account.RegisterType)
@@ -148,9 +142,9 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  userinfo,
-		LoginInfo: nil,
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: nil,
 	}
 
 	return resp, nil
@@ -195,22 +189,17 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.LoginQQ:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	case constant.LoginWeibo:
-		auth = oauth.NewAuthWb(convertAuthConfig(cfg.Weibo))
+		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
 	case constant.LoginFeishu:
-		auth = oauth.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
+		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
 	default:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
-	}
-	// 获取access_token
-	token, err := auth.GetAccessToken(req.Code)
-	if err != nil {
-		return nil, err
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
 	// 获取第三方用户信息
-	info, err := auth.GetUserInfo(token.AccessToken)
+	info, err := auth.GetUserOpenInfo(req.Code)
 	s.svcCtx.Log.JsonIndent("第三方用户信息", info)
 	if err != nil {
 		return nil, err
@@ -230,7 +219,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	return s.oauthLogin(reqCtx, userOauth)
 }
 
-func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *result.UserResult) (resp *entity.UserOauth, err error) {
+func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *oauth.UserResult) (resp *entity.UserOauth, err error) {
 	// 用户未注册,先注册用户
 	pwd := crypto.BcryptHash(info.EnName)
 	username := info.Email
@@ -242,12 +231,12 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 		Password:     pwd,
 		RegisterType: req.Platform,
 		IpAddress:    reqCtx.IpAddress,
-		IpSource:     reqCtx.IpSource,
+		IpSource:     reqCtx.GetIpSource(),
 	}
 
 	userInfo := entity.UserInformation{
 		Nickname: info.Name,
-		Avatar:   info.AvatarURL,
+		Avatar:   info.Avatar,
 		Email:    info.Email,
 	}
 
@@ -275,7 +264,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.Login, err error) {
 
 	//获取用户
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, req.UserID)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, req.UserID)
 	if err != nil {
 		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
@@ -284,17 +273,11 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
 	}
 
-	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, req.UserID)
-	if err != nil {
-		return nil, err
-	}
-
 	history := &entity.UserLoginHistory{
 		UserID:    account.ID,
 		LoginType: req.Platform,
 		IpAddress: reqCtx.IpAddress,
-		IpSource:  reqCtx.IpSource,
+		IpSource:  reqCtx.GetIpSource(),
 		Agent:     reqCtx.Agent,
 		CreatedAt: time.Now(),
 	}
@@ -310,18 +293,45 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, err
 	}
 
-	resp = &response.Login{
-		Token: token,
-		UserInfo: &response.UserInfo{
-			ID:       account.ID,
-			Username: account.Username,
-			Nickname: info.Nickname,
-			Avatar:   info.Avatar,
-			Intro:    info.Intro,
-			Email:    info.Email,
-		},
-		LoginInfo: convertLoginHistory(history),
+	// 获取用户信息
+	info, err := s.getUserInfo(reqCtx, account)
+	if err != nil {
+		return nil, err
 	}
+	resp = &response.Login{
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
+	}
+	return resp, nil
+}
+
+func (s *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *response.UserInfo, err error) {
+	//获取用户信息
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	accountLikeSet, _ := s.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
+	commentLikeSet, _ := s.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
+	talkLikeSet, _ := s.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
+
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	resp = &response.UserInfo{
+		ID:             account.ID,
+		Username:       account.Username,
+		Nickname:       info.Nickname,
+		Avatar:         info.Avatar,
+		Intro:          info.Intro,
+		Website:        info.Website,
+		Email:          info.Email,
+		ArticleLikeSet: accountLikeSet,
+		CommentLikeSet: commentLikeSet,
+		TalkLikeSet:    talkLikeSet,
+		Roles:          convertRoleList(roles),
+	}
+
 	return resp, nil
 }
 
@@ -330,13 +340,13 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.LoginQQ:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	case constant.LoginWeibo:
-		auth = oauth.NewAuthWb(convertAuthConfig(cfg.Weibo))
+		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
 	case constant.LoginFeishu:
-		auth = oauth.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
+		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
 	default:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
 	resp = &response.OauthLoginUrl{

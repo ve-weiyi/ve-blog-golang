@@ -15,7 +15,7 @@ type Comment struct {
 	ParentID       int       `gorm:"column:parent_id;type:int;index:fk_comment_parent,priority:1;comment:父评论id" json:"parent_id"`     // 父评论id
 	Type           int       `gorm:"column:type;type:tinyint;not null;comment:评论类型 1.文章 2.友链 3.说说" json:"type"`                       // 评论类型 1.文章 2.友链 3.说说
 	IsDelete       int       `gorm:"column:is_delete;type:tinyint;not null;comment:是否删除  0否 1是" json:"is_delete"`                     // 是否删除  0否 1是
-	IsReview       bool      `gorm:"column:is_review;type:tinyint(1);not null;default:1;comment:是否审核" json:"is_review"`               // 是否审核
+	IsReview       int       `gorm:"column:is_review;type:tinyint(1);not null;default:1;comment:是否审核" json:"is_review"`               // 是否审核
 	CreatedAt      time.Time `gorm:"column:created_at;type:datetime;not null;comment:评论时间" json:"created_at"`                         // 评论时间
 	UpdatedAt      time.Time `gorm:"column:updated_at;type:datetime;comment:更新时间" json:"updated_at"`                                  // 更新时间
 }

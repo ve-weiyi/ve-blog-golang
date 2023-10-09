@@ -5,13 +5,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/fmtplus"
 )
 
-type User struct {
+type UserReq struct {
 	Username string `json:"username" from:"username" example:"admin@qq.com"`
 	Password string `json:"password" from:"password" example:"123456"`
 	Code     string `json:"code" from:"code" example:""`
 }
 
-func (m User) IsValid() error {
+func (m UserReq) IsValid() error {
 	if m.Username == "" || m.Password == "" {
 		return codes.NewApiError(codes.CodeInvalidParameter, "用户名和密码不能为null")
 	}

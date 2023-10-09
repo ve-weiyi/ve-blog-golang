@@ -56,7 +56,8 @@ go mod tidy
 
 ```shell
 cd server
-go run main.go run --config=./conf/config.yaml 
+go run main.go server --config=./config.yaml 
+go run main.go migrate --create=true --password=mysql7914 -n=blog3 
 ```
 
 格式化代码
