@@ -18,30 +18,41 @@ func NewRemarkService(svcCtx *svc.ServiceContext) *RemarkService {
 
 // 创建Remark记录
 func (s *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.CreateRemark(reqCtx, remark)
+	return s.svcCtx.RemarkRepository.Create(reqCtx, remark)
 }
 
 // 更新Remark记录
 func (s *RemarkService) UpdateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.UpdateRemark(reqCtx, remark)
+	return s.svcCtx.RemarkRepository.Update(reqCtx, remark)
 }
 
 // 删除Remark记录
-func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.RemarkRepository.DeleteRemark(reqCtx, id)
+func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.RemarkRepository.Delete(reqCtx, "id = ?", id)
 }
 
 // 查询Remark记录
 func (s *RemarkService) FindRemark(reqCtx *request.Context, id int) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.FindRemark(reqCtx, id)
+	return s.svcCtx.RemarkRepository.First(reqCtx, "id = ?", id)
 }
 
 // 批量删除Remark记录
-func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
-	return s.svcCtx.RemarkRepository.DeleteRemarkByIds(reqCtx, ids)
+func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+	return s.svcCtx.RemarkRepository.Delete(reqCtx, "id in (?)", ids)
 }
 
 // 分页获取Remark记录
 func (s *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
-	return s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, page)
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
+
+	list, err = s.svcCtx.RemarkRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.RemarkRepository.Count(reqCtx, cond, args...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

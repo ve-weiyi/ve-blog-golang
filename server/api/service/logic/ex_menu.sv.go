@@ -7,23 +7,87 @@ import (
 )
 
 // 分页获取Menu记录
-func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetails, total int64, err error) {
+func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetailsDTO, total int64, err error) {
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
 	// 创建db
-	menuList, _, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
+	menuList, err := s.svcCtx.MenuRepository.FindList(reqCtx, 0, 0, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
 	// to tree
-	var tree response.MenuDetails
+	var tree response.MenuDetailsDTO
 	tree.Children = s.getMenuChildren(tree, menuList)
 
 	list = tree.Children
 	return list, int64(len(list)), nil
 }
 
-func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetails, err error) {
+func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuRequest) (data int64, err error) {
+
+	for _, item := range req.Menus {
+		// 已存在则跳过
+		exist, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", item.Path)
+		if exist == nil {
+			var hidden int
+			if item.Meta.ShowLink {
+				hidden = 1
+			}
+			// 插入数据
+			exist = &entity.Menu{
+				Name:      item.Name,
+				Path:      item.Path,
+				Title:     item.Meta.Title,
+				Component: "",
+				Icon:      item.Meta.Icon,
+				Rank:      item.Meta.Rank,
+				ParentID:  0,
+				IsHidden:  hidden,
+			}
+			_, err = s.svcCtx.MenuRepository.Create(reqCtx, exist)
+			if err != nil {
+				return data, err
+			}
+
+			data++
+		}
+
+		for i, child := range item.Children {
+			// 已存在则跳过
+			menu, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
+			if menu == nil {
+				var hidden int
+				if child.Meta.ShowLink {
+					hidden = 1
+				}
+				// 插入数据
+				menu = &entity.Menu{
+					Name:      child.Name,
+					Path:      child.Path,
+					Title:     item.Meta.Title,
+					Component: "",
+					Icon:      child.Meta.Icon,
+					Rank:      i,
+					ParentID:  exist.ID,
+					IsHidden:  hidden,
+				}
+				_, err = s.svcCtx.MenuRepository.Create(reqCtx, menu)
+				if err != nil {
+					return data, err
+				}
+
+				data++
+			}
+		}
+
+	}
+
+	return data, err
+}
+
+func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetailsDTO, err error) {
 	//查询用户信息
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, reqCtx.UID)
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}
@@ -54,16 +118,16 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 		list = append(list, v)
 	}
 
-	var out response.MenuDetails
+	var out response.MenuDetailsDTO
 	out.Children = s.getMenuChildren(out, list)
 
 	return out.Children, err
 }
 
-func (s *MenuService) getMenuChildren(root response.MenuDetails, list []*entity.Menu) (leafs []*response.MenuDetails) {
+func (s *MenuService) getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {
 	for _, item := range list {
 		if item.ParentID == root.ID {
-			leaf := response.MenuDetails{
+			leaf := response.MenuDetailsDTO{
 				Menu:     *item,
 				Children: nil,
 			}

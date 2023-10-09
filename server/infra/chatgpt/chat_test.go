@@ -6,7 +6,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type Msg struct {
@@ -37,7 +36,7 @@ func TestName(t *testing.T) {
 	res, code := https.NewHttpBuilder(url).
 		AddHeader("Content-Type", "application/json").
 		AddHeader("Authorization", "Bearer "+apiKey).
-		AddBody(jsonconv.ObjectToJson(content)).
+		AddBody(content).
 		Post()
 
 	global.LOG.Println(code)
