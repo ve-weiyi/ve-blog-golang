@@ -32,7 +32,7 @@ func init() {
 
 // @title						Swagger Example API
 // @version					1.0
-// @description				This is a sample server celler server.
+// @description				APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret}) 生成的加密token，ci环境base_secret：u*88ZP8Tvpu_-EuEZ，x-timestamp 时间戳需要保持10分钟内
 // @termsOfService				http://swagger.io/terms/
 // @contact.name				API Support
 // @contact.url				http://www.swagger.io/support

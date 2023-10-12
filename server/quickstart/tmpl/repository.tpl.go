@@ -174,7 +174,7 @@ func (s *{{.StructName}}Repository) Find{{.StructName}}List(ctx context.Context,
 	}
 
 	// 查询总数,要在使用limit之前
-	err = db.Model(&list).Count(&total).Error
+	err = db.Mode(&list).Count(&total).Error
 	if err != nil {
 		return nil, 0, err
 	}

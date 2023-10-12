@@ -13,8 +13,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 

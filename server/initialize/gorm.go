@@ -23,7 +23,7 @@ func Gorm() {
 	cfg = global.CONFIG.Mysql
 	global.DB = Open(cfg)
 
-	global.LOG.Printf("Mysql 数据库连接成功！%s", cfg.Dsn())
+	global.LOG.Infof("Mysql 数据库连接成功！%s", cfg.Dsn())
 }
 
 func Open(cfg orm.Mysql) *gorm.DB {
