@@ -7,26 +7,25 @@ import (
 )
 
 // 根据分类id获取文章
-func (s *ArticleRepository) FindArticleListByCategoryId(ctx context.Context, categoryId int) (list []*entity.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleListByCategoryId(ctx context.Context, categoryId int) (list []*entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	err = db.Model(&entity.Article{}).Where("category_id = ?", categoryId).Find(&list).Error
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
-	total = int64(len(list))
-	return list, total, nil
+	return list, nil
 }
 
 // 根据标签id获取文章
-func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId int) (list []*entity.Article, total int64, err error) {
+func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId int) (list []*entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 获取文章标签映射
 	var ats []*entity.ArticleTag
 	err = db.Where("tag_id = ?", tagId).Find(&ats).Error
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
 	// 获取文章id列表
@@ -38,11 +37,10 @@ func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId in
 	// 获取文章列表
 	err = db.Where("id in (?)", ids).Find(&list).Error
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
-	total = int64(len(list))
-	return list, total, nil
+	return list, nil
 }
 
 // 获取推荐文章,与id相同分类的文章

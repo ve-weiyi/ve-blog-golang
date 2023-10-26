@@ -2,6 +2,9 @@ package logic
 
 import (
 	"mime/multipart"
+	"path"
+
+	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
@@ -20,21 +23,21 @@ func NewUploadService(svcCtx *svc.ServiceContext) *UploadService {
 }
 
 // 上传文件
-func (s *UploadService) CreateUpload(reqCtx *request.Context, label string, file *multipart.FileHeader) (data *entity.Upload, err error) {
+func (s *UploadService) CreateUpload(reqCtx *request.Context, label string, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
 	s.svcCtx.Log.Println("上传文件")
-	url, err := s.svcCtx.Uploader.UploadFile(label, file)
+	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
 		return nil, err
 	}
 
-	up := &entity.Upload{
+	up := &entity.UploadRecord{
 		UserID:   reqCtx.UID,
 		Label:    label,
 		FileName: file.Filename,
 		FileSize: int(file.Size),
 		FileMd5:  crypto.MD5V([]byte(file.Filename)),
-		FileUrl:  url,
+		FileURL:  url,
 	}
 
-	return s.svcCtx.UploadRepository.CreateUpload(reqCtx, up)
+	return s.svcCtx.UploadRecordRepository.CreateUploadRecord(reqCtx, up)
 }

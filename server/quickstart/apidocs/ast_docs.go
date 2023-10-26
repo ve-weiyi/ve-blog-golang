@@ -353,7 +353,7 @@ func (s *AstApiDoc) convertRequestStr(api *ApiDeclare) string {
 	return result
 }
 
-// response.Response{data=response.PageResult{list=[]entity.Api}}-->Response<PageResult<Api>>
+// response.Response{data=response.PageResult{list=[]entity.User}}-->Response<PageResult<User>>
 func (s *AstApiDoc) convertResponseStr(data string) string {
 	// 提取参数
 	params := ExtractFieldsByAst(data)

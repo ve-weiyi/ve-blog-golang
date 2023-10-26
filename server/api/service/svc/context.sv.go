@@ -10,17 +10,14 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/upload"
 )
 
 // 注册需要用到的gorm、redis、model
 type ServiceContext struct {
 	*repository.AppRepository
 
-	Config *config.Config
-	//MainDB *gorm.DB
-	//DBList map[string]*gorm.DB
-	//Cache  *redis.Client
+	Config         *config.Config
 	Log            *glog.Glogger
 	Token          *jjwt.JwtToken
 	RBAC           *rbac.CachedEnforcer
@@ -37,11 +34,8 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		AppRepository: repo,
-		Config:        cfg,
-		//MainDB: global.DB,
-		//DBList: global.DBList,
-		//Cache:  global.REDIS,
+		AppRepository:  repo,
+		Config:         cfg,
 		Log:            global.LOG,
 		Token:          global.JWT,
 		Captcha:        captcha.NewCaptchaRepository(),

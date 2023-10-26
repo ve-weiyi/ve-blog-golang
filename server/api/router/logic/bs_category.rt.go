@@ -21,7 +21,7 @@ func NewCategoryRouter(svcCtx *svc.RouterContext) *CategoryRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *CategoryRouter) InitCategoryBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.CategoryController
+	var handler = s.svcCtx.CategoryController
 	{
 		publicRouter.POST("category", handler.CreateCategory)       // 新建Category
 		publicRouter.PUT("category", handler.UpdateCategory)        // 更新Category

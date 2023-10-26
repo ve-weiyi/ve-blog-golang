@@ -3,6 +3,7 @@ package initialize
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
@@ -18,14 +19,23 @@ func Zap() {
 		_ = os.Mkdir(global.CONFIG.Zap.Director, os.ModePerm)
 	}
 
-	cfg := zaplog.NewFileConfig()
-	cfg.Mode = "console"
-	cfg.Encoding = zaplog.FormatConsole
-	cfg.Path = global.CONFIG.Zap.Director
-	cfg.FileName = "blog.log"
-	cfg.Prefix = ""
-	cfg.Level = "Info"
-	cfg.ShowColor = true
+	var cfg zaplog.ZapConfig
+	cfg = zaplog.NewFileConfig()
+	if strings.HasPrefix(global.CONFIG.System.Env, "dev") {
+		cfg = zaplog.NewConsoleConfig()
+		cfg.Path = global.CONFIG.Zap.Director
+		cfg.FileName = "blog.log"
+		cfg.Prefix = ""
+		cfg.Level = "Info"
+		cfg.ShowColor = true
+	} else {
+		cfg = zaplog.NewFileConfig()
+		cfg.Path = global.CONFIG.Zap.Director
+		cfg.FileName = "blog.log"
+		cfg.Prefix = ""
+		cfg.Level = "Info"
+		cfg.ShowColor = true
+	}
 
 	global.LOG = glog.NewGlogger(1, cfg)
 	global.LOG.Println("日志组件初始化成功！")

@@ -1,11 +1,12 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	jsoniter "github.com/json-iterator/go"
+	"github.com/go-sql-driver/mysql"
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -14,7 +15,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -88,7 +88,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 	}
 	//如果obj已经是指针，则此处不需要指针
 	js := jsonconv.ObjectToJsonSnake(tmp)
-	err = jsoniter.Unmarshal([]byte(js), req)
+	err = json.Unmarshal([]byte(js), req)
 	//m.Log.Println(js)
 	//m.Log.JsonIndent(req)
 	if err != nil {
@@ -116,19 +116,6 @@ func (m *BaseController) ShouldBind(ctx *gin.Context, req interface{}) error {
 	return m.ShouldBindJSON(ctx, req)
 }
 
-func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
-	m.Response(ctx, http.StatusOK, "操作成功", data)
-}
-
-func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
-	m.Log.Error("操作失败!", err)
-	if e, ok := err.(*codes.ApiError); ok {
-		m.Response(ctx, e.Code(), e.Message(), err.Error())
-		return
-	}
-	m.Response(ctx, http.StatusInternalServerError, "操作失败", err.Error())
-}
-
 func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data interface{}) {
 	obj := response.Response{
 		Code:    code,
@@ -144,4 +131,28 @@ func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data i
 
 func (m *BaseController) Response500(ctx *gin.Context, res interface{}) {
 	ctx.JSON(http.StatusInternalServerError, res)
+}
+
+func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
+	m.Response(ctx, http.StatusOK, "操作成功", data)
+}
+
+func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
+	m.Log.Error("操作失败!", err)
+
+	switch e := err.(type) {
+	case *codes.ApiError:
+		m.Response(ctx, e.Code(), e.Message(), err.Error())
+		return
+
+	case *json.UnmarshalTypeError:
+		m.Response(ctx, http.StatusBadRequest, "json解析错误", err.Error())
+		return
+
+	case *mysql.MySQLError:
+		m.Response(ctx, http.StatusBadRequest, "数据库错误", SqlErrorI18n(e))
+		return
+	}
+
+	m.Response(ctx, http.StatusInternalServerError, "操作失败", err.Error())
 }

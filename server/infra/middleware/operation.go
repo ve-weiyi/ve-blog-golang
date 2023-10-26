@@ -77,7 +77,7 @@ func OperationRecord() gin.HandlerFunc {
 			OptDesc:       "",
 			Cost:          fmt.Sprintf("%v", cost),
 			Status:        c.Writer.Status(),
-			RequestUrl:    c.Request.URL.String(),
+			RequestURL:    c.Request.URL.String(),
 			RequestMethod: c.Request.Method,
 			RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
 			RequestParam:  jsonconv.ObjectToJson(reqData),

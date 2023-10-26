@@ -48,7 +48,7 @@ func Open(cfg orm.Mysql) *gorm.DB {
 			LogLevel:                  logger.Info,
 			IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
 			Colorful:                  true,  // 彩色打印
-			ParameterizedQueries:      true,  // 使用参数化查询
+			ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
 		}),
 	})
 	if err != nil {

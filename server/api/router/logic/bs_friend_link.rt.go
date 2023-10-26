@@ -21,7 +21,7 @@ func NewFriendLinkRouter(svcCtx *svc.RouterContext) *FriendLinkRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *FriendLinkRouter) InitFriendLinkBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.FriendLinkController
+	var handler = s.svcCtx.FriendLinkController
 	{
 		publicRouter.POST("friend_link", handler.CreateFriendLink)       // 新建FriendLink
 		publicRouter.PUT("friend_link", handler.UpdateFriendLink)        // 更新FriendLink

@@ -21,7 +21,7 @@ func NewPageRouter(svcCtx *svc.RouterContext) *PageRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *PageRouter) InitPageBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.PageController
+	var handler = s.svcCtx.PageController
 	{
 		publicRouter.POST("page", handler.CreatePage)       // 新建Page
 		publicRouter.PUT("page", handler.UpdatePage)        // 更新Page

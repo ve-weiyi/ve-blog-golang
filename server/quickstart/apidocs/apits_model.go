@@ -40,10 +40,11 @@ type ModelDeclare struct {
 	Fields []*ModelField
 }
 
+// model属性定义信息  Name string // 属性名称
 type ModelField struct {
-	Name    string // 属性名称
-	Type    string // 属性类型
-	Comment string // 属性的注释
+	Name    string // 属性名称  Name
+	Type    string // 属性类型  string、int、bool、float、{StructName}
+	Comment string // 属性的注释  属性名称
 }
 
 // api文档信息

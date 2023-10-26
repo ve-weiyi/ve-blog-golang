@@ -20,7 +20,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/copy"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/copyutil"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/zaplog"
 )
@@ -90,7 +90,7 @@ func Zap() {
 
 	cfg := zaplog.ZapConfig{}
 
-	copy.DeepCopyByJson(global.CONFIG.Zap, &cfg)
+	copyutil.DeepCopyByJson(global.CONFIG.Zap, &cfg)
 
 	//glog.ReplaceDefaultLogger(cfg)
 	global.LOG = glog.NewGlogger(1, cfg)

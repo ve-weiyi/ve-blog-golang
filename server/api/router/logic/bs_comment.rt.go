@@ -21,7 +21,7 @@ func NewCommentRouter(svcCtx *svc.RouterContext) *CommentRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *CommentRouter) InitCommentBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.CommentController
+	var handler = s.svcCtx.CommentController
 	{
 		publicRouter.POST("comment", handler.CreateComment)       // 新建Comment
 		publicRouter.PUT("comment", handler.UpdateComment)        // 更新Comment

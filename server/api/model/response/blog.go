@@ -1,6 +1,7 @@
 package response
 
-type BlogHomeInfoDTO struct {
+// 博客前台信息
+type WebsiteHomeInfoDTO struct {
 	ArticleCount  int64            `json:"article_count"`  // 文章数量
 	CategoryCount int64            `json:"category_count"` // 分类数量
 	TagCount      int64            `json:"tag_count"`      // 标签数量
@@ -17,7 +18,8 @@ type PageVO struct {
 	// 页面字段...
 }
 
-type BlogBackInfoDTO struct {
+// 博客后台信息
+type WebsiteAdminHomeInfo struct {
 	ViewsCount            int64                   `json:"views_count"`             // 访问量
 	MessageCount          int64                   `json:"message_count"`           // 留言量
 	UserCount             int64                   `json:"user_count"`              // 用户量
