@@ -19,7 +19,7 @@ func NewUserRouter(ctx *svc.RouterContext) *UserRouter {
 // InitUserRouter 初始化 User 路由信息
 func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.UserController
+	var handler = s.svcCtx.UserController
 	{
 		loginRouter.GET("user/info", handler.GetUserInfo)   // 用户信息
 		loginRouter.GET("user/menus", handler.GetUserMenus) // 用户菜单

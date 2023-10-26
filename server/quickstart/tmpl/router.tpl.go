@@ -67,7 +67,7 @@ func New{{.StructName}}Router(svcCtx *svc.RouterContext) *{{.StructName}}Router 
 // loginRouter  登录路由，登录后才可以访问
 func (s *{{.StructName}}Router) Init{{.StructName}}BasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.{{.StructName}}Controller
+	var handler = s.svcCtx.{{.StructName}}Controller
 	{
 		publicRouter.POST("{{.JsonName}}", handler.Create{{.StructName}})             // 新建{{.StructName}}
 		publicRouter.PUT("{{.JsonName}}", handler.Update{{.StructName}})              // 更新{{.StructName}}

@@ -7,7 +7,7 @@ import (
 
 type AppRouter struct {
 	svcCtx             *svc.RouterContext        //持有的controller引用
-	BlogRouter         *logic.BlogRouter         //博客
+	WebsiteRouter      *logic.WebsiteRouter      //博客
 	AuthRouter         *logic.AuthRouter         //权限认证
 	UserRouter         *logic.UserRouter         //用户
 	ApiRouter          *logic.ApiRouter          //api
@@ -32,7 +32,7 @@ type AppRouter struct {
 func NewRouter(svcCtx *svc.RouterContext) *AppRouter {
 	return &AppRouter{
 		svcCtx:             svcCtx,
-		BlogRouter:         logic.NewBlogRouter(svcCtx),
+		WebsiteRouter:      logic.NewWebsiteRouter(svcCtx),
 		AuthRouter:         logic.NewAuthRouter(svcCtx),
 		UserRouter:         logic.NewUserRouter(svcCtx),
 		ApiRouter:          logic.NewApiRouter(svcCtx),

@@ -3,6 +3,7 @@ package logic
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils"
 )
 
 type WebsiteConfigService struct {
@@ -61,4 +62,20 @@ func (s *WebsiteConfigService) UpdateConfig(reqCtx *request.Context, req *reques
 	}
 
 	return config.Config, err
+}
+
+func (s *WebsiteConfigService) GetSystemState(reqCtx *request.Context, req interface{}) (server *utils.Server, err error) {
+	var sv utils.Server
+	sv.Os = utils.InitOS()
+	if sv.Cpu, err = utils.InitCPU(); err != nil {
+		return &sv, err
+	}
+	if sv.Ram, err = utils.InitRAM(); err != nil {
+		return &sv, err
+	}
+	if sv.Disk, err = utils.InitDisk(); err != nil {
+		return &sv, err
+	}
+
+	return &sv, nil
 }

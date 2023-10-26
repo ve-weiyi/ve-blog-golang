@@ -21,7 +21,7 @@ func NewTagRouter(svcCtx *svc.RouterContext) *TagRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *TagRouter) InitTagBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.TagController
+	var handler = s.svcCtx.TagController
 	{
 		publicRouter.POST("tag", handler.CreateTag)       // 新建Tag
 		publicRouter.PUT("tag", handler.UpdateTag)        // 更新Tag

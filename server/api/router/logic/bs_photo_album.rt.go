@@ -21,7 +21,7 @@ func NewPhotoAlbumRouter(svcCtx *svc.RouterContext) *PhotoAlbumRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *PhotoAlbumRouter) InitPhotoAlbumBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.PhotoAlbumController
+	var handler = s.svcCtx.PhotoAlbumController
 	{
 		publicRouter.POST("photo_album", handler.CreatePhotoAlbum)       // 新建PhotoAlbum
 		publicRouter.PUT("photo_album", handler.UpdatePhotoAlbum)        // 更新PhotoAlbum

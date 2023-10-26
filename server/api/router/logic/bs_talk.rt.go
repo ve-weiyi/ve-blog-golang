@@ -21,7 +21,7 @@ func NewTalkRouter(svcCtx *svc.RouterContext) *TalkRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *TalkRouter) InitTalkBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.TalkController
+	var handler = s.svcCtx.TalkController
 	{
 		publicRouter.POST("talk", handler.CreateTalk)       // 新建Talk
 		publicRouter.PUT("talk", handler.UpdateTalk)        // 更新Talk

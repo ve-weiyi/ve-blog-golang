@@ -21,7 +21,7 @@ func NewArticleRouter(svcCtx *svc.RouterContext) *ArticleRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *ArticleRouter) InitArticleBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.ArticleController
+	var handler = s.svcCtx.ArticleController
 	{
 		publicRouter.POST("article", handler.CreateArticle)       // 新建Article
 		publicRouter.PUT("article", handler.UpdateArticle)        // 更新Article

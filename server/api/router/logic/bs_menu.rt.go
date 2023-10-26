@@ -21,7 +21,7 @@ func NewMenuRouter(svcCtx *svc.RouterContext) *MenuRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *MenuRouter) InitMenuBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.MenuController
+	var handler = s.svcCtx.MenuController
 	{
 		publicRouter.POST("menu", handler.CreateMenu)       // 新建Menu
 		publicRouter.PUT("menu", handler.UpdateMenu)        // 更新Menu

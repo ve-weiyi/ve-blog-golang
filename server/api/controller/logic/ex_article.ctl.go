@@ -151,8 +151,8 @@ func (s *ArticleController) FindArticleDetailsList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string																false	"token"
 // @Param		uid		header		string																false	"uid"
-// @Param		page	body		request.PageQuery													true	"分页获取文章列表"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Article}}	"返回信息"
+// @Param		page	body		request.ArticleCondition											true	"分页获取文章列表"
+// @Success		200		{object}	response.Response{data=response.ArticleConditionDTO}	"返回信息"
 // @Router		/article/list/condition [post]
 func (s *ArticleController) FindArticleListByCondition(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

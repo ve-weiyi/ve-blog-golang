@@ -1,13 +1,15 @@
 package logic
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 // 初始化 Api 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
 func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitApiBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.ApiController
+	var handler = s.svcCtx.ApiController
 	{
 		loginRouter.POST("api/list/details", handler.FindApiDetailsList) // 获取Api列表
 	}
@@ -18,7 +20,7 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 // loginRouter  登录路由，登录后才可以访问
 func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitCategoryBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.CategoryController
+	var handler = s.svcCtx.CategoryController
 	{
 		publicRouter.POST("category/list/details", handler.FindCategoryDetailsList) // 查询Category详情列表
 	}
@@ -29,7 +31,7 @@ func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, login
 // loginRouter  登录路由，登录后才可以访问
 func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitCommentBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.CommentController
+	var handler = s.svcCtx.CommentController
 
 	{
 		publicRouter.POST("comment/:id/like", handler.LikeComment)                // 点赞评论
@@ -44,7 +46,7 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 // loginRouter  登录路由，登录后才可以访问
 func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitRoleBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.RoleController
+	var handler = s.svcCtx.RoleController
 	{
 		loginRouter.POST("role/list/details", handler.FindRoleDetailsList)
 	}
@@ -55,7 +57,7 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 // loginRouter  登录路由，登录后才可以访问
 func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitMenuBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.MenuController
+	var handler = s.svcCtx.MenuController
 	{
 		loginRouter.POST("menu/list/details", handler.FindMenuDetailsList)
 	}
@@ -66,7 +68,7 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 // loginRouter  登录路由，登录后才可以访问
 func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitArticleBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.ArticleController
+	var handler = s.svcCtx.ArticleController
 	{
 		publicRouter.GET("article/:id/details", handler.GetArticleDetails) // 获取Article详情
 		publicRouter.PUT("article/:id/like", handler.LikeArticle)          // 点赞文章
@@ -82,7 +84,7 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 // loginRouter  登录路由，登录后才可以访问
 func (s *TagRouter) InitTagRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitTagBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.TagController
+	var handler = s.svcCtx.TagController
 	{
 		loginRouter.POST("tag/list/details", handler.FindTagDetailsList)
 	}
@@ -114,7 +116,7 @@ func (s *PageRouter) InitPageRouter(publicRouter *gin.RouterGroup, loginRouter *
 // loginRouter  登录路由，登录后才可以访问
 func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitTalkBasicRouter(publicRouter, loginRouter)
-	var handler = s.svcCtx.AppController.TalkController
+	var handler = s.svcCtx.TalkController
 	{
 		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
 		publicRouter.POST("talk/list/details", handler.FindTalkDetailsList) // 获取Talk详情列表

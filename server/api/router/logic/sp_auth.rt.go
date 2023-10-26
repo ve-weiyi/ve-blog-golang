@@ -21,7 +21,7 @@ func (s *AuthRouter) InitAuthRouter(publicRouter *gin.RouterGroup, loginRouter *
 	authPublicRouter := publicRouter.Group("")
 	//authOperationRouter := loginRouter.Group("")
 
-	var self = s.svcCtx.AppController.AuthController
+	var self = s.svcCtx.AuthController
 	{
 		authPublicRouter.POST("login", self.Login)                  // 登录
 		authPublicRouter.GET("logout", self.Logout)                 // 登出

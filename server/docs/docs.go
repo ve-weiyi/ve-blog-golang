@@ -25,7 +25,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/about": {
+        "/about/me": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -34,7 +34,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Blog"
+                    "Website"
                 ],
                 "summary": "关于我",
                 "parameters": [
@@ -71,7 +71,9 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
+            }
+        },
+        "/admin/about/me": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -80,7 +82,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Blog"
+                    "Website"
                 ],
                 "summary": "更新我的信息",
                 "parameters": [
@@ -128,6 +130,102 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/home": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "获取后台首页信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.WebsiteAdminHomeInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/system/info": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "获取服务器信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.WebsiteAdminHomeInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/admin/website/config": {
             "put": {
                 "consumes": [
@@ -137,7 +235,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Blog"
+                    "Website"
                 ],
                 "summary": "更新网站配置",
                 "parameters": [
@@ -192,7 +290,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Blog"
+                    "Website"
                 ],
                 "summary": "获取网站配置",
                 "parameters": [
@@ -242,11 +340,6 @@ const docTemplate = `{
         },
         "/ai/chat": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyUser": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -295,11 +388,6 @@ const docTemplate = `{
         },
         "/ai/cos": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyUser": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -505,7 +593,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -1001,7 +1089,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -1114,7 +1202,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.PageQuery"
+                            "$ref": "#/definitions/request.ArticleCondition"
                         }
                     }
                 ],
@@ -1130,22 +1218,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/response.PageResult"
-                                                },
-                                                {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "list": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "$ref": "#/definitions/entity.Article"
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            ]
+                                            "$ref": "#/definitions/response.ArticleConditionDTO"
                                         }
                                     }
                                 }
@@ -1778,7 +1851,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -2049,7 +2122,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Blog"
+                    "Website"
                 ],
                 "summary": "查询聊天记录",
                 "parameters": [
@@ -2259,7 +2332,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -2983,7 +3056,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -3164,54 +3237,6 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "type": "object"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/home": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Blog"
-                ],
-                "summary": "获取后台首页信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "uid",
-                        "name": "uid",
-                        "in": "header"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/response.BlogBackInfoDTO"
                                         }
                                     }
                                 }
@@ -3536,7 +3561,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -4074,7 +4099,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -4426,7 +4451,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -4778,7 +4803,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -5130,7 +5155,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -5596,7 +5621,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -5948,7 +5973,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -6486,7 +6511,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -6910,7 +6935,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "object"
+                                            "$ref": "#/definitions/response.BatchResult"
                                         }
                                     }
                                 }
@@ -7701,6 +7726,66 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/login_history/batch_delete": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "批量删除登录历史",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    },
+                    {
+                        "description": "删除id列表",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/user/menus": {
             "get": {
                 "consumes": [
@@ -7869,7 +7954,7 @@ const docTemplate = `{
         "/ws": {
             "get": {
                 "tags": [
-                    "Blog"
+                    "Website"
                 ],
                 "summary": "查询聊天记录",
                 "responses": {}
@@ -8702,6 +8787,19 @@ const docTemplate = `{
                 }
             }
         },
+        "request.ArticleCondition": {
+            "type": "object",
+            "properties": {
+                "category_id": {
+                    "description": "文章分类ID",
+                    "type": "integer"
+                },
+                "tag_id": {
+                    "description": "文章标签ID",
+                    "type": "integer"
+                }
+            }
+        },
         "request.Captcha": {
             "type": "object",
             "properties": {
@@ -8962,6 +9060,82 @@ const docTemplate = `{
                 }
             }
         },
+        "response.ArticleConditionDTO": {
+            "type": "object",
+            "properties": {
+                "article_dto_list": {
+                    "description": "文章列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.ArticleDTO"
+                    }
+                },
+                "condition_name": {
+                    "description": "条件名",
+                    "type": "string"
+                }
+            }
+        },
+        "response.ArticleDTO": {
+            "type": "object",
+            "properties": {
+                "article_content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "article_cover": {
+                    "description": "文章缩略图",
+                    "type": "string"
+                },
+                "article_tag_list": {
+                    "description": "文章标签列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.TagDTO"
+                    }
+                },
+                "article_title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "category_id": {
+                    "description": "文章分类ID",
+                    "type": "integer"
+                },
+                "category_name": {
+                    "description": "文章分类名",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "发表时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "文章ID",
+                    "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "original_url": {
+                    "description": "原文链接",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "文章类型",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "views_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                }
+            }
+        },
         "response.ArticleDetails": {
             "type": "object",
             "properties": {
@@ -9120,58 +9294,19 @@ const docTemplate = `{
                 }
             }
         },
-        "response.BlogBackInfoDTO": {
+        "response.BatchResult": {
             "type": "object",
             "properties": {
-                "article_count": {
-                    "description": "文章量",
+                "fail_count": {
+                    "description": "失败数量",
                     "type": "integer"
                 },
-                "article_rank_dto_list": {
-                    "description": "文章浏览量排行",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/response.ArticleRankDTO"
-                    }
-                },
-                "article_statistics_list": {
-                    "description": "文章统计列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/response.ArticleStatisticsDTO"
-                    }
-                },
-                "category_dto_list": {
-                    "description": "分类统计",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/response.CategoryDTO"
-                    }
-                },
-                "message_count": {
-                    "description": "留言量",
+                "success_count": {
+                    "description": "成功数量",
                     "type": "integer"
                 },
-                "tag_dto_list": {
-                    "description": "标签列表",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/response.TagDTO"
-                    }
-                },
-                "unique_view_dto_list": {
-                    "description": "一周用户量集合",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/response.UniqueViewDTO"
-                    }
-                },
-                "user_count": {
-                    "description": "用户量",
-                    "type": "integer"
-                },
-                "views_count": {
-                    "description": "访问量",
+                "total_count": {
+                    "description": "总数量",
                     "type": "integer"
                 }
             }
@@ -9270,6 +9405,9 @@ const docTemplate = `{
                 "agent": {
                     "description": "代理",
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "ip_address": {
                     "description": "ip host",
@@ -9513,6 +9651,62 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "response.WebsiteAdminHomeInfo": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章量",
+                    "type": "integer"
+                },
+                "article_rank_dto_list": {
+                    "description": "文章浏览量排行",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.ArticleRankDTO"
+                    }
+                },
+                "article_statistics_list": {
+                    "description": "文章统计列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.ArticleStatisticsDTO"
+                    }
+                },
+                "category_dto_list": {
+                    "description": "分类统计",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.CategoryDTO"
+                    }
+                },
+                "message_count": {
+                    "description": "留言量",
+                    "type": "integer"
+                },
+                "tag_dto_list": {
+                    "description": "标签列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.TagDTO"
+                    }
+                },
+                "unique_view_dto_list": {
+                    "description": "一周用户量集合",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.UniqueViewDTO"
+                    }
+                },
+                "user_count": {
+                    "description": "用户量",
+                    "type": "integer"
+                },
+                "views_count": {
+                    "description": "访问量",
+                    "type": "integer"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -9534,7 +9728,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
-	Description:      "This is a sample server celler server.",
+	Description:      "APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret}) 生成的加密token，ci环境base_secret：u*88ZP8Tvpu_-EuEZ，x-timestamp 时间戳需要保持10分钟内",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -12,7 +12,7 @@ type PhotoAlbum struct {
 	AlbumDesc  string    `gorm:"column:album_desc;type:varchar(50);not null;comment:相册描述" json:"album_desc"`         // 相册描述
 	AlbumCover string    `gorm:"column:album_cover;type:varchar(255);not null;comment:相册封面" json:"album_cover"`      // 相册封面
 	IsDelete   bool      `gorm:"column:is_delete;type:tinyint(1);not null;comment:是否删除" json:"is_delete"`            // 是否删除
-	Status     bool      `gorm:"column:status;type:tinyint(1);not null;default:1;comment:状态值 1公开 2私密" json:"status"` // 状态值 1公开 2私密
+	Status     int       `gorm:"column:status;type:tinyint(4);not null;default:1;comment:状态值 1公开 2私密" json:"status"` // 状态值 1公开 2私密
 	CreatedAt  time.Time `gorm:"column:created_at;type:datetime;not null;comment:创建时间" json:"created_at"`            // 创建时间
 	UpdatedAt  time.Time `gorm:"column:updated_at;type:datetime;comment:更新时间" json:"updated_at"`                     // 更新时间
 }

@@ -6,17 +6,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
 )
 
-type BlogService struct {
+type WebsiteService struct {
 	svcCtx *svc.ServiceContext
 }
 
-func NewBlogService(svcCtx *svc.ServiceContext) *BlogService {
-	return &BlogService{
+func NewWebsiteService(svcCtx *svc.ServiceContext) *WebsiteService {
+	return &WebsiteService{
 		svcCtx: svcCtx,
 	}
 }
 
-func (s *BlogService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.BlogBackInfoDTO, err error) {
+func (s *WebsiteService) GetWebsiteAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.WebsiteAdminHomeInfo, err error) {
 	page := &request.PageQuery{}
 	// 查询消息数量
 	_, msgCount, err := s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, page)
@@ -52,7 +52,7 @@ func (s *BlogService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.BlogBackInfoDTO{
+	resp = &response.WebsiteAdminHomeInfo{
 		ViewsCount:            10,
 		MessageCount:          msgCount,
 		UserCount:             userCount,

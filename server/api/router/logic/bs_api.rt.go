@@ -21,7 +21,7 @@ func NewApiRouter(svcCtx *svc.RouterContext) *ApiRouter {
 // loginRouter  登录路由，登录后才可以访问
 func (s *ApiRouter) InitApiBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = s.svcCtx.AppController.ApiController
+	var handler = s.svcCtx.ApiController
 	{
 		publicRouter.POST("api", handler.CreateApi)       // 新建Api
 		publicRouter.PUT("api", handler.UpdateApi)        // 更新Api

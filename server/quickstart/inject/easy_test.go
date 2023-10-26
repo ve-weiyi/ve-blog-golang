@@ -41,7 +41,7 @@ func TestInject(t *testing.T) {
 	// loginRouter  登录路由，登录后才可以访问
 	func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 		s.InitMenuBasicRouter(publicRouter, loginRouter)
-		var handler = s.svcCtx.AppController.MenuController
+		var handler = s.svcCtx.MenuController
 	
 		{
 			loginRouter.POST("menus", handler.GetMenus) // 获取Menu列表
@@ -72,7 +72,7 @@ func TestNewAst(t *testing.T) {
 	// loginRouter  登录路由，登录后才可以访问
 	func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 		s.InitMenuBasicRouter(publicRouter, loginRouter)
-		var handler = s.svcCtx.AppController.MenuController
+		var handler = s.svcCtx.MenuController
 	
 		{
 			loginRouter.POST("menus", handler.GetMenus) // 获取Menu列表

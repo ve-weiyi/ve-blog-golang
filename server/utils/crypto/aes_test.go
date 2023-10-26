@@ -18,15 +18,15 @@ func Test_AES(t *testing.T) {
 	fmt.Println(time.Now().Unix())
 	plaintext := []byte("791422171@qq.comasdsda")     // 待加密的数据
 	key := []byte("1234567.1234567.1234567.1234567.") // 加密的密钥
-
-	aes := AesCBC
+	iv := []byte("1234567.1234567.")                  // 初始化向量
+	aes := AesCFB
 
 	log.Println("原文：", string(plaintext))
 	log.Println("------------------ CBC模式 --------------------")
-	encrypted := aes.AESEncrypt(plaintext, key)
+	encrypted := aes.AESEncrypt(plaintext, key, iv...)
 	log.Println("密文(hex)：", hex.EncodeToString(encrypted))
 	log.Println("密文(base64)：", base64.StdEncoding.EncodeToString(encrypted))
-	decrypted := aes.AESDecrypt(encrypted, key)
+	decrypted := aes.AESDecrypt(encrypted, key, iv...)
 	log.Println("解密结果：", string(decrypted))
 }
 
