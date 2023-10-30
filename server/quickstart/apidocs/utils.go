@@ -258,68 +258,69 @@ func getModelDeclareName(method *ApiDeclare) []string {
 	return params
 }
 
-func extractModelField(field *ast.Field) *ModelField {
+func extractModelField(field ast.Node) *ModelField {
 
-	if len(field.Names) > 0 {
-		name := field.Names[0].Name
-		tp := field.Type
+	switch node := field.(type) {
+	case *ast.ArrayType:
+		return extractModelField(node.Elt)
+	case *ast.Field:
+		if len(node.Names) > 0 {
+			name := node.Names[0].Name
+			tp := node.Type
+			elem := &ModelField{
+				Name: name,
+				Type: GetNameFromExpr(tp),
+			}
+
+			// 读取字段的普通注释
+			if node.Doc != nil {
+				elem.Comment = strings.TrimSpace(node.Doc.Text())
+			}
+
+			// 读取字段的行尾注释
+			if node.Comment != nil {
+				elem.Comment = strings.TrimSpace(node.Comment.Text())
+			}
+
+			return elem
+		}
+		return extractModelField(node.Type)
+	case *ast.StarExpr:
+		return extractModelField(node.X)
+	case *ast.SelectorExpr:
+		if xIdent, ok := node.X.(*ast.Ident); ok {
+			elem := &ModelField{
+				Name: xIdent.Name,
+				Type: node.Sel.Name,
+			}
+
+			// 读取字段的行尾注释
+			//if field.Comment != nil {
+			//	elem.Comment = strings.TrimSpace(field.Comment.Text())
+			//}
+
+			return elem
+		}
+	case *ast.Ident:
 		elem := &ModelField{
-			Name: name,
-			Type: GetNameFromExpr(tp),
+			Name: node.Name,
+			Type: node.Name,
 		}
-
-		// 读取字段的普通注释
-		if field.Doc != nil {
-			elem.Comment = strings.TrimSpace(field.Doc.Text())
-		}
-
 		// 读取字段的行尾注释
-		if field.Comment != nil {
-			elem.Comment = strings.TrimSpace(field.Comment.Text())
-		}
-
+		//if node.Comment != nil {
+		//	elem.Comment = strings.TrimSpace(field.Comment.Text())
+		//}
 		return elem
-	} else {
-
-		switch tp := field.Type.(type) {
-		// 内嵌的结构体
-		case *ast.SelectorExpr:
-			//fmt.Println("selExpr:", selExpr)
-			// Check if the embedded struct is of type "entity.Api"
-			if xIdent, ok := tp.X.(*ast.Ident); ok {
-				elem := &ModelField{
-					Name: xIdent.Name,
-					Type: tp.Sel.Name,
-				}
-
-				// 读取字段的行尾注释
-				if field.Comment != nil {
-					elem.Comment = strings.TrimSpace(field.Comment.Text())
-				}
-
-				return elem
-			}
-		// 内嵌的指针结构体
-		case *ast.StarExpr:
-			if xIdent, ok := tp.X.(*ast.Ident); ok {
-				elem := &ModelField{
-					Name: xIdent.Name,
-					Type: xIdent.Name,
-				}
-
-				// 读取字段的行尾注释
-				if field.Comment != nil {
-					elem.Comment = strings.TrimSpace(field.Comment.Text())
-				}
-
-				return elem
-			}
-
-		default:
-			ast.Print(nil, field)
+	case *ast.InterfaceType:
+		return &ModelField{
+			Name: "interface{}",
+			Type: "any",
 		}
 
+	default:
+		ast.Print(nil, field)
 	}
+	ast.Print(nil, field)
 
 	return nil
 }

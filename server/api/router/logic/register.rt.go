@@ -102,6 +102,11 @@ func (s *PhotoRouter) InitPhotoRouter(publicRouter *gin.RouterGroup, loginRouter
 // loginRouter  登录路由，登录后才可以访问
 func (s *PhotoAlbumRouter) InitPhotoAlbumRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 	s.InitPhotoAlbumBasicRouter(publicRouter, loginRouter)
+	var handler = s.svcCtx.PhotoAlbumController
+	{
+		publicRouter.GET("photo_album/:id/details", handler.FindPhotoAlbumDetails)       // 获取PhotoAlbum详情
+		publicRouter.POST("photo_album/list/details", handler.FindPhotoAlbumDetailsList) // 获取PhotoAlbum详情列表
+	}
 }
 
 // 初始化 Page 路由信息

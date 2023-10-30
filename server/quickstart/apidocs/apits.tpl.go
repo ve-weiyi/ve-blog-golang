@@ -20,12 +20,13 @@ export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
 `
 
 const ModelTypeScript = `
-{{- range .}}
+{{- range . -}}
 export interface {{ .Name }} {{ if .Extends }}extends {{ joinArray .Extends }} {{ end }}{
   {{- range .Fields }}
   {{ .Name }}?: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
   {{- end }}
 }
+
 {{ end -}}
 `
 const ParamsTpl = `{{- .Request -}}`

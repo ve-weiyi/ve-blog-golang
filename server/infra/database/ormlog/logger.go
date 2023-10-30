@@ -50,7 +50,7 @@ func FileWithLineNum() string {
 	// the second caller usually from gorm internal, so set i start from 2
 	for i := 5; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
-		if ok && (!strings.Contains(file, gormSourceDir) && !strings.Contains(file, genSourceDir) || strings.HasSuffix(file, "_test.go")) {
+		if ok && (!strings.Contains(file, gormSourceDir) && !strings.Contains(file, genSourceDir) && !strings.Contains(file, "repository")) {
 			return fmt.Sprintf("%v:%v", file, strconv.FormatInt(int64(line), 10))
 		}
 	}

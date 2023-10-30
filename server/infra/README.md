@@ -27,7 +27,7 @@ token工具，解析和生成token
 [rbac](rbac)
 使用casbin实现权限控制，基于角色的权限控制
 
-[upload](upload)
+[upload](../utils/upload)
 文件上传
 
 [rbac](rbac)

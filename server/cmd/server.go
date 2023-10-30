@@ -52,6 +52,9 @@ func (s *ServerCmd) OnInitialize() {
 	// 初始化rbac角色访问控制
 	//initialize.RBAC()
 
+	// 文件上传组件
+	initialize.Upload()
+
 	initialize.OtherInit()
 
 	// 程序结束前关闭数据库链接

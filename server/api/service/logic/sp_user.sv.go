@@ -2,6 +2,9 @@ package logic
 
 import (
 	"mime/multipart"
+	"path"
+
+	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
@@ -192,7 +195,7 @@ func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetP
 // 修改用户角色
 func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.FileHeader) (data interface{}, err error) {
 	label := "avatar"
-	url, err := s.svcCtx.Uploader.UploadFile(label, file)
+	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
 		return nil, err
 	}
