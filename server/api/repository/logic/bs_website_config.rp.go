@@ -148,7 +148,7 @@ func (s *WebsiteConfigRepository) Count(ctx context.Context, conditions ...*requ
 		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	err = db.Model(&entity.WebsiteConfig{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

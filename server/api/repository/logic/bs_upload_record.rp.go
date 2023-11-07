@@ -148,7 +148,7 @@ func (s *UploadRecordRepository) Count(ctx context.Context, conditions ...*reque
 		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	err = db.Model(&entity.UploadRecord{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

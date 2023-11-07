@@ -148,7 +148,7 @@ func (s *TalkRepository) Count(ctx context.Context, conditions ...*request.Condi
 		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	err = db.Model(&entity.Talk{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

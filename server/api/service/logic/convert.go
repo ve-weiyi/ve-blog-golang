@@ -28,8 +28,8 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 	}
 }
 
-func convertResponseArticle(entity *entity.Article) *response.ArticleDetails {
-	return &response.ArticleDetails{
+func convertResponseArticle(entity *entity.Article) *response.ArticlePaginationDTO {
+	return &response.ArticlePaginationDTO{
 		ID:             entity.ID,
 		ArticleCover:   entity.ArticleCover,
 		ArticleTitle:   entity.ArticleTitle,
@@ -50,10 +50,10 @@ func convertResponseArticle(entity *entity.Article) *response.ArticleDetails {
 	}
 }
 
-func convertRecommendArticles(list []*entity.Article) []*response.ArticleRecommendDTO {
-	var out []*response.ArticleRecommendDTO
+func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePreviewDTO {
+	var out []*response.ArticlePreviewDTO
 	for _, item := range list {
-		at := &response.ArticleRecommendDTO{
+		at := &response.ArticlePreviewDTO{
 			ID:           item.ID,
 			ArticleCover: item.ArticleCover,
 			ArticleTitle: item.ArticleTitle,
@@ -65,19 +65,19 @@ func convertRecommendArticles(list []*entity.Article) []*response.ArticleRecomme
 	return out
 }
 
-func convertArticlePagination(article *entity.Article) *response.ArticlePaginationDTO {
+func convertArticlePreview(article *entity.Article) *response.ArticlePreviewDTO {
 	if article == nil {
 		return nil
 	}
-	return &response.ArticlePaginationDTO{
+	return &response.ArticlePreviewDTO{
 		ID:           article.ID,
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
 }
 
-func convertArticle(article *entity.Article) *response.ArticleDTO {
-	out := &response.ArticleDTO{
+func convertArticle(article *entity.Article) *response.ArticleDetails {
+	out := &response.ArticleDetails{
 		ID:             article.ID,
 		ArticleCover:   article.ArticleCover,
 		ArticleTitle:   article.ArticleTitle,

@@ -70,8 +70,8 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 	s.InitArticleBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.ArticleController
 	{
-		publicRouter.GET("article/:id/details", handler.GetArticleDetails) // 获取Article详情
-		publicRouter.PUT("article/:id/like", handler.LikeArticle)          // 点赞文章
+		publicRouter.GET("article/:id/details", handler.FindArticleDetails) // 获取Article详情
+		publicRouter.PUT("article/:id/like", handler.LikeArticle)           // 点赞文章
 
 		publicRouter.POST("article/archives", handler.FindArticleArchives)              // 文章归档
 		publicRouter.POST("article/list/details", handler.FindArticleDetailsList)       // 根据条件获取Article列表

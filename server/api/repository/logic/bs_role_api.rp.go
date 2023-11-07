@@ -148,7 +148,7 @@ func (s *RoleApiRepository) Count(ctx context.Context, conditions ...*request.Co
 		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	err = db.Model(&entity.RoleApi{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

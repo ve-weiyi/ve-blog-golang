@@ -148,7 +148,7 @@ func (s *ApiRepository) Count(ctx context.Context, conditions ...*request.Condit
 		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	err = db.Model(&entity.Api{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

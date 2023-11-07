@@ -148,7 +148,7 @@ func (s *PhotoRepository) Count(ctx context.Context, conditions ...*request.Cond
 		db = db.Where(query, args...)
 	}
 
-	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	err = db.Model(&entity.Photo{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
