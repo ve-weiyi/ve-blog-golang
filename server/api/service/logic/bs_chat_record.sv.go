@@ -43,5 +43,13 @@ func (s *ChatRecordService) DeleteChatRecordByIds(reqCtx *request.Context, ids [
 
 // 分页获取ChatRecord记录
 func (s *ChatRecordService) FindChatRecordList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.ChatRecord, total int64, err error) {
-	return s.svcCtx.ChatRecordRepository.FindChatRecordList(reqCtx, page)
+	list, err = s.svcCtx.ChatRecordRepository.FindChatRecordList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.ChatRecordRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

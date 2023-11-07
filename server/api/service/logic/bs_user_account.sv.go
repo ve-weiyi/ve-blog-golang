@@ -43,5 +43,13 @@ func (s *UserAccountService) DeleteUserAccountByIds(reqCtx *request.Context, ids
 
 // 分页获取UserAccount记录
 func (s *UserAccountService) FindUserAccountList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.UserAccount, total int64, err error) {
-	return s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	list, err = s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.UserAccountRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

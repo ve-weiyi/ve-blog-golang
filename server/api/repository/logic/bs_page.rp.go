@@ -107,15 +107,9 @@ func (s *PageRepository) DeletePageByIds(ctx context.Context, ids []int, conditi
 }
 
 // 分页查询Page记录
-func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Page, total int64, err error) {
+func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageQuery) (list []*entity.Page, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
-		db = db.Where(query, args...)
-	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {
@@ -128,12 +122,6 @@ func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageQue
 		db = db.Order(page.OrderClause())
 	}
 
-	// 查询总数,要在使用limit之前
-	err = db.Model(&list).Count(&total).Error
-	if err != nil {
-		return nil, 0, err
-	}
-
 	// 如果有分页参数
 	if page.Page != 0 || page.PageSize != 0 {
 		limit := page.Limit()
@@ -144,8 +132,25 @@ func (s *PageRepository) FindPageList(ctx context.Context, page *request.PageQue
 	// 查询数据
 	err = db.Find(&list).Error
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
-	return list, total, nil
+	return list, nil
+}
+
+// 查询总数
+func (s *PageRepository) Count(ctx context.Context, conditions ...*request.Condition) (count int64, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }

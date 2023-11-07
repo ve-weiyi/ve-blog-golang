@@ -43,5 +43,13 @@ func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids [
 
 // 分页获取PhotoAlbum记录
 func (s *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
-	return s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, page)
+	list, err = s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.PhotoAlbumRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

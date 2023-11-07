@@ -43,5 +43,13 @@ func (s *OperationLogService) DeleteOperationLogByIds(reqCtx *request.Context, i
 
 // 分页获取OperationLog记录
 func (s *OperationLogService) FindOperationLogList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.OperationLog, total int64, err error) {
-	return s.svcCtx.OperationLogRepository.FindOperationLogList(reqCtx, page)
+	list, err = s.svcCtx.OperationLogRepository.FindOperationLogList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.OperationLogRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

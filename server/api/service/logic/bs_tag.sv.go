@@ -43,5 +43,13 @@ func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows in
 
 // 分页获取Tag记录
 func (s *TagService) FindTagList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Tag, total int64, err error) {
-	return s.svcCtx.TagRepository.FindTagList(reqCtx, page)
+	list, err = s.svcCtx.TagRepository.FindTagList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.TagRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

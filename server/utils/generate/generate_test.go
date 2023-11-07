@@ -120,7 +120,7 @@ func TestGenerator(t *testing.T) {
 	// 创建全部模型文件, 并覆盖前面创建的同名模型
 	//g.ApplyBasic(g.GenerateAllTable(fieldOpts...)...)
 
-	g.ApplyBasic(g.GenerateModel("user_insurance", fieldOpts...))
+	g.ApplyBasic(g.GenerateModel("article", fieldOpts...))
 	g.Execute()
 }
 

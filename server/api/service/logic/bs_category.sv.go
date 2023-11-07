@@ -43,5 +43,13 @@ func (s *CategoryService) DeleteCategoryByIds(reqCtx *request.Context, ids []int
 
 // 分页获取Category记录
 func (s *CategoryService) FindCategoryList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Category, total int64, err error) {
-	return s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+	list, err = s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.CategoryRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

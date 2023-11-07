@@ -91,8 +91,6 @@ func (s *ArticleService) FindArticleDetailsList(reqCtx *request.Context, page *r
 }
 
 func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req *request.ArticleCondition) (data *response.ArticleConditionDTO, err error) {
-	resp := &response.ArticleConditionDTO{}
-
 	// 查询文章列表
 	var articles []*entity.Article
 
@@ -102,14 +100,14 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 			return nil, err
 		}
 		articles, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
-		resp.ConditionName = category.CategoryName
+		data.ConditionName = category.CategoryName
 	} else if req.TagID != 0 {
 		tag, err := s.svcCtx.TagRepository.FindTag(reqCtx, req.TagID)
 		if err != nil {
 			return nil, err
 		}
 		articles, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
-		resp.ConditionName = tag.TagName
+		data.ConditionName = tag.TagName
 	}
 
 	var list []*response.ArticleDTO
@@ -125,11 +123,12 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 		list = append(list, articleVO)
 	}
 
-	resp.ArticleDTOList = list
-	return resp, err
+	data.ArticleDTOList = list
+	return data, err
 }
 
 func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleRecommendDTO, total int64, err error) {
+	// 查找最新数据
 	page.Sorts = []*request.Sort{
 		{Field: "id", Order: "desc"},
 	}

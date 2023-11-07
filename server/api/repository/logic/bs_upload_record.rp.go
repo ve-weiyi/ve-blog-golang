@@ -11,20 +11,20 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
 )
 
-type UploadRepository struct {
+type UploadRecordRepository struct {
 	DbEngin *gorm.DB
 	Cache   *redis.Client
 }
 
-func NewUploadRepository(svcCtx *svc.RepositoryContext) *UploadRepository {
-	return &UploadRepository{
+func NewUploadRecordRepository(svcCtx *svc.RepositoryContext) *UploadRecordRepository {
+	return &UploadRecordRepository{
 		DbEngin: svcCtx.DbEngin,
 		Cache:   svcCtx.Cache,
 	}
 }
 
-// 创建Upload记录
-func (s *UploadRepository) CreateUpload(ctx context.Context, upload *entity.Upload, conditions ...*request.Condition) (out *entity.Upload, err error) {
+// 创建UploadRecord记录
+func (s *UploadRecordRepository) CreateUploadRecord(ctx context.Context, uploadRecord *entity.UploadRecord, conditions ...*request.Condition) (out *entity.UploadRecord, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -33,15 +33,15 @@ func (s *UploadRepository) CreateUpload(ctx context.Context, upload *entity.Uplo
 		db = db.Where(query, args...)
 	}
 
-	err = db.Create(&upload).Error
+	err = db.Create(&uploadRecord).Error
 	if err != nil {
 		return nil, err
 	}
-	return upload, err
+	return uploadRecord, err
 }
 
-// 更新Upload记录
-func (s *UploadRepository) UpdateUpload(ctx context.Context, upload *entity.Upload, conditions ...*request.Condition) (out *entity.Upload, err error) {
+// 更新UploadRecord记录
+func (s *UploadRecordRepository) UpdateUploadRecord(ctx context.Context, uploadRecord *entity.UploadRecord, conditions ...*request.Condition) (out *entity.UploadRecord, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -50,15 +50,15 @@ func (s *UploadRepository) UpdateUpload(ctx context.Context, upload *entity.Uplo
 		db = db.Where(query, args...)
 	}
 
-	err = db.Save(&upload).Error
+	err = db.Save(&uploadRecord).Error
 	if err != nil {
 		return nil, err
 	}
-	return upload, err
+	return uploadRecord, err
 }
 
-// 删除Upload记录
-func (s *UploadRepository) DeleteUpload(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+// 删除UploadRecord记录
+func (s *UploadRecordRepository) DeleteUploadRecord(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -67,14 +67,14 @@ func (s *UploadRepository) DeleteUpload(ctx context.Context, id int, conditions 
 		db = db.Where(query, args...)
 	}
 
-	query := db.Delete(&entity.Upload{}, "id = ?", id)
+	query := db.Delete(&entity.UploadRecord{}, "id = ?", id)
 	err = query.Error
 	rows = int(query.RowsAffected)
 	return rows, err
 }
 
-// 查询Upload记录
-func (s *UploadRepository) FindUpload(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.Upload, err error) {
+// 查询UploadRecord记录
+func (s *UploadRecordRepository) FindUploadRecord(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.UploadRecord, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -90,8 +90,8 @@ func (s *UploadRepository) FindUpload(ctx context.Context, id int, conditions ..
 	return out, err
 }
 
-// 批量删除Upload记录
-func (s *UploadRepository) DeleteUploadByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
+// 批量删除UploadRecord记录
+func (s *UploadRecordRepository) DeleteUploadRecordByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -100,22 +100,16 @@ func (s *UploadRepository) DeleteUploadByIds(ctx context.Context, ids []int, con
 		db = db.Where(query, args...)
 	}
 
-	query := db.Delete(&entity.Upload{}, "id in ?", ids)
+	query := db.Delete(&entity.UploadRecord{}, "id in ?", ids)
 	err = query.Error
 	rows = int(query.RowsAffected)
 	return rows, err
 }
 
-// 分页查询Upload记录
-func (s *UploadRepository) FindUploadList(ctx context.Context, page *request.PageQuery, conditions ...*request.Condition) (list []*entity.Upload, total int64, err error) {
+// 分页查询UploadRecord记录
+func (s *UploadRecordRepository) FindUploadRecordList(ctx context.Context, page *request.PageQuery) (list []*entity.UploadRecord, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
-		db = db.Where(query, args...)
-	}
 
 	// 如果有搜索条件
 	if len(page.Conditions) != 0 {
@@ -128,12 +122,6 @@ func (s *UploadRepository) FindUploadList(ctx context.Context, page *request.Pag
 		db = db.Order(page.OrderClause())
 	}
 
-	// 查询总数,要在使用limit之前
-	err = db.Model(&list).Count(&total).Error
-	if err != nil {
-		return nil, 0, err
-	}
-
 	// 如果有分页参数
 	if page.Page != 0 || page.PageSize != 0 {
 		limit := page.Limit()
@@ -144,8 +132,25 @@ func (s *UploadRepository) FindUploadList(ctx context.Context, page *request.Pag
 	// 查询数据
 	err = db.Find(&list).Error
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
-	return list, total, nil
+	return list, nil
+}
+
+// 查询总数
+func (s *UploadRecordRepository) Count(ctx context.Context, conditions ...*request.Condition) (count int64, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		query, args := request.WhereConditions(conditions)
+		db = db.Where(query, args...)
+	}
+
+	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }

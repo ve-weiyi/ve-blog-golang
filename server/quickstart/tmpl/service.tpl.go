@@ -93,7 +93,15 @@ func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Cont
 
 // 分页获取{{.StructName}}记录
 func (s *{{.StructName}}Service) Find{{.StructName}}List(reqCtx *request.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}List(reqCtx, page)
+	list, err = s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}List(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.{{.StructName}}Repository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }
 `
 

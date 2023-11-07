@@ -43,5 +43,13 @@ func (s *MenuService) DeleteMenuByIds(reqCtx *request.Context, ids []int) (rows 
 
 // 分页获取Menu记录
 func (s *MenuService) FindMenuList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Menu, total int64, err error) {
-	return s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
+	list, err = s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.MenuRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

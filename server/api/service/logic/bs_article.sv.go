@@ -43,5 +43,13 @@ func (s *ArticleService) DeleteArticleByIds(reqCtx *request.Context, ids []int) 
 
 // 分页获取Article记录
 func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Article, total int64, err error) {
-	return s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	list, err = s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
 }

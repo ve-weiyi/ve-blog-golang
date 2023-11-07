@@ -220,16 +220,16 @@ func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.
 	}
 
 	// 保存上传记录
-	up := &entity.Upload{
+	up := &entity.UploadRecord{
 		UserID:   reqCtx.UID,
 		Label:    label,
 		FileName: file.Filename,
 		FileSize: int(file.Size),
 		FileMd5:  crypto.MD5V([]byte(file.Filename)),
-		FileUrl:  url,
+		FileURL:  url,
 	}
 
-	_, err = s.svcCtx.UploadRepository.CreateUpload(reqCtx, up)
+	_, err = s.svcCtx.UploadRecordRepository.CreateUploadRecord(reqCtx, up)
 	if err != nil {
 		return nil, err
 	}
