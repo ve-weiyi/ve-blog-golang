@@ -10,7 +10,7 @@ import (
 func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetails, total int64, err error) {
 	page.ResetPage()
 	// 创建db
-	menuList, _, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
+	menuList, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}

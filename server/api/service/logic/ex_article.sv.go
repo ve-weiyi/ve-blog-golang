@@ -39,7 +39,7 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 			{Field: "id", Order: "desc"},
 		},
 	}
-	newestArticle, _, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
 		return nil, err
 	}
@@ -67,11 +67,15 @@ func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, id int) (dat
 // 分页获取Article记录
 func (s *ArticleService) FindArticleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDTO, total int64, err error) {
 	// 查询文章列表
-	articles, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
-
+	// 查询文章总数
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 	for _, article := range articles {
 		//查询文章分类
 		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
@@ -97,14 +101,14 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 		if err != nil {
 			return nil, err
 		}
-		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
+		articles, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
 		resp.ConditionName = category.CategoryName
 	} else if req.TagID != 0 {
 		tag, err := s.svcCtx.TagRepository.FindTag(reqCtx, req.TagID)
 		if err != nil {
 			return nil, err
 		}
-		articles, _, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
+		articles, err = s.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
 		resp.ConditionName = tag.TagName
 	}
 
@@ -129,10 +133,14 @@ func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *requ
 	page.Sorts = []*request.Sort{
 		{Field: "id", Order: "desc"},
 	}
-	newestArticle, total, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
 
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 	return convertRecommendArticles(newestArticle), total, err
 }

@@ -17,7 +17,7 @@ func NewWebsiteConfigService(svcCtx *svc.ServiceContext) *WebsiteConfigService {
 }
 
 func (s *WebsiteConfigService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, "about")
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfigByKey(reqCtx, "about")
 	if err != nil {
 		return "", err
 	}
@@ -26,7 +26,7 @@ func (s *WebsiteConfigService) GetAboutMe(reqCtx *request.Context, req interface
 }
 
 func (s *WebsiteConfigService) UpdateAboutMe(reqCtx *request.Context, req string) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, "about")
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfigByKey(reqCtx, "about")
 	if err != nil {
 		return "", err
 	}
@@ -41,7 +41,7 @@ func (s *WebsiteConfigService) UpdateAboutMe(reqCtx *request.Context, req string
 }
 
 func (s *WebsiteConfigService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigRequest) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, req.Key)
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfigByKey(reqCtx, req.Key)
 	if err != nil {
 		return "", err
 	}
@@ -50,7 +50,7 @@ func (s *WebsiteConfigService) GetConfig(reqCtx *request.Context, req *request.W
 }
 
 func (s *WebsiteConfigService) UpdateConfig(reqCtx *request.Context, req *request.WebsiteConfigRequest) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, req.Key)
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfigByKey(reqCtx, req.Key)
 	if err != nil {
 		return "", err
 	}

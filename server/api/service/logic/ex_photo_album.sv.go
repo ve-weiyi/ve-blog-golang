@@ -7,15 +7,14 @@ import (
 
 // 分页获取PhotoAlbum记录
 func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.PhotoAlbumDetails, total int64, err error) {
-	albumList, total, err := s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, page)
+	albumList, total, err := s.FindPhotoAlbumList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	// 查询相册下的照片数量
 	for _, in := range albumList {
-		query := &request.PageQuery{Conditions: []*request.Condition{{Field: "album_id", Rule: "=", Value: in.ID}}}
-		_, count, err := s.svcCtx.PhotoRepository.FindPhotoList(reqCtx, query)
+		count, err := s.svcCtx.PhotoRepository.Count(reqCtx, &request.Condition{Field: "album_id", Rule: "=", Value: in.ID})
 		if err != nil {
 			return nil, 0, err
 		}
@@ -38,8 +37,7 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, id in
 		return nil, err
 	}
 
-	query := &request.PageQuery{Conditions: []*request.Condition{{Field: "album_id", Rule: "=", Value: id}}}
-	_, count, err := s.svcCtx.PhotoRepository.FindPhotoList(reqCtx, query)
+	count, err := s.svcCtx.PhotoRepository.Count(reqCtx, &request.Condition{Field: "album_id", Rule: "=", Value: id})
 	if err != nil {
 		return nil, err
 	}

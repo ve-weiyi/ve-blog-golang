@@ -3,23 +3,8 @@ package logic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 )
-
-// 查看评论id集合下的回复评论
-func (s *CommentRepository) FindCommentReplyList(ctx context.Context, id int, page *request.PageQuery) (out []*entity.Comment, total int64, err error) {
-
-	page.Conditions = append(page.Conditions, &request.Condition{
-		Flag:  "AND",
-		Field: "parent_id",
-		Rule:  "=",
-		Value: id,
-	})
-
-	return s.FindCommentList(ctx, page)
-}
 
 // 点赞评论
 func (s *CommentRepository) LikeComment(ctx context.Context, uid int, commentId int) (data interface{}, err error) {

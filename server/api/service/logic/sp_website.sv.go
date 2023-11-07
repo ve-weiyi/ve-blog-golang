@@ -19,36 +19,41 @@ func NewWebsiteService(svcCtx *svc.ServiceContext) *WebsiteService {
 func (s *WebsiteService) GetWebsiteAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.WebsiteAdminHomeInfo, err error) {
 	page := &request.PageQuery{}
 	// 查询消息数量
-	_, msgCount, err := s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, page)
+	msgCount, err := s.svcCtx.RemarkRepository.Count(reqCtx, page.Conditions...)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询用户数量
-	_, userCount, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	userCount, err := s.svcCtx.UserAccountRepository.Count(reqCtx, page.Conditions...)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章数量
-	articles, articleCount, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询分类数量
-	categories, _, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+	categories, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询标签数量
-	tags, _, err := s.svcCtx.TagRepository.FindTagList(reqCtx, page)
+	tags, err := s.svcCtx.TagRepository.FindTagList(reqCtx, page)
 	if err != nil {
 		return nil, err
 	}
 
-	uniqueViews, _, err := s.svcCtx.UniqueViewRepository.FindUniqueViewList(reqCtx, page)
+	uniqueViews, err := s.svcCtx.UniqueViewRepository.FindUniqueViewList(reqCtx, page)
+	if err != nil {
+		return nil, err
+	}
+
+	articleCount, err := s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
 	if err != nil {
 		return nil, err
 	}

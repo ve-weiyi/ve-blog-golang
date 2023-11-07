@@ -7,14 +7,14 @@ import (
 
 // 获取说说详情列表
 func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetails, total int64, err error) {
-	categories, total, err := s.svcCtx.TalkRepository.FindTalkList(reqCtx, page)
+	talkList, total, err := s.FindTalkList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	// 查询分类下的文章数量
 
-	for _, talk := range categories {
+	for _, talk := range talkList {
 
 		user, err := s.svcCtx.UserInformationRepository.FindUserInformation(reqCtx, talk.UserID)
 		if err != nil {

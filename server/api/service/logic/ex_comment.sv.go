@@ -10,7 +10,12 @@ import (
 
 // 分页获取Comment记录
 func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
-	commentList, total, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	commentList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	total, err = s.svcCtx.CommentRepository.Count(reqCtx, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -23,7 +28,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 	}
 
 	// 查询用户
-	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
+	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
 		Conditions: []*request.Condition{{
 			Field: "id",
 			Rule:  "in",
@@ -76,8 +81,17 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 
 // 查询Comment记录
 func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId int, page *request.PageQuery) (list []*response.ReplyDTO, total int64, err error) {
+	page.Conditions = append(page.Conditions, &request.Condition{Field: "parent_id", Rule: "=", Value: commentId})
 	// 查询评论下所有回复列表
-	replyList, total, _ := s.svcCtx.CommentRepository.FindCommentReplyList(reqCtx, commentId, page)
+	replyList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	total, err = s.svcCtx.CommentRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 
 	// 收集需要查询的用户id
 	var userIds []int
@@ -87,7 +101,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	}
 
 	// 查询用户
-	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
+	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
 		Conditions: []*request.Condition{{
 			Field: "id",
 			Rule:  "in",
@@ -138,7 +152,7 @@ func (s *CommentService) FindCommentListBack(reqCtx *request.Context, page *requ
 	// 使用用户昵称查询
 	username := page.FindCondition("username")
 	if username != nil {
-		accounts, _, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, &request.PageQuery{
+		accounts, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, &request.PageQuery{
 			Page:       0,
 			PageSize:   0,
 			Sorts:      nil,
@@ -159,7 +173,15 @@ func (s *CommentService) FindCommentListBack(reqCtx *request.Context, page *requ
 	}
 
 	// 查询评论下所有回复列表
-	replyList, total, _ := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	replyList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	total, err = s.svcCtx.CommentRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 
 	// 收集需要查询的用户id
 	var userIds []int
@@ -169,7 +191,7 @@ func (s *CommentService) FindCommentListBack(reqCtx *request.Context, page *requ
 	}
 
 	// 查询用户
-	users, _, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
+	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
 		Conditions: []*request.Condition{{
 			Field: "id",
 			Rule:  "in",

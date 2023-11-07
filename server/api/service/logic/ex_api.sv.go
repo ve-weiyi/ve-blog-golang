@@ -10,7 +10,7 @@ import (
 func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetails, total int64, err error) {
 	page.ResetPage()
 	// 查询api信息
-	apis, _, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
+	apis, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -7,16 +7,20 @@ import (
 
 // 分页获取Category记录
 func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
-	categories, total, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+	categories, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	total, err = s.svcCtx.CategoryRepository.Count(reqCtx, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	// 查询分类下的文章数量
-
 	for _, in := range categories {
 
-		_, articleCount, err := s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.ID)
+		articles, err := s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.ID)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -24,7 +28,7 @@ func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page 
 		out := &response.CategoryDetailsDTO{
 			ID:           in.ID,
 			CategoryName: in.CategoryName,
-			ArticleCount: articleCount,
+			ArticleCount: int64(len(articles)),
 			CreatedAt:    in.CreatedAt,
 			UpdatedAt:    in.UpdatedAt,
 		}

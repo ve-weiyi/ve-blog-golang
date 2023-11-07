@@ -31,8 +31,15 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 
 // 分页获取UserAccount记录
 func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserInfo, total int64, err error) {
-	userAccounts, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	userAccounts, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
 
+	total, err = s.svcCtx.UserAccountRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 	for _, ua := range userAccounts {
 		ui, err := s.GetUserInfo(reqCtx, ua.ID)
 		if err != nil {
@@ -76,11 +83,15 @@ func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *
 }
 
 func (s *UserService) FindUserListAreas(reqCtx *request.Context, page *request.PageQuery) (result []*response.UserArea, total int64, err error) {
-	list, total, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	list, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
 	}
 
+	total, err = s.svcCtx.UserAccountRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 	// 分类
 	AreaMap := make(map[string]int)
 	for _, item := range list {
@@ -112,12 +123,20 @@ func (s *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 	c := &request.Condition{Field: "user_id", Value: account.ID, Rule: "=", Flag: "AND"}
 	page.Conditions = append(page.Conditions, c)
 
-	histories, total, err := s.svcCtx.UserLoginHistoryRepository.FindUserLoginHistoryList(reqCtx, page)
+	histories, err := s.svcCtx.UserLoginHistoryRepository.FindUserLoginHistoryList(reqCtx, page)
+	if err != nil {
+		return nil, 0, err
+	}
 
+	total, err = s.svcCtx.UserLoginHistoryRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
 	for _, item := range histories {
 		his := convertLoginHistory(item)
 		result = append(result, his)
 	}
+
 	return result, total, nil
 }
 
