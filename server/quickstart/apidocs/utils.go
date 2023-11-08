@@ -325,7 +325,7 @@ func extractModelField(field ast.Node) *ModelField {
 	return nil
 }
 
-// response.Response{data=response.PageResult{list=[]entity.Api}} --> Response、PageResult 和 Api
+// response.Response{data=response.PageResult{list=[]entity.User}} --> Response、PageResult 和 User
 func extractFieldsAfterDot(input string) []string {
 	// 定义正则表达式
 	re := regexp.MustCompile(`\.(\w+)`)

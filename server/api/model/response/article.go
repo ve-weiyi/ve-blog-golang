@@ -9,6 +9,7 @@ type ArticleDetails struct {
 	ArticleContent string    `json:"article_content"`  // 内容
 	LikeCount      int       `json:"like_count"`       // 点赞量
 	ViewsCount     int       `json:"views_count"`      // 浏览量
+	IsTop          int       `json:"is_top"`           // 是否置顶
 	Type           int       `json:"type"`             // 文章类型
 	OriginalURL    string    `json:"original_url"`     // 原文链接
 	CreatedAt      time.Time `json:"created_at"`       // 发表时间
@@ -23,14 +24,15 @@ type ArticleConditionDTO struct {
 	ConditionName  string            `json:"condition_name"`   // 条件名
 }
 
-// ArticlePaginationDTO represents an article
-type ArticlePaginationDTO struct {
+// ArticleRecommendDetails represents an article
+type ArticleRecommendDetails struct {
 	ID                   int                  `json:"id"`                     // 文章ID
 	ArticleCover         string               `json:"article_cover"`          // 文章缩略图
 	ArticleTitle         string               `json:"article_title"`          // 标题
 	ArticleContent       string               `json:"article_content"`        // 内容
 	LikeCount            int                  `json:"like_count"`             // 点赞量
 	ViewsCount           int                  `json:"views_count"`            // 浏览量
+	IsTop                int                  `json:"is_top"`                 // 是否置顶
 	Type                 int                  `json:"type"`                   // 文章类型
 	OriginalURL          string               `json:"original_url"`           // 原文链接
 	CreatedAt            time.Time            `json:"created_at"`             // 发表时间

@@ -139,5 +139,5 @@ func getFuncName(path string) string {
 	//	name = name + "_" + key[i]
 	// }
 
-	return jsonconv.Case2CamelNotFirst(fmt.Sprintf("%s%s", name, "Api"))
+	return jsonconv.Case2CamelNotFirst(fmt.Sprintf("%s%s", name, "User"))
 }

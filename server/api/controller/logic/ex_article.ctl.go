@@ -16,7 +16,7 @@ import (
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		id		path		int										true	"Article id"
-// @Success		200		{object}	response.Response{data=response.ArticleDetails}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.ArticleRecommendDetails}	"返回信息"
 // @Router		/article/{id}/details [get]
 func (s *ArticleController) FindArticleDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -47,7 +47,7 @@ func (s *ArticleController) FindArticleDetails(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页信息"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ArticlePaginationDTO}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ArticleDetails}}	"返回信息"
 // @Router		/article/list/details [post]
 func (s *ArticleController) FindArticleDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

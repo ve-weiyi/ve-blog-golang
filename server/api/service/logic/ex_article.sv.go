@@ -7,7 +7,7 @@ import (
 )
 
 // 根据id获取Article记录
-func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (data *response.ArticlePaginationDTO, err error) {
+func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (data *response.ArticleRecommendDetails, err error) {
 	// 查询id对应文章
 	article, err := s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
 	if err != nil {

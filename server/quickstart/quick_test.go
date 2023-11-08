@@ -72,15 +72,15 @@ func TestPlate(t *testing.T) {
 			//tmpl.KeyRouter:     "",
 			//tmpl.KeyController: "",
 			//tmpl.KeyService:    "",
-			tmpl.KeyRepository: "",
-			//tmpl.KeyModel:      "",
+			//tmpl.KeyRepository: "",
+			tmpl.KeyModel: "",
 		},
 	}
 	typeInt := "int"
 	// 自定义字段的数据类型
 	// 统一数字类型为int64,兼容protobuf
 	dataMap := map[string]func(columnType gorm.ColumnType) (dataType string){
-		//"tinyint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		"tinyint":   func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"smallint":  func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"mediumint": func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"bigint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
@@ -156,7 +156,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 }
 
 func TestVisitFile(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api", "")
+	root := path.Join(global.GetRuntimeRoot(), "server/api", "model/entity")
 	err := filepath.Walk(root, visitFile)
 	if err != nil {
 		fmt.Println("Error:", err)

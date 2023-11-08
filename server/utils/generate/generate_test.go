@@ -1,7 +1,6 @@
 package generate
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"testing"
@@ -33,14 +32,6 @@ func init() {
 	}
 	log.Println("mysql connection done")
 }
-
-func TestIndex(t *testing.T) {
-	tableName := "user_account"
-	index, _ := db.Migrator().GetIndexes(tableName)
-	js, _ := json.MarshalIndent(&index, "", " ")
-	log.Println("111--->", string(js))
-}
-
 func TestGenerator(t *testing.T) {
 
 	path := "./blog"
@@ -60,9 +51,9 @@ func TestGenerator(t *testing.T) {
 		//Mode: gogger.WithoutContext | gogger.WithDefaultQuery | gogger.WithQueryInterface,
 		Mode: gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface,
 		// 表字段可为 null 值时, 对应结体字段使用指针类型
-		FieldNullable: true, // generate pointer when field is nullable
+		FieldNullable: false, // generate pointer when field is nullable
 		// 表字段有 默认值时, 对应结体字段使用指针类型
-		FieldCoverable: true, // generate pointer when field has default value, to fix problem zero value cannot be assign: https://gorm.io/docs/create.html#Default-Values
+		FieldCoverable: false, // generate pointer when field has default value, to fix problem zero value cannot be assign: https://gorm.io/docs/create.html#Default-Values
 		// 模型结构体字段的数字类型的符号表示是否与表字段的一致, `false`指示都用有符号类型
 		FieldSignable: true, // detect integer field's unsigned type, adjust generated data type
 		// 生成 gorm 标签的字段索引属性
@@ -75,6 +66,8 @@ func TestGenerator(t *testing.T) {
 	g.UseDB(db)
 
 	typeInt := "int"
+	//typeTime := "sql.NullTime"
+
 	// 自定义字段的数据类型
 	// 统一数字类型为int64,兼容protobuf
 	dataMap := map[string]func(columnType gorm.ColumnType) (dataType string){
@@ -83,6 +76,11 @@ func TestGenerator(t *testing.T) {
 		"mediumint": func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"bigint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"int":       func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		//"time":      func(columnType gorm.ColumnType) (dataType string) { return typeTime },
+		//"date":      func(columnType gorm.ColumnType) (dataType string) { return typeTime },
+		//"datetime":  func(columnType gorm.ColumnType) (dataType string) { return typeTime },
+		//"timestamp": func(columnType gorm.ColumnType) (dataType string) { return typeTime },
+		//"json":      func(columnType gorm.ColumnType) (dataType string) { return "datatypes.JSON" },
 	}
 	// 要先于`ApplyBasic`执行
 	g.WithDataTypeMap(dataMap)
@@ -99,28 +97,28 @@ func TestGenerator(t *testing.T) {
 
 	// 将非默认字段名的字段定义为自动时间戳和软删除字段;
 	// 自动时间戳默认字段名为:`updated_at`、`created_at, 表字段数据类型为: INT 或 DATETIME
-	// 软删除默认字段名为:`deleted_at`, 表字段数据类型为: DATETIME
 	autoUpdateTimeField := gen.FieldGORMTag("update_time", func(tag field.GormTag) field.GormTag {
 		tag.Set("column", "update_time")
-		tag.Set("type", "datetime")
+		tag.Set("type", "timestamp")
 		tag.Set("autoUpdateTime")
 		return tag
 	})
 	autoCreateTimeField := gen.FieldGORMTag("create_time", func(tag field.GormTag) field.GormTag {
 		tag.Set("column", "update_time")
-		tag.Set("type", "datetime")
+		tag.Set("type", "timestamp")
 		tag.Set("autoUpdateTime")
 		return tag
 	})
+	// 软删除默认字段名为:`deleted_at`, 表字段数据类型为: DATETIME
 	softDeleteField := gen.FieldType("delete_time", "soft_delete.DeletedAt")
 	// 模型自定义选项组
-	fieldOpts := []gen.ModelOpt{jsonField, autoCreateTimeField, autoUpdateTimeField, softDeleteField, gen.FieldTrimPrefix("tb_")}
+	fieldOpts := []gen.ModelOpt{gen.FieldTrimPrefix("tb_"), jsonField, autoCreateTimeField, autoUpdateTimeField, softDeleteField}
 
 	// 创建模型的结构体,生成文件在 blog 目录; 先创建的结果会被后面创建的覆盖
 	// 创建全部模型文件, 并覆盖前面创建的同名模型
-	//g.ApplyBasic(g.GenerateAllTable(fieldOpts...)...)
+	g.ApplyBasic(g.GenerateAllTable(fieldOpts...)...)
 
-	g.ApplyBasic(g.GenerateModel("article", fieldOpts...))
+	//g.ApplyBasic(g.GenerateModel("article", fieldOpts...))
 	g.Execute()
 }
 
