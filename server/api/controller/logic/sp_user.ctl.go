@@ -249,7 +249,7 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		data	body		entity.UserInformation					true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
+// @Success		200		{object}	response.Response{data=entity.UserInformation}	"返回信息"
 // @Router		/user/info [post]
 func (s *UserController) UpdateUserInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -281,8 +281,8 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		data	body		entity.Upload							true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Upload}	"返回信息"
+// @Param		file	formData	file									true	"文件"
+// @Success		200		{object}	response.Response{data=entity.UserInformation}	"返回信息"
 // @Router		/user/avatar [post]
 func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

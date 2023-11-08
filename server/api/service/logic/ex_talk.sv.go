@@ -3,6 +3,7 @@ package logic
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // 获取说说详情列表
@@ -21,18 +22,21 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 			return nil, 0, err
 		}
 
+		var imgList []string
+		jsonconv.JsonToObject(talk.Images, &imgList)
 		data := &response.TalkDetails{
-			ID:        talk.ID,
-			UserID:    talk.UserID,
-			Nickname:  user.Nickname,
-			Avatar:    user.Avatar,
-			Content:   talk.Content,
-			Images:    talk.Images,
-			IsTop:     talk.IsTop,
-			Status:    talk.Status,
-			LikeCount: 10,
-			CreatedAt: talk.CreatedAt,
-			UpdatedAt: talk.UpdatedAt,
+			ID:           talk.ID,
+			UserID:       talk.UserID,
+			Nickname:     user.Nickname,
+			Avatar:       user.Avatar,
+			Content:      talk.Content,
+			ImgList:      imgList,
+			IsTop:        talk.IsTop,
+			Status:       talk.Status,
+			LikeCount:    10,
+			CommentCount: 10,
+			CreatedAt:    talk.CreatedAt,
+			UpdatedAt:    talk.UpdatedAt,
 		}
 
 		list = append(list, data)
@@ -54,13 +58,15 @@ func (s *TalkService) FindTalkDetails(reqCtx *request.Context, id int) (data *re
 		return nil, err
 	}
 
+	var imgList []string
+	jsonconv.JsonToObject(talk.Images, &imgList)
 	data = &response.TalkDetails{
 		ID:        talk.ID,
 		UserID:    talk.UserID,
 		Nickname:  user.Nickname,
 		Avatar:    user.Avatar,
 		Content:   talk.Content,
-		Images:    talk.Images,
+		ImgList:   imgList,
 		IsTop:     talk.IsTop,
 		Status:    talk.Status,
 		LikeCount: 10,

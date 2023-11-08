@@ -212,7 +212,7 @@ func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 // @Param		token	header		string										false	"token"
 // @Param		uid		header		string										false	"uid"
 // @Param		page	body		request.PageQuery							true	"分页信息"
-// @Success		200		{object}	response.Response{data=entity.ChatRecord}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.ChatRecord}}	"返回信息"
 // @Router		/chat/records [post]
 func (s *WebsiteController) FindChatRecords(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

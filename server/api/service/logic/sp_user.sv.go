@@ -212,7 +212,7 @@ func (s *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetP
 }
 
 // 修改用户角色
-func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.FileHeader) (data interface{}, err error) {
+func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.FileHeader) (data *entity.UserInformation, err error) {
 	label := "avatar"
 	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {

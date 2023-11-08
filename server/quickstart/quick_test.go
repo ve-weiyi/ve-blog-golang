@@ -56,7 +56,7 @@ func TestPlate(t *testing.T) {
 			return fmt.Sprintf("bs_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
-			return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID")
+			return jsonconv.Case2Camel(column)
 		},
 		FieldJsonNS: func(column string) string {
 			return jsonconv.Camel2Case(column)
