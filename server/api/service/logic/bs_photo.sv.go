@@ -28,12 +28,12 @@ func (s *PhotoService) UpdatePhoto(reqCtx *request.Context, photo *entity.Photo)
 
 // 删除Photo记录
 func (s *PhotoService) DeletePhoto(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.PhotoRepository.DeletePhoto(reqCtx, id)
+	return s.svcCtx.PhotoRepository.DeletePhotoById(reqCtx, id)
 }
 
 // 查询Photo记录
 func (s *PhotoService) FindPhoto(reqCtx *request.Context, id int) (data *entity.Photo, err error) {
-	return s.svcCtx.PhotoRepository.FindPhoto(reqCtx, id)
+	return s.svcCtx.PhotoRepository.FindPhotoById(reqCtx, id)
 }
 
 // 批量删除Photo记录
@@ -43,7 +43,7 @@ func (s *PhotoService) DeletePhotoByIds(reqCtx *request.Context, ids []int) (row
 
 // 分页获取Photo记录
 func (s *PhotoService) FindPhotoList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Photo, total int64, err error) {
-	list, err = s.svcCtx.PhotoRepository.FindPhotoList(reqCtx, page)
+	list, err = s.svcCtx.PhotoRepository.FindPhotoList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

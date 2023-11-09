@@ -28,12 +28,12 @@ func (s *CategoryService) UpdateCategory(reqCtx *request.Context, category *enti
 
 // 删除Category记录
 func (s *CategoryService) DeleteCategory(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.CategoryRepository.DeleteCategory(reqCtx, id)
+	return s.svcCtx.CategoryRepository.DeleteCategoryById(reqCtx, id)
 }
 
 // 查询Category记录
 func (s *CategoryService) FindCategory(reqCtx *request.Context, id int) (data *entity.Category, err error) {
-	return s.svcCtx.CategoryRepository.FindCategory(reqCtx, id)
+	return s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, id)
 }
 
 // 批量删除Category记录
@@ -43,7 +43,7 @@ func (s *CategoryService) DeleteCategoryByIds(reqCtx *request.Context, ids []int
 
 // 分页获取Category记录
 func (s *CategoryService) FindCategoryList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Category, total int64, err error) {
-	list, err = s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, page)
+	list, err = s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

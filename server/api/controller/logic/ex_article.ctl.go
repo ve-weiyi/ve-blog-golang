@@ -73,7 +73,7 @@ func (s *ArticleController) FindArticleDetailsList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -110,7 +110,7 @@ func (s *ArticleController) FindArticleArchives(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 

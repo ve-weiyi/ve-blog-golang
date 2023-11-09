@@ -78,12 +78,12 @@ func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, 
 
 // 删除{{.StructName}}记录
 func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}(reqCtx, id)
+	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}ById(reqCtx, id)
 }
 
 // 查询{{.StructName}}记录
 func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, id int) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}(reqCtx, id)
+	return s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}ById(reqCtx, id)
 }
 
 // 批量删除{{.StructName}}记录
@@ -93,7 +93,7 @@ func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Cont
 
 // 分页获取{{.StructName}}记录
 func (s *{{.StructName}}Service) Find{{.StructName}}List(reqCtx *request.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
-	list, err = s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}List(reqCtx, page)
+	list, err = s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}List(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -28,12 +28,12 @@ func (s *RoleService) UpdateRole(reqCtx *request.Context, role *entity.Role) (da
 
 // 删除Role记录
 func (s *RoleService) DeleteRole(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.RoleRepository.DeleteRole(reqCtx, id)
+	return s.svcCtx.RoleRepository.DeleteRoleById(reqCtx, id)
 }
 
 // 查询Role记录
 func (s *RoleService) FindRole(reqCtx *request.Context, id int) (data *entity.Role, err error) {
-	return s.svcCtx.RoleRepository.FindRole(reqCtx, id)
+	return s.svcCtx.RoleRepository.FindRoleById(reqCtx, id)
 }
 
 // 批量删除Role记录
@@ -43,7 +43,7 @@ func (s *RoleService) DeleteRoleByIds(reqCtx *request.Context, ids []int) (rows 
 
 // 分页获取Role记录
 func (s *RoleService) FindRoleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Role, total int64, err error) {
-	list, err = s.svcCtx.RoleRepository.FindRoleList(reqCtx, page)
+	list, err = s.svcCtx.RoleRepository.FindRoleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

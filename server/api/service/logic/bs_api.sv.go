@@ -28,12 +28,12 @@ func (s *ApiService) UpdateApi(reqCtx *request.Context, api *entity.Api) (data *
 
 // 删除Api记录
 func (s *ApiService) DeleteApi(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.ApiRepository.DeleteApi(reqCtx, id)
+	return s.svcCtx.ApiRepository.DeleteApiById(reqCtx, id)
 }
 
 // 查询Api记录
 func (s *ApiService) FindApi(reqCtx *request.Context, id int) (data *entity.Api, err error) {
-	return s.svcCtx.ApiRepository.FindApi(reqCtx, id)
+	return s.svcCtx.ApiRepository.FindApiById(reqCtx, id)
 }
 
 // 批量删除Api记录
@@ -43,7 +43,7 @@ func (s *ApiService) DeleteApiByIds(reqCtx *request.Context, ids []int) (rows in
 
 // 分页获取Api记录
 func (s *ApiService) FindApiList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Api, total int64, err error) {
-	list, err = s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
+	list, err = s.svcCtx.ApiRepository.FindApiList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

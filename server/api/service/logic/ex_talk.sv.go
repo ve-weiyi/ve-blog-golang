@@ -17,7 +17,7 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 
 	for _, talk := range talkList {
 
-		user, err := s.svcCtx.UserInformationRepository.FindUserInformation(reqCtx, talk.UserID)
+		user, err := s.svcCtx.UserInformationRepository.FindUserInformationById(reqCtx, talk.UserID)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -48,12 +48,12 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 // 获取说说详情
 func (s *TalkService) FindTalkDetails(reqCtx *request.Context, id int) (data *response.TalkDetails, err error) {
 	// 查询api信息
-	talk, err := s.svcCtx.TalkRepository.FindTalk(reqCtx, id)
+	talk, err := s.svcCtx.TalkRepository.FindTalkById(reqCtx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	user, err := s.svcCtx.UserInformationRepository.FindUserInformation(reqCtx, talk.UserID)
+	user, err := s.svcCtx.UserInformationRepository.FindUserInformationById(reqCtx, talk.UserID)
 	if err != nil {
 		return nil, err
 	}

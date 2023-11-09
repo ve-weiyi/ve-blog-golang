@@ -28,12 +28,12 @@ func (s *FriendLinkService) UpdateFriendLink(reqCtx *request.Context, friendLink
 
 // 删除FriendLink记录
 func (s *FriendLinkService) DeleteFriendLink(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.FriendLinkRepository.DeleteFriendLink(reqCtx, id)
+	return s.svcCtx.FriendLinkRepository.DeleteFriendLinkById(reqCtx, id)
 }
 
 // 查询FriendLink记录
 func (s *FriendLinkService) FindFriendLink(reqCtx *request.Context, id int) (data *entity.FriendLink, err error) {
-	return s.svcCtx.FriendLinkRepository.FindFriendLink(reqCtx, id)
+	return s.svcCtx.FriendLinkRepository.FindFriendLinkById(reqCtx, id)
 }
 
 // 批量删除FriendLink记录
@@ -43,7 +43,7 @@ func (s *FriendLinkService) DeleteFriendLinkByIds(reqCtx *request.Context, ids [
 
 // 分页获取FriendLink记录
 func (s *FriendLinkService) FindFriendLinkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.FriendLink, total int64, err error) {
-	list, err = s.svcCtx.FriendLinkRepository.FindFriendLinkList(reqCtx, page)
+	list, err = s.svcCtx.FriendLinkRepository.FindFriendLinkList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

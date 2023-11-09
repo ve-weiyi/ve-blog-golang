@@ -55,7 +55,7 @@ func (s *UserController) FindUserList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -92,7 +92,7 @@ func (s *UserController) FindUserListAreas(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -129,7 +129,7 @@ func (s *UserController) FindUserLoginHistoryList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 

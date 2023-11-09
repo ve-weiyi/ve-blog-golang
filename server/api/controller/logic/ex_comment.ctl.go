@@ -41,7 +41,7 @@ func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -79,7 +79,7 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -120,7 +120,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 

@@ -28,12 +28,12 @@ func (s *RemarkService) UpdateRemark(reqCtx *request.Context, remark *entity.Rem
 
 // 删除Remark记录
 func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.RemarkRepository.DeleteRemark(reqCtx, id)
+	return s.svcCtx.RemarkRepository.DeleteRemarkById(reqCtx, id)
 }
 
 // 查询Remark记录
 func (s *RemarkService) FindRemark(reqCtx *request.Context, id int) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.FindRemark(reqCtx, id)
+	return s.svcCtx.RemarkRepository.FindRemarkById(reqCtx, id)
 }
 
 // 批量删除Remark记录
@@ -43,7 +43,7 @@ func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (r
 
 // 分页获取Remark记录
 func (s *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
-	list, err = s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, page)
+	list, err = s.svcCtx.RemarkRepository.FindRemarkList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

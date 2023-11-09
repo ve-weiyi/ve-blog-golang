@@ -28,12 +28,12 @@ func (s *PageService) UpdatePage(reqCtx *request.Context, page *entity.Page) (da
 
 // 删除Page记录
 func (s *PageService) DeletePage(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.PageRepository.DeletePage(reqCtx, id)
+	return s.svcCtx.PageRepository.DeletePageById(reqCtx, id)
 }
 
 // 查询Page记录
 func (s *PageService) FindPage(reqCtx *request.Context, id int) (data *entity.Page, err error) {
-	return s.svcCtx.PageRepository.FindPage(reqCtx, id)
+	return s.svcCtx.PageRepository.FindPageById(reqCtx, id)
 }
 
 // 批量删除Page记录
@@ -43,7 +43,7 @@ func (s *PageService) DeletePageByIds(reqCtx *request.Context, ids []int) (rows 
 
 // 分页获取Page记录
 func (s *PageService) FindPageList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Page, total int64, err error) {
-	list, err = s.svcCtx.PageRepository.FindPageList(reqCtx, page)
+	list, err = s.svcCtx.PageRepository.FindPageList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

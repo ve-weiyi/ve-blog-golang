@@ -4,18 +4,19 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 // 根据id获取Article记录
 func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (data *response.ArticleRecommendDetails, err error) {
 	// 查询id对应文章
-	article, err := s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
+	article, err := s.svcCtx.ArticleRepository.FindArticleById(reqCtx, id)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章分类
-	category, err := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
+	category, err := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
 	if err != nil {
 		return nil, err
 	}
@@ -33,13 +34,15 @@ func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (da
 	}
 	// 查询最新文章
 	page := &request.PageQuery{
-		Page:     0,
-		PageSize: 5,
-		Sorts: []*request.Sort{
+		PageLimit: sqlx.PageLimit{
+			Page:     0,
+			PageSize: 5,
+		},
+		Sorts: []*sqlx.Sort{
 			{Field: "id", Order: "desc"},
 		},
 	}
-	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +70,7 @@ func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (da
 // 分页获取Article记录
 func (s *ArticleService) FindArticleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDetails, total int64, err error) {
 	// 查询文章列表
-	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -78,7 +81,7 @@ func (s *ArticleService) FindArticleDetailsList(reqCtx *request.Context, page *r
 	}
 	for _, article := range articles {
 		//查询文章分类
-		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
+		category, _ := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
 		// 查询文章标签
 		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
@@ -96,14 +99,14 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 	var articles []*entity.Article
 
 	if req.CategoryID != 0 {
-		category, err := s.svcCtx.CategoryRepository.FindCategory(reqCtx, req.CategoryID)
+		category, err := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, req.CategoryID)
 		if err != nil {
 			return nil, err
 		}
 		articles, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
 		data.ConditionName = category.CategoryName
 	} else if req.TagID != 0 {
-		tag, err := s.svcCtx.TagRepository.FindTag(reqCtx, req.TagID)
+		tag, err := s.svcCtx.TagRepository.FindTagById(reqCtx, req.TagID)
 		if err != nil {
 			return nil, err
 		}
@@ -114,7 +117,7 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 	var list []*response.ArticleDetails
 	for _, article := range articles {
 		//查询文章分类
-		category, _ := s.svcCtx.CategoryRepository.FindCategory(reqCtx, article.CategoryID)
+		category, _ := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
 		// 查询文章标签
 		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
@@ -130,10 +133,10 @@ func (s *ArticleService) FindArticleListByCondition(reqCtx *request.Context, req
 
 func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticlePreviewDTO, total int64, err error) {
 	// 查找最新数据
-	page.Sorts = []*request.Sort{
+	page.Sorts = []*sqlx.Sort{
 		{Field: "id", Order: "desc"},
 	}
-	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -28,12 +28,12 @@ func (s *ArticleService) UpdateArticle(reqCtx *request.Context, article *entity.
 
 // 删除Article记录
 func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.ArticleRepository.DeleteArticle(reqCtx, id)
+	return s.svcCtx.ArticleRepository.DeleteArticleById(reqCtx, id)
 }
 
 // 查询Article记录
 func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *entity.Article, err error) {
-	return s.svcCtx.ArticleRepository.FindArticle(reqCtx, id)
+	return s.svcCtx.ArticleRepository.FindArticleById(reqCtx, id)
 }
 
 // 批量删除Article记录
@@ -43,7 +43,7 @@ func (s *ArticleService) DeleteArticleByIds(reqCtx *request.Context, ids []int) 
 
 // 分页获取Article记录
 func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Article, total int64, err error) {
-	list, err = s.svcCtx.ArticleRepository.FindArticleList(reqCtx, page)
+	list, err = s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

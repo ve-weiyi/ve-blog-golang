@@ -4,11 +4,12 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 // 分页获取Comment记录
 func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
-	commentList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	commentList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -26,13 +27,12 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 	}
 
 	// 查询用户
-	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
-		Conditions: []*request.Condition{{
-			Field: "id",
-			Rule:  "in",
-			Value: userIds,
-		}},
+	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, nil, nil, &sqlx.Condition{
+		Field: "id",
+		Rule:  "in",
+		Value: userIds,
 	})
+
 	var userMap = make(map[int]*entity.UserInformation)
 	for _, item := range users {
 		userMap[item.ID] = item
@@ -41,8 +41,10 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 	for _, item := range commentList {
 		// 查询评论下所有回复列表,只显示五条
 		replyList, count, _ := s.FindCommentReplyList(reqCtx, item.ID, &request.PageQuery{
-			Page:     1,
-			PageSize: 5,
+			PageLimit: sqlx.PageLimit{
+				Page:     1,
+				PageSize: 5,
+			},
 		})
 		// 查询当前评论下所有回复列表
 		data := &response.CommentDTO{
@@ -79,9 +81,9 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 
 // 查询Comment记录
 func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId int, page *request.PageQuery) (list []*response.ReplyDTO, total int64, err error) {
-	page.Conditions = append(page.Conditions, &request.Condition{Field: "parent_id", Rule: "=", Value: commentId})
+	page.Conditions = append(page.Conditions, &sqlx.Condition{Field: "parent_id", Rule: "=", Value: commentId})
 	// 查询评论下所有回复列表
-	replyList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	replyList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -99,12 +101,10 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	}
 
 	// 查询用户
-	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
-		Conditions: []*request.Condition{{
-			Field: "id",
-			Rule:  "in",
-			Value: userIds,
-		}},
+	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, nil, nil, &sqlx.Condition{
+		Field: "id",
+		Rule:  "in",
+		Value: userIds,
 	})
 	var userMap = make(map[int]*entity.UserInformation)
 	for _, item := range users {
@@ -148,14 +148,9 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 // 查询Comment后台记录
 func (s *CommentService) FindCommentBackList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentBackDTO, total int64, err error) {
 	// 使用用户昵称查询
-	username := page.FindCondition("username")
-	if username != nil {
-		accounts, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, &request.PageQuery{
-			Page:       0,
-			PageSize:   0,
-			Sorts:      nil,
-			Conditions: []*request.Condition{username},
-		})
+	cond := sqlx.FindCondition(page.Conditions, "username")
+	if cond != nil {
+		accounts, err := s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, nil, nil, cond)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -165,13 +160,13 @@ func (s *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 			userIds = append(userIds, item.ID)
 		}
 		// 替换查询条件
-		username.Field = "user_id"
-		username.Value = userIds
-		username.Rule = "in"
+		cond.Field = "user_id"
+		cond.Value = userIds
+		cond.Rule = "in"
 	}
 
 	// 查询评论下所有回复列表
-	commentList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	commentList, err := s.svcCtx.CommentRepository.FindCommentList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -191,24 +186,20 @@ func (s *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 	}
 
 	// 查询用户
-	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, &request.PageQuery{
-		Conditions: []*request.Condition{{
-			Field: "id",
-			Rule:  "in",
-			Value: userIds,
-		}},
+	users, _ := s.svcCtx.UserInformationRepository.FindUserInformationList(reqCtx, nil, nil, &sqlx.Condition{
+		Field: "id",
+		Rule:  "in",
+		Value: userIds,
 	})
 	var userMap = make(map[int]*entity.UserInformation)
 	for _, item := range users {
 		userMap[item.ID] = item
 	}
 	// 查询文章
-	atricles, _ := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &request.PageQuery{
-		Conditions: []*request.Condition{{
-			Field: "id",
-			Rule:  "in",
-			Value: articleIds,
-		}},
+	atricles, _ := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, nil, nil, &sqlx.Condition{
+		Field: "id",
+		Rule:  "in",
+		Value: articleIds,
 	})
 	var articleMap = make(map[int]*entity.Article)
 	for _, item := range atricles {

@@ -7,7 +7,7 @@ import (
 
 // 分页获取Tag记录
 func (s *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TagDetailsDTO, total int64, err error) {
-	categories, err := s.svcCtx.TagRepository.FindTagList(reqCtx, page)
+	categories, err := s.svcCtx.TagRepository.FindTagList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

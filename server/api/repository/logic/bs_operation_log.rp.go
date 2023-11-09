@@ -7,8 +7,8 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type OperationLogRepository struct {
@@ -24,14 +24,8 @@ func NewOperationLogRepository(svcCtx *svc.RepositoryContext) *OperationLogRepos
 }
 
 // 创建OperationLog记录
-func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operationLog *entity.OperationLog, conditions ...*request.Condition) (out *entity.OperationLog, err error) {
+func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operationLog *entity.OperationLog) (out *entity.OperationLog, err error) {
 	db := s.DbEngin.WithContext(ctx)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
-		db = db.Where(query, args...)
-	}
 
 	err = db.Create(&operationLog).Error
 	if err != nil {
@@ -41,14 +35,8 @@ func (s *OperationLogRepository) CreateOperationLog(ctx context.Context, operati
 }
 
 // 更新OperationLog记录
-func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operationLog *entity.OperationLog, conditions ...*request.Condition) (out *entity.OperationLog, err error) {
+func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operationLog *entity.OperationLog) (out *entity.OperationLog, err error) {
 	db := s.DbEngin.WithContext(ctx)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
-		db = db.Where(query, args...)
-	}
 
 	err = db.Save(&operationLog).Error
 	if err != nil {
@@ -58,72 +46,56 @@ func (s *OperationLogRepository) UpdateOperationLog(ctx context.Context, operati
 }
 
 // 删除OperationLog记录
-func (s *OperationLogRepository) DeleteOperationLog(ctx context.Context, id int, conditions ...*request.Condition) (rows int, err error) {
+func (s *OperationLogRepository) DeleteOperationLog(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
+		query, args := sqlx.ConditionClause(conditions)
 		db = db.Where(query, args...)
 	}
 
-	query := db.Delete(&entity.OperationLog{}, "id = ?", id)
+	query := db.Delete(&entity.OperationLog{})
 	err = query.Error
 	rows = int(query.RowsAffected)
 	return rows, err
 }
 
 // 查询OperationLog记录
-func (s *OperationLogRepository) FindOperationLog(ctx context.Context, id int, conditions ...*request.Condition) (out *entity.OperationLog, err error) {
+func (s *OperationLogRepository) FindOperationLog(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.OperationLog, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
+		query, args := sqlx.ConditionClause(conditions)
 		db = db.Where(query, args...)
 	}
 
-	err = db.Where("id = ?", id).First(&out).Error
+	err = db.First(&out).Error
 	if err != nil {
 		return nil, err
 	}
 	return out, err
 }
 
-// 批量删除OperationLog记录
-func (s *OperationLogRepository) DeleteOperationLogByIds(ctx context.Context, ids []int, conditions ...*request.Condition) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
-		db = db.Where(query, args...)
-	}
-
-	query := db.Delete(&entity.OperationLog{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
 // 分页查询OperationLog记录
-func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page *request.PageQuery) (list []*entity.OperationLog, err error) {
+func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.OperationLog, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
-	if len(page.Conditions) != 0 {
-		query, args := page.WhereClause()
+	if len(conditions) != 0 {
+		query, args := sqlx.ConditionClause(conditions)
 		db = db.Where(query, args...)
 	}
 
 	// 如果有排序参数
-	if len(page.Sorts) != 0 {
-		db = db.Order(page.OrderClause())
+	if len(sorts) != 0 {
+		db = db.Order(sqlx.OrderClause(sorts))
 	}
 
 	// 如果有分页参数
-	if page.Page != 0 || page.PageSize != 0 {
+	if page != nil && page.IsValid() {
 		limit := page.Limit()
 		offset := page.Offset()
 		db = db.Limit(limit).Offset(offset)
@@ -139,12 +111,12 @@ func (s *OperationLogRepository) FindOperationLogList(ctx context.Context, page 
 }
 
 // 查询总数
-func (s *OperationLogRepository) Count(ctx context.Context, conditions ...*request.Condition) (count int64, err error) {
+func (s *OperationLogRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := request.WhereConditions(conditions)
+		query, args := sqlx.ConditionClause(conditions)
 		db = db.Where(query, args...)
 	}
 
@@ -153,4 +125,35 @@ func (s *OperationLogRepository) Count(ctx context.Context, conditions ...*reque
 		return 0, err
 	}
 	return count, nil
+}
+
+// 查询OperationLog记录——根据id
+func (s *OperationLogRepository) FindOperationLogById(ctx context.Context, id int) (out *entity.OperationLog, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	err = db.Where("id = ?", id).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
+// 删除OperationLog记录——根据id
+func (s *OperationLogRepository) DeleteOperationLogById(ctx context.Context, id int) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	query := db.Delete(&entity.OperationLog{}, "id = ?", id)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
+// 批量删除OperationLog记录——根据ids
+func (s *OperationLogRepository) DeleteOperationLogByIds(ctx context.Context, ids []int) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	query := db.Delete(&entity.OperationLog{}, "id in ?", ids)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
 }

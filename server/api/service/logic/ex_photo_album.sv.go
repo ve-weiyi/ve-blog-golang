@@ -3,6 +3,7 @@ package logic
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 // 分页获取PhotoAlbum记录
@@ -14,7 +15,7 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 
 	// 查询相册下的照片数量
 	for _, in := range albumList {
-		count, err := s.svcCtx.PhotoRepository.Count(reqCtx, &request.Condition{Field: "album_id", Rule: "=", Value: in.ID})
+		count, err := s.svcCtx.PhotoRepository.Count(reqCtx, &sqlx.Condition{Field: "album_id", Rule: "=", Value: in.ID})
 		if err != nil {
 			return nil, 0, err
 		}
@@ -32,12 +33,12 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 
 // 查询PhotoAlbum记录
 func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, id int) (data *response.PhotoAlbumDetails, err error) {
-	album, err := s.svcCtx.PhotoAlbumRepository.FindPhotoAlbum(reqCtx, id)
+	album, err := s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumById(reqCtx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := s.svcCtx.PhotoRepository.Count(reqCtx, &request.Condition{Field: "album_id", Rule: "=", Value: id})
+	count, err := s.svcCtx.PhotoRepository.Count(reqCtx, &sqlx.Condition{Field: "album_id", Rule: "=", Value: id})
 	if err != nil {
 		return nil, err
 	}

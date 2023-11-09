@@ -28,12 +28,12 @@ func (s *ChatRecordService) UpdateChatRecord(reqCtx *request.Context, chatRecord
 
 // 删除ChatRecord记录
 func (s *ChatRecordService) DeleteChatRecord(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.ChatRecordRepository.DeleteChatRecord(reqCtx, id)
+	return s.svcCtx.ChatRecordRepository.DeleteChatRecordById(reqCtx, id)
 }
 
 // 查询ChatRecord记录
 func (s *ChatRecordService) FindChatRecord(reqCtx *request.Context, id int) (data *entity.ChatRecord, err error) {
-	return s.svcCtx.ChatRecordRepository.FindChatRecord(reqCtx, id)
+	return s.svcCtx.ChatRecordRepository.FindChatRecordById(reqCtx, id)
 }
 
 // 批量删除ChatRecord记录
@@ -43,7 +43,7 @@ func (s *ChatRecordService) DeleteChatRecordByIds(reqCtx *request.Context, ids [
 
 // 分页获取ChatRecord记录
 func (s *ChatRecordService) FindChatRecordList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.ChatRecord, total int64, err error) {
-	list, err = s.svcCtx.ChatRecordRepository.FindChatRecordList(reqCtx, page)
+	list, err = s.svcCtx.ChatRecordRepository.FindChatRecordList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

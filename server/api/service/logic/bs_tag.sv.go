@@ -28,12 +28,12 @@ func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *
 
 // 删除Tag记录
 func (s *TagService) DeleteTag(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.TagRepository.DeleteTag(reqCtx, id)
+	return s.svcCtx.TagRepository.DeleteTagById(reqCtx, id)
 }
 
 // 查询Tag记录
 func (s *TagService) FindTag(reqCtx *request.Context, id int) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.FindTag(reqCtx, id)
+	return s.svcCtx.TagRepository.FindTagById(reqCtx, id)
 }
 
 // 批量删除Tag记录
@@ -43,7 +43,7 @@ func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows in
 
 // 分页获取Tag记录
 func (s *TagService) FindTagList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Tag, total int64, err error) {
-	list, err = s.svcCtx.TagRepository.FindTagList(reqCtx, page)
+	list, err = s.svcCtx.TagRepository.FindTagList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
