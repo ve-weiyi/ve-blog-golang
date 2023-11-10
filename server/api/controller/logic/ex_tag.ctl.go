@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.TagDetailsDTO}}	"返回信息"
-// @Router		/tag/list/details [post]
+// @Router		/tag/details_list [post]
 func (s *TagController) FindTagDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

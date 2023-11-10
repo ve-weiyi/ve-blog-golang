@@ -1709,7 +1709,7 @@ paths:
       summary: 分页获取接口列表
       tags:
         - Api
-  /api/list/details:
+  /api/details_list:
     post:
       consumes:
         - application/json
@@ -2100,7 +2100,7 @@ paths:
       summary: 通过标签或者id获取文章列表
       tags:
       - Article
-  /article/list/details:
+  /article/details_list:
     post:
       consumes:
         - application/json
@@ -2452,7 +2452,7 @@ paths:
       summary: 分页获取文章分类列表
       tags:
         - Category
-  /category/list/details:
+  /category/details_list:
     post:
       consumes:
         - application/json
@@ -2846,7 +2846,7 @@ paths:
       summary: 获取用户评论列表
       tags:
         - Comment
-  /comment/list/details:
+  /comment/details_list:
     post:
       consumes:
         - application/json
@@ -3463,7 +3463,7 @@ paths:
       summary: 分页获取菜单列表
       tags:
         - Menu
-  /menu/list/details:
+  /menu/details_list:
     post:
       consumes:
         - application/json
@@ -4894,7 +4894,7 @@ paths:
       summary: 分页获取角色列表
       tags:
         - Role
-  /role/list/details:
+  /role/details_list:
     post:
       consumes:
         - application/json
@@ -5212,7 +5212,7 @@ paths:
       summary: 分页获取文章标签列表
       tags:
         - Tag
-  /tag/list/details:
+  /tag/details_list:
     post:
       consumes:
         - application/json
@@ -5495,7 +5495,7 @@ paths:
       summary: 分页获取说说列表
       tags:
       - Talk
-  /talk/list/details:
+  /talk/details_list:
     post:
       consumes:
         - application/json

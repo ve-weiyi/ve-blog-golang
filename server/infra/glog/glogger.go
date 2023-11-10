@@ -6,18 +6,18 @@ import (
 
 	"go.uber.org/zap"
 
-	zaplog2 "github.com/ve-weiyi/ve-blog-golang/server/utils/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 )
 
 // go使用zap + lumberjack重构项目的日志系统 https://blog.csdn.net/weixin_52000204/article/details/126651319
 type Glogger struct {
-	cfg                zaplog2.ZapConfig // 日志配置
-	log                *zap.Logger       // 并重性能与易用性，支持结构化和 printf 风格的日志记录。
-	*zap.SugaredLogger                   // 非常强调性能，不提供 printf 风格的 api（减少了 interface{} 与 反射的性能损耗）
+	cfg                zaplog.ZapConfig // 日志配置
+	log                *zap.Logger      // 并重性能与易用性，支持结构化和 printf 风格的日志记录。
+	*zap.SugaredLogger                  // 非常强调性能，不提供 printf 风格的 api（减少了 interface{} 与 反射的性能损耗）
 }
 
-func NewGlogger(skip int, cfg zaplog2.ZapConfig) *Glogger {
-	logger := zaplog2.NewZapLogger(skip, cfg)
+func NewGlogger(skip int, cfg zaplog.ZapConfig) *Glogger {
+	logger := zaplog.NewZapLogger(skip, cfg)
 
 	//初始化内部类
 	mlog := new(Glogger)

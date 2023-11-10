@@ -19,10 +19,10 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/copyutil"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/zaplog"
 )
 
 func init() {

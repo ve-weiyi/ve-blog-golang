@@ -2,6 +2,7 @@ package sqlx
 
 import (
 	"fmt"
+	"strings"
 )
 
 // 分页
@@ -57,6 +58,19 @@ type Condition struct {
 	Value interface{} `json:"value"`                      // 值
 	Rule  string      `json:"rule" enums:"=,like,in,<,>"` // 比较运算符（Comparison Operators）。规则 =,like,in,<,>
 	Flag  string      `json:"flag" enums:"and,or"`        // 逻辑运算符（Logical Operators）。标识 and、or,默认and
+}
+
+// "`id` = ?" , 1
+func NewCondition(cond string, arg interface{}) *Condition {
+	key := strings.Split(cond, " ")
+	if len(key) != 3 {
+		return nil
+	}
+	return &Condition{
+		Field: key[0],
+		Value: arg,
+		Rule:  key[1],
+	}
 }
 
 // 转换条件语句
