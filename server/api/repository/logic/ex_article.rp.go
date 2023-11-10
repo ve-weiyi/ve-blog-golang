@@ -76,3 +76,21 @@ func (s *ArticleRepository) FindNextArticle(ctx context.Context, id int) (out *e
 
 	return &nextArticle, nil
 }
+
+// 修改文章删除状态
+func (s *ArticleRepository) UpdateArticleDelete(ctx context.Context, id int, delete int) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+	query := db.Model(&entity.Article{}).Where("id = ?", id).Update("is_delete", delete)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}
+
+// 修改文章置顶状态
+func (s *ArticleRepository) UpdateArticleTop(ctx context.Context, id int, top int) (rows int, err error) {
+	db := s.DbEngin.WithContext(ctx)
+	query := db.Model(&entity.Article{}).Where("id = ?", id).Update("is_top", top)
+	err = query.Error
+	rows = int(query.RowsAffected)
+	return rows, err
+}

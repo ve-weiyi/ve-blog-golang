@@ -28,26 +28,28 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 	}
 }
 
+func convertArticle(article *entity.Article) *response.ArticleDetails {
+	out := &response.ArticleDetails{
+		ID:             article.ID,
+		ArticleCover:   article.ArticleCover,
+		ArticleTitle:   article.ArticleTitle,
+		ArticleContent: article.ArticleContent,
+		LikeCount:      100,
+		ViewsCount:     200,
+		IsTop:          article.IsTop,
+		IsDelete:       article.IsDelete,
+		Type:           article.Type,
+		Status:         article.Status,
+		OriginalURL:    article.OriginalURL,
+		CreatedAt:      article.CreatedAt,
+		UpdatedAt:      article.UpdatedAt,
+	}
+	return out
+}
+
 func convertResponseArticle(entity *entity.Article) *response.ArticleRecommendDetails {
 	return &response.ArticleRecommendDetails{
-		ID:             entity.ID,
-		ArticleCover:   entity.ArticleCover,
-		ArticleTitle:   entity.ArticleTitle,
-		ArticleContent: entity.ArticleContent,
-		//LikeCount:            entity.LikeCount,
-		//ViewsCount:           entity.ViewsCount,
-		IsTop:       entity.IsTop,
-		Type:        entity.Type,
-		OriginalURL: entity.OriginalURL,
-		CreatedAt:   entity.CreatedAt,
-		UpdatedAt:   entity.UpdatedAt,
-		CategoryID:  entity.CategoryID,
-		//CategoryName:         "",
-		ArticleTagList: []*response.TagDTO{{1, "tag1"}, {2, "tag2"}, {3, "tag3"}},
-		//LastArticle:          response.ArticleRecommendDetails{},
-		//NextArticle:          response.ArticleRecommendDetails{},
-		//RecommendArticleList: nil,
-		//NewestArticleList:    nil,
+		ArticleDetails: *convertArticle(entity),
 	}
 }
 
@@ -75,24 +77,6 @@ func convertArticlePreview(article *entity.Article) *response.ArticlePreviewDTO 
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
-}
-
-func convertArticle(article *entity.Article) *response.ArticleDetails {
-	out := &response.ArticleDetails{
-		ID:             article.ID,
-		ArticleCover:   article.ArticleCover,
-		ArticleTitle:   article.ArticleTitle,
-		ArticleContent: article.ArticleContent,
-		LikeCount:      100,
-		ViewsCount:     200,
-		IsTop:          article.IsTop,
-		Type:           article.Type,
-		OriginalURL:    article.OriginalURL,
-		CreatedAt:      article.CreatedAt,
-		UpdatedAt:      article.UpdatedAt,
-		CategoryID:     article.CategoryID,
-	}
-	return out
 }
 
 func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleStatisticsDTO {

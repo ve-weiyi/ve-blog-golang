@@ -7,13 +7,13 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	zaplog2 "github.com/ve-weiyi/ve-blog-golang/server/utils/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 )
 
 // 同时输出到控制台和文件测试
 func TestGlogConsoleAndFile(t *testing.T) {
-	cfg := zaplog2.NewFileConfig()
-	cfg.Encoding = zaplog2.FormatConsole
+	cfg := zaplog.NewFileConfig()
+	cfg.Encoding = zaplog.FormatConsole
 	cfg.Path = "./logs"
 	cfg.FileName = "blog.log"
 	cfg.Prefix = "W "
@@ -30,8 +30,8 @@ func TestGlogConsoleAndFile(t *testing.T) {
 
 // 压力测试
 func BenchmarkExample(b *testing.B) {
-	logs := zaplog2.NewZapLogger(0, zaplog2.NewConsoleConfig())
-	logj := zaplog2.NewZapLogger(0, zaplog2.NewFileConfig())
+	logs := zaplog.NewZapLogger(0, zaplog.NewConsoleConfig())
+	logj := zaplog.NewZapLogger(0, zaplog.NewFileConfig())
 	for i := 0; i < b.N; i++ {
 		// 在这里执行需要进行压力测试的代码
 		logs.Sugar().Info("hello", i)

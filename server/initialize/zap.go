@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 )
