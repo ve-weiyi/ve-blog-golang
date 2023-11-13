@@ -161,10 +161,40 @@ func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/website/config [get]
+func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+	var req request.WebsiteConfigRequest
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteService.GetWebsiteConfig(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Website
+// @Summary		获取配置
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string								false	"token"
+// @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.WebsiteConfigRequest		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/website/config [post]
-func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
+// @Router		/admin/config [post]
+func (s *WebsiteController) GetConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -187,15 +217,15 @@ func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 }
 
 // @Tags		Website
-// @Summary		更新网站配置
+// @Summary		更新配置
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.WebsiteConfigRequest		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/admin/website/config [put]
-func (s *WebsiteController) UpdateWebsiteConfig(c *gin.Context) {
+// @Router		/admin/config [put]
+func (s *WebsiteController) UpdateConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)

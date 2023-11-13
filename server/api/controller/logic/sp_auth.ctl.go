@@ -236,7 +236,7 @@ func (s *UserController) ResetPassword(c *gin.Context) {
 // @Param		token	header		string											false	"token"
 // @Param		uid		header		string											false	"uid"
 // @Param		data	body		request.OauthLoginReq							true	"请求body"
-// @Success		200		{object}	response.Response{data=response.OauthLoginUrl}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.Login}	"返回信息"
 // @Router		/oauth/login [post]
 func (s *AuthController) OauthLogin(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

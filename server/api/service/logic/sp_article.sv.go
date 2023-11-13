@@ -67,16 +67,6 @@ func (s *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 	return article, nil
 }
 
-// 更新Article删除状态
-func (s *ArticleService) UpdateArticleDelete(reqCtx *request.Context, req *request.ArticleDeleteReq) (rows int, err error) {
-	return s.svcCtx.ArticleRepository.UpdateArticleDelete(reqCtx, req.ID, req.IsDelete)
-}
-
-// 更新Article记录
-func (s *ArticleService) UpdateArticleTop(reqCtx *request.Context, req *request.ArticleTopReq) (rows int, err error) {
-	return s.svcCtx.ArticleRepository.UpdateArticleTop(reqCtx, req.ID, req.IsTop)
-}
-
 // 删除Article记录
 func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int, err error) {
 	// 删除文章标签映射
@@ -89,7 +79,7 @@ func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows in
 }
 
 // 根据id获取Article记录
-func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *response.ArticleDetails, err error) {
+func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *response.ArticleBack, err error) {
 	// 查询id对应文章
 	article, err := s.svcCtx.ArticleRepository.FindArticleById(reqCtx, id)
 	if err != nil {
@@ -102,25 +92,15 @@ func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *res
 	// 查询文章标签
 	tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
-	resp := convertArticle(article)
+	resp := &response.ArticleBack{}
+	resp.ArticleDTO = convertArticle(article)
 	resp.CategoryName = getCategoryName(category)
 	resp.TagNameList = getTagNameList(tags)
 	return resp, nil
 }
 
-// 批量删除Article记录
-func (s *ArticleService) DeleteArticleByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
-	// 删除文章标签映射
-	_, err = s.svcCtx.ArticleTagRepository.DeleteArticleTag(reqCtx, sqlx.NewCondition("article_id in ?", ids))
-	if err != nil {
-		return 0, err
-	}
-
-	return s.svcCtx.ArticleRepository.DeleteArticleByIds(reqCtx, ids)
-}
-
 // 分页获取Article记录
-func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleDetails, total int64, err error) {
+func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleBack, total int64, err error) {
 	// 查询文章列表
 	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
@@ -151,12 +131,24 @@ func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 	amp, _ := s.svcCtx.TagRepository.FindArticleTagMap(reqCtx, articleIds)
 
 	for _, article := range articles {
-		articleVO := convertArticle(article)
+
+		articleVO := &response.ArticleBack{}
+		articleVO.ArticleDTO = convertArticle(article)
 		articleVO.CategoryName = getCategoryName(cmp[article.CategoryID])
 		articleVO.TagNameList = getTagNameList(amp[article.ID])
 		list = append(list, articleVO)
 	}
 	return list, total, err
+}
+
+// 更新Article删除状态
+func (s *ArticleService) UpdateArticleDelete(reqCtx *request.Context, req *request.ArticleDeleteReq) (rows int, err error) {
+	return s.svcCtx.ArticleRepository.UpdateArticleDelete(reqCtx, req.ID, req.IsDelete)
+}
+
+// 更新Article记录
+func (s *ArticleService) UpdateArticleTop(reqCtx *request.Context, req *request.ArticleTopReq) (rows int, err error) {
+	return s.svcCtx.ArticleRepository.UpdateArticleTop(reqCtx, req.ID, req.IsTop)
 }
 
 // 文章归类
@@ -181,16 +173,17 @@ func (s *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request
 		data.ConditionName = tag.TagName
 	}
 
-	var list []*response.ArticleDetails
+	var list []*response.ArticleHome
 	for _, article := range articles {
 		//查询文章分类
 		category, _ := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
 		// 查询文章标签
 		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
-		articleVO := convertArticle(article)
-		articleVO.CategoryName = getCategoryName(category)
-		articleVO.TagNameList = getTagNameList(tags)
+		articleVO := &response.ArticleHome{}
+		articleVO.ArticleDTO = convertArticle(article)
+		articleVO.ArticleCategory = convertCategory(category)
+		articleVO.ArticleTagList = convertTagList(tags)
 		list = append(list, articleVO)
 	}
 
@@ -204,6 +197,7 @@ func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *requ
 	page.Sorts = []*sqlx.Sort{
 		{Field: "id", Order: "desc"},
 	}
+	page.Conditions = append(page.Conditions, sqlx.NewCondition("status = ?", entity.ArticleStatusPublic))
 	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
@@ -217,7 +211,7 @@ func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *requ
 }
 
 // 文章推荐
-func (s *ArticleService) FindArticleRecommend(reqCtx *request.Context, id int) (data *response.ArticleRecommendDetails, err error) {
+func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (data *response.ArticlePageDetails, err error) {
 	// 查询id对应文章
 	article, err := s.svcCtx.ArticleRepository.FindArticleById(reqCtx, id)
 	if err != nil {
@@ -260,14 +254,59 @@ func (s *ArticleService) FindArticleRecommend(reqCtx *request.Context, id int) (
 		return nil, err
 	}
 
-	resp := convertResponseArticle(article)
-	resp.CategoryName = getCategoryName(category)
-	resp.TagNameList = getTagNameList(tags)
+	resp := &response.ArticlePageDetails{}
+	resp.ArticleDTO = convertArticle(article)
+	resp.ArticleCategory = convertCategory(category)
+	resp.ArticleTagList = convertTagList(tags)
 	resp.RecommendArticleList = convertArticlePreviewList(rmArticle)
 	resp.NewestArticleList = convertArticlePreviewList(newestArticle)
 	resp.LastArticle = convertArticlePreview(lastArticle)
 	resp.NextArticle = convertArticlePreview(nextArticle)
 	return resp, nil
+}
+
+// 分页获取Article记录
+func (s *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleHome, total int64, err error) {
+	page.Sorts = append(page.Sorts, &sqlx.Sort{Field: "is_top", Order: "desc"})
+	page.Conditions = append(page.Conditions, sqlx.NewCondition("status = ?", entity.ArticleStatusPublic))
+	// 查询文章列表
+	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	// 查询文章总数
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// id
+	var articleIds []int
+	var categoryIds []int
+	for _, article := range articles {
+		articleIds = append(articleIds, article.ID)
+		categoryIds = append(categoryIds, article.CategoryID)
+	}
+
+	// 查询所有文章分类
+	category, _ := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, nil, nil, sqlx.NewCondition("id in ?", categoryIds))
+	var cmp = make(map[int]*entity.Category)
+	for _, item := range category {
+		cmp[item.ID] = item
+	}
+
+	// 查询所有文章标签映射
+	amp, _ := s.svcCtx.TagRepository.FindArticleTagMap(reqCtx, articleIds)
+
+	for _, article := range articles {
+
+		articleVO := &response.ArticleHome{}
+		articleVO.ArticleDTO = convertArticle(article)
+		articleVO.ArticleCategory = convertCategory(cmp[article.CategoryID])
+		articleVO.ArticleTagList = convertTagList(amp[article.ID])
+		list = append(list, articleVO)
+	}
+	return list, total, err
 }
 
 func getCategoryName(category *entity.Category) string {

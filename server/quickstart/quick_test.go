@@ -24,7 +24,7 @@ const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-v2?charset=utf8mb4&parseTime=T
 
 var db *gorm.DB
 
-func init() {
+func Init() {
 	testinit.Init()
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
@@ -43,6 +43,7 @@ func init() {
 }
 
 func TestPlate(t *testing.T) {
+	Init()
 	out := path.Join(global.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
 

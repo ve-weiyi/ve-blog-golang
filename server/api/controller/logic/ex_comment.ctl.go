@@ -15,7 +15,7 @@ import (
 // @Param		token	header		string																false	"token"
 // @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentDTO}}	"返回信息"
 // @Router		/comment/details_list [post]
 func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -52,7 +52,7 @@ func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentBackDTO}}	"返回信息"
 // @Router		/comment/list/back [post]
 func (s *CommentController) FindCommentBackList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -92,7 +92,7 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		id		path		int										true	"id"
 // @Param		page	body		request.PageQuery						true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.ReplyDTO}	"返回信息"
 // @Router		/comment/{id}/reply_list [post]
 func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -132,7 +132,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		id		path		int										true	"id"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/comment/{id}/like [post]
 func (s *CommentController) LikeComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

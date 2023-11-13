@@ -102,7 +102,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 
 func (s *AstApiDoc) GenerateTsApiFiles() {
 	tsApiDocs := s.GroupTsApiDocs(s.ApiDeclares)
-	fmt.Println("tsApiDocs:", jsonconv.ObjectToJsonIndent(tsApiDocs))
+	//fmt.Println("tsApiDocs:", jsonconv.ObjectToJsonIndent(tsApiDocs))
 	var metas []plate.PlateMeta
 	for _, apiDoc := range tsApiDocs {
 		meta := plate.PlateMeta{
@@ -113,7 +113,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 			FunMap:         map[string]any{"joinArray": joinArray},
 			Data:           apiDoc,
 		}
-		fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
+		//fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
 		metas = append(metas, meta)
 	}
 
@@ -152,10 +152,10 @@ func (s *AstApiDoc) GroupTsApiDocs(docs []*ApiDeclare) []*TsApiDoc {
 		apiDoc.ApiDeclares = append(apiDoc.ApiDeclares, s.convertTsApiDeclare(doc))
 		// 需要导入的model
 		params := getModelDeclareName(doc)
-		fmt.Println("params:", doc.Tag, jsonconv.ObjectToJsonIndent(params))
+		//fmt.Println("params:", doc.Tag, jsonconv.ObjectToJsonIndent(params))
 		var tsModels []*TsModelDeclare
 		for _, param := range params {
-			fmt.Println("tsModels:", param, jsonconv.ObjectToJsonIndent(s.findTsModelDeclareByName(param)))
+			//fmt.Println("tsModels:", param, jsonconv.ObjectToJsonIndent(s.findTsModelDeclareByName(param)))
 			tsModels = append(tsModels, s.findTsModelDeclareByName(param)...)
 		}
 

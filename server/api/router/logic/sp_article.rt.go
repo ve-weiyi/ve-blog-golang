@@ -22,21 +22,22 @@ func NewArticleRouter(svcCtx *svc.RouterContext) *ArticleRouter {
 func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.ArticleController
+	// 后台操作
 	{
-		publicRouter.POST("article", handler.SaveArticle)         // 新建Article
-		publicRouter.DELETE("article/:id", handler.DeleteArticle) // 删除Article
-		publicRouter.GET("article/:id", handler.FindArticle)      // 查询Article
+		publicRouter.POST("/admin/article", handler.SaveArticle)          // 新建文章
+		publicRouter.DELETE("/admin/article/:id", handler.DeleteArticle)  // 删除文章
+		publicRouter.GET("/admin/article/:id", handler.FindArticle)       // 查询文章
+		publicRouter.POST("/admin/article/list", handler.FindArticleList) // 分页查询文章列表
 
-		publicRouter.DELETE("article/batch_delete", handler.DeleteArticleByIds) // 批量删除Article列表
-		publicRouter.POST("article/list", handler.FindArticleList)              // 分页查询Article列表
+		publicRouter.PUT("/admin/article/top", handler.UpdateArticleTop)       // 置顶文章
+		publicRouter.PUT("/admin/article/delete", handler.UpdateArticleDelete) // 逻辑删除文章(假删除)
 	}
+	// 前台操作接口
 	{
-		publicRouter.POST("article/delete", handler.UpdateArticleDelete)   // 逻辑删除文章
-		publicRouter.POST("article/top", handler.UpdateArticleTop)         // 置顶文章
-		publicRouter.POST("article/archives", handler.FindArticleArchives) // 文章归档
-		publicRouter.POST("article/series", handler.FindArticleSeries)     // 根据条件获取Article列表
-
-		publicRouter.POST("article/:id/recommend", handler.FindArticleRecommend) // 查询文章推荐列表
-		publicRouter.PUT("article/:id/like", handler.LikeArticle)                // 点赞文章
+		publicRouter.POST("article/archives", handler.FindArticleArchives)  // 文章归档
+		publicRouter.POST("article/series", handler.FindArticleSeries)      // 根据条件获取Article列表
+		publicRouter.POST("article/list", handler.FindArticleHomeList)      // 首页文章列表
+		publicRouter.GET("article/:id/details", handler.FindArticleDetails) // 查询文章详情
+		publicRouter.PUT("article/:id/like", handler.LikeArticle)           // 点赞文章
 	}
 }
