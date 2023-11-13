@@ -1,5 +1,5 @@
-# 使用Ubuntu 20.04作为基础镜像
-FROM ubuntu:20.04
+# 使用centos:7作为基础镜像
+FROM centos:7
 
 # 创建 /home 目录，如果它不存在
 # RUN mkdir -p /home
@@ -10,11 +10,22 @@ FROM ubuntu:20.04
 # 设置语言环境为en_US.utf8
 ENV LANG=en_US.utf8
 
-# 更新 apt 软件包列表并安装必要的依赖
-RUN apt-get update && \
-    apt-get install -y git golang npm && \
-    npm install -g pnpm && \
-    apt-get clean
+# 安装必要的依赖
+#RUN yum -y install epel-release && \
+#    yum -y install git go npm && \
+#    npm install -g pnpm && \
+#    yum clean all
+
+# 使用 sed 命令替换默认的软件源为阿里云镜像源
+RUN sed -i 's|^mirrorlist=https://mirrorlist.centos.org|mirrorlist=https://mirrors.aliyun.com|g' /etc/yum.repos.d/CentOS-Base.repo \
+    && sed -i 's|^#baseurl=https://mirror.centos.org|baseurl=https://mirrors.aliyun.com|g' /etc/yum.repos.d/CentOS-Base.repo
+
+# 安装必要的依赖
+RUN yum -y install epel-release && \
+    yum -y install git go
+
+# 暴露应用程序的端口
+EXPOSE 9999
 
 # 复制entrypoint.sh脚本到容器中
 COPY entrypoint.sh .

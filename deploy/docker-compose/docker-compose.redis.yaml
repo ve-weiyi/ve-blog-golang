@@ -8,3 +8,5 @@ services:
       - '6379:6379'
     volumes:
       - /home/redis:/data
+    environment:
+      - REDIS_PASSWORD=redis7914 # redis只有密码，没有账号设置

@@ -1,5 +1,5 @@
 version: "3"
-# sudo docker-compose -f docker-compose.yaml up -d
+
 services:
   ve-blog:
     build:
