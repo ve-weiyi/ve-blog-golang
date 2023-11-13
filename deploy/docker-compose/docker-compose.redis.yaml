@@ -1,0 +1,10 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    container_name: redis-server # 容器名
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - /home/redis:/data
