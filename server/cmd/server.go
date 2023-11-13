@@ -33,7 +33,7 @@ func NewServerCmd() *ServerCmd {
 
 func (s *ServerCmd) init() {
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVar(&s.configFile, "config", "config.yaml", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "config.yaml", "config file (default is $HOME/.config.yaml)")
 }
 
 func (s *ServerCmd) OnInitialize() {

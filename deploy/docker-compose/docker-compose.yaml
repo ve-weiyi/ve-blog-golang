@@ -11,4 +11,4 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - /home/app:/home/app
+      - /home/blog:/home/blog
