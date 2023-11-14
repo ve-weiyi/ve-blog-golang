@@ -351,12 +351,12 @@ func ExtractFieldsByAst(data string) []string {
 	var params []string
 
 	// CompositeLit
-	nodes := ExtractNodes(meta.GetNode(), &ast.CompositeLit{})
+	nodes := ExtractNodes(&ast.CompositeLit{}, meta.GetNode())
 	for _, node := range nodes {
 		if len(params) > 0 {
 			break
 		}
-		idents := ExtractNodes(node.Type, &ast.Ident{})
+		idents := ExtractNodes(&ast.Ident{}, node.Type)
 		if len(idents) == 1 {
 			params = append(params, idents[0].Name)
 		} else {
@@ -366,26 +366,31 @@ func ExtractFieldsByAst(data string) []string {
 	}
 
 	// KeyValueExpr要value
-	nodes2 := ExtractNodes(meta.GetNode(), &ast.KeyValueExpr{})
+	nodes2 := ExtractNodes(&ast.KeyValueExpr{}, meta.GetNode())
 	for _, node := range nodes2 {
 		switch fmt.Sprintf("%s", node.Key) {
 		case "data":
-			idents := ExtractNodes(node.Value, &ast.Ident{})
+			idents := ExtractNodes(&ast.Ident{}, node.Value)
 			if len(idents) == 1 {
 				params = append(params, idents[0].Name)
-			} else {
+			} else if len(idents) > 1 {
 				params = append(params, idents[0].Name+"."+idents[1].Name)
+			} else {
+				fmt.Println("cannot get params for:", idents)
 			}
 		case "list":
-			idents := ExtractNodes(node.Value, &ast.Ident{})
+			idents := ExtractNodes(&ast.Ident{}, node.Value)
 			if len(idents) == 1 {
 				params = append(params, idents[0].Name)
-			} else {
+			} else if len(idents) > 1 {
 				params = append(params, idents[0].Name+"."+idents[1].Name)
+			} else {
+				fmt.Println("list cannot get params for:", idents)
 			}
 		}
 	}
 
+	fmt.Println("data:", data, "params:", params)
 	return params
 }
 

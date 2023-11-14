@@ -28,8 +28,8 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 	}
 }
 
-func convertArticle(article *entity.Article) *response.ArticleDetails {
-	out := &response.ArticleDetails{
+func convertArticle(article *entity.Article) response.ArticleDTO {
+	out := response.ArticleDTO{
 		ID:             article.ID,
 		ArticleCover:   article.ArticleCover,
 		ArticleTitle:   article.ArticleTitle,
@@ -45,12 +45,6 @@ func convertArticle(article *entity.Article) *response.ArticleDetails {
 		UpdatedAt:      article.UpdatedAt,
 	}
 	return out
-}
-
-func convertResponseArticle(entity *entity.Article) *response.ArticleRecommendDetails {
-	return &response.ArticleRecommendDetails{
-		ArticleDetails: *convertArticle(entity),
-	}
 }
 
 func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePreviewDTO {
@@ -129,6 +123,13 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
 	return out
 }
 
+func convertCategory(entity *entity.Category) *response.CategoryDTO {
+	return &response.CategoryDTO{
+		ID:           entity.ID,
+		CategoryName: entity.CategoryName,
+	}
+}
+
 func convertTagList(list []*entity.Tag) []*response.TagDTO {
 	var tagList []*response.TagDTO
 	for _, tag := range list {
@@ -147,7 +148,6 @@ func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
 		data := &response.CategoryDTO{
 			ID:           in.ID,
 			CategoryName: in.CategoryName,
-			ArticleCount: 0,
 		}
 		categoryList = append(categoryList, data)
 	}

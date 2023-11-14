@@ -61,7 +61,7 @@ func GetNameFromExpr(expr ast.Expr) string {
 }
 
 // 泛型方法 [T any]表示支持任何类型的参数  （s []T表示形参s是一个T类型的切片）
-func ExtractNodes[T any](node ast.Node, t T) []T {
+func ExtractNodes[T any](t T, node ast.Node) []T {
 	var idents []T
 
 	if n, ok := node.(T); ok {
@@ -70,26 +70,29 @@ func ExtractNodes[T any](node ast.Node, t T) []T {
 
 	switch n := node.(type) {
 	case *ast.AssignStmt:
-		return ExtractNodes(n.Rhs[0], t)
+		return ExtractNodes(t, n.Rhs[0])
 	case *ast.ArrayType:
-		return ExtractNodes(n.Elt, t)
+		return ExtractNodes(t, n.Elt)
 	case *ast.SelectorExpr:
 		//fmt.Println("SelectorExpr", n.Sel.Name)
-		idents = append(idents, ExtractNodes(n.X, t)...)
-		idents = append(idents, ExtractNodes(n.Sel, t)...)
+		idents = append(idents, ExtractNodes(t, n.X)...)
+		idents = append(idents, ExtractNodes(t, n.Sel)...)
+		break
 	case *ast.KeyValueExpr:
 		//fmt.Println("KeyValueExpr", n.Key)
 		// 判断是否是复合字面值表达式的键值对
-		idents = append(idents, ExtractNodes(n.Key, t)...)
-		idents = append(idents, ExtractNodes(n.Value, t)...)
+		idents = append(idents, ExtractNodes(t, n.Key)...)
+		idents = append(idents, ExtractNodes(t, n.Value)...)
+		break
 	case *ast.CompositeLit:
 		//fmt.Println("CompositeLit", n.Type)
-		idents = append(idents, ExtractNodes(n.Type, t)...)
+		idents = append(idents, ExtractNodes(t, n.Type)...)
 		for _, elt := range n.Elts {
-			idents = append(idents, ExtractNodes(elt, t)...)
+			idents = append(idents, ExtractNodes(t, elt)...)
 		}
+		break
 	default:
-		//fmt.Printf("default %T\n", n)
+		//fmt.Printf("ExtractNodes default %T %T\n", t, node)
 	}
 
 	return idents

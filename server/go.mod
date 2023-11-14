@@ -1,6 +1,6 @@
 module github.com/ve-weiyi/ve-blog-golang/server
 
-go 1.19
+go 1.20
 
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.1+incompatible
@@ -35,8 +35,8 @@ require (
 	github.com/unrolled/secure v1.13.0
 	github.com/zeromicro/go-zero v1.6.0
 	go.uber.org/zap v1.26.0
-	golang.org/x/crypto v0.15.0
-	golang.org/x/tools v0.15.0
+	golang.org/x/crypto v0.14.0
+	golang.org/x/tools v0.14.0
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gen v0.3.23
 	gorm.io/gorm v1.25.5
@@ -124,11 +124,11 @@ require (
 	golang.org/x/arch v0.3.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/image v0.0.0-20190802002840-cff245a6509b // indirect
-	golang.org/x/mod v0.14.0 // indirect
-	golang.org/x/net v0.18.0 // indirect
-	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/mod v0.13.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sync v0.4.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

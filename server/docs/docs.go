@@ -1453,7 +1453,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.ArticleDetails"
+                                            "$ref": "#/definitions/response.ArticleBack"
                                         }
                                     }
                                 }
@@ -9136,7 +9136,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.ArticleDetails": {
+        "response.ArticleBack": {
             "type": "object",
             "properties": {
                 "article_content": {
