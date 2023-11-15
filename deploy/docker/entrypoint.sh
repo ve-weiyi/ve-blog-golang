@@ -10,15 +10,25 @@ mkdir -p /home/blog
 # 切换到 /home 目录
 cd /home/blog
 
+# 安装 git
+git config --global user.email "791422171@qq.com"
+git config --global user.name "veweiyi"
+git config --global --unset http.proxy
+
 # 下载项目
 git clone git://github.com/ve-weiyi/ve-blog-golang.git
 
-# 切换到目标分支并拉取最新代码
-git checkout feature/1.0.0/blog
-git pull feature/1.0.0/blog
-
 # 切换到项目目录
 cd /home/blog/ve-blog-golang/server
+
+# 切换到目标分支并拉取最新代码
+git checkout feature/1.0.0/blog
+git pull origin feature/1.0.0/blog
+
+
+# git branch -d feature/1.0.0/blog
+git fetch origin
+git reset --hard origin/feature/1.0.0/blog
 
 # 更新依赖
 go mod tidy

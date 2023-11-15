@@ -124,6 +124,9 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
 }
 
 func convertCategory(entity *entity.Category) *response.CategoryDTO {
+	if entity == nil {
+		return nil
+	}
 	return &response.CategoryDTO{
 		ID:           entity.ID,
 		CategoryName: entity.CategoryName,

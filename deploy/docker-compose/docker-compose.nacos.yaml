@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  nacos-server:
+    image: nacos/nacos-server:latest
+    container_name: nacos-server
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+    networks:
+      - nacos-net
+
+networks:
+  nacos-net:
+    driver: bridge

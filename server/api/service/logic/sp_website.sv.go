@@ -114,6 +114,15 @@ func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req string) (res
 	return config.Config, err
 }
 
+func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface{}) (resp string, err error) {
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", "website_config"))
+	if err != nil {
+		return "", err
+	}
+
+	return config.Config, err
+}
+
 func (s *WebsiteService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigRequest) (resp string, err error) {
 	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", req.Key))
 	if err != nil {
