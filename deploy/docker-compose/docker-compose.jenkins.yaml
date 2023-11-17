@@ -12,5 +12,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/docker/jenkins:/var/jenkins_home
-      - # 查看初始化登录密码
+
+      # 查看初始化登录密码
       # cat /home/docker/jenkins/secrets/initialAdminPassword
