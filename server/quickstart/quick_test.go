@@ -24,7 +24,7 @@ const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-v2?charset=utf8mb4&parseTime=T
 
 var db *gorm.DB
 
-func init() {
+func Init() {
 	testinit.Init()
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
@@ -43,6 +43,7 @@ func init() {
 }
 
 func TestPlate(t *testing.T) {
+	Init()
 	out := path.Join(global.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
 
@@ -56,7 +57,7 @@ func TestPlate(t *testing.T) {
 			return fmt.Sprintf("bs_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
-			return strings.ReplaceAll(jsonconv.Case2Camel(column), "Id", "ID")
+			return jsonconv.Case2Camel(column)
 		},
 		FieldJsonNS: func(column string) string {
 			return jsonconv.Camel2Case(column)
@@ -73,14 +74,14 @@ func TestPlate(t *testing.T) {
 			//tmpl.KeyController: "",
 			//tmpl.KeyService:    "",
 			tmpl.KeyRepository: "",
-			//tmpl.KeyModel:      "",
+			//tmpl.KeyModel: "",
 		},
 	}
 	typeInt := "int"
 	// 自定义字段的数据类型
 	// 统一数字类型为int64,兼容protobuf
 	dataMap := map[string]func(columnType gorm.ColumnType) (dataType string){
-		//"tinyint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		"tinyint":   func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"smallint":  func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"mediumint": func(columnType gorm.ColumnType) (dataType string) { return typeInt },
 		"bigint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
@@ -108,12 +109,12 @@ func TestPlate(t *testing.T) {
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("role", "角色"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("tag", "文章标签"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("talk", "说说"))
+	//gen.ApplyMetas(gen.GenerateMetasFromTable("chat_record", "聊天记录"))
 
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_account", "用户账号信息"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_information", "用户信息"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("user_login_history", "用户登录历史"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("upload_record", "文件上传"))
-	//gen.ApplyMetas(gen.GenerateMetasFromTable("chat_record", "聊天记录"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("unique_view", "页面访问数量"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("website_config", "网站设置"))
 	//gen.GenerateCommonFile("upload", "文件上传")
@@ -156,7 +157,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 }
 
 func TestVisitFile(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api", "")
+	root := path.Join(global.GetRuntimeRoot(), "server/api", "model/entity")
 	err := filepath.Walk(root, visitFile)
 	if err != nil {
 		fmt.Println("Error:", err)

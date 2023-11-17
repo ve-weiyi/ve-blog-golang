@@ -221,6 +221,6 @@ func (s *FriendLinkController) FindFriendLinkList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }

@@ -28,12 +28,12 @@ func (s *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 
 // 删除Talk记录
 func (s *TalkService) DeleteTalk(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.TalkRepository.DeleteTalk(reqCtx, id)
+	return s.svcCtx.TalkRepository.DeleteTalkById(reqCtx, id)
 }
 
 // 查询Talk记录
 func (s *TalkService) FindTalk(reqCtx *request.Context, id int) (data *entity.Talk, err error) {
-	return s.svcCtx.TalkRepository.FindTalk(reqCtx, id)
+	return s.svcCtx.TalkRepository.FindTalkById(reqCtx, id)
 }
 
 // 批量删除Talk记录
@@ -43,7 +43,7 @@ func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows 
 
 // 分页获取Talk记录
 func (s *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
-	list, err = s.svcCtx.TalkRepository.FindTalkList(reqCtx, page)
+	list, err = s.svcCtx.TalkRepository.FindTalkList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

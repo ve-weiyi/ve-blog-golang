@@ -28,12 +28,12 @@ func (s *UserAccountService) UpdateUserAccount(reqCtx *request.Context, userAcco
 
 // 删除UserAccount记录
 func (s *UserAccountService) DeleteUserAccount(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.UserAccountRepository.DeleteUserAccount(reqCtx, id)
+	return s.svcCtx.UserAccountRepository.DeleteUserAccountById(reqCtx, id)
 }
 
 // 查询UserAccount记录
 func (s *UserAccountService) FindUserAccount(reqCtx *request.Context, id int) (data *entity.UserAccount, err error) {
-	return s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, id)
+	return s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, id)
 }
 
 // 批量删除UserAccount记录
@@ -43,7 +43,7 @@ func (s *UserAccountService) DeleteUserAccountByIds(reqCtx *request.Context, ids
 
 // 分页获取UserAccount记录
 func (s *UserAccountService) FindUserAccountList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.UserAccount, total int64, err error) {
-	list, err = s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, page)
+	list, err = s.svcCtx.UserAccountRepository.FindUserAccountList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

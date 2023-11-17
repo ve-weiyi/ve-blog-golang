@@ -28,12 +28,12 @@ func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.
 
 // 删除Comment记录
 func (s *CommentService) DeleteComment(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.CommentRepository.DeleteComment(reqCtx, id)
+	return s.svcCtx.CommentRepository.DeleteCommentById(reqCtx, id)
 }
 
 // 查询Comment记录
 func (s *CommentService) FindComment(reqCtx *request.Context, id int) (data *entity.Comment, err error) {
-	return s.svcCtx.CommentRepository.FindComment(reqCtx, id)
+	return s.svcCtx.CommentRepository.FindCommentById(reqCtx, id)
 }
 
 // 批量删除Comment记录
@@ -43,7 +43,7 @@ func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) 
 
 // 分页获取Comment记录
 func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Comment, total int64, err error) {
-	list, err = s.svcCtx.CommentRepository.FindCommentList(reqCtx, page)
+	list, err = s.svcCtx.CommentRepository.FindCommentList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

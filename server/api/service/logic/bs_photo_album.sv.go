@@ -28,12 +28,12 @@ func (s *PhotoAlbumService) UpdatePhotoAlbum(reqCtx *request.Context, photoAlbum
 
 // 删除PhotoAlbum记录
 func (s *PhotoAlbumService) DeletePhotoAlbum(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbum(reqCtx, id)
+	return s.svcCtx.PhotoAlbumRepository.DeletePhotoAlbumById(reqCtx, id)
 }
 
 // 查询PhotoAlbum记录
 func (s *PhotoAlbumService) FindPhotoAlbum(reqCtx *request.Context, id int) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.FindPhotoAlbum(reqCtx, id)
+	return s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumById(reqCtx, id)
 }
 
 // 批量删除PhotoAlbum记录
@@ -43,7 +43,7 @@ func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids [
 
 // 分页获取PhotoAlbum记录
 func (s *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
-	list, err = s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, page)
+	list, err = s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

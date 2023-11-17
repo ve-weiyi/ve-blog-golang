@@ -14,7 +14,7 @@ type OperationLog struct {
 	OptDesc       string    `gorm:"column:opt_desc;type:varchar(255);not null;comment:操作描述" json:"opt_desc"`            // 操作描述
 	Cost          string    `gorm:"column:cost;type:varchar(32);comment:耗时（ms）" json:"cost"`                            // 耗时（ms）
 	Status        int       `gorm:"column:status;type:int;comment:响应状态码" json:"status"`                                 // 响应状态码
-	RequestUrl    string    `gorm:"column:request_url;type:varchar(255);not null;comment:操作url" json:"request_url"`     // 操作url
+	RequestURL    string    `gorm:"column:request_url;type:varchar(255);not null;comment:操作url" json:"request_url"`     // 操作url
 	RequestMethod string    `gorm:"column:request_method;type:varchar(20);not null;comment:请求方式" json:"request_method"` // 请求方式
 	RequestHeader string    `gorm:"column:request_header;type:varchar(1024);comment:请求头" json:"request_header"`         // 请求头
 	RequestParam  string    `gorm:"column:request_param;type:text;not null;comment:请求参数" json:"request_param"`          // 请求参数

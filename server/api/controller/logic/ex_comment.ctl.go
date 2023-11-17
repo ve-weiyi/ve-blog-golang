@@ -15,8 +15,8 @@ import (
 // @Param		token	header		string																false	"token"
 // @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
-// @Router		/comment/list/details [post]
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentDTO}}	"返回信息"
+// @Router		/comment/details_list [post]
 func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -41,7 +41,7 @@ func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -52,9 +52,9 @@ func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentBackDTO}}	"返回信息"
 // @Router		/comment/list/back [post]
-func (s *CommentController) FindCommentListBack(c *gin.Context) {
+func (s *CommentController) FindCommentBackList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -69,7 +69,7 @@ func (s *CommentController) FindCommentListBack(c *gin.Context) {
 	}
 
 	s.Log.JsonIndent(page)
-	list, total, err := s.svcCtx.CommentService.FindCommentListBack(reqCtx, &page)
+	list, total, err := s.svcCtx.CommentService.FindCommentBackList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -79,7 +79,7 @@ func (s *CommentController) FindCommentListBack(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -92,7 +92,7 @@ func (s *CommentController) FindCommentListBack(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		id		path		int										true	"id"
 // @Param		page	body		request.PageQuery						true	"请求body"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.ReplyDTO}	"返回信息"
 // @Router		/comment/{id}/reply_list [post]
 func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -120,7 +120,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     page.Page,
-		PageSize: page.Limit(),
+		PageSize: page.PageSize,
 	})
 }
 
@@ -132,7 +132,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		id		path		int										true	"id"
-// @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/comment/{id}/like [post]
 func (s *CommentController) LikeComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

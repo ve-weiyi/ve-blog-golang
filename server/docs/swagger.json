@@ -668,7 +668,7 @@
                 }
             }
         },
-        "/api/list/details": {
+      "/api/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1221,7 +1221,7 @@
                 }
             }
         },
-        "/article/list/details": {
+      "/article/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1926,7 +1926,7 @@
                 }
             }
         },
-        "/category/list/details": {
+      "/category/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2464,7 +2464,7 @@
                 }
             }
         },
-        "/comment/list/details": {
+      "/comment/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3636,7 +3636,7 @@
                 }
             }
         },
-        "/menu/list/details": {
+      "/menu/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6048,7 +6048,7 @@
                 }
             }
         },
-        "/role/list/details": {
+      "/role/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6586,7 +6586,7 @@
                 }
             }
         },
-        "/tag/list/details": {
+      "/tag/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -7010,7 +7010,7 @@
                 }
             }
         },
-        "/talk/list/details": {
+      "/talk/details_list": {
             "post": {
                 "consumes": [
                     "application/json"

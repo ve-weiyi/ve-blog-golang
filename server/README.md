@@ -52,4 +52,4 @@
 | `--timer`    | timer         | 定时器接口封装                                           |
 | `--upload`   | oss           | oss接口封装                                           |
 
-
+https://blog.csdn.net/weixin_43239880/article/details/130841067 nginx配置详解

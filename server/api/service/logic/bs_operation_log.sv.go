@@ -28,12 +28,12 @@ func (s *OperationLogService) UpdateOperationLog(reqCtx *request.Context, operat
 
 // 删除OperationLog记录
 func (s *OperationLogService) DeleteOperationLog(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.OperationLogRepository.DeleteOperationLog(reqCtx, id)
+	return s.svcCtx.OperationLogRepository.DeleteOperationLogById(reqCtx, id)
 }
 
 // 查询OperationLog记录
 func (s *OperationLogService) FindOperationLog(reqCtx *request.Context, id int) (data *entity.OperationLog, err error) {
-	return s.svcCtx.OperationLogRepository.FindOperationLog(reqCtx, id)
+	return s.svcCtx.OperationLogRepository.FindOperationLogById(reqCtx, id)
 }
 
 // 批量删除OperationLog记录
@@ -43,7 +43,7 @@ func (s *OperationLogService) DeleteOperationLogByIds(reqCtx *request.Context, i
 
 // 分页获取OperationLog记录
 func (s *OperationLogService) FindOperationLogList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.OperationLog, total int64, err error) {
-	list, err = s.svcCtx.OperationLogRepository.FindOperationLogList(reqCtx, page)
+	list, err = s.svcCtx.OperationLogRepository.FindOperationLogList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

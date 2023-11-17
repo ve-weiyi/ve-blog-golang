@@ -28,12 +28,12 @@ func (s *MenuService) UpdateMenu(reqCtx *request.Context, menu *entity.Menu) (da
 
 // 删除Menu记录
 func (s *MenuService) DeleteMenu(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.MenuRepository.DeleteMenu(reqCtx, id)
+	return s.svcCtx.MenuRepository.DeleteMenuById(reqCtx, id)
 }
 
 // 查询Menu记录
 func (s *MenuService) FindMenu(reqCtx *request.Context, id int) (data *entity.Menu, err error) {
-	return s.svcCtx.MenuRepository.FindMenu(reqCtx, id)
+	return s.svcCtx.MenuRepository.FindMenuById(reqCtx, id)
 }
 
 // 批量删除Menu记录
@@ -43,7 +43,7 @@ func (s *MenuService) DeleteMenuByIds(reqCtx *request.Context, ids []int) (rows 
 
 // 分页获取Menu记录
 func (s *MenuService) FindMenuList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Menu, total int64, err error) {
-	list, err = s.svcCtx.MenuRepository.FindMenuList(reqCtx, page)
+	list, err = s.svcCtx.MenuRepository.FindMenuList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, 0, err
 	}

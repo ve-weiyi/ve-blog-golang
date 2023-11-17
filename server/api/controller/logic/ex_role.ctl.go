@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Role}}	"返回信息"
-// @Router		/role/list/details [post]
+// @Router		/role/details_list [post]
 func (s *RoleController) FindRoleDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

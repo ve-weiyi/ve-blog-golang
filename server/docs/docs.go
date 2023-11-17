@@ -675,7 +675,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/list/details": {
+        "/api/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1228,7 +1228,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/article/list/details": {
+        "/article/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1453,7 +1453,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/response.ArticleDetails"
+                                            "$ref": "#/definitions/response.ArticleBack"
                                         }
                                     }
                                 }
@@ -1933,7 +1933,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/category/list/details": {
+        "/category/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2471,7 +2471,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/comment/list/details": {
+        "/comment/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3643,7 +3643,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/menu/list/details": {
+        "/menu/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6055,7 +6055,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/role/list/details": {
+        "/role/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6593,7 +6593,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tag/list/details": {
+        "/tag/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -7017,7 +7017,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/talk/list/details": {
+        "/talk/details_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -9136,7 +9136,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.ArticleDetails": {
+        "response.ArticleBack": {
             "type": "object",
             "properties": {
                 "article_content": {

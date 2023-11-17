@@ -28,26 +28,23 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 	}
 }
 
-func convertResponseArticle(entity *entity.Article) *response.ArticlePaginationDTO {
-	return &response.ArticlePaginationDTO{
-		ID:             entity.ID,
-		ArticleCover:   entity.ArticleCover,
-		ArticleTitle:   entity.ArticleTitle,
-		ArticleContent: entity.ArticleContent,
-		//LikeCount:            entity.LikeCount,
-		//ViewsCount:           entity.ViewsCount,
-		Type:        entity.Type,
-		OriginalURL: entity.OriginalUrl,
-		CreatedAt:   entity.CreatedAt,
-		UpdatedAt:   entity.UpdatedAt,
-		CategoryID:  entity.CategoryID,
-		//CategoryName:         "",
-		ArticleTagList: []*response.TagDTO{{1, "tag1"}, {2, "tag2"}, {3, "tag3"}},
-		//LastArticle:          response.ArticlePaginationDTO{},
-		//NextArticle:          response.ArticlePaginationDTO{},
-		//RecommendArticleList: nil,
-		//NewestArticleList:    nil,
+func convertArticle(article *entity.Article) response.ArticleDTO {
+	out := response.ArticleDTO{
+		ID:             article.ID,
+		ArticleCover:   article.ArticleCover,
+		ArticleTitle:   article.ArticleTitle,
+		ArticleContent: article.ArticleContent,
+		LikeCount:      100,
+		ViewsCount:     200,
+		IsTop:          article.IsTop,
+		IsDelete:       article.IsDelete,
+		Type:           article.Type,
+		Status:         article.Status,
+		OriginalURL:    article.OriginalURL,
+		CreatedAt:      article.CreatedAt,
+		UpdatedAt:      article.UpdatedAt,
 	}
+	return out
 }
 
 func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePreviewDTO {
@@ -74,23 +71,6 @@ func convertArticlePreview(article *entity.Article) *response.ArticlePreviewDTO 
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
-}
-
-func convertArticle(article *entity.Article) *response.ArticleDetails {
-	out := &response.ArticleDetails{
-		ID:             article.ID,
-		ArticleCover:   article.ArticleCover,
-		ArticleTitle:   article.ArticleTitle,
-		ArticleContent: article.ArticleContent,
-		LikeCount:      100,
-		ViewsCount:     200,
-		Type:           article.Type,
-		OriginalURL:    article.OriginalUrl,
-		CreatedAt:      article.CreatedAt,
-		UpdatedAt:      article.UpdatedAt,
-		CategoryID:     article.CategoryID,
-	}
-	return out
 }
 
 func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleStatisticsDTO {
@@ -143,6 +123,16 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
 	return out
 }
 
+func convertCategory(entity *entity.Category) *response.CategoryDTO {
+	if entity == nil {
+		return nil
+	}
+	return &response.CategoryDTO{
+		ID:           entity.ID,
+		CategoryName: entity.CategoryName,
+	}
+}
+
 func convertTagList(list []*entity.Tag) []*response.TagDTO {
 	var tagList []*response.TagDTO
 	for _, tag := range list {
@@ -161,7 +151,6 @@ func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
 		data := &response.CategoryDTO{
 			ID:           in.ID,
 			CategoryName: in.CategoryName,
-			ArticleCount: 0,
 		}
 		categoryList = append(categoryList, data)
 	}

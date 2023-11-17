@@ -13,6 +13,7 @@ const (
 var replaceKey = map[string]string{
 	"DTO": "dto",
 	"UID": "uid",
+	"PID": "pid",
 	"ID":  "id",
 	"URL": "url",
 	"AI":  "ai",
@@ -35,6 +36,7 @@ func Camel2Case(XxYY string) string {
 				if len(xx_y_y) != 0 {
 					xx_y_y = append(xx_y_y, '_')
 				}
+
 				xx_y_y = append(xx_y_y, []byte(replace)...)
 				i += len(prefix)
 				found = true
@@ -100,7 +102,7 @@ func Case2Camel(xx_y_y string) string {
 		/** 替换不需要转换的字符大小写 **/
 		found := false
 		for key, value := range replaceKey {
-			if strings.HasPrefix(xx_y_y[i:], value) {
+			if strings.HasPrefix(xx_y_y[i:], value) && len(key) == len(xx_y_y[i:]) {
 				// 非首个字符
 				XxYY = append(XxYY, []byte(key)...)
 				i += len(value)
@@ -144,6 +146,7 @@ func Case2Camel(xx_y_y string) string {
 		}
 		XxYY = append(XxYY, byte(w))
 	}
+
 	return string(XxYY[:])
 }
 

@@ -4,17 +4,21 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
 type ServerCmd struct {
 	cmd        *cobra.Command
 	configFile string
+	useNacos   bool
+	nacosCfg   *nacos.NacosConfig
 }
 
 func NewServerCmd() *ServerCmd {
@@ -27,20 +31,57 @@ func NewServerCmd() *ServerCmd {
 			serverCmd.OnInitialize()
 		},
 	}
+	serverCmd.cmd.PersistentPreRun = serverCmd.persistentPreRun
 	serverCmd.init()
 	return serverCmd
 }
 
 func (s *ServerCmd) init() {
+	nacosCfg := s.GetDefaultNacosConfig()
+	s.nacosCfg = nacosCfg
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVar(&s.configFile, "config", "config.yaml", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "config.yaml", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().BoolVar(&s.useNacos, "use-nacos", false, "service conf content from nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.IP, "n-ip", nacosCfg.IP, "the ip for nacos")
+	s.cmd.PersistentFlags().Uint64Var(&s.nacosCfg.Port, "n-port", nacosCfg.Port, "the port for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.UserName, "n-user", nacosCfg.UserName, "the user for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.Password, "n-password", nacosCfg.Password, "the password for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.DataID, "n-data-id", nacosCfg.DataID, "the DataId for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.Group, "n-group", nacosCfg.Group, "the group for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.NameSpaceID, "n-ns", nacosCfg.NameSpaceID, "the namespace for nacos")
+}
+
+func (s *ServerCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
+	return &nacos.NacosConfig{
+		IP:          "120.79.136.81",
+		Port:        8848,
+		DataID:      "ve-blog-golang",
+		Group:       "veweiyi.cn",
+		UserName:    "nacos",
+		Password:    "nacos",
+		LogLevel:    "warn",
+		NameSpaceID: "blog",
+		Timeout:     5000,
+	}
+}
+
+func (s *ServerCmd) persistentPreRun(cmd *cobra.Command, args []string) {
+	if s.useNacos {
+		fmt.Println("使用nacos")
+		err := nacos.New(s.nacosCfg).Init(initialize.InitConfigByContent)
+		if err != nil {
+			panic("nacos config read failed " + err.Error())
+		}
+	} else {
+		fmt.Println("使用文件路径")
+		// 初始化Viper
+		initialize.InitConfigByFile(s.configFile)
+	}
 }
 
 func (s *ServerCmd) OnInitialize() {
 	log.Println("let's go")
 
-	// 初始化Viper
-	initialize.Viper(s.configFile)
 	// 初始化zap日志库
 	initialize.Zap()
 	// 初始化gorm数据库

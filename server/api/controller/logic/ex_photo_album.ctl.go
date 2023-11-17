@@ -17,7 +17,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.PhotoAlbumDetails}}	"返回信息"
-// @Router		/photo_album/list/details [post]
+// @Router		/photo_album/details_list [post]
 func (s *PhotoAlbumController) FindPhotoAlbumDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

@@ -3,6 +3,7 @@ package logic
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 // 分页获取Role记录
@@ -61,7 +62,7 @@ func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.
 	}
 
 	// 查询资源列表
-	page := &request.PageQuery{Conditions: []*request.Condition{
+	page := &request.PageQuery{Conditions: []*sqlx.Condition{
 		{
 			Flag:  "and",
 			Field: "api_id",
@@ -71,7 +72,7 @@ func (s *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.
 	},
 	}
 
-	resources, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, page)
+	resources, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
 	if err != nil {
 		return nil, err
 	}

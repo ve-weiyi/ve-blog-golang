@@ -40,6 +40,6 @@ type CommentBackDTO struct {
 	ArticleTitle   string    `json:"article_title"`
 	CommentContent string    `json:"comment_content"`
 	Type           int       `json:"type"`
-	IsReview       bool      `json:"is_review"`
+	IsReview       int       `json:"is_review"`
 	CreatedAt      time.Time `json:"created_at"`
 }

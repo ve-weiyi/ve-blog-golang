@@ -275,7 +275,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.Login, err error) {
 
 	//获取用户
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccount(reqCtx, req.UserID)
+	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, req.UserID)
 	if err != nil {
 		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
