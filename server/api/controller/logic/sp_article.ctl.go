@@ -380,7 +380,7 @@ func (s *ArticleController) LikeArticle(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.FindArticle(reqCtx, id)
+	data, err := s.svcCtx.ArticleService.LikeArticle(reqCtx, id)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

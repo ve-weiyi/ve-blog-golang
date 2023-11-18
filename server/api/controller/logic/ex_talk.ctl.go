@@ -76,3 +76,34 @@ func (s *TalkController) FindTalkDetail(c *gin.Context) {
 
 	s.ResponseOk(c, data)
 }
+
+// @Tags		Talk
+// @Summary		点赞说说
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		id		path		int										true	"id"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Router		/talk/{id}/like [put]
+func (s *TalkController) LikeTalk(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.TalkService.LikeTalk(reqCtx, id)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}

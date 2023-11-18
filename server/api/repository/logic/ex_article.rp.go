@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 )
 
 // 根据分类id获取文章
@@ -93,4 +94,34 @@ func (s *ArticleRepository) UpdateArticleTop(ctx context.Context, id int, top in
 	err = query.Error
 	rows = int(query.RowsAffected)
 	return rows, err
+}
+
+// 点赞评论
+func (s *ArticleRepository) LikeArticle(ctx context.Context, uid int, articleId int) (data interface{}, err error) {
+	// 用户点赞的评论列表
+	articleUserLikeKey := cache.WrapCacheKey(cache.ArticleUserLike, uid)
+	// 当前评论的点赞量
+	articleLikeCountKey := cache.WrapCacheKey(cache.ArticleLikeCount, articleId)
+
+	// 判断是否已经点赞
+	if s.Cache.SIsMember(ctx, articleUserLikeKey, articleId).Val() {
+		// 点过赞则删除评论id
+		s.Cache.SRem(ctx, articleUserLikeKey, articleId)
+		// 评论点赞量-1
+		s.Cache.Decr(ctx, articleLikeCountKey)
+	} else {
+		// 未点赞则增加评论id
+		s.Cache.SAdd(ctx, articleUserLikeKey, articleId)
+		// 评论点赞量+1
+		s.Cache.Incr(ctx, articleLikeCountKey)
+	}
+
+	return data, nil
+}
+
+// 获取用户点赞记录
+func (s *ArticleRepository) FindUserLikeArticle(ctx context.Context, uid int) (data []string, err error) {
+	// 用户点赞的评论列表
+	articleUserLikeKey := cache.WrapCacheKey(cache.ArticleUserLike, uid)
+	return s.Cache.SMembers(ctx, articleUserLikeKey).Result()
 }

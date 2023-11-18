@@ -132,11 +132,11 @@ func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 
 	for _, article := range articles {
 
-		articleVO := &response.ArticleBack{}
-		articleVO.ArticleDTO = convertArticle(article)
-		articleVO.CategoryName = getCategoryName(cmp[article.CategoryID])
-		articleVO.TagNameList = getTagNameList(amp[article.ID])
-		list = append(list, articleVO)
+		articleDTO := &response.ArticleBack{}
+		articleDTO.ArticleDTO = convertArticle(article)
+		articleDTO.CategoryName = getCategoryName(cmp[article.CategoryID])
+		articleDTO.TagNameList = getTagNameList(amp[article.ID])
+		list = append(list, articleDTO)
 	}
 	return list, total, err
 }
@@ -180,11 +180,11 @@ func (s *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request
 		// 查询文章标签
 		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
-		articleVO := &response.ArticleHome{}
-		articleVO.ArticleDTO = convertArticle(article)
-		articleVO.ArticleCategory = convertCategory(category)
-		articleVO.ArticleTagList = convertTagList(tags)
-		list = append(list, articleVO)
+		articleDTO := &response.ArticleHome{}
+		articleDTO.ArticleDTO = convertArticle(article)
+		articleDTO.ArticleCategory = convertCategory(category)
+		articleDTO.ArticleTagList = convertTagList(tags)
+		list = append(list, articleDTO)
 	}
 
 	data.ArticleDTOList = list
@@ -300,13 +300,17 @@ func (s *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 
 	for _, article := range articles {
 
-		articleVO := &response.ArticleHome{}
-		articleVO.ArticleDTO = convertArticle(article)
-		articleVO.ArticleCategory = convertCategory(cmp[article.CategoryID])
-		articleVO.ArticleTagList = convertTagList(amp[article.ID])
-		list = append(list, articleVO)
+		articleDTO := &response.ArticleHome{}
+		articleDTO.ArticleDTO = convertArticle(article)
+		articleDTO.ArticleCategory = convertCategory(cmp[article.CategoryID])
+		articleDTO.ArticleTagList = convertTagList(amp[article.ID])
+		list = append(list, articleDTO)
 	}
 	return list, total, err
+}
+
+func (s *ArticleService) LikeArticle(reqCtx *request.Context, id int) (data interface{}, err error) {
+	return s.svcCtx.ArticleRepository.LikeArticle(reqCtx, reqCtx.UID, id)
 }
 
 func getCategoryName(category *entity.Category) string {

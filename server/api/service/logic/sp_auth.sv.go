@@ -52,11 +52,6 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 			return nil, codes.ErrorCaptchaVerify
 		}
 	}
-	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
-	if err != nil {
-		return nil, err
-	}
 
 	history := &entity.UserLoginHistory{
 		UserID:    account.ID,
@@ -78,16 +73,15 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 		return nil, err
 	}
 
+	// 获取用户信息
+	info, err := s.getUserInfo(reqCtx, account)
+	if err != nil {
+		return nil, err
+	}
+
 	resp = &response.Login{
-		Token: token,
-		UserInfo: &response.UserInfo{
-			ID:       account.ID,
-			Username: account.Username,
-			Nickname: info.Nickname,
-			Avatar:   info.Avatar,
-			Intro:    info.Intro,
-			Email:    info.Email,
-		},
+		Token:     token,
+		UserInfo:  info,
 		LoginInfo: convertLoginHistory(history),
 	}
 	return resp, nil
@@ -126,21 +120,16 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 		IpAddress:    reqCtx.IpAddress,
 		IpSource:     reqCtx.IpSource,
 	}
-	info := &entity.UserInformation{}
 
-	_, _, err = s.svcCtx.UserAccountRepository.Register(reqCtx, account, info)
+	_, _, err = s.svcCtx.UserAccountRepository.Register(reqCtx, account, &entity.UserInformation{})
 	if err != nil {
 		return nil, err
 	}
 
-	// 事务操作成功
-	userinfo := &response.UserInfo{
-		ID:       account.ID,
-		Username: account.Username,
-		Nickname: info.Nickname,
-		Avatar:   info.Avatar,
-		Intro:    info.Intro,
-		Email:    info.Email,
+	// 获取用户信息
+	info, err := s.getUserInfo(reqCtx, account)
+	if err != nil {
+		return nil, err
 	}
 
 	token, err := s.CreateToken(account.ID, account.Username, account.RegisterType)
@@ -149,7 +138,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp
 	}
 	resp = &response.Login{
 		Token:     token,
-		UserInfo:  userinfo,
+		UserInfo:  info,
 		LoginInfo: nil,
 	}
 
@@ -284,12 +273,6 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
 	}
 
-	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, req.UserID)
-	if err != nil {
-		return nil, err
-	}
-
 	history := &entity.UserLoginHistory{
 		UserID:    account.ID,
 		LoginType: req.Platform,
@@ -310,18 +293,45 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, err
 	}
 
+	// 获取用户信息
+	info, err := s.getUserInfo(reqCtx, account)
+	if err != nil {
+		return nil, err
+	}
 	resp = &response.Login{
-		Token: token,
-		UserInfo: &response.UserInfo{
-			ID:       account.ID,
-			Username: account.Username,
-			Nickname: info.Nickname,
-			Avatar:   info.Avatar,
-			Intro:    info.Intro,
-			Email:    info.Email,
-		},
+		Token:     token,
+		UserInfo:  info,
 		LoginInfo: convertLoginHistory(history),
 	}
+	return resp, nil
+}
+
+func (s *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *response.UserInfo, err error) {
+	//获取用户信息
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	accountLikeSet, _ := s.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
+	commentLikeSet, _ := s.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
+	talkLikeSet, _ := s.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
+
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	resp = &response.UserInfo{
+		ID:             account.ID,
+		Username:       account.Username,
+		Nickname:       info.Nickname,
+		Avatar:         info.Avatar,
+		Intro:          info.Intro,
+		Website:        info.WebSite,
+		Email:          info.Email,
+		ArticleLikeSet: accountLikeSet,
+		CommentLikeSet: commentLikeSet,
+		TalkLikeSet:    talkLikeSet,
+		Roles:          convertRoleList(roles),
+	}
+
 	return resp, nil
 }
 

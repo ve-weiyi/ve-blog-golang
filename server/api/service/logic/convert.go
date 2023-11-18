@@ -156,3 +156,31 @@ func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
 	}
 	return categoryList
 }
+
+func convertPageList(list []*entity.Page) []*response.PageDTO {
+	var pageList []*response.PageDTO
+
+	for _, in := range list {
+		data := &response.PageDTO{
+			ID:        in.ID,
+			PageName:  in.PageName,
+			PageLabel: in.PageLabel,
+			PageCover: in.PageCover,
+		}
+		pageList = append(pageList, data)
+	}
+	return pageList
+}
+
+func convertRoleList(list []*entity.Role) []*response.RoleDTO {
+	var roleList []*response.RoleDTO
+
+	for _, in := range list {
+		data := &response.RoleDTO{
+			RoleName:    in.RoleName,
+			RoleComment: in.RoleComment,
+		}
+		roleList = append(roleList, data)
+	}
+	return roleList
+}
