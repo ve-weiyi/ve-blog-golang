@@ -1,6 +1,9 @@
 package logic
 
 import (
+	"encoding/json"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
@@ -18,7 +21,26 @@ func NewWebsiteService(svcCtx *svc.ServiceContext) *WebsiteService {
 	}
 }
 
-func (s *WebsiteService) GetWebsiteAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.WebsiteAdminHomeInfo, err error) {
+func (s *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.BlogHomeInfo, err error) {
+	articleCount, _ := s.svcCtx.ArticleRepository.Count(reqCtx, sqlx.NewCondition("`is_delete` = ?", entity.False))
+	categoryCount, _ := s.svcCtx.CategoryRepository.Count(reqCtx)
+	tagCount, _ := s.svcCtx.TagRepository.Count(reqCtx)
+	pages, _ := s.svcCtx.PageRepository.FindPageList(reqCtx, nil, nil)
+	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", "website_config"))
+
+	resp = &response.BlogHomeInfo{
+		ArticleCount:  articleCount,
+		CategoryCount: categoryCount,
+		TagCount:      tagCount,
+		ViewsCount:    "1",
+		PageList:      convertPageList(pages),
+	}
+
+	json.Unmarshal([]byte(config.Config), &resp.WebsiteConfig)
+	return resp, err
+}
+
+func (s *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.AdminHomeInfo, err error) {
 	page := &request.PageQuery{}
 	// 查询消息数量
 	msgCount, err := s.svcCtx.RemarkRepository.Count(reqCtx, page.Conditions...)
@@ -59,7 +81,7 @@ func (s *WebsiteService) GetWebsiteAdminHomeInfo(reqCtx *request.Context, data i
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.WebsiteAdminHomeInfo{
+	resp = &response.AdminHomeInfo{
 		ViewsCount:            10,
 		MessageCount:          msgCount,
 		UserCount:             userCount,

@@ -108,6 +108,7 @@ func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *
 	var handler = s.svcCtx.TalkController
 	{
 		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
+		publicRouter.POST("talk/:id/like", handler.LikeTalk)                // 点赞Talk
 		publicRouter.POST("talk/details_list", handler.FindTalkDetailsList) // 获取Talk详情列表
 	}
 }

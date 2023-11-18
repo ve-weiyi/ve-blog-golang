@@ -19,3 +19,8 @@ type RoleInfo struct {
 	MenuIdList     []int `json:"menu_id_list"`
 	ResourceIdList []int `json:"resource_id_list"`
 }
+
+type RoleDTO struct {
+	RoleName    string `json:"role_name"`
+	RoleComment string `json:"role_comment"`
+}

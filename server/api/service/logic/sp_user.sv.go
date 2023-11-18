@@ -58,29 +58,36 @@ func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *
 		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
 	}
 
+	return s.getUserInfo(reqCtx, account)
+}
+
+func (s *UserService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *response.UserInfo, err error) {
+	//获取用户信息
 	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, userId)
-	if err != nil {
-		return nil, err
+	accountLikeSet, _ := s.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
+	commentLikeSet, _ := s.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
+	talkLikeSet, _ := s.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
+
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	resp = &response.UserInfo{
+		ID:             account.ID,
+		Username:       account.Username,
+		Nickname:       info.Nickname,
+		Avatar:         info.Avatar,
+		Intro:          info.Intro,
+		Website:        info.WebSite,
+		Email:          info.Email,
+		ArticleLikeSet: accountLikeSet,
+		CommentLikeSet: commentLikeSet,
+		TalkLikeSet:    talkLikeSet,
+		Roles:          convertRoleList(roles),
 	}
 
-	userinfo := &response.UserInfo{
-		ID:        account.ID,
-		Username:  account.Username,
-		Status:    account.Status,
-		Nickname:  info.Nickname,
-		Avatar:    info.Avatar,
-		Intro:     info.Intro,
-		Email:     info.Email,
-		CreatedAt: info.CreatedAt,
-		Roles:     roles,
-	}
-
-	return userinfo, nil
+	return resp, nil
 }
 
 func (s *UserService) FindUserListAreas(reqCtx *request.Context, page *request.PageQuery) (result []*response.UserArea, total int64, err error) {

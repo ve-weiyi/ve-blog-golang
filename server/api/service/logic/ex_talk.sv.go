@@ -75,3 +75,8 @@ func (s *TalkService) FindTalkDetails(reqCtx *request.Context, id int) (data *re
 	}
 	return data, nil
 }
+
+// 点赞说说
+func (s *TalkService) LikeTalk(reqCtx *request.Context, id int) (data interface{}, err error) {
+	return s.svcCtx.TalkRepository.LikeTalk(reqCtx, reqCtx.UID, id)
+}
