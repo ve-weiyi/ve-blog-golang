@@ -29,7 +29,7 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserDTO}}	"返回信息"
 // @Router		/user/list [post]
 func (s *UserController) FindUserList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -60,15 +60,15 @@ func (s *UserController) FindUserList(c *gin.Context) {
 }
 
 // @Tags		User
-// @Summary		获取用户地区
+// @Summary		获取用户地区列表
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserAreaDTO}}	"返回信息"
 // @Router		/user/list/areas [post]
-func (s *UserController) FindUserListAreas(c *gin.Context) {
+func (s *UserController) FindUserAreaList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -82,7 +82,7 @@ func (s *UserController) FindUserListAreas(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.UserService.FindUserListAreas(reqCtx, &page)
+	list, total, err := s.svcCtx.UserService.FindUserAreaList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

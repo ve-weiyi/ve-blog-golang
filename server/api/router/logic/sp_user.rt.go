@@ -30,8 +30,8 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.POST("user/update_status", handler.UpdateUserStatus) // 更新用户状态
 
 		// 管理员操作
-		loginRouter.POST("user/list", handler.FindUserList)            // 获取用户列表
-		loginRouter.POST("user/list/areas", handler.FindUserListAreas) // 获取用户地区
+		loginRouter.POST("user/list", handler.FindUserList)           // 获取用户列表
+		loginRouter.POST("user/list/areas", handler.FindUserAreaList) // 获取用户地区
 
 		loginRouter.POST("user/login_history", handler.FindUserLoginHistoryList)                   // 用户登录历史
 		loginRouter.DELETE("user/login_history/batch_delete", handler.DeleteUserLoginHistoryByIds) // 批量删除用户登录历史
