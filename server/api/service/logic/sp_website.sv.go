@@ -145,7 +145,7 @@ func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface
 	return config.Config, err
 }
 
-func (s *WebsiteService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigRequest) (resp string, err error) {
+func (s *WebsiteService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {
 	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", req.Key))
 	if err != nil {
 		return "", err
@@ -154,7 +154,7 @@ func (s *WebsiteService) GetConfig(reqCtx *request.Context, req *request.Website
 	return config.Config, err
 }
 
-func (s *WebsiteService) UpdateConfig(reqCtx *request.Context, req *request.WebsiteConfigRequest) (resp string, err error) {
+func (s *WebsiteService) UpdateConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {
 	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", req.Key))
 	if err != nil {
 		return "", err

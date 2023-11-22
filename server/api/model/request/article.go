@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type ArticleCondition struct {
+type ArticleConditionReq struct {
 	TagID      int `json:"tag_id"`      // 文章标签ID
 	CategoryID int `json:"category_id"` // 文章分类ID
 }
@@ -19,7 +19,7 @@ type ArticleDeleteReq struct {
 	IsDelete int `json:"is_delete"` // 是否删除
 }
 
-type ArticleDetailsReq struct {
+type ArticleDetailsDTOReq struct {
 	ID             int       `json:"id"`              // 文章ID
 	ArticleCover   string    `json:"article_cover"`   // 文章缩略图
 	ArticleTitle   string    `json:"article_title"`   // 标题

@@ -14,7 +14,7 @@ import (
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.MenuDetails}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.MenuDetailsDTO}}	"返回信息"
 // @Router		/menu/details_list [post]
 func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

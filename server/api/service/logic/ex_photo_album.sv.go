@@ -7,7 +7,7 @@ import (
 )
 
 // 分页获取PhotoAlbum记录
-func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.PhotoAlbumDetails, total int64, err error) {
+func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.PhotoAlbumDetailsDTO, total int64, err error) {
 	albumList, total, err := s.FindPhotoAlbumList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -20,7 +20,7 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 			return nil, 0, err
 		}
 
-		out := &response.PhotoAlbumDetails{
+		out := &response.PhotoAlbumDetailsDTO{
 			PhotoAlbum: in,
 			PhotoCount: count,
 		}
@@ -32,7 +32,7 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 }
 
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, id int) (data *response.PhotoAlbumDetails, err error) {
+func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, id int) (data *response.PhotoAlbumDetailsDTO, err error) {
 	album, err := s.svcCtx.PhotoAlbumRepository.FindPhotoAlbumById(reqCtx, id)
 	if err != nil {
 		return nil, err
@@ -43,7 +43,7 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, id in
 		return nil, err
 	}
 
-	out := &response.PhotoAlbumDetails{
+	out := &response.PhotoAlbumDetailsDTO{
 		PhotoAlbum: album,
 		PhotoCount: count,
 	}

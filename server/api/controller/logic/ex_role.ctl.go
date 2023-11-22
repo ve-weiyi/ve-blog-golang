@@ -60,7 +60,7 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 		return
 	}
 
-	var req request.UpdateRoleMenus
+	var req request.UpdateRoleMenusReq
 	err = s.ShouldBindJSON(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -92,7 +92,7 @@ func (s *RoleController) UpdateRoleResources(c *gin.Context) {
 		return
 	}
 
-	var req request.UpdateRoleResources
+	var req request.UpdateRoleApisReq
 	err = s.ShouldBindJSON(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)

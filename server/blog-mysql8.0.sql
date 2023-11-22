@@ -412,7 +412,7 @@ CREATE TABLE `user_information`
     `avatar`     varchar(1024)                                                 NOT NULL DEFAULT '' COMMENT '用户头像',
     `phone`      varchar(32)                                                   NOT NULL DEFAULT '' COMMENT '用户手机号',
     `intro`      varchar(255)                                                  NOT NULL DEFAULT '' COMMENT '个人简介',
-    `web_site`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '个人网站',
+    `website`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '个人网站',
     `created_at` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,

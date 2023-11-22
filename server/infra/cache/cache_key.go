@@ -1,6 +1,16 @@
 package cache
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+
+const (
+	ExpireTimeMinute = time.Minute
+	ExpireTimeHour   = time.Hour
+	ExpireTimeDay    = 24 * time.Hour
+	ExpireTimeWeek   = 7 * 24 * time.Hour
+)
 
 const (
 	ArticleUserLike  = "article_user_like"
@@ -15,6 +25,10 @@ const (
 const (
 	TalkUserLike  = "talk_user_like"
 	TalkLikeCount = "talk_like_count"
+)
+
+const (
+	UserOnline = "user_online"
 )
 
 func WrapCacheKey(prefix string, key interface{}) string {

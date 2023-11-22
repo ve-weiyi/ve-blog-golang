@@ -16,7 +16,7 @@ import (
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.PhotoAlbumDetails}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.PhotoAlbumDetailsDTO}}	"返回信息"
 // @Router		/photo_album/details_list [post]
 func (s *PhotoAlbumController) FindPhotoAlbumDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -53,7 +53,7 @@ func (s *PhotoAlbumController) FindPhotoAlbumDetailsList(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param 	 	id		path		int										true	"PhotoAlbum id"
-// @Success		200		{object}	response.Response{data=response.PhotoAlbumDetails}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PhotoAlbumDetailsDTO}	"返回信息"
 // @Router		/photo_album/{id}/details [get]
 func (s *PhotoAlbumController) FindPhotoAlbumDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
