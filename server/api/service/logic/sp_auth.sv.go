@@ -31,7 +31,7 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 	}
 }
 
-func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
+func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp *response.Login, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
@@ -100,7 +100,7 @@ func (s *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp int
 	return s.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.UID)
 }
 
-func (s *AuthService) Register(reqCtx *request.Context, req *request.User) (resp *response.Login, err error) {
+func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (resp *response.Login, err error) {
 	// 验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
@@ -327,7 +327,7 @@ func (s *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 		Nickname:       info.Nickname,
 		Avatar:         info.Avatar,
 		Intro:          info.Intro,
-		Website:        info.WebSite,
+		Website:        info.Website,
 		Email:          info.Email,
 		ArticleLikeSet: accountLikeSet,
 		CommentLikeSet: commentLikeSet,

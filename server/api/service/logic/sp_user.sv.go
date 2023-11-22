@@ -71,7 +71,7 @@ func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 			Status:       account.Status,
 			Avatar:       info.Avatar,
 			Intro:        info.Intro,
-			Website:      info.WebSite,
+			Website:      info.Website,
 			Email:        info.Email,
 			RegisterType: account.RegisterType,
 			IpAddress:    account.IpAddress,
@@ -200,7 +200,7 @@ func (s *UserService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 		Nickname:       info.Nickname,
 		Avatar:         info.Avatar,
 		Intro:          info.Intro,
-		Website:        info.WebSite,
+		Website:        info.Website,
 		Email:          info.Email,
 		ArticleLikeSet: accountLikeSet,
 		CommentLikeSet: commentLikeSet,
@@ -303,7 +303,7 @@ func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.
 }
 
 // 修改用户角色
-func (s *UserService) UpdateUserRoles(reqCtx *request.Context, req *request.UpdateUserRoles) (data interface{}, err error) {
+func (s *UserService) UpdateUserRoles(reqCtx *request.Context, req *request.UpdateUserRolesReq) (data interface{}, err error) {
 
 	return s.svcCtx.RoleRepository.UpdateUserRoles(reqCtx, req.UserId, req.RoleIds)
 }
@@ -326,16 +326,16 @@ func (s *UserService) UpdateUserStatus(reqCtx *request.Context, req *entity.User
 }
 
 // 修改用户信息
-func (s *UserService) UpdateUserInfo(reqCtx *request.Context, req *entity.UserInformation) (data *entity.UserInformation, err error) {
-	// 创建db
-	info, err := s.svcCtx.UserInformationRepository.FindUserInformationById(reqCtx, req.ID)
+func (s *UserService) UpdateUserInfo(reqCtx *request.Context, req *request.UserInfoReq) (data *entity.UserInformation, err error) {
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}
 
 	info.Nickname = req.Nickname
 	info.Intro = req.Intro
-	info.WebSite = req.WebSite
+	info.Website = req.Website
+	info.Avatar = req.Avatar
 	_, err = s.svcCtx.UserInformationRepository.UpdateUserInformation(reqCtx, info)
 	if err != nil {
 		return nil, err

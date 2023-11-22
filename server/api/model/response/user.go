@@ -27,3 +27,14 @@ type UserAreaDTO struct {
 	Name  string `json:"name"`
 	Value int    `json:"value"`
 }
+
+type UserMenuDTO struct {
+	Id        int           `json:"id"`
+	Name      string        `json:"name"`
+	Path      string        `json:"path"`
+	Component string        `json:"component"`
+	Icon      string        `json:"icon"`
+	Rank      int           `json:"rank"`
+	IsHidden  int           `json:"is_hidden"`
+	Children  []UserMenuDTO `json:"children"`
+}

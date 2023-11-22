@@ -114,7 +114,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 		if info != nil {
 			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
-			data.WebSite = info.WebSite
+			data.Website = info.Website
 		}
 
 		// 回复的用户信息
@@ -122,7 +122,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 		//if rinfo != nil {
 		//	data.ReplyUserID = rinfo.ID
 		//	data.ReplyNickname = rinfo.Nickname
-		//	data.ReplyWebSite = rinfo.WebSite
+		//	data.ReplyWebsite = rinfo.Website
 		//}
 
 		list = append(list, data)
@@ -181,7 +181,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 		if info != nil {
 			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
-			data.WebSite = info.WebSite
+			data.Website = info.Website
 		}
 
 		// 回复的用户信息
@@ -189,7 +189,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 		if rinfo != nil {
 			data.ReplyUserID = rinfo.ID
 			data.ReplyNickname = rinfo.Nickname
-			data.ReplyWebSite = rinfo.WebSite
+			data.ReplyWebsite = rinfo.Website
 		}
 
 		list = append(list, data)

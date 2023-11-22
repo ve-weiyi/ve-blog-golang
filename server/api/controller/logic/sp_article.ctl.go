@@ -29,7 +29,7 @@ func NewArticleController(svcCtx *svc.ControllerContext) *ArticleController {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.ArticleDetailsReq		true	"请求参数"
+// @Param		data	body		request.ArticleDetailsDTOReq		true	"请求参数"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/article [post]
 func (s *ArticleController) SaveArticle(c *gin.Context) {
@@ -39,7 +39,7 @@ func (s *ArticleController) SaveArticle(c *gin.Context) {
 		return
 	}
 
-	var article request.ArticleDetailsReq
+	var article request.ArticleDetailsDTOReq
 	err = s.ShouldBind(c, &article)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -263,7 +263,7 @@ func (s *ArticleController) FindArticleArchives(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string																false	"token"
 // @Param		uid		header		string																false	"uid"
-// @Param		page	body		request.ArticleCondition											true	"分页获取文章列表"
+// @Param		page	body		request.ArticleConditionReq											true	"分页获取文章列表"
 // @Success		200		{object}	response.Response{data=response.ArticleConditionDTO}	"返回信息"
 // @Router		/article/series [post]
 func (s *ArticleController) FindArticleSeries(c *gin.Context) {
@@ -273,7 +273,7 @@ func (s *ArticleController) FindArticleSeries(c *gin.Context) {
 		return
 	}
 
-	var req request.ArticleCondition
+	var req request.ArticleConditionReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -296,7 +296,7 @@ func (s *ArticleController) FindArticleSeries(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param 	 	id		path		int										true	"Article id"
-// @Success		200		{object}	response.Response{data=response.ArticlePageDetails}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.ArticlePageDetailsDTO}	"返回信息"
 // @Router		/article/{id}/details [get]
 func (s *ArticleController) FindArticleDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
