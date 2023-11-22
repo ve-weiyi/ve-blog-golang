@@ -32,6 +32,8 @@ func (s *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 		IsTop:          req.IsTop,
 		IsDelete:       0,
 		Status:         req.Status,
+		CreatedAt:      req.CreatedAt,
+		UpdatedAt:      req.UpdatedAt,
 	}
 
 	// 设置默认文章封面
@@ -45,10 +47,17 @@ func (s *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 		article.CategoryID = category.ID
 	}
 
-	// 创建文章
-	_, err = s.svcCtx.ArticleRepository.CreateArticle(reqCtx, article)
-	if err != nil {
-		return nil, err
+	// 创建文章或保存文章
+	if article.ID == 0 {
+		_, err = s.svcCtx.ArticleRepository.CreateArticle(reqCtx, article)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		_, err = s.svcCtx.ArticleRepository.UpdateArticle(reqCtx, article)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// 删除文章标签映射

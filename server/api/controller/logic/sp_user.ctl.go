@@ -60,6 +60,43 @@ func (s *UserController) FindUserList(c *gin.Context) {
 }
 
 // @Tags		User
+// @Summary		获取在线用户列表
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		page	body		request.PageQuery			true	"分页参数"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserDTO}}	"返回信息"
+// @Router		/user/online_list [post]
+func (s *UserController) FindOnlineUserList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageQuery
+	err = s.ShouldBind(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.UserService.FindOnlineUserList(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Page,
+		PageSize: page.PageSize,
+	})
+}
+
+// @Tags		User
 // @Summary		获取用户地区列表
 // @Accept		application/json
 // @Produce		application/json
@@ -67,7 +104,7 @@ func (s *UserController) FindUserList(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserAreaDTO}}	"返回信息"
-// @Router		/user/list/areas [post]
+// @Router		/user/area_list [post]
 func (s *UserController) FindUserAreaList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

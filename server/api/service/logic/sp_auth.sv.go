@@ -79,6 +79,8 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 		return nil, err
 	}
 
+	// 更新用户登录信息
+	_, _ = s.svcCtx.UserAccountRepository.Login(reqCtx, account)
 	resp = &response.Login{
 		Token:     token,
 		UserInfo:  info,
@@ -88,7 +90,8 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.User) (resp *r
 }
 
 func (s *AuthService) Logout(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
-	return true, nil
+	s.svcCtx.Log.Info("用户登出")
+	return s.svcCtx.UserAccountRepository.Logout(reqCtx, reqCtx.UID)
 }
 
 func (s *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {

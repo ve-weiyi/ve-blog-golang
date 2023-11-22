@@ -65,23 +65,40 @@ func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 		roles, _ := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
 
 		item := &response.UserDTO{
-			ID:        account.ID,
-			Username:  account.Username,
-			Nickname:  info.Nickname,
-			Status:    account.Status,
-			Avatar:    info.Avatar,
-			Intro:     info.Intro,
-			Website:   info.WebSite,
-			Email:     info.Email,
-			IpAddress: account.IpAddress,
-			IpSource:  account.IpSource,
-			Roles:     convertRoleList(roles),
+			ID:           account.ID,
+			Username:     account.Username,
+			Nickname:     info.Nickname,
+			Status:       account.Status,
+			Avatar:       info.Avatar,
+			Intro:        info.Intro,
+			Website:      info.WebSite,
+			Email:        info.Email,
+			RegisterType: account.RegisterType,
+			IpAddress:    account.IpAddress,
+			IpSource:     account.IpSource,
+			CreatedAt:    account.CreatedAt,
+			UpdatedAt:    account.UpdatedAt,
+			Roles:        convertRoleList(roles),
 		}
 
 		list = append(list, item)
 	}
 
 	return list, total, nil
+}
+
+// 获取在线用户列表
+func (s *UserService) FindOnlineUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserDTO, total int64, err error) {
+	keys, err := s.svcCtx.UserAccountRepository.Online(reqCtx, page.Page, page.PageSize)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	s.svcCtx.Log.JsonIndent("names", keys)
+	page.Page = 0
+	page.PageSize = 0
+	page.Conditions = append(page.Conditions, sqlx.NewCondition("id in (?)", keys))
+	return s.FindUserList(reqCtx, page)
 }
 
 func (s *UserService) FindUserAreaList(reqCtx *request.Context, page *request.PageQuery) (result []*response.UserAreaDTO, total int64, err error) {
