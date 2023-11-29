@@ -54,7 +54,7 @@ func NewEncoder(cfg ZapConfig) zapcore.Encoder {
 		TimeKey:        "time",
 		CallerKey:      "caller",
 		FunctionKey:    zapcore.OmitKey,
-		StacktraceKey:  cfg.StacktraceKey,
+		StacktraceKey:  "stacktrace",
 		LineEnding:     zapcore.DefaultLineEnding,
 		EncodeLevel:    zapcore.CapitalLevelEncoder,
 		EncodeTime:     cfg.PrefixTimeEncoder,
@@ -69,10 +69,8 @@ func NewEncoder(cfg ZapConfig) zapcore.Encoder {
 	}
 
 	if cfg.ShowLine {
-		encodeConfig.CallerKey = "caller"
 		encodeConfig.EncodeCaller = zapcore.FullCallerEncoder
 	} else {
-		encodeConfig.CallerKey = "caller"
 		encodeConfig.EncodeCaller = zapcore.ShortCallerEncoder
 	}
 

@@ -57,7 +57,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 		UserID:    account.ID,
 		LoginType: constant.LoginEmail,
 		IpAddress: reqCtx.IpAddress,
-		IpSource:  reqCtx.IpSource,
+		IpSource:  reqCtx.GetIpSource(),
 		Agent:     reqCtx.Agent,
 		CreatedAt: time.Now(),
 	}
@@ -121,7 +121,7 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 		Status:       1,
 		RegisterType: constant.LoginEmail,
 		IpAddress:    reqCtx.IpAddress,
-		IpSource:     reqCtx.IpSource,
+		IpSource:     reqCtx.GetIpSource(),
 	}
 
 	_, _, err = s.svcCtx.UserAccountRepository.Register(reqCtx, account, &entity.UserInformation{})
@@ -234,7 +234,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 		Password:     pwd,
 		RegisterType: req.Platform,
 		IpAddress:    reqCtx.IpAddress,
-		IpSource:     reqCtx.IpSource,
+		IpSource:     reqCtx.GetIpSource(),
 	}
 
 	userInfo := entity.UserInformation{
@@ -280,7 +280,7 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		UserID:    account.ID,
 		LoginType: req.Platform,
 		IpAddress: reqCtx.IpAddress,
-		IpSource:  reqCtx.IpSource,
+		IpSource:  reqCtx.GetIpSource(),
 		Agent:     reqCtx.Agent,
 		CreatedAt: time.Now(),
 	}

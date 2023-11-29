@@ -6,18 +6,19 @@ import (
 )
 
 type Config struct {
-	JWT      properties.JWT      `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
-	Zap      properties.Zap      `mapstructure:"zap" json:"zap" yaml:"zap"`
-	Redis    properties.Redis    `mapstructure:"redis" json:"redis" yaml:"redis"`
+	System properties.System `mapstructure:"system" json:"system" yaml:"system"`
+	Mysql  orm.Mysql         `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
+	Redis  properties.Redis  `mapstructure:"redis" json:"redis" yaml:"redis"`
+	// 消息队列、邮件发送服务
 	RabbitMQ properties.RabbitMQ `mapstructure:"rabbitmq" json:"rabbitmq" yaml:"rabbitmq"`
 	Email    properties.Email    `mapstructure:"email" json:"email" yaml:"email"`
-	System   properties.System   `mapstructure:"system" json:"system" yaml:"system"`
-	Captcha  properties.Captcha  `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
-	Oauth    properties.Oauth    `mapstructure:"oauth" json:"oauth" yaml:"oauth"`
-	// gorm
-	Mysql  orm.Mysql           `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
-	DBList []orm.SpecializedDB `mapstructure:"db-list" json:"db-list" yaml:"db-list"`
-	// oss
+	// 鉴权
+	JWT   properties.JWT   `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
+	Oauth properties.Oauth `mapstructure:"oauth" json:"oauth" yaml:"oauth"`
+	// 日志
+	Zap properties.Zap `mapstructure:"zap" json:"zap" yaml:"zap"`
+	// 文件上传
 	Upload  properties.Upload  `mapstructure:"upload" json:"upload" yaml:"upload"`
+	Captcha properties.Captcha `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
 	ChatGPT properties.ChatGPT `mapstructure:"chatgpt" json:"chatgpt" yaml:"chatgpt"`
 }

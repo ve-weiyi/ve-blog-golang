@@ -3,7 +3,9 @@ package request
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/iputil"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -13,12 +15,20 @@ type Context struct {
 	UID             int    `json:"uid" header:"-" example:""`
 	Username        string `json:"username" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
-	IpSource        string `json:"ip_source" header:"-" example:""`
 	Agent           string `json:"agent" header:"-" example:""`
 }
 
 func (s *Context) GetContext() context.Context {
 	return s.Context
+}
+
+func (s *Context) GetIpSource() string {
+	ip := s.IpAddress
+	location, err := iputil.GetIpInfoByBaidu(ip)
+	if err != nil {
+		global.LOG.Println("GetIpInfoByBaidu:", err)
+	}
+	return location.Location
 }
 
 // PageQuery Paging common input parameter structure

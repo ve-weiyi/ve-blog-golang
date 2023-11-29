@@ -10,7 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/upload"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
 )
 
 // 注册需要用到的gorm、redis、model

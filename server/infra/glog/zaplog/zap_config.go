@@ -20,15 +20,14 @@ const (
 
 type ZapConfig struct {
 	// 日志输出位置
-	Mode string `json:",default=console,options=[console,file,volume]"`
+	Mode     string `json:",default=console,options=[console,file,volume]"`
+	Encoding string `json:"encoding"` // 输出格式 使用json还是console
 
 	// 日志输出格式设置
-	Level         string `json:"level" `         // 级别,低于该级别时不打印日志
-	Prefix        string `json:"prefix" `        // 日志前缀
-	Encoding      string `json:"format"`         // 输出格式 使用json还是console
-	StacktraceKey string `json:"stacktrace-key"` // 栈名
-	ShowLine      bool   `json:"show-line"`      // 显示行号
-	ShowColor     bool   `json:"show-color"`     // 显示颜色
+	Level     string `json:"level" `     // 级别,低于该级别时不打印日志
+	Prefix    string `json:"prefix" `    // 日志前缀
+	ShowLine  bool   `json:"show-line"`  // 显示行号
+	ShowColor bool   `json:"show-color"` // 显示颜色
 
 	// 日志保存文件设置
 	Path       string `json:"file-dir"`    //日志文件的路径
@@ -43,36 +42,34 @@ type ZapConfig struct {
 func NewConsoleConfig() ZapConfig {
 	// 返回默认的配置
 	return ZapConfig{
-		Mode:          "console",
-		Level:         "debug",
-		Prefix:        "",
-		Encoding:      FormatConsole,
-		StacktraceKey: "stacktrace",
-		ShowLine:      true,
-		ShowColor:     true,
-		Path:          fmt.Sprintf("runtime/log"),
-		MaxSize:       10 * 1024 * 1024, // 10MB
-		KeepDays:      30,
-		MaxBackups:    30,
-		FileName:      "zaplog.log",
+		Mode:       "console",
+		Level:      "debug",
+		Prefix:     "",
+		Encoding:   FormatConsole,
+		ShowLine:   true,
+		ShowColor:  true,
+		Path:       fmt.Sprintf("runtime/logs"),
+		MaxSize:    10 * 1024 * 1024, // 10MB
+		KeepDays:   30,
+		MaxBackups: 30,
+		FileName:   "zap.log",
 	}
 }
 
 func NewFileConfig() ZapConfig {
 	// 返回默认的配置
 	return ZapConfig{
-		Mode:          "file",
-		Level:         "debug",
-		Prefix:        "",
-		Encoding:      FormatJson,
-		StacktraceKey: "stacktrace",
-		ShowLine:      false,
-		ShowColor:     false,
-		FileName:      "zaplog.log",
-		Path:          fmt.Sprintf("runtime/log"),
-		MaxSize:       10 * 1024 * 1024, // 10MB
-		KeepDays:      30,
-		MaxBackups:    30,
+		Mode:       "file",
+		Level:      "debug",
+		Prefix:     "",
+		Encoding:   FormatJson,
+		ShowLine:   false,
+		ShowColor:  false,
+		FileName:   "zap.log",
+		Path:       fmt.Sprintf("runtime/logs"),
+		MaxSize:    10 * 1024 * 1024, // 10MB
+		KeepDays:   30,
+		MaxBackups: 30,
 	}
 }
 

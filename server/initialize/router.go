@@ -19,31 +19,23 @@ import (
 
 func Routers() *gin.Engine {
 	Router := gin.Default()
-
+	gin.SetMode(gin.DebugMode)
 	ctx := svc.NewRouterContext(&global.CONFIG)
 	blogRouter := router.NewRouter(ctx)
-	// 如果想要不使用nginx代理前端网页，可以修改 web/.env.production 下的
-	// VUE_APP_BASE_API = /
-	// VUE_APP_BASE_PATH = http://localhost
-	// 然后执行打包命令 npm run build。在打开下面4行注释
-	// Router.LoadHTMLGlob("./dist/*.html") // npm打包成dist的路径
-	// Router.Static("/favicon.ico", "./dist/favicon.ico")
-	// Router.Static("/static", "./dist/assets")   // dist里面的静态资源
-	// Router.StaticFile("/", "./dist/index.html") // 前端网页入口页面
 
-	Router.StaticFS(global.CONFIG.Upload.Local.BasePath, http.Dir(global.CONFIG.Upload.Local.BasePath)) // 为用户头像和文件提供静态地址
+	// Generate Swagger JSON file
+	global.LOG.Info("register swagger handler")
+	docs.SwaggerInfo.BasePath = global.CONFIG.System.RouterPrefix
+	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// 放行后端静态资源目录，为用户头像和文件提供静态地址
+	Router.StaticFS(global.CONFIG.Upload.Local.BasePath, http.Dir(global.CONFIG.Upload.Local.BasePath))
+
 	//Router.Use(middleware.LoadTls())  // 如果需要使用https 请打开此中间件 然后前往 core/server.go 将启动模式 更变为 Router.RunTLS("端口","你的cre/pem文件","你的key文件")
 	// 跨域，如需跨域可以打开下面的注释
 	Router.Use(middleware.Cors())       // 直接放行全部跨域请求
 	Router.Use(trace.TraceMiddleware()) // 打印请求的traceId
 	//Router.Use(middleware.OperationRecord()) // 操作记录
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
-	//global.LOG.Info("use middleware cors")
-	// Generate Swagger JSON file
-	docs.SwaggerInfo.BasePath = global.CONFIG.System.RouterPrefix
-	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	global.LOG.Info("register swagger handler")
-	// 方便统一添加路由组前缀 多服务器上线使用
 
 	//公开接口，不需要token
 	publicGroup := Router.Group(global.CONFIG.System.RouterPrefix)

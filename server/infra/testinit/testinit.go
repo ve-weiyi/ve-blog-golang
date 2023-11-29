@@ -83,9 +83,9 @@ func Viper(config string) *viper.Viper {
 }
 
 func Zap() {
-	if ok, _ := files.PathExists(global.CONFIG.Zap.Director); !ok { // 判断是否有Director文件夹
-		fmt.Printf("create %v directory\n", global.CONFIG.Zap.Director)
-		_ = os.Mkdir(global.CONFIG.Zap.Director, os.ModePerm)
+	if ok, _ := files.PathExists(global.CONFIG.Zap.CacheDir); !ok { // 判断是否有Director文件夹
+		fmt.Printf("create %v directory\n", global.CONFIG.Zap.CacheDir)
+		_ = os.Mkdir(global.CONFIG.Zap.CacheDir, os.ModePerm)
 	}
 
 	cfg := zaplog.ZapConfig{}
