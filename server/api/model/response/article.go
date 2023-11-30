@@ -41,24 +41,12 @@ type ArticleConditionDTO struct {
 }
 
 // 文章详情，包含文章内容，上一篇文章，下一篇文章，推荐文章列表，最新文章列表
-type ArticlePageDetails struct {
+type ArticlePageDetailsDTO struct {
 	ArticleHome
 	LastArticle          *ArticlePreviewDTO   `json:"last_article"`           // 上一篇文章
 	NextArticle          *ArticlePreviewDTO   `json:"next_article"`           // 下一篇文章
 	RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list"` // 推荐文章列表
 	NewestArticleList    []*ArticlePreviewDTO `json:"newest_article_list"`    // 最新文章列表
-}
-
-// 标签
-type TagDTO struct {
-	ID      int    `json:"id"`       // 标签ID
-	TagName string `json:"tag_name"` // 标签名
-}
-
-// 分类
-type CategoryDTO struct {
-	ID           int    `json:"id"`
-	CategoryName string `json:"category_name"` // 分类名
 }
 
 // 文章预览

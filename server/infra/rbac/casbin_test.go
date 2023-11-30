@@ -112,7 +112,7 @@ func TestAddAllPolicy(t *testing.T) {
 	if err != nil {
 		return
 	}
-	data, err := rp.RoleRepository.FindRoleApis(1)
+	data, err := rp.RoleRepository.FindRoleApis(nil, 1)
 	rolePolicy, err := re.AddRolePolicy("admin", "blog", data)
 	if err != nil {
 		return
@@ -159,7 +159,7 @@ func ResetAllPolicy(db *gorm.DB, rbac *casbin.SyncedEnforcer) {
 }
 
 // 获取角色菜单权限
-func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenu, error) {
+func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenuDTO, error) {
 	var urs []entity.RoleMenu
 	err := db.Where("role_id = ?", roleId).Find(&urs).Error
 	if err != nil {
@@ -177,9 +177,9 @@ func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenu, error) 
 		return nil, err
 	}
 
-	var res []*response.UserMenu
+	var res []*response.UserMenuDTO
 	for _, item := range menus {
-		menu := &response.UserMenu{
+		menu := &response.UserMenuDTO{
 			Id:        item.ID,
 			Name:      item.Name,
 			Path:      item.Path,

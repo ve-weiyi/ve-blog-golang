@@ -4,7 +4,6 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -55,25 +54,25 @@ func (s *ServerCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 	return &nacos.NacosConfig{
 		IP:          "120.79.136.81",
 		Port:        8848,
-		DataID:      "ve-blog-golang",
-		Group:       "veweiyi.cn",
 		UserName:    "nacos",
 		Password:    "nacos",
+		NameSpaceID: "dev",
+		Group:       "veweiyi.cn",
+		DataID:      "ve-blog-golang",
 		LogLevel:    "warn",
-		NameSpaceID: "blog",
 		Timeout:     5000,
 	}
 }
 
 func (s *ServerCmd) persistentPreRun(cmd *cobra.Command, args []string) {
 	if s.useNacos {
-		fmt.Println("使用nacos")
+		log.Println("读取配置文件...使用nacos")
 		err := nacos.New(s.nacosCfg).Init(initialize.InitConfigByContent)
 		if err != nil {
 			panic("nacos config read failed " + err.Error())
 		}
 	} else {
-		fmt.Println("使用文件路径")
+		log.Println("读取配置文件..使用文件路径")
 		// 初始化Viper
 		initialize.InitConfigByFile(s.configFile)
 	}

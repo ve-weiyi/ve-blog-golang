@@ -169,7 +169,7 @@ func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 		s.ResponseError(c, err)
 		return
 	}
-	var req request.WebsiteConfigRequest
+	var req request.WebsiteConfigReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -191,7 +191,7 @@ func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Param		data	body		request.WebsiteConfigRequest		true	"请求信息"
+// @Param		data	body		request.WebsiteConfigReq		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/config [post]
 func (s *WebsiteController) GetConfig(c *gin.Context) {
@@ -200,7 +200,7 @@ func (s *WebsiteController) GetConfig(c *gin.Context) {
 		s.ResponseError(c, err)
 		return
 	}
-	var req request.WebsiteConfigRequest
+	var req request.WebsiteConfigReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -222,7 +222,7 @@ func (s *WebsiteController) GetConfig(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Param		data	body		request.WebsiteConfigRequest		true	"请求信息"
+// @Param		data	body		request.WebsiteConfigReq		true	"请求信息"
 // @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/config [put]
 func (s *WebsiteController) UpdateConfig(c *gin.Context) {
@@ -232,7 +232,7 @@ func (s *WebsiteController) UpdateConfig(c *gin.Context) {
 		return
 	}
 
-	var req request.WebsiteConfigRequest
+	var req request.WebsiteConfigReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -249,13 +249,37 @@ func (s *WebsiteController) UpdateConfig(c *gin.Context) {
 }
 
 // @Tags		Website
+// @Summary		获取博客前台首页信息
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Success		200		{object}	response.Response{data=response.BlogHomeInfo}	"返回信息"
+// @Router		/ [get]
+func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteService.GetBlogHomeInfo(reqCtx, nil)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Website
 // @Summary		获取后台首页信息
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.WebsiteAdminHomeInfo}	"返回信息"
-// @Router		/admin/home [get]
+// @Success		200		{object}	response.Response{data=response.AdminHomeInfo}	"返回信息"
+// @Router		/admin [get]
 func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -263,7 +287,7 @@ func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.WebsiteService.GetWebsiteAdminHomeInfo(reqCtx, nil)
+	data, err := s.svcCtx.WebsiteService.GetAdminHomeInfo(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -278,7 +302,7 @@ func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.WebsiteAdminHomeInfo}	"返回信息"
+// @Success		200		{object}	response.Response{data=any}	"返回信息"
 // @Router		/admin/system/state [get]
 func (s *WebsiteController) GetSystemState(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

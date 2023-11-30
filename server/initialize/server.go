@@ -19,7 +19,6 @@ type server interface {
 func RunWindowsServer() {
 
 	routers := Routers()
-	routers.Static("/form-generator", "./resource/page")
 
 	address := fmt.Sprintf(":%d", global.CONFIG.System.Addr)
 	var s server

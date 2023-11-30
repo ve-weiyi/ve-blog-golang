@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
@@ -184,8 +184,66 @@ func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid in
 
 	out = &entity.UserLoginHistory{}
 	err = db.Where("user_id = ?", uid).First(&out).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil {
 		return nil, err
 	}
 	return out, err
+}
+
+// 用户登录
+func (s *UserAccountRepository) Login(ctx context.Context, account *entity.UserAccount) (data string, err error) {
+	// redis 保存用户登录信息
+	onlineKey := cache.WrapCacheKey(cache.UserOnline, account.ID)
+	return s.Cache.Set(ctx, onlineKey, account.Username, cache.ExpireTimeWeek).Result()
+}
+
+// 用户登出
+func (s *UserAccountRepository) Logout(ctx context.Context, uid int) (data int64, err error) {
+	// redis 删除用户登录信息
+	onlineKey := cache.WrapCacheKey(cache.UserOnline, uid)
+	return s.Cache.Del(ctx, onlineKey).Result()
+}
+
+// 在线用户
+func (s *UserAccountRepository) Online(ctx context.Context, page int, pageSize int) (data []string, err error) {
+	redisClient := s.Cache
+	// redis 获取在线用户
+	var cursor uint64
+	var onlineUsers []string
+
+	// 使用 SCAN 迭代遍历键空间
+	for {
+		// 使用 SCAN 命令获取部分键
+		keys, newCursor, err := redisClient.Scan(ctx, cursor, cache.WrapCacheKey(cache.UserOnline, "*"), int64(pageSize)).Result()
+		if err != nil {
+			return nil, err
+		}
+
+		// 更新游标
+		cursor = newCursor
+
+		// 直接添加到在线用户列表
+		onlineUsers = append(onlineUsers, keys...)
+
+		// 如果游标为 0，则说明迭代结束
+		if cursor == 0 {
+			break
+		}
+	}
+
+	// 实现分页逻辑
+	startIndex := (page - 1) * pageSize
+	endIndex := startIndex + pageSize
+	if startIndex < 0 {
+		startIndex = 0
+	}
+	if endIndex > len(onlineUsers) {
+		endIndex = len(onlineUsers)
+	}
+
+	for _, value := range onlineUsers[startIndex:endIndex] {
+		data = append(data, strings.TrimPrefix(value, cache.UserOnline+":"))
+	}
+
+	return data, nil
 }

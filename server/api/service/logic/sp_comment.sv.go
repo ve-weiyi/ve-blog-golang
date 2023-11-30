@@ -4,8 +4,60 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
+
+type CommentService struct {
+	svcCtx *svc.ServiceContext
+}
+
+func NewCommentService(svcCtx *svc.ServiceContext) *CommentService {
+	return &CommentService{
+		svcCtx: svcCtx,
+	}
+}
+
+// 创建Comment记录
+func (s *CommentService) CreateComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
+	comment.UserID = reqCtx.UID
+	global.LOG.Println("comment:", reqCtx.UID, comment)
+	return s.svcCtx.CommentRepository.CreateComment(reqCtx, comment)
+}
+
+// 更新Comment记录
+func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
+	return s.svcCtx.CommentRepository.UpdateComment(reqCtx, comment)
+}
+
+// 删除Comment记录
+func (s *CommentService) DeleteComment(reqCtx *request.Context, id int) (rows int, err error) {
+	return s.svcCtx.CommentRepository.DeleteCommentById(reqCtx, id)
+}
+
+// 查询Comment记录
+func (s *CommentService) FindComment(reqCtx *request.Context, id int) (data *entity.Comment, err error) {
+	return s.svcCtx.CommentRepository.FindCommentById(reqCtx, id)
+}
+
+// 批量删除Comment记录
+func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
+	return s.svcCtx.CommentRepository.DeleteCommentByIds(reqCtx, ids)
+}
+
+// 分页获取Comment记录
+func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Comment, total int64, err error) {
+	list, err = s.svcCtx.CommentRepository.FindCommentList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	total, err = s.svcCtx.CommentRepository.Count(reqCtx, page.Conditions...)
+	if err != nil {
+		return nil, 0, err
+	}
+	return list, total, nil
+}
 
 // 分页获取Comment记录
 func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentDTO, total int64, err error) {
@@ -62,7 +114,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 		if info != nil {
 			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
-			data.WebSite = info.WebSite
+			data.Website = info.Website
 		}
 
 		// 回复的用户信息
@@ -70,7 +122,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 		//if rinfo != nil {
 		//	data.ReplyUserID = rinfo.ID
 		//	data.ReplyNickname = rinfo.Nickname
-		//	data.ReplyWebSite = rinfo.WebSite
+		//	data.ReplyWebsite = rinfo.Website
 		//}
 
 		list = append(list, data)
@@ -129,7 +181,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 		if info != nil {
 			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
-			data.WebSite = info.WebSite
+			data.Website = info.Website
 		}
 
 		// 回复的用户信息
@@ -137,7 +189,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 		if rinfo != nil {
 			data.ReplyUserID = rinfo.ID
 			data.ReplyNickname = rinfo.Nickname
-			data.ReplyWebSite = rinfo.WebSite
+			data.ReplyWebsite = rinfo.Website
 		}
 
 		list = append(list, data)

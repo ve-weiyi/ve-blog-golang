@@ -1,14 +1,10 @@
 package response
 
-import (
-	"time"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-)
-
 // 用户登录信息
 type Login struct {
 	*Token
+	IpAddress string        `json:"ip_address"`
+	IpSource  string        `json:"ip_source"`
 	UserInfo  *UserInfo     `json:"user_info"`
 	LoginInfo *LoginHistory `json:"login_info"`
 }
@@ -23,16 +19,19 @@ type Token struct {
 }
 
 type UserInfo struct {
-	ID        int       `json:"id"`
-	Username  string    `json:"username"`
-	Status    int       `json:"status"`
-	Nickname  string    `json:"nickname"`
-	Avatar    string    `json:"avatar"`
-	Intro     string    `json:"intro"`
-	Email     string    `json:"email"`
-	CreatedAt time.Time `json:"created_at"`
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Intro    string `json:"intro"`
+	Website  string `json:"website"`
+	Email    string `json:"email"`
 
-	Roles []*entity.Role `json:"roles"`
+	ArticleLikeSet []string `json:"article_like_set"` // 文章点赞集合
+	CommentLikeSet []string `json:"comment_like_set"` // 评论点赞集合
+	TalkLikeSet    []string `json:"talk_like_set"`    // 说说点赞集合
+
+	Roles []*RoleDTO `json:"roles"`
 }
 
 type LoginHistory struct {

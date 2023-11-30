@@ -32,11 +32,10 @@ func NewBaseController(svc *svc.ControllerContext) BaseController {
 func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, error) {
 
 	reqCtx := &request.Context{}
-	reqCtx.Token = ctx.GetString("token")
-	reqCtx.UID = ctx.GetInt("uid")
+	reqCtx.Token = ctx.GetHeader("token")
+	reqCtx.UID = cast.ToInt(ctx.GetHeader("uid"))
 	reqCtx.Username = ctx.GetString("username")
-	reqCtx.IpAddress = ctx.GetString("ip_address")
-	reqCtx.IpSource = ctx.GetString("ip_source")
+	reqCtx.IpAddress = ctx.ClientIP()
 	reqCtx.Agent = ctx.Request.UserAgent()
 	reqCtx.Context = ctx.Request.Context()
 	return reqCtx, nil

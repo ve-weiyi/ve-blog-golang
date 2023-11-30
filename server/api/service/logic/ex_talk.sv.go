@@ -7,7 +7,7 @@ import (
 )
 
 // 获取说说详情列表
-func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetails, total int64, err error) {
+func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetailsDTO, total int64, err error) {
 	talkList, total, err := s.FindTalkList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -24,7 +24,7 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 
 		var imgList []string
 		jsonconv.JsonToObject(talk.Images, &imgList)
-		data := &response.TalkDetails{
+		data := &response.TalkDetailsDTO{
 			ID:           talk.ID,
 			UserID:       talk.UserID,
 			Nickname:     user.Nickname,
@@ -46,7 +46,7 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 }
 
 // 获取说说详情
-func (s *TalkService) FindTalkDetails(reqCtx *request.Context, id int) (data *response.TalkDetails, err error) {
+func (s *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, id int) (data *response.TalkDetailsDTO, err error) {
 	// 查询api信息
 	talk, err := s.svcCtx.TalkRepository.FindTalkById(reqCtx, id)
 	if err != nil {
@@ -60,7 +60,7 @@ func (s *TalkService) FindTalkDetails(reqCtx *request.Context, id int) (data *re
 
 	var imgList []string
 	jsonconv.JsonToObject(talk.Images, &imgList)
-	data = &response.TalkDetails{
+	data = &response.TalkDetailsDTO{
 		ID:        talk.ID,
 		UserID:    talk.UserID,
 		Nickname:  user.Nickname,
@@ -74,4 +74,9 @@ func (s *TalkService) FindTalkDetails(reqCtx *request.Context, id int) (data *re
 		UpdatedAt: talk.UpdatedAt,
 	}
 	return data, nil
+}
+
+// 点赞说说
+func (s *TalkService) LikeTalk(reqCtx *request.Context, id int) (data interface{}, err error) {
+	return s.svcCtx.TalkRepository.LikeTalk(reqCtx, reqCtx.UID, id)
 }

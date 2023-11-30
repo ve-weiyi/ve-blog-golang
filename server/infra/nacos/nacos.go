@@ -13,9 +13,9 @@ type NacosConfig struct {
 	Port        uint64 //8848
 	UserName    string
 	Password    string
-	DataID      string
-	Group       string
 	NameSpaceID string
+	Group       string
+	DataID      string
 	LogLevel    string //debug
 	Timeout     int64  //ms
 }
@@ -45,7 +45,7 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		constant.WithNamespaceId(n.cfg.NameSpaceID),
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
-		constant.WithLogDir("./log"),
+		constant.WithLogDir("./runtime/logs"),
 		constant.WithCacheDir("./cache"),
 		constant.WithLogLevel("debug"),
 	)

@@ -23,12 +23,13 @@ func (s *WebsiteRouter) InitWebsiteRouter(publicRouter *gin.RouterGroup, loginRo
 
 	var handler = s.svcCtx.WebsiteController
 	{
+		publicRouter.GET("/", handler.GetBlogHomeInfo)               // 获取博客首页信息
 		publicRouter.GET("ws", handler.WebSocket)                    // websocket
 		publicRouter.POST("chat/records", handler.FindChatRecords)   // 查询前台聊天记录
 		publicRouter.GET("about/me", handler.GetAboutMe)             // 查询关于我
 		publicRouter.GET("website/config", handler.GetWebsiteConfig) // 获取网站配置
 
-		loginRouter.GET("admin/home", handler.GetAdminHomeInfo)       // 获取首页信息
+		loginRouter.GET("admin", handler.GetAdminHomeInfo)            // 获取后台首页信息
 		loginRouter.POST("admin/about/me", handler.UpdateAboutMe)     // 更新关于我
 		loginRouter.POST("admin/config", handler.GetConfig)           // 获取网站配置
 		loginRouter.PUT("admin/config", handler.UpdateConfig)         // 更新网站配置

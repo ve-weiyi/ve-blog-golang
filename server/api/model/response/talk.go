@@ -2,7 +2,7 @@ package response
 
 import "time"
 
-type TalkDetails struct {
+type TalkDetailsDTO struct {
 	ID           int       `json:"id"`
 	UserID       int       `json:"user_id"`       // 用户ID
 	Nickname     string    `json:"nickname"`      // 用户昵称

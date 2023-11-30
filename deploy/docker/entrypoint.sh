@@ -25,19 +25,13 @@ cd /home/blog/ve-blog-golang/server
 git checkout feature/1.0.0/blog
 git pull origin feature/1.0.0/blog
 
-
-# git branch -d feature/1.0.0/blog
-git fetch origin
-git reset --hard origin/feature/1.0.0/blog
-
 # 更新依赖
 go mod tidy
 
 # Run the Go application
-# go run main.go server
 go build main.go
 
-nohup ./main server -c /config.yaml > output.log 2>&1 &
+nohup ./main server --use-nacos=true -c /config.yaml > output.log 2>&1 &
 # 输出日志到控制台
 echo "entrypoint.sh script completed."
 
@@ -46,3 +40,8 @@ tail -f /dev/null
 # 生成镜像并部署 sudo docker-compose -f docker-compose.yaml up -d
 # 进入镜像查看部署结果 sudo docker exec -it ve-blog-server /bin/bash
 # netstat -tulpn | grep 9999 查看端口占用情况
+
+# centos安装 golang最新版本 https://go-repo.io/
+# rpm --import https://mirror.go-repo.io/centos/RPM-GPG-KEY-GO-REPO
+# curl -s https://mirror.go-repo.io/centos/go-repo.repo | tee /etc/yum.repos.d/go-repo.repo
+# yum install golang
