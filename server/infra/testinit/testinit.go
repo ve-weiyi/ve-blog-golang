@@ -15,9 +15,9 @@ import (
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
@@ -100,7 +100,7 @@ func Zap() {
 }
 
 func Gorm() {
-	var cfg orm.DsnProvider
+	var cfg properties.DsnProvider
 
 	cfg = &global.CONFIG.Mysql
 	global.DB = database.Open(cfg)

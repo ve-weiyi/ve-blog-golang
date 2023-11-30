@@ -13,13 +13,13 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 )
 
 // migrateCmd represents the migrate command
 type MigrateCmd struct {
 	cmd      *cobra.Command
-	Mysql    orm.Mysql
+	Mysql    properties.Mysql
 	createDB bool
 	sqlFile  string
 }

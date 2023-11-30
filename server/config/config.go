@@ -2,12 +2,11 @@ package config
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 )
 
 type Config struct {
 	System properties.System `mapstructure:"system" json:"system" yaml:"system"`
-	Mysql  orm.Mysql         `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
+	Mysql  properties.Mysql  `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	Redis  properties.Redis  `mapstructure:"redis" json:"redis" yaml:"redis"`
 	// 消息队列、邮件发送服务
 	RabbitMQ properties.RabbitMQ `mapstructure:"rabbitmq" json:"rabbitmq" yaml:"rabbitmq"`

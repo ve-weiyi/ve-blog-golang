@@ -20,7 +20,7 @@ func RunWindowsServer() {
 
 	routers := Routers()
 
-	address := fmt.Sprintf(":%d", global.CONFIG.System.Addr)
+	address := fmt.Sprintf(":%d", global.CONFIG.System.Port)
 	var s server
 	s = &http.Server{
 		Addr:           address,
