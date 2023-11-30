@@ -10,15 +10,15 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/ormlog"
 )
 
 // Gorm 初始化数据库并产生数据库全局变量
 // Author SliverHorn
 func Gorm() {
-	var cfg orm.Mysql
+	var cfg properties.Mysql
 
 	cfg = global.CONFIG.Mysql
 	global.DB = Open(cfg)
@@ -26,7 +26,7 @@ func Gorm() {
 	global.LOG.Infof("Mysql 数据库连接成功！%s", cfg.Dsn())
 }
 
-func Open(cfg orm.Mysql) *gorm.DB {
+func Open(cfg properties.Mysql) *gorm.DB {
 	dsn := cfg.Dsn()
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{

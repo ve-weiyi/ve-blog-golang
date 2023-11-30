@@ -9,11 +9,11 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/orm"
+	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/ormlog"
 )
 
-func Open(cfg orm.DsnProvider) *gorm.DB {
+func Open(cfg properties.DsnProvider) *gorm.DB {
 	dialector := cfg.GetConnector()
 
 	db, err := gorm.Open(*dialector, Config(cfg))
@@ -37,7 +37,7 @@ func Open(cfg orm.DsnProvider) *gorm.DB {
 
 // Config gorm 自定义配置
 // Author [SliverHorn](https://github.com/SliverHorn)
-func Config(cfg orm.DsnProvider) *gorm.Config {
+func Config(cfg properties.DsnProvider) *gorm.Config {
 
 	config := &gorm.Config{
 		//PrepareStmt:            true, // 缓存预编译语句

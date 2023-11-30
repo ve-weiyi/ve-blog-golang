@@ -1,4 +1,4 @@
-package orm
+package properties
 
 import (
 	"gorm.io/gorm"
@@ -30,14 +30,6 @@ type GeneralDB struct {
 	LogMode      string `mapstructure:"log-mode" json:"log-mode" yaml:"log-mode"`                   // 是否开启Gorm全局日志
 	LogZap       bool   `mapstructure:"log-zap" json:"log-zap" yaml:"log-zap"`                      // 是否通过zap写入日志文件
 }
-
-//func (m *GeneralDB) Dsn() string {
-//	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", m.Username, m.Password, m.Host, m.Port, m.Dbname, m.Config)
-//}
-//
-//func (m *GeneralDB) GetConnector() *gorm.Dialector {
-//	return nil
-//}
 
 type SpecializedDB struct {
 	Disable   bool   `mapstructure:"disable" json:"disable" yaml:"disable"`

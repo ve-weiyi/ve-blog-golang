@@ -1,17 +1,12 @@
 # system configuration
 system:
-  env: develop # 运行环境 可选值: develop、test、production
-  addr: 9999   # 项目端口
-  db-type: mysql
-  oss-type: local # 控制oss选择走本地还是 七牛等其他仓 自行增加其他oss仓可以在 server/utils/upload/upload.go 中 NewOss函数配置
-  use-redis: false # 使用redis
-  use-multipoint: false # 使用多点登录
-  #项目运行时生成的目录
+  version: 1.0.0
+  env: develop
+  port: 9999
+  router-prefix: "api/v1"
+  use-redis: false
+  use-multipoint: false
   runtime-path: runtime/
-  # IP限制次数 一个小时15000次
-  iplimit-count: 15000
-  #  IP限制一个小时
-  iplimit-time: 3600
 
 # jwt token configuration
 jwt:
