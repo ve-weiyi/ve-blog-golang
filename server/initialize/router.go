@@ -60,6 +60,7 @@ func Routers() *gin.Engine {
 	adminGroup.Use(middleware.JwtToken())
 	{
 		blogRouter.WebsiteRouter.InitWebsiteRouter(publicGroup, adminGroup)
+		blogRouter.WebsocketRouter.InitWebsocketRouter(publicGroup, adminGroup)
 		blogRouter.AuthRouter.InitAuthRouter(publicGroup, adminGroup)
 		blogRouter.UserRouter.InitUserRouter(publicGroup, adminGroup)
 		blogRouter.ApiRouter.InitApiRouter(publicGroup, adminGroup)

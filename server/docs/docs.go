@@ -7542,7 +7542,7 @@ const docTemplate = `{
                 "tags": [
                     "Upload"
                 ],
-                "summary": "文件上传",
+                "summary": "上传文件",
                 "parameters": [
                     {
                         "type": "string",
@@ -8325,6 +8325,110 @@ const docTemplate = `{
                 }
             }
         },
+        "/voice": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "上传语言",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "消息类型",
+                        "name": "type",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "语音文件",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户ID",
+                        "name": "user_id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户昵称",
+                        "name": "nickname",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户头像",
+                        "name": "avatar",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "聊天内容",
+                        "name": "content",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "创建时间",
+                        "name": "created_at",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "IP地址",
+                        "name": "ip_address",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "IP来源",
+                        "name": "ip_source",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/entity.UploadRecord"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/website/config": {
             "get": {
                 "consumes": [
@@ -8376,7 +8480,7 @@ const docTemplate = `{
         "/ws": {
             "get": {
                 "tags": [
-                    "Website"
+                    "Websocket"
                 ],
                 "summary": "查询聊天记录",
                 "responses": {}
@@ -10778,7 +10882,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
-	Description:      "APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret}) 生成的加密token，ci环境base_secret：u*88ZP8Tvpu_-EuEZ，x-timestamp 时间戳需要保持10分钟内",
+	Description:      "APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret}) 生成的加密token，x-timestamp 时间戳需要保持10分钟内",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

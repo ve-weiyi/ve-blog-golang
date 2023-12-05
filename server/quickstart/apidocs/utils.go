@@ -220,9 +220,10 @@ func GetTypeScriptType(name string) string {
 		return "File"
 	case "Time":
 		return "string"
+	case "FileHeader":
+		return "File"
 	case "interface{}":
 		return "any"
-
 	default:
 		return name
 	}
