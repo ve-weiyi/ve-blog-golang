@@ -82,9 +82,9 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 	// 更新用户登录信息
 	_, _ = s.svcCtx.UserAccountRepository.Login(reqCtx, account)
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }
@@ -140,9 +140,9 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: nil,
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: nil,
 	}
 
 	return resp, nil
@@ -302,9 +302,9 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }

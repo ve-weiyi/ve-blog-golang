@@ -2,11 +2,9 @@ package response
 
 // 用户登录信息
 type Login struct {
-	*Token
-	IpAddress string        `json:"ip_address"`
-	IpSource  string        `json:"ip_source"`
-	UserInfo  *UserInfo     `json:"user_info"`
-	LoginInfo *LoginHistory `json:"login_info"`
+	Token        *Token        `json:"token"`
+	UserInfo     *UserInfo     `json:"user_info"`
+	LoginHistory *LoginHistory `json:"login_history"`
 }
 
 type Token struct {
