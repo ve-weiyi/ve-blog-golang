@@ -15,7 +15,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/qq"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
@@ -82,9 +84,9 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 	// 更新用户登录信息
 	_, _ = s.svcCtx.UserAccountRepository.Login(reqCtx, account)
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }
@@ -140,9 +142,9 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: nil,
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: nil,
 	}
 
 	return resp, nil
@@ -187,22 +189,17 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.LoginQQ:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	case constant.LoginWeibo:
-		auth = oauth.NewAuthWb(convertAuthConfig(cfg.Weibo))
+		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
 	case constant.LoginFeishu:
-		auth = oauth.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
+		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
 	default:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
-	}
-	// 获取access_token
-	token, err := auth.GetAccessToken(req.Code)
-	if err != nil {
-		return nil, err
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
 	// 获取第三方用户信息
-	info, err := auth.GetUserInfo(token.AccessToken)
+	info, err := auth.GetUserOpenInfo(req.Code)
 	s.svcCtx.Log.JsonIndent("第三方用户信息", info)
 	if err != nil {
 		return nil, err
@@ -222,7 +219,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	return s.oauthLogin(reqCtx, userOauth)
 }
 
-func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *result.UserResult) (resp *entity.UserOauth, err error) {
+func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *oauth.UserResult) (resp *entity.UserOauth, err error) {
 	// 用户未注册,先注册用户
 	pwd := crypto.BcryptHash(info.EnName)
 	username := info.Email
@@ -239,7 +236,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 
 	userInfo := entity.UserInformation{
 		Nickname: info.Name,
-		Avatar:   info.AvatarURL,
+		Avatar:   info.Avatar,
 		Email:    info.Email,
 	}
 
@@ -302,9 +299,9 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }
@@ -343,13 +340,13 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.LoginQQ:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	case constant.LoginWeibo:
-		auth = oauth.NewAuthWb(convertAuthConfig(cfg.Weibo))
+		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
 	case constant.LoginFeishu:
-		auth = oauth.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
+		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
 	default:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
 	resp = &response.OauthLoginUrl{

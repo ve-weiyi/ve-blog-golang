@@ -1,14 +1,13 @@
 package https
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 type HttpBuilder struct {
@@ -17,7 +16,6 @@ type HttpBuilder struct {
 	params  url.Values             // ?a=1&b=2
 	headers map[string]string      // map[Content-Type:application/x-www-form-urlencoded]
 	data    map[string]interface{} // {"a":1,"b":2}
-	body    string                 //{"a":1,"b":2}
 }
 
 func NewHttpBuilder(baseUrl string) *HttpBuilder {
@@ -65,7 +63,7 @@ func (h *HttpBuilder) DoRequest(method string) (respBody []byte, err error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("status code error: %d %s", resp.StatusCode, resp.Status)
+		return nil, fmt.Errorf("http request fail. url:%v,code:%d,err:%s", requestUrl, resp.StatusCode, resp.Status)
 	}
 
 	defer resp.Body.Close()
@@ -88,26 +86,15 @@ func (h *HttpBuilder) GetUrl() string {
 }
 
 func (h *HttpBuilder) GetBody() string {
-	if h.body != "" {
-		return h.body
+	str, err := json.Marshal(h.data)
+	if err != nil {
+		return ""
 	}
 
-	str, _ := jsoniter.MarshalToString(h.data)
-	if str != "" {
-		return str
-	}
-
-	return ""
+	return string(str)
 }
 
-func (h *HttpBuilder) AddParam(key string, value interface{}) *HttpBuilder {
-	if key == "" {
-		return h
-	}
-	h.params.Add(key, fmt.Sprint(value))
-	return h
-}
-
+// 请求头
 func (h *HttpBuilder) AddHeader(key string, value interface{}) *HttpBuilder {
 	if key == "" {
 		return h
@@ -116,14 +103,32 @@ func (h *HttpBuilder) AddHeader(key string, value interface{}) *HttpBuilder {
 	return h
 }
 
+// 查询参数 https://www.baidu.com?a=1&b=2
+func (h *HttpBuilder) AddParam(key string, value interface{}) *HttpBuilder {
+	if key == "" {
+		return h
+	}
+	h.params.Add(key, fmt.Sprint(value))
+	return h
+}
+
+// 请求体 {"a":1,"b":2}
 func (h *HttpBuilder) AddData(key string, value interface{}) *HttpBuilder {
 
 	h.data[key] = value
 	return h
 }
 
-func (h *HttpBuilder) AddBody(value interface{}) *HttpBuilder {
-	h.body = fmt.Sprint(value)
+// 请求体 {"a":1,"b":2}
+func (h *HttpBuilder) AddBody(obj interface{}) *HttpBuilder {
+	m, err := structToMap(obj)
+	if err != nil {
+		return h
+	}
+
+	for k, v := range m {
+		h.data[k] = v
+	}
 	return h
 }
 
@@ -133,4 +138,26 @@ func (h *HttpBuilder) Post() ([]byte, error) {
 
 func (h *HttpBuilder) Get() ([]byte, error) {
 	return h.DoRequest("GET")
+}
+
+func structToMap(obj interface{}) (map[string]interface{}, error) {
+	var result map[string]interface{}
+	data, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(data, &result)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func jsonToMap(data []byte) (map[string]interface{}, error) {
+	var result map[string]interface{}
+	err := json.Unmarshal(data, &result)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
