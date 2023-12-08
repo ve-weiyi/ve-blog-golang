@@ -1,4 +1,4 @@
-package source
+package oauth
 
 // 注册来源
 type RegisterSource string

@@ -2,11 +2,9 @@ package response
 
 // 用户登录信息
 type Login struct {
-	*Token
-	IpAddress string        `json:"ip_address"`
-	IpSource  string        `json:"ip_source"`
-	UserInfo  *UserInfo     `json:"user_info"`
-	LoginInfo *LoginHistory `json:"login_info"`
+	Token        *Token        `json:"token"`
+	UserInfo     *UserInfo     `json:"user_info"`
+	LoginHistory *LoginHistory `json:"login_history"`
 }
 
 type Token struct {
@@ -15,6 +13,7 @@ type Token struct {
 	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
 	RefreshToken     string `json:"refresh_token"`      // 刷新token,过期时间较长。30d
 	RefreshExpiresIn int64  `json:"refresh_expires_in"` // 刷新token过期时间
+	Scope            string `json:"scope"`              // 作用域
 	UID              int    `json:"uid"`                // 用户id
 }
 
