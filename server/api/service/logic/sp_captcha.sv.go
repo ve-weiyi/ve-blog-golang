@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 
@@ -29,12 +29,12 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Email)
 	if err != nil {
-		return nil, codes.ErrorUserNotExist
+		return nil, apierror.ErrorUserNotExist
 	}
 
 	userinfo, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
 	if err != nil {
-		return nil, codes.ErrorUserNotExist
+		return nil, apierror.ErrorUserNotExist
 	}
 
 	// 设置key
@@ -93,7 +93,7 @@ func (s *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.C
 
 func (s *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerifyReq) (resp interface{}, err error) {
 	if !s.svcCtx.Captcha.VerifyCaptcha(req.ID, req.Code) {
-		return nil, codes.ErrorCaptchaVerify
+		return nil, apierror.ErrorCaptchaVerify
 	}
 
 	return resp, nil
