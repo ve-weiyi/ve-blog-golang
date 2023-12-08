@@ -68,3 +68,19 @@ func convertAnyToStr(v interface{}) string {
 		return fmt.Sprint(v)
 	}
 }
+
+// 去除结构体中字符串字段的前后空格(target: 目标结构体,传入必须是指针类型)
+func TrimSpace(target interface{}) {
+	t := reflect.TypeOf(target)
+	if t.Kind() != reflect.Ptr {
+		return
+	}
+	t = t.Elem()
+	v := reflect.ValueOf(target).Elem()
+	for i := 0; i < t.NumField(); i++ {
+		switch v.Field(i).Kind() {
+		case reflect.String:
+			v.Field(i).SetString(strings.TrimSpace(v.Field(i).String()))
+		}
+	}
+}
