@@ -2,18 +2,19 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
 	"github.com/spf13/cast"
+	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
@@ -49,7 +50,7 @@ func (m *BaseController) LimitLock(ctx *gin.Context) error {
 		global.BlackCache.Put(key, 1)
 	}
 	if cast.ToInt(v) > 10 {
-		return codes.NewApiError(codes.CodeForbiddenOperation, fmt.Sprintf("操作频繁,请在10分钟后再试"))
+		return apierr.ErrorFrequentRequest
 	}
 	return nil
 }
@@ -62,19 +63,20 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	//value := reflect.ValueOf(req)
 	//if value.Kind() == reflect.Ptr && value.Elem().Kind() == reflect.Struct {
 	//	if err := m.BindJSONIgnoreCase(ctx, req); err != nil {
-	//		return codes.NewApiError(codes.CodeMissingParameter, "参数错误").Wrap(err)
+	//		return apierror.NewApiError(apierror.CodeMissingParameter, "参数错误").Wrap(err)
 	//	}
 	//}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		return codes.NewApiError(codes.CodeMissingParameter, "参数错误").Wrap(err)
+		return apierr.ErrorInvalidParam.Wrap(err)
 	}
 
 	isValid, ok := req.(IsValidChecker)
 	if !ok {
 		return nil
 	}
-	return isValid.IsValid()
+
+	return apierr.ErrorInvalidParam.Wrap(isValid.IsValid())
 }
 
 // 把请求参数转换为小写
@@ -99,7 +101,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 func (m *BaseController) ShouldBindQuery(ctx *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := ctx.ShouldBind(req); err != nil {
-		return codes.NewApiError(codes.CodeMissingParameter, "参数错误")
+		return apierr.ErrorInvalidParam.Wrap(err)
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {
@@ -140,18 +142,30 @@ func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	m.Log.Error("操作失败!", err)
 
 	switch e := err.(type) {
-	case *codes.ApiError:
-		m.Response(ctx, e.Code(), e.Message(), err.Error())
+	case apierr.ApiError:
+		m.Response(ctx, e.Code(), e.Error(), e.Error())
 		return
 
 	case *json.UnmarshalTypeError:
-		m.Response(ctx, http.StatusBadRequest, "json解析错误", err.Error())
+		m.Response(ctx, apierr.ErrorInternalServerError.Code(), "json解析错误", e.Error())
 		return
 
 	case *mysql.MySQLError:
-		m.Response(ctx, http.StatusBadRequest, "数据库错误", SqlErrorI18n(e))
+		switch e.Number {
+		case 1062:
+			m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据已存在", e.Error())
+			return
+		default:
+			m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据库错误", SqlErrorI18n(e))
+			return
+		}
+	}
+
+	switch {
+	case errors.Is(err, gorm.ErrRecordNotFound):
+		m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据不存在", err.Error())
 		return
 	}
 
-	m.Response(ctx, http.StatusInternalServerError, "操作失败", err.Error())
+	m.Response(ctx, apierr.ErrorInternalServerError.Code(), apierr.ErrorInternalServerError.Error(), err.Error())
 }

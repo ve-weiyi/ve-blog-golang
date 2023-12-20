@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -42,9 +43,11 @@ func Routers() *gin.Engine {
 	//publicGroup.Use(middleware.GinLogger())
 	publicGroup.Use(middleware.LimitIP())
 	{
+		now := time.Now()
 		// 健康监测
 		publicGroup.GET("/version", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{
+				"runtime":  now.String(),
 				"version":  "1.0.0",
 				"trace_id": c.Request.Context().Value("X-Trace-ID").(string),
 			})
