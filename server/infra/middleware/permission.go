@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
 )
 
 func PermissionHandler() gin.HandlerFunc {
@@ -30,7 +30,7 @@ func PermissionHandler() gin.HandlerFunc {
 		if !ok {
 			c.JSON(http.StatusForbidden,
 				response.Response{
-					Code:    codes.CodeRoleNoPerPermission,
+					Code:    apierror.ErrorUnauthorized.Code(),
 					Message: "角色权限不足",
 					Data:    nil,
 				})

@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 )
 
@@ -52,9 +52,9 @@ func CasbinHandler() gin.HandlerFunc {
 				enforcer.LoadPolicy()
 			}
 
-			c.JSON(http.StatusForbidden,
+			c.JSON(http.StatusOK,
 				response.Response{
-					Code:    codes.CodeRoleNoPerPermission,
+					Code:    apierror.ErrorUnauthorized.Code(),
 					Message: "角色权限不足",
 					Data:    nil,
 				})

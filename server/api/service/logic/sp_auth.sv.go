@@ -10,7 +10,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror/codes"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
@@ -37,21 +38,21 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户不存在！")
 	}
 	//判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户已被禁用！")
 	}
 	//验证密码是否正确
 	if !crypto.BcryptCheck(req.Password, account.Password) {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "密码错误！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "密码错误！")
 	}
 	//验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
 		if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-			return nil, codes.ErrorCaptchaVerify
+			return nil, apierror.ErrorCaptchaVerify
 		}
 	}
 
@@ -107,14 +108,14 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
 		if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-			return nil, codes.ErrorCaptchaVerify
+			return nil, apierror.ErrorCaptchaVerify
 		}
 	}
 
 	//获取用户
 	_, err = s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err == nil {
-		return nil, codes.ErrorUserAlreadyExist
+		return nil, apierror.ErrorUserAlreadyExist
 	}
 
 	account := &entity.UserAccount{
@@ -154,7 +155,7 @@ func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account != nil {
-		return nil, codes.ErrorUserAlreadyExist
+		return nil, apierror.ErrorUserAlreadyExist
 	}
 
 	// 获取code
@@ -266,11 +267,11 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, req.UserID)
 	if err != nil {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户不存在！")
 	}
 	//判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户已被禁用！")
 	}
 
 	history := &entity.UserLoginHistory{
