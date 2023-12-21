@@ -1,4 +1,4 @@
-package apidocs
+package apiparser
 
 import (
 	"fmt"

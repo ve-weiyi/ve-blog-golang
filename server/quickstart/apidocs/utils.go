@@ -10,12 +10,13 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/east"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 )
 
-func ParseApiDocsByRoot(root string) []*ApiDeclare {
-	apiDocs := make([]*ApiDeclare, 0)
+func ParseApiDocsByRoot(root string) []*apiparser.ApiDeclare {
+	apiDocs := make([]*apiparser.ApiDeclare, 0)
 	// 遍历目录下的所有文件
 	files.VisitFile(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -38,7 +39,7 @@ func ParseApiDocsByRoot(root string) []*ApiDeclare {
 	return apiDocs
 }
 
-func ParseApiDoc(fp string) []*ApiDeclare {
+func ParseApiDoc(fp string) []*apiparser.ApiDeclare {
 	fset := token.NewFileSet()
 	file, err := parser.ParseFile(fset, fp, nil, parser.ParseComments)
 	if err != nil {
@@ -46,14 +47,14 @@ func ParseApiDoc(fp string) []*ApiDeclare {
 		return nil
 	}
 
-	apiDocs := make([]*ApiDeclare, 0)
+	apiDocs := make([]*apiparser.ApiDeclare, 0)
 
 	for _, decl := range file.Decls {
 		if f, ok := decl.(*ast.FuncDecl); ok {
-			name := GetFunctionName(f)
-			doc := GetFunctionDoc(f)
+			name := apiparser.GetFunctionName(f)
+			doc := apiparser.GetFunctionDoc(f)
 
-			api := &ApiDeclare{}
+			api := &apiparser.ApiDeclare{}
 
 			api.FunctionName = name
 			for _, comment := range doc {
@@ -73,7 +74,7 @@ func ParseApiDoc(fp string) []*ApiDeclare {
 
 				case "Param":
 					tp := content[1]
-					field := &ApiParam{
+					field := &apiparser.ApiParam{
 						Name: content[0],
 						Type: content[2],
 					}
@@ -92,7 +93,7 @@ func ParseApiDoc(fp string) []*ApiDeclare {
 					}
 
 				case "Router":
-					api.Url = content[0]
+					api.Router = content[0]
 					api.Method = strings.TrimSuffix(strings.TrimPrefix(content[1], "["), "]")
 
 				case "Success":
@@ -111,8 +112,8 @@ func ParseApiDoc(fp string) []*ApiDeclare {
 	return apiDocs
 }
 
-func ParseApiModelsByRoot(root string) []*ModelDeclare {
-	var models []*ModelDeclare
+func ParseApiModelsByRoot(root string) []*apiparser.ModelDeclare {
+	var models []*apiparser.ModelDeclare
 	// 遍历目录下的所有文件
 	files.VisitFile(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -136,7 +137,7 @@ func ParseApiModelsByRoot(root string) []*ModelDeclare {
 	return models
 }
 
-func ParseApiModel(fp string) []*ModelDeclare {
+func ParseApiModel(fp string) []*apiparser.ModelDeclare {
 	fset := token.NewFileSet()
 	file, err := parser.ParseFile(fset, fp, nil, parser.ParseComments)
 	if err != nil {
@@ -144,20 +145,20 @@ func ParseApiModel(fp string) []*ModelDeclare {
 		return nil
 	}
 
-	var models []*ModelDeclare
+	var models []*apiparser.ModelDeclare
 	for _, decl := range file.Decls {
 		if f, ok := decl.(*ast.GenDecl); ok {
 			for _, spec := range f.Specs {
 				if t, ok := spec.(*ast.TypeSpec); ok {
 					if s, ok := t.Type.(*ast.StructType); ok {
-						var modelFields []*ModelField
-						var extendFields []*ModelDeclare
+						var modelFields []*apiparser.ModelField
+						var extendFields []*apiparser.ModelDeclare
 						for _, field := range s.Fields.List {
 							if len(field.Names) > 0 {
 								modelFields = append(modelFields, extractModelField(field))
 							} else {
 								ext := extractModelField(field)
-								extend := &ModelDeclare{
+								extend := &apiparser.ModelDeclare{
 									Pkg:    ext.Name,
 									Name:   ext.Type,
 									Fields: nil,
@@ -168,7 +169,7 @@ func ParseApiModel(fp string) []*ModelDeclare {
 						}
 
 						modelName := fmt.Sprintf("%s.%s", file.Name.Name, t.Name.Name)
-						model := &ModelDeclare{
+						model := &apiparser.ModelDeclare{
 							Pkg:    file.Name.Name,
 							Name:   modelName,
 							Extend: extendFields,
@@ -229,7 +230,7 @@ func GetTypeScriptType(name string) string {
 	}
 }
 
-func getModelDeclareName(method *ApiDeclare) []string {
+func getModelDeclareName(method *apiparser.ApiDeclare) []string {
 	params := make([]string, 0)
 	if method.Body != nil {
 		params = append(params, method.Body.Type)
@@ -259,7 +260,7 @@ func getModelDeclareName(method *ApiDeclare) []string {
 	return params
 }
 
-func extractModelField(field ast.Node) *ModelField {
+func extractModelField(field ast.Node) *apiparser.ModelField {
 
 	switch node := field.(type) {
 	case *ast.ArrayType:
@@ -268,9 +269,9 @@ func extractModelField(field ast.Node) *ModelField {
 		if len(node.Names) > 0 {
 			name := node.Names[0].Name
 			tp := node.Type
-			elem := &ModelField{
+			elem := &apiparser.ModelField{
 				Name: name,
-				Type: GetNameFromExpr(tp),
+				Type: apiparser.GetNameFromExpr(tp),
 			}
 
 			// 读取字段的普通注释
@@ -290,7 +291,7 @@ func extractModelField(field ast.Node) *ModelField {
 		return extractModelField(node.X)
 	case *ast.SelectorExpr:
 		if xIdent, ok := node.X.(*ast.Ident); ok {
-			elem := &ModelField{
+			elem := &apiparser.ModelField{
 				Name: xIdent.Name,
 				Type: node.Sel.Name,
 			}
@@ -303,7 +304,7 @@ func extractModelField(field ast.Node) *ModelField {
 			return elem
 		}
 	case *ast.Ident:
-		elem := &ModelField{
+		elem := &apiparser.ModelField{
 			Name: node.Name,
 			Type: node.Name,
 		}
@@ -313,7 +314,7 @@ func extractModelField(field ast.Node) *ModelField {
 		//}
 		return elem
 	case *ast.InterfaceType:
-		return &ModelField{
+		return &apiparser.ModelField{
 			Name: "interface{}",
 			Type: "any",
 		}
@@ -352,12 +353,12 @@ func ExtractFieldsByAst(data string) []string {
 	var params []string
 
 	// CompositeLit
-	nodes := ExtractNodes(&ast.CompositeLit{}, meta.GetNode())
+	nodes := apiparser.ExtractNodes(&ast.CompositeLit{}, meta.GetNode())
 	for _, node := range nodes {
 		if len(params) > 0 {
 			break
 		}
-		idents := ExtractNodes(&ast.Ident{}, node.Type)
+		idents := apiparser.ExtractNodes(&ast.Ident{}, node.Type)
 		if len(idents) == 1 {
 			params = append(params, idents[0].Name)
 		} else {
@@ -367,11 +368,11 @@ func ExtractFieldsByAst(data string) []string {
 	}
 
 	// KeyValueExpr要value
-	nodes2 := ExtractNodes(&ast.KeyValueExpr{}, meta.GetNode())
+	nodes2 := apiparser.ExtractNodes(&ast.KeyValueExpr{}, meta.GetNode())
 	for _, node := range nodes2 {
 		switch fmt.Sprintf("%s", node.Key) {
 		case "data":
-			idents := ExtractNodes(&ast.Ident{}, node.Value)
+			idents := apiparser.ExtractNodes(&ast.Ident{}, node.Value)
 			if len(idents) == 1 {
 				params = append(params, idents[0].Name)
 			} else if len(idents) > 1 {
@@ -380,7 +381,7 @@ func ExtractFieldsByAst(data string) []string {
 				fmt.Println("cannot get params for:", idents)
 			}
 		case "list":
-			idents := ExtractNodes(&ast.Ident{}, node.Value)
+			idents := apiparser.ExtractNodes(&ast.Ident{}, node.Value)
 			if len(idents) == 1 {
 				params = append(params, idents[0].Name)
 			} else if len(idents) > 1 {
