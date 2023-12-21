@@ -2,24 +2,14 @@ package quickstart
 
 import (
 	"fmt"
-	"log"
 	"path"
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs"
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
-
-func TestSwagger(t *testing.T) {
-	converter := &apidocs.SwaggerApiCollector{}
-
-	converter.ReadSwagJSON(global.GetRuntimeRoot() + "/server/docs/swagger.json")
-
-	log.Println(jsonconv.ObjectToJsonIndent(converter.GetApiTs()))
-
-	converter.ToTypeScriptApis("./api", converter.GetApiTs())
-}
 
 func TestApiDocs(t *testing.T) {
 	root := path.Join(global.GetRuntimeRoot(), "server/")
@@ -37,13 +27,13 @@ func TestApiDocs(t *testing.T) {
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
 		},
-		ApiFuncNameAs: func(api *apidocs.ApiDeclare) string {
+		ApiFuncNameAs: func(api *apiparser.ApiDeclare) string {
 			return fmt.Sprintf("%vApi", jsonconv.Lcfirst(api.FunctionName))
 		},
-		ApiFieldNameAs: func(field *apidocs.ModelField) string {
+		ApiFieldNameAs: func(field *apiparser.ModelField) string {
 			return jsonconv.Camel2Case(field.Name)
 		},
-		ApiFieldTypeAs: func(field *apidocs.ModelField) string {
+		ApiFieldTypeAs: func(field *apiparser.ModelField) string {
 			return apidocs.GetTypeScriptType(field.Type)
 		},
 	}

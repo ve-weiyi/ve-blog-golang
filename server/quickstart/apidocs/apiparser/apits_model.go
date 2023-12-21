@@ -1,4 +1,4 @@
-package apidocs
+package apiparser
 
 type ApiDoc struct {
 	Tag      string
@@ -11,26 +11,26 @@ type ApiCommentLine struct {
 }
 
 // api方法定义信息
-type ApiDeclare struct {
-	Tag          string
-	FunctionName string
-	Summary      string
-
-	//Base     string
-	Url      string
-	Method   string
-	Header   []*ApiParam // 请求头参数
-	Path     []*ApiParam // 路径参数 path
-	Query    []*ApiParam // 查询参数 query
-	Form     []*ApiParam // 表单参数 form-data
-	Body     *ApiParam   // 请求体参数
-	Response string      // 响应参数
-}
-
-type ApiParam struct {
-	Name string
-	Type string
-}
+//type ApiDeclare struct {
+//	Tag          string
+//	FunctionName string
+//	Summary      string
+//
+//	//Base     string
+//	Router      string
+//	Method   string
+//	Header   []*ApiParam // 请求头参数
+//	Path     []*ApiParam // 路径参数 path
+//	Query    []*ApiParam // 查询参数 query
+//	Form     []*ApiParam // 表单参数 form-data
+//	Body     *ApiParam   // 请求体参数
+//	Response string      // 响应参数
+//}
+//
+//type ApiParam struct {
+//	Name string
+//	Type string
+//}
 
 // model定义信息
 type ModelDeclare struct {

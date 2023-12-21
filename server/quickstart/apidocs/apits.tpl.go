@@ -9,7 +9,7 @@ const ApiTypeScript = `
 /** {{ .Summary }} */
 export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
   return http.request<{{.Response}}>({
-    url: ` + "`{{.Base}}{{.Url}}`" + `,
+    url: ` + "`{{.Base}}{{.Router}}`" + `,
     method: "{{ .Method }}",
     {{- if .Body }}
     data: {{ .Body.Name }},
