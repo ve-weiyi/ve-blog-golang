@@ -5,6 +5,7 @@ import (
 	"path"
 	"regexp"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
@@ -19,9 +20,9 @@ type Config struct {
 	IgnoredModels  []string
 	ReplaceModels  map[string]string
 
-	ApiFuncNameAs  func(api *ApiDeclare) string
-	ApiFieldNameAs func(field *ModelField) string
-	ApiFieldTypeAs func(field *ModelField) string
+	ApiFuncNameAs  func(api *apiparser.ApiDeclare) string
+	ApiFieldNameAs func(field *apiparser.ModelField) string
+	ApiFieldTypeAs func(field *apiparser.ModelField) string
 }
 
 type AstApiDoc struct {
@@ -29,30 +30,45 @@ type AstApiDoc struct {
 
 	//ApiDocs []*TsApiDoc
 
-	ApiDeclares  []*ApiDeclare
-	TypeDeclares []*ModelDeclare
+	Parser apiparser.ApiParser
+
+	ApiDeclares  []*apiparser.ApiDeclare
+	TypeDeclares []*apiparser.ModelDeclare
 }
 
 func NewAstApiDoc(config Config) *AstApiDoc {
+	cfg := apiparser.AstParserConfig{
+		ApiBase: "/api/v1",
+	}
 	return &AstApiDoc{
+		Parser: apiparser.NewAstParser(cfg),
 		Config: config,
 	}
 }
 
-func (s *AstApiDoc) Parse() {
+func (s *AstApiDoc) Parse() (err error) {
 	// 解析api定义
-	var apis []*ApiDeclare
-	for _, root := range s.ApiRoot {
-		doc := ParseApiDocsByRoot(root)
-		apis = append(apis, doc...)
+	var apis []*apiparser.ApiDeclare
+	apis, err = s.Parser.ParseApiDocsByRoots(s.ApiRoot...)
+	if err != nil {
+		return fmt.Errorf("解析api定义时发生错误:%v", err)
 	}
+	//for _, root := range s.ApiRoot {
+	//	doc := ParseApiDocsByRoot(root)
+	//	apis = append(apis, doc...)
+	//}
 
 	// 解析model定义
-	var models []*ModelDeclare
-	for _, root := range s.ModelRoot {
-		model := ParseApiModelsByRoot(root)
-		models = append(models, model...)
+	var models []*apiparser.ModelDeclare
+	models, err = s.Parser.ParseModelDocsByRoots(s.ModelRoot...)
+	if err != nil {
+		return fmt.Errorf("解析model定义时发生错误:%v", err)
 	}
+
+	//for _, root := range s.ModelRoot {
+	//	model := ParseApiModelsByRoot(root)
+	//	models = append(models, model...)
+	//}
 
 	// 根据tag对api分类
 	s.ApiDeclares = apis
@@ -60,6 +76,7 @@ func (s *AstApiDoc) Parse() {
 
 	//fmt.Println("ApiDeclares:", jsonconv.ObjectToJsonIndent(apis))
 	//fmt.Println("TypeDeclares:", jsonconv.ObjectToJsonIndent(models))
+	return nil
 }
 
 // 生成 TypeScript
@@ -90,7 +107,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		AutoCodePath:   path.Join(s.OutRoot, "types.ts"),
 		Replace:        true,
 		TemplateString: ModelTypeScript,
-		FunMap:         map[string]any{"joinArray": joinArray},
+		FunMap:         map[string]any{"joinArray": apiparser.JoinArray},
 		Data:           tsDeclares,
 	}
 
@@ -110,7 +127,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 			AutoCodePath:   path.Join(s.OutRoot, fmt.Sprintf("%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
 			Replace:        true,
 			TemplateString: ApiTypeScript,
-			FunMap:         map[string]any{"joinArray": joinArray},
+			FunMap:         map[string]any{"joinArray": apiparser.JoinArray},
 			Data:           apiDoc,
 		}
 		//fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
@@ -126,7 +143,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 	}
 }
 
-func (s *AstApiDoc) GroupTsApiDocs(docs []*ApiDeclare) []*TsApiDoc {
+func (s *AstApiDoc) GroupTsApiDocs(docs []*apiparser.ApiDeclare) []*TsApiDoc {
 	var apiDocs []*TsApiDoc
 	// 分组
 	for _, doc := range docs {
@@ -183,7 +200,7 @@ func (s *AstApiDoc) GroupTsApiDocs(docs []*ApiDeclare) []*TsApiDoc {
 
 func (s *AstApiDoc) findTsModelDeclareByName(name string) []*TsModelDeclare {
 	var tsModel []*TsModelDeclare
-	var model *ModelDeclare
+	var model *apiparser.ModelDeclare
 
 	// 过滤需要忽略的model
 	for _, ign := range s.IgnoredModels {
@@ -203,7 +220,7 @@ func (s *AstApiDoc) findTsModelDeclareByName(name string) []*TsModelDeclare {
 	return tsModel
 }
 
-func (s *AstApiDoc) findModelDeclare(name string) *ModelDeclare {
+func (s *AstApiDoc) findModelDeclare(name string) *apiparser.ModelDeclare {
 
 	for _, model := range s.TypeDeclares {
 		if model.Name == name {
@@ -220,13 +237,13 @@ func (s *AstApiDoc) findModelDeclare(name string) *ModelDeclare {
 	return nil
 }
 
-func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
+func (s *AstApiDoc) convertTsModelDeclare(model *apiparser.ModelDeclare) *TsModelDeclare {
 	if model == nil {
 		return nil
 	}
 
 	name := GetTypeScriptType(model.Name)
-	tsFields := make([]*ModelField, 0)
+	tsFields := make([]*TsModelField, 0)
 	tsExtends := make([]string, 0)
 
 	// 需要替换名称的model
@@ -239,7 +256,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 	}
 	// 属性
 	for _, field := range model.Fields {
-		tsField := &ModelField{
+		tsField := &TsModelField{
 			Name:    jsonconv.Camel2Case(field.Name),
 			Type:    GetTypeScriptType(field.Type),
 			Comment: field.Comment,
@@ -261,7 +278,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *ModelDeclare) *TsModelDeclare {
 	return tsModel
 }
 
-func (s *AstApiDoc) convertTsApiDeclare(doc *ApiDeclare) *TsApiDeclare {
+func (s *AstApiDoc) convertTsApiDeclare(doc *apiparser.ApiDeclare) *TsApiDeclare {
 	re := regexp.MustCompile(`\{(.+?)\}`)
 	count := len(doc.Path) + len(doc.Query) + len(doc.Form)
 	if doc.Body != nil {
@@ -272,7 +289,7 @@ func (s *AstApiDoc) convertTsApiDeclare(doc *ApiDeclare) *TsApiDeclare {
 		FunctionName: s.ApiFuncNameAs(doc),
 		Summary:      doc.Summary,
 		Base:         s.ApiBase,
-		Url:          re.ReplaceAllString(doc.Url, "${$1}"),
+		Route:        re.ReplaceAllString(doc.Router, "${$1}"),
 		Method:       doc.Method,
 		Header:       s.convertTsParams(doc.Header),
 		Path:         s.convertTsParams(doc.Path),
@@ -286,11 +303,11 @@ func (s *AstApiDoc) convertTsApiDeclare(doc *ApiDeclare) *TsApiDeclare {
 	return tsDoc
 }
 
-func (s *AstApiDoc) convertTsParams(list []*ApiParam) []*ApiParam {
+func (s *AstApiDoc) convertTsParams(list []*apiparser.ApiParam) []*TsApiParam {
 	if list == nil {
 		return nil
 	}
-	var out []*ApiParam
+	var out []*TsApiParam
 	for _, in := range list {
 		out = append(out, s.convertTsParam(in))
 	}
@@ -298,12 +315,12 @@ func (s *AstApiDoc) convertTsParams(list []*ApiParam) []*ApiParam {
 	return out
 }
 
-func (s *AstApiDoc) convertTsParam(in *ApiParam) *ApiParam {
+func (s *AstApiDoc) convertTsParam(in *apiparser.ApiParam) *TsApiParam {
 	if in == nil {
 		return nil
 	}
 
-	out := &ApiParam{
+	out := &TsApiParam{
 		Name: in.Name,
 		Type: GetTypeScriptType(in.Type),
 	}
@@ -311,7 +328,7 @@ func (s *AstApiDoc) convertTsParam(in *ApiParam) *ApiParam {
 	return out
 }
 
-func (s *AstApiDoc) convertRequestStr(api *ApiDeclare) string {
+func (s *AstApiDoc) convertRequestStr(api *apiparser.ApiDeclare) string {
 	params := make([]string, 0)
 	types := make([]string, 0)
 	//if api.Header != nil {
@@ -354,9 +371,12 @@ func (s *AstApiDoc) convertRequestStr(api *ApiDeclare) string {
 }
 
 // response.Response{data=response.PageResult{list=[]entity.User}}-->Response<PageResult<User>>
-func (s *AstApiDoc) convertResponseStr(data string) string {
+func (s *AstApiDoc) convertResponseStr(data *apiparser.ApiParam) string {
+	if data == nil {
+		return ""
+	}
 	// 提取参数
-	params := ExtractFieldsByAst(data)
+	params := ExtractFieldsByAst(data.Type)
 
 	// 替换ts类型
 	for i, param := range params {
@@ -389,6 +409,36 @@ func (s *AstApiDoc) convertResponseStr(data string) string {
 	}
 
 	return "any"
+}
+
+func getModelDeclareName(method *apiparser.ApiDeclare) []string {
+	params := make([]string, 0)
+	if method.Body != nil {
+		params = append(params, method.Body.Type)
+	}
+
+	if len(method.Form) > 0 {
+		for _, param := range method.Form {
+			params = append(params, param.Type)
+		}
+	}
+
+	if len(method.Path) > 0 {
+		for _, param := range method.Path {
+			params = append(params, param.Type)
+		}
+	}
+
+	if len(method.Query) > 0 {
+		for _, param := range method.Query {
+			params = append(params, param.Type)
+		}
+	}
+
+	if method.Response != nil {
+		params = append(params, ExtractFieldsByAst(method.Response.Type)...)
+	}
+	return params
 }
 
 func joinArray(arr []string) string {

@@ -1,0 +1,2854 @@
+GOROOT=/Users/weiyi/go/go1.20.1 #gosetup
+GOPATH=/Users/weiyi/go #gosetup
+/Users/weiyi/go/go1.20.1/bin/go test -c -o /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser #gosetup
+/Users/weiyi/go/go1.20.1/bin/go tool test2json -t /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test -test.v -test.paniconexit0 -test.run ^\QTestSwaggerParser\E$
+=== RUN   TestSwaggerParser
+    swagger_test.go:24: [
+         {
+          "Pkg": "entity.Api",
+          "Name": "entity.Api",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "traceable",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "method",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Article",
+          "Name": "entity.Article",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Category",
+          "Name": "entity.Category",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.ChatRecord",
+          "Name": "entity.ChatRecord",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Comment",
+          "Name": "entity.Comment",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "topic_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.FriendLink",
+          "Name": "entity.FriendLink",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "link_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "link_avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "link_intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "link_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Menu",
+          "Name": "entity.Menu",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "component",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "icon",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_hidden",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "rank",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.OperationLog",
+          "Name": "entity.OperationLog",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "cost",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_module",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "request_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_method",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "request_param",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "response_data",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "request_header",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "request_method",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Page",
+          "Name": "entity.Page",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "page_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_label",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Photo",
+          "Name": "entity.Photo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_src",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.PhotoAlbum",
+          "Name": "entity.PhotoAlbum",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Remark",
+          "Name": "entity.Remark",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "time",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "message_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Role",
+          "Name": "entity.Role",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "is_disable",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "role_comment",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "role_domain",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "role_pid",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_default",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "role_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Tag",
+          "Name": "entity.Tag",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Talk",
+          "Name": "entity.Talk",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "images",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.UploadRecord",
+          "Name": "entity.UploadRecord",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "file_size",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "label",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "file_md5",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "file_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "file_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.UserAccount",
+          "Name": "entity.UserAccount",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "password",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "register_type",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.UserInformation",
+          "Name": "entity.UserInformation",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "phone",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleConditionReq",
+          "Name": "request.ArticleConditionReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "tag_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleDeleteReq",
+          "Name": "request.ArticleDeleteReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleDetailsDTOReq",
+          "Name": "request.ArticleDetailsDTOReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleTopReq",
+          "Name": "request.ArticleTopReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.CaptchaEmailReq",
+          "Name": "request.CaptchaEmailReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "service",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "check",
+            "Type": "any",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.CaptchaReq",
+          "Name": "request.CaptchaReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "captcha_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "height",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "length",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "width",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.CaptchaVerifyReq",
+          "Name": "request.CaptchaVerifyReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.OauthLoginReq",
+          "Name": "request.OauthLoginReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "platform",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "state",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.PageQuery",
+          "Name": "request.PageQuery",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "page_size",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "sorts",
+            "Type": "[]sqlx.Sort",
+            "Comment": ""
+           },
+           {
+            "Name": "conditions",
+            "Type": "[]sqlx.Condition",
+            "Comment": ""
+           },
+           {
+            "Name": "page",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ResetPasswordReq",
+          "Name": "request.ResetPasswordReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "password",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UpdateUserRolesReq",
+          "Name": "request.UpdateUserRolesReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "role_ids",
+            "Type": "[]integer",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UserEmail",
+          "Name": "request.UserEmail",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UserInfoReq",
+          "Name": "request.UserInfoReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UserReq",
+          "Name": "request.UserReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "password",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.WebsiteConfigReq",
+          "Name": "request.WebsiteConfigReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "key",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "value",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.AdminHomeInfo",
+          "Name": "response.AdminHomeInfo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "user_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_rank_dto_list",
+            "Type": "[]response.ArticleRankDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_statistics_list",
+            "Type": "[]response.ArticleStatisticsDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "category_dto_list",
+            "Type": "[]response.CategoryDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "message_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_dto_list",
+            "Type": "[]response.TagDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "unique_view_dto_list",
+            "Type": "[]response.UniqueViewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ApiDetailsDTO",
+          "Name": "response.ApiDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "method",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "traceable",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "children",
+            "Type": "[]response.ApiDetailsDTO",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleBack",
+          "Name": "response.ArticleBack",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleConditionDTO",
+          "Name": "response.ArticleConditionDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_dto_list",
+            "Type": "[]response.ArticleHome",
+            "Comment": ""
+           },
+           {
+            "Name": "condition_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleHome",
+          "Name": "response.ArticleHome",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_category",
+            "Type": "response.CategoryDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_tag_list",
+            "Type": "[]response.TagDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticlePageDetailsDTO",
+          "Name": "response.ArticlePageDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "recommend_article_list",
+            "Type": "[]response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "next_article",
+            "Type": "response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "last_article",
+            "Type": "response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "newest_article_list",
+            "Type": "[]response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_category",
+            "Type": "response.CategoryDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_tag_list",
+            "Type": "[]response.TagDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticlePreviewDTO",
+          "Name": "response.ArticlePreviewDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleRankDTO",
+          "Name": "response.ArticleRankDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleStatisticsDTO",
+          "Name": "response.ArticleStatisticsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "day",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.BatchResult",
+          "Name": "response.BatchResult",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "fail_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "success_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "total_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.BlogHomeInfo",
+          "Name": "response.BlogHomeInfo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "page_list",
+            "Type": "[]response.PageDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_config",
+            "Type": "response.WebsiteConfigDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CaptchaDTO",
+          "Name": "response.CaptchaDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "encode_data",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "length",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CategoryDTO",
+          "Name": "response.CategoryDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CategoryDetailsDTO",
+          "Name": "response.CategoryDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CommentBackDTO",
+          "Name": "response.CommentBackDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CommentDTO",
+          "Name": "response.CommentDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_dto_list",
+            "Type": "[]response.ReplyDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.Login",
+          "Name": "response.Login",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "token_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "access_token",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "expires_in",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "login_info",
+            "Type": "response.LoginHistory",
+            "Comment": ""
+           },
+           {
+            "Name": "refresh_token",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "refresh_expires_in",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "uid",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "user_info",
+            "Type": "response.UserInfo",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.LoginHistory",
+          "Name": "response.LoginHistory",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "agent",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "login_time",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "login_type",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.MenuDetailsDTO",
+          "Name": "response.MenuDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "component",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "rank",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "children",
+            "Type": "[]response.MenuDetailsDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "icon",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_hidden",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.OauthLoginUrl",
+          "Name": "response.OauthLoginUrl",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "url",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.PageDTO",
+          "Name": "response.PageDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "page_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_label",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.PageResult",
+          "Name": "response.PageResult",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "total",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "list",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "page",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "page_size",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.PhotoAlbumDetailsDTO",
+          "Name": "response.PhotoAlbumDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "album_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ReplyDTO",
+          "Name": "response.ReplyDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_nickname",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.Response",
+          "Name": "response.Response",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "trace_id",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "code",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "data",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "message",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.RoleDTO",
+          "Name": "response.RoleDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "role_comment",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "role_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.TagDTO",
+          "Name": "response.TagDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.TagDetailsDTO",
+          "Name": "response.TagDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.TalkDetailsDTO",
+          "Name": "response.TalkDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "img_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "content",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UniqueViewDTO",
+          "Name": "response.UniqueViewDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "day",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UserAreaDTO",
+          "Name": "response.UserAreaDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "value",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UserDTO",
+          "Name": "response.UserDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "roles",
+            "Type": "[]response.RoleDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "register_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UserInfo",
+          "Name": "response.UserInfo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_like_set",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "roles",
+            "Type": "[]response.RoleDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "talk_like_set",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_like_set",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.WebsiteConfigDTO",
+          "Name": "response.WebsiteConfigDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "website_avatar",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "website_record_no",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "websocket_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_message_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_music_player",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "qq",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "social_url_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_reward",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "website_create_time",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "alipay_qr_code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "github",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_chat_room",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_email_notice",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tourist_avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_notice",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "weixin_qr_code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "admin_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "gitee",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_comment_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "social_login_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_author",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_intro",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "sqlx.Condition",
+          "Name": "sqlx.Condition",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "flag",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "rule",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "value",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "field",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "sqlx.Sort",
+          "Name": "sqlx.Sort",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "field",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "order",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         }
+        ]
+--- PASS: TestSwaggerParser (0.01s)
+PASS
+
+Process finished with the exit code 0
