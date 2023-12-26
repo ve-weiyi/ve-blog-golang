@@ -18,7 +18,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
-	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/temputil"
 )
 
 type UserService struct {
@@ -230,7 +230,7 @@ func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	}
 
 	// 组装邮件内容
-	content, err := templateUtil.TempParseString(mail.TempForgetPassword, data)
+	content, err := temputil.TempParseString(mail.TempForgetPassword, data)
 	if err != nil {
 		return nil, err
 	}

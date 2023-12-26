@@ -14,7 +14,7 @@ func TestWeibo(t *testing.T) {
 	conf := &oauth.AuthConfig{
 		ClientID:     global.CONFIG.Oauth.Weibo.ClientID,
 		ClientSecret: global.CONFIG.Oauth.Weibo.ClientSecret,
-		RedirectUrl:  "https://veweiyi.cn/blog/oauth/login/weibo",
+		RedirectUri:  global.CONFIG.Oauth.Weibo.RedirectUri,
 	}
 
 	auth := NewAuthWb(conf)
@@ -31,7 +31,7 @@ func TestWeibo(t *testing.T) {
 	//log.Println("refresh:", err, refresh)
 
 	//获取用户信息
-	userInfo, err := auth.GetUserOpenInfo("36a2817b0ab1cd6eeb06ebe5521442a8")
+	userInfo, err := auth.GetUserOpenInfo("1c0bde90de5b063d3cf95887ca771f12")
 	log.Println("userInfo:", err, userInfo)
 
 }

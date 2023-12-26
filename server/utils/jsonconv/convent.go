@@ -21,7 +21,7 @@ var replaceKey = map[string]string{
 
 /**
  * 驼峰式写法转为下划线写法
- * @description XxYx->xx_yy	XxYY->xx_yy	URL->url  TagDTOList->tag_dto_list
+ * @description XxYx->xx_yy	XxYY->xx_yy	EncodeURL->url  TagDTOList->tag_dto_list
  **/
 func Camel2Case(XxYY string) string {
 	xx_y_y := make([]byte, 0)
@@ -157,7 +157,7 @@ func Case2Camel(xx_y_y string) string {
  * @param xx_y_y
  * @return xxYY
  **/
-func Case2CamelNotFirst(xx_y_y string) string {
+func Case2CamelLowerStart(xx_y_y string) string {
 	str := Case2Camel(xx_y_y)
 	return strings.ToLower(str[:1]) + str[1:]
 }

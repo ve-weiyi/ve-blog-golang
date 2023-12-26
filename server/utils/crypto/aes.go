@@ -3,18 +3,19 @@ package crypto
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"fmt"
 )
 
 //golang crypt包的AES加密函数的使用 https://www.jianshu.com/p/47e8c137ecd4
 
 type Aes interface {
-	AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte)
-	AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte)
+	AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte, err error)
+	AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte, err error)
 }
 
 var (
-	AesCBC = aesCBCImpl{}
 	AesECB = aesECBImpl{}
+	AesCBC = aesCBCImpl{}
 	AesCFB = aesCFBImpl{}
 	AesGCM = aesGCMImpl{}
 )
@@ -27,33 +28,42 @@ ECB模式是最早采用和最简单的模式，相同的明文将永远加密�
 type aesECBImpl struct {
 }
 
-func (s *aesECBImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte) {
+func (s *aesECBImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte, err error) {
 	// AES加密算法的加密块必须是16字节(128bit)，所以不足部分需要填充，常用的填充算法是PKCS7。
-	plaintext = pkcs7Padding(plaintext, aes.BlockSize)
+	plaintext, err = pkcs7Padding(plaintext, aes.BlockSize)
+	if err != nil {
+		return nil, err
+	}
 	// 创建密文接收区
 	ciphertext = make([]byte, len(plaintext))
 
-	block, _ := aes.NewCipher(key)
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	// 分组分块加密
 	for bs, be := 0, block.BlockSize(); bs < len(plaintext); bs, be = bs+block.BlockSize(), be+block.BlockSize() {
 		block.Encrypt(ciphertext[bs:be], plaintext[bs:be])
 	}
 
-	return ciphertext
+	return ciphertext, err
 }
 
-func (s *aesECBImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte) {
+func (s *aesECBImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte, err error) {
 	// 创建明文接收区
 	plaintext = make([]byte, len(ciphertext))
 
-	block, _ := aes.NewCipher(key)
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	// 分组分块解密
 	for bs, be := 0, block.BlockSize(); bs < len(ciphertext); bs, be = bs+block.BlockSize(), be+block.BlockSize() {
 		block.Decrypt(plaintext[bs:be], ciphertext[bs:be])
 	}
 
-	plaintext = pkcs7UnPadding(plaintext)
-	return plaintext
+	plaintext, err = pkcs7UnPadding(plaintext)
+	return plaintext, err
 }
 
 /*
@@ -64,47 +74,56 @@ func (s *aesECBImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plai
 type aesCBCImpl struct {
 }
 
-func (s *aesCBCImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte) {
+func (s *aesCBCImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte, err error) {
 	// AES加密算法的加密块必须是16字节(128bit)，所以不足部分需要填充，常用的填充算法是PKCS7。
-	plaintext = pkcs7Padding(plaintext, aes.BlockSize)
+	plaintext, err = pkcs7Padding(plaintext, aes.BlockSize)
+	if err != nil {
+		return nil, err
+	}
 	// 创建密文接收区
 	ciphertext = make([]byte, len(plaintext))
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	//加密向量,取密钥前16位
 	if len(iv) == 0 {
 		iv = key[:aes.BlockSize]
 	}
-
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		panic(err)
+	if len(iv) != block.BlockSize() {
+		return nil, fmt.Errorf("invalid iv '%s' as it's not multiple of ase.blockSize", iv)
 	}
 	//使用cbc加密模式
 	blockMode := cipher.NewCBCEncrypter(block, iv)
 	//执行加密
 	blockMode.CryptBlocks(ciphertext, plaintext)
-	return ciphertext
+	return ciphertext, err
 }
 
-func (s *aesCBCImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte) {
+func (s *aesCBCImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte, err error) {
 	// 创建明文接收区
 	plaintext = make([]byte, len(ciphertext))
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	//加密向量,取密钥前16位
 	if len(iv) == 0 {
 		iv = key[:aes.BlockSize]
 	}
-
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		panic(err)
+	if len(iv) != block.BlockSize() {
+		return nil, fmt.Errorf("invalid iv '%s' as it's not multiple of ase.blockSize", iv)
 	}
 	//使用cbc
 	blockMode := cipher.NewCBCDecrypter(block, iv)
 	//执行解密
 	blockMode.CryptBlocks(plaintext, ciphertext)
 	//去填充
-	plaintext = pkcs7UnPadding(plaintext)
+	plaintext, err = pkcs7UnPadding(plaintext)
 
-	return plaintext
+	return plaintext, err
 }
 
 /*
@@ -115,36 +134,51 @@ CFB也是上下文相关的，CFB模式下，明文的一个错误会影响后�
 type aesCFBImpl struct {
 }
 
-func (s *aesCFBImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte) {
+func (s *aesCFBImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte, err error) {
 	// AES加密算法的加密块必须是16字节(128bit)，所以不足部分需要填充，常用的填充算法是PKCS7。
-	plaintext = pkcs7Padding(plaintext, aes.BlockSize)
+	plaintext, err = pkcs7Padding(plaintext, aes.BlockSize)
+	if err != nil {
+		return nil, err
+	}
 	// 创建密文接收区
 	ciphertext = make([]byte, len(plaintext))
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	//加密向量,取密钥前16位
 	if len(iv) == 0 {
 		iv = key[:aes.BlockSize]
 	}
-
-	block, _ := aes.NewCipher(key)
+	if len(iv) != block.BlockSize() {
+		return nil, fmt.Errorf("invalid iv '%s' as it's not multiple of ase.blockSize", iv)
+	}
 	blockMode := cipher.NewCFBEncrypter(block, iv)
 	blockMode.XORKeyStream(ciphertext, plaintext)
-	return ciphertext
+	return ciphertext, err
 }
 
-func (s *aesCFBImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte) {
+func (s *aesCFBImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte, err error) {
 	// 创建明文接收区
 	plaintext = make([]byte, len(ciphertext))
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return nil, err
+	}
 	//加密向量,取密钥前16位
 	if len(iv) == 0 {
 		iv = key[:aes.BlockSize]
 	}
-
-	block, _ := aes.NewCipher(key)
+	if len(iv) != block.BlockSize() {
+		return nil, fmt.Errorf("invalid iv '%s' as it's not multiple of ase.blockSize", iv)
+	}
 	blockMode := cipher.NewCFBDecrypter(block, iv)
 	blockMode.XORKeyStream(plaintext, ciphertext)
 
-	plaintext = pkcs7UnPadding(plaintext)
-	return plaintext
+	plaintext, err = pkcs7UnPadding(plaintext)
+	return plaintext, err
 }
 
 /*
@@ -160,16 +194,17 @@ plaintext：加密明文 (GCM不需要加密块必须16字节长度，可以是�
 ciphertext:解密返回字节字符串[ 整型以十六进制方式显示]
 noncetext: 当前的mac
 */
-func (s *aesGCMImpl) AESEncrypt(plaintext []byte, key []byte, nonce ...byte) (ciphertext []byte) {
+func (s *aesGCMImpl) AESEncrypt(plaintext []byte, key []byte, iv ...byte) (ciphertext []byte, err error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
+	nonce := iv
 	if len(nonce) == 0 {
 		nonce = key[:aesgcm.NonceSize()]
 	}
@@ -179,27 +214,28 @@ func (s *aesGCMImpl) AESEncrypt(plaintext []byte, key []byte, nonce ...byte) (ci
 
 	//out := aesgcm.Seal(nonce, nonce, data, nil) nonce拼接在密文上
 	ciphertext = aesgcm.Seal(nil, nonce, plaintext, nil)
-	return ciphertext
+	return ciphertext, err
 }
 
-func (s *aesGCMImpl) AESDecrypt(ciphertext, key []byte, nonce ...byte) (plaintext []byte) {
+func (s *aesGCMImpl) AESDecrypt(ciphertext []byte, key []byte, iv ...byte) (plaintext []byte, err error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	aesgcm, err := cipher.NewGCM(block)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
+	nonce := iv
 	if len(nonce) == 0 {
 		nonce = key[:aesgcm.NonceSize()]
 	}
 
 	plaintext, err = aesgcm.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
-	return plaintext
+	return plaintext, err
 }
