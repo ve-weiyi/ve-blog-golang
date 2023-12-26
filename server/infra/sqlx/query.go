@@ -60,6 +60,25 @@ type Condition struct {
 	Flag  string      `json:"flag" enums:"and,or"`        // 逻辑运算符（Logical Operators）。标识 and、or,默认and
 }
 
+func (condition *Condition) Clause() (string, interface{}) {
+	var query string
+	var arg interface{}
+
+	switch condition.Rule {
+	case "like":
+		query += fmt.Sprintf("%s %s ? ", condition.Field, condition.Rule)
+		arg = "%" + condition.Value.(string) + "%"
+	case "in":
+		query += fmt.Sprintf("%s %s (?) ", condition.Field, condition.Rule)
+		arg = condition.Value
+	default:
+		query += fmt.Sprintf("%s %s ? ", condition.Field, condition.Rule)
+		arg = condition.Value
+	}
+
+	return query, arg
+}
+
 // "`id` = ?" , 1
 func NewCondition(cond string, arg interface{}) *Condition {
 	key := strings.Split(cond, " ")

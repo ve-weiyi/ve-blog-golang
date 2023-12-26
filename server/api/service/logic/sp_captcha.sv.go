@@ -9,9 +9,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
-	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/temputil"
 )
 
 type CaptchaService struct {
@@ -57,7 +56,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 		temp = mail.TempSimpleCode
 	}
 
-	content, err := templateUtil.TempParseString(temp, data)
+	content, err := temputil.TempParseString(temp, data)
 	if err != nil {
 		return nil, err
 	}

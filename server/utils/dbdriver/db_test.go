@@ -13,7 +13,7 @@ import (
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000
-const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-plus?charset=utf8mb4&parseTime=True&loc=Local"
+const dsn = "root:mysql7914@(veweiyi.cn:3306)/blog-v2?charset=utf8mb4&parseTime=True&loc=Local"
 
 var db *gorm.DB
 
@@ -57,4 +57,35 @@ func TestDBService(t *testing.T) {
 		return
 	}
 	log.Println("columnList-->", db.Migrator().CurrentDatabase(), jsonconv.ObjectToJsonIndent(columnList))
+}
+
+func TestMigrator(t *testing.T) {
+	dbName := db.Migrator().CurrentDatabase()
+	log.Println("dbName-->", dbName)
+
+	tables, err := db.Migrator().GetTables()
+	if err != nil {
+		log.Println("-->", err)
+	}
+
+	for _, table := range tables {
+		tableType, err := db.Migrator().TableType(table)
+		if err != nil {
+			log.Println("-->", err)
+		}
+		log.Println("table-->", jsonconv.ObjectToJsonIndent(tableType))
+
+		//columns, err := db.Migrator().ColumnTypes(table)
+		//if err != nil {
+		//	log.Println("-->", err)
+		//}
+		//log.Println("columns-->", columns)
+
+		//indexes, err := db.Migrator().GetIndexes(table)
+		//if err != nil {
+		//	log.Println("-->", err)
+		//}
+		//log.Println("indexes-->", jsonconv.ObjectToJsonIndent(indexes))
+	}
+
 }

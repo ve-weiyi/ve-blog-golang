@@ -1098,14 +1098,8 @@ definitions:
     type: object
   response.BatchResult:
     properties:
-      fail_count:
-        description: 失败数量
-        type: integer
       success_count:
         description: 成功数量
-        type: integer
-      total_count:
-        description: 总数量
         type: integer
     type: object
   response.BlogHomeInfo:
@@ -1224,30 +1218,10 @@ definitions:
     type: object
   response.Login:
     properties:
-      access_token:
-        description: 访问token,过期时间较短。2h
-        type: string
-      expires_in:
-        description: 访问token过期时间
-        type: integer
-      ip_address:
-        type: string
-      ip_source:
-        type: string
-      login_info:
+      login_history:
         $ref: '#/definitions/response.LoginHistory'
-      refresh_expires_in:
-        description: 刷新token过期时间
-        type: integer
-      refresh_token:
-        description: 刷新token,过期时间较长。30d
-        type: string
-      token_type:
-        description: token类型,Bearer
-        type: string
-      uid:
-        description: 用户id
-        type: integer
+      token:
+        $ref: '#/definitions/response.Token'
       user_info:
         $ref: '#/definitions/response.UserInfo'
     type: object
@@ -1490,6 +1464,30 @@ definitions:
         type: string
       user_id:
         description: 用户ID
+        type: integer
+    type: object
+  response.Token:
+    properties:
+      access_token:
+        description: 访问token,过期时间较短。2h
+        type: string
+      expires_in:
+        description: 访问token过期时间
+        type: integer
+      refresh_expires_in:
+        description: 刷新token过期时间
+        type: integer
+      refresh_token:
+        description: 刷新token,过期时间较长。30d
+        type: string
+      scope:
+        description: 作用域
+        type: string
+      token_type:
+        description: token类型,Bearer
+        type: string
+      uid:
+        description: 用户id
         type: integer
     type: object
   response.UniqueViewDTO:
@@ -1872,7 +1870,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Article id
+      - description: Article.id
         in: path
         name: id
         required: true
@@ -1904,7 +1902,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Article id
+      - description: Article.id
         in: path
         name: id
         required: true
@@ -2262,7 +2260,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Api id
+      - description: Api.id
         in: path
         name: id
         required: true
@@ -2294,7 +2292,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Api id
+      - description: Api.id
         in: path
         name: id
         required: true
@@ -2445,7 +2443,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Article id
+      - description: Article.id
         in: path
         name: id
         required: true
@@ -2478,7 +2476,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Article id
+      - description: Article.id
         in: path
         name: id
         required: true
@@ -2796,7 +2794,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Category id
+      - description: Category.id
         in: path
         name: id
         required: true
@@ -2828,7 +2826,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Category id
+      - description: Category.id
         in: path
         name: id
         required: true
@@ -3087,7 +3085,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Comment id
+      - description: Comment.id
         in: path
         name: id
         required: true
@@ -3119,7 +3117,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Comment id
+      - description: Comment.id
         in: path
         name: id
         required: true
@@ -3529,7 +3527,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: FriendLink id
+      - description: FriendLink.id
         in: path
         name: id
         required: true
@@ -3561,7 +3559,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: FriendLink id
+      - description: FriendLink.id
         in: path
         name: id
         required: true
@@ -3828,7 +3826,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Menu id
+      - description: Menu.id
         in: path
         name: id
         required: true
@@ -3860,7 +3858,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Menu id
+      - description: Menu.id
         in: path
         name: id
         required: true
@@ -4146,7 +4144,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: OperationLog id
+      - description: OperationLog.id
         in: path
         name: id
         required: true
@@ -4178,7 +4176,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: OperationLog id
+      - description: OperationLog.id
         in: path
         name: id
         required: true
@@ -4355,7 +4353,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Page id
+      - description: Page.id
         in: path
         name: id
         required: true
@@ -4387,7 +4385,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Page id
+      - description: Page.id
         in: path
         name: id
         required: true
@@ -4564,7 +4562,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Photo id
+      - description: Photo.id
         in: path
         name: id
         required: true
@@ -4596,7 +4594,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Photo id
+      - description: Photo.id
         in: path
         name: id
         required: true
@@ -4773,7 +4771,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: PhotoAlbum id
+      - description: PhotoAlbum.id
         in: path
         name: id
         required: true
@@ -4805,7 +4803,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: PhotoAlbum id
+      - description: PhotoAlbum.id
         in: path
         name: id
         required: true
@@ -4838,7 +4836,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: PhotoAlbum id
+      - description: PhotoAlbum.id
         in: path
         name: id
         required: true
@@ -5124,7 +5122,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Remark id
+      - description: Remark.id
         in: path
         name: id
         required: true
@@ -5156,7 +5154,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Remark id
+      - description: Remark.id
         in: path
         name: id
         required: true
@@ -5333,7 +5331,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Role id
+      - description: Role.id
         in: path
         name: id
         required: true
@@ -5365,7 +5363,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Role id
+      - description: Role.id
         in: path
         name: id
         required: true
@@ -5651,7 +5649,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Tag id
+      - description: Tag.id
         in: path
         name: id
         required: true
@@ -5683,7 +5681,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Tag id
+      - description: Tag.id
         in: path
         name: id
         required: true
@@ -5901,7 +5899,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Talk id
+      - description: Talk.id
         in: path
         name: id
         required: true
@@ -5933,7 +5931,7 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Talk id
+      - description: Talk.id
         in: path
         name: id
         required: true

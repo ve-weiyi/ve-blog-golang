@@ -496,7 +496,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -549,7 +549,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1173,7 +1173,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Api id",
+                        "description": "Api.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1226,7 +1226,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Api id",
+                        "description": "Api.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1482,7 +1482,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1537,7 +1537,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2079,7 +2079,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Category id",
+                        "description": "Category.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2132,7 +2132,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Category id",
+                        "description": "Category.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2647,7 +2647,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Comment id",
+                        "description": "Comment.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2700,7 +2700,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Comment id",
+                        "description": "Comment.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3257,7 +3257,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "FriendLink id",
+                        "description": "FriendLink.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3310,7 +3310,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "FriendLink id",
+                        "description": "FriendLink.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3834,7 +3834,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Menu id",
+                        "description": "Menu.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3887,7 +3887,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Menu id",
+                        "description": "Menu.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4300,7 +4300,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "OperationLog id",
+                        "description": "OperationLog.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4353,7 +4353,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "OperationLog id",
+                        "description": "OperationLog.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4652,7 +4652,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page id",
+                        "description": "Page.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4705,7 +4705,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page id",
+                        "description": "Page.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5004,7 +5004,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Photo id",
+                        "description": "Photo.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5057,7 +5057,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Photo id",
+                        "description": "Photo.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5428,7 +5428,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "PhotoAlbum id",
+                        "description": "PhotoAlbum.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5481,7 +5481,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "PhotoAlbum id",
+                        "description": "PhotoAlbum.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5536,7 +5536,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "PhotoAlbum id",
+                        "description": "PhotoAlbum.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5949,7 +5949,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Remark id",
+                        "description": "Remark.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6002,7 +6002,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Remark id",
+                        "description": "Remark.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6487,7 +6487,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Role id",
+                        "description": "Role.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6540,7 +6540,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Role id",
+                        "description": "Role.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6911,7 +6911,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Tag id",
+                        "description": "Tag.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6964,7 +6964,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Tag id",
+                        "description": "Tag.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7335,7 +7335,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Talk id",
+                        "description": "Talk.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7388,7 +7388,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Talk id",
+                        "description": "Talk.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -8537,7 +8537,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "id": {
-                    "description": "对话 ID",
+                    "description": "对话.id",
                     "type": "string"
                 },
                 "model": {
@@ -10021,16 +10021,8 @@ const docTemplate = `{
         "response.BatchResult": {
             "type": "object",
             "properties": {
-                "fail_count": {
-                    "description": "失败数量",
-                    "type": "integer"
-                },
                 "success_count": {
                     "description": "成功数量",
-                    "type": "integer"
-                },
-                "total_count": {
-                    "description": "总数量",
                     "type": "integer"
                 }
             }
@@ -10204,38 +10196,11 @@ const docTemplate = `{
         "response.Login": {
             "type": "object",
             "properties": {
-                "access_token": {
-                    "description": "访问token,过期时间较短。2h",
-                    "type": "string"
-                },
-                "expires_in": {
-                    "description": "访问token过期时间",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "type": "string"
-                },
-                "ip_source": {
-                    "type": "string"
-                },
-                "login_info": {
+                "login_history": {
                     "$ref": "#/definitions/response.LoginHistory"
                 },
-                "refresh_expires_in": {
-                    "description": "刷新token过期时间",
-                    "type": "integer"
-                },
-                "refresh_token": {
-                    "description": "刷新token,过期时间较长。30d",
-                    "type": "string"
-                },
-                "token_type": {
-                    "description": "token类型,Bearer",
-                    "type": "string"
-                },
-                "uid": {
-                    "description": "用户id",
-                    "type": "integer"
+                "token": {
+                    "$ref": "#/definitions/response.Token"
                 },
                 "user_info": {
                     "$ref": "#/definitions/response.UserInfo"
@@ -10575,6 +10540,39 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "description": "用户ID",
+                    "type": "integer"
+                }
+            }
+        },
+        "response.Token": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "description": "访问token,过期时间较短。2h",
+                    "type": "string"
+                },
+                "expires_in": {
+                    "description": "访问token过期时间",
+                    "type": "integer"
+                },
+                "refresh_expires_in": {
+                    "description": "刷新token过期时间",
+                    "type": "integer"
+                },
+                "refresh_token": {
+                    "description": "刷新token,过期时间较长。30d",
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "作用域",
+                    "type": "string"
+                },
+                "token_type": {
+                    "description": "token类型,Bearer",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "用户id",
                     "type": "integer"
                 }
             }

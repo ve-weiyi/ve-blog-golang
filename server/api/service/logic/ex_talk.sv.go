@@ -22,7 +22,7 @@ func NewTalkService(svcCtx *svc.ServiceContext) *TalkService {
 // 创建Talk记录
 func (s *TalkService) CreateTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
 	talk.UserID = reqCtx.UID
-	return s.svcCtx.TalkRepository.CreateTalk(reqCtx, talk)
+	return s.svcCtx.TalkRepository.Create(reqCtx, talk)
 }
 
 // 更新Talk记录
@@ -30,31 +30,34 @@ func (s *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 	if talk.UserID != reqCtx.UID {
 		return nil, apierror.ErrorForbidden
 	}
-	return s.svcCtx.TalkRepository.UpdateTalk(reqCtx, talk)
+	return s.svcCtx.TalkRepository.Update(reqCtx, talk)
 }
 
 // 删除Talk记录
-func (s *TalkService) DeleteTalk(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.TalkRepository.DeleteTalkById(reqCtx, id)
+func (s *TalkService) DeleteTalk(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.TalkRepository.Delete(reqCtx, "id = ?", id)
 }
 
 // 查询Talk记录
 func (s *TalkService) FindTalk(reqCtx *request.Context, id int) (data *entity.Talk, err error) {
-	return s.svcCtx.TalkRepository.FindTalkById(reqCtx, id)
+	return s.svcCtx.TalkRepository.First(reqCtx, "id = ?", id)
 }
 
 // 批量删除Talk记录
-func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
-	return s.svcCtx.TalkRepository.DeleteTalkByIds(reqCtx, ids)
+func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+	return s.svcCtx.TalkRepository.Delete(reqCtx, "id in (?)", ids)
 }
 
 // 分页获取Talk记录
 func (s *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
-	list, err = s.svcCtx.TalkRepository.FindTalkList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
+
+	list, err = s.svcCtx.TalkRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
-	total, err = s.svcCtx.TalkRepository.Count(reqCtx, page.Conditions...)
+	total, err = s.svcCtx.TalkRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -72,7 +75,7 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 
 	for _, talk := range talkList {
 
-		user, err := s.svcCtx.UserInformationRepository.FindUserInformationById(reqCtx, talk.UserID)
+		user, err := s.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", talk.UserID)
 		if err != nil {
 			continue
 		}
@@ -103,12 +106,12 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 // 获取说说详情
 func (s *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, id int) (data *response.TalkDetailsDTO, err error) {
 	// 查询api信息
-	talk, err := s.svcCtx.TalkRepository.FindTalkById(reqCtx, id)
+	talk, err := s.svcCtx.TalkRepository.First(reqCtx, "id = ?", id)
 	if err != nil {
 		return nil, err
 	}
 
-	user, err := s.svcCtx.UserInformationRepository.FindUserInformationById(reqCtx, talk.UserID)
+	user, err := s.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", talk.UserID)
 	if err != nil {
 		return nil, err
 	}

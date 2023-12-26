@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type TagRepository struct {
@@ -24,51 +23,49 @@ func NewTagRepository(svcCtx *svc.RepositoryContext) *TagRepository {
 }
 
 // 创建Tag记录
-func (s *TagRepository) CreateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
+func (s *TagRepository) Create(ctx context.Context, item *entity.Tag) (out *entity.Tag, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&tag).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return tag, err
+	return item, err
 }
 
 // 更新Tag记录
-func (s *TagRepository) UpdateTag(ctx context.Context, tag *entity.Tag) (out *entity.Tag, err error) {
+func (s *TagRepository) Update(ctx context.Context, item *entity.Tag) (out *entity.Tag, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&tag).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return tag, err
+	return item, err
 }
 
 // 删除Tag记录
-func (s *TagRepository) DeleteTag(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *TagRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.Tag{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询Tag记录
-func (s *TagRepository) FindTag(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.Tag, err error) {
+func (s *TagRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.Tag, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *TagRepository) FindTag(ctx context.Context, conditions ...*sqlx.Conditi
 	return out, err
 }
 
+func (s *TagRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.Tag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询Tag记录
-func (s *TagRepository) FindTagList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.Tag, err error) {
+func (s *TagRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.Tag, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *TagRepository) FindTagList(ctx context.Context, page *sqlx.PageLimit, s
 }
 
 // 查询总数
-func (s *TagRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *TagRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.Tag{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *TagRepository) Count(ctx context.Context, conditions ...*sqlx.Condition
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询Tag记录——根据id
-func (s *TagRepository) FindTagById(ctx context.Context, id int) (out *entity.Tag, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除Tag记录——根据id
-func (s *TagRepository) DeleteTagById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Tag{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除Tag记录——根据ids
-func (s *TagRepository) DeleteTagByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Tag{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

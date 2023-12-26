@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type ArticleTagRepository struct {
@@ -24,51 +23,49 @@ func NewArticleTagRepository(svcCtx *svc.RepositoryContext) *ArticleTagRepositor
 }
 
 // 创建ArticleTag记录
-func (s *ArticleTagRepository) CreateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) Create(ctx context.Context, item *entity.ArticleTag) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&articleTag).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return articleTag, err
+	return item, err
 }
 
 // 更新ArticleTag记录
-func (s *ArticleTagRepository) UpdateArticleTag(ctx context.Context, articleTag *entity.ArticleTag) (out *entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) Update(ctx context.Context, item *entity.ArticleTag) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&articleTag).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return articleTag, err
+	return item, err
 }
 
 // 删除ArticleTag记录
-func (s *ArticleTagRepository) DeleteArticleTag(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *ArticleTagRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.ArticleTag{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询ArticleTag记录
-func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.ArticleTag, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *ArticleTagRepository) FindArticleTag(ctx context.Context, conditions ..
 	return out, err
 }
 
+func (s *ArticleTagRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.ArticleTag, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询ArticleTag记录
-func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.ArticleTag, err error) {
+func (s *ArticleTagRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.ArticleTag, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *ArticleTagRepository) FindArticleTagList(ctx context.Context, page *sql
 }
 
 // 查询总数
-func (s *ArticleTagRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *ArticleTagRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.ArticleTag{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *ArticleTagRepository) Count(ctx context.Context, conditions ...*sqlx.Co
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询ArticleTag记录——根据id
-func (s *ArticleTagRepository) FindArticleTagById(ctx context.Context, id int) (out *entity.ArticleTag, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除ArticleTag记录——根据id
-func (s *ArticleTagRepository) DeleteArticleTagById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.ArticleTag{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除ArticleTag记录——根据ids
-func (s *ArticleTagRepository) DeleteArticleTagByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.ArticleTag{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }
