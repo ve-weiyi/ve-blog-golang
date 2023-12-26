@@ -1,4 +1,4 @@
-package utils
+package convert
 
 import (
 	"encoding/json"
@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// url.Values转换为map[string]string
 func StrToMSS(s string) map[string]string {
 	if s == "" {
 		return nil
@@ -30,6 +31,7 @@ func StrToMSS(s string) map[string]string {
 	return mss
 }
 
+// json转换为map[string]string
 func JsonToMSS(s string) map[string]string {
 	if s == "" {
 		return nil
