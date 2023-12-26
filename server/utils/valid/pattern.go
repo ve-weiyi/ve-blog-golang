@@ -1,4 +1,4 @@
-package fmtplus
+package valid
 
 import "regexp"
 
