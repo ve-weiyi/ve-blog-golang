@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -14,32 +15,54 @@ func NewSwaggerParser() ApiParser {
 	return &SwaggerParser{}
 }
 
-func (s *SwaggerParser) ParseApiDocsByRoot(root ...string) (out []*ApiDeclare, err error) {
+func (s *SwaggerParser) ParseApiDocsByRoots(root ...string) (out []*ApiDeclare, err error) {
 	out = make([]*ApiDeclare, 0)
 	for _, v := range root {
-		// 遍历目录下的所有文件
-		VisitFile(v, func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				fmt.Println("Error:", err)
-				return nil
-			}
-			// 是目录，则跳过
-			if info.IsDir() {
-				return nil
-			}
-			// 是文件，则判断是否是ctl.go文件
-			if strings.HasSuffix(path, ".json") {
-				// 解析文件
-				swagger, err := s.ReadSwagJSON(v)
-				if err != nil {
-					return err
-				}
+		apis, err := s.ParseApiDocsByRoot(v)
+		if err != nil {
+			return nil, err
+		}
 
-				out = append(out, s.GetApiDeclares(swagger)...)
-			}
-			return nil
-		})
+		out = append(out, apis...)
 	}
+
+	sort.Slice(out, func(i, j int) bool {
+		if out[i].Tag == out[j].Tag {
+			if out[i].Router == out[j].Router {
+				return out[i].Method < out[j].Method
+			}
+			return out[i].Router < out[j].Router
+		}
+		return out[i].Tag < out[j].Tag
+	})
+	return out, nil
+}
+
+func (s *SwaggerParser) ParseApiDocsByRoot(root string) (out []*ApiDeclare, err error) {
+	out = make([]*ApiDeclare, 0)
+	// 遍历目录下的所有文件
+	VisitFile(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Println("Error:", err)
+			return nil
+		}
+		// 是目录，则跳过
+		if info.IsDir() {
+			return nil
+		}
+
+		// 是文件，则判断是否是ctl.go文件
+		if strings.HasSuffix(path, ".json") {
+			// 解析文件
+			swagger, err := s.ReadSwagJSON(path)
+			if err != nil {
+				return err
+			}
+
+			out = append(out, s.GetApiDeclares(swagger)...)
+		}
+		return nil
+	})
 
 	return out, nil
 }
@@ -81,55 +104,52 @@ func (s *SwaggerParser) GetApiDeclares(swagger *SwaggerDefinition) []*ApiDeclare
 			// 未创建tag
 			apiPath := swagger.BasePath + path
 
-			var body *ApiParam
 			var header []*ApiParam
 			var query []*ApiParam
 			var params []*ApiParam
 			var form []*ApiParam
+			var body *ApiParam
 			for _, param := range apiMethod.Parameters {
 
 				//fmt.Println("param:", jsonconv.ObjectToJsonIndent(param))
-				t := getTypeNameFormSchema(param.SchemaObject)
+				//t := getTypeNameFormSchema(param.SchemaObject)
 
-				switch param.In {
-				case "header":
-					p := &ApiParam{
-						Name: param.Name,
-						Type: t,
-					}
-					header = append(header, p)
-				case "query":
-					p := &ApiParam{
-						Name: param.Name,
-						Type: t,
-					}
-					query = append(query, p)
-				case "path":
-					p := &ApiParam{
-						Name: param.Name,
-						Type: t,
-					}
-					params = append(params, p)
-				case "form":
-					p := &ApiParam{
-						Name: param.Name,
-						Type: t,
-					}
-					form = append(form, p)
-				case "body":
+				if param.In == "body" {
 					body = &ApiParam{
-						Name: param.Name,
-						Type: getTypeNameFormSchema(param.Schema),
+						Name:        param.Name,
+						Type:        getTypeNameFormSchema(param.Schema),
+						Description: param.Description,
 					}
-				default:
+
+				} else {
+					p := &ApiParam{
+						Name:        param.Name,
+						Type:        param.Type,
+						Description: param.Description,
+					}
+					switch param.In {
+					case "header":
+						header = append(header, p)
+					case "query":
+						query = append(query, p)
+					case "path":
+						params = append(params, p)
+					case "form":
+						form = append(form, p)
+					default:
+					}
 				}
 			}
 
-			var response string
-			for _, v := range apiMethod.Responses {
+			var response *ApiParam
+			for k, v := range apiMethod.Responses {
 				// 200
 				//fmt.Println("in:", jsonconv.ObjectToJsonIndent(v.Schema))
-				response = getTypeNameFormSchema(v.Schema)
+				response = &ApiParam{
+					Name:        k,
+					Type:        getTypeNameFormSchema(v.Schema),
+					Description: v.Description,
+				}
 				//fmt.Println("out:", jsonconv.ObjectToJsonIndent(response))
 				break
 			}
@@ -156,12 +176,89 @@ func (s *SwaggerParser) GetApiDeclares(swagger *SwaggerDefinition) []*ApiDeclare
 	return apis
 }
 
+func getTypeNameFormSchema(in *SchemaObject) string {
+	if in == nil {
+		return ""
+	}
+
+	//out := &ApiObject{
+	//Properties: make(map[string]*ApiObject),
+	//}
+	var out string
+	if in.Items != nil {
+		//t += getTypeNameFormItems(in.Items)
+
+		switch in.Type {
+		case "array":
+			out += "[]"
+			out += strings.TrimPrefix(in.Items.Items.Ref, "#/definitions/")
+			out += strings.TrimPrefix(in.Items.Items.Type, "#/definitions/")
+		case "string":
+			out += "string"
+		case "integer":
+			out += "int"
+		case "":
+			if in.Ref != "" {
+				//out.Type = "object"
+				out += strings.TrimPrefix(in.Ref, "#/definitions/")
+			}
+		default:
+			out += "any"
+		}
+
+	}
+
+	if in.AllOf != nil {
+		for _, v := range in.AllOf {
+			// 引用类型
+			if v.Ref != "" {
+				out += strings.TrimPrefix(v.Ref, "#/definitions/")
+			}
+			// 类型
+			//if v.Type != "" {
+			//	out += v.Type
+			//}
+
+			for k, p := range v.Properties {
+				//t += getTypeNameFormSchema(&p)
+				out += "{"
+				out += k + "=" + getTypeNameFormSchema(&p)
+				out += "}"
+			}
+		}
+	}
+
+	return out
+}
+
+//
+//func getTypeNameFormItems(in *Items) *ApiObject {
+//	var t ApiObject
+//
+//	if in.Type != "" {
+//		t.Type = in.Type
+//	}
+//
+//	// 引用类型
+//	if in.Ref != "" {
+//		t.Type = "object"
+//		t.Reference = strings.TrimPrefix(in.Ref, "#/definitions/")
+//	}
+//
+//	//if in.Items != nil {
+//	//	t.Properties += getTypeNameFormItems(in.Items)
+//	//}
+//
+//	return &t
+//}
+
 func getFuncNameFormPath(path string) string {
 	if path == "/" || path == "" {
 		return ""
 	}
 
 	var name string
+	name = strings.ReplaceAll(path, ":", "_")
 	name = strings.ReplaceAll(path, "{", "_")
 	name = strings.ReplaceAll(path, "}", "_")
 	name = strings.ReplaceAll(path, "/", "_")
@@ -183,43 +280,4 @@ func getFuncNameFormPath(path string) string {
 	}
 
 	return strings.ToLower(string(byte(rune(newName[0])))) + newName[1:]
-}
-
-func getTypeNameFormSchema(in *SchemaObject) string {
-	if in == nil {
-		return ""
-	}
-
-	var t string
-	if in.Items != nil {
-		t += getTypeNameFormItems(in.Items)
-	}
-
-	if in.AllOf != nil {
-		for _, v := range in.AllOf {
-			t += v.Ref
-			for _, p := range v.Properties {
-				t += getTypeNameFormSchema(&p)
-			}
-		}
-	}
-
-	return t
-}
-
-func getTypeNameFormItems(in *Items) string {
-	var t string
-	if in.Ref != "" {
-		t += in.Ref
-	}
-
-	if in.Items != nil {
-		t += getTypeNameFormItems(in.Items)
-	}
-
-	if t == "" {
-		return "#" + in.Type
-	}
-
-	return t
 }

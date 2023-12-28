@@ -30,12 +30,18 @@ type AstApiDoc struct {
 
 	//ApiDocs []*TsApiDoc
 
+	Parser apiparser.ApiParser
+
 	ApiDeclares  []*apiparser.ApiDeclare
 	TypeDeclares []*apiparser.ModelDeclare
 }
 
 func NewAstApiDoc(config Config) *AstApiDoc {
+	cfg := apiparser.AstParserConfig{
+		ApiBase: "/api/v1",
+	}
 	return &AstApiDoc{
+		Parser: apiparser.NewAstParser(cfg),
 		Config: config,
 	}
 }
@@ -43,10 +49,15 @@ func NewAstApiDoc(config Config) *AstApiDoc {
 func (s *AstApiDoc) Parse() {
 	// 解析api定义
 	var apis []*apiparser.ApiDeclare
-	for _, root := range s.ApiRoot {
-		doc := ParseApiDocsByRoot(root)
-		apis = append(apis, doc...)
+
+	apis, err := s.Parser.ParseApiDocsByRoots(s.ApiRoot...)
+	if err != nil {
+		fmt.Println("解析api定义时发生错误:", err)
 	}
+	//for _, root := range s.ApiRoot {
+	//	doc := ParseApiDocsByRoot(root)
+	//	apis = append(apis, doc...)
+	//}
 
 	// 解析model定义
 	var models []*apiparser.ModelDeclare
@@ -273,7 +284,7 @@ func (s *AstApiDoc) convertTsApiDeclare(doc *apiparser.ApiDeclare) *apiparser.Ts
 		FunctionName: s.ApiFuncNameAs(doc),
 		Summary:      doc.Summary,
 		Base:         s.ApiBase,
-		Url:          re.ReplaceAllString(doc.Router, "${$1}"),
+		Route:        re.ReplaceAllString(doc.Router, "${$1}"),
 		Method:       doc.Method,
 		Header:       s.convertTsParams(doc.Header),
 		Path:         s.convertTsParams(doc.Path),
@@ -355,9 +366,12 @@ func (s *AstApiDoc) convertRequestStr(api *apiparser.ApiDeclare) string {
 }
 
 // response.Response{data=response.PageResult{list=[]entity.User}}-->Response<PageResult<User>>
-func (s *AstApiDoc) convertResponseStr(data string) string {
+func (s *AstApiDoc) convertResponseStr(data *apiparser.ApiParam) string {
+	if data == nil {
+		return ""
+	}
 	// 提取参数
-	params := ExtractFieldsByAst(data)
+	params := ExtractFieldsByAst(data.Type)
 
 	// 替换ts类型
 	for i, param := range params {

@@ -62,7 +62,7 @@ type TsApiDeclare struct {
 	Summary      string
 
 	Base   string
-	Url    string
+	Route  string
 	Method string
 	Header []*ApiParam // 请求头参数
 	Path   []*ApiParam // 路径参数 path

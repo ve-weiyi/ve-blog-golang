@@ -1,16 +1,15 @@
-package apidocs
+package apiparser
 
 import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func TestSwaggerParser(t *testing.T) {
-	ac := apiparser.NewSwaggerParser()
-	apis, err := ac.ParseApiDocsByRoot(global.GetRuntimeRoot() + "server/docs/swagger.json")
+	ac := NewSwaggerParser()
+	apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
 	if err != nil {
 		t.Error(err)
 	}
@@ -19,8 +18,11 @@ func TestSwaggerParser(t *testing.T) {
 }
 
 func TestAstParser(t *testing.T) {
-	ac := apiparser.NewAstParser()
-	apis, err := ac.ParseApiDocsByRoot(global.GetRuntimeRoot() + "server/controllers")
+	cfg := AstParserConfig{
+		ApiBase: "/api/v1",
+	}
+	ac := NewAstParser(cfg)
+	apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/api/controller")
 	if err != nil {
 		t.Error(err)
 	}

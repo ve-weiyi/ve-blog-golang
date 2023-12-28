@@ -14,15 +14,16 @@ type ApiDeclare struct {
 	Query    []*ApiParam `json:"query,omitempty"`  // 查询参数 query
 	Form     []*ApiParam `json:"form,omitempty"`   // 表单参数 form-data
 	Body     *ApiParam   `json:"body,omitempty"`   // 请求体参数
-	Response string      `json:"response"`         // 响应参数
+	Response *ApiParam   `json:"response"`         // 响应参数
 }
 
 // 参数定义
 type ApiParam struct {
-	Name string `json:"name"`
-	Type string `json:"type"`
+	Name        string `json:"name"`                  // 参数名
+	Type        string `json:"type"`                  // 类型 object array string integer number boolean
+	Description string `json:"description,omitempty"` // 描述
 }
 
 type ApiParser interface {
-	ParseApiDocsByRoot(root ...string) ([]*ApiDeclare, error)
+	ParseApiDocsByRoots(root ...string) ([]*ApiDeclare, error)
 }
