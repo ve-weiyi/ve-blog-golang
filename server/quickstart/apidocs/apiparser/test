@@ -3,3973 +3,2852 @@ GOPATH=/Users/weiyi/go #gosetup
 /Users/weiyi/go/go1.20.1/bin/go test -c -o /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser #gosetup
 /Users/weiyi/go/go1.20.1/bin/go tool test2json -t /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test -test.v -test.paniconexit0 -test.run ^\QTestSwaggerParser\E$
 === RUN   TestSwaggerParser
-    swagger_test.go:17: [
-         {
-          "tag": "AI",
-          "summary": "和Chatgpt聊天",
-          "router": "/api/v1/ai/chat",
-          "method": "post",
-          "body": {
-           "name": "data",
-           "type": "[]chatgpt.ChatMessage",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=chatgpt.ChatResponse}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "AI",
-          "summary": "Chatgpt扮演角色",
-          "router": "/api/v1/ai/cos",
-          "method": "post",
-          "body": {
-           "name": "data",
-           "type": "string",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=chatgpt.ChatResponse}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "创建接口",
-          "router": "/api/v1/api",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Api",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Api}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "更新接口",
-          "router": "/api/v1/api",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Api",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Api}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "批量删除接口",
-          "router": "/api/v1/api/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "获取api列表",
-          "router": "/api/v1/api/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.ApiDetailsDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "分页获取接口列表",
-          "router": "/api/v1/api/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Api}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "删除接口",
-          "router": "/api/v1/api/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Api id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Api",
-          "summary": "查询接口",
-          "router": "/api/v1/api/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Api id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Api}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "保存文章",
-          "router": "/api/v1/admin/article",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.ArticleDetailsDTOReq",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "删除文章-逻辑删除",
-          "router": "/api/v1/admin/article/delete",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.ArticleDeleteReq",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "分页获取文章列表",
-          "router": "/api/v1/admin/article/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.ArticleBack}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "更新文章",
-          "router": "/api/v1/admin/article/top",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.ArticleTopReq",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "删除文章",
-          "router": "/api/v1/admin/article/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Article id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "查询文章",
-          "router": "/api/v1/admin/article/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Article id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.ArticleBack}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "文章归档(时间轴)",
-          "router": "/api/v1/article/archives",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页获取文章列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.ArticlePreviewDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "分页获取文章列表",
-          "router": "/api/v1/article/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.ArticleHome}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "通过标签或者id获取文章列表",
-          "router": "/api/v1/article/series",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.ArticleConditionReq",
-           "description": "分页获取文章列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.ArticleConditionDTO}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "文章相关推荐",
-          "router": "/api/v1/article/{id}/details",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Article id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.ArticlePageDetailsDTO}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Article",
-          "summary": "点赞文章",
-          "router": "/api/v1/article/{id}/like",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Article id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Article}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "发送忘记密码邮件",
-          "router": "/api/v1/forget/password",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.UserEmail",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "重置密码",
-          "router": "/api/v1/forget/reset_password",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.ResetPasswordReq",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "登录",
-          "router": "/api/v1/login",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.UserReq",
-           "description": "创建权限认证"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.Login}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "注销",
-          "router": "/api/v1/logoff",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "登出",
-          "router": "/api/v1/logout",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "获取授权地址",
-          "router": "/api/v1/oauth/login",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.OauthLoginReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.Login}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "获取授权地址",
-          "router": "/api/v1/oauth/url",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.OauthLoginReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.OauthLoginUrl}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "注册",
-          "router": "/api/v1/register",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.UserReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Auth",
-          "summary": "发送注册邮件",
-          "router": "/api/v1/register/email",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.UserEmail",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Captcha",
-          "summary": "发送验证码",
-          "router": "/api/v1/captcha/email",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.CaptchaEmailReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Captcha",
-          "summary": "生成验证码",
-          "router": "/api/v1/captcha/image",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.CaptchaReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.CaptchaDTO}",
-           "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
-          }
-         },
-         {
-          "tag": "Captcha",
-          "summary": "检验验证码",
-          "router": "/api/v1/captcha/verify",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.CaptchaVerifyReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "创建文章分类",
-          "router": "/api/v1/category",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Category",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Category}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "更新文章分类",
-          "router": "/api/v1/category",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Category",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Category}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "批量删除文章分类",
-          "router": "/api/v1/category/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "分页获取文章分类详情列表",
-          "router": "/api/v1/category/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.CategoryDetailsDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "分页获取文章分类列表",
-          "router": "/api/v1/category/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Category}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "删除文章分类",
-          "router": "/api/v1/category/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Category id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Category",
-          "summary": "查询文章分类",
-          "router": "/api/v1/category/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Category id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Category}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "创建评论",
-          "router": "/api/v1/comment",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Comment",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Comment}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "更新评论",
-          "router": "/api/v1/comment",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Comment",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Comment}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "批量删除评论",
-          "router": "/api/v1/comment/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "分页获取评论列表",
-          "router": "/api/v1/comment/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.CommentDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "分页获取评论列表",
-          "router": "/api/v1/comment/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Comment}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "获取用户评论列表",
-          "router": "/api/v1/comment/list/back",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.CommentBackDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "删除评论",
-          "router": "/api/v1/comment/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Comment id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "查询评论",
-          "router": "/api/v1/comment/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Comment id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Comment}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "点赞评论",
-          "router": "/api/v1/comment/{id}/like",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Comment",
-          "summary": "查询评论回复列表",
-          "router": "/api/v1/comment/{id}/reply_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "id"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.ReplyDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "FriendLink",
-          "summary": "创建友链",
-          "router": "/api/v1/friend_link",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.FriendLink",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.FriendLink}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "FriendLink",
-          "summary": "更新友链",
-          "router": "/api/v1/friend_link",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.FriendLink",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.FriendLink}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "FriendLink",
-          "summary": "批量删除友链",
-          "router": "/api/v1/friend_link/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "FriendLink",
-          "summary": "分页获取友链列表",
-          "router": "/api/v1/friend_link/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.FriendLink}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "FriendLink",
-          "summary": "删除友链",
-          "router": "/api/v1/friend_link/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "FriendLink id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "FriendLink",
-          "summary": "查询友链",
-          "router": "/api/v1/friend_link/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "FriendLink id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.FriendLink}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "创建菜单",
-          "router": "/api/v1/menu",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Menu",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Menu}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "更新菜单",
-          "router": "/api/v1/menu",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Menu",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Menu}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "批量删除菜单",
-          "router": "/api/v1/menu/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "获取菜单列表",
-          "router": "/api/v1/menu/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.MenuDetailsDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "分页获取菜单列表",
-          "router": "/api/v1/menu/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Menu}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "删除菜单",
-          "router": "/api/v1/menu/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Menu id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Menu",
-          "summary": "查询菜单",
-          "router": "/api/v1/menu/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Menu id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Menu}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "OperationLog",
-          "summary": "创建操作记录",
-          "router": "/api/v1/operation_log",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.OperationLog",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.OperationLog}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "OperationLog",
-          "summary": "更新操作记录",
-          "router": "/api/v1/operation_log",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.OperationLog",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.OperationLog}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "OperationLog",
-          "summary": "批量删除操作记录",
-          "router": "/api/v1/operation_log/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "OperationLog",
-          "summary": "分页获取操作记录列表",
-          "router": "/api/v1/operation_log/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.OperationLog}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "OperationLog",
-          "summary": "删除操作记录",
-          "router": "/api/v1/operation_log/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "OperationLog id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "OperationLog",
-          "summary": "查询操作记录",
-          "router": "/api/v1/operation_log/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "OperationLog id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.OperationLog}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Page",
-          "summary": "创建页面",
-          "router": "/api/v1/page",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Page",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Page}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Page",
-          "summary": "更新页面",
-          "router": "/api/v1/page",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Page",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Page}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Page",
-          "summary": "批量删除页面",
-          "router": "/api/v1/page/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Page",
-          "summary": "分页获取页面列表",
-          "router": "/api/v1/page/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Page}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Page",
-          "summary": "删除页面",
-          "router": "/api/v1/page/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Page id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Page",
-          "summary": "查询页面",
-          "router": "/api/v1/page/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Page id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Page}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Photo",
-          "summary": "创建相片",
-          "router": "/api/v1/photo",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Photo",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Photo}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Photo",
-          "summary": "更新相片",
-          "router": "/api/v1/photo",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Photo",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Photo}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Photo",
-          "summary": "批量删除相片",
-          "router": "/api/v1/photo/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Photo",
-          "summary": "分页获取相片列表",
-          "router": "/api/v1/photo/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Photo}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Photo",
-          "summary": "删除相片",
-          "router": "/api/v1/photo/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Photo id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Photo",
-          "summary": "查询相片",
-          "router": "/api/v1/photo/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Photo id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Photo}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "创建相册",
-          "router": "/api/v1/photo_album",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.PhotoAlbum",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.PhotoAlbum}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "更新相册",
-          "router": "/api/v1/photo_album",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.PhotoAlbum",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.PhotoAlbum}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "批量删除相册",
-          "router": "/api/v1/photo_album/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "获取相册详情列表",
-          "router": "/api/v1/photo_album/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.PhotoAlbumDetailsDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "分页获取相册列表",
-          "router": "/api/v1/photo_album/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.PhotoAlbum}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "删除相册",
-          "router": "/api/v1/photo_album/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "PhotoAlbum id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "查询相册",
-          "router": "/api/v1/photo_album/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "PhotoAlbum id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.PhotoAlbum}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "PhotoAlbum",
-          "summary": "获取相册详情",
-          "router": "/api/v1/photo_album/{id}/details",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "PhotoAlbum id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PhotoAlbumDetailsDTO}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Remark",
-          "summary": "创建留言",
-          "router": "/api/v1/remark",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Remark",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Remark}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Remark",
-          "summary": "更新留言",
-          "router": "/api/v1/remark",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Remark",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Remark}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Remark",
-          "summary": "批量删除留言",
-          "router": "/api/v1/remark/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Remark",
-          "summary": "分页获取留言列表",
-          "router": "/api/v1/remark/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Remark}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Remark",
-          "summary": "删除留言",
-          "router": "/api/v1/remark/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Remark id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Remark",
-          "summary": "查询留言",
-          "router": "/api/v1/remark/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Remark id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Remark}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "创建角色",
-          "router": "/api/v1/role",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Role",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Role}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "更新角色",
-          "router": "/api/v1/role",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Role",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Role}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "批量删除角色",
-          "router": "/api/v1/role/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "获取角色列表",
-          "router": "/api/v1/role/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Role}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "分页获取角色列表",
-          "router": "/api/v1/role/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Role}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "更新角色菜单",
-          "router": "/api/v1/role/update_menus",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Role",
-           "description": "创建角色"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Role}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "更新角色资源",
-          "router": "/api/v1/role/update_resources",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Role",
-           "description": "创建角色"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Role}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "删除角色",
-          "router": "/api/v1/role/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Role id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Role",
-          "summary": "查询角色",
-          "router": "/api/v1/role/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Role id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Role}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "创建文章标签",
-          "router": "/api/v1/tag",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Tag",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Tag}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "更新文章标签",
-          "router": "/api/v1/tag",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Tag",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Tag}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "批量删除文章标签",
-          "router": "/api/v1/tag/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "分页获取文章分类详情列表",
-          "router": "/api/v1/tag/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.TagDetailsDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "分页获取文章标签列表",
-          "router": "/api/v1/tag/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Tag}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "删除文章标签",
-          "router": "/api/v1/tag/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Tag id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Tag",
-          "summary": "查询文章标签",
-          "router": "/api/v1/tag/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Tag id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Tag}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "创建说说",
-          "router": "/api/v1/talk",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Talk",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Talk}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "更新说说",
-          "router": "/api/v1/talk",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.Talk",
-           "description": "请求参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Talk}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "批量删除说说",
-          "router": "/api/v1/talk/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BatchResult}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "分页获取说说详情列表",
-          "router": "/api/v1/talk/details_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.TalkDetailsDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "分页获取说说列表",
-          "router": "/api/v1/talk/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.Talk}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "删除说说",
-          "router": "/api/v1/talk/{id}",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Talk id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "查询说说",
-          "router": "/api/v1/talk/{id}",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "Talk id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Talk}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "分页获取说说详情列表",
-          "router": "/api/v1/talk/{id}/details",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.TalkDetailsDTO}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Talk",
-          "summary": "点赞说说",
-          "router": "/api/v1/talk/{id}/like",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "id",
-            "type": "integer",
-            "description": "id"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Upload",
-          "summary": "上传文件",
-          "router": "/api/v1/upload/{label}",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "path": [
-           {
-            "name": "label",
-            "type": "string",
-            "description": "标签"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.UploadRecord}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Upload",
-          "summary": "上传语言",
-          "router": "/api/v1/voice",
-          "method": "post",
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.UploadRecord}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取用户接口权限",
-          "router": "/api/v1/user/apis",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=[]response.ApiDetailsDTO}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取用户地区列表",
-          "router": "/api/v1/user/area_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.UserAreaDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "更换用户头像",
-          "router": "/api/v1/user/avatar",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.UserInformation}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取用户信息",
-          "router": "/api/v1/user/info",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.UserInfo}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "修改用户信息",
-          "router": "/api/v1/user/info",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.UserInfoReq",
-           "description": "请求body"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.UserInformation}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取用户列表",
-          "router": "/api/v1/user/list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.UserDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取用户登录历史",
-          "router": "/api/v1/user/login_history",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.LoginHistory}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "批量删除登录历史",
-          "router": "/api/v1/user/login_history/batch_delete",
-          "method": "delete",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "[]integer",
-           "description": "删除id列表"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取用户菜单权限",
-          "router": "/api/v1/user/menus",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=[]response.MenuDetailsDTO}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "获取在线用户列表",
-          "router": "/api/v1/user/online_list",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页参数"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]response.UserDTO}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "修改用户角色",
-          "router": "/api/v1/user/update_roles",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.UpdateUserRolesReq",
-           "description": "请求数据"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=entity.Role}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "User",
-          "summary": "修改用户状态",
-          "router": "/api/v1/user/update_status",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "entity.UserAccount",
-           "description": "请求数据"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "获取博客前台首页信息",
-          "router": "/api/v1/",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.BlogHomeInfo}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "关于我",
-          "router": "/api/v1/about/me",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "获取后台首页信息",
-          "router": "/api/v1/admin",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.AdminHomeInfo}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "更新我的信息",
-          "router": "/api/v1/admin/about/me",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "string",
-           "description": "请求信息"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "获取配置",
-          "router": "/api/v1/admin/config",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.WebsiteConfigReq",
-           "description": "请求信息"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "更新配置",
-          "router": "/api/v1/admin/config",
-          "method": "put",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "data",
-           "type": "request.WebsiteConfigReq",
-           "description": "请求信息"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "获取服务器信息",
-          "router": "/api/v1/admin/system/state",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "查询聊天记录",
-          "router": "/api/v1/chat/records",
-          "method": "post",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "body": {
-           "name": "page",
-           "type": "request.PageQuery",
-           "description": "分页信息"
-          },
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=response.PageResult{list=[]entity.ChatRecord}}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Website",
-          "summary": "获取网站配置",
-          "router": "/api/v1/website/config",
-          "method": "get",
-          "header": [
-           {
-            "name": "token",
-            "type": "string",
-            "description": "token"
-           },
-           {
-            "name": "uid",
-            "type": "string",
-            "description": "uid"
-           }
-          ],
-          "response": {
-           "name": "200",
-           "type": "response.Response{data=any}",
-           "description": "返回信息"
-          }
-         },
-         {
-          "tag": "Websocket",
-          "summary": "查询聊天记录",
-          "router": "/api/v1/ws",
-          "method": "get",
-          "response": null
+    swagger_test.go:24: [
+         {
+          "Pkg": "entity.Api",
+          "Name": "entity.Api",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "traceable",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "method",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Article",
+          "Name": "entity.Article",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Category",
+          "Name": "entity.Category",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.ChatRecord",
+          "Name": "entity.ChatRecord",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Comment",
+          "Name": "entity.Comment",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "topic_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.FriendLink",
+          "Name": "entity.FriendLink",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "link_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "link_avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "link_intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "link_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Menu",
+          "Name": "entity.Menu",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "component",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "icon",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_hidden",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "rank",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.OperationLog",
+          "Name": "entity.OperationLog",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "cost",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_module",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "request_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_method",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "opt_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "request_param",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "response_data",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "request_header",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "request_method",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Page",
+          "Name": "entity.Page",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "page_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_label",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Photo",
+          "Name": "entity.Photo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_src",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.PhotoAlbum",
+          "Name": "entity.PhotoAlbum",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Remark",
+          "Name": "entity.Remark",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "time",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "message_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Role",
+          "Name": "entity.Role",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "is_disable",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "role_comment",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "role_domain",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "role_pid",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_default",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "role_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Tag",
+          "Name": "entity.Tag",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.Talk",
+          "Name": "entity.Talk",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "images",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.UploadRecord",
+          "Name": "entity.UploadRecord",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "file_size",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "label",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "file_md5",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "file_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "file_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.UserAccount",
+          "Name": "entity.UserAccount",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "password",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "register_type",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "entity.UserInformation",
+          "Name": "entity.UserInformation",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "phone",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleConditionReq",
+          "Name": "request.ArticleConditionReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "tag_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleDeleteReq",
+          "Name": "request.ArticleDeleteReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleDetailsDTOReq",
+          "Name": "request.ArticleDetailsDTOReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ArticleTopReq",
+          "Name": "request.ArticleTopReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.CaptchaEmailReq",
+          "Name": "request.CaptchaEmailReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "service",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "check",
+            "Type": "any",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.CaptchaReq",
+          "Name": "request.CaptchaReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "captcha_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "height",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "length",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "width",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.CaptchaVerifyReq",
+          "Name": "request.CaptchaVerifyReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.OauthLoginReq",
+          "Name": "request.OauthLoginReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "platform",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "state",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.PageQuery",
+          "Name": "request.PageQuery",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "page_size",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "sorts",
+            "Type": "[]sqlx.Sort",
+            "Comment": ""
+           },
+           {
+            "Name": "conditions",
+            "Type": "[]sqlx.Condition",
+            "Comment": ""
+           },
+           {
+            "Name": "page",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.ResetPasswordReq",
+          "Name": "request.ResetPasswordReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "password",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UpdateUserRolesReq",
+          "Name": "request.UpdateUserRolesReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "role_ids",
+            "Type": "[]integer",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UserEmail",
+          "Name": "request.UserEmail",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UserInfoReq",
+          "Name": "request.UserInfoReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.UserReq",
+          "Name": "request.UserReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "password",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "request.WebsiteConfigReq",
+          "Name": "request.WebsiteConfigReq",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "key",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "value",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.AdminHomeInfo",
+          "Name": "response.AdminHomeInfo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "user_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_rank_dto_list",
+            "Type": "[]response.ArticleRankDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_statistics_list",
+            "Type": "[]response.ArticleStatisticsDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "category_dto_list",
+            "Type": "[]response.CategoryDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "message_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_dto_list",
+            "Type": "[]response.TagDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "unique_view_dto_list",
+            "Type": "[]response.UniqueViewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ApiDetailsDTO",
+          "Name": "response.ApiDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "method",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "traceable",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "children",
+            "Type": "[]response.ApiDetailsDTO",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleBack",
+          "Name": "response.ArticleBack",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleConditionDTO",
+          "Name": "response.ArticleConditionDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_dto_list",
+            "Type": "[]response.ArticleHome",
+            "Comment": ""
+           },
+           {
+            "Name": "condition_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleHome",
+          "Name": "response.ArticleHome",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_category",
+            "Type": "response.CategoryDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_tag_list",
+            "Type": "[]response.TagDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticlePageDetailsDTO",
+          "Name": "response.ArticlePageDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "recommend_article_list",
+            "Type": "[]response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "next_article",
+            "Type": "response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "original_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "last_article",
+            "Type": "response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "newest_article_list",
+            "Type": "[]response.ArticlePreviewDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_category",
+            "Type": "response.CategoryDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_tag_list",
+            "Type": "[]response.TagDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticlePreviewDTO",
+          "Name": "response.ArticlePreviewDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleRankDTO",
+          "Name": "response.ArticleRankDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ArticleStatisticsDTO",
+          "Name": "response.ArticleStatisticsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "day",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.BatchResult",
+          "Name": "response.BatchResult",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "fail_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "success_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "total_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.BlogHomeInfo",
+          "Name": "response.BlogHomeInfo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "page_list",
+            "Type": "[]response.PageDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "views_count",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_config",
+            "Type": "response.WebsiteConfigDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "category_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CaptchaDTO",
+          "Name": "response.CaptchaDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "encode_data",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "length",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CategoryDTO",
+          "Name": "response.CategoryDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CategoryDetailsDTO",
+          "Name": "response.CategoryDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "category_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CommentBackDTO",
+          "Name": "response.CommentBackDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "type",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "article_title",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.CommentDTO",
+          "Name": "response.CommentDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_dto_list",
+            "Type": "[]response.ReplyDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.Login",
+          "Name": "response.Login",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "token_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "access_token",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "expires_in",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "login_info",
+            "Type": "response.LoginHistory",
+            "Comment": ""
+           },
+           {
+            "Name": "refresh_token",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "refresh_expires_in",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "uid",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "user_info",
+            "Type": "response.UserInfo",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.LoginHistory",
+          "Name": "response.LoginHistory",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "agent",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "login_time",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "login_type",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.MenuDetailsDTO",
+          "Name": "response.MenuDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "path",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "component",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "rank",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "children",
+            "Type": "[]response.MenuDetailsDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "icon",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_hidden",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.OauthLoginUrl",
+          "Name": "response.OauthLoginUrl",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "url",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.PageDTO",
+          "Name": "response.PageDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "page_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_label",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "page_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.PageResult",
+          "Name": "response.PageResult",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "total",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "list",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "page",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "page_size",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.PhotoAlbumDetailsDTO",
+          "Name": "response.PhotoAlbumDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "album_desc",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_delete",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "album_cover",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "photo_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.ReplyDTO",
+          "Name": "response.ReplyDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_content",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "parent_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "reply_nickname",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.Response",
+          "Name": "response.Response",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "trace_id",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "code",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "data",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "message",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.RoleDTO",
+          "Name": "response.RoleDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "role_comment",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "role_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.TagDTO",
+          "Name": "response.TagDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.TagDetailsDTO",
+          "Name": "response.TagDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "article_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tag_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.TalkDetailsDTO",
+          "Name": "response.TalkDetailsDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "is_top",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "img_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "like_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "content",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UniqueViewDTO",
+          "Name": "response.UniqueViewDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "count",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "day",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UserAreaDTO",
+          "Name": "response.UserAreaDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "value",
+            "Type": "int",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UserDTO",
+          "Name": "response.UserDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "created_at",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "roles",
+            "Type": "[]response.RoleDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "status",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_source",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "register_type",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "ip_address",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "updated_at",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.UserInfo",
+          "Name": "response.UserInfo",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "website",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "article_like_set",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "id",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "nickname",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "username",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "roles",
+            "Type": "[]response.RoleDTO",
+            "Comment": ""
+           },
+           {
+            "Name": "talk_like_set",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "comment_like_set",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "email",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "intro",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "response.WebsiteConfigDTO",
+          "Name": "response.WebsiteConfigDTO",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "website_avatar",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "website_record_no",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "websocket_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_message_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_music_player",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "qq",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "social_url_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_reward",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "website_create_time",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_name",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "alipay_qr_code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "github",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_chat_room",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "is_email_notice",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "tourist_avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "user_avatar",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_notice",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "weixin_qr_code",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "admin_url",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "gitee",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "is_comment_review",
+            "Type": "int",
+            "Comment": ""
+           },
+           {
+            "Name": "social_login_list",
+            "Type": "[]string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_author",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "website_intro",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "sqlx.Condition",
+          "Name": "sqlx.Condition",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "flag",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "rule",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "value",
+            "Type": "",
+            "Comment": ""
+           },
+           {
+            "Name": "field",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
+         },
+         {
+          "Pkg": "sqlx.Sort",
+          "Name": "sqlx.Sort",
+          "Extend": null,
+          "Fields": [
+           {
+            "Name": "field",
+            "Type": "string",
+            "Comment": ""
+           },
+           {
+            "Name": "order",
+            "Type": "string",
+            "Comment": ""
+           }
+          ]
          }
         ]
---- PASS: TestSwaggerParser (0.03s)
+--- PASS: TestSwaggerParser (0.01s)
 PASS
 
 Process finished with the exit code 0

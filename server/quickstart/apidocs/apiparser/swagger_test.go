@@ -9,12 +9,19 @@ import (
 
 func TestSwaggerParser(t *testing.T) {
 	ac := NewSwaggerParser()
-	apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
+	//apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
+	//if err != nil {
+	//	t.Error(err)
+	//}
+	//
+	//t.Log(jsonconv.ObjectToJsonIndent(apis))
+
+	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/docs")
 	if err != nil {
 		t.Error(err)
 	}
 
-	t.Log(jsonconv.ObjectToJsonIndent(apis))
+	t.Log(jsonconv.ObjectToJsonIndent(models))
 }
 
 func TestAstParser(t *testing.T) {
@@ -22,10 +29,17 @@ func TestAstParser(t *testing.T) {
 		ApiBase: "/api/v1",
 	}
 	ac := NewAstParser(cfg)
-	apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/api/controller")
+	//apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/api/controller")
+	//if err != nil {
+	//	t.Error(err)
+	//}
+	//
+	//t.Log(jsonconv.ObjectToJsonIndent(apis))
+
+	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/api/model")
 	if err != nil {
 		t.Error(err)
 	}
 
-	t.Log(jsonconv.ObjectToJsonIndent(apis))
+	t.Log(jsonconv.ObjectToJsonIndent(models))
 }

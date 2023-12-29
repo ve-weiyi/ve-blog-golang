@@ -15,6 +15,26 @@ func NewSwaggerParser() ApiParser {
 	return &SwaggerParser{}
 }
 
+func (s *SwaggerParser) ReadSwagJSON(filepath string) (out *SwaggerDefinition, err error) {
+
+	// 读取 JSON 文件内容
+	jsonData, err := os.ReadFile(filepath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read JSON file:%v", err)
+	}
+
+	// 解析 JSON 数据到结构体
+	var swagger SwaggerDefinition
+	err = json.Unmarshal(jsonData, &swagger)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse JSON:%v", err)
+	}
+
+	//fmt.Println("swagger:", jsonconv.ObjectToJsonIndent(swagger))
+
+	return &swagger, nil
+}
+
 func (s *SwaggerParser) ParseApiDocsByRoots(root ...string) (out []*ApiDeclare, err error) {
 	out = make([]*ApiDeclare, 0)
 	for _, v := range root {
@@ -59,7 +79,7 @@ func (s *SwaggerParser) ParseApiDocsByRoot(root string) (out []*ApiDeclare, err 
 				return err
 			}
 
-			out = append(out, s.GetApiDeclares(swagger)...)
+			out = append(out, s.ParseApiDoc(swagger)...)
 		}
 		return nil
 	})
@@ -67,28 +87,7 @@ func (s *SwaggerParser) ParseApiDocsByRoot(root string) (out []*ApiDeclare, err 
 	return out, nil
 }
 
-func (s *SwaggerParser) ReadSwagJSON(filepath string) (out *SwaggerDefinition, err error) {
-
-	// 读取 JSON 文件内容
-	jsonData, err := os.ReadFile(filepath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read JSON file:%v", err)
-	}
-
-	// 解析 JSON 数据到结构体
-	var swagger SwaggerDefinition
-	err = json.Unmarshal(jsonData, &swagger)
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse JSON:%v", err)
-	}
-
-	//fmt.Println("swagger:", jsonconv.ObjectToJsonIndent(swagger))
-
-	return &swagger, nil
-}
-
-// 提取api列表
-func (s *SwaggerParser) GetApiDeclares(swagger *SwaggerDefinition) []*ApiDeclare {
+func (s *SwaggerParser) ParseApiDoc(swagger *SwaggerDefinition) []*ApiDeclare {
 	// 生成 TypeScript 代码
 	apis := make([]*ApiDeclare, 0)
 	for path, paths := range swagger.Paths {
@@ -156,7 +155,7 @@ func (s *SwaggerParser) GetApiDeclares(swagger *SwaggerDefinition) []*ApiDeclare
 
 			apiTs := &ApiDeclare{
 				Tag:          tag,
-				FunctionName: getFuncNameFormPath(path),
+				FunctionName: getFunctionNameFormPath(path),
 				Summary:      apiMethod.Summary,
 				Router:       apiPath,
 				Method:       method,
@@ -174,6 +173,134 @@ func (s *SwaggerParser) GetApiDeclares(swagger *SwaggerDefinition) []*ApiDeclare
 	}
 
 	return apis
+}
+
+func (s *SwaggerParser) ParseModelDocsByRoots(root ...string) (out []*ModelDeclare, err error) {
+	out = make([]*ModelDeclare, 0)
+	for _, v := range root {
+		models, err := s.ParseModelDocsByRoot(v)
+		if err != nil {
+			return nil, err
+		}
+
+		out = append(out, models...)
+	}
+
+	sort.Slice(out, func(i, j int) bool {
+		if out[i].Name == out[j].Name {
+			return out[i].Name < out[j].Name
+		}
+		return out[i].Name < out[j].Name
+	})
+	return out, nil
+}
+
+func (s *SwaggerParser) ParseModelDocsByRoot(root string) (out []*ModelDeclare, err error) {
+	out = make([]*ModelDeclare, 0)
+	// 遍历目录下的所有文件
+	VisitFile(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Println("Error:", err)
+			return nil
+		}
+		// 是目录，则跳过
+		if info.IsDir() {
+			return nil
+		}
+
+		// 是文件，则判断是否是ctl.go文件
+		if strings.HasSuffix(path, ".json") {
+			// 解析文件
+			swagger, err := s.ReadSwagJSON(path)
+			if err != nil {
+				return err
+			}
+
+			out = append(out, s.ParseModelDoc(swagger)...)
+		}
+		return nil
+	})
+
+	return out, nil
+}
+
+func (s *SwaggerParser) ParseModelDoc(swagger *SwaggerDefinition) []*ModelDeclare {
+	out := make([]*ModelDeclare, 0)
+
+	for k, v := range swagger.Definitions {
+		var pkg string
+		if strings.Contains(k, ".") {
+			pkg = strings.Split(k, ".")[0]
+		}
+
+		model := &ModelDeclare{
+			Pkg:    pkg,
+			Name:   k,
+			Extend: nil,
+			Fields: getFieldsFormSchema(v.Properties),
+		}
+
+		out = append(out, model)
+	}
+
+	return out
+}
+
+func getFunctionNameFormPath(path string) string {
+	if path == "/" || path == "" {
+		return ""
+	}
+
+	var name string
+	name = strings.ReplaceAll(path, ":", "_")
+	name = strings.ReplaceAll(path, "{", "_")
+	name = strings.ReplaceAll(path, "}", "_")
+	name = strings.ReplaceAll(path, "/", "_")
+
+	var newName string
+	var flag bool = false
+	for i := 0; i < len(name); i++ {
+		if name[i] == '_' {
+			flag = true
+			continue
+		}
+
+		if flag {
+			newName = newName + strings.ToUpper(string(byte(rune(name[i]))))
+			flag = false
+		} else {
+			newName = newName + string(byte(rune(name[i])))
+		}
+	}
+
+	return strings.ToLower(string(byte(rune(newName[0])))) + newName[1:]
+}
+
+func getFieldsFormSchema(in map[string]SchemaObject) []*ModelField {
+	if in == nil {
+		return nil
+	}
+
+	out := make([]*ModelField, 0)
+	for k, v := range in {
+
+		var comment string
+		if v.Items != nil {
+			comment = v.Items.Description
+		}
+
+		field := &ModelField{
+			Name:    k,
+			Type:    getTypeNameFormSchema(&v),
+			Comment: comment,
+		}
+		out = append(out, field)
+	}
+
+	sort.Slice(out, func(i, j int) bool {
+		return out[i].Name < out[j].Name
+	})
+	return out
 }
 
 func getTypeNameFormSchema(in *SchemaObject) string {
@@ -229,55 +356,4 @@ func getTypeNameFormSchema(in *SchemaObject) string {
 	}
 
 	return out
-}
-
-//
-//func getTypeNameFormItems(in *Items) *ApiObject {
-//	var t ApiObject
-//
-//	if in.Type != "" {
-//		t.Type = in.Type
-//	}
-//
-//	// 引用类型
-//	if in.Ref != "" {
-//		t.Type = "object"
-//		t.Reference = strings.TrimPrefix(in.Ref, "#/definitions/")
-//	}
-//
-//	//if in.Items != nil {
-//	//	t.Properties += getTypeNameFormItems(in.Items)
-//	//}
-//
-//	return &t
-//}
-
-func getFuncNameFormPath(path string) string {
-	if path == "/" || path == "" {
-		return ""
-	}
-
-	var name string
-	name = strings.ReplaceAll(path, ":", "_")
-	name = strings.ReplaceAll(path, "{", "_")
-	name = strings.ReplaceAll(path, "}", "_")
-	name = strings.ReplaceAll(path, "/", "_")
-
-	var newName string
-	var flag bool = false
-	for i := 0; i < len(name); i++ {
-		if name[i] == '_' {
-			flag = true
-			continue
-		}
-
-		if flag {
-			newName = newName + strings.ToUpper(string(byte(rune(name[i]))))
-			flag = false
-		} else {
-			newName = newName + string(byte(rune(name[i])))
-		}
-	}
-
-	return strings.ToLower(string(byte(rune(newName[0])))) + newName[1:]
 }
