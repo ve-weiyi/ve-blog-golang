@@ -5,185 +5,10 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"os"
 	"regexp"
 	"strings"
 	"unicode"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/east"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 )
-
-func ParseApiDocsByRoot(root string) []*ApiDeclare {
-	apiDocs := make([]*ApiDeclare, 0)
-	// 遍历目录下的所有文件
-	files.VisitFile(root, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			fmt.Println("Error:", err)
-			return nil
-		}
-		// 是目录，则跳过
-		if info.IsDir() {
-			return nil
-		}
-		// 是文件，则判断是否是ctl.go文件
-		if strings.HasSuffix(path, "ctl.go") {
-			// 解析文件
-			apiDocs = append(apiDocs, ParseApiDoc(path)...)
-		}
-
-		return nil
-	})
-
-	return apiDocs
-}
-
-func ParseApiDoc(fp string) []*ApiDeclare {
-	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, fp, nil, parser.ParseComments)
-	if err != nil {
-		fmt.Println("解析代码时发生错误:", err)
-		return nil
-	}
-
-	apiDocs := make([]*ApiDeclare, 0)
-
-	for _, decl := range file.Decls {
-		if f, ok := decl.(*ast.FuncDecl); ok {
-			name := GetFunctionName(f)
-			doc := GetFunctionDoc(f)
-
-			api := &ApiDeclare{}
-
-			api.FunctionName = name
-			for _, comment := range doc {
-				// 按照空白分割
-				content := strings.Fields(comment.Content)
-				if len(content) == 0 {
-					continue
-				}
-
-				switch comment.Tag {
-				case "Tags":
-					// 按空白分割
-					api.Tag = content[0]
-
-				case "Summary":
-					api.Summary = content[0]
-
-				case "Param":
-					tp := content[1]
-					field := &ApiParam{
-						Name: content[0],
-						Type: content[2],
-					}
-
-					switch tp {
-					case "header":
-						api.Header = append(api.Header, field)
-					case "path":
-						api.Path = append(api.Path, field)
-					case "query":
-						api.Query = append(api.Query, field)
-					case "formData":
-						api.Form = append(api.Form, field)
-					case "body":
-						api.Body = field
-					}
-
-				case "Router":
-					api.Url = content[0]
-					api.Method = strings.TrimSuffix(strings.TrimPrefix(content[1], "["), "]")
-
-				case "Success":
-					api.Response = content[2]
-				}
-			}
-
-			if api.Tag == "" {
-				continue
-			}
-			apiDocs = append(apiDocs, api)
-			// fmt.Println("函数注释:", jsonconv.ObjectToJsonIndent(api))
-		}
-	}
-
-	return apiDocs
-}
-
-func ParseApiModelsByRoot(root string) []*ModelDeclare {
-	var models []*ModelDeclare
-	// 遍历目录下的所有文件
-	files.VisitFile(root, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			fmt.Println("Error:", err)
-			return nil
-		}
-		// 是目录，则跳过
-		if info.IsDir() {
-			return nil
-		}
-		// 是文件，则判断是否是.go文件
-		if strings.HasSuffix(path, ".go") {
-			// 解析文件
-			model := ParseApiModel(path)
-			models = append(models, model...)
-		}
-
-		return nil
-	})
-
-	return models
-}
-
-func ParseApiModel(fp string) []*ModelDeclare {
-	fset := token.NewFileSet()
-	file, err := parser.ParseFile(fset, fp, nil, parser.ParseComments)
-	if err != nil {
-		fmt.Println("解析代码时发生错误:", err)
-		return nil
-	}
-
-	var models []*ModelDeclare
-	for _, decl := range file.Decls {
-		if f, ok := decl.(*ast.GenDecl); ok {
-			for _, spec := range f.Specs {
-				if t, ok := spec.(*ast.TypeSpec); ok {
-					if s, ok := t.Type.(*ast.StructType); ok {
-						var modelFields []*ModelField
-						var extendFields []*ModelDeclare
-						for _, field := range s.Fields.List {
-							if len(field.Names) > 0 {
-								modelFields = append(modelFields, extractModelField(field))
-							} else {
-								ext := extractModelField(field)
-								extend := &ModelDeclare{
-									Pkg:    ext.Name,
-									Name:   ext.Type,
-									Fields: nil,
-								}
-
-								extendFields = append(extendFields, extend)
-							}
-						}
-
-						modelName := fmt.Sprintf("%s.%s", file.Name.Name, t.Name.Name)
-						model := &ModelDeclare{
-							Pkg:    file.Name.Name,
-							Name:   modelName,
-							Extend: extendFields,
-							Fields: modelFields,
-						}
-
-						models = append(models, model)
-					}
-				}
-			}
-		}
-	}
-
-	return models
-}
 
 func getGoType(name string) string {
 	if strings.HasPrefix(name, "*") {
@@ -220,125 +45,13 @@ func GetTypeScriptType(name string) string {
 		return "File"
 	case "Time":
 		return "string"
-	case "interface{}":
+	case "FileHeader":
+		return "File"
+	case "interface{}", "object":
 		return "any"
-
 	default:
 		return name
 	}
-}
-
-func getModelDeclareName(method *ApiDeclare) []string {
-	params := make([]string, 0)
-	if method.Body != nil {
-		params = append(params, method.Body.Type)
-	}
-
-	if len(method.Form) > 0 {
-		for _, param := range method.Form {
-			params = append(params, param.Type)
-		}
-	}
-
-	if len(method.Path) > 0 {
-		for _, param := range method.Path {
-			params = append(params, param.Type)
-		}
-	}
-
-	if len(method.Query) > 0 {
-		for _, param := range method.Query {
-			params = append(params, param.Type)
-		}
-	}
-
-	if len(method.Response) > 0 {
-		params = append(params, ExtractFieldsByAst(method.Response)...)
-	}
-	return params
-}
-
-func extractModelField(field ast.Node) *ModelField {
-
-	switch node := field.(type) {
-	case *ast.ArrayType:
-		return extractModelField(node.Elt)
-	case *ast.Field:
-		if len(node.Names) > 0 {
-			name := node.Names[0].Name
-			tp := node.Type
-			elem := &ModelField{
-				Name: name,
-				Type: GetNameFromExpr(tp),
-			}
-
-			// 读取字段的普通注释
-			if node.Doc != nil {
-				elem.Comment = strings.TrimSpace(node.Doc.Text())
-			}
-
-			// 读取字段的行尾注释
-			if node.Comment != nil {
-				elem.Comment = strings.TrimSpace(node.Comment.Text())
-			}
-
-			return elem
-		}
-		return extractModelField(node.Type)
-	case *ast.StarExpr:
-		return extractModelField(node.X)
-	case *ast.SelectorExpr:
-		if xIdent, ok := node.X.(*ast.Ident); ok {
-			elem := &ModelField{
-				Name: xIdent.Name,
-				Type: node.Sel.Name,
-			}
-
-			// 读取字段的行尾注释
-			//if field.Comment != nil {
-			//	elem.Comment = strings.TrimSpace(field.Comment.Text())
-			//}
-
-			return elem
-		}
-	case *ast.Ident:
-		elem := &ModelField{
-			Name: node.Name,
-			Type: node.Name,
-		}
-		// 读取字段的行尾注释
-		//if node.Comment != nil {
-		//	elem.Comment = strings.TrimSpace(field.Comment.Text())
-		//}
-		return elem
-	case *ast.InterfaceType:
-		return &ModelField{
-			Name: "interface{}",
-			Type: "any",
-		}
-
-	default:
-		ast.Print(nil, field)
-	}
-	ast.Print(nil, field)
-
-	return nil
-}
-
-// response.Response{data=response.PageResult{list=[]entity.User}} --> Response、PageResult 和 User
-func extractFieldsAfterDot(input string) []string {
-	// 定义正则表达式
-	re := regexp.MustCompile(`\.(\w+)`)
-	// 查找所有匹配的字符串
-	matches := re.FindAllStringSubmatch(input, -1)
-
-	// 提取 . 后面的字段并返回切片
-	fields := make([]string, len(matches))
-	for i, match := range matches {
-		fields[i] = match[1]
-	}
-
-	return fields
 }
 
 func ExtractFieldsByAst(data string) []string {
@@ -347,11 +60,22 @@ func ExtractFieldsByAst(data string) []string {
 	}
 	// 使用正则表达式替换字符串中的 "="
 	code := fmt.Sprintf("model:=%s", strings.ReplaceAll(data, "=", ":"))
-	meta := east.NewFuncMete("main", code)
+	//meta := east.NewFuncMete("main", code)
+
+	input := fmt.Sprintf(`
+package main
+func %v(){
+   %v 
+}`, "main", code)
+	fParse, err := parser.ParseFile(token.NewFileSet(), "", input, 0)
+	if err != nil {
+		fmt.Println("Error parsing file:", err, code)
+	}
+
 	var params []string
 
 	// CompositeLit
-	nodes := ExtractNodes(&ast.CompositeLit{}, meta.GetNode())
+	nodes := ExtractNodes(&ast.CompositeLit{}, fParse)
 	for _, node := range nodes {
 		if len(params) > 0 {
 			break
@@ -366,7 +90,7 @@ func ExtractFieldsByAst(data string) []string {
 	}
 
 	// KeyValueExpr要value
-	nodes2 := ExtractNodes(&ast.KeyValueExpr{}, meta.GetNode())
+	nodes2 := ExtractNodes(&ast.KeyValueExpr{}, fParse)
 	for _, node := range nodes2 {
 		switch fmt.Sprintf("%s", node.Key) {
 		case "data":
@@ -392,6 +116,73 @@ func ExtractFieldsByAst(data string) []string {
 
 	fmt.Println("data:", data, "params:", params)
 	return params
+}
+
+// 泛型方法 [T any]表示支持任何类型的参数  （s []T表示形参s是一个T类型的切片）
+func ExtractNodes[T any](t T, node ast.Node) []T {
+	var idents []T
+
+	if n, ok := node.(T); ok {
+		idents = append(idents, n)
+	}
+
+	switch n := node.(type) {
+	case *ast.AssignStmt:
+		return ExtractNodes(t, n.Rhs[0])
+	case *ast.ArrayType:
+		return ExtractNodes(t, n.Elt)
+	case *ast.SelectorExpr:
+		//fmt.Println("SelectorExpr", n.Sel.Name)
+		idents = append(idents, ExtractNodes(t, n.X)...)
+		idents = append(idents, ExtractNodes(t, n.Sel)...)
+		break
+	case *ast.KeyValueExpr:
+		//fmt.Println("KeyValueExpr", n.Key)
+		// 判断是否是复合字面值表达式的键值对
+		idents = append(idents, ExtractNodes(t, n.Key)...)
+		idents = append(idents, ExtractNodes(t, n.Value)...)
+		break
+	case *ast.CompositeLit:
+		//fmt.Println("CompositeLit", n.Type)
+		idents = append(idents, ExtractNodes(t, n.Type)...)
+		for _, elt := range n.Elts {
+			idents = append(idents, ExtractNodes(t, elt)...)
+		}
+		break
+	case *ast.File:
+		for _, decl := range n.Decls {
+			idents = append(idents, ExtractNodes(t, decl)...)
+		}
+
+	case *ast.FuncDecl:
+		for _, decl := range n.Body.List {
+			idents = append(idents, ExtractNodes(t, decl)...)
+		}
+
+	case *ast.Ident:
+
+	default:
+		fmt.Printf("ExtractNodes default %T %T\n", t, node)
+		ast.Print(token.NewFileSet(), node)
+	}
+
+	return idents
+}
+
+// response.Response{data=response.PageResult{list=[]entity.User}} --> Response、PageResult 和 User
+func ExtractFieldsAfterDot(input string) []string {
+	// 定义正则表达式
+	re := regexp.MustCompile(`\.(\w+)`)
+	// 查找所有匹配的字符串
+	matches := re.FindAllStringSubmatch(input, -1)
+
+	// 提取 . 后面的字段并返回切片
+	fields := make([]string, len(matches))
+	for i, match := range matches {
+		fields[i] = match[1]
+	}
+
+	return fields
 }
 
 func replaceEquals(input string) string {

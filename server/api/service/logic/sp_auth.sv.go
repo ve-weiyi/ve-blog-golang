@@ -10,12 +10,15 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/codes"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror/codes"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/result"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/qq"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
@@ -35,21 +38,21 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户不存在！")
 	}
 	//判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户已被禁用！")
 	}
 	//验证密码是否正确
 	if !crypto.BcryptCheck(req.Password, account.Password) {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "密码错误！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "密码错误！")
 	}
 	//验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
 		if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-			return nil, codes.ErrorCaptchaVerify
+			return nil, apierror.ErrorCaptchaVerify
 		}
 	}
 
@@ -82,9 +85,9 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 	// 更新用户登录信息
 	_, _ = s.svcCtx.UserAccountRepository.Login(reqCtx, account)
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }
@@ -105,14 +108,14 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
 		if !s.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-			return nil, codes.ErrorCaptchaVerify
+			return nil, apierror.ErrorCaptchaVerify
 		}
 	}
 
 	//获取用户
 	_, err = s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err == nil {
-		return nil, codes.ErrorUserAlreadyExist
+		return nil, apierror.ErrorUserAlreadyExist
 	}
 
 	account := &entity.UserAccount{
@@ -140,9 +143,9 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: nil,
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: nil,
 	}
 
 	return resp, nil
@@ -152,7 +155,7 @@ func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account != nil {
-		return nil, codes.ErrorUserAlreadyExist
+		return nil, apierror.ErrorUserAlreadyExist
 	}
 
 	// 获取code
@@ -187,22 +190,17 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.LoginQQ:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	case constant.LoginWeibo:
-		auth = oauth.NewAuthWb(convertAuthConfig(cfg.Weibo))
+		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
 	case constant.LoginFeishu:
-		auth = oauth.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
+		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
 	default:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
-	}
-	// 获取access_token
-	token, err := auth.GetAccessToken(req.Code)
-	if err != nil {
-		return nil, err
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
 	// 获取第三方用户信息
-	info, err := auth.GetUserInfo(token.AccessToken)
+	info, err := auth.GetUserOpenInfo(req.Code)
 	s.svcCtx.Log.JsonIndent("第三方用户信息", info)
 	if err != nil {
 		return nil, err
@@ -222,7 +220,7 @@ func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	return s.oauthLogin(reqCtx, userOauth)
 }
 
-func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *result.UserResult) (resp *entity.UserOauth, err error) {
+func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *oauth.UserResult) (resp *entity.UserOauth, err error) {
 	// 用户未注册,先注册用户
 	pwd := crypto.BcryptHash(info.EnName)
 	username := info.Email
@@ -239,7 +237,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 
 	userInfo := entity.UserInformation{
 		Nickname: info.Name,
-		Avatar:   info.AvatarURL,
+		Avatar:   info.Avatar,
 		Email:    info.Email,
 	}
 
@@ -269,11 +267,11 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, req.UserID)
 	if err != nil {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户不存在！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户不存在！")
 	}
 	//判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, codes.NewApiError(codes.CodeForbiddenOperation, "用户已被禁用！")
+		return nil, apierror.NewApiError(codes.CodeForbidden, "用户已被禁用！")
 	}
 
 	history := &entity.UserLoginHistory{
@@ -302,9 +300,9 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		return nil, err
 	}
 	resp = &response.Login{
-		Token:     token,
-		UserInfo:  info,
-		LoginInfo: convertLoginHistory(history),
+		Token:        token,
+		UserInfo:     info,
+		LoginHistory: convertLoginHistory(history),
 	}
 	return resp, nil
 }
@@ -343,13 +341,13 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.LoginQQ:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	case constant.LoginWeibo:
-		auth = oauth.NewAuthWb(convertAuthConfig(cfg.Weibo))
+		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
 	case constant.LoginFeishu:
-		auth = oauth.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
+		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
 	default:
-		auth = oauth.NewAuthQq(convertAuthConfig(cfg.QQ))
+		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
 	resp = &response.OauthLoginUrl{

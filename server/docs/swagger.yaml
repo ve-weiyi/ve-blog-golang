@@ -1699,7 +1699,7 @@ info:
     name: API Support
     url: http://www.swagger.io/support
   description: APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret})
-    生成的加密token，ci环境base_secret：u*88ZP8Tvpu_-EuEZ，x-timestamp 时间戳需要保持10分钟内
+    生成的加密token，x-timestamp 时间戳需要保持10分钟内
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -6174,7 +6174,7 @@ paths:
               type: object
       security:
       - ApiKeyAuth: []
-      summary: 文件上传
+      summary: 上传文件
       tags:
       - Upload
   /user/apis:
@@ -6603,6 +6603,73 @@ paths:
       summary: 修改用户状态
       tags:
       - User
+  /voice:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: 消息类型
+        in: formData
+        name: type
+        required: true
+        type: integer
+      - description: 语音文件
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: 用户ID
+        in: formData
+        name: user_id
+        required: true
+        type: integer
+      - description: 用户昵称
+        in: formData
+        name: nickname
+        required: true
+        type: string
+      - description: 用户头像
+        in: formData
+        name: avatar
+        required: true
+        type: string
+      - description: 聊天内容
+        in: formData
+        name: content
+        required: true
+        type: string
+      - description: 创建时间
+        in: formData
+        name: created_at
+        required: true
+        type: string
+      - description: IP地址
+        in: formData
+        name: ip_address
+        required: true
+        type: string
+      - description: IP来源
+        in: formData
+        name: ip_source
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.UploadRecord'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 上传语言
+      tags:
+      - Upload
   /website/config:
     get:
       consumes:
@@ -6636,7 +6703,7 @@ paths:
       responses: {}
       summary: 查询聊天记录
       tags:
-      - Website
+      - Websocket
 securityDefinitions:
   ApiKeyAuth:
     in: header

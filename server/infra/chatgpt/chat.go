@@ -7,7 +7,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type AiMessage struct {
@@ -86,7 +85,7 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 	res, code := https.NewHttpBuilder(s.Url).
 		AddHeader("Content-Type", "application/json").
 		AddHeader("Authorization", "Bearer "+s.ApiKey).
-		AddBody(jsonconv.ObjectToJson(content)).
+		AddBody(content).
 		Post()
 
 	global.LOG.Println(code)
@@ -111,7 +110,7 @@ func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 	res, code := https.NewHttpBuilder(s.Url).
 		AddHeader("Content-Type", "application/json").
 		AddHeader("Authorization", "Bearer "+s.ApiKey).
-		AddBody(jsonconv.ObjectToJson(content)).
+		AddBody(content).
 		Post()
 
 	global.LOG.Println(code)

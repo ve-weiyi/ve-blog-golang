@@ -2,7 +2,6 @@ package initialize
 
 import (
 	"log"
-	"os"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
@@ -13,9 +12,9 @@ import (
 
 // Zap 获取 zap.Logger
 func Zap() {
-	if ok, _ := files.PathExists(global.CONFIG.Zap.CacheDir); !ok { // 判断是否有Director文件夹
-		log.Printf("create directory:%v\n", global.CONFIG.Zap.CacheDir)
-		_ = os.Mkdir(global.CONFIG.Zap.CacheDir, os.ModePerm)
+	err := files.MkDirIfNotExist(global.CONFIG.Zap.CacheDir)
+	if err != nil {
+		log.Println(err)
 	}
 
 	var cfg zaplog.ZapConfig
