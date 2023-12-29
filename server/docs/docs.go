@@ -496,7 +496,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -549,7 +549,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1173,7 +1173,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Api id",
+                        "description": "Api.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1226,7 +1226,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Api id",
+                        "description": "Api.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1482,7 +1482,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1537,7 +1537,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Article id",
+                        "description": "Article.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2079,7 +2079,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Category id",
+                        "description": "Category.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2132,7 +2132,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Category id",
+                        "description": "Category.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2647,7 +2647,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Comment id",
+                        "description": "Comment.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -2700,7 +2700,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Comment id",
+                        "description": "Comment.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3257,7 +3257,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "FriendLink id",
+                        "description": "FriendLink.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3310,7 +3310,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "FriendLink id",
+                        "description": "FriendLink.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3834,7 +3834,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Menu id",
+                        "description": "Menu.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3887,7 +3887,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Menu id",
+                        "description": "Menu.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4300,7 +4300,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "OperationLog id",
+                        "description": "OperationLog.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4353,7 +4353,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "OperationLog id",
+                        "description": "OperationLog.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4652,7 +4652,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page id",
+                        "description": "Page.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -4705,7 +4705,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page id",
+                        "description": "Page.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5004,7 +5004,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Photo id",
+                        "description": "Photo.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5057,7 +5057,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Photo id",
+                        "description": "Photo.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5428,7 +5428,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "PhotoAlbum id",
+                        "description": "PhotoAlbum.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5481,7 +5481,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "PhotoAlbum id",
+                        "description": "PhotoAlbum.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5536,7 +5536,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "PhotoAlbum id",
+                        "description": "PhotoAlbum.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -5949,7 +5949,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Remark id",
+                        "description": "Remark.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6002,7 +6002,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Remark id",
+                        "description": "Remark.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6487,7 +6487,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Role id",
+                        "description": "Role.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6540,7 +6540,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Role id",
+                        "description": "Role.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6911,7 +6911,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Tag id",
+                        "description": "Tag.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -6964,7 +6964,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Tag id",
+                        "description": "Tag.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7335,7 +7335,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Talk id",
+                        "description": "Talk.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -7388,7 +7388,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Talk id",
+                        "description": "Talk.id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -8537,7 +8537,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "id": {
-                    "description": "对话 ID",
+                    "description": "对话.id",
                     "type": "string"
                 },
                 "model": {

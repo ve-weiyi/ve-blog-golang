@@ -52,7 +52,7 @@ func (s *PhotoAlbumController) FindPhotoAlbumDetailsList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param 	 	id		path		int										true	"PhotoAlbum id"
+// @Param 	 	id		path		int										true	"PhotoAlbum.id"
 // @Success		200		{object}	response.Response{data=response.PhotoAlbumDetailsDTO}	"返回信息"
 // @Router		/photo_album/{id}/details [get]
 func (s *PhotoAlbumController) FindPhotoAlbumDetails(c *gin.Context) {

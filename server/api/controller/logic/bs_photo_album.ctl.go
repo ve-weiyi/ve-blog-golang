@@ -94,7 +94,7 @@ func (s *PhotoAlbumController) UpdatePhotoAlbum(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"PhotoAlbum id"
+// @Param 	 	id		path		int							true	"PhotoAlbum.id"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/photo_album/{id} [delete]
 func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
@@ -126,7 +126,7 @@ func (s *PhotoAlbumController) DeletePhotoAlbum(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"PhotoAlbum id"
+// @Param 	 	id		path		int							true	"PhotoAlbum.id"
 // @Success		200		{object}	response.Response{data=entity.PhotoAlbum}	"返回信息"
 // @Router 		/photo_album/{id} [get]
 func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {

@@ -61,7 +61,7 @@ func (s *ArticleController) SaveArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Article id"
+// @Param 	 	id		path		int							true	"Article.id"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/admin/article/{id} [delete]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
@@ -93,7 +93,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Article id"
+// @Param 	 	id		path		int							true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.ArticleBack}	"返回信息"
 // @Router 		/admin/article/{id} [get]
 func (s *ArticleController) FindArticle(c *gin.Context) {
@@ -295,7 +295,7 @@ func (s *ArticleController) FindArticleSeries(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param 	 	id		path		int										true	"Article id"
+// @Param 	 	id		path		int										true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.ArticlePageDetailsDTO}	"返回信息"
 // @Router		/article/{id}/details [get]
 func (s *ArticleController) FindArticleDetails(c *gin.Context) {
@@ -364,7 +364,7 @@ func (s *ArticleController) FindArticleHomeList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"Article id"
+// @Param		id		path		int										true	"Article.id"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router		/article/{id}/like [put]
 func (s *ArticleController) LikeArticle(c *gin.Context) {

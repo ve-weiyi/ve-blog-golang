@@ -134,7 +134,7 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"{{.StructName}} id"
+// @Param 	 	id		path		int							true	"{{.StructName}}.id"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/{{.JsonName}}/{id} [delete]
 func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
@@ -166,7 +166,7 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"{{.StructName}} id"
+// @Param 	 	id		path		int							true	"{{.StructName}}.id"
 // @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
 // @Router 		/{{.JsonName}}/{id} [get]
 func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
