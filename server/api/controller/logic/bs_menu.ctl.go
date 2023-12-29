@@ -94,7 +94,7 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Menu id"
+// @Param 	 	id		path		int							true	"Menu.id"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/menu/{id} [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
@@ -126,7 +126,7 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Menu id"
+// @Param 	 	id		path		int							true	"Menu.id"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
 // @Router 		/menu/{id} [get]
 func (s *MenuController) FindMenu(c *gin.Context) {
