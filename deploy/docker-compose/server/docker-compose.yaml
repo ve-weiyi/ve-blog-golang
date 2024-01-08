@@ -8,7 +8,7 @@ version: "3"
 services:
   ve-blog:
     build:
-      context: ../docker
+      context: ./
       dockerfile: Dockerfile
     image: ve-blog:latest  # 设置新的镜像名称和标签
     container_name: ve-blog-server
@@ -16,4 +16,4 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - /home/docker/blog:/home/docker/blog
+      - /home/docker/server:/home/blog

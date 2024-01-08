@@ -27,8 +27,8 @@ RUN yum -y install epel-release && \
 EXPOSE 9999
 
 # 复制 config.yaml 配置文件到容器中
-COPY config.yaml .
-RUN chmod +x config.yaml
+#COPY config.yaml .
+#RUN chmod +x config.yaml
 
 # 复制 entrypoint.sh 脚本到容器中
 COPY entrypoint.sh .
