@@ -1,4 +1,4 @@
-package templateUtil
+package temputil
 
 import (
 	"bytes"

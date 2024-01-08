@@ -1,7 +1,7 @@
 package plate
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate/provider"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/plate/provider"
 )
 
 //type CodeStructMeta interface {

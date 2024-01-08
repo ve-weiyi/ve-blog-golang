@@ -15,7 +15,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 

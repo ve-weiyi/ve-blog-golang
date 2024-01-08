@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 

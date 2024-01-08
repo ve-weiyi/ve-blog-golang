@@ -13,7 +13,7 @@ func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.P
 	if err != nil {
 		return nil, 0, err
 	}
-	s.svcCtx.Log.JsonIndent(apis)
+
 	// to tree
 	var tree response.ApiDetailsDTO
 	tree.Children = s.getApiChildren(tree, apis)

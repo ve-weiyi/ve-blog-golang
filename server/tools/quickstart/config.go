@@ -6,8 +6,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 )
 
 type Config struct {

@@ -21,7 +21,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
-	templateUtil "github.com/ve-weiyi/ve-blog-golang/server/utils/temp"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/temputil"
 )
 
 type AuthService struct {
@@ -166,7 +166,7 @@ func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 		Code:     code,
 	}
 	// 组装邮件内容
-	content, err := templateUtil.TempParseString(mail.TempRegister, data)
+	content, err := temputil.TempParseString(mail.TempRegister, data)
 	if err != nil {
 		return nil, err
 	}

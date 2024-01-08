@@ -7,7 +7,7 @@ import (
 
 	"gorm.io/gorm"
 
-	field2 "github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate/field"
+	field2 "github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/plate/field"
 )
 
 // 需要的数据

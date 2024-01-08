@@ -1,6 +1,6 @@
 GOROOT=/Users/weiyi/go/go1.20.1 #gosetup
 GOPATH=/Users/weiyi/go #gosetup
-/Users/weiyi/go/go1.20.1/bin/go test -c -o /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser #gosetup
+/Users/weiyi/go/go1.20.1/bin/go test -c -o /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs/apiparser #gosetup
 /Users/weiyi/go/go1.20.1/bin/go tool test2json -t /Users/weiyi/Library/Caches/JetBrains/IntelliJIdea2023.3/tmp/GoLand/___TestSwaggerParser_in_github_com_ve_weiyi_ve_blog_golang_server_quickstart_apidocs_apiparser.test -test.v -test.paniconexit0 -test.run ^\QTestSwaggerParser\E$
 === RUN   TestSwaggerParser
     swagger_test.go:24: [
