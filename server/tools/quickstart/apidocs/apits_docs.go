@@ -5,8 +5,8 @@ import (
 	"path"
 	"regexp"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/apidocs/apiparser"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs/apiparser"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/plate"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 

@@ -3,8 +3,8 @@ package quickstart
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/plate"
-	"github.com/ve-weiyi/ve-blog-golang/server/quickstart/tmpl"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 )
 
 func (g *Generator) InitPackage(tableName string) {
