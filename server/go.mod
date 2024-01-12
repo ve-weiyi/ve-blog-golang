@@ -40,7 +40,7 @@ require (
 	golang.org/x/crypto v0.14.0
 	golang.org/x/tools v0.14.0
 	gorm.io/driver/mysql v1.5.2
-	gorm.io/gen v0.3.23
+	gorm.io/gen v0.3.24
 	gorm.io/gorm v1.25.5
 )
 

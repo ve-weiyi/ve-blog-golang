@@ -182,9 +182,7 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, response.BatchResult{
-		TotalCount:   len(ids),
 		SuccessCount: data,
-		FailCount:    len(ids) - data,
 	})
 }
 

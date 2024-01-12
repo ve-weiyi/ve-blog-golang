@@ -8,8 +8,10 @@ import (
 
 // 分页获取Menu记录
 func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetailsDTO, total int64, err error) {
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
 	// 创建db
-	menuList, err := s.svcCtx.MenuRepository.FindMenuList(reqCtx, nil, page.Sorts, page.Conditions...)
+	menuList, err := s.svcCtx.MenuRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -23,7 +25,7 @@ func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 
 func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetailsDTO, err error) {
 	//查询用户信息
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, reqCtx.UID)
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}

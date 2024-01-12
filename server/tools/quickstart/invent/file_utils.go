@@ -1,4 +1,4 @@
-package plate
+package invent
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 	"golang.org/x/tools/imports"
 )
 
-// fileExist 判断文件是否存在
+// 判断文件是否存在
 func fileExist(path string) bool {
 	fi, err := os.Lstat(path)
 	if err == nil {
@@ -20,11 +20,13 @@ func fileExist(path string) bool {
 	return !os.IsNotExist(err)
 }
 
+// 删除文件
 func deLFile(filePath string) error {
 	return os.RemoveAll(filePath)
 }
 
-func fileMove(src string, dst string) (err error) {
+// 移动文件
+func moveFile(src string, dst string) (err error) {
 	if dst == "" {
 		return nil
 	}
@@ -58,7 +60,7 @@ Redirect:
 	return os.Rename(src, dst)
 }
 
-// output 格式化输出，清理导入的包
+// 格式化输出，清理导入的包
 func output(fileName string, content []byte) error {
 	result, err := imports.Process(fileName, content, nil)
 	if err != nil {

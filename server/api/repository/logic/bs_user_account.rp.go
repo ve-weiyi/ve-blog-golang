@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type UserAccountRepository struct {
@@ -24,51 +23,49 @@ func NewUserAccountRepository(svcCtx *svc.RepositoryContext) *UserAccountReposit
 }
 
 // 创建UserAccount记录
-func (s *UserAccountRepository) CreateUserAccount(ctx context.Context, userAccount *entity.UserAccount) (out *entity.UserAccount, err error) {
+func (s *UserAccountRepository) Create(ctx context.Context, item *entity.UserAccount) (out *entity.UserAccount, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&userAccount).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return userAccount, err
+	return item, err
 }
 
 // 更新UserAccount记录
-func (s *UserAccountRepository) UpdateUserAccount(ctx context.Context, userAccount *entity.UserAccount) (out *entity.UserAccount, err error) {
+func (s *UserAccountRepository) Update(ctx context.Context, item *entity.UserAccount) (out *entity.UserAccount, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&userAccount).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return userAccount, err
+	return item, err
 }
 
 // 删除UserAccount记录
-func (s *UserAccountRepository) DeleteUserAccount(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *UserAccountRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.UserAccount{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询UserAccount记录
-func (s *UserAccountRepository) FindUserAccount(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.UserAccount, err error) {
+func (s *UserAccountRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.UserAccount, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *UserAccountRepository) FindUserAccount(ctx context.Context, conditions 
 	return out, err
 }
 
+func (s *UserAccountRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.UserAccount, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询UserAccount记录
-func (s *UserAccountRepository) FindUserAccountList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.UserAccount, err error) {
+func (s *UserAccountRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.UserAccount, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *UserAccountRepository) FindUserAccountList(ctx context.Context, page *s
 }
 
 // 查询总数
-func (s *UserAccountRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *UserAccountRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.UserAccount{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *UserAccountRepository) Count(ctx context.Context, conditions ...*sqlx.C
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询UserAccount记录——根据id
-func (s *UserAccountRepository) FindUserAccountById(ctx context.Context, id int) (out *entity.UserAccount, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除UserAccount记录——根据id
-func (s *UserAccountRepository) DeleteUserAccountById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.UserAccount{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除UserAccount记录——根据ids
-func (s *UserAccountRepository) DeleteUserAccountByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.UserAccount{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

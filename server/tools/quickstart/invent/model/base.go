@@ -1,4 +1,4 @@
-package provider
+package model
 
 import (
 	"strings"
@@ -159,13 +159,4 @@ func (m dataTypeMap) Get(dataType, detailType string) string {
 		return convert(detailType)
 	}
 	return defaultDataType
-}
-
-//func (cfg *Config) WithDataTypeMap(newMap map[string]func(detailType string) (dataType string)) {
-//	cfg.dataTypeMap = newMap
-//}
-
-// GetDataType get data type   varchar  varchar(11)
-func GetDataType(columnType, detailType string) (fieldtype string) {
-	return dataType.Get(columnType, detailType)
 }

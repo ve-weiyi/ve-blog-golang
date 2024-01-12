@@ -63,8 +63,7 @@ func (s *SwaggerParser) ParseApiDocsByRoot(root string) (out []*ApiDeclare, err 
 	// 遍历目录下的所有文件
 	VisitFile(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			fmt.Println("Error:", err)
-			return nil
+			return err
 		}
 		// 是目录，则跳过
 		if info.IsDir() {
@@ -200,8 +199,7 @@ func (s *SwaggerParser) ParseModelDocsByRoot(root string) (out []*ModelDeclare, 
 	// 遍历目录下的所有文件
 	VisitFile(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			fmt.Println("Error:", err)
-			return nil
+			return err
 		}
 		// 是目录，则跳过
 		if info.IsDir() {

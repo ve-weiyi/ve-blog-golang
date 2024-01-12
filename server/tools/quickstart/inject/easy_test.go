@@ -34,7 +34,7 @@ func TestInject(t *testing.T) {
 			visit: ast.NewIdent("hello"),
 			}`),
 		},
-		DeclMeta: []*DeclMeta{
+		DeclMetas: []*DeclMeta{
 			NewDeclMeta(`
 	// 初始化 Menu 路由信息
 	// publicRouter 公开路由，不登录就可以访问

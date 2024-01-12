@@ -222,9 +222,7 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, response.BatchResult{
-		TotalCount:   len(ids),
 		SuccessCount: data,
-		FailCount:    len(ids) - data,
 	})
 }
 

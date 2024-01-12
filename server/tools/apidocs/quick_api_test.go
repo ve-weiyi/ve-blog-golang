@@ -1,4 +1,4 @@
-package quickstart
+package apidocs
 
 import (
 	"fmt"
@@ -6,15 +6,14 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs/apiparser"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func TestApiDocs(t *testing.T) {
 	root := path.Join(global.GetRuntimeRoot(), "server/")
 
-	cfg := apidocs.Config{
+	cfg := Config{
 		OutRoot:        "./api",
 		ApiRoot:        []string{path.Join(root, "api/controller/logic")},
 		ModelRoot:      []string{path.Join(root, "api/model"), path.Join(root, "infra/chatgpt/chat_model.go")},
@@ -34,17 +33,17 @@ func TestApiDocs(t *testing.T) {
 			return jsonconv.Camel2Case(field.Name)
 		},
 		ApiFieldTypeAs: func(field *apiparser.ModelField) string {
-			return apidocs.GetTypeScriptType(field.Type)
+			return GetTypeScriptType(field.Type)
 		},
 	}
 
-	aad := apidocs.NewAstApiDoc(cfg)
+	aad := NewAstApiDoc(cfg)
 	aad.Parse()
 	aad.GenerateTsTypeFile()
 	aad.GenerateTsApiFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {
-	fmt.Println(apidocs.ExtractFieldsByAst(`response.Response{data=response.PageResult{list=[]entity.Article}}`))
+	fmt.Println(ExtractFieldsByAst(`response.Response{data=response.PageResult{list=[]entity.Article}}`))
 
 }

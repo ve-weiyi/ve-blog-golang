@@ -8,8 +8,9 @@ import (
 
 // 分页获取Api记录
 func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetailsDTO, total int64, err error) {
+	cond, args := page.ConditionClause()
 	// 查询api信息
-	apis, err := s.svcCtx.ApiRepository.FindApiList(reqCtx, nil, page.Sorts, page.Conditions...)
+	apis, err := s.svcCtx.ApiRepository.FindALL(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -24,7 +25,7 @@ func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.P
 
 func (s *ApiService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiDetailsDTO, err error) {
 	//查询用户信息
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, reqCtx.UID)
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}

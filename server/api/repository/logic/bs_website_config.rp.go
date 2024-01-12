@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type WebsiteConfigRepository struct {
@@ -24,51 +23,49 @@ func NewWebsiteConfigRepository(svcCtx *svc.RepositoryContext) *WebsiteConfigRep
 }
 
 // 创建WebsiteConfig记录
-func (s *WebsiteConfigRepository) CreateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
+func (s *WebsiteConfigRepository) Create(ctx context.Context, item *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&websiteConfig).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return websiteConfig, err
+	return item, err
 }
 
 // 更新WebsiteConfig记录
-func (s *WebsiteConfigRepository) UpdateWebsiteConfig(ctx context.Context, websiteConfig *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
+func (s *WebsiteConfigRepository) Update(ctx context.Context, item *entity.WebsiteConfig) (out *entity.WebsiteConfig, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&websiteConfig).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return websiteConfig, err
+	return item, err
 }
 
 // 删除WebsiteConfig记录
-func (s *WebsiteConfigRepository) DeleteWebsiteConfig(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *WebsiteConfigRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.WebsiteConfig{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询WebsiteConfig记录
-func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.WebsiteConfig, err error) {
+func (s *WebsiteConfigRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.WebsiteConfig, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *WebsiteConfigRepository) FindWebsiteConfig(ctx context.Context, conditi
 	return out, err
 }
 
+func (s *WebsiteConfigRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.WebsiteConfig, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询WebsiteConfig记录
-func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.WebsiteConfig, err error) {
+func (s *WebsiteConfigRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.WebsiteConfig, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *WebsiteConfigRepository) FindWebsiteConfigList(ctx context.Context, pag
 }
 
 // 查询总数
-func (s *WebsiteConfigRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *WebsiteConfigRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.WebsiteConfig{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *WebsiteConfigRepository) Count(ctx context.Context, conditions ...*sqlx
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询WebsiteConfig记录——根据id
-func (s *WebsiteConfigRepository) FindWebsiteConfigById(ctx context.Context, id int) (out *entity.WebsiteConfig, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除WebsiteConfig记录——根据id
-func (s *WebsiteConfigRepository) DeleteWebsiteConfigById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.WebsiteConfig{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除WebsiteConfig记录——根据ids
-func (s *WebsiteConfigRepository) DeleteWebsiteConfigByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.WebsiteConfig{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

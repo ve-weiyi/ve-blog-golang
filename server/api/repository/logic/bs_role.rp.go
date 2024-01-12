@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type RoleRepository struct {
@@ -24,51 +23,49 @@ func NewRoleRepository(svcCtx *svc.RepositoryContext) *RoleRepository {
 }
 
 // 创建Role记录
-func (s *RoleRepository) CreateRole(ctx context.Context, role *entity.Role) (out *entity.Role, err error) {
+func (s *RoleRepository) Create(ctx context.Context, item *entity.Role) (out *entity.Role, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&role).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return role, err
+	return item, err
 }
 
 // 更新Role记录
-func (s *RoleRepository) UpdateRole(ctx context.Context, role *entity.Role) (out *entity.Role, err error) {
+func (s *RoleRepository) Update(ctx context.Context, item *entity.Role) (out *entity.Role, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&role).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return role, err
+	return item, err
 }
 
 // 删除Role记录
-func (s *RoleRepository) DeleteRole(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *RoleRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.Role{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询Role记录
-func (s *RoleRepository) FindRole(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.Role, err error) {
+func (s *RoleRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.Role, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *RoleRepository) FindRole(ctx context.Context, conditions ...*sqlx.Condi
 	return out, err
 }
 
+func (s *RoleRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.Role, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询Role记录
-func (s *RoleRepository) FindRoleList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.Role, err error) {
+func (s *RoleRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.Role, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *RoleRepository) FindRoleList(ctx context.Context, page *sqlx.PageLimit,
 }
 
 // 查询总数
-func (s *RoleRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *RoleRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.Role{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *RoleRepository) Count(ctx context.Context, conditions ...*sqlx.Conditio
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询Role记录——根据id
-func (s *RoleRepository) FindRoleById(ctx context.Context, id int) (out *entity.Role, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除Role记录——根据id
-func (s *RoleRepository) DeleteRoleById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Role{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除Role记录——根据ids
-func (s *RoleRepository) DeleteRoleByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Role{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

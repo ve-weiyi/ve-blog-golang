@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type RemarkRepository struct {
@@ -24,51 +23,49 @@ func NewRemarkRepository(svcCtx *svc.RepositoryContext) *RemarkRepository {
 }
 
 // 创建Remark记录
-func (s *RemarkRepository) CreateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
+func (s *RemarkRepository) Create(ctx context.Context, item *entity.Remark) (out *entity.Remark, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&remark).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return remark, err
+	return item, err
 }
 
 // 更新Remark记录
-func (s *RemarkRepository) UpdateRemark(ctx context.Context, remark *entity.Remark) (out *entity.Remark, err error) {
+func (s *RemarkRepository) Update(ctx context.Context, item *entity.Remark) (out *entity.Remark, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&remark).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return remark, err
+	return item, err
 }
 
 // 删除Remark记录
-func (s *RemarkRepository) DeleteRemark(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *RemarkRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.Remark{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询Remark记录
-func (s *RemarkRepository) FindRemark(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.Remark, err error) {
+func (s *RemarkRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.Remark, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *RemarkRepository) FindRemark(ctx context.Context, conditions ...*sqlx.C
 	return out, err
 }
 
+func (s *RemarkRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.Remark, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询Remark记录
-func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.Remark, err error) {
+func (s *RemarkRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.Remark, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *RemarkRepository) FindRemarkList(ctx context.Context, page *sqlx.PageLi
 }
 
 // 查询总数
-func (s *RemarkRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *RemarkRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.Remark{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *RemarkRepository) Count(ctx context.Context, conditions ...*sqlx.Condit
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询Remark记录——根据id
-func (s *RemarkRepository) FindRemarkById(ctx context.Context, id int) (out *entity.Remark, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除Remark记录——根据id
-func (s *RemarkRepository) DeleteRemarkById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Remark{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除Remark记录——根据ids
-func (s *RemarkRepository) DeleteRemarkByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Remark{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

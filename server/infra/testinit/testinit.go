@@ -86,7 +86,7 @@ func Viper(config string) *viper.Viper {
 }
 
 func Zap() {
-	err := files.MkDirIfNotExist(global.CONFIG.Zap.CacheDir)
+	err := files.MkDir(global.CONFIG.Zap.CacheDir)
 	if err != nil {
 		log.Println(err)
 	}

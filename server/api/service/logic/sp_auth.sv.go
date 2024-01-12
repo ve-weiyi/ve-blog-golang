@@ -65,7 +65,7 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 		CreatedAt: time.Now(),
 	}
 	//保存此次登录记录
-	_, err = s.svcCtx.UserLoginHistoryRepository.CreateUserLoginHistory(reqCtx, history)
+	_, err = s.svcCtx.UserLoginHistoryRepository.Create(reqCtx, history)
 	if err != nil {
 		return nil, err
 	}
@@ -254,7 +254,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 		Platform: req.Platform,
 	}
 
-	_, err = s.svcCtx.UserOauthRepository.CreateUserOauth(reqCtx, userOauth)
+	_, err = s.svcCtx.UserOauthRepository.Create(reqCtx, userOauth)
 	if err != nil {
 		return nil, err
 	}
@@ -265,7 +265,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.Login, err error) {
 
 	//获取用户
-	account, err := s.svcCtx.UserAccountRepository.FindUserAccountById(reqCtx, req.UserID)
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserID)
 	if err != nil {
 		return nil, apierror.NewApiError(codes.CodeForbidden, "用户不存在！")
 	}
@@ -283,7 +283,7 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		CreatedAt: time.Now(),
 	}
 	//保存此次登录记录
-	_, err = s.svcCtx.UserLoginHistoryRepository.CreateUserLoginHistory(reqCtx, history)
+	_, err = s.svcCtx.UserLoginHistoryRepository.Create(reqCtx, history)
 	if err != nil {
 		return nil, err
 	}

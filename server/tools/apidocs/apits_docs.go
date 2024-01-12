@@ -5,8 +5,8 @@ import (
 	"path"
 	"regexp"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/apidocs/apiparser"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/plate"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -53,10 +53,6 @@ func (s *AstApiDoc) Parse() (err error) {
 	if err != nil {
 		return fmt.Errorf("解析api定义时发生错误:%v", err)
 	}
-	//for _, root := range s.ApiRoot {
-	//	doc := ParseApiDocsByRoot(root)
-	//	apis = append(apis, doc...)
-	//}
 
 	// 解析model定义
 	var models []*apiparser.ModelDeclare
@@ -64,11 +60,6 @@ func (s *AstApiDoc) Parse() (err error) {
 	if err != nil {
 		return fmt.Errorf("解析model定义时发生错误:%v", err)
 	}
-
-	//for _, root := range s.ModelRoot {
-	//	model := ParseApiModelsByRoot(root)
-	//	models = append(models, model...)
-	//}
 
 	// 根据tag对api分类
 	s.ApiDeclares = apis
@@ -102,10 +93,10 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		}
 	}
 	//fmt.Println("tsDeclares:", jsonconv.ObjectToJsonIndent(tsDeclares))
-	meta := plate.PlateMeta{
+	meta := invent.TemplateMeta{
 		Key:            "",
-		AutoCodePath:   path.Join(s.OutRoot, "types.ts"),
-		Replace:        true,
+		Mode:           invent.ModeCreateOrReplace,
+		CodeOutPath:    path.Join(s.OutRoot, "types.ts"),
 		TemplateString: ModelTypeScript,
 		FunMap:         map[string]any{"joinArray": apiparser.JoinArray},
 		Data:           tsDeclares,
@@ -120,12 +111,12 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 func (s *AstApiDoc) GenerateTsApiFiles() {
 	tsApiDocs := s.GroupTsApiDocs(s.ApiDeclares)
 	//fmt.Println("tsApiDocs:", jsonconv.ObjectToJsonIndent(tsApiDocs))
-	var metas []plate.PlateMeta
+	var metas []invent.TemplateMeta
 	for _, apiDoc := range tsApiDocs {
-		meta := plate.PlateMeta{
+		meta := invent.TemplateMeta{
 			Key:            "",
-			AutoCodePath:   path.Join(s.OutRoot, fmt.Sprintf("%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
-			Replace:        true,
+			Mode:           invent.ModeCreateOrReplace,
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
 			TemplateString: ApiTypeScript,
 			FunMap:         map[string]any{"joinArray": apiparser.JoinArray},
 			Data:           apiDoc,
@@ -139,7 +130,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 		if err != nil {
 			fmt.Println("生成 TypeScript 时发生错误:", err)
 		}
-		fmt.Println("TypeScript 文件已生成：", meta.AutoCodePath)
+		fmt.Println("TypeScript 文件已生成：", meta.CodeOutPath)
 	}
 }
 

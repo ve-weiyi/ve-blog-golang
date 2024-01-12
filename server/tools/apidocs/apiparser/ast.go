@@ -52,8 +52,7 @@ func (s *AstParser) ParseApiDocsByRoot(root string) (out []*ApiDeclare, err erro
 	// 遍历目录下的所有文件
 	VisitFile(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			fmt.Println("Error:", err)
-			return nil
+			return err
 		}
 		// 是目录，则跳过
 		if info.IsDir() {
@@ -178,8 +177,7 @@ func (s *AstParser) ParseModelDocsByRoot(root string) (out []*ModelDeclare, err 
 	// 遍历目录下的所有文件
 	VisitFile(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			fmt.Println("Error:", err)
-			return nil
+			return err
 		}
 		// 是目录，则跳过
 		if info.IsDir() {

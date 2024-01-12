@@ -68,36 +68,39 @@ func New{{.StructName}}Service(svcCtx *svc.ServiceContext) *{{.StructName}}Servi
 
 // 创建{{.StructName}}记录
 func (s *{{.StructName}}Service) Create{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Create{{.StructName}}(reqCtx, {{.ValueName}})
+	return s.svcCtx.{{.StructName}}Repository.Create(reqCtx, {{.ValueName}})
 }
 
 // 更新{{.StructName}}记录
 func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Update{{.StructName}}(reqCtx, {{.ValueName}})
+	return s.svcCtx.{{.StructName}}Repository.Update(reqCtx, {{.ValueName}})
 }
 
 // 删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}ById(reqCtx, id)
+func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.{{.StructName}}Repository.Delete(reqCtx, "id = ?", id)
 }
 
 // 查询{{.StructName}}记录
 func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, id int) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}ById(reqCtx, id)
+	return s.svcCtx.{{.StructName}}Repository.First(reqCtx, "id = ?", id)
 }
 
 // 批量删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Context, ids []int) (rows int, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Delete{{.StructName}}ByIds(reqCtx, ids)
+func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+	return s.svcCtx.{{.StructName}}Repository.Delete(reqCtx, "id in (?)", ids)
 }
 
 // 分页获取{{.StructName}}记录
 func (s *{{.StructName}}Service) Find{{.StructName}}List(reqCtx *request.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
-	list, err = s.svcCtx.{{.StructName}}Repository.Find{{.StructName}}List(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
+
+	list, err = s.svcCtx.{{.StructName}}Repository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
-	total, err = s.svcCtx.{{.StructName}}Repository.Count(reqCtx, page.Conditions...)
+	total, err = s.svcCtx.{{.StructName}}Repository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

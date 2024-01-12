@@ -182,9 +182,7 @@ func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, response.BatchResult{
-		TotalCount:   len(ids),
 		SuccessCount: data,
-		FailCount:    len(ids) - data,
 	})
 }
 
