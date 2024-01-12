@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
 	"reflect"
 	"runtime"
 	"strings"
@@ -11,16 +12,30 @@ import (
 
 	"github.com/gin-gonic/gin"
 	jsoniter "github.com/json-iterator/go"
+	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // 操作日志
 func OperationRecord() gin.HandlerFunc {
+	permissionHolder := global.Permission
 
 	return func(c *gin.Context) {
+		// 检测接口是否需要操作记录
+		permission, err := permissionHolder.FindApiPermission(c.Request.URL.Path, c.Request.Method)
+		if err != nil {
+			global.LOG.Error(err)
+		}
+		if permission != nil && permission.Traceable == 0 {
+			c.Next()
+			return
+		}
+
 		start := time.Now()
 		var reqData interface{}
 
@@ -45,7 +60,7 @@ func OperationRecord() gin.HandlerFunc {
 		respBody := bytes.NewBufferString("")
 		c.Writer = &responseBodyWriter{body: respBody, ResponseWriter: c.Writer}
 
-		// 处理请求
+		// 挂起当前中间件，执行下一个中间件
 		c.Next()
 
 		// 计算请求响应的耗时
@@ -71,42 +86,33 @@ func OperationRecord() gin.HandlerFunc {
 
 		op := entity.OperationLog{
 			ID:            0,
-			OptModule:     "",
-			OptType:       "",
-			OptMethod:     "",
-			OptDesc:       "",
-			Cost:          fmt.Sprintf("%v", cost),
-			Status:        c.Writer.Status(),
-			RequestURL:    c.Request.URL.String(),
-			RequestMethod: c.Request.Method,
-			RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
-			RequestParam:  jsonconv.ObjectToJson(reqData),
-			ResponseData:  jsonconv.ObjectToJson(respData),
-			UserID:        c.GetInt("uid"),
+			UserID:        cast.ToInt(c.GetString("uid")),
 			Nickname:      c.GetString("username"),
 			IpAddress:     c.GetString("ip_address"),
 			IpSource:      c.GetString("ip_source"),
-			CreatedAt:     time.Now(),
+			OptModule:     permission.Group,
+			OptDesc:       permission.Name,
+			RequestURL:    c.Request.URL.String(),
+			RequestMethod: c.Request.Method,
+			// 请求头携带token，数据太多
+			//RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
+			RequestData:    jsonconv.ObjectToJson(reqData),
+			ResponseData:   jsonconv.ObjectToJson(respData),
+			ResponseStatus: c.Writer.Status(),
+			Cost:           fmt.Sprintf("%v", cost),
+			CreatedAt:      time.Now(),
 		}
-		global.LOG.JsonIndent(op)
-
-		//apiPermission := global.Permission.GetApiPermission(op.RequestUrl, op.RequestMethod)
-		//if apiPermission != nil && apiPermission.Traceable == 1 {
-		//	// 保存操作日志
-		//	_ = global.DB.Create(&op).Error
-		//}
-
-		//// 记录日志，包含请求和响应信息
-		//global.LOG.Infow(
-		//	fmt.Sprintf("[%s|%v]", c.Request.URL.String(), cost),
-		//	"status", c.Writer.Status(),
-		//	"ip", clientIP,
-		//	"method", c.Request.Method,
-		//	"path", c.Request.RequestURI,
-		//	"query", c.Request.URL.RawQuery,
-		//	"header", c.Request.Header,
-		//	"reqData", reqData,
-		//	"respData", respData)
+		err = global.DB.Create(&op).Error
+		if err != nil {
+			global.LOG.Error(err)
+			c.JSON(http.StatusOK, response.Response{
+				Code:    apierror.ErrorInternalServerError.Code(),
+				Message: "日志记录错误",
+				Data:    nil,
+			})
+			c.Abort()
+			return
+		}
 	}
 }
 

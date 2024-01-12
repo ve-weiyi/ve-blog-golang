@@ -24,13 +24,13 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 	var handler = s.svcCtx.ArticleController
 	// 后台操作
 	{
-		publicRouter.POST("/admin/article", handler.SaveArticle)          // 新建文章
-		publicRouter.DELETE("/admin/article/:id", handler.DeleteArticle)  // 删除文章
-		publicRouter.GET("/admin/article/:id", handler.FindArticle)       // 查询文章
-		publicRouter.POST("/admin/article/list", handler.FindArticleList) // 分页查询文章列表
+		loginRouter.POST("/admin/article", handler.SaveArticle)          // 新建文章
+		loginRouter.DELETE("/admin/article/:id", handler.DeleteArticle)  // 删除文章
+		loginRouter.GET("/admin/article/:id", handler.FindArticle)       // 查询文章
+		loginRouter.POST("/admin/article/list", handler.FindArticleList) // 分页查询文章列表
 
-		publicRouter.PUT("/admin/article/top", handler.UpdateArticleTop)       // 置顶文章
-		publicRouter.PUT("/admin/article/delete", handler.UpdateArticleDelete) // 逻辑删除文章(假删除)
+		loginRouter.PUT("/admin/article/top", handler.UpdateArticleTop)       // 置顶文章
+		loginRouter.PUT("/admin/article/delete", handler.UpdateArticleDelete) // 逻辑删除文章(假删除)
 	}
 	// 前台操作接口
 	{

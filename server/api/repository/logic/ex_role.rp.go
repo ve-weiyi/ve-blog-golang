@@ -83,7 +83,7 @@ func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int, roleIds [
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var account entity.UserAccount
-	err = db.Where("user_id = ?", uid).First(&account).Error
+	err = db.Where("id = ?", uid).First(&account).Error
 	if err != nil {
 		return nil, err
 	}

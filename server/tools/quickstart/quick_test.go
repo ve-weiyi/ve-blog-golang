@@ -14,18 +14,20 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000
-const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-v2?charset=utf8mb4&parseTime=True&loc=Local"
+const dsn = "root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local"
 
 var db *gorm.DB
 
 func Init() {
-	testinit.Init()
+	initest.InitConfig()
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
 	// 连接数据库
@@ -42,19 +44,29 @@ func Init() {
 	log.Println("mysql connection done")
 }
 
-func TestPlate(t *testing.T) {
+func TestCodeStarter(t *testing.T) {
 	Init()
 	out := path.Join(global.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
 
+	typeInt := "int"
+	// 自定义字段的数据类型
+	// 统一数字类型为int64,兼容protobuf
+	dataMap := map[string]func(columnType gorm.ColumnType) (dataType string){
+		"tinyint":   func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		"smallint":  func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		"mediumint": func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		"bigint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		"int":       func(columnType gorm.ColumnType) (dataType string) { return typeInt },
+		//"datetime":  func(columnType gorm.ColumnType) (dataType string) { return "*time.Time" },
+	}
+
 	cfg := Config{
-		db:             nil,
-		Replace:        true,
-		ReplaceCommon:  true,
-		GenerateCommon: true,
-		OutPath:        out,
+		DbEngin:     db,
+		ReplaceMode: invent.ModeOnlyReplace,
+		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("bs_%v", tableName)
+			return fmt.Sprintf("sp_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
 			return jsonconv.Case2Camel(column)
@@ -68,32 +80,40 @@ func TestPlate(t *testing.T) {
 			}
 			return jsonconv.Case2CamelNotFirst(columnName)
 		},
-		GenerateMap: map[string]string{
-			//tmpl.KeyApi: "",
-			//tmpl.KeyRouter:     "",
-			//tmpl.KeyController: "",
-			//tmpl.KeyService:    "",
-			tmpl.KeyRepository: "",
-			//tmpl.KeyModel: "",
+		IsIgnoreKey: func(key string) bool {
+			return key != tmpl.KeyRouter
+		},
+		FieldConfig: model.FieldConfig{
+			DataTypeMap: dataMap,
+			// 表字段可为 null 值时, 对应结体字段使用指针类型
+			FieldNullable: false, // generate pointer when field is nullable
+			// 表字段有 默认值时, 对应结体字段使用指针类型
+			FieldCoverable: false, // generate pointer when field has default value, to fix problem zero value cannot be assign: https://gorm.io/docs/create.html#Default-Values
+			// 模型结构体字段的数字类型的符号表示是否与表字段的一致, `false`指示都用有符号类型
+			FieldSignable: false, // detect integer field's unsigned type, adjust generated data type
+			// 生成 gorm 标签的字段索引属性
+			FieldWithIndexTag: true, // generate with gorm index tag
+			// 生成 gorm 标签的字段类型属性
+			FieldWithTypeTag: true, // generate with gorm column type tag
+			FieldJSONTagNS: func(column string) string {
+				return jsonconv.Camel2Case(column)
+			},
 		},
 	}
-	typeInt := "int"
-	// 自定义字段的数据类型
-	// 统一数字类型为int64,兼容protobuf
-	dataMap := map[string]func(columnType gorm.ColumnType) (dataType string){
-		"tinyint":   func(columnType gorm.ColumnType) (dataType string) { return typeInt },
-		"smallint":  func(columnType gorm.ColumnType) (dataType string) { return typeInt },
-		"mediumint": func(columnType gorm.ColumnType) (dataType string) { return typeInt },
-		"bigint":    func(columnType gorm.ColumnType) (dataType string) { return typeInt },
-		"int":       func(columnType gorm.ColumnType) (dataType string) { return typeInt },
-		//"datetime":  func(columnType gorm.ColumnType) (dataType string) { return "*time.Time" },
-	}
-	cfg.WithDataTypeMap(dataMap)
 
-	gen := NewGenerator(cfg)
-	gen.UseDB(db)
+	parser := NewTableParser(cfg)
+	gen := NewCodeStarter(cfg)
+
+	//model, _ := parser.ParseModelFromTable("api")
+	//gen.AddInventMetas(parser.GenerateInventMetas(model)...)
+
+	models, _ := parser.ParseModelFromSchema()
+	gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
+
+	err := gen.Execute()
+	t.Log(err)
 	//gen.InitPackage("hello")
-	gen.ApplyMetas(gen.GenerateMetasFromSchema())
+	//gen.ApplyMetas(gen.GenerateMetasFromSchema())
 
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("api", "接口"))
 	//gen.ApplyMetas(gen.GenerateMetasFromTable("article", "文章"))
@@ -122,7 +142,13 @@ func TestPlate(t *testing.T) {
 	//gen.GenerateCommonFile("upload", "文件上传")
 
 	//gen.RollBack()
-	gen.Execute()
+	//gen.Execute()
+}
+
+func TestVisitFile(t *testing.T) {
+	root := path.Join(global.GetRuntimeRoot(), "server/api", "model/entity")
+	err := filepath.Walk(root, visitFile)
+	t.Log(err)
 }
 
 // bs_ -> base 基础文件
@@ -130,8 +156,7 @@ func TestPlate(t *testing.T) {
 // sp_ -> special 特殊文件
 func visitFile(path string, info os.FileInfo, err error) error {
 	if err != nil {
-		fmt.Println("Error:", err)
-		return nil
+		return err
 	}
 
 	if !info.IsDir() {
@@ -156,13 +181,4 @@ func visitFile(path string, info os.FileInfo, err error) error {
 	}
 
 	return nil
-}
-
-func TestVisitFile(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api", "model/entity")
-	err := filepath.Walk(root, visitFile)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
 }

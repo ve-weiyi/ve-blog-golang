@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type TalkRepository struct {
@@ -24,51 +23,49 @@ func NewTalkRepository(svcCtx *svc.RepositoryContext) *TalkRepository {
 }
 
 // 创建Talk记录
-func (s *TalkRepository) CreateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
+func (s *TalkRepository) Create(ctx context.Context, item *entity.Talk) (out *entity.Talk, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&talk).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return talk, err
+	return item, err
 }
 
 // 更新Talk记录
-func (s *TalkRepository) UpdateTalk(ctx context.Context, talk *entity.Talk) (out *entity.Talk, err error) {
+func (s *TalkRepository) Update(ctx context.Context, item *entity.Talk) (out *entity.Talk, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&talk).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return talk, err
+	return item, err
 }
 
 // 删除Talk记录
-func (s *TalkRepository) DeleteTalk(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *TalkRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.Talk{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询Talk记录
-func (s *TalkRepository) FindTalk(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.Talk, err error) {
+func (s *TalkRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.Talk, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *TalkRepository) FindTalk(ctx context.Context, conditions ...*sqlx.Condi
 	return out, err
 }
 
+func (s *TalkRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.Talk, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询Talk记录
-func (s *TalkRepository) FindTalkList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.Talk, err error) {
+func (s *TalkRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.Talk, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *TalkRepository) FindTalkList(ctx context.Context, page *sqlx.PageLimit,
 }
 
 // 查询总数
-func (s *TalkRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *TalkRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.Talk{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *TalkRepository) Count(ctx context.Context, conditions ...*sqlx.Conditio
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询Talk记录——根据id
-func (s *TalkRepository) FindTalkById(ctx context.Context, id int) (out *entity.Talk, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除Talk记录——根据id
-func (s *TalkRepository) DeleteTalkById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Talk{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除Talk记录——根据ids
-func (s *TalkRepository) DeleteTalkByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.Talk{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

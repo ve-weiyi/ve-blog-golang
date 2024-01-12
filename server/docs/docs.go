@@ -1146,6 +1146,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sync": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api"
+                ],
+                "summary": "同步api列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.BatchResult"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/{id}": {
             "get": {
                 "consumes": [
@@ -6259,7 +6307,7 @@ const docTemplate = `{
                                                         "list": {
                                                             "type": "array",
                                                             "items": {
-                                                                "$ref": "#/definitions/entity.Role"
+                                                                "$ref": "#/definitions/response.RoleDetailsDTO"
                                                             }
                                                         }
                                                     }
@@ -6377,7 +6425,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Role"
+                            "$ref": "#/definitions/request.UpdateRoleMenusReq"
                         }
                     }
                 ],
@@ -6393,7 +6441,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -6434,7 +6482,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Role"
+                            "$ref": "#/definitions/request.UpdateRoleApisReq"
                         }
                     }
                 ],
@@ -6450,7 +6498,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -8537,7 +8585,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "id": {
-                    "description": "对话.id",
+                    "description": "对话 ID",
                     "type": "string"
                 },
                 "model": {
@@ -9528,6 +9576,34 @@ const docTemplate = `{
                 }
             }
         },
+        "request.UpdateRoleApisReq": {
+            "type": "object",
+            "properties": {
+                "resource_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.UpdateRoleMenusReq": {
+            "type": "object",
+            "properties": {
+                "menu_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "request.UpdateUserRolesReq": {
             "type": "object",
             "properties": {
@@ -10021,16 +10097,8 @@ const docTemplate = `{
         "response.BatchResult": {
             "type": "object",
             "properties": {
-                "fail_count": {
-                    "description": "失败数量",
-                    "type": "integer"
-                },
                 "success_count": {
                     "description": "成功数量",
-                    "type": "integer"
-                },
-                "total_count": {
-                    "description": "总数量",
                     "type": "integer"
                 }
             }
@@ -10204,38 +10272,11 @@ const docTemplate = `{
         "response.Login": {
             "type": "object",
             "properties": {
-                "access_token": {
-                    "description": "访问token,过期时间较短。2h",
-                    "type": "string"
-                },
-                "expires_in": {
-                    "description": "访问token过期时间",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "type": "string"
-                },
-                "ip_source": {
-                    "type": "string"
-                },
-                "login_info": {
+                "login_history": {
                     "$ref": "#/definitions/response.LoginHistory"
                 },
-                "refresh_expires_in": {
-                    "description": "刷新token过期时间",
-                    "type": "integer"
-                },
-                "refresh_token": {
-                    "description": "刷新token,过期时间较长。30d",
-                    "type": "string"
-                },
-                "token_type": {
-                    "description": "token类型,Bearer",
-                    "type": "string"
-                },
-                "uid": {
-                    "description": "用户id",
-                    "type": "integer"
+                "token": {
+                    "$ref": "#/definitions/response.Token"
                 },
                 "user_info": {
                     "$ref": "#/definitions/response.UserInfo"
@@ -10486,6 +10527,59 @@ const docTemplate = `{
                 }
             }
         },
+        "response.RoleDetailsDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "is_default": {
+                    "description": "是否默认角色 0否 1是",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用  0否 1是",
+                    "type": "integer"
+                },
+                "menu_id_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "resource_id_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_comment": {
+                    "description": "角色备注",
+                    "type": "string"
+                },
+                "role_domain": {
+                    "description": "角色域",
+                    "type": "string"
+                },
+                "role_name": {
+                    "description": "角色名",
+                    "type": "string"
+                },
+                "role_pid": {
+                    "description": "父角色id",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                }
+            }
+        },
         "response.TagDTO": {
             "type": "object",
             "properties": {
@@ -10575,6 +10669,39 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "description": "用户ID",
+                    "type": "integer"
+                }
+            }
+        },
+        "response.Token": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "description": "访问token,过期时间较短。2h",
+                    "type": "string"
+                },
+                "expires_in": {
+                    "description": "访问token过期时间",
+                    "type": "integer"
+                },
+                "refresh_expires_in": {
+                    "description": "刷新token过期时间",
+                    "type": "integer"
+                },
+                "refresh_token": {
+                    "description": "刷新token,过期时间较长。30d",
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "作用域",
+                    "type": "string"
+                },
+                "token_type": {
+                    "description": "token类型,Bearer",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "用户id",
                     "type": "integer"
                 }
             }
