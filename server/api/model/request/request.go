@@ -37,3 +37,15 @@ type PageQuery struct {
 	Sorts      []*sqlx.Sort      `json:"sorts" form:"sorts"`           // 排序
 	Conditions []*sqlx.Condition `json:"conditions" form:"conditions"` // 使用条件语句查询
 }
+
+func (s *PageQuery) PageClause() (int, int) {
+	return s.PageLimit.Limit(), s.PageLimit.Offset()
+}
+
+func (s *PageQuery) OrderClause() string {
+	return sqlx.OrderClause(s.Sorts)
+}
+
+func (s *PageQuery) ConditionClause() (string, []interface{}) {
+	return sqlx.ConditionClause(s.Conditions)
+}

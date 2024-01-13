@@ -43,3 +43,29 @@ func (s *ApiController) FindApiDetailsList(c *gin.Context) {
 		PageSize: len(list),
 	})
 }
+
+// @Tags		Api
+// @Summary		同步api列表
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/api/sync [post]
+func (s *ApiController) SyncApiList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.ApiService.SyncApiList(reqCtx, nil)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.BatchResult{
+		SuccessCount: data,
+	})
+}

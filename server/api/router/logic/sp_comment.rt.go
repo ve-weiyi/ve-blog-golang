@@ -23,14 +23,14 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 
 	var handler = s.svcCtx.CommentController
 	{
-		loginRouter.POST("comment", handler.CreateComment)        // 新建Comment
-		loginRouter.PUT("comment", handler.UpdateComment)         // 更新Comment
-		loginRouter.DELETE("comment/:id", handler.DeleteComment)  // 删除Comment
-		loginRouter.GET("comment/:id", handler.FindComment)       // 查询Comment
-		loginRouter.POST("comment/:id/like", handler.LikeComment) // 点赞评论
+		loginRouter.POST("comment", handler.CreateComment)                     // 新建Comment
+		loginRouter.PUT("comment", handler.UpdateComment)                      // 更新Comment
+		loginRouter.DELETE("comment/:id", handler.DeleteComment)               // 删除Comment
+		loginRouter.POST("comment/:id/like", handler.LikeComment)              // 点赞评论
+		loginRouter.DELETE("comment/batch_delete", handler.DeleteCommentByIds) // 批量删除Comment列表
 
-		publicRouter.DELETE("comment/batch_delete", handler.DeleteCommentByIds) // 批量删除Comment列表
-		publicRouter.POST("comment/list/back", handler.FindCommentBackList)     // 分页查询Comment列表
+		loginRouter.GET("comment/:id", handler.FindComment)                // 查询Comment
+		loginRouter.POST("comment/list/back", handler.FindCommentBackList) // 分页查询Comment列表
 	}
 	{
 		publicRouter.POST("comment/list", handler.FindCommentList)                // 分页查询Comment列表

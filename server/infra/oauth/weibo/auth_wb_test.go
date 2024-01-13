@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 )
 
 func TestWeibo(t *testing.T) {
-	testinit.InitConfig()
+	initest.InitConfig()
 	conf := &oauth.AuthConfig{
 		ClientID:     global.CONFIG.Oauth.Weibo.ClientID,
 		ClientSecret: global.CONFIG.Oauth.Weibo.ClientSecret,
