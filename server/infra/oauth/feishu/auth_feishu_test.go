@@ -6,11 +6,10 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 )
 
 func TestFeishu(t *testing.T) {
-	testinit.InitConfig()
+	initest.InitConfig()
 	conf := &oauth.AuthConfig{
 		ClientID:     global.CONFIG.Oauth.Feishu.ClientID,
 		ClientSecret: global.CONFIG.Oauth.Feishu.ClientSecret,

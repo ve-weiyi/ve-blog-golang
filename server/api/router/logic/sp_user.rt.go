@@ -28,6 +28,7 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.POST("user/info", handler.UpdateUserInfo)            // 更新用户信息
 		loginRouter.POST("user/avatar", handler.UpdateUserAvatar)        // 更新用户头像
 		loginRouter.POST("user/update_status", handler.UpdateUserStatus) // 更新用户状态
+		loginRouter.POST("user/update_roles", handler.UpdateUserRoles)   // 更新用户角色
 
 		// 管理员操作
 		loginRouter.POST("user/list", handler.FindUserList)              // 获取用户列表

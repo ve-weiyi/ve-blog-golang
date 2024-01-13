@@ -35,15 +35,15 @@ func (s *AstParser) ParseApiDocsByRoots(root ...string) (out []*ApiDeclare, err 
 		out = append(out, apis...)
 	}
 
-	sort.Slice(out, func(i, j int) bool {
-		if out[i].Tag == out[j].Tag {
-			if out[i].Router == out[j].Router {
-				return out[i].Method < out[j].Method
-			}
-			return out[i].Router < out[j].Router
-		}
-		return out[i].Tag < out[j].Tag
-	})
+	//sort.Slice(out, func(i, j int) bool {
+	//	if out[i].Tag == out[j].Tag {
+	//		if out[i].Router == out[j].Router {
+	//			return out[i].Method < out[j].Method
+	//		}
+	//		return out[i].Router < out[j].Router
+	//	}
+	//	return out[i].Tag < out[j].Tag
+	//})
 	return out, nil
 }
 

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
 	"reflect"
 	"runtime"
 	"strings"
@@ -13,14 +14,27 @@ import (
 	jsoniter "github.com/json-iterator/go"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // 操作日志
 func OperationRecord() gin.HandlerFunc {
+	permissionHolder := global.Permission
 
 	return func(c *gin.Context) {
+		// 检测接口是否需要操作记录
+		permission, err := permissionHolder.FindApiPermission(c.Request.URL.Path, c.Request.Method)
+		if err != nil {
+			global.LOG.Error(err)
+		}
+		if permission.Traceable == 0 {
+			c.Next()
+			return
+		}
+
 		start := time.Now()
 		var reqData interface{}
 
@@ -71,25 +85,35 @@ func OperationRecord() gin.HandlerFunc {
 
 		op := entity.OperationLog{
 			ID:            0,
-			OptModule:     "",
-			OptType:       "",
-			OptMethod:     "",
-			OptDesc:       "",
+			OptModule:     permission.Name,
+			OptType:       permission.Method,
+			OptMethod:     permission.Method,
+			OptDesc:       permission.Name,
 			Cost:          fmt.Sprintf("%v", cost),
 			Status:        c.Writer.Status(),
 			RequestURL:    c.Request.URL.String(),
 			RequestMethod: c.Request.Method,
-			RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
-			RequestParam:  jsonconv.ObjectToJson(reqData),
-			ResponseData:  jsonconv.ObjectToJson(respData),
-			UserID:        c.GetInt("uid"),
-			Nickname:      c.GetString("username"),
-			IpAddress:     c.GetString("ip_address"),
-			IpSource:      c.GetString("ip_source"),
-			CreatedAt:     time.Now(),
+			// 请求头携带token，数据太多
+			//RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
+			RequestParam: jsonconv.ObjectToJson(reqData),
+			ResponseData: jsonconv.ObjectToJson(respData),
+			UserID:       c.GetInt("uid"),
+			Nickname:     c.GetString("username"),
+			IpAddress:    c.GetString("ip_address"),
+			IpSource:     c.GetString("ip_source"),
+			CreatedAt:    time.Now(),
 		}
-		global.LOG.JsonIndent(op)
-
+		err = global.DB.Create(&op).Error
+		if err != nil {
+			global.LOG.Error(err)
+			c.JSON(http.StatusOK, response.Response{
+				Code:    apierror.ErrorInternalServerError.Code(),
+				Message: "日志记录错误",
+				Data:    nil,
+			})
+			c.Abort()
+			return
+		}
 		//apiPermission := global.Permission.GetApiPermission(op.RequestUrl, op.RequestMethod)
 		//if apiPermission != nil && apiPermission.Traceable == 1 {
 		//	// 保存操作日志

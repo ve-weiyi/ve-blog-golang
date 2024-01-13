@@ -1146,6 +1146,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/sync": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Api"
+                ],
+                "summary": "同步api列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid",
+                        "name": "uid",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/response.BatchResult"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/{id}": {
             "get": {
                 "consumes": [
@@ -6259,7 +6307,7 @@ const docTemplate = `{
                                                         "list": {
                                                             "type": "array",
                                                             "items": {
-                                                                "$ref": "#/definitions/entity.Role"
+                                                                "$ref": "#/definitions/response.RoleDetailsDTO"
                                                             }
                                                         }
                                                     }
@@ -6377,7 +6425,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Role"
+                            "$ref": "#/definitions/request.UpdateRoleMenusReq"
                         }
                     }
                 ],
@@ -6393,7 +6441,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -6434,7 +6482,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.Role"
+                            "$ref": "#/definitions/request.UpdateRoleApisReq"
                         }
                     }
                 ],
@@ -6450,7 +6498,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/entity.Role"
+                                            "type": "object"
                                         }
                                     }
                                 }
@@ -9528,6 +9576,34 @@ const docTemplate = `{
                 }
             }
         },
+        "request.UpdateRoleApisReq": {
+            "type": "object",
+            "properties": {
+                "resource_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.UpdateRoleMenusReq": {
+            "type": "object",
+            "properties": {
+                "menu_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "request.UpdateUserRolesReq": {
             "type": "object",
             "properties": {
@@ -10447,6 +10523,59 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "role_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.RoleDetailsDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键id",
+                    "type": "integer"
+                },
+                "is_default": {
+                    "description": "是否默认角色 0否 1是",
+                    "type": "integer"
+                },
+                "is_disable": {
+                    "description": "是否禁用  0否 1是",
+                    "type": "integer"
+                },
+                "menu_id_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "resource_id_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_comment": {
+                    "description": "角色备注",
+                    "type": "string"
+                },
+                "role_domain": {
+                    "description": "角色域",
+                    "type": "string"
+                },
+                "role_name": {
+                    "description": "角色名",
+                    "type": "string"
+                },
+                "role_pid": {
+                    "description": "父角色id",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
                     "type": "string"
                 }
             }

@@ -14,7 +14,6 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
@@ -27,7 +26,7 @@ const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-v2?charset=utf8mb4&parseTime=T
 var db *gorm.DB
 
 func Init() {
-	testinit.Init()
+	initest.Init()
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
 	// 连接数据库
