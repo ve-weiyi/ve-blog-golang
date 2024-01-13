@@ -90,7 +90,7 @@ func (s *ServerCmd) OnInitialize() {
 	// 初始化jwt
 	initialize.JwtToken()
 	// 初始化rbac角色访问控制
-	//initialize.RBAC()
+	initialize.RBAC()
 
 	// 文件上传组件
 	initialize.Upload()

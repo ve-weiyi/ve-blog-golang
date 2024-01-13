@@ -14,7 +14,7 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
@@ -22,12 +22,12 @@ import (
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000
-const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-v2?charset=utf8mb4&parseTime=True&loc=Local"
+const dsn = "root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local"
 
 var db *gorm.DB
 
 func Init() {
-	testinit.Init()
+	initest.InitConfig()
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
 	// 连接数据库
@@ -44,7 +44,7 @@ func Init() {
 	log.Println("mysql connection done")
 }
 
-func TestPlate(t *testing.T) {
+func TestCodeStarter(t *testing.T) {
 	Init()
 	out := path.Join(global.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
@@ -66,7 +66,7 @@ func TestPlate(t *testing.T) {
 		ReplaceMode: invent.ModeOnlyReplace,
 		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("bs_%v", tableName)
+			return fmt.Sprintf("sp_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
 			return jsonconv.Case2Camel(column)
@@ -81,7 +81,7 @@ func TestPlate(t *testing.T) {
 			return jsonconv.Case2CamelNotFirst(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyRepository && key != tmpl.KeyService
+			return key != tmpl.KeyRouter
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,
@@ -102,13 +102,15 @@ func TestPlate(t *testing.T) {
 	}
 
 	parser := NewTableParser(cfg)
-	models, err := parser.ParseModelFromSchema()
-	t.Log(err)
-
 	gen := NewCodeStarter(cfg)
+
+	//model, _ := parser.ParseModelFromTable("api")
+	//gen.AddInventMetas(parser.GenerateInventMetas(model)...)
+
+	models, _ := parser.ParseModelFromSchema()
 	gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
 
-	err = gen.Execute()
+	err := gen.Execute()
 	t.Log(err)
 	//gen.InitPackage("hello")
 	//gen.ApplyMetas(gen.GenerateMetasFromSchema())

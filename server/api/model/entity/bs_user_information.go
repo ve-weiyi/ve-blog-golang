@@ -7,7 +7,7 @@ const TableNameUserInformation = "user_information"
 
 // UserInformation mapped from table <user_information>
 type UserInformation struct {
-	ID        int       `gorm:"column:id;type:int;primaryKey;autoIncrement:true;comment:id" json:"id"`                             // id
+	ID        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                    // id
 	UserID    int       `gorm:"column:user_id;type:int;not null;uniqueIndex:uk_uuid,priority:1;comment:用户id" json:"user_id"`       // 用户id
 	Email     string    `gorm:"column:email;type:varchar(128);not null;comment:用户邮箱" json:"email"`                                 // 用户邮箱
 	Nickname  string    `gorm:"column:nickname;type:varchar(128);not null;comment:用户昵称" json:"nickname"`                           // 用户昵称

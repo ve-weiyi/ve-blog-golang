@@ -364,7 +364,7 @@ func (s *AstApiDoc) convertRequestStr(api *apiparser.ApiDeclare) string {
 // response.Response{data=response.PageResult{list=[]entity.User}}-->Response<PageResult<User>>
 func (s *AstApiDoc) convertResponseStr(data *apiparser.ApiParam) string {
 	if data == nil {
-		return ""
+		return "any"
 	}
 	// 提取参数
 	params := ExtractFieldsByAst(data.Type)

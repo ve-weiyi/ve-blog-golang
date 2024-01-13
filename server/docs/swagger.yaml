@@ -750,6 +750,24 @@ definitions:
         example: admin@qq.com
         type: string
     type: object
+  request.UpdateRoleApisReq:
+    properties:
+      resource_ids:
+        items:
+          type: integer
+        type: array
+      role_id:
+        type: integer
+    type: object
+  request.UpdateRoleMenusReq:
+    properties:
+      menu_ids:
+        items:
+          type: integer
+        type: array
+      role_id:
+        type: integer
+    type: object
   request.UpdateUserRolesReq:
     properties:
       role_ids:
@@ -1397,6 +1415,44 @@ definitions:
       role_comment:
         type: string
       role_name:
+        type: string
+    type: object
+  response.RoleDetailsDTO:
+    properties:
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: 主键id
+        type: integer
+      is_default:
+        description: 是否默认角色 0否 1是
+        type: integer
+      is_disable:
+        description: 是否禁用  0否 1是
+        type: integer
+      menu_id_list:
+        items:
+          type: integer
+        type: array
+      resource_id_list:
+        items:
+          type: integer
+        type: array
+      role_comment:
+        description: 角色备注
+        type: string
+      role_domain:
+        description: 角色域
+        type: string
+      role_name:
+        description: 角色名
+        type: string
+      role_pid:
+        description: 父角色id
+        type: integer
+      updated_at:
+        description: 更新时间
         type: string
     type: object
   response.TagDTO:
@@ -2428,6 +2484,34 @@ paths:
                     type: object
               type: object
       summary: 分页获取接口列表
+      tags:
+      - Api
+  /api/sync:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.BatchResult'
+              type: object
+      summary: 同步api列表
       tags:
       - Api
   /article/{id}/details:
@@ -5453,7 +5537,7 @@ paths:
                   - properties:
                       list:
                         items:
-                          $ref: '#/definitions/entity.Role'
+                          $ref: '#/definitions/response.RoleDetailsDTO'
                         type: array
                     type: object
               type: object
@@ -5519,7 +5603,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/entity.Role'
+          $ref: '#/definitions/request.UpdateRoleMenusReq'
       produces:
       - application/json
       responses:
@@ -5530,7 +5614,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/entity.Role'
+                  type: object
               type: object
       summary: 更新角色菜单
       tags:
@@ -5553,7 +5637,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/entity.Role'
+          $ref: '#/definitions/request.UpdateRoleApisReq'
       produces:
       - application/json
       responses:
@@ -5564,7 +5648,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/entity.Role'
+                  type: object
               type: object
       summary: 更新角色资源
       tags:

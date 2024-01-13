@@ -3,7 +3,6 @@
 # 输出日志到控制台
 echo "starting entrypoint.sh script..."
 
-
 # 创建 /home 目录
 mkdir -p /home/blog
 
@@ -11,12 +10,13 @@ mkdir -p /home/blog
 cd /home/blog
 
 # 安装 git
-git config --global user.email "791422171@qq.com"
-git config --global user.name "veweiyi"
-git config --global --unset http.proxy
+#git config --global user.email "791422171@qq.com"
+#git config --global user.name "veweiyi"
+#git config --global --unset http.proxy
+-e GOPROXY=https://goproxy.cn, direct
 
 # 下载项目
-git clone git://github.com/ve-weiyi/ve-blog-golang.git
+git clone https://github.com/ve-weiyi/ve-blog-golang.git
 
 # 切换到项目目录
 cd /home/blog/ve-blog-golang/server
@@ -31,7 +31,7 @@ go mod tidy
 # Run the Go application
 go build main.go
 
-nohup ./main server --use-nacos=true -c /config.yaml > output.log 2>&1 &
+nohup ./main server --use-nacos=true --n-ns=prod > output.log 2>&1 &
 # 输出日志到控制台
 echo "entrypoint.sh script completed."
 

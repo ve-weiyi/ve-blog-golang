@@ -10,10 +10,12 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
+	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 )
 
 // migrateCmd represents the migrate command
@@ -21,6 +23,7 @@ type MigrateCmd struct {
 	cmd      *cobra.Command
 	Mysql    properties.Mysql
 	createDB bool
+	action   string
 	sqlFile  string
 }
 
@@ -39,30 +42,42 @@ func NewMigrateCmd() *MigrateCmd {
 }
 
 func (s *MigrateCmd) init() {
-	s.cmd.PersistentFlags().BoolVarP(&s.createDB, "create", "", false, "是否创建数据库")
-	s.cmd.PersistentFlags().StringVarP(&s.sqlFile, "file", "f", "blog-mysql8.0.sql", "数据库sql文件")
+	s.cmd.PersistentFlags().StringVarP(&s.action, "action", "a", "migrate", "migrate|create|reset")
+	s.cmd.PersistentFlags().StringVarP(&s.sqlFile, "file", "", "blog-veweiyi.sql", "数据库sql文件")
 
-	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Username, "username", "u", "root", "账号")
-	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Password, "password", "p", "123456", "密码")
+	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Username, "username", "", "root", "账号")
+	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Password, "password", "", "123456", "密码")
 	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Host, "host", "", "localhost", "数据库ip")
 	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Port, "port", "", "3306", "数据库端口")
-	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Dbname, "name", "n", "blog", "数据库名称")
-	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Config, "config", "c", "charset=utf8mb4&parseTime=True&loc=Local", "数据库配置")
+	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Dbname, "name", "", "blog", "数据库名称")
+	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Config, "config", "", "charset=utf8mb4&parseTime=True&loc=Local", "数据库配置")
 }
 
 func (s *MigrateCmd) MigrateDB() {
-	if s.createDB {
-		s.InitDatabase()
+	//m := s.Mysql
+	//dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", m.Username, m.Password, m.Host, m.Port, "", m.Config)
+	//db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Println("connect to ", dsn)
+
+	initest.Init()
+	db := global.DB
+	switch s.action {
+	case "create":
+		s.InitDatabase(db, "ve-weiyi")
+	case "reset":
+		s.ResetDatabase(db)
+	case "migrate":
+		s.MigrateDatabase(db)
+	default:
+		fmt.Println("action not support")
 	}
+}
 
-	dsn := s.Mysql.Dsn()
-	fmt.Println("connect to ", dsn)
-
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
-
+// 迁移数据库
+func (s *MigrateCmd) MigrateDatabase(db *gorm.DB) {
 	// 读取 SQL 文件内容
 	content, err := os.ReadFile(s.sqlFile)
 	if err != nil {
@@ -87,21 +102,83 @@ func (s *MigrateCmd) MigrateDB() {
 }
 
 // 创建数据库
-func (s *MigrateCmd) InitDatabase() {
-	m := s.Mysql
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", m.Username, m.Password, m.Host, m.Port, "", m.Config)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func (s *MigrateCmd) InitDatabase(db *gorm.DB, dbName string) {
 	// 创建数据库（如果不存在）
-	result := db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", m.Dbname))
+	result := db.Exec(fmt.Sprintf("CREATE DATABASE IF NOT EXISTS %s", dbName))
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
 
 	// 关闭连接
 	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
 	sqlDB.Close()
+}
+
+// 重置数据库
+func (s *MigrateCmd) ResetDatabase(db *gorm.DB) {
+	var err error
+	// ****重置登录历史表****
+	err = ClearTable(db, entity.TableNameUserLoginHistory)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置角色菜单表****
+	err = ClearTable(db, entity.TableNameRoleMenu)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置角色接口表****
+	err = ClearTable(db, entity.TableNameRoleApi)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置菜单表****
+	err = ClearTable(db, entity.TableNameMenu)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置接口表****
+	err = ClearTable(db, entity.TableNameApi)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置操作记录表****
+	err = ClearTable(db, entity.TableNameOperationLog)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置上传记录表****
+	err = ClearTable(db, entity.TableNameUploadRecord)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ****重置casbin记录表****
+	err = ClearTable(db, entity.TableNameCasbinRule)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ClearTable(db *gorm.DB, tableName string) (err error) {
+	// 清空表的数据
+	err = db.Exec(fmt.Sprintf("DELETE FROM `%v`", tableName)).Error
+	if err != nil {
+		return err
+	}
+	// 重置 AUTO_INCREMENT 值为 1
+	err = db.Exec(fmt.Sprintf("ALTER TABLE `%v` AUTO_INCREMENT = 1", tableName)).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
