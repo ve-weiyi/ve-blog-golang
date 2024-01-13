@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/system"
 )
 
 type WebsiteService struct {
@@ -96,16 +96,16 @@ func (s *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interfac
 	return resp, err
 }
 
-func (s *WebsiteService) GetSystemState(reqCtx *request.Context, req interface{}) (server *utils.Server, err error) {
-	var sv utils.Server
-	sv.Os = utils.InitOS()
-	if sv.Cpu, err = utils.InitCPU(); err != nil {
+func (s *WebsiteService) GetSystemState(reqCtx *request.Context, req interface{}) (server *system.Server, err error) {
+	var sv system.Server
+	sv.Os = system.InitOS()
+	if sv.Cpu, err = system.InitCPU(); err != nil {
 		return &sv, err
 	}
-	if sv.Ram, err = utils.InitRAM(); err != nil {
+	if sv.Ram, err = system.InitRAM(); err != nil {
 		return &sv, err
 	}
-	if sv.Disk, err = utils.InitDisk(); err != nil {
+	if sv.Disk, err = system.InitDisk(); err != nil {
 		return &sv, err
 	}
 

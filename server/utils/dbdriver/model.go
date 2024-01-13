@@ -1,6 +1,17 @@
 package dbdriver
 
-// 数据库表数据
+// 数据库信息
+type Db struct {
+	SchemaName string `json:"schemaName" gorm:"column:SCHEMA_NAME"`
+}
+
+// 表信息
+type Table struct {
+	TableName    string `json:"tableName" gorm:"column:TABLE_NAME"`
+	TableComment string `json:"tableComment" gorm:"column:TABLE_COMMENT"`
+}
+
+// 列信息
 type Column struct {
 	TableCatalog           string `gorm:"column:TABLE_CATALOG" json:"tableCatalog"`                      // 列所属的数据库名称。
 	TableSchema            string `gorm:"column:TABLE_SCHEMA" json:"tableSchema"`                        // 列所属的模式名称。

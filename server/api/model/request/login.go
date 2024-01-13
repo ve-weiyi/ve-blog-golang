@@ -3,7 +3,7 @@ package request
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/fmtplus"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/valid"
 )
 
 type UserReq struct {
@@ -18,7 +18,7 @@ func (m UserReq) IsValid() error {
 	}
 
 	//验证邮箱格式是否正确
-	if !fmtplus.IsEmailValid(m.Username) {
+	if !valid.IsEmailValid(m.Username) {
 		return fmt.Errorf("邮箱格式不正确")
 	}
 
@@ -36,7 +36,7 @@ type UserEmail struct {
 
 func (m UserEmail) IsValid() error {
 	//验证邮箱格式是否正确
-	if !fmtplus.IsEmailValid(m.Username) {
+	if !valid.IsEmailValid(m.Username) {
 		return fmt.Errorf("邮箱格式不正确")
 	}
 

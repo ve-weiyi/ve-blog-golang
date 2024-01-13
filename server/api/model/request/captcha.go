@@ -3,7 +3,7 @@ package request
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/fmtplus"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/valid"
 )
 
 // 验证码生成
@@ -28,7 +28,7 @@ type CaptchaEmailReq struct {
 
 func (req *CaptchaEmailReq) IsValid() error {
 	// 参数校验
-	if !fmtplus.IsEmailValid(req.Email) {
+	if !valid.IsEmailValid(req.Email) {
 		return fmt.Errorf("邮箱格式不正确")
 	}
 	if req.Service == "" {

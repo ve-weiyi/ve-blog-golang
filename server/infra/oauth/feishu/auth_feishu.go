@@ -7,7 +7,7 @@ import (
 	"github.com/goccy/go-json"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/httpx"
 )
 
 // Feishu授权登录
@@ -29,12 +29,13 @@ func NewAuthFeishu(conf *oauth.AuthConfig) *AuthFeishu {
 
 // 获取登录地址
 func (a *AuthFeishu) GetRedirectUrl(state string) string {
-	url := https.NewHttpBuilder(a.AuthorizeUrl).
-		AddParam("client_id", a.Config.ClientID).
-		AddParam("redirect_uri", a.Config.RedirectUrl).
-		AddParam("response_type", "code").
-		AddParam("state", state).
-		GetUrl()
+
+	url := httpx.NewClient(
+		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
+		httpx.WithParam("response_type", "code"),
+		httpx.WithParam("state", state),
+	).EncodeURL(a.AuthorizeUrl)
 	return url
 }
 
@@ -65,13 +66,15 @@ func (a *AuthFeishu) GetUserOpenInfo(code string) (resp *oauth.UserResult, err e
 
 // 获取token https://open.weibo.com/apps/2658270041/privilege/oauth
 func (a *AuthFeishu) GetAccessToken(code string) (resp *TokenResult, err error) {
-	body, err := https.NewHttpBuilder(a.TokenUrl).
-		AddParam("grant_type", "authorization_code").
-		AddParam("client_id", a.Config.ClientID).
-		AddParam("client_secret", a.Config.ClientSecret).
-		AddParam("redirect_uri", a.Config.RedirectUrl).
-		AddParam("code", code).
-		Post()
+
+	body, err := httpx.NewClient(
+		httpx.WithParam("grant_type", "authorization_code"),
+		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_secret", a.Config.ClientSecret),
+		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
+		httpx.WithParam("code", code),
+	).DoRequest("POST", a.TokenUrl)
+
 	if err != nil {
 		return nil, err
 	}
@@ -88,10 +91,14 @@ func (a *AuthFeishu) GetAccessToken(code string) (resp *TokenResult, err error) 
 
 // 获取用户信息
 func (a *AuthFeishu) RefreshToken(refreshToken string) (resp *RefreshResult, err error) {
-	body, err := https.NewHttpBuilder(a.RefreshUrl).
-		AddData("grant_type", "refresh_token").
-		AddData("refresh_token", refreshToken).
-		Post()
+
+	body, err := httpx.NewClient(
+		httpx.WithBodyObject(map[string]interface{}{
+			"grant_type":    "refresh_token",
+			"refresh_token": refreshToken,
+		}),
+	).DoRequest("POST", a.RefreshUrl)
+
 	if err != nil {
 		return nil, err
 	}
@@ -106,10 +113,12 @@ func (a *AuthFeishu) RefreshToken(refreshToken string) (resp *RefreshResult, err
 }
 
 func (a *AuthFeishu) GetUserInfo(accessToken string) (resp *UserResult, err error) {
-	body, err := https.NewHttpBuilder(a.UserInfoUrl).
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		AddHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)).
-		Get()
+
+	body, err := httpx.NewClient(
+		httpx.WithHeader("Content-Type", "application/json;charset=UTF-8"),
+		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)),
+	).DoRequest("GET", a.UserInfoUrl)
+
 	if err != nil {
 		return nil, err
 	}

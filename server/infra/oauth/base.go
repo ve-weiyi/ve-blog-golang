@@ -4,7 +4,7 @@ package oauth
 type AuthConfig struct {
 	ClientID     string
 	ClientSecret string
-	RedirectUrl  string
+	RedirectUri  string
 }
 
 type AuthOauth struct {
