@@ -40,7 +40,7 @@ func PermissionHandler() gin.HandlerFunc {
 		if err != nil {
 			global.LOG.Error(err)
 		}
-		if permission.Status != 1 {
+		if permission != nil && permission.Status != 1 {
 			c.JSON(http.StatusOK, response.Response{
 				Code:    apierror.ErrorNotFound.Code(),
 				Message: "该接口未开放",
@@ -49,6 +49,7 @@ func PermissionHandler() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+		// 挂起当前中间件，执行下一个中间件
 		c.Next()
 	}
 }

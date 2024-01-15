@@ -14,6 +14,7 @@ type UserPermission struct {
 // 判断资源需要哪些角色（Resource-Based Access Control，RBAC）
 type ApiPermission struct {
 	entity.Api
+	Group string
 	Roles []*entity.Role
 }
 

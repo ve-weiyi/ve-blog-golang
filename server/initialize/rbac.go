@@ -6,5 +6,7 @@ import (
 )
 
 func RBAC() {
-	global.Permission = rbac.NewPermissionHolder(global.DB, global.LOG)
+	permission := rbac.NewPermissionHolder(global.DB, global.LOG)
+
+	global.Permission = permission
 }

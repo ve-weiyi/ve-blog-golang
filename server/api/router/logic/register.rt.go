@@ -11,8 +11,9 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 	s.InitApiBasicRouter(publicRouter, loginRouter)
 	var handler = s.svcCtx.ApiController
 	{
+		publicRouter.POST("api/sync", handler.SyncApiList) // 同步Api列表
+
 		loginRouter.POST("api/details_list", handler.FindApiDetailsList) // 获取Api列表
-		loginRouter.POST("api/sync", handler.SyncApiList)                // 同步Api列表
 	}
 }
 

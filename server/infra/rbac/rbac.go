@@ -33,47 +33,48 @@ type PermissionHolder struct {
 }
 
 func (s *PermissionHolder) CheckUserAccessApi(uid string, path string, method string) error {
-	ars, err := s.FindApiNeedRoles(path, method)
+	ap, err := s.FindApiPermission(path, method)
 	if err != nil {
 		return err
 	}
 
-	if len(ars) == 0 {
+	if len(ap.Roles) == 0 {
 		return nil
 	}
 
-	urs, err := s.FindUserHasRoles(uid)
+	up, err := s.FindUserPermission(uid)
 	if err != nil {
 		return err
 	}
 
 	// 遍历资源角色
-	for _, ar := range ars {
+	for _, ar := range ap.Roles {
 		// 匹配用户角色
-		for _, ur := range urs {
+		for _, ur := range up.Roles {
 			if ar == ur {
 				return nil
 			}
 		}
 	}
 
-	return fmt.Errorf("permissions not match,user:%+v,api:%+v", urs, ars)
+	return fmt.Errorf("permissions not match,user:%+v,api:%+v", up.Roles, ap.Roles)
 }
 
 func (s *PermissionHolder) FindUserPermission(uid string) (*UserPermission, error) {
 	// 从缓存查找
 	permission, err := s.CacheEngin.GetUserPermission(uid)
 	if err != nil {
-		s.logger.Warn("load user from database:error with %v", err)
+		s.logger.Warnf("load user from database:error with %v", err)
 		// 加载api
 		permission, err = s.LoadUser(uid)
 		if err != nil {
 			return nil, err
 		}
-		s.logger.Warn("find user from database:%v", permission)
+		s.logger.Warnf("find user from database:%v", permission)
 		return permission, nil
 	}
 
+	s.logger.Infof("load user from cache:%v", permission)
 	return permission, nil
 }
 
@@ -82,80 +83,18 @@ func (s *PermissionHolder) FindApiPermission(path string, method string) (*ApiPe
 	// 从缓存查找
 	permission, err := s.CacheEngin.GetApiPermission(api)
 	if err != nil {
-		s.logger.Warn("load api from database:error with %v", err)
+		s.logger.Warnf("load api from database:error with %v", err)
 		// 加载api
 		permission, err = s.LoadApi(path, method)
 		if err != nil {
 			return nil, err
 		}
-		s.logger.Warn("find api from database:%v", permission)
+		s.logger.Warnf("find api from database:%v", permission)
 		return permission, nil
 	}
 
+	s.logger.Infof("load api from cache:%v", permission)
 	return permission, nil
-}
-
-func (s *PermissionHolder) FindUserHasRoles(uid string) (roles []int, err error) {
-	// 从缓存查找
-	permission, err := s.CacheEngin.GetUserPermission(uid)
-	if err != nil {
-		// 加载api
-		permission, err = s.LoadUser(uid)
-		if err != nil {
-			return nil, err
-		}
-		return convertRolesKey(permission.Roles), nil
-	}
-
-	return convertRolesKey(permission.Roles), nil
-}
-
-func (s *PermissionHolder) FindApiNeedRoles(path string, method string) (roles []int, err error) {
-	api := fmt.Sprintf("%v-%v", path, method)
-	// 从缓存查找
-	permission, err := s.CacheEngin.GetApiPermission(api)
-	if err != nil {
-		// 加载api
-		permission, err = s.LoadApi(path, method)
-		if err != nil {
-			return nil, err
-		}
-		return convertRolesKey(permission.Roles), nil
-	}
-
-	return convertRolesKey(permission.Roles), nil
-}
-
-func (s *PermissionHolder) IsApiOpen(path string, method string) (bool, error) {
-	api := fmt.Sprintf("%v-%v", path, method)
-	// 从缓存查找
-	permission, err := s.CacheEngin.GetApiPermission(api)
-	if err != nil {
-		// 加载api
-		permission, err = s.LoadApi(path, method)
-		if err != nil {
-			return false, err
-		}
-		return permission.Status == 1, nil
-	}
-
-	return permission.Status == 1, nil
-}
-
-func (s *PermissionHolder) IsApiTraceable(path string, method string) (bool, error) {
-	api := fmt.Sprintf("%v-%v", path, method)
-	// 从缓存查找
-	permission, err := s.CacheEngin.GetApiPermission(api)
-	if err != nil {
-		// 加载api
-		permission, err = s.LoadApi(path, method)
-		if err != nil {
-			return false, err
-		}
-		return permission.Traceable == 1, nil
-	}
-
-	return permission.Traceable == 1, nil
 }
 
 // 加载用户
@@ -163,7 +102,7 @@ func (s *PermissionHolder) LoadUser(uid string) (*UserPermission, error) {
 	db := s.DbEngin
 	// 查询用户角色
 	var userApis []entity.UserRole
-	err := db.Where("user_id = ?", uid).Find(&userApis).Error
+	err := db.Where("user_id = ?", uid).First(&userApis).Error
 	// 用户角色为空，返回false
 	if err != nil {
 		return nil, err
@@ -194,12 +133,21 @@ func (s *PermissionHolder) LoadUser(uid string) (*UserPermission, error) {
 func (s *PermissionHolder) LoadApi(path string, method string) (*ApiPermission, error) {
 	db := s.DbEngin
 
+	// 查询接口
 	var api entity.Api
-	err := db.Where("path = ? and method = ?", path, method).Find(&api).Error
+	err := db.Where("path = ? and method = ?", path, method).First(&api).Error
 	if err != nil {
 		return nil, err
 	}
 
+	// 查询接口分组
+	var parent entity.Api
+	err = db.Where("id", api.ParentID).First(&parent).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询接口角色
 	var roleApis []*entity.RoleApi
 	err = db.Where("api_id = ?", api.ID).Find(&roleApis).Error
 	if err != nil {
@@ -219,7 +167,7 @@ func (s *PermissionHolder) LoadApi(path string, method string) (*ApiPermission, 
 
 	// 保存到缓存
 	key := fmt.Sprintf("%v-%v", path, method)
-	permission := &ApiPermission{Api: api, Roles: roles}
+	permission := &ApiPermission{Api: api, Group: parent.Name, Roles: roles}
 	err = s.CacheEngin.SetApiPermission(key, permission)
 	if err != nil {
 		return nil, err
@@ -234,14 +182,14 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 
 	// 查询角色菜单
 	var role entity.Role
-	err := db.Where("id = ?", rid).Find(&role).Error
+	err := db.Where("id = ?", rid).First(&role).Error
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询接口
 	var roleApis []*entity.RoleApi
-	err = db.Where("role_id = ?", role.ID).Find(&roleApis).Error
+	err = db.Where("role_id = ?", role.ID).First(&roleApis).Error
 	if err != nil {
 		return nil, err
 	}

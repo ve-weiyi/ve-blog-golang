@@ -35,8 +35,12 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 	}
 
 	for _, api := range apis {
+		if api.Router == "" {
+			continue
+		}
+
 		// 已存在则跳过
-		exist, _ := s.svcCtx.ApiRepository.First(reqCtx, "path = ? and method = ?", api.Path, api.Method)
+		exist, _ := s.svcCtx.ApiRepository.First(reqCtx, "path = ? and method = ?", api.Router, api.Method)
 		if exist != nil {
 			continue
 		}
