@@ -27,7 +27,7 @@ const dsn = "root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parse
 var db *gorm.DB
 
 func Init() {
-	initest.Init()
+	initest.InitConfig()
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
 	// 连接数据库
@@ -66,7 +66,7 @@ func TestCodeStarter(t *testing.T) {
 		ReplaceMode: invent.ModeOnlyReplace,
 		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("bs_%v", tableName)
+			return fmt.Sprintf("sp_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
 			return jsonconv.Case2Camel(column)
@@ -81,7 +81,7 @@ func TestCodeStarter(t *testing.T) {
 			return jsonconv.Case2CamelNotFirst(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyModel
+			return key != tmpl.KeyRouter
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,

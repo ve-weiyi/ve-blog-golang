@@ -15,11 +15,11 @@ import (
 // AutoCodeModel 初始版本自动化代码工具
 type AutoCodeModel struct {
 	Package        string         `json:"package"`
-	TableName      string         `json:"tableName"`   // 表名 				auto_code
-	StructName     string         `json:"structName"`  // Struct名称 		AutoCode 大写驼峰命名
-	ValueName      string         `json:"valueName"`   // Struct变量名 		autoCode 小写驼峰命名
-	JsonName       string         `json:"jsonName"`    // StructJson名		auto_code api路径前缀
-	StructComment  string         `json:"chineseName"` // Struct中文名称 	「代码」	创建api的描述和注释
+	TableName      string         `json:"table_name"`   // 表名 				auto_code
+	StructName     string         `json:"struct_name"`  // Struct名称 		AutoCode 大写驼峰命名
+	ValueName      string         `json:"value_name"`   // Struct变量名 		autoCode 小写驼峰命名
+	JsonName       string         `json:"json_name"`    // StructJson名		auto_code api路径前缀
+	CommentName    string         `json:"comment_name"` // Struct中文名称 	「代码」	创建api的描述和注释
 	Fields         []*field.Field `json:"fields,omitempty"`
 	ImportPkgPaths []string
 }
@@ -67,7 +67,7 @@ func (t *TableParser) ParseModelFromTable(tableName string) (*AutoCodeModel, err
 		StructName:     jsonconv.Case2Camel(tableName),
 		ValueName:      jsonconv.Case2CamelNotFirst(tableName),
 		JsonName:       jsonconv.Camel2Case(tableName),
-		StructComment:  tableComment,
+		CommentName:    tableComment,
 		Fields:         t.ConvertField(table.Columns),
 		ImportPkgPaths: []string{
 			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
@@ -113,7 +113,7 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyRepository,
 			FilePath: fmt.Sprintf("%v/repository/repository.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.StructName, data.StructName, data.StructComment)),
+				inject.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.StructName, data.StructName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewRepository", fmt.Sprintf(`return &AppRepository{
@@ -126,7 +126,7 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyService,
 			FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.StructComment)),
+				inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
@@ -139,7 +139,7 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyController,
 			FilePath: fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.StructName, data.StructName, data.StructComment)),
+				inject.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.StructName, data.StructName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewController", fmt.Sprintf(`return &AppController{
@@ -152,7 +152,7 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyRouter,
 			FilePath: fmt.Sprintf("%v/router/router.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.StructName, data.StructName, data.StructComment)),
+				inject.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.StructName, data.StructName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewRouter", fmt.Sprintf(`return &AppRouter{
