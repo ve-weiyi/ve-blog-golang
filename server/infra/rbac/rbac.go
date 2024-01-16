@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"errors"
 	"fmt"
 
 	"gorm.io/gorm"
@@ -38,7 +39,7 @@ func (s *PermissionHolder) CheckUserAccessApi(uid string, path string, method st
 		return err
 	}
 
-	if len(ap.Roles) == 0 {
+	if ap == nil {
 		return nil
 	}
 
@@ -47,6 +48,9 @@ func (s *PermissionHolder) CheckUserAccessApi(uid string, path string, method st
 		return err
 	}
 
+	if len(ap.Roles) == 0 {
+		return nil
+	}
 	// 遍历资源角色
 	for _, ar := range ap.Roles {
 		// 匹配用户角色
@@ -103,7 +107,6 @@ func (s *PermissionHolder) LoadUser(uid string) (*UserPermission, error) {
 	// 查询用户角色
 	var userApis []entity.UserRole
 	err := db.Where("user_id = ?", uid).First(&userApis).Error
-	// 用户角色为空，返回false
 	if err != nil {
 		return nil, err
 	}
@@ -136,6 +139,9 @@ func (s *PermissionHolder) LoadApi(path string, method string) (*ApiPermission, 
 	// 查询接口
 	var api entity.Api
 	err := db.Where("path = ? and method = ?", path, method).First(&api).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, err
 	}

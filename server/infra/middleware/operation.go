@@ -31,7 +31,12 @@ func OperationRecord() gin.HandlerFunc {
 		if err != nil {
 			global.LOG.Error(err)
 		}
-		if permission != nil && permission.Traceable == 0 {
+		// 未加载接口权限信息，或接口未开放，或接口不需要记录操作日志
+		if permission == nil {
+			c.Next()
+			return
+		}
+		if permission.Traceable == 0 {
 			c.Next()
 			return
 		}

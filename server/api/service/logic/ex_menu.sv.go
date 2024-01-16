@@ -11,7 +11,7 @@ func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 创建db
-	menuList, err := s.svcCtx.MenuRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	menuList, err := s.svcCtx.MenuRepository.FindList(reqCtx, 0, 0, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -21,6 +21,68 @@ func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 
 	list = tree.Children
 	return list, int64(len(list)), nil
+}
+
+func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuRequest) (data int64, err error) {
+
+	for _, item := range req.Menus {
+		// 已存在则跳过
+		exist, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", item.Path)
+		if exist == nil {
+			var hidden int
+			if item.Meta.ShowLink {
+				hidden = 1
+			}
+			// 插入数据
+			exist = &entity.Menu{
+				Name:      item.Name,
+				Path:      item.Path,
+				Title:     item.Meta.Title,
+				Component: "",
+				Icon:      item.Meta.Icon,
+				Rank:      item.Meta.Rank,
+				ParentID:  0,
+				IsHidden:  hidden,
+			}
+			_, err = s.svcCtx.MenuRepository.Create(reqCtx, exist)
+			if err != nil {
+				return data, err
+			}
+
+			data++
+		}
+
+		for i, child := range item.Children {
+			// 已存在则跳过
+			menu, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
+			if menu == nil {
+				var hidden int
+				if child.Meta.ShowLink {
+					hidden = 1
+				}
+				// 插入数据
+				menu = &entity.Menu{
+					Name:      child.Name,
+					Path:      child.Path,
+					Title:     item.Meta.Title,
+					Component: "",
+					Icon:      child.Meta.Icon,
+					Rank:      i,
+					ParentID:  exist.ID,
+					IsHidden:  hidden,
+				}
+				_, err = s.svcCtx.MenuRepository.Create(reqCtx, menu)
+				if err != nil {
+					return data, err
+				}
+
+				data++
+			}
+		}
+
+	}
+
+	return data, err
 }
 
 func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetailsDTO, err error) {
