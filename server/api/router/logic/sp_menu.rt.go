@@ -32,5 +32,7 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.POST("menu/list", handler.FindMenuList) // 分页查询Menu列表
 
 		loginRouter.POST("menu/details_list", handler.FindMenuDetailsList)
+
+		loginRouter.POST("menu/sync", handler.SyncMenuList) // 同步Menu列表
 	}
 }

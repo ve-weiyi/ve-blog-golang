@@ -32,5 +32,7 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.POST("role/list", handler.FindRoleList)              // 分页查询Role列表
 
 		loginRouter.POST("role/details_list", handler.FindRoleDetailsList)
+		loginRouter.POST("role/update_menus", handler.UpdateRoleMenus)
+		loginRouter.POST("role/update_resources", handler.UpdateRoleResources)
 	}
 }

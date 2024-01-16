@@ -37,6 +37,8 @@ func init() {
 // @BasePath					/
 func Init(configPath ...string) {
 	InitConfig(configPath...)
+	// 初始化zap日志库
+	Zap()
 	// 初始化gorm数据库
 	Gorm()
 	// 初始化redis服务
@@ -55,8 +57,6 @@ func InitConfig(configPath ...string) {
 		filepath = path.Join(global.GetRuntimeRoot() + "server/config.yaml")
 	}
 	global.VP = Viper(filepath) // 初始化Viper
-	// 初始化zap日志库
-	Zap()
 }
 
 func Viper(config string) *viper.Viper {
