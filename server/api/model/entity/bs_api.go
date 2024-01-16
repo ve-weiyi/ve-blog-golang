@@ -7,7 +7,7 @@ const TableNameApi = "api"
 
 // Api mapped from table <api>
 type Api struct {
-	ID        int       `gorm:"column:id;type:int;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                                      // 主键id
+	ID        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                             // 主键id
 	Name      string    `gorm:"column:name;type:varchar(128);not null;uniqueIndex:idx_path_method,priority:3;comment:api名称" json:"name"`      // api名称
 	Path      string    `gorm:"column:path;type:varchar(128);not null;uniqueIndex:idx_path_method,priority:1;comment:api路径" json:"path"`      // api路径
 	Method    string    `gorm:"column:method;type:varchar(16);not null;uniqueIndex:idx_path_method,priority:2;comment:api请求方法" json:"method"` // api请求方法

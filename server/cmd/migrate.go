@@ -40,7 +40,7 @@ func NewMigrateCmd() *MigrateCmd {
 
 func (s *MigrateCmd) init() {
 	s.cmd.PersistentFlags().BoolVarP(&s.createDB, "create", "", false, "是否创建数据库")
-	s.cmd.PersistentFlags().StringVarP(&s.sqlFile, "file", "f", "blog-mysql8.0.sql", "数据库sql文件")
+	s.cmd.PersistentFlags().StringVarP(&s.sqlFile, "file", "f", "blog-veweiyi.sql", "数据库sql文件")
 
 	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Username, "username", "u", "root", "账号")
 	s.cmd.PersistentFlags().StringVarP(&s.Mysql.Password, "password", "p", "123456", "密码")
