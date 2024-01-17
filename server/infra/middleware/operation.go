@@ -84,9 +84,21 @@ func OperationRecord() gin.HandlerFunc {
 		respParam := make(map[string]interface{})
 		// 尝试将响应体解析为 JSON，并保存为 map[string]interface{} 或字符串
 		if err := jsoniter.Unmarshal(respBody.Bytes(), &respParam); err == nil {
-			respData = respParam
+			respData = jsonconv.ObjectToJson(respParam)
 		} else {
 			respData = respBody.String()
+		}
+
+		var req, resp string
+		req = jsonconv.ObjectToJson(reqData)
+		resp = jsonconv.ObjectToJson(respData)
+
+		// 数据太长时，需要截取
+		if len(req) > 4000 {
+			req = jsonconv.ObjectToJsonIndent(&response.Response{})
+		}
+		if len(resp) > 4000 {
+			resp = jsonconv.ObjectToJsonIndent(&response.Response{})
 		}
 
 		op := entity.OperationLog{
@@ -101,8 +113,8 @@ func OperationRecord() gin.HandlerFunc {
 			RequestMethod: c.Request.Method,
 			// 请求头携带token，数据太多
 			//RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
-			RequestData:    jsonconv.ObjectToJson(reqData),
-			ResponseData:   jsonconv.ObjectToJson(respData),
+			RequestData:    req,
+			ResponseData:   resp,
 			ResponseStatus: c.Writer.Status(),
 			Cost:           fmt.Sprintf("%v", cost),
 			CreatedAt:      time.Now(),

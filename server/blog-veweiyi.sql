@@ -11,7 +11,7 @@
  Target Server Version : 80034
  File Encoding         : 65001
 
- Date: 16/01/2024 14:03:43
+ Date: 18/01/2024 18:21:49
 */
 
 SET NAMES utf8mb4;
@@ -33,177 +33,12 @@ CREATE TABLE `api` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `idx_path_method` (`path`,`method`,`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api路由';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api路由';
 
 -- ----------------------------
 -- Records of api
 -- ----------------------------
 BEGIN;
-INSERT INTO `api` VALUES (1, 'AI', '', '', 0, 0, 1, '2024-01-15 19:43:08', '2024-01-15 19:43:08');
-INSERT INTO `api` VALUES (2, '和Chatgpt聊天', '/api/v1/ai/chat', 'POST', 1, 0, 1, '2024-01-15 19:43:08', '2024-01-15 19:43:08');
-INSERT INTO `api` VALUES (4, 'Chatgpt扮演角色', '/api/v1/ai/cos', 'POST', 1, 0, 1, '2024-01-15 19:44:24', '2024-01-15 19:44:24');
-INSERT INTO `api` VALUES (5, 'Api', '', '', 0, 0, 1, '2024-01-15 19:46:15', '2024-01-15 19:46:15');
-INSERT INTO `api` VALUES (6, '创建接口', '/api/v1/api', 'POST', 5, 1, 1, '2024-01-15 19:46:15', '2024-01-15 19:59:18');
-INSERT INTO `api` VALUES (8, '更新接口', '/api/v1/api', 'PUT', 5, 1, 1, '2024-01-15 19:52:02', '2024-01-15 19:59:15');
-INSERT INTO `api` VALUES (9, '批量删除接口', '/api/v1/api/batch_delete', 'DELETE', 5, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (10, '获取api列表', '/api/v1/api/details_list', 'POST', 5, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (11, '分页获取接口列表', '/api/v1/api/list', 'POST', 5, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (12, '同步api列表', '/api/v1/api/sync', 'POST', 5, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (13, '删除接口', '/api/v1/api/{id}', 'DELETE', 5, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (14, '查询接口', '/api/v1/api/{id}', 'GET', 5, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (15, 'Article', '', '', 0, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (16, '保存文章', '/api/v1/admin/article', 'POST', 15, 0, 1, '2024-01-15 19:52:02', '2024-01-15 19:52:02');
-INSERT INTO `api` VALUES (20, '删除文章-逻辑删除', '/api/v1/admin/article/delete', 'PUT', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (21, '分页获取文章列表', '/api/v1/admin/article/list', 'POST', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (22, '更新文章', '/api/v1/admin/article/top', 'PUT', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (23, '删除文章', '/api/v1/admin/article/{id}', 'DELETE', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (24, '查询文章', '/api/v1/admin/article/{id}', 'GET', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (25, '文章归档(时间轴)', '/api/v1/article/archives', 'POST', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (26, '分页获取文章列表', '/api/v1/article/list', 'POST', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (27, '通过标签或者id获取文章列表', '/api/v1/article/series', 'POST', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (28, '文章相关推荐', '/api/v1/article/{id}/details', 'GET', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (29, '点赞文章', '/api/v1/article/{id}/like', 'PUT', 15, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (30, 'Auth', '', '', 0, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (31, '发送忘记密码邮件', '/api/v1/forget/password', 'POST', 30, 0, 1, '2024-01-15 19:55:08', '2024-01-15 19:55:08');
-INSERT INTO `api` VALUES (35, '重置密码', '/api/v1/forget/reset_password', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (36, '登录', '/api/v1/login', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (37, '注销', '/api/v1/logoff', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (38, '登出', '/api/v1/logout', 'GET', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (39, '获取授权地址', '/api/v1/oauth/login', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (40, '获取授权地址', '/api/v1/oauth/url', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (41, '注册', '/api/v1/register', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (42, '发送注册邮件', '/api/v1/register/email', 'POST', 30, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (43, 'Captcha', '', '', 0, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (44, '发送验证码', '/api/v1/captcha/email', 'POST', 43, 0, 1, '2024-01-15 19:56:16', '2024-01-15 19:56:16');
-INSERT INTO `api` VALUES (46, '生成验证码', '/api/v1/captcha/image', 'POST', 43, 0, 1, '2024-01-15 19:56:19', '2024-01-15 19:56:19');
-INSERT INTO `api` VALUES (47, '检验验证码', '/api/v1/captcha/verify', 'POST', 43, 0, 1, '2024-01-15 19:56:19', '2024-01-15 19:56:19');
-INSERT INTO `api` VALUES (48, 'Category', '', '', 0, 0, 1, '2024-01-15 19:56:19', '2024-01-15 19:56:19');
-INSERT INTO `api` VALUES (49, '创建文章分类', '/api/v1/category', 'POST', 48, 0, 1, '2024-01-15 19:56:19', '2024-01-15 19:56:19');
-INSERT INTO `api` VALUES (50, '更新文章分类', '/api/v1/category', 'PUT', 48, 0, 1, '2024-01-15 19:56:19', '2024-01-15 19:56:19');
-INSERT INTO `api` VALUES (51, '批量删除文章分类', '/api/v1/category/batch_delete', 'DELETE', 48, 0, 1, '2024-01-15 19:56:19', '2024-01-15 19:56:19');
-INSERT INTO `api` VALUES (52, '分页获取文章分类详情列表', '/api/v1/category/details_list', 'POST', 48, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (53, '分页获取文章分类列表', '/api/v1/category/list', 'POST', 48, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (54, '删除文章分类', '/api/v1/category/{id}', 'DELETE', 48, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (55, '查询文章分类', '/api/v1/category/{id}', 'GET', 48, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (56, 'Comment', '', '', 0, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (57, '创建评论', '/api/v1/comment', 'POST', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (58, '更新评论', '/api/v1/comment', 'PUT', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (59, '批量删除评论', '/api/v1/comment/batch_delete', 'DELETE', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (60, '分页获取评论列表', '/api/v1/comment/details_list', 'POST', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (61, '分页获取评论列表', '/api/v1/comment/list', 'POST', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (62, '获取用户评论列表', '/api/v1/comment/list/back', 'POST', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (63, '删除评论', '/api/v1/comment/{id}', 'DELETE', 56, 0, 1, '2024-01-15 19:56:20', '2024-01-15 19:56:20');
-INSERT INTO `api` VALUES (64, '查询评论', '/api/v1/comment/{id}', 'GET', 56, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (65, '点赞评论', '/api/v1/comment/{id}/like', 'POST', 56, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (66, '查询评论回复列表', '/api/v1/comment/{id}/reply_list', 'POST', 56, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (67, 'FriendLink', '', '', 0, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (68, '创建友链', '/api/v1/friend_link', 'POST', 67, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (69, '更新友链', '/api/v1/friend_link', 'PUT', 67, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (70, '批量删除友链', '/api/v1/friend_link/batch_delete', 'DELETE', 67, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (71, '分页获取友链列表', '/api/v1/friend_link/list', 'POST', 67, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (72, '删除友链', '/api/v1/friend_link/{id}', 'DELETE', 67, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (73, '查询友链', '/api/v1/friend_link/{id}', 'GET', 67, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (74, 'Menu', '', '', 0, 0, 1, '2024-01-15 19:56:21', '2024-01-15 19:56:21');
-INSERT INTO `api` VALUES (75, '创建菜单', '/api/v1/menu', 'POST', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (76, '更新菜单', '/api/v1/menu', 'PUT', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (77, '批量删除菜单', '/api/v1/menu/batch_delete', 'DELETE', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (78, '获取菜单列表', '/api/v1/menu/details_list', 'POST', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (79, '分页获取菜单列表', '/api/v1/menu/list', 'POST', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (80, '删除菜单', '/api/v1/menu/{id}', 'DELETE', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (81, '查询菜单', '/api/v1/menu/{id}', 'GET', 74, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (82, 'OperationLog', '', '', 0, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (83, '创建操作记录', '/api/v1/operation_log', 'POST', 82, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (84, '更新操作记录', '/api/v1/operation_log', 'PUT', 82, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (85, '批量删除操作记录', '/api/v1/operation_log/batch_delete', 'DELETE', 82, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (86, '分页获取操作记录列表', '/api/v1/operation_log/list', 'POST', 82, 0, 1, '2024-01-15 19:56:22', '2024-01-15 19:56:22');
-INSERT INTO `api` VALUES (87, '删除操作记录', '/api/v1/operation_log/{id}', 'DELETE', 82, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (88, '查询操作记录', '/api/v1/operation_log/{id}', 'GET', 82, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (89, 'Page', '', '', 0, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (90, '创建页面', '/api/v1/page', 'POST', 89, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (91, '更新页面', '/api/v1/page', 'PUT', 89, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (92, '批量删除页面', '/api/v1/page/batch_delete', 'DELETE', 89, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (93, '分页获取页面列表', '/api/v1/page/list', 'POST', 89, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (94, '删除页面', '/api/v1/page/{id}', 'DELETE', 89, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (95, '查询页面', '/api/v1/page/{id}', 'GET', 89, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (96, 'Photo', '', '', 0, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (97, '创建相片', '/api/v1/photo', 'POST', 96, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (98, '更新相片', '/api/v1/photo', 'PUT', 96, 0, 1, '2024-01-15 19:56:23', '2024-01-15 19:56:23');
-INSERT INTO `api` VALUES (99, '批量删除相片', '/api/v1/photo/batch_delete', 'DELETE', 96, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (100, '分页获取相片列表', '/api/v1/photo/list', 'POST', 96, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (101, '删除相片', '/api/v1/photo/{id}', 'DELETE', 96, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (102, '查询相片', '/api/v1/photo/{id}', 'GET', 96, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (103, 'PhotoAlbum', '', '', 0, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (104, '创建相册', '/api/v1/photo_album', 'POST', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (105, '更新相册', '/api/v1/photo_album', 'PUT', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (106, '批量删除相册', '/api/v1/photo_album/batch_delete', 'DELETE', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (107, '获取相册详情列表', '/api/v1/photo_album/details_list', 'POST', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (108, '分页获取相册列表', '/api/v1/photo_album/list', 'POST', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (109, '删除相册', '/api/v1/photo_album/{id}', 'DELETE', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (110, '查询相册', '/api/v1/photo_album/{id}', 'GET', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (111, '获取相册详情', '/api/v1/photo_album/{id}/details', 'GET', 103, 0, 1, '2024-01-15 19:56:24', '2024-01-15 19:56:24');
-INSERT INTO `api` VALUES (112, 'Remark', '', '', 0, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (113, '创建留言', '/api/v1/remark', 'POST', 112, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (114, '更新留言', '/api/v1/remark', 'PUT', 112, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (115, '批量删除留言', '/api/v1/remark/batch_delete', 'DELETE', 112, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (116, '分页获取留言列表', '/api/v1/remark/list', 'POST', 112, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (117, '删除留言', '/api/v1/remark/{id}', 'DELETE', 112, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (118, '查询留言', '/api/v1/remark/{id}', 'GET', 112, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (119, 'Role', '', '', 0, 0, 1, '2024-01-15 19:56:25', '2024-01-15 19:56:25');
-INSERT INTO `api` VALUES (120, '创建角色', '/api/v1/role', 'POST', 119, 1, 1, '2024-01-15 19:56:25', '2024-01-15 19:59:54');
-INSERT INTO `api` VALUES (121, '更新角色', '/api/v1/role', 'PUT', 119, 1, 1, '2024-01-15 19:56:25', '2024-01-15 19:59:54');
-INSERT INTO `api` VALUES (122, '批量删除角色', '/api/v1/role/batch_delete', 'DELETE', 119, 1, 1, '2024-01-15 19:56:25', '2024-01-15 19:59:55');
-INSERT INTO `api` VALUES (123, '获取角色列表', '/api/v1/role/details_list', 'POST', 119, 1, 1, '2024-01-15 19:56:26', '2024-01-15 19:59:57');
-INSERT INTO `api` VALUES (124, '分页获取角色列表', '/api/v1/role/list', 'POST', 119, 1, 1, '2024-01-15 19:56:26', '2024-01-15 19:59:57');
-INSERT INTO `api` VALUES (125, '更新角色菜单', '/api/v1/role/update_menus', 'POST', 119, 1, 1, '2024-01-15 19:56:26', '2024-01-15 19:59:59');
-INSERT INTO `api` VALUES (126, '更新角色资源', '/api/v1/role/update_resources', 'POST', 119, 1, 1, '2024-01-15 19:56:26', '2024-01-15 20:00:00');
-INSERT INTO `api` VALUES (127, '删除角色', '/api/v1/role/{id}', 'DELETE', 119, 1, 1, '2024-01-15 19:56:26', '2024-01-15 20:00:00');
-INSERT INTO `api` VALUES (128, '查询角色', '/api/v1/role/{id}', 'GET', 119, 1, 1, '2024-01-15 19:56:26', '2024-01-15 20:00:01');
-INSERT INTO `api` VALUES (129, 'Tag', '', '', 0, 0, 1, '2024-01-15 19:56:26', '2024-01-15 19:56:26');
-INSERT INTO `api` VALUES (130, '创建文章标签', '/api/v1/tag', 'POST', 129, 0, 1, '2024-01-15 19:56:26', '2024-01-15 19:56:26');
-INSERT INTO `api` VALUES (131, '更新文章标签', '/api/v1/tag', 'PUT', 129, 0, 1, '2024-01-15 19:56:26', '2024-01-15 19:56:26');
-INSERT INTO `api` VALUES (132, '批量删除文章标签', '/api/v1/tag/batch_delete', 'DELETE', 129, 0, 1, '2024-01-15 19:56:26', '2024-01-15 19:56:26');
-INSERT INTO `api` VALUES (133, '分页获取文章分类详情列表', '/api/v1/tag/details_list', 'POST', 129, 0, 1, '2024-01-15 19:56:26', '2024-01-15 19:56:26');
-INSERT INTO `api` VALUES (134, '分页获取文章标签列表', '/api/v1/tag/list', 'POST', 129, 0, 1, '2024-01-15 19:56:26', '2024-01-15 19:56:26');
-INSERT INTO `api` VALUES (135, '删除文章标签', '/api/v1/tag/{id}', 'DELETE', 129, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (136, '查询文章标签', '/api/v1/tag/{id}', 'GET', 129, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (137, 'Talk', '', '', 0, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (138, '创建说说', '/api/v1/talk', 'POST', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (139, '更新说说', '/api/v1/talk', 'PUT', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (140, '批量删除说说', '/api/v1/talk/batch_delete', 'DELETE', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (141, '分页获取说说详情列表', '/api/v1/talk/details_list', 'POST', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (142, '分页获取说说列表', '/api/v1/talk/list', 'POST', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (143, '删除说说', '/api/v1/talk/{id}', 'DELETE', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (144, '查询说说', '/api/v1/talk/{id}', 'GET', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (145, '分页获取说说详情列表', '/api/v1/talk/{id}/details', 'GET', 137, 0, 1, '2024-01-15 19:56:27', '2024-01-15 19:56:27');
-INSERT INTO `api` VALUES (146, '点赞说说', '/api/v1/talk/{id}/like', 'PUT', 137, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (147, 'Upload', '', '', 0, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (148, '上传文件', '/api/v1/upload/{label}', 'POST', 147, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (149, '上传语言', '/api/v1/voice', 'POST', 147, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (150, 'User', '', '', 0, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (151, '获取用户接口权限', '/api/v1/user/apis', 'GET', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (152, '获取用户地区列表', '/api/v1/user/area_list', 'POST', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (153, '更换用户头像', '/api/v1/user/avatar', 'POST', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (154, '获取用户信息', '/api/v1/user/info', 'GET', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (155, '修改用户信息', '/api/v1/user/info', 'POST', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (156, '获取用户列表', '/api/v1/user/list', 'POST', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (157, '获取用户登录历史', '/api/v1/user/login_history', 'POST', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (158, '批量删除登录历史', '/api/v1/user/login_history/batch_delete', 'DELETE', 150, 0, 1, '2024-01-15 19:56:28', '2024-01-15 19:56:28');
-INSERT INTO `api` VALUES (159, '获取用户菜单权限', '/api/v1/user/menus', 'GET', 150, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (160, '获取在线用户列表', '/api/v1/user/online_list', 'POST', 150, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (161, '修改用户角色', '/api/v1/user/update_roles', 'POST', 150, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (162, '修改用户状态', '/api/v1/user/update_status', 'POST', 150, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (163, 'Website', '', '', 0, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (164, '获取博客前台首页信息', '/api/v1/', 'GET', 163, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (165, '关于我', '/api/v1/about/me', 'GET', 163, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (166, '获取后台首页信息', '/api/v1/admin', 'GET', 163, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (167, '更新我的信息', '/api/v1/admin/about/me', 'POST', 163, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (168, '获取配置', '/api/v1/admin/config', 'POST', 163, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (169, '更新配置', '/api/v1/admin/config', 'PUT', 163, 0, 1, '2024-01-15 19:56:29', '2024-01-15 19:56:29');
-INSERT INTO `api` VALUES (170, '获取服务器信息', '/api/v1/admin/system/state', 'GET', 163, 0, 1, '2024-01-15 19:56:30', '2024-01-15 19:56:30');
-INSERT INTO `api` VALUES (171, '查询聊天记录', '/api/v1/chat/records', 'POST', 163, 0, 1, '2024-01-15 19:56:30', '2024-01-15 19:56:30');
-INSERT INTO `api` VALUES (172, '获取网站配置', '/api/v1/website/config', 'GET', 163, 0, 1, '2024-01-15 19:56:30', '2024-01-15 19:56:30');
-INSERT INTO `api` VALUES (173, 'Websocket', '', '', 0, 0, 1, '2024-01-15 19:56:30', '2024-01-15 19:56:30');
-INSERT INTO `api` VALUES (174, '查询聊天记录', '/api/v1/ws', 'GET', 173, 0, 1, '2024-01-15 19:56:30', '2024-01-15 19:56:30');
 COMMIT;
 
 -- ----------------------------
@@ -316,7 +151,7 @@ CREATE TABLE `casbin_rule` (
   `v5` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_casbin_rule` (`ptype`,`v0`,`v1`,`v2`,`v3`,`v4`,`v5`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of casbin_rule
@@ -479,48 +314,22 @@ CREATE TABLE `menu` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(32) NOT NULL DEFAULT '' COMMENT '菜单名',
   `path` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单路径',
+  `title` varchar(32) NOT NULL DEFAULT '' COMMENT '菜单标题',
   `component` varchar(64) NOT NULL DEFAULT '' COMMENT '组件',
   `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单icon',
-  `rank` tinyint NOT NULL DEFAULT '0' COMMENT '排序',
-  `parent_id` int DEFAULT '0' COMMENT '父id',
+  `rank` int NOT NULL DEFAULT '0' COMMENT '排序',
+  `parent_id` int NOT NULL DEFAULT  '0' COMMENT '父id',
   `is_hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏  0否1是',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uk_path` (`path`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `menu` VALUES (1, '首页', '/', '/home/Home.vue', 'home-filled', 1, 0, 1, '2021-01-26 17:06:51', '2023-08-08 10:45:22');
-INSERT INTO `menu` VALUES (2, '文章管理', '/article-submenu', 'Layout', 'apple', 2, 0, 0, '2021-01-25 20:43:07', '2023-10-31 21:57:10');
-INSERT INTO `menu` VALUES (3, '消息管理', '/message-submenu', 'Layout', 'arrow-left', 3, 0, 0, '2021-01-25 20:44:17', '2023-10-31 21:57:10');
-INSERT INTO `menu` VALUES (4, '系统管理', '/system-submenu', 'Layout', 'edit', 5, 0, 0, '2021-01-25 20:45:57', '2023-10-31 21:57:11');
-INSERT INTO `menu` VALUES (5, '个人中心', '/setting', '/setting/Setting.vue', 'soccer', 7, 0, 0, '2021-01-26 17:22:38', '2023-05-23 17:07:30');
-INSERT INTO `menu` VALUES (6, '发布文章', '/articles', '/article/Article.vue', 'el-icon-myfabiaowenzhang', 1, 2, 1, '2021-01-26 14:30:48', '2023-05-21 22:04:15');
-INSERT INTO `menu` VALUES (7, '修改文章', '/articles/*', '/article/Article.vue', 'el-icon-myfabiaowenzhang', 2, 2, 1, '2021-01-26 14:31:32', '2022-02-18 19:45:33');
-INSERT INTO `menu` VALUES (8, '文章列表', '/article-list', '/article/ArticleList.vue', 'el-icon-mywenzhangliebiao', 3, 2, 0, '2021-01-26 14:32:13', '2021-01-26 14:32:16');
-INSERT INTO `menu` VALUES (9, '分类管理', '/categories', '/category/Category.vue', 'el-icon-myfenlei', 4, 2, 0, '2021-01-26 14:33:42', '2021-01-26 14:33:43');
-INSERT INTO `menu` VALUES (10, '标签管理', '/tags', '/tag/Tag.vue', 'el-icon-myicontag', 5, 2, 0, '2021-01-26 14:34:33', '2021-01-26 14:34:36');
-INSERT INTO `menu` VALUES (11, '评论管理', '/comments', '/comment/Comment.vue', 'el-icon-mypinglunzu', 1, 3, 0, '2021-01-26 14:35:31', '2021-01-26 14:35:34');
-INSERT INTO `menu` VALUES (12, '留言管理', '/messages', '/message/Message.vue', 'el-icon-myliuyan', 2, 3, 0, '2021-01-26 14:36:09', '2021-01-26 14:36:13');
-INSERT INTO `menu` VALUES (13, '用户列表', '/users', '/user/User.vue', 'el-icon-myyonghuliebiao', 1, 202, 0, '2021-01-26 14:38:09', '2021-01-26 14:38:12');
-INSERT INTO `menu` VALUES (14, '角色管理', '/roles', '/role/Role.vue', 'el-icon-myjiaoseliebiao', 2, 213, 0, '2021-01-26 14:39:01', '2021-01-26 14:39:03');
-INSERT INTO `menu` VALUES (15, '接口管理', '/resources', '/resource/Resource.vue', 'el-icon-myjiekouguanli', 2, 213, 0, '2021-01-26 14:40:14', '2021-08-07 20:00:28');
-INSERT INTO `menu` VALUES (16, '菜单管理', '/menus', '/menu/Menu.vue', 'el-icon-mycaidan', 2, 213, 0, '2021-01-26 14:40:54', '2021-08-07 10:18:49');
-INSERT INTO `menu` VALUES (17, '友链管理', '/links', '/friendLink/FriendLink.vue', 'el-icon-mydashujukeshihuaico-', 3, 4, 0, '2021-01-26 14:41:35', '2021-01-26 14:41:37');
-INSERT INTO `menu` VALUES (18, '关于我', '/about', '/about/About.vue', 'el-icon-myguanyuwo', 4, 4, 0, '2021-01-26 14:42:05', '2021-01-26 14:42:10');
-INSERT INTO `menu` VALUES (19, '日志管理', '/log-submenu', 'Layout', 'add-location', 6, 0, 0, '2021-01-31 21:33:56', '2023-10-31 21:57:06');
-INSERT INTO `menu` VALUES (20, '操作日志', '/operation/log', '/log/Operation.vue', 'el-icon-myguanyuwo', 1, 19, 0, '2021-01-31 15:53:21', '2021-01-31 15:53:25');
-INSERT INTO `menu` VALUES (201, '在线用户', '/online/users', '/user/Online.vue', 'el-icon-myyonghuliebiao', 7, 202, 0, '2021-02-05 14:59:51', '2021-02-05 14:59:53');
-INSERT INTO `menu` VALUES (202, '用户管理', '/users-submenu', 'Layout', 'medal', 4, 0, 0, '2021-02-06 23:44:59', '2023-10-31 21:57:06');
-INSERT INTO `menu` VALUES (205, '相册管理', '/album-submenu', 'Layout', 'tools', 5, 0, 0, '2021-08-03 15:10:54', '2023-10-31 21:57:04');
-INSERT INTO `menu` VALUES (206, '相册列表', '/albums', '/album/Album.vue', 'el-icon-myzhaopian', 1, 205, 0, '2021-08-03 20:29:19', '2021-08-04 11:45:47');
-INSERT INTO `menu` VALUES (208, '照片管理', '/albums/:albumId', '/album/Photo.vue', 'el-icon-myzhaopian', 2, 205, 1, '2021-08-03 21:37:47', '2022-02-18 19:46:50');
-INSERT INTO `menu` VALUES (209, '页面管理', '/pages', '/page/Page.vue', 'el-icon-myyemianpeizhi', 2, 4, 0, '2021-08-04 11:36:27', '2021-08-07 20:01:26');
-INSERT INTO `menu` VALUES (210, '照片回收站', '/photos/delete', '/album/Delete.vue', 'el-icon-myhuishouzhan', 3, 205, 0, '2021-08-05 13:55:19', '2022-02-18 19:46:09');
-INSERT INTO `menu` VALUES (213, '权限管理', '/permission-submenu', 'Layout', 'list', 4, 0, 0, '2021-08-07 19:56:55', '2023-11-08 20:28:42');
 COMMIT;
 
 -- ----------------------------
@@ -529,7 +338,7 @@ COMMIT;
 DROP TABLE IF EXISTS `operation_log`;
 CREATE TABLE `operation_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int DEFAULT '0' COMMENT '用户id',
+  `user_id` int NOT NULL DEFAULT  '0' COMMENT '用户id',
   `nickname` varchar(64) DEFAULT '' COMMENT '用户昵称',
   `ip_address` varchar(255) DEFAULT '' COMMENT '操作ip',
   `ip_source` varchar(255) DEFAULT '' COMMENT '操作地址',
@@ -540,12 +349,12 @@ CREATE TABLE `operation_log` (
   `request_header` varchar(1024) DEFAULT '' COMMENT '请求头参数',
   `request_data` varchar(4096) DEFAULT '' COMMENT '请求参数',
   `response_data` varchar(4096) DEFAULT '' COMMENT '返回数据',
-  `response_status` int DEFAULT '0' COMMENT '响应状态码',
+  `response_status` int NOT NULL DEFAULT  '0' COMMENT '响应状态码',
   `cost` varchar(32) NOT NULL DEFAULT '' COMMENT '耗时（ms）',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
 
 -- ----------------------------
 -- Records of operation_log
@@ -679,7 +488,7 @@ CREATE TABLE `role` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色';
 
 -- ----------------------------
 -- Records of role
@@ -688,7 +497,7 @@ BEGIN;
 INSERT INTO `role` VALUES (1, 0, 'blog', 'admin', '管理员', 1, 0, '2021-03-22 14:10:21', '2024-01-14 01:13:34');
 INSERT INTO `role` VALUES (2, 0, 'blog', 'user', '用户', 1, 0, '2021-03-22 14:25:25', '2024-01-15 20:09:15');
 INSERT INTO `role` VALUES (3, 0, 'system', 'test', '测试', 1, 0, '2021-03-22 14:42:23', '2024-01-15 20:09:14');
-INSERT INTO `role` VALUES (56, 0, 'blog', 'super-admin', '超级管理员', 1, 0, '2023-05-30 20:53:04', '2024-01-15 20:09:14');
+INSERT INTO `role` VALUES (4, 0, 'blog', 'super-admin', '超级管理员', 1, 0, '2023-05-30 20:53:04', '2024-01-16 14:46:54');
 COMMIT;
 
 -- ----------------------------
@@ -700,110 +509,12 @@ CREATE TABLE `role_api` (
   `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
   `api_id` int NOT NULL DEFAULT '0' COMMENT '接口id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=470 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-api关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-api关联';
 
 -- ----------------------------
 -- Records of role_api
 -- ----------------------------
 BEGIN;
-INSERT INTO `role_api` VALUES (162, 2, 376);
-INSERT INTO `role_api` VALUES (163, 2, 377);
-INSERT INTO `role_api` VALUES (164, 2, 378);
-INSERT INTO `role_api` VALUES (165, 2, 379);
-INSERT INTO `role_api` VALUES (166, 2, 380);
-INSERT INTO `role_api` VALUES (167, 2, 381);
-INSERT INTO `role_api` VALUES (168, 2, 382);
-INSERT INTO `role_api` VALUES (358, 1, 327);
-INSERT INTO `role_api` VALUES (359, 1, 328);
-INSERT INTO `role_api` VALUES (360, 1, 329);
-INSERT INTO `role_api` VALUES (361, 1, 330);
-INSERT INTO `role_api` VALUES (362, 1, 331);
-INSERT INTO `role_api` VALUES (363, 1, 332);
-INSERT INTO `role_api` VALUES (364, 1, 333);
-INSERT INTO `role_api` VALUES (365, 1, 341);
-INSERT INTO `role_api` VALUES (366, 1, 342);
-INSERT INTO `role_api` VALUES (367, 1, 343);
-INSERT INTO `role_api` VALUES (368, 1, 344);
-INSERT INTO `role_api` VALUES (369, 1, 345);
-INSERT INTO `role_api` VALUES (370, 1, 346);
-INSERT INTO `role_api` VALUES (371, 1, 347);
-INSERT INTO `role_api` VALUES (372, 1, 348);
-INSERT INTO `role_api` VALUES (373, 1, 349);
-INSERT INTO `role_api` VALUES (374, 1, 350);
-INSERT INTO `role_api` VALUES (375, 1, 351);
-INSERT INTO `role_api` VALUES (376, 1, 352);
-INSERT INTO `role_api` VALUES (377, 1, 353);
-INSERT INTO `role_api` VALUES (378, 1, 354);
-INSERT INTO `role_api` VALUES (379, 1, 355);
-INSERT INTO `role_api` VALUES (380, 1, 356);
-INSERT INTO `role_api` VALUES (381, 1, 357);
-INSERT INTO `role_api` VALUES (382, 1, 358);
-INSERT INTO `role_api` VALUES (383, 1, 359);
-INSERT INTO `role_api` VALUES (384, 1, 360);
-INSERT INTO `role_api` VALUES (385, 1, 361);
-INSERT INTO `role_api` VALUES (386, 1, 369);
-INSERT INTO `role_api` VALUES (387, 1, 370);
-INSERT INTO `role_api` VALUES (388, 1, 371);
-INSERT INTO `role_api` VALUES (389, 1, 372);
-INSERT INTO `role_api` VALUES (390, 1, 373);
-INSERT INTO `role_api` VALUES (391, 1, 374);
-INSERT INTO `role_api` VALUES (392, 1, 375);
-INSERT INTO `role_api` VALUES (393, 1, 376);
-INSERT INTO `role_api` VALUES (394, 1, 377);
-INSERT INTO `role_api` VALUES (395, 1, 378);
-INSERT INTO `role_api` VALUES (396, 1, 379);
-INSERT INTO `role_api` VALUES (397, 1, 380);
-INSERT INTO `role_api` VALUES (398, 1, 381);
-INSERT INTO `role_api` VALUES (399, 1, 382);
-INSERT INTO `role_api` VALUES (400, 1, 383);
-INSERT INTO `role_api` VALUES (401, 1, 384);
-INSERT INTO `role_api` VALUES (402, 1, 385);
-INSERT INTO `role_api` VALUES (403, 1, 386);
-INSERT INTO `role_api` VALUES (404, 1, 387);
-INSERT INTO `role_api` VALUES (405, 1, 388);
-INSERT INTO `role_api` VALUES (406, 1, 389);
-INSERT INTO `role_api` VALUES (407, 1, 390);
-INSERT INTO `role_api` VALUES (408, 1, 391);
-INSERT INTO `role_api` VALUES (409, 1, 392);
-INSERT INTO `role_api` VALUES (410, 1, 393);
-INSERT INTO `role_api` VALUES (411, 1, 394);
-INSERT INTO `role_api` VALUES (412, 1, 395);
-INSERT INTO `role_api` VALUES (413, 1, 396);
-INSERT INTO `role_api` VALUES (414, 1, 397);
-INSERT INTO `role_api` VALUES (415, 1, 398);
-INSERT INTO `role_api` VALUES (416, 1, 399);
-INSERT INTO `role_api` VALUES (417, 1, 400);
-INSERT INTO `role_api` VALUES (418, 1, 401);
-INSERT INTO `role_api` VALUES (419, 1, 402);
-INSERT INTO `role_api` VALUES (420, 1, 403);
-INSERT INTO `role_api` VALUES (421, 1, 404);
-INSERT INTO `role_api` VALUES (422, 1, 405);
-INSERT INTO `role_api` VALUES (423, 1, 406);
-INSERT INTO `role_api` VALUES (424, 1, 407);
-INSERT INTO `role_api` VALUES (425, 1, 408);
-INSERT INTO `role_api` VALUES (426, 1, 409);
-INSERT INTO `role_api` VALUES (427, 1, 410);
-INSERT INTO `role_api` VALUES (449, 3, 390);
-INSERT INTO `role_api` VALUES (450, 3, 391);
-INSERT INTO `role_api` VALUES (451, 3, 392);
-INSERT INTO `role_api` VALUES (452, 3, 393);
-INSERT INTO `role_api` VALUES (453, 3, 394);
-INSERT INTO `role_api` VALUES (454, 3, 395);
-INSERT INTO `role_api` VALUES (455, 3, 396);
-INSERT INTO `role_api` VALUES (456, 3, 397);
-INSERT INTO `role_api` VALUES (457, 3, 398);
-INSERT INTO `role_api` VALUES (458, 3, 399);
-INSERT INTO `role_api` VALUES (459, 3, 400);
-INSERT INTO `role_api` VALUES (460, 3, 401);
-INSERT INTO `role_api` VALUES (461, 3, 402);
-INSERT INTO `role_api` VALUES (462, 3, 403);
-INSERT INTO `role_api` VALUES (463, 3, 404);
-INSERT INTO `role_api` VALUES (464, 3, 405);
-INSERT INTO `role_api` VALUES (465, 3, 406);
-INSERT INTO `role_api` VALUES (466, 3, 407);
-INSERT INTO `role_api` VALUES (467, 3, 408);
-INSERT INTO `role_api` VALUES (468, 3, 409);
-INSERT INTO `role_api` VALUES (469, 3, 410);
 COMMIT;
 
 -- ----------------------------
@@ -815,171 +526,12 @@ CREATE TABLE `role_menu` (
   `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
   `menu_id` int NOT NULL DEFAULT '0' COMMENT '菜单id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2980 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-菜单关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-菜单关联';
 
 -- ----------------------------
 -- Records of role_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `role_menu` VALUES (1397, 8, 1);
-INSERT INTO `role_menu` VALUES (1398, 8, 2);
-INSERT INTO `role_menu` VALUES (1399, 8, 6);
-INSERT INTO `role_menu` VALUES (1400, 8, 7);
-INSERT INTO `role_menu` VALUES (1401, 8, 8);
-INSERT INTO `role_menu` VALUES (1402, 8, 9);
-INSERT INTO `role_menu` VALUES (1403, 8, 10);
-INSERT INTO `role_menu` VALUES (1404, 8, 3);
-INSERT INTO `role_menu` VALUES (1405, 8, 11);
-INSERT INTO `role_menu` VALUES (1406, 8, 12);
-INSERT INTO `role_menu` VALUES (1407, 8, 202);
-INSERT INTO `role_menu` VALUES (1408, 8, 13);
-INSERT INTO `role_menu` VALUES (1409, 8, 14);
-INSERT INTO `role_menu` VALUES (1410, 8, 201);
-INSERT INTO `role_menu` VALUES (1411, 8, 4);
-INSERT INTO `role_menu` VALUES (1412, 8, 16);
-INSERT INTO `role_menu` VALUES (1413, 8, 15);
-INSERT INTO `role_menu` VALUES (1414, 8, 17);
-INSERT INTO `role_menu` VALUES (1415, 8, 18);
-INSERT INTO `role_menu` VALUES (1416, 8, 19);
-INSERT INTO `role_menu` VALUES (1417, 8, 20);
-INSERT INTO `role_menu` VALUES (1418, 8, 5);
-INSERT INTO `role_menu` VALUES (1595, 9, 1);
-INSERT INTO `role_menu` VALUES (1596, 9, 2);
-INSERT INTO `role_menu` VALUES (1597, 9, 6);
-INSERT INTO `role_menu` VALUES (1598, 9, 7);
-INSERT INTO `role_menu` VALUES (1599, 9, 8);
-INSERT INTO `role_menu` VALUES (1600, 9, 9);
-INSERT INTO `role_menu` VALUES (1601, 9, 10);
-INSERT INTO `role_menu` VALUES (1602, 9, 3);
-INSERT INTO `role_menu` VALUES (1603, 9, 11);
-INSERT INTO `role_menu` VALUES (1604, 9, 12);
-INSERT INTO `role_menu` VALUES (1605, 9, 202);
-INSERT INTO `role_menu` VALUES (1606, 9, 13);
-INSERT INTO `role_menu` VALUES (1607, 9, 14);
-INSERT INTO `role_menu` VALUES (1608, 9, 201);
-INSERT INTO `role_menu` VALUES (1609, 9, 4);
-INSERT INTO `role_menu` VALUES (1610, 9, 16);
-INSERT INTO `role_menu` VALUES (1611, 9, 15);
-INSERT INTO `role_menu` VALUES (1612, 9, 17);
-INSERT INTO `role_menu` VALUES (1613, 9, 18);
-INSERT INTO `role_menu` VALUES (1614, 9, 19);
-INSERT INTO `role_menu` VALUES (1615, 9, 20);
-INSERT INTO `role_menu` VALUES (1616, 9, 5);
-INSERT INTO `role_menu` VALUES (1639, 13, 2);
-INSERT INTO `role_menu` VALUES (1640, 13, 6);
-INSERT INTO `role_menu` VALUES (1641, 13, 7);
-INSERT INTO `role_menu` VALUES (1642, 13, 8);
-INSERT INTO `role_menu` VALUES (1643, 13, 9);
-INSERT INTO `role_menu` VALUES (1644, 13, 10);
-INSERT INTO `role_menu` VALUES (1645, 13, 3);
-INSERT INTO `role_menu` VALUES (1646, 13, 11);
-INSERT INTO `role_menu` VALUES (1647, 13, 12);
-INSERT INTO `role_menu` VALUES (2366, 14, 1);
-INSERT INTO `role_menu` VALUES (2367, 14, 2);
-INSERT INTO `role_menu` VALUES (2876, 1, 1);
-INSERT INTO `role_menu` VALUES (2877, 1, 2);
-INSERT INTO `role_menu` VALUES (2878, 1, 3);
-INSERT INTO `role_menu` VALUES (2879, 1, 4);
-INSERT INTO `role_menu` VALUES (2880, 1, 5);
-INSERT INTO `role_menu` VALUES (2881, 1, 6);
-INSERT INTO `role_menu` VALUES (2882, 1, 7);
-INSERT INTO `role_menu` VALUES (2883, 1, 8);
-INSERT INTO `role_menu` VALUES (2884, 1, 9);
-INSERT INTO `role_menu` VALUES (2885, 1, 10);
-INSERT INTO `role_menu` VALUES (2886, 1, 11);
-INSERT INTO `role_menu` VALUES (2887, 1, 12);
-INSERT INTO `role_menu` VALUES (2888, 1, 13);
-INSERT INTO `role_menu` VALUES (2889, 1, 14);
-INSERT INTO `role_menu` VALUES (2890, 1, 15);
-INSERT INTO `role_menu` VALUES (2891, 1, 16);
-INSERT INTO `role_menu` VALUES (2892, 1, 17);
-INSERT INTO `role_menu` VALUES (2893, 1, 18);
-INSERT INTO `role_menu` VALUES (2894, 1, 19);
-INSERT INTO `role_menu` VALUES (2895, 1, 20);
-INSERT INTO `role_menu` VALUES (2896, 1, 201);
-INSERT INTO `role_menu` VALUES (2897, 1, 202);
-INSERT INTO `role_menu` VALUES (2898, 1, 205);
-INSERT INTO `role_menu` VALUES (2899, 1, 206);
-INSERT INTO `role_menu` VALUES (2900, 1, 208);
-INSERT INTO `role_menu` VALUES (2901, 1, 209);
-INSERT INTO `role_menu` VALUES (2902, 1, 210);
-INSERT INTO `role_menu` VALUES (2903, 1, 213);
-INSERT INTO `role_menu` VALUES (2904, 3, 1);
-INSERT INTO `role_menu` VALUES (2905, 3, 2);
-INSERT INTO `role_menu` VALUES (2906, 3, 3);
-INSERT INTO `role_menu` VALUES (2907, 3, 4);
-INSERT INTO `role_menu` VALUES (2908, 3, 5);
-INSERT INTO `role_menu` VALUES (2909, 3, 6);
-INSERT INTO `role_menu` VALUES (2910, 3, 7);
-INSERT INTO `role_menu` VALUES (2911, 3, 8);
-INSERT INTO `role_menu` VALUES (2912, 3, 9);
-INSERT INTO `role_menu` VALUES (2913, 3, 10);
-INSERT INTO `role_menu` VALUES (2914, 3, 11);
-INSERT INTO `role_menu` VALUES (2915, 3, 12);
-INSERT INTO `role_menu` VALUES (2916, 3, 13);
-INSERT INTO `role_menu` VALUES (2917, 3, 14);
-INSERT INTO `role_menu` VALUES (2918, 3, 15);
-INSERT INTO `role_menu` VALUES (2919, 3, 16);
-INSERT INTO `role_menu` VALUES (2920, 3, 17);
-INSERT INTO `role_menu` VALUES (2921, 3, 18);
-INSERT INTO `role_menu` VALUES (2922, 3, 19);
-INSERT INTO `role_menu` VALUES (2923, 3, 20);
-INSERT INTO `role_menu` VALUES (2924, 3, 201);
-INSERT INTO `role_menu` VALUES (2925, 3, 202);
-INSERT INTO `role_menu` VALUES (2926, 3, 209);
-INSERT INTO `role_menu` VALUES (2927, 3, 213);
-INSERT INTO `role_menu` VALUES (2928, 2, 1);
-INSERT INTO `role_menu` VALUES (2929, 2, 2);
-INSERT INTO `role_menu` VALUES (2930, 2, 3);
-INSERT INTO `role_menu` VALUES (2931, 2, 4);
-INSERT INTO `role_menu` VALUES (2932, 2, 5);
-INSERT INTO `role_menu` VALUES (2933, 2, 6);
-INSERT INTO `role_menu` VALUES (2934, 2, 7);
-INSERT INTO `role_menu` VALUES (2935, 2, 8);
-INSERT INTO `role_menu` VALUES (2936, 2, 9);
-INSERT INTO `role_menu` VALUES (2937, 2, 10);
-INSERT INTO `role_menu` VALUES (2938, 2, 11);
-INSERT INTO `role_menu` VALUES (2939, 2, 12);
-INSERT INTO `role_menu` VALUES (2940, 2, 13);
-INSERT INTO `role_menu` VALUES (2941, 2, 14);
-INSERT INTO `role_menu` VALUES (2942, 2, 15);
-INSERT INTO `role_menu` VALUES (2943, 2, 16);
-INSERT INTO `role_menu` VALUES (2944, 2, 17);
-INSERT INTO `role_menu` VALUES (2945, 2, 18);
-INSERT INTO `role_menu` VALUES (2946, 2, 19);
-INSERT INTO `role_menu` VALUES (2947, 2, 20);
-INSERT INTO `role_menu` VALUES (2948, 2, 201);
-INSERT INTO `role_menu` VALUES (2949, 2, 202);
-INSERT INTO `role_menu` VALUES (2950, 2, 209);
-INSERT INTO `role_menu` VALUES (2951, 2, 213);
-INSERT INTO `role_menu` VALUES (2952, 56, 1);
-INSERT INTO `role_menu` VALUES (2953, 56, 2);
-INSERT INTO `role_menu` VALUES (2954, 56, 3);
-INSERT INTO `role_menu` VALUES (2955, 56, 4);
-INSERT INTO `role_menu` VALUES (2956, 56, 5);
-INSERT INTO `role_menu` VALUES (2957, 56, 6);
-INSERT INTO `role_menu` VALUES (2958, 56, 7);
-INSERT INTO `role_menu` VALUES (2959, 56, 8);
-INSERT INTO `role_menu` VALUES (2960, 56, 9);
-INSERT INTO `role_menu` VALUES (2961, 56, 10);
-INSERT INTO `role_menu` VALUES (2962, 56, 11);
-INSERT INTO `role_menu` VALUES (2963, 56, 12);
-INSERT INTO `role_menu` VALUES (2964, 56, 13);
-INSERT INTO `role_menu` VALUES (2965, 56, 14);
-INSERT INTO `role_menu` VALUES (2966, 56, 15);
-INSERT INTO `role_menu` VALUES (2967, 56, 16);
-INSERT INTO `role_menu` VALUES (2968, 56, 17);
-INSERT INTO `role_menu` VALUES (2969, 56, 18);
-INSERT INTO `role_menu` VALUES (2970, 56, 19);
-INSERT INTO `role_menu` VALUES (2971, 56, 20);
-INSERT INTO `role_menu` VALUES (2972, 56, 201);
-INSERT INTO `role_menu` VALUES (2973, 56, 202);
-INSERT INTO `role_menu` VALUES (2974, 56, 205);
-INSERT INTO `role_menu` VALUES (2975, 56, 206);
-INSERT INTO `role_menu` VALUES (2976, 56, 208);
-INSERT INTO `role_menu` VALUES (2977, 56, 209);
-INSERT INTO `role_menu` VALUES (2978, 56, 210);
-INSERT INTO `role_menu` VALUES (2979, 56, 213);
 COMMIT;
 
 -- ----------------------------
@@ -1260,84 +812,12 @@ CREATE TABLE `upload_record` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_uid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='上传记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='上传记录';
 
 -- ----------------------------
 -- Records of upload_record
 -- ----------------------------
 BEGIN;
-INSERT INTO `upload_record` VALUES (1, 0, '/', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230704220025.jpeg', '2023-07-04 22:00:25', '2023-07-04 22:00:25');
-INSERT INTO `upload_record` VALUES (3, 0, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230704220059.jpeg', '2023-07-04 22:00:59', '2023-07-04 22:00:59');
-INSERT INTO `upload_record` VALUES (4, 0, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230704220205.jpeg', '2023-07-04 22:02:05', '2023-07-04 22:02:05');
-INSERT INTO `upload_record` VALUES (5, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230704220420.jpeg', '2023-07-04 22:04:20', '2023-07-04 22:04:20');
-INSERT INTO `upload_record` VALUES (6, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230705111007.jpeg', '2023-07-05 11:10:07', '2023-07-05 11:10:07');
-INSERT INTO `upload_record` VALUES (7, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230705111009.jpeg', '2023-07-05 11:10:09', '2023-07-05 11:10:09');
-INSERT INTO `upload_record` VALUES (8, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 've-blog.oss-cn-shenzhen.aliyuncs.com/blog//uploads/2023-07-05/640 (17).jpeg', '2023-07-05 11:17:09', '2023-07-05 11:17:09');
-INSERT INTO `upload_record` VALUES (9, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 've-blog.oss-cn-shenzhen.aliyuncs.com/blog/2500af83933ac8f4407759c491a8b423_20230705112108.jpeg', '2023-07-05 11:21:08', '2023-07-05 11:21:08');
-INSERT INTO `upload_record` VALUES (10, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230705145450.jpeg', '2023-07-05 14:54:50', '2023-07-05 14:54:50');
-INSERT INTO `upload_record` VALUES (11, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://localhost:9999/runtime/uploads/file/2500af83933ac8f4407759c491a8b423_20230705145452.jpeg', '2023-07-05 14:54:52', '2023-07-05 14:54:52');
-INSERT INTO `upload_record` VALUES (12, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'rxb1y0x1n.hn-bkt.clouddn.com/blog/2500af83933ac8f4407759c491a8b423_20230705145630.jpeg', '2023-07-05 14:56:30', '2023-07-05 14:56:30');
-INSERT INTO `upload_record` VALUES (13, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'https://rxb1y0x1n.hn-bkt.clouddn.com/blog/2500af83933ac8f4407759c491a8b423_20230705145755.jpeg', '2023-07-05 14:57:55', '2023-07-05 14:57:55');
-INSERT INTO `upload_record` VALUES (14, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/2500af83933ac8f4407759c491a8b423_20230705150114.jpeg', '2023-07-05 15:01:15', '2023-07-05 15:01:15');
-INSERT INTO `upload_record` VALUES (15, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/2500af83933ac8f4407759c491a8b423_20230705151014.jpeg', '2023-07-05 15:10:15', '2023-07-05 15:10:15');
-INSERT INTO `upload_record` VALUES (16, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/2500af83933ac8f4407759c491a8b423_20230705151055.jpeg', '2023-07-05 15:10:55', '2023-07-05 15:10:55');
-INSERT INTO `upload_record` VALUES (17, 3, '/avatar', '640 (17).jpeg', 21301, '310f5be1e46e6e7c6b8ef0dd61710a4d', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/2500af83933ac8f4407759c491a8b423_20230705151114.jpeg', '2023-07-05 15:11:15', '2023-07-05 15:11:15');
-INSERT INTO `upload_record` VALUES (18, 3, '/avatar', 'baihu.jpg', 503323, '14f43565288c3fa2f8c2388a9289925e', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/0a2f9bc606319b70ec302ceccfbeb7e6_20230713122541.jpg', '2023-07-13 12:25:42', '2023-07-13 12:25:42');
-INSERT INTO `upload_record` VALUES (19, 3, '/avatar', 'baihu.jpg', 503323, '14f43565288c3fa2f8c2388a9289925e', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/0a2f9bc606319b70ec302ceccfbeb7e6_20230713122720.jpg', '2023-07-13 12:27:20', '2023-07-13 12:27:20');
-INSERT INTO `upload_record` VALUES (20, 0, '/avatar', 'qilin.jpg', 257392, 'b0ab156ff05892669456be53f26bb3ae', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/7b81b73d7b1076e27cfc9e095de84b69_20230713122742.jpg', '2023-07-13 12:27:42', '2023-07-13 12:27:42');
-INSERT INTO `upload_record` VALUES (21, 0, '/avatar', 'qilin.jpg', 257392, 'b0ab156ff05892669456be53f26bb3ae', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/7b81b73d7b1076e27cfc9e095de84b69_20230713122917.jpg', '2023-07-13 12:29:17', '2023-07-13 12:29:17');
-INSERT INTO `upload_record` VALUES (22, 3, 'avatar', 'qilin.jpg', 257392, 'b0ab156ff05892669456be53f26bb3ae', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/7b81b73d7b1076e27cfc9e095de84b69_20230713143405.jpg', '2023-07-13 14:34:05', '2023-07-13 14:34:05');
-INSERT INTO `upload_record` VALUES (23, 3, 'avatar', 'tiger.jpg', 57396, '142cdc069d224eec0092ae9ec63eebb8', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/43b90920409618f188bfc6923f16b9fa_20230713143425.jpg', '2023-07-13 14:34:25', '2023-07-13 14:34:25');
-INSERT INTO `upload_record` VALUES (24, 0, '/hh', 'qilin.jpg', 257392, 'b0ab156ff05892669456be53f26bb3ae', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/hh/7b81b73d7b1076e27cfc9e095de84b69_20230720200454.jpg', '2023-07-20 20:04:54', '2023-07-20 20:04:54');
-INSERT INTO `upload_record` VALUES (25, 0, '/avatar', 'baihu.jpg', 503323, '14f43565288c3fa2f8c2388a9289925e', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/0a2f9bc606319b70ec302ceccfbeb7e6_20230721101041.jpg', '2023-07-21 10:10:42', '2023-07-21 10:10:42');
-INSERT INTO `upload_record` VALUES (26, 0, '/:label', 'qinglong.jpg', 644494, '40dc6ddf12acd53fcc27722f4ca3b7f4', 'http://localhost:9999/runtime/uploads/file/:label/20877959de9092522687927736beeb9c_20230721101125.jpg', '2023-07-21 10:11:25', '2023-07-21 10:11:25');
-INSERT INTO `upload_record` VALUES (27, 0, '/:label', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/file/:label/098f6bcd4621d373cade4e832627b4f6_20230721110954.jpg', '2023-07-21 11:09:54', '2023-07-21 11:09:54');
-INSERT INTO `upload_record` VALUES (28, 0, '/:label', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/file/:label/098f6bcd4621d373cade4e832627b4f6_20230721111017.jpg', '2023-07-21 11:10:17', '2023-07-21 11:10:17');
-INSERT INTO `upload_record` VALUES (29, 0, '/:label', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/file/:label/098f6bcd4621d373cade4e832627b4f6_20230721112035.jpg', '2023-07-21 11:20:35', '2023-07-21 11:20:35');
-INSERT INTO `upload_record` VALUES (30, 0, '/avatar', 'qinglong.jpg', 644494, '40dc6ddf12acd53fcc27722f4ca3b7f4', 'http://localhost:9999/runtime/uploads/file/avatar/20877959de9092522687927736beeb9c_20230725192654.jpg', '2023-07-25 19:26:54', '2023-07-25 19:26:54');
-INSERT INTO `upload_record` VALUES (31, 0, '/album', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/album/098f6bcd4621d373cade4e832627b4f6_20231026194021.jpg', '2023-10-26 19:40:21', '2023-10-26 19:40:21');
-INSERT INTO `upload_record` VALUES (32, 0, '/album', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/album/098f6bcd4621d373cade4e832627b4f6_20231026194057.jpg', '2023-10-26 19:40:57', '2023-10-26 19:40:57');
-INSERT INTO `upload_record` VALUES (33, 0, '/album', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/album/098f6bcd4621d373cade4e832627b4f6_20231026194120.jpg', '2023-10-26 19:41:20', '2023-10-26 19:41:20');
-INSERT INTO `upload_record` VALUES (34, 0, '/album', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/album/098f6bcd4621d373cade4e832627b4f6_20231026194241.jpg', '2023-10-26 19:42:41', '2023-10-26 19:42:41');
-INSERT INTO `upload_record` VALUES (35, 0, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/avatar/098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', '2023-10-30 16:41:01', '2023-10-30 16:41:01');
-INSERT INTO `upload_record` VALUES (36, 0, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/avatar/098f6bcd4621d373cade4e832627b4f6_20231030164603.jpg', '2023-10-30 16:46:03', '2023-10-30 16:46:03');
-INSERT INTO `upload_record` VALUES (37, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/avatar/098f6bcd4621d373cade4e832627b4f6_20231030164741.jpg', '2023-10-30 16:47:41', '2023-10-30 16:47:41');
-INSERT INTO `upload_record` VALUES (38, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/avatar/098f6bcd4621d373cade4e832627b4f6_20231030164809.jpg', '2023-10-30 16:48:09', '2023-10-30 16:48:09');
-INSERT INTO `upload_record` VALUES (39, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/3/avatar/098f6bcd4621d373cade4e832627b4f6_20231030165027.jpg', '2023-10-30 16:50:27', '2023-10-30 16:50:27');
-INSERT INTO `upload_record` VALUES (40, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', '/3/avatar/098f6bcd4621d373cade4e832627b4f6_20231030170949.jpg', '2023-10-30 17:09:49', '2023-10-30 17:09:49');
-INSERT INTO `upload_record` VALUES (41, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/3/avatar/test_20231030171401.jpg', '2023-10-30 17:14:01', '2023-10-30 17:14:01');
-INSERT INTO `upload_record` VALUES (42, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/3/avatar/test_20231030171409.jpg', '2023-10-30 17:14:09', '2023-10-30 17:14:09');
-INSERT INTO `upload_record` VALUES (43, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://ve-blog.oss-cn-shenzhen.aliyuncs.com/blog/3/avatar/test_20231030172119.jpg', '2023-10-30 17:21:19', '2023-10-30 17:21:19');
-INSERT INTO `upload_record` VALUES (44, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'runtime/uploads/http:/localhost:9999/3/avatar/test_20231030172148.jpg', '2023-10-30 17:21:48', '2023-10-30 17:21:48');
-INSERT INTO `upload_record` VALUES (45, 3, '/avatar', 'test.jpg', 395488, '0412c29576c708cf0155e8de242169b1', 'http://localhost:9999/runtime/uploads/3/avatar/test_20231030172224.jpg', '2023-10-30 17:22:24', '2023-10-30 17:22:24');
-INSERT INTO `upload_record` VALUES (46, 3, '/album', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/album/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231030201022.jpg', '2023-10-30 20:10:22', '2023-10-30 20:10:22');
-INSERT INTO `upload_record` VALUES (47, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109210806.jpg', '2023-11-09 21:08:06', '2023-11-09 21:08:06');
-INSERT INTO `upload_record` VALUES (48, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109210901.jpg', '2023-11-09 21:09:01', '2023-11-09 21:09:01');
-INSERT INTO `upload_record` VALUES (49, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109210952.jpg', '2023-11-09 21:09:52', '2023-11-09 21:09:52');
-INSERT INTO `upload_record` VALUES (50, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109211034.jpg', '2023-11-09 21:10:34', '2023-11-09 21:10:34');
-INSERT INTO `upload_record` VALUES (51, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109212518.jpg', '2023-11-09 21:25:18', '2023-11-09 21:25:18');
-INSERT INTO `upload_record` VALUES (52, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109212701.jpg', '2023-11-09 21:27:01', '2023-11-09 21:27:01');
-INSERT INTO `upload_record` VALUES (53, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109212722.jpg', '2023-11-09 21:27:22', '2023-11-09 21:27:22');
-INSERT INTO `upload_record` VALUES (54, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109212756.jpg', '2023-11-09 21:27:56', '2023-11-09 21:27:56');
-INSERT INTO `upload_record` VALUES (55, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109212833.jpg', '2023-11-09 21:28:33', '2023-11-09 21:28:33');
-INSERT INTO `upload_record` VALUES (56, 3, '/article/cover', '098f6bcd4621d373cade4e832627b4f6_20231030164101.jpg', 395488, '5541daa804a425cc6c5506857da5eb66', 'http://localhost:9999/runtime/uploads/3/article/cover/098f6bcd4621d373cade4e832627b4f6_20231030164101_20231109213428.jpg', '2023-11-09 21:34:28', '2023-11-09 21:34:28');
-INSERT INTO `upload_record` VALUES (57, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'http://localhost:9999/runtime/uploads/3/avatar/zhuqu_20231129201154.jpg', '2023-11-29 20:11:54', '2023-11-29 20:11:54');
-INSERT INTO `upload_record` VALUES (58, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'http://localhost:9999/runtime/uploads/3/avatar/zhuqu_20231129205842.jpg', '2023-11-29 20:58:42', '2023-11-29 20:58:42');
-INSERT INTO `upload_record` VALUES (59, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'https://static.veweiyi.cn/blog/3/avatar/zhuqu_20231129211006.jpg', '2023-11-29 21:10:06', '2023-11-29 21:10:06');
-INSERT INTO `upload_record` VALUES (60, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'https://static.veweiyi.cn/blog/3/avatar/zhuqu_20231130112821.jpg', '2023-11-30 11:28:22', '2023-11-30 11:28:22');
-INSERT INTO `upload_record` VALUES (61, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'https://static.veweiyi.cn/blog/3/avatar/zhuqu_20231130112946.jpg', '2023-11-30 11:29:47', '2023-11-30 11:29:47');
-INSERT INTO `upload_record` VALUES (62, 0, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'https://static.veweiyi.cn/blog/0/avatar/zhuqu_20231130112951.jpg', '2023-11-30 11:29:51', '2023-11-30 11:29:51');
-INSERT INTO `upload_record` VALUES (63, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'https://static.veweiyi.cn/blog/3/avatar/zhuqu_20231130112953.jpg', '2023-11-30 11:29:54', '2023-11-30 11:29:54');
-INSERT INTO `upload_record` VALUES (64, 3, '/avatar', 'zhuqu.jpg', 672552, '970c74a565abccbc46b2cf5a333ffe3f', 'https://static.veweiyi.cn/blog/3/avatar/zhuqu_20231130112955.jpg', '2023-11-30 11:29:55', '2023-11-30 11:29:55');
-INSERT INTO `upload_record` VALUES (65, 3, 'upload/article/cover', '{5AE31649-CD27-A123-F789-C657FA2956D6}.jpg', 42497, '5e19751def35a541ac52b02be5a04302', 'https://static.veweiyi.cn/blog/3/upload/article/cover/{5AE31649-CD27-A123-F789-C657FA2956D6}_20231205115310.jpg', '2023-12-05 11:53:11', '2023-12-05 11:53:11');
-INSERT INTO `upload_record` VALUES (66, 3, 'upload/article/cover', 'avatar.png', 38969, '4a301072dec6b6a49050e5b294cd7983', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205115359.png', '2023-12-05 11:54:18', '2023-12-05 11:54:18');
-INSERT INTO `upload_record` VALUES (67, 3, 'upload/article/cover', 'avatar.png', 38969, '4a301072dec6b6a49050e5b294cd7983', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205115507.png', '2023-12-05 11:55:08', '2023-12-05 11:55:08');
-INSERT INTO `upload_record` VALUES (68, 3, 'upload/article/cover', '{5AE31649-CD27-A123-F789-C657FA2956D6}.jpg', 42497, '5e19751def35a541ac52b02be5a04302', 'https://static.veweiyi.cn/blog/3/upload/article/cover/{5AE31649-CD27-A123-F789-C657FA2956D6}_20231205115614.jpg', '2023-12-05 11:56:41', '2023-12-05 11:56:41');
-INSERT INTO `upload_record` VALUES (69, 3, 'upload/article/cover', '{5AE31649-CD27-A123-F789-C657FA2956D6}.jpg', 42497, '5e19751def35a541ac52b02be5a04302', 'https://static.veweiyi.cn/blog/3/upload/article/cover/{5AE31649-CD27-A123-F789-C657FA2956D6}_20231205193955.jpg', '2023-12-05 19:39:55', '2023-12-05 19:39:55');
-INSERT INTO `upload_record` VALUES (70, 3, 'upload/article/cover', '{5AE31649-CD27-A123-F789-C657FA2956D6}.jpg', 42497, '5e19751def35a541ac52b02be5a04302', 'https://static.veweiyi.cn/blog/3/upload/article/cover/{5AE31649-CD27-A123-F789-C657FA2956D6}_20231205202637.jpg', '2023-12-05 20:26:37', '2023-12-05 20:26:37');
-INSERT INTO `upload_record` VALUES (71, 3, 'upload/article/cover', 'avatar.png', 38969, '4a301072dec6b6a49050e5b294cd7983', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202806.png', '2023-12-05 20:28:06', '2023-12-05 20:28:06');
-INSERT INTO `upload_record` VALUES (72, 3, 'upload/article/cover', 'avatar.png', 38969, '4a301072dec6b6a49050e5b294cd7983', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '2023-12-05 20:28:44', '2023-12-05 20:28:44');
-INSERT INTO `upload_record` VALUES (73, 3, 'upload/article/cover', 'wusheng.jpg', 395488, '7c576bcd6d5d56bcda8d9a39d1992f8a', 'https://static.veweiyi.cn/blog/3/upload/article/cover/wusheng_20231205203537.jpg', '2023-12-05 20:35:38', '2023-12-05 20:35:38');
 COMMIT;
 
 -- ----------------------------
@@ -1418,7 +898,7 @@ CREATE TABLE `user_login_history` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uk_uuid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
 
 -- ----------------------------
 -- Records of user_login_history

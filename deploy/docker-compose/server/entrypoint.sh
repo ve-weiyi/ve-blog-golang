@@ -13,6 +13,7 @@ cd /home/blog
 #git config --global user.email "791422171@qq.com"
 #git config --global user.name "veweiyi"
 #git config --global --unset http.proxy
+-e GOPROXY=https://goproxy.cn, direct
 
 # 下载项目
 git clone https://github.com/ve-weiyi/ve-blog-golang.git

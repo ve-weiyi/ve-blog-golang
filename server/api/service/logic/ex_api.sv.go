@@ -34,6 +34,7 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 		return 0, err
 	}
 
+	var apiModels []*entity.Api
 	for _, api := range apis {
 		if api.Router == "" {
 			continue
@@ -57,20 +58,38 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 			}
 		}
 
+		var traceable int
+		if strings.ToUpper(api.Method) == "PUT" || strings.ToUpper(api.Method) == "DELETE" {
+			traceable = 1
+		}
+		if strings.ToUpper(api.Method) == "POST" && !strings.Contains(api.Router, "list") {
+			traceable = 1
+		}
+
 		// 插入数据
 		model := &entity.Api{
-			Name:     api.Summary,
-			Path:     api.Router,
-			Method:   strings.ToUpper(api.Method),
-			ParentID: parent.ID,
+			Name:      api.Summary,
+			Path:      api.Router,
+			Method:    strings.ToUpper(api.Method),
+			ParentID:  parent.ID,
+			Traceable: traceable,
 		}
-		_, err = s.svcCtx.ApiRepository.Create(reqCtx, model)
-		if err != nil {
-			return 0, err
-		}
-		data++
+
+		apiModels = append(apiModels, model)
+		//_, err = s.svcCtx.ApiRepository.Create(reqCtx, model)
+		//if err != nil {
+		//	return 0, err
+		//}
+		//data++
 	}
 
+	// 批量插入，减少数据库压力
+	query := s.svcCtx.ApiRepository.DbEngin.CreateInBatches(apiModels, len(apiModels))
+	data = query.RowsAffected
+	err = query.Error
+	if err != nil {
+		return 0, err
+	}
 	return data, nil
 }
 

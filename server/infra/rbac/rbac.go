@@ -74,11 +74,11 @@ func (s *PermissionHolder) FindUserPermission(uid string) (*UserPermission, erro
 		if err != nil {
 			return nil, err
 		}
-		s.logger.Warnf("find user from database:%v", permission)
+		s.logger.Warnf("find user from database:%+v", permission)
 		return permission, nil
 	}
 
-	s.logger.Infof("load user from cache:%v", permission)
+	s.logger.Infof("load user from cache:%+v", permission)
 	return permission, nil
 }
 
@@ -93,11 +93,11 @@ func (s *PermissionHolder) FindApiPermission(path string, method string) (*ApiPe
 		if err != nil {
 			return nil, err
 		}
-		s.logger.Warnf("find api from database:%v", permission)
+		s.logger.Warnf("find api from database:%+v", permission)
 		return permission, nil
 	}
 
-	s.logger.Infof("load api from cache:%v", permission)
+	s.logger.Infof("load api from cache:%+v", permission)
 	return permission, nil
 }
 

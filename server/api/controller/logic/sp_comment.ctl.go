@@ -284,7 +284,6 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 		return
 	}
 
-	s.Log.JsonIndent(page)
 	list, total, err := s.svcCtx.CommentService.FindCommentBackList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
