@@ -19,20 +19,20 @@ type ApiDeclare struct {
 
 // 参数定义
 type ApiParam struct {
-	Name        string `json:"name"`                  // 参数名
+	Name        string `json:"name"`                  // 参数名 name
 	Type        string `json:"type"`                  // 类型 object array string integer number boolean
 	Description string `json:"description,omitempty"` // 描述
 }
 
 // model定义信息
 type ModelDeclare struct {
-	Pkg    string
-	Name   string
-	Extend []*ModelDeclare
+	//Pkg    string
+	Type   string
+	Extend []*ModelField
 	Fields []*ModelField
 }
 
-// model属性定义信息  Name string // 属性名称
+// 属性定义信息  Name string // 属性名称
 type ModelField struct {
 	Name    string // 属性名称  Name
 	Type    string // 属性类型  string、int、bool、float、{StructName}

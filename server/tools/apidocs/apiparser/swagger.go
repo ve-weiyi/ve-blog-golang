@@ -186,10 +186,10 @@ func (s *SwaggerParser) ParseModelDocsByRoots(root ...string) (out []*ModelDecla
 	}
 
 	sort.Slice(out, func(i, j int) bool {
-		if out[i].Name == out[j].Name {
-			return out[i].Name < out[j].Name
+		if out[i].Type == out[j].Type {
+			return out[i].Type < out[j].Type
 		}
-		return out[i].Name < out[j].Name
+		return out[i].Type < out[j].Type
 	})
 	return out, nil
 }
@@ -226,14 +226,14 @@ func (s *SwaggerParser) ParseModelDoc(swagger *SwaggerDefinition) []*ModelDeclar
 	out := make([]*ModelDeclare, 0)
 
 	for k, v := range swagger.Definitions {
-		var pkg string
-		if strings.Contains(k, ".") {
-			pkg = strings.Split(k, ".")[0]
-		}
+		//var pkg string
+		//if strings.Contains(k, ".") {
+		//	pkg = strings.Split(k, ".")[0]
+		//}
 
 		model := &ModelDeclare{
-			Pkg:    pkg,
-			Name:   k,
+			//Pkg:    pkg,
+			Type:   k,
 			Extend: nil,
 			Fields: getFieldsFormSchema(v.Properties),
 		}

@@ -112,12 +112,15 @@ func ConditionClause(conditions []*Condition) (string, []interface{}) {
 		}
 
 		switch condition.Rule {
-		case "like":
-			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
-			args = append(args, "%"+condition.Value.(string)+"%")
 		case "in":
 			query += fmt.Sprintf("%s %s %s (?) ", flag, condition.Field, condition.Rule)
 			args = append(args, condition.Value)
+		case "like":
+			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
+			args = append(args, "%"+condition.Value.(string)+"%")
+		case "not like":
+			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
+			args = append(args, condition.Value.(string)+"%")
 		default:
 			query += fmt.Sprintf("%s %s %s ? ", flag, condition.Field, condition.Rule)
 			args = append(args, condition.Value)

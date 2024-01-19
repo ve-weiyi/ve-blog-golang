@@ -164,10 +164,10 @@ func (s *AstParser) ParseModelDocsByRoots(root ...string) (out []*ModelDeclare, 
 	}
 
 	sort.Slice(out, func(i, j int) bool {
-		if out[i].Name == out[j].Name {
-			return out[i].Name < out[j].Name
+		if out[i].Type == out[j].Type {
+			return out[i].Type < out[j].Type
 		}
-		return out[i].Name < out[j].Name
+		return out[i].Type < out[j].Type
 	})
 	return out, nil
 }
@@ -211,26 +211,25 @@ func (s *AstParser) ParseModelDoc(filepath string) []*ModelDeclare {
 				if t, ok := spec.(*ast.TypeSpec); ok {
 					if s, ok := t.Type.(*ast.StructType); ok {
 						var modelFields []*ModelField
-						var extendFields []*ModelDeclare
+						var extendFields []*ModelField
 						for _, field := range s.Fields.List {
 							if len(field.Names) > 0 {
+								// 属性
 								modelFields = append(modelFields, getFieldsFormNode(field))
 							} else {
-								ext := getFieldsFormNode(field)
-								extend := &ModelDeclare{
-									Pkg:    ext.Name,
-									Name:   ext.Type,
-									Fields: nil,
-								}
-
+								// 继承
+								extend := getFieldsFormNode(field)
+								//if !strings.Contains(extend.Type, ".") {
+								//	extend.Type = fmt.Sprintf("%v.%v", file.Name.Name, extend.Type)
+								//}
+								//fmt.Println("getFieldsFormNode", extend.Name, extend.Type, extend.Comment)
 								extendFields = append(extendFields, extend)
 							}
 						}
 
 						modelName := fmt.Sprintf("%s.%s", file.Name.Name, t.Name.Name)
 						model := &ModelDeclare{
-							Pkg:    file.Name.Name,
-							Name:   modelName,
+							Type:   modelName,
 							Extend: extendFields,
 							Fields: modelFields,
 						}
@@ -282,37 +281,28 @@ func getFieldsFormNode(field ast.Node) *ModelField {
 	case *ast.SelectorExpr:
 		if xIdent, ok := node.X.(*ast.Ident); ok {
 			elem := &ModelField{
-				Name: xIdent.Name,
-				Type: node.Sel.Name,
+				Name: "",
+				Type: fmt.Sprintf("%s.%s", xIdent.Name, node.Sel.Name),
 			}
-
-			// 读取字段的行尾注释
-			//if field.Comment != nil {
-			//	elem.Comment = strings.TrimSpace(field.Comment.Text())
-			//}
 
 			return elem
 		}
 	case *ast.Ident:
 		elem := &ModelField{
-			Name: node.Name,
+			Name: "",
 			Type: node.Name,
 		}
-		// 读取字段的行尾注释
-		//if node.Comment != nil {
-		//	elem.Comment = strings.TrimSpace(field.Comment.Text())
-		//}
+
 		return elem
 	case *ast.InterfaceType:
 		return &ModelField{
-			Name: "interface{}",
+			Name: "",
 			Type: "any",
 		}
 
 	default:
 		ast.Print(nil, field)
 	}
-	ast.Print(nil, field)
 
 	return nil
 }

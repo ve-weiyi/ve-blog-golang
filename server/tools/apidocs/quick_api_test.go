@@ -19,9 +19,13 @@ func TestApiDocs(t *testing.T) {
 		ModelRoot:      []string{path.Join(root, "api/model"), path.Join(root, "infra/chatgpt/chat_model.go")},
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
-		IgnoredModels: []string{
-			"response.PageResult", "response.Response", "request.PageQuery",
-			"request.Context", "request.Sort", "request.Condition",
+		IgnoredModels: map[string]string{
+			"response.PageResult": "",
+			"response.Response":   "",
+			"request.PageQuery":   "",
+			"request.Context":     "",
+			"request.Sort":        "",
+			"request.Condition":   "",
 		},
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
@@ -29,11 +33,11 @@ func TestApiDocs(t *testing.T) {
 		ApiFuncNameAs: func(api *apiparser.ApiDeclare) string {
 			return fmt.Sprintf("%vApi", jsonconv.Lcfirst(api.FunctionName))
 		},
-		ApiFieldNameAs: func(field *apiparser.ModelField) string {
-			return jsonconv.Camel2Case(field.Name)
+		ApiFieldNameAs: func(name string) string {
+			return jsonconv.Camel2Case(name)
 		},
-		ApiFieldTypeAs: func(field *apiparser.ModelField) string {
-			return GetTypeScriptType(field.Type)
+		ApiFieldTypeAs: func(name string) string {
+			return convertGoTypeToTsType(name)
 		},
 	}
 
@@ -44,6 +48,6 @@ func TestApiDocs(t *testing.T) {
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {
-	fmt.Println(ExtractFieldsByAst(`response.Response{data=response.PageResult{list=[]entity.Article}}`))
 
+	t.Log(jsonconv.ObjectToJsonIndent(extractResponseParams("response.Response{data=response.PageResult{list=[]entity.Api}}")))
 }
