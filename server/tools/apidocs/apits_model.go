@@ -27,17 +27,17 @@ type TsApiDeclare struct {
 	Response string // 响应参数
 }
 
-type TsModelDeclare struct {
-	Name    string
-	Extends []string
-	Fields  []*TsModelField
-}
-
 // 参数定义
 type TsApiParam struct {
 	Name        string `json:"name"`                  // 参数名
 	Type        string `json:"type"`                  // 类型 object array string integer number boolean
 	Description string `json:"description,omitempty"` // 描述
+}
+
+type TsModelDeclare struct {
+	Name    string
+	Extends []string
+	Fields  []*TsModelField
 }
 
 // model属性定义信息  Name string // 属性名称

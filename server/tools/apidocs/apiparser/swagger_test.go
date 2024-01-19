@@ -9,19 +9,19 @@ import (
 
 func TestSwaggerParser(t *testing.T) {
 	ac := NewSwaggerParser()
-	apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
-	if err != nil {
-		t.Error(err)
-	}
-
-	t.Log(jsonconv.ObjectToJsonIndent(apis))
-
-	//models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/docs")
+	//apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
 	//if err != nil {
 	//	t.Error(err)
 	//}
 	//
-	//t.Log(jsonconv.ObjectToJsonIndent(models))
+	//t.Log(jsonconv.ObjectToJsonIndent(apis))
+
+	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/docs")
+	if err != nil {
+		t.Error(err)
+	}
+
+	t.Log(jsonconv.ObjectToJsonIndent(models))
 }
 
 func TestAstParser(t *testing.T) {
