@@ -7,12 +7,14 @@ import (
 
 // 分页获取Category记录
 func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
-	categories, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
+	categories, err := s.svcCtx.CategoryRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	total, err = s.svcCtx.CategoryRepository.Count(reqCtx, page.Conditions...)
+	total, err = s.svcCtx.CategoryRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

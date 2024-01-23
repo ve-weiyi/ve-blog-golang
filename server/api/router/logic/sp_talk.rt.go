@@ -19,7 +19,7 @@ func NewTalkRouter(svcCtx *svc.RouterContext) *TalkRouter {
 // 初始化 Talk 路由信息
 // publicRouter 公开路由，不登录就可以访问
 // loginRouter  登录路由，登录后才可以访问
-func (s *TalkRouter) InitTalkBasicRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
+func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
 	var handler = s.svcCtx.TalkController
 	{
@@ -30,5 +30,9 @@ func (s *TalkRouter) InitTalkBasicRouter(publicRouter *gin.RouterGroup, loginRou
 
 		publicRouter.DELETE("talk/batch_delete", handler.DeleteTalkByIds) // 批量删除Talk列表
 		publicRouter.POST("talk/list", handler.FindTalkList)              // 分页查询Talk列表
+
+		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
+		publicRouter.POST("talk/:id/like", handler.LikeTalk)                // 点赞Talk
+		publicRouter.POST("talk/details_list", handler.FindTalkDetailsList) // 获取Talk详情列表
 	}
 }

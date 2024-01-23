@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
-// GinLogger 接收gin框架默认的日志
+// 接收gin框架默认的日志
 func GinLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
