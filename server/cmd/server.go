@@ -27,7 +27,7 @@ func NewServerCmd() *ServerCmd {
 		Short: "启动接口服务",
 		Long:  `启动接口服务`,
 		Run: func(cmd *cobra.Command, args []string) {
-			serverCmd.OnInitialize()
+			serverCmd.RunServer()
 		},
 	}
 	serverCmd.cmd.PersistentPreRun = serverCmd.persistentPreRun
@@ -65,9 +65,13 @@ func (s *ServerCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 }
 
 func (s *ServerCmd) persistentPreRun(cmd *cobra.Command, args []string) {
+
+}
+
+func (s *ServerCmd) RunServer() {
 	if s.useNacos {
 		log.Println("读取配置文件...使用nacos")
-		err := nacos.New(s.nacosCfg).Init(initialize.InitConfigByContent)
+		err := nacos.New(s.nacosCfg).Init(s.OnConfigChange)
 		if err != nil {
 			panic("nacos config read failed " + err.Error())
 		}
@@ -75,7 +79,19 @@ func (s *ServerCmd) persistentPreRun(cmd *cobra.Command, args []string) {
 		log.Println("读取配置文件..使用文件路径")
 		// 初始化Viper
 		initialize.InitConfigByFile(s.configFile)
+		s.OnInitialize()
 	}
+}
+
+func (s *ServerCmd) OnConfigChange(content string) error {
+	err := initialize.InitConfigByContent(content)
+	if err != nil {
+		return err
+	}
+
+	log.Println("更新配置文件...")
+	s.OnInitialize()
+	return nil
 }
 
 func (s *ServerCmd) OnInitialize() {
@@ -94,6 +110,9 @@ func (s *ServerCmd) OnInitialize() {
 
 	// 文件上传组件
 	initialize.Upload()
+
+	// 消息队列
+	initialize.RabbitMq()
 
 	initialize.OtherInit()
 
