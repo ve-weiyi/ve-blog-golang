@@ -1,9 +1,13 @@
 package logic
 
 import (
+	"fmt"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type RemarkService struct {
@@ -18,6 +22,20 @@ func NewRemarkService(svcCtx *svc.ServiceContext) *RemarkService {
 
 // 创建Remark记录
 func (s *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
+	remark.IpAddress = reqCtx.IpAddress
+	remark.IpSource = reqCtx.GetIpSource()
+	msg := &mail.EmailMessage{
+		To:      []string{"791422171@qq.com"},
+		Subject: "【blog】新增留言信息",
+		Content: fmt.Sprintf("%v remark: %v", reqCtx.Username, remark.MessageContent),
+		Type:    0,
+	}
+
+	err = s.svcCtx.EmailPublisher.PublishMessage(jsonconv.ObjectToJson(msg))
+	if err != nil {
+		s.svcCtx.Log.Info("PublishMessage:", err)
+	}
+
 	return s.svcCtx.RemarkRepository.Create(reqCtx, remark)
 }
 
