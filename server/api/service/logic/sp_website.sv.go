@@ -7,7 +7,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/system"
 )
 
@@ -22,11 +21,11 @@ func NewWebsiteService(svcCtx *svc.ServiceContext) *WebsiteService {
 }
 
 func (s *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.BlogHomeInfo, err error) {
-	articleCount, _ := s.svcCtx.ArticleRepository.Count(reqCtx, sqlx.NewCondition("`is_delete` = ?", entity.False))
-	categoryCount, _ := s.svcCtx.CategoryRepository.Count(reqCtx)
-	tagCount, _ := s.svcCtx.TagRepository.Count(reqCtx)
-	pages, _ := s.svcCtx.PageRepository.FindPageList(reqCtx, nil, nil)
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", "website_config"))
+	articleCount, _ := s.svcCtx.ArticleRepository.Count(reqCtx, "`is_delete` = ?", entity.False)
+	categoryCount, _ := s.svcCtx.CategoryRepository.Count(reqCtx, "")
+	tagCount, _ := s.svcCtx.TagRepository.Count(reqCtx, "")
+	pages, _ := s.svcCtx.PageRepository.FindALL(reqCtx, "")
+	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
 
 	resp = &response.BlogHomeInfo{
 		ArticleCount:  articleCount,
@@ -41,43 +40,42 @@ func (s *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface
 }
 
 func (s *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.AdminHomeInfo, err error) {
-	page := &request.PageQuery{}
 	// 查询消息数量
-	msgCount, err := s.svcCtx.RemarkRepository.Count(reqCtx, page.Conditions...)
+	msgCount, err := s.svcCtx.RemarkRepository.Count(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询用户数量
-	userCount, err := s.svcCtx.UserAccountRepository.Count(reqCtx, page.Conditions...)
+	userCount, err := s.svcCtx.UserAccountRepository.Count(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章数量
-	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	articles, err := s.svcCtx.ArticleRepository.FindALL(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询分类数量
-	categories, err := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	categories, err := s.svcCtx.CategoryRepository.FindALL(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询标签数量
-	tags, err := s.svcCtx.TagRepository.FindTagList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	tags, err := s.svcCtx.TagRepository.FindALL(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
 
-	uniqueViews, err := s.svcCtx.UniqueViewRepository.FindUniqueViewList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	uniqueViews, err := s.svcCtx.UniqueViewRepository.FindALL(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
 
-	articleCount, err := s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	articleCount, err := s.svcCtx.ArticleRepository.Count(reqCtx, "")
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +111,7 @@ func (s *WebsiteService) GetSystemState(reqCtx *request.Context, req interface{}
 }
 
 func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", "about"))
+	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about")
 	if err != nil {
 		return "", err
 	}
@@ -122,13 +120,13 @@ func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (r
 }
 
 func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req string) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", "about"))
+	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about")
 	if err != nil {
 		return "", err
 	}
 	// 更新
 	config.Config = req
-	_, err = s.svcCtx.WebsiteConfigRepository.UpdateWebsiteConfig(reqCtx, config)
+	_, err = s.svcCtx.WebsiteConfigRepository.Update(reqCtx, config)
 	if err != nil {
 		return "", err
 	}
@@ -137,7 +135,7 @@ func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req string) (res
 }
 
 func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface{}) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", "website_config"))
+	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
 	if err != nil {
 		return "", err
 	}
@@ -146,7 +144,7 @@ func (s *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface
 }
 
 func (s *WebsiteService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", req.Key))
+	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", req.Key)
 	if err != nil {
 		return "", err
 	}
@@ -155,13 +153,13 @@ func (s *WebsiteService) GetConfig(reqCtx *request.Context, req *request.Website
 }
 
 func (s *WebsiteService) UpdateConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {
-	config, err := s.svcCtx.WebsiteConfigRepository.FindWebsiteConfig(reqCtx, sqlx.NewCondition("`key` = ?", req.Key))
+	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", req.Key)
 	if err != nil {
 		return "", err
 	}
 	// 更新
 	config.Config = req.Value
-	_, err = s.svcCtx.WebsiteConfigRepository.UpdateWebsiteConfig(reqCtx, config)
+	_, err = s.svcCtx.WebsiteConfigRepository.Update(reqCtx, config)
 	if err != nil {
 		return "", err
 	}

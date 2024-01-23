@@ -95,7 +95,7 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Comment id"
+// @Param 	 	id		path		int							true	"Comment.id"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
 // @Router		/comment/{id} [delete]
 func (s *CommentController) DeleteComment(c *gin.Context) {
@@ -127,7 +127,7 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Comment id"
+// @Param 	 	id		path		int							true	"Comment.id"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
 // @Router 		/comment/{id} [get]
 func (s *CommentController) FindComment(c *gin.Context) {
@@ -183,9 +183,7 @@ func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, response.BatchResult{
-		TotalCount:   len(ids),
 		SuccessCount: data,
-		FailCount:    len(ids) - data,
 	})
 }
 
@@ -286,7 +284,6 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 		return
 	}
 
-	s.Log.JsonIndent(page)
 	list, total, err := s.svcCtx.CommentService.FindCommentBackList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)

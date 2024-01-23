@@ -49,19 +49,19 @@ func (s *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 
 	// 创建文章或保存文章
 	if article.ID == 0 {
-		_, err = s.svcCtx.ArticleRepository.CreateArticle(reqCtx, article)
+		_, err = s.svcCtx.ArticleRepository.Create(reqCtx, article)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		_, err = s.svcCtx.ArticleRepository.UpdateArticle(reqCtx, article)
+		_, err = s.svcCtx.ArticleRepository.Update(reqCtx, article)
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	// 删除文章标签映射
-	_, _ = s.svcCtx.ArticleTagRepository.DeleteArticleTag(reqCtx, sqlx.NewCondition("article_id = ?", article.ID))
+	_, _ = s.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", article.ID)
 	// 创建不存在的标签
 	tags, _ := s.svcCtx.TagRepository.BatchCreateTagNotExist(reqCtx, req.TagNameList)
 	// 创建文章标签映射
@@ -70,33 +70,33 @@ func (s *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 			ArticleID: article.ID,
 			TagID:     tag.ID,
 		}
-		_, _ = s.svcCtx.ArticleTagRepository.CreateArticleTag(reqCtx, at)
+		_, _ = s.svcCtx.ArticleTagRepository.Create(reqCtx, at)
 	}
 
 	return article, nil
 }
 
 // 删除Article记录
-func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int, err error) {
+func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int64, err error) {
 	// 删除文章标签映射
-	_, err = s.svcCtx.ArticleTagRepository.DeleteArticleTag(reqCtx, sqlx.NewCondition("article_id = ?", id))
+	_, err = s.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", id)
 	if err != nil {
 		return 0, err
 	}
 
-	return s.svcCtx.ArticleRepository.DeleteArticleById(reqCtx, id)
+	return s.svcCtx.ArticleRepository.Delete(reqCtx, "id = ?", id)
 }
 
 // 根据id获取Article记录
 func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *response.ArticleBack, err error) {
 	// 查询id对应文章
-	article, err := s.svcCtx.ArticleRepository.FindArticleById(reqCtx, id)
+	article, err := s.svcCtx.ArticleRepository.First(reqCtx, "id = ?", id)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章分类
-	category, _ := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
+	category, _ := s.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
 
 	// 查询文章标签
 	tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
@@ -110,13 +110,15 @@ func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *res
 
 // 分页获取Article记录
 func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleBack, total int64, err error) {
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
 	// 查询文章列表
-	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	articles, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
 	// 查询文章总数
-	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -130,7 +132,7 @@ func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 	}
 
 	// 查询所有文章分类
-	category, _ := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, nil, nil, sqlx.NewCondition("id in ?", categoryIds))
+	category, _ := s.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
 	var cmp = make(map[int]*entity.Category)
 	for _, item := range category {
 		cmp[item.ID] = item
@@ -167,14 +169,14 @@ func (s *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request
 	var articles []*entity.Article
 
 	if req.CategoryID != 0 {
-		category, err := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, req.CategoryID)
+		category, err := s.svcCtx.CategoryRepository.First(reqCtx, "id = ?", req.CategoryID)
 		if err != nil {
 			return nil, err
 		}
 		articles, err = s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
 		data.ConditionName = category.CategoryName
 	} else if req.TagID != 0 {
-		tag, err := s.svcCtx.TagRepository.FindTagById(reqCtx, req.TagID)
+		tag, err := s.svcCtx.TagRepository.First(reqCtx, "id = ?", req.TagID)
 		if err != nil {
 			return nil, err
 		}
@@ -185,7 +187,7 @@ func (s *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request
 	var list []*response.ArticleHome
 	for _, article := range articles {
 		//查询文章分类
-		category, _ := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
+		category, _ := s.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
 		// 查询文章标签
 		tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
@@ -203,16 +205,12 @@ func (s *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request
 // 文章时间轴
 func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticlePreviewDTO, total int64, err error) {
 	// 查找最新数据
-	page.Sorts = []*sqlx.Sort{
-		{Field: "id", Order: "desc"},
-	}
-	page.Conditions = append(page.Conditions, sqlx.NewCondition("status = ?", entity.ArticleStatusPublic))
-	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Page, page.PageSize, "id desc", "status = ?", entity.ArticleStatusPublic)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, "status = ?", entity.ArticleStatusPublic)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -222,13 +220,13 @@ func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *requ
 // 文章推荐
 func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (data *response.ArticlePageDetailsDTO, err error) {
 	// 查询id对应文章
-	article, err := s.svcCtx.ArticleRepository.FindArticleById(reqCtx, id)
+	article, err := s.svcCtx.ArticleRepository.First(reqCtx, "id = ?", id)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询文章分类
-	category, _ := s.svcCtx.CategoryRepository.FindCategoryById(reqCtx, article.CategoryID)
+	category, _ := s.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
 
 	// 查询文章标签
 	tags, _ := s.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
@@ -239,16 +237,7 @@ func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (da
 		return nil, err
 	}
 	// 查询最新文章
-	page := &request.PageQuery{
-		PageLimit: sqlx.PageLimit{
-			Page:     0,
-			PageSize: 5,
-		},
-		Sorts: []*sqlx.Sort{
-			{Field: "id", Order: "desc"},
-		},
-	}
-	newestArticle, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindList(reqCtx, 0, 5, "id desc", "")
 	if err != nil {
 		return nil, err
 	}
@@ -278,13 +267,16 @@ func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (da
 func (s *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleHome, total int64, err error) {
 	page.Sorts = append(page.Sorts, &sqlx.Sort{Field: "is_top", Order: "desc"})
 	page.Conditions = append(page.Conditions, sqlx.NewCondition("status = ?", entity.ArticleStatusPublic))
+
+	cond, args := page.ConditionClause()
+	order := page.OrderClause()
 	// 查询文章列表
-	articles, err := s.svcCtx.ArticleRepository.FindArticleList(reqCtx, &page.PageLimit, page.Sorts, page.Conditions...)
+	articles, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
 	// 查询文章总数
-	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, page.Conditions...)
+	total, err = s.svcCtx.ArticleRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -298,7 +290,7 @@ func (s *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 	}
 
 	// 查询所有文章分类
-	category, _ := s.svcCtx.CategoryRepository.FindCategoryList(reqCtx, nil, nil, sqlx.NewCondition("id in ?", categoryIds))
+	category, _ := s.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
 	var cmp = make(map[int]*entity.Category)
 	for _, item := range category {
 		cmp[item.ID] = item

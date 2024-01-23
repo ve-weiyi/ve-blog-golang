@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
 )
 
@@ -18,7 +17,7 @@ type Content struct {
 }
 
 func TestName(t *testing.T) {
-	testinit.Init()
+	initest.Init()
 
 	url := "https://api.openai.com/v1/chat/completions"
 	apiKey := global.CONFIG.ChatGPT.ApiKey // 替换为你的有效 API 密钥
@@ -44,7 +43,7 @@ func TestName(t *testing.T) {
 }
 
 func TestCosRole(t *testing.T) {
-	testinit.Init()
+	initest.Init()
 
 	res, err := NewAIChatGPT().CosRole("涩涩女友")
 	if err != nil {

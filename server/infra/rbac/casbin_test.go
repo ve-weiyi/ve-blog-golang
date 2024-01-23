@@ -17,8 +17,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/testinit"
-
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -26,7 +25,7 @@ var enforcer *casbin.SyncedEnforcer
 var db *gorm.DB
 
 func Init() {
-	testinit.Init(path.Join(global.GetRuntimeRoot() + "server/config.yaml"))
+	initest.Init(path.Join(global.GetRuntimeRoot() + "server/config.yaml"))
 	db = global.DB
 	adapter, err := gormadapter.NewAdapterByDB(db)
 	m, err := model.NewModelFromString(SubjectDomainObjectAction)

@@ -55,7 +55,7 @@ func fileNameAsKey(file *multipart.FileHeader) string {
 	// 读取文件名并加密
 	name := strings.TrimSuffix(file.Filename, ext)
 	// 拼接新文件名
-	filename := fmt.Sprintf("%s_%s%s", name, time.Now().Format("20060102150405"), ext)
+	filename := fmt.Sprintf("%s/%s%s", time.Now().Format("20060102150405"), name, ext)
 
 	return filename
 }

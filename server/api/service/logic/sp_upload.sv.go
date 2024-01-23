@@ -44,7 +44,7 @@ func (s *UploadService) UploadFile(reqCtx *request.Context, label string, file *
 		FileURL:  url,
 	}
 
-	return s.svcCtx.UploadRecordRepository.CreateUploadRecord(reqCtx, up)
+	return s.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }
 
 // 上传语言
@@ -75,7 +75,7 @@ func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 	chat.IpAddress = reqCtx.IpAddress
 	chat.IpSource = reqCtx.GetIpSource()
 
-	_, err = s.svcCtx.ChatRecordRepository.CreateChatRecord(reqCtx, &chat)
+	_, err = s.svcCtx.ChatRecordRepository.Create(reqCtx, &chat)
 	if err != nil {
 		return nil, err
 	}
@@ -92,5 +92,5 @@ func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 		FileMd5:  crypto.MD5V([]byte(filename)),
 		FileURL:  url,
 	}
-	return s.svcCtx.UploadRecordRepository.CreateUploadRecord(reqCtx, up)
+	return s.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }

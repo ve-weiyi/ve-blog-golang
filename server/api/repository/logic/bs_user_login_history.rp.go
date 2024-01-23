@@ -8,7 +8,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type UserLoginHistoryRepository struct {
@@ -24,51 +23,49 @@ func NewUserLoginHistoryRepository(svcCtx *svc.RepositoryContext) *UserLoginHist
 }
 
 // 创建UserLoginHistory记录
-func (s *UserLoginHistoryRepository) CreateUserLoginHistory(ctx context.Context, userLoginHistory *entity.UserLoginHistory) (out *entity.UserLoginHistory, err error) {
+func (s *UserLoginHistoryRepository) Create(ctx context.Context, item *entity.UserLoginHistory) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Create(&userLoginHistory).Error
+	err = db.Create(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return userLoginHistory, err
+	return item, err
 }
 
 // 更新UserLoginHistory记录
-func (s *UserLoginHistoryRepository) UpdateUserLoginHistory(ctx context.Context, userLoginHistory *entity.UserLoginHistory) (out *entity.UserLoginHistory, err error) {
+func (s *UserLoginHistoryRepository) Update(ctx context.Context, item *entity.UserLoginHistory) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
-	err = db.Save(&userLoginHistory).Error
+	err = db.Save(&item).Error
 	if err != nil {
 		return nil, err
 	}
-	return userLoginHistory, err
+	return item, err
 }
 
 // 删除UserLoginHistory记录
-func (s *UserLoginHistoryRepository) DeleteUserLoginHistory(ctx context.Context, conditions ...*sqlx.Condition) (rows int, err error) {
+func (s *UserLoginHistoryRepository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	query := db.Delete(&entity.UserLoginHistory{})
 	err = query.Error
-	rows = int(query.RowsAffected)
+	rows = query.RowsAffected
 	return rows, err
 }
 
 // 查询UserLoginHistory记录
-func (s *UserLoginHistoryRepository) FindUserLoginHistory(ctx context.Context, conditions ...*sqlx.Condition) (out *entity.UserLoginHistory, err error) {
+func (s *UserLoginHistoryRepository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.First(&out).Error
@@ -78,26 +75,40 @@ func (s *UserLoginHistoryRepository) FindUserLoginHistory(ctx context.Context, c
 	return out, err
 }
 
+func (s *UserLoginHistoryRepository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.UserLoginHistory, err error) {
+	db := s.DbEngin.WithContext(ctx)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Find(&out).Error
+	if err != nil {
+		return nil, err
+	}
+	return out, err
+}
+
 // 分页查询UserLoginHistory记录
-func (s *UserLoginHistoryRepository) FindUserLoginHistoryList(ctx context.Context, page *sqlx.PageLimit, sorts []*sqlx.Sort, conditions ...*sqlx.Condition) (list []*entity.UserLoginHistory, err error) {
+func (s *UserLoginHistoryRepository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.UserLoginHistory, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有搜索条件
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	// 如果有排序参数
 	if len(sorts) != 0 {
-		db = db.Order(sqlx.OrderClause(sorts))
+		db = db.Order(sorts)
 	}
 
 	// 如果有分页参数
-	if page != nil && page.IsValid() {
-		limit := page.Limit()
-		offset := page.Offset()
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
 		db = db.Limit(limit).Offset(offset)
 	}
 
@@ -111,13 +122,12 @@ func (s *UserLoginHistoryRepository) FindUserLoginHistoryList(ctx context.Contex
 }
 
 // 查询总数
-func (s *UserLoginHistoryRepository) Count(ctx context.Context, conditions ...*sqlx.Condition) (count int64, err error) {
+func (s *UserLoginHistoryRepository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
 	if len(conditions) != 0 {
-		query, args := sqlx.ConditionClause(conditions)
-		db = db.Where(query, args...)
+		db = db.Where(conditions, args...)
 	}
 
 	err = db.Model(&entity.UserLoginHistory{}).Count(&count).Error
@@ -125,35 +135,4 @@ func (s *UserLoginHistoryRepository) Count(ctx context.Context, conditions ...*s
 		return 0, err
 	}
 	return count, nil
-}
-
-// 查询UserLoginHistory记录——根据id
-func (s *UserLoginHistoryRepository) FindUserLoginHistoryById(ctx context.Context, id int) (out *entity.UserLoginHistory, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	err = db.Where("id = ?", id).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 删除UserLoginHistory记录——根据id
-func (s *UserLoginHistoryRepository) DeleteUserLoginHistoryById(ctx context.Context, id int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.UserLoginHistory{}, "id = ?", id)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
-}
-
-// 批量删除UserLoginHistory记录——根据ids
-func (s *UserLoginHistoryRepository) DeleteUserLoginHistoryByIds(ctx context.Context, ids []int) (rows int, err error) {
-	db := s.DbEngin.WithContext(ctx)
-
-	query := db.Delete(&entity.UserLoginHistory{}, "id in ?", ids)
-	err = query.Error
-	rows = int(query.RowsAffected)
-	return rows, err
 }

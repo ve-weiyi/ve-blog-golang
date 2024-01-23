@@ -114,4 +114,7 @@ cobra-cli add migrate
 ```shell
 go run main.go migrate -h
 go run main.go migrate --help
+
+go run main.go migrate --action=reset
+go run main.go server --use-nacos=true --n-ns=test
 ```
