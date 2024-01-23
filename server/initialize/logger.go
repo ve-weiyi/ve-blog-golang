@@ -1,4 +1,4 @@
-package ormlog
+package initialize
 
 import (
 	"fmt"
