@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// 连接信息amqp://guest:guest@127.0.0.1:5672/guest这个信息是固定不变的amqp://是固定参数 后面两个是用户名密码ip地址端口号Virtual Host
 const rabbitMQURL = "amqp://guest:guest@localhost:5672/"
 
 func TestWorking_SimplePublish(t *testing.T) {

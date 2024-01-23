@@ -9,9 +9,6 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-// 连接信息amqp://kuteng:kuteng@127.0.0.1:5672/kuteng这个信息是固定不变的amqp://事固定参数后面两个是用户名密码ip地址端口号Virtual Host
-const MQURL = "amqp://kuteng:kuteng@127.0.0.1:5672/kuteng"
-
 const (
 	Simple = ""       //Simple模式（简单模式，一个生产者对应多个消费者）
 	Worker = ""       //Worker模式（工作模式，一个生产者对应多个消费者，一个消息只能被一个消费者获取）

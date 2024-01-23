@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"log"
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
@@ -39,7 +40,7 @@ func SubscribeMessage() {
 	}
 
 	//订阅消息队列，发送邮件
-	global.EmailMQ.SubscribeMessage(func(message string) {
+	err := global.EmailMQ.SubscribeMessage(func(message string) {
 		var msg mail.EmailMessage
 		jsonconv.JsonToObject(message, &msg)
 		err := emailSender.SendEmailMessage(msg)
@@ -47,4 +48,7 @@ func SubscribeMessage() {
 			global.LOG.Error("邮件发送失败!", err)
 		}
 	})
+	if err != nil {
+		log.Fatal("订阅消息失败!", err)
+	}
 }
