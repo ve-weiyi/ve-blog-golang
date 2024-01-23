@@ -7,16 +7,15 @@ import (
 	"path"
 	"time"
 
-	"github.com/casbin/casbin/v2"
-	"github.com/casbin/casbin/v2/model"
-	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/fsnotify/fsnotify"
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
@@ -45,7 +44,6 @@ func Init(configPath ...string) {
 	Redis()
 	// 初始化jwt服务
 	JwtToken()
-	//RBAC()
 }
 
 func InitConfig(configPath ...string) {
@@ -102,10 +100,40 @@ func Zap() {
 }
 
 func Gorm() {
-	var cfg properties.DsnProvider
 
-	cfg = &global.CONFIG.Mysql
-	global.DB = database.Open(cfg)
+	cfg := &global.CONFIG.Mysql
+	dsn := cfg.Dsn()
+
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		//PrepareStmt:            true, // 缓存预编译语句
+		// 外键约束
+		DisableForeignKeyConstraintWhenMigrating: true,
+		// 禁用默认事务（提高运行速度）
+		SkipDefaultTransaction: true,
+		NamingStrategy: schema.NamingStrategy{
+			// 表前缀
+			TablePrefix: cfg.Prefix,
+			// 使用单数表名，启用该选项，此时，`User` 的表名应该是 `user`
+			SingularTable: true,
+		},
+		// gorm日志模式
+		Logger: logger.Default.LogMode(logger.Info),
+	})
+
+	if err != nil {
+		log.Fatalf("GORM 数据库连接失败: %v", err)
+	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalf("SQL 数据库连接失败: %v", err)
+	}
+
+	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns)
+	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+
+	global.DB = db
 
 	log.Printf("Mysql 数据库连接成功！%s", cfg.Dsn())
 }
@@ -135,41 +163,4 @@ func JwtToken() {
 		TokenPrefix: "",
 		Issuer:      "blog",
 	}
-}
-
-const SubjectDomainObjectAction = `
-[request_definition]
-r = sub, dom, obj, act
-
-[policy_definition]
-p = sub, dom, obj, act
-
-[role_definition]
-g = _, _, _
-
-[policy_effect]
-e = some(where (p.eft == allow))
-
-[matchers]
-m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act
-`
-
-func RBAC() {
-	GORM := global.DB
-	if GORM == nil {
-		panic("db is null")
-	}
-	//会自动创建数据库表并管理
-	adapter, err := gormadapter.NewAdapterByDB(GORM)
-
-	m, err := model.NewModelFromString(SubjectDomainObjectAction)
-	if err != nil {
-		log.Fatalln("字符串加载模型失败!", err)
-	}
-
-	syncedCachedEnforcer, _ := casbin.NewSyncedCachedEnforcer(m, adapter)
-	syncedCachedEnforcer.SetExpireTime(60 * 60)
-	_ = syncedCachedEnforcer.LoadPolicy()
-
-	//global.RbacEnforcer = rbac.NewCachedEnforcer(global.DB)
 }
