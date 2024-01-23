@@ -1,6 +1,8 @@
 package initialize
 
 import (
+	"strings"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
@@ -25,7 +27,17 @@ func RabbitMq() {
 }
 
 func SubscribeMessage() {
-	emailSender := mail.NewEmailSender(&global.CONFIG.Email)
+	cfg := global.CONFIG.Email
+	emailSender := &mail.EmailSender{
+		Host:     cfg.Host,
+		Port:     cfg.Port,
+		Username: cfg.Username,
+		Password: cfg.Password,
+		Nickname: cfg.Nickname,
+		Deliver:  strings.Split(cfg.Deliver, ","),
+		IsSSL:    cfg.IsSSL,
+	}
+
 	//订阅消息队列，发送邮件
 	global.EmailMQ.SubscribeMessage(func(message string) {
 		var msg mail.EmailMessage
