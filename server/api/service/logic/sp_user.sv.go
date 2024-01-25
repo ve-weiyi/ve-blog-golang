@@ -242,7 +242,7 @@ func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 		Type:    0,
 	}
 	// 发送邮件
-	err = s.svcCtx.EmailPublisher.PublishMessage(jsonconv.ObjectToJson(msg))
+	err = s.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
 	if err != nil {
 		return nil, err
 	}

@@ -31,7 +31,7 @@ func (s *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Rem
 		Type:    0,
 	}
 
-	err = s.svcCtx.EmailPublisher.PublishMessage(jsonconv.ObjectToJson(msg))
+	err = s.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
 	if err != nil {
 		s.svcCtx.Log.Info("PublishMessage:", err)
 	}
