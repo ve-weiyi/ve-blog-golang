@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 )
 
