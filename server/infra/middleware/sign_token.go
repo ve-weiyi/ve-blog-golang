@@ -14,7 +14,7 @@ func SignToken() gin.HandlerFunc {
 		token := c.Request.Header.Get("token")
 		uid := c.Request.Header.Get("uid")
 
-		global.LOG.Println(fmt.Sprintf("api is no login required.token:%v ,uid:%v", token, uid))
+		global.LOG.Println(fmt.Sprintf("api is no login required. token:%v ,uid:%v", token, uid))
 
 		c.Set("token", token)
 		c.Set("uid", uid)
