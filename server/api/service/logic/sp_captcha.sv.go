@@ -45,6 +45,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 	data.DearUser = fmt.Sprintf("你好，%s", userinfo.Nickname)
 	data.Content = fmt.Sprintf("你的账号 %s 正在尝试重置密码。验证码为 %s，有效期15分钟！如果您没有尝试重置密码，请忽略此邮件。", req.Email, code)
 	data.ButtonTips = fmt.Sprintf("点击重置密码")
+	data.ButtonLink = "https://veweiyi.cn/blog/reset_password"
 
 	var temp string
 	switch req.Service {
@@ -68,7 +69,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 		Type:    0,
 	}
 
-	err = s.svcCtx.EmailPublisher.PublishMessage(jsonconv.ObjectToJson(msg))
+	err = s.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
 	if err != nil {
 		return nil, err
 	}
