@@ -111,6 +111,9 @@ func (s *ServerCmd) OnInitialize() {
 	// 文件上传组件
 	initialize.Upload()
 
+	// 消息队列
+	initialize.RabbitMq()
+
 	initialize.OtherInit()
 
 	// 程序结束前关闭数据库链接
