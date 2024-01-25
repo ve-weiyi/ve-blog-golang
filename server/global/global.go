@@ -27,7 +27,7 @@ var (
 	CONFIG   config.Config
 	JWT      *jjwt.JwtToken
 	LOG      *glog.Glogger
-	EmailMQ  *rabbitmq.RabbitMQ
+	EmailMQ  *rabbitmq.RabbitmqConn
 	Uploader upload.Uploader
 	Timer    timer.Timer = timer.NewTimerTask()
 	//Concurrency_Control             = &singleflight.Group{}
