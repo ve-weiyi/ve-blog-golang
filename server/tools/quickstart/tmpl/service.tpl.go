@@ -56,51 +56,51 @@ import (
 	{{range .ImportPkgPaths}}{{.}} ` + "\n" + `{{end}}
 )
 
-type {{.StructName}}Service struct {
+type {{.UpperStartCamelName}}Service struct {
 	svcCtx *svc.ServiceContext
 }
 
-func New{{.StructName}}Service(svcCtx *svc.ServiceContext) *{{.StructName}}Service {
-	return &{{.StructName}}Service{
+func New{{.UpperStartCamelName}}Service(svcCtx *svc.ServiceContext) *{{.UpperStartCamelName}}Service {
+	return &{{.UpperStartCamelName}}Service{
 		svcCtx: svcCtx,
 	}
 }
 
-// 创建{{.StructName}}记录
-func (s *{{.StructName}}Service) Create{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Create(reqCtx, {{.ValueName}})
+// 创建{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Service) Create{{.UpperStartCamelName}}(reqCtx *request.Context, {{.LowerStartCamelName}} *entity.{{.UpperStartCamelName}}) (data *entity.{{.UpperStartCamelName}}, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.Create(reqCtx, {{.LowerStartCamelName}})
 }
 
-// 更新{{.StructName}}记录
-func (s *{{.StructName}}Service) Update{{.StructName}}(reqCtx *request.Context, {{.ValueName}} *entity.{{.StructName}}) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Update(reqCtx, {{.ValueName}})
+// 更新{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Service) Update{{.UpperStartCamelName}}(reqCtx *request.Context, {{.LowerStartCamelName}} *entity.{{.UpperStartCamelName}}) (data *entity.{{.UpperStartCamelName}}, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.Update(reqCtx, {{.LowerStartCamelName}})
 }
 
-// 删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Delete(reqCtx, "id = ?", id)
+// 删除{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Service) Delete{{.UpperStartCamelName}}(reqCtx *request.Context, id int) (rows int64, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.Delete(reqCtx, "id = ?", id)
 }
 
-// 查询{{.StructName}}记录
-func (s *{{.StructName}}Service) Find{{.StructName}}(reqCtx *request.Context, id int) (data *entity.{{.StructName}}, err error) {
-	return s.svcCtx.{{.StructName}}Repository.First(reqCtx, "id = ?", id)
+// 查询{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Service) Find{{.UpperStartCamelName}}(reqCtx *request.Context, id int) (data *entity.{{.UpperStartCamelName}}, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.First(reqCtx, "id = ?", id)
 }
 
-// 批量删除{{.StructName}}记录
-func (s *{{.StructName}}Service) Delete{{.StructName}}ByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.{{.StructName}}Repository.Delete(reqCtx, "id in (?)", ids)
+// 批量删除{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Service) Delete{{.UpperStartCamelName}}ByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.Delete(reqCtx, "id in (?)", ids)
 }
 
-// 分页获取{{.StructName}}记录
-func (s *{{.StructName}}Service) Find{{.StructName}}List(reqCtx *request.Context, page *request.PageQuery) (list []*entity.{{.StructName}}, total int64, err error) {
+// 分页获取{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Service) Find{{.UpperStartCamelName}}List(reqCtx *request.Context, page *request.PageQuery) (list []*entity.{{.UpperStartCamelName}}, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.{{.StructName}}Repository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = s.svcCtx.{{.UpperStartCamelName}}Repository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
-	total, err = s.svcCtx.{{.StructName}}Repository.Count(reqCtx, cond, args...)
+	total, err = s.svcCtx.{{.UpperStartCamelName}}Repository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -115,12 +115,12 @@ import (
 
 )
 
-type {{.StructName}}Service struct {
+type {{.UpperStartCamelName}}Service struct {
 	svcCtx *svc.ServiceContext
 }
 
-func New{{.StructName}}Service(svcCtx *svc.ServiceContext) *{{.StructName}}Service {
-	return &{{.StructName}}Service{
+func New{{.UpperStartCamelName}}Service(svcCtx *svc.ServiceContext) *{{.UpperStartCamelName}}Service {
+	return &{{.UpperStartCamelName}}Service{
 		svcCtx: svcCtx,
 	}
 }

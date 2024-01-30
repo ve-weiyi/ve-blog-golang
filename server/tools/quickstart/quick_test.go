@@ -78,7 +78,7 @@ func TestCodeStarter(t *testing.T) {
 			if columnName == "id" {
 				return "id"
 			}
-			return jsonconv.Case2CamelNotFirst(columnName)
+			return jsonconv.Case2CamelLowerStart(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
 			return key != tmpl.KeyRouter
