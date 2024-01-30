@@ -14,14 +14,14 @@ import (
 
 // AutoCodeModel 初始版本自动化代码工具
 type AutoCodeModel struct {
-	Package        string         `json:"package"`
-	TableName      string         `json:"table_name"`   // 表名 				auto_code
-	StructName     string         `json:"struct_name"`  // Struct名称 		AutoCode 大写驼峰命名
-	ValueName      string         `json:"value_name"`   // Struct变量名 		autoCode 小写驼峰命名
-	JsonName       string         `json:"json_name"`    // StructJson名		auto_code api路径前缀
-	CommentName    string         `json:"comment_name"` // Struct中文名称 	「代码」	创建api的描述和注释
-	Fields         []*field.Field `json:"fields,omitempty"`
-	ImportPkgPaths []string
+	DbName              string // 数据库名
+	TableName           string // 表名 				auto_code
+	UpperStartCamelName string // Struct名称 		AutoCode 大写驼峰命名
+	LowerStartCamelName string // Struct变量名 		autoCode 小写驼峰命名
+	SnakeName           string // StructJson名		auto_code api路径前缀
+	CommentName         string // Struct中文名称 	「代码」	创建api的描述和注释
+	Fields              []*field.Field
+	ImportPkgPaths      []string
 }
 
 type TableParser struct {
@@ -62,14 +62,14 @@ func (t *TableParser) ParseModelFromTable(tableName string) (*AutoCodeModel, err
 	}
 
 	out := &AutoCodeModel{
-		Package:        jsonconv.Case2CamelNotFirst(dbName),
-		TableName:      tableName,
-		StructName:     jsonconv.Case2Camel(tableName),
-		ValueName:      jsonconv.Case2CamelNotFirst(tableName),
-		JsonName:       jsonconv.Camel2Case(tableName),
-		CommentName:    tableComment,
-		Fields:         t.ConvertField(table.Columns),
-		ImportPkgPaths: []string{
+		DbName:              dbName,
+		TableName:           tableName,
+		UpperStartCamelName: jsonconv.Case2Camel(tableName),
+		LowerStartCamelName: jsonconv.Case2CamelLowerStart(tableName),
+		SnakeName:           jsonconv.Camel2Case(tableName),
+		CommentName:         tableComment,
+		Fields:              t.ConvertField(table.Columns),
+		ImportPkgPaths:      []string{
 			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
 			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity",
 			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request",
@@ -113,12 +113,12 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyRepository,
 			FilePath: fmt.Sprintf("%v/repository/repository.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.StructName, data.StructName, data.CommentName)),
+				inject.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewRepository", fmt.Sprintf(`return &AppRepository{
 			%vRepository: logic.New%vRepository(svcCtx),
-			}`, data.StructName, data.StructName)),
+			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
@@ -126,12 +126,12 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyService,
 			FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.StructName, data.StructName, data.CommentName)),
+				inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
 			%vService: logic.New%vService(svcCtx),
-			}`, data.StructName, data.StructName)),
+			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
@@ -139,12 +139,12 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyController,
 			FilePath: fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.StructName, data.StructName, data.CommentName)),
+				inject.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewController", fmt.Sprintf(`return &AppController{
 			%vController: logic.New%vController(svcCtx),
-			}`, data.StructName, data.StructName)),
+			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
@@ -152,12 +152,12 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 			Key:      tmpl.KeyRouter,
 			FilePath: fmt.Sprintf("%v/router/router.go", temporaryRoot),
 			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.StructName, data.StructName, data.CommentName)),
+				inject.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
 			FuncMetas: []*inject.FuncMeta{
 				inject.NewFuncMete("NewRouter", fmt.Sprintf(`return &AppRouter{
 			%vRouter: logic.New%vRouter(svcCtx),
-			}`, data.StructName, data.StructName)),
+			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
@@ -171,7 +171,7 @@ func (t *TableParser) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.As
 	func (s *%sRouter) Init%sRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 		s.Init%sBasicRouter(publicRouter, loginRouter)
 	}
-`, data.StructName, data.StructName, data.StructName, data.StructName))},
+`, data.UpperStartCamelName, data.UpperStartCamelName, data.UpperStartCamelName, data.UpperStartCamelName))},
 		})
 	}
 	return injectMetas

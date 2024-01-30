@@ -13,7 +13,7 @@ func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
 	return &oauth.AuthConfig{
 		ClientID:     conf.ClientID,
 		ClientSecret: conf.ClientSecret,
-		RedirectUrl:  conf.RedirectUrl,
+		RedirectUri:  conf.RedirectUri,
 	}
 }
 

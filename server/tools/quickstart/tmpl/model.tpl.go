@@ -7,11 +7,11 @@ import (
 
 )
 
-// TableName{{.StructName}} return the table name of <{{.TableName}}>
-const TableName{{.StructName}} = "{{.TableName}}"
+// TableName{{.UpperStartCamelName}} return the table name of <{{.TableName}}>
+const TableName{{.UpperStartCamelName}} = "{{.TableName}}"
 
-// {{.StructName}} mapped from table <{{.TableName}}>
-type {{.StructName}} struct {
+// {{.UpperStartCamelName}} mapped from table <{{.TableName}}>
+type {{.UpperStartCamelName}} struct {
     {{range .Fields}}
 	{{if .MultilineComment -}}
 	/*
@@ -24,9 +24,9 @@ type {{.StructName}} struct {
 }
 
 {{ if .TableName }}
-// TableName {{.StructName}}'s table name
-func (*{{.StructName}}) TableName() string {
-  return TableName{{.StructName}}
+// TableName {{.UpperStartCamelName}}'s table name
+func (*{{.UpperStartCamelName}}) TableName() string {
+  return TableName{{.UpperStartCamelName}}
 }
 {{ end }}
 `
