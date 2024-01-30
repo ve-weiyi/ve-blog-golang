@@ -43,6 +43,6 @@ type TsModelDeclare struct {
 // model属性定义信息  Name string // 属性名称
 type TsModelField struct {
 	Name    string // 属性名称  Name
-	Type    string // 属性类型  string、int、bool、float、{StructName}
+	Type    string // 属性类型  string、int、bool、float、{UpperStartCamelName}
 	Comment string // 属性的注释  属性名称
 }
