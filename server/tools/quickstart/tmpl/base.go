@@ -4,7 +4,7 @@ const NotEditMark = `
 `
 
 const Header = NotEditMark + `
-package {{.Package}}
+package {{.LowerStartCamelName}}
 
 import(	
 	{{range .ImportPkgPaths}}{{.}}` + "\n" + `{{end}}

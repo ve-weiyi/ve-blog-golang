@@ -157,7 +157,7 @@ func Case2Camel(xx_y_y string) string {
  * @param xx_y_y
  * @return xxYY
  **/
-func Case2CamelNotFirst(xx_y_y string) string {
+func Case2CamelLowerStart(xx_y_y string) string {
 	str := Case2Camel(xx_y_y)
 	return strings.ToLower(str[:1]) + str[1:]
 }

@@ -52,42 +52,42 @@ import (
 	{{range .ImportPkgPaths}}{{.}} ` + "\n" + `{{end}}
 )
 
-type {{.StructName}}Controller struct {
+type {{.UpperStartCamelName}}Controller struct {
 	controller.BaseController
 	svcCtx *svc.ControllerContext
 }
 
-func New{{.StructName}}Controller(svcCtx *svc.ControllerContext) *{{.StructName}}Controller {
-	return &{{.StructName}}Controller{
+func New{{.UpperStartCamelName}}Controller(svcCtx *svc.ControllerContext) *{{.UpperStartCamelName}}Controller {
+	return &{{.UpperStartCamelName}}Controller{
 		svcCtx: svcCtx,
 		BaseController: controller.NewBaseController(svcCtx),
 	}
 }
 
-// @Tags		{{.StructName}}
+// @Tags		{{.UpperStartCamelName}}
 // @Summary		创建{{.StructComment}}
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		entity.{{.StructName}}		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router		/{{.JsonName}} [post]
-func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
+// @Param		data	body		entity.{{.UpperStartCamelName}}		true	"请求参数"
+// @Success		200		{object}	response.Response{data=entity.{{.UpperStartCamelName}}}	"返回信息"
+// @Router		/{{.SnakeName}} [post]
+func (s *{{.UpperStartCamelName}}Controller) Create{{.UpperStartCamelName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var {{.ValueName}} entity.{{.StructName}}
-	err = s.ShouldBind(c, &{{.ValueName}})
+	var {{.LowerStartCamelName}} entity.{{.UpperStartCamelName}}
+	err = s.ShouldBind(c, &{{.LowerStartCamelName}})
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Create{{.StructName}}(reqCtx, &{{.ValueName}});
+	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Create{{.UpperStartCamelName}}(reqCtx, &{{.LowerStartCamelName}});
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -96,30 +96,30 @@ func (s *{{.StructName}}Controller) Create{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	{{.StructName}}
+// @Tags 	 	{{.UpperStartCamelName}}
 // @Summary		更新{{.StructComment}}
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	data	body 	 	entity.{{.StructName}}		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router 		/{{.JsonName}} [put]
-func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
+// @Param 	 	data	body 	 	entity.{{.UpperStartCamelName}}		true	"请求参数"
+// @Success		200		{object}	response.Response{data=entity.{{.UpperStartCamelName}}}	"返回信息"
+// @Router 		/{{.SnakeName}} [put]
+func (s *{{.UpperStartCamelName}}Controller) Update{{.UpperStartCamelName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var {{.ValueName}} entity.{{.StructName}}
-	err = s.ShouldBind(c, &{{.ValueName}})
+	var {{.LowerStartCamelName}} entity.{{.UpperStartCamelName}}
+	err = s.ShouldBind(c, &{{.LowerStartCamelName}})
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Update{{.StructName}}(reqCtx, &{{.ValueName}});
+	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Update{{.UpperStartCamelName}}(reqCtx, &{{.LowerStartCamelName}});
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -128,16 +128,16 @@ func (s *{{.StructName}}Controller) Update{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		{{.StructName}}
+// @Tags		{{.UpperStartCamelName}}
 // @Summary		删除{{.StructComment}}
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"{{.StructName}}.id"
+// @Param 	 	id		path		int							true	"{{.UpperStartCamelName}}.id"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/{{.JsonName}}/{id} [delete]
-func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
+// @Router		/{{.SnakeName}}/{id} [delete]
+func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -151,7 +151,7 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Delete{{.StructName}}(reqCtx, id);
+	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Delete{{.UpperStartCamelName}}(reqCtx, id);
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -160,16 +160,16 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	{{.StructName}}
+// @Tags 	 	{{.UpperStartCamelName}}
 // @Summary		查询{{.StructComment}}
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"{{.StructName}}.id"
-// @Success		200		{object}	response.Response{data=entity.{{.StructName}}}	"返回信息"
-// @Router 		/{{.JsonName}}/{id} [get]
-func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
+// @Param 	 	id		path		int							true	"{{.UpperStartCamelName}}.id"
+// @Success		200		{object}	response.Response{data=entity.{{.UpperStartCamelName}}}	"返回信息"
+// @Router 		/{{.SnakeName}}/{id} [get]
+func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -183,7 +183,7 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Find{{.StructName}}(reqCtx, id);
+	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Find{{.UpperStartCamelName}}(reqCtx, id);
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -192,7 +192,7 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags 	 	{{.StructName}}
+// @Tags 	 	{{.UpperStartCamelName}}
 // @Summary		批量删除{{.StructComment}}
 // @Accept 	 	application/json
 // @Produce		application/json
@@ -200,8 +200,8 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		data 	body		[]int 						true 	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/{{.JsonName}}/batch_delete [delete]
-func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
+// @Router		/{{.SnakeName}}/batch_delete [delete]
+func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}ByIds(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -215,7 +215,7 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.{{.StructName}}Service.Delete{{.StructName}}ByIds(reqCtx, ids);
+	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Delete{{.UpperStartCamelName}}ByIds(reqCtx, ids);
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -226,16 +226,16 @@ func (s *{{.StructName}}Controller) Delete{{.StructName}}ByIds(c *gin.Context) {
 	})
 }
 
-// @Tags 	 	{{.StructName}}
+// @Tags 	 	{{.UpperStartCamelName}}
 // @Summary		分页获取{{.StructComment}}列表
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.{{.StructName}}}}	"返回信息"
-// @Router		/{{.JsonName}}/list [post]
-func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.{{.UpperStartCamelName}}}}	"返回信息"
+// @Router		/{{.SnakeName}}/list [post]
+func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}List(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -249,7 +249,7 @@ func (s *{{.StructName}}Controller) Find{{.StructName}}List(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.{{.StructName}}Service.Find{{.StructName}}List(reqCtx, &page); 
+	list, total, err := s.svcCtx.{{.UpperStartCamelName}}Service.Find{{.UpperStartCamelName}}List(reqCtx, &page); 
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -271,13 +271,13 @@ import (
 
 )
 
-type {{.StructName}}Controller struct {
+type {{.UpperStartCamelName}}Controller struct {
 	controller.BaseController
 	svcCtx *svc.ControllerContext
 }
 
-func New{{.StructName}}Controller(svcCtx *svc.ControllerContext) *{{.StructName}}Controller {
-	return &{{.StructName}}Controller{
+func New{{.UpperStartCamelName}}Controller(svcCtx *svc.ControllerContext) *{{.UpperStartCamelName}}Controller {
+	return &{{.UpperStartCamelName}}Controller{
 		svcCtx: svcCtx,
 		BaseController: controller.NewBaseController(svcCtx),
 	}

@@ -56,20 +56,20 @@ import (
 	{{range .ImportPkgPaths}}{{.}} ` + "\n" + `{{end}}
 )
 
-type {{.StructName}}Repository struct {
+type {{.UpperStartCamelName}}Repository struct {
 	DbEngin *gorm.DB
 	Cache   *redis.Client
 }
 
-func New{{.StructName}}Repository(svcCtx *svc.RepositoryContext) *{{.StructName}}Repository {
-	return &{{.StructName}}Repository{
+func New{{.UpperStartCamelName}}Repository(svcCtx *svc.RepositoryContext) *{{.UpperStartCamelName}}Repository {
+	return &{{.UpperStartCamelName}}Repository{
 		DbEngin: svcCtx.DbEngin,
 		Cache:   svcCtx.Cache,
 	}
 }
 
-// 创建{{.StructName}}记录
-func (s *{{.StructName}}Repository) Create(ctx context.Context, item *entity.{{.StructName}}) (out *entity.{{.StructName}}, err error) {
+// 创建{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Repository) Create(ctx context.Context, item *entity.{{.UpperStartCamelName}}) (out *entity.{{.UpperStartCamelName}}, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	err = db.Create(&item).Error
@@ -79,8 +79,8 @@ func (s *{{.StructName}}Repository) Create(ctx context.Context, item *entity.{{.
 	return item, err
 }
 
-// 更新{{.StructName}}记录
-func (s *{{.StructName}}Repository) Update(ctx context.Context, item *entity.{{.StructName}}) (out *entity.{{.StructName}}, err error) {
+// 更新{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Repository) Update(ctx context.Context, item *entity.{{.UpperStartCamelName}}) (out *entity.{{.UpperStartCamelName}}, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	err = db.Save(&item).Error
@@ -90,8 +90,8 @@ func (s *{{.StructName}}Repository) Update(ctx context.Context, item *entity.{{.
 	return item, err
 }
 
-// 删除{{.StructName}}记录
-func (s *{{.StructName}}Repository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+// 删除{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Repository) Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -99,14 +99,14 @@ func (s *{{.StructName}}Repository) Delete(ctx context.Context, conditions strin
 		db = db.Where(conditions, args...)
 	}
 
-	query := db.Delete(&entity.{{.StructName}}{})
+	query := db.Delete(&entity.{{.UpperStartCamelName}}{})
 	err = query.Error
 	rows = query.RowsAffected
 	return rows, err
 }
 
-// 查询{{.StructName}}记录
-func (s *{{.StructName}}Repository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.{{.StructName}}, err error) {
+// 查询{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Repository) First(ctx context.Context, conditions string, args ...interface{}) (out *entity.{{.UpperStartCamelName}}, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -121,7 +121,7 @@ func (s *{{.StructName}}Repository) First(ctx context.Context, conditions string
 	return out, err
 }
 
-func (s *{{.StructName}}Repository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.{{.StructName}}, err error) {
+func (s *{{.UpperStartCamelName}}Repository) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*entity.{{.UpperStartCamelName}}, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -136,8 +136,8 @@ func (s *{{.StructName}}Repository) FindALL(ctx context.Context, conditions stri
 	return out, err
 }
 
-// 分页查询{{.StructName}}记录
-func (s *{{.StructName}}Repository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.{{.StructName}}, err error) {
+// 分页查询{{.UpperStartCamelName}}记录
+func (s *{{.UpperStartCamelName}}Repository) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*entity.{{.UpperStartCamelName}}, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
@@ -168,7 +168,7 @@ func (s *{{.StructName}}Repository) FindList(ctx context.Context, page int, size
 }
 
 // 查询总数
-func (s *{{.StructName}}Repository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (s *{{.UpperStartCamelName}}Repository) Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句
@@ -176,7 +176,7 @@ func (s *{{.StructName}}Repository) Count(ctx context.Context, conditions string
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&entity.{{.StructName}}{}).Count(&count).Error
+	err = db.Model(&entity.{{.UpperStartCamelName}}{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -191,13 +191,13 @@ import (
 
 )
 
-type {{.StructName}}Repository struct {
+type {{.UpperStartCamelName}}Repository struct {
 	DbEngin *gorm.DB
 	Cache   *redis.Client
 }
 
-func New{{.StructName}}Repository(svcCtx *svc.RepositoryContext) *{{.StructName}}Repository {
-	return &{{.StructName}}Repository{
+func New{{.UpperStartCamelName}}Repository(svcCtx *svc.RepositoryContext) *{{.UpperStartCamelName}}Repository {
+	return &{{.UpperStartCamelName}}Repository{
 		DbEngin: svcCtx.DbEngin,
 		Cache:   svcCtx.Cache,
 	}

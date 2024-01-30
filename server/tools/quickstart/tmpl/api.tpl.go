@@ -2,59 +2,59 @@ package tmpl
 
 const Api = `import http from "@/utils/request"
 
-interface {{.StructName}} {
+interface {{.UpperStartCamelName}} {
 	{{- range .Fields}}
     {{.FieldValueName}}: any
 	{{- end}}
 }
 
 /** 增 */
-export function create{{.StructName}}Api(data?: object): Promise<IApiResponseData<{{.StructName}}>> {
-  return http.request<IApiResponseData<{{.StructName}}>>({
-    url: "/api/v1/{{.JsonName}}",
+export function create{{.UpperStartCamelName}}Api(data?: object): Promise<IApiResponseData<{{.UpperStartCamelName}}>> {
+  return http.request<IApiResponseData<{{.UpperStartCamelName}}>>({
+    url: "/api/v1/{{.SnakeName}}",
     method: "post",
     data,
   })
 }
 
 /** 改 */
-export function update{{.StructName}}Api(data?: object): Promise<IApiResponseData<{{.StructName}}>> {
-  return http.request<IApiResponseData<{{.StructName}}>>({
-    url: "/api/v1/{{.JsonName}}",
+export function update{{.UpperStartCamelName}}Api(data?: object): Promise<IApiResponseData<{{.UpperStartCamelName}}>> {
+  return http.request<IApiResponseData<{{.UpperStartCamelName}}>>({
+    url: "/api/v1/{{.SnakeName}}",
     method: "put",
     data,
   })
 }
 
 /** 删 */
-export function delete{{.StructName}}Api(id: number): Promise<IApiResponseData<{{.StructName}}>> {
-  return http.request<IApiResponseData<{{.StructName}}>>({
-    url: ` + "`/api/v1/{{.JsonName}}/${id}`" + `,
+export function delete{{.UpperStartCamelName}}Api(id: number): Promise<IApiResponseData<{{.UpperStartCamelName}}>> {
+  return http.request<IApiResponseData<{{.UpperStartCamelName}}>>({
+    url: ` + "`/api/v1/{{.SnakeName}}/${id}`" + `,
     method: "delete",
   })
 }
 
 /** 查 */
-export function find{{.StructName}}Api(id: number): Promise<IApiResponseData<{{.StructName}}>> {
-  return http.request<IApiResponseData<{{.StructName}}>>({
-    url: ` + "`/api/v1/{{.JsonName}}/${id}`" + `,
+export function find{{.UpperStartCamelName}}Api(id: number): Promise<IApiResponseData<{{.UpperStartCamelName}}>> {
+  return http.request<IApiResponseData<{{.UpperStartCamelName}}>>({
+    url: ` + "`/api/v1/{{.SnakeName}}/${id}`" + `,
     method: "get",
   })
 }
 
 /** 删除 批量操作 */
-export function delete{{.StructName}}ByIdsApi(ids: number[]): Promise<IApiResponseData<{{.StructName}}>> {
-  return http.request<IApiResponseData<{{.StructName}}>>({
-    url: "/api/v1/{{.JsonName}}/batch_delete",
+export function delete{{.UpperStartCamelName}}ByIdsApi(ids: number[]): Promise<IApiResponseData<{{.UpperStartCamelName}}>> {
+  return http.request<IApiResponseData<{{.UpperStartCamelName}}>>({
+    url: "/api/v1/{{.SnakeName}}/batch_delete",
     method: "delete",
     data: ids,
   })
 }
 
 /** 查询 分页列表 */
-export function find{{.StructName}}ListApi(page?: Page): Promise<IApiResponseData<PageResult<{{.StructName}}>>> {
-  return http.request<IApiResponseData<PageResult<{{.StructName}}>>>({
-    url: "/api/v1/{{.JsonName}}/list",
+export function find{{.UpperStartCamelName}}ListApi(page?: Page): Promise<IApiResponseData<PageResult<{{.UpperStartCamelName}}>>> {
+  return http.request<IApiResponseData<PageResult<{{.UpperStartCamelName}}>>>({
+    url: "/api/v1/{{.SnakeName}}/list",
     method: "post",
     data: page,
   })
