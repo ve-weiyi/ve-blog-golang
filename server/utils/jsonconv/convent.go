@@ -11,17 +11,17 @@ const (
 )
 
 var replaceKey = map[string]string{
-	"DTO": "dto",
-	"UID": "uid",
-	"PID": "pid",
-	"ID":  "id",
-	"URL": "url",
-	"AI":  "ai",
+	"DTO":       "dto",
+	"UID":       "uid",
+	"PID":       "pid",
+	"ID":        "id",
+	"EncodeURL": "url",
+	"AI":        "ai",
 }
 
 /**
  * 驼峰式写法转为下划线写法
- * @description XxYx->xx_yy	XxYY->xx_yy	URL->url  TagDTOList->tag_dto_list
+ * @description XxYx->xx_yy	XxYY->xx_yy	EncodeURL->url  TagDTOList->tag_dto_list
  **/
 func Camel2Case(XxYY string) string {
 	xx_y_y := make([]byte, 0)

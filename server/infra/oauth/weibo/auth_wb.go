@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/httpx"
 )
 
 // 微博授权登录
@@ -27,12 +27,13 @@ func NewAuthWb(conf *oauth.AuthConfig) *AuthWb {
 
 // 获取登录地址
 func (a *AuthWb) GetRedirectUrl(state string) string {
-	url := https.NewHttpBuilder(a.AuthorizeUrl).
-		AddParam("response_type", "code").
-		AddParam("client_id", a.Config.ClientID).
-		AddParam("redirect_uri", a.Config.RedirectUrl).
-		AddParam("state", state).
-		GetUrl()
+
+	url := httpx.NewClient(
+		httpx.WithParam("response_type", "code"),
+		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
+		httpx.WithParam("state", state),
+	).EncodeURL(a.AuthorizeUrl)
 
 	return url
 }
@@ -61,13 +62,15 @@ func (a *AuthWb) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error
 
 // 获取token
 func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
-	body, err := https.NewHttpBuilder(a.TokenUrl).
-		AddParam("grant_type", "authorization_code").
-		AddParam("code", code).
-		AddParam("client_id", a.Config.ClientID).
-		AddParam("client_secret", a.Config.ClientSecret).
-		AddParam("redirect_uri", a.Config.RedirectUrl).
-		Post()
+
+	body, err := httpx.NewClient(
+		httpx.WithParam("grant_type", "authorization_code"),
+		httpx.WithParam("code", code),
+		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_secret", a.Config.ClientSecret),
+		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
+	).DoRequest("POST", a.TokenUrl)
+
 	if err != nil {
 		return nil, err
 	}
@@ -85,10 +88,10 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 // 获取第三方用户信息
 func (a *AuthWb) GetUserInfo(accessToken string, openID string) (resp *UserResult, err error) {
 
-	body, err := https.NewHttpBuilder(a.UserInfoUrl).
-		AddParam("uid", openID).
-		AddParam("access_token", accessToken).
-		Get()
+	body, err := httpx.NewClient(
+		httpx.WithParam("uid", openID),
+		httpx.WithParam("access_token", accessToken),
+	).DoRequest("GET", a.UserInfoUrl)
 	if err != nil {
 		return nil, err
 	}

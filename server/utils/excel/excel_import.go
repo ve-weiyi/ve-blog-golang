@@ -8,12 +8,20 @@ import (
 )
 
 type ExcelImporter interface {
+	// 打开文件
 	OpenFile(fileName string) error
+	// 打开reader
 	OpenReader(r io.Reader) error
+	// 设置活动的sheet页
 	SetActiveSheet(sheetName string) error
-	GetAllRowValue() ([][]string, error)
+	// 获取所有sheet页的标题
+	GetSheetTitle() ([]string, error)
+	// 获取某一行的值
 	GetRowValue(rowIndex int) ([]string, error)
-	GetAllRowCount() int
+	// 获取所有行的值
+	GetAllRowValue() ([][]string, error)
+	// 获取所有行数
+	RowCount() int
 }
 
 type ExcelImportImpl struct {
@@ -21,7 +29,7 @@ type ExcelImportImpl struct {
 	File            *excelize.File
 }
 
-func NewExcelImporter() *ExcelImportImpl {
+func NewExcelImporter() ExcelImporter {
 	f := excelize.NewFile()
 	return &ExcelImportImpl{
 		File: f,
@@ -63,7 +71,16 @@ func (s *ExcelImportImpl) SetActiveSheet(sheetName string) error {
 	return nil
 }
 
+func (s *ExcelImportImpl) GetSheetTitle() ([]string, error) {
+	return s.GetRowValue(1)
+}
+
+// excel 是从1开始的，为了方便rows对齐excel。所以这里的  rows下标=rowIndex-1
 func (s *ExcelImportImpl) GetRowValue(rowIndex int) ([]string, error) {
+	if rowIndex <= 0 {
+		return nil, fmt.Errorf("index must be greater than 0")
+	}
+
 	rows, err := s.File.GetRows(s.activeSheetName)
 	if err != nil {
 		return nil, err
@@ -73,7 +90,7 @@ func (s *ExcelImportImpl) GetRowValue(rowIndex int) ([]string, error) {
 		return nil, fmt.Errorf("rowIndex out of range")
 	}
 
-	return rows[rowIndex], nil
+	return rows[rowIndex-1], nil
 }
 
 func (s *ExcelImportImpl) GetAllRowValue() ([][]string, error) {
@@ -85,7 +102,7 @@ func (s *ExcelImportImpl) GetAllRowValue() ([][]string, error) {
 	return rows, nil
 }
 
-func (s *ExcelImportImpl) GetAllRowCount() int {
+func (s *ExcelImportImpl) RowCount() int {
 	rows, err := s.File.GetRows(s.activeSheetName)
 	if err != nil {
 		return 0
