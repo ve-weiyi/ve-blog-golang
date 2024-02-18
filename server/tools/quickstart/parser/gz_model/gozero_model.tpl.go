@@ -47,6 +47,7 @@ func New{{.UpperStartCamelName}}Model(db *gorm.DB, cache *redis.Client) I{{.Uppe
 	return &default{{.UpperStartCamelName}}Model{
 		DbEngin:    db,
 		CacheEngin: cache,
+		table: {{.SnakeName}},
 	}
 }
 
@@ -96,6 +97,7 @@ func (s *default{{.UpperStartCamelName}}Model) First(ctx context.Context, condit
 		db = db.Where(conditions, args...)
 	}
 
+	out = new({{.UpperStartCamelName}})
 	err = db.First(&out).Error
 	if err != nil {
 		return nil, err
