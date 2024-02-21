@@ -14,7 +14,7 @@ func TestFeishu(t *testing.T) {
 	conf := &oauth.AuthConfig{
 		ClientID:     global.CONFIG.Oauth.Feishu.ClientID,
 		ClientSecret: global.CONFIG.Oauth.Feishu.ClientSecret,
-		RedirectUrl:  "https://veweiyi.cn/blog/oauth/login/feishu",
+		RedirectUri:  "https://veweiyi.cn/blog/oauth/login/feishu",
 	}
 
 	auth := NewAuthFeishu(conf)

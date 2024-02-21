@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/https"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/httpx"
 )
 
 type AiMessage struct {
@@ -32,8 +32,79 @@ func NewAIChatGPT() *AIChatGPT {
 		Model:  "gpt-3.5-turbo",
 	}
 }
+func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
+	content := ChatRequest{
+		Model:    "gpt-3.5-turbo",
+		Messages: req,
+	}
 
-func (s *AIChatGPT) ReadModelJSON(filepath string) ([]*ChatRole, error) {
+	res, err := httpx.NewClient(
+		httpx.WithHeader("Content-Type", "application/json"),
+		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
+		httpx.WithBody(content),
+	).DoRequest("POST", s.Url)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &ChatResponse{}
+	err = json.Unmarshal([]byte(res), resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
+
+	prompt, err := s.getRole(act)
+	if err != nil {
+		return nil, err
+	}
+
+	content := ChatRequest{
+		Model: "gpt-3.5-turbo",
+		Messages: append([]*ChatMessage{{
+			Role:    "user",
+			Content: prompt,
+		}}),
+	}
+
+	res, err := httpx.NewClient(
+		httpx.WithHeader("Content-Type", "application/json"),
+		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
+		httpx.WithBody(content),
+	).DoRequest("POST", s.Url)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &ChatResponse{}
+	err = json.Unmarshal([]byte(res), resp)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func (s *AIChatGPT) getRole(act string) (string, error) {
+	roles, err := s.readModelJSON("./prompts-zh.json")
+	if err != nil {
+		return "", err
+	}
+
+	for _, role := range roles {
+		if role.Act == act {
+			return role.Prompt, nil
+		}
+	}
+
+	return "", fmt.Errorf("not found role")
+}
+
+func (s *AIChatGPT) readModelJSON(filepath string) ([]*ChatRole, error) {
 	// 读取 JSON 文件内容
 	jsonData, err := os.ReadFile(filepath)
 	if err != nil {
@@ -50,78 +121,4 @@ func (s *AIChatGPT) ReadModelJSON(filepath string) ([]*ChatRole, error) {
 	}
 
 	return roles, nil
-}
-
-func (s *AIChatGPT) GetRole(act string) (string, error) {
-	roles, err := s.ReadModelJSON("./prompts-zh.json")
-	if err != nil {
-		return "", err
-	}
-
-	for _, role := range roles {
-		if role.Act == act {
-			return role.Prompt, nil
-		}
-	}
-
-	return "", fmt.Errorf("not found role")
-}
-
-func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
-
-	prompt, err := s.GetRole(act)
-	if err != nil {
-		return nil, err
-	}
-
-	content := ChatRequest{
-		Model: "gpt-3.5-turbo",
-		Messages: append([]*ChatMessage{{
-			Role:    "user",
-			Content: prompt,
-		}}),
-	}
-
-	res, code := https.NewHttpBuilder(s.Url).
-		AddHeader("Content-Type", "application/json").
-		AddHeader("Authorization", "Bearer "+s.ApiKey).
-		AddBody(content).
-		Post()
-
-	global.LOG.Println(code)
-	global.LOG.Println(res)
-
-	resp = &ChatResponse{}
-	err = json.Unmarshal([]byte(res), resp)
-	if err != nil {
-		global.LOG.Println(err)
-		return nil, err
-	}
-
-	return resp, nil
-}
-
-func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
-	content := ChatRequest{
-		Model:    "gpt-3.5-turbo",
-		Messages: req,
-	}
-
-	res, code := https.NewHttpBuilder(s.Url).
-		AddHeader("Content-Type", "application/json").
-		AddHeader("Authorization", "Bearer "+s.ApiKey).
-		AddBody(content).
-		Post()
-
-	global.LOG.Println(code)
-	global.LOG.Println(res)
-
-	resp = &ChatResponse{}
-	err = json.Unmarshal([]byte(res), resp)
-	if err != nil {
-		global.LOG.Println(err)
-		return nil, err
-	}
-
-	return resp, nil
 }
