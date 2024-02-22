@@ -11,7 +11,7 @@
  Target Server Version : 80034
  File Encoding         : 65001
 
- Date: 18/01/2024 18:21:49
+ Date: 23/02/2024 15:21:47
 */
 
 SET NAMES utf8mb4;
@@ -33,12 +33,177 @@ CREATE TABLE `api` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `idx_path_method` (`path`,`method`,`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api路由';
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='api路由';
 
 -- ----------------------------
 -- Records of api
 -- ----------------------------
 BEGIN;
+INSERT INTO `api` VALUES (1, 'AI', '', '', 0, 0, 1, '2024-01-18 19:51:35', '2024-01-18 19:51:35');
+INSERT INTO `api` VALUES (2, 'Api', '', '', 0, 0, 1, '2024-01-18 19:51:35', '2024-01-18 19:51:35');
+INSERT INTO `api` VALUES (3, 'Article', '', '', 0, 0, 1, '2024-01-18 19:51:36', '2024-01-18 19:51:36');
+INSERT INTO `api` VALUES (4, 'Auth', '', '', 0, 0, 1, '2024-01-18 19:51:36', '2024-01-18 19:51:36');
+INSERT INTO `api` VALUES (5, 'Captcha', '', '', 0, 0, 1, '2024-01-18 19:51:36', '2024-01-18 19:51:36');
+INSERT INTO `api` VALUES (6, 'Category', '', '', 0, 0, 1, '2024-01-18 19:51:36', '2024-01-18 19:51:36');
+INSERT INTO `api` VALUES (7, 'Comment', '', '', 0, 0, 1, '2024-01-18 19:51:37', '2024-01-18 19:51:37');
+INSERT INTO `api` VALUES (8, 'FriendLink', '', '', 0, 0, 1, '2024-01-18 19:51:37', '2024-01-18 19:51:37');
+INSERT INTO `api` VALUES (9, 'Menu', '', '', 0, 0, 1, '2024-01-18 19:51:37', '2024-01-18 19:51:37');
+INSERT INTO `api` VALUES (10, 'OperationLog', '', '', 0, 0, 1, '2024-01-18 19:51:38', '2024-01-18 19:51:38');
+INSERT INTO `api` VALUES (11, 'Page', '', '', 0, 0, 1, '2024-01-18 19:51:38', '2024-01-18 19:51:38');
+INSERT INTO `api` VALUES (12, 'Photo', '', '', 0, 0, 1, '2024-01-18 19:51:38', '2024-01-18 19:51:38');
+INSERT INTO `api` VALUES (13, 'PhotoAlbum', '', '', 0, 0, 1, '2024-01-18 19:51:38', '2024-01-18 19:51:38');
+INSERT INTO `api` VALUES (14, 'Remark', '', '', 0, 0, 1, '2024-01-18 19:51:39', '2024-01-18 19:51:39');
+INSERT INTO `api` VALUES (15, 'Role', '', '', 0, 0, 1, '2024-01-18 19:51:39', '2024-01-18 19:51:39');
+INSERT INTO `api` VALUES (16, 'Tag', '', '', 0, 0, 1, '2024-01-18 19:51:39', '2024-01-18 19:51:39');
+INSERT INTO `api` VALUES (17, 'Talk', '', '', 0, 0, 1, '2024-01-18 19:51:39', '2024-01-18 19:51:39');
+INSERT INTO `api` VALUES (18, 'Upload', '', '', 0, 0, 1, '2024-01-18 19:51:40', '2024-01-18 19:51:40');
+INSERT INTO `api` VALUES (19, 'User', '', '', 0, 0, 1, '2024-01-18 19:51:40', '2024-01-18 19:51:40');
+INSERT INTO `api` VALUES (20, 'Website', '', '', 0, 0, 1, '2024-01-18 19:51:40', '2024-01-18 19:51:40');
+INSERT INTO `api` VALUES (21, 'Websocket', '', '', 0, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (22, '和Chatgpt聊天', '/api/v1/ai/chat', 'POST', 1, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (23, 'Chatgpt扮演角色', '/api/v1/ai/cos', 'POST', 1, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (24, '创建接口', '/api/v1/api', 'POST', 2, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (25, '更新接口', '/api/v1/api', 'PUT', 2, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (26, '批量删除接口', '/api/v1/api/batch_delete', 'DELETE', 2, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (27, '获取api列表', '/api/v1/api/details_list', 'POST', 2, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (28, '分页获取接口列表', '/api/v1/api/list', 'POST', 2, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (29, '同步api列表', '/api/v1/api/sync', 'POST', 2, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (30, '删除接口', '/api/v1/api/{id}', 'DELETE', 2, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (31, '查询接口', '/api/v1/api/{id}', 'GET', 2, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (32, '保存文章', '/api/v1/admin/article', 'POST', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (33, '删除文章-逻辑删除', '/api/v1/admin/article/delete', 'PUT', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (34, '分页获取文章列表', '/api/v1/admin/article/list', 'POST', 3, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (35, '更新文章', '/api/v1/admin/article/top', 'PUT', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (36, '删除文章', '/api/v1/admin/article/{id}', 'DELETE', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (37, '查询文章', '/api/v1/admin/article/{id}', 'GET', 3, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (38, '文章归档(时间轴)', '/api/v1/article/archives', 'POST', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (39, '分页获取文章列表', '/api/v1/article/list', 'POST', 3, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (40, '通过标签或者id获取文章列表', '/api/v1/article/series', 'POST', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (41, '文章相关推荐', '/api/v1/article/{id}/details', 'GET', 3, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (42, '点赞文章', '/api/v1/article/{id}/like', 'PUT', 3, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (43, '发送忘记密码邮件', '/api/v1/forget/password', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (44, '重置密码', '/api/v1/forget/reset_password', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (45, '登录', '/api/v1/login', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (46, '注销', '/api/v1/logoff', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (47, '登出', '/api/v1/logout', 'GET', 4, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (48, '获取授权地址', '/api/v1/oauth/login', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (49, '获取授权地址', '/api/v1/oauth/url', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (50, '注册', '/api/v1/register', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (51, '发送注册邮件', '/api/v1/register/email', 'POST', 4, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (52, '发送验证码', '/api/v1/captcha/email', 'POST', 5, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (53, '生成验证码', '/api/v1/captcha/image', 'POST', 5, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (54, '检验验证码', '/api/v1/captcha/verify', 'POST', 5, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (55, '创建文章分类', '/api/v1/category', 'POST', 6, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (56, '更新文章分类', '/api/v1/category', 'PUT', 6, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (57, '批量删除文章分类', '/api/v1/category/batch_delete', 'DELETE', 6, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (58, '分页获取文章分类详情列表', '/api/v1/category/details_list', 'POST', 6, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (59, '分页获取文章分类列表', '/api/v1/category/list', 'POST', 6, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (60, '删除文章分类', '/api/v1/category/{id}', 'DELETE', 6, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (61, '查询文章分类', '/api/v1/category/{id}', 'GET', 6, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (62, '创建评论', '/api/v1/comment', 'POST', 7, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (63, '更新评论', '/api/v1/comment', 'PUT', 7, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (64, '批量删除评论', '/api/v1/comment/batch_delete', 'DELETE', 7, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (65, '分页获取评论列表', '/api/v1/comment/details_list', 'POST', 7, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (66, '分页获取评论列表', '/api/v1/comment/list', 'POST', 7, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (67, '获取用户评论列表', '/api/v1/comment/list/back', 'POST', 7, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (68, '删除评论', '/api/v1/comment/{id}', 'DELETE', 7, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (69, '查询评论', '/api/v1/comment/{id}', 'GET', 7, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (70, '点赞评论', '/api/v1/comment/{id}/like', 'POST', 7, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (71, '查询评论回复列表', '/api/v1/comment/{id}/reply_list', 'POST', 7, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (72, '创建友链', '/api/v1/friend_link', 'POST', 8, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (73, '更新友链', '/api/v1/friend_link', 'PUT', 8, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (74, '批量删除友链', '/api/v1/friend_link/batch_delete', 'DELETE', 8, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (75, '分页获取友链列表', '/api/v1/friend_link/list', 'POST', 8, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (76, '删除友链', '/api/v1/friend_link/{id}', 'DELETE', 8, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (77, '查询友链', '/api/v1/friend_link/{id}', 'GET', 8, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (78, '创建菜单', '/api/v1/menu', 'POST', 9, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (79, '更新菜单', '/api/v1/menu', 'PUT', 9, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (80, '批量删除菜单', '/api/v1/menu/batch_delete', 'DELETE', 9, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (81, '获取菜单列表', '/api/v1/menu/details_list', 'POST', 9, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (82, '分页获取菜单列表', '/api/v1/menu/list', 'POST', 9, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (83, '删除菜单', '/api/v1/menu/{id}', 'DELETE', 9, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (84, '查询菜单', '/api/v1/menu/{id}', 'GET', 9, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (85, '创建操作记录', '/api/v1/operation_log', 'POST', 10, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (86, '更新操作记录', '/api/v1/operation_log', 'PUT', 10, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (87, '批量删除操作记录', '/api/v1/operation_log/batch_delete', 'DELETE', 10, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (88, '分页获取操作记录列表', '/api/v1/operation_log/list', 'POST', 10, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (89, '删除操作记录', '/api/v1/operation_log/{id}', 'DELETE', 10, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (90, '查询操作记录', '/api/v1/operation_log/{id}', 'GET', 10, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (91, '创建页面', '/api/v1/page', 'POST', 11, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (92, '更新页面', '/api/v1/page', 'PUT', 11, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (93, '批量删除页面', '/api/v1/page/batch_delete', 'DELETE', 11, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (94, '分页获取页面列表', '/api/v1/page/list', 'POST', 11, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (95, '删除页面', '/api/v1/page/{id}', 'DELETE', 11, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (96, '查询页面', '/api/v1/page/{id}', 'GET', 11, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (97, '创建相片', '/api/v1/photo', 'POST', 12, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (98, '更新相片', '/api/v1/photo', 'PUT', 12, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (99, '批量删除相片', '/api/v1/photo/batch_delete', 'DELETE', 12, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (100, '分页获取相片列表', '/api/v1/photo/list', 'POST', 12, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (101, '删除相片', '/api/v1/photo/{id}', 'DELETE', 12, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (102, '查询相片', '/api/v1/photo/{id}', 'GET', 12, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (103, '创建相册', '/api/v1/photo_album', 'POST', 13, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (104, '更新相册', '/api/v1/photo_album', 'PUT', 13, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (105, '批量删除相册', '/api/v1/photo_album/batch_delete', 'DELETE', 13, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (106, '获取相册详情列表', '/api/v1/photo_album/details_list', 'POST', 13, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (107, '分页获取相册列表', '/api/v1/photo_album/list', 'POST', 13, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (108, '删除相册', '/api/v1/photo_album/{id}', 'DELETE', 13, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (109, '查询相册', '/api/v1/photo_album/{id}', 'GET', 13, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (110, '获取相册详情', '/api/v1/photo_album/{id}/details', 'GET', 13, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (111, '创建留言', '/api/v1/remark', 'POST', 14, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (112, '更新留言', '/api/v1/remark', 'PUT', 14, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (113, '批量删除留言', '/api/v1/remark/batch_delete', 'DELETE', 14, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (114, '分页获取留言列表', '/api/v1/remark/list', 'POST', 14, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (115, '删除留言', '/api/v1/remark/{id}', 'DELETE', 14, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (116, '查询留言', '/api/v1/remark/{id}', 'GET', 14, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (117, '创建角色', '/api/v1/role', 'POST', 15, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (118, '更新角色', '/api/v1/role', 'PUT', 15, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (119, '批量删除角色', '/api/v1/role/batch_delete', 'DELETE', 15, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (120, '获取角色列表', '/api/v1/role/details_list', 'POST', 15, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (121, '分页获取角色列表', '/api/v1/role/list', 'POST', 15, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (122, '更新角色菜单', '/api/v1/role/update_menus', 'POST', 15, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (123, '更新角色资源', '/api/v1/role/update_resources', 'POST', 15, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (124, '删除角色', '/api/v1/role/{id}', 'DELETE', 15, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (125, '查询角色', '/api/v1/role/{id}', 'GET', 15, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (126, '创建文章标签', '/api/v1/tag', 'POST', 16, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (127, '更新文章标签', '/api/v1/tag', 'PUT', 16, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (128, '批量删除文章标签', '/api/v1/tag/batch_delete', 'DELETE', 16, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (129, '分页获取文章分类详情列表', '/api/v1/tag/details_list', 'POST', 16, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (130, '分页获取文章标签列表', '/api/v1/tag/list', 'POST', 16, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (131, '删除文章标签', '/api/v1/tag/{id}', 'DELETE', 16, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (132, '查询文章标签', '/api/v1/tag/{id}', 'GET', 16, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (133, '创建说说', '/api/v1/talk', 'POST', 17, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (134, '更新说说', '/api/v1/talk', 'PUT', 17, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (135, '批量删除说说', '/api/v1/talk/batch_delete', 'DELETE', 17, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (136, '分页获取说说详情列表', '/api/v1/talk/details_list', 'POST', 17, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (137, '分页获取说说列表', '/api/v1/talk/list', 'POST', 17, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (138, '删除说说', '/api/v1/talk/{id}', 'DELETE', 17, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (139, '查询说说', '/api/v1/talk/{id}', 'GET', 17, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (140, '分页获取说说详情列表', '/api/v1/talk/{id}/details', 'GET', 17, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (141, '点赞说说', '/api/v1/talk/{id}/like', 'PUT', 17, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (142, '上传文件', '/api/v1/upload/{label}', 'POST', 18, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (143, '上传语言', '/api/v1/voice', 'POST', 18, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (144, '获取用户接口权限', '/api/v1/user/apis', 'GET', 19, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (145, '获取用户地区列表', '/api/v1/user/area_list', 'POST', 19, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (146, '更换用户头像', '/api/v1/user/avatar', 'POST', 19, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (147, '获取用户信息', '/api/v1/user/info', 'GET', 19, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (148, '修改用户信息', '/api/v1/user/info', 'POST', 19, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (149, '获取用户列表', '/api/v1/user/list', 'POST', 19, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (150, '获取用户登录历史', '/api/v1/user/login_history', 'POST', 19, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (151, '批量删除登录历史', '/api/v1/user/login_history/batch_delete', 'DELETE', 19, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (152, '获取用户菜单权限', '/api/v1/user/menus', 'GET', 19, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (153, '获取在线用户列表', '/api/v1/user/online_list', 'POST', 19, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (154, '修改用户角色', '/api/v1/user/update_roles', 'POST', 19, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (155, '修改用户状态', '/api/v1/user/update_status', 'POST', 19, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (156, '获取博客前台首页信息', '/api/v1/', 'GET', 20, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (157, '关于我', '/api/v1/about/me', 'GET', 20, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (158, '获取后台首页信息', '/api/v1/admin', 'GET', 20, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (159, '更新我的信息', '/api/v1/admin/about/me', 'POST', 20, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (160, '获取配置', '/api/v1/admin/config', 'POST', 20, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (161, '更新配置', '/api/v1/admin/config', 'PUT', 20, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (162, '获取服务器信息', '/api/v1/admin/system/state', 'GET', 20, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (163, '查询聊天记录', '/api/v1/chat/records', 'POST', 20, 1, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (164, '获取网站配置', '/api/v1/website/config', 'GET', 20, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
+INSERT INTO `api` VALUES (165, '查询聊天记录', '/api/v1/ws', 'GET', 21, 0, 1, '2024-01-18 19:51:41', '2024-01-18 19:51:41');
 COMMIT;
 
 -- ----------------------------
@@ -185,6 +350,41 @@ INSERT INTO `category` VALUES (193, '面试笔记', '2022-02-19 11:31:18', '2024
 COMMIT;
 
 -- ----------------------------
+-- Table structure for chat_message
+-- ----------------------------
+DROP TABLE IF EXISTS `chat_message`;
+CREATE TABLE `chat_message` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
+  `chat_id` int NOT NULL DEFAULT '0' COMMENT '群聊id',
+  `reply_msg_id` int NOT NULL DEFAULT '0' COMMENT '回复消息id',
+  `content` varchar(1024) NOT NULL DEFAULT '' COMMENT '聊天内容',
+  `ip_address` varchar(64) NOT NULL DEFAULT '' COMMENT 'ip地址',
+  `ip_source` varchar(255) NOT NULL DEFAULT '' COMMENT 'ip来源',
+  `type` int NOT NULL DEFAULT '0' COMMENT '类型',
+  `status` int NOT NULL DEFAULT '0' COMMENT '0正常 1撤回 2已编辑',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='聊天消息';
+
+-- ----------------------------
+-- Records of chat_message
+-- ----------------------------
+BEGIN;
+INSERT INTO `chat_message` VALUES (1, 3, 3, 0, '你好', '127.0.0.1', '本机地址', 0, 0, '2024-02-23 14:57:10.0', '2024-02-23 14:57:10.0');
+INSERT INTO `chat_message` VALUES (2, 0, 3, 0, '你好！有什么可以帮助你的吗？', '', '', 1, 0, '2024-02-23 14:57:10.0', '2024-02-23 14:57:10.0');
+INSERT INTO `chat_message` VALUES (3, 3, 3, 0, '你叫什么名字', '127.0.0.1', '本机地址', 0, 0, '2024-02-23 14:57:46.0', '2024-02-23 14:57:46.0');
+INSERT INTO `chat_message` VALUES (4, 0, 3, 0, '我是Assistant，很高兴为您服务。您有什么问题或需要帮助吗？', '', '', 1, 0, '2024-02-23 14:57:46.0', '2024-02-23 14:57:46.0');
+INSERT INTO `chat_message` VALUES (5, 3, 3, 0, '你可以帮我做什么', '127.0.0.1', '本机地址', 0, 0, '2024-02-23 14:58:15.0', '2024-02-23 14:58:15.0');
+INSERT INTO `chat_message` VALUES (6, 0, 3, 0, '我是一个语言模型AI助手，可以回答你的问题，提供信息，帮助解决问题，甚至进行一些娱乐性的对话。有什么我可以帮助你的吗？', '', '', 1, 0, '2024-02-23 14:58:15.0', '2024-02-23 14:58:15.0');
+INSERT INTO `chat_message` VALUES (7, 3, 3, 0, '你能告诉我我们第一次见面说的话吗', '127.0.0.1', '本机地址', 0, 0, '2024-02-23 14:58:41.0', '2024-02-23 14:58:41.0');
+INSERT INTO `chat_message` VALUES (8, 0, 3, 0, '当然，我可以告诉你我们第一次见面时的对话。不过请注意，我无法实际记忆过去的对话，这只是一种模拟。你愿意听吗？', '', '', 1, 0, '2024-02-23 14:58:41.0', '2024-02-23 14:58:41.0');
+INSERT INTO `chat_message` VALUES (9, 3, 3, 0, '我的第一个问题是什么', '127.0.0.1', '本机地址', 0, 0, '2024-02-23 14:58:52.0', '2024-02-23 14:58:52.0');
+INSERT INTO `chat_message` VALUES (10, 0, 3, 0, '你的第一个问题是\"你叫什么名字？\"', '', '', 1, 0, '2024-02-23 14:58:52.0', '2024-02-23 14:58:52.0');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for chat_record
 -- ----------------------------
 DROP TABLE IF EXISTS `chat_record`;
@@ -239,6 +439,26 @@ INSERT INTO `chat_record` VALUES (2934, 0, 'admin@qq.com', 'http://rxb1y0x1n.hn-
 INSERT INTO `chat_record` VALUES (2935, 0, 'admin@qq.com', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/43b90920409618f188bfc6923f16b9fa_20230713143425.jpg', '<img src= \'https://static.veweiyi.cn/emoji/qq/27@2x.gif\' width=\'24\'height=\'24\' style=\'margin: 0 1px;vertical-align: text-bottom\'/>', '', '', 3, '2023-12-04 21:23:06', '2023-12-04 21:23:06');
 INSERT INTO `chat_record` VALUES (2936, 0, 'admin@qq.com', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/43b90920409618f188bfc6923f16b9fa_20230713143425.jpg', '<img src= \'https://static.veweiyi.cn/emoji/qq/104@2x.gif\' width=\'24\'height=\'24\' style=\'margin: 0 1px;vertical-align: text-bottom\'/>', '', '', 3, '2023-12-04 21:24:08', '2023-12-04 21:24:08');
 INSERT INTO `chat_record` VALUES (2937, 0, 'admin@qq.com', 'http://rxb1y0x1n.hn-bkt.clouddn.com/blog/avatar/43b90920409618f188bfc6923f16b9fa_20230713143425.jpg', '<img src= \'https://static.veweiyi.cn/emoji/qq/26@2x.gif\' width=\'24\'height=\'24\' style=\'margin: 0 1px;vertical-align: text-bottom\'/>', '', '', 3, '2023-12-05 09:45:23', '2023-12-05 09:45:23');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for chat_session
+-- ----------------------------
+DROP TABLE IF EXISTS `chat_session`;
+CREATE TABLE `chat_session` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `chat_title` varchar(128) NOT NULL DEFAULT '' COMMENT '标题',
+  `type` varchar(128) NOT NULL DEFAULT '' COMMENT '类型',
+  `status` int NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='聊天会话';
+
+-- ----------------------------
+-- Records of chat_session
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -318,18 +538,65 @@ CREATE TABLE `menu` (
   `component` varchar(64) NOT NULL DEFAULT '' COMMENT '组件',
   `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单icon',
   `rank` int NOT NULL DEFAULT '0' COMMENT '排序',
-  `parent_id` int NOT NULL DEFAULT  '0' COMMENT '父id',
+  `parent_id` int NOT NULL DEFAULT '0' COMMENT '父id',
   `is_hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏  0否1是',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_path` (`path`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
 BEGIN;
+INSERT INTO `menu` VALUES (1, 'Home', '/', 'menus.hshome', '', 'homeFilled', 0, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (2, 'Home', '/home', 'menus.hshome', '', '', 0, 1, 1, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (3, 'Welcome', '/welcome', 'menus.hshome', '', '', 1, 1, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (4, 'article-management', '/article', '文章管理', '', 'document', 10, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (5, 'article/publish', '/article/publish/:articleId', '文章管理', '', '', 0, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (6, 'article/list', '/article/list', '文章管理', '', '', 1, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (7, 'article/category', '/article/category', '文章管理', '', '', 2, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (8, 'article/tag', '/article/tag', '文章管理', '', '', 3, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (9, 'message-management', '/message', '消息管理', '', 'message', 20, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (10, 'comment', '/message/comment', '消息管理', '', '', 0, 9, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (11, 'remark', '/message/remark', '消息管理', '', '', 1, 9, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (12, 'links', '/message/links', '消息管理', '', '', 2, 9, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (13, 'talk-management', '/talk', '说说管理', '', 'ChatDotSquare', 30, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (14, 'talk_publish', '/talk/publish', '说说管理', '', '', 0, 13, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (15, 'talk_edit', '/talk/edit/:talkId', '说说管理', '', '', 1, 13, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (16, 'talk_list', '/talk/list', '说说管理', '', '', 2, 13, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (17, 'album-management', '/albums', '相册管理', '', 'picture', 40, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (18, 'Albums', '/albums/list', '相册管理', '', '', 0, 17, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (19, 'Photo', '/albums/:id', '相册管理', '', '', 1, 17, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (20, 'Delete', '/albums/photo/delete', '相册管理', '', '', 2, 17, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (21, 'user-management', '/user', '用户管理', '', 'user', 50, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
+INSERT INTO `menu` VALUES (22, 'list', '/user/list', '用户管理', '', 'user-filled', 0, 21, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (23, 'online', '/user/online', '用户管理', '', 'user-filled', 1, 21, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (24, 'authority-management', '/authority', '权限管理', '', 'lock', 60, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (25, 'Role', '/authority/role', '权限管理', '', '', 0, 24, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (26, 'Menu', '/authority/menu', '权限管理', '', '', 1, 24, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (27, 'Resource', '/authority/resource', '权限管理', '', '', 2, 24, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (28, 'log-management', '/log', '日志管理', '', 'document', 70, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (29, 'operation', '/log/operation', '日志管理', '', '', 0, 28, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (30, 'website-management', '/website', '网站管理', '', 'setting', 80, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (31, 'Config', '/website/config', '网站管理', '', '', 0, 30, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (32, 'Page', '/website/page', '网站管理', '', '', 1, 30, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (33, 'About', '/website/about', '网站管理', '', '', 2, 30, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (34, 'mine-management', '/mine', '个人中心', '', 'user', 90, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (35, '/mine/userinfo', '/mine/userinfo', '个人中心', '', '', 0, 34, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (36, '/mine/history', '/mine/history', '个人中心', '', '', 1, 34, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (37, 'system-management', '/system', '系统管理', '', 'system', 90, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (38, '/website/state', '/website/state', '系统管理', '', '', 0, 37, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (39, 'error', '/error', 'menus.hsabnormal', '', 'informationLine', 99, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (40, '403', '/error/403', 'menus.hsabnormal', '', '', 0, 39, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (41, '404', '/error/404', 'menus.hsabnormal', '', '', 1, 39, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (42, '500', '/error/500', 'menus.hsabnormal', '', '', 2, 39, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
+INSERT INTO `menu` VALUES (43, '', '/about', 'menus.hsAbout', '', 'info', 999, 0, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
+INSERT INTO `menu` VALUES (44, 'About', '/about/index', 'menus.hsAbout', '', '', 0, 43, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
+INSERT INTO `menu` VALUES (45, 'Login', '/login', 'menus.hslogin', '', '', 101, 0, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
+INSERT INTO `menu` VALUES (46, '', '/redirect', 'status.hsLoad', '', '', 102, 0, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
+INSERT INTO `menu` VALUES (47, 'Redirect', '/redirect/:path(.*)', 'status.hsLoad', '', '', 0, 46, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
 COMMIT;
 
 -- ----------------------------
@@ -338,7 +605,7 @@ COMMIT;
 DROP TABLE IF EXISTS `operation_log`;
 CREATE TABLE `operation_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `user_id` int NOT NULL DEFAULT  '0' COMMENT '用户id',
+  `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `nickname` varchar(64) DEFAULT '' COMMENT '用户昵称',
   `ip_address` varchar(255) DEFAULT '' COMMENT '操作ip',
   `ip_source` varchar(255) DEFAULT '' COMMENT '操作地址',
@@ -349,17 +616,46 @@ CREATE TABLE `operation_log` (
   `request_header` varchar(1024) DEFAULT '' COMMENT '请求头参数',
   `request_data` varchar(4096) DEFAULT '' COMMENT '请求参数',
   `response_data` varchar(4096) DEFAULT '' COMMENT '返回数据',
-  `response_status` int NOT NULL DEFAULT  '0' COMMENT '响应状态码',
+  `response_status` int NOT NULL DEFAULT '0' COMMENT '响应状态码',
   `cost` varchar(32) NOT NULL DEFAULT '' COMMENT '耗时（ms）',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
 
 -- ----------------------------
 -- Records of operation_log
 -- ----------------------------
 BEGIN;
+INSERT INTO `operation_log` VALUES (1, 3, 'admin@qq.com', '127.0.0.1', '', 'Api', '获取api列表', '/api/v1/api/details_list', 'POST', '', '{\"page\":0,\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[]}', '{\n \"code\": 0,\n \"message\": \"\",\n \"data\": null,\n \"trace_id\": \"\"\n}', 200, '10.747791ms', '2024-01-18 19:41:39', '2024-01-18 19:41:38');
+INSERT INTO `operation_log` VALUES (2, 3, 'admin@qq.com', '127.0.0.1', '', 'Menu', '获取菜单列表', '/api/v1/menu/details_list', 'POST', '', '{\"sorts\":[{\"field\":\"id\",\"order\":\"asc\"}],\"conditions\":[],\"page\":1,\"page_size\":10}', '{\n \"code\": 0,\n \"message\": \"\",\n \"data\": null,\n \"trace_id\": \"\"\n}', 200, '13.15975ms', '2024-01-18 19:42:18', '2024-01-18 19:42:18');
+INSERT INTO `operation_log` VALUES (3, 3, 'admin@qq.com', '127.0.0.1', '', 'Api', '获取api列表', '/api/v1/api/details_list', 'POST', '', '{\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[],\"page\":1,\"page_size\":10}', '{\n \"code\": 0,\n \"message\": \"\",\n \"data\": null,\n \"trace_id\": \"\"\n}', 200, '11.610792ms', '2024-01-18 19:42:19', '2024-01-18 19:42:19');
+INSERT INTO `operation_log` VALUES (4, 3, 'admin@qq.com', '127.0.0.1', '', 'Role', '更新角色', '/api/v1/role', 'PUT', '', '{\"id\":4,\"is_default\":1,\"created_at\":\"2023-05-30T20:53:04+08:00\",\"updated_at\":\"2024-01-16T14:46:54+08:00\",\"role_pid\":0,\"role_domain\":\"blog\",\"role_name\":\"super-admin\",\"role_comment\":\"超级管理员\",\"is_disable\":1,\"menu_id_list\":null,\"resource_id_list\":null}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"id\\\":4,\\\"role_domain\\\":\\\"blog\\\",\\\"is_default\\\":1,\\\"created_at\\\":\\\"2023-05-30T20:53:04+08:00\\\",\\\"role_pid\\\":0,\\\"role_name\\\":\\\"super-admin\\\",\\\"role_comment\\\":\\\"超级管理员\\\",\\\"is_disable\\\":1,\\\"updated_at\\\":\\\"2024-01-18T19:52:18.507+08:00\\\"},\\\"trace_id\\\":\\\"5d7f8de0-9209-411d-99a1-702cb5191631\\\"}\"', 200, '23.742708ms', '2024-01-18 19:52:19', '2024-01-18 19:52:18');
+INSERT INTO `operation_log` VALUES (5, 3, 'admin@qq.com', '127.0.0.1', '', 'Role', '更新角色', '/api/v1/role', 'PUT', '', '{\"is_default\":0,\"menu_id_list\":null,\"role_pid\":0,\"role_domain\":\"blog\",\"role_comment\":\"超级管理员\",\"created_at\":\"2023-05-30T20:53:04+08:00\",\"updated_at\":\"2024-01-16T14:46:54+08:00\",\"resource_id_list\":null,\"id\":4,\"role_name\":\"super-admin\",\"is_disable\":1}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"is_disable\\\":1,\\\"created_at\\\":\\\"2023-05-30T20:53:04+08:00\\\",\\\"id\\\":4,\\\"role_name\\\":\\\"super-admin\\\",\\\"role_comment\\\":\\\"超级管理员\\\",\\\"is_default\\\":0,\\\"updated_at\\\":\\\"2024-01-18T19:52:18.738+08:00\\\",\\\"role_pid\\\":0,\\\"role_domain\\\":\\\"blog\\\"},\\\"trace_id\\\":\\\"48b461de-3f61-4864-a75c-3d3bf055fd2f\\\"}\"', 200, '30.794083ms', '2024-01-18 19:52:19', '2024-01-18 19:52:18');
+INSERT INTO `operation_log` VALUES (6, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[],\"page\":1}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":null,\\\"page\\\":1,\\\"page_size\\\":10,\\\"total\\\":0},\\\"trace_id\\\":\\\"ad9a2869-24f5-42ef-b5cb-85efe1d16f68\\\"}\"', 200, '56.164083ms', '2024-01-18 20:34:56', '2024-01-18 20:34:56');
+INSERT INTO `operation_log` VALUES (7, 3, 'admin@qq.com', '127.0.0.1', '', 'Website', '获取配置', '/api/v1/admin/config', 'POST', '', '{\"key\":\"website_config\"}', '\"{\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":\\\"{\\\\\\\"alipay_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\\\\\\\",\\\\\\\"is_chat_room\\\\\\\":1,\\\\\\\"is_reward\\\\\\\":1,\\\\\\\"tourist_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\\\\\\\",\\\\\\\"website_create_time\\\\\\\":\\\\\\\"2022-01-19\\\\\\\",\\\\\\\"gitee\\\\\\\":\\\\\\\"https://gitee.com/wy791422171\\\\\\\",\\\\\\\"is_music_player\\\\\\\":0,\\\\\\\"website_author\\\\\\\":\\\\\\\"与梦\\\\\\\",\\\\\\\"website_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/84aa08357bf6e74fc1d4f33552475f91.gif\\\\\\\",\\\\\\\"website_intro\\\\\\\":\\\\\\\"分享美好生活。\\\\\\\",\\\\\\\"wei_xin_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/6bed8a1130b170546341ece729e8819f.jpg\\\\\\\",\\\\\\\"github\\\\\\\":\\\\\\\"https://github.com/7914-ve\\\\\\\",\\\\\\\"is_email_notice\\\\\\\":1,\\\\\\\"is_message_review\\\\\\\":0,\\\\\\\"social_url_list\\\\\\\":[\\\\\\\"qq\\\\\\\",\\\\\\\"github\\\\\\\",\\\\\\\"gitee\\\\\\\"],\\\\\\\"user_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg\\\\\\\",\\\\\\\"website_notice\\\\\\\":\\\\\\\"用户需要查看、发表文章、修改其他信息请登录后台管理系统。网站后台管理系统->https://veweiyi.cn/admin。     \\\\\\\\n网站搭建问题请联系站长QQ791422171。\\\\\\\",\\\\\\\"is_comment_review\\\\\\\":0,\\\\\\\"qq\\\\\\\":\\\\\\\"791422171\\\\\\\",\\\\\\\"social_login_list\\\\\\\":[\\\\\\\"weibo\\\\\\\",\\\\\\\"qq\\\\\\\",\\\\\\\"feishu\\\\\\\"],\\\\\\\"website_name\\\\\\\":\\\\\\\"静闻弦语\\\\\\\",\\\\\\\"website_record_no\\\\\\\":\\\\\\\"桂ICP备2023013735号-1\\\\\\\",\\\\\\\"websocket_url\\\\\\\":\\\\\\\"wss://ve77.cn:8088/api/websocket\\\\\\\"}\\\",\\\"trace_id\\\":\\\"6eb133d9-801a-4ab8-ae30-be0ca1d8b0ec\\\",\\\"code\\\":200}\"', 200, '17.39525ms', '2024-01-21 20:42:02', '2024-01-21 20:42:01');
+INSERT INTO `operation_log` VALUES (8, 3, 'admin@qq.com', '127.0.0.1', '', 'Website', '获取配置', '/api/v1/admin/config', 'POST', '', '{\"key\":\"website_config\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":\\\"{\\\\\\\"alipay_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\\\\\\\",\\\\\\\"is_chat_room\\\\\\\":1,\\\\\\\"is_reward\\\\\\\":1,\\\\\\\"tourist_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\\\\\\\",\\\\\\\"website_create_time\\\\\\\":\\\\\\\"2022-01-19\\\\\\\",\\\\\\\"gitee\\\\\\\":\\\\\\\"https://gitee.com/wy791422171\\\\\\\",\\\\\\\"is_music_player\\\\\\\":0,\\\\\\\"website_author\\\\\\\":\\\\\\\"与梦\\\\\\\",\\\\\\\"website_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/84aa08357bf6e74fc1d4f33552475f91.gif\\\\\\\",\\\\\\\"website_intro\\\\\\\":\\\\\\\"分享美好生活。\\\\\\\",\\\\\\\"wei_xin_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/6bed8a1130b170546341ece729e8819f.jpg\\\\\\\",\\\\\\\"github\\\\\\\":\\\\\\\"https://github.com/7914-ve\\\\\\\",\\\\\\\"is_email_notice\\\\\\\":1,\\\\\\\"is_message_review\\\\\\\":0,\\\\\\\"social_url_list\\\\\\\":[\\\\\\\"qq\\\\\\\",\\\\\\\"github\\\\\\\",\\\\\\\"gitee\\\\\\\"],\\\\\\\"user_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg\\\\\\\",\\\\\\\"website_notice\\\\\\\":\\\\\\\"用户需要查看、发表文章、修改其他信息请登录后台管理系统。网站后台管理系统->https://veweiyi.cn/admin。     \\\\\\\\n网站搭建问题请联系站长QQ791422171。\\\\\\\",\\\\\\\"is_comment_review\\\\\\\":0,\\\\\\\"qq\\\\\\\":\\\\\\\"791422171\\\\\\\",\\\\\\\"social_login_list\\\\\\\":[\\\\\\\"weibo\\\\\\\",\\\\\\\"qq\\\\\\\",\\\\\\\"feishu\\\\\\\"],\\\\\\\"website_name\\\\\\\":\\\\\\\"静闻弦语\\\\\\\",\\\\\\\"website_record_no\\\\\\\":\\\\\\\"桂ICP备2023013735号-1\\\\\\\",\\\\\\\"websocket_url\\\\\\\":\\\\\\\"wss://ve77.cn:8088/api/websocket\\\\\\\"}\\\",\\\"trace_id\\\":\\\"352858f0-d2e5-48d9-8e4b-c89f97c5e551\\\"}\"', 200, '21.286167ms', '2024-01-21 20:42:36', '2024-01-21 20:42:35');
+INSERT INTO `operation_log` VALUES (9, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"conditions\":[],\"page\":1,\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}]}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":[{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:47:51 +0800 CST\\\",\\\"id\\\":13,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"id\\\":12,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:35:00 +0800 CST\\\"},{\\\"login_time\\\":\\\"2024-01-19 17:29:40 +0800 CST\\\",\\\"id\\\":11,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:29:13 +0800 CST\\\",\\\"id\\\":10,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:28:25 +0800 CST\\\",\\\"id\\\":9},{\\\"id\\\":8,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 15:38:21 +0800 CST\\\"},{\\\"login_time\\\":\\\"2024-01-19 11:33:58 +0800 CST\\\",\\\"id\\\":7,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:27:05 +0800 CST\\\",\\\"id\\\":6,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"login_time\\\":\\\"2024-01-19 10:17:16 +0800 CST\\\",\\\"id\\\":5,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:16:10 +0800 CST\\\",\\\"id\\\":4,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"}],\\\"page\\\":1,\\\"page_size\\\":10,\\\"total\\\":13},\\\"trace_id\\\":\\\"94a96ca5-d292-45c3-a924-4a4aefeb0e9d\\\"}\"', 200, '46.038125ms', '2024-01-21 20:44:18', '2024-01-21 20:44:17');
+INSERT INTO `operation_log` VALUES (10, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"page\":2,\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[]}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":[{\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-18 20:51:52 +0800 CST\\\",\\\"id\\\":3,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\"},{\\\"id\\\":2,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-18 20:44:30 +0800 CST\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-18 20:43:46 +0800 CST\\\",\\\"id\\\":1}],\\\"page\\\":2,\\\"page_size\\\":10,\\\"total\\\":13},\\\"trace_id\\\":\\\"31029065-abc4-49e6-bb0b-e249bbb55a45\\\"}\"', 200, '60.042791ms', '2024-01-21 20:44:59', '2024-01-21 20:44:58');
+INSERT INTO `operation_log` VALUES (11, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"page\":1,\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[]}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":[{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:47:51 +0800 CST\\\",\\\"id\\\":13},{\\\"id\\\":12,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:35:00 +0800 CST\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:29:40 +0800 CST\\\",\\\"id\\\":11},{\\\"login_time\\\":\\\"2024-01-19 17:29:13 +0800 CST\\\",\\\"id\\\":10,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"login_time\\\":\\\"2024-01-19 17:28:25 +0800 CST\\\",\\\"id\\\":9,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"id\\\":8,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 15:38:21 +0800 CST\\\"},{\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 11:33:58 +0800 CST\\\",\\\"id\\\":7,\\\"login_type\\\":\\\"email\\\"},{\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:27:05 +0800 CST\\\",\\\"id\\\":6,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\"},{\\\"id\\\":5,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:17:16 +0800 CST\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:16:10 +0800 CST\\\",\\\"id\\\":4}],\\\"page\\\":1,\\\"page_size\\\":10,\\\"total\\\":13},\\\"trace_id\\\":\\\"1417a90e-c4c0-443e-9285-933fdd461283\\\"}\"', 200, '46.952125ms', '2024-01-21 20:45:03', '2024-01-21 20:45:02');
+INSERT INTO `operation_log` VALUES (12, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[],\"page\":1}', '\"{\\\"trace_id\\\":\\\"9a34f4d7-2f7a-4648-8eac-fcba1a82a0b8\\\",\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":[{\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:47:51 +0800 CST\\\",\\\"id\\\":13,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\"},{\\\"login_time\\\":\\\"2024-01-19 17:35:00 +0800 CST\\\",\\\"id\\\":12,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:29:40 +0800 CST\\\",\\\"id\\\":11,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"id\\\":10,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:29:13 +0800 CST\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:28:25 +0800 CST\\\",\\\"id\\\":9,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 15:38:21 +0800 CST\\\",\\\"id\\\":8,\\\"login_type\\\":\\\"email\\\"},{\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 11:33:58 +0800 CST\\\",\\\"id\\\":7,\\\"login_type\\\":\\\"email\\\"},{\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:27:05 +0800 CST\\\",\\\"id\\\":6,\\\"login_type\\\":\\\"email\\\"},{\\\"id\\\":5,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:17:16 +0800 CST\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:16:10 +0800 CST\\\",\\\"id\\\":4}],\\\"page\\\":1,\\\"page_size\\\":10,\\\"total\\\":13}}\"', 200, '48.113709ms', '2024-01-21 20:45:18', '2024-01-21 20:45:18');
+INSERT INTO `operation_log` VALUES (13, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[],\"page\":1}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":13,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:47:51 +0800 CST\\\"},{\\\"id\\\":12,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:35:00 +0800 CST\\\"},{\\\"login_time\\\":\\\"2024-01-19 17:29:40 +0800 CST\\\",\\\"id\\\":11,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"login_time\\\":\\\"2024-01-19 17:29:13 +0800 CST\\\",\\\"id\\\":10,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:28:25 +0800 CST\\\",\\\"id\\\":9,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 15:38:21 +0800 CST\\\",\\\"id\\\":8,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\"},{\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 11:33:58 +0800 CST\\\",\\\"id\\\":7,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:27:05 +0800 CST\\\",\\\"id\\\":6},{\\\"id\\\":5,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:17:16 +0800 CST\\\"},{\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:16:10 +0800 CST\\\",\\\"id\\\":4,\\\"login_type\\\":\\\"email\\\"}],\\\"page\\\":1,\\\"page_size\\\":10,\\\"total\\\":13},\\\"trace_id\\\":\\\"51160d81-93a0-4e35-a619-ed6f023a94cd\\\"}\"', 200, '47.505167ms', '2024-01-21 20:45:20', '2024-01-21 20:45:19');
+INSERT INTO `operation_log` VALUES (14, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '获取用户登录历史', '/api/v1/user/login_history', 'POST', '', '{\"page_size\":10,\"sorts\":[{\"field\":\"id\",\"order\":\"desc\"}],\"conditions\":[],\"page\":1}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"list\\\":[{\\\"login_time\\\":\\\"2024-01-19 17:47:51 +0800 CST\\\",\\\"id\\\":13,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},{\\\"id\\\":12,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:35:00 +0800 CST\\\"},{\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:29:40 +0800 CST\\\",\\\"id\\\":11},{\\\"id\\\":10,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:29:13 +0800 CST\\\"},{\\\"id\\\":9,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 17:28:25 +0800 CST\\\"},{\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 15:38:21 +0800 CST\\\",\\\"id\\\":8,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\"},{\\\"id\\\":7,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 11:33:58 +0800 CST\\\"},{\\\"id\\\":6,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:27:05 +0800 CST\\\"},{\\\"id\\\":5,\\\"login_type\\\":\\\"email\\\",\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:17:16 +0800 CST\\\"},{\\\"agent\\\":\\\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"login_time\\\":\\\"2024-01-19 10:16:10 +0800 CST\\\",\\\"id\\\":4,\\\"login_type\\\":\\\"email\\\"}],\\\"page\\\":1,\\\"page_size\\\":10,\\\"total\\\":13},\\\"trace_id\\\":\\\"3846e8a1-416b-4017-ad0e-1767eb7a3610\\\"}\"', 200, '45.356042ms', '2024-01-21 20:45:22', '2024-01-21 20:45:22');
+INSERT INTO `operation_log` VALUES (15, 3, 'admin@qq.com', '127.0.0.1', '', 'Website', '获取配置', '/api/v1/admin/config', 'POST', '', '{\"key\":\"website_config\"}', '\"{\\\"trace_id\\\":\\\"237697a8-f5ae-4635-bfab-6f916491facf\\\",\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":\\\"{\\\\\\\"alipay_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\\\\\\\",\\\\\\\"is_chat_room\\\\\\\":1,\\\\\\\"is_reward\\\\\\\":1,\\\\\\\"tourist_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\\\\\\\",\\\\\\\"website_create_time\\\\\\\":\\\\\\\"2022-01-19\\\\\\\",\\\\\\\"gitee\\\\\\\":\\\\\\\"https://gitee.com/wy791422171\\\\\\\",\\\\\\\"is_music_player\\\\\\\":0,\\\\\\\"website_author\\\\\\\":\\\\\\\"与梦\\\\\\\",\\\\\\\"website_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/84aa08357bf6e74fc1d4f33552475f91.gif\\\\\\\",\\\\\\\"website_intro\\\\\\\":\\\\\\\"分享美好生活。\\\\\\\",\\\\\\\"wei_xin_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/6bed8a1130b170546341ece729e8819f.jpg\\\\\\\",\\\\\\\"github\\\\\\\":\\\\\\\"https://github.com/7914-ve\\\\\\\",\\\\\\\"is_email_notice\\\\\\\":1,\\\\\\\"is_message_review\\\\\\\":0,\\\\\\\"social_url_list\\\\\\\":[\\\\\\\"qq\\\\\\\",\\\\\\\"github\\\\\\\",\\\\\\\"gitee\\\\\\\"],\\\\\\\"user_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg\\\\\\\",\\\\\\\"website_notice\\\\\\\":\\\\\\\"用户需要查看、发表文章、修改其他信息请登录后台管理系统。网站后台管理系统->https://veweiyi.cn/admin。     \\\\\\\\n网站搭建问题请联系站长QQ791422171。\\\\\\\",\\\\\\\"is_comment_review\\\\\\\":0,\\\\\\\"qq\\\\\\\":\\\\\\\"791422171\\\\\\\",\\\\\\\"social_login_list\\\\\\\":[\\\\\\\"weibo\\\\\\\",\\\\\\\"qq\\\\\\\",\\\\\\\"feishu\\\\\\\"],\\\\\\\"website_name\\\\\\\":\\\\\\\"静闻弦语\\\\\\\",\\\\\\\"website_record_no\\\\\\\":\\\\\\\"桂ICP备2023013735号-1\\\\\\\",\\\\\\\"websocket_url\\\\\\\":\\\\\\\"wss://ve77.cn:8088/api/websocket\\\\\\\"}\\\"}\"', 200, '16.445ms', '2024-01-21 20:45:30', '2024-01-21 20:45:30');
+INSERT INTO `operation_log` VALUES (16, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '修改用户状态', '/api/v1/user/update_status', 'POST', '', '{\"website\":\"\",\"created_at\":\"2023-07-04T11:50:22+08:00\",\"id\":11,\"username\":\"ou_ef9abf85b8905510f005587d9717a596\",\"nickname\":\"游客d21e88ea\",\"avatar\":\"https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG\",\"intro\":\"这个人很神秘，什么都没有写！\",\"status\":1,\"register_type\":\"feishu\",\"updated_at\":\"2024-01-14T01:14:13+08:00\",\"email\":\"\",\"ip_address\":\"127.0.0.1\",\"ip_source\":\"广西壮族自治区梧州市 移动\",\"roles\":[{\"role_name\":\"user\",\"role_comment\":\"用户\"}]}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"id\\\":11,\\\"username\\\":\\\"ou_ef9abf85b8905510f005587d9717a596\\\",\\\"status\\\":1,\\\"register_type\\\":\\\"feishu\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"created_at\\\":\\\"2023-07-04T11:50:22+08:00\\\",\\\"updated_at\\\":\\\"2024-01-21T20:45:59.977+08:00\\\",\\\"password\\\":\\\"6\\\",\\\"ip_source\\\":\\\"广西壮族自治区梧州市 移动\\\"},\\\"trace_id\\\":\\\"8801942f-07b9-431a-bc71-17ed67e4e3bd\\\"}\"', 200, '55.202042ms', '2024-01-21 20:46:00', '2024-01-21 20:46:00');
+INSERT INTO `operation_log` VALUES (17, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '修改用户状态', '/api/v1/user/update_status', 'POST', '', '{\"updated_at\":\"2024-01-14T01:14:13+08:00\",\"nickname\":\"游客d21e88ea\",\"intro\":\"这个人很神秘，什么都没有写！\",\"website\":\"\",\"register_type\":\"feishu\",\"created_at\":\"2023-07-04T11:50:22+08:00\",\"status\":0,\"roles\":[{\"role_name\":\"user\",\"role_comment\":\"用户\"}],\"username\":\"ou_ef9abf85b8905510f005587d9717a596\",\"email\":\"\",\"ip_address\":\"127.0.0.1\",\"id\":11,\"avatar\":\"https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG\",\"ip_source\":\"广西壮族自治区梧州市 移动\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"id\\\":11,\\\"username\\\":\\\"ou_ef9abf85b8905510f005587d9717a596\\\",\\\"register_type\\\":\\\"feishu\\\",\\\"updated_at\\\":\\\"2024-01-21T20:46:01.594+08:00\\\",\\\"password\\\":\\\"6\\\",\\\"status\\\":0,\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"广西壮族自治区梧州市 移动\\\",\\\"created_at\\\":\\\"2023-07-04T11:50:22+08:00\\\"},\\\"trace_id\\\":\\\"5eb7cf42-67e4-4b0c-900d-1f7f7492658e\\\"}\"', 200, '44.675583ms', '2024-01-21 20:46:02', '2024-01-21 20:46:01');
+INSERT INTO `operation_log` VALUES (18, 3, 'admin@qq.com', '127.0.0.1', '', 'Website', '获取配置', '/api/v1/admin/config', 'POST', '', '{\"key\":\"website_config\"}', '\"{\\\"data\\\":\\\"{\\\\\\\"alipay_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\\\\\\\",\\\\\\\"is_chat_room\\\\\\\":1,\\\\\\\"is_reward\\\\\\\":1,\\\\\\\"tourist_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\\\\\\\",\\\\\\\"website_create_time\\\\\\\":\\\\\\\"2022-01-19\\\\\\\",\\\\\\\"gitee\\\\\\\":\\\\\\\"https://gitee.com/wy791422171\\\\\\\",\\\\\\\"is_music_player\\\\\\\":0,\\\\\\\"website_author\\\\\\\":\\\\\\\"与梦\\\\\\\",\\\\\\\"website_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/84aa08357bf6e74fc1d4f33552475f91.gif\\\\\\\",\\\\\\\"website_intro\\\\\\\":\\\\\\\"分享美好生活。\\\\\\\",\\\\\\\"wei_xin_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/6bed8a1130b170546341ece729e8819f.jpg\\\\\\\",\\\\\\\"github\\\\\\\":\\\\\\\"https://github.com/7914-ve\\\\\\\",\\\\\\\"is_email_notice\\\\\\\":1,\\\\\\\"is_message_review\\\\\\\":0,\\\\\\\"social_url_list\\\\\\\":[\\\\\\\"qq\\\\\\\",\\\\\\\"github\\\\\\\",\\\\\\\"gitee\\\\\\\"],\\\\\\\"user_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg\\\\\\\",\\\\\\\"website_notice\\\\\\\":\\\\\\\"用户需要查看、发表文章、修改其他信息请登录后台管理系统。网站后台管理系统->https://veweiyi.cn/admin。     \\\\\\\\n网站搭建问题请联系站长QQ791422171。\\\\\\\",\\\\\\\"is_comment_review\\\\\\\":0,\\\\\\\"qq\\\\\\\":\\\\\\\"791422171\\\\\\\",\\\\\\\"social_login_list\\\\\\\":[\\\\\\\"weibo\\\\\\\",\\\\\\\"qq\\\\\\\",\\\\\\\"feishu\\\\\\\"],\\\\\\\"website_name\\\\\\\":\\\\\\\"静闻弦语\\\\\\\",\\\\\\\"website_record_no\\\\\\\":\\\\\\\"桂ICP备2023013735号-1\\\\\\\",\\\\\\\"websocket_url\\\\\\\":\\\\\\\"wss://ve77.cn:8088/api/websocket\\\\\\\"}\\\",\\\"trace_id\\\":\\\"a0a951c4-e6b6-4e82-bdb4-bd4d962a3dc1\\\",\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\"}\"', 200, '21.936958ms', '2024-01-21 20:47:24', '2024-01-21 20:47:24');
+INSERT INTO `operation_log` VALUES (19, 3, 'admin@qq.com', '127.0.0.1', '', 'Website', '获取配置', '/api/v1/admin/config', 'POST', '', '{\"key\":\"website_config\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":\\\"{\\\\\\\"alipay_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\\\\\\\",\\\\\\\"is_chat_room\\\\\\\":1,\\\\\\\"is_reward\\\\\\\":1,\\\\\\\"tourist_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\\\\\\\",\\\\\\\"website_create_time\\\\\\\":\\\\\\\"2022-01-19\\\\\\\",\\\\\\\"gitee\\\\\\\":\\\\\\\"https://gitee.com/wy791422171\\\\\\\",\\\\\\\"is_music_player\\\\\\\":0,\\\\\\\"website_author\\\\\\\":\\\\\\\"与梦\\\\\\\",\\\\\\\"website_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/84aa08357bf6e74fc1d4f33552475f91.gif\\\\\\\",\\\\\\\"website_intro\\\\\\\":\\\\\\\"分享美好生活。\\\\\\\",\\\\\\\"wei_xin_qr_code\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/6bed8a1130b170546341ece729e8819f.jpg\\\\\\\",\\\\\\\"github\\\\\\\":\\\\\\\"https://github.com/7914-ve\\\\\\\",\\\\\\\"is_email_notice\\\\\\\":1,\\\\\\\"is_message_review\\\\\\\":0,\\\\\\\"social_url_list\\\\\\\":[\\\\\\\"qq\\\\\\\",\\\\\\\"github\\\\\\\",\\\\\\\"gitee\\\\\\\"],\\\\\\\"user_avatar\\\\\\\":\\\\\\\"https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg\\\\\\\",\\\\\\\"website_notice\\\\\\\":\\\\\\\"用户需要查看、发表文章、修改其他信息请登录后台管理系统。网站后台管理系统->https://veweiyi.cn/admin。     \\\\\\\\n网站搭建问题请联系站长QQ791422171。\\\\\\\",\\\\\\\"is_comment_review\\\\\\\":0,\\\\\\\"qq\\\\\\\":\\\\\\\"791422171\\\\\\\",\\\\\\\"social_login_list\\\\\\\":[\\\\\\\"weibo\\\\\\\",\\\\\\\"qq\\\\\\\",\\\\\\\"feishu\\\\\\\"],\\\\\\\"website_name\\\\\\\":\\\\\\\"静闻弦语\\\\\\\",\\\\\\\"website_record_no\\\\\\\":\\\\\\\"桂ICP备2023013735号-1\\\\\\\",\\\\\\\"websocket_url\\\\\\\":\\\\\\\"wss://ve77.cn:8088/api/websocket\\\\\\\"}\\\",\\\"trace_id\\\":\\\"3a6e7dc7-7a0f-45c9-b037-09a3affbd984\\\"}\"', 200, '18.433334ms', '2024-01-21 20:56:52', '2024-01-21 20:56:51');
+INSERT INTO `operation_log` VALUES (20, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\",\"messageContent\":\"hhh\",\"time\":7}', '\"{\\\"data\\\":{\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"message_content\\\":\\\"\\\",\\\"ip_address\\\":\\\"\\\",\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"ip_source\\\":\\\"\\\",\\\"time\\\":7,\\\"is_review\\\":1,\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"id\\\":3918},\\\"trace_id\\\":\\\"926b9664-4fbb-4c0c-aa18-b6b57e7cfd31\\\",\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\"}\"', 200, '38.621916ms', '2024-01-23 15:47:56', '2024-01-23 15:47:56');
+INSERT INTO `operation_log` VALUES (21, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\",\"messageContent\":\"hhh\",\"time\":8}', '\"{\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"time\\\":8,\\\"is_review\\\":1,\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"id\\\":3919,\\\"message_content\\\":\\\"\\\",\\\"ip_address\\\":\\\"\\\",\\\"ip_source\\\":\\\"\\\"},\\\"trace_id\\\":\\\"a489a288-1dc9-4020-8c92-9a87d51efab4\\\",\\\"code\\\":200}\"', 200, '33.223417ms', '2024-01-23 15:48:00', '2024-01-23 15:48:00');
+INSERT INTO `operation_log` VALUES (22, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"time\":8,\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\",\"messageContent\":\"sss\"}', '\"{\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"ip_source\\\":\\\"\\\",\\\"is_review\\\":1,\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"id\\\":3920,\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"message_content\\\":\\\"\\\",\\\"ip_address\\\":\\\"\\\",\\\"time\\\":8},\\\"trace_id\\\":\\\"c4854f6e-e35d-42bf-942b-5e2e7a69c68c\\\",\\\"code\\\":200}\"', 200, '40.504792ms', '2024-01-23 16:04:24', '2024-01-23 16:04:24');
+INSERT INTO `operation_log` VALUES (23, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"time\":9,\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\",\"messageContent\":\"sss\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"id\\\":3921,\\\"ip_address\\\":\\\"\\\",\\\"ip_source\\\":\\\"\\\",\\\"is_review\\\":1,\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"message_content\\\":\\\"\\\",\\\"time\\\":9,\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\"},\\\"trace_id\\\":\\\"8594b261-6ecb-47f3-be9f-10b5ae00f9cf\\\"}\"', 200, '36.300041ms', '2024-01-23 16:04:29', '2024-01-23 16:04:29');
+INSERT INTO `operation_log` VALUES (24, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"nickname\":\"admin@qq.com\",\"message_content\":\"ss\",\"time\":7,\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\"}', '\"{\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"ip_address\\\":\\\"\\\",\\\"ip_source\\\":\\\"\\\",\\\"time\\\":7,\\\"is_review\\\":1,\\\"id\\\":3922,\\\"message_content\\\":\\\"ss\\\",\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\"},\\\"trace_id\\\":\\\"377f02ea-0e27-4ee8-909a-6fd8a4ebceff\\\",\\\"code\\\":200}\"', 200, '45.192334ms', '2024-01-23 16:05:31', '2024-01-23 16:05:31');
+INSERT INTO `operation_log` VALUES (25, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\",\"message_content\":\"hhh\",\"time\":8}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"message_content\\\":\\\"hhh\\\",\\\"ip_address\\\":\\\"\\\",\\\"time\\\":8,\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"id\\\":3923,\\\"ip_source\\\":\\\"\\\",\\\"is_review\\\":1,\\\"nickname\\\":\\\"admin@qq.com\\\"},\\\"trace_id\\\":\\\"b3da15cf-72d3-4587-b96c-b80b5347a4b6\\\"}\"', 200, '32.549125ms', '2024-01-23 16:05:38', '2024-01-23 16:05:37');
+INSERT INTO `operation_log` VALUES (26, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"message_content\":\"ss\",\"time\":9,\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"is_review\\\":1,\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"id\\\":3924,\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"message_content\\\":\\\"ss\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"time\\\":9,\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\"},\\\"trace_id\\\":\\\"87c62978-57b0-411e-8f2f-0bc2fabab099\\\"}\"', 200, '58.3ms', '2024-01-23 16:36:10', '2024-01-23 16:36:10');
+INSERT INTO `operation_log` VALUES (27, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\",\"message_content\":\"ss\",\"time\":9}', '\"{\\\"data\\\":{\\\"time\\\":9,\\\"is_review\\\":1,\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"id\\\":3925,\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"message_content\\\":\\\"ss\\\",\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"ip_source\\\":\\\"本机地址\\\"},\\\"trace_id\\\":\\\"80f89ec7-e9b2-4480-a21d-3ec333977ec4\\\",\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\"}\"', 200, '32.976708ms', '2024-01-23 16:43:11', '2024-01-23 16:43:11');
+INSERT INTO `operation_log` VALUES (28, 3, 'admin@qq.com', '127.0.0.1', '', 'Remark', '创建留言', '/api/v1/remark', 'POST', '', '{\"message_content\":\"哈哈哈哈\",\"time\":9,\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\",\"nickname\":\"admin@qq.com\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"id\\\":3926,\\\"message_content\\\":\\\"哈哈哈哈\\\",\\\"ip_address\\\":\\\"127.0.0.1\\\",\\\"time\\\":9,\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\",\\\"ip_source\\\":\\\"本机地址\\\",\\\"is_review\\\":1,\\\"created_at\\\":\\\"0001-01-01T00:00:00Z\\\",\\\"updated_at\\\":\\\"0001-01-01T00:00:00Z\\\"},\\\"trace_id\\\":\\\"6babf2ea-1f12-4b8d-bf0d-17caef75c2cd\\\"}\"', 200, '35.599958ms', '2024-01-23 17:23:59', '2024-01-23 17:23:58');
+INSERT INTO `operation_log` VALUES (29, 3, 'admin@qq.com', '127.0.0.1', '', 'User', '修改用户信息', '/api/v1/user/info', 'POST', '', '{\"nickname\":\"admin@qq.com\",\"intro\":\"测试\",\"website\":\"admin@qq.com\",\"avatar\":\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\"}', '\"{\\\"code\\\":200,\\\"message\\\":\\\"操作成功\\\",\\\"data\\\":{\\\"phone\\\":\\\"\\\",\\\"website\\\":\\\"admin@qq.com\\\",\\\"intro\\\":\\\"测试\\\",\\\"created_at\\\":\\\"2023-05-17T15:34:25+08:00\\\",\\\"updated_at\\\":\\\"2024-01-23T17:30:02.716+08:00\\\",\\\"id\\\":3,\\\"user_id\\\":3,\\\"email\\\":\\\"\\\",\\\"nickname\\\":\\\"admin@qq.com\\\",\\\"avatar\\\":\\\"https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png\\\"},\\\"trace_id\\\":\\\"9e819cc1-ba78-466a-bf98-2a3ef6a1ba81\\\"}\"', 200, '57.072333ms', '2024-01-23 17:30:03', '2024-01-23 17:30:02');
 COMMIT;
 
 -- ----------------------------
@@ -458,7 +754,7 @@ CREATE TABLE `remark` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3918 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='留言';
+) ENGINE=InnoDB AUTO_INCREMENT=3927 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='留言';
 
 -- ----------------------------
 -- Records of remark
@@ -471,6 +767,15 @@ INSERT INTO `remark` VALUES (3914, '游客', 'https://veport.oss-cn-beijing.aliy
 INSERT INTO `remark` VALUES (3915, '游客', 'https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif', '嘿嘿', '117.182.36.251', '广西壮族自治区河池市 移动', 9, 1, '2022-01-25 04:37:24', '2024-01-15 19:43:08');
 INSERT INTO `remark` VALUES (3916, '游客', 'https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg', 'ss', '', '', 9, 1, '2023-07-16 01:52:16', '2023-07-16 01:52:16');
 INSERT INTO `remark` VALUES (3917, '游客', 'https://veport.oss-cn-beijing.aliyuncs.com/config/041a0d1c7fdfb5a610c307e7e44d4f39.jpg', 'hh', '', '', 7, 1, '2023-07-16 01:53:52', '2023-07-16 01:53:52');
+INSERT INTO `remark` VALUES (3918, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '', '', '', 7, 1, '2024-01-23 15:47:56', '2024-01-23 15:47:56');
+INSERT INTO `remark` VALUES (3919, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '', '', '', 8, 1, '2024-01-23 15:48:00', '2024-01-23 15:48:00');
+INSERT INTO `remark` VALUES (3920, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '', '', '', 8, 1, '2024-01-23 16:04:24', '2024-01-23 16:04:24');
+INSERT INTO `remark` VALUES (3921, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '', '', '', 9, 1, '2024-01-23 16:04:29', '2024-01-23 16:04:29');
+INSERT INTO `remark` VALUES (3922, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', 'ss', '', '', 7, 1, '2024-01-23 16:05:31', '2024-01-23 16:05:31');
+INSERT INTO `remark` VALUES (3923, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', 'hhh', '', '', 8, 1, '2024-01-23 16:05:37', '2024-01-23 16:05:37');
+INSERT INTO `remark` VALUES (3924, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', 'ss', '127.0.0.1', '本机地址', 9, 1, '2024-01-23 16:36:10', '2024-01-23 16:36:10');
+INSERT INTO `remark` VALUES (3925, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', 'ss', '127.0.0.1', '本机地址', 9, 1, '2024-01-23 16:43:11', '2024-01-23 16:43:11');
+INSERT INTO `remark` VALUES (3926, 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '哈哈哈哈', '127.0.0.1', '本机地址', 9, 1, '2024-01-23 17:23:58', '2024-01-23 17:23:58');
 COMMIT;
 
 -- ----------------------------
@@ -497,7 +802,7 @@ BEGIN;
 INSERT INTO `role` VALUES (1, 0, 'blog', 'admin', '管理员', 1, 0, '2021-03-22 14:10:21', '2024-01-14 01:13:34');
 INSERT INTO `role` VALUES (2, 0, 'blog', 'user', '用户', 1, 0, '2021-03-22 14:25:25', '2024-01-15 20:09:15');
 INSERT INTO `role` VALUES (3, 0, 'system', 'test', '测试', 1, 0, '2021-03-22 14:42:23', '2024-01-15 20:09:14');
-INSERT INTO `role` VALUES (4, 0, 'blog', 'super-admin', '超级管理员', 1, 0, '2023-05-30 20:53:04', '2024-01-16 14:46:54');
+INSERT INTO `role` VALUES (4, 0, 'blog', 'super-admin', '超级管理员', 1, 0, '2023-05-30 20:53:04', '2024-01-18 19:52:19');
 COMMIT;
 
 -- ----------------------------
@@ -808,8 +1113,8 @@ CREATE TABLE `upload_record` (
   `file_size` int NOT NULL DEFAULT '0' COMMENT '文件大小',
   `file_md5` varchar(128) NOT NULL DEFAULT '' COMMENT '文件md5值',
   `file_url` varchar(256) NOT NULL DEFAULT '' COMMENT '上传路径',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_uid` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='上传记录';
@@ -848,7 +1153,7 @@ INSERT INTO `user_account` VALUES (3, 'admin@qq.com', '$2a$10$ZINovpDg.FxFQRj6nh
 INSERT INTO `user_account` VALUES (4, 've77@qq.com', '$2a$10$123eQHGD/wa4neT1xxADo.9F.sCF4jJ2H33Rq7njMGhNT8tjxLYda', 0, '0', '127.0.0.1', '广西壮族自治区来宾市 电信', '2023-06-28 20:03:26', '2023-07-31 17:33:07');
 INSERT INTO `user_account` VALUES (5, 've777@qq.com', '$2a$10$vvre.NmECAcm7IPrnD1qpOHhvI1AhsDfVgOR34l31zE0lFeaZcY1u', 0, '0', '127.0.0.1', '湖北省武汉市 广电网', '2023-06-28 20:06:40', '2023-07-31 17:33:09');
 INSERT INTO `user_account` VALUES (6, '791422171@qq.com', '$2a$10$6fJR32Zj2KA0MlVJj7L6M.G0X4I/ydqTS.QTsk.J2SkL0bxNHBfLK', 0, 'email', '127.0.0.1', '广西壮族自治区梧州市 移动', '2023-06-29 18:35:40', '2024-01-14 01:20:43');
-INSERT INTO `user_account` VALUES (11, 'ou_ef9abf85b8905510f005587d9717a596', '6', 0, 'feishu', '127.0.0.1', '广西壮族自治区梧州市 移动', '2023-07-04 11:50:22', '2024-01-14 01:14:13');
+INSERT INTO `user_account` VALUES (11, 'ou_ef9abf85b8905510f005587d9717a596', '6', 0, 'feishu', '127.0.0.1', '广西壮族自治区梧州市 移动', '2023-07-04 11:50:22', '2024-01-21 20:46:02');
 COMMIT;
 
 -- ----------------------------
@@ -876,7 +1181,7 @@ CREATE TABLE `user_information` (
 BEGIN;
 INSERT INTO `user_information` VALUES (1, 1, '', 've', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '', '测试', '', '2023-05-12 15:16:48', '2023-07-02 19:18:36');
 INSERT INTO `user_information` VALUES (2, 2, '', 'admin', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '', '测试', '', '2023-05-15 19:02:54', '2023-07-02 19:18:40');
-INSERT INTO `user_information` VALUES (3, 3, '', 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '', '测试', 'admin@qq.com', '2023-05-17 15:34:25', '2023-12-05 20:30:40');
+INSERT INTO `user_information` VALUES (3, 3, '', 'admin@qq.com', 'https://static.veweiyi.cn/blog/3/upload/article/cover/avatar_20231205202844.png', '', '测试', 'admin@qq.com', '2023-05-17 15:34:25', '2024-01-23 17:30:03');
 INSERT INTO `user_information` VALUES (4, 4, '', 've77@qq.com', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '', '测试', '', '2023-06-28 20:03:26', '2023-07-02 19:18:47');
 INSERT INTO `user_information` VALUES (5, 5, '', 've777@qq.com', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '', '测试', '', '2023-06-28 20:06:40', '2023-07-02 19:18:50');
 INSERT INTO `user_information` VALUES (6, 6, '', '791422171@qq.com', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', '', '测试', '', '2023-06-29 18:35:40', '2023-07-02 19:18:52');
@@ -898,12 +1203,26 @@ CREATE TABLE `user_login_history` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uk_uuid` (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
 
 -- ----------------------------
 -- Records of user_login_history
 -- ----------------------------
 BEGIN;
+INSERT INTO `user_login_history` VALUES (1, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-18 20:43:46', '2024-01-18 20:43:46');
+INSERT INTO `user_login_history` VALUES (2, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-18 20:44:30', '2024-01-18 20:44:29');
+INSERT INTO `user_login_history` VALUES (3, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-18 20:51:52', '2024-01-18 20:51:51');
+INSERT INTO `user_login_history` VALUES (4, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 10:16:10', '2024-01-19 10:16:10');
+INSERT INTO `user_login_history` VALUES (5, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 10:17:16', '2024-01-19 10:17:16');
+INSERT INTO `user_login_history` VALUES (6, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 10:27:05', '2024-01-19 10:27:04');
+INSERT INTO `user_login_history` VALUES (7, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 11:33:58', '2024-01-19 11:33:58');
+INSERT INTO `user_login_history` VALUES (8, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 15:38:21', '2024-01-19 15:38:21');
+INSERT INTO `user_login_history` VALUES (9, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 17:28:25', '2024-01-19 17:28:25');
+INSERT INTO `user_login_history` VALUES (10, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 17:29:13', '2024-01-19 17:29:12');
+INSERT INTO `user_login_history` VALUES (11, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 17:29:40', '2024-01-19 17:29:40');
+INSERT INTO `user_login_history` VALUES (12, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 17:35:00', '2024-01-19 17:35:00');
+INSERT INTO `user_login_history` VALUES (13, 3, 'email', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-01-19 17:47:51', '2024-01-19 17:47:51');
+INSERT INTO `user_login_history` VALUES (14, 3, 'email', 'PostmanRuntime/7.36.1', '127.0.0.1', '本机地址', '2024-02-23 14:51:09', '2024-02-23 14:51:08');
 COMMIT;
 
 -- ----------------------------
