@@ -1,4 +1,4 @@
-package codes
+package httperr
 
 // 定义HTTP状态码常量
 const (
