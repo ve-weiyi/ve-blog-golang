@@ -129,3 +129,19 @@ func (c *Client) EncodeURL(rawURL string) string {
 
 	return req.URL.String()
 }
+
+// 输出 curl
+func (c *Client) CURL(method, url string) (string, error) {
+	var curl string
+	curl = fmt.Sprintf("curl -X %s %s", method, url)
+
+	for key, value := range c.headers {
+		curl += fmt.Sprintf(" -H '%s: %s'", key, value)
+	}
+
+	if len(c.body) > 0 {
+		curl += fmt.Sprintf(" -d '%s'", string(c.body))
+	}
+
+	return curl, nil
+}
