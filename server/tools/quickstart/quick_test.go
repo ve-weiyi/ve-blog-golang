@@ -63,10 +63,10 @@ func TestCodeStarter(t *testing.T) {
 
 	cfg := Config{
 		DbEngin:     db,
-		ReplaceMode: invent.ModeOnlyReplace,
+		ReplaceMode: invent.ModeCreateOrReplace,
 		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
-			return fmt.Sprintf("sp_%v", tableName)
+			return fmt.Sprintf("bs_%v", tableName)
 		},
 		FieldNameNS: func(column string) string {
 			return jsonconv.Case2Camel(column)
@@ -81,7 +81,7 @@ func TestCodeStarter(t *testing.T) {
 			return jsonconv.Case2CamelLowerStart(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyRouter
+			return key != tmpl.KeyModel && key != tmpl.KeyRepository
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,
@@ -104,11 +104,10 @@ func TestCodeStarter(t *testing.T) {
 	parser := NewTableParser(cfg)
 	gen := NewCodeStarter(cfg)
 
-	//model, _ := parser.ParseModelFromTable("api")
-	//gen.AddInventMetas(parser.GenerateInventMetas(model)...)
-
-	models, _ := parser.ParseModelFromSchema()
-	gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
+	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("chat_session"))...)
+	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("chat_message"))...)
+	//models, _ := parser.ParseModelFromSchema()
+	//gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
 
 	err := gen.Execute()
 	t.Log(err)

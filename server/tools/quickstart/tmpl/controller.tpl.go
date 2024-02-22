@@ -65,7 +65,7 @@ func New{{.UpperStartCamelName}}Controller(svcCtx *svc.ControllerContext) *{{.Up
 }
 
 // @Tags		{{.UpperStartCamelName}}
-// @Summary		创建{{.StructComment}}
+// @Summary		创建{{.CommentName}}
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -97,7 +97,7 @@ func (s *{{.UpperStartCamelName}}Controller) Create{{.UpperStartCamelName}}(c *g
 }
 
 // @Tags 	 	{{.UpperStartCamelName}}
-// @Summary		更新{{.StructComment}}
+// @Summary		更新{{.CommentName}}
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -129,7 +129,7 @@ func (s *{{.UpperStartCamelName}}Controller) Update{{.UpperStartCamelName}}(c *g
 }
 
 // @Tags		{{.UpperStartCamelName}}
-// @Summary		删除{{.StructComment}}
+// @Summary		删除{{.CommentName}}
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -161,7 +161,7 @@ func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}(c *g
 }
 
 // @Tags 	 	{{.UpperStartCamelName}}
-// @Summary		查询{{.StructComment}}
+// @Summary		查询{{.CommentName}}
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -193,7 +193,7 @@ func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}(c *gin
 }
 
 // @Tags 	 	{{.UpperStartCamelName}}
-// @Summary		批量删除{{.StructComment}}
+// @Summary		批量删除{{.CommentName}}
 // @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -227,7 +227,7 @@ func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}ByIds
 }
 
 // @Tags 	 	{{.UpperStartCamelName}}
-// @Summary		分页获取{{.StructComment}}列表
+// @Summary		分页获取{{.CommentName}}列表
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"

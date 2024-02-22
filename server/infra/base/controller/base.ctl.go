@@ -3,7 +3,9 @@ package controller
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
@@ -76,7 +78,11 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 		return nil
 	}
 
-	return apierr.ErrorInvalidParam.Wrap(isValid.IsValid())
+	if err := isValid.IsValid(); err != nil {
+		return apierr.ErrorInvalidParam.Wrap(err)
+	}
+
+	return nil
 }
 
 // 把请求参数转换为小写
@@ -138,8 +144,63 @@ func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
 	m.Response(ctx, http.StatusOK, "操作成功", data)
 }
 
+func (m *BaseController) StreamResponse(c *gin.Context, data string) {
+	c.Header("Content-Type", "text/event-stream")
+	c.Header("Cache-Control", "no-cache")
+	c.Header("Connection", "keep-alive")
+
+	// 计算要发送的数据的分片数量
+	//chunkSize := 1
+	intervals := getInternalTime(data)
+
+	go func() {
+		for _, char := range data {
+
+			_, err := c.Writer.WriteString(fmt.Sprintf("data: %c\n\n", char))
+			if err != nil {
+				fmt.Println(err)
+			}
+			//fmt.Fprintf(c.Writer, "data: %c\n\n", char)
+			c.Writer.Flush()
+			time.Sleep(intervals)
+		}
+
+		// 发送结束标记
+		_, err := c.Writer.WriteString("data: \n\n")
+		if err != nil {
+			fmt.Println(err)
+		}
+		//fmt.Fprintf(c.Writer, "data: \n\n")
+		c.Writer.Flush()
+	}()
+
+	// 长连接，等待结束
+	<-c.Writer.CloseNotify()
+}
+
+func getInternalTime(data string) time.Duration {
+	if len(data) < 20 {
+		return 200 * time.Millisecond
+	}
+
+	if len(data) < 100 {
+		return 100 * time.Millisecond
+	}
+
+	if len(data) < 500 {
+		return 50 * time.Millisecond
+	}
+
+	if len(data) < 5000 {
+		return 20 * time.Millisecond
+	}
+
+	return 10 * time.Millisecond
+}
+
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	m.Log.Error("操作失败!", err)
+	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {
 	case apierr.ApiError:

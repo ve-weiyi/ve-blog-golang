@@ -34,31 +34,31 @@ func NewTableParser(config Config) *TableParser {
 	}
 }
 
-func (t *TableParser) ParseModelFromSchema() ([]*AutoCodeModel, error) {
+func (t *TableParser) ParseModelFromSchema() []*AutoCodeModel {
 	var models []*AutoCodeModel
 	//dbName := t.DbEngin.Migrator().CurrentDatabase()
 	tables, err := t.DbEngin.Migrator().GetTables()
 	if err != nil {
-		return nil, err
+		return nil
 	}
 	for _, table := range tables {
-		m, err := t.ParseModelFromTable(table)
+		m := t.ParseModelFromTable(table)
 		if err != nil {
-			return nil, err
+			return nil
 		}
 		models = append(models, m)
 	}
-	return models, nil
+	return models
 }
 
-func (t *TableParser) ParseModelFromTable(tableName string) (*AutoCodeModel, error) {
+func (t *TableParser) ParseModelFromTable(tableName string) *AutoCodeModel {
 	dbName := t.DbEngin.Migrator().CurrentDatabase()
 	tableInfos, err := t.DbEngin.Migrator().TableType(tableName)
 	tableComment, _ := tableInfos.Comment()
 
 	table, err := model.GetTable(t.DbEngin, tableName)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	out := &AutoCodeModel{
@@ -78,7 +78,7 @@ func (t *TableParser) ParseModelFromTable(tableName string) (*AutoCodeModel, err
 		},
 	}
 
-	return out, nil
+	return out
 }
 
 func (t *TableParser) ConvertField(columns []*model.Column) []*field.Field {
