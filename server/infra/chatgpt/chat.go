@@ -1,6 +1,7 @@
 package chatgpt
 
 import (
+	_ "embed"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -9,40 +10,43 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/httpx"
 )
 
-type AiMessage struct {
-	Role string `json:"role"`
-	Msg  []*ChatMessage
-}
+const (
+	RoleUser = "user"
+	RoleAI   = "assistant"
+
+	ChatUrl = "/v1/chat/completions"
+)
 
 type ChatGPT interface {
-	Chat(request *ChatRequest) (*ChatResponse, error)
+	Chat(req []*ChatMessage) (resp *ChatResponse, err error)
 }
 
 type AIChatGPT struct {
-	ChatGPT
-	Url    string `json:"url"`
-	ApiKey string `json:"apiKey"`
-	Model  string `json:"model"`
+	ApiHost string
+	ApiKey  string
+	Model   string
 }
 
 func NewAIChatGPT() *AIChatGPT {
 	return &AIChatGPT{
-		Url:    "https://api.openai.com/v1/chat/completions",
-		ApiKey: global.CONFIG.ChatGPT.ApiKey,
-		Model:  "gpt-3.5-turbo",
+		ApiHost: global.CONFIG.ChatGPT.ApiHost,
+		ApiKey:  global.CONFIG.ChatGPT.ApiKey,
+		Model:   global.CONFIG.ChatGPT.Model,
 	}
 }
 func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 	content := ChatRequest{
-		Model:    "gpt-3.5-turbo",
+		Model:    s.Model,
 		Messages: req,
 	}
+
+	fmt.Println("content", content)
 
 	res, err := httpx.NewClient(
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
 		httpx.WithBodyObject(content),
-	).DoRequest("POST", s.Url)
+	).DoRequest("POST", s.ApiHost+ChatUrl)
 	if err != nil {
 		return nil, err
 	}
@@ -64,9 +68,9 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 	}
 
 	content := ChatRequest{
-		Model: "gpt-3.5-turbo",
+		Model: s.Model,
 		Messages: append([]*ChatMessage{{
-			Role:    "user",
+			Role:    RoleUser,
 			Content: prompt,
 		}}),
 	}
@@ -75,7 +79,7 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
 		httpx.WithBodyObject(content),
-	).DoRequest("POST", s.Url)
+	).DoRequest("POST", s.ApiHost+ChatUrl)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +94,8 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 }
 
 func (s *AIChatGPT) getRole(act string) (string, error) {
-	roles, err := s.readModelJSON("./prompts-zh.json")
+	roles, err := s.readModelEmbed()
+	//roles, err := s.readModelJSON("./prompts-zh.json")
 	if err != nil {
 		return "", err
 	}
@@ -104,20 +109,30 @@ func (s *AIChatGPT) getRole(act string) (string, error) {
 	return "", fmt.Errorf("not found role")
 }
 
-func (s *AIChatGPT) readModelJSON(filepath string) ([]*ChatRole, error) {
-	// 读取 JSON 文件内容
+//go:embed prompts-zh.json
+var rolePrompts string
+
+func (s *AIChatGPT) readModelEmbed() (roles []*ChatRole, err error) {
+	// 解析 JSON 数据到结构体
+	err = json.Unmarshal([]byte(rolePrompts), &roles)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON: %v", err)
+	}
+
+	return roles, nil
+}
+
+func (s *AIChatGPT) readModelJSON(filepath string) (roles []*ChatRole, err error) {
+	//读取 JSON 文件内容
 	jsonData, err := os.ReadFile(filepath)
 	if err != nil {
-		fmt.Println("Failed to read JSON file:", err)
-		return nil, err
+		return nil, fmt.Errorf("failed to read JSON file: %v", err)
 	}
 
 	// 解析 JSON 数据到结构体
-	var roles []*ChatRole
 	err = json.Unmarshal(jsonData, &roles)
 	if err != nil {
-		fmt.Println("Failed to parse JSON:", err)
-		return nil, err
+		return nil, fmt.Errorf("failed to unmarshal JSON: %v", err)
 	}
 
 	return roles, nil
