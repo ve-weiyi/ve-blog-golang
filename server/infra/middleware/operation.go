@@ -17,7 +17,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -123,7 +123,7 @@ func OperationRecord() gin.HandlerFunc {
 		if err != nil {
 			global.LOG.Error(err)
 			c.JSON(http.StatusOK, response.Response{
-				Code:    apierror.ErrorInternalServerError.Code(),
+				Code:    apierr.ErrorInternalServerError.Code(),
 				Message: "日志记录错误",
 				Data:    nil,
 			})

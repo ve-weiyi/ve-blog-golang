@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 )
 
 // JwtToken jwt中间件
@@ -24,7 +24,7 @@ func JwtToken() gin.HandlerFunc {
 			//c.AbortWithStatus(http.StatusInternalServerError)
 			// 该方式前端不报错
 			c.JSON(http.StatusOK, response.Response{
-				Code:    apierror.ErrorUnauthorized.Code(),
+				Code:    apierr.ErrorUserUnLogin.Code(),
 				Message: err.Error(),
 				Data:    nil,
 			})

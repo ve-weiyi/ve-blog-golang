@@ -1,8 +1,8 @@
 package request
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror/codes"
+	"fmt"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/valid"
 )
 
@@ -29,10 +29,10 @@ type CaptchaEmailReq struct {
 func (req *CaptchaEmailReq) IsValid() error {
 	// 参数校验
 	if !valid.IsEmailValid(req.Email) {
-		return apierror.NewApiError(codes.CodeInvalidParameter, "邮箱格式不正确")
+		return fmt.Errorf("邮箱格式不正确")
 	}
 	if req.Service == "" {
-		return apierror.NewApiError(codes.CodeInvalidParameter, "服务名不能为空")
+		return fmt.Errorf("服务不能为空")
 	}
 
 	return nil
