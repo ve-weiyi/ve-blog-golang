@@ -31,7 +31,7 @@ go mod tidy
 # Run the Go application
 go build main.go
 
-nohup ./main server --use-nacos=true --n-ns=prod > output.log 2>&1 &
+nohup ./main server --use-nacos=true --n-ns=test > output.log 2>&1 &
 # 输出日志到控制台
 echo "entrypoint.sh script completed."
 
