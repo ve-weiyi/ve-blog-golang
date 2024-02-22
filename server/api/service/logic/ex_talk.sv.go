@@ -5,7 +5,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -28,7 +28,7 @@ func (s *TalkService) CreateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 // 更新Talk记录
 func (s *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
 	if talk.UserID != reqCtx.UID {
-		return nil, apierror.ErrorForbidden
+		return nil, apierr.ErrorUserNotPermission
 	}
 	return s.svcCtx.TalkRepository.Update(reqCtx, talk)
 }
