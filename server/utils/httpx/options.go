@@ -2,19 +2,7 @@ package httpx
 
 import (
 	"encoding/json"
-	"time"
 )
-
-// Option 用于配置Client的选项
-type Option func(*Client)
-
-// WithTimeout 设置请求超时时间
-func WithTimeout(timeout time.Duration) Option {
-	return func(c *Client) {
-		c.timeout = timeout
-		c.httpClient.Timeout = timeout
-	}
-}
 
 // WithHeader 设置请求头
 func WithHeader(key string, value string) Option {
@@ -30,42 +18,15 @@ func WithParam(key string, value string) Option {
 	}
 }
 
-// WithData 设置请求体
-func WithData(key string, value interface{}) Option {
+// WithBodyObject 设置请求体
+func WithBodyObject(obj interface{}) Option {
 	return func(c *Client) {
-		c.body[key] = value
-	}
-}
-
-// // WithBody 设置请求体
-func WithBody(obj interface{}) Option {
-	return func(c *Client) {
-		m, err := structToMap(obj)
+		data, err := json.Marshal(obj)
 		if err != nil {
 			return
 		}
 
-		for k, v := range m {
-			c.body[k] = v
-		}
-	}
-}
-
-// WithHeaders 设置请求头
-func WithHeaders(headers map[string]string) Option {
-	return func(c *Client) {
-		for key, value := range headers {
-			c.headers[key] = value
-		}
-	}
-}
-
-// WithParams 设置查询参数
-func WithParams(params map[string]string) Option {
-	return func(c *Client) {
-		for key, value := range params {
-			c.params[key] = value
-		}
+		c.body = data
 	}
 }
 

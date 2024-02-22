@@ -41,7 +41,7 @@ func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 	res, err := httpx.NewClient(
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
-		httpx.WithBody(content),
+		httpx.WithBodyObject(content),
 	).DoRequest("POST", s.Url)
 	if err != nil {
 		return nil, err
@@ -74,7 +74,7 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 	res, err := httpx.NewClient(
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
-		httpx.WithBody(content),
+		httpx.WithBodyObject(content),
 	).DoRequest("POST", s.Url)
 	if err != nil {
 		return nil, err

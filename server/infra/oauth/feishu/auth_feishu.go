@@ -93,7 +93,7 @@ func (a *AuthFeishu) GetAccessToken(code string) (resp *TokenResult, err error) 
 func (a *AuthFeishu) RefreshToken(refreshToken string) (resp *RefreshResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithBody(map[string]interface{}{
+		httpx.WithBodyObject(map[string]interface{}{
 			"grant_type":    "refresh_token",
 			"refresh_token": refreshToken,
 		}),

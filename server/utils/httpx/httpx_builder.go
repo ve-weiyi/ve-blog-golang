@@ -12,11 +12,12 @@ import (
 
 // ClientBuilder 用于构建 HTTP 客户端。
 type ClientBuilder struct {
-	httpClient *http.Client
-	timeout    time.Duration
-	headers    map[string]string
-	params     map[string]string
-	body       []byte
+	httpClient *http.Client  // 底层HTTP客户端
+	timeout    time.Duration // 请求超时时间
+
+	headers map[string]string // 请求头部
+	params  map[string]string // 请求参数
+	body    []byte            // 请求体
 }
 
 // NewClientBuilder 创建一个具有默认设置的新 ClientBuilder。
@@ -47,7 +48,7 @@ func (c *ClientBuilder) WithParams(params map[string]string) *ClientBuilder {
 	return c
 }
 
-// WithBody 设置 HTTP 请求的正文。
+// WithBodyObject 设置 HTTP 请求的正文。
 func (c *ClientBuilder) WithBody(body []byte) *ClientBuilder {
 	c.body = body
 	return c
@@ -76,13 +77,19 @@ func (c *ClientBuilder) DoRequest(method, rawURL string) (respBody []byte, err e
 	}
 
 	// 设置头部
-	c.setHeaders(req)
+	for key, value := range c.headers {
+		req.Header.Set(key, value)
+	}
 
 	// 设置查询参数
-	c.setQueryParams(req)
+	query := req.URL.Query()
+	for key, value := range c.params {
+		query.Add(key, value)
+	}
+	req.URL.RawQuery = query.Encode()
 
 	// 设置请求体
-	c.setBody(req)
+	req.Body = io.NopCloser(bytes.NewReader(c.body))
 
 	log.Println("requestUrl:", req.URL.String())
 	// 执行请求
@@ -103,23 +110,4 @@ func (c *ClientBuilder) DoRequest(method, rawURL string) (respBody []byte, err e
 	}
 
 	return respBody, nil
-}
-
-func (c *ClientBuilder) setHeaders(req *http.Request) {
-	for key, value := range c.headers {
-		req.Header.Set(key, value)
-	}
-}
-
-func (c *ClientBuilder) setQueryParams(req *http.Request) {
-	query := req.URL.Query()
-	for key, value := range c.params {
-		query.Set(key, value)
-	}
-	req.URL.RawQuery = query.Encode()
-}
-
-func (c *ClientBuilder) setBody(req *http.Request) {
-
-	req.Body = io.NopCloser(bytes.NewReader(c.body))
 }

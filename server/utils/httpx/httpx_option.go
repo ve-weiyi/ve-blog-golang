@@ -2,37 +2,35 @@ package httpx
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
-	"net/url"
 	"time"
 )
 
-// Client 是一个HTTP客户端
+// Client 表示HTTP客户端。
 type Client struct {
-	httpClient *http.Client
-	timeout    time.Duration
+	httpClient *http.Client  // 底层HTTP客户端
+	timeout    time.Duration // 请求超时时间
 
-	//method  string
-	//rawURL  string                 // http://www.baidu.com
-	params  map[string]string      // ?a=1&b=2
-	headers map[string]string      // map[Content-Type:application/x-www-form-urlencoded]
-	body    map[string]interface{} // {"a":1,"b":2}
+	headers map[string]string // 请求头部
+	params  map[string]string // 请求参数
+	body    []byte            // 请求体
 }
 
-// NewClient 创建一个新的HTTP客户端
+// Option 表示用于配置HTTP客户端的函数选项。
+type Option func(*Client)
+
+// NewClient 使用默认设置创建一个新的HTTP客户端。
 func NewClient(options ...Option) *Client {
 	client := &Client{
 		httpClient: &http.Client{},
-		timeout:    30 * time.Second,
-		params:     make(map[string]string),
+		timeout:    30 * time.Second, // 默认超时时间
 		headers:    make(map[string]string),
-		body:       make(map[string]interface{}),
+		params:     make(map[string]string),
 	}
 
+	// 应用选项
 	for _, option := range options {
 		option(client)
 	}
@@ -40,29 +38,61 @@ func NewClient(options ...Option) *Client {
 	return client
 }
 
-// 发送请求
-func (c *Client) DoRequest(method string, rawURL string) (respBody []byte, err error) {
-	uv, err := url.ParseRequestURI(rawURL)
-	if err != nil {
-		return nil, err
+// WithTimeout 设置HTTP请求的超时时间。
+func WithTimeout(timeout time.Duration) Option {
+	return func(c *Client) {
+		c.timeout = timeout
 	}
+}
 
-	// 创建请求
-	req, err := http.NewRequest(method, uv.String(), nil)
+// WithHeaders 设置HTTP请求的头部。
+func WithHeaders(headers map[string]string) Option {
+	return func(c *Client) {
+		for key, value := range headers {
+			c.headers[key] = value
+		}
+	}
+}
+
+// WithParams 设置HTTP请求的参数。
+func WithParams(params map[string]string) Option {
+	return func(c *Client) {
+		for key, value := range params {
+			c.params[key] = value
+		}
+	}
+}
+
+// WithBody 设置HTTP请求的请求体。
+func WithBody(body []byte) Option {
+	return func(c *Client) {
+		c.body = body
+	}
+}
+
+// DoRequest 执行一个HTTP请求。
+func (c *Client) DoRequest(method, url string) (respBody []byte, err error) {
+	// 使用请求体创建请求
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(c.body))
 	if err != nil {
 		return nil, err
 	}
 
 	// 设置头部
-	c.setHeaders(req)
+	for key, value := range c.headers {
+		req.Header.Set(key, value)
+	}
 
 	// 设置查询参数
-	c.setQueryParams(req)
+	query := req.URL.Query()
+	for key, value := range c.params {
+		query.Add(key, value)
+	}
+	req.URL.RawQuery = query.Encode()
 
-	// 设置请求体
-	c.setBody(req)
+	// 设置超时时间
+	c.httpClient.Timeout = c.timeout
 
-	log.Println("requestUrl:", req.URL.String())
 	// 执行请求
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -83,50 +113,19 @@ func (c *Client) DoRequest(method string, rawURL string) (respBody []byte, err e
 	return respBody, nil
 }
 
-func (c *Client) setHeaders(req *http.Request) {
-	for key, value := range c.headers {
-		req.Header.Set(key, value)
-	}
-}
-
-func (c *Client) setQueryParams(req *http.Request) {
-	query := req.URL.Query()
-	for key, value := range c.params {
-		query.Set(key, value)
-	}
-	req.URL.RawQuery = query.Encode()
-}
-
-func (c *Client) setBody(req *http.Request) {
-	str, err := json.Marshal(c.body)
-	if err != nil {
-		return
-	}
-
-	req.Body = io.NopCloser(bytes.NewReader(str))
-}
-
+// EncodeURL 编码URL。
 func (c *Client) EncodeURL(rawURL string) string {
 	req, err := http.NewRequest(http.MethodGet, rawURL, nil)
 	if err != nil {
 		return rawURL
 	}
 
-	c.setHeaders(req)
-	c.setQueryParams(req)
-	c.setBody(req)
+	// 设置查询参数
+	query := req.URL.Query()
+	for key, value := range c.params {
+		query.Add(key, value)
+	}
+	req.URL.RawQuery = query.Encode()
 
 	return req.URL.String()
-}
-
-// 发送GET请求
-func (c *Client) Get(url string) (respBody []byte, err error) {
-	return c.DoRequest(http.MethodGet, url)
-
-}
-
-// 发送POST请求
-func (c *Client) Post(url string) (respBody []byte, err error) {
-	return c.DoRequest(http.MethodPost, url)
-
 }
