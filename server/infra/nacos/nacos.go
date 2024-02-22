@@ -1,7 +1,7 @@
 package nacos
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
@@ -46,7 +46,7 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
 		constant.WithLogDir("./runtime/logs"),
-		constant.WithCacheDir("./cache"),
+		constant.WithCacheDir("./runtime/cache"),
 		constant.WithLogLevel("debug"),
 	)
 
@@ -57,38 +57,40 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 			ServerConfigs: sc,
 		},
 	)
-
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	//get config
 	content, err := client.GetConfig(vo.ConfigParam{
 		DataId: dataId,
 		Group:  group,
-		Type:   "yaml",
 	})
-	fmt.Println("GetConfig,config :"+content, err)
-
 	if err != nil {
 		return err
 	}
 
-	if err = listener(content); err != nil {
+	log.Println("nacos get config :"+content, err)
+
+	err = listener(content)
+	if err != nil {
 		return err
 	}
-	go func() {
-		//Listen config change,key=dataId+group+namespaceId.
-		err = client.ListenConfig(vo.ConfigParam{
-			DataId: dataId,
-			Group:  group,
-			OnChange: func(namespace, group, dataId, data string) {
-				fmt.Println("config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
-				if err = listener(data); err != nil {
-					fmt.Println("config changed reload failed")
-				}
-			},
-		})
-	}()
+
+	//Listen config change,key=dataId+group+namespaceId.
+	err = client.ListenConfig(vo.ConfigParam{
+		DataId: dataId,
+		Group:  group,
+		OnChange: func(namespace, group, dataId, data string) {
+			log.Println("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
+			if err = listener(data); err != nil {
+				log.Println("nacos config changed reload failed")
+			}
+		},
+	})
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

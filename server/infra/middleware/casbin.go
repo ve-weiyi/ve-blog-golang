@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 )
 
@@ -54,7 +54,7 @@ func CasbinHandler() gin.HandlerFunc {
 
 			c.JSON(http.StatusOK,
 				response.Response{
-					Code:    apierror.ErrorUnauthorized.Code(),
+					Code:    apierr.ErrorUserNotPermission.Code(),
 					Message: "角色权限不足",
 					Data:    nil,
 				})

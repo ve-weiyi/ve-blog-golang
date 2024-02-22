@@ -12,7 +12,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/database/ormlog"
 )
 
 // Gorm 初始化数据库并产生数据库全局变量
@@ -31,8 +30,6 @@ func Open(cfg properties.Mysql) *gorm.DB {
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		//PrepareStmt:            true, // 缓存预编译语句
-		// gorm日志模式
-		//Logger: logger.Default.LogMode(logger.Info),
 		// 外键约束
 		DisableForeignKeyConstraintWhenMigrating: true,
 		// 禁用默认事务（提高运行速度）
@@ -43,7 +40,9 @@ func Open(cfg properties.Mysql) *gorm.DB {
 			// 使用单数表名，启用该选项，此时，`User` 的表名应该是 `user`
 			SingularTable: true,
 		},
-		Logger: logger.New(ormlog.NewWriter(log.New(os.Stdout, "\r\n", log.LstdFlags)), logger.Config{
+		// gorm日志模式
+		//Logger: logger.Default.LogMode(logger.Info),
+		Logger: logger.New(NewWriter(log.New(os.Stdout, "\r\n", log.LstdFlags)), logger.Config{
 			SlowThreshold:             200 * time.Millisecond,
 			LogLevel:                  logger.Info,
 			IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
@@ -51,6 +50,7 @@ func Open(cfg properties.Mysql) *gorm.DB {
 			ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
 		}),
 	})
+
 	if err != nil {
 		log.Fatalf("GORM 数据库连接失败: %v", err)
 		return nil

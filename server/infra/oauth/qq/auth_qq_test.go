@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
 )
 
@@ -13,7 +14,7 @@ func TestQQ(t *testing.T) {
 	conf := &oauth.AuthConfig{
 		ClientID:     global.CONFIG.Oauth.QQ.ClientID,
 		ClientSecret: global.CONFIG.Oauth.QQ.ClientSecret,
-		RedirectUrl:  "https://www.ve77.cn/blog/oauth/login/qq",
+		RedirectUri:  global.CONFIG.Oauth.QQ.RedirectUri,
 	}
 
 	auth := NewAuthQq(conf)
@@ -21,11 +22,11 @@ func TestQQ(t *testing.T) {
 	url := auth.GetRedirectUrl("state")
 	log.Println("url:", url)
 	//获取用户信息
-	//userInfo, err := auth.GetUserOpenInfo("9C68E4021CB7DC5B1E7EC3FA34FE4C3E")
+	//userInfo, err := auth.GetUserOpenInfo("D3337DCCFF3A9ACD1A3F4501E90AC7F5")
 	//log.Println("userInfo:", err, userInfo)
-
-	//获取token信息
-	//tokenRes, err := auth.GetAccessToken("9C68E4021CB7DC5B1E7EC3FA34FE4C3E")
+	//
+	////获取token信息
+	//tokenRes, err := auth.GetAccessToken("D3337DCCFF3A9ACD1A3F4501E90AC7F5")
 	//log.Println("tokenRes:", err, tokenRes)
 
 	//刷新token

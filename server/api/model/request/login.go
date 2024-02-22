@@ -1,8 +1,8 @@
 package request
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierror/codes"
+	"fmt"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/valid"
 )
 
@@ -14,16 +14,16 @@ type UserReq struct {
 
 func (m UserReq) IsValid() error {
 	if m.Username == "" || m.Password == "" {
-		return apierror.NewApiError(codes.CodeInvalidParameter, "用户名和密码不能为null")
+		return fmt.Errorf("用户名或密码不能为空")
 	}
 
 	//验证邮箱格式是否正确
 	if !valid.IsEmailValid(m.Username) {
-		return apierror.NewApiError(codes.CodeInvalidParameter, "邮箱格式不正确")
+		return fmt.Errorf("邮箱格式不正确")
 	}
 
 	if len(m.Password) < 6 {
-		return apierror.NewApiError(codes.CodeInvalidParameter, "密码长度不能小于6")
+		return fmt.Errorf("密码长度不能小于6位")
 	}
 
 	return nil
@@ -37,7 +37,7 @@ type UserEmail struct {
 func (m UserEmail) IsValid() error {
 	//验证邮箱格式是否正确
 	if !valid.IsEmailValid(m.Username) {
-		return apierror.NewApiError(codes.CodeInvalidParameter, "邮箱格式不正确")
+		return fmt.Errorf("邮箱格式不正确")
 	}
 
 	return nil
