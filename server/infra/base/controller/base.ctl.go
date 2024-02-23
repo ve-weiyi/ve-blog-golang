@@ -76,7 +76,11 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 		return nil
 	}
 
-	return apierr.ErrorInvalidParam.Wrap(isValid.IsValid())
+	if err := isValid.IsValid(); err != nil {
+		return apierr.ErrorInvalidParam.Wrap(err)
+	}
+
+	return nil
 }
 
 // 把请求参数转换为小写
@@ -140,6 +144,7 @@ func (m *BaseController) ResponseOk(ctx *gin.Context, data interface{}) {
 
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	m.Log.Error("操作失败!", err)
+	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {
 	case apierr.ApiError:

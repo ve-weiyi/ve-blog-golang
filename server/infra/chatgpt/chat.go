@@ -11,6 +11,7 @@ import (
 
 const (
 	RoleUser = "user"
+	RoleAI   = "assistant"
 
 	ChatUrl = "/v1/chat/completions"
 )

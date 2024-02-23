@@ -23,6 +23,8 @@ func (s *AIRouter) InitAIRouter(publicRouter *gin.RouterGroup, loginRouter *gin.
 
 	var handler = s.svcCtx.AIController
 	{
+		loginRouter.POST("ai/assistant", handler.ChatAssistant)
+		loginRouter.POST("ai/assistant/history", handler.ChatAssistantHistory)
 		publicRouter.POST("ai/chat", handler.ChatAI)
 		publicRouter.POST("ai/cos", handler.ChatCos)
 	}
