@@ -20,7 +20,7 @@ RUN sed -i 's|^mirrorlist=https://mirrorlist.centos.org|mirrorlist=https://mirro
 
 # 安装必要的依赖
 RUN yum -y install epel-release && \
-    yum -y install vim net-tools git go && \
+    yum -y install lsof vim net-tools git go && \
     go env -w GO111MODULE=on && go env -w GOPROXY=https://goproxy.cn,direct
 
 # 暴露应用程序的端口
