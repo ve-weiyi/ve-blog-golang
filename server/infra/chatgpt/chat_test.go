@@ -29,3 +29,11 @@ func TestCosRole(t *testing.T) {
 	t.Log(err)
 	t.Log(res)
 }
+
+func TestImageGeneration(t *testing.T) {
+	initest.InitConfig()
+
+	res, err := NewAIChatGPT().ImageGeneration("一只猫")
+	t.Log(err)
+	t.Log(res)
+}
