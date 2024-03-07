@@ -8,7 +8,7 @@ const TableNameChatMessage = "chat_message"
 // ChatMessage mapped from table <chat_message>
 type ChatMessage struct {
 	ID         int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
-	ChatID     int       `gorm:"column:chat_id;type:int;not null;comment:群聊id" json:"chat_id"`                                      // 群聊id
+	ChatID     string    `gorm:"column:chat_id;type:varchar(128);not null;comment:群聊id" json:"chat_id"`                             // 群聊id
 	UserID     int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
 	ReplyMsgID int       `gorm:"column:reply_msg_id;type:int;not null;comment:回复消息id" json:"reply_msg_id"`                          // 回复消息id
 	Content    string    `gorm:"column:content;type:varchar(1024);not null;comment:聊天内容" json:"content"`                            // 聊天内容

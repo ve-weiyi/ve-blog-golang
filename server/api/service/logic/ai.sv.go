@@ -20,9 +20,131 @@ func NewAIService(svcCtx *svc.ServiceContext) *AIService {
 }
 
 // 和Chatgpt聊天
+func (s *AIService) ChatAI(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
+	// 查询用户消息历史记录
+	// 查询历史记录
+	list, err := s.svcCtx.ChatMessageRepository.FindList(reqCtx, 0, 8, "created_at desc", "chat_id = ?", req.ChatID)
+	if err != nil {
+		return nil, err
+	}
+
+	var msgs []*chatgpt.ChatMessage
+	for _, v := range list {
+		if v.UserID != -1 {
+			msgs = append(msgs, &chatgpt.ChatMessage{
+				Role:    chatgpt.RoleUser,
+				Content: v.Content,
+			})
+		} else {
+			msgs = append(msgs, &chatgpt.ChatMessage{
+				Role:    chatgpt.RoleAI,
+				Content: v.Content,
+			})
+		}
+	}
+
+	msgs = append(msgs, &chatgpt.ChatMessage{
+		Role:    chatgpt.RoleUser,
+		Content: req.Content,
+	})
+
+	resp, err := chatgpt.NewAIChatGPT().Chat(msgs)
+	if err != nil {
+		return nil, err
+	}
+
+	// 保存用户历史记录
+	msg := &entity.ChatMessage{
+		ChatID:    req.ChatID,
+		UserID:    reqCtx.UID,
+		Content:   req.Content,
+		IpAddress: reqCtx.IpAddress,
+		//IpSource:  reqCtx.GetIpSource(),
+		Type:   0,
+		Status: 0,
+	}
+
+	create, err := s.svcCtx.ChatMessageRepository.Create(reqCtx, msg)
+	if err != nil {
+		return nil, err
+	}
+
+	// 保存ai历史记录
+	for _, v := range resp.Choices {
+		m := &entity.ChatMessage{
+			ChatID:     req.ChatID,
+			UserID:     -1,
+			ReplyMsgID: create.ReplyMsgID,
+			Content:    v.Message.Content,
+			Type:       1,
+			Status:     0,
+		}
+
+		_, err = s.svcCtx.ChatMessageRepository.Create(reqCtx, m)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return resp, nil
+}
+
+// 和Chatgpt聊天
+func (s *AIService) ChatCos(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
+	resp, err := chatgpt.NewAIChatGPT().CosRole(req.Content)
+	if err != nil {
+		return nil, err
+	}
+
+	// 保存用户历史记录
+	msg := &entity.ChatMessage{
+		ChatID:    req.ChatID,
+		UserID:    reqCtx.UID,
+		Content:   req.Content,
+		IpAddress: reqCtx.IpAddress,
+		//IpSource:  reqCtx.GetIpSource(),
+		Type:   0,
+		Status: 0,
+	}
+
+	create, err := s.svcCtx.ChatMessageRepository.Create(reqCtx, msg)
+	if err != nil {
+		return nil, err
+	}
+
+	// 保存ai历史记录
+	for _, v := range resp.Choices {
+		m := &entity.ChatMessage{
+			ChatID:     req.ChatID,
+			UserID:     -1,
+			ReplyMsgID: create.ReplyMsgID,
+			Content:    v.Message.Content,
+			Type:       1,
+			Status:     0,
+		}
+
+		_, err = s.svcCtx.ChatMessageRepository.Create(reqCtx, m)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return resp, nil
+}
+
+// 和Chatgpt聊天
+func (s *AIService) ChatStream(reqCtx *request.Context, req *request.ChatStream) (data *chatgpt.ChatResponse, err error) {
+
+	return s.ChatAI(reqCtx, &request.ChatMessage{
+		ChatID:  req.ChatID,
+		Content: req.Content,
+	})
+}
+
+// 和Chatgpt聊天
 func (s *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
 	// 查询历史记录
-	list, err := s.svcCtx.ChatMessageRepository.FindList(reqCtx, 3, 0, "created_at desc", "chat_id = ?", req.ChatID)
+	list, err := s.svcCtx.ChatMessageRepository.FindList(reqCtx, 1, 3, "created_at desc", "chat_id = ?", req.ChatID)
 	if err != nil {
 		return nil, err
 	}
@@ -58,9 +180,9 @@ func (s *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMess
 		UserID:    reqCtx.UID,
 		Content:   req.Content,
 		IpAddress: reqCtx.IpAddress,
-		IpSource:  reqCtx.GetIpSource(),
-		Type:      0,
-		Status:    0,
+		//IpSource:  reqCtx.GetIpSource(),
+		Type:   0,
+		Status: 0,
 	}
 
 	create, err := s.svcCtx.ChatMessageRepository.Create(reqCtx, msg)
@@ -71,6 +193,7 @@ func (s *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMess
 	for _, v := range resp.Choices {
 		m := &entity.ChatMessage{
 			ChatID:     req.ChatID,
+			UserID:     -1,
 			ReplyMsgID: create.ReplyMsgID,
 			Content:    v.Message.Content,
 			Type:       1,
@@ -98,16 +221,4 @@ func (s *AIService) ChatAssistantHistory(reqCtx *request.Context, req *request.C
 	}
 
 	return list, nil
-}
-
-// 和Chatgpt聊天
-func (s *AIService) ChatAI(reqCtx *request.Context, req []*chatgpt.ChatMessage) (data *chatgpt.ChatResponse, err error) {
-
-	return chatgpt.NewAIChatGPT().Chat(req)
-}
-
-// 和Chatgpt聊天
-func (s *AIService) ChatCos(reqCtx *request.Context, act string) (data *chatgpt.ChatResponse, err error) {
-
-	return chatgpt.NewAIChatGPT().CosRole(act)
 }

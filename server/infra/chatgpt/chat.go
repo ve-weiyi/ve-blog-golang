@@ -1,6 +1,7 @@
 package chatgpt
 
 import (
+	_ "embed"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -38,6 +39,8 @@ func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 		Model:    s.Model,
 		Messages: req,
 	}
+
+	fmt.Println("content", content)
 
 	res, err := httpx.NewClient(
 		httpx.WithHeader("Content-Type", "application/json"),
@@ -91,7 +94,8 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 }
 
 func (s *AIChatGPT) getRole(act string) (string, error) {
-	roles, err := s.readModelJSON("./prompts-zh.json")
+	roles, err := s.readModelEmbed()
+	//roles, err := s.readModelJSON("./prompts-zh.json")
 	if err != nil {
 		return "", err
 	}
@@ -105,18 +109,30 @@ func (s *AIChatGPT) getRole(act string) (string, error) {
 	return "", fmt.Errorf("not found role")
 }
 
-func (s *AIChatGPT) readModelJSON(filepath string) ([]*ChatRole, error) {
-	// 读取 JSON 文件内容
+//go:embed prompts-zh.json
+var rolePrompts string
+
+func (s *AIChatGPT) readModelEmbed() (roles []*ChatRole, err error) {
+	// 解析 JSON 数据到结构体
+	err = json.Unmarshal([]byte(rolePrompts), &roles)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal JSON: %v", err)
+	}
+
+	return roles, nil
+}
+
+func (s *AIChatGPT) readModelJSON(filepath string) (roles []*ChatRole, err error) {
+	//读取 JSON 文件内容
 	jsonData, err := os.ReadFile(filepath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read JSON file: %v", err)
 	}
 
 	// 解析 JSON 数据到结构体
-	var roles []*ChatRole
 	err = json.Unmarshal(jsonData, &roles)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse JSON: %v", err)
+		return nil, fmt.Errorf("failed to unmarshal JSON: %v", err)
 	}
 
 	return roles, nil
