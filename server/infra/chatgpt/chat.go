@@ -14,7 +14,8 @@ const (
 	RoleUser = "user"
 	RoleAI   = "assistant"
 
-	ChatUrl = "/v1/chat/completions"
+	ChatUrl  = "/v1/chat/completions"
+	ImageUrl = "/v1/images/generations"
 )
 
 type ChatGPT interface {
@@ -58,6 +59,33 @@ func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 	}
 
 	return resp, nil
+}
+
+func (s *AIChatGPT) ImageGeneration(prompt string) (resp any, err error) {
+
+	req := map[string]any{
+		"model":  "dall-e-3",
+		"prompt": prompt,
+		"size":   "1024x1024",
+		"n":      1,
+	}
+
+	res, err := httpx.NewClient(
+		httpx.WithHeader("Content-Type", "application/json"),
+		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
+		httpx.WithBodyObject(req),
+	).DoRequest("POST", s.ApiHost+ImageUrl)
+	if err != nil {
+		return nil, err
+	}
+
+	//resp = &ImageResponse{}
+	//err = json.Unmarshal([]byte(res), resp)
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	return string(res), nil
 }
 
 func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {

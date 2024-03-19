@@ -43,7 +43,9 @@ func TestApiDocs(t *testing.T) {
 
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
+	// 生成ts api定义文件
 	aad.GenerateTsTypeFile()
+	// 生成ts type定义文件
 	aad.GenerateTsApiFiles()
 }
 
