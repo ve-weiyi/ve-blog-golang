@@ -22,7 +22,7 @@
 ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离的架构进行开发。前后端通过RESTful API进行数据交互。  
 博客前台展示页面使用 vite4+vue3+vuetify 开发，  
 博客后台管理系统使用 vite4+vue3+element-plus 开发，  
-博客后端服务使用golang语言+ gin框架开发。  
+博客后端服务使用golang语言+ gin框架开发。 可以使用 飞书、QQ、微博、微信 快速登录。
 
 
 ve-blog-golang项目是博客项目的后台服务支撑。

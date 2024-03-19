@@ -1,24 +1,20 @@
+## 快速代码构建器
+
+根据数据库模型生成 router、controller、service、repository、model 代码，并自动注册到 gin 框架中。
+
+### 1. 介绍
+
 
 inject 使用ast在文件中指定位置注入代码
-invent 模版生成
+invent 使用template生成代码文件
 
-数据库操作帮助
 
-controller --- api.handler
-service --- api.logic
-repository--- rpc.handler、logic
-entity--- model
+与go-zero框架对应层级
 
-```
-// @Tags Blog
-// @Summary 创建api路由
-// @Description 描述,可以有多个。https://www.jianshu.com/p/4bb4283632e4
-// @Security ApiKeyUser
-// @Param file formData file true    "上传文件"
-// @Param id path int true    "id"
-// @Param token header string true    "token"
-// @Param data body entity.Api true    "创建api路由"
-// @Success 200 {object} response.Response{data=entity.Api}    "返回信息"
-// @Router /version [get]
+controller --- api.handler 
 
-```
+service --- api.logic 
+
+repository--- rpc.handler、logic 
+
+entity--- model 
