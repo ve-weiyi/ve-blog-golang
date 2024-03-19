@@ -35,6 +35,8 @@ type AppRepository struct {
 	RemarkRepository           *logic.RemarkRepository           //留言
 	WebsiteConfigRepository    *logic.WebsiteConfigRepository    //网站设置
 	UploadRecordRepository     *logic.UploadRecordRepository     //文件上传
+	ChatSessionRepository      *logic.ChatSessionRepository      //聊天会话
+	ChatMessageRepository      *logic.ChatMessageRepository      //聊天消息
 }
 
 func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
@@ -67,5 +69,7 @@ func NewRepository(svcCtx *svc.RepositoryContext) *AppRepository {
 		RemarkRepository:           logic.NewRemarkRepository(svcCtx),
 		WebsiteConfigRepository:    logic.NewWebsiteConfigRepository(svcCtx),
 		UploadRecordRepository:     logic.NewUploadRecordRepository(svcCtx),
+		ChatSessionRepository:      logic.NewChatSessionRepository(svcCtx),
+		ChatMessageRepository:      logic.NewChatMessageRepository(svcCtx),
 	}
 }

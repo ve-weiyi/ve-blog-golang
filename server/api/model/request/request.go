@@ -27,6 +27,7 @@ func (s *Context) GetIpSource() string {
 	location, err := iputil.GetIpInfoByBaidu(ip)
 	if err != nil {
 		global.LOG.Println("GetIpInfoByBaidu:", err)
+		return "未知ip"
 	}
 	return location.Location
 }
