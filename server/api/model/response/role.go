@@ -9,11 +9,6 @@ type ApiDetailsDTO struct {
 	Children []*ApiDetailsDTO `json:"children"`
 }
 
-type MenuDetailsDTO struct {
-	entity.Menu
-	Children []*MenuDetailsDTO `json:"children"`
-}
-
 type RoleDetailsDTO struct {
 	entity.Role
 	MenuIdList     []int `json:"menu_id_list"`

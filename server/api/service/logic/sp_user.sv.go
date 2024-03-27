@@ -176,44 +176,6 @@ func (s *UserService) DeleteUserLoginHistoryByIds(reqCtx *request.Context, ids [
 	return s.svcCtx.UserLoginHistoryRepository.Delete(reqCtx, "id in (?) and user_id = ?", ids, account.ID)
 }
 
-func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (result *response.UserInfo, err error) {
-	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", userId)
-	if err != nil {
-		return nil, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
-	}
-
-	return s.getUserInfo(reqCtx, account)
-}
-
-func (s *UserService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *response.UserInfo, err error) {
-	//获取用户信息
-	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
-	if err != nil {
-		return nil, err
-	}
-
-	accountLikeSet, _ := s.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
-	commentLikeSet, _ := s.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
-	talkLikeSet, _ := s.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
-
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
-	resp = &response.UserInfo{
-		ID:             account.ID,
-		Username:       account.Username,
-		Nickname:       info.Nickname,
-		Avatar:         info.Avatar,
-		Intro:          info.Intro,
-		Website:        info.Website,
-		Email:          info.Email,
-		ArticleLikeSet: accountLikeSet,
-		CommentLikeSet: commentLikeSet,
-		TalkLikeSet:    talkLikeSet,
-		Roles:          convertRoleList(roles),
-	}
-
-	return resp, nil
-}
-
 func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
@@ -345,4 +307,116 @@ func (s *UserService) UpdateUserInfo(reqCtx *request.Context, req *request.UserI
 	}
 
 	return info, err
+}
+
+func (s *UserService) GetUserInfo(reqCtx *request.Context, userId int) (data *response.UserInfo, err error) {
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", userId)
+	if err != nil {
+		return nil, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
+	}
+
+	//获取用户信息
+	info, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	accountLikeSet, _ := s.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
+	commentLikeSet, _ := s.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
+	talkLikeSet, _ := s.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
+
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	data = &response.UserInfo{
+		ID:             account.ID,
+		Username:       account.Username,
+		Nickname:       info.Nickname,
+		Avatar:         info.Avatar,
+		Intro:          info.Intro,
+		Website:        info.Website,
+		Email:          info.Email,
+		ArticleLikeSet: accountLikeSet,
+		CommentLikeSet: commentLikeSet,
+		TalkLikeSet:    talkLikeSet,
+		Roles:          convertRoleList(roles),
+	}
+
+	return data, nil
+}
+
+func (s *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetailsDTO, err error) {
+	//查询用户信息
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	//查询用户角色
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	//查询角色权限,取交集
+	menuMaps := make(map[int]*entity.Menu)
+	for _, item := range roles {
+		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.ID)
+		if err != nil {
+			return nil, err
+		}
+		// 去重
+		for _, m := range menus {
+			if _, ok := menuMaps[m.ID]; !ok {
+				menuMaps[m.ID] = m
+			}
+		}
+	}
+
+	var list []*entity.Menu
+	for _, v := range menuMaps {
+		list = append(list, v)
+	}
+
+	var out response.MenuDetailsDTO
+	out.Children = getMenuChildren(out, list)
+
+	return out.Children, err
+}
+
+func (s *UserService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiDetailsDTO, err error) {
+	//查询用户信息
+	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	if err != nil {
+		return nil, err
+	}
+
+	//查询用户角色
+	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	//查询角色权限,取交集
+	menuMaps := make(map[int]*entity.Api)
+	for _, item := range roles {
+		menus, err := s.svcCtx.RoleRepository.FindRoleApis(reqCtx, item.ID)
+		if err != nil {
+			return nil, err
+		}
+		// 去重
+		for _, m := range menus {
+			if _, ok := menuMaps[m.ID]; !ok {
+				menuMaps[m.ID] = m
+			}
+		}
+	}
+
+	var list []*entity.Api
+	for _, v := range menuMaps {
+		list = append(list, v)
+	}
+
+	var out response.ApiDetailsDTO
+	out.Children = getApiChildren(out, list)
+
+	return out.Children, err
 }
