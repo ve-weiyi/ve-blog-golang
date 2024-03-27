@@ -81,7 +81,7 @@ func TestCodeStarter(t *testing.T) {
 			return jsonconv.Case2CamelLowerStart(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyModel && key != tmpl.KeyRepository
+			return key != tmpl.KeyModel
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,
@@ -104,8 +104,7 @@ func TestCodeStarter(t *testing.T) {
 	parser := NewTableParser(cfg)
 	gen := NewCodeStarter(cfg)
 
-	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("chat_session"))...)
-	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("chat_message"))...)
+	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("menu"))...)
 	//models, _ := parser.ParseModelFromSchema()
 	//gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
 

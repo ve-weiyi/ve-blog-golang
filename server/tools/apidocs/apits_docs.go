@@ -23,7 +23,7 @@ type Config struct {
 	ReplaceModels  map[string]string
 
 	ApiFuncNameAs  func(api *apiparser.ApiDeclare) string
-	ApiFieldNameAs func(name string) string
+	ApiFieldNameAs func(model *apiparser.ModelField) string
 	ApiFieldTypeAs func(name string) string
 }
 
@@ -210,7 +210,7 @@ func (s *AstApiDoc) convertTsModelDeclare(model *apiparser.ModelDeclare) *TsMode
 	// 属性
 	for _, field := range model.Fields {
 		tsField := &TsModelField{
-			Name:    s.ApiFieldNameAs(field.Name),
+			Name:    s.ApiFieldNameAs(field),
 			Type:    s.ApiFieldTypeAs(field.Type),
 			Comment: field.Comment,
 		}

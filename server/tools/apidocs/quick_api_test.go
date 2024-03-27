@@ -33,8 +33,12 @@ func TestApiDocs(t *testing.T) {
 		ApiFuncNameAs: func(api *apiparser.ApiDeclare) string {
 			return fmt.Sprintf("%vApi", jsonconv.Lcfirst(api.FunctionName))
 		},
-		ApiFieldNameAs: func(name string) string {
-			return jsonconv.Camel2Case(name)
+		ApiFieldNameAs: func(model *apiparser.ModelField) string {
+			if model.JsonTag != "" {
+				return model.JsonTag
+			}
+
+			return jsonconv.Camel2Case(model.Name)
 		},
 		ApiFieldTypeAs: func(name string) string {
 			return convertGoTypeToTsType(name)
