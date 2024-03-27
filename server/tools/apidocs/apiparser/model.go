@@ -35,6 +35,7 @@ type ModelDeclare struct {
 // 属性定义信息  Name string // 属性名称
 type ModelField struct {
 	Name    string // 属性名称  Name
+	JsonTag string // json tag
 	Type    string // 属性类型  string、int、bool、float、{UpperStartCamelName}
 	Comment string // 属性的注释  属性名称
 }

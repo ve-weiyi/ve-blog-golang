@@ -31,6 +31,7 @@ type PermissionHolder struct {
 	DbEngin    *gorm.DB
 	CacheEngin CacheStrategy
 	logger     glog.Logger
+	debug      bool
 }
 
 func (s *PermissionHolder) CheckUserAccessApi(uid string, path string, method string) error {
@@ -68,17 +69,17 @@ func (s *PermissionHolder) FindUserPermission(uid string) (*UserPermission, erro
 	// 从缓存查找
 	permission, err := s.CacheEngin.GetUserPermission(uid)
 	if err != nil {
-		s.logger.Warnf("load user from database:error with %v", err)
+		s.info("load user from database:error with %v", err)
 		// 加载api
 		permission, err = s.LoadUser(uid)
 		if err != nil {
 			return nil, err
 		}
-		s.logger.Warnf("find user from database:%+v", permission)
+		s.info("find user from database:%+v", permission)
 		return permission, nil
 	}
 
-	s.logger.Infof("load user from cache:%+v", permission)
+	s.info("load user from cache:%+v", permission)
 	return permission, nil
 }
 
@@ -87,17 +88,17 @@ func (s *PermissionHolder) FindApiPermission(path string, method string) (*ApiPe
 	// 从缓存查找
 	permission, err := s.CacheEngin.GetApiPermission(api)
 	if err != nil {
-		s.logger.Warnf("load api from database:error with %v", err)
+		s.info("load api from database:error with %v", err)
 		// 加载api
 		permission, err = s.LoadApi(path, method)
 		if err != nil {
 			return nil, err
 		}
-		s.logger.Warnf("find api from database:%+v", permission)
+		s.info("find api from database:%+v", permission)
 		return permission, nil
 	}
 
-	s.logger.Infof("load api from cache:%+v", permission)
+	s.info("load api from cache:%+v", permission)
 	return permission, nil
 }
 
@@ -239,13 +240,11 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 	return permission, nil
 }
 
-func convertRolesKey(list []*entity.Role) []int {
-	var roles []int
-	for _, r := range list {
-		roles = append(roles, r.ID)
+func (s *PermissionHolder) info(format string, args ...interface{}) {
+	if !s.debug || s.logger == nil {
+		return
 	}
-
-	return roles
+	s.logger.Infof(format, args...)
 }
 
 func NewPermissionHolder(db *gorm.DB, logger glog.Logger) RbacHolder {
@@ -253,5 +252,6 @@ func NewPermissionHolder(db *gorm.DB, logger glog.Logger) RbacHolder {
 		DbEngin:    db,
 		CacheEngin: NewCacheStrategy(),
 		logger:     logger,
+		debug:      false,
 	}
 }
