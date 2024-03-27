@@ -6,6 +6,7 @@ import (
 	"go/parser"
 	"go/token"
 	"os"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -258,9 +259,12 @@ func getFieldsFormNode(field ast.Node) *ModelField {
 		if len(node.Names) > 0 {
 			name := node.Names[0].Name
 			tp := node.Type
+			tag := getJsonTagFromField(node)
+			fmt.Println("tag:", tag)
 			elem := &ModelField{
-				Name: name,
-				Type: getTypeNameFormExpr(tp),
+				Name:    name,
+				JsonTag: tag,
+				Type:    getTypeNameFormExpr(tp),
 			}
 
 			// 读取字段的普通注释
@@ -329,4 +333,28 @@ func getTypeNameFormExpr(expr ast.Expr) string {
 		// 其他未处理的表达式类型，返回空字符串
 		return ""
 	}
+}
+
+func getJsonTagFromField(field *ast.Field) string {
+	if field.Tag == nil {
+		return ""
+	}
+
+	var jsonTag string
+	// 定义匹配 json tag 的正则表达式
+	jsonRegex := regexp.MustCompile(`json:"([^"]*)"`)
+
+	// 提取 json tag 中的信息
+	jsonTagMatches := jsonRegex.FindStringSubmatch(field.Tag.Value)
+	if len(jsonTagMatches) > 1 {
+		jsonTag = jsonTagMatches[1]
+	}
+
+	jsonTag = strings.Split(jsonTag, ",")[0]
+	jsonTag = strings.TrimSpace(jsonTag)
+	if jsonTag == "-" {
+		jsonTag = ""
+	}
+
+	return jsonTag
 }

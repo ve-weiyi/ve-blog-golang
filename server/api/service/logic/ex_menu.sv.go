@@ -4,6 +4,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // 分页获取Menu记录
@@ -29,20 +30,16 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 		// 已存在则跳过
 		exist, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", item.Path)
 		if exist == nil {
-			var hidden int
-			if item.Meta.ShowLink {
-				hidden = 1
-			}
+
 			// 插入数据
 			exist = &entity.Menu{
-				Name:      item.Name,
-				Path:      item.Path,
 				Title:     item.Meta.Title,
-				Component: "",
-				Icon:      item.Meta.Icon,
-				Rank:      item.Meta.Rank,
-				ParentID:  0,
-				IsHidden:  hidden,
+				Path:      item.Path,
+				Name:      item.Name,
+				Component: jsonconv.ObjectToJson(item.Component),
+				Redirect:  item.Redirect,
+				Type:      item.Type,
+				Meta:      jsonconv.ObjectToJson(item.Meta),
 			}
 			_, err = s.svcCtx.MenuRepository.Create(reqCtx, exist)
 			if err != nil {
@@ -56,20 +53,20 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 			// 已存在则跳过
 			menu, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
 			if menu == nil {
-				var hidden int
-				if child.Meta.ShowLink {
-					hidden = 1
+				if child.Meta.Rank == 0 {
+					child.Meta.Rank = i
 				}
+
 				// 插入数据
 				menu = &entity.Menu{
-					Name:      child.Name,
-					Path:      child.Path,
-					Title:     item.Meta.Title,
-					Component: "",
-					Icon:      child.Meta.Icon,
-					Rank:      i,
 					ParentID:  exist.ID,
-					IsHidden:  hidden,
+					Title:     child.Meta.Title,
+					Path:      child.Path,
+					Name:      child.Name,
+					Component: jsonconv.ObjectToJson(child.Component),
+					Redirect:  child.Redirect,
+					Type:      child.Type,
+					Meta:      jsonconv.ObjectToJson(child.Meta),
 				}
 				_, err = s.svcCtx.MenuRepository.Create(reqCtx, menu)
 				if err != nil {
@@ -127,12 +124,9 @@ func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 func (s *MenuService) getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {
 	for _, item := range list {
 		if item.ParentID == root.ID {
-			leaf := response.MenuDetailsDTO{
-				Menu:     *item,
-				Children: nil,
-			}
-			leaf.Children = s.getMenuChildren(leaf, list)
-			leafs = append(leafs, &leaf)
+			leaf := convertMenu(item)
+			leaf.Children = s.getMenuChildren(*leaf, list)
+			leafs = append(leafs, leaf)
 		}
 	}
 	return leafs
