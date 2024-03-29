@@ -6,7 +6,6 @@ version: "3.9"
 #  redis:
 
 services:
-
   mysql:
     image: mysql:8.0.34       # 如果您是 arm64 架构：如 MacOS 的 M1，请修改镜像为 image: mysql/mysql-server:8.0.21
     container_name: mysql-server # 容器名
@@ -24,30 +23,3 @@ services:
     command:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci #设置utf8字符集
-
-  redis:
-    image: redis:latest
-    container_name: redis-server # 容器名
-    restart: always
-    ports:
-      - '6379:6379'
-    environment:
-      - REDIS_PASSWORD=redis7914 # redis只有密码，没有账号设置
-    volumes:
-      - /home/docker/redis:/data
-
-  rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq-server
-    restart: always
-    ports:
-      - "5672:5672"  # AMQP
-      - "15672:15672"  # RabbitMQ Management
-    environment:
-      - RABBITMQ_DEFAULT_USER=veweiyi
-      - RABBITMQ_DEFAULT_PASS=rabbitmq7914
-    volumes:
-      - /home/docker/rabbitmq:/var/lib/rabbitmq
-#    command:
-#      - rabbitmqctl status
-#      - rabbitmq-plugins enable rabbitmq_management # 开启rabbitmq web管理界面
