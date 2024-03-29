@@ -13,5 +13,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/docker/jenkins:/var/jenkins_home
 
-      # 查看初始化登录密码
+      # 查看初始化登录密码 user:veweiyi pwd:veweiyi
       # cat /home/docker/jenkins/secrets/initialAdminPassword
+      # 查看用户密码 /home/docker/jenkins/users
