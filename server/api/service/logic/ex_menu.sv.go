@@ -18,7 +18,7 @@ func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 	}
 	// to tree
 	var tree response.MenuDetailsDTO
-	tree.Children = s.getMenuChildren(tree, menuList)
+	tree.Children = getMenuChildren(tree, menuList)
 
 	list = tree.Children
 	return list, int64(len(list)), nil
@@ -82,50 +82,15 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 	return data, err
 }
 
-func (s *MenuService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetailsDTO, err error) {
-	//查询用户信息
-	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
-	if err != nil {
-		return nil, err
-	}
-
-	//查询用户角色
-	roles, err := s.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
-	if err != nil {
-		return nil, err
-	}
-
-	//查询角色权限,取交集
-	menuMaps := make(map[int]*entity.Menu)
-	for _, item := range roles {
-		menus, err := s.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.ID)
-		if err != nil {
-			return nil, err
-		}
-		// 去重
-		for _, m := range menus {
-			if _, ok := menuMaps[m.ID]; !ok {
-				menuMaps[m.ID] = m
-			}
-		}
-	}
-
-	var list []*entity.Menu
-	for _, v := range menuMaps {
-		list = append(list, v)
-	}
-
-	var out response.MenuDetailsDTO
-	out.Children = s.getMenuChildren(out, list)
-
-	return out.Children, err
+func (s *MenuService) CleanMenuList(reqCtx *request.Context, req interface{}) (data interface{}, err error) {
+	return s.svcCtx.MenuRepository.CleanMenus(reqCtx)
 }
 
-func (s *MenuService) getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {
+func getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {
 	for _, item := range list {
 		if item.ParentID == root.ID {
 			leaf := convertMenu(item)
-			leaf.Children = s.getMenuChildren(*leaf, list)
+			leaf.Children = getMenuChildren(*leaf, list)
 			leafs = append(leafs, leaf)
 		}
 	}

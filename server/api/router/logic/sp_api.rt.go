@@ -31,6 +31,7 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 		loginRouter.GET("api/:id", handler.FindApi)                      // 查询Api
 		loginRouter.POST("api/list", handler.FindApiList)                // 分页查询Api列表
 		loginRouter.POST("api/sync", handler.SyncApiList)                // 同步Api列表
+		loginRouter.POST("api/clean", handler.CreateApi)                 // 清空Api列表
 		loginRouter.POST("api/details_list", handler.FindApiDetailsList) // 获取Api列表
 	}
 }

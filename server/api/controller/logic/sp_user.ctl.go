@@ -22,7 +22,7 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 	}
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取用户列表
 // @Accept		application/json
 // @Produce		application/json
@@ -59,7 +59,7 @@ func (s *UserController) FindUserList(c *gin.Context) {
 	})
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取在线用户列表
 // @Accept		application/json
 // @Produce		application/json
@@ -96,7 +96,7 @@ func (s *UserController) FindOnlineUserList(c *gin.Context) {
 	})
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取用户地区列表
 // @Accept		application/json
 // @Produce		application/json
@@ -133,7 +133,7 @@ func (s *UserController) FindUserAreaList(c *gin.Context) {
 	})
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取用户登录历史
 // @Accept		application/json
 // @Produce		application/json
@@ -170,7 +170,7 @@ func (s *UserController) FindUserLoginHistoryList(c *gin.Context) {
 	})
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		批量删除登录历史
 // @Accept		application/json
 // @Produce		application/json
@@ -204,7 +204,7 @@ func (s *UserController) DeleteUserLoginHistoryByIds(c *gin.Context) {
 	})
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取用户菜单权限
 // @Accept		application/json
 // @Produce		application/json
@@ -219,7 +219,7 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.GetUserMenus(reqCtx, nil)
+	data, err := s.svcCtx.UserService.GetUserMenus(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -228,7 +228,7 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取用户接口权限
 // @Accept		application/json
 // @Produce		application/json
@@ -243,7 +243,7 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.GetUserApis(reqCtx, nil)
+	data, err := s.svcCtx.UserService.GetUserApis(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -252,7 +252,7 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		获取用户信息
 // @Accept		application/json
 // @Produce		application/json
@@ -276,7 +276,7 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		修改用户信息
 // @Security	ApiKeyAuth
 // @Accept		multipart/form-data
@@ -309,7 +309,7 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		更换用户头像
 // @Security	ApiKeyAuth
 // @Accept		multipart/form-data
@@ -342,7 +342,7 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		修改用户状态
 // @Accept		application/json
 // @Produce		application/json
@@ -374,7 +374,7 @@ func (s *UserController) UpdateUserStatus(c *gin.Context) {
 	s.ResponseOk(c, data)
 }
 
-// @Tags		User
+// @Tags		Account
 // @Summary		修改用户角色
 // @Accept		application/json
 // @Produce		application/json

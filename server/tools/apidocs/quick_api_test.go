@@ -50,7 +50,7 @@ func TestApiDocs(t *testing.T) {
 	// 生成ts api定义文件
 	aad.GenerateTsTypeFile()
 	// 生成ts type定义文件
-	//aad.GenerateTsApiFiles()
+	aad.GenerateTsApiFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {
