@@ -31,13 +31,13 @@ func (s *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 }
 
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, id int) (data *response.PhotoAlbumDetailsDTO, err error) {
-	album, err := s.svcCtx.PhotoAlbumRepository.First(reqCtx, "id = ?", id)
+func (s *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, req *request.IdReq) (data *response.PhotoAlbumDetailsDTO, err error) {
+	album, err := s.svcCtx.PhotoAlbumRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := s.svcCtx.PhotoRepository.Count(reqCtx, "album_id = ?", id)
+	count, err := s.svcCtx.PhotoRepository.Count(reqCtx, "album_id = ?", req.Id)
 	if err != nil {
 		return nil, err
 	}

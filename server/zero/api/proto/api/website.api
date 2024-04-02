@@ -1,0 +1,46 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: website
+)
+
+service blog-api {
+    @doc "查询聊天记录"
+    @handler FindChatRecords
+    post /api/v1/chat/records (PageQuery) returns ([]ChatRecord)
+
+    @doc "关于我"
+    @handler GetAboutMe
+    get /api/v1/about/me () returns (EmptyResp)
+
+    @doc "更新我的信息"
+    @handler UpdateAboutMe
+    post /api/v1/admin/about/me (AboutMeReq) returns (EmptyResp)
+
+    @doc "获取网站配置"
+    @handler GetWebsiteConfig
+    get /api/v1/website/config () returns (EmptyResp)
+
+    @doc "获取配置"
+    @handler GetConfig
+    post /api/v1/admin/config (WebsiteConfigReq) returns (EmptyResp)
+
+    @doc "更新配置"
+    @handler UpdateConfig
+    put /api/v1/admin/config (WebsiteConfigReq) returns (EmptyResp)
+
+    @doc "获取博客前台首页信息"
+    @handler GetBlogHomeInfo
+    get /api/v1 () returns (BlogHomeInfo)
+
+    @doc "获取后台首页信息"
+    @handler GetAdminHomeInfo
+    get /api/v1/admin () returns (AdminHomeInfo)
+
+    @doc "获取服务器信息"
+    @handler GetSystemState
+    get /api/v1/admin/system/state () returns (EmptyResp)
+}

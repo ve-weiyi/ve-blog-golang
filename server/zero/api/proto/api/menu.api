@@ -1,0 +1,47 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: menu
+)
+
+service blog-api {
+    @doc "创建菜单"
+    @handler CreateMenu
+    post /api/v1/menu/create_menu (Menu) returns (Menu)
+    
+    @doc "更新菜单"
+    @handler UpdateMenu
+    put /api/v1/menu/update_menu (Menu) returns (Menu)
+    
+    @doc "删除菜单"
+    @handler DeleteMenu
+    delete /api/v1/menu/delete_menu (IdReq) returns ()
+    
+    @doc "查询菜单"
+    @handler FindMenu
+    post /api/v1/menu/find_menu (IdReq) returns (Menu)
+    
+    @doc "批量删除菜单"
+    @handler DeleteMenuList
+    delete /api/v1/menu/batch_delete_menu (IdsReq) returns (BatchResult)
+    
+    @doc "分页获取菜单列表"
+    @handler FindMenuList
+    post /api/v1/menu/find_menu_list (PageQuery) returns ([]Menu)
+    
+    @doc "获取菜单列表"
+    @handler FindMenuDetailsList
+    post /api/v1/menu/details_list (PageQuery) returns ([]MenuDetailsDTO)
+    
+    @doc "同步菜单列表"
+    @handler SyncMenuList
+    post /api/v1/menu/sync (SyncMenuRequest) returns (BatchResult)
+    
+    @doc "清空菜单列表"
+    @handler CleanMenuList
+    post /api/v1/menu/clean () returns (EmptyResp)
+    
+}

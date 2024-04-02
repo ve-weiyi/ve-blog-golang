@@ -1,0 +1,51 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: comment
+)
+
+service blog-api {
+    @doc "创建评论"
+    @handler CreateComment
+    post /api/v1/comment (Comment) returns (Comment)
+    
+    @doc "更新评论"
+    @handler UpdateComment
+    put /api/v1/comment (Comment) returns (Comment)
+    
+    @doc "删除评论"
+    @handler DeleteComment
+    delete /api/v1/comment/:id (IdReq) returns (EmptyResp)
+    
+    @doc "查询评论"
+    @handler FindComment
+    get /api/v1/comment/:id (IdReq) returns (Comment)
+    
+    @doc "批量删除评论"
+    @handler DeleteCommentList
+    delete /api/v1/comment/batch_delete (IdsReq) returns (BatchResult)
+    
+    @doc "分页获取评论列表"
+    @handler FindCommentList
+    post /api/v1/comment/list (PageQuery) returns ([]Comment)
+    
+    @doc "分页获取评论列表"
+    @handler FindCommentDetailsList
+    post /api/v1/comment/details_list (PageQuery) returns ([]CommentDTO)
+    
+    @doc "获取用户评论列表"
+    @handler FindCommentBackList
+    post /api/v1/comment/list/back (PageQuery) returns ([]CommentBackDTO)
+    
+    @doc "查询评论回复列表"
+    @handler FindCommentReplyList
+    post /api/v1/comment/:id/reply_list (PageQuery) returns ([]ReplyDTO)
+    
+    @doc "点赞评论"
+    @handler LikeComment
+    post /api/v1/comment/:id/like (IdReq) returns (EmptyResp)
+    
+}

@@ -10,7 +10,7 @@ func (s *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.P
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	categories, err := s.svcCtx.TagRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	categories, err := s.svcCtx.TagRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

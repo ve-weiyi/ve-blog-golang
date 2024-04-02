@@ -23,10 +23,10 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 
 	var handler = s.svcCtx.ApiController
 	{
-		loginRouter.POST("api", handler.CreateApi)                     // 新建Api
-		loginRouter.PUT("api", handler.UpdateApi)                      // 更新Api
-		loginRouter.DELETE("api/:id", handler.DeleteApi)               // 删除Api
-		loginRouter.DELETE("api/batch_delete", handler.DeleteApiByIds) // 批量删除Api列表
+		loginRouter.POST("api", handler.CreateApi)                    // 新建Api
+		loginRouter.PUT("api", handler.UpdateApi)                     // 更新Api
+		loginRouter.DELETE("api/:id", handler.DeleteApi)              // 删除Api
+		loginRouter.DELETE("api/batch_delete", handler.DeleteApiList) // 批量删除Api列表
 
 		loginRouter.GET("api/:id", handler.FindApi)                      // 查询Api
 		loginRouter.POST("api/list", handler.FindApiList)                // 分页查询Api列表

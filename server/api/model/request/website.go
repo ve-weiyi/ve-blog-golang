@@ -1,8 +1,8 @@
 package request
 
-import (
-	"mime/multipart"
-)
+type AboutMeReq struct {
+	Content string `json:"content" from:"content" example:"about me"`
+}
 
 type WebsiteConfigReq struct {
 	Key   string `json:"key" from:"key" example:"about"`
@@ -11,8 +11,8 @@ type WebsiteConfigReq struct {
 
 // VoiceVO 表示系统中的音频数据。
 type VoiceVO struct {
-	Type int                   `json:"type" validate:"required"` // 消息类型
-	File *multipart.FileHeader `json:"file" validate:"required"` // 文件
+	Type int `json:"type" validate:"required"` // 消息类型
+	//File *multipart.FileHeader `json:"file" validate:"required"` // 文件
 	//UserID    int                   `json:"user_id" validate:"required"`    // 用户id
 	//Nickname  string                `json:"nickname" validate:"required"`   // 用户昵称
 	//Avatar    string                `json:"avatar" validate:"required"`     // 用户头像

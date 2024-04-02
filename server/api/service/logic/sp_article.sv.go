@@ -5,7 +5,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 type ArticleService struct {
@@ -77,20 +76,20 @@ func (s *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 }
 
 // 删除Article记录
-func (s *ArticleService) DeleteArticle(reqCtx *request.Context, id int) (rows int64, err error) {
+func (s *ArticleService) DeleteArticle(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
 	// 删除文章标签映射
-	_, err = s.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", id)
+	_, err = s.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", req.Id)
 	if err != nil {
 		return 0, err
 	}
 
-	return s.svcCtx.ArticleRepository.Delete(reqCtx, "id = ?", id)
+	return s.svcCtx.ArticleRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 根据id获取Article记录
-func (s *ArticleService) FindArticle(reqCtx *request.Context, id int) (data *response.ArticleBack, err error) {
+func (s *ArticleService) FindArticle(reqCtx *request.Context, req *request.IdReq) (data *response.ArticleBack, err error) {
 	// 查询id对应文章
-	article, err := s.svcCtx.ArticleRepository.First(reqCtx, "id = ?", id)
+	article, err := s.svcCtx.ArticleRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +112,7 @@ func (s *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询文章列表
-	articles, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	articles, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -205,7 +204,7 @@ func (s *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request
 // 文章时间轴
 func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticlePreviewDTO, total int64, err error) {
 	// 查找最新数据
-	newestArticle, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Page, page.PageSize, "id desc", "status = ?", entity.ArticleStatusPublic)
+	newestArticle, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, "id desc", "status = ?", entity.ArticleStatusPublic)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -218,9 +217,9 @@ func (s *ArticleService) FindArticleArchives(reqCtx *request.Context, page *requ
 }
 
 // 文章推荐
-func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (data *response.ArticlePageDetailsDTO, err error) {
+func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, req *request.IdReq) (data *response.ArticlePageDetailsDTO, err error) {
 	// 查询id对应文章
-	article, err := s.svcCtx.ArticleRepository.First(reqCtx, "id = ?", id)
+	article, err := s.svcCtx.ArticleRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -242,12 +241,12 @@ func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (da
 		return nil, err
 	}
 	// 查询上一篇文章
-	lastArticle, err := s.svcCtx.ArticleRepository.FindLastArticle(reqCtx, id)
+	lastArticle, err := s.svcCtx.ArticleRepository.FindLastArticle(reqCtx, req.Id)
 	if err != nil {
 		return nil, err
 	}
 	// 查询下一篇文章
-	nextArticle, err := s.svcCtx.ArticleRepository.FindNextArticle(reqCtx, id)
+	nextArticle, err := s.svcCtx.ArticleRepository.FindNextArticle(reqCtx, req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -265,13 +264,13 @@ func (s *ArticleService) FindArticleDetails(reqCtx *request.Context, id int) (da
 
 // 分页获取Article记录
 func (s *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleHome, total int64, err error) {
-	page.Sorts = append(page.Sorts, &sqlx.Sort{Field: "is_top", Order: "desc"})
-	page.Conditions = append(page.Conditions, sqlx.NewCondition("status = ?", entity.ArticleStatusPublic))
+	page.Sorts = append(page.Sorts, &request.PageSort{Field: "is_top", Order: "desc"})
+	page.Conditions = append(page.Conditions, request.NewCondition("status = ?", entity.ArticleStatusPublic))
 
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询文章列表
-	articles, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	articles, err := s.svcCtx.ArticleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -310,8 +309,8 @@ func (s *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 	return list, total, err
 }
 
-func (s *ArticleService) LikeArticle(reqCtx *request.Context, id int) (data interface{}, err error) {
-	return s.svcCtx.ArticleRepository.LikeArticle(reqCtx, reqCtx.UID, id)
+func (s *ArticleService) LikeArticle(reqCtx *request.Context, req *request.IdReq) (data interface{}, err error) {
+	return s.svcCtx.ArticleRepository.LikeArticle(reqCtx, reqCtx.UID, req.Id)
 }
 
 func getCategoryName(category *entity.Category) string {

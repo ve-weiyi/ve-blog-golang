@@ -1,7 +1,7 @@
 package response
 
 // 用户登录信息
-type Login struct {
+type LoginResp struct {
 	Token        *Token        `json:"token"`
 	UserInfo     *UserInfo     `json:"user_info"`
 	LoginHistory *LoginHistory `json:"login_history"`

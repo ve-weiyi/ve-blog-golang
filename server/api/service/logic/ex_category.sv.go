@@ -9,7 +9,7 @@ import (
 func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	categories, err := s.svcCtx.CategoryRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	categories, err := s.svcCtx.CategoryRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

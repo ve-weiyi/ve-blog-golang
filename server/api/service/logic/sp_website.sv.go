@@ -119,13 +119,13 @@ func (s *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (r
 	return config.Config, err
 }
 
-func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req string) (resp string, err error) {
+func (s *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req *request.AboutMeReq) (resp string, err error) {
 	config, err := s.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about")
 	if err != nil {
 		return "", err
 	}
 	// 更新
-	config.Config = req
+	config.Config = req.Content
 	_, err = s.svcCtx.WebsiteConfigRepository.Update(reqCtx, config)
 	if err != nil {
 		return "", err

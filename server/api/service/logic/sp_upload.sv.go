@@ -48,12 +48,12 @@ func (s *UploadService) UploadFile(reqCtx *request.Context, label string, file *
 }
 
 // 上传语言
-func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceVO) (data *entity.UploadRecord, err error) {
+func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceVO, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
 	label := "voice"
 	filename := time.Now().Format("20060102150405") + ".mp3"
 
 	s.svcCtx.Log.Println("上传语言")
-	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), req.File)
+	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 		UserID:   reqCtx.UID,
 		Label:    label,
 		FileName: filename,
-		FileSize: int(req.File.Size),
+		FileSize: int(file.Size),
 		FileMd5:  crypto.MD5V([]byte(filename)),
 		FileURL:  url,
 	}

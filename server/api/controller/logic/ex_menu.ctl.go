@@ -85,7 +85,7 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
 // @Param		data	body		any										true	"请求参数"
-// @Success		200		{object}	response.Response{data=any}				"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}				"返回信息"
 // @Router		/menu/clean [post]
 func (s *MenuController) CleanMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

@@ -27,18 +27,18 @@ func (s *UserAccountService) UpdateUserAccount(reqCtx *request.Context, userAcco
 }
 
 // 删除UserAccount记录
-func (s *UserAccountService) DeleteUserAccount(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.UserAccountRepository.Delete(reqCtx, "id = ?", id)
+func (s *UserAccountService) DeleteUserAccount(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return s.svcCtx.UserAccountRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询UserAccount记录
-func (s *UserAccountService) FindUserAccount(reqCtx *request.Context, id int) (data *entity.UserAccount, err error) {
-	return s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", id)
+func (s *UserAccountService) FindUserAccount(reqCtx *request.Context, req *request.IdReq) (data *entity.UserAccount, err error) {
+	return s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除UserAccount记录
-func (s *UserAccountService) DeleteUserAccountByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.UserAccountRepository.Delete(reqCtx, "id in (?)", ids)
+func (s *UserAccountService) DeleteUserAccountList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return s.svcCtx.UserAccountRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取UserAccount记录
@@ -46,7 +46,7 @@ func (s *UserAccountService) FindUserAccountList(reqCtx *request.Context, page *
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.UserAccountRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = s.svcCtx.UserAccountRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

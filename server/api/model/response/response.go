@@ -6,6 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type EmptyResp struct {
+}
+
 // 批量操作结果
 type BatchResult struct {
 	SuccessCount int64 `json:"success_count"` // 成功数量

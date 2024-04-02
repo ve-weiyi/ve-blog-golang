@@ -35,3 +35,4 @@ config.yaml
 /server/cache/
 *.ts
 /server/test.sql
+**/test/*

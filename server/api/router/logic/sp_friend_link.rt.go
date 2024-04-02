@@ -23,10 +23,10 @@ func (s *FriendLinkRouter) InitFriendLinkRouter(publicRouter *gin.RouterGroup, l
 
 	var handler = s.svcCtx.FriendLinkController
 	{
-		loginRouter.POST("friend_link", handler.CreateFriendLink)                     // 新建FriendLink
-		loginRouter.PUT("friend_link", handler.UpdateFriendLink)                      // 更新FriendLink
-		loginRouter.DELETE("friend_link/:id", handler.DeleteFriendLink)               // 删除FriendLink
-		loginRouter.DELETE("friend_link/batch_delete", handler.DeleteFriendLinkByIds) // 批量删除FriendLink列表
+		loginRouter.POST("friend_link", handler.CreateFriendLink)                    // 新建FriendLink
+		loginRouter.PUT("friend_link", handler.UpdateFriendLink)                     // 更新FriendLink
+		loginRouter.DELETE("friend_link/:id", handler.DeleteFriendLink)              // 删除FriendLink
+		loginRouter.DELETE("friend_link/batch_delete", handler.DeleteFriendLinkList) // 批量删除FriendLink列表
 
 		publicRouter.GET("friend_link/:id", handler.FindFriendLink)       // 查询FriendLink
 		publicRouter.POST("friend_link/list", handler.FindFriendLinkList) // 分页查询FriendLink列表

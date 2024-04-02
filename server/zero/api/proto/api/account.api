@@ -1,0 +1,59 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: account
+)
+
+service blog-api {
+    @doc "查询用户列表"
+    @handler FindUserList
+    post /api/v1/user/list (PageQuery) returns ([]UserDTO)
+    
+    @doc "查询在线用户列表"
+    @handler FindOnlineUserList
+    post /api/v1/user/online_list (PageQuery) returns ([]UserDTO)
+    
+    @doc "获取用户分布地区"
+    @handler FindUserAreas
+    post /api/v1/user/areas (PageQuery) returns ([]UserAreaDTO)
+    
+    @doc "修改用户状态"
+    @handler UpdateUserStatus
+    post /api/v1/user/update_status (UserAccount) returns (EmptyResp)
+    
+    @doc "修改用户角色"
+    @handler UpdateUserRoles
+    post /api/v1/user/update_roles (UpdateUserRolesReq) returns (EmptyResp)
+    
+    @doc "查询用户登录历史"
+    @handler FindUserLoginHistoryList
+    post /api/v1/user/login_history (PageQuery) returns ([]LoginHistory)
+    
+    @doc "批量删除登录历史"
+    @handler DeleteUserLoginHistoryList
+    delete /api/v1/user/login_history/batch_delete (IdsReq) returns (EmptyResp)
+    
+    @doc "获取用户菜单权限"
+    @handler GetUserMenus
+    get /api/v1/user/menus () returns ([]MenuDetailsDTO)
+    
+    @doc "获取用户接口权限"
+    @handler GetUserApis
+    get /api/v1/user/apis () returns ([]ApiDetailsDTO)
+    
+    @doc "获取用户信息"
+    @handler GetUserInfo
+    get /api/v1/user/info () returns (UserInfo)
+    
+    @doc "修改用户信息"
+    @handler UpdateUserInfo
+    post /api/v1/user/info (UserInfoReq) returns (UserInformation)
+    
+    @doc "更换用户头像"
+    @handler UpdateUserAvatar
+    post /api/v1/user/avatar () returns (UserInformation)
+    
+}

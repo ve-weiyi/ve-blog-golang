@@ -19,13 +19,13 @@ func TestApiDocs(t *testing.T) {
 		ModelRoot:      []string{path.Join(root, "api/model"), path.Join(root, "infra/chatgpt/chat_model.go")},
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
-		IgnoredModels: map[string]string{
-			"response.PageResult": "",
-			"response.Response":   "",
-			"request.PageQuery":   "",
-			"request.Context":     "",
-			"request.Sort":        "",
-			"request.Condition":   "",
+		IgnoredModels:  map[string]string{
+			//"response.PageResult": "",
+			//"response.Response":   "",
+			//"request.Context":     "",
+			//"request.PageQuery":   "",
+			//"request.Sort":        "",
+			//"request.Condition":   "",
 		},
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
@@ -48,9 +48,17 @@ func TestApiDocs(t *testing.T) {
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
 	// 生成ts api定义文件
-	aad.GenerateTsTypeFile()
+	//aad.GenerateTsTypeFile()
 	// 生成ts type定义文件
-	aad.GenerateTsApiFiles()
+	//aad.GenerateTsApiFiles()
+
+	//aad.GenerateGoZeroApiFiles()
+
+	//aad.GenerateGoZeroTypeFiles()
+
+	aad.GenerateGoZeroRpcFiles()
+
+	//aad.GenerateGoZeroRpcTypeFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {

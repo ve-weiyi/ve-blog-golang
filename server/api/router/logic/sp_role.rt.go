@@ -28,8 +28,8 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 		loginRouter.DELETE("role/:id", handler.DeleteRole) // 删除Role
 		loginRouter.GET("role/:id", handler.FindRole)      // 查询Role
 
-		loginRouter.DELETE("role/batch_delete", handler.DeleteRoleByIds) // 批量删除Role列表
-		loginRouter.POST("role/list", handler.FindRoleList)              // 分页查询Role列表
+		loginRouter.DELETE("role/batch_delete", handler.DeleteRoleList) // 批量删除Role列表
+		loginRouter.POST("role/list", handler.FindRoleList)             // 分页查询Role列表
 
 		loginRouter.POST("role/details_list", handler.FindRoleDetailsList)
 		loginRouter.POST("role/update_menus", handler.UpdateRoleMenus)

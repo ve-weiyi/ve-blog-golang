@@ -28,7 +28,7 @@ func (s *RemarkRouter) InitRemarkRouter(publicRouter *gin.RouterGroup, loginRout
 		loginRouter.DELETE("remark/:id", handler.DeleteRemark) // 删除Remark
 		loginRouter.GET("remark/:id", handler.FindRemark)      // 查询Remark
 
-		loginRouter.DELETE("remark/batch_delete", handler.DeleteRemarkByIds) // 批量删除Remark列表
-		loginRouter.POST("remark/list", handler.FindRemarkList)              // 分页查询Remark列表
+		loginRouter.DELETE("remark/batch_delete", handler.DeleteRemarkList) // 批量删除Remark列表
+		loginRouter.POST("remark/list", handler.FindRemarkList)             // 分页查询Remark列表
 	}
 }

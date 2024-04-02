@@ -4,7 +4,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 )
 
 // 分页获取Comment记录
@@ -12,7 +11,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	commentList, err := s.svcCtx.CommentRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	commentList, err := s.svcCtx.CommentRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -40,7 +39,7 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 	for _, item := range commentList {
 		// 查询评论下所有回复列表,只显示五条
 		replyList, count, _ := s.FindCommentReplyList(reqCtx, item.ID, &request.PageQuery{
-			PageLimit: sqlx.PageLimit{
+			Limit: request.PageLimit{
 				Page:     1,
 				PageSize: 5,
 			},
@@ -80,12 +79,12 @@ func (s *CommentService) FindCommentDetailsList(reqCtx *request.Context, page *r
 
 // 查询Comment记录
 func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId int, page *request.PageQuery) (list []*response.ReplyDTO, total int64, err error) {
-	page.Conditions = append(page.Conditions, &sqlx.Condition{Field: "parent_id", Rule: "=", Value: commentId})
+	page.Conditions = append(page.Conditions, &request.PageCondition{Field: "parent_id", Operator: "=", Value: commentId})
 
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询评论下所有回复列表
-	replyList, err := s.svcCtx.CommentRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	replyList, err := s.svcCtx.CommentRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -147,7 +146,7 @@ func (s *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 // 查询Comment后台记录
 func (s *CommentService) FindCommentBackList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentBackDTO, total int64, err error) {
 	// 使用用户昵称查询
-	cd := sqlx.FindCondition(page.Conditions, "username")
+	cd := request.FindCondition(page.Conditions, "username")
 	if cd != nil {
 		accounts, err := s.svcCtx.UserAccountRepository.FindALL(reqCtx, "username like ?")
 		if err != nil {
@@ -161,13 +160,13 @@ func (s *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 		// 替换查询条件
 		cd.Field = "user_id"
 		cd.Value = userIds
-		cd.Rule = "in"
+		cd.Operator = "in"
 	}
 
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询评论下所有回复列表
-	commentList, err := s.svcCtx.CommentRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	commentList, err := s.svcCtx.CommentRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

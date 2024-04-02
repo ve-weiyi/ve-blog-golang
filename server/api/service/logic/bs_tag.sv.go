@@ -27,18 +27,18 @@ func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *
 }
 
 // 删除Tag记录
-func (s *TagService) DeleteTag(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.TagRepository.Delete(reqCtx, "id = ?", id)
+func (s *TagService) DeleteTag(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return s.svcCtx.TagRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询Tag记录
-func (s *TagService) FindTag(reqCtx *request.Context, id int) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.First(reqCtx, "id = ?", id)
+func (s *TagService) FindTag(reqCtx *request.Context, req *request.IdReq) (data *entity.Tag, err error) {
+	return s.svcCtx.TagRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除Tag记录
-func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.TagRepository.Delete(reqCtx, "id in (?)", ids)
+func (s *TagService) DeleteTagList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return s.svcCtx.TagRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取Tag记录
@@ -46,7 +46,7 @@ func (s *TagService) FindTagList(reqCtx *request.Context, page *request.PageQuer
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.TagRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = s.svcCtx.TagRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

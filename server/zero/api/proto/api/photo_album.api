@@ -1,0 +1,43 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: photo_album
+)
+
+service blog-api {
+    @doc "创建相册"
+    @handler CreatePhotoAlbum
+    post /api/v1/photo_album/create_photo_album (PhotoAlbum) returns (PhotoAlbum)
+    
+    @doc "更新相册"
+    @handler UpdatePhotoAlbum
+    put /api/v1/photo_album/update_photo_album (PhotoAlbum) returns (PhotoAlbum)
+    
+    @doc "删除相册"
+    @handler DeletePhotoAlbum
+    delete /api/v1/photo_album/delete_photo_album (IdReq) returns ()
+    
+    @doc "查询相册"
+    @handler FindPhotoAlbum
+    post /api/v1/photo_album/find_photo_album (IdReq) returns (PhotoAlbum)
+    
+    @doc "批量删除相册"
+    @handler DeletePhotoAlbumList
+    delete /api/v1/photo_album/batch_delete_photo_album (IdsReq) returns (BatchResult)
+    
+    @doc "分页获取相册列表"
+    @handler FindPhotoAlbumList
+    post /api/v1/photo_album/find_photo_album_list (PageQuery) returns ([]PhotoAlbum)
+    
+    @doc "获取相册详情列表"
+    @handler FindPhotoAlbumDetailsList
+    post /api/v1/photo_album/details_list (PageQuery) returns ([]PhotoAlbumDetailsDTO)
+    
+    @doc "获取相册详情"
+    @handler FindPhotoAlbumDetails
+    get /api/v1/photo_album/:id/details (IdReq) returns (PhotoAlbumDetailsDTO)
+    
+}

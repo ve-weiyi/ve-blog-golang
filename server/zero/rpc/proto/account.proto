@@ -1,0 +1,18 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package account;
+
+// 生成 golang 代码后的包名
+option go_package = "./account";
+
+import "any.proto";
+
+
+
+
+service AccountRpc {
+  // 连接检测
+  rpc Ping(PingReq) returns(PingResp);
+}

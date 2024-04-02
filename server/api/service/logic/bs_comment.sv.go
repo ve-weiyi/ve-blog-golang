@@ -4,7 +4,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 type CommentService struct {
@@ -19,8 +18,6 @@ func NewCommentService(svcCtx *svc.ServiceContext) *CommentService {
 
 // 创建Comment记录
 func (s *CommentService) CreateComment(reqCtx *request.Context, comment *entity.Comment) (data *entity.Comment, err error) {
-	comment.UserID = reqCtx.UID
-	global.LOG.Println("comment:", reqCtx.UID, comment)
 	return s.svcCtx.CommentRepository.Create(reqCtx, comment)
 }
 
@@ -30,18 +27,18 @@ func (s *CommentService) UpdateComment(reqCtx *request.Context, comment *entity.
 }
 
 // 删除Comment记录
-func (s *CommentService) DeleteComment(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.CommentRepository.Delete(reqCtx, "id = ?", id)
+func (s *CommentService) DeleteComment(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return s.svcCtx.CommentRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询Comment记录
-func (s *CommentService) FindComment(reqCtx *request.Context, id int) (data *entity.Comment, err error) {
-	return s.svcCtx.CommentRepository.First(reqCtx, "id = ?", id)
+func (s *CommentService) FindComment(reqCtx *request.Context, req *request.IdReq) (data *entity.Comment, err error) {
+	return s.svcCtx.CommentRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除Comment记录
-func (s *CommentService) DeleteCommentByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.CommentRepository.Delete(reqCtx, "ids in (?)", ids)
+func (s *CommentService) DeleteCommentList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return s.svcCtx.CommentRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取Comment记录
@@ -49,7 +46,7 @@ func (s *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.CommentRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = s.svcCtx.CommentRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

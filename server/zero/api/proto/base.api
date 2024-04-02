@@ -1,0 +1,68 @@
+type RestHeader {
+    HeaderCountry string `header:"Country,optional"`
+    HeaderLanguage string `header:"Language,optional"`
+    HeaderTimezone string `header:"Timezone,optional"`
+    HeaderAppName string `header:"App-name,optional"`
+
+    HeaderXUserId string `header:"X-User-Id,optional"`
+    HeaderXAuthToken string `header:"X-Auth-Token,optional"`
+    HeaderTerminalID string `header:"X-Terminal-ID,optional"`
+}
+
+
+type (
+    EmptyReq {
+    }
+
+    IdReq {
+        ID []int `json:"id"`
+    }
+
+    IdsReq {
+        IDS []int `json:"ids"`
+    }
+
+    PageQuery {
+        Limit PageLimit `json:"limit"`
+        Sorts []PageSort `json:"sorts"`
+        Conditions []PageCondition `json:"conditions"`
+    }
+
+    PageLimit {
+        Page int `json:"page"`
+        PageSize int `json:"page_size"`
+    }
+
+    PageSort {
+        Field string `json:"field"`
+        Order string `json:"order"`
+    }
+
+    PageCondition {
+        Field string `json:"field"`            // 字段
+        Value interface{} `json:"value"`       // 值
+        Logic string `json:"logic"`            // and | or
+        Operator string `json:"operator"`      // = | >= | < | in | not in |....
+    }
+)
+type (
+    EmptyResp {
+    }
+
+
+    BatchResult {
+        SuccessCount int `json:"success_count"`
+    }
+
+    PageResult {
+        Total int `json:"total"`
+        List interface{} `json:"list"`
+    }
+
+    Response {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Data interface{} `json:"data"`
+        TraceID string `json:"trace_id"`
+    }
+)
