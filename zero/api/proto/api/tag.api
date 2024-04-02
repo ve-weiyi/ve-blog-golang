@@ -1,0 +1,39 @@
+syntax = "v1"
+
+import "base.api"
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: tag
+)
+
+service blog-api {
+    @doc "创建标签"
+    @handler CreateTag
+    post /tag/create_tag (Tag) returns (Tag)
+
+@doc "更新标签"
+    @handler UpdateTag
+    put /tag/update_tag (Tag) returns (Tag)
+
+@doc "删除标签"
+    @handler DeleteTag
+    delete /tag/delete_tag (IdReq) returns (EmptyResp)
+
+@doc "查询标签"
+    @handler FindTag
+    post /tag/find_tag (IdReq) returns (Tag)
+
+@doc "批量删除标签"
+    @handler DeleteTagList
+    delete /tag/batch_delete_tag (IdsReq) returns (BatchResult)
+
+@doc "分页获取标签列表"
+    @handler FindTagList
+    post /tag/find_tag_list (PageQuery) returns ([]Tag)
+
+@doc "分页获取文章分类详情列表"
+    @handler FindTagDetailsList
+    post /tag/details_list (PageQuery) returns ([]TagDetailsDTO)
+}

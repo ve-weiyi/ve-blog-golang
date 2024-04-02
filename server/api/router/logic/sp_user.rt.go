@@ -33,9 +33,9 @@ func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *
 		// 管理员操作
 		loginRouter.POST("user/list", handler.FindUserList)              // 获取用户列表
 		loginRouter.POST("user/online_list", handler.FindOnlineUserList) // 获取在线用户列表
-		loginRouter.POST("user/area_list", handler.FindUserAreaList)     // 获取用户地区列表
+		loginRouter.POST("user/area_list", handler.FindUserAreas)        // 获取用户地区列表
 
-		loginRouter.POST("user/login_history", handler.FindUserLoginHistoryList)                   // 用户登录历史
-		loginRouter.DELETE("user/login_history/batch_delete", handler.DeleteUserLoginHistoryByIds) // 批量删除用户登录历史
+		loginRouter.POST("user/login_history", handler.FindUserLoginHistoryList)                  // 用户登录历史
+		loginRouter.DELETE("user/login_history/batch_delete", handler.DeleteUserLoginHistoryList) // 批量删除用户登录历史
 	}
 }

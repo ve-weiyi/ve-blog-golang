@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -25,14 +23,14 @@ func NewApiController(svcCtx *svc.ControllerContext) *ApiController {
 }
 
 // @Tags		Api
-// @Summary		创建接口
+// @Summary		创建api路由
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Api		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router		/api [post]
+// @Router		/api/create_api [post]
 func (s *ApiController) CreateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -40,14 +38,14 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 		return
 	}
 
-	var api entity.Api
-	err = s.ShouldBind(c, &api)
+	var req entity.Api
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.CreateApi(reqCtx, &api)
+	data, err := s.svcCtx.ApiService.CreateApi(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -57,14 +55,14 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		更新接口
+// @Summary		更新api路由
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Api		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router 		/api [put]
+// @Router 		/api/update_api [put]
 func (s *ApiController) UpdateApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -72,14 +70,14 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 		return
 	}
 
-	var api entity.Api
-	err = s.ShouldBind(c, &api)
+	var req entity.Api
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.UpdateApi(reqCtx, &api)
+	data, err := s.svcCtx.ApiService.UpdateApi(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -89,14 +87,14 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 }
 
 // @Tags		Api
-// @Summary		删除接口
+// @Summary		删除api路由
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Api.id"
+// @Param 	 	req		body		request.IdReq				true	"request"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/api/{id} [delete]
+// @Router		/api/delete_api [delete]
 func (s *ApiController) DeleteApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -104,14 +102,14 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.DeleteApi(reqCtx, id)
+	data, err := s.svcCtx.ApiService.DeleteApi(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -121,14 +119,14 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		查询接口
+// @Summary		查询api路由
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Api.id"
+// @Param 	 	req		body		request.IdReq				true	"request"
 // @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router 		/api/{id} [get]
+// @Router 		/api/find_api [post]
 func (s *ApiController) FindApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -136,14 +134,14 @@ func (s *ApiController) FindApi(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.FindApi(reqCtx, id)
+	data, err := s.svcCtx.ApiService.FindApi(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,29 +151,29 @@ func (s *ApiController) FindApi(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		批量删除接口
+// @Summary		批量删除api路由
 // @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/api/batch_delete [delete]
-func (s *ApiController) DeleteApiByIds(c *gin.Context) {
+// @Router		/api/batch_delete_api [delete]
+func (s *ApiController) DeleteApiList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var ids []int
-	err = s.ShouldBind(c, &ids)
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ApiService.DeleteApiByIds(reqCtx, ids)
+	data, err := s.svcCtx.ApiService.DeleteApiList(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -187,14 +185,14 @@ func (s *ApiController) DeleteApiByIds(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		分页获取接口列表
+// @Summary		分页获取api路由列表
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Api}}	"返回信息"
-// @Router		/api/list [post]
+// @Router		/api/find_api_list [post]
 func (s *ApiController) FindApiList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -218,7 +216,7 @@ func (s *ApiController) FindApiList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }

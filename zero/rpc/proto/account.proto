@@ -1,0 +1,224 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package account;
+
+// 生成 golang 代码后的包名
+option go_package = "./account";
+
+import "any.proto";
+
+message EmptyReq {
+}
+
+message EmptyResp {
+}
+
+message IdReq {
+  int64 id = 1;
+}
+
+message IdsReq {
+  repeated int64 ids = 1;
+}
+
+message PageQuery {
+  PageLimit limit = 1;
+  repeated PageSort sorts = 2;// 排序
+  repeated PageCondition conditions = 3;// 使用条件语句查询
+}
+
+message PageLimit {
+  int64 page = 1;
+  int64 pageSize = 2;
+}
+
+message PageSort {
+  string field = 1;
+  string order = 2;
+}
+
+message PageCondition {
+  string field = 1;
+  string value = 2;
+  string logic = 3;
+  string operator = 4;
+}
+
+message PageResult {
+  int64 page = 1;
+  int64 page_size = 2;
+  int64 total = 3;
+}
+
+message BatchResult {
+  int64 success_count = 1;
+}
+
+/************** account 账号相关 **************/
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+  string code = 3;
+}
+
+message LoginResp {
+  int64 user_id = 1;// 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 昵称
+  string avatar = 4;// 头像
+  string intro = 5;// 个人简介
+  string website = 6;// 个人网站
+  string email = 7;// 邮箱
+  repeated RoleDTO roles = 8;// 角色列表
+}
+
+message RoleDTO {
+  string role_name = 1;
+  string role_comment = 2;
+}
+
+message OauthLoginReq {
+  string platform = 1;// 平台
+  string code = 2;// 授权码
+  string state = 3;// 状态
+}
+
+message OauthLoginUrlResp {
+  string url = 1;// 授权地址
+}
+
+message ResetPasswordReq {
+  string username = 1;
+  string password = 2;
+  string code = 3;
+}
+
+message UserEmailReq {
+  string username = 1;
+}
+
+service AccountRpc {
+  // 登录
+  rpc Login(LoginReq) returns(LoginResp);
+  // 登出
+  rpc Logout(EmptyReq) returns(EmptyResp);
+  // 注销
+  rpc Logoff(EmptyReq) returns(EmptyResp);
+  // 注册
+  rpc Register(LoginReq) returns(EmptyResp);
+  // 发送注册邮件
+  rpc RegisterEmail(UserEmailReq) returns(EmptyResp);
+  // 发送忘记密码邮件
+  rpc ForgetPasswordEmail(UserEmailReq) returns(EmptyResp);
+  // 重置密码
+  rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
+  // 第三方登录
+  rpc OauthLogin(OauthLoginReq) returns(LoginResp);
+  // 获取授权地址
+  rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
+}
+
+/************** rbac 权限相关 **************/
+message Api {
+  int64 id = 1;// 主键id
+  string name = 2;// api名称
+  string path = 3;// api路径
+  string method = 4;// api请求方法
+  int64 parent_id = 5;// 分组id
+  int64 traceable = 6;// 是否追溯操作记录 0需要，1是
+  int64 status = 7;// 状态 1开，2关
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+}
+
+service ApiRpc {
+  rpc CreateApi(Api) returns(Api);
+
+  rpc UpdateApi(Api) returns(Api);
+
+  rpc DeleteApi(IdReq) returns(EmptyResp);
+
+  rpc FindApi(IdReq) returns(Api);
+
+  rpc DeleteListApi(IdsReq) returns(BatchResult);
+
+  rpc FindListApi(PageQuery) returns(PageResult);
+}
+
+/************** user 用户相关 **************/
+message Role {
+  int64 id = 1;// 主键id
+  int64 role_pid = 2;// 父角色id
+  string role_domain = 3;// 角色域
+  string role_name = 4;// 角色名
+  string role_comment = 5;// 角色备注
+  int64 is_disable = 6;// 是否禁用  0否 1是
+  int64 is_default = 7;// 是否默认角色 0否 1是
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+}
+
+message RolePageResp {
+  int64 page = 1;
+  int64 page_size = 2;
+  int64 total = 3;
+  repeated Role list = 4;
+}
+
+message RoleDetailsDTO {
+  int64 id = 1;// 主键id
+  int64 role_pid = 2;// 父角色id
+  string role_domain = 3;// 角色域
+  string role_name = 4;// 角色名
+  string role_comment = 5;// 角色备注
+  int64 is_disable = 6;// 是否禁用  0否 1是
+  int64 is_default = 7;// 是否默认角色 0否 1是
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+  repeated int64 menu_id_list = 10;
+  repeated int64 resource_id_list = 11;
+}
+
+message RoleResourceDTO {
+  int64 id = 1;// 主键id
+  int64 role_pid = 2;// 父角色id
+  string role_domain = 3;// 角色域
+  string role_name = 4;// 角色名
+  string role_comment = 5;// 角色备注
+  int64 is_disable = 6;// 是否禁用  0否 1是
+  int64 is_default = 7;// 是否默认角色 0否 1是
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+  repeated int64 menu_id_list = 10;
+  repeated int64 resource_id_list = 11;
+}
+
+message UpdateRoleApisReq {
+  int64 role_id = 1;
+  repeated int64 resource_ids = 2;
+}
+
+message UpdateRoleMenusReq {
+  int64 role_id = 1;
+  repeated int64 menu_ids = 2;
+}
+
+service roleRpc {
+  // 创建角色
+  rpc CreateRole(Role) returns(Role);
+  // 更新角色
+  rpc UpdateRole(Role) returns(Role);
+  // 批量删除角色
+  rpc DeleteRoleList(IdsReq) returns(BatchResult);
+  // 查询角色
+  rpc FindRole(IdReq) returns(RoleDetailsDTO);
+  // 分页获取角色列表
+  rpc FindRoleList(PageQuery) returns(RolePageResp);
+  // 更新角色菜单
+  rpc UpdateRoleMenus(UpdateRoleMenusReq) returns(EmptyResp);
+  // 更新角色资源
+  rpc UpdateRoleResources(UpdateRoleApisReq) returns(EmptyResp);
+}

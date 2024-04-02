@@ -20,6 +20,7 @@ type AutoCodeModel struct {
 	LowerStartCamelName string // Struct变量名 		autoCode 小写驼峰命名
 	SnakeName           string // StructJson名		auto_code api路径前缀
 	CommentName         string // Struct中文名称 	「代码」	创建api的描述和注释
+	IndexFields         map[string][]*field.Field
 	Fields              []*field.Field
 	ImportPkgPaths      []string
 }

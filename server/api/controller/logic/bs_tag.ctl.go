@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -25,14 +23,14 @@ func NewTagController(svcCtx *svc.ControllerContext) *TagController {
 }
 
 // @Tags		Tag
-// @Summary		创建文章标签
+// @Summary		创建标签
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Tag		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router		/tag [post]
+// @Router		/tag/create_tag [post]
 func (s *TagController) CreateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -40,14 +38,14 @@ func (s *TagController) CreateTag(c *gin.Context) {
 		return
 	}
 
-	var tag entity.Tag
-	err = s.ShouldBind(c, &tag)
+	var req entity.Tag
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.CreateTag(reqCtx, &tag)
+	data, err := s.svcCtx.TagService.CreateTag(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -57,14 +55,14 @@ func (s *TagController) CreateTag(c *gin.Context) {
 }
 
 // @Tags 	 	Tag
-// @Summary		更新文章标签
+// @Summary		更新标签
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Tag		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router 		/tag [put]
+// @Router 		/tag/update_tag [put]
 func (s *TagController) UpdateTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -72,14 +70,14 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 		return
 	}
 
-	var tag entity.Tag
-	err = s.ShouldBind(c, &tag)
+	var req entity.Tag
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.UpdateTag(reqCtx, &tag)
+	data, err := s.svcCtx.TagService.UpdateTag(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -89,14 +87,14 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 }
 
 // @Tags		Tag
-// @Summary		删除文章标签
+// @Summary		删除标签
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Tag.id"
+// @Param 	 	req		body		request.IdReq				true	"request"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/tag/{id} [delete]
+// @Router		/tag/delete_tag [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -104,14 +102,14 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.DeleteTag(reqCtx, id)
+	data, err := s.svcCtx.TagService.DeleteTag(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -121,14 +119,14 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 }
 
 // @Tags 	 	Tag
-// @Summary		查询文章标签
+// @Summary		查询标签
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Tag.id"
+// @Param 	 	req		body		request.IdReq				true	"request"
 // @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
-// @Router 		/tag/{id} [get]
+// @Router 		/tag/find_tag [post]
 func (s *TagController) FindTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -136,14 +134,14 @@ func (s *TagController) FindTag(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.FindTag(reqCtx, id)
+	data, err := s.svcCtx.TagService.FindTag(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,29 +151,29 @@ func (s *TagController) FindTag(c *gin.Context) {
 }
 
 // @Tags 	 	Tag
-// @Summary		批量删除文章标签
+// @Summary		批量删除标签
 // @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/tag/batch_delete [delete]
-func (s *TagController) DeleteTagByIds(c *gin.Context) {
+// @Router		/tag/batch_delete_tag [delete]
+func (s *TagController) DeleteTagList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var ids []int
-	err = s.ShouldBind(c, &ids)
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TagService.DeleteTagByIds(reqCtx, ids)
+	data, err := s.svcCtx.TagService.DeleteTagList(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -187,14 +185,14 @@ func (s *TagController) DeleteTagByIds(c *gin.Context) {
 }
 
 // @Tags 	 	Tag
-// @Summary		分页获取文章标签列表
+// @Summary		分页获取标签列表
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Tag}}	"返回信息"
-// @Router		/tag/list [post]
+// @Router		/tag/find_tag_list [post]
 func (s *TagController) FindTagList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -218,7 +216,7 @@ func (s *TagController) FindTagList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }

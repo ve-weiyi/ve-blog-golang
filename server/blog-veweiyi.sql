@@ -532,73 +532,19 @@ COMMIT;
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(32) NOT NULL DEFAULT '' COMMENT '菜单名',
-  `path` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单路径',
-  `title` varchar(32) NOT NULL DEFAULT '' COMMENT '菜单标题',
-  `component` varchar(64) NOT NULL DEFAULT '' COMMENT '组件',
-  `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单icon',
-  `rank` int NOT NULL DEFAULT '0' COMMENT '排序',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父id',
-  `is_hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否隐藏  0否1是',
+  `title` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单标题',
+  `path` varchar(64) NOT NULL DEFAULT '' COMMENT '路由路径',
+  `name` varchar(64) NOT NULL DEFAULT '' COMMENT '路由名称',
+  `component` varchar(256) NOT NULL DEFAULT '' COMMENT '路由组件',
+  `redirect` varchar(256) NOT NULL DEFAULT '' COMMENT '路由重定向',
+  `type` tinyint NOT NULL DEFAULT '0' COMMENT '菜单类型',
+  `meta` varchar(1024) NOT NULL DEFAULT '' COMMENT '菜单元数据',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uk_path` (`path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
-
--- ----------------------------
--- Records of menu
--- ----------------------------
-BEGIN;
-INSERT INTO `menu` VALUES (1, 'Home', '/', 'menus.hshome', '', 'homeFilled', 0, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (2, 'Home', '/home', 'menus.hshome', '', '', 0, 1, 1, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (3, 'Welcome', '/welcome', 'menus.hshome', '', '', 1, 1, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (4, 'article-management', '/article', '文章管理', '', 'document', 10, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (5, 'article/publish', '/article/publish/:articleId', '文章管理', '', '', 0, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (6, 'article/list', '/article/list', '文章管理', '', '', 1, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (7, 'article/category', '/article/category', '文章管理', '', '', 2, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (8, 'article/tag', '/article/tag', '文章管理', '', '', 3, 4, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (9, 'message-management', '/message', '消息管理', '', 'message', 20, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (10, 'comment', '/message/comment', '消息管理', '', '', 0, 9, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (11, 'remark', '/message/remark', '消息管理', '', '', 1, 9, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (12, 'links', '/message/links', '消息管理', '', '', 2, 9, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (13, 'talk-management', '/talk', '说说管理', '', 'ChatDotSquare', 30, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (14, 'talk_publish', '/talk/publish', '说说管理', '', '', 0, 13, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (15, 'talk_edit', '/talk/edit/:talkId', '说说管理', '', '', 1, 13, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (16, 'talk_list', '/talk/list', '说说管理', '', '', 2, 13, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (17, 'album-management', '/albums', '相册管理', '', 'picture', 40, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (18, 'Albums', '/albums/list', '相册管理', '', '', 0, 17, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (19, 'Photo', '/albums/:id', '相册管理', '', '', 1, 17, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (20, 'Delete', '/albums/photo/delete', '相册管理', '', '', 2, 17, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (21, 'user-management', '/user', '用户管理', '', 'user', 50, 0, 0, '2024-01-18 19:41:11', '2024-01-18 19:41:11');
-INSERT INTO `menu` VALUES (22, 'list', '/user/list', '用户管理', '', 'user-filled', 0, 21, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (23, 'online', '/user/online', '用户管理', '', 'user-filled', 1, 21, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (24, 'authority-management', '/authority', '权限管理', '', 'lock', 60, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (25, 'Role', '/authority/role', '权限管理', '', '', 0, 24, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (26, 'Menu', '/authority/menu', '权限管理', '', '', 1, 24, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (27, 'Resource', '/authority/resource', '权限管理', '', '', 2, 24, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (28, 'log-management', '/log', '日志管理', '', 'document', 70, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (29, 'operation', '/log/operation', '日志管理', '', '', 0, 28, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (30, 'website-management', '/website', '网站管理', '', 'setting', 80, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (31, 'Config', '/website/config', '网站管理', '', '', 0, 30, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (32, 'Page', '/website/page', '网站管理', '', '', 1, 30, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (33, 'About', '/website/about', '网站管理', '', '', 2, 30, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (34, 'mine-management', '/mine', '个人中心', '', 'user', 90, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (35, '/mine/userinfo', '/mine/userinfo', '个人中心', '', '', 0, 34, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (36, '/mine/history', '/mine/history', '个人中心', '', '', 1, 34, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (37, 'system-management', '/system', '系统管理', '', 'system', 90, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (38, '/website/state', '/website/state', '系统管理', '', '', 0, 37, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (39, 'error', '/error', 'menus.hsabnormal', '', 'informationLine', 99, 0, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (40, '403', '/error/403', 'menus.hsabnormal', '', '', 0, 39, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (41, '404', '/error/404', 'menus.hsabnormal', '', '', 1, 39, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (42, '500', '/error/500', 'menus.hsabnormal', '', '', 2, 39, 0, '2024-01-18 19:41:12', '2024-01-18 19:41:12');
-INSERT INTO `menu` VALUES (43, '', '/about', 'menus.hsAbout', '', 'info', 999, 0, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
-INSERT INTO `menu` VALUES (44, 'About', '/about/index', 'menus.hsAbout', '', '', 0, 43, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
-INSERT INTO `menu` VALUES (45, 'Login', '/login', 'menus.hslogin', '', '', 101, 0, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
-INSERT INTO `menu` VALUES (46, '', '/redirect', 'status.hsLoad', '', '', 102, 0, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
-INSERT INTO `menu` VALUES (47, 'Redirect', '/redirect/:path(.*)', 'status.hsLoad', '', '', 0, 46, 0, '2024-01-18 19:41:13', '2024-01-18 19:41:13');
-COMMIT;
-
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
 -- ----------------------------
 -- Table structure for operation_log
 -- ----------------------------

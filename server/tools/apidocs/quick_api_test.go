@@ -14,18 +14,24 @@ func TestApiDocs(t *testing.T) {
 	root := path.Join(global.GetRuntimeRoot(), "server/")
 
 	cfg := Config{
-		OutRoot:        "./api",
+		OutRoot:        "./tmp",
 		ApiRoot:        []string{path.Join(root, "api/controller/logic")},
 		ModelRoot:      []string{path.Join(root, "api/model"), path.Join(root, "infra/chatgpt/chat_model.go")},
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
 		IgnoredModels: map[string]string{
-			"response.PageResult": "",
-			"response.Response":   "",
-			"request.PageQuery":   "",
-			"request.Context":     "",
-			"request.Sort":        "",
-			"request.Condition":   "",
+			//"request.Context":     "",
+			"request.EmptyReq":      "",
+			"request.PageQuery":     "",
+			"request.PageLimit":     "",
+			"request.PageSort":      "",
+			"request.PageCondition": "",
+			"request.IdReq":         "",
+			"request.IdsReq":        "",
+			"response.EmptyResp":    "",
+			"response.PageResult":   "",
+			"response.BatchResult":  "",
+			"response.Response":     "",
 		},
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
@@ -48,9 +54,17 @@ func TestApiDocs(t *testing.T) {
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
 	// 生成ts api定义文件
-	aad.GenerateTsTypeFile()
+	//aad.GenerateTsTypeFile()
 	// 生成ts type定义文件
-	aad.GenerateTsApiFiles()
+	//aad.GenerateTsApiFiles()
+
+	aad.GenerateGoZeroApiFiles()
+	//
+	aad.GenerateGoZeroTypeFiles()
+	//
+	//aad.GenerateGoZeroRpcFiles()
+	//
+	//aad.GenerateGoZeroRpcTypeFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {

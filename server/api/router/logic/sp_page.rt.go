@@ -23,10 +23,10 @@ func (s *PageRouter) InitPageRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 	var handler = s.svcCtx.PageController
 	{
-		publicRouter.POST("page", handler.CreatePage)                     // 新建Page
-		publicRouter.PUT("page", handler.UpdatePage)                      // 更新Page
-		publicRouter.DELETE("page/:id", handler.DeletePage)               // 删除Page
-		publicRouter.DELETE("page/batch_delete", handler.DeletePageByIds) // 批量删除Page列表
+		publicRouter.POST("page", handler.CreatePage)                    // 新建Page
+		publicRouter.PUT("page", handler.UpdatePage)                     // 更新Page
+		publicRouter.DELETE("page/:id", handler.DeletePage)              // 删除Page
+		publicRouter.DELETE("page/batch_delete", handler.DeletePageList) // 批量删除Page列表
 
 		publicRouter.GET("page/:id", handler.FindPage)       // 查询Page
 		publicRouter.POST("page/list", handler.FindPageList) // 分页查询Page列表

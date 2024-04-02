@@ -1,0 +1,47 @@
+syntax = "v1"
+
+import "base.api"
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: auth
+)
+
+service blog-api {
+    @doc "登录"
+    @handler Login
+    post /login (LoginReq) returns (LoginResp)
+
+@doc "登出"
+    @handler Logout
+    post /logout () returns (EmptyResp)
+
+@doc "注销"
+    @handler Logoff
+    post /logoff () returns (EmptyResp)
+
+@doc "注册"
+    @handler Register
+    post /register (LoginReq) returns (EmptyResp)
+
+@doc "发送注册邮件"
+    @handler RegisterEmail
+    post /register/email (UserEmailReq) returns (EmptyResp)
+
+@doc "发送忘记密码邮件"
+    @handler ForgetPasswordEmail
+    post /forget/email (UserEmailReq) returns (EmptyResp)
+
+@doc "重置密码"
+    @handler ResetPassword
+    post /forget/reset_password (ResetPasswordReq) returns (EmptyResp)
+
+@doc "第三方登录"
+    @handler OauthLogin
+    post /oauth/login (OauthLoginReq) returns (LoginResp)
+
+@doc "获取授权地址"
+    @handler GetOauthAuthorizeUrl
+    post /oauth/authorize_url (OauthLoginReq) returns (OauthLoginUrl)
+}

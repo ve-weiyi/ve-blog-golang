@@ -12,6 +12,12 @@ const (
 	Pause = 3
 )
 
+/**
+https://blog.csdn.net/guo__hang/article/details/134579817
+cron 一共可以有7个参数 以空格分开 其中年不是必须参数
+[秒] [分] [小时] [日] [月] [周] [年]
+*/
+
 type Task struct {
 	id          int           //key
 	interval    time.Duration //中断时间

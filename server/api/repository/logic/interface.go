@@ -12,7 +12,7 @@ type Repository[T any] interface {
 	Delete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 	First(ctx context.Context, conditions string, args ...interface{}) (out T, err error)
 	FindALL(ctx context.Context, conditions string, args ...interface{}) (list []T, err error)
-	FindList(ctx context.Context, limit int, offset int, sorts string, conditions string, args ...interface{}) (list []T, err error)
+	FindList(ctx context.Context, limit int64, offset int64, sorts string, conditions string, args ...interface{}) (list []T, err error)
 	Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 }
 
@@ -29,5 +29,5 @@ type IModel[T any] interface {
 	// 查询
 	Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 	FindALL(ctx context.Context, conditions string, args ...interface{}) (list []T, err error)
-	FindList(ctx context.Context, limit int, offset int, sorts string, conditions string, args ...interface{}) (list []T, err error)
+	FindList(ctx context.Context, limit int64, offset int64, sorts string, conditions string, args ...interface{}) (list []T, err error)
 }

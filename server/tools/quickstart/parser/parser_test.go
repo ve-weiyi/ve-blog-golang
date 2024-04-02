@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,7 +19,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/field"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/parser/gz_model"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -81,78 +81,7 @@ func TestParseCreateTable(t *testing.T) {
 
 		return true
 	}())
-
-	meta := invent.TemplateMeta{
-		Key:            "",
-		Mode:           invent.ModeCreateOrReplace,
-		CodeOutPath:    "./test/test.go",
-		TemplateString: gz_model.GoZeroModel,
-		FunMap:         nil,
-		Data: quickstart.AutoCodeModel{
-			DbName:              table.Db.Source(),
-			TableName:           table.Name.Source(),
-			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
-			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
-			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
-			CommentName:         table.Name.Source(),
-			Fields:              fs,
-			ImportPkgPaths:      nil,
-		},
-	}
-
-	err = meta.CreateTempFile()
-	if err != nil {
-		log.Println(err)
-	}
-
 }
-
-func TestParseDatabase(t *testing.T) {
-	tables, err := Parse(filepath.Join(global.GetRuntimeRoot(), "server/test.sql"), "go_zero", false)
-	assert.Nil(t, err)
-
-	log.Printf("table %+v", jsonconv.ObjectToJsonIndent(tables))
-
-	for _, table := range tables {
-		var fs []*field.Field
-		for _, e := range table.Fields {
-
-			log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
-
-			fs = append(fs, &field.Field{
-				Name:          jsonconv.Case2Camel(e.Name.Source()),
-				Type:          e.DataType,
-				ColumnName:    e.Name.Source(),
-				ColumnComment: e.Comment,
-				Tag:           map[string]string{field.TagKeyJson: e.Name.Source()},
-			})
-		}
-
-		meta := invent.TemplateMeta{
-			Key:            "",
-			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    fmt.Sprintf("./test/%v_model.go", table.Name.Source()),
-			TemplateString: gz_model.GoZeroModel,
-			FunMap:         nil,
-			Data: quickstart.AutoCodeModel{
-				DbName:              table.Db.Source(),
-				TableName:           table.Name.Source(),
-				UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
-				LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
-				SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
-				CommentName:         table.Name.Source(),
-				Fields:              fs,
-				ImportPkgPaths:      nil,
-			},
-		}
-
-		err = meta.CreateTempFile()
-		if err != nil {
-			log.Println(err)
-		}
-	}
-}
-
 func TestConvertColumn(t *testing.T) {
 	t.Run("missingPrimaryKey", func(t *testing.T) {
 		columnData := model.ColumnData{
@@ -243,4 +172,119 @@ func TestConvertColumn(t *testing.T) {
 			}
 		}
 	})
+}
+
+//go:embed tpl/api.tpl
+var apiTpl string
+
+//go:embed tpl/rpc.tpl
+var rpcTpl string
+
+//go:embed tpl/model.tpl
+var modelTpl string
+
+func TestParseSql(t *testing.T) {
+	tables, err := Parse(filepath.Join(global.GetRuntimeRoot(), "server/test.sql"), "go_zero", false)
+	assert.Nil(t, err)
+
+	//log.Printf("table %+v", jsonconv.ObjectToJsonIndent(tables))
+
+	for _, table := range tables {
+		log.Printf("%+v", table.Name)
+
+		var fs []*field.Field
+		for _, e := range table.Fields {
+
+			//log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
+
+			fs = append(fs, &field.Field{
+				Name: jsonconv.Case2Camel(e.Name.Source()),
+				Type: func() string {
+					if strings.Contains(e.DataType, "time.Time") {
+						return "int64"
+					} else {
+						return e.DataType
+					}
+				}(),
+				ColumnName:    e.Name.Source(),
+				ColumnComment: e.Comment,
+				Tag:           map[string]string{field.TagKeyJson: e.Name.Source()},
+			})
+		}
+
+		metas := NewMetas(table, fs)
+
+		for _, meta := range metas {
+			err = meta.CreateTempFile()
+			if err != nil {
+				log.Println(err)
+			}
+		}
+	}
+}
+
+func NewMetas(table *Table, fs []*field.Field) []invent.TemplateMeta {
+	var metas []invent.TemplateMeta
+
+	metas = append(metas, invent.TemplateMeta{
+		Key:            "",
+		Mode:           invent.ModeCreateOrReplace,
+		CodeOutPath:    fmt.Sprintf("./test/api/%v.api", table.Name.Source()),
+		TemplateString: apiTpl,
+		FunMap:         nil,
+		Data: quickstart.AutoCodeModel{
+			DbName:              table.Db.Source(),
+			TableName:           table.Name.Source(),
+			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
+			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
+			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
+			CommentName:         table.Name.Source(),
+			Fields:              fs,
+			ImportPkgPaths: []string{
+				"../base.api",
+			},
+		},
+	})
+
+	metas = append(metas, invent.TemplateMeta{
+		Key:            "",
+		Mode:           invent.ModeCreateOrReplace,
+		CodeOutPath:    fmt.Sprintf("./test/rpc/%v.proto", table.Name.Source()),
+		TemplateString: rpcTpl,
+		FunMap: map[string]any{
+			"add": func(index int, num int) int {
+				return index + num
+			},
+		},
+		Data: quickstart.AutoCodeModel{
+			DbName:              table.Db.Source(),
+			TableName:           table.Name.Source(),
+			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
+			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
+			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
+			CommentName:         table.Name.Source(),
+			Fields:              fs,
+			ImportPkgPaths:      nil,
+		},
+	})
+
+	metas = append(metas, invent.TemplateMeta{
+		Key:            "",
+		Mode:           invent.ModeCreateOrReplace,
+		CodeOutPath:    fmt.Sprintf("./test/model/%v_model.go", table.Name.Source()),
+		TemplateString: modelTpl,
+		FunMap:         nil,
+		Data: quickstart.AutoCodeModel{
+			DbName:              table.Db.Source(),
+			TableName:           table.Name.Source(),
+			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
+			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
+			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
+			CommentName:         table.Name.Source(),
+			Fields:              fs,
+			ImportPkgPaths:      nil,
+		},
+	})
+
+	return metas
 }

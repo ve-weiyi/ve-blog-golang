@@ -28,8 +28,8 @@ func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *
 		publicRouter.DELETE("talk/:id", handler.DeleteTalk) // 删除Talk
 		publicRouter.GET("talk/:id", handler.FindTalk)      // 查询Talk
 
-		publicRouter.DELETE("talk/batch_delete", handler.DeleteTalkByIds) // 批量删除Talk列表
-		publicRouter.POST("talk/list", handler.FindTalkList)              // 分页查询Talk列表
+		publicRouter.DELETE("talk/batch_delete", handler.DeleteTalkList) // 批量删除Talk列表
+		publicRouter.POST("talk/list", handler.FindTalkList)             // 分页查询Talk列表
 
 		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
 		publicRouter.POST("talk/:id/like", handler.LikeTalk)                // 点赞Talk

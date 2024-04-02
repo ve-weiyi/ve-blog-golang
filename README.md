@@ -148,3 +148,7 @@ go run main.go migrate --help
 go run main.go migrate --action=reset
 go run main.go server --use-nacos=true --n-ns=test
 ```
+
+```shell
+go run server/main.go server --use-nacos=true --n-ns=test
+```

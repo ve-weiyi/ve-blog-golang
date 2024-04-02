@@ -23,10 +23,10 @@ func (s *OperationLogRouter) InitOperationLogRouter(publicRouter *gin.RouterGrou
 
 	var handler = s.svcCtx.OperationLogController
 	{
-		loginRouter.POST("operation_log", handler.CreateOperationLog)                     // 新建OperationLog
-		loginRouter.PUT("operation_log", handler.UpdateOperationLog)                      // 更新OperationLog
-		loginRouter.DELETE("operation_log/:id", handler.DeleteOperationLog)               // 删除OperationLog
-		loginRouter.DELETE("operation_log/batch_delete", handler.DeleteOperationLogByIds) // 批量删除OperationLog列表
+		loginRouter.POST("operation_log", handler.CreateOperationLog)                    // 新建OperationLog
+		loginRouter.PUT("operation_log", handler.UpdateOperationLog)                     // 更新OperationLog
+		loginRouter.DELETE("operation_log/:id", handler.DeleteOperationLog)              // 删除OperationLog
+		loginRouter.DELETE("operation_log/batch_delete", handler.DeleteOperationLogList) // 批量删除OperationLog列表
 
 		publicRouter.GET("operation_log/:id", handler.FindOperationLog)      // 查询OperationLog
 		loginRouter.POST("operation_log/list", handler.FindOperationLogList) // 分页查询OperationLog列表

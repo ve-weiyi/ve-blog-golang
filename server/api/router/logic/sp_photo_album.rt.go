@@ -23,10 +23,10 @@ func (s *PhotoAlbumRouter) InitPhotoAlbumRouter(publicRouter *gin.RouterGroup, l
 
 	var handler = s.svcCtx.PhotoAlbumController
 	{
-		publicRouter.POST("photo_album", handler.CreatePhotoAlbum)                     // 新建PhotoAlbum
-		publicRouter.PUT("photo_album", handler.UpdatePhotoAlbum)                      // 更新PhotoAlbum
-		publicRouter.DELETE("photo_album/:id", handler.DeletePhotoAlbum)               // 删除PhotoAlbum
-		publicRouter.DELETE("photo_album/batch_delete", handler.DeletePhotoAlbumByIds) // 批量删除PhotoAlbum列表
+		publicRouter.POST("photo_album", handler.CreatePhotoAlbum)                    // 新建PhotoAlbum
+		publicRouter.PUT("photo_album", handler.UpdatePhotoAlbum)                     // 更新PhotoAlbum
+		publicRouter.DELETE("photo_album/:id", handler.DeletePhotoAlbum)              // 删除PhotoAlbum
+		publicRouter.DELETE("photo_album/batch_delete", handler.DeletePhotoAlbumList) // 批量删除PhotoAlbum列表
 
 		publicRouter.GET("photo_album/:id", handler.FindPhotoAlbum)       // 查询PhotoAlbum
 		publicRouter.POST("photo_album/list", handler.FindPhotoAlbumList) // 分页查询PhotoAlbum列表

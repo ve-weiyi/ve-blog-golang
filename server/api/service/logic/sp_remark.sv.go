@@ -21,7 +21,7 @@ func NewRemarkService(svcCtx *svc.ServiceContext) *RemarkService {
 }
 
 // 创建Remark记录
-func (s *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
+func (l *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
 	remark.IpAddress = reqCtx.IpAddress
 	remark.IpSource = reqCtx.GetIpSource()
 	msg := &mail.EmailMessage{
@@ -31,44 +31,44 @@ func (s *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Rem
 		Type:    0,
 	}
 
-	err = s.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
+	err = l.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
 	if err != nil {
-		s.svcCtx.Log.Info("PublishMessage:", err)
+		l.svcCtx.Log.Info("PublishMessage:", err)
 	}
 
-	return s.svcCtx.RemarkRepository.Create(reqCtx, remark)
+	return l.svcCtx.RemarkRepository.Create(reqCtx, remark)
 }
 
 // 更新Remark记录
-func (s *RemarkService) UpdateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.Update(reqCtx, remark)
+func (l *RemarkService) UpdateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
+	return l.svcCtx.RemarkRepository.Update(reqCtx, remark)
 }
 
 // 删除Remark记录
-func (s *RemarkService) DeleteRemark(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.RemarkRepository.Delete(reqCtx, "id = ?", id)
+func (l *RemarkService) DeleteRemark(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return l.svcCtx.RemarkRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询Remark记录
-func (s *RemarkService) FindRemark(reqCtx *request.Context, id int) (data *entity.Remark, err error) {
-	return s.svcCtx.RemarkRepository.First(reqCtx, "id = ?", id)
+func (l *RemarkService) FindRemark(reqCtx *request.Context, req *request.IdReq) (data *entity.Remark, err error) {
+	return l.svcCtx.RemarkRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除Remark记录
-func (s *RemarkService) DeleteRemarkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.RemarkRepository.Delete(reqCtx, "id in (?)", ids)
+func (l *RemarkService) DeleteRemarkList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return l.svcCtx.RemarkRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取Remark记录
-func (s *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
+func (l *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.RemarkRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = l.svcCtx.RemarkRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
-	total, err = s.svcCtx.RemarkRepository.Count(reqCtx, cond, args...)
+	total, err = l.svcCtx.RemarkRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

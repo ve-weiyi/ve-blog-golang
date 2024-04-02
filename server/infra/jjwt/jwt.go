@@ -3,8 +3,6 @@ package jjwt
 import (
 	"errors"
 	"strconv"
-	"strings"
-	"time"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -40,19 +38,30 @@ var (
 )
 
 type JwtToken struct {
-	SigningKey  []byte        //签名
-	Issuer      string        //签发者
-	ExpiresTime time.Duration //过期时间
-	TokenPrefix string        //token前缀
+	SigningKey []byte //签名
+	//Issuer     string //签发者
+	//ExpiresTime time.Duration //过期时间
+	//TokenPrefix string        //token前缀
 }
 
-// createToken 生成token
-func (j *JwtToken) createToken(claims TokenClaims) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+func NewJwtToken(signingKey []byte) *JwtToken {
+	return &JwtToken{
+		SigningKey: signingKey,
+	}
+}
+
+// 生成token
+func (j *JwtToken) CreateToken(ext TokenExt, claims jwt.StandardClaims) (string, error) {
+	jwtClaims := TokenClaims{
+		Ext:            ext,
+		StandardClaims: claims,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaims)
 	return token.SignedString(j.SigningKey)
 }
 
-// ParserToken 解析token
+// 解析token
 func (j *JwtToken) ParserToken(tokenString string) (*TokenClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &TokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return j.SigningKey, nil
@@ -87,29 +96,7 @@ func (j *JwtToken) ParserToken(tokenString string) (*TokenClaims, error) {
 	return nil, TokenInvalid
 }
 
-// 根据用户登录信息生成token，
-func (j *JwtToken) CreateClaims(userId int, username string, loginType string) (string, error) {
-	claims := TokenClaims{
-		StandardClaims: jwt.StandardClaims{
-			NotBefore: time.Now().Unix(),
-			ExpiresAt: time.Now().Add(j.ExpiresTime).Unix(),
-			Issuer:    j.Issuer,
-		},
-	}
-
-	return j.createToken(claims)
-}
-
-func (j *JwtToken) CreateToken(ext TokenExt, claims jwt.StandardClaims) (string, error) {
-	jwtClaims := TokenClaims{
-		Ext:            ext,
-		StandardClaims: claims,
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwtClaims)
-	return token.SignedString(j.SigningKey)
-}
-
+// 验证token
 func (j *JwtToken) VerifyToken(token string, uid string) (*TokenClaims, error) {
 	if token == "" {
 		return nil, errors.New("token is null")
@@ -117,13 +104,7 @@ func (j *JwtToken) VerifyToken(token string, uid string) (*TokenClaims, error) {
 	if uid == "" {
 		return nil, errors.New("uid is null")
 	}
-	//验证token是否 Bearer 开头的
-	ok := strings.HasPrefix(token, j.TokenPrefix)
-	if !ok {
-		return nil, errors.New("token must be has prefix :" + j.TokenPrefix)
-	}
 
-	token = strings.TrimPrefix(token, j.TokenPrefix)
 	// 解析token
 	claims, err := j.ParserToken(token)
 	if err != nil {

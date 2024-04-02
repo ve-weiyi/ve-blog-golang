@@ -11,12 +11,12 @@ const (
 )
 
 var replaceKey = map[string]string{
-	"DTO": "dto",
-	"UID": "uid",
-	"PID": "pid",
-	"ID":  "id",
-	"URL": "url",
-	"AI":  "ai",
+	//"DTO": "dto",
+	//"UID": "uid",
+	//"PID": "pid",
+	//"ID":  "id",
+	//"URL": "url",
+	//"AI":  "ai",
 }
 
 /**
