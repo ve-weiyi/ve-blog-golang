@@ -15,7 +15,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/temputil"
@@ -36,7 +35,7 @@ func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询账号信息
-	userAccounts, err := s.svcCtx.UserAccountRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	userAccounts, err := s.svcCtx.UserAccountRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -92,22 +91,22 @@ func (s *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 
 // 获取在线用户列表
 func (s *UserService) FindOnlineUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserDTO, total int64, err error) {
-	keys, err := s.svcCtx.UserAccountRepository.Online(reqCtx, page.Page, page.PageSize)
+	keys, err := s.svcCtx.UserAccountRepository.Online(reqCtx, page.Limit.Page, page.Limit.PageSize)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	s.svcCtx.Log.JsonIndent("names", keys)
-	page.Page = 0
-	page.PageSize = 0
-	page.Conditions = append(page.Conditions, sqlx.NewCondition("id in (?)", keys))
+	page.Limit.Page = 0
+	page.Limit.PageSize = 0
+	page.Conditions = append(page.Conditions, request.NewCondition("id in (?)", keys))
 	return s.FindUserList(reqCtx, page)
 }
 
 func (s *UserService) FindUserAreaList(reqCtx *request.Context, page *request.PageQuery) (result []*response.UserAreaDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	list, err := s.svcCtx.UserAccountRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err := s.svcCtx.UserAccountRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -144,11 +143,11 @@ func (s *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 	}
 
 	// 添加用户id条件
-	c := &sqlx.Condition{Field: "user_id", Value: account.ID, Rule: "=", Flag: "AND"}
+	c := &request.PageCondition{Field: "user_id", Value: account.ID, Operator: "=", Logic: "AND"}
 	page.Conditions = append(page.Conditions, c)
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	histories, err := s.svcCtx.UserLoginHistoryRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	histories, err := s.svcCtx.UserLoginHistoryRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -165,7 +164,7 @@ func (s *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 	return result, total, nil
 }
 
-func (s *UserService) DeleteUserLoginHistoryByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
+func (s *UserService) DeleteUserLoginHistoryList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
@@ -173,10 +172,10 @@ func (s *UserService) DeleteUserLoginHistoryByIds(reqCtx *request.Context, ids [
 	}
 
 	// 添加用户id条件
-	return s.svcCtx.UserLoginHistoryRepository.Delete(reqCtx, "id in (?) and user_id = ?", ids, account.ID)
+	return s.svcCtx.UserLoginHistoryRepository.Delete(reqCtx, "id in (?) and user_id = ?", req.Ids, account.ID)
 }
 
-func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
+func (s *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmailReq) (resp interface{}, err error) {
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {

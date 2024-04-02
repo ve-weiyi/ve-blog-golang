@@ -28,7 +28,7 @@ func (s *PhotoRouter) InitPhotoRouter(publicRouter *gin.RouterGroup, loginRouter
 		publicRouter.DELETE("photo/:id", handler.DeletePhoto) // 删除Photo
 		publicRouter.GET("photo/:id", handler.FindPhoto)      // 查询Photo
 
-		publicRouter.DELETE("photo/batch_delete", handler.DeletePhotoByIds) // 批量删除Photo列表
-		publicRouter.POST("photo/list", handler.FindPhotoList)              // 分页查询Photo列表
+		publicRouter.DELETE("photo/batch_delete", handler.DeletePhotoList) // 批量删除Photo列表
+		publicRouter.POST("photo/list", handler.FindPhotoList)             // 分页查询Photo列表
 	}
 }

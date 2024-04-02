@@ -34,18 +34,18 @@ func (s *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 }
 
 // 删除Talk记录
-func (s *TalkService) DeleteTalk(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.TalkRepository.Delete(reqCtx, "id = ?", id)
+func (s *TalkService) DeleteTalk(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return s.svcCtx.TalkRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询Talk记录
-func (s *TalkService) FindTalk(reqCtx *request.Context, id int) (data *entity.Talk, err error) {
-	return s.svcCtx.TalkRepository.First(reqCtx, "id = ?", id)
+func (s *TalkService) FindTalk(reqCtx *request.Context, req *request.IdReq) (data *entity.Talk, err error) {
+	return s.svcCtx.TalkRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除Talk记录
-func (s *TalkService) DeleteTalkByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.TalkRepository.Delete(reqCtx, "id in (?)", ids)
+func (s *TalkService) DeleteTalkList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return s.svcCtx.TalkRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取Talk记录
@@ -53,7 +53,7 @@ func (s *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQu
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.TalkRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = s.svcCtx.TalkRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -104,9 +104,9 @@ func (s *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 }
 
 // 获取说说详情
-func (s *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, id int) (data *response.TalkDetailsDTO, err error) {
+func (s *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.IdReq) (data *response.TalkDetailsDTO, err error) {
 	// 查询api信息
-	talk, err := s.svcCtx.TalkRepository.First(reqCtx, "id = ?", id)
+	talk, err := s.svcCtx.TalkRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -135,6 +135,6 @@ func (s *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, id int) (data 
 }
 
 // 点赞说说
-func (s *TalkService) LikeTalk(reqCtx *request.Context, id int) (data interface{}, err error) {
-	return s.svcCtx.TalkRepository.LikeTalk(reqCtx, reqCtx.UID, id)
+func (s *TalkService) LikeTalk(reqCtx *request.Context, req *request.IdReq) (data interface{}, err error) {
+	return s.svcCtx.TalkRepository.LikeTalk(reqCtx, reqCtx.UID, req.Id)
 }

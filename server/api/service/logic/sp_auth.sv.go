@@ -33,7 +33,7 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 	}
 }
 
-func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp *response.Login, err error) {
+func (s *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (resp *response.LoginResp, err error) {
 	//验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
@@ -83,10 +83,9 @@ func (s *AuthService) Login(reqCtx *request.Context, req *request.UserReq) (resp
 
 	// 更新用户登录信息
 	_, _ = s.svcCtx.UserAccountRepository.Login(reqCtx, account)
-	resp = &response.Login{
-		Token:        token,
-		UserInfo:     info,
-		LoginHistory: convertLoginHistory(history),
+	resp = &response.LoginResp{
+		Token:    token,
+		UserInfo: info,
 	}
 	return resp, nil
 }
@@ -102,7 +101,7 @@ func (s *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp int
 	return s.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.UID)
 }
 
-func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (resp *response.Login, err error) {
+func (s *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (resp *response.LoginResp, err error) {
 	// 验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
@@ -141,16 +140,15 @@ func (s *AuthService) Register(reqCtx *request.Context, req *request.UserReq) (r
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.Login{
-		Token:        token,
-		UserInfo:     info,
-		LoginHistory: nil,
+	resp = &response.LoginResp{
+		Token:    token,
+		UserInfo: info,
 	}
 
 	return resp, nil
 }
 
-func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.UserEmail) (resp interface{}, err error) {
+func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.UserEmailReq) (resp interface{}, err error) {
 	// 验证用户是否存在
 	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account != nil {
@@ -184,7 +182,7 @@ func (s *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 	return true, nil
 }
 
-func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.Login, err error) {
+func (s *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.LoginResp, err error) {
 	var auth oauth.Oauth
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
@@ -261,7 +259,7 @@ func (s *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 	return userOauth, nil
 }
 
-func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.Login, err error) {
+func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.LoginResp, err error) {
 
 	//获取用户
 	account, err := s.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserID)
@@ -298,10 +296,9 @@ func (s *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.Login{
-		Token:        token,
-		UserInfo:     info,
-		LoginHistory: convertLoginHistory(history),
+	resp = &response.LoginResp{
+		Token:    token,
+		UserInfo: info,
 	}
 	return resp, nil
 }
@@ -335,7 +332,7 @@ func (s *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 	return resp, nil
 }
 
-func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.OauthLoginUrl, err error) {
+func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.OauthLoginUrlResp, err error) {
 	var auth oauth.Oauth
 	cfg := s.svcCtx.Config.Oauth
 	switch req.Platform {
@@ -349,7 +346,7 @@ func (s *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
 	}
 
-	resp = &response.OauthLoginUrl{
+	resp = &response.OauthLoginUrlResp{
 		Url: auth.GetRedirectUrl(req.State),
 	}
 	return resp, nil

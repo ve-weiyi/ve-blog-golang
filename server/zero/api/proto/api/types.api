@@ -1,0 +1,874 @@
+syntax = "v1"
+
+type (
+    AboutMeReq {
+        Content string `json:"content"`
+    }
+
+    AdminHomeInfo {
+        ViewsCount int64 `json:"views_count"` // 访问量
+        MessageCount int64 `json:"message_count"` // 留言量
+        UserCount int64 `json:"user_count"` // 用户量
+        ArticleCount int64 `json:"article_count"` // 文章量
+        CategoryDTOList []*CategoryDTO `json:"category_dto_list"` // 分类统计
+        TagDTOList []*TagDTO `json:"tag_dto_list"` // 标签列表
+        ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list"` // 文章统计列表
+        UniqueViewDTOList []*UniqueViewDTO `json:"unique_view_dto_list"` // 一周用户量集合
+        ArticleRankDTOList []*ArticleRankDTO `json:"article_rank_dto_list"` // 文章浏览量排行
+    }
+
+    Api {
+        ID int `json:"id"` // 主键id
+        Name string `json:"name"` // api名称
+        Path string `json:"path"` // api路径
+        Method string `json:"method"` // api请求方法
+        ParentID int `json:"parent_id"` // 分组id
+        Traceable int `json:"traceable"` // 是否追溯操作记录 0需要，1是
+        Status int `json:"status"` // 状态 1开，2关
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ApiDetailsDTO {
+        Children []*ApiDetailsDTO `json:"children"`
+    }
+
+    Article {
+        ID int `json:"id"` // id
+        UserID int `json:"user_id"` // 作者
+        CategoryID int `json:"category_id"` // 文章分类
+        ArticleCover string `json:"article_cover"` // 文章缩略图
+        ArticleTitle string `json:"article_title"` // 标题
+        ArticleContent string `json:"article_content"` // 内容
+        Type int `json:"type"` // 文章类型 1原创 2转载 3翻译
+        OriginalURL string `json:"original_url"` // 原文链接
+        IsTop int `json:"is_top"` // 是否置顶 0否 1是
+        IsDelete int `json:"is_delete"` // 是否删除  0否 1是
+        Status int `json:"status"` // 状态值 1公开 2私密 3评论可见
+        CreatedAt int64 `json:"created_at"` // 发表时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ArticleBack {
+        CategoryName string `json:"category_name"` // 文章分类名
+        TagNameList []string `json:"tag_name_list"` // 文章标签列表
+    }
+
+    ArticleConditionDTO {
+        ArticleDTOList []*ArticleHome `json:"article_dto_list"` // 文章列表
+        ConditionName string `json:"condition_name"` // 条件名
+    }
+
+    ArticleConditionReq {
+        TagID int `json:"tag_id"` // 文章标签ID
+        CategoryID int `json:"category_id"` // 文章分类ID
+    }
+
+    ArticleDTO {
+        ID int `json:"id"` // 文章ID
+        ArticleCover string `json:"article_cover"` // 文章缩略图
+        ArticleTitle string `json:"article_title"` // 标题
+        ArticleContent string `json:"article_content"` // 内容
+        LikeCount int `json:"like_count"` // 点赞量
+        ViewsCount int `json:"views_count"` // 浏览量
+        Type int `json:"type"` // 文章类型
+        OriginalURL string `json:"original_url"` // 原文链接
+        IsTop int `json:"is_top"` // 是否置顶
+        IsDelete int `json:"is_delete"` // 是否删除
+        Status int `json:"status"` // 状态值 1 公开 2 私密 3 评论可见
+        CreatedAt int64 `json:"created_at"` // 发表时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ArticleDeleteReq {
+        ID int `json:"id"` // 文章ID
+        IsDelete int `json:"is_delete"` // 是否删除
+    }
+
+    ArticleDetailsDTOReq {
+        ID int `json:"id"` // 文章ID
+        ArticleCover string `json:"article_cover"` // 文章缩略图
+        ArticleTitle string `json:"article_title"` // 标题
+        ArticleContent string `json:"article_content"` // 内容
+        LikeCount int `json:"like_count"` // 点赞量
+        ViewsCount int `json:"views_count"` // 浏览量
+        Type int `json:"type"` // 文章类型
+        OriginalURL string `json:"original_url"` // 原文链接
+        IsTop int `json:"is_top"` // 是否置顶
+        Status int `json:"status"` // 状态值 1 公开 2 私密 3 评论可见
+        CreatedAt int64 `json:"created_at"` // 发表时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+        CategoryName string `json:"category_name"` // 文章分类名
+        TagNameList []string `json:"tag_name_list"` // 文章标签列表
+    }
+
+    ArticleHome {
+        ArticleCategory *CategoryDTO `json:"article_category"` // 文章分类
+        ArticleTagList []*TagDTO `json:"article_tag_list"` // 文章标签列表
+    }
+
+    ArticlePageDetailsDTO {
+        LastArticle *ArticlePreviewDTO `json:"last_article"` // 上一篇文章
+        NextArticle *ArticlePreviewDTO `json:"next_article"` // 下一篇文章
+        RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list"` // 推荐文章列表
+        NewestArticleList []*ArticlePreviewDTO `json:"newest_article_list"` // 最新文章列表
+    }
+
+    ArticlePreviewDTO {
+        ID int `json:"id"` // 文章ID
+        ArticleCover string `json:"article_cover"` // 文章缩略图
+        ArticleTitle string `json:"article_title"` // 标题
+        CreatedAt int64 `json:"created_at"` // 创建时间
+    }
+
+    ArticleRankDTO {
+        ID int `json:"id"` // 文章ID
+        ArticleTitle string `json:"article_title"` // 文章标题
+        Count int64 `json:"count"` // 数量
+    }
+
+    ArticleStatisticsDTO {
+        Day string `json:"day"` // 日期
+        Count int64 `json:"count"` // 数量
+    }
+
+    ArticleTag {
+        ID int `json:"id"` // id
+        ArticleID int `json:"article_id"` // 文章id
+        TagID int `json:"tag_id"` // 标签id
+    }
+
+    ArticleTopReq {
+        ID int `json:"id"` // 文章ID
+        IsTop int `json:"is_top"` // 是否置顶
+    }
+
+    BatchResult {
+        SuccessCount int64 `json:"success_count"` // 成功数量
+    }
+
+    BlogHomeInfo {
+        ArticleCount int64 `json:"article_count"` // 文章数量
+        CategoryCount int64 `json:"category_count"` // 分类数量
+        TagCount int64 `json:"tag_count"` // 标签数量
+        ViewsCount string `json:"views_count"` // 访问量
+        WebsiteConfig WebsiteConfigDTO `json:"website_config"` // 网站配置
+        PageList []*PageDTO `json:"page_list"` // 页面列表
+    }
+
+    CaptchaDTO {
+        ID string `json:"id"`
+        EncodeData string `json:"encode_data"` // 验证码内容，base64编码
+        Length int `json:"length"`
+    }
+
+    CaptchaEmailReq {
+        Email string `json:"email"` // 目标邮箱
+        Service string `json:"service"` // 服务
+        Check bool `json:"check"` // 是否检查邮箱是否存在
+    }
+
+    CaptchaReq {
+        CaptchaType string `json:"captcha_type"`
+        Height int `json:"height"` // Height png height in pixel.
+        Width int `json:"width"` // Width CaptchaReq png width in pixel.
+        Length int `json:"length"` // DefaultLen Default number of digits in captcha solution.
+    }
+
+    CaptchaVerifyReq {
+        ID string `json:"id"`
+        Code string `json:"code"`
+    }
+
+    CasbinRule {
+        ID int `json:"id"`
+        Ptype string `json:"ptype"`
+        V0 string `json:"v0"`
+        V1 string `json:"v1"`
+        V2 string `json:"v2"`
+        V3 string `json:"v3"`
+        V4 string `json:"v4"`
+        V5 string `json:"v5"`
+    }
+
+    Category {
+        ID int `json:"id"` // id
+        CategoryName string `json:"category_name"` // 分类名
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    CategoryDTO {
+        ID int `json:"id"`
+        CategoryName string `json:"category_name"` // 分类名
+    }
+
+    CategoryDetailsDTO {
+        ID int `json:"id"`
+        CategoryName string `json:"category_name"` // 分类名
+        ArticleCount int64 `json:"article_count"`
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ChangePasswordReq {
+        ID int `json:"id"` // 从 JWT 中提取 user id，避免越权
+        Password string `json:"password"` // 旧密码
+        NewPassword string `json:"new_password"` // 新密码
+    }
+
+    ChatChoice {
+        Index int `json:"index"` // 回复的索引
+        Message ChatMessage `json:"message"` // 回复的消息
+        FinishReason string `json:"finish_reason"` // 回复的完成原因
+    }
+
+    ChatHistory {
+        ChatID string `json:"chat_id"` // 聊天ID
+        After int64 `json:"after"` // 从这个时间点之后的消息
+        Before int64 `json:"before"` // 从这个时间点之前的消息
+    }
+
+    ChatMessage {
+        ChatID string `json:"chat_id"`
+        Content string `json:"content"`
+    }
+
+    ChatRecord {
+        ID int `json:"id"` // 主键
+        UserID int `json:"user_id"` // 用户id
+        Nickname string `json:"nickname"` // 昵称
+        Avatar string `json:"avatar"` // 头像
+        Content string `json:"content"` // 聊天内容
+        IpAddress string `json:"ip_address"` // ip地址
+        IpSource string `json:"ip_source"` // ip来源
+        Type int `json:"type"` // 类型
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ChatRequest {
+        Model string `json:"model"` // 模型名称
+        Messages []*ChatMessage `json:"messages"` // 对话消息列表
+    }
+
+    ChatResponse {
+        Id string `json:"id"` // 对话 ID
+        Object string `json:"object"` // 对象类型
+        Created int `json:"created"` // 创建时间戳
+        Model string `json:"model"` // 模型名称
+        Choices []ChatChoice `json:"choices"` // 生成的回复列表
+        Usage ChatUsage `json:"usage"` // API 调用的使用情况
+    }
+
+    ChatRole {
+        Act string `json:"act"`
+        Prompt string `json:"prompt"`
+    }
+
+    ChatSession {
+        ID int `json:"id"` // 主键
+        ChatID string `json:"chat_id"` // 聊天id
+        ChatTitle string `json:"chat_title"` // 标题
+        Type string `json:"type"` // 类型
+        Status int `json:"status"` // 0正常 1删除
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ChatStream {
+        ChatID string `json:"chat_id"`
+        Content string `json:"content"`
+    }
+
+    ChatUsage {
+        PromptTokens int `json:"prompt_tokens"` // 提示 tokens 数量
+        CompletionTokens int `json:"completion_tokens"` // 生成回复的 tokens 数量
+        TotalTokens int `json:"total_tokens"` // 总 tokens 数量
+    }
+
+    Comment {
+        ID int `json:"id"` // 主键
+        UserID int `json:"user_id"` // 评论用户Id
+        TopicID int `json:"topic_id"` // 评论主题id
+        CommentContent string `json:"comment_content"` // 评论内容
+        ReplyUserID int `json:"reply_user_id"` // 回复用户id
+        ParentID int `json:"parent_id"` // 父评论id
+        Type int `json:"type"` // 评论类型 1.文章 2.友链 3.说说
+        IsDelete int `json:"is_delete"` // 是否删除  0否 1是
+        IsReview int `json:"is_review"` // 是否审核
+        CreatedAt int64 `json:"created_at"` // 评论时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    CommentBackDTO {
+        ID int `json:"id"`
+        Avatar string `json:"avatar"`
+        Nickname string `json:"nickname"`
+        ReplyNickname string `json:"reply_nickname"`
+        ArticleTitle string `json:"article_title"`
+        CommentContent string `json:"comment_content"`
+        Type int `json:"type"`
+        IsReview int `json:"is_review"`
+        CreatedAt int64 `json:"created_at"`
+    }
+
+    CommentDTO {
+        ID int `json:"id"` // 评论id
+        UserID int `json:"user_id"` // 用户id
+        Nickname string `json:"nickname"` // 用户昵称
+        Avatar string `json:"avatar"` // 用户头像
+        Website string `json:"website"` // 个人网站
+        CommentContent string `json:"comment_content"` // 评论内容
+        LikeCount int `json:"like_count"` // 点赞数
+        CreatedAt int64 `json:"created_at"` // 评论时间
+        ReplyCount int64 `json:"reply_count"` // 回复量
+        ReplyDTOList []*ReplyDTO `json:"reply_dto_list"` // 回复列表
+    }
+
+    Context {
+        Token string `json:"token"`
+        UID int `json:"uid"`
+        Username string `json:"username"`
+        IpAddress string `json:"ip_address"`
+        Agent string `json:"agent"`
+    }
+
+    EmptyReq {
+    }
+
+    EmptyResp {
+    }
+
+    FriendLink {
+        ID int `json:"id"` // id
+        LinkName string `json:"link_name"` // 链接名
+        LinkAvatar string `json:"link_avatar"` // 链接头像
+        LinkAddress string `json:"link_address"` // 链接地址
+        LinkIntro string `json:"link_intro"` // 链接介绍
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    IdReq {
+        Id int `json:"id"`
+    }
+
+    IdsReq {
+        Ids []int `json:"ids"`
+    }
+
+    LoginHistory {
+        ID int `json:"id"`
+        LoginType string `json:"login_type"` // 登录类型
+        Agent string `json:"agent"` // 代理
+        IpAddress string `json:"ip_address"` // ip host
+        IpSource string `json:"ip_source"` // ip 源
+        LoginTime string `json:"login_time"` // 创建时间
+    }
+
+    LoginReq {
+        Username string `json:"username"`
+        Password string `json:"password"`
+        Code string `json:"code"`
+    }
+
+    LoginResp {
+        Token *Token `json:"token"`
+        UserInfo *UserInfo `json:"user_info"`
+        LoginHistory *LoginHistory `json:"login_history"`
+    }
+
+    Menu {
+        ID int `json:"id"` // 主键
+        ParentID int `json:"parent_id"` // 父id
+        Title string `json:"title"` // 菜单标题
+        Path string `json:"path"` // 路由路径
+        Name string `json:"name"` // 路由名称
+        Component string `json:"component"` // 路由组件
+        Redirect string `json:"redirect"` // 路由重定向
+        Type int `json:"type"` // 菜单类型
+        Meta string `json:"meta"` // 菜单元数据
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    MenuDetailsDTO {
+        ID int `json:"id"` // 主键
+        ParentID int `json:"parent_id"` // 父id
+        Title string `json:"title"` // 菜单标题
+        Type int `json:"type"` // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        Path string `json:"path"` // 路由地址
+        Name string `json:"name"` // 路由名字
+        Component interface{} `json:"component"` // Layout组件
+        Redirect string `json:"redirect"` // 路由重定向
+        Meta Meta `json:"meta"` // meta配置
+        Children []*MenuDetailsDTO `json:"children"`
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    Meta {
+        Title string `json:"title"` // 菜单名称
+        Icon string `json:"icon"` // 菜单图标
+        ShowLink bool `json:"show_link"` // 是否在菜单中显示
+        Rank int `json:"rank"` // 菜单升序排序
+        ExtraIcon interface{} `json:"extra_icon"` // 菜单名称右侧的额外图标
+        ShowParent bool `json:"show_parent"` // 是否显示父级菜单
+        Roles []string `json:"roles"` // 页面级别权限设置
+        Auths []string `json:"auths"` // 按钮级别权限设置
+        KeepAlive bool `json:"keep_alive"` // 路由组件缓存
+        FrameSrc string `json:"frame_src"` // 内嵌的iframe链接
+        FrameLoading bool `json:"frame_loading"` // iframe页是否开启首次加载动画
+        Transition Transition `json:"transition"` // 页面加载动画
+        HiddenTag bool `json:"hidden_tag"` // 是否不添加信息到标签页
+        DynamicLevel int `json:"dynamic_level"` // 动态路由可打开的最大数量
+        ActivePath string `json:"active_path"` // 将某个菜单激活
+    }
+
+    OauthLoginReq {
+        Platform string `json:"platform"` // 平台
+        Code string `json:"code"` // 授权码
+        State string `json:"state"` // 状态
+    }
+
+    OauthLoginUrl {
+        Url string `json:"url"` // 授权地址
+    }
+
+    OperationLog {
+        ID int `json:"id"` // 主键id
+        UserID int `json:"user_id"` // 用户id
+        Nickname string `json:"nickname"` // 用户昵称
+        IpAddress string `json:"ip_address"` // 操作ip
+        IpSource string `json:"ip_source"` // 操作地址
+        OptModule string `json:"opt_module"` // 操作模块
+        OptDesc string `json:"opt_desc"` // 操作描述
+        RequestURL string `json:"request_url"` // 请求地址
+        RequestMethod string `json:"request_method"` // 请求方式
+        RequestHeader string `json:"request_header"` // 请求头参数
+        RequestData string `json:"request_data"` // 请求参数
+        ResponseData string `json:"response_data"` // 返回数据
+        ResponseStatus int `json:"response_status"` // 响应状态码
+        Cost string `json:"cost"` // 耗时（ms）
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    Page {
+        ID int `json:"id"` // 页面id
+        PageName string `json:"page_name"` // 页面名
+        PageLabel string `json:"page_label"` // 页面标签
+        PageCover string `json:"page_cover"` // 页面封面
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    PageCondition {
+        Field string `json:"field"` // 表字段
+        Value interface{} `json:"value"` // 值
+        Operator string `json:"operator"` // 比较运算符（Comparison Operators）。规则 =,like,in,<,>
+        Logic string `json:"logic"` // 逻辑运算符（Logical Operators）。标识 and、or,默认and
+    }
+
+    PageDTO {
+        ID int `json:"id"` // 页面ID
+        PageName string `json:"page_name"` // 页面名称
+        PageLabel string `json:"page_label"` // 页面标签
+        PageCover string `json:"page_cover"` // 页面封面
+    }
+
+    PageLimit {
+        Page int `json:"page"` // 页码
+        PageSize int `json:"page_size"` // 每页大小
+    }
+
+    PageQuery {
+        Limit PageLimit `json:"limit"`
+        Sorts []*PageSort `json:"sorts"` // 排序
+        Conditions []*PageCondition `json:"conditions"` // 使用条件语句查询
+    }
+
+    PageResult {
+        List interface{} `json:"list"`
+        Page int `json:"page"`
+        PageSize int `json:"page_size"`
+        Total int64 `json:"total"`
+    }
+
+    PageSort {
+        Field string `json:"field"` // 表字段
+        Order string `json:"order"` // 排序规则 asc|desc
+    }
+
+    Photo {
+        ID int `json:"id"` // 主键
+        AlbumID int `json:"album_id"` // 相册id
+        PhotoName string `json:"photo_name"` // 照片名
+        PhotoDesc string `json:"photo_desc"` // 照片描述
+        PhotoSrc string `json:"photo_src"` // 照片地址
+        IsDelete int `json:"is_delete"` // 是否删除
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    PhotoAlbum {
+        ID int `json:"id"` // 主键
+        AlbumName string `json:"album_name"` // 相册名
+        AlbumDesc string `json:"album_desc"` // 相册描述
+        AlbumCover string `json:"album_cover"` // 相册封面
+        IsDelete int `json:"is_delete"` // 是否删除
+        Status int `json:"status"` // 状态值 1公开 2私密
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    PhotoAlbumDetailsDTO {
+        PhotoCount int64 `json:"photo_count"`
+    }
+
+    Remark {
+        ID int `json:"id"` // 主键id
+        Nickname string `json:"nickname"` // 昵称
+        Avatar string `json:"avatar"` // 头像
+        MessageContent string `json:"message_content"` // 留言内容
+        IpAddress string `json:"ip_address"` // 用户ip
+        IpSource string `json:"ip_source"` // 用户地址
+        Time int `json:"time"` // 弹幕速度
+        IsReview int `json:"is_review"` // 是否审核
+        CreatedAt int64 `json:"created_at"` // 发布时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    ReplyDTO {
+        ID int `json:"id"` // 评论id
+        ParentID int `json:"parent_id"` // 父评论id
+        UserID int `json:"user_id"` // 用户id
+        Nickname string `json:"nickname"` // 用户昵称
+        Avatar string `json:"avatar"` // 用户头像
+        Website string `json:"website"` // 个人网站
+        ReplyUserID int `json:"reply_user_id"` // 被回复用户id
+        ReplyNickname string `json:"reply_nickname"` // 被回复用户昵称
+        ReplyWebsite string `json:"reply_website"` // 被回复个人网站
+        CommentContent string `json:"comment_content"` // 评论内容
+        LikeCount int `json:"like_count"` // 点赞数
+        CreatedAt int64 `json:"created_at"` // 评论时间
+    }
+
+    ResetPasswordReq {
+        Username string `json:"username"`
+        Password string `json:"password"`
+        Code string `json:"code"`
+    }
+
+    Response {
+        Code int `json:"code"`
+        Message string `json:"message"`
+        Data interface{} `json:"data"`
+        TraceID string `json:"trace_id"`
+    }
+
+    Role {
+        ID int `json:"id"` // 主键id
+        RolePID int `json:"role_pid"` // 父角色id
+        RoleDomain string `json:"role_domain"` // 角色域
+        RoleName string `json:"role_name"` // 角色名
+        RoleComment string `json:"role_comment"` // 角色备注
+        IsDisable int `json:"is_disable"` // 是否禁用  0否 1是
+        IsDefault int `json:"is_default"` // 是否默认角色 0否 1是
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    RoleApi {
+        ID int `json:"id"` // 主键id
+        RoleID int `json:"role_id"` // 角色id
+        ApiID int `json:"api_id"` // 接口id
+    }
+
+    RoleDTO {
+        RoleName string `json:"role_name"`
+        RoleComment string `json:"role_comment"`
+    }
+
+    RoleDetailsDTO {
+        MenuIdList []int `json:"menu_id_list"`
+        ResourceIdList []int `json:"resource_id_list"`
+    }
+
+    RoleMenu {
+        ID int `json:"id"` // 主键id
+        RoleID int `json:"role_id"` // 角色id
+        MenuID int `json:"menu_id"` // 菜单id
+    }
+
+    RouteConfigsTable {
+        Type int `json:"type"` // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        Path string `json:"path"` // 路由地址
+        Name string `json:"name"` // 路由名字
+        Component interface{} `json:"component"` // Layout组件
+        Redirect string `json:"redirect"` // 路由重定向
+        Meta Meta `json:"meta"` // meta配置
+        Children []RouteConfigsTable `json:"children"` // 子路由配置项
+    }
+
+    SyncMenuRequest {
+        Menus []RouteConfigsTable `json:"menus"`
+    }
+
+    Tag {
+        ID int `json:"id"` // id
+        TagName string `json:"tag_name"` // 标签名
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    TagDTO {
+        ID int `json:"id"` // 标签ID
+        TagName string `json:"tag_name"` // 标签名
+    }
+
+    TagDetailsDTO {
+        ID int `json:"id"` // 标签ID
+        TagName string `json:"tag_name"` // 标签名
+        ArticleCount int64 `json:"article_count"` // 文章数量
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    Talk {
+        ID int `json:"id"` // 说说id
+        UserID int `json:"user_id"` // 用户id
+        Content string `json:"content"` // 说说内容
+        Images string `json:"images"` // 图片
+        IsTop int `json:"is_top"` // 是否置顶
+        Status int `json:"status"` // 状态 1.公开 2.私密
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    TalkDetailsDTO {
+        ID int `json:"id"`
+        UserID int `json:"user_id"` // 用户ID
+        Nickname string `json:"nickname"` // 用户昵称
+        Avatar string `json:"avatar"` // 用户头像
+        Content string `json:"content"` // 评论内容
+        ImgList []string `json:"img_list"` // 图片URL列表
+        IsTop int `json:"is_top"` // 是否置顶
+        Status int `json:"status"` // 状态
+        LikeCount int `json:"like_count"` // 点赞量
+        CommentCount int `json:"comment_count"` // 评论量
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    Token {
+        TokenType string `json:"token_type"` // token类型,Bearer
+        AccessToken string `json:"access_token"` // 访问token,过期时间较短。2h
+        ExpiresIn int64 `json:"expires_in"` // 访问token过期时间
+        RefreshToken string `json:"refresh_token"` // 刷新token,过期时间较长。30d
+        RefreshExpiresIn int64 `json:"refresh_expires_in"` // 刷新token过期时间
+        Scope string `json:"scope"` // 作用域
+        UID int `json:"uid"` // 用户id
+    }
+
+    Transition {
+        Name string `json:"name"` // 当前路由动画效果
+        EnterTransition string `json:"enter_transition"` // 进场动画
+        LeaveTransition string `json:"leave_transition"` // 离场动画
+    }
+
+    UniqueView {
+        ID int `json:"id"` // id
+        ViewsCount int `json:"views_count"` // 访问量
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    UniqueViewDTO {
+        Day string `json:"day"` // 日期
+        Count int64 `json:"count"` // 数量
+    }
+
+    UpdateRoleApisReq {
+        RoleId int `json:"role_id"`
+        ResourceIds []int `json:"resource_ids"`
+    }
+
+    UpdateRoleMenusReq {
+        RoleId int `json:"role_id"`
+        MenuIds []int `json:"menu_ids"`
+    }
+
+    UpdateUserRolesReq {
+        UserId int `json:"user_id"`
+        RoleIds []int `json:"role_ids"`
+    }
+
+    UploadRecord {
+        ID int `json:"id"` // id
+        UserID int `json:"user_id"` // 用户id
+        Label string `json:"label"` // 标签
+        FileName string `json:"file_name"` // 文件名称
+        FileSize int `json:"file_size"` // 文件大小
+        FileMd5 string `json:"file_md5"` // 文件md5值
+        FileURL string `json:"file_url"` // 上传路径
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    UserAccount {
+        ID int `json:"id"` // id
+        Username string `json:"username"` // 用户名
+        Password string `json:"password"` // 密码
+        Status int `json:"status"` // 状态: -1删除 0正常 1禁用
+        RegisterType string `json:"register_type"` // 注册方式
+        IpAddress string `json:"ip_address"` // 注册ip
+        IpSource string `json:"ip_source"` // 注册ip 源
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    UserAreaDTO {
+        Name string `json:"name"`
+        Value int `json:"value"`
+    }
+
+    UserDTO {
+        ID int `json:"id"`
+        Username string `json:"username"`
+        Nickname string `json:"nickname"`
+        Avatar string `json:"avatar"`
+        Intro string `json:"intro"`
+        Website string `json:"website"`
+        Email string `json:"email"`
+        Status int `json:"status"`
+        RegisterType string `json:"register_type"`
+        IpAddress string `json:"ip_address"` // ip host
+        IpSource string `json:"ip_source"` // ip 源
+        CreatedAt int64 `json:"created_at"`
+        UpdatedAt int64 `json:"updated_at"`
+        Roles []*RoleDTO `json:"roles"`
+    }
+
+    UserEmailReq {
+        Username string `json:"username"`
+    }
+
+    UserInfo {
+        ID int `json:"id"`
+        Username string `json:"username"`
+        Nickname string `json:"nickname"`
+        Avatar string `json:"avatar"`
+        Intro string `json:"intro"`
+        Website string `json:"website"`
+        Email string `json:"email"`
+        ArticleLikeSet []string `json:"article_like_set"` // 文章点赞集合
+        CommentLikeSet []string `json:"comment_like_set"` // 评论点赞集合
+        TalkLikeSet []string `json:"talk_like_set"` // 说说点赞集合
+        Roles []*RoleDTO `json:"roles"`
+    }
+
+    UserInfoReq {
+        Nickname string `json:"nickname"` // 昵称
+        Website string `json:"website"` // 网站
+        Intro string `json:"intro"` // 简介
+        Avatar string `json:"avatar"` // 头像
+    }
+
+    UserInformation {
+        ID int `json:"id"` // id
+        UserID int `json:"user_id"` // 用户id
+        Email string `json:"email"` // 用户邮箱
+        Nickname string `json:"nickname"` // 用户昵称
+        Avatar string `json:"avatar"` // 用户头像
+        Phone string `json:"phone"` // 用户手机号
+        Intro string `json:"intro"` // 个人简介
+        Website string `json:"website"` // 个人网站
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    UserLoginHistory {
+        ID int `json:"id"` // id
+        UserID int `json:"user_id"` // 用户id
+        LoginType string `json:"login_type"` // 登录类型
+        Agent string `json:"agent"` // 代理
+        IpAddress string `json:"ip_address"` // ip host
+        IpSource string `json:"ip_source"` // ip 源
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    UserMenuDTO {
+        Id int `json:"id"`
+        Name string `json:"name"`
+        Path string `json:"path"`
+        Component string `json:"component"`
+        Icon string `json:"icon"`
+        Rank int `json:"rank"`
+        IsHidden int `json:"is_hidden"`
+        Children []UserMenuDTO `json:"children"`
+    }
+
+    UserOauth {
+        ID int `json:"id"` // id
+        UserID int `json:"user_id"` // 用户id
+        OpenID string `json:"open_id"` // 开发平台id，标识唯一用户
+        Platform string `json:"platform"` // 平台:手机号、邮箱、微信、飞书
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    UserRole {
+        ID int `json:"id"` // 主键id
+        UserID int `json:"user_id"` // 用户id
+        RoleID int `json:"role_id"` // 角色id
+    }
+
+    VoiceVO {
+        Type int `json:"type"` // 消息类型
+        Content string `json:"content"` // 聊天内容
+    }
+
+    WebsiteConfig {
+        ID int `json:"id"` // id
+        Key string `json:"key"` // 关键词
+        Config string `json:"config"` // 配置信息
+        CreatedAt int64 `json:"created_at"` // 创建时间
+        UpdatedAt int64 `json:"updated_at"` // 更新时间
+    }
+
+    WebsiteConfigDTO {
+        AdminUrl string `json:"admin_url"` // 后台地址
+        AlipayQrCode string `json:"alipay_qr_code"` // 支付宝二维码
+        Gitee string `json:"gitee"` // Gitee
+        Github string `json:"github"` // Github
+        IsChatRoom int `json:"is_chat_room"` // 是否开启聊天室
+        IsCommentReview int `json:"is_comment_review"` // 是否开启评论审核
+        IsEmailNotice int `json:"is_email_notice"` // 是否开启邮件通知
+        IsMessageReview int `json:"is_message_review"` // 是否开启留言审核
+        IsMusicPlayer int `json:"is_music_player"` // 是否开启音乐播放器
+        IsReward int `json:"is_reward"` // 是否开启打赏
+        Qq string `json:"qq"` // QQ
+        SocialLoginList []string `json:"social_login_list"` // 社交登录列表
+        SocialUrlList []string `json:"social_url_list"` // 社交地址列表
+        TouristAvatar string `json:"tourist_avatar"` // 游客头像
+        UserAvatar string `json:"user_avatar"` // 用户头像
+        WebsiteAuthor string `json:"website_author"` // 网站作者
+        WebsiteAvatar interface{} `json:"website_avatar"` // 网站头像
+        WebsiteCreateTime string `json:"website_create_time"` // 网站创建时间
+        WebsiteIntro string `json:"website_intro"` // 网站介绍
+        WebsiteName string `json:"website_name"` // 网站名称
+        WebsiteNotice string `json:"website_notice"` // 网站公告
+        WebsiteRecordNo string `json:"website_record_no"` // 网站备案号
+        WebsocketUrl string `json:"websocket_url"` // websocket地址
+        WeixinQrCode string `json:"weixin_qr_code"` // 微信二维码
+    }
+
+    WebsiteConfigReq {
+        Key string `json:"key"`
+        Value string `json:"value"`
+    }
+)
+

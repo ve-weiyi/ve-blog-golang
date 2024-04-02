@@ -1,0 +1,43 @@
+syntax = "v1"
+
+import "api/types.api"
+import "api/account.api"
+import "api/api.api"
+import "api/ai.api"
+import "api/article.api"
+import "api/auth.api"
+import "api/captcha.api"
+import "api/comment.api"
+import "api/friend_link.api"
+import "api/menu.api"
+import "api/operation_log.api"
+import "api/page.api"
+import "api/photo.api"
+import "api/photo_album.api"
+import "api/remark.api"
+import "api/role.api"
+import "api/tag.api"
+import "api/talk.api"
+import "api/upload.api"
+import "api/website.api"
+import "api/websocket.api"
+
+type (
+	PingResp {
+		Env string `json:"env"`
+		Name string `json:"name"`
+		Version string `json:"version"`
+		Runtime string `json:"runtime"`
+		Description string `json:"description"`
+		RpcStatus map[string]string `json:"rpc_status"`
+	}
+)
+
+@server(
+	prefix: /api/v1
+)
+
+service blog-api {
+	@handler Ping
+	get /ping (EmptyReq) returns (PingResp)
+}

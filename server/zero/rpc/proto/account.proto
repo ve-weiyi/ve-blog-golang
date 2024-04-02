@@ -1,0 +1,156 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package account;
+
+// 生成 golang 代码后的包名
+option go_package = "./account";
+
+import "any.proto";
+
+message EmptyReq {
+}
+
+message EmptyResp {
+}
+
+message IdReq {
+  int64 id = 1;
+}
+
+message IdsReq {
+  repeated int64 ids = 1;
+}
+
+message PageQuery {
+  PageLimit limit = 1;
+  repeated PageSort sorts = 2;// 排序
+  repeated PageCondition conditions = 3;// 使用条件语句查询
+}
+
+message PageLimit {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message PageSort {
+  string field = 1;
+  string order = 2;
+}
+
+message PageCondition {
+  string field = 1;
+  google.protobuf.Any value = 2;
+  string logic = 3;
+  string operator = 4;
+}
+
+message BatchResult {
+  int32 success_count = 1;
+}
+
+message PageResult {
+  google.protobuf.Any list = 1;
+  int64 page = 2;
+  int64 page_size = 3;
+  int64 total = 4;
+}
+
+message PingReq {
+  string ping = 1;
+}
+
+message PingResp {
+  string pong = 1;
+}
+
+service AccountRpc {
+  // 连接检测
+  rpc Ping(PingReq) returns(PingResp);
+}
+
+/************** auth **************/
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+  string code = 3;
+}
+
+message LoginResp {
+  Token token = 1;
+  UserInfo user_info = 2;
+}
+
+message Token {
+  string token_type = 1;// token类型,Bearer
+  string access_token = 2;// 访问token,过期时间较短。2h
+  int64 expires_in = 3;// 访问token过期时间
+  string refresh_token = 4;// 刷新token,过期时间较长。30d
+  int64 refresh_expires_in = 5;// 刷新token过期时间
+  string scope = 6;// 作用域
+  int64 uid = 7;// 用户id
+}
+
+message UserInfo {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string avatar = 4;
+  string intro = 5;
+  string website = 6;
+  string email = 7;
+  repeated string article_like_set = 8;// 文章点赞集合
+  repeated string comment_like_set = 9;// 评论点赞集合
+  repeated string talk_like_set = 10;// 说说点赞集合
+  repeated RoleDTO roles = 11;
+}
+
+message RoleDTO {
+  string role_name = 1;
+  string role_comment = 2;
+}
+
+message OauthLoginReq {
+  string platform = 1;// 平台
+  string code = 2;// 授权码
+  string state = 3;// 状态
+}
+
+message OauthLoginUrlResp {
+  string url = 1;// 授权地址
+}
+
+message ResetPasswordReq {
+  string username = 1;
+  string password = 2;
+  string code = 3;
+}
+
+message UserEmailReq {
+  string username = 1;
+}
+
+service AuthRpc {
+  // 登录
+  rpc Login(LoginReq) returns(LoginResp);
+  // 登出
+  rpc Logout(EmptyReq) returns(EmptyResp);
+  // 注销
+  rpc Logoff(EmptyReq) returns(EmptyResp);
+  // 注册
+  rpc Register(LoginReq) returns(EmptyResp);
+  // 发送注册邮件
+  rpc RegisterEmail(UserEmailReq) returns(EmptyResp);
+  // 发送忘记密码邮件
+  rpc ForgetPasswordEmail(UserEmailReq) returns(EmptyResp);
+  // 重置密码
+  rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
+  // 第三方登录
+  rpc OauthLogin(OauthLoginReq) returns(LoginResp);
+  // 获取授权地址
+  rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
+}
+
+/************** auth **************/

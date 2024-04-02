@@ -55,7 +55,7 @@ var GormKeywords = KeyWord{
 		"UnderlyingDB", "UseDB", "UseModel", "UseTable", "Quote", "Debug", "TableName", "WithContext",
 		"As", "Not", "Or", "Build", "Columns", "Hints",
 		"Distinct", "Omit",
-		"Select", "Where", "OrderKey", "Group", "Having", "Limit", "Offset",
+		"Select", "Where", "OrderKey", "Group", "Having", "PageLimit", "Offset",
 		"Join", "LeftJoin", "RightJoin",
 		"Save", "Create", "CreateInBatches",
 		"Update", "Updates", "UpdateColumn", "UpdateColumns",

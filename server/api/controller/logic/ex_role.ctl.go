@@ -51,7 +51,7 @@ func (s *RoleController) FindRoleDetailsList(c *gin.Context) {
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.UpdateRoleMenusReq			true	"创建角色"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router		/role/update_menus [post]
 func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -83,7 +83,7 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.UpdateRoleApisReq			true	"创建角色"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router		/role/update_resources [post]
 func (s *RoleController) UpdateRoleResources(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)

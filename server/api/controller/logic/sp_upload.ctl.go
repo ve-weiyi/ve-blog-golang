@@ -98,7 +98,6 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 
 	req := request.VoiceVO{
 		Type: cast.ToInt(tp),
-		File: file,
 		//UserID:    cast.ToInt(uid),
 		//Nickname:  nickname,
 		//Avatar:    avatar,
@@ -108,7 +107,7 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 		//IPSource:  ip_source,
 	}
 
-	data, err := s.svcCtx.UploadService.UploadVoice(reqCtx, &req)
+	data, err := s.svcCtx.UploadService.UploadVoice(reqCtx, &req, file)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

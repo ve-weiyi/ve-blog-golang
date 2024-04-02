@@ -1,10 +1,9 @@
 package response
 
 // 用户登录信息
-type Login struct {
-	Token        *Token        `json:"token"`
-	UserInfo     *UserInfo     `json:"user_info"`
-	LoginHistory *LoginHistory `json:"login_history"`
+type LoginResp struct {
+	Token    *Token    `json:"token"`
+	UserInfo *UserInfo `json:"user_info"`
 }
 
 type Token struct {
@@ -42,6 +41,6 @@ type LoginHistory struct {
 	LoginTime string `json:"login_time"` // 创建时间
 }
 
-type OauthLoginUrl struct {
+type OauthLoginUrlResp struct {
 	Url string `json:"url" example:""` // 授权地址
 }

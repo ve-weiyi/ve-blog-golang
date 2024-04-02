@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -32,7 +30,7 @@ func NewCategoryController(svcCtx *svc.ControllerContext) *CategoryController {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Category		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router		/category [post]
+// @Router		/category/create_category [post]
 func (s *CategoryController) CreateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -40,14 +38,14 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 		return
 	}
 
-	var category entity.Category
-	err = s.ShouldBind(c, &category)
+	var req entity.Category
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.CreateCategory(reqCtx, &category)
+	data, err := s.svcCtx.CategoryService.CreateCategory(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -64,7 +62,7 @@ func (s *CategoryController) CreateCategory(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Category		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router 		/category [put]
+// @Router 		/category/update_category [put]
 func (s *CategoryController) UpdateCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -72,14 +70,14 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 		return
 	}
 
-	var category entity.Category
-	err = s.ShouldBind(c, &category)
+	var req entity.Category
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.UpdateCategory(reqCtx, &category)
+	data, err := s.svcCtx.CategoryService.UpdateCategory(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -94,9 +92,9 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Category.id"
+// @Param 	 	req		body		request.IdReq				true	"request"
 // @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/category/{id} [delete]
+// @Router		/category/delete_category [delete]
 func (s *CategoryController) DeleteCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -104,14 +102,14 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.DeleteCategory(reqCtx, id)
+	data, err := s.svcCtx.CategoryService.DeleteCategory(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -126,9 +124,9 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Category.id"
+// @Param 	 	req		body		request.IdReq				true	"request"
 // @Success		200		{object}	response.Response{data=entity.Category}	"返回信息"
-// @Router 		/category/{id} [get]
+// @Router 		/category/find_category [post]
 func (s *CategoryController) FindCategory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -136,14 +134,14 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.FindCategory(reqCtx, id)
+	data, err := s.svcCtx.CategoryService.FindCategory(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -158,24 +156,24 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/category/batch_delete [delete]
-func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
+// @Router		/category/batch_delete_category [delete]
+func (s *CategoryController) DeleteCategoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var ids []int
-	err = s.ShouldBind(c, &ids)
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CategoryService.DeleteCategoryByIds(reqCtx, ids)
+	data, err := s.svcCtx.CategoryService.DeleteCategoryList(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -194,7 +192,7 @@ func (s *CategoryController) DeleteCategoryByIds(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
-// @Router		/category/list [post]
+// @Router		/category/find_category_list [post]
 func (s *CategoryController) FindCategoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -218,7 +216,7 @@ func (s *CategoryController) FindCategoryList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }

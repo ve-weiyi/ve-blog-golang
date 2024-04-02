@@ -27,18 +27,18 @@ func (s *PageService) UpdatePage(reqCtx *request.Context, page *entity.Page) (da
 }
 
 // 删除Page记录
-func (s *PageService) DeletePage(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.PageRepository.Delete(reqCtx, "id = ?", id)
+func (s *PageService) DeletePage(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return s.svcCtx.PageRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询Page记录
-func (s *PageService) FindPage(reqCtx *request.Context, id int) (data *entity.Page, err error) {
-	return s.svcCtx.PageRepository.First(reqCtx, "id = ?", id)
+func (s *PageService) FindPage(reqCtx *request.Context, req *request.IdReq) (data *entity.Page, err error) {
+	return s.svcCtx.PageRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除Page记录
-func (s *PageService) DeletePageByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.PageRepository.Delete(reqCtx, "id in (?)", ids)
+func (s *PageService) DeletePageList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return s.svcCtx.PageRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取Page记录
@@ -46,7 +46,7 @@ func (s *PageService) FindPageList(reqCtx *request.Context, page *request.PageQu
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.PageRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = s.svcCtx.PageRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

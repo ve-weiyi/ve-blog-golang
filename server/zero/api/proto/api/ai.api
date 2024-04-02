@@ -1,0 +1,31 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: ai
+)
+
+service blog-api {
+    @doc "和Chatgpt聊天"
+    @handler ChatAI
+    post /api/v1/ai/chat (ChatMessage) returns (ChatResponse)
+
+    @doc "Chatgpt扮演角色"
+    @handler ChatCos
+    post /api/v1/ai/cos (ChatMessage) returns (ChatResponse)
+
+    @doc "和Chatgpt聊天"
+    @handler ChatStream
+    post /api/v1/ai/chat/stream (ChatStream) returns (ChatResponse)
+
+    @doc "和Chatgpt聊天"
+    @handler ChatAssistant
+    post /api/v1/ai/assistant (ChatMessage) returns (ChatResponse)
+
+    @doc "和Chatgpt聊天"
+    @handler ChatAssistantHistory
+    post /api/v1/ai/assistant/history (ChatHistory) returns ([]*ChatMessage)
+
+}

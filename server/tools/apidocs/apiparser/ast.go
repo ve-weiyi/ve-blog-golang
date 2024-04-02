@@ -260,7 +260,7 @@ func getFieldsFormNode(field ast.Node) *ModelField {
 			name := node.Names[0].Name
 			tp := node.Type
 			tag := getJsonTagFromField(node)
-			fmt.Println("tag:", tag)
+			//fmt.Println("tag:", tag)
 			elem := &ModelField{
 				Name:    name,
 				JsonTag: tag,

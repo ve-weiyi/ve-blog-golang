@@ -1,0 +1,66 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package account;
+
+// 生成 golang 代码后的包名
+option go_package = "./account";
+
+import "any.proto";
+
+message EmptyReq {
+}
+
+message EmptyResp {
+}
+
+message IdReq {
+  int64 id = 1;
+}
+
+message IdsReq {
+  repeated int64 ids = 1;
+}
+
+message PageQuery {
+  PageLimit limit = 1;
+  repeated PageSort sorts = 2;// 排序
+  repeated PageCondition conditions = 3;// 使用条件语句查询
+}
+
+message PageLimit {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message PageSort {
+  string field = 1;
+  string order = 2;
+}
+
+message PageCondition {
+  string field = 1;
+  google.protobuf.Any value = 2;
+  string logic = 3;
+  string operator = 4;
+}
+
+message BatchResult {
+  int32 success_count = 1;
+}
+
+message PageResult {
+  google.protobuf.Any list = 1;
+  int64 page = 2;
+  int64 page_size = 3;
+  int64 total = 4;
+}
+
+message PingReq {
+  string ping = 1;
+}
+
+message PingResp {
+  string pong = 1;
+}

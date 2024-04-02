@@ -1,0 +1,47 @@
+syntax = "v1"
+
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: api
+)
+
+service blog-api {
+    @doc "创建api路由"
+    @handler CreateApi
+    post /api/v1/api/create_api (Api) returns (Api)
+    
+    @doc "更新api路由"
+    @handler UpdateApi
+    put /api/v1/api/update_api (Api) returns (Api)
+    
+    @doc "删除api路由"
+    @handler DeleteApi
+    delete /api/v1/api/delete_api (IdReq) returns ()
+    
+    @doc "查询api路由"
+    @handler FindApi
+    post /api/v1/api/find_api (IdReq) returns (Api)
+    
+    @doc "批量删除api路由"
+    @handler DeleteApiList
+    delete /api/v1/api/batch_delete_api (IdsReq) returns (BatchResult)
+    
+    @doc "分页获取api路由列表"
+    @handler FindApiList
+    post /api/v1/api/find_api_list (PageQuery) returns ([]Api)
+    
+    @doc "获取api列表"
+    @handler FindApiDetailsList
+    post /api/v1/api/details_list (PageQuery) returns ([]ApiDetailsDTO)
+    
+    @doc "同步api列表"
+    @handler SyncApiList
+    post /api/v1/api/sync () returns (BatchResult)
+    
+    @doc "清空接口列表"
+    @handler CleanApiList
+    post /api/v1/api/clean () returns (EmptyResp)
+    
+}
