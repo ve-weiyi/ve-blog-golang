@@ -1,10 +1,9 @@
 package nacos
 
 import (
-	"log"
-
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
+	"github.com/nacos-group/nacos-sdk-go/v2/common/logger"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
 )
 
@@ -16,6 +15,7 @@ type NacosConfig struct {
 	NameSpaceID string
 	Group       string
 	DataID      string
+	RuntimeDir  string //runtime
 	LogLevel    string //debug
 	Timeout     int64  //ms
 }
@@ -45,8 +45,8 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		constant.WithNamespaceId(n.cfg.NameSpaceID),
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
-		constant.WithLogDir("./runtime/logs"),
-		constant.WithCacheDir("./runtime/cache"),
+		constant.WithCacheDir(n.cfg.RuntimeDir+"/cache"),
+		constant.WithLogDir(n.cfg.RuntimeDir+"/logs"),
 		constant.WithLogLevel("debug"),
 	)
 
@@ -70,7 +70,8 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		return err
 	}
 
-	log.Println("nacos get config :"+content, err)
+	//log.Println("nacos get config:\n" + content)
+	logger.GetLogger().Info("nacos get config:\n" + content)
 
 	err = listener(content)
 	if err != nil {
@@ -82,9 +83,9 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		DataId: dataId,
 		Group:  group,
 		OnChange: func(namespace, group, dataId, data string) {
-			log.Println("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
+			logger.GetLogger().Info("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
 			if err = listener(data); err != nil {
-				log.Println("nacos config changed reload failed")
+				logger.GetLogger().Error("nacos config changed reload failed")
 			}
 		},
 	})

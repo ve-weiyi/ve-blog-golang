@@ -9,6 +9,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
@@ -104,7 +105,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		Data:           tsModelDeclares,
 	}
 
-	err := meta.CreateTempFile()
+	err := meta.Execute()
 	if err != nil {
 		fmt.Println("生成 TypeScript 时发生错误:", err)
 	}
@@ -114,6 +115,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 	// 根据tag进行分组
 	var apiGroups = map[string][]*apiparser.ApiDeclare{}
 	for _, api := range s.ApiDeclares {
+		api.Router = s.ApiBase + api.Router
 		apiGroups[api.Tag] = append(apiGroups[api.Tag], api)
 	}
 
@@ -124,9 +126,9 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("ts/%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
 			TemplateString: ApiTypeScript,
-			FunMap:         map[string]any{"joinArray": joinArray},
+			FunMap:         map[string]any{"joinArray": utils.JoinArray},
 			Data:           apiDoc,
 		}
 		//fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
@@ -134,7 +136,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 	}
 
 	for _, meta := range metas {
-		err := meta.CreateTempFile()
+		err := meta.Execute()
 		if err != nil {
 			fmt.Println("生成 TypeScript 时发生错误:", err)
 		}
@@ -303,6 +305,7 @@ func (s *AstApiDoc) findModelDeclare(name string) *apiparser.ModelDeclare {
 		if model.Type == name {
 			return model
 		}
+
 		// package name 都相等的情况
 		//if model.Pkg != "" {
 		//	if fmt.Sprintf("%v.%v", model.Pkg, name) == model.Type {

@@ -7,7 +7,7 @@ import (
 
 )
 
-//对应go-zero model层服务
+// model层服务
 type AppRepository struct {
 	svcCtx *svc.RepositoryContext //持有的repository层引用
 }
@@ -155,7 +155,7 @@ func (s *{{.UpperStartCamelName}}Repository) FindList(ctx context.Context, page 
 	if page > 0 && size > 0 {
 		limit := size
 		offset := (page - 1) * limit
-		db = db.Limit(limit).Offset(offset)
+		db = db.PageLimit(limit).Offset(offset)
 	}
 
 	// 查询数据

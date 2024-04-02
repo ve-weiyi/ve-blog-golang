@@ -27,7 +27,7 @@ func NewCaptchaController(svcCtx *svc.ControllerContext) *CaptchaController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.CaptchaEmailReq		true	"请求body"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router		/captcha/email [post]
 func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -97,7 +97,7 @@ func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.CaptchaVerifyReq		true	"请求body"
-// @Success		200		{object}	response.Response{data=any}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/verify [post]
 func (s *CaptchaController) VerifyCaptcha(c *gin.Context) {
 	err := s.LimitLock(c)

@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 
@@ -33,7 +31,7 @@ func NewCommentController(svcCtx *svc.ControllerContext) *CommentController {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Comment		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router		/comment [post]
+// @Router		/comment/create_comment [post]
 func (s *CommentController) CreateComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -65,7 +63,7 @@ func (s *CommentController) CreateComment(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Comment		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router 		/comment [put]
+// @Router 		/comment/update_comment [put]
 func (s *CommentController) UpdateComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -95,9 +93,9 @@ func (s *CommentController) UpdateComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Comment.id"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/comment/{id} [delete]
+// @Param 	 	request		body		request.IdReq							true	"Comment.id"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}			"返回信息"
+// @Router		/comment/delete_comment [delete]
 func (s *CommentController) DeleteComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -105,14 +103,14 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CommentService.DeleteComment(reqCtx, id)
+	data, err := s.svcCtx.CommentService.DeleteComment(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -127,9 +125,9 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Comment.id"
+// @Param 	 	request		body		request.IdReq							true	"Comment.id"
 // @Success		200		{object}	response.Response{data=entity.Comment}	"返回信息"
-// @Router 		/comment/{id} [get]
+// @Router 		/comment/find_comment [get]
 func (s *CommentController) FindComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -137,14 +135,14 @@ func (s *CommentController) FindComment(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CommentService.FindComment(reqCtx, id)
+	data, err := s.svcCtx.CommentService.FindComment(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -159,24 +157,24 @@ func (s *CommentController) FindComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/comment/batch_delete [delete]
-func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
+// @Router		/comment/delete_comment_list [delete]
+func (s *CommentController) DeleteCommentList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var ids []int
-	err = s.ShouldBind(c, &ids)
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.CommentService.DeleteCommentByIds(reqCtx, ids)
+	data, err := s.svcCtx.CommentService.DeleteCommentList(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -193,9 +191,9 @@ func (s *CommentController) DeleteCommentByIds(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
+// @Param 	 	page 	body		request.CommentQueryReq 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Comment}}	"返回信息"
-// @Router		/comment/list [post]
+// @Router		/comment/find_comment_list [post]
 func (s *CommentController) FindCommentList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -203,7 +201,7 @@ func (s *CommentController) FindCommentList(c *gin.Context) {
 		return
 	}
 
-	var page request.PageQuery
+	var page request.CommentQueryReq
 	err = s.ShouldBind(c, &page)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -219,82 +217,8 @@ func (s *CommentController) FindCommentList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
-	})
-}
-
-// @Tags		Comment
-// @Summary		分页获取评论列表
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string																false	"token"
-// @Param		uid		header		string																false	"uid"
-// @Param		page	body		request.PageQuery													true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentDTO}}	"返回信息"
-// @Router		/comment/details_list [post]
-func (s *CommentController) FindCommentDetailsList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.CommentService.FindCommentDetailsList(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
-	})
-}
-
-// @Tags		Comment
-// @Summary		获取用户评论列表
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		page	body		request.PageQuery			true	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentBackDTO}}	"返回信息"
-// @Router		/comment/list/back [post]
-func (s *CommentController) FindCommentBackList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	list, total, err := s.svcCtx.CommentService.FindCommentBackList(reqCtx, &page)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.PageResult{
-		List:     list,
-		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     int(page.Page),
+		PageSize: int(page.PageSize),
 	})
 }
 
@@ -305,10 +229,10 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"id"
+// @Param		req		body		request.IdReq										true	"id"
 // @Param		page	body		request.PageQuery						true	"请求body"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ReplyDTO}}	"返回信息"
-// @Router		/comment/{id}/reply_list [post]
+// @Router		/comment/find_comment_reply_list [post]
 func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -334,8 +258,45 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
+	})
+}
+
+// @Tags		Comment
+// @Summary		获取用户评论列表
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param		page	body		request.PageQuery			true	"分页参数"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CommentBackDTO}}	"返回信息"
+// @Router		/comment/find_comment_back_list [post]
+func (s *CommentController) FindCommentBackList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var page request.PageQuery
+	err = s.ShouldBind(c, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	list, total, err := s.svcCtx.CommentService.FindCommentBackList(reqCtx, &page)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 
@@ -346,9 +307,9 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
-// @Router		/comment/{id}/like [post]
+// @Param		req		body		request.IdReq										true	"id"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Router		/comment/like_comment [post]
 func (s *CommentController) LikeComment(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

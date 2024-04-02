@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/sqlx"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/iputil"
 )
 
@@ -13,9 +12,8 @@ type Context struct {
 	context.Context `json:"-" header:"-"`
 	Token           string `json:"token" header:"token" example:""`
 	UID             int    `json:"uid" header:"-" example:""`
-	Username        string `json:"username" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
-	Agent           string `json:"agent" header:"-" example:""`
+	UserAgent       string `json:"user_agent" header:"-" example:""`
 }
 
 func (s *Context) GetContext() context.Context {
@@ -32,21 +30,12 @@ func (s *Context) GetIpSource() string {
 	return location.Location
 }
 
-// PageQuery Paging common input parameter structure
-type PageQuery struct {
-	sqlx.PageLimit
-	Sorts      []*sqlx.Sort      `json:"sorts" form:"sorts"`           // 排序
-	Conditions []*sqlx.Condition `json:"conditions" form:"conditions"` // 使用条件语句查询
+type IdReq struct {
+	Id int `json:"id" form:"id" binding:"required"`
 }
 
-func (s *PageQuery) PageClause() (int, int) {
-	return s.PageLimit.Limit(), s.PageLimit.Offset()
+type IdsReq struct {
+	Ids []int `json:"ids" form:"ids" binding:"required"`
 }
 
-func (s *PageQuery) OrderClause() string {
-	return sqlx.OrderClause(s.Sorts)
-}
-
-func (s *PageQuery) ConditionClause() (string, []interface{}) {
-	return sqlx.ConditionClause(s.Conditions)
-}
+type EmptyReq struct{}

@@ -6,13 +6,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/valid"
 )
 
-type UserReq struct {
+type LoginReq struct {
 	Username string `json:"username" from:"username" example:"admin@qq.com"`
 	Password string `json:"password" from:"password" example:"123456"`
 	Code     string `json:"code" from:"code" example:""`
 }
 
-func (m UserReq) IsValid() error {
+func (m LoginReq) IsValid() error {
 	if m.Username == "" || m.Password == "" {
 		return fmt.Errorf("用户名或密码不能为空")
 	}
@@ -30,11 +30,11 @@ func (m UserReq) IsValid() error {
 }
 
 // 用户名只能是邮箱
-type UserEmail struct {
+type UserEmailReq struct {
 	Username string `json:"username" from:"username" example:"admin@qq.com"`
 }
 
-func (m UserEmail) IsValid() error {
+func (m UserEmailReq) IsValid() error {
 	//验证邮箱格式是否正确
 	if !valid.IsEmailValid(m.Username) {
 		return fmt.Errorf("邮箱格式不正确")

@@ -16,3 +16,9 @@ const (
 	UserStatusEnable   = 0
 	UserStatusDisabled = 1
 )
+
+const (
+	LoginTypeEmail  = "email" // 邮箱登录
+	LoginTypeQQ     = "phone" // 手机登录
+	LoginTypeWechat = "oauth" // 第三方登录
+)

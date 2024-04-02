@@ -1,0 +1,569 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/api/batch_delete": {
+      "delete": {
+        "operationId": "DeleteListApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResult"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/create": {
+      "post": {
+        "operationId": "CreateApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ApiResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/delete": {
+      "delete": {
+        "operationId": "DeleteApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/find": {
+      "post": {
+        "operationId": "FindApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ApiResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/get": {
+      "post": {
+        "operationId": "FindApiList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/[]ApiResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/update": {
+      "put": {
+        "operationId": "UpdateApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ApiResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/ping": {
+      "get": {
+        "operationId": "Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PingResp"
+            }
+          }
+        },
+        "requestBody": {},
+        "tags": [
+          "blog-api"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ApiReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "name": {
+          "type": "string",
+          "description": " api名称"
+        },
+        "path": {
+          "type": "string",
+          "description": " api路径"
+        },
+        "method": {
+          "type": "string",
+          "description": " api请求方法"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
+        },
+        "traceable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否追溯操作记录 0需要，1是"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态 1开，2关"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "ApiReq",
+      "required": [
+        "id",
+        "name",
+        "path",
+        "method",
+        "parent_id",
+        "traceable",
+        "status",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "ApiResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "name": {
+          "type": "string",
+          "description": " api名称"
+        },
+        "path": {
+          "type": "string",
+          "description": " api路径"
+        },
+        "method": {
+          "type": "string",
+          "description": " api请求方法"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
+        },
+        "traceable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否追溯操作记录 0需要，1是"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态 1开，2关"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "ApiResp",
+      "required": [
+        "id",
+        "name",
+        "path",
+        "method",
+        "parent_id",
+        "traceable",
+        "status",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "BatchResult": {
+      "type": "object",
+      "properties": {
+        "success_count": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "BatchResult",
+      "required": [
+        "success_count"
+      ]
+    },
+    "EmptyReq": {
+      "type": "object",
+      "title": "EmptyReq"
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "IdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "title": "IdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "IdsReq": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "title": "IdsReq",
+      "required": [
+        "ids"
+      ]
+    },
+    "PageCondition": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": " 字段"
+        },
+        "value": {
+          "type": "object",
+          "description": " 值"
+        },
+        "logic": {
+          "type": "string",
+          "description": " and | or"
+        },
+        "operator": {
+          "type": "string",
+          "description": " = | \u003e= | \u003c | in | not in |...."
+        }
+      },
+      "title": "PageCondition",
+      "required": [
+        "field",
+        "value",
+        "logic",
+        "operator"
+      ]
+    },
+    "PageLimit": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PageLimit",
+      "required": [
+        "page",
+        "page_size"
+      ]
+    },
+    "PageQuery": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "$ref": "#/definitions/PageLimit"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageSort"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageCondition"
+          }
+        }
+      },
+      "title": "PageQuery",
+      "required": [
+        "limit",
+        "sorts",
+        "conditions"
+      ]
+    },
+    "PageResp": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "list": {
+          "type": "object"
+        }
+      },
+      "title": "PageResp",
+      "required": [
+        "total",
+        "list"
+      ]
+    },
+    "PageSort": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "order": {
+          "type": "string"
+        }
+      },
+      "title": "PageSort",
+      "required": [
+        "field",
+        "order"
+      ]
+    },
+    "PingResp": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "env": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "title": "PingResp",
+      "required": [
+        "name",
+        "version",
+        "runtime",
+        "env",
+        "description"
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "trace_id": {
+          "type": "string"
+        }
+      },
+      "title": "Response",
+      "required": [
+        "code",
+        "message",
+        "data",
+        "trace_id"
+      ]
+    },
+    "RestHeader": {
+      "type": "object",
+      "properties": {
+        "HeaderCountry": {
+          "type": "string"
+        },
+        "HeaderLanguage": {
+          "type": "string"
+        },
+        "HeaderTimezone": {
+          "type": "string"
+        },
+        "HeaderAppName": {
+          "type": "string"
+        },
+        "HeaderXUserId": {
+          "type": "string"
+        },
+        "HeaderXAuthToken": {
+          "type": "string"
+        },
+        "HeaderTerminalID": {
+          "type": "string"
+        }
+      },
+      "title": "RestHeader"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

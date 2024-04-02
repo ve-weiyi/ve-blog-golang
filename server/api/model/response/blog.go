@@ -75,3 +75,7 @@ type ArticleRankDTO struct {
 	ArticleTitle string `json:"article_title"` // 文章标题
 	Count        int64  `json:"count"`         // 数量
 }
+
+type AboutMeResp struct {
+	Content string `json:"content" from:"content" example:"about me"`
+}
