@@ -30,7 +30,7 @@ func (s *SwaggerParser) ReadSwagJSON(filepath string) (out *SwaggerDefinition, e
 		return nil, fmt.Errorf("failed to parse JSON:%v", err)
 	}
 
-	//fmt.Println("swagger:", jsonconv.ObjectToJsonIndent(swagger))
+	//fmt.Println("swagger:", jsonconv.AnyToJsonIndent(swagger))
 
 	return &swagger, nil
 }
@@ -95,7 +95,7 @@ func (s *SwaggerParser) ParseApiDoc(swagger *SwaggerDefinition) []*ApiDeclare {
 
 		for method, apiMethod := range paths {
 
-			//fmt.Println("method:", method, "apiMethod:", jsonconv.ObjectToJsonIndent(apiMethod))
+			//fmt.Println("method:", method, "apiMethod:", jsonconv.AnyToJsonIndent(apiMethod))
 
 			tag := JoinArray(apiMethod.Tags)
 
@@ -109,7 +109,7 @@ func (s *SwaggerParser) ParseApiDoc(swagger *SwaggerDefinition) []*ApiDeclare {
 			var body *ApiParam
 			for _, param := range apiMethod.Parameters {
 
-				//fmt.Println("param:", jsonconv.ObjectToJsonIndent(param))
+				//fmt.Println("param:", jsonconv.AnyToJsonIndent(param))
 				//t := getTypeNameFormSchema(param.SchemaObject)
 
 				if param.In == "body" {
@@ -142,13 +142,13 @@ func (s *SwaggerParser) ParseApiDoc(swagger *SwaggerDefinition) []*ApiDeclare {
 			var response *ApiParam
 			for k, v := range apiMethod.Responses {
 				// 200
-				//fmt.Println("in:", jsonconv.ObjectToJsonIndent(v.Schema))
+				//fmt.Println("in:", jsonconv.AnyToJsonIndent(v.Schema))
 				response = &ApiParam{
 					Name:        k,
 					Type:        getTypeNameFormSchema(v.Schema),
 					Description: v.Description,
 				}
-				//fmt.Println("out:", jsonconv.ObjectToJsonIndent(response))
+				//fmt.Println("out:", jsonconv.AnyToJsonIndent(response))
 				break
 			}
 

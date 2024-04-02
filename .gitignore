@@ -31,8 +31,11 @@ config.yaml
 *.sum
 
 /rm_file
-tem
-cache
-runtime
-test.*
 *.ts
+**/test.sql
+**/runtime/*
+**/test/*
+**/tmp/*
+**/default.etcd/*
+/deploy/docker/
+blog-rpc.yaml

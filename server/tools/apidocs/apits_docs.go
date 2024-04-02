@@ -7,9 +7,11 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type Config struct {
@@ -73,8 +75,8 @@ func (s *AstApiDoc) Parse() (err error) {
 		s.TypeDeclares = append(s.TypeDeclares, m)
 	}
 
-	//fmt.Println("ApiDeclares:", jsonconv.ObjectToJsonIndent(apis))
-	//fmt.Println("TypeDeclares:", jsonconv.ObjectToJsonIndent(models))
+	//fmt.Println("ApiDeclares:", jsonconv.AnyToJsonIndent(apis))
+	//fmt.Println("TypeDeclares:", jsonconv.AnyToJsonIndent(models))
 	return nil
 }
 
@@ -94,7 +96,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		}
 	}
 
-	//fmt.Println("tsModelDeclares:", jsonconv.ObjectToJsonIndent(tsModelDeclares))
+	//fmt.Println("tsModelDeclares:", jsonconv.AnyToJsonIndent(tsModelDeclares))
 	meta := invent.TemplateMeta{
 		Key:            "",
 		Mode:           invent.ModeCreateOrReplace,
@@ -104,7 +106,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		Data:           tsModelDeclares,
 	}
 
-	err := meta.CreateTempFile()
+	err := meta.Execute()
 	if err != nil {
 		fmt.Println("生成 TypeScript 时发生错误:", err)
 	}
@@ -114,27 +116,28 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 	// 根据tag进行分组
 	var apiGroups = map[string][]*apiparser.ApiDeclare{}
 	for _, api := range s.ApiDeclares {
+		api.Router = s.ApiBase + api.Router
 		apiGroups[api.Tag] = append(apiGroups[api.Tag], api)
 	}
 
 	tsApiDocs := s.convertTsApiDocs(apiGroups)
-	//fmt.Println("tsApiDocs:", jsonconv.ObjectToJsonIndent(tsApiDocs))
+	//fmt.Println("tsApiDocs:", jsonconv.AnyToJsonIndent(tsApiDocs))
 	var metas []invent.TemplateMeta
 	for _, apiDoc := range tsApiDocs {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("ts/%s.ts", jsonconv.Case2Snake(apiDoc.Tag))),
 			TemplateString: ApiTypeScript,
-			FunMap:         map[string]any{"joinArray": joinArray},
+			FunMap:         map[string]any{"joinArray": utils.JoinArray},
 			Data:           apiDoc,
 		}
-		//fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
+		//fmt.Println("apiDocs:", jsonconv.AnyToJsonIndent(apiDoc))
 		metas = append(metas, meta)
 	}
 
 	for _, meta := range metas {
-		err := meta.CreateTempFile()
+		err := meta.Execute()
 		if err != nil {
 			fmt.Println("生成 TypeScript 时发生错误:", err)
 		}
@@ -163,7 +166,7 @@ func (s *AstApiDoc) convertTsApiDocs(groups map[string][]*apiparser.ApiDeclare) 
 		tsModelsMap := make(map[string]*TsModelDeclare)
 		for _, param := range params {
 
-			//fmt.Println("tsModels:", param, jsonconv.ObjectToJsonIndent(s.findTsModelDeclareByName(param)))
+			//fmt.Println("tsModels:", param, jsonconv.AnyToJsonIndent(s.findTsModelDeclareByName(param)))
 			model := s.findModelDeclare(param.Type)
 			tsModel := s.convertTsModelDeclare(model)
 			if tsModel == nil {
@@ -303,6 +306,7 @@ func (s *AstApiDoc) findModelDeclare(name string) *apiparser.ModelDeclare {
 		if model.Type == name {
 			return model
 		}
+
 		// package name 都相等的情况
 		//if model.Pkg != "" {
 		//	if fmt.Sprintf("%v.%v", model.Pkg, name) == model.Type {

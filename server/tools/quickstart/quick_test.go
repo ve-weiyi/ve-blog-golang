@@ -13,11 +13,12 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/model"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // GEN 自动生成 GORM 模型结构体文件及使用示例 https://blog.csdn.net/Jeffid/article/details/126898000
@@ -26,7 +27,6 @@ const dsn = "root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parse
 var db *gorm.DB
 
 func Init() {
-	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
 	// 连接数据库
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
@@ -44,9 +44,9 @@ func Init() {
 
 func TestCodeStarter(t *testing.T) {
 	Init()
-	out := path.Join(global.GetRuntimeRoot(), "server/api")
-	//out := path.Join("./autocode_template", "test")
 
+	out := path.Join(files.GetRuntimeRoot(), "server/api")
+	//out := path.Join("./autocode_template", "test")
 	typeInt := "int"
 	// 自定义字段的数据类型
 	// 统一数字类型为int64,兼容protobuf
@@ -61,25 +61,13 @@ func TestCodeStarter(t *testing.T) {
 
 	cfg := Config{
 		DbEngin:     db,
-		ReplaceMode: invent.ModeCreateOrReplace,
+		ReplaceMode: invent.ModeOnlyReplace,
 		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
 			return fmt.Sprintf("bs_%v", tableName)
 		},
-		FieldNameNS: func(column string) string {
-			return jsonconv.Case2Camel(column)
-		},
-		FieldJsonNS: func(column string) string {
-			return jsonconv.Camel2Case(column)
-		},
-		FieldValueNS: func(columnName string) (valueName string) {
-			if columnName == "id" {
-				return "id"
-			}
-			return jsonconv.Case2CamelLowerStart(columnName)
-		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyModel
+			return key != tmpl.KeyController
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,
@@ -94,17 +82,29 @@ func TestCodeStarter(t *testing.T) {
 			// 生成 gorm 标签的字段类型属性
 			FieldWithTypeTag: true, // generate with gorm column type tag
 			FieldJSONTagNS: func(column string) string {
-				return jsonconv.Camel2Case(column)
+				return jsonconv.Case2Snake(column)
 			},
 		},
 	}
 
+	// 初始化解析器
 	parser := NewTableParser(cfg)
+	// 初始化转换器
+	converter := NewTableConverter(cfg)
+	// 初始化生成器
 	gen := NewCodeStarter(cfg)
 
-	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("menu"))...)
-	//models, _ := parser.ParseModelFromSchema()
-	//gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
+	// 解析单个表
+	//models := parser.ParseModelFromTable("menu")
+	//metas := parser.GenerateInventMetas(models)
+	//gen.AddInventMetas(metas...)
+
+	// 解析所有数据库表
+	models := parser.ParseModelFromSchema()
+	// 转换所有表的元数据
+	metas := converter.GenerateInventMetas(models...)
+	// 生成代码文件
+	gen.AddInventMetas(metas...)
 
 	err := gen.Execute()
 	t.Log(err)
@@ -142,7 +142,7 @@ func TestCodeStarter(t *testing.T) {
 }
 
 func TestVisitFile(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api", "model/entity")
+	root := path.Join(files.GetRuntimeRoot(), "../../api/blog", "controller")
 	err := filepath.Walk(root, visitFile)
 	t.Log(err)
 }
@@ -165,7 +165,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		//}
 
 		// 添加前缀 "gen_" 到文件名
-		newName := strings.Replace(oldName, "ex_", "ex_", 1)
+		newName := strings.Replace(oldName, "bs_", "", 1)
 
 		// 修改文件名
 		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))

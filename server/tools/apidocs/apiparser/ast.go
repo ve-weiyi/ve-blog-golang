@@ -130,7 +130,7 @@ func (s *AstParser) ParseApiDoc(filepath string) []*ApiDeclare {
 					}
 
 				case "Router":
-					api.Router = s.ApiBase + content[0]
+					api.Router = content[0]
 					api.Method = strings.TrimSuffix(strings.TrimPrefix(content[1], "["), "]")
 
 				case "Success":
@@ -146,7 +146,7 @@ func (s *AstParser) ParseApiDoc(filepath string) []*ApiDeclare {
 				continue
 			}
 			apiDocs = append(apiDocs, api)
-			// fmt.Println("函数注释:", jsonconv.ObjectToJsonIndent(api))
+			// fmt.Println("函数注释:", jsonconv.AnyToJsonIndent(api))
 		}
 	}
 
@@ -260,7 +260,7 @@ func getFieldsFormNode(field ast.Node) *ModelField {
 			name := node.Names[0].Name
 			tp := node.Type
 			tag := getJsonTagFromField(node)
-			fmt.Println("tag:", tag)
+			//fmt.Println("tag:", tag)
 			elem := &ModelField{
 				Name:    name,
 				JsonTag: tag,

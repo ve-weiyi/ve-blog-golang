@@ -3,8 +3,8 @@ package quickstart
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/inject"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/inject"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 )
 
 type CodeStarter struct {
@@ -35,7 +35,7 @@ func (s *CodeStarter) Execute() error {
 			continue
 		}
 
-		err := item.CreateTempFile()
+		err := item.Execute()
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -45,7 +45,7 @@ func (s *CodeStarter) Execute() error {
 		if s.IsIgnoreKey(item.Key) {
 			continue
 		}
-		err := item.Inject()
+		err := item.Execute()
 		if err != nil {
 			fmt.Println(err)
 		}
