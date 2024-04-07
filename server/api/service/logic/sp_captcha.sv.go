@@ -24,21 +24,21 @@ func NewCaptchaService(svcCtx *svc.ServiceContext) *CaptchaService {
 }
 
 // 发送验证码
-func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.CaptchaEmailReq) (result interface{}, err error) {
+func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.CaptchaEmailReq) (result interface{}, err error) {
 	// 验证用户是否存在
-	account, err := s.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Email)
+	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Email)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
 
-	userinfo, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	userinfo, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
 
 	// 设置key
 	key := fmt.Sprintf("%s:%s", req.Service, req.Email)
-	code := s.svcCtx.Captcha.GetCodeCaptcha(key)
+	code := l.svcCtx.Captcha.GetCodeCaptcha(key)
 	data := mail.NewEmailContent()
 
 	data.Title = fmt.Sprintf("重置密码邮件提醒")
@@ -69,7 +69,7 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 		Type:    0,
 	}
 
-	err = s.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
+	err = l.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
 	if err != nil {
 		return nil, err
 	}
@@ -77,8 +77,8 @@ func (s *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 }
 
 // 获取图片验证码
-func (s *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.CaptchaReq) (resp *response.CaptchaDTO, err error) {
-	id, b64s, err := s.svcCtx.Captcha.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
+func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.CaptchaReq) (resp *response.CaptchaDTO, err error) {
+	id, b64s, err := l.svcCtx.Captcha.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
 	if err != nil {
 		return nil, err
 	}
@@ -91,8 +91,8 @@ func (s *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.C
 	return resp, nil
 }
 
-func (s *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerifyReq) (resp interface{}, err error) {
-	if !s.svcCtx.Captcha.VerifyCaptcha(req.ID, req.Code) {
+func (l *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerifyReq) (resp interface{}, err error) {
+	if !l.svcCtx.Captcha.VerifyCaptcha(req.ID, req.Code) {
 		return nil, apierr.ErrorCaptchaVerify
 	}
 
