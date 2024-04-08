@@ -8,11 +8,11 @@ import (
 )
 
 // 分页获取Menu记录
-func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetailsDTO, total int64, err error) {
+func (l *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 创建db
-	menuList, err := s.svcCtx.MenuRepository.FindList(reqCtx, 0, 0, order, cond, args...)
+	menuList, err := l.svcCtx.MenuRepository.FindList(reqCtx, 0, 0, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -24,11 +24,11 @@ func (s *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 	return list, int64(len(list)), nil
 }
 
-func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuRequest) (data int64, err error) {
+func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuRequest) (data int64, err error) {
 
 	for _, item := range req.Menus {
 		// 已存在则跳过
-		exist, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", item.Path)
+		exist, _ := l.svcCtx.MenuRepository.First(reqCtx, "path = ?", item.Path)
 		if exist == nil {
 
 			// 插入数据
@@ -41,7 +41,7 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 				Type:      item.Type,
 				Meta:      jsonconv.ObjectToJson(item.Meta),
 			}
-			_, err = s.svcCtx.MenuRepository.Create(reqCtx, exist)
+			_, err = l.svcCtx.MenuRepository.Create(reqCtx, exist)
 			if err != nil {
 				return data, err
 			}
@@ -51,7 +51,7 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 
 		for i, child := range item.Children {
 			// 已存在则跳过
-			menu, _ := s.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
+			menu, _ := l.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
 			if menu == nil {
 				if child.Meta.Rank == 0 {
 					child.Meta.Rank = i
@@ -68,7 +68,7 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 					Type:      child.Type,
 					Meta:      jsonconv.ObjectToJson(child.Meta),
 				}
-				_, err = s.svcCtx.MenuRepository.Create(reqCtx, menu)
+				_, err = l.svcCtx.MenuRepository.Create(reqCtx, menu)
 				if err != nil {
 					return data, err
 				}
@@ -82,8 +82,8 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 	return data, err
 }
 
-func (s *MenuService) CleanMenuList(reqCtx *request.Context, req interface{}) (data interface{}, err error) {
-	return s.svcCtx.MenuRepository.CleanMenus(reqCtx)
+func (l *MenuService) CleanMenuList(reqCtx *request.Context, req interface{}) (data interface{}, err error) {
+	return l.svcCtx.MenuRepository.CleanMenus(reqCtx)
 }
 
 func getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {

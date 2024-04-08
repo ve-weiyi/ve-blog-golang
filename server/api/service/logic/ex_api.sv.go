@@ -11,10 +11,10 @@ import (
 )
 
 // 分页获取Api记录
-func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetailsDTO, total int64, err error) {
+func (l *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	// 查询api信息
-	apis, err := s.svcCtx.ApiRepository.FindALL(reqCtx, cond, args...)
+	apis, err := l.svcCtx.ApiRepository.FindALL(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -27,7 +27,7 @@ func (s *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.P
 	return list, int64(len(list)), nil
 }
 
-func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data int64, err error) {
+func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data int64, err error) {
 	ap := apiparser.NewSwaggerParser()
 	apis, err := ap.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
 	if err != nil {
@@ -41,18 +41,18 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 		}
 
 		// 已存在则跳过
-		exist, _ := s.svcCtx.ApiRepository.First(reqCtx, "path = ? and method = ?", api.Router, api.Method)
+		exist, _ := l.svcCtx.ApiRepository.First(reqCtx, "path = ? and method = ?", api.Router, api.Method)
 		if exist != nil {
 			continue
 		}
 
 		// 查找父分类，没有则创建
-		parent, _ := s.svcCtx.ApiRepository.First(reqCtx, "name = ? and parent_id = ?", api.Tag, 0)
+		parent, _ := l.svcCtx.ApiRepository.First(reqCtx, "name = ? and parent_id = ?", api.Tag, 0)
 		if parent == nil {
 			parent = &entity.Api{
 				Name: api.Tag,
 			}
-			_, err = s.svcCtx.ApiRepository.Create(reqCtx, parent)
+			_, err = l.svcCtx.ApiRepository.Create(reqCtx, parent)
 			if err != nil {
 				return 0, err
 			}
@@ -76,7 +76,7 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 		}
 
 		apiModels = append(apiModels, model)
-		//_, err = s.svcCtx.ApiRepository.Create(reqCtx, model)
+		//_, err = l.svcCtx.ApiRepository.Create(reqCtx, model)
 		//if err != nil {
 		//	return 0, err
 		//}
@@ -84,7 +84,7 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 	}
 
 	// 批量插入，减少数据库压力
-	query := s.svcCtx.ApiRepository.DbEngin.CreateInBatches(apiModels, len(apiModels))
+	query := l.svcCtx.ApiRepository.DbEngin.CreateInBatches(apiModels, len(apiModels))
 	data = query.RowsAffected
 	err = query.Error
 	if err != nil {
@@ -93,8 +93,8 @@ func (s *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 	return data, nil
 }
 
-func (s *MenuService) CleanApiList(reqCtx *request.Context, req interface{}) (data interface{}, err error) {
-	return s.svcCtx.ApiRepository.CleanApis(reqCtx)
+func (l *MenuService) CleanApiList(reqCtx *request.Context, req interface{}) (data interface{}, err error) {
+	return l.svcCtx.ApiRepository.CleanApis(reqCtx)
 }
 func getApiChildren(root response.ApiDetailsDTO, list []*entity.Api) (leafs []*response.ApiDetailsDTO) {
 	for _, item := range list {

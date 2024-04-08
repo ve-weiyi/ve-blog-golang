@@ -6,16 +6,16 @@ import (
 )
 
 // 分页获取Tag记录
-func (s *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TagDetailsDTO, total int64, err error) {
+func (l *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TagDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	categories, err := s.svcCtx.TagRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	categories, err := l.svcCtx.TagRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	total, err = s.svcCtx.TagRepository.Count(reqCtx, cond, args...)
+	total, err = l.svcCtx.TagRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -23,7 +23,7 @@ func (s *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.P
 
 	for _, in := range categories {
 
-		articles, err := s.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, in.ID)
+		articles, err := l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, in.ID)
 		if err != nil {
 			return nil, 0, err
 		}
