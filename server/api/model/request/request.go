@@ -40,22 +40,3 @@ type IdsReq struct {
 }
 
 type EmptyReq struct{}
-
-// PageQuery Paging common input parameter structure
-type PageQuery struct {
-	Limit      PageLimit
-	Sorts      []*PageSort      `json:"sorts" form:"sorts"`           // 排序
-	Conditions []*PageCondition `json:"conditions" form:"conditions"` // 使用条件语句查询
-}
-
-func (s *PageQuery) PageClause() (int, int) {
-	return s.Limit.Limit(), s.Limit.Offset()
-}
-
-func (s *PageQuery) OrderClause() string {
-	return OrderClause(s.Sorts)
-}
-
-func (s *PageQuery) ConditionClause() (string, []interface{}) {
-	return ConditionClause(s.Conditions)
-}

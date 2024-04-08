@@ -265,7 +265,7 @@ func (l *ArticleService) FindArticleDetails(reqCtx *request.Context, req *reques
 // 分页获取Article记录
 func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleHome, total int64, err error) {
 	page.Sorts = append(page.Sorts, &request.PageSort{Field: "is_top", Order: "desc"})
-	page.Conditions = append(page.Conditions, request.NewCondition("status = ?", entity.ArticleStatusPublic))
+	page.Conditions = append(page.Conditions, &request.PageCondition{Field: "status", Operator: "=", Value: entity.ArticleStatusPublic})
 
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()

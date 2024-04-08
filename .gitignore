@@ -31,8 +31,9 @@ config.yaml
 *.sum
 
 /rm_file
-/server/runtime/
-/server/cache/
 *.ts
 /server/test.sql
+**/runtime/*
 **/test/*
+**/tmp/*
+**/default.etcd/*

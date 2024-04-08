@@ -1,5 +1,6 @@
 syntax = "v1"
 
+import "base.api"
 import "types.api"
 
 @server(

@@ -427,10 +427,24 @@ func (s *AstApiDoc) GenerateGoZeroApiFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("%s.api", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("api/%s.api", jsonconv.Camel2Case(apiDoc.Tag))),
 			TemplateString: string(apiTpl),
-			FunMap:         map[string]any{"joinArray": joinArray},
-			Data:           apiDoc,
+			FunMap: map[string]any{
+				"joinArray": apiparser.JoinArray,
+				"add": func(index int, num int) int {
+					return index + num
+				},
+				"messageType": func(name string) string {
+					if name == "int" {
+						return "int64"
+					}
+
+					name = strings.ReplaceAll(name, "[]int", "[]int64")
+
+					return name
+				},
+			},
+			Data: apiDoc,
 		}
 		//fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
 		metas = append(metas, meta)
@@ -465,10 +479,24 @@ func (s *AstApiDoc) GenerateGoZeroTypeFiles() {
 	meta := invent.TemplateMeta{
 		Key:            "",
 		Mode:           invent.ModeCreateOrReplace,
-		CodeOutPath:    path.Join(s.OutRoot, "types.api"),
+		CodeOutPath:    path.Join(s.OutRoot, "api/types.api"),
 		TemplateString: string(typeTpl),
-		FunMap:         map[string]any{"joinArray": apiparser.JoinArray},
-		Data:           tsModelDeclares,
+		FunMap: map[string]any{
+			"joinArray": apiparser.JoinArray,
+			"add": func(index int, num int) int {
+				return index + num
+			},
+			"messageType": func(name string) string {
+				if name == "int" {
+					return "int64"
+				}
+
+				name = strings.ReplaceAll(name, "[]int", "[]int64")
+
+				return name
+			},
+		},
+		Data: tsModelDeclares,
 	}
 
 	err := meta.CreateTempFile()

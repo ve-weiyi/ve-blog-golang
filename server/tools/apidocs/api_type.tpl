@@ -4,7 +4,7 @@ type (
     {{- range $key, $value := .}}
     {{$value.Name}} {
         {{- range $value.Fields}}
-        {{.Name}} {{.Type}} `json:"{{.Json}}"` {{if .Comment}}// {{.Comment}}{{end}}
+        {{.Name}} {{messageType .Type}} `json:"{{.Json}},optional"` {{if .Comment}}// {{.Comment}}{{end}}
     	{{- end}}
     }
     {{end}}

@@ -99,7 +99,7 @@ func (l *UserService) FindOnlineUserList(reqCtx *request.Context, page *request.
 	l.svcCtx.Log.JsonIndent("names", keys)
 	page.Limit.Page = 0
 	page.Limit.PageSize = 0
-	page.Conditions = append(page.Conditions, request.NewCondition("id in (?)", keys))
+	page.Conditions = append(page.Conditions, &request.PageCondition{Field: "id", Value: keys, Operator: "in", Logic: "AND"})
 	return l.FindUserList(reqCtx, page)
 }
 

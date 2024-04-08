@@ -1,9 +1,0 @@
-Name: blog-api
-Host: 0.0.0.0
-Port: 9999
-Log:
-  Mode: console
-  Encoding: plain
-BlogRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080

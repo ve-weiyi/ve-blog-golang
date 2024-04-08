@@ -1,0 +1,23 @@
+syntax = "v1"
+
+import "base.api"
+import "types.api"
+
+@server(
+    prefix: /api/v1
+    group: captcha
+)
+
+service blog-api {
+    @doc "发送验证码"
+    @handler SendCaptchaEmail
+    post /captcha/email (CaptchaEmailReq) returns (EmptyResp)
+
+@doc "生成验证码"
+    @handler GetCaptchaImage
+    post /captcha/image (CaptchaReq) returns (CaptchaDTO)
+
+@doc "检验验证码"
+    @handler VerifyCaptcha
+    post /captcha/verify (CaptchaVerifyReq) returns (EmptyResp)
+}

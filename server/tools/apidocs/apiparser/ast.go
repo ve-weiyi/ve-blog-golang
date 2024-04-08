@@ -130,7 +130,7 @@ func (s *AstParser) ParseApiDoc(filepath string) []*ApiDeclare {
 					}
 
 				case "Router":
-					api.Router = s.ApiBase + content[0]
+					api.Router = content[0]
 					api.Method = strings.TrimSuffix(strings.TrimPrefix(content[1], "["), "]")
 
 				case "Success":

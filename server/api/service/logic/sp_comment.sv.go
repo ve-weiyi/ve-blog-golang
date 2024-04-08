@@ -146,7 +146,13 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 // 查询Comment后台记录
 func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentBackDTO, total int64, err error) {
 	// 使用用户昵称查询
-	cd := request.FindCondition(page.Conditions, "username")
+	var cd *request.PageCondition
+	for _, condition := range page.Conditions {
+		if condition.Field == "username" {
+			cd = condition
+		}
+	}
+
 	if cd != nil {
 		accounts, err := l.svcCtx.UserAccountRepository.FindALL(reqCtx, "username like ?")
 		if err != nil {

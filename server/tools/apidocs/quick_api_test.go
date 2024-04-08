@@ -14,18 +14,24 @@ func TestApiDocs(t *testing.T) {
 	root := path.Join(global.GetRuntimeRoot(), "server/")
 
 	cfg := Config{
-		OutRoot:        "./api",
+		OutRoot:        "./tmp",
 		ApiRoot:        []string{path.Join(root, "api/controller/logic")},
 		ModelRoot:      []string{path.Join(root, "api/model"), path.Join(root, "infra/chatgpt/chat_model.go")},
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
 		IgnoredModels: map[string]string{
-			"response.PageResult": "",
-			"response.Response":   "",
 			//"request.Context":     "",
-			"request.PageQuery": "",
-			//"request.Sort":        "",
-			//"request.Condition":   "",
+			"request.EmptyReq":      "",
+			"request.PageQuery":     "",
+			"request.PageLimit":     "",
+			"request.PageSort":      "",
+			"request.PageCondition": "",
+			"request.IdReq":         "",
+			"request.IdsReq":        "",
+			"response.EmptyResp":    "",
+			"response.PageResult":   "",
+			"response.BatchResult":  "",
+			"response.Response":     "",
 		},
 		ReplaceModels: map[string]string{
 			"Response": "IApiResponseData",
@@ -52,12 +58,12 @@ func TestApiDocs(t *testing.T) {
 	// 生成ts type定义文件
 	//aad.GenerateTsApiFiles()
 
-	//aad.GenerateGoZeroApiFiles()
-
-	//aad.GenerateGoZeroTypeFiles()
-
-	aad.GenerateGoZeroRpcFiles()
-
+	aad.GenerateGoZeroApiFiles()
+	//
+	aad.GenerateGoZeroTypeFiles()
+	//
+	//aad.GenerateGoZeroRpcFiles()
+	//
 	//aad.GenerateGoZeroRpcTypeFiles()
 }
 
