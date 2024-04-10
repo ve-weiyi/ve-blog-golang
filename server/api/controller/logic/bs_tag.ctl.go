@@ -93,7 +93,7 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/tag/delete_tag [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -116,6 +116,40 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	Tag
+// @Summary		批量删除标签
+// @Accept 	 	application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/tag/delete_tag_list [delete]
+func (s *TagController) DeleteTagList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.TagService.DeleteTagList(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.BatchResult{
+		SuccessCount: data,
+	})
 }
 
 // @Tags 	 	Tag
@@ -148,40 +182,6 @@ func (s *TagController) FindTag(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Tag
-// @Summary		批量删除标签
-// @Accept 	 	application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/tag/batch_delete_tag [delete]
-func (s *TagController) DeleteTagList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.TagService.DeleteTagList(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.BatchResult{
-		SuccessCount: data,
-	})
 }
 
 // @Tags 	 	Tag

@@ -23,7 +23,7 @@ func NewFindOnlineUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.PageQuery) (resp []types.UserDTO, err error) {
+func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.PageQuery) (resp *types.PageResult, err error) {
 	// todo: add your logic here and delete this line
 
 	return

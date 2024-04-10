@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.RoleDetailsDTO}}	"返回信息"
-// @Router		/role/details_list [post]
+// @Router		/role/find_role_details_list [post]
 func (s *RoleController) FindRoleDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,7 +52,7 @@ func (s *RoleController) FindRoleDetailsList(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.UpdateRoleMenusReq			true	"创建角色"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/role/update_menus [post]
+// @Router		/role/update_role_menus [post]
 func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -84,7 +84,7 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.UpdateRoleApisReq			true	"创建角色"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/role/update_resources [post]
+// @Router		/role/update_role_resources [post]
 func (s *RoleController) UpdateRoleResources(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

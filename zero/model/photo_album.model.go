@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *PhotoAlbum) (out *PhotoAlbum, err error)
 		Update(ctx context.Context, in *PhotoAlbum) (out *PhotoAlbum, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *PhotoAlbum, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*PhotoAlbum) (rows int64, err error)
@@ -85,7 +85,7 @@ func (s *defaultPhotoAlbumModel) Update(ctx context.Context, in *PhotoAlbum) (ou
 }
 
 // 删除PhotoAlbum记录
-func (s *defaultPhotoAlbumModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultPhotoAlbumModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

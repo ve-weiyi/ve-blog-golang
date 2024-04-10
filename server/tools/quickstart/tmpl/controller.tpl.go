@@ -135,7 +135,7 @@ func (s *{{.UpperStartCamelName}}Controller) Update{{.UpperStartCamelName}}(c *g
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/{{.SnakeName}}/delete_{{.SnakeName}} [delete]
 func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -158,6 +158,40 @@ func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}(c *g
 	}
 
 	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	{{.UpperStartCamelName}}
+// @Summary		批量删除{{.CommentName}}
+// @Accept 	 	application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/{{.SnakeName}}/delete_{{.SnakeName}}_list [delete]
+func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}List(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Delete{{.UpperStartCamelName}}List(reqCtx, &req);
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.BatchResult{
+		SuccessCount: data,
+	})
 }
 
 // @Tags 	 	{{.UpperStartCamelName}}
@@ -193,40 +227,6 @@ func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}(c *gin
 }
 
 // @Tags 	 	{{.UpperStartCamelName}}
-// @Summary		批量删除{{.CommentName}}
-// @Accept 	 	application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/{{.SnakeName}}/batch_delete_{{.SnakeName}} [delete]
-func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}List(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.{{.UpperStartCamelName}}Service.Delete{{.UpperStartCamelName}}List(reqCtx, &req);
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.BatchResult{
-		SuccessCount: data,
-	})
-}
-
-// @Tags 	 	{{.UpperStartCamelName}}
 // @Summary		分页获取{{.CommentName}}列表
 // @Accept 		application/json
 // @Produce		application/json
@@ -258,8 +258,8 @@ func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}List(c 
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 `

@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *Comment) (out *Comment, err error)
 		Update(ctx context.Context, in *Comment) (out *Comment, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *Comment, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*Comment) (rows int64, err error)
@@ -88,7 +88,7 @@ func (s *defaultCommentModel) Update(ctx context.Context, in *Comment) (out *Com
 }
 
 // 删除Comment记录
-func (s *defaultCommentModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultCommentModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

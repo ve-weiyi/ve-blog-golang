@@ -93,7 +93,7 @@ func (s *PageController) UpdatePage(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/page/delete_page [delete]
 func (s *PageController) DeletePage(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -116,6 +116,40 @@ func (s *PageController) DeletePage(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	Page
+// @Summary		批量删除页面
+// @Accept 	 	application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/page/delete_page_list [delete]
+func (s *PageController) DeletePageList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.PageService.DeletePageList(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.BatchResult{
+		SuccessCount: data,
+	})
 }
 
 // @Tags 	 	Page
@@ -148,40 +182,6 @@ func (s *PageController) FindPage(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Page
-// @Summary		批量删除页面
-// @Accept 	 	application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/page/batch_delete_page [delete]
-func (s *PageController) DeletePageList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.PageService.DeletePageList(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.BatchResult{
-		SuccessCount: data,
-	})
 }
 
 // @Tags 	 	Page

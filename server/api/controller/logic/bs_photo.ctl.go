@@ -93,7 +93,7 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/photo/delete_photo [delete]
 func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -116,6 +116,40 @@ func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	Photo
+// @Summary		批量删除照片
+// @Accept 	 	application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/photo/delete_photo_list [delete]
+func (s *PhotoController) DeletePhotoList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.PhotoService.DeletePhotoList(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.BatchResult{
+		SuccessCount: data,
+	})
 }
 
 // @Tags 	 	Photo
@@ -148,40 +182,6 @@ func (s *PhotoController) FindPhoto(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Photo
-// @Summary		批量删除照片
-// @Accept 	 	application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/photo/batch_delete_photo [delete]
-func (s *PhotoController) DeletePhotoList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.PhotoService.DeletePhotoList(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.BatchResult{
-		SuccessCount: data,
-	})
 }
 
 // @Tags 	 	Photo

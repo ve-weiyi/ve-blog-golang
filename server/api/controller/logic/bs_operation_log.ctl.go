@@ -93,7 +93,7 @@ func (s *OperationLogController) UpdateOperationLog(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/operation_log/delete_operation_log [delete]
 func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -116,6 +116,40 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	OperationLog
+// @Summary		批量删除操作记录
+// @Accept 	 	application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/operation_log/delete_operation_log_list [delete]
+func (s *OperationLogController) DeleteOperationLogList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.OperationLogService.DeleteOperationLogList(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, response.BatchResult{
+		SuccessCount: data,
+	})
 }
 
 // @Tags 	 	OperationLog
@@ -148,40 +182,6 @@ func (s *OperationLogController) FindOperationLog(c *gin.Context) {
 	}
 
 	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	OperationLog
-// @Summary		批量删除操作记录
-// @Accept 	 	application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/operation_log/batch_delete_operation_log [delete]
-func (s *OperationLogController) DeleteOperationLogList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.OperationLogService.DeleteOperationLogList(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, response.BatchResult{
-		SuccessCount: data,
-	})
 }
 
 // @Tags 	 	OperationLog

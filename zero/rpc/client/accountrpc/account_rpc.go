@@ -13,29 +13,45 @@ import (
 )
 
 type (
-	Api                = account.Api
-	BatchResult        = account.BatchResult
-	EmptyReq           = account.EmptyReq
-	EmptyResp          = account.EmptyResp
-	IdReq              = account.IdReq
-	IdsReq             = account.IdsReq
-	LoginReq           = account.LoginReq
-	LoginResp          = account.LoginResp
-	OauthLoginReq      = account.OauthLoginReq
-	OauthLoginUrlResp  = account.OauthLoginUrlResp
-	PageCondition      = account.PageCondition
-	PageLimit          = account.PageLimit
-	PageQuery          = account.PageQuery
-	PageResult         = account.PageResult
-	PageSort           = account.PageSort
-	ResetPasswordReq   = account.ResetPasswordReq
-	Role               = account.Role
-	RoleDTO            = account.RoleDTO
-	RoleDetailsDTO     = account.RoleDetailsDTO
-	RolePageResp       = account.RolePageResp
-	UpdateRoleApisReq  = account.UpdateRoleApisReq
-	UpdateRoleMenusReq = account.UpdateRoleMenusReq
-	UserEmailReq       = account.UserEmailReq
+	Api                  = account.Api
+	ApiDetailsDTO        = account.ApiDetailsDTO
+	ApiPageResp          = account.ApiPageResp
+	BatchResult          = account.BatchResult
+	EmptyReq             = account.EmptyReq
+	EmptyResp            = account.EmptyResp
+	IdReq                = account.IdReq
+	IdsReq               = account.IdsReq
+	LoginHistory         = account.LoginHistory
+	LoginHistoryPageResp = account.LoginHistoryPageResp
+	LoginReq             = account.LoginReq
+	LoginResp            = account.LoginResp
+	Menu                 = account.Menu
+	MenuDetailsDTO       = account.MenuDetailsDTO
+	MenuPageResp         = account.MenuPageResp
+	OauthLoginReq        = account.OauthLoginReq
+	OauthLoginUrlResp    = account.OauthLoginUrlResp
+	PageCondition        = account.PageCondition
+	PageLimit            = account.PageLimit
+	PageQuery            = account.PageQuery
+	PageResult           = account.PageResult
+	PageSort             = account.PageSort
+	PageUserInfoResp     = account.PageUserInfoResp
+	ResetPasswordReq     = account.ResetPasswordReq
+	Role                 = account.Role
+	RoleDetailsDTO       = account.RoleDetailsDTO
+	RoleLabelDTO         = account.RoleLabelDTO
+	RolePageResp         = account.RolePageResp
+	RoleResourcesResp    = account.RoleResourcesResp
+	SyncMenuRequest      = account.SyncMenuRequest
+	UpdateRoleApisReq    = account.UpdateRoleApisReq
+	UpdateRoleMenusReq   = account.UpdateRoleMenusReq
+	UpdateUserAvatarReq  = account.UpdateUserAvatarReq
+	UpdateUserInfoReq    = account.UpdateUserInfoReq
+	UpdateUserRoleReq    = account.UpdateUserRoleReq
+	UpdateUserStatusReq  = account.UpdateUserStatusReq
+	UserDTO              = account.UserDTO
+	UserEmailReq         = account.UserEmailReq
+	UserInfoResp         = account.UserInfoResp
 
 	AccountRpc interface {
 		// 登录

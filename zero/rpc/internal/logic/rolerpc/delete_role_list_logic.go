@@ -25,7 +25,12 @@ func NewDeleteRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 批量删除角色
 func (l *DeleteRoleListLogic) DeleteRoleList(in *account.IdsReq) (*account.BatchResult, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.RoleModel.BatchDelete(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &account.BatchResult{}, nil
+	return &account.BatchResult{
+		SuccessCount: result,
+	}, nil
 }

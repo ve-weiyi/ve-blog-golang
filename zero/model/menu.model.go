@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *Menu) (out *Menu, err error)
 		Update(ctx context.Context, in *Menu) (out *Menu, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *Menu, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*Menu) (rows int64, err error)
@@ -46,7 +46,7 @@ type (
 		Component string    `json:"component"`  // 路由组件
 		Redirect  string    `json:"redirect"`   // 路由重定向
 		Type      int64     `json:"type"`       // 菜单类型
-		Meta      string    `json:"meta"`       // 菜单元数据
+		Extra     string    `json:"extra"`      // 菜单元数据
 		CreatedAt time.Time `json:"created_at"` // 创建时间
 		UpdatedAt time.Time `json:"updated_at"` // 更新时间
 	}
@@ -88,7 +88,7 @@ func (s *defaultMenuModel) Update(ctx context.Context, in *Menu) (out *Menu, err
 }
 
 // 删除Menu记录
-func (s *defaultMenuModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultMenuModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

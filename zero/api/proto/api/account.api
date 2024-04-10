@@ -1,7 +1,45 @@
 syntax = "v1"
 
 import "base.api"
-import "types.api"
+
+type (
+    UserAreaDTO {
+        Name string `json:"name,optional"`
+        Value int64 `json:"value,optional"`
+    }
+
+    UserDTO {
+        Id int64 `json:"id,optional"`
+        Username string `json:"username,optional"`
+        Nickname string `json:"nickname,optional"`
+        Avatar string `json:"avatar,optional"`
+        Intro string `json:"intro,optional"`
+        Website string `json:"website,optional"`
+        Email string `json:"email,optional"`
+        Status int64 `json:"status,optional"`
+        RegisterType string `json:"register_type,optional"`
+        IpAddress string `json:"ip_address,optional"` // ip host
+        IpSource string `json:"ip_source,optional"`   // ip 源
+        CreatedAt int64 `json:"created_at,optional"`
+        UpdatedAt int64 `json:"updated_at,optional"`
+        Roles []*RoleLabelDTO `json:"roles,optional"`
+    }
+
+    RoleLabelDTO {
+        RoleName string `json:"role_name,optional"`
+        RoleComment string `json:"role_comment,optional"`
+    }
+
+    UpdateUserStatusReq {
+        UserId int64 `json:"user_id,optional"`
+        Status int64 `json:"status,optional"`               // 状态: -1删除 0正常 1禁用
+    }
+
+    UpdateUserRolesReq {
+        UserId int64 `json:"user_id,optional"`
+        RoleIds []int64 `json:"role_ids,optional"`
+    }
+)
 
 @server(
     prefix: /api/v1
@@ -11,49 +49,21 @@ import "types.api"
 service blog-api {
     @doc "查询用户列表"
     @handler FindUserList
-    post /user/list (PageQuery) returns ([]UserDTO)
+    post /user/find_user_list (PageQuery) returns (PageResult)
 
-@doc "查询在线用户列表"
+    @doc "查询在线用户列表"
     @handler FindOnlineUserList
-    post /user/online_list (PageQuery) returns ([]UserDTO)
+    post /user/find_online_user_list (PageQuery) returns (PageResult)
 
-@doc "获取用户分布地区"
+    @doc "获取用户分布地区"
     @handler FindUserAreas
-    post /user/areas (PageQuery) returns ([]UserAreaDTO)
+    post /user/find_user_areas (PageQuery) returns (PageResult)
 
-@doc "修改用户状态"
+    @doc "修改用户状态"
     @handler UpdateUserStatus
-    post /user/update_status (UserAccount) returns (EmptyResp)
+    post /user/update_user_status (UpdateUserStatusReq) returns (EmptyResp)
 
-@doc "修改用户角色"
+    @doc "修改用户角色"
     @handler UpdateUserRoles
-    post /user/update_roles (UpdateUserRolesReq) returns (EmptyResp)
-
-@doc "查询用户登录历史"
-    @handler FindUserLoginHistoryList
-    post /user/login_history (PageQuery) returns ([]LoginHistory)
-
-@doc "批量删除登录历史"
-    @handler DeleteUserLoginHistoryList
-    delete /user/login_history/batch_delete (IdsReq) returns (EmptyResp)
-
-@doc "获取用户菜单权限"
-    @handler GetUserMenus
-    get /user/menus () returns ([]MenuDetailsDTO)
-
-@doc "获取用户接口权限"
-    @handler GetUserApis
-    get /user/apis () returns ([]ApiDetailsDTO)
-
-@doc "获取用户信息"
-    @handler GetUserInfo
-    get /user/info () returns (UserInfo)
-
-@doc "修改用户信息"
-    @handler UpdateUserInfo
-    post /user/info (UserInfoReq) returns (UserInformation)
-
-@doc "更换用户头像"
-    @handler UpdateUserAvatar
-    post /user/avatar () returns (UserInformation)
+    post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
 }

@@ -7,7 +7,9 @@ import (
 	account "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/account"
 	api "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/api"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/auth"
+	menu "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/menu"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/role"
+	user "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/user"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -29,63 +31,74 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/user/list",
+				Path:    "/user/find_user_list",
 				Handler: account.FindUserListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/user/online_list",
+				Path:    "/user/find_online_user_list",
 				Handler: account.FindOnlineUserListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/user/areas",
+				Path:    "/user/find_user_areas",
 				Handler: account.FindUserAreasHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/user/update_status",
+				Path:    "/user/update_user_status",
 				Handler: account.UpdateUserStatusHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/user/update_roles",
+				Path:    "/user/update_user_roles",
 				Handler: account.UpdateUserRolesHandler(serverCtx),
 			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/login_history",
-				Handler: account.FindUserLoginHistoryListHandler(serverCtx),
+				Handler: user.FindUserLoginHistoryListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodDelete,
-				Path:    "/user/login_history/batch_delete",
-				Handler: account.DeleteUserLoginHistoryListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/menus",
-				Handler: account.GetUserMenusHandler(serverCtx),
+				Path:    "/user/delete_login_history_list",
+				Handler: user.DeleteUserLoginHistoryListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/user/apis",
-				Handler: account.GetUserApisHandler(serverCtx),
+				Handler: user.GetUserApisHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/menus",
+				Handler: user.GetUserMenusHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/roles",
+				Handler: user.GetUserRoleHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/user/info",
-				Handler: account.GetUserInfoHandler(serverCtx),
+				Handler: user.GetUserInfoHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/info",
-				Handler: account.UpdateUserInfoHandler(serverCtx),
+				Handler: user.UpdateUserInfoHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/avatar",
-				Handler: account.UpdateUserAvatarHandler(serverCtx),
+				Handler: user.UpdateUserAvatarHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -115,7 +128,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodDelete,
-				Path:    "/api/batch_delete_api",
+				Path:    "/api/delete_api_list",
 				Handler: api.DeleteApiListHandler(serverCtx),
 			},
 			{
@@ -125,17 +138,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/details_list",
-				Handler: api.FindApiDetailsListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/api/sync",
+				Path:    "/api/sync_api_list",
 				Handler: api.SyncApiListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/clean",
+				Path:    "/api/clean_api_list",
 				Handler: api.CleanApiListHandler(serverCtx),
 			},
 		},
@@ -197,6 +205,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
+				Path:    "/menu/create_menu",
+				Handler: menu.CreateMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/menu/update_menu",
+				Handler: menu.UpdateMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/menu/delete_menu",
+				Handler: menu.DeleteMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/menu/delete_menu_list",
+				Handler: menu.DeleteMenuListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/find_menu",
+				Handler: menu.FindMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/find_menu_list",
+				Handler: menu.FindMenuListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/sync_menu_list",
+				Handler: menu.SyncMenuListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/clean_menu_list",
+				Handler: menu.CleanMenuListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
 				Path:    "/role/create_role",
 				Handler: role.CreateRoleHandler(serverCtx),
 			},
@@ -211,14 +265,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: role.DeleteRoleHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodDelete,
+				Path:    "/role/delete_role_list",
+				Handler: role.DeleteRoleListHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/role/find_role",
 				Handler: role.FindRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/role/batch_delete_role",
-				Handler: role.DeleteRoleListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
@@ -227,18 +281,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/details_list",
-				Handler: role.FindRoleDetailsListHandler(serverCtx),
+				Path:    "/role/find_role_resources",
+				Handler: role.FindRoleResourcesHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/update_menus",
+				Path:    "/role/update_role_menus",
 				Handler: role.UpdateRoleMenusHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/update_resources",
-				Handler: role.UpdateRoleResourcesHandler(serverCtx),
+				Path:    "/role/update_role_apis",
+				Handler: role.UpdateRoleApisHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

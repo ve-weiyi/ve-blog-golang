@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.MenuDetailsDTO}}	"返回信息"
-// @Router		/menu/details_list [post]
+// @Router		/menu/find_menu_details_list [post]
 func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,7 +52,7 @@ func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		data	body		request.SyncMenuRequest					true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/menu/sync [post]
+// @Router		/menu/sync_menu_list [post]
 func (s *MenuController) SyncMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -84,9 +84,9 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		data	body		any										true	"请求参数"
+// @Param		data	body		request.EmptyReq						true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}				"返回信息"
-// @Router		/menu/clean [post]
+// @Router		/menu/clean_menu_list [post]
 func (s *MenuController) CleanMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

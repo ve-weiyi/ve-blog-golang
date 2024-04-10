@@ -23,7 +23,7 @@ func NewFindUserAreasLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 	}
 }
 
-func (l *FindUserAreasLogic) FindUserAreas(req *types.PageQuery) (resp []types.UserAreaDTO, err error) {
+func (l *FindUserAreasLogic) FindUserAreas(req *types.PageQuery) (resp *types.PageResult, err error) {
 	// todo: add your logic here and delete this line
 
 	return

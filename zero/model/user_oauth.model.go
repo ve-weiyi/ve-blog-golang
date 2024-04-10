@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *UserOauth) (out *UserOauth, err error)
 		Update(ctx context.Context, in *UserOauth) (out *UserOauth, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *UserOauth, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*UserOauth) (rows int64, err error)
@@ -83,7 +83,7 @@ func (s *defaultUserOauthModel) Update(ctx context.Context, in *UserOauth) (out 
 }
 
 // 删除UserOauth记录
-func (s *defaultUserOauthModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultUserOauthModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)
