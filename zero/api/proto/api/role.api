@@ -13,35 +13,35 @@ service blog-api {
     @handler CreateRole
     post /role/create_role (Role) returns (Role)
 
-@doc "更新角色"
+    @doc "更新角色"
     @handler UpdateRole
     put /role/update_role (Role) returns (Role)
 
-@doc "删除角色"
+    @doc "删除角色"
     @handler DeleteRole
-    delete /role/delete_role (IdReq) returns (EmptyResp)
+    delete /role/delete_role (IdReq) returns (BatchResult)
 
-@doc "查询角色"
+    @doc "批量删除角色"
+    @handler DeleteRoleList
+    delete /role/delete_role_list (IdsReq) returns (BatchResult)
+
+    @doc "查询角色"
     @handler FindRole
     post /role/find_role (IdReq) returns (Role)
 
-@doc "批量删除角色"
-    @handler DeleteRoleList
-    delete /role/batch_delete_role (IdsReq) returns (BatchResult)
-
-@doc "分页获取角色列表"
+    @doc "分页获取角色列表"
     @handler FindRoleList
-    post /role/find_role_list (PageQuery) returns ([]Role)
+    post /role/find_role_list (PageQuery) returns (PageResult)
 
-@doc "获取角色列表"
-    @handler FindRoleDetailsList
-    post /role/details_list (PageQuery) returns ([]RoleDetailsDTO)
+    @doc "获取角色资源列表"
+    @handler FindRoleResources
+    post /role/find_role_resources (IdsReq) returns (PageResult)
 
-@doc "更新角色菜单"
+    @doc "更新角色菜单权限"
     @handler UpdateRoleMenus
     post /role/update_menus (UpdateRoleMenusReq) returns (EmptyResp)
 
-@doc "更新角色资源"
-    @handler UpdateRoleResources
-    post /role/update_resources (UpdateRoleApisReq) returns (EmptyResp)
+    @doc "更新角色接口权限"
+    @handler UpdateRoleApis
+    post /role/update_apis (UpdateRoleApisReq) returns (EmptyResp)
 }

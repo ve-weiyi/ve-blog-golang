@@ -33,6 +33,7 @@ type (
 	RoleDTO            = account.RoleDTO
 	RoleDetailsDTO     = account.RoleDetailsDTO
 	RolePageResp       = account.RolePageResp
+	RoleResourceResp   = account.RoleResourceResp
 	UpdateRoleApisReq  = account.UpdateRoleApisReq
 	UpdateRoleMenusReq = account.UpdateRoleMenusReq
 	UserEmailReq       = account.UserEmailReq

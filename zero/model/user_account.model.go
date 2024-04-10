@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *UserAccount) (out *UserAccount, err error)
 		Update(ctx context.Context, in *UserAccount) (out *UserAccount, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *UserAccount, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*UserAccount) (rows int64, err error)
@@ -89,7 +89,7 @@ func (s *defaultUserAccountModel) Update(ctx context.Context, in *UserAccount) (
 }
 
 // 删除UserAccount记录
-func (s *defaultUserAccountModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultUserAccountModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

@@ -5,6 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/common/responsex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/logic/role"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
@@ -20,10 +21,6 @@ func DeleteRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		l := role.NewDeleteRoleLogic(r.Context(), svcCtx)
 		resp, err := l.DeleteRole(&req)
-		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
-		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
-		}
+		responsex.Response(r, w, resp, err)
 	}
 }

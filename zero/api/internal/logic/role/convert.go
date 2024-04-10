@@ -1,6 +1,8 @@
 package role
 
 import (
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
@@ -34,17 +36,17 @@ func convertPageQuery(in *types.PageQuery) (out *rolerpc.PageQuery) {
 		out.Conditions = append(out.Conditions, &account.PageCondition{
 			Field:    condition.Field,
 			Operator: condition.Operator,
-			Value:    condition.Value,
+			Value:    cast.ToString(condition.Value),
 		})
 	}
 
 	return
 }
 
-func convertRoleApi(in *rolerpc.Role) (out *types.Role) {
-	out = &types.Role{
+func convertRoleDetailsTypes(in *rolerpc.RoleDetailsDTO) (out *types.RoleDetailsDTO) {
+	out = &types.RoleDetailsDTO{
 		ID:          in.Id,
-		RolePID:     in.RolePid,
+		RolePID:     in.ParentId,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,
@@ -56,10 +58,25 @@ func convertRoleApi(in *rolerpc.Role) (out *types.Role) {
 	return
 }
 
-func convertRoleRpc(in *types.Role) (out *rolerpc.Role) {
+func convertRoleTypes(in *rolerpc.Role) (out *types.Role) {
+	out = &types.Role{
+		ID:          in.Id,
+		RolePID:     in.ParentId,
+		RoleDomain:  in.RoleDomain,
+		RoleName:    in.RoleName,
+		RoleComment: in.RoleComment,
+		IsDisable:   in.IsDisable,
+		IsDefault:   in.IsDefault,
+		CreatedAt:   in.CreatedAt,
+		UpdatedAt:   in.UpdatedAt,
+	}
+	return
+}
+
+func convertRolePb(in *types.Role) (out *rolerpc.Role) {
 	out = &rolerpc.Role{
 		Id:          in.ID,
-		RolePid:     in.RolePID,
+		ParentId:    in.RolePID,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,

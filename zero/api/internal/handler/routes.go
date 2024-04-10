@@ -211,14 +211,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: role.DeleteRoleHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodDelete,
+				Path:    "/role/delete_role_list",
+				Handler: role.DeleteRoleListHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/role/find_role",
 				Handler: role.FindRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/role/batch_delete_role",
-				Handler: role.DeleteRoleListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
@@ -227,8 +227,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/details_list",
-				Handler: role.FindRoleDetailsListHandler(serverCtx),
+				Path:    "/role/find_role_resources",
+				Handler: role.FindRoleResourcesHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
@@ -237,8 +237,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/update_resources",
-				Handler: role.UpdateRoleResourcesHandler(serverCtx),
+				Path:    "/role/update_apis",
+				Handler: role.UpdateRoleApisHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

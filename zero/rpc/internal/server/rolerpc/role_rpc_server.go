@@ -34,6 +34,12 @@ func (s *RoleRpcServer) UpdateRole(ctx context.Context, in *account.Role) (*acco
 	return l.UpdateRole(in)
 }
 
+// 删除角色
+func (s *RoleRpcServer) DeleteRole(ctx context.Context, in *account.IdReq) (*account.BatchResult, error) {
+	l := rolerpclogic.NewDeleteRoleLogic(ctx, s.svcCtx)
+	return l.DeleteRole(in)
+}
+
 // 批量删除角色
 func (s *RoleRpcServer) DeleteRoleList(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
 	l := rolerpclogic.NewDeleteRoleListLogic(ctx, s.svcCtx)
@@ -41,7 +47,7 @@ func (s *RoleRpcServer) DeleteRoleList(ctx context.Context, in *account.IdsReq) 
 }
 
 // 查询角色
-func (s *RoleRpcServer) FindRole(ctx context.Context, in *account.IdReq) (*account.RoleDetailsDTO, error) {
+func (s *RoleRpcServer) FindRole(ctx context.Context, in *account.IdReq) (*account.Role, error) {
 	l := rolerpclogic.NewFindRoleLogic(ctx, s.svcCtx)
 	return l.FindRole(in)
 }
@@ -52,6 +58,12 @@ func (s *RoleRpcServer) FindRoleList(ctx context.Context, in *account.PageQuery)
 	return l.FindRoleList(in)
 }
 
+// 查询角色
+func (s *RoleRpcServer) FindRoleResource(ctx context.Context, in *account.IdReq) (*account.RoleResourceResp, error) {
+	l := rolerpclogic.NewFindRoleResourceLogic(ctx, s.svcCtx)
+	return l.FindRoleResource(in)
+}
+
 // 更新角色菜单
 func (s *RoleRpcServer) UpdateRoleMenus(ctx context.Context, in *account.UpdateRoleMenusReq) (*account.EmptyResp, error) {
 	l := rolerpclogic.NewUpdateRoleMenusLogic(ctx, s.svcCtx)
@@ -59,7 +71,7 @@ func (s *RoleRpcServer) UpdateRoleMenus(ctx context.Context, in *account.UpdateR
 }
 
 // 更新角色资源
-func (s *RoleRpcServer) UpdateRoleResources(ctx context.Context, in *account.UpdateRoleApisReq) (*account.EmptyResp, error) {
-	l := rolerpclogic.NewUpdateRoleResourcesLogic(ctx, s.svcCtx)
-	return l.UpdateRoleResources(in)
+func (s *RoleRpcServer) UpdateRoleApis(ctx context.Context, in *account.UpdateRoleApisReq) (*account.EmptyResp, error) {
+	l := rolerpclogic.NewUpdateRoleApisLogic(ctx, s.svcCtx)
+	return l.UpdateRoleApis(in)
 }

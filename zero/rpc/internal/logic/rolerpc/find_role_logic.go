@@ -3,6 +3,7 @@ package rolerpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -24,11 +25,11 @@ func NewFindRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRole
 }
 
 // 查询角色
-func (l *FindRoleLogic) FindRole(in *account.IdReq) (*account.RoleDetailsDTO, error) {
+func (l *FindRoleLogic) FindRole(in *account.IdReq) (*account.Role, error) {
 	result, err := l.svcCtx.RoleModel.First(l.ctx, "id = ?", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertRoleModelToDetailPb(result), nil
+	return convert.ConvertRoleModelToPb(result), nil
 }

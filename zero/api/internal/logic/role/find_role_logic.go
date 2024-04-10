@@ -34,5 +34,5 @@ func (l *FindRoleLogic) FindRole(req *types.IdReq) (resp *types.Role, err error)
 		return nil, err
 	}
 
-	return convertRoleApi(out), nil
+	return convertRoleTypes(out), nil
 }

@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *UniqueView) (out *UniqueView, err error)
 		Update(ctx context.Context, in *UniqueView) (out *UniqueView, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *UniqueView, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*UniqueView) (rows int64, err error)
@@ -81,7 +81,7 @@ func (s *defaultUniqueViewModel) Update(ctx context.Context, in *UniqueView) (ou
 }
 
 // 删除UniqueView记录
-func (s *defaultUniqueViewModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultUniqueViewModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

@@ -9,24 +9,23 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteRoleListLogic struct {
+type DeleteRoleLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewDeleteRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteRoleListLogic {
-	return &DeleteRoleListLogic{
+func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteRoleLogic {
+	return &DeleteRoleLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 批量删除角色
-func (l *DeleteRoleListLogic) DeleteRoleList(in *account.IdsReq) (*account.BatchResult, error) {
-
-	result, err := l.svcCtx.RoleModel.BatchDelete(l.ctx, "id in (?)", in.Ids)
+// 删除角色
+func (l *DeleteRoleLogic) DeleteRole(in *account.IdReq) (*account.BatchResult, error) {
+	result, err := l.svcCtx.RoleModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

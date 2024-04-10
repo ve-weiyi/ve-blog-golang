@@ -17,7 +17,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *{{.UpperStartCamelName}}) (out *{{.UpperStartCamelName}}, err error)
 		Update(ctx context.Context, in *{{.UpperStartCamelName}}) (out *{{.UpperStartCamelName}}, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *{{.UpperStartCamelName}}, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error)
@@ -80,7 +80,7 @@ func (s *default{{.UpperStartCamelName}}Model) Update(ctx context.Context, in *{
 }
 
 // 删除{{.UpperStartCamelName}}记录
-func (s *default{{.UpperStartCamelName}}Model) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *default{{.UpperStartCamelName}}Model) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

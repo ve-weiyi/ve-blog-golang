@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *Article) (out *Article, err error)
 		Update(ctx context.Context, in *Article) (out *Article, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *Article, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*Article) (rows int64, err error)
@@ -90,7 +90,7 @@ func (s *defaultArticleModel) Update(ctx context.Context, in *Article) (out *Art
 }
 
 // 删除Article记录
-func (s *defaultArticleModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultArticleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *Page) (out *Page, err error)
 		Update(ctx context.Context, in *Page) (out *Page, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *Page, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*Page) (rows int64, err error)
@@ -83,7 +83,7 @@ func (s *defaultPageModel) Update(ctx context.Context, in *Page) (out *Page, err
 }
 
 // 删除Page记录
-func (s *defaultPageModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultPageModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

@@ -35,26 +35,26 @@ type IdsReq struct {
 }
 
 type PageQuery struct {
-	Limit      PageLimit       `json:"limit"`
-	Sorts      []PageSort      `json:"sorts"`
-	Conditions []PageCondition `json:"conditions"`
+	Limit      PageLimit       `json:"limit,optional"`
+	Sorts      []PageSort      `json:"sorts,optional"`
+	Conditions []PageCondition `json:"conditions,optional"`
 }
 
 type PageLimit struct {
-	Page     int64 `json:"page"`
-	PageSize int64 `json:"page_size"`
+	Page     int64 `json:"page,optional"`
+	PageSize int64 `json:"page_size,optional"`
 }
 
 type PageSort struct {
-	Field string `json:"field"`
-	Order string `json:"order"`
+	Field string `json:"field,optional"`
+	Order string `json:"order,optional"`
 }
 
 type PageCondition struct {
-	Field    string      `json:"field"`    // 字段
-	Value    interface{} `json:"value"`    // 值
-	Logic    string      `json:"logic"`    // and | or
-	Operator string      `json:"operator"` // = | >= | < | in | not in |....
+	Field    string      `json:"field,optional"`    // 字段
+	Value    interface{} `json:"value,optional"`    // 值
+	Logic    string      `json:"logic,optional"`    // and | or
+	Operator string      `json:"operator,optional"` // = | >= | < | in | not in |....
 }
 
 type EmptyResp struct {
@@ -65,8 +65,10 @@ type BatchResult struct {
 }
 
 type PageResult struct {
-	Total int64       `json:"total"`
-	List  interface{} `json:"list"`
+	Page     int64       `json:"page"`
+	PageSize int64       `json:"page_size"`
+	Total    int64       `json:"total"`
+	List     interface{} `json:"list"`
 }
 
 type Response struct {
@@ -612,6 +614,15 @@ type RoleDTO struct {
 }
 
 type RoleDetailsDTO struct {
+	ID             int64   `json:"id,optional"`           // 主键id
+	RolePID        int64   `json:"role_pid,optional"`     // 父角色id
+	RoleDomain     string  `json:"role_domain,optional"`  // 角色域
+	RoleName       string  `json:"role_name,optional"`    // 角色名
+	RoleComment    string  `json:"role_comment,optional"` // 角色备注
+	IsDisable      int64   `json:"is_disable,optional"`   // 是否禁用  0否 1是
+	IsDefault      int64   `json:"is_default,optional"`   // 是否默认角色 0否 1是
+	CreatedAt      int64   `json:"created_at,optional"`   // 创建时间
+	UpdatedAt      int64   `json:"updated_at,optional"`   // 更新时间
 	MenuIdList     []int64 `json:"menu_id_list,optional"`
 	ResourceIdList []int64 `json:"resource_id_list,optional"`
 }

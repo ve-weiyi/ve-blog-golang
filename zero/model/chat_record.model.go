@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *ChatRecord) (out *ChatRecord, err error)
 		Update(ctx context.Context, in *ChatRecord) (out *ChatRecord, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *ChatRecord, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*ChatRecord) (rows int64, err error)
@@ -87,7 +87,7 @@ func (s *defaultChatRecordModel) Update(ctx context.Context, in *ChatRecord) (ou
 }
 
 // 删除ChatRecord记录
-func (s *defaultChatRecordModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultChatRecordModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

@@ -1,59 +1,12 @@
-package rolerpclogic
+package convert
 
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 )
 
-func convertRoleModelToPb(in *model.Role) (out *account.Role) {
-	out = &account.Role{
-		Id:          in.ID,
-		RolePid:     in.RolePID,
-		RoleDomain:  in.RoleDomain,
-		RoleName:    in.RoleName,
-		RoleComment: in.RoleComment,
-		IsDisable:   in.IsDisable,
-		IsDefault:   in.IsDefault,
-		CreatedAt:   in.CreatedAt.Unix(),
-		UpdatedAt:   in.UpdatedAt.Unix(),
-	}
-
-	return out
-}
-
-func convertRolePbToModel(in *account.Role) (out *model.Role) {
-	out = &model.Role{
-		ID:          in.Id,
-		RolePID:     in.RolePid,
-		RoleDomain:  in.RoleDomain,
-		RoleName:    in.RoleName,
-		RoleComment: in.RoleComment,
-		IsDisable:   in.IsDisable,
-		IsDefault:   in.IsDefault,
-	}
-
-	return out
-}
-
-func convertRoleModelToDetailPb(in *model.Role) (out *account.RoleDetailsDTO) {
-	out = &account.RoleDetailsDTO{
-		Id:          in.ID,
-		RolePid:     in.RolePID,
-		RoleDomain:  in.RoleDomain,
-		RoleName:    in.RoleName,
-		RoleComment: in.RoleComment,
-		IsDisable:   in.IsDisable,
-		IsDefault:   in.IsDefault,
-		CreatedAt:   in.CreatedAt.Unix(),
-		UpdatedAt:   in.UpdatedAt.Unix(),
-	}
-
-	return out
-}
-
-func parsePageQuery(in *account.PageQuery) (limit int, offset int, sorts string, conditions string, params []interface{}) {
+func ParsePageQuery(in *account.PageQuery) (limit int, offset int, sorts string, conditions string, params []interface{}) {
 	limit, offset = LimitClause(in.Limit)
 	sorts = OrderClause(in.Sorts)
 	conditions, params = ConditionClause(in.Conditions)

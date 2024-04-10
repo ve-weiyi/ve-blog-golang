@@ -151,7 +151,7 @@ service ApiRpc {
 /************** user 用户相关 **************/
 message Role {
   int64 id = 1;// 主键id
-  int64 role_pid = 2;// 父角色id
+  int64 parent_id = 2;// 父角色id
   string role_domain = 3;// 角色域
   string role_name = 4;// 角色名
   string role_comment = 5;// 角色备注
@@ -162,15 +162,13 @@ message Role {
 }
 
 message RolePageResp {
-  int64 page = 1;
-  int64 page_size = 2;
-  int64 total = 3;
-  repeated Role list = 4;
+  int64 total = 1;
+  repeated RoleDetailsDTO list = 2;
 }
 
 message RoleDetailsDTO {
   int64 id = 1;// 主键id
-  int64 role_pid = 2;// 父角色id
+  int64 parent_id = 2;// 父角色id
   string role_domain = 3;// 角色域
   string role_name = 4;// 角色名
   string role_comment = 5;// 角色备注
@@ -178,22 +176,13 @@ message RoleDetailsDTO {
   int64 is_default = 7;// 是否默认角色 0否 1是
   int64 created_at = 8;// 创建时间
   int64 updated_at = 9;// 更新时间
-  repeated int64 menu_id_list = 10;
-  repeated int64 resource_id_list = 11;
+  repeated RoleDetailsDTO children = 10;
 }
 
-message RoleResourceDTO {
-  int64 id = 1;// 主键id
-  int64 role_pid = 2;// 父角色id
-  string role_domain = 3;// 角色域
-  string role_name = 4;// 角色名
-  string role_comment = 5;// 角色备注
-  int64 is_disable = 6;// 是否禁用  0否 1是
-  int64 is_default = 7;// 是否默认角色 0否 1是
-  int64 created_at = 8;// 创建时间
-  int64 updated_at = 9;// 更新时间
-  repeated int64 menu_id_list = 10;
-  repeated int64 resource_id_list = 11;
+message RoleResourceResp {
+  int64 role_id = 1;
+  repeated int64 menu_id_list = 2;
+  repeated int64 resource_id_list = 3;
 }
 
 message UpdateRoleApisReq {
@@ -211,14 +200,18 @@ service roleRpc {
   rpc CreateRole(Role) returns(Role);
   // 更新角色
   rpc UpdateRole(Role) returns(Role);
+  // 删除角色
+  rpc DeleteRole(IdReq) returns(BatchResult);
   // 批量删除角色
   rpc DeleteRoleList(IdsReq) returns(BatchResult);
   // 查询角色
-  rpc FindRole(IdReq) returns(RoleDetailsDTO);
+  rpc FindRole(IdReq) returns(Role);
   // 分页获取角色列表
   rpc FindRoleList(PageQuery) returns(RolePageResp);
+  // 查询角色
+  rpc FindRoleResource(IdReq) returns(RoleResourceResp);
   // 更新角色菜单
   rpc UpdateRoleMenus(UpdateRoleMenusReq) returns(EmptyResp);
   // 更新角色资源
-  rpc UpdateRoleResources(UpdateRoleApisReq) returns(EmptyResp);
+  rpc UpdateRoleApis(UpdateRoleApisReq) returns(EmptyResp);
 }

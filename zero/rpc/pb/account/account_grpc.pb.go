@@ -681,19 +681,23 @@ var ApiRpc_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RoleRpcClient interface {
 	// 创建角色
-	CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*EmptyResp, error)
+	CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 	// 更新角色
-	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*EmptyResp, error)
+	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
+	// 删除角色
+	DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
 	// 批量删除角色
 	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
 	// 查询角色
-	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleDetailsDTO, error)
+	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
 	// 分页获取角色列表
 	FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
+	// 查询角色
+	FindRoleResource(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourceResp, error)
 	// 更新角色菜单
 	UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 更新角色资源
-	UpdateRoleResources(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	UpdateRoleApis(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error)
 }
 
 type roleRpcClient struct {
@@ -704,8 +708,8 @@ func NewRoleRpcClient(cc grpc.ClientConnInterface) RoleRpcClient {
 	return &roleRpcClient{cc}
 }
 
-func (c *roleRpcClient) CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
+func (c *roleRpcClient) CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
 	err := c.cc.Invoke(ctx, "/account.roleRpc/CreateRole", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -713,9 +717,18 @@ func (c *roleRpcClient) CreateRole(ctx context.Context, in *Role, opts ...grpc.C
 	return out, nil
 }
 
-func (c *roleRpcClient) UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
+func (c *roleRpcClient) UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
 	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/DeleteRole", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -731,8 +744,8 @@ func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...
 	return out, nil
 }
 
-func (c *roleRpcClient) FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleDetailsDTO, error) {
-	out := new(RoleDetailsDTO)
+func (c *roleRpcClient) FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
 	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRole", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -749,6 +762,15 @@ func (c *roleRpcClient) FindRoleList(ctx context.Context, in *PageQuery, opts ..
 	return out, nil
 }
 
+func (c *roleRpcClient) FindRoleResource(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourceResp, error) {
+	out := new(RoleResourceResp)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRoleResource", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *roleRpcClient) UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleMenus", in, out, opts...)
@@ -758,9 +780,9 @@ func (c *roleRpcClient) UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenus
 	return out, nil
 }
 
-func (c *roleRpcClient) UpdateRoleResources(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *roleRpcClient) UpdateRoleApis(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleResources", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleApis", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -772,19 +794,23 @@ func (c *roleRpcClient) UpdateRoleResources(ctx context.Context, in *UpdateRoleA
 // for forward compatibility
 type RoleRpcServer interface {
 	// 创建角色
-	CreateRole(context.Context, *Role) (*EmptyResp, error)
+	CreateRole(context.Context, *Role) (*Role, error)
 	// 更新角色
-	UpdateRole(context.Context, *Role) (*EmptyResp, error)
+	UpdateRole(context.Context, *Role) (*Role, error)
+	// 删除角色
+	DeleteRole(context.Context, *IdReq) (*BatchResult, error)
 	// 批量删除角色
 	DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error)
 	// 查询角色
-	FindRole(context.Context, *IdReq) (*RoleDetailsDTO, error)
+	FindRole(context.Context, *IdReq) (*Role, error)
 	// 分页获取角色列表
 	FindRoleList(context.Context, *PageQuery) (*RolePageResp, error)
+	// 查询角色
+	FindRoleResource(context.Context, *IdReq) (*RoleResourceResp, error)
 	// 更新角色菜单
 	UpdateRoleMenus(context.Context, *UpdateRoleMenusReq) (*EmptyResp, error)
 	// 更新角色资源
-	UpdateRoleResources(context.Context, *UpdateRoleApisReq) (*EmptyResp, error)
+	UpdateRoleApis(context.Context, *UpdateRoleApisReq) (*EmptyResp, error)
 	mustEmbedUnimplementedRoleRpcServer()
 }
 
@@ -792,26 +818,32 @@ type RoleRpcServer interface {
 type UnimplementedRoleRpcServer struct {
 }
 
-func (UnimplementedRoleRpcServer) CreateRole(context.Context, *Role) (*EmptyResp, error) {
+func (UnimplementedRoleRpcServer) CreateRole(context.Context, *Role) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
 }
-func (UnimplementedRoleRpcServer) UpdateRole(context.Context, *Role) (*EmptyResp, error) {
+func (UnimplementedRoleRpcServer) UpdateRole(context.Context, *Role) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
+}
+func (UnimplementedRoleRpcServer) DeleteRole(context.Context, *IdReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
 }
 func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoleList not implemented")
 }
-func (UnimplementedRoleRpcServer) FindRole(context.Context, *IdReq) (*RoleDetailsDTO, error) {
+func (UnimplementedRoleRpcServer) FindRole(context.Context, *IdReq) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRole not implemented")
 }
 func (UnimplementedRoleRpcServer) FindRoleList(context.Context, *PageQuery) (*RolePageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRoleList not implemented")
 }
+func (UnimplementedRoleRpcServer) FindRoleResource(context.Context, *IdReq) (*RoleResourceResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRoleResource not implemented")
+}
 func (UnimplementedRoleRpcServer) UpdateRoleMenus(context.Context, *UpdateRoleMenusReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleMenus not implemented")
 }
-func (UnimplementedRoleRpcServer) UpdateRoleResources(context.Context, *UpdateRoleApisReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleResources not implemented")
+func (UnimplementedRoleRpcServer) UpdateRoleApis(context.Context, *UpdateRoleApisReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleApis not implemented")
 }
 func (UnimplementedRoleRpcServer) mustEmbedUnimplementedRoleRpcServer() {}
 
@@ -858,6 +890,24 @@ func _RoleRpc_UpdateRole_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(RoleRpcServer).UpdateRole(ctx, req.(*Role))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).DeleteRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/DeleteRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).DeleteRole(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -916,6 +966,24 @@ func _RoleRpc_FindRoleList_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RoleRpc_FindRoleResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).FindRoleResource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/FindRoleResource",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).FindRoleResource(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _RoleRpc_UpdateRoleMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateRoleMenusReq)
 	if err := dec(in); err != nil {
@@ -934,20 +1002,20 @@ func _RoleRpc_UpdateRoleMenus_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RoleRpc_UpdateRoleResources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RoleRpc_UpdateRoleApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateRoleApisReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RoleRpcServer).UpdateRoleResources(ctx, in)
+		return srv.(RoleRpcServer).UpdateRoleApis(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/account.roleRpc/UpdateRoleResources",
+		FullMethod: "/account.roleRpc/UpdateRoleApis",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).UpdateRoleResources(ctx, req.(*UpdateRoleApisReq))
+		return srv.(RoleRpcServer).UpdateRoleApis(ctx, req.(*UpdateRoleApisReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -968,6 +1036,10 @@ var RoleRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RoleRpc_UpdateRole_Handler,
 		},
 		{
+			MethodName: "DeleteRole",
+			Handler:    _RoleRpc_DeleteRole_Handler,
+		},
+		{
 			MethodName: "DeleteRoleList",
 			Handler:    _RoleRpc_DeleteRoleList_Handler,
 		},
@@ -980,12 +1052,16 @@ var RoleRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RoleRpc_FindRoleList_Handler,
 		},
 		{
+			MethodName: "FindRoleResource",
+			Handler:    _RoleRpc_FindRoleResource_Handler,
+		},
+		{
 			MethodName: "UpdateRoleMenus",
 			Handler:    _RoleRpc_UpdateRoleMenus_Handler,
 		},
 		{
-			MethodName: "UpdateRoleResources",
-			Handler:    _RoleRpc_UpdateRoleResources_Handler,
+			MethodName: "UpdateRoleApis",
+			Handler:    _RoleRpc_UpdateRoleApis_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

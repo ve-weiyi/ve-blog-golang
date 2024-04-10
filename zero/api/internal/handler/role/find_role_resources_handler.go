@@ -11,16 +11,16 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 )
 
-func FindRoleDetailsListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func FindRoleResourcesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PageQuery
+		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := role.NewFindRoleDetailsListLogic(r.Context(), svcCtx)
-		resp, err := l.FindRoleDetailsList(&req)
+		l := role.NewFindRoleResourcesLogic(r.Context(), svcCtx)
+		resp, err := l.FindRoleResources(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

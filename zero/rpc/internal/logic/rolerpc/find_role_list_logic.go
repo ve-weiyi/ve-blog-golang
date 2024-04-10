@@ -3,8 +3,8 @@ package rolerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -27,48 +27,44 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取角色列表
 func (l *FindRoleListLogic) FindRoleList(in *account.PageQuery) (*account.RolePageResp, error) {
-	limit, offset, sorts, conditions, params := parsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.RoleModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.RoleModel.FindList(l.ctx, page, size, sorts, conditions, params)
 	if err != nil {
 		return nil, err
 	}
 
-	return &account.RolePageResp{}, nil
+	total, err := l.svcCtx.RoleModel.Count(l.ctx, conditions, params)
+	if err != nil {
+		return nil, err
+	}
+
+	var root account.RoleDetailsDTO
+	root.Children = appendRoleChildren(&root, result)
+
+	out := &account.RolePageResp{}
+	out.Total = total
+	out.List = root.Children
+
+	return out, nil
 }
 
 func appendRoleChildren(root *account.RoleDetailsDTO, list []*model.Role) (leafs []*account.RoleDetailsDTO) {
 	for _, item := range list {
-		if item.RolePid == root.Id {
-			leaf := account.RoleDetailsDTO{
-				Id:             item.Id,
-				RolePid: root.Id,
-				RoleDomain: item.
-				RoleName:       "",
-				RoleComment:    "",
-				IsDisable:      0,
-				IsDefault:      0,
-				CreatedAt:      0,
-				UpdatedAt:      0,
-				MenuIdList:     nil,
-				ResourceIdList: nil,
+		if item.ParentId == root.Id {
+			leaf := &account.RoleDetailsDTO{
+				Id:          item.Id,
+				ParentId:    root.Id,
+				RoleDomain:  item.RoleDomain,
+				RoleName:    item.RoleName,
+				RoleComment: item.RoleComment,
+				IsDisable:   item.IsDisable,
+				IsDefault:   item.IsDefault,
+				CreatedAt:   item.CreatedAt.Unix(),
+				UpdatedAt:   item.UpdatedAt.Unix(),
 			}
-			leaf.Children = getApiChildren(leaf, list)
-			leafs = append(leafs, &leaf)
-		}
-	}
-	return leafs
-}
-
-func getApiChildren(root account.RoleDetailsDTO, list []*entity.Api) (leafs []*account.RoleDetailsDTO) {
-	for _, item := range list {
-		if item.ParentID == root.ID {
-			leaf := account.RoleDetailsDTO{
-				Api:      *item,
-				Children: nil,
-			}
-			leaf.Children = getApiChildren(leaf, list)
-			leafs = append(leafs, &leaf)
+			leaf.Children = appendRoleChildren(leaf, list)
+			leafs = append(leafs, leaf)
 		}
 	}
 	return leafs

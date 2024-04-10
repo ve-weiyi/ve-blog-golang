@@ -24,7 +24,12 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 func (l *CreateRoleLogic) CreateRole(req *types.Role) (resp *types.Role, err error) {
-	// todo: add your logic here and delete this line
+	in := convertRolePb(req)
+	role, err := l.svcCtx.RoleRpc.CreateRole(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = convertRoleTypes(role)
+	return resp, nil
 }

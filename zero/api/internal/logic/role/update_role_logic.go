@@ -24,12 +24,12 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateRoleLogic) UpdateRole(req *types.Role) (resp *types.Role, err error) {
-	in := convertRoleRpc(req)
+	in := convertRolePb(req)
 
 	role, err := l.svcCtx.RoleRpc.UpdateRole(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertRoleApi(role), nil
+	return convertRoleTypes(role), nil
 }

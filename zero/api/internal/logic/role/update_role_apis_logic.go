@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindRoleDetailsListLogic struct {
+type UpdateRoleApisLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewFindRoleDetailsListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRoleDetailsListLogic {
-	return &FindRoleDetailsListLogic{
+func NewUpdateRoleApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRoleApisLogic {
+	return &UpdateRoleApisLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindRoleDetailsListLogic) FindRoleDetailsList(req *types.PageQuery) (resp []types.RoleDetailsDTO, err error) {
+func (l *UpdateRoleApisLogic) UpdateRoleApis(req *types.UpdateRoleApisReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

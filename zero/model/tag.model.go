@@ -18,7 +18,7 @@ type (
 		// 增删改查
 		Create(ctx context.Context, in *Tag) (out *Tag, err error)
 		Update(ctx context.Context, in *Tag) (out *Tag, err error)
-		Delete(ctx context.Context, id int) (rows int64, err error)
+		Delete(ctx context.Context, id int64) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *Tag, err error)
 		// 批量操作
 		BatchCreate(ctx context.Context, in ...*Tag) (rows int64, err error)
@@ -81,7 +81,7 @@ func (s *defaultTagModel) Update(ctx context.Context, in *Tag) (out *Tag, err er
 }
 
 // 删除Tag记录
-func (s *defaultTagModel) Delete(ctx context.Context, id int) (rows int64, err error) {
+func (s *defaultTagModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx).Table(s.tableName)
 
 	db = db.Where("id = ?", id)

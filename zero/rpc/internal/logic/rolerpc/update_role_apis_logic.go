@@ -9,14 +9,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateRoleResourcesLogic struct {
+type UpdateRoleApisLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUpdateRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRoleResourcesLogic {
-	return &UpdateRoleResourcesLogic{
+func NewUpdateRoleApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRoleApisLogic {
+	return &UpdateRoleApisLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -24,7 +24,7 @@ func NewUpdateRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // 更新角色资源
-func (l *UpdateRoleResourcesLogic) UpdateRoleResources(in *account.UpdateRoleApisReq) (*account.EmptyResp, error) {
+func (l *UpdateRoleApisLogic) UpdateRoleApis(in *account.UpdateRoleApisReq) (*account.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &account.EmptyResp{}, nil

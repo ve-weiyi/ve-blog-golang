@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 )
 
-func UpdateRoleResourcesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UpdateRoleApisHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UpdateRoleApisReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -19,8 +19,8 @@ func UpdateRoleResourcesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := role.NewUpdateRoleResourcesLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateRoleResources(&req)
+		l := role.NewUpdateRoleApisLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateRoleApis(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

@@ -54,13 +54,13 @@ func (l *LoginLogic) Login(req *account.LoginReq) (*account.LoginResp, error) {
 	}
 
 	// 获取用户信息
-	info, err := l.svcCtx.UserInformationRepository.FindUserInfo(l.ctx, user.ID)
+	info, err := l.svcCtx.UserInformationRepository.FindUserInfo(l.ctx, user.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	resp := &account.LoginResp{
-		UserId:   user.ID,
+		UserId:   user.Id,
 		Username: user.Username,
 		Nickname: info.Nickname,
 		Avatar:   info.Avatar,
