@@ -3,6 +3,7 @@ package apirpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -23,8 +24,12 @@ func NewFindApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindApiLo
 	}
 }
 
+// 查询接口
 func (l *FindApiLogic) FindApi(in *account.IdReq) (*account.Api, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.ApiModel.First(l.ctx, "id = ?", in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &account.Api{}, nil
+	return convert.ConvertApiModelToPb(result), nil
 }

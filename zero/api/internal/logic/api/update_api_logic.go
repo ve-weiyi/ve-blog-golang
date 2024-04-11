@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -24,7 +25,11 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 }
 
 func (l *UpdateApiLogic) UpdateApi(req *types.Api) (resp *types.Api, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertApiPb(req)
+	api, err := l.svcCtx.ApiRpc.UpdateApi(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return convert.ConvertApiTypes(api), nil
 }

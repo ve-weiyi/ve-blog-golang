@@ -122,33 +122,6 @@ service AccountRpc {
 }
 
 /************** rbac 权限相关 **************/
-message Api {
-  int64 id = 1;// 主键id
-  string name = 2;// api名称
-  string path = 3;// api路径
-  string method = 4;// api请求方法
-  int64 parent_id = 5;// 分组id
-  int64 traceable = 6;// 是否追溯操作记录 0需要，1是
-  int64 status = 7;// 状态 1开，2关
-  int64 created_at = 8;// 创建时间
-  int64 updated_at = 9;// 更新时间
-}
-
-service ApiRpc {
-  rpc CreateApi(Api) returns(Api);
-
-  rpc UpdateApi(Api) returns(Api);
-
-  rpc DeleteApi(IdReq) returns(EmptyResp);
-
-  rpc FindApi(IdReq) returns(Api);
-
-  rpc DeleteListApi(IdsReq) returns(BatchResult);
-
-  rpc FindListApi(PageQuery) returns(PageResult);
-}
-
-/************** user 用户相关 **************/
 message Role {
   int64 id = 1;// 主键id
   int64 parent_id = 2;// 父角色id
@@ -159,11 +132,6 @@ message Role {
   int64 is_default = 7;// 是否默认角色 0否 1是
   int64 created_at = 8;// 创建时间
   int64 updated_at = 9;// 更新时间
-}
-
-message RolePageResp {
-  int64 total = 1;
-  repeated RoleDetailsDTO list = 2;
 }
 
 message RoleDetailsDTO {
@@ -177,6 +145,11 @@ message RoleDetailsDTO {
   int64 created_at = 8;// 创建时间
   int64 updated_at = 9;// 更新时间
   repeated RoleDetailsDTO children = 10;
+}
+
+message RolePageResp {
+  int64 total = 1;
+  repeated RoleDetailsDTO list = 2;
 }
 
 message RoleResourceResp {
@@ -214,4 +187,110 @@ service roleRpc {
   rpc UpdateRoleMenus(UpdateRoleMenusReq) returns(EmptyResp);
   // 更新角色资源
   rpc UpdateRoleApis(UpdateRoleApisReq) returns(EmptyResp);
+}
+
+message Api {
+  int64 id = 1;// 主键id
+  string name = 2;// api名称
+  string path = 3;// api路径
+  string method = 4;// api请求方法
+  int64 parent_id = 5;// 分组id
+  int64 traceable = 6;// 是否追溯操作记录 0需要，1是
+  int64 status = 7;// 状态 1开，2关
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+}
+
+message ApiDetailsDTO {
+  int64 id = 1;// 主键id
+  string name = 2;// api名称
+  string path = 3;// api路径
+  string method = 4;// api请求方法
+  int64 parent_id = 5;// 分组id
+  int64 traceable = 6;// 是否追溯操作记录 0需要，1是
+  int64 status = 7;// 状态 1开，2关
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+  repeated ApiDetailsDTO children = 10;
+}
+
+message ApiPageResp {
+  int64 total = 1;
+  repeated ApiDetailsDTO list = 2;
+}
+
+service apiRpc {
+  // 创建接口
+  rpc CreateApi(Api) returns(Api);
+  // 更新接口
+  rpc UpdateApi(Api) returns(Api);
+  // 删除接口
+  rpc DeleteApi(IdReq) returns(BatchResult);
+  // 批量删除接口
+  rpc DeleteApiList(IdsReq) returns(BatchResult);
+  // 查询接口
+  rpc FindApi(IdReq) returns(Api);
+  // 分页获取接口列表
+  rpc FindApiList(PageQuery) returns(ApiPageResp);
+  // 同步接口列表
+  rpc SyncApiList(EmptyReq) returns(BatchResult);
+  // 清空接口列表
+  rpc CleanApiList(EmptyReq) returns(EmptyResp);
+}
+
+message Menu {
+  int64 id = 1;// 主键
+  int64 parent_id = 2;// 父id
+  string title = 3;// 菜单标题
+  string path = 4;// 路由路径
+  string name = 5;// 路由名称
+  string component = 6;// 路由组件
+  string redirect = 7;// 路由重定向
+  int64 type = 8;// 菜单类型
+  string extra = 9;// 菜单元数据
+  int64 created_at = 10;// 创建时间
+  int64 updated_at = 11;// 更新时间
+}
+
+message MenuDetailsDTO {
+  int64 id = 1;// 主键
+  int64 parent_id = 2;// 父id
+  string title = 3;// 菜单标题
+  int64 type = 4;// 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+  string path = 5;// 路由地址
+  string name = 6;// 路由名字
+  string component = 7;// Layout组件
+  string redirect = 8;// 路由重定向
+  string extra = 9;// 额外的配置信息
+  int64 created_at = 10;// 创建时间
+  int64 updated_at = 11;// 更新时间
+  repeated MenuDetailsDTO children = 12;
+}
+
+message MenuPageResp {
+  int64 total = 1;
+  repeated MenuDetailsDTO list = 2;
+}
+
+message SyncMenuRequest {
+  repeated MenuDetailsDTO menus = 1;
+}
+
+service menuRpc {
+  // 创建菜单
+  rpc CreateMenu(Menu) returns(Menu);
+  // 更新菜单
+  rpc UpdateMenu(Menu) returns(Menu);
+  // 删除菜单
+  rpc DeleteMenu(IdReq) returns(BatchResult);
+  // 批量删除菜单
+  rpc DeleteMenuList(IdsReq) returns(BatchResult);
+  // 查询菜单
+  rpc FindMenu(IdReq) returns(Menu);
+  // 分页获取菜单列表
+  rpc FindMenuList(PageQuery) returns(MenuPageResp);
+  // 同步菜单列表
+  rpc SyncMenuList(SyncMenuRequest) returns(BatchResult);
+  // 清空菜单列表
+  rpc CleanMenuList(EmptyReq) returns(EmptyResp);
 }

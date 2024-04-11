@@ -93,7 +93,7 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/menu/delete_menu [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -110,38 +110,6 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 	}
 
 	data, err := s.svcCtx.MenuService.DeleteMenu(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Menu
-// @Summary		查询菜单
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router 		/menu/find_menu [post]
-func (s *MenuController) FindMenu(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -182,6 +150,38 @@ func (s *MenuController) DeleteMenuList(c *gin.Context) {
 	s.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
+}
+
+// @Tags 	 	Menu
+// @Summary		查询菜单
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
+// @Router 		/menu/find_menu [post]
+func (s *MenuController) FindMenu(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }
 
 // @Tags 	 	Menu

@@ -93,7 +93,7 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/photo/delete_photo [delete]
 func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -110,38 +110,6 @@ func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	}
 
 	data, err := s.svcCtx.PhotoService.DeletePhoto(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Photo
-// @Summary		查询照片
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
-// @Router 		/photo/find_photo [post]
-func (s *PhotoController) FindPhoto(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.PhotoService.FindPhoto(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -182,6 +150,38 @@ func (s *PhotoController) DeletePhotoList(c *gin.Context) {
 	s.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
+}
+
+// @Tags 	 	Photo
+// @Summary		查询照片
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
+// @Router 		/photo/find_photo [post]
+func (s *PhotoController) FindPhoto(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.PhotoService.FindPhoto(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }
 
 // @Tags 	 	Photo

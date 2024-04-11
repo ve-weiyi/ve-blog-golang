@@ -16,3 +16,6 @@ RoleRpcConf:
 ApiRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+MenuRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080

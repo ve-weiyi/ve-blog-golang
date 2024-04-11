@@ -46,7 +46,7 @@ type (
 		Component string    `json:"component"`  // 路由组件
 		Redirect  string    `json:"redirect"`   // 路由重定向
 		Type      int64     `json:"type"`       // 菜单类型
-		Meta      string    `json:"meta"`       // 菜单元数据
+		Extra     string    `json:"extra"`      // 菜单元数据
 		CreatedAt time.Time `json:"created_at"` // 创建时间
 		UpdatedAt time.Time `json:"updated_at"` // 更新时间
 	}

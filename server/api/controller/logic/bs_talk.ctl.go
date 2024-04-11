@@ -93,7 +93,7 @@ func (s *TalkController) UpdateTalk(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/talk/delete_talk [delete]
 func (s *TalkController) DeleteTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -110,38 +110,6 @@ func (s *TalkController) DeleteTalk(c *gin.Context) {
 	}
 
 	data, err := s.svcCtx.TalkService.DeleteTalk(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Talk
-// @Summary		查询说说
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
-// @Router 		/talk/find_talk [post]
-func (s *TalkController) FindTalk(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.TalkService.FindTalk(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -182,6 +150,38 @@ func (s *TalkController) DeleteTalkList(c *gin.Context) {
 	s.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
+}
+
+// @Tags 	 	Talk
+// @Summary		查询说说
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Talk}	"返回信息"
+// @Router 		/talk/find_talk [post]
+func (s *TalkController) FindTalk(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.TalkService.FindTalk(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }
 
 // @Tags 	 	Talk

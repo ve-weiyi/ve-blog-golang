@@ -115,6 +115,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 	// 根据tag进行分组
 	var apiGroups = map[string][]*apiparser.ApiDeclare{}
 	for _, api := range s.ApiDeclares {
+		api.Router = s.ApiBase + api.Router
 		apiGroups[api.Tag] = append(apiGroups[api.Tag], api)
 	}
 
@@ -125,7 +126,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("ts/%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
 			TemplateString: ApiTypeScript,
 			FunMap:         map[string]any{"joinArray": joinArray},
 			Data:           apiDoc,
@@ -520,7 +521,7 @@ func (s *AstApiDoc) GenerateGoZeroRpcFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("%s.proto", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("proto/%s.proto", jsonconv.Camel2Case(apiDoc.Tag))),
 			TemplateString: string(apiTpl),
 			FunMap: map[string]any{
 				"joinArray": apiparser.JoinArray,

@@ -4,9 +4,9 @@ package handler
 import (
 	"net/http"
 
-	account "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/account"
 	api "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/api"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/auth"
+	menu "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/menu"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/role"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 
@@ -20,72 +20,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/ping",
 				Handler: PingHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/list",
-				Handler: account.FindUserListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/online_list",
-				Handler: account.FindOnlineUserListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/areas",
-				Handler: account.FindUserAreasHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/update_status",
-				Handler: account.UpdateUserStatusHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/update_roles",
-				Handler: account.UpdateUserRolesHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/login_history",
-				Handler: account.FindUserLoginHistoryListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/user/login_history/batch_delete",
-				Handler: account.DeleteUserLoginHistoryListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/menus",
-				Handler: account.GetUserMenusHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/apis",
-				Handler: account.GetUserApisHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/info",
-				Handler: account.GetUserInfoHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/info",
-				Handler: account.UpdateUserInfoHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/avatar",
-				Handler: account.UpdateUserAvatarHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -115,7 +49,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodDelete,
-				Path:    "/api/batch_delete_api",
+				Path:    "/api/delete_api_list",
 				Handler: api.DeleteApiListHandler(serverCtx),
 			},
 			{
@@ -125,17 +59,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/details_list",
-				Handler: api.FindApiDetailsListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/api/sync",
+				Path:    "/api/sync_api_list",
 				Handler: api.SyncApiListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/clean",
+				Path:    "/api/clean_api_list",
 				Handler: api.CleanApiListHandler(serverCtx),
 			},
 		},
@@ -188,6 +117,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/oauth/authorize_url",
 				Handler: auth.GetOauthAuthorizeUrlHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/create_menu",
+				Handler: menu.CreateMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/menu/update_menu",
+				Handler: menu.UpdateMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/menu/delete_menu",
+				Handler: menu.DeleteMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/menu/delete_menu_list",
+				Handler: menu.DeleteMenuListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/find_menu",
+				Handler: menu.FindMenuHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/find_menu_list",
+				Handler: menu.FindMenuListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/sync_menu_list",
+				Handler: menu.SyncMenuListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/menu/clean_menu_list",
+				Handler: menu.CleanMenuListHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

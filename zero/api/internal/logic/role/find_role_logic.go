@@ -3,11 +3,11 @@ package role
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/rolerpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindRoleLogic struct {
@@ -25,14 +25,12 @@ func NewFindRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRole
 }
 
 func (l *FindRoleLogic) FindRole(req *types.IdReq) (resp *types.Role, err error) {
-	in := rolerpc.IdReq{
-		Id: req.ID,
-	}
+	in := convert.ConvertIdReq(req)
 
-	out, err := l.svcCtx.RoleRpc.FindRole(l.ctx, &in)
+	out, err := l.svcCtx.RoleRpc.FindRole(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertRoleTypes(out), nil
+	return convert.ConvertRoleTypes(out), nil
 }

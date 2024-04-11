@@ -14,6 +14,8 @@ import (
 
 type (
 	Api                = account.Api
+	ApiDetailsDTO      = account.ApiDetailsDTO
+	ApiPageResp        = account.ApiPageResp
 	BatchResult        = account.BatchResult
 	EmptyReq           = account.EmptyReq
 	EmptyResp          = account.EmptyResp
@@ -21,6 +23,9 @@ type (
 	IdsReq             = account.IdsReq
 	LoginReq           = account.LoginReq
 	LoginResp          = account.LoginResp
+	Menu               = account.Menu
+	MenuDetailsDTO     = account.MenuDetailsDTO
+	MenuPageResp       = account.MenuPageResp
 	OauthLoginReq      = account.OauthLoginReq
 	OauthLoginUrlResp  = account.OauthLoginUrlResp
 	PageCondition      = account.PageCondition
@@ -34,6 +39,7 @@ type (
 	RoleDetailsDTO     = account.RoleDetailsDTO
 	RolePageResp       = account.RolePageResp
 	RoleResourceResp   = account.RoleResourceResp
+	SyncMenuRequest    = account.SyncMenuRequest
 	UpdateRoleApisReq  = account.UpdateRoleApisReq
 	UpdateRoleMenusReq = account.UpdateRoleMenusReq
 	UserEmailReq       = account.UserEmailReq

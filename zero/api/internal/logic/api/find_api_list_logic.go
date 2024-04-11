@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -23,8 +24,22 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 	}
 }
 
-func (l *FindApiListLogic) FindApiList(req *types.PageQuery) (resp []types.Api, err error) {
-	// todo: add your logic here and delete this line
+func (l *FindApiListLogic) FindApiList(req *types.PageQuery) (resp *types.PageResult, err error) {
+	in := convert.ConvertPageQuery(req)
+	out, err := l.svcCtx.ApiRpc.FindApiList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	var list []*types.ApiDetailsDTO
+	for _, role := range out.List {
+		list = append(list, convert.ConvertApiDetailsTypes(role))
+	}
+
+	resp = &types.PageResult{}
+	resp.Page = in.Limit.Page
+	resp.PageSize = in.Limit.PageSize
+	resp.Total = out.Total
+	resp.List = list
+	return resp, nil
 }

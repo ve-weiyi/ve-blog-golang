@@ -23,7 +23,7 @@ func NewApiController(svcCtx *svc.ControllerContext) *ApiController {
 }
 
 // @Tags		Api
-// @Summary		创建api路由
+// @Summary		创建接口
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -55,7 +55,7 @@ func (s *ApiController) CreateApi(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		更新api路由
+// @Summary		更新接口
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -87,13 +87,13 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 }
 
 // @Tags		Api
-// @Summary		删除api路由
+// @Summary		删除接口
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/api/delete_api [delete]
 func (s *ApiController) DeleteApi(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -119,39 +119,7 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		查询api路由
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
-// @Router 		/api/find_api [post]
-func (s *ApiController) FindApi(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ApiService.FindApi(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Api
-// @Summary		批量删除api路由
+// @Summary		批量删除接口
 // @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
@@ -185,7 +153,39 @@ func (s *ApiController) DeleteApiList(c *gin.Context) {
 }
 
 // @Tags 	 	Api
-// @Summary		分页获取api路由列表
+// @Summary		查询接口
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Api}	"返回信息"
+// @Router 		/api/find_api [post]
+func (s *ApiController) FindApi(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.ApiService.FindApi(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	Api
+// @Summary		分页获取接口列表
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"

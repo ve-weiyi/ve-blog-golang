@@ -23,8 +23,14 @@ func NewDeleteApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteA
 	}
 }
 
-func (l *DeleteApiLogic) DeleteApi(in *account.IdReq) (*account.EmptyResp, error) {
-	// todo: add your logic here and delete this line
+// 删除接口
+func (l *DeleteApiLogic) DeleteApi(in *account.IdReq) (*account.BatchResult, error) {
+	result, err := l.svcCtx.ApiModel.Delete(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &account.EmptyResp{}, nil
+	return &account.BatchResult{
+		SuccessCount: result,
+	}, nil
 }

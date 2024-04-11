@@ -7,6 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/config"
 	accountrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/accountrpc"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/apirpc"
+	menurpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/menurpc"
 	rolerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
@@ -31,6 +32,7 @@ func main() {
 		account.RegisterAccountRpcServer(grpcServer, accountrpcServer.NewAccountRpcServer(ctx))
 		account.RegisterRoleRpcServer(grpcServer, rolerpcServer.NewRoleRpcServer(ctx))
 		account.RegisterApiRpcServer(grpcServer, apirpcServer.NewApiRpcServer(ctx))
+		account.RegisterMenuRpcServer(grpcServer, menurpcServer.NewMenuRpcServer(ctx))
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}

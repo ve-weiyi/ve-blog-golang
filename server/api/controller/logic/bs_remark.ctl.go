@@ -93,7 +93,7 @@ func (s *RemarkController) UpdateRemark(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/remark/delete_remark [delete]
 func (s *RemarkController) DeleteRemark(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -110,38 +110,6 @@ func (s *RemarkController) DeleteRemark(c *gin.Context) {
 	}
 
 	data, err := s.svcCtx.RemarkService.DeleteRemark(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Remark
-// @Summary		查询留言
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
-// @Router 		/remark/find_remark [post]
-func (s *RemarkController) FindRemark(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.RemarkService.FindRemark(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -182,6 +150,38 @@ func (s *RemarkController) DeleteRemarkList(c *gin.Context) {
 	s.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
+}
+
+// @Tags 	 	Remark
+// @Summary		查询留言
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
+// @Router 		/remark/find_remark [post]
+func (s *RemarkController) FindRemark(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.RemarkService.FindRemark(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }
 
 // @Tags 	 	Remark

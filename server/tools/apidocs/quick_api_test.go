@@ -20,7 +20,7 @@ func TestApiDocs(t *testing.T) {
 		ApiBase:        "/api/v1",
 		ImportPkgPaths: []string{`import http from "@/utils/request"`},
 		IgnoredModels: map[string]string{
-			//"request.Context":     "",
+			"request.Context": "",
 			//"request.EmptyReq":      "",
 			"request.PageQuery":     "",
 			"request.PageLimit":     "",
@@ -29,7 +29,7 @@ func TestApiDocs(t *testing.T) {
 			//"request.IdReq":         "",
 			//"request.IdsReq":        "",
 			//"response.EmptyResp":    "",
-			//"response.BatchResult": "",
+			//"response.BatchResult":  "",
 			"response.PageResult": "",
 			"response.Response":   "",
 		},
@@ -53,18 +53,18 @@ func TestApiDocs(t *testing.T) {
 
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
-	// 生成ts api定义文件
-	aad.GenerateTsTypeFile()
-	//生成ts type定义文件
+	//// 生成ts api定义文件
 	aad.GenerateTsApiFiles()
+	////生成ts type定义文件
+	//aad.GenerateTsTypeFile()
 
-	//aad.GenerateGoZeroApiFiles()
+	aad.GenerateGoZeroApiFiles()
 	////
 	//aad.GenerateGoZeroTypeFiles()
 	//
-	//aad.GenerateGoZeroRpcFiles()
+	aad.GenerateGoZeroRpcFiles()
 	//
-	//aad.GenerateGoZeroRpcTypeFiles()
+	aad.GenerateGoZeroRpcTypeFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {

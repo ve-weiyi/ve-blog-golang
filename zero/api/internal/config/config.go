@@ -10,4 +10,5 @@ type Config struct {
 	AccountRpcConf zrpc.RpcClientConf
 	RoleRpcConf    zrpc.RpcClientConf
 	ApiRpcConf     zrpc.RpcClientConf
+	MenuRpcConf    zrpc.RpcClientConf
 }

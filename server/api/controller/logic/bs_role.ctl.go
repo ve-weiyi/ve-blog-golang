@@ -93,7 +93,7 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/role/delete_role [delete]
 func (s *RoleController) DeleteRole(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -110,38 +110,6 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 	}
 
 	data, err := s.svcCtx.RoleService.DeleteRole(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Role
-// @Summary		查询角色
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
-// @Router 		/role/find_role [post]
-func (s *RoleController) FindRole(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.IdReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.RoleService.FindRole(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -182,6 +150,38 @@ func (s *RoleController) DeleteRoleList(c *gin.Context) {
 	s.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
+}
+
+// @Tags 	 	Role
+// @Summary		查询角色
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Role}	"返回信息"
+// @Router 		/role/find_role [post]
+func (s *RoleController) FindRole(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.RoleService.FindRole(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }
 
 // @Tags 	 	Role

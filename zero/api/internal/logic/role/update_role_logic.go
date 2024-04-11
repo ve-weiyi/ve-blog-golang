@@ -3,6 +3,7 @@ package role
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -24,12 +25,12 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateRoleLogic) UpdateRole(req *types.Role) (resp *types.Role, err error) {
-	in := convertRolePb(req)
+	in := convert.ConvertRolePb(req)
 
-	role, err := l.svcCtx.RoleRpc.UpdateRole(l.ctx, in)
+	out, err := l.svcCtx.RoleRpc.UpdateRole(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertRoleTypes(role), nil
+	return convert.ConvertRoleTypes(out), nil
 }

@@ -38,7 +38,7 @@ func (l *LoginLogic) Login(req *account.LoginReq) (*account.LoginResp, error) {
 	}
 
 	//获取用户
-	user, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(l.ctx, req.Username)
+	user, err := l.svcCtx.UserAccountModel.LoadUserByUsername(l.ctx, req.Username)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
@@ -54,7 +54,7 @@ func (l *LoginLogic) Login(req *account.LoginReq) (*account.LoginResp, error) {
 	}
 
 	// 获取用户信息
-	info, err := l.svcCtx.UserInformationRepository.FindUserInfo(l.ctx, user.Id)
+	info, err := l.svcCtx.UserInformationModel.FindUserInfo(l.ctx, user.Id)
 	if err != nil {
 		return nil, err
 	}

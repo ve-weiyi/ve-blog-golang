@@ -1,7 +1,33 @@
 syntax = "v1"
 
 import "base.api"
-import "types.api"
+
+type (
+    Api {
+        ID int64 `json:"id,optional"`                // 主键id
+        Name string `json:"name,optional"`           // api名称
+        Path string `json:"path,optional"`           // api路径
+        Method string `json:"method,optional"`       // api请求方法
+        ParentID int64 `json:"parent_id,optional"`   // 分组id
+        Traceable int64 `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
+        Status int64 `json:"status,optional"`        // 状态 1开，2关
+        CreatedAt int64 `json:"created_at,optional"` // 创建时间
+        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
+    }
+
+    ApiDetailsDTO {
+        ID int64 `json:"id,optional"`                // 主键id
+        Name string `json:"name,optional"`           // api名称
+        Path string `json:"path,optional"`           // api路径
+        Method string `json:"method,optional"`       // api请求方法
+        ParentID int64 `json:"parent_id,optional"`   // 分组id
+        Traceable int64 `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
+        Status int64 `json:"status,optional"`        // 状态 1开，2关
+        CreatedAt int64 `json:"created_at,optional"` // 创建时间
+        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
+        Children []*ApiDetailsDTO `json:"children,optional"`
+    }
+)
 
 @server(
     prefix: /api/v1
@@ -13,35 +39,31 @@ service blog-api {
     @handler CreateApi
     post /api/create_api (Api) returns (Api)
 
-@doc "更新api路由"
+    @doc "更新api路由"
     @handler UpdateApi
     put /api/update_api (Api) returns (Api)
 
-@doc "删除api路由"
+    @doc "删除api路由"
     @handler DeleteApi
-    delete /api/delete_api (IdReq) returns (EmptyResp)
+    delete /api/delete_api (IdReq) returns (BatchResult)
 
-@doc "查询api路由"
+    @doc "查询api路由"
     @handler FindApi
     post /api/find_api (IdReq) returns (Api)
 
-@doc "批量删除api路由"
+    @doc "批量删除api路由"
     @handler DeleteApiList
-    delete /api/batch_delete_api (IdsReq) returns (BatchResult)
+    delete /api/delete_api_list (IdsReq) returns (BatchResult)
 
-@doc "分页获取api路由列表"
+    @doc "分页获取api路由列表"
     @handler FindApiList
-    post /api/find_api_list (PageQuery) returns ([]Api)
+    post /api/find_api_list (PageQuery) returns (PageResult)
 
-@doc "获取api列表"
-    @handler FindApiDetailsList
-    post /api/details_list (PageQuery) returns ([]ApiDetailsDTO)
-
-@doc "同步api列表"
+    @doc "同步api列表"
     @handler SyncApiList
-    post /api/sync () returns (BatchResult)
+    post /api/sync_api_list (EmptyReq) returns (BatchResult)
 
-@doc "清空接口列表"
+    @doc "清空接口列表"
     @handler CleanApiList
-    post /api/clean () returns (EmptyResp)
+    post /api/clean_api_list (EmptyReq) returns (EmptyResp)
 }

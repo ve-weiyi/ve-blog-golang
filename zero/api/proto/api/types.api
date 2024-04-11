@@ -17,22 +17,6 @@ type (
         ArticleRankDTOList []*ArticleRankDTO `json:"article_rank_dto_list,optional"`            // 文章浏览量排行
     }
 
-    Api {
-        ID int64 `json:"id,optional"`                // 主键id
-        Name string `json:"name,optional"`           // api名称
-        Path string `json:"path,optional"`           // api路径
-        Method string `json:"method,optional"`       // api请求方法
-        ParentID int64 `json:"parent_id,optional"`   // 分组id
-        Traceable int64 `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
-        Status int64 `json:"status,optional"`        // 状态 1开，2关
-        CreatedAt int64 `json:"created_at,optional"` // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
-    }
-
-    ApiDetailsDTO {
-        Children []*ApiDetailsDTO `json:"children,optional"`
-    }
-
     Article {
         ID int64 `json:"id,optional"`                           // id
         UserID int64 `json:"user_id,optional"`                  // 作者
@@ -408,16 +392,6 @@ type (
         ActivePath string `json:"active_path,optional"`    // 将某个菜单激活
     }
 
-    OauthLoginReq {
-        Platform string `json:"platform,optional"` // 平台
-        Code string `json:"code,optional"`         // 授权码
-        State string `json:"state,optional"`       // 状态
-    }
-
-    OauthLoginUrl {
-        Url string `json:"url,optional"` // 授权地址
-    }
-
     OperationLog {
         ID int64 `json:"id,optional"`                          // 主键id
         UserID int64 `json:"user_id,optional"`                 // 用户id
@@ -513,49 +487,6 @@ type (
         Code string `json:"code,optional"`
     }
 
-    Role {
-        ID int64 `json:"id,optional"`                     // 主键id
-        RolePID int64 `json:"role_pid,optional"`          // 父角色id
-        RoleDomain string `json:"role_domain,optional"`   // 角色域
-        RoleName string `json:"role_name,optional"`       // 角色名
-        RoleComment string `json:"role_comment,optional"` // 角色备注
-        IsDisable int64 `json:"is_disable,optional"`      // 是否禁用  0否 1是
-        IsDefault int64 `json:"is_default,optional"`      // 是否默认角色 0否 1是
-        CreatedAt int64 `json:"created_at,optional"`      // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
-    }
-
-    RoleApi {
-        ID int64 `json:"id,optional"`          // 主键id
-        RoleID int64 `json:"role_id,optional"` // 角色id
-        ApiID int64 `json:"api_id,optional"`   // 接口id
-    }
-
-    RoleDTO {
-        RoleName string `json:"role_name,optional"`
-        RoleComment string `json:"role_comment,optional"`
-    }
-
-    RoleDetailsDTO {
-        ID int64 `json:"id,optional"`                     // 主键id
-        RolePID int64 `json:"role_pid,optional"`          // 父角色id
-        RoleDomain string `json:"role_domain,optional"`   // 角色域
-        RoleName string `json:"role_name,optional"`       // 角色名
-        RoleComment string `json:"role_comment,optional"` // 角色备注
-        IsDisable int64 `json:"is_disable,optional"`      // 是否禁用  0否 1是
-        IsDefault int64 `json:"is_default,optional"`      // 是否默认角色 0否 1是
-        CreatedAt int64 `json:"created_at,optional"`      // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
-        MenuIdList []int64 `json:"menu_id_list,optional"`
-        ResourceIdList []int64 `json:"resource_id_list,optional"`
-    }
-
-    RoleMenu {
-        ID int64 `json:"id,optional"`          // 主键id
-        RoleID int64 `json:"role_id,optional"` // 角色id
-        MenuID int64 `json:"menu_id,optional"` // 菜单id
-    }
-
     RouteConfigsTable {
         Type int64 `json:"type,optional"`                       // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
         Path string `json:"path,optional"`                      // 路由地址
@@ -644,15 +575,6 @@ type (
         Count int64 `json:"count,optional"` // 数量
     }
 
-    UpdateRoleApisReq {
-        RoleId int64 `json:"role_id,optional"`
-        ResourceIds []int64 `json:"resource_ids,optional"`
-    }
-
-    UpdateRoleMenusReq {
-        RoleId int64 `json:"role_id,optional"`
-        MenuIds []int64 `json:"menu_ids,optional"`
-    }
 
     UpdateUserRolesReq {
         UserId int64 `json:"user_id,optional"`
@@ -688,6 +610,12 @@ type (
         Value int64 `json:"value,optional"`
     }
 
+
+    RoleDTO {
+        RoleName string `json:"role_name,optional"`
+        RoleComment string `json:"role_comment,optional"`
+    }
+
     UserDTO {
         ID int64 `json:"id,optional"`
         Username string `json:"username,optional"`
@@ -705,9 +633,6 @@ type (
         Roles []*RoleDTO `json:"roles,optional"`
     }
 
-    UserEmailReq {
-        Username string `json:"username,optional"`
-    }
 
     UserInfo {
         UserId int64 `json:"user_id,optional"`     // 用户id

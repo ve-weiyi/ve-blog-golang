@@ -410,272 +410,6 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 	Metadata: "account.proto",
 }
 
-// ApiRpcClient is the client API for ApiRpc service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ApiRpcClient interface {
-	CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
-	UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
-	DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
-	FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
-	DeleteListApi(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
-	FindListApi(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error)
-}
-
-type apiRpcClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewApiRpcClient(cc grpc.ClientConnInterface) ApiRpcClient {
-	return &apiRpcClient{cc}
-}
-
-func (c *apiRpcClient) CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
-	out := new(Api)
-	err := c.cc.Invoke(ctx, "/account.ApiRpc/CreateApi", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiRpcClient) UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
-	out := new(Api)
-	err := c.cc.Invoke(ctx, "/account.ApiRpc/UpdateApi", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiRpcClient) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, "/account.ApiRpc/DeleteApi", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiRpcClient) FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error) {
-	out := new(Api)
-	err := c.cc.Invoke(ctx, "/account.ApiRpc/FindApi", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiRpcClient) DeleteListApi(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
-	err := c.cc.Invoke(ctx, "/account.ApiRpc/DeleteListApi", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *apiRpcClient) FindListApi(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error) {
-	out := new(PageResult)
-	err := c.cc.Invoke(ctx, "/account.ApiRpc/FindListApi", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ApiRpcServer is the server API for ApiRpc service.
-// All implementations must embed UnimplementedApiRpcServer
-// for forward compatibility
-type ApiRpcServer interface {
-	CreateApi(context.Context, *Api) (*Api, error)
-	UpdateApi(context.Context, *Api) (*Api, error)
-	DeleteApi(context.Context, *IdReq) (*EmptyResp, error)
-	FindApi(context.Context, *IdReq) (*Api, error)
-	DeleteListApi(context.Context, *IdsReq) (*BatchResult, error)
-	FindListApi(context.Context, *PageQuery) (*PageResult, error)
-	mustEmbedUnimplementedApiRpcServer()
-}
-
-// UnimplementedApiRpcServer must be embedded to have forward compatible implementations.
-type UnimplementedApiRpcServer struct {
-}
-
-func (UnimplementedApiRpcServer) CreateApi(context.Context, *Api) (*Api, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateApi not implemented")
-}
-func (UnimplementedApiRpcServer) UpdateApi(context.Context, *Api) (*Api, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateApi not implemented")
-}
-func (UnimplementedApiRpcServer) DeleteApi(context.Context, *IdReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteApi not implemented")
-}
-func (UnimplementedApiRpcServer) FindApi(context.Context, *IdReq) (*Api, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindApi not implemented")
-}
-func (UnimplementedApiRpcServer) DeleteListApi(context.Context, *IdsReq) (*BatchResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteListApi not implemented")
-}
-func (UnimplementedApiRpcServer) FindListApi(context.Context, *PageQuery) (*PageResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindListApi not implemented")
-}
-func (UnimplementedApiRpcServer) mustEmbedUnimplementedApiRpcServer() {}
-
-// UnsafeApiRpcServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ApiRpcServer will
-// result in compilation errors.
-type UnsafeApiRpcServer interface {
-	mustEmbedUnimplementedApiRpcServer()
-}
-
-func RegisterApiRpcServer(s grpc.ServiceRegistrar, srv ApiRpcServer) {
-	s.RegisterService(&ApiRpc_ServiceDesc, srv)
-}
-
-func _ApiRpc_CreateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Api)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiRpcServer).CreateApi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.ApiRpc/CreateApi",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).CreateApi(ctx, req.(*Api))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ApiRpc_UpdateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Api)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiRpcServer).UpdateApi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.ApiRpc/UpdateApi",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).UpdateApi(ctx, req.(*Api))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ApiRpc_DeleteApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiRpcServer).DeleteApi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.ApiRpc/DeleteApi",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).DeleteApi(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ApiRpc_FindApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiRpcServer).FindApi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.ApiRpc/FindApi",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).FindApi(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ApiRpc_DeleteListApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiRpcServer).DeleteListApi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.ApiRpc/DeleteListApi",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).DeleteListApi(ctx, req.(*IdsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ApiRpc_FindListApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ApiRpcServer).FindListApi(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.ApiRpc/FindListApi",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).FindListApi(ctx, req.(*PageQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// ApiRpc_ServiceDesc is the grpc.ServiceDesc for ApiRpc service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var ApiRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "account.ApiRpc",
-	HandlerType: (*ApiRpcServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateApi",
-			Handler:    _ApiRpc_CreateApi_Handler,
-		},
-		{
-			MethodName: "UpdateApi",
-			Handler:    _ApiRpc_UpdateApi_Handler,
-		},
-		{
-			MethodName: "DeleteApi",
-			Handler:    _ApiRpc_DeleteApi_Handler,
-		},
-		{
-			MethodName: "FindApi",
-			Handler:    _ApiRpc_FindApi_Handler,
-		},
-		{
-			MethodName: "DeleteListApi",
-			Handler:    _ApiRpc_DeleteListApi_Handler,
-		},
-		{
-			MethodName: "FindListApi",
-			Handler:    _ApiRpc_FindListApi_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "account.proto",
-}
-
 // RoleRpcClient is the client API for RoleRpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
@@ -1062,6 +796,714 @@ var RoleRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateRoleApis",
 			Handler:    _RoleRpc_UpdateRoleApis_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "account.proto",
+}
+
+// ApiRpcClient is the client API for ApiRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ApiRpcClient interface {
+	// 创建接口
+	CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
+	// 更新接口
+	UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
+	// 删除接口
+	DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 批量删除接口
+	DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 查询接口
+	FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
+	// 分页获取接口列表
+	FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error)
+	// 同步接口列表
+	SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 清空接口列表
+	CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+}
+
+type apiRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewApiRpcClient(cc grpc.ClientConnInterface) ApiRpcClient {
+	return &apiRpcClient{cc}
+}
+
+func (c *apiRpcClient) CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
+	out := new(Api)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/CreateApi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
+	out := new(Api)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/UpdateApi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/DeleteApi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/DeleteApiList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error) {
+	out := new(Api)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/FindApi", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error) {
+	out := new(ApiPageResp)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/FindApiList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/SyncApiList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiRpcClient) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.apiRpc/CleanApiList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ApiRpcServer is the server API for ApiRpc service.
+// All implementations must embed UnimplementedApiRpcServer
+// for forward compatibility
+type ApiRpcServer interface {
+	// 创建接口
+	CreateApi(context.Context, *Api) (*Api, error)
+	// 更新接口
+	UpdateApi(context.Context, *Api) (*Api, error)
+	// 删除接口
+	DeleteApi(context.Context, *IdReq) (*BatchResult, error)
+	// 批量删除接口
+	DeleteApiList(context.Context, *IdsReq) (*BatchResult, error)
+	// 查询接口
+	FindApi(context.Context, *IdReq) (*Api, error)
+	// 分页获取接口列表
+	FindApiList(context.Context, *PageQuery) (*ApiPageResp, error)
+	// 同步接口列表
+	SyncApiList(context.Context, *EmptyReq) (*BatchResult, error)
+	// 清空接口列表
+	CleanApiList(context.Context, *EmptyReq) (*EmptyResp, error)
+	mustEmbedUnimplementedApiRpcServer()
+}
+
+// UnimplementedApiRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedApiRpcServer struct {
+}
+
+func (UnimplementedApiRpcServer) CreateApi(context.Context, *Api) (*Api, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateApi not implemented")
+}
+func (UnimplementedApiRpcServer) UpdateApi(context.Context, *Api) (*Api, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateApi not implemented")
+}
+func (UnimplementedApiRpcServer) DeleteApi(context.Context, *IdReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteApi not implemented")
+}
+func (UnimplementedApiRpcServer) DeleteApiList(context.Context, *IdsReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteApiList not implemented")
+}
+func (UnimplementedApiRpcServer) FindApi(context.Context, *IdReq) (*Api, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindApi not implemented")
+}
+func (UnimplementedApiRpcServer) FindApiList(context.Context, *PageQuery) (*ApiPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindApiList not implemented")
+}
+func (UnimplementedApiRpcServer) SyncApiList(context.Context, *EmptyReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncApiList not implemented")
+}
+func (UnimplementedApiRpcServer) CleanApiList(context.Context, *EmptyReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CleanApiList not implemented")
+}
+func (UnimplementedApiRpcServer) mustEmbedUnimplementedApiRpcServer() {}
+
+// UnsafeApiRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ApiRpcServer will
+// result in compilation errors.
+type UnsafeApiRpcServer interface {
+	mustEmbedUnimplementedApiRpcServer()
+}
+
+func RegisterApiRpcServer(s grpc.ServiceRegistrar, srv ApiRpcServer) {
+	s.RegisterService(&ApiRpc_ServiceDesc, srv)
+}
+
+func _ApiRpc_CreateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Api)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).CreateApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/CreateApi",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).CreateApi(ctx, req.(*Api))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_UpdateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Api)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).UpdateApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/UpdateApi",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).UpdateApi(ctx, req.(*Api))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_DeleteApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).DeleteApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/DeleteApi",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).DeleteApi(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_DeleteApiList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).DeleteApiList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/DeleteApiList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).DeleteApiList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_FindApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).FindApi(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/FindApi",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).FindApi(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_FindApiList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).FindApiList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/FindApiList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).FindApiList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_SyncApiList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).SyncApiList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/SyncApiList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).SyncApiList(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ApiRpc_CleanApiList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiRpcServer).CleanApiList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.apiRpc/CleanApiList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiRpcServer).CleanApiList(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ApiRpc_ServiceDesc is the grpc.ServiceDesc for ApiRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ApiRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "account.apiRpc",
+	HandlerType: (*ApiRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateApi",
+			Handler:    _ApiRpc_CreateApi_Handler,
+		},
+		{
+			MethodName: "UpdateApi",
+			Handler:    _ApiRpc_UpdateApi_Handler,
+		},
+		{
+			MethodName: "DeleteApi",
+			Handler:    _ApiRpc_DeleteApi_Handler,
+		},
+		{
+			MethodName: "DeleteApiList",
+			Handler:    _ApiRpc_DeleteApiList_Handler,
+		},
+		{
+			MethodName: "FindApi",
+			Handler:    _ApiRpc_FindApi_Handler,
+		},
+		{
+			MethodName: "FindApiList",
+			Handler:    _ApiRpc_FindApiList_Handler,
+		},
+		{
+			MethodName: "SyncApiList",
+			Handler:    _ApiRpc_SyncApiList_Handler,
+		},
+		{
+			MethodName: "CleanApiList",
+			Handler:    _ApiRpc_CleanApiList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "account.proto",
+}
+
+// MenuRpcClient is the client API for MenuRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type MenuRpcClient interface {
+	// 创建菜单
+	CreateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
+	// 更新菜单
+	UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
+	// 删除菜单
+	DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 批量删除菜单
+	DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 查询菜单
+	FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error)
+	// 分页获取菜单列表
+	FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
+	// 同步菜单列表
+	SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error)
+	// 清空菜单列表
+	CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+}
+
+type menuRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewMenuRpcClient(cc grpc.ClientConnInterface) MenuRpcClient {
+	return &menuRpcClient{cc}
+}
+
+func (c *menuRpcClient) CreateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error) {
+	out := new(Menu)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/CreateMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error) {
+	out := new(Menu)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/UpdateMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/DeleteMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/DeleteMenuList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error) {
+	out := new(Menu)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/FindMenu", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error) {
+	out := new(MenuPageResp)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/FindMenuList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/SyncMenuList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *menuRpcClient) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.menuRpc/CleanMenuList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MenuRpcServer is the server API for MenuRpc service.
+// All implementations must embed UnimplementedMenuRpcServer
+// for forward compatibility
+type MenuRpcServer interface {
+	// 创建菜单
+	CreateMenu(context.Context, *Menu) (*Menu, error)
+	// 更新菜单
+	UpdateMenu(context.Context, *Menu) (*Menu, error)
+	// 删除菜单
+	DeleteMenu(context.Context, *IdReq) (*BatchResult, error)
+	// 批量删除菜单
+	DeleteMenuList(context.Context, *IdsReq) (*BatchResult, error)
+	// 查询菜单
+	FindMenu(context.Context, *IdReq) (*Menu, error)
+	// 分页获取菜单列表
+	FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error)
+	// 同步菜单列表
+	SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResult, error)
+	// 清空菜单列表
+	CleanMenuList(context.Context, *EmptyReq) (*EmptyResp, error)
+	mustEmbedUnimplementedMenuRpcServer()
+}
+
+// UnimplementedMenuRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedMenuRpcServer struct {
+}
+
+func (UnimplementedMenuRpcServer) CreateMenu(context.Context, *Menu) (*Menu, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMenu not implemented")
+}
+func (UnimplementedMenuRpcServer) UpdateMenu(context.Context, *Menu) (*Menu, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
+}
+func (UnimplementedMenuRpcServer) DeleteMenu(context.Context, *IdReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenu not implemented")
+}
+func (UnimplementedMenuRpcServer) DeleteMenuList(context.Context, *IdsReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenuList not implemented")
+}
+func (UnimplementedMenuRpcServer) FindMenu(context.Context, *IdReq) (*Menu, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindMenu not implemented")
+}
+func (UnimplementedMenuRpcServer) FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindMenuList not implemented")
+}
+func (UnimplementedMenuRpcServer) SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncMenuList not implemented")
+}
+func (UnimplementedMenuRpcServer) CleanMenuList(context.Context, *EmptyReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CleanMenuList not implemented")
+}
+func (UnimplementedMenuRpcServer) mustEmbedUnimplementedMenuRpcServer() {}
+
+// UnsafeMenuRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MenuRpcServer will
+// result in compilation errors.
+type UnsafeMenuRpcServer interface {
+	mustEmbedUnimplementedMenuRpcServer()
+}
+
+func RegisterMenuRpcServer(s grpc.ServiceRegistrar, srv MenuRpcServer) {
+	s.RegisterService(&MenuRpc_ServiceDesc, srv)
+}
+
+func _MenuRpc_CreateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Menu)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).CreateMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/CreateMenu",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).CreateMenu(ctx, req.(*Menu))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_UpdateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Menu)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).UpdateMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/UpdateMenu",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).UpdateMenu(ctx, req.(*Menu))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_DeleteMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).DeleteMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/DeleteMenu",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).DeleteMenu(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_DeleteMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).DeleteMenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/DeleteMenuList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).DeleteMenuList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_FindMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).FindMenu(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/FindMenu",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).FindMenu(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_FindMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).FindMenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/FindMenuList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).FindMenuList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_SyncMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncMenuRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).SyncMenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/SyncMenuList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).SyncMenuList(ctx, req.(*SyncMenuRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MenuRpc_CleanMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MenuRpcServer).CleanMenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.menuRpc/CleanMenuList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MenuRpcServer).CleanMenuList(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// MenuRpc_ServiceDesc is the grpc.ServiceDesc for MenuRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var MenuRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "account.menuRpc",
+	HandlerType: (*MenuRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateMenu",
+			Handler:    _MenuRpc_CreateMenu_Handler,
+		},
+		{
+			MethodName: "UpdateMenu",
+			Handler:    _MenuRpc_UpdateMenu_Handler,
+		},
+		{
+			MethodName: "DeleteMenu",
+			Handler:    _MenuRpc_DeleteMenu_Handler,
+		},
+		{
+			MethodName: "DeleteMenuList",
+			Handler:    _MenuRpc_DeleteMenuList_Handler,
+		},
+		{
+			MethodName: "FindMenu",
+			Handler:    _MenuRpc_FindMenu_Handler,
+		},
+		{
+			MethodName: "FindMenuList",
+			Handler:    _MenuRpc_FindMenuList_Handler,
+		},
+		{
+			MethodName: "SyncMenuList",
+			Handler:    _MenuRpc_SyncMenuList_Handler,
+		},
+		{
+			MethodName: "CleanMenuList",
+			Handler:    _MenuRpc_CleanMenuList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

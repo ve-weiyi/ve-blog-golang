@@ -7,6 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/apirpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/menurpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/rolerpc"
 )
 
@@ -17,6 +18,7 @@ type ServiceContext struct {
 	AccountRpc accountrpc.AccountRpc
 	RoleRpc    rolerpc.RoleRpc
 	ApiRpc     apirpc.ApiRpc
+	MenuRpc    menurpc.MenuRpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -26,5 +28,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		AccountRpc: accountrpc.NewAccountRpc(zrpc.MustNewClient(c.AccountRpcConf)),
 		RoleRpc:    rolerpc.NewRoleRpc(zrpc.MustNewClient(c.RoleRpcConf)),
 		ApiRpc:     apirpc.NewApiRpc(zrpc.MustNewClient(c.ApiRpcConf)),
+		MenuRpc:    menurpc.NewMenuRpc(zrpc.MustNewClient(c.MenuRpcConf)),
 	}
 }

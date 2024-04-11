@@ -52,17 +52,7 @@ func (l *FindRoleListLogic) FindRoleList(in *account.PageQuery) (*account.RolePa
 func appendRoleChildren(root *account.RoleDetailsDTO, list []*model.Role) (leafs []*account.RoleDetailsDTO) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
-			leaf := &account.RoleDetailsDTO{
-				Id:          item.Id,
-				ParentId:    root.Id,
-				RoleDomain:  item.RoleDomain,
-				RoleName:    item.RoleName,
-				RoleComment: item.RoleComment,
-				IsDisable:   item.IsDisable,
-				IsDefault:   item.IsDefault,
-				CreatedAt:   item.CreatedAt.Unix(),
-				UpdatedAt:   item.UpdatedAt.Unix(),
-			}
+			leaf := convert.ConvertRoleModelToDetailPb(item)
 			leaf.Children = appendRoleChildren(leaf, list)
 			leafs = append(leafs, leaf)
 		}

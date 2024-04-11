@@ -22,32 +22,50 @@ func NewApiRpcServer(svcCtx *svc.ServiceContext) *ApiRpcServer {
 	}
 }
 
+// 创建接口
 func (s *ApiRpcServer) CreateApi(ctx context.Context, in *account.Api) (*account.Api, error) {
 	l := apirpclogic.NewCreateApiLogic(ctx, s.svcCtx)
 	return l.CreateApi(in)
 }
 
+// 更新接口
 func (s *ApiRpcServer) UpdateApi(ctx context.Context, in *account.Api) (*account.Api, error) {
 	l := apirpclogic.NewUpdateApiLogic(ctx, s.svcCtx)
 	return l.UpdateApi(in)
 }
 
-func (s *ApiRpcServer) DeleteApi(ctx context.Context, in *account.IdReq) (*account.EmptyResp, error) {
+// 删除接口
+func (s *ApiRpcServer) DeleteApi(ctx context.Context, in *account.IdReq) (*account.BatchResult, error) {
 	l := apirpclogic.NewDeleteApiLogic(ctx, s.svcCtx)
 	return l.DeleteApi(in)
 }
 
+// 批量删除接口
+func (s *ApiRpcServer) DeleteApiList(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
+	l := apirpclogic.NewDeleteApiListLogic(ctx, s.svcCtx)
+	return l.DeleteApiList(in)
+}
+
+// 查询接口
 func (s *ApiRpcServer) FindApi(ctx context.Context, in *account.IdReq) (*account.Api, error) {
 	l := apirpclogic.NewFindApiLogic(ctx, s.svcCtx)
 	return l.FindApi(in)
 }
 
-func (s *ApiRpcServer) DeleteListApi(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
-	l := apirpclogic.NewDeleteListApiLogic(ctx, s.svcCtx)
-	return l.DeleteListApi(in)
+// 分页获取接口列表
+func (s *ApiRpcServer) FindApiList(ctx context.Context, in *account.PageQuery) (*account.ApiPageResp, error) {
+	l := apirpclogic.NewFindApiListLogic(ctx, s.svcCtx)
+	return l.FindApiList(in)
 }
 
-func (s *ApiRpcServer) FindListApi(ctx context.Context, in *account.PageQuery) (*account.PageResult, error) {
-	l := apirpclogic.NewFindListApiLogic(ctx, s.svcCtx)
-	return l.FindListApi(in)
+// 同步接口列表
+func (s *ApiRpcServer) SyncApiList(ctx context.Context, in *account.EmptyReq) (*account.BatchResult, error) {
+	l := apirpclogic.NewSyncApiListLogic(ctx, s.svcCtx)
+	return l.SyncApiList(in)
+}
+
+// 清空接口列表
+func (s *ApiRpcServer) CleanApiList(ctx context.Context, in *account.EmptyReq) (*account.EmptyResp, error) {
+	l := apirpclogic.NewCleanApiListLogic(ctx, s.svcCtx)
+	return l.CleanApiList(in)
 }

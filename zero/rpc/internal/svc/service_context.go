@@ -20,9 +20,11 @@ type ServiceContext struct {
 	Config            config.Config
 	CaptchaRepository *captcha.CaptchaRepository
 
-	UserAccountRepository     model.UserAccountModel
-	UserInformationRepository model.UserInformationModel
-	RoleModel                 model.RoleModel
+	UserAccountModel     model.UserAccountModel
+	UserInformationModel model.UserInformationModel
+	RoleModel            model.RoleModel
+	ApiModel             model.ApiModel
+	MenuModel            model.MenuModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -37,10 +39,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:                    c,
-		UserAccountRepository:     model.NewUserAccountModel(db, rds),
-		UserInformationRepository: model.NewUserInformationModel(db, rds),
-		RoleModel:                 model.NewRoleModel(db, rds),
+		Config:               c,
+		UserAccountModel:     model.NewUserAccountModel(db, rds),
+		UserInformationModel: model.NewUserInformationModel(db, rds),
+		RoleModel:            model.NewRoleModel(db, rds),
+		ApiModel:             model.NewApiModel(db, rds),
+		MenuModel:            model.NewMenuModel(db, rds),
 	}
 }
 

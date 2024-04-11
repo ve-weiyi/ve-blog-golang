@@ -32,6 +32,21 @@ func init() {
 	}.Froze()
 }
 
+// 默认json
+func ObjectMarshal(data any, obj any) (err error) {
+	bytes, err := jjson.Marshal(data)
+	if err != nil {
+		return err
+	}
+
+	err = jjson.Unmarshal(bytes, obj)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // 调用 JsonToObject(jsonStr , &obj)
 func JsonToObject(jsonStr string, obj any) error {
 	err := jjson.Unmarshal([]byte(jsonStr), obj)
@@ -47,7 +62,6 @@ func JsonToObject(jsonStr string, obj any) error {
 func ObjectToJson(data any) string {
 	bytes, err := jjson.Marshal(data)
 	if err != nil {
-		fmt.Println("jjson err-->", err)
 		return ""
 	}
 
