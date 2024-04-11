@@ -158,7 +158,7 @@ func (s *RoleController) FindRole(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/role/batch_delete_role [delete]
+// @Router		/role/delete_role_list [delete]
 func (s *RoleController) DeleteRoleList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

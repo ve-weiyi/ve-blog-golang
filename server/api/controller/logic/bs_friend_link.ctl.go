@@ -158,7 +158,7 @@ func (s *FriendLinkController) FindFriendLink(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/friend_link/batch_delete_friend_link [delete]
+// @Router		/friend_link/delete_friend_link_list [delete]
 func (s *FriendLinkController) DeleteFriendLinkList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

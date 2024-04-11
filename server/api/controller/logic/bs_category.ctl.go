@@ -158,7 +158,7 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/category/batch_delete_category [delete]
+// @Router		/category/delete_category_list [delete]
 func (s *CategoryController) DeleteCategoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

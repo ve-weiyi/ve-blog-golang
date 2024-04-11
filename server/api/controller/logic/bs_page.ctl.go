@@ -158,7 +158,7 @@ func (s *PageController) FindPage(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/page/batch_delete_page [delete]
+// @Router		/page/delete_page_list [delete]
 func (s *PageController) DeletePageList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

@@ -158,7 +158,7 @@ func (s *PhotoAlbumController) FindPhotoAlbum(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/photo_album/batch_delete_photo_album [delete]
+// @Router		/photo_album/delete_photo_album_list [delete]
 func (s *PhotoAlbumController) DeletePhotoAlbumList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

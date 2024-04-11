@@ -200,7 +200,7 @@ func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}(c *gin
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/{{.SnakeName}}/batch_delete_{{.SnakeName}} [delete]
+// @Router		/{{.SnakeName}}/delete_{{.SnakeName}}_list [delete]
 func (s *{{.UpperStartCamelName}}Controller) Delete{{.UpperStartCamelName}}List(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -258,8 +258,8 @@ func (s *{{.UpperStartCamelName}}Controller) Find{{.UpperStartCamelName}}List(c 
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 `

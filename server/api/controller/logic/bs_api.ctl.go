@@ -158,7 +158,7 @@ func (s *ApiController) FindApi(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/api/batch_delete_api [delete]
+// @Router		/api/delete_api_list [delete]
 func (s *ApiController) DeleteApiList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

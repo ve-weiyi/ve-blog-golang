@@ -81,7 +81,7 @@ func TestCodeStarter(t *testing.T) {
 			return jsonconv.Case2CamelLowerStart(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyService
+			return key != tmpl.KeyController
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,

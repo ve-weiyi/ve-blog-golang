@@ -158,7 +158,7 @@ func (s *RemarkController) FindRemark(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/remark/batch_delete_remark [delete]
+// @Router		/remark/delete_remark_list [delete]
 func (s *RemarkController) DeleteRemarkList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
