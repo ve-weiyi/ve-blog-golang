@@ -1,4 +1,4 @@
-package rolerpclogic
+package userrpclogic
 
 import (
 	"context"
@@ -9,23 +9,23 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindRoleResourceLogic struct {
+type UpdateUserAvatarLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindRoleResourceLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRoleResourceLogic {
-	return &FindRoleResourceLogic{
+func NewUpdateUserAvatarLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserAvatarLogic {
+	return &UpdateUserAvatarLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 查询角色
-func (l *FindRoleResourceLogic) FindRoleResource(in *account.IdReq) (*account.RoleResourceResp, error) {
+// 更换用户头像
+func (l *UpdateUserAvatarLogic) UpdateUserAvatar(in *account.EmptyReq) (*account.UserInfoResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &account.RoleResourceResp{}, nil
+	return &account.UserInfoResp{}, nil
 }

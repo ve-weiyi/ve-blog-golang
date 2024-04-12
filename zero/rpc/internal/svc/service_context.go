@@ -25,6 +25,10 @@ type ServiceContext struct {
 	RoleModel            model.RoleModel
 	ApiModel             model.ApiModel
 	MenuModel            model.MenuModel
+
+	UserRoleModel model.UserRoleModel
+	RoleApiModel  model.RoleApiModel
+	RoleMenuModel model.RoleMenuModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -45,6 +49,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RoleModel:            model.NewRoleModel(db, rds),
 		ApiModel:             model.NewApiModel(db, rds),
 		MenuModel:            model.NewMenuModel(db, rds),
+		UserRoleModel:        model.NewUserRoleModel(db, rds),
+		RoleApiModel:         model.NewRoleApiModel(db, rds),
+		RoleMenuModel:        model.NewRoleMenuModel(db, rds),
 	}
 }
 
@@ -64,8 +71,8 @@ func ConnectGorm(c config.MysqlConf) (*gorm.DB, error) {
 			SingularTable: true,
 		},
 		// gorm日志模式
-		//Logger: logger.Default.LogMode(logger.Info),
-		Logger: logger.Default,
+		Logger: logger.Default.LogMode(logger.Info),
+		//Logger: logger.Default,
 	})
 
 	if err != nil {

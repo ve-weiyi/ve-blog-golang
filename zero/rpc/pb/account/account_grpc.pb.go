@@ -410,398 +410,6 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 	Metadata: "account.proto",
 }
 
-// RoleRpcClient is the client API for RoleRpc service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type RoleRpcClient interface {
-	// 创建角色
-	CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
-	// 更新角色
-	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
-	// 删除角色
-	DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
-	// 批量删除角色
-	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
-	// 查询角色
-	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
-	// 分页获取角色列表
-	FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
-	// 查询角色
-	FindRoleResource(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourceResp, error)
-	// 更新角色菜单
-	UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error)
-	// 更新角色资源
-	UpdateRoleApis(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error)
-}
-
-type roleRpcClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewRoleRpcClient(cc grpc.ClientConnInterface) RoleRpcClient {
-	return &roleRpcClient{cc}
-}
-
-func (c *roleRpcClient) CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
-	out := new(Role)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/CreateRole", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
-	out := new(Role)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRole", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/DeleteRole", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/DeleteRoleList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error) {
-	out := new(Role)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRole", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error) {
-	out := new(RolePageResp)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRoleList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) FindRoleResource(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourceResp, error) {
-	out := new(RoleResourceResp)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRoleResource", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleMenus", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *roleRpcClient) UpdateRoleApis(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleApis", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// RoleRpcServer is the server API for RoleRpc service.
-// All implementations must embed UnimplementedRoleRpcServer
-// for forward compatibility
-type RoleRpcServer interface {
-	// 创建角色
-	CreateRole(context.Context, *Role) (*Role, error)
-	// 更新角色
-	UpdateRole(context.Context, *Role) (*Role, error)
-	// 删除角色
-	DeleteRole(context.Context, *IdReq) (*BatchResult, error)
-	// 批量删除角色
-	DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error)
-	// 查询角色
-	FindRole(context.Context, *IdReq) (*Role, error)
-	// 分页获取角色列表
-	FindRoleList(context.Context, *PageQuery) (*RolePageResp, error)
-	// 查询角色
-	FindRoleResource(context.Context, *IdReq) (*RoleResourceResp, error)
-	// 更新角色菜单
-	UpdateRoleMenus(context.Context, *UpdateRoleMenusReq) (*EmptyResp, error)
-	// 更新角色资源
-	UpdateRoleApis(context.Context, *UpdateRoleApisReq) (*EmptyResp, error)
-	mustEmbedUnimplementedRoleRpcServer()
-}
-
-// UnimplementedRoleRpcServer must be embedded to have forward compatible implementations.
-type UnimplementedRoleRpcServer struct {
-}
-
-func (UnimplementedRoleRpcServer) CreateRole(context.Context, *Role) (*Role, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
-}
-func (UnimplementedRoleRpcServer) UpdateRole(context.Context, *Role) (*Role, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
-}
-func (UnimplementedRoleRpcServer) DeleteRole(context.Context, *IdReq) (*BatchResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
-}
-func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoleList not implemented")
-}
-func (UnimplementedRoleRpcServer) FindRole(context.Context, *IdReq) (*Role, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindRole not implemented")
-}
-func (UnimplementedRoleRpcServer) FindRoleList(context.Context, *PageQuery) (*RolePageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindRoleList not implemented")
-}
-func (UnimplementedRoleRpcServer) FindRoleResource(context.Context, *IdReq) (*RoleResourceResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindRoleResource not implemented")
-}
-func (UnimplementedRoleRpcServer) UpdateRoleMenus(context.Context, *UpdateRoleMenusReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleMenus not implemented")
-}
-func (UnimplementedRoleRpcServer) UpdateRoleApis(context.Context, *UpdateRoleApisReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleApis not implemented")
-}
-func (UnimplementedRoleRpcServer) mustEmbedUnimplementedRoleRpcServer() {}
-
-// UnsafeRoleRpcServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to RoleRpcServer will
-// result in compilation errors.
-type UnsafeRoleRpcServer interface {
-	mustEmbedUnimplementedRoleRpcServer()
-}
-
-func RegisterRoleRpcServer(s grpc.ServiceRegistrar, srv RoleRpcServer) {
-	s.RegisterService(&RoleRpc_ServiceDesc, srv)
-}
-
-func _RoleRpc_CreateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Role)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).CreateRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/CreateRole",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).CreateRole(ctx, req.(*Role))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_UpdateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Role)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).UpdateRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/UpdateRole",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).UpdateRole(ctx, req.(*Role))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).DeleteRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/DeleteRole",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).DeleteRole(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_DeleteRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).DeleteRoleList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/DeleteRoleList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).DeleteRoleList(ctx, req.(*IdsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_FindRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).FindRole(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/FindRole",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).FindRole(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_FindRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).FindRoleList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/FindRoleList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).FindRoleList(ctx, req.(*PageQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_FindRoleResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).FindRoleResource(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/FindRoleResource",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).FindRoleResource(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_UpdateRoleMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRoleMenusReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).UpdateRoleMenus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/UpdateRoleMenus",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).UpdateRoleMenus(ctx, req.(*UpdateRoleMenusReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RoleRpc_UpdateRoleApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRoleApisReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RoleRpcServer).UpdateRoleApis(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/account.roleRpc/UpdateRoleApis",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).UpdateRoleApis(ctx, req.(*UpdateRoleApisReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// RoleRpc_ServiceDesc is the grpc.ServiceDesc for RoleRpc service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var RoleRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "account.roleRpc",
-	HandlerType: (*RoleRpcServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateRole",
-			Handler:    _RoleRpc_CreateRole_Handler,
-		},
-		{
-			MethodName: "UpdateRole",
-			Handler:    _RoleRpc_UpdateRole_Handler,
-		},
-		{
-			MethodName: "DeleteRole",
-			Handler:    _RoleRpc_DeleteRole_Handler,
-		},
-		{
-			MethodName: "DeleteRoleList",
-			Handler:    _RoleRpc_DeleteRoleList_Handler,
-		},
-		{
-			MethodName: "FindRole",
-			Handler:    _RoleRpc_FindRole_Handler,
-		},
-		{
-			MethodName: "FindRoleList",
-			Handler:    _RoleRpc_FindRoleList_Handler,
-		},
-		{
-			MethodName: "FindRoleResource",
-			Handler:    _RoleRpc_FindRoleResource_Handler,
-		},
-		{
-			MethodName: "UpdateRoleMenus",
-			Handler:    _RoleRpc_UpdateRoleMenus_Handler,
-		},
-		{
-			MethodName: "UpdateRoleApis",
-			Handler:    _RoleRpc_UpdateRoleApis_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "account.proto",
-}
-
 // ApiRpcClient is the client API for ApiRpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
@@ -1504,6 +1112,752 @@ var MenuRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CleanMenuList",
 			Handler:    _MenuRpc_CleanMenuList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "account.proto",
+}
+
+// RoleRpcClient is the client API for RoleRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type RoleRpcClient interface {
+	// 创建角色
+	CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
+	// 更新角色
+	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
+	// 删除角色
+	DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 批量删除角色
+	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	// 查询角色
+	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
+	// 分页获取角色列表
+	FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
+	// 查询角色
+	FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error)
+	// 更新角色菜单
+	UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 更新角色资源
+	UpdateRoleApis(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error)
+}
+
+type roleRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewRoleRpcClient(cc grpc.ClientConnInterface) RoleRpcClient {
+	return &roleRpcClient{cc}
+}
+
+func (c *roleRpcClient) CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/CreateRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/DeleteRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/DeleteRoleList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error) {
+	out := new(RolePageResp)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRoleList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error) {
+	out := new(RoleResourcesResp)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/FindRoleResources", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleMenus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleRpcClient) UpdateRoleApis(ctx context.Context, in *UpdateRoleApisReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.roleRpc/UpdateRoleApis", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// RoleRpcServer is the server API for RoleRpc service.
+// All implementations must embed UnimplementedRoleRpcServer
+// for forward compatibility
+type RoleRpcServer interface {
+	// 创建角色
+	CreateRole(context.Context, *Role) (*Role, error)
+	// 更新角色
+	UpdateRole(context.Context, *Role) (*Role, error)
+	// 删除角色
+	DeleteRole(context.Context, *IdReq) (*BatchResult, error)
+	// 批量删除角色
+	DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error)
+	// 查询角色
+	FindRole(context.Context, *IdReq) (*Role, error)
+	// 分页获取角色列表
+	FindRoleList(context.Context, *PageQuery) (*RolePageResp, error)
+	// 查询角色
+	FindRoleResources(context.Context, *IdReq) (*RoleResourcesResp, error)
+	// 更新角色菜单
+	UpdateRoleMenus(context.Context, *UpdateRoleMenusReq) (*EmptyResp, error)
+	// 更新角色资源
+	UpdateRoleApis(context.Context, *UpdateRoleApisReq) (*EmptyResp, error)
+	mustEmbedUnimplementedRoleRpcServer()
+}
+
+// UnimplementedRoleRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedRoleRpcServer struct {
+}
+
+func (UnimplementedRoleRpcServer) CreateRole(context.Context, *Role) (*Role, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
+}
+func (UnimplementedRoleRpcServer) UpdateRole(context.Context, *Role) (*Role, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
+}
+func (UnimplementedRoleRpcServer) DeleteRole(context.Context, *IdReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
+}
+func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoleList not implemented")
+}
+func (UnimplementedRoleRpcServer) FindRole(context.Context, *IdReq) (*Role, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRole not implemented")
+}
+func (UnimplementedRoleRpcServer) FindRoleList(context.Context, *PageQuery) (*RolePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRoleList not implemented")
+}
+func (UnimplementedRoleRpcServer) FindRoleResources(context.Context, *IdReq) (*RoleResourcesResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRoleResources not implemented")
+}
+func (UnimplementedRoleRpcServer) UpdateRoleMenus(context.Context, *UpdateRoleMenusReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleMenus not implemented")
+}
+func (UnimplementedRoleRpcServer) UpdateRoleApis(context.Context, *UpdateRoleApisReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoleApis not implemented")
+}
+func (UnimplementedRoleRpcServer) mustEmbedUnimplementedRoleRpcServer() {}
+
+// UnsafeRoleRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RoleRpcServer will
+// result in compilation errors.
+type UnsafeRoleRpcServer interface {
+	mustEmbedUnimplementedRoleRpcServer()
+}
+
+func RegisterRoleRpcServer(s grpc.ServiceRegistrar, srv RoleRpcServer) {
+	s.RegisterService(&RoleRpc_ServiceDesc, srv)
+}
+
+func _RoleRpc_CreateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Role)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).CreateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/CreateRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).CreateRole(ctx, req.(*Role))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_UpdateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Role)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).UpdateRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/UpdateRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).UpdateRole(ctx, req.(*Role))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).DeleteRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/DeleteRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).DeleteRole(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_DeleteRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).DeleteRoleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/DeleteRoleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).DeleteRoleList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_FindRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).FindRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/FindRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).FindRole(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_FindRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).FindRoleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/FindRoleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).FindRoleList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_FindRoleResources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).FindRoleResources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/FindRoleResources",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).FindRoleResources(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_UpdateRoleMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRoleMenusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).UpdateRoleMenus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/UpdateRoleMenus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).UpdateRoleMenus(ctx, req.(*UpdateRoleMenusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleRpc_UpdateRoleApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRoleApisReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleRpcServer).UpdateRoleApis(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.roleRpc/UpdateRoleApis",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleRpcServer).UpdateRoleApis(ctx, req.(*UpdateRoleApisReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RoleRpc_ServiceDesc is the grpc.ServiceDesc for RoleRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var RoleRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "account.roleRpc",
+	HandlerType: (*RoleRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateRole",
+			Handler:    _RoleRpc_CreateRole_Handler,
+		},
+		{
+			MethodName: "UpdateRole",
+			Handler:    _RoleRpc_UpdateRole_Handler,
+		},
+		{
+			MethodName: "DeleteRole",
+			Handler:    _RoleRpc_DeleteRole_Handler,
+		},
+		{
+			MethodName: "DeleteRoleList",
+			Handler:    _RoleRpc_DeleteRoleList_Handler,
+		},
+		{
+			MethodName: "FindRole",
+			Handler:    _RoleRpc_FindRole_Handler,
+		},
+		{
+			MethodName: "FindRoleList",
+			Handler:    _RoleRpc_FindRoleList_Handler,
+		},
+		{
+			MethodName: "FindRoleResources",
+			Handler:    _RoleRpc_FindRoleResources_Handler,
+		},
+		{
+			MethodName: "UpdateRoleMenus",
+			Handler:    _RoleRpc_UpdateRoleMenus_Handler,
+		},
+		{
+			MethodName: "UpdateRoleApis",
+			Handler:    _RoleRpc_UpdateRoleApis_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "account.proto",
+}
+
+// UserRpcClient is the client API for UserRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type UserRpcClient interface {
+	// 查询用户登录历史
+	FindUserLoginHistoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*LoginHistoryPageResp, error)
+	// 批量删除登录历史
+	DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 获取用户接口权限
+	GetUserApis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ApiPageResp, error)
+	// 获取用户菜单权限
+	GetUserMenus(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*MenuPageResp, error)
+	// 获取用户角色信息
+	GetUserRoles(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*RolePageResp, error)
+	// 获取用户信息
+	GetUserInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	// 修改用户信息
+	UpdateUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	// 更换用户头像
+	UpdateUserAvatar(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+}
+
+type userRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewUserRpcClient(cc grpc.ClientConnInterface) UserRpcClient {
+	return &userRpcClient{cc}
+}
+
+func (c *userRpcClient) FindUserLoginHistoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*LoginHistoryPageResp, error) {
+	out := new(LoginHistoryPageResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/FindUserLoginHistoryList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/DeleteUserLoginHistoryList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) GetUserApis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
+	out := new(ApiPageResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/GetUserApis", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) GetUserMenus(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
+	out := new(MenuPageResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/GetUserMenus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) GetUserRoles(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*RolePageResp, error) {
+	out := new(RolePageResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/GetUserRoles", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) GetUserInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	out := new(UserInfoResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/GetUserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) UpdateUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	out := new(UserInfoResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/UpdateUserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) UpdateUserAvatar(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	out := new(UserInfoResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/UpdateUserAvatar", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UserRpcServer is the server API for UserRpc service.
+// All implementations must embed UnimplementedUserRpcServer
+// for forward compatibility
+type UserRpcServer interface {
+	// 查询用户登录历史
+	FindUserLoginHistoryList(context.Context, *PageQuery) (*LoginHistoryPageResp, error)
+	// 批量删除登录历史
+	DeleteUserLoginHistoryList(context.Context, *IdsReq) (*EmptyResp, error)
+	// 获取用户接口权限
+	GetUserApis(context.Context, *EmptyReq) (*ApiPageResp, error)
+	// 获取用户菜单权限
+	GetUserMenus(context.Context, *EmptyReq) (*MenuPageResp, error)
+	// 获取用户角色信息
+	GetUserRoles(context.Context, *EmptyReq) (*RolePageResp, error)
+	// 获取用户信息
+	GetUserInfo(context.Context, *EmptyReq) (*UserInfoResp, error)
+	// 修改用户信息
+	UpdateUserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error)
+	// 更换用户头像
+	UpdateUserAvatar(context.Context, *EmptyReq) (*UserInfoResp, error)
+	mustEmbedUnimplementedUserRpcServer()
+}
+
+// UnimplementedUserRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedUserRpcServer struct {
+}
+
+func (UnimplementedUserRpcServer) FindUserLoginHistoryList(context.Context, *PageQuery) (*LoginHistoryPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserLoginHistoryList not implemented")
+}
+func (UnimplementedUserRpcServer) DeleteUserLoginHistoryList(context.Context, *IdsReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserLoginHistoryList not implemented")
+}
+func (UnimplementedUserRpcServer) GetUserApis(context.Context, *EmptyReq) (*ApiPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserApis not implemented")
+}
+func (UnimplementedUserRpcServer) GetUserMenus(context.Context, *EmptyReq) (*MenuPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserMenus not implemented")
+}
+func (UnimplementedUserRpcServer) GetUserRoles(context.Context, *EmptyReq) (*RolePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
+}
+func (UnimplementedUserRpcServer) GetUserInfo(context.Context, *EmptyReq) (*UserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserRpcServer) UpdateUserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
+}
+func (UnimplementedUserRpcServer) UpdateUserAvatar(context.Context, *EmptyReq) (*UserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserAvatar not implemented")
+}
+func (UnimplementedUserRpcServer) mustEmbedUnimplementedUserRpcServer() {}
+
+// UnsafeUserRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserRpcServer will
+// result in compilation errors.
+type UnsafeUserRpcServer interface {
+	mustEmbedUnimplementedUserRpcServer()
+}
+
+func RegisterUserRpcServer(s grpc.ServiceRegistrar, srv UserRpcServer) {
+	s.RegisterService(&UserRpc_ServiceDesc, srv)
+}
+
+func _UserRpc_FindUserLoginHistoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).FindUserLoginHistoryList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/FindUserLoginHistoryList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).FindUserLoginHistoryList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_DeleteUserLoginHistoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).DeleteUserLoginHistoryList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/DeleteUserLoginHistoryList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).DeleteUserLoginHistoryList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_GetUserApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).GetUserApis(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/GetUserApis",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).GetUserApis(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_GetUserMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).GetUserMenus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/GetUserMenus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).GetUserMenus(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).GetUserRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/GetUserRoles",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).GetUserRoles(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).GetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/GetUserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).GetUserInfo(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).UpdateUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/UpdateUserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).UpdateUserInfo(ctx, req.(*UserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_UpdateUserAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).UpdateUserAvatar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/UpdateUserAvatar",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).UpdateUserAvatar(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// UserRpc_ServiceDesc is the grpc.ServiceDesc for UserRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var UserRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "account.userRpc",
+	HandlerType: (*UserRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "FindUserLoginHistoryList",
+			Handler:    _UserRpc_FindUserLoginHistoryList_Handler,
+		},
+		{
+			MethodName: "DeleteUserLoginHistoryList",
+			Handler:    _UserRpc_DeleteUserLoginHistoryList_Handler,
+		},
+		{
+			MethodName: "GetUserApis",
+			Handler:    _UserRpc_GetUserApis_Handler,
+		},
+		{
+			MethodName: "GetUserMenus",
+			Handler:    _UserRpc_GetUserMenus_Handler,
+		},
+		{
+			MethodName: "GetUserRoles",
+			Handler:    _UserRpc_GetUserRoles_Handler,
+		},
+		{
+			MethodName: "GetUserInfo",
+			Handler:    _UserRpc_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "UpdateUserInfo",
+			Handler:    _UserRpc_UpdateUserInfo_Handler,
+		},
+		{
+			MethodName: "UpdateUserAvatar",
+			Handler:    _UserRpc_UpdateUserAvatar_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

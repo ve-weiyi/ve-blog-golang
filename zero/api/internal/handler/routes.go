@@ -8,6 +8,7 @@ import (
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/auth"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/menu"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/role"
+	user "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/user"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -20,6 +21,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/ping",
 				Handler: PingHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/login_history",
+				Handler: user.FindUserLoginHistoryListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/user/delete_login_history_list",
+				Handler: user.DeleteUserLoginHistoryListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/apis",
+				Handler: user.GetUserApisHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/menus",
+				Handler: user.GetUserMenusHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/roles",
+				Handler: user.GetUserRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/info",
+				Handler: user.GetUserInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/info",
+				Handler: user.UpdateUserInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/avatar",
+				Handler: user.UpdateUserAvatarHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -207,12 +254,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/update_menus",
+				Path:    "/role/update_role_menus",
 				Handler: role.UpdateRoleMenusHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/role/update_apis",
+				Path:    "/role/update_role_apis",
 				Handler: role.UpdateRoleApisHandler(serverCtx),
 			},
 		},

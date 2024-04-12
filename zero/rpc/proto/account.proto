@@ -122,73 +122,6 @@ service AccountRpc {
 }
 
 /************** rbac 权限相关 **************/
-message Role {
-  int64 id = 1;// 主键id
-  int64 parent_id = 2;// 父角色id
-  string role_domain = 3;// 角色域
-  string role_name = 4;// 角色名
-  string role_comment = 5;// 角色备注
-  int64 is_disable = 6;// 是否禁用  0否 1是
-  int64 is_default = 7;// 是否默认角色 0否 1是
-  int64 created_at = 8;// 创建时间
-  int64 updated_at = 9;// 更新时间
-}
-
-message RoleDetailsDTO {
-  int64 id = 1;// 主键id
-  int64 parent_id = 2;// 父角色id
-  string role_domain = 3;// 角色域
-  string role_name = 4;// 角色名
-  string role_comment = 5;// 角色备注
-  int64 is_disable = 6;// 是否禁用  0否 1是
-  int64 is_default = 7;// 是否默认角色 0否 1是
-  int64 created_at = 8;// 创建时间
-  int64 updated_at = 9;// 更新时间
-  repeated RoleDetailsDTO children = 10;
-}
-
-message RolePageResp {
-  int64 total = 1;
-  repeated RoleDetailsDTO list = 2;
-}
-
-message RoleResourceResp {
-  int64 role_id = 1;
-  repeated int64 menu_id_list = 2;
-  repeated int64 resource_id_list = 3;
-}
-
-message UpdateRoleApisReq {
-  int64 role_id = 1;
-  repeated int64 resource_ids = 2;
-}
-
-message UpdateRoleMenusReq {
-  int64 role_id = 1;
-  repeated int64 menu_ids = 2;
-}
-
-service roleRpc {
-  // 创建角色
-  rpc CreateRole(Role) returns(Role);
-  // 更新角色
-  rpc UpdateRole(Role) returns(Role);
-  // 删除角色
-  rpc DeleteRole(IdReq) returns(BatchResult);
-  // 批量删除角色
-  rpc DeleteRoleList(IdsReq) returns(BatchResult);
-  // 查询角色
-  rpc FindRole(IdReq) returns(Role);
-  // 分页获取角色列表
-  rpc FindRoleList(PageQuery) returns(RolePageResp);
-  // 查询角色
-  rpc FindRoleResource(IdReq) returns(RoleResourceResp);
-  // 更新角色菜单
-  rpc UpdateRoleMenus(UpdateRoleMenusReq) returns(EmptyResp);
-  // 更新角色资源
-  rpc UpdateRoleApis(UpdateRoleApisReq) returns(EmptyResp);
-}
-
 message Api {
   int64 id = 1;// 主键id
   string name = 2;// api名称
@@ -293,4 +226,124 @@ service menuRpc {
   rpc SyncMenuList(SyncMenuRequest) returns(BatchResult);
   // 清空菜单列表
   rpc CleanMenuList(EmptyReq) returns(EmptyResp);
+}
+
+message Role {
+  int64 id = 1;// 主键id
+  int64 parent_id = 2;// 父角色id
+  string role_domain = 3;// 角色域
+  string role_name = 4;// 角色名
+  string role_comment = 5;// 角色备注
+  int64 is_disable = 6;// 是否禁用  0否 1是
+  int64 is_default = 7;// 是否默认角色 0否 1是
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+}
+
+message RoleDetailsDTO {
+  int64 id = 1;// 主键id
+  int64 parent_id = 2;// 父角色id
+  string role_domain = 3;// 角色域
+  string role_name = 4;// 角色名
+  string role_comment = 5;// 角色备注
+  int64 is_disable = 6;// 是否禁用  0否 1是
+  int64 is_default = 7;// 是否默认角色 0否 1是
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+  repeated RoleDetailsDTO children = 10;
+}
+
+message RolePageResp {
+  int64 total = 1;
+  repeated RoleDetailsDTO list = 2;
+}
+
+message RoleResourcesResp {
+  int64 role_id = 1;
+  repeated int64 menu_id_list = 2;
+  repeated int64 api_id_list = 3;
+}
+
+message UpdateRoleApisReq {
+  int64 role_id = 1;
+  repeated int64 api_ids = 2;
+}
+
+message UpdateRoleMenusReq {
+  int64 role_id = 1;
+  repeated int64 menu_ids = 2;
+}
+
+service roleRpc {
+  // 创建角色
+  rpc CreateRole(Role) returns(Role);
+  // 更新角色
+  rpc UpdateRole(Role) returns(Role);
+  // 删除角色
+  rpc DeleteRole(IdReq) returns(BatchResult);
+  // 批量删除角色
+  rpc DeleteRoleList(IdsReq) returns(BatchResult);
+  // 查询角色
+  rpc FindRole(IdReq) returns(Role);
+  // 分页获取角色列表
+  rpc FindRoleList(PageQuery) returns(RolePageResp);
+  // 查询角色
+  rpc FindRoleResources(IdReq) returns(RoleResourcesResp);
+  // 更新角色菜单
+  rpc UpdateRoleMenus(UpdateRoleMenusReq) returns(EmptyResp);
+  // 更新角色资源
+  rpc UpdateRoleApis(UpdateRoleApisReq) returns(EmptyResp);
+}
+
+message LoginHistory {
+  int64 id = 1;
+  string login_type = 2;// 登录类型
+  string agent = 3;// 代理
+  string ip_address = 4;// ip host
+  string ip_source = 5;// ip 源
+  string login_time = 6;// 创建时间
+}
+
+message LoginHistoryPageResp {
+  int64 total = 1;
+  repeated LoginHistory list = 2;
+}
+
+message UserInfoReq {
+  string nickname = 1;// 昵称
+  string website = 2;// 网站
+  string intro = 3;// 简介
+  string avatar = 4;// 头像
+}
+
+message UserInfoResp {
+  int64 id = 1;// id
+  int64 user_id = 2;// 用户id
+  string email = 3;// 用户邮箱
+  string nickname = 4;// 用户昵称
+  string avatar = 5;// 用户头像
+  string phone = 6;// 用户手机号
+  string intro = 7;// 个人简介
+  string website = 8;// 个人网站
+  int64 created_at = 9;// 创建时间
+  int64 updated_at = 10;// 更新时间
+}
+
+service userRpc {
+  // 查询用户登录历史
+  rpc FindUserLoginHistoryList(PageQuery) returns(LoginHistoryPageResp);
+  // 批量删除登录历史
+  rpc DeleteUserLoginHistoryList(IdsReq) returns(EmptyResp);
+  // 获取用户接口权限
+  rpc GetUserApis(EmptyReq) returns(ApiPageResp);
+  // 获取用户菜单权限
+  rpc GetUserMenus(EmptyReq) returns(MenuPageResp);
+  // 获取用户角色信息
+  rpc GetUserRoles(EmptyReq) returns(RolePageResp);
+  // 获取用户信息
+  rpc GetUserInfo(EmptyReq) returns(UserInfoResp);
+  // 修改用户信息
+  rpc UpdateUserInfo(UserInfoReq) returns(UserInfoResp);
+  // 更换用户头像
+  rpc UpdateUserAvatar(EmptyReq) returns(UserInfoResp);
 }

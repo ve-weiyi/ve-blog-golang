@@ -8,7 +8,8 @@ import (
 type Config struct {
 	rest.RestConf
 	AccountRpcConf zrpc.RpcClientConf
-	RoleRpcConf    zrpc.RpcClientConf
 	ApiRpcConf     zrpc.RpcClientConf
 	MenuRpcConf    zrpc.RpcClientConf
+	RoleRpcConf    zrpc.RpcClientConf
+	UserRpcConf    zrpc.RpcClientConf
 }

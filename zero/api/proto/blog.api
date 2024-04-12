@@ -1,6 +1,7 @@
 syntax = "v1"
 
 //import "api/account.api"
+import "api/user.api"
 import "api/api.api"
 //import "api/ai.api"
 //import "api/article.api"
@@ -25,12 +26,12 @@ type (
 	PingReq {
 	}
 	PingResp {
-		Env string `json:"env"`
-		Name string `json:"name"`
-		Version string `json:"version"`
-		Runtime string `json:"runtime"`
-		Description string `json:"description"`
-		RpcStatus map[string]string `json:"rpc_status"`
+        Env string `json:"env"`
+        Name string `json:"name"`
+        Version string `json:"version"`
+        Runtime string `json:"runtime"`
+        Description string `json:"description"`
+        RpcStatus map[string]string `json:"rpc_status"`
 	}
 )
 
@@ -39,5 +40,5 @@ type (
 )
 service blog-api {
 	@handler Ping
-		get /ping (PingReq) returns (PingResp)
+        get /ping (PingReq) returns (PingResp)
 }

@@ -13,36 +13,40 @@ import (
 )
 
 type (
-	Api                = account.Api
-	ApiDetailsDTO      = account.ApiDetailsDTO
-	ApiPageResp        = account.ApiPageResp
-	BatchResult        = account.BatchResult
-	EmptyReq           = account.EmptyReq
-	EmptyResp          = account.EmptyResp
-	IdReq              = account.IdReq
-	IdsReq             = account.IdsReq
-	LoginReq           = account.LoginReq
-	LoginResp          = account.LoginResp
-	Menu               = account.Menu
-	MenuDetailsDTO     = account.MenuDetailsDTO
-	MenuPageResp       = account.MenuPageResp
-	OauthLoginReq      = account.OauthLoginReq
-	OauthLoginUrlResp  = account.OauthLoginUrlResp
-	PageCondition      = account.PageCondition
-	PageLimit          = account.PageLimit
-	PageQuery          = account.PageQuery
-	PageResult         = account.PageResult
-	PageSort           = account.PageSort
-	ResetPasswordReq   = account.ResetPasswordReq
-	Role               = account.Role
-	RoleDTO            = account.RoleDTO
-	RoleDetailsDTO     = account.RoleDetailsDTO
-	RolePageResp       = account.RolePageResp
-	RoleResourceResp   = account.RoleResourceResp
-	SyncMenuRequest    = account.SyncMenuRequest
-	UpdateRoleApisReq  = account.UpdateRoleApisReq
-	UpdateRoleMenusReq = account.UpdateRoleMenusReq
-	UserEmailReq       = account.UserEmailReq
+	Api                  = account.Api
+	ApiDetailsDTO        = account.ApiDetailsDTO
+	ApiPageResp          = account.ApiPageResp
+	BatchResult          = account.BatchResult
+	EmptyReq             = account.EmptyReq
+	EmptyResp            = account.EmptyResp
+	IdReq                = account.IdReq
+	IdsReq               = account.IdsReq
+	LoginHistory         = account.LoginHistory
+	LoginHistoryPageResp = account.LoginHistoryPageResp
+	LoginReq             = account.LoginReq
+	LoginResp            = account.LoginResp
+	Menu                 = account.Menu
+	MenuDetailsDTO       = account.MenuDetailsDTO
+	MenuPageResp         = account.MenuPageResp
+	OauthLoginReq        = account.OauthLoginReq
+	OauthLoginUrlResp    = account.OauthLoginUrlResp
+	PageCondition        = account.PageCondition
+	PageLimit            = account.PageLimit
+	PageQuery            = account.PageQuery
+	PageResult           = account.PageResult
+	PageSort             = account.PageSort
+	ResetPasswordReq     = account.ResetPasswordReq
+	Role                 = account.Role
+	RoleDTO              = account.RoleDTO
+	RoleDetailsDTO       = account.RoleDetailsDTO
+	RolePageResp         = account.RolePageResp
+	RoleResourcesResp    = account.RoleResourcesResp
+	SyncMenuRequest      = account.SyncMenuRequest
+	UpdateRoleApisReq    = account.UpdateRoleApisReq
+	UpdateRoleMenusReq   = account.UpdateRoleMenusReq
+	UserEmailReq         = account.UserEmailReq
+	UserInfoReq          = account.UserInfoReq
+	UserInfoResp         = account.UserInfoResp
 
 	RoleRpc interface {
 		// 创建角色
@@ -58,7 +62,7 @@ type (
 		// 分页获取角色列表
 		FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
 		// 查询角色
-		FindRoleResource(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourceResp, error)
+		FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error)
 		// 更新角色菜单
 		UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 更新角色资源
@@ -113,9 +117,9 @@ func (m *defaultRoleRpc) FindRoleList(ctx context.Context, in *PageQuery, opts .
 }
 
 // 查询角色
-func (m *defaultRoleRpc) FindRoleResource(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourceResp, error) {
+func (m *defaultRoleRpc) FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error) {
 	client := account.NewRoleRpcClient(m.cli.Conn())
-	return client.FindRoleResource(ctx, in, opts...)
+	return client.FindRoleResources(ctx, in, opts...)
 }
 
 // 更新角色菜单

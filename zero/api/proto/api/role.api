@@ -29,9 +29,15 @@ type (
         ResourceIdList []int64 `json:"resource_id_list,optional"`
     }
 
+    RoleResourcesResp {
+        RoleId int64 `json:"role_id,optional"`
+        ApiIds []int64 `json:"api_ids,optional"`
+        MenuIds []int64 `json:"menu_ids,optional"`
+    }
+
     UpdateRoleApisReq {
         RoleId int64 `json:"role_id,optional"`
-        ResourceIds []int64 `json:"resource_ids,optional"`
+        ApiIds []int64 `json:"api_ids,optional"`
     }
 
     UpdateRoleMenusReq {
@@ -72,13 +78,13 @@ service blog-api {
 
     @doc "获取角色资源列表"
     @handler FindRoleResources
-    post /role/find_role_resources (IdsReq) returns (PageResult)
+    post /role/find_role_resources (IdReq) returns (RoleResourcesResp)
 
     @doc "更新角色菜单权限"
     @handler UpdateRoleMenus
-    post /role/update_menus (UpdateRoleMenusReq) returns (EmptyResp)
+    post /role/update_role_menus (UpdateRoleMenusReq) returns (EmptyResp)
 
     @doc "更新角色接口权限"
     @handler UpdateRoleApis
-    post /role/update_apis (UpdateRoleApisReq) returns (EmptyResp)
+    post /role/update_role_apis (UpdateRoleApisReq) returns (EmptyResp)
 }

@@ -34,11 +34,6 @@ type (
         Email string `json:"email,optional"`       // 邮箱
     }
 
-    RoleDTO {
-        RoleName string `json:"role_name,optional"`
-        RoleComment string `json:"role_comment,optional"`
-    }
-
     UserEmailReq {
         Username string `json:"username,optional"`
     }

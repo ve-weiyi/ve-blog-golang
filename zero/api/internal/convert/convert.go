@@ -8,6 +8,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 )
 
+func EmptyReq() (out *rolerpc.EmptyReq) {
+	out = &rolerpc.EmptyReq{}
+	return
+}
+
 func ConvertIdReq(in *types.IdReq) (out *rolerpc.IdReq) {
 	out = &rolerpc.IdReq{
 		Id: in.ID,

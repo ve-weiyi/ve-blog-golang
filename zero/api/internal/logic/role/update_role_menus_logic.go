@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/rolerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +25,15 @@ func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateRoleMenusLogic) UpdateRoleMenus(req *types.UpdateRoleMenusReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	in := rolerpc.UpdateRoleMenusReq{
+		RoleId:  req.RoleId,
+		MenuIds: req.MenuIds,
+	}
 
-	return
+	_, err = l.svcCtx.RoleRpc.UpdateRoleMenus(l.ctx, &in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }

@@ -59,9 +59,9 @@ func (s *RoleRpcServer) FindRoleList(ctx context.Context, in *account.PageQuery)
 }
 
 // 查询角色
-func (s *RoleRpcServer) FindRoleResource(ctx context.Context, in *account.IdReq) (*account.RoleResourceResp, error) {
-	l := rolerpclogic.NewFindRoleResourceLogic(ctx, s.svcCtx)
-	return l.FindRoleResource(in)
+func (s *RoleRpcServer) FindRoleResources(ctx context.Context, in *account.IdReq) (*account.RoleResourcesResp, error) {
+	l := rolerpclogic.NewFindRoleResourcesLogic(ctx, s.svcCtx)
+	return l.FindRoleResources(in)
 }
 
 // 更新角色菜单

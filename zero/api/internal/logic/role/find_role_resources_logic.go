@@ -3,6 +3,7 @@ package role
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -23,7 +24,17 @@ func NewFindRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *FindRoleResourcesLogic) FindRoleResources(req *types.IdsReq) (resp *types.PageResult, err error) {
+func (l *FindRoleResourcesLogic) FindRoleResources(req *types.IdReq) (resp *types.RoleResourcesResp, err error) {
+	in := convert.ConvertIdReq(req)
+	out, err := l.svcCtx.RoleRpc.FindRoleResources(l.ctx, in)
+	if err != nil {
+		return
+	}
+
+	resp = &types.RoleResourcesResp{}
+	resp.RoleId = out.RoleId
+	resp.ApiIds = out.ApiIdList
+	resp.MenuIds = out.MenuIdList
 
 	return
 }
