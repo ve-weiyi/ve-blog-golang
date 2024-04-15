@@ -1527,9 +1527,15 @@ type UserRpcClient interface {
 	// 获取用户信息
 	GetUserInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// 修改用户信息
-	UpdateUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
-	// 更换用户头像
-	UpdateUserAvatar(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	// 修改用户头像
+	UpdateUserAvatar(ctx context.Context, in *UpdateUserAvatarReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	// 修改用户状态
+	UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 修改用户角色
+	UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 查找用户列表
+	FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageUserInfoResp, error)
 }
 
 type userRpcClient struct {
@@ -1594,7 +1600,7 @@ func (c *userRpcClient) GetUserInfo(ctx context.Context, in *EmptyReq, opts ...g
 	return out, nil
 }
 
-func (c *userRpcClient) UpdateUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (c *userRpcClient) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	out := new(UserInfoResp)
 	err := c.cc.Invoke(ctx, "/account.userRpc/UpdateUserInfo", in, out, opts...)
 	if err != nil {
@@ -1603,9 +1609,36 @@ func (c *userRpcClient) UpdateUserInfo(ctx context.Context, in *UserInfoReq, opt
 	return out, nil
 }
 
-func (c *userRpcClient) UpdateUserAvatar(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (c *userRpcClient) UpdateUserAvatar(ctx context.Context, in *UpdateUserAvatarReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	out := new(UserInfoResp)
 	err := c.cc.Invoke(ctx, "/account.userRpc/UpdateUserAvatar", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/UpdateUserStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/UpdateUserRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userRpcClient) FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageUserInfoResp, error) {
+	out := new(PageUserInfoResp)
+	err := c.cc.Invoke(ctx, "/account.userRpc/FindUserList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1629,9 +1662,15 @@ type UserRpcServer interface {
 	// 获取用户信息
 	GetUserInfo(context.Context, *EmptyReq) (*UserInfoResp, error)
 	// 修改用户信息
-	UpdateUserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error)
-	// 更换用户头像
-	UpdateUserAvatar(context.Context, *EmptyReq) (*UserInfoResp, error)
+	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UserInfoResp, error)
+	// 修改用户头像
+	UpdateUserAvatar(context.Context, *UpdateUserAvatarReq) (*UserInfoResp, error)
+	// 修改用户状态
+	UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*EmptyResp, error)
+	// 修改用户角色
+	UpdateUserRole(context.Context, *UpdateUserRoleReq) (*EmptyResp, error)
+	// 查找用户列表
+	FindUserList(context.Context, *PageQuery) (*PageUserInfoResp, error)
 	mustEmbedUnimplementedUserRpcServer()
 }
 
@@ -1657,11 +1696,20 @@ func (UnimplementedUserRpcServer) GetUserRoles(context.Context, *EmptyReq) (*Rol
 func (UnimplementedUserRpcServer) GetUserInfo(context.Context, *EmptyReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
-func (UnimplementedUserRpcServer) UpdateUserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error) {
+func (UnimplementedUserRpcServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
 }
-func (UnimplementedUserRpcServer) UpdateUserAvatar(context.Context, *EmptyReq) (*UserInfoResp, error) {
+func (UnimplementedUserRpcServer) UpdateUserAvatar(context.Context, *UpdateUserAvatarReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserAvatar not implemented")
+}
+func (UnimplementedUserRpcServer) UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserStatus not implemented")
+}
+func (UnimplementedUserRpcServer) UpdateUserRole(context.Context, *UpdateUserRoleReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserRole not implemented")
+}
+func (UnimplementedUserRpcServer) FindUserList(context.Context, *PageQuery) (*PageUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserList not implemented")
 }
 func (UnimplementedUserRpcServer) mustEmbedUnimplementedUserRpcServer() {}
 
@@ -1785,7 +1833,7 @@ func _UserRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _UserRpc_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserInfoReq)
+	in := new(UpdateUserInfoReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1797,13 +1845,13 @@ func _UserRpc_UpdateUserInfo_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/account.userRpc/UpdateUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).UpdateUserInfo(ctx, req.(*UserInfoReq))
+		return srv.(UserRpcServer).UpdateUserInfo(ctx, req.(*UpdateUserInfoReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_UpdateUserAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(UpdateUserAvatarReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1815,7 +1863,61 @@ func _UserRpc_UpdateUserAvatar_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/account.userRpc/UpdateUserAvatar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).UpdateUserAvatar(ctx, req.(*EmptyReq))
+		return srv.(UserRpcServer).UpdateUserAvatar(ctx, req.(*UpdateUserAvatarReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_UpdateUserStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).UpdateUserStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/UpdateUserStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).UpdateUserStatus(ctx, req.(*UpdateUserStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_UpdateUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).UpdateUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/UpdateUserRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).UpdateUserRole(ctx, req.(*UpdateUserRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserRpc_FindUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserRpcServer).FindUserList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.userRpc/FindUserList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserRpcServer).FindUserList(ctx, req.(*PageQuery))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1858,6 +1960,18 @@ var UserRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUserAvatar",
 			Handler:    _UserRpc_UpdateUserAvatar_Handler,
+		},
+		{
+			MethodName: "UpdateUserStatus",
+			Handler:    _UserRpc_UpdateUserStatus_Handler,
+		},
+		{
+			MethodName: "UpdateUserRole",
+			Handler:    _UserRpc_UpdateUserRole_Handler,
+		},
+		{
+			MethodName: "FindUserList",
+			Handler:    _UserRpc_FindUserList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

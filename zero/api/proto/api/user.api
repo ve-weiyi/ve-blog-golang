@@ -4,7 +4,7 @@ import "base.api"
 
 type (
     LoginHistory {
-        ID int64 `json:"id,optional"`
+        Id int64 `json:"id,optional"`
         LoginType string `json:"login_type,optional"` // 登录类型
         Agent string `json:"agent,optional"`          // 代理
         IpAddress string `json:"ip_address,optional"` // ip host
@@ -14,11 +14,11 @@ type (
 
 
     UserApiDTO {
-        ID int64 `json:"id,optional"`                // 主键id
+        Id int64 `json:"id,optional"`                // 主键id
         Name string `json:"name,optional"`           // api名称
         Path string `json:"path,optional"`           // api路径
         Method string `json:"method,optional"`       // api请求方法
-        ParentID int64 `json:"parent_id,optional"`   // 分组id
+        ParentId int64 `json:"parent_id,optional"`   // 分组id
         Traceable int64 `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
         Status int64 `json:"status,optional"`        // 状态 1开，2关
         CreatedAt int64 `json:"created_at,optional"` // 创建时间
@@ -27,8 +27,8 @@ type (
     }
 
     UserMenuDTO {
-        ID int64 `json:"id,optional"`                // 主键
-        ParentID int64 `json:"parent_id,optional"`   // 父id
+        Id int64 `json:"id,optional"`                // 主键
+        ParentId int64 `json:"parent_id,optional"`   // 父id
         Title string `json:"title,optional"`         // 菜单标题
         Type int64 `json:"type,optional"`            // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
         Path string `json:"path,optional"`           // 路由地址
@@ -37,13 +37,8 @@ type (
         Redirect string `json:"redirect,optional"`   // 路由重定向
     }
 
-    UpdateUserRolesReq {
-        UserId int64 `json:"user_id,optional"`
-        RoleIds []int64 `json:"role_ids,optional"`
-    }
-
     UserAccount {
-        ID int64 `json:"id,optional"`                       // id
+        Id int64 `json:"id,optional"`                       // id
         Username string `json:"username,optional"`          // 用户名
         Password string `json:"password,optional"`          // 密码
         Status int64 `json:"status,optional"`               // 状态: -1删除 0正常 1禁用
@@ -54,14 +49,9 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
     }
 
-    UserAreaDTO {
-        Name string `json:"name,optional"`
-        Value int64 `json:"value,optional"`
-    }
-
     UserRoleDTO {
-        ID int64 `json:"id,optional"`                     // 主键id
-        RolePID int64 `json:"role_pid,optional"`          // 父角色id
+        Id int64 `json:"id,optional"`                     // 主键id
+        RolePId int64 `json:"role_pid,optional"`          // 父角色id
         RoleDomain string `json:"role_domain,optional"`   // 角色域
         RoleName string `json:"role_name,optional"`       // 角色名
         RoleComment string `json:"role_comment,optional"` // 角色备注

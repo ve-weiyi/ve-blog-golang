@@ -72,10 +72,10 @@ message LoginResp {
   string intro = 5;// 个人简介
   string website = 6;// 个人网站
   string email = 7;// 邮箱
-  repeated RoleDTO roles = 8;// 角色列表
+  repeated RoleLabelDTO roles = 8;// 角色列表
 }
 
-message RoleDTO {
+message RoleLabelDTO {
   string role_name = 1;
   string role_comment = 2;
 }
@@ -260,8 +260,8 @@ message RolePageResp {
 
 message RoleResourcesResp {
   int64 role_id = 1;
-  repeated int64 menu_id_list = 2;
-  repeated int64 api_id_list = 3;
+  repeated int64 api_ids = 2;
+  repeated int64 menu_ids = 3;
 }
 
 message UpdateRoleApisReq {
@@ -309,13 +309,6 @@ message LoginHistoryPageResp {
   repeated LoginHistory list = 2;
 }
 
-message UserInfoReq {
-  string nickname = 1;// 昵称
-  string website = 2;// 网站
-  string intro = 3;// 简介
-  string avatar = 4;// 头像
-}
-
 message UserInfoResp {
   int64 id = 1;// id
   int64 user_id = 2;// 用户id
@@ -327,6 +320,52 @@ message UserInfoResp {
   string website = 8;// 个人网站
   int64 created_at = 9;// 创建时间
   int64 updated_at = 10;// 更新时间
+}
+
+message UserDTO {
+  int64 id = 1;
+  string username = 2;
+  string email = 3;// 用户邮箱
+  string nickname = 4;// 用户昵称
+  string avatar = 5;// 用户头像
+  string phone = 6;// 用户手机号
+  string intro = 7;// 个人简介
+  string website = 8;// 个人网站
+  int64 status = 9;
+  string register_type = 10;
+  string ip_address = 11;// ip host
+  string ip_source = 12;// ip 源
+  int64 created_at = 13;
+  int64 updated_at = 14;
+  repeated RoleLabelDTO roles = 15;
+}
+
+message PageUserInfoResp{
+  int64 total = 1;
+  repeated UserDTO list = 2;
+}
+
+message UpdateUserInfoReq {
+  int64 user_id = 1;
+  string nickname = 2;// 昵称
+  string phone = 3;// 手机号
+  string website = 4;// 网站
+  string intro = 5;// 简介
+}
+
+message UpdateUserAvatarReq {
+  int64 user_id = 1;
+  string avatar = 2;
+}
+
+message UpdateUserStatusReq {
+  int64 user_id = 1;
+  int64 status = 2;
+}
+
+message UpdateUserRoleReq {
+  int64 user_id = 1;
+  repeated int64 role_ids = 2;
 }
 
 service userRpc {
@@ -343,7 +382,13 @@ service userRpc {
   // 获取用户信息
   rpc GetUserInfo(EmptyReq) returns(UserInfoResp);
   // 修改用户信息
-  rpc UpdateUserInfo(UserInfoReq) returns(UserInfoResp);
-  // 更换用户头像
-  rpc UpdateUserAvatar(EmptyReq) returns(UserInfoResp);
+  rpc UpdateUserInfo(UpdateUserInfoReq) returns(UserInfoResp);
+  // 修改用户头像
+  rpc UpdateUserAvatar(UpdateUserAvatarReq) returns(UserInfoResp);
+  // 修改用户状态
+  rpc UpdateUserStatus(UpdateUserStatusReq) returns(EmptyResp);
+  // 修改用户角色
+  rpc UpdateUserRole(UpdateUserRoleReq) returns(EmptyResp);
+  // 查找用户列表
+  rpc FindUserList(PageQuery) returns(PageUserInfoResp);
 }

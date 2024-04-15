@@ -3,7 +3,6 @@ package menu
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
@@ -32,7 +31,6 @@ func (l *FindMenuListLogic) FindMenuList(req *types.PageQuery) (resp *types.Page
 		return nil, err
 	}
 
-	logx.Info("out--->", jsonconv.ObjectToJsonIndent(out))
 	var list []*types.MenuDetailsDTO
 	for _, role := range out.List {
 		list = append(list, convert.ConvertMenuDetailsTypes(role))

@@ -1,0 +1,69 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+    UserAreaDTO {
+        Name string `json:"name,optional"`
+        Value int64 `json:"value,optional"`
+    }
+
+    UserDTO {
+        Id int64 `json:"id,optional"`
+        Username string `json:"username,optional"`
+        Nickname string `json:"nickname,optional"`
+        Avatar string `json:"avatar,optional"`
+        Intro string `json:"intro,optional"`
+        Website string `json:"website,optional"`
+        Email string `json:"email,optional"`
+        Status int64 `json:"status,optional"`
+        RegisterType string `json:"register_type,optional"`
+        IpAddress string `json:"ip_address,optional"` // ip host
+        IpSource string `json:"ip_source,optional"`   // ip 源
+        CreatedAt int64 `json:"created_at,optional"`
+        UpdatedAt int64 `json:"updated_at,optional"`
+        Roles []*RoleLabelDTO `json:"roles,optional"`
+    }
+
+    RoleLabelDTO {
+        RoleName string `json:"role_name,optional"`
+        RoleComment string `json:"role_comment,optional"`
+    }
+
+    UpdateUserStatusReq {
+        UserId int64 `json:"user_id,optional"`
+        Status int64 `json:"status,optional"`               // 状态: -1删除 0正常 1禁用
+    }
+
+    UpdateUserRolesReq {
+        UserId int64 `json:"user_id,optional"`
+        RoleIds []int64 `json:"role_ids,optional"`
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: account
+)
+
+service blog-api {
+    @doc "查询用户列表"
+    @handler FindUserList
+    post /user/find_user_list (PageQuery) returns (PageResult)
+
+    @doc "查询在线用户列表"
+    @handler FindOnlineUserList
+    post /user/find_online_user_list (PageQuery) returns (PageResult)
+
+    @doc "获取用户分布地区"
+    @handler FindUserAreas
+    post /user/find_user_areas (PageQuery) returns (PageResult)
+
+    @doc "修改用户状态"
+    @handler UpdateUserStatus
+    post /user/update_user_status (UpdateUserStatusReq) returns (EmptyResp)
+
+    @doc "修改用户角色"
+    @handler UpdateUserRoles
+    post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
+}

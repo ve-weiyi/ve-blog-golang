@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	account "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/account"
 	api "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/api"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/auth"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/menu"
@@ -21,6 +22,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/ping",
 				Handler: PingHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/find_user_list",
+				Handler: account.FindUserListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/find_online_user_list",
+				Handler: account.FindOnlineUserListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/find_user_areas",
+				Handler: account.FindUserAreasHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/update_user_status",
+				Handler: account.UpdateUserStatusHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/update_user_roles",
+				Handler: account.UpdateUserRolesHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

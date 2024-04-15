@@ -33,8 +33,8 @@ func (l *FindRoleResourcesLogic) FindRoleResources(req *types.IdReq) (resp *type
 
 	resp = &types.RoleResourcesResp{}
 	resp.RoleId = out.RoleId
-	resp.ApiIds = out.ApiIdList
-	resp.MenuIds = out.MenuIdList
+	resp.ApiIds = out.ApiIds
+	resp.MenuIds = out.MenuIds
 
 	return
 }

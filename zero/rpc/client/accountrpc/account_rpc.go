@@ -35,17 +35,22 @@ type (
 	PageQuery            = account.PageQuery
 	PageResult           = account.PageResult
 	PageSort             = account.PageSort
+	PageUserInfoResp     = account.PageUserInfoResp
 	ResetPasswordReq     = account.ResetPasswordReq
 	Role                 = account.Role
-	RoleDTO              = account.RoleDTO
 	RoleDetailsDTO       = account.RoleDetailsDTO
+	RoleLabelDTO         = account.RoleLabelDTO
 	RolePageResp         = account.RolePageResp
 	RoleResourcesResp    = account.RoleResourcesResp
 	SyncMenuRequest      = account.SyncMenuRequest
 	UpdateRoleApisReq    = account.UpdateRoleApisReq
 	UpdateRoleMenusReq   = account.UpdateRoleMenusReq
+	UpdateUserAvatarReq  = account.UpdateUserAvatarReq
+	UpdateUserInfoReq    = account.UpdateUserInfoReq
+	UpdateUserRoleReq    = account.UpdateUserRoleReq
+	UpdateUserStatusReq  = account.UpdateUserStatusReq
+	UserDTO              = account.UserDTO
 	UserEmailReq         = account.UserEmailReq
-	UserInfoReq          = account.UserInfoReq
 	UserInfoResp         = account.UserInfoResp
 
 	AccountRpc interface {

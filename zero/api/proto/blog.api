@@ -1,6 +1,6 @@
 syntax = "v1"
 
-//import "api/account.api"
+import "api/account.api"
 import "api/user.api"
 import "api/api.api"
 //import "api/ai.api"

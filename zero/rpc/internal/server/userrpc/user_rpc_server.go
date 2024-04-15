@@ -59,13 +59,31 @@ func (s *UserRpcServer) GetUserInfo(ctx context.Context, in *account.EmptyReq) (
 }
 
 // 修改用户信息
-func (s *UserRpcServer) UpdateUserInfo(ctx context.Context, in *account.UserInfoReq) (*account.UserInfoResp, error) {
+func (s *UserRpcServer) UpdateUserInfo(ctx context.Context, in *account.UpdateUserInfoReq) (*account.UserInfoResp, error) {
 	l := userrpclogic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserInfo(in)
 }
 
-// 更换用户头像
-func (s *UserRpcServer) UpdateUserAvatar(ctx context.Context, in *account.EmptyReq) (*account.UserInfoResp, error) {
+// 修改用户头像
+func (s *UserRpcServer) UpdateUserAvatar(ctx context.Context, in *account.UpdateUserAvatarReq) (*account.UserInfoResp, error) {
 	l := userrpclogic.NewUpdateUserAvatarLogic(ctx, s.svcCtx)
 	return l.UpdateUserAvatar(in)
+}
+
+// 修改用户状态
+func (s *UserRpcServer) UpdateUserStatus(ctx context.Context, in *account.UpdateUserStatusReq) (*account.EmptyResp, error) {
+	l := userrpclogic.NewUpdateUserStatusLogic(ctx, s.svcCtx)
+	return l.UpdateUserStatus(in)
+}
+
+// 修改用户角色
+func (s *UserRpcServer) UpdateUserRole(ctx context.Context, in *account.UpdateUserRoleReq) (*account.EmptyResp, error) {
+	l := userrpclogic.NewUpdateUserRoleLogic(ctx, s.svcCtx)
+	return l.UpdateUserRole(in)
+}
+
+// 查找用户列表
+func (s *UserRpcServer) FindUserList(ctx context.Context, in *account.PageQuery) (*account.PageUserInfoResp, error) {
+	l := userrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
+	return l.FindUserList(in)
 }

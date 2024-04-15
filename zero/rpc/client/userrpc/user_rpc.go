@@ -35,17 +35,22 @@ type (
 	PageQuery            = account.PageQuery
 	PageResult           = account.PageResult
 	PageSort             = account.PageSort
+	PageUserInfoResp     = account.PageUserInfoResp
 	ResetPasswordReq     = account.ResetPasswordReq
 	Role                 = account.Role
-	RoleDTO              = account.RoleDTO
 	RoleDetailsDTO       = account.RoleDetailsDTO
+	RoleLabelDTO         = account.RoleLabelDTO
 	RolePageResp         = account.RolePageResp
 	RoleResourcesResp    = account.RoleResourcesResp
 	SyncMenuRequest      = account.SyncMenuRequest
 	UpdateRoleApisReq    = account.UpdateRoleApisReq
 	UpdateRoleMenusReq   = account.UpdateRoleMenusReq
+	UpdateUserAvatarReq  = account.UpdateUserAvatarReq
+	UpdateUserInfoReq    = account.UpdateUserInfoReq
+	UpdateUserRoleReq    = account.UpdateUserRoleReq
+	UpdateUserStatusReq  = account.UpdateUserStatusReq
+	UserDTO              = account.UserDTO
 	UserEmailReq         = account.UserEmailReq
-	UserInfoReq          = account.UserInfoReq
 	UserInfoResp         = account.UserInfoResp
 
 	UserRpc interface {
@@ -62,9 +67,15 @@ type (
 		// 获取用户信息
 		GetUserInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户信息
-		UpdateUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
-		// 更换用户头像
-		UpdateUserAvatar(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		// 修改用户头像
+		UpdateUserAvatar(ctx context.Context, in *UpdateUserAvatarReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		// 修改用户状态
+		UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 修改用户角色
+		UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 查找用户列表
+		FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageUserInfoResp, error)
 	}
 
 	defaultUserRpc struct {
@@ -115,13 +126,31 @@ func (m *defaultUserRpc) GetUserInfo(ctx context.Context, in *EmptyReq, opts ...
 }
 
 // 修改用户信息
-func (m *defaultUserRpc) UpdateUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (m *defaultUserRpc) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := account.NewUserRpcClient(m.cli.Conn())
 	return client.UpdateUserInfo(ctx, in, opts...)
 }
 
-// 更换用户头像
-func (m *defaultUserRpc) UpdateUserAvatar(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+// 修改用户头像
+func (m *defaultUserRpc) UpdateUserAvatar(ctx context.Context, in *UpdateUserAvatarReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := account.NewUserRpcClient(m.cli.Conn())
 	return client.UpdateUserAvatar(ctx, in, opts...)
+}
+
+// 修改用户状态
+func (m *defaultUserRpc) UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := account.NewUserRpcClient(m.cli.Conn())
+	return client.UpdateUserStatus(ctx, in, opts...)
+}
+
+// 修改用户角色
+func (m *defaultUserRpc) UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := account.NewUserRpcClient(m.cli.Conn())
+	return client.UpdateUserRole(ctx, in, opts...)
+}
+
+// 查找用户列表
+func (m *defaultUserRpc) FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageUserInfoResp, error) {
+	client := account.NewUserRpcClient(m.cli.Conn())
+	return client.FindUserList(ctx, in, opts...)
 }

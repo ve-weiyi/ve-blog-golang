@@ -33,13 +33,13 @@ func (l *GetUserApisLogic) GetUserApis(in *account.EmptyReq) (*account.ApiPageRe
 	}
 
 	// 查用户
-	ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
-	if err != nil {
-		return nil, err
-	}
+	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	// 查用户角色
-	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", ua.Id)
+	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}
