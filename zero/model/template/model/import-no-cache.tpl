@@ -1,13 +1,8 @@
 import (
 	"context"
-	"database/sql"
-	"fmt"
-	"strings"
+	"github.com/SpectatorNan/gorm-zero/gormc"
+	{{if .containsDbSql}}"database/sql"{{end}}
 	{{if .time}}"time"{{end}}
 
-    {{if .containsPQ}}"github.com/lib/pq"{{end}}
-	"github.com/zeromicro/go-zero/core/stores/builder"
-	"github.com/zeromicro/go-zero/core/stores/sqlc"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"github.com/zeromicro/go-zero/core/stringx"
+	"gorm.io/gorm"
 )

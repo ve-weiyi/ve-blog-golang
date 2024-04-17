@@ -14,7 +14,15 @@ type Point struct {
 }
 
 func TestAny(t *testing.T) {
-	main()
+	var x int64 = -10
+	var y uint = uint(x) // 将 int 类型的值转换为 uint 类型
+
+	fmt.Println("Original int:", x)
+	fmt.Println("Converted uint:", y)
+
+	var z int64 = int64(y) // 将 uint 类型的值转换回 int 类型
+
+	fmt.Println("Converted back to int:", z)
 }
 
 func main() {
