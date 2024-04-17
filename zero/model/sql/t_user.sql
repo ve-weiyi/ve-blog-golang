@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `user_account`;
-CREATE TABLE `user_account`
+CREATE TABLE `account`
 (
     `id`            int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
     `username`      varchar(64)  NOT NULL DEFAULT '' COMMENT '用户名',
