@@ -65,5 +65,5 @@ service blog-api {
 
     @doc "清空接口列表"
     @handler CleanApiList
-    post /api/clean_api_list (EmptyReq) returns (EmptyResp)
+    post /api/clean_api_list (EmptyReq) returns (BatchResult)
 }

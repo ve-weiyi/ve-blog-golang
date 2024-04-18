@@ -429,7 +429,7 @@ type ApiRpcClient interface {
 	// 同步接口列表
 	SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
 	// 清空接口列表
-	CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
 }
 
 type apiRpcClient struct {
@@ -503,8 +503,8 @@ func (c *apiRpcClient) SyncApiList(ctx context.Context, in *EmptyReq, opts ...gr
 	return out, nil
 }
 
-func (c *apiRpcClient) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
+func (c *apiRpcClient) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
 	err := c.cc.Invoke(ctx, "/account.apiRpc/CleanApiList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -531,7 +531,7 @@ type ApiRpcServer interface {
 	// 同步接口列表
 	SyncApiList(context.Context, *EmptyReq) (*BatchResult, error)
 	// 清空接口列表
-	CleanApiList(context.Context, *EmptyReq) (*EmptyResp, error)
+	CleanApiList(context.Context, *EmptyReq) (*BatchResult, error)
 	mustEmbedUnimplementedApiRpcServer()
 }
 
@@ -560,7 +560,7 @@ func (UnimplementedApiRpcServer) FindApiList(context.Context, *PageQuery) (*ApiP
 func (UnimplementedApiRpcServer) SyncApiList(context.Context, *EmptyReq) (*BatchResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncApiList not implemented")
 }
-func (UnimplementedApiRpcServer) CleanApiList(context.Context, *EmptyReq) (*EmptyResp, error) {
+func (UnimplementedApiRpcServer) CleanApiList(context.Context, *EmptyReq) (*BatchResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CleanApiList not implemented")
 }
 func (UnimplementedApiRpcServer) mustEmbedUnimplementedApiRpcServer() {}
@@ -783,7 +783,7 @@ type MenuRpcClient interface {
 	// 同步菜单列表
 	SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error)
 	// 清空菜单列表
-	CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
 }
 
 type menuRpcClient struct {
@@ -857,8 +857,8 @@ func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuRequest, o
 	return out, nil
 }
 
-func (c *menuRpcClient) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
+func (c *menuRpcClient) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
+	out := new(BatchResult)
 	err := c.cc.Invoke(ctx, "/account.menuRpc/CleanMenuList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -885,7 +885,7 @@ type MenuRpcServer interface {
 	// 同步菜单列表
 	SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResult, error)
 	// 清空菜单列表
-	CleanMenuList(context.Context, *EmptyReq) (*EmptyResp, error)
+	CleanMenuList(context.Context, *EmptyReq) (*BatchResult, error)
 	mustEmbedUnimplementedMenuRpcServer()
 }
 
@@ -914,7 +914,7 @@ func (UnimplementedMenuRpcServer) FindMenuList(context.Context, *PageQuery) (*Me
 func (UnimplementedMenuRpcServer) SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncMenuList not implemented")
 }
-func (UnimplementedMenuRpcServer) CleanMenuList(context.Context, *EmptyReq) (*EmptyResp, error) {
+func (UnimplementedMenuRpcServer) CleanMenuList(context.Context, *EmptyReq) (*BatchResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CleanMenuList not implemented")
 }
 func (UnimplementedMenuRpcServer) mustEmbedUnimplementedMenuRpcServer() {}

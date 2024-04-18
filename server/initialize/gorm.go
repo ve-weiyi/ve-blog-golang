@@ -42,7 +42,7 @@ func Open(cfg properties.Mysql) *gorm.DB {
 		},
 		// gorm日志模式
 		//Logger: logger.Default.LogMode(logger.Info),
-		Logger: logger.New(NewWriter(log.New(os.Stdout, "\r\n", log.LstdFlags)), logger.Config{
+		Logger: logger.New(NewWriter(), logger.Config{
 			SlowThreshold:             200 * time.Millisecond,
 			LogLevel:                  logger.Info,
 			IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误

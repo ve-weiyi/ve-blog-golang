@@ -270,20 +270,6 @@ type OauthLoginUrl struct {
 	Url string `json:"url,optional"` // 授权地址
 }
 
-type Menu struct {
-	ID        int64  `json:"id,optional"`         // 主键
-	ParentID  int64  `json:"parent_id,optional"`  // 父id
-	Title     string `json:"title,optional"`      // 菜单标题
-	Path      string `json:"path,optional"`       // 路由路径
-	Name      string `json:"name,optional"`       // 路由名称
-	Component string `json:"component,optional"`  // 路由组件
-	Redirect  string `json:"redirect,optional"`   // 路由重定向
-	Type      int64  `json:"type,optional"`       // 菜单类型
-	Meta      string `json:"meta,optional"`       // 菜单元数据
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
 type MenuDetailsDTO struct {
 	ID        int64             `json:"id,optional"`        // 主键
 	ParentID  int64             `json:"parent_id,optional"` // 父id
@@ -291,7 +277,7 @@ type MenuDetailsDTO struct {
 	Type      int64             `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
 	Path      string            `json:"path,optional"`      // 路由地址
 	Name      string            `json:"name,optional"`      // 路由名字
-	Component interface{}       `json:"component,optional"` // Layout组件
+	Component string            `json:"component,optional"` // Layout组件
 	Redirect  string            `json:"redirect,optional"`  // 路由重定向
 	Meta      Meta              `json:"meta,optional"`      // meta配置
 	Children  []*MenuDetailsDTO `json:"children,optional"`
@@ -300,21 +286,21 @@ type MenuDetailsDTO struct {
 }
 
 type Meta struct {
-	Title        string      `json:"title,optional"`         // 菜单名称
-	Icon         string      `json:"icon,optional"`          // 菜单图标
-	ShowLink     bool        `json:"show_link,optional"`     // 是否在菜单中显示
-	Rank         int64       `json:"rank,optional"`          // 菜单升序排序
-	ExtraIcon    interface{} `json:"extra_icon,optional"`    // 菜单名称右侧的额外图标
-	ShowParent   bool        `json:"show_parent,optional"`   // 是否显示父级菜单
-	Roles        []string    `json:"roles,optional"`         // 页面级别权限设置
-	Auths        []string    `json:"auths,optional"`         // 按钮级别权限设置
-	KeepAlive    bool        `json:"keep_alive,optional"`    // 路由组件缓存
-	FrameSrc     string      `json:"frame_src,optional"`     // 内嵌的iframe链接
-	FrameLoading bool        `json:"frame_loading,optional"` // iframe页是否开启首次加载动画
-	Transition   Transition  `json:"transition,optional"`    // 页面加载动画
-	HiddenTag    bool        `json:"hidden_tag,optional"`    // 是否不添加信息到标签页
-	DynamicLevel int64       `json:"dynamic_level,optional"` // 动态路由可打开的最大数量
-	ActivePath   string      `json:"active_path,optional"`   // 将某个菜单激活
+	Title        string     `json:"title,optional"`         // 菜单名称
+	Icon         string     `json:"icon,optional"`          // 菜单图标
+	ShowLink     bool       `json:"show_link,optional"`     // 是否在菜单中显示
+	Rank         int64      `json:"rank,optional"`          // 菜单升序排序
+	ExtraIcon    string     `json:"extra_icon,optional"`    // 菜单名称右侧的额外图标
+	ShowParent   bool       `json:"show_parent,optional"`   // 是否显示父级菜单
+	Roles        []string   `json:"roles,optional"`         // 页面级别权限设置
+	Auths        []string   `json:"auths,optional"`         // 按钮级别权限设置
+	KeepAlive    bool       `json:"keep_alive,optional"`    // 路由组件缓存
+	FrameSrc     string     `json:"frame_src,optional"`     // 内嵌的iframe链接
+	FrameLoading bool       `json:"frame_loading,optional"` // iframe页是否开启首次加载动画
+	Transition   Transition `json:"transition,optional"`    // 页面加载动画
+	HiddenTag    bool       `json:"hidden_tag,optional"`    // 是否不添加信息到标签页
+	DynamicLevel int64      `json:"dynamic_level,optional"` // 动态路由可打开的最大数量
+	ActivePath   string     `json:"active_path,optional"`   // 将某个菜单激活
 }
 
 type Transition struct {
@@ -327,7 +313,7 @@ type RouteConfigsTable struct {
 	Type      int64               `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
 	Path      string              `json:"path,optional"`      // 路由地址
 	Name      string              `json:"name,optional"`      // 路由名字
-	Component interface{}         `json:"component,optional"` // Layout组件
+	Component string              `json:"component,optional"` // Layout组件
 	Redirect  string              `json:"redirect,optional"`  // 路由重定向
 	Meta      Meta                `json:"meta,optional"`      // meta配置
 	Children  []RouteConfigsTable `json:"children,optional"`  // 子路由配置项

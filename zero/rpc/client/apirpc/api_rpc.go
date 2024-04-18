@@ -69,7 +69,7 @@ type (
 		// 同步接口列表
 		SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
 		// 清空接口列表
-		CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
 	}
 
 	defaultApiRpc struct {
@@ -126,7 +126,7 @@ func (m *defaultApiRpc) SyncApiList(ctx context.Context, in *EmptyReq, opts ...g
 }
 
 // 清空接口列表
-func (m *defaultApiRpc) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultApiRpc) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
 	client := account.NewApiRpcClient(m.cli.Conn())
 	return client.CleanApiList(ctx, in, opts...)
 }

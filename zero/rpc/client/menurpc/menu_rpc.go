@@ -69,7 +69,7 @@ type (
 		// 同步菜单列表
 		SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error)
 		// 清空菜单列表
-		CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
 	}
 
 	defaultMenuRpc struct {
@@ -126,7 +126,7 @@ func (m *defaultMenuRpc) SyncMenuList(ctx context.Context, in *SyncMenuRequest, 
 }
 
 // 清空菜单列表
-func (m *defaultMenuRpc) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultMenuRpc) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
 	client := account.NewMenuRpcClient(m.cli.Conn())
 	return client.CleanMenuList(ctx, in, opts...)
 }
