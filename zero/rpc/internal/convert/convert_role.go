@@ -3,7 +3,7 @@ package convert
 import (
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 )
 
@@ -39,8 +39,8 @@ func ConvertRolePbToModel(in *account.Role) (out *model.Role) {
 	return out
 }
 
-func ConvertRoleModelToDetailPb(in *model.Role) (out *account.RoleDetailsDTO) {
-	out = &account.RoleDetailsDTO{
+func ConvertRoleModelToDetailPb(in *model.Role) (out *account.RoleDetails) {
+	out = &account.RoleDetails{
 		Id:          in.Id,
 		ParentId:    in.ParentId,
 		RoleDomain:  in.RoleDomain,

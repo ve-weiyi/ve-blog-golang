@@ -24,18 +24,18 @@ func NewDeleteApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteA
 }
 
 // 删除接口
-func (l *DeleteApiLogic) DeleteApi(in *account.IdReq) (*account.BatchResult, error) {
+func (l *DeleteApiLogic) DeleteApi(in *account.IdReq) (*account.BatchResp, error) {
 	result, err := l.svcCtx.ApiModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	result2, err := l.svcCtx.ApiModel.BatchDelete(l.ctx, "parent_id = ? ", in.Id)
+	result2, err := l.svcCtx.ApiModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: result + result2,
 	}, nil
 }

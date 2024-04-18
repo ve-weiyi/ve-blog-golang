@@ -24,14 +24,14 @@ func NewCleanMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 	}
 }
 
-func (l *CleanMenuListLogic) CleanMenuList(req *types.EmptyReq) (resp *types.BatchResult, err error) {
+func (l *CleanMenuListLogic) CleanMenuList(req *types.EmptyReq) (resp *types.BatchResp, err error) {
 	in := convert.EmptyReq()
 	out, err := l.svcCtx.MenuRpc.CleanMenuList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = &types.BatchResult{
+	resp = &types.BatchResp{
 		SuccessCount: out.SuccessCount,
 	}
 	return resp, err

@@ -35,13 +35,13 @@ func (s *MenuRpcServer) UpdateMenu(ctx context.Context, in *account.Menu) (*acco
 }
 
 // 删除菜单
-func (s *MenuRpcServer) DeleteMenu(ctx context.Context, in *account.IdReq) (*account.BatchResult, error) {
+func (s *MenuRpcServer) DeleteMenu(ctx context.Context, in *account.IdReq) (*account.BatchResp, error) {
 	l := menurpclogic.NewDeleteMenuLogic(ctx, s.svcCtx)
 	return l.DeleteMenu(in)
 }
 
 // 批量删除菜单
-func (s *MenuRpcServer) DeleteMenuList(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
+func (s *MenuRpcServer) DeleteMenuList(ctx context.Context, in *account.IdsReq) (*account.BatchResp, error) {
 	l := menurpclogic.NewDeleteMenuListLogic(ctx, s.svcCtx)
 	return l.DeleteMenuList(in)
 }
@@ -59,13 +59,13 @@ func (s *MenuRpcServer) FindMenuList(ctx context.Context, in *account.PageQuery)
 }
 
 // 同步菜单列表
-func (s *MenuRpcServer) SyncMenuList(ctx context.Context, in *account.SyncMenuRequest) (*account.BatchResult, error) {
+func (s *MenuRpcServer) SyncMenuList(ctx context.Context, in *account.SyncMenuRequest) (*account.BatchResp, error) {
 	l := menurpclogic.NewSyncMenuListLogic(ctx, s.svcCtx)
 	return l.SyncMenuList(in)
 }
 
 // 清空菜单列表
-func (s *MenuRpcServer) CleanMenuList(ctx context.Context, in *account.EmptyReq) (*account.BatchResult, error) {
+func (s *MenuRpcServer) CleanMenuList(ctx context.Context, in *account.EmptyReq) (*account.BatchResp, error) {
 	l := menurpclogic.NewCleanMenuListLogic(ctx, s.svcCtx)
 	return l.CleanMenuList(in)
 }

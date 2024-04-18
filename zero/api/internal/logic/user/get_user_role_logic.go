@@ -25,7 +25,7 @@ func NewGetUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserRoleLogic) GetUserRole(req *types.EmptyReq) (resp []types.UserRoleDTO, err error) {
+func (l *GetUserRoleLogic) GetUserRole(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
 	in := convert.EmptyReq()
 
 	out, err := l.svcCtx.UserRpc.GetUserRoles(l.ctx, in)
@@ -33,7 +33,10 @@ func (l *GetUserRoleLogic) GetUserRole(req *types.EmptyReq) (resp []types.UserRo
 		return nil, err
 	}
 
-	resp = make([]types.UserRoleDTO, 0)
-	jsonconv.ObjectMarshal(out.List, &resp)
+	var list []*types.UserRole
+	jsonconv.ObjectMarshal(out.List, &list)
+
+	resp = &types.UserRolesResp{}
+	resp.List = list
 	return
 }

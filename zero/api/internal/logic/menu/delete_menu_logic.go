@@ -24,7 +24,7 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteMenuLogic) DeleteMenu(req *types.IdReq) (resp *types.BatchResult, err error) {
+func (l *DeleteMenuLogic) DeleteMenu(req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	_, err = l.svcCtx.MenuRpc.DeleteMenu(l.ctx, in)
@@ -32,5 +32,5 @@ func (l *DeleteMenuLogic) DeleteMenu(req *types.IdReq) (resp *types.BatchResult,
 		return nil, err
 	}
 
-	return &types.BatchResult{}, nil
+	return &types.BatchResp{}, nil
 }

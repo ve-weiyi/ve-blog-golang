@@ -35,13 +35,13 @@ func (s *ApiRpcServer) UpdateApi(ctx context.Context, in *account.Api) (*account
 }
 
 // 删除接口
-func (s *ApiRpcServer) DeleteApi(ctx context.Context, in *account.IdReq) (*account.BatchResult, error) {
+func (s *ApiRpcServer) DeleteApi(ctx context.Context, in *account.IdReq) (*account.BatchResp, error) {
 	l := apirpclogic.NewDeleteApiLogic(ctx, s.svcCtx)
 	return l.DeleteApi(in)
 }
 
 // 批量删除接口
-func (s *ApiRpcServer) DeleteApiList(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
+func (s *ApiRpcServer) DeleteApiList(ctx context.Context, in *account.IdsReq) (*account.BatchResp, error) {
 	l := apirpclogic.NewDeleteApiListLogic(ctx, s.svcCtx)
 	return l.DeleteApiList(in)
 }
@@ -59,13 +59,13 @@ func (s *ApiRpcServer) FindApiList(ctx context.Context, in *account.PageQuery) (
 }
 
 // 同步接口列表
-func (s *ApiRpcServer) SyncApiList(ctx context.Context, in *account.EmptyReq) (*account.BatchResult, error) {
+func (s *ApiRpcServer) SyncApiList(ctx context.Context, in *account.EmptyReq) (*account.BatchResp, error) {
 	l := apirpclogic.NewSyncApiListLogic(ctx, s.svcCtx)
 	return l.SyncApiList(in)
 }
 
 // 清空接口列表
-func (s *ApiRpcServer) CleanApiList(ctx context.Context, in *account.EmptyReq) (*account.BatchResult, error) {
+func (s *ApiRpcServer) CleanApiList(ctx context.Context, in *account.EmptyReq) (*account.BatchResp, error) {
 	l := apirpclogic.NewCleanApiListLogic(ctx, s.svcCtx)
 	return l.CleanApiList(in)
 }

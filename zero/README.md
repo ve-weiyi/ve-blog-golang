@@ -52,10 +52,6 @@ go run rpc/blog.go -f rpc/etc/blog.yaml
 ```
 
 ```sh
-go run api/blog.go -f api/etc/blog-api.yaml
-```
-
-```sh
 go run rpc/account.go -f rpc/etc/account.yaml
 ```
 

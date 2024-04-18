@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/authrpc"
 )
 
 type LoginLogic struct {
@@ -30,13 +30,13 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 
-	in := accountrpc.LoginReq{
+	in := authrpc.LoginReq{
 		Username: req.Username,
 		Password: req.Password,
 		Code:     req.Code,
 	}
 
-	out, err := l.svcCtx.AccountRpc.Login(l.ctx, &in)
+	out, err := l.svcCtx.AuthRpc.Login(l.ctx, &in)
 	if err != nil {
 		return
 	}
@@ -85,6 +85,7 @@ func (l *LoginLogic) createToken(uid int64, username string, loginType string) (
 		})
 
 	token = &types.Token{
+		UserId:           uid,
 		TokenType:        "Bearer",
 		AccessToken:      accessToken,
 		ExpiresIn:        expiresIn,
@@ -96,7 +97,7 @@ func (l *LoginLogic) createToken(uid int64, username string, loginType string) (
 	return token, nil
 }
 
-func convertUserInfo(in *accountrpc.LoginResp) (out *types.UserInfo) {
+func convertUserInfo(in *authrpc.LoginResp) (out *types.UserInfo) {
 	out = &types.UserInfo{
 		UserId:   in.UserId,
 		Username: in.Username,

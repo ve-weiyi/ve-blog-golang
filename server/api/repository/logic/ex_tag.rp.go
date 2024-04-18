@@ -74,7 +74,7 @@ func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int)
 }
 
 // 批量创建tag,当tag_name不存在时创建
-func (s *TagRepository) BatchCreateTagNotExist(ctx context.Context, tagNames []string) (list []*entity.Tag, err error) {
+func (s *TagRepository) InsertBatchTagNotExist(ctx context.Context, tagNames []string) (list []*entity.Tag, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var tags []*entity.Tag

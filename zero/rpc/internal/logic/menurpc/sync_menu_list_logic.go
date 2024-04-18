@@ -3,7 +3,7 @@ package menurpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -25,7 +25,7 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 }
 
 // 同步菜单列表
-func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.BatchResult, error) {
+func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.BatchResp, error) {
 	var err error
 	var data int64
 	for _, item := range in.Menus {
@@ -43,7 +43,7 @@ func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.
 				Type:      item.Type,
 				Extra:     item.Extra,
 			}
-			_, err = l.svcCtx.MenuModel.Create(l.ctx, exist)
+			_, err = l.svcCtx.MenuModel.Insert(l.ctx, exist)
 			if err != nil {
 				return nil, err
 			}
@@ -66,7 +66,7 @@ func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.
 					Type:      child.Type,
 					Extra:     child.Extra,
 				}
-				_, err = l.svcCtx.MenuModel.Create(l.ctx, menu)
+				_, err = l.svcCtx.MenuModel.Insert(l.ctx, menu)
 				if err != nil {
 					return nil, err
 				}
@@ -76,7 +76,7 @@ func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.
 		}
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: data,
 	}, nil
 }

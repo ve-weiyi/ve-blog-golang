@@ -439,7 +439,7 @@
         "conditions"
       ]
     },
-    "PageResult": {
+    "PageResp": {
       "type": "object",
       "properties": {
         "total": {
@@ -450,7 +450,7 @@
           "type": "object"
         }
       },
-      "title": "PageResult",
+      "title": "PageResp",
       "required": [
         "total",
         "list"

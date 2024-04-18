@@ -3,7 +3,7 @@ package apirpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
@@ -27,29 +27,24 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 
 // 分页获取接口列表
 func (l *FindApiListLogic) FindApiList(in *account.PageQuery) (*account.ApiPageResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.ApiModel.FindList(l.ctx, page, size, sorts, conditions, params)
+	result, err := l.svcCtx.ApiModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.ApiModel.Count(l.ctx, conditions, params)
-	if err != nil {
-		return nil, err
-	}
-
-	var root account.ApiDetailsDTO
+	var root account.ApiDetails
 	root.Children = appendApiChildren(&root, result)
 
 	out := &account.ApiPageResp{}
-	out.Total = total
+	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil
 }
 
-func appendApiChildren(root *account.ApiDetailsDTO, list []*model.Api) (leafs []*account.ApiDetailsDTO) {
+func appendApiChildren(root *account.ApiDetails, list []*model.Api) (leafs []*account.ApiDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convert.ConvertApiModelToDetailPb(item)

@@ -32,9 +32,8 @@ config.yaml
 
 /rm_file
 *.ts
-/server/test.sql
+**/test.sql
 **/runtime/*
 **/test/*
 **/tmp/*
 **/default.etcd/*
-/zero/model/tpl/

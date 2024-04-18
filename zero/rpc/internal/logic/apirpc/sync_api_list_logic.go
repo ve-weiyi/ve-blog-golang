@@ -24,8 +24,8 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 }
 
 // 同步接口列表
-func (l *SyncApiListLogic) SyncApiList(in *account.EmptyReq) (*account.BatchResult, error) {
+func (l *SyncApiListLogic) SyncApiList(in *account.EmptyReq) (*account.BatchResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &account.BatchResult{}, nil
+	return &account.BatchResp{}, nil
 }

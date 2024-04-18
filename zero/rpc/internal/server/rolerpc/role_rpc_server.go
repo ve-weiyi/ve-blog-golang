@@ -35,13 +35,13 @@ func (s *RoleRpcServer) UpdateRole(ctx context.Context, in *account.Role) (*acco
 }
 
 // 删除角色
-func (s *RoleRpcServer) DeleteRole(ctx context.Context, in *account.IdReq) (*account.BatchResult, error) {
+func (s *RoleRpcServer) DeleteRole(ctx context.Context, in *account.IdReq) (*account.BatchResp, error) {
 	l := rolerpclogic.NewDeleteRoleLogic(ctx, s.svcCtx)
 	return l.DeleteRole(in)
 }
 
 // 批量删除角色
-func (s *RoleRpcServer) DeleteRoleList(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
+func (s *RoleRpcServer) DeleteRoleList(ctx context.Context, in *account.IdsReq) (*account.BatchResp, error) {
 	l := rolerpclogic.NewDeleteRoleListLogic(ctx, s.svcCtx)
 	return l.DeleteRoleList(in)
 }

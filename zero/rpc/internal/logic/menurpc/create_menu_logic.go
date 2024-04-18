@@ -28,7 +28,7 @@ func NewCreateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateMenuLogic) CreateMenu(in *account.Menu) (*account.Menu, error) {
 	entity := convert.ConvertMenuPbToModel(in)
 
-	result, err := l.svcCtx.MenuModel.Create(l.ctx, entity)
+	result, err := l.svcCtx.MenuModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

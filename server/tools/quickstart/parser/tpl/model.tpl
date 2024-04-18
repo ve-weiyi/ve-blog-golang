@@ -20,8 +20,8 @@ type (
 		Delete(ctx context.Context, id int) (rows int64, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *{{.UpperStartCamelName}}, err error)
 		// 批量操作
-		BatchCreate(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error)
-		BatchDelete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error)
+		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
 		Count(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*{{.UpperStartCamelName}}, err error)
@@ -104,7 +104,7 @@ func (s *default{{.UpperStartCamelName}}Model) First(ctx context.Context, condit
 }
 
 // 查询{{.UpperStartCamelName}}记录
-func (s *default{{.UpperStartCamelName}}Model) BatchCreate(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error) {
+func (s *default{{.UpperStartCamelName}}Model) InsertBatch(ctx context.Context, in ...*{{.UpperStartCamelName}}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	err = db.CreateInBatches(&in, len(in)).Error
@@ -115,7 +115,7 @@ func (s *default{{.UpperStartCamelName}}Model) BatchCreate(ctx context.Context, 
 }
 
 // 查询{{.UpperStartCamelName}}记录
-func (s *default{{.UpperStartCamelName}}Model) BatchDelete(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (s *default{{.UpperStartCamelName}}Model) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 如果有条件语句

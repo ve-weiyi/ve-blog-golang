@@ -14,9 +14,9 @@ import (
 
 type (
 	Api                  = account.Api
-	ApiDetailsDTO        = account.ApiDetailsDTO
+	ApiDetails           = account.ApiDetails
 	ApiPageResp          = account.ApiPageResp
-	BatchResult          = account.BatchResult
+	BatchResp            = account.BatchResp
 	EmptyReq             = account.EmptyReq
 	EmptyResp            = account.EmptyResp
 	IdReq                = account.IdReq
@@ -26,20 +26,20 @@ type (
 	LoginReq             = account.LoginReq
 	LoginResp            = account.LoginResp
 	Menu                 = account.Menu
-	MenuDetailsDTO       = account.MenuDetailsDTO
+	MenuDetails          = account.MenuDetails
 	MenuPageResp         = account.MenuPageResp
 	OauthLoginReq        = account.OauthLoginReq
 	OauthLoginUrlResp    = account.OauthLoginUrlResp
 	PageCondition        = account.PageCondition
 	PageLimit            = account.PageLimit
 	PageQuery            = account.PageQuery
-	PageResult           = account.PageResult
+	PageResp             = account.PageResp
 	PageSort             = account.PageSort
 	PageUserInfoResp     = account.PageUserInfoResp
 	ResetPasswordReq     = account.ResetPasswordReq
 	Role                 = account.Role
-	RoleDetailsDTO       = account.RoleDetailsDTO
-	RoleLabelDTO         = account.RoleLabelDTO
+	RoleDetails          = account.RoleDetails
+	RoleLabel            = account.RoleLabel
 	RolePageResp         = account.RolePageResp
 	RoleResourcesResp    = account.RoleResourcesResp
 	SyncMenuRequest      = account.SyncMenuRequest
@@ -49,7 +49,7 @@ type (
 	UpdateUserInfoReq    = account.UpdateUserInfoReq
 	UpdateUserRoleReq    = account.UpdateUserRoleReq
 	UpdateUserStatusReq  = account.UpdateUserStatusReq
-	UserDTO              = account.UserDTO
+	User                 = account.User
 	UserEmailReq         = account.UserEmailReq
 	UserInfoResp         = account.UserInfoResp
 
@@ -59,9 +59,9 @@ type (
 		// 更新角色
 		UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 		// 删除角色
-		DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+		DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 批量删除角色
-		DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+		DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询角色
 		FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
 		// 分页获取角色列表
@@ -98,13 +98,13 @@ func (m *defaultRoleRpc) UpdateRole(ctx context.Context, in *Role, opts ...grpc.
 }
 
 // 删除角色
-func (m *defaultRoleRpc) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultRoleRpc) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewRoleRpcClient(m.cli.Conn())
 	return client.DeleteRole(ctx, in, opts...)
 }
 
 // 批量删除角色
-func (m *defaultRoleRpc) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultRoleRpc) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewRoleRpcClient(m.cli.Conn())
 	return client.DeleteRoleList(ctx, in, opts...)
 }

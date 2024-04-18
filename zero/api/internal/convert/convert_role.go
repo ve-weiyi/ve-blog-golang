@@ -7,8 +7,8 @@ import (
 
 func ConvertRoleTypes(in *rolerpc.Role) (out *types.Role) {
 	out = &types.Role{
-		ID:          in.Id,
-		RolePID:     in.ParentId,
+		Id:          in.Id,
+		RolePid:     in.ParentId,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,
@@ -22,8 +22,8 @@ func ConvertRoleTypes(in *rolerpc.Role) (out *types.Role) {
 
 func ConvertRolePb(in *types.Role) (out *rolerpc.Role) {
 	out = &rolerpc.Role{
-		Id:          in.ID,
-		ParentId:    in.RolePID,
+		Id:          in.Id,
+		ParentId:    in.RolePid,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,
@@ -35,10 +35,10 @@ func ConvertRolePb(in *types.Role) (out *rolerpc.Role) {
 	return
 }
 
-func ConvertRoleDetailsTypes(in *rolerpc.RoleDetailsDTO) (out *types.RoleDetailsDTO) {
-	out = &types.RoleDetailsDTO{
-		ID:          in.Id,
-		RolePID:     in.ParentId,
+func ConvertRoleDetailsTypes(in *rolerpc.RoleDetails) (out *types.RoleDetails) {
+	out = &types.RoleDetails{
+		Id:          in.Id,
+		RolePid:     in.ParentId,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,

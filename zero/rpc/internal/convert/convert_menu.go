@@ -3,7 +3,7 @@ package convert
 import (
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 )
 
@@ -42,8 +42,8 @@ func ConvertMenuPbToModel(in *account.Menu) (out *model.Menu) {
 	return out
 }
 
-func ConvertMenuModelToDetailPb(in *model.Menu) (out *account.MenuDetailsDTO) {
-	out = &account.MenuDetailsDTO{
+func ConvertMenuModelToDetailPb(in *model.Menu) (out *account.MenuDetails) {
+	out = &account.MenuDetails{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
 		Title:     in.Name,

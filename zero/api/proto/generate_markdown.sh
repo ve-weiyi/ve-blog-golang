@@ -1,0 +1,1 @@
+   goctl api doc -dir blog.api  ./md
