@@ -65,7 +65,7 @@ func (s *ApiRpcServer) SyncApiList(ctx context.Context, in *account.EmptyReq) (*
 }
 
 // 清空接口列表
-func (s *ApiRpcServer) CleanApiList(ctx context.Context, in *account.EmptyReq) (*account.EmptyResp, error) {
+func (s *ApiRpcServer) CleanApiList(ctx context.Context, in *account.EmptyReq) (*account.BatchResult, error) {
 	l := apirpclogic.NewCleanApiListLogic(ctx, s.svcCtx)
 	return l.CleanApiList(in)
 }

@@ -168,7 +168,7 @@ service apiRpc {
   // 同步接口列表
   rpc SyncApiList(EmptyReq) returns(BatchResult);
   // 清空接口列表
-  rpc CleanApiList(EmptyReq) returns(EmptyResp);
+  rpc CleanApiList(EmptyReq) returns(BatchResult);
 }
 
 message Menu {
@@ -225,7 +225,7 @@ service menuRpc {
   // 同步菜单列表
   rpc SyncMenuList(SyncMenuRequest) returns(BatchResult);
   // 清空菜单列表
-  rpc CleanMenuList(EmptyReq) returns(EmptyResp);
+  rpc CleanMenuList(EmptyReq) returns(BatchResult);
 }
 
 message Role {

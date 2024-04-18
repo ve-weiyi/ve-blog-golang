@@ -1,10 +1,13 @@
 Name: account.rpc
 ListenOn: 0.0.0.0:8080
+Timeout: 5000
 Etcd:
   Hosts:
     - 127.0.0.1:2379
   Key: account.rpc
-
+Log:
+  Mode: console
+  Encoding: plain
 MysqlConf:
   host: veweiyi.cn
   port: "3306"

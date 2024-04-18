@@ -8,14 +8,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/client/rolerpc"
 )
 
-func ConvertMenuTypes(in *rolerpc.Menu) (out *types.Menu) {
+func ConvertMenuTypes(in *rolerpc.Menu) (out *types.MenuDetailsDTO) {
 	jsonconv.ObjectMarshal(in, &out)
 
+	jsonconv.JsonToObject(in.Extra, &out.Meta)
 	return
 }
 
-func ConvertMenuPb(in *types.Menu) (out *rolerpc.Menu) {
+func ConvertMenuPb(in *types.MenuDetailsDTO) (out *rolerpc.Menu) {
 	jsonconv.ObjectMarshal(in, &out)
+
+	out.Extra = jsonconv.ObjectToJson(in.Meta)
 	return
 }
 

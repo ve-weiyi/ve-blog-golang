@@ -65,7 +65,7 @@ func (s *MenuRpcServer) SyncMenuList(ctx context.Context, in *account.SyncMenuRe
 }
 
 // 清空菜单列表
-func (s *MenuRpcServer) CleanMenuList(ctx context.Context, in *account.EmptyReq) (*account.EmptyResp, error) {
+func (s *MenuRpcServer) CleanMenuList(ctx context.Context, in *account.EmptyReq) (*account.BatchResult, error) {
 	l := menurpclogic.NewCleanMenuListLogic(ctx, s.svcCtx)
 	return l.CleanMenuList(in)
 }

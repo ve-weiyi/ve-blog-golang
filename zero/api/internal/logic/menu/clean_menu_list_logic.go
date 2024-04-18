@@ -3,6 +3,7 @@ package menu
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -23,8 +24,15 @@ func NewCleanMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cle
 	}
 }
 
-func (l *CleanMenuListLogic) CleanMenuList(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *CleanMenuListLogic) CleanMenuList(req *types.EmptyReq) (resp *types.BatchResult, err error) {
+	in := convert.EmptyReq()
+	out, err := l.svcCtx.MenuRpc.CleanMenuList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = &types.BatchResult{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, err
 }

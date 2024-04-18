@@ -24,7 +24,7 @@ func NewFindMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindMenu
 	}
 }
 
-func (l *FindMenuLogic) FindMenu(req *types.IdReq) (resp *types.Menu, err error) {
+func (l *FindMenuLogic) FindMenu(req *types.IdReq) (resp *types.MenuDetailsDTO, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.MenuRpc.FindMenu(l.ctx, in)
