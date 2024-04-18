@@ -148,18 +148,6 @@ type UserMenuDTO struct {
 	Redirect  string `json:"redirect,optional"`  // 路由重定向
 }
 
-type UserAccount struct {
-	Id           int64  `json:"id,optional"`            // id
-	Username     string `json:"username,optional"`      // 用户名
-	Password     string `json:"password,optional"`      // 密码
-	Status       int64  `json:"status,optional"`        // 状态: -1删除 0正常 1禁用
-	RegisterType string `json:"register_type,optional"` // 注册方式
-	IpAddress    string `json:"ip_address,optional"`    // 注册ip
-	IpSource     string `json:"ip_source,optional"`     // 注册ip 源
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
-}
-
 type UserRoleDTO struct {
 	Id             int64   `json:"id,optional"`           // 主键id
 	RolePId        int64   `json:"role_pid,optional"`     // 父角色id
@@ -172,6 +160,18 @@ type UserRoleDTO struct {
 	UpdatedAt      int64   `json:"updated_at,optional"`   // 更新时间
 	MenuIdList     []int64 `json:"menu_id_list,optional"`
 	ResourceIdList []int64 `json:"resource_id_list,optional"`
+}
+
+type UserApisResp struct {
+	List []UserApiDTO `json:"list,optional"`
+}
+
+type UserMenusResp struct {
+	List []UserMenuDTO `json:"list,optional"`
+}
+
+type UserRolesResp struct {
+	List []UserRoleDTO `json:"list,optional"`
 }
 
 type UserInfoReq struct {
@@ -325,7 +325,7 @@ type SyncMenuRequest struct {
 
 type Role struct {
 	ID          int64  `json:"id,optional"`           // 主键id
-	RolePID     int64  `json:"role_pid,optional"`     // 父角色id
+	RolePid     int64  `json:"role_pid,optional"`     // 父角色id
 	RoleDomain  string `json:"role_domain,optional"`  // 角色域
 	RoleName    string `json:"role_name,optional"`    // 角色名
 	RoleComment string `json:"role_comment,optional"` // 角色备注
@@ -336,17 +336,17 @@ type Role struct {
 }
 
 type RoleDetailsDTO struct {
-	ID             int64   `json:"id,optional"`           // 主键id
-	RolePID        int64   `json:"role_pid,optional"`     // 父角色id
-	RoleDomain     string  `json:"role_domain,optional"`  // 角色域
-	RoleName       string  `json:"role_name,optional"`    // 角色名
-	RoleComment    string  `json:"role_comment,optional"` // 角色备注
-	IsDisable      int64   `json:"is_disable,optional"`   // 是否禁用  0否 1是
-	IsDefault      int64   `json:"is_default,optional"`   // 是否默认角色 0否 1是
-	CreatedAt      int64   `json:"created_at,optional"`   // 创建时间
-	UpdatedAt      int64   `json:"updated_at,optional"`   // 更新时间
-	MenuIdList     []int64 `json:"menu_id_list,optional"`
-	ResourceIdList []int64 `json:"resource_id_list,optional"`
+	ID          int64   `json:"id,optional"`           // 主键id
+	RolePid     int64   `json:"role_pid,optional"`     // 父角色id
+	RoleDomain  string  `json:"role_domain,optional"`  // 角色域
+	RoleName    string  `json:"role_name,optional"`    // 角色名
+	RoleComment string  `json:"role_comment,optional"` // 角色备注
+	IsDisable   int64   `json:"is_disable,optional"`   // 是否禁用  0否 1是
+	IsDefault   int64   `json:"is_default,optional"`   // 是否默认角色 0否 1是
+	CreatedAt   int64   `json:"created_at,optional"`   // 创建时间
+	UpdatedAt   int64   `json:"updated_at,optional"`   // 更新时间
+	MenuIdList  []int64 `json:"menu_id_list,optional"`
+	ApiIdList   []int64 `json:"resource_id_list,optional"`
 }
 
 type RoleResourcesResp struct {

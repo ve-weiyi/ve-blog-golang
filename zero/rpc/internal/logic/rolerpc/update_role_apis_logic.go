@@ -3,7 +3,7 @@ package rolerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -27,7 +27,7 @@ func NewUpdateRoleApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 // 更新角色资源
 func (l *UpdateRoleApisLogic) UpdateRoleApis(in *account.UpdateRoleApisReq) (*account.EmptyResp, error) {
 	// 删除
-	_, err := l.svcCtx.RoleApiModel.BatchDelete(l.ctx, "role_id in (?)", in.RoleId)
+	_, err := l.svcCtx.RoleApiModel.DeleteBatch(l.ctx, "role_id in (?)", in.RoleId)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (l *UpdateRoleApisLogic) UpdateRoleApis(in *account.UpdateRoleApisReq) (*ac
 	}
 
 	// 添加
-	_, err = l.svcCtx.RoleApiModel.BatchCreate(l.ctx, roleApis...)
+	_, err = l.svcCtx.RoleApiModel.InsertBatch(l.ctx, roleApis...)
 	if err != nil {
 		return nil, err
 	}

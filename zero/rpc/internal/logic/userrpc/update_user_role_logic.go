@@ -3,7 +3,7 @@ package userrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -32,7 +32,7 @@ func (l *UpdateUserRoleLogic) UpdateUserRole(in *account.UpdateUserRoleReq) (*ac
 	}
 
 	// 删除用户角色
-	_, err = l.svcCtx.UserRoleModel.BatchDelete(l.ctx, "user_id = ?", ua.Id)
+	_, err = l.svcCtx.UserRoleModel.DeleteBatch(l.ctx, "user_id = ?", ua.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (l *UpdateUserRoleLogic) UpdateUserRole(in *account.UpdateUserRoleReq) (*ac
 	}
 
 	// 添加用户角色
-	_, err = l.svcCtx.UserRoleModel.BatchCreate(l.ctx, userRoles...)
+	_, err = l.svcCtx.UserRoleModel.InsertBatch(l.ctx, userRoles...)
 	if err != nil {
 		return nil, err
 	}

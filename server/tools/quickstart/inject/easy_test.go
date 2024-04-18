@@ -52,7 +52,7 @@ func TestInject(t *testing.T) {
 	var err error
 	inject.Walk()
 	//err = inject.RollBack()
-	err = inject.Inject()
+	err = inject.Execute()
 	log.Println("-->", err)
 	if err != nil {
 		return

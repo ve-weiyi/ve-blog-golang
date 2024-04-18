@@ -215,7 +215,7 @@ func TestParseSql(t *testing.T) {
 		metas := NewMetas(table, fs)
 
 		for _, meta := range metas {
-			err = meta.CreateTempFile()
+			err = meta.Execute()
 			if err != nil {
 				log.Println(err)
 			}

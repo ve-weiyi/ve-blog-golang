@@ -3,7 +3,7 @@ package menurpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
@@ -27,14 +27,14 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取菜单列表
 func (l *FindMenuListLogic) FindMenuList(in *account.PageQuery) (*account.MenuPageResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.MenuModel.FindList(l.ctx, page, size, sorts, conditions, params)
+	result, err := l.svcCtx.MenuModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.MenuModel.Count(l.ctx, conditions, params)
+	total, err := l.svcCtx.MenuModel.FindCount(l.ctx, conditions, params)
 	if err != nil {
 		return nil, err
 	}

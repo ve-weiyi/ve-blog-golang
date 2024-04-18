@@ -30,7 +30,7 @@ func (l *DeleteMenuLogic) DeleteMenu(in *account.IdReq) (*account.BatchResult, e
 		return nil, err
 	}
 
-	result2, err := l.svcCtx.MenuModel.BatchDelete(l.ctx, "parent_id = ? ", in.Id)
+	result2, err := l.svcCtx.MenuModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
 	if err != nil {
 		return nil, err
 	}

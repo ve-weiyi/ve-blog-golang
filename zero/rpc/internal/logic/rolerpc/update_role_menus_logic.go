@@ -3,7 +3,7 @@ package rolerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
 
@@ -27,7 +27,7 @@ func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 // 更新角色菜单
 func (l *UpdateRoleMenusLogic) UpdateRoleMenus(in *account.UpdateRoleMenusReq) (*account.EmptyResp, error) {
 	// 删除角色菜单
-	_, err := l.svcCtx.RoleMenuModel.BatchDelete(l.ctx, "role_id in (?)", in.RoleId)
+	_, err := l.svcCtx.RoleMenuModel.DeleteBatch(l.ctx, "role_id in (?)", in.RoleId)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (l *UpdateRoleMenusLogic) UpdateRoleMenus(in *account.UpdateRoleMenusReq) (
 	}
 
 	// 添加角色菜单
-	_, err = l.svcCtx.RoleMenuModel.BatchCreate(l.ctx, roleMenus...)
+	_, err = l.svcCtx.RoleMenuModel.InsertBatch(l.ctx, roleMenus...)
 	if err != nil {
 		return nil, err
 	}

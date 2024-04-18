@@ -9,6 +9,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
@@ -105,7 +106,7 @@ func (s *AstApiDoc) GenerateTsTypeFile() {
 		Data:           tsModelDeclares,
 	}
 
-	err := meta.CreateTempFile()
+	err := meta.Execute()
 	if err != nil {
 		fmt.Println("生成 TypeScript 时发生错误:", err)
 	}
@@ -128,7 +129,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 			Mode:           invent.ModeCreateOrReplace,
 			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("ts/%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
 			TemplateString: ApiTypeScript,
-			FunMap:         map[string]any{"joinArray": joinArray},
+			FunMap:         map[string]any{"joinArray": utils.JoinArray},
 			Data:           apiDoc,
 		}
 		//fmt.Println("apiDocs:", jsonconv.ObjectToJsonIndent(apiDoc))
@@ -136,7 +137,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 	}
 
 	for _, meta := range metas {
-		err := meta.CreateTempFile()
+		err := meta.Execute()
 		if err != nil {
 			fmt.Println("生成 TypeScript 时发生错误:", err)
 		}
@@ -452,7 +453,7 @@ func (s *AstApiDoc) GenerateGoZeroApiFiles() {
 	}
 
 	for _, meta := range metas {
-		err := meta.CreateTempFile()
+		err := meta.Execute()
 		if err != nil {
 			fmt.Println("生成 TypeScript 时发生错误:", err)
 		}
@@ -500,7 +501,7 @@ func (s *AstApiDoc) GenerateGoZeroTypeFiles() {
 		Data: tsModelDeclares,
 	}
 
-	err := meta.CreateTempFile()
+	err := meta.Execute()
 	if err != nil {
 		fmt.Println("生成 TypeScript 时发生错误:", err)
 	}
@@ -555,7 +556,7 @@ func (s *AstApiDoc) GenerateGoZeroRpcFiles() {
 	}
 
 	for _, meta := range metas {
-		err := meta.CreateTempFile()
+		err := meta.Execute()
 		if err != nil {
 			fmt.Println("生成 TypeScript 时发生错误:", err)
 		}
@@ -613,7 +614,7 @@ func (s *AstApiDoc) GenerateGoZeroRpcTypeFiles() {
 		Data: tsModelDeclares,
 	}
 
-	err := meta.CreateTempFile()
+	err := meta.Execute()
 	if err != nil {
 		fmt.Println("生成 TypeScript 时发生错误:", err)
 	}

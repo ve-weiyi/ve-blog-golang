@@ -25,7 +25,7 @@ func NewDeleteApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 
 // 批量删除接口
 func (l *DeleteApiListLogic) DeleteApiList(in *account.IdsReq) (*account.BatchResult, error) {
-	result, err := l.svcCtx.ApiModel.BatchDelete(l.ctx, "id in (?)", in.Ids)
+	result, err := l.svcCtx.ApiModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

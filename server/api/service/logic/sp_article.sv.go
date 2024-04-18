@@ -62,7 +62,7 @@ func (l *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 	// 删除文章标签映射
 	_, _ = l.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", article.ID)
 	// 创建不存在的标签
-	tags, _ := l.svcCtx.TagRepository.BatchCreateTagNotExist(reqCtx, req.TagNameList)
+	tags, _ := l.svcCtx.TagRepository.InsertBatchTagNotExist(reqCtx, req.TagNameList)
 	// 创建文章标签映射
 	for _, tag := range tags {
 		at := &entity.ArticleTag{

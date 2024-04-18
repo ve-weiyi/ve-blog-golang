@@ -12,7 +12,6 @@ type (
         LoginTime string `json:"login_time,optional"` // 创建时间
     }
 
-
     UserApiDTO {
         Id int64 `json:"id,optional"`                // 主键id
         Name string `json:"name,optional"`           // api名称
@@ -37,18 +36,6 @@ type (
         Redirect string `json:"redirect,optional"`   // 路由重定向
     }
 
-    UserAccount {
-        Id int64 `json:"id,optional"`                       // id
-        Username string `json:"username,optional"`          // 用户名
-        Password string `json:"password,optional"`          // 密码
-        Status int64 `json:"status,optional"`               // 状态: -1删除 0正常 1禁用
-        RegisterType string `json:"register_type,optional"` // 注册方式
-        IpAddress string `json:"ip_address,optional"`       // 注册ip
-        IpSource string `json:"ip_source,optional"`         // 注册ip 源
-        CreatedAt int64 `json:"created_at,optional"`        // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
-    }
-
     UserRoleDTO {
         Id int64 `json:"id,optional"`                     // 主键id
         RolePId int64 `json:"role_pid,optional"`          // 父角色id
@@ -61,6 +48,18 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
         MenuIdList []int64 `json:"menu_id_list,optional"`
         ResourceIdList []int64 `json:"resource_id_list,optional"`
+    }
+
+    UserApisResp {
+        List []UserApiDTO `json:"list,optional"`
+    }
+
+    UserMenusResp {
+        List []UserMenuDTO `json:"list,optional"`
+    }
+
+    UserRolesResp {
+        List []UserRoleDTO `json:"list,optional"`
     }
 
     UserInfoReq {
@@ -100,15 +99,15 @@ service blog-api {
 
     @doc "获取用户接口权限"
     @handler GetUserApis
-    get /user/apis (EmptyReq) returns ([]UserApiDTO)
+    get /user/apis (EmptyReq) returns (UserApisResp)
 
     @doc "获取用户菜单权限"
     @handler GetUserMenus
-    get /user/menus (EmptyReq) returns ([]UserMenuDTO)
+    get /user/menus (EmptyReq) returns (UserMenusResp)
 
     @doc "获取用户角色"
     @handler GetUserRole
-    get /user/roles (EmptyReq) returns ([]UserRoleDTO)
+    get /user/roles (EmptyReq) returns (UserRolesResp)
 
     @doc "获取用户信息"
     @handler GetUserInfo

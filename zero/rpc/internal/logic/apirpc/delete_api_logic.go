@@ -30,7 +30,7 @@ func (l *DeleteApiLogic) DeleteApi(in *account.IdReq) (*account.BatchResult, err
 		return nil, err
 	}
 
-	result2, err := l.svcCtx.ApiModel.BatchDelete(l.ctx, "parent_id = ? ", in.Id)
+	result2, err := l.svcCtx.ApiModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
 	if err != nil {
 		return nil, err
 	}
