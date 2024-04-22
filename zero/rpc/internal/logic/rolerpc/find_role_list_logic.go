@@ -34,16 +34,11 @@ func (l *FindRoleListLogic) FindRoleList(in *account.PageQuery) (*account.RolePa
 		return nil, err
 	}
 
-	total, err := l.svcCtx.RoleModel.FindCount(l.ctx, conditions, params)
-	if err != nil {
-		return nil, err
-	}
-
 	var root account.RoleDetailsDTO
 	root.Children = appendRoleChildren(&root, result)
 
 	out := &account.RolePageResp{}
-	out.Total = total
+	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil

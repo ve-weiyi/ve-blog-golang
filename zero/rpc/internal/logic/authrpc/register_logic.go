@@ -1,4 +1,4 @@
-package accountrpclogic
+package authrpclogic
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type RegisterEmailLogic struct {
+type RegisterLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterEmailLogic {
-	return &RegisterEmailLogic{
+func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterLogic {
+	return &RegisterLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 发送注册邮件
-func (l *RegisterEmailLogic) RegisterEmail(in *account.UserEmailReq) (*account.EmptyResp, error) {
+// 注册
+func (l *RegisterLogic) Register(in *account.LoginReq) (*account.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &account.EmptyResp{}, nil

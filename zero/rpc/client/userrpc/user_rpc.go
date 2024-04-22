@@ -57,7 +57,7 @@ type (
 		// 查询用户登录历史
 		FindUserLoginHistoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*LoginHistoryPageResp, error)
 		// 批量删除登录历史
-		DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
 		// 获取用户接口权限
 		GetUserApis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 		// 获取用户菜单权限
@@ -96,7 +96,7 @@ func (m *defaultUserRpc) FindUserLoginHistoryList(ctx context.Context, in *PageQ
 }
 
 // 批量删除登录历史
-func (m *defaultUserRpc) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultUserRpc) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
 	client := account.NewUserRpcClient(m.cli.Conn())
 	return client.DeleteUserLoginHistoryList(ctx, in, opts...)
 }

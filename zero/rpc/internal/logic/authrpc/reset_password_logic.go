@@ -1,4 +1,4 @@
-package accountrpclogic
+package authrpclogic
 
 import (
 	"context"
@@ -9,23 +9,23 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type OauthLoginLogic struct {
+type ResetPasswordLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthLoginLogic {
-	return &OauthLoginLogic{
+func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ResetPasswordLogic {
+	return &ResetPasswordLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 第三方登录
-func (l *OauthLoginLogic) OauthLogin(in *account.OauthLoginReq) (*account.LoginResp, error) {
+// 重置密码
+func (l *ResetPasswordLogic) ResetPassword(in *account.ResetPasswordReq) (*account.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &account.LoginResp{}, nil
+	return &account.EmptyResp{}, nil
 }

@@ -34,16 +34,11 @@ func (l *FindMenuListLogic) FindMenuList(in *account.PageQuery) (*account.MenuPa
 		return nil, err
 	}
 
-	total, err := l.svcCtx.MenuModel.FindCount(l.ctx, conditions, params)
-	if err != nil {
-		return nil, err
-	}
-
 	var root account.MenuDetailsDTO
 	root.Children = appendMenuChildren(&root, result)
 
 	out := &account.MenuPageResp{}
-	out.Total = total
+	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil

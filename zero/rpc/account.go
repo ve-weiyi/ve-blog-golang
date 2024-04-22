@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/config"
-	accountrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/accountrpc"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/apirpc"
+	authrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/authrpc"
 	menurpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/menurpc"
 	rolerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/rolerpc"
 	userServer "github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/server/userrpc"
@@ -30,7 +30,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		account.RegisterAccountRpcServer(grpcServer, accountrpcServer.NewAccountRpcServer(ctx))
+		account.RegisterAuthRpcServer(grpcServer, authrpcServer.NewAuthRpcServer(ctx))
 		account.RegisterApiRpcServer(grpcServer, apirpcServer.NewApiRpcServer(ctx))
 		account.RegisterMenuRpcServer(grpcServer, menurpcServer.NewMenuRpcServer(ctx))
 		account.RegisterRoleRpcServer(grpcServer, rolerpcServer.NewRoleRpcServer(ctx))

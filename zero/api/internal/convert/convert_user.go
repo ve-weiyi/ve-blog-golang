@@ -10,3 +10,8 @@ func ConvertUserDetailsTypes(in *userrpc.UserDTO) (out *types.UserDTO) {
 	jsonconv.ObjectMarshal(in, &out)
 	return out
 }
+
+func ConvertLoginHistoryTypes(in *userrpc.LoginHistory) (out *types.LoginHistory) {
+	jsonconv.ObjectMarshal(in, &out)
+	return out
+}

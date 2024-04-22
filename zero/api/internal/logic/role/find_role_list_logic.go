@@ -31,15 +31,15 @@ func (l *FindRoleListLogic) FindRoleList(req *types.PageQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var roles []*types.RoleDetailsDTO
+	var list []*types.RoleDetailsDTO
 	for _, role := range out.List {
-		roles = append(roles, convert.ConvertRoleDetailsTypes(role))
+		list = append(list, convert.ConvertRoleDetailsTypes(role))
 	}
 
 	resp = &types.PageResult{}
 	resp.Page = in.Limit.Page
 	resp.PageSize = in.Limit.PageSize
 	resp.Total = out.Total
-	resp.List = roles
+	resp.List = list
 	return resp, nil
 }

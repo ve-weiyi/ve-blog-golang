@@ -24,7 +24,7 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindUserListLogic) FindUserList(req *types.PageQuery) (resp types.PageResult, err error) {
+func (l *FindUserListLogic) FindUserList(req *types.PageQuery) (resp *types.PageResult, err error) {
 	in := convert.ConvertPageQuery(req)
 	users, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
 	if err != nil {
@@ -37,7 +37,7 @@ func (l *FindUserListLogic) FindUserList(req *types.PageQuery) (resp types.PageR
 		list = append(list, u)
 	}
 
-	resp = types.PageResult{}
+	resp = &types.PageResult{}
 	resp.Page = in.Limit.Page
 	resp.PageSize = in.Limit.PageSize
 	resp.Total = users.Total

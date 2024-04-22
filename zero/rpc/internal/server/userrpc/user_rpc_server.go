@@ -29,7 +29,7 @@ func (s *UserRpcServer) FindUserLoginHistoryList(ctx context.Context, in *accoun
 }
 
 // 批量删除登录历史
-func (s *UserRpcServer) DeleteUserLoginHistoryList(ctx context.Context, in *account.IdsReq) (*account.EmptyResp, error) {
+func (s *UserRpcServer) DeleteUserLoginHistoryList(ctx context.Context, in *account.IdsReq) (*account.BatchResult, error) {
 	l := userrpclogic.NewDeleteUserLoginHistoryListLogic(ctx, s.svcCtx)
 	return l.DeleteUserLoginHistoryList(in)
 }

@@ -3,6 +3,8 @@ package user
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -24,7 +26,22 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 }
 
 func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.PageQuery) (resp *types.PageResult, err error) {
-	// todo: add your logic here and delete this line
+	logx.Info("FindUserLoginHistoryListLogic", jsonconv.ObjectToJsonIndent(req))
+	in := convert.ConvertPageQuery(req)
+	out, err := l.svcCtx.UserRpc.FindUserLoginHistoryList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	var list []*types.LoginHistory
+	for _, role := range out.List {
+		list = append(list, convert.ConvertLoginHistoryTypes(role))
+	}
+
+	resp = &types.PageResult{}
+	resp.Page = in.Limit.Page
+	resp.PageSize = in.Limit.PageSize
+	resp.Total = out.Total
+	resp.List = list
+	return resp, nil
 }

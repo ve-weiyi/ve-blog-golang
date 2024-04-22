@@ -1,4 +1,4 @@
-package accountrpclogic
+package authrpclogic
 
 import (
 	"context"
@@ -9,23 +9,23 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type LogoffLogic struct {
+type OauthLoginLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogic {
-	return &LogoffLogic{
+func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthLoginLogic {
+	return &OauthLoginLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 注销
-func (l *LogoffLogic) Logoff(in *account.EmptyReq) (*account.EmptyResp, error) {
+// 第三方登录
+func (l *OauthLoginLogic) OauthLogin(in *account.OauthLoginReq) (*account.LoginResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &account.EmptyResp{}, nil
+	return &account.LoginResp{}, nil
 }

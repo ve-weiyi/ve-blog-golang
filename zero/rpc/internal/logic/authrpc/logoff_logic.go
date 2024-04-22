@@ -1,4 +1,4 @@
-package accountrpclogic
+package authrpclogic
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type RegisterLogic struct {
+type LogoffLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterLogic {
-	return &RegisterLogic{
+func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogic {
+	return &LogoffLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 注册
-func (l *RegisterLogic) Register(in *account.LoginReq) (*account.EmptyResp, error) {
+// 注销
+func (l *LogoffLogic) Logoff(in *account.EmptyReq) (*account.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &account.EmptyResp{}, nil

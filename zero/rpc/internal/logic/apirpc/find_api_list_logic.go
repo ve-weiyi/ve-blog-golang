@@ -34,16 +34,11 @@ func (l *FindApiListLogic) FindApiList(in *account.PageQuery) (*account.ApiPageR
 		return nil, err
 	}
 
-	total, err := l.svcCtx.ApiModel.FindCount(l.ctx, conditions, params)
-	if err != nil {
-		return nil, err
-	}
-
 	var root account.ApiDetailsDTO
 	root.Children = appendApiChildren(&root, result)
 
 	out := &account.ApiPageResp{}
-	out.Total = total
+	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil

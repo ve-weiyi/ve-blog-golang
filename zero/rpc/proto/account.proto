@@ -31,7 +31,7 @@ message PageQuery {
 
 message PageLimit {
   int64 page = 1;
-  int64 pageSize = 2;
+  int64 page_size = 2;
 }
 
 message PageSort {
@@ -56,7 +56,7 @@ message BatchResult {
   int64 success_count = 1;
 }
 
-/************** account 账号相关 **************/
+/************** auth 登录相关 **************/
 
 message LoginReq {
   string username = 1;
@@ -100,7 +100,7 @@ message UserEmailReq {
   string username = 1;
 }
 
-service AccountRpc {
+service AuthRpc {
   // 登录
   rpc Login(LoginReq) returns(LoginResp);
   // 登出
@@ -152,7 +152,7 @@ message ApiPageResp {
   repeated ApiDetailsDTO list = 2;
 }
 
-service apiRpc {
+service ApiRpc {
   // 创建接口
   rpc CreateApi(Api) returns(Api);
   // 更新接口
@@ -209,7 +209,7 @@ message SyncMenuRequest {
   repeated MenuDetailsDTO menus = 1;
 }
 
-service menuRpc {
+service MenuRpc {
   // 创建菜单
   rpc CreateMenu(Menu) returns(Menu);
   // 更新菜单
@@ -274,7 +274,7 @@ message UpdateRoleMenusReq {
   repeated int64 menu_ids = 2;
 }
 
-service roleRpc {
+service RoleRpc {
   // 创建角色
   rpc CreateRole(Role) returns(Role);
   // 更新角色
@@ -294,6 +294,8 @@ service roleRpc {
   // 更新角色资源
   rpc UpdateRoleApis(UpdateRoleApisReq) returns(EmptyResp);
 }
+
+/************** user 用户相关 **************/
 
 message LoginHistory {
   int64 id = 1;
@@ -368,11 +370,11 @@ message UpdateUserRoleReq {
   repeated int64 role_ids = 2;
 }
 
-service userRpc {
+service UserRpc {
   // 查询用户登录历史
   rpc FindUserLoginHistoryList(PageQuery) returns(LoginHistoryPageResp);
   // 批量删除登录历史
-  rpc DeleteUserLoginHistoryList(IdsReq) returns(EmptyResp);
+  rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResult);
   // 获取用户接口权限
   rpc GetUserApis(EmptyReq) returns(ApiPageResp);
   // 获取用户菜单权限

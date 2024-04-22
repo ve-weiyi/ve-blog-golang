@@ -1,4 +1,4 @@
-package accountrpclogic
+package authrpclogic
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ResetPasswordLogic struct {
+type RegisterEmailLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ResetPasswordLogic {
-	return &ResetPasswordLogic{
+func NewRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterEmailLogic {
+	return &RegisterEmailLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 重置密码
-func (l *ResetPasswordLogic) ResetPassword(in *account.ResetPasswordReq) (*account.EmptyResp, error) {
+// 发送注册邮件
+func (l *RegisterEmailLogic) RegisterEmail(in *account.UserEmailReq) (*account.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &account.EmptyResp{}, nil

@@ -20,11 +20,12 @@ type ServiceContext struct {
 	Config            config.Config
 	CaptchaRepository *captcha.CaptchaRepository
 
-	UserAccountModel     model.UserAccountModel
-	UserInformationModel model.UserInformationModel
-	RoleModel            model.RoleModel
-	ApiModel             model.ApiModel
-	MenuModel            model.MenuModel
+	UserAccountModel      model.UserAccountModel
+	UserInformationModel  model.UserInformationModel
+	UserLoginHistoryModel model.UserLoginHistoryModel
+	RoleModel             model.RoleModel
+	ApiModel              model.ApiModel
+	MenuModel             model.MenuModel
 
 	UserRoleModel model.UserRoleModel
 	RoleApiModel  model.RoleApiModel
@@ -43,15 +44,16 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:               c,
-		UserAccountModel:     model.NewUserAccountModel(db, rds),
-		UserInformationModel: model.NewUserInformationModel(db, rds),
-		RoleModel:            model.NewRoleModel(db, rds),
-		ApiModel:             model.NewApiModel(db, rds),
-		MenuModel:            model.NewMenuModel(db, rds),
-		UserRoleModel:        model.NewUserRoleModel(db, rds),
-		RoleApiModel:         model.NewRoleApiModel(db, rds),
-		RoleMenuModel:        model.NewRoleMenuModel(db, rds),
+		Config:                c,
+		UserAccountModel:      model.NewUserAccountModel(db, rds),
+		UserInformationModel:  model.NewUserInformationModel(db, rds),
+		UserLoginHistoryModel: model.NewUserLoginHistoryModel(db, rds),
+		RoleModel:             model.NewRoleModel(db, rds),
+		ApiModel:              model.NewApiModel(db, rds),
+		MenuModel:             model.NewMenuModel(db, rds),
+		UserRoleModel:         model.NewUserRoleModel(db, rds),
+		RoleApiModel:          model.NewRoleApiModel(db, rds),
+		RoleMenuModel:         model.NewRoleMenuModel(db, rds),
 	}
 }
 

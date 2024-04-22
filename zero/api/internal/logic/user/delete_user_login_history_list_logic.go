@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
 
@@ -24,7 +25,14 @@ func NewDeleteUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.Service
 }
 
 func (l *DeleteUserLoginHistoryListLogic) DeleteUserLoginHistoryList(req *types.IdsReq) (resp *types.BatchResult, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertIdsReq(req)
 
-	return
+	out, err := l.svcCtx.UserRpc.DeleteUserLoginHistoryList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResult{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }
