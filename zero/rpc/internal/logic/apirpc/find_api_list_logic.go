@@ -34,7 +34,7 @@ func (l *FindApiListLogic) FindApiList(in *account.PageQuery) (*account.ApiPageR
 		return nil, err
 	}
 
-	var root account.ApiDetailsDTO
+	var root account.ApiDetails
 	root.Children = appendApiChildren(&root, result)
 
 	out := &account.ApiPageResp{}
@@ -44,7 +44,7 @@ func (l *FindApiListLogic) FindApiList(in *account.PageQuery) (*account.ApiPageR
 	return out, nil
 }
 
-func appendApiChildren(root *account.ApiDetailsDTO, list []*model.Api) (leafs []*account.ApiDetailsDTO) {
+func appendApiChildren(root *account.ApiDetails, list []*model.Api) (leafs []*account.ApiDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convert.ConvertApiModelToDetailPb(item)

@@ -24,13 +24,13 @@ func NewCleanApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Clea
 }
 
 // 清空接口列表
-func (l *CleanApiListLogic) CleanApiList(in *account.EmptyReq) (*account.BatchResult, error) {
+func (l *CleanApiListLogic) CleanApiList(in *account.EmptyReq) (*account.BatchResp, error) {
 	row, err := l.svcCtx.RoleModel.DeleteBatch(l.ctx, "1 = 1")
 	if err != nil {
 		return nil, err
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: row,
 	}, nil
 }

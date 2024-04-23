@@ -55,7 +55,7 @@ func (l *GetUserRolesLogic) GetUserRoles(in *account.EmptyReq) (*account.RolePag
 		return nil, err
 	}
 
-	var list []*account.RoleDetailsDTO
+	var list []*account.RoleDetails
 	for _, v := range rs {
 		list = append(list, convert.ConvertRoleModelToDetailPb(v))
 	}

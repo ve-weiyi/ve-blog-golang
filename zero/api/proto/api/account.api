@@ -3,12 +3,12 @@ syntax = "v1"
 import "base.api"
 
 type (
-    UserAreaDTO {
+    UserArea {
         Name string `json:"name,optional"`
         Value int64 `json:"value,optional"`
     }
 
-    UserDTO {
+    User {
         Id int64 `json:"id,optional"`
         Username string `json:"username,optional"`
         Nickname string `json:"nickname,optional"`
@@ -22,10 +22,10 @@ type (
         IpSource string `json:"ip_source,optional"`   // ip 源
         CreatedAt int64 `json:"created_at,optional"`
         UpdatedAt int64 `json:"updated_at,optional"`
-        Roles []*RoleLabelDTO `json:"roles,optional"`
+        Roles []*RoleLabel `json:"roles,optional"`
     }
 
-    RoleLabelDTO {
+    RoleLabel {
         RoleName string `json:"role_name,optional"`
         RoleComment string `json:"role_comment,optional"`
     }
@@ -49,15 +49,15 @@ type (
 service blog-api {
     @doc "查询用户列表"
     @handler FindUserList
-    post /user/find_user_list (PageQuery) returns (PageResult)
+    post /user/find_user_list (PageQuery) returns (PageResp)
 
     @doc "查询在线用户列表"
     @handler FindOnlineUserList
-    post /user/find_online_user_list (PageQuery) returns (PageResult)
+    post /user/find_online_user_list (PageQuery) returns (PageResp)
 
     @doc "获取用户分布地区"
     @handler FindUserAreas
-    post /user/find_user_areas (PageQuery) returns (PageResult)
+    post /user/find_user_areas (PageQuery) returns (PageResp)
 
     @doc "修改用户状态"
     @handler UpdateUserStatus

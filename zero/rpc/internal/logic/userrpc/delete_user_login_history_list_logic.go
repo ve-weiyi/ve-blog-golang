@@ -24,13 +24,13 @@ func NewDeleteUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.Service
 }
 
 // 批量删除登录历史
-func (l *DeleteUserLoginHistoryListLogic) DeleteUserLoginHistoryList(in *account.IdsReq) (*account.BatchResult, error) {
+func (l *DeleteUserLoginHistoryListLogic) DeleteUserLoginHistoryList(in *account.IdsReq) (*account.BatchResp, error) {
 	result, err := l.svcCtx.UserLoginHistoryModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: result,
 	}, nil
 }

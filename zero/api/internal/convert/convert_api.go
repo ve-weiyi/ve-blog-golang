@@ -17,7 +17,7 @@ func ConvertApiPb(in *types.Api) (out *rolerpc.Api) {
 	return
 }
 
-func ConvertApiDetailsTypes(in *rolerpc.ApiDetailsDTO) (out *types.ApiDetailsDTO) {
+func ConvertApiDetailsTypes(in *rolerpc.ApiDetails) (out *types.ApiDetails) {
 	jsonconv.ObjectMarshal(in, &out)
 	return
 }

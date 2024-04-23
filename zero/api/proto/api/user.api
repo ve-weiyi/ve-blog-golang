@@ -12,7 +12,7 @@ type (
         LoginTime string `json:"login_time,optional"` // 创建时间
     }
 
-    UserApiDTO {
+    UserApi {
         Id int64 `json:"id,optional"`                // 主键id
         Name string `json:"name,optional"`           // api名称
         Path string `json:"path,optional"`           // api路径
@@ -22,21 +22,23 @@ type (
         Status int64 `json:"status,optional"`        // 状态 1开，2关
         CreatedAt int64 `json:"created_at,optional"` // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
-        Children []*UserApiDTO `json:"children,optional"`
+        Children []*UserApi `json:"children,optional"`
     }
 
-    UserMenuDTO {
-        Id int64 `json:"id,optional"`                // 主键
-        ParentId int64 `json:"parent_id,optional"`   // 父id
-        Title string `json:"title,optional"`         // 菜单标题
-        Type int64 `json:"type,optional"`            // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-        Path string `json:"path,optional"`           // 路由地址
-        Name string `json:"name,optional"`           // 路由名字
-        Component string `json:"component,optional"` // Layout组件
-        Redirect string `json:"redirect,optional"`   // 路由重定向
+    UserMenu {
+        Id int64 `json:"id,optional"`                            // 主键
+        ParentId int64 `json:"parent_id,optional"`               // 父id
+        Title string `json:"title,optional"`                     // 菜单标题
+        Type int64 `json:"type,optional"`                        // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        Path string `json:"path,optional"`                       // 路由地址
+        Name string `json:"name,optional"`                       // 路由名字
+        Component string `json:"component,optional"`             // Layout组件
+        Redirect string `json:"redirect,optional"`               // 路由重定向
+        Meta interface{} `json:"meta,optional"`                  // meta配置
+        Children []*UserMenu `json:"children,optional"`
     }
 
-    UserRoleDTO {
+    UserRole {
         Id int64 `json:"id,optional"`                     // 主键id
         RolePId int64 `json:"role_pid,optional"`          // 父角色id
         RoleDomain string `json:"role_domain,optional"`   // 角色域
@@ -51,15 +53,15 @@ type (
     }
 
     UserApisResp {
-        List []UserApiDTO `json:"list,optional"`
+        List []*UserApi `json:"list,optional"`
     }
 
     UserMenusResp {
-        List []UserMenuDTO `json:"list,optional"`
+        List []*UserMenu `json:"list,optional"`
     }
 
     UserRolesResp {
-        List []UserRoleDTO `json:"list,optional"`
+        List []*UserRole `json:"list,optional"`
     }
 
     UserInfoReq {
@@ -91,11 +93,11 @@ type (
 service blog-api {
     @doc "查询用户登录历史"
     @handler FindUserLoginHistoryList
-    post /user/login_history (PageQuery) returns (PageResult)
+    post /user/login_history (PageQuery) returns (PageResp)
 
     @doc "批量删除登录历史"
     @handler DeleteUserLoginHistoryList
-    delete /user/delete_login_history_list (IdsReq) returns (BatchResult)
+    delete /user/delete_login_history_list (IdsReq) returns (BatchResp)
 
     @doc "获取用户接口权限"
     @handler GetUserApis

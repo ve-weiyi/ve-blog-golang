@@ -15,7 +15,7 @@ type (
     }
 
     IdReq {
-        ID int64 `json:"id"`
+        Id int64 `json:"id"`
     }
 
     IdsReq {
@@ -50,11 +50,11 @@ type (
     }
 
 
-    BatchResult {
+    BatchResp {
         SuccessCount int64 `json:"success_count"`
     }
 
-    PageResult {
+    PageResp {
         Page int64 `json:"page"`
         PageSize int64 `json:"page_size"`
         Total int64 `json:"total"`

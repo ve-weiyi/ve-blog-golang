@@ -36,11 +36,13 @@ func init() {
 func ObjectMarshal(data any, obj any) (err error) {
 	bytes, err := jjson.Marshal(data)
 	if err != nil {
+		fmt.Println("json convert fail:", err)
 		return err
 	}
 
 	err = jjson.Unmarshal(bytes, obj)
 	if err != nil {
+		fmt.Println("json convert fail:", err)
 		return err
 	}
 
@@ -51,7 +53,7 @@ func ObjectMarshal(data any, obj any) (err error) {
 func JsonToObject(jsonStr string, obj any) error {
 	err := jjson.Unmarshal([]byte(jsonStr), obj)
 	if err != nil {
-		//log.Println("error:format", "jjson", jsonStr, "obj", obj)
+		fmt.Println("json convert fail:", err)
 		return err
 	}
 

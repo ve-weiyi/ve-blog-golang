@@ -25,7 +25,7 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 }
 
 // 同步菜单列表
-func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.BatchResult, error) {
+func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.BatchResp, error) {
 	var err error
 	var data int64
 	for _, item := range in.Menus {
@@ -76,7 +76,7 @@ func (l *SyncMenuListLogic) SyncMenuList(in *account.SyncMenuRequest) (*account.
 		}
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: data,
 	}, nil
 }

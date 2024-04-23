@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/types"
@@ -25,15 +24,19 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 	}
 }
 
-func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp []types.UserMenuDTO, err error) {
+func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
 	in := convert.EmptyReq()
 	out, err := l.svcCtx.UserRpc.GetUserMenus(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = make([]types.UserMenuDTO, 0)
-	jsonconv.ObjectMarshal(out.List, &resp)
+	var list []*types.UserMenu
+	for _, v := range out.List {
+		list = append(list, convert.ConvertUserMenuTypes(v))
+	}
 
+	resp = &types.UserMenusResp{}
+	resp.List = list
 	return
 }

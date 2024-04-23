@@ -439,7 +439,7 @@ func (x *PageCondition) GetOperator() string {
 	return ""
 }
 
-type BatchResult struct {
+type BatchResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -447,8 +447,8 @@ type BatchResult struct {
 	SuccessCount int32 `protobuf:"varint,1,opt,name=success_count,json=successCount,proto3" json:"success_count,omitempty"`
 }
 
-func (x *BatchResult) Reset() {
-	*x = BatchResult{}
+func (x *BatchResp) Reset() {
+	*x = BatchResp{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_blog_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -456,13 +456,13 @@ func (x *BatchResult) Reset() {
 	}
 }
 
-func (x *BatchResult) String() string {
+func (x *BatchResp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*BatchResult) ProtoMessage() {}
+func (*BatchResp) ProtoMessage() {}
 
-func (x *BatchResult) ProtoReflect() protoreflect.Message {
+func (x *BatchResp) ProtoReflect() protoreflect.Message {
 	mi := &file_blog_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -474,19 +474,19 @@ func (x *BatchResult) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchResult.ProtoReflect.Descriptor instead.
-func (*BatchResult) Descriptor() ([]byte, []int) {
+// Deprecated: Use BatchResp.ProtoReflect.Descriptor instead.
+func (*BatchResp) Descriptor() ([]byte, []int) {
 	return file_blog_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *BatchResult) GetSuccessCount() int32 {
+func (x *BatchResp) GetSuccessCount() int32 {
 	if x != nil {
 		return x.SuccessCount
 	}
 	return 0
 }
 
-type PageResult struct {
+type PageResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -495,8 +495,8 @@ type PageResult struct {
 	List  *any1.Any `protobuf:"bytes,2,opt,name=list,proto3" json:"list,omitempty"`
 }
 
-func (x *PageResult) Reset() {
-	*x = PageResult{}
+func (x *PageResp) Reset() {
+	*x = PageResp{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_blog_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -504,13 +504,13 @@ func (x *PageResult) Reset() {
 	}
 }
 
-func (x *PageResult) String() string {
+func (x *PageResp) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PageResult) ProtoMessage() {}
+func (*PageResp) ProtoMessage() {}
 
-func (x *PageResult) ProtoReflect() protoreflect.Message {
+func (x *PageResp) ProtoReflect() protoreflect.Message {
 	mi := &file_blog_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -522,19 +522,19 @@ func (x *PageResult) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PageResult.ProtoReflect.Descriptor instead.
-func (*PageResult) Descriptor() ([]byte, []int) {
+// Deprecated: Use PageResp.ProtoReflect.Descriptor instead.
+func (*PageResp) Descriptor() ([]byte, []int) {
 	return file_blog_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *PageResult) GetTotal() int32 {
+func (x *PageResp) GetTotal() int32 {
 	if x != nil {
 		return x.Total
 	}
 	return 0
 }
 
-func (x *PageResult) GetList() *any1.Any {
+func (x *PageResp) GetList() *any1.Any {
 	if x != nil {
 		return x.List
 	}
@@ -1306,8 +1306,8 @@ var file_blog_proto_goTypes = []interface{}{
 	(*PageLimit)(nil),     // 5: blog.PageLimit
 	(*PageSort)(nil),      // 6: blog.PageSort
 	(*PageCondition)(nil), // 7: blog.PageCondition
-	(*BatchResult)(nil),   // 8: blog.BatchResult
-	(*PageResult)(nil),    // 9: blog.PageResult
+	(*BatchResp)(nil),     // 8: blog.BatchResp
+	(*PageResp)(nil),      // 9: blog.PageResp
 	(*PingReq)(nil),       // 10: blog.PingReq
 	(*PingResp)(nil),      // 11: blog.PingResp
 	(*Api)(nil),           // 12: blog.Api
@@ -1321,7 +1321,7 @@ var file_blog_proto_depIdxs = []int32{
 	6,  // 1: blog.PageQuery.sorts:type_name -> blog.PageSort
 	7,  // 2: blog.PageQuery.conditions:type_name -> blog.PageCondition
 	16, // 3: blog.PageCondition.value:type_name -> google.protobuf.Any
-	16, // 4: blog.PageResult.list:type_name -> google.protobuf.Any
+	16, // 4: blog.PageResp.list:type_name -> google.protobuf.Any
 	10, // 5: blog.BlogRpc.Ping:input_type -> blog.PingReq
 	12, // 6: blog.ApiRpc.CreateApi:input_type -> blog.Api
 	12, // 7: blog.ApiRpc.UpdateApi:input_type -> blog.Api
@@ -1352,26 +1352,26 @@ var file_blog_proto_depIdxs = []int32{
 	12, // 32: blog.ApiRpc.UpdateApi:output_type -> blog.Api
 	1,  // 33: blog.ApiRpc.DeleteApi:output_type -> blog.EmptyResp
 	12, // 34: blog.ApiRpc.FindApi:output_type -> blog.Api
-	8,  // 35: blog.ApiRpc.DeleteListApi:output_type -> blog.BatchResult
-	9,  // 36: blog.ApiRpc.FindListApi:output_type -> blog.PageResult
+	8,  // 35: blog.ApiRpc.DeleteListApi:output_type -> blog.BatchResp
+	9,  // 36: blog.ApiRpc.FindListApi:output_type -> blog.PageResp
 	13, // 37: blog.ArticleRpc.CreateArticle:output_type -> blog.Article
 	13, // 38: blog.ArticleRpc.UpdateArticle:output_type -> blog.Article
 	1,  // 39: blog.ArticleRpc.DeleteArticle:output_type -> blog.EmptyResp
 	13, // 40: blog.ArticleRpc.FindArticle:output_type -> blog.Article
-	8,  // 41: blog.ArticleRpc.DeleteArticleList:output_type -> blog.BatchResult
-	9,  // 42: blog.ArticleRpc.FindArticleList:output_type -> blog.PageResult
+	8,  // 41: blog.ArticleRpc.DeleteArticleList:output_type -> blog.BatchResp
+	9,  // 42: blog.ArticleRpc.FindArticleList:output_type -> blog.PageResp
 	14, // 43: blog.MenuRpc.CreateMenu:output_type -> blog.Menu
 	14, // 44: blog.MenuRpc.UpdateMenu:output_type -> blog.Menu
 	1,  // 45: blog.MenuRpc.DeleteMenu:output_type -> blog.EmptyResp
 	14, // 46: blog.MenuRpc.FindMenu:output_type -> blog.Menu
-	8,  // 47: blog.MenuRpc.DeleteMenuList:output_type -> blog.BatchResult
-	9,  // 48: blog.MenuRpc.FindMenuList:output_type -> blog.PageResult
+	8,  // 47: blog.MenuRpc.DeleteMenuList:output_type -> blog.BatchResp
+	9,  // 48: blog.MenuRpc.FindMenuList:output_type -> blog.PageResp
 	15, // 49: blog.RoleRpc.CreateRole:output_type -> blog.Role
 	15, // 50: blog.RoleRpc.UpdateRole:output_type -> blog.Role
 	1,  // 51: blog.RoleRpc.DeleteRole:output_type -> blog.EmptyResp
 	15, // 52: blog.RoleRpc.FindRole:output_type -> blog.Role
-	8,  // 53: blog.RoleRpc.DeleteRoleList:output_type -> blog.BatchResult
-	9,  // 54: blog.RoleRpc.FindRoleList:output_type -> blog.PageResult
+	8,  // 53: blog.RoleRpc.DeleteRoleList:output_type -> blog.BatchResp
+	9,  // 54: blog.RoleRpc.FindRoleList:output_type -> blog.PageResp
 	30, // [30:55] is the sub-list for method output_type
 	5,  // [5:30] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
@@ -1482,7 +1482,7 @@ func file_blog_proto_init() {
 			}
 		}
 		file_blog_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BatchResult); i {
+			switch v := v.(*BatchResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1494,7 +1494,7 @@ func file_blog_proto_init() {
 			}
 		}
 		file_blog_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PageResult); i {
+			switch v := v.(*PageResp); i {
 			case 0:
 				return &v.state
 			case 1:

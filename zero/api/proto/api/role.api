@@ -5,7 +5,7 @@ import "base.api"
 type (
     // 角色
     Role {
-        ID int64 `json:"id,optional"`                     // 主键id
+        Id int64 `json:"id,optional"`                     // 主键id
         RolePid int64 `json:"role_pid,optional"`          // 父角色id
         RoleDomain string `json:"role_domain,optional"`   // 角色域
         RoleName string `json:"role_name,optional"`       // 角色名
@@ -16,8 +16,8 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
     }
 
-    RoleDetailsDTO {
-        ID int64 `json:"id,optional"`                     // 主键id
+    RoleDetails {
+        Id int64 `json:"id,optional"`                     // 主键id
         RolePid int64 `json:"role_pid,optional"`          // 父角色id
         RoleDomain string `json:"role_domain,optional"`   // 角色域
         RoleName string `json:"role_name,optional"`       // 角色名
@@ -63,11 +63,11 @@ service blog-api {
 
     @doc "删除角色"
     @handler DeleteRole
-    delete /role/delete_role (IdReq) returns (BatchResult)
+    delete /role/delete_role (IdReq) returns (BatchResp)
 
     @doc "批量删除角色"
     @handler DeleteRoleList
-    delete /role/delete_role_list (IdsReq) returns (BatchResult)
+    delete /role/delete_role_list (IdsReq) returns (BatchResp)
 
     @doc "查询角色"
     @handler FindRole
@@ -75,7 +75,7 @@ service blog-api {
 
     @doc "分页获取角色列表"
     @handler FindRoleList
-    post /role/find_role_list (PageQuery) returns (PageResult)
+    post /role/find_role_list (PageQuery) returns (PageResp)
 
     @doc "获取角色资源列表"
     @handler FindRoleResources

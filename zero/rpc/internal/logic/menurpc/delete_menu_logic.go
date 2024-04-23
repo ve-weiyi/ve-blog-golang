@@ -24,7 +24,7 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 // 删除菜单
-func (l *DeleteMenuLogic) DeleteMenu(in *account.IdReq) (*account.BatchResult, error) {
+func (l *DeleteMenuLogic) DeleteMenu(in *account.IdReq) (*account.BatchResp, error) {
 	result, err := l.svcCtx.MenuModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (l *DeleteMenuLogic) DeleteMenu(in *account.IdReq) (*account.BatchResult, e
 		return nil, err
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: result + result2,
 	}, nil
 }

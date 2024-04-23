@@ -22,10 +22,10 @@ func ConvertUserInfoModelToPb(in *model.UserInformation) (out *account.UserInfoR
 	return out
 }
 
-func ConvertUserDetailsModelToPb(a *model.UserAccount, info *model.UserInformation, roles []*model.Role) (out *account.UserDTO) {
-	var list []*account.RoleLabelDTO
+func ConvertUserDetailsModelToPb(a *model.UserAccount, info *model.UserInformation, roles []*model.Role) (out *account.User) {
+	var list []*account.RoleLabel
 	for _, role := range roles {
-		m := &account.RoleLabelDTO{
+		m := &account.RoleLabel{
 			RoleName:    role.RoleName,
 			RoleComment: role.RoleComment,
 		}
@@ -33,7 +33,7 @@ func ConvertUserDetailsModelToPb(a *model.UserAccount, info *model.UserInformati
 		list = append(list, m)
 	}
 
-	out = &account.UserDTO{
+	out = &account.User{
 		Id:           a.Id,
 		Username:     a.Username,
 		Email:        info.Email,

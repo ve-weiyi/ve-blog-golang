@@ -75,7 +75,7 @@ func (l *FindUserListLogic) FindUserList(in *account.PageQuery) (*account.PageUs
 		return nil, err
 	}
 
-	var list []*account.UserDTO
+	var list []*account.User
 	for _, item := range result {
 		ui, ok := uiMap[item.Id]
 		if !ok {

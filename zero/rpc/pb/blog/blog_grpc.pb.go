@@ -114,8 +114,8 @@ type ApiRpcClient interface {
 	UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 	DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
-	DeleteListApi(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
-	FindListApi(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error)
+	DeleteListApi(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	FindListApi(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error)
 }
 
 type apiRpcClient struct {
@@ -162,8 +162,8 @@ func (c *apiRpcClient) FindApi(ctx context.Context, in *IdReq, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *apiRpcClient) DeleteListApi(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *apiRpcClient) DeleteListApi(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/blog.ApiRpc/DeleteListApi", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -171,8 +171,8 @@ func (c *apiRpcClient) DeleteListApi(ctx context.Context, in *IdsReq, opts ...gr
 	return out, nil
 }
 
-func (c *apiRpcClient) FindListApi(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error) {
-	out := new(PageResult)
+func (c *apiRpcClient) FindListApi(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error) {
+	out := new(PageResp)
 	err := c.cc.Invoke(ctx, "/blog.ApiRpc/FindListApi", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -188,8 +188,8 @@ type ApiRpcServer interface {
 	UpdateApi(context.Context, *Api) (*Api, error)
 	DeleteApi(context.Context, *IdReq) (*EmptyResp, error)
 	FindApi(context.Context, *IdReq) (*Api, error)
-	DeleteListApi(context.Context, *IdsReq) (*BatchResult, error)
-	FindListApi(context.Context, *PageQuery) (*PageResult, error)
+	DeleteListApi(context.Context, *IdsReq) (*BatchResp, error)
+	FindListApi(context.Context, *PageQuery) (*PageResp, error)
 	mustEmbedUnimplementedApiRpcServer()
 }
 
@@ -209,10 +209,10 @@ func (UnimplementedApiRpcServer) DeleteApi(context.Context, *IdReq) (*EmptyResp,
 func (UnimplementedApiRpcServer) FindApi(context.Context, *IdReq) (*Api, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindApi not implemented")
 }
-func (UnimplementedApiRpcServer) DeleteListApi(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedApiRpcServer) DeleteListApi(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteListApi not implemented")
 }
-func (UnimplementedApiRpcServer) FindListApi(context.Context, *PageQuery) (*PageResult, error) {
+func (UnimplementedApiRpcServer) FindListApi(context.Context, *PageQuery) (*PageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindListApi not implemented")
 }
 func (UnimplementedApiRpcServer) mustEmbedUnimplementedApiRpcServer() {}
@@ -380,8 +380,8 @@ type ArticleRpcClient interface {
 	UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
 	DeleteArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error)
-	DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
-	FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error)
+	DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error)
 }
 
 type articleRpcClient struct {
@@ -428,8 +428,8 @@ func (c *articleRpcClient) FindArticle(ctx context.Context, in *IdReq, opts ...g
 	return out, nil
 }
 
-func (c *articleRpcClient) DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *articleRpcClient) DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/DeleteArticleList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -437,8 +437,8 @@ func (c *articleRpcClient) DeleteArticleList(ctx context.Context, in *IdsReq, op
 	return out, nil
 }
 
-func (c *articleRpcClient) FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error) {
-	out := new(PageResult)
+func (c *articleRpcClient) FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error) {
+	out := new(PageResp)
 	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticleList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -454,8 +454,8 @@ type ArticleRpcServer interface {
 	UpdateArticle(context.Context, *Article) (*Article, error)
 	DeleteArticle(context.Context, *IdReq) (*EmptyResp, error)
 	FindArticle(context.Context, *IdReq) (*Article, error)
-	DeleteArticleList(context.Context, *IdsReq) (*BatchResult, error)
-	FindArticleList(context.Context, *PageQuery) (*PageResult, error)
+	DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error)
+	FindArticleList(context.Context, *PageQuery) (*PageResp, error)
 	mustEmbedUnimplementedArticleRpcServer()
 }
 
@@ -475,10 +475,10 @@ func (UnimplementedArticleRpcServer) DeleteArticle(context.Context, *IdReq) (*Em
 func (UnimplementedArticleRpcServer) FindArticle(context.Context, *IdReq) (*Article, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindArticle not implemented")
 }
-func (UnimplementedArticleRpcServer) DeleteArticleList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedArticleRpcServer) DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticleList not implemented")
 }
-func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *PageQuery) (*PageResult, error) {
+func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *PageQuery) (*PageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindArticleList not implemented")
 }
 func (UnimplementedArticleRpcServer) mustEmbedUnimplementedArticleRpcServer() {}
@@ -646,8 +646,8 @@ type MenuRpcClient interface {
 	UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 	DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error)
-	DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
-	FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error)
+	DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error)
 }
 
 type menuRpcClient struct {
@@ -694,8 +694,8 @@ func (c *menuRpcClient) FindMenu(ctx context.Context, in *IdReq, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *menuRpcClient) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *menuRpcClient) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/blog.MenuRpc/DeleteMenuList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -703,8 +703,8 @@ func (c *menuRpcClient) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...
 	return out, nil
 }
 
-func (c *menuRpcClient) FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error) {
-	out := new(PageResult)
+func (c *menuRpcClient) FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error) {
+	out := new(PageResp)
 	err := c.cc.Invoke(ctx, "/blog.MenuRpc/FindMenuList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -720,8 +720,8 @@ type MenuRpcServer interface {
 	UpdateMenu(context.Context, *Menu) (*Menu, error)
 	DeleteMenu(context.Context, *IdReq) (*EmptyResp, error)
 	FindMenu(context.Context, *IdReq) (*Menu, error)
-	DeleteMenuList(context.Context, *IdsReq) (*BatchResult, error)
-	FindMenuList(context.Context, *PageQuery) (*PageResult, error)
+	DeleteMenuList(context.Context, *IdsReq) (*BatchResp, error)
+	FindMenuList(context.Context, *PageQuery) (*PageResp, error)
 	mustEmbedUnimplementedMenuRpcServer()
 }
 
@@ -741,10 +741,10 @@ func (UnimplementedMenuRpcServer) DeleteMenu(context.Context, *IdReq) (*EmptyRes
 func (UnimplementedMenuRpcServer) FindMenu(context.Context, *IdReq) (*Menu, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindMenu not implemented")
 }
-func (UnimplementedMenuRpcServer) DeleteMenuList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedMenuRpcServer) DeleteMenuList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenuList not implemented")
 }
-func (UnimplementedMenuRpcServer) FindMenuList(context.Context, *PageQuery) (*PageResult, error) {
+func (UnimplementedMenuRpcServer) FindMenuList(context.Context, *PageQuery) (*PageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindMenuList not implemented")
 }
 func (UnimplementedMenuRpcServer) mustEmbedUnimplementedMenuRpcServer() {}
@@ -912,8 +912,8 @@ type RoleRpcClient interface {
 	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 	DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
-	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
-	FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error)
+	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error)
 }
 
 type roleRpcClient struct {
@@ -960,8 +960,8 @@ func (c *roleRpcClient) FindRole(ctx context.Context, in *IdReq, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/blog.RoleRpc/DeleteRoleList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -969,8 +969,8 @@ func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...
 	return out, nil
 }
 
-func (c *roleRpcClient) FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResult, error) {
-	out := new(PageResult)
+func (c *roleRpcClient) FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error) {
+	out := new(PageResp)
 	err := c.cc.Invoke(ctx, "/blog.RoleRpc/FindRoleList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -986,8 +986,8 @@ type RoleRpcServer interface {
 	UpdateRole(context.Context, *Role) (*Role, error)
 	DeleteRole(context.Context, *IdReq) (*EmptyResp, error)
 	FindRole(context.Context, *IdReq) (*Role, error)
-	DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error)
-	FindRoleList(context.Context, *PageQuery) (*PageResult, error)
+	DeleteRoleList(context.Context, *IdsReq) (*BatchResp, error)
+	FindRoleList(context.Context, *PageQuery) (*PageResp, error)
 	mustEmbedUnimplementedRoleRpcServer()
 }
 
@@ -1007,10 +1007,10 @@ func (UnimplementedRoleRpcServer) DeleteRole(context.Context, *IdReq) (*EmptyRes
 func (UnimplementedRoleRpcServer) FindRole(context.Context, *IdReq) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRole not implemented")
 }
-func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoleList not implemented")
 }
-func (UnimplementedRoleRpcServer) FindRoleList(context.Context, *PageQuery) (*PageResult, error) {
+func (UnimplementedRoleRpcServer) FindRoleList(context.Context, *PageQuery) (*PageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRoleList not implemented")
 }
 func (UnimplementedRoleRpcServer) mustEmbedUnimplementedRoleRpcServer() {}

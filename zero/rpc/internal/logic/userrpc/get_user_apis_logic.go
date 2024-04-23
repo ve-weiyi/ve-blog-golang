@@ -66,7 +66,7 @@ func (l *GetUserApisLogic) GetUserApis(in *account.EmptyReq) (*account.ApiPageRe
 		return nil, err
 	}
 
-	var list []*account.ApiDetailsDTO
+	var list []*account.ApiDetails
 	for _, v := range apis {
 		list = append(list, convert.ConvertApiModelToDetailPb(v))
 	}

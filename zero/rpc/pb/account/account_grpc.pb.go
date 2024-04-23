@@ -419,17 +419,17 @@ type ApiRpcClient interface {
 	// 更新接口
 	UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 	// 删除接口
-	DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 批量删除接口
-	DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询接口
 	FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
 	// 分页获取接口列表
 	FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error)
 	// 同步接口列表
-	SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+	SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 清空接口列表
-	CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+	CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 }
 
 type apiRpcClient struct {
@@ -458,8 +458,8 @@ func (c *apiRpcClient) UpdateApi(ctx context.Context, in *Api, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *apiRpcClient) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *apiRpcClient) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.ApiRpc/DeleteApi", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -467,8 +467,8 @@ func (c *apiRpcClient) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *apiRpcClient) DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *apiRpcClient) DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.ApiRpc/DeleteApiList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -494,8 +494,8 @@ func (c *apiRpcClient) FindApiList(ctx context.Context, in *PageQuery, opts ...g
 	return out, nil
 }
 
-func (c *apiRpcClient) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *apiRpcClient) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.ApiRpc/SyncApiList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -503,8 +503,8 @@ func (c *apiRpcClient) SyncApiList(ctx context.Context, in *EmptyReq, opts ...gr
 	return out, nil
 }
 
-func (c *apiRpcClient) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *apiRpcClient) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.ApiRpc/CleanApiList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -521,17 +521,17 @@ type ApiRpcServer interface {
 	// 更新接口
 	UpdateApi(context.Context, *Api) (*Api, error)
 	// 删除接口
-	DeleteApi(context.Context, *IdReq) (*BatchResult, error)
+	DeleteApi(context.Context, *IdReq) (*BatchResp, error)
 	// 批量删除接口
-	DeleteApiList(context.Context, *IdsReq) (*BatchResult, error)
+	DeleteApiList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询接口
 	FindApi(context.Context, *IdReq) (*Api, error)
 	// 分页获取接口列表
 	FindApiList(context.Context, *PageQuery) (*ApiPageResp, error)
 	// 同步接口列表
-	SyncApiList(context.Context, *EmptyReq) (*BatchResult, error)
+	SyncApiList(context.Context, *EmptyReq) (*BatchResp, error)
 	// 清空接口列表
-	CleanApiList(context.Context, *EmptyReq) (*BatchResult, error)
+	CleanApiList(context.Context, *EmptyReq) (*BatchResp, error)
 	mustEmbedUnimplementedApiRpcServer()
 }
 
@@ -545,10 +545,10 @@ func (UnimplementedApiRpcServer) CreateApi(context.Context, *Api) (*Api, error) 
 func (UnimplementedApiRpcServer) UpdateApi(context.Context, *Api) (*Api, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateApi not implemented")
 }
-func (UnimplementedApiRpcServer) DeleteApi(context.Context, *IdReq) (*BatchResult, error) {
+func (UnimplementedApiRpcServer) DeleteApi(context.Context, *IdReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteApi not implemented")
 }
-func (UnimplementedApiRpcServer) DeleteApiList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedApiRpcServer) DeleteApiList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteApiList not implemented")
 }
 func (UnimplementedApiRpcServer) FindApi(context.Context, *IdReq) (*Api, error) {
@@ -557,10 +557,10 @@ func (UnimplementedApiRpcServer) FindApi(context.Context, *IdReq) (*Api, error) 
 func (UnimplementedApiRpcServer) FindApiList(context.Context, *PageQuery) (*ApiPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindApiList not implemented")
 }
-func (UnimplementedApiRpcServer) SyncApiList(context.Context, *EmptyReq) (*BatchResult, error) {
+func (UnimplementedApiRpcServer) SyncApiList(context.Context, *EmptyReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncApiList not implemented")
 }
-func (UnimplementedApiRpcServer) CleanApiList(context.Context, *EmptyReq) (*BatchResult, error) {
+func (UnimplementedApiRpcServer) CleanApiList(context.Context, *EmptyReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CleanApiList not implemented")
 }
 func (UnimplementedApiRpcServer) mustEmbedUnimplementedApiRpcServer() {}
@@ -773,17 +773,17 @@ type MenuRpcClient interface {
 	// 更新菜单
 	UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 	// 删除菜单
-	DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 批量删除菜单
-	DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询菜单
 	FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error)
 	// 分页获取菜单列表
 	FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
 	// 同步菜单列表
-	SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error)
+	SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error)
 	// 清空菜单列表
-	CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+	CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 }
 
 type menuRpcClient struct {
@@ -812,8 +812,8 @@ func (c *menuRpcClient) UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.C
 	return out, nil
 }
 
-func (c *menuRpcClient) DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *menuRpcClient) DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.MenuRpc/DeleteMenu", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -821,8 +821,8 @@ func (c *menuRpcClient) DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.
 	return out, nil
 }
 
-func (c *menuRpcClient) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *menuRpcClient) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.MenuRpc/DeleteMenuList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -848,8 +848,8 @@ func (c *menuRpcClient) FindMenuList(ctx context.Context, in *PageQuery, opts ..
 	return out, nil
 }
 
-func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.MenuRpc/SyncMenuList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -857,8 +857,8 @@ func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuRequest, o
 	return out, nil
 }
 
-func (c *menuRpcClient) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *menuRpcClient) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.MenuRpc/CleanMenuList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -875,17 +875,17 @@ type MenuRpcServer interface {
 	// 更新菜单
 	UpdateMenu(context.Context, *Menu) (*Menu, error)
 	// 删除菜单
-	DeleteMenu(context.Context, *IdReq) (*BatchResult, error)
+	DeleteMenu(context.Context, *IdReq) (*BatchResp, error)
 	// 批量删除菜单
-	DeleteMenuList(context.Context, *IdsReq) (*BatchResult, error)
+	DeleteMenuList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询菜单
 	FindMenu(context.Context, *IdReq) (*Menu, error)
 	// 分页获取菜单列表
 	FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error)
 	// 同步菜单列表
-	SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResult, error)
+	SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResp, error)
 	// 清空菜单列表
-	CleanMenuList(context.Context, *EmptyReq) (*BatchResult, error)
+	CleanMenuList(context.Context, *EmptyReq) (*BatchResp, error)
 	mustEmbedUnimplementedMenuRpcServer()
 }
 
@@ -899,10 +899,10 @@ func (UnimplementedMenuRpcServer) CreateMenu(context.Context, *Menu) (*Menu, err
 func (UnimplementedMenuRpcServer) UpdateMenu(context.Context, *Menu) (*Menu, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
 }
-func (UnimplementedMenuRpcServer) DeleteMenu(context.Context, *IdReq) (*BatchResult, error) {
+func (UnimplementedMenuRpcServer) DeleteMenu(context.Context, *IdReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenu not implemented")
 }
-func (UnimplementedMenuRpcServer) DeleteMenuList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedMenuRpcServer) DeleteMenuList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenuList not implemented")
 }
 func (UnimplementedMenuRpcServer) FindMenu(context.Context, *IdReq) (*Menu, error) {
@@ -911,10 +911,10 @@ func (UnimplementedMenuRpcServer) FindMenu(context.Context, *IdReq) (*Menu, erro
 func (UnimplementedMenuRpcServer) FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindMenuList not implemented")
 }
-func (UnimplementedMenuRpcServer) SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResult, error) {
+func (UnimplementedMenuRpcServer) SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncMenuList not implemented")
 }
-func (UnimplementedMenuRpcServer) CleanMenuList(context.Context, *EmptyReq) (*BatchResult, error) {
+func (UnimplementedMenuRpcServer) CleanMenuList(context.Context, *EmptyReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CleanMenuList not implemented")
 }
 func (UnimplementedMenuRpcServer) mustEmbedUnimplementedMenuRpcServer() {}
@@ -1127,9 +1127,9 @@ type RoleRpcClient interface {
 	// 更新角色
 	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 	// 删除角色
-	DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 批量删除角色
-	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询角色
 	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
 	// 分页获取角色列表
@@ -1168,8 +1168,8 @@ func (c *roleRpcClient) UpdateRole(ctx context.Context, in *Role, opts ...grpc.C
 	return out, nil
 }
 
-func (c *roleRpcClient) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *roleRpcClient) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.RoleRpc/DeleteRole", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1177,8 +1177,8 @@ func (c *roleRpcClient) DeleteRole(ctx context.Context, in *IdReq, opts ...grpc.
 	return out, nil
 }
 
-func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *roleRpcClient) DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.RoleRpc/DeleteRoleList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1240,9 +1240,9 @@ type RoleRpcServer interface {
 	// 更新角色
 	UpdateRole(context.Context, *Role) (*Role, error)
 	// 删除角色
-	DeleteRole(context.Context, *IdReq) (*BatchResult, error)
+	DeleteRole(context.Context, *IdReq) (*BatchResp, error)
 	// 批量删除角色
-	DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error)
+	DeleteRoleList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询角色
 	FindRole(context.Context, *IdReq) (*Role, error)
 	// 分页获取角色列表
@@ -1266,10 +1266,10 @@ func (UnimplementedRoleRpcServer) CreateRole(context.Context, *Role) (*Role, err
 func (UnimplementedRoleRpcServer) UpdateRole(context.Context, *Role) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
 }
-func (UnimplementedRoleRpcServer) DeleteRole(context.Context, *IdReq) (*BatchResult, error) {
+func (UnimplementedRoleRpcServer) DeleteRole(context.Context, *IdReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
 }
-func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedRoleRpcServer) DeleteRoleList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRoleList not implemented")
 }
 func (UnimplementedRoleRpcServer) FindRole(context.Context, *IdReq) (*Role, error) {
@@ -1517,7 +1517,7 @@ type UserRpcClient interface {
 	// 查询用户登录历史
 	FindUserLoginHistoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*LoginHistoryPageResp, error)
 	// 批量删除登录历史
-	DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+	DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 获取用户接口权限
 	GetUserApis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 	// 获取用户菜单权限
@@ -1555,8 +1555,8 @@ func (c *userRpcClient) FindUserLoginHistoryList(ctx context.Context, in *PageQu
 	return out, nil
 }
 
-func (c *userRpcClient) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
-	out := new(BatchResult)
+func (c *userRpcClient) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/account.UserRpc/DeleteUserLoginHistoryList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1652,7 +1652,7 @@ type UserRpcServer interface {
 	// 查询用户登录历史
 	FindUserLoginHistoryList(context.Context, *PageQuery) (*LoginHistoryPageResp, error)
 	// 批量删除登录历史
-	DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResult, error)
+	DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResp, error)
 	// 获取用户接口权限
 	GetUserApis(context.Context, *EmptyReq) (*ApiPageResp, error)
 	// 获取用户菜单权限
@@ -1681,7 +1681,7 @@ type UnimplementedUserRpcServer struct {
 func (UnimplementedUserRpcServer) FindUserLoginHistoryList(context.Context, *PageQuery) (*LoginHistoryPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserLoginHistoryList not implemented")
 }
-func (UnimplementedUserRpcServer) DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResult, error) {
+func (UnimplementedUserRpcServer) DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserLoginHistoryList not implemented")
 }
 func (UnimplementedUserRpcServer) GetUserApis(context.Context, *EmptyReq) (*ApiPageResp, error) {

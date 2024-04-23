@@ -46,13 +46,13 @@ message PageCondition {
   string operator = 4;
 }
 
-message PageResult {
+message PageResp {
   int64 page = 1;
   int64 page_size = 2;
   int64 total = 3;
 }
 
-message BatchResult {
+message BatchResp {
   int64 success_count = 1;
 }
 
@@ -72,10 +72,10 @@ message LoginResp {
   string intro = 5;// 个人简介
   string website = 6;// 个人网站
   string email = 7;// 邮箱
-  repeated RoleLabelDTO roles = 8;// 角色列表
+  repeated RoleLabel roles = 8;// 角色列表
 }
 
-message RoleLabelDTO {
+message RoleLabel {
   string role_name = 1;
   string role_comment = 2;
 }
@@ -134,7 +134,7 @@ message Api {
   int64 updated_at = 9;// 更新时间
 }
 
-message ApiDetailsDTO {
+message ApiDetails {
   int64 id = 1;// 主键id
   string name = 2;// api名称
   string path = 3;// api路径
@@ -144,12 +144,12 @@ message ApiDetailsDTO {
   int64 status = 7;// 状态 1开，2关
   int64 created_at = 8;// 创建时间
   int64 updated_at = 9;// 更新时间
-  repeated ApiDetailsDTO children = 10;
+  repeated ApiDetails children = 10;
 }
 
 message ApiPageResp {
   int64 total = 1;
-  repeated ApiDetailsDTO list = 2;
+  repeated ApiDetails list = 2;
 }
 
 service ApiRpc {
@@ -158,17 +158,17 @@ service ApiRpc {
   // 更新接口
   rpc UpdateApi(Api) returns(Api);
   // 删除接口
-  rpc DeleteApi(IdReq) returns(BatchResult);
+  rpc DeleteApi(IdReq) returns(BatchResp);
   // 批量删除接口
-  rpc DeleteApiList(IdsReq) returns(BatchResult);
+  rpc DeleteApiList(IdsReq) returns(BatchResp);
   // 查询接口
   rpc FindApi(IdReq) returns(Api);
   // 分页获取接口列表
   rpc FindApiList(PageQuery) returns(ApiPageResp);
   // 同步接口列表
-  rpc SyncApiList(EmptyReq) returns(BatchResult);
+  rpc SyncApiList(EmptyReq) returns(BatchResp);
   // 清空接口列表
-  rpc CleanApiList(EmptyReq) returns(BatchResult);
+  rpc CleanApiList(EmptyReq) returns(BatchResp);
 }
 
 message Menu {
@@ -185,7 +185,7 @@ message Menu {
   int64 updated_at = 11;// 更新时间
 }
 
-message MenuDetailsDTO {
+message MenuDetails {
   int64 id = 1;// 主键
   int64 parent_id = 2;// 父id
   string title = 3;// 菜单标题
@@ -197,16 +197,16 @@ message MenuDetailsDTO {
   string extra = 9;// 额外的配置信息
   int64 created_at = 10;// 创建时间
   int64 updated_at = 11;// 更新时间
-  repeated MenuDetailsDTO children = 12;
+  repeated MenuDetails children = 12;
 }
 
 message MenuPageResp {
   int64 total = 1;
-  repeated MenuDetailsDTO list = 2;
+  repeated MenuDetails list = 2;
 }
 
 message SyncMenuRequest {
-  repeated MenuDetailsDTO menus = 1;
+  repeated MenuDetails menus = 1;
 }
 
 service MenuRpc {
@@ -215,17 +215,17 @@ service MenuRpc {
   // 更新菜单
   rpc UpdateMenu(Menu) returns(Menu);
   // 删除菜单
-  rpc DeleteMenu(IdReq) returns(BatchResult);
+  rpc DeleteMenu(IdReq) returns(BatchResp);
   // 批量删除菜单
-  rpc DeleteMenuList(IdsReq) returns(BatchResult);
+  rpc DeleteMenuList(IdsReq) returns(BatchResp);
   // 查询菜单
   rpc FindMenu(IdReq) returns(Menu);
   // 分页获取菜单列表
   rpc FindMenuList(PageQuery) returns(MenuPageResp);
   // 同步菜单列表
-  rpc SyncMenuList(SyncMenuRequest) returns(BatchResult);
+  rpc SyncMenuList(SyncMenuRequest) returns(BatchResp);
   // 清空菜单列表
-  rpc CleanMenuList(EmptyReq) returns(BatchResult);
+  rpc CleanMenuList(EmptyReq) returns(BatchResp);
 }
 
 message Role {
@@ -240,7 +240,7 @@ message Role {
   int64 updated_at = 9;// 更新时间
 }
 
-message RoleDetailsDTO {
+message RoleDetails {
   int64 id = 1;// 主键id
   int64 parent_id = 2;// 父角色id
   string role_domain = 3;// 角色域
@@ -250,12 +250,12 @@ message RoleDetailsDTO {
   int64 is_default = 7;// 是否默认角色 0否 1是
   int64 created_at = 8;// 创建时间
   int64 updated_at = 9;// 更新时间
-  repeated RoleDetailsDTO children = 10;
+  repeated RoleDetails children = 10;
 }
 
 message RolePageResp {
   int64 total = 1;
-  repeated RoleDetailsDTO list = 2;
+  repeated RoleDetails list = 2;
 }
 
 message RoleResourcesResp {
@@ -280,9 +280,9 @@ service RoleRpc {
   // 更新角色
   rpc UpdateRole(Role) returns(Role);
   // 删除角色
-  rpc DeleteRole(IdReq) returns(BatchResult);
+  rpc DeleteRole(IdReq) returns(BatchResp);
   // 批量删除角色
-  rpc DeleteRoleList(IdsReq) returns(BatchResult);
+  rpc DeleteRoleList(IdsReq) returns(BatchResp);
   // 查询角色
   rpc FindRole(IdReq) returns(Role);
   // 分页获取角色列表
@@ -324,7 +324,7 @@ message UserInfoResp {
   int64 updated_at = 10;// 更新时间
 }
 
-message UserDTO {
+message User {
   int64 id = 1;
   string username = 2;
   string email = 3;// 用户邮箱
@@ -339,12 +339,12 @@ message UserDTO {
   string ip_source = 12;// ip 源
   int64 created_at = 13;
   int64 updated_at = 14;
-  repeated RoleLabelDTO roles = 15;
+  repeated RoleLabel roles = 15;
 }
 
 message PageUserInfoResp{
   int64 total = 1;
-  repeated UserDTO list = 2;
+  repeated User list = 2;
 }
 
 message UpdateUserInfoReq {
@@ -374,7 +374,7 @@ service UserRpc {
   // 查询用户登录历史
   rpc FindUserLoginHistoryList(PageQuery) returns(LoginHistoryPageResp);
   // 批量删除登录历史
-  rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResult);
+  rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResp);
   // 获取用户接口权限
   rpc GetUserApis(EmptyReq) returns(ApiPageResp);
   // 获取用户菜单权限

@@ -34,7 +34,7 @@ func (l *FindMenuListLogic) FindMenuList(in *account.PageQuery) (*account.MenuPa
 		return nil, err
 	}
 
-	var root account.MenuDetailsDTO
+	var root account.MenuDetails
 	root.Children = appendMenuChildren(&root, result)
 
 	out := &account.MenuPageResp{}
@@ -44,7 +44,7 @@ func (l *FindMenuListLogic) FindMenuList(in *account.PageQuery) (*account.MenuPa
 	return out, nil
 }
 
-func appendMenuChildren(root *account.MenuDetailsDTO, list []*model.Menu) (leafs []*account.MenuDetailsDTO) {
+func appendMenuChildren(root *account.MenuDetails, list []*model.Menu) (leafs []*account.MenuDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convert.ConvertMenuModelToDetailPb(item)

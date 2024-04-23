@@ -13,29 +13,29 @@ type PingResp struct {
 	RpcStatus   map[string]string `json:"rpc_status"`
 }
 
-type UserAreaDTO struct {
+type UserArea struct {
 	Name  string `json:"name,optional"`
 	Value int64  `json:"value,optional"`
 }
 
-type UserDTO struct {
-	Id           int64           `json:"id,optional"`
-	Username     string          `json:"username,optional"`
-	Nickname     string          `json:"nickname,optional"`
-	Avatar       string          `json:"avatar,optional"`
-	Intro        string          `json:"intro,optional"`
-	Website      string          `json:"website,optional"`
-	Email        string          `json:"email,optional"`
-	Status       int64           `json:"status,optional"`
-	RegisterType string          `json:"register_type,optional"`
-	IpAddress    string          `json:"ip_address,optional"` // ip host
-	IpSource     string          `json:"ip_source,optional"`  // ip 源
-	CreatedAt    int64           `json:"created_at,optional"`
-	UpdatedAt    int64           `json:"updated_at,optional"`
-	Roles        []*RoleLabelDTO `json:"roles,optional"`
+type User struct {
+	Id           int64        `json:"id,optional"`
+	Username     string       `json:"username,optional"`
+	Nickname     string       `json:"nickname,optional"`
+	Avatar       string       `json:"avatar,optional"`
+	Intro        string       `json:"intro,optional"`
+	Website      string       `json:"website,optional"`
+	Email        string       `json:"email,optional"`
+	Status       int64        `json:"status,optional"`
+	RegisterType string       `json:"register_type,optional"`
+	IpAddress    string       `json:"ip_address,optional"` // ip host
+	IpSource     string       `json:"ip_source,optional"`  // ip 源
+	CreatedAt    int64        `json:"created_at,optional"`
+	UpdatedAt    int64        `json:"updated_at,optional"`
+	Roles        []*RoleLabel `json:"roles,optional"`
 }
 
-type RoleLabelDTO struct {
+type RoleLabel struct {
 	RoleName    string `json:"role_name,optional"`
 	RoleComment string `json:"role_comment,optional"`
 }
@@ -64,7 +64,7 @@ type EmptyReq struct {
 }
 
 type IdReq struct {
-	ID int64 `json:"id"`
+	Id int64 `json:"id"`
 }
 
 type IdsReq struct {
@@ -97,11 +97,11 @@ type PageCondition struct {
 type EmptyResp struct {
 }
 
-type BatchResult struct {
+type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
 }
 
-type PageResult struct {
+type PageResp struct {
 	Page     int64       `json:"page"`
 	PageSize int64       `json:"page_size"`
 	Total    int64       `json:"total"`
@@ -124,31 +124,33 @@ type LoginHistory struct {
 	LoginTime string `json:"login_time,optional"` // 创建时间
 }
 
-type UserApiDTO struct {
-	Id        int64         `json:"id,optional"`         // 主键id
-	Name      string        `json:"name,optional"`       // api名称
-	Path      string        `json:"path,optional"`       // api路径
-	Method    string        `json:"method,optional"`     // api请求方法
-	ParentId  int64         `json:"parent_id,optional"`  // 分组id
-	Traceable int64         `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
-	Status    int64         `json:"status,optional"`     // 状态 1开，2关
-	CreatedAt int64         `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64         `json:"updated_at,optional"` // 更新时间
-	Children  []*UserApiDTO `json:"children,optional"`
+type UserApi struct {
+	Id        int64      `json:"id,optional"`         // 主键id
+	Name      string     `json:"name,optional"`       // api名称
+	Path      string     `json:"path,optional"`       // api路径
+	Method    string     `json:"method,optional"`     // api请求方法
+	ParentId  int64      `json:"parent_id,optional"`  // 分组id
+	Traceable int64      `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
+	Status    int64      `json:"status,optional"`     // 状态 1开，2关
+	CreatedAt int64      `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64      `json:"updated_at,optional"` // 更新时间
+	Children  []*UserApi `json:"children,optional"`
 }
 
-type UserMenuDTO struct {
-	Id        int64  `json:"id,optional"`        // 主键
-	ParentId  int64  `json:"parent_id,optional"` // 父id
-	Title     string `json:"title,optional"`     // 菜单标题
-	Type      int64  `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-	Path      string `json:"path,optional"`      // 路由地址
-	Name      string `json:"name,optional"`      // 路由名字
-	Component string `json:"component,optional"` // Layout组件
-	Redirect  string `json:"redirect,optional"`  // 路由重定向
+type UserMenu struct {
+	Id        int64       `json:"id,optional"`        // 主键
+	ParentId  int64       `json:"parent_id,optional"` // 父id
+	Title     string      `json:"title,optional"`     // 菜单标题
+	Type      int64       `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+	Path      string      `json:"path,optional"`      // 路由地址
+	Name      string      `json:"name,optional"`      // 路由名字
+	Component string      `json:"component,optional"` // Layout组件
+	Redirect  string      `json:"redirect,optional"`  // 路由重定向
+	Meta      interface{} `json:"meta,optional"`      // meta配置
+	Children  []*UserMenu `json:"children,optional"`
 }
 
-type UserRoleDTO struct {
+type UserRole struct {
 	Id             int64   `json:"id,optional"`           // 主键id
 	RolePId        int64   `json:"role_pid,optional"`     // 父角色id
 	RoleDomain     string  `json:"role_domain,optional"`  // 角色域
@@ -163,15 +165,15 @@ type UserRoleDTO struct {
 }
 
 type UserApisResp struct {
-	List []UserApiDTO `json:"list,optional"`
+	List []*UserApi `json:"list,optional"`
 }
 
 type UserMenusResp struct {
-	List []UserMenuDTO `json:"list,optional"`
+	List []*UserMenu `json:"list,optional"`
 }
 
 type UserRolesResp struct {
-	List []UserRoleDTO `json:"list,optional"`
+	List []*UserRole `json:"list,optional"`
 }
 
 type UserInfoReq struct {
@@ -192,31 +194,6 @@ type UserInfoResp struct {
 	Website   string `json:"website,optional"`    // 个人网站
 	CreatedAt int64  `json:"created_at,optional"` // 创建时间
 	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
-type Api struct {
-	ID        int64  `json:"id,optional"`         // 主键id
-	Name      string `json:"name,optional"`       // api名称
-	Path      string `json:"path,optional"`       // api路径
-	Method    string `json:"method,optional"`     // api请求方法
-	ParentID  int64  `json:"parent_id,optional"`  // 分组id
-	Traceable int64  `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
-	Status    int64  `json:"status,optional"`     // 状态 1开，2关
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
-type ApiDetailsDTO struct {
-	ID        int64            `json:"id,optional"`         // 主键id
-	Name      string           `json:"name,optional"`       // api名称
-	Path      string           `json:"path,optional"`       // api路径
-	Method    string           `json:"method,optional"`     // api请求方法
-	ParentID  int64            `json:"parent_id,optional"`  // 分组id
-	Traceable int64            `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
-	Status    int64            `json:"status,optional"`     // 状态 1开，2关
-	CreatedAt int64            `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64            `json:"updated_at,optional"` // 更新时间
-	Children  []*ApiDetailsDTO `json:"children,optional"`
 }
 
 type LoginReq struct {
@@ -270,19 +247,44 @@ type OauthLoginUrl struct {
 	Url string `json:"url,optional"` // 授权地址
 }
 
-type MenuDetailsDTO struct {
-	ID        int64             `json:"id,optional"`        // 主键
-	ParentID  int64             `json:"parent_id,optional"` // 父id
-	Title     string            `json:"title,optional"`     // 菜单标题
-	Type      int64             `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-	Path      string            `json:"path,optional"`      // 路由地址
-	Name      string            `json:"name,optional"`      // 路由名字
-	Component string            `json:"component,optional"` // Layout组件
-	Redirect  string            `json:"redirect,optional"`  // 路由重定向
-	Meta      Meta              `json:"meta,optional"`      // meta配置
-	Children  []*MenuDetailsDTO `json:"children,optional"`
-	CreatedAt int64             `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64             `json:"updated_at,optional"` // 更新时间
+type Api struct {
+	Id        int64  `json:"id,optional"`         // 主键id
+	Name      string `json:"name,optional"`       // api名称
+	Path      string `json:"path,optional"`       // api路径
+	Method    string `json:"method,optional"`     // api请求方法
+	ParentId  int64  `json:"parent_id,optional"`  // 分组id
+	Traceable int64  `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
+	Status    int64  `json:"status,optional"`     // 状态 1开，2关
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+}
+
+type ApiDetails struct {
+	Id        int64         `json:"id,optional"`         // 主键id
+	Name      string        `json:"name,optional"`       // api名称
+	Path      string        `json:"path,optional"`       // api路径
+	Method    string        `json:"method,optional"`     // api请求方法
+	ParentId  int64         `json:"parent_id,optional"`  // 分组id
+	Traceable int64         `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
+	Status    int64         `json:"status,optional"`     // 状态 1开，2关
+	CreatedAt int64         `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64         `json:"updated_at,optional"` // 更新时间
+	Children  []*ApiDetails `json:"children,optional"`
+}
+
+type MenuDetails struct {
+	Id        int64          `json:"id,optional"`        // 主键
+	ParentId  int64          `json:"parent_id,optional"` // 父id
+	Title     string         `json:"title,optional"`     // 菜单标题
+	Type      int64          `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+	Path      string         `json:"path,optional"`      // 路由地址
+	Name      string         `json:"name,optional"`      // 路由名字
+	Component string         `json:"component,optional"` // Layout组件
+	Redirect  string         `json:"redirect,optional"`  // 路由重定向
+	Meta      Meta           `json:"meta,optional"`      // meta配置
+	Children  []*MenuDetails `json:"children,optional"`
+	CreatedAt int64          `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64          `json:"updated_at,optional"` // 更新时间
 }
 
 type Meta struct {
@@ -324,7 +326,7 @@ type SyncMenuRequest struct {
 }
 
 type Role struct {
-	ID          int64  `json:"id,optional"`           // 主键id
+	Id          int64  `json:"id,optional"`           // 主键id
 	RolePid     int64  `json:"role_pid,optional"`     // 父角色id
 	RoleDomain  string `json:"role_domain,optional"`  // 角色域
 	RoleName    string `json:"role_name,optional"`    // 角色名
@@ -335,8 +337,8 @@ type Role struct {
 	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
 }
 
-type RoleDetailsDTO struct {
-	ID          int64   `json:"id,optional"`           // 主键id
+type RoleDetails struct {
+	Id          int64   `json:"id,optional"`           // 主键id
 	RolePid     int64   `json:"role_pid,optional"`     // 父角色id
 	RoleDomain  string  `json:"role_domain,optional"`  // 角色域
 	RoleName    string  `json:"role_name,optional"`    // 角色名

@@ -39,8 +39,8 @@ func ConvertApiPbToModel(in *account.Api) (out *model.Api) {
 	return out
 }
 
-func ConvertApiModelToDetailPb(in *model.Api) (out *account.ApiDetailsDTO) {
-	out = &account.ApiDetailsDTO{
+func ConvertApiModelToDetailPb(in *model.Api) (out *account.ApiDetails) {
+	out = &account.ApiDetails{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
 		Name:      in.Name,

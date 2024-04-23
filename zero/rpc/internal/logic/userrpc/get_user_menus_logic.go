@@ -3,6 +3,7 @@ package userrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/pb/account"
@@ -49,30 +50,40 @@ func (l *GetUserMenusLogic) GetUserMenus(in *account.EmptyReq) (*account.MenuPag
 		ids = append(ids, v.RoleId)
 	}
 
-	// 查角色拥有的接口
-	rs, err := l.svcCtx.RoleMenuModel.FindALL(l.ctx, "id in (?)", ids)
+	// 查角色拥有的菜单
+	rs, err := l.svcCtx.RoleMenuModel.FindALL(l.ctx, "role_id in (?)", ids)
 	if err != nil {
 		return nil, err
 	}
 
-	var apiIds []int64
+	var mids []int64
 	for _, v := range rs {
-		apiIds = append(apiIds, v.MenuId)
+		mids = append(mids, v.MenuId)
 	}
 
-	// 查接口信息
-	apis, err := l.svcCtx.MenuModel.FindALL(l.ctx, "id in (?)", apiIds)
+	// 查菜单信息
+	list, err := l.svcCtx.MenuModel.FindALL(l.ctx, "id in (?)", mids)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*account.MenuDetailsDTO
-	for _, v := range apis {
-		list = append(list, convert.ConvertMenuModelToDetailPb(v))
-	}
+	var root account.MenuDetails
+	root.Children = appendMenuChildren(&root, list)
 
 	out := &account.MenuPageResp{}
-	out.Total = int64(len(list))
-	out.List = list
+	out.Total = int64(len(root.Children))
+	out.List = root.Children
+
 	return out, nil
+}
+
+func appendMenuChildren(root *account.MenuDetails, list []*model.Menu) (leafs []*account.MenuDetails) {
+	for _, item := range list {
+		if item.ParentId == root.Id {
+			leaf := convert.ConvertMenuModelToDetailPb(item)
+			leaf.Children = appendMenuChildren(leaf, list)
+			leafs = append(leafs, leaf)
+		}
+	}
+	return leafs
 }

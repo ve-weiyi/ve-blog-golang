@@ -14,9 +14,9 @@ import (
 
 type (
 	Api                  = account.Api
-	ApiDetailsDTO        = account.ApiDetailsDTO
+	ApiDetails           = account.ApiDetails
 	ApiPageResp          = account.ApiPageResp
-	BatchResult          = account.BatchResult
+	BatchResp            = account.BatchResp
 	EmptyReq             = account.EmptyReq
 	EmptyResp            = account.EmptyResp
 	IdReq                = account.IdReq
@@ -26,20 +26,20 @@ type (
 	LoginReq             = account.LoginReq
 	LoginResp            = account.LoginResp
 	Menu                 = account.Menu
-	MenuDetailsDTO       = account.MenuDetailsDTO
+	MenuDetails          = account.MenuDetails
 	MenuPageResp         = account.MenuPageResp
 	OauthLoginReq        = account.OauthLoginReq
 	OauthLoginUrlResp    = account.OauthLoginUrlResp
 	PageCondition        = account.PageCondition
 	PageLimit            = account.PageLimit
 	PageQuery            = account.PageQuery
-	PageResult           = account.PageResult
+	PageResp             = account.PageResp
 	PageSort             = account.PageSort
 	PageUserInfoResp     = account.PageUserInfoResp
 	ResetPasswordReq     = account.ResetPasswordReq
 	Role                 = account.Role
-	RoleDetailsDTO       = account.RoleDetailsDTO
-	RoleLabelDTO         = account.RoleLabelDTO
+	RoleDetails          = account.RoleDetails
+	RoleLabel            = account.RoleLabel
 	RolePageResp         = account.RolePageResp
 	RoleResourcesResp    = account.RoleResourcesResp
 	SyncMenuRequest      = account.SyncMenuRequest
@@ -49,7 +49,7 @@ type (
 	UpdateUserInfoReq    = account.UpdateUserInfoReq
 	UpdateUserRoleReq    = account.UpdateUserRoleReq
 	UpdateUserStatusReq  = account.UpdateUserStatusReq
-	UserDTO              = account.UserDTO
+	User                 = account.User
 	UserEmailReq         = account.UserEmailReq
 	UserInfoResp         = account.UserInfoResp
 
@@ -59,17 +59,17 @@ type (
 		// 更新接口
 		UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 		// 删除接口
-		DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+		DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 批量删除接口
-		DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+		DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询接口
 		FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
 		// 分页获取接口列表
 		FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error)
 		// 同步接口列表
-		SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+		SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 清空接口列表
-		CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+		CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 	}
 
 	defaultApiRpc struct {
@@ -96,13 +96,13 @@ func (m *defaultApiRpc) UpdateApi(ctx context.Context, in *Api, opts ...grpc.Cal
 }
 
 // 删除接口
-func (m *defaultApiRpc) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultApiRpc) DeleteApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewApiRpcClient(m.cli.Conn())
 	return client.DeleteApi(ctx, in, opts...)
 }
 
 // 批量删除接口
-func (m *defaultApiRpc) DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultApiRpc) DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewApiRpcClient(m.cli.Conn())
 	return client.DeleteApiList(ctx, in, opts...)
 }
@@ -120,13 +120,13 @@ func (m *defaultApiRpc) FindApiList(ctx context.Context, in *PageQuery, opts ...
 }
 
 // 同步接口列表
-func (m *defaultApiRpc) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultApiRpc) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewApiRpcClient(m.cli.Conn())
 	return client.SyncApiList(ctx, in, opts...)
 }
 
 // 清空接口列表
-func (m *defaultApiRpc) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultApiRpc) CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewApiRpcClient(m.cli.Conn())
 	return client.CleanApiList(ctx, in, opts...)
 }

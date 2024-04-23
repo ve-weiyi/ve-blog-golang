@@ -14,6 +14,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/zero/repository/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/internal/config"
+	"github.com/ve-weiyi/ve-blog-golang/zero/rpc/rpcutils/gormlogger"
 )
 
 type ServiceContext struct {
@@ -73,7 +74,13 @@ func ConnectGorm(c config.MysqlConf) (*gorm.DB, error) {
 			SingularTable: true,
 		},
 		// gorm日志模式
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger: logger.New(gormlogger.NewGormWriter(), logger.Config{
+			SlowThreshold:             200 * time.Millisecond,
+			LogLevel:                  logger.Info,
+			IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
+			Colorful:                  true,  // 彩色打印
+			ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
+		}),
 		//Logger: logger.Default,
 	})
 

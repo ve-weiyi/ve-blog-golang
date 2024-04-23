@@ -24,13 +24,13 @@ func NewDeleteMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 // 批量删除菜单
-func (l *DeleteMenuListLogic) DeleteMenuList(in *account.IdsReq) (*account.BatchResult, error) {
+func (l *DeleteMenuListLogic) DeleteMenuList(in *account.IdsReq) (*account.BatchResp, error) {
 	result, err := l.svcCtx.MenuModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: result,
 	}, nil
 }

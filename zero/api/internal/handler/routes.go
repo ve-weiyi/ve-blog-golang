@@ -108,52 +108,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/api/create_api",
-				Handler: api.CreateApiHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/api/update_api",
-				Handler: api.UpdateApiHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/api/delete_api",
-				Handler: api.DeleteApiHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/api/find_api",
-				Handler: api.FindApiHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/api/delete_api_list",
-				Handler: api.DeleteApiListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/api/find_api_list",
-				Handler: api.FindApiListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/api/sync_api_list",
-				Handler: api.SyncApiListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/api/clean_api_list",
-				Handler: api.CleanApiListHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
 				Path:    "/login",
 				Handler: auth.LoginHandler(serverCtx),
 			},
@@ -196,6 +150,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/oauth/authorize_url",
 				Handler: auth.GetOauthAuthorizeUrlHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/create_api",
+				Handler: api.CreateApiHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/update_api",
+				Handler: api.UpdateApiHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/api/delete_api",
+				Handler: api.DeleteApiHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/find_api",
+				Handler: api.FindApiHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/api/delete_api_list",
+				Handler: api.DeleteApiListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/find_api_list",
+				Handler: api.FindApiListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/sync_api_list",
+				Handler: api.SyncApiListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/clean_api_list",
+				Handler: api.CleanApiListHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

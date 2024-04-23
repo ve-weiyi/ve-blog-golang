@@ -15,7 +15,7 @@ func EmptyReq() (out *rolerpc.EmptyReq) {
 
 func ConvertIdReq(in *types.IdReq) (out *rolerpc.IdReq) {
 	out = &rolerpc.IdReq{
-		Id: in.ID,
+		Id: in.Id,
 	}
 	return
 }

@@ -10,17 +10,17 @@ type (
         MessageCount int64 `json:"message_count,optional"`                                      // 留言量
         UserCount int64 `json:"user_count,optional"`                                            // 用户量
         ArticleCount int64 `json:"article_count,optional"`                                      // 文章量
-        CategoryDTOList []*CategoryDTO `json:"category_dto_list,optional"`                      // 分类统计
-        TagDTOList []*TagDTO `json:"tag_dto_list,optional"`                                     // 标签列表
-        ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"` // 文章统计列表
-        UniqueViewDTOList []*UniqueViewDTO `json:"unique_view_dto_list,optional"`               // 一周用户量集合
-        ArticleRankDTOList []*ArticleRankDTO `json:"article_rank_dto_list,optional"`            // 文章浏览量排行
+        CategoryList []*Category `json:"category_dto_list,optional"`                            // 分类统计
+        TagList []*Tag `json:"tag_dto_list,optional"`                                           // 标签列表
+        ArticleStatisticsList []*ArticleStatistics `json:"article_statistics_list,optional"`    // 文章统计列表
+        UniqueViewList []*UniqueView `json:"unique_view_dto_list,optional"`                     // 一周用户量集合
+        ArticleRankList []*ArticleRank `json:"article_rank_dto_list,optional"`                  // 文章浏览量排行
     }
 
     Article {
-        ID int64 `json:"id,optional"`                           // id
-        UserID int64 `json:"user_id,optional"`                  // 作者
-        CategoryID int64 `json:"category_id,optional"`          // 文章分类
+        Id int64 `json:"id,optional"`                           // id
+        UserId int64 `json:"user_id,optional"`                  // 作者
+        CategoryId int64 `json:"category_id,optional"`          // 文章分类
         ArticleCover string `json:"article_cover,optional"`     // 文章缩略图
         ArticleTitle string `json:"article_title,optional"`     // 标题
         ArticleContent string `json:"article_content,optional"` // 内容
@@ -38,18 +38,18 @@ type (
         TagNameList []string `json:"tag_name_list,optional"` // 文章标签列表
     }
 
-    ArticleConditionDTO {
-        ArticleDTOList []*ArticleHome `json:"article_dto_list,optional"` // 文章列表
+    ArticleCondition {
+        ArticleList []*ArticleHome `json:"article_dto_list,optional"`    // 文章列表
         ConditionName string `json:"condition_name,optional"`            // 条件名
     }
 
     ArticleConditionReq {
-        TagID int64 `json:"tag_id,optional"`           // 文章标签ID
-        CategoryID int64 `json:"category_id,optional"` // 文章分类ID
+        TagId int64 `json:"tag_id,optional"`           // 文章标签ID
+        CategoryId int64 `json:"category_id,optional"` // 文章分类ID
     }
 
-    ArticleDTO {
-        ID int64 `json:"id,optional"`                           // 文章ID
+    Article {
+        Id int64 `json:"id,optional"`                           // 文章ID
         ArticleCover string `json:"article_cover,optional"`     // 文章缩略图
         ArticleTitle string `json:"article_title,optional"`     // 标题
         ArticleContent string `json:"article_content,optional"` // 内容
@@ -65,12 +65,12 @@ type (
     }
 
     ArticleDeleteReq {
-        ID int64 `json:"id,optional"`              // 文章ID
+        Id int64 `json:"id,optional"`              // 文章ID
         IsDelete int64 `json:"is_delete,optional"` // 是否删除
     }
 
-    ArticleDetailsDTOReq {
-        ID int64 `json:"id,optional"`                           // 文章ID
+    ArticleDetailsReq {
+        Id int64 `json:"id,optional"`                           // 文章ID
         ArticleCover string `json:"article_cover,optional"`     // 文章缩略图
         ArticleTitle string `json:"article_title,optional"`     // 标题
         ArticleContent string `json:"article_content,optional"` // 内容
@@ -87,43 +87,43 @@ type (
     }
 
     ArticleHome {
-        ArticleCategory *CategoryDTO `json:"article_category,optional"` // 文章分类
-        ArticleTagList []*TagDTO `json:"article_tag_list,optional"`     // 文章标签列表
+        ArticleCategory *Category `json:"article_category,optional"` // 文章分类
+        ArticleTagList []*Tag `json:"article_tag_list,optional"`     // 文章标签列表
     }
 
-    ArticlePageDetailsDTO {
-        LastArticle *ArticlePreviewDTO `json:"last_article,optional"`                      // 上一篇文章
-        NextArticle *ArticlePreviewDTO `json:"next_article,optional"`                      // 下一篇文章
-        RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list,optional"` // 推荐文章列表
-        NewestArticleList []*ArticlePreviewDTO `json:"newest_article_list,optional"`       // 最新文章列表
+    ArticlePageDetails {
+        LastArticle *ArticlePreview `json:"last_article,optional"`                      // 上一篇文章
+        NextArticle *ArticlePreview `json:"next_article,optional"`                      // 下一篇文章
+        RecommendArticleList []*ArticlePreview `json:"recommend_article_list,optional"` // 推荐文章列表
+        NewestArticleList []*ArticlePreview `json:"newest_article_list,optional"`       // 最新文章列表
     }
 
-    ArticlePreviewDTO {
-        ID int64 `json:"id,optional"`                       // 文章ID
+    ArticlePreview {
+        Id int64 `json:"id,optional"`                       // 文章ID
         ArticleCover string `json:"article_cover,optional"` // 文章缩略图
         ArticleTitle string `json:"article_title,optional"` // 标题
         CreatedAt int64 `json:"created_at,optional"`        // 创建时间
     }
 
-    ArticleRankDTO {
-        ID int64 `json:"id,optional"`                       // 文章ID
+    ArticleRank {
+        Id int64 `json:"id,optional"`                       // 文章ID
         ArticleTitle string `json:"article_title,optional"` // 文章标题
         Count int64 `json:"count,optional"`                 // 数量
     }
 
-    ArticleStatisticsDTO {
+    ArticleStatistics {
         Day string `json:"day,optional"`    // 日期
         Count int64 `json:"count,optional"` // 数量
     }
 
     ArticleTag {
-        ID int64 `json:"id,optional"`                // id
-        ArticleID int64 `json:"article_id,optional"` // 文章id
-        TagID int64 `json:"tag_id,optional"`         // 标签id
+        Id int64 `json:"id,optional"`                // id
+        ArticleId int64 `json:"article_id,optional"` // 文章id
+        TagId int64 `json:"tag_id,optional"`         // 标签id
     }
 
     ArticleTopReq {
-        ID int64 `json:"id,optional"`        // 文章ID
+        Id int64 `json:"id,optional"`        // 文章ID
         IsTop int64 `json:"is_top,optional"` // 是否置顶
     }
 
@@ -132,11 +132,11 @@ type (
         CategoryCount int64 `json:"category_count,optional"`            // 分类数量
         TagCount int64 `json:"tag_count,optional"`                      // 标签数量
         ViewsCount string `json:"views_count,optional"`                 // 访问量
-        WebsiteConfig WebsiteConfigDTO `json:"website_config,optional"` // 网站配置
-        PageList []*PageDTO `json:"page_list,optional"`                 // 页面列表
+        WebsiteConfig WebsiteConfig `json:"website_config,optional"`    // 网站配置
+        PageList []*Page `json:"page_list,optional"`                    // 页面列表
     }
 
-    CaptchaDTO {
+    Captcha {
         ID string `json:"id,optional"`
         EncodeData string `json:"encode_data,optional"` // 验证码内容，base64编码
         Length int64 `json:"length,optional"`
@@ -161,7 +161,7 @@ type (
     }
 
     CasbinRule {
-        ID int64 `json:"id,optional"`
+        Id int64 `json:"id,optional"`
         Ptype string `json:"ptype,optional"`
         V0 string `json:"v0,optional"`
         V1 string `json:"v1,optional"`
@@ -172,19 +172,19 @@ type (
     }
 
     Category {
-        ID int64 `json:"id,optional"`                       // id
+        Id int64 `json:"id,optional"`                       // id
         CategoryName string `json:"category_name,optional"` // 分类名
         CreatedAt int64 `json:"created_at,optional"`        // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
     }
 
-    CategoryDTO {
-        ID int64 `json:"id,optional"`
+    Category {
+        Id int64 `json:"id,optional"`
         CategoryName string `json:"category_name,optional"` // 分类名
     }
 
-    CategoryDetailsDTO {
-        ID int64 `json:"id,optional"`
+    CategoryDetails {
+        Id int64 `json:"id,optional"`
         CategoryName string `json:"category_name,optional"` // 分类名
         ArticleCount int64 `json:"article_count,optional"`
         CreatedAt int64 `json:"created_at,optional"`        // 创建时间
@@ -192,7 +192,7 @@ type (
     }
 
     ChangePasswordReq {
-        ID int64 `json:"id,optional"`                     // 从 JWT 中提取 user id，避免越权
+        Id int64 `json:"id,optional"`                     // 从 JWT 中提取 user id，避免越权
         Password string `json:"password,optional"`        // 旧密码
         NewPassword string `json:"new_password,optional"` // 新密码
     }
@@ -215,8 +215,8 @@ type (
     }
 
     ChatRecord {
-        ID int64 `json:"id,optional"`                 // 主键
-        UserID int64 `json:"user_id,optional"`        // 用户id
+        Id int64 `json:"id,optional"`                 // 主键
+        UserId int64 `json:"user_id,optional"`        // 用户id
         Nickname string `json:"nickname,optional"`    // 昵称
         Avatar string `json:"avatar,optional"`        // 头像
         Content string `json:"content,optional"`      // 聊天内容
@@ -247,7 +247,7 @@ type (
     }
 
     ChatSession {
-        ID int64 `json:"id,optional"`                 // 主键
+        Id int64 `json:"id,optional"`                 // 主键
         ChatID string `json:"chat_id,optional"`       // 聊天id
         ChatTitle string `json:"chat_title,optional"` // 标题
         Type string `json:"type,optional"`            // 类型
@@ -268,12 +268,12 @@ type (
     }
 
     Comment {
-        ID int64 `json:"id,optional"`                           // 主键
-        UserID int64 `json:"user_id,optional"`                  // 评论用户Id
-        TopicID int64 `json:"topic_id,optional"`                // 评论主题id
+        Id int64 `json:"id,optional"`                           // 主键
+        UserId int64 `json:"user_id,optional"`                  // 评论用户Id
+        TopicId int64 `json:"topic_id,optional"`                // 评论主题id
         CommentContent string `json:"comment_content,optional"` // 评论内容
-        ReplyUserID int64 `json:"reply_user_id,optional"`       // 回复用户id
-        ParentID int64 `json:"parent_id,optional"`              // 父评论id
+        ReplyUserId int64 `json:"reply_user_id,optional"`       // 回复用户id
+        ParentId int64 `json:"parent_id,optional"`              // 父评论id
         Type int64 `json:"type,optional"`                       // 评论类型 1.文章 2.友链 3.说说
         IsDelete int64 `json:"is_delete,optional"`              // 是否删除  0否 1是
         IsReview int64 `json:"is_review,optional"`              // 是否审核
@@ -281,8 +281,8 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
     }
 
-    CommentBackDTO {
-        ID int64 `json:"id,optional"`
+    CommentBack {
+        Id int64 `json:"id,optional"`
         Avatar string `json:"avatar,optional"`
         Nickname string `json:"nickname,optional"`
         ReplyNickname string `json:"reply_nickname,optional"`
@@ -293,9 +293,9 @@ type (
         CreatedAt int64 `json:"created_at,optional"`
     }
 
-    CommentDTO {
-        ID int64 `json:"id,optional"`                             // 评论id
-        UserID int64 `json:"user_id,optional"`                    // 用户id
+    Comment {
+        Id int64 `json:"id,optional"`                             // 评论id
+        UserId int64 `json:"user_id,optional"`                    // 用户id
         Nickname string `json:"nickname,optional"`                // 用户昵称
         Avatar string `json:"avatar,optional"`                    // 用户头像
         Website string `json:"website,optional"`                  // 个人网站
@@ -303,19 +303,19 @@ type (
         LikeCount int64 `json:"like_count,optional"`              // 点赞数
         CreatedAt int64 `json:"created_at,optional"`              // 评论时间
         ReplyCount int64 `json:"reply_count,optional"`            // 回复量
-        ReplyDTOList []*ReplyDTO `json:"reply_dto_list,optional"` // 回复列表
+        ReplyList []*Reply `json:"reply_dto_list,optional"`       // 回复列表
     }
 
     Context {
         Token string `json:"token,optional"`
-        UID int64 `json:"uid,optional"`
+        UId int64 `json:"uid,optional"`
         Username string `json:"username,optional"`
         IpAddress string `json:"ip_address,optional"`
         Agent string `json:"agent,optional"`
     }
 
     FriendLink {
-        ID int64 `json:"id,optional"`                     // id
+        Id int64 `json:"id,optional"`                     // id
         LinkName string `json:"link_name,optional"`       // 链接名
         LinkAvatar string `json:"link_avatar,optional"`   // 链接头像
         LinkAddress string `json:"link_address,optional"` // 链接地址
@@ -325,7 +325,7 @@ type (
     }
 
     LoginHistory {
-        ID int64 `json:"id,optional"`
+        Id int64 `json:"id,optional"`
         LoginType string `json:"login_type,optional"` // 登录类型
         Agent string `json:"agent,optional"`          // 代理
         IpAddress string `json:"ip_address,optional"` // ip host
@@ -346,8 +346,8 @@ type (
     }
 
     Menu {
-        ID int64 `json:"id,optional"`                // 主键
-        ParentID int64 `json:"parent_id,optional"`   // 父id
+        Id int64 `json:"id,optional"`                // 主键
+        ParentId int64 `json:"parent_id,optional"`   // 父id
         Title string `json:"title,optional"`         // 菜单标题
         Path string `json:"path,optional"`           // 路由路径
         Name string `json:"name,optional"`           // 路由名称
@@ -359,9 +359,9 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
     }
 
-    MenuDetailsDTO {
-        ID int64 `json:"id,optional"`                     // 主键
-        ParentID int64 `json:"parent_id,optional"`        // 父id
+    MenuDetails {
+        Id int64 `json:"id,optional"`                     // 主键
+        ParentId int64 `json:"parent_id,optional"`        // 父id
         Title string `json:"title,optional"`              // 菜单标题
         Type int64 `json:"type,optional"`                 // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
         Path string `json:"path,optional"`                // 路由地址
@@ -369,7 +369,7 @@ type (
         Component interface{} `json:"component,optional"` // Layout组件
         Redirect string `json:"redirect,optional"`        // 路由重定向
         Meta Meta `json:"meta,optional"`                  // meta配置
-        Children []*MenuDetailsDTO `json:"children,optional"`
+        Children []*MenuDetails `json:"children,optional"`
         CreatedAt int64 `json:"created_at,optional"`      // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
     }
@@ -393,8 +393,8 @@ type (
     }
 
     OperationLog {
-        ID int64 `json:"id,optional"`                          // 主键id
-        UserID int64 `json:"user_id,optional"`                 // 用户id
+        Id int64 `json:"id,optional"`                          // 主键id
+        UserId int64 `json:"user_id,optional"`                 // 用户id
         Nickname string `json:"nickname,optional"`             // 用户昵称
         IpAddress string `json:"ip_address,optional"`          // 操作ip
         IpSource string `json:"ip_source,optional"`            // 操作地址
@@ -412,7 +412,7 @@ type (
     }
 
     Page {
-        ID int64 `json:"id,optional"`                 // 页面id
+        Id int64 `json:"id,optional"`                 // 页面id
         PageName string `json:"page_name,optional"`   // 页面名
         PageLabel string `json:"page_label,optional"` // 页面标签
         PageCover string `json:"page_cover,optional"` // 页面封面
@@ -420,16 +420,16 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`  // 更新时间
     }
 
-    PageDTO {
-        ID int64 `json:"id,optional"`                 // 页面ID
+    Page {
+        Id int64 `json:"id,optional"`                 // 页面ID
         PageName string `json:"page_name,optional"`   // 页面名称
         PageLabel string `json:"page_label,optional"` // 页面标签
         PageCover string `json:"page_cover,optional"` // 页面封面
     }
 
     Photo {
-        ID int64 `json:"id,optional"`                 // 主键
-        AlbumID int64 `json:"album_id,optional"`      // 相册id
+        Id int64 `json:"id,optional"`                 // 主键
+        AlbumId int64 `json:"album_id,optional"`      // 相册id
         PhotoName string `json:"photo_name,optional"` // 照片名
         PhotoDesc string `json:"photo_desc,optional"` // 照片描述
         PhotoSrc string `json:"photo_src,optional"`   // 照片地址
@@ -439,7 +439,7 @@ type (
     }
 
     PhotoAlbum {
-        ID int64 `json:"id,optional"`                   // 主键
+        Id int64 `json:"id,optional"`                   // 主键
         AlbumName string `json:"album_name,optional"`   // 相册名
         AlbumDesc string `json:"album_desc,optional"`   // 相册描述
         AlbumCover string `json:"album_cover,optional"` // 相册封面
@@ -449,12 +449,12 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`    // 更新时间
     }
 
-    PhotoAlbumDetailsDTO {
+    PhotoAlbumDetails {
         PhotoCount int64 `json:"photo_count,optional"`
     }
 
     Remark {
-        ID int64 `json:"id,optional"`                           // 主键id
+        Id int64 `json:"id,optional"`                           // 主键id
         Nickname string `json:"nickname,optional"`              // 昵称
         Avatar string `json:"avatar,optional"`                  // 头像
         MessageContent string `json:"message_content,optional"` // 留言内容
@@ -466,14 +466,14 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
     }
 
-    ReplyDTO {
-        ID int64 `json:"id,optional"`                           // 评论id
-        ParentID int64 `json:"parent_id,optional"`              // 父评论id
-        UserID int64 `json:"user_id,optional"`                  // 用户id
+    Reply {
+        Id int64 `json:"id,optional"`                           // 评论id
+        ParentId int64 `json:"parent_id,optional"`              // 父评论id
+        UserId int64 `json:"user_id,optional"`                  // 用户id
         Nickname string `json:"nickname,optional"`              // 用户昵称
         Avatar string `json:"avatar,optional"`                  // 用户头像
         Website string `json:"website,optional"`                // 个人网站
-        ReplyUserID int64 `json:"reply_user_id,optional"`       // 被回复用户id
+        ReplyUserId int64 `json:"reply_user_id,optional"`       // 被回复用户id
         ReplyNickname string `json:"reply_nickname,optional"`   // 被回复用户昵称
         ReplyWebsite string `json:"reply_website,optional"`     // 被回复个人网站
         CommentContent string `json:"comment_content,optional"` // 评论内容
@@ -502,19 +502,19 @@ type (
     }
 
     Tag {
-        ID int64 `json:"id,optional"`                // id
+        Id int64 `json:"id,optional"`                // id
         TagName string `json:"tag_name,optional"`    // 标签名
         CreatedAt int64 `json:"created_at,optional"` // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
     }
 
-    TagDTO {
-        ID int64 `json:"id,optional"`             // 标签ID
+    Tag {
+        Id int64 `json:"id,optional"`             // 标签ID
         TagName string `json:"tag_name,optional"` // 标签名
     }
 
-    TagDetailsDTO {
-        ID int64 `json:"id,optional"`                      // 标签ID
+    TagDetails {
+        Id int64 `json:"id,optional"`                      // 标签ID
         TagName string `json:"tag_name,optional"`          // 标签名
         ArticleCount int64 `json:"article_count,optional"` // 文章数量
         CreatedAt int64 `json:"created_at,optional"`       // 创建时间
@@ -522,8 +522,8 @@ type (
     }
 
     Talk {
-        ID int64 `json:"id,optional"`                // 说说id
-        UserID int64 `json:"user_id,optional"`       // 用户id
+        Id int64 `json:"id,optional"`                // 说说id
+        UserId int64 `json:"user_id,optional"`       // 用户id
         Content string `json:"content,optional"`     // 说说内容
         Images string `json:"images,optional"`       // 图片
         IsTop int64 `json:"is_top,optional"`         // 是否置顶
@@ -532,9 +532,9 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
     }
 
-    TalkDetailsDTO {
-        ID int64 `json:"id,optional"`
-        UserID int64 `json:"user_id,optional"`             // 用户ID
+    TalkDetails {
+        Id int64 `json:"id,optional"`
+        UserId int64 `json:"user_id,optional"`             // 用户ID
         Nickname string `json:"nickname,optional"`         // 用户昵称
         Avatar string `json:"avatar,optional"`             // 用户头像
         Content string `json:"content,optional"`           // 评论内容
@@ -564,13 +564,13 @@ type (
     }
 
     UniqueView {
-        ID int64 `json:"id,optional"`                  // id
+        Id int64 `json:"id,optional"`                  // id
         ViewsCount int64 `json:"views_count,optional"` // 访问量
         CreatedAt int64 `json:"created_at,optional"`   // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`   // 更新时间
     }
 
-    UniqueViewDTO {
+    UniqueView {
         Day string `json:"day,optional"`    // 日期
         Count int64 `json:"count,optional"` // 数量
     }
@@ -582,8 +582,8 @@ type (
     }
 
     UploadRecord {
-        ID int64 `json:"id,optional"`                // id
-        UserID int64 `json:"user_id,optional"`       // 用户id
+        Id int64 `json:"id,optional"`                // id
+        UserId int64 `json:"user_id,optional"`       // 用户id
         Label string `json:"label,optional"`         // 标签
         FileName string `json:"file_name,optional"`  // 文件名称
         FileSize int64 `json:"file_size,optional"`   // 文件大小
@@ -594,7 +594,7 @@ type (
     }
 
     UserAccount {
-        ID int64 `json:"id,optional"`                       // id
+        Id int64 `json:"id,optional"`                       // id
         Username string `json:"username,optional"`          // 用户名
         Password string `json:"password,optional"`          // 密码
         Status int64 `json:"status,optional"`               // 状态: -1删除 0正常 1禁用
@@ -605,19 +605,19 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
     }
 
-    UserAreaDTO {
+    UserArea {
         Name string `json:"name,optional"`
         Value int64 `json:"value,optional"`
     }
 
 
-    RoleDTO {
+    Role {
         RoleName string `json:"role_name,optional"`
         RoleComment string `json:"role_comment,optional"`
     }
 
-    UserDTO {
-        ID int64 `json:"id,optional"`
+    User {
+        Id int64 `json:"id,optional"`
         Username string `json:"username,optional"`
         Nickname string `json:"nickname,optional"`
         Avatar string `json:"avatar,optional"`
@@ -630,7 +630,7 @@ type (
         IpSource string `json:"ip_source,optional"`   // ip 源
         CreatedAt int64 `json:"created_at,optional"`
         UpdatedAt int64 `json:"updated_at,optional"`
-        Roles []*RoleDTO `json:"roles,optional"`
+        Roles []*Role `json:"roles,optional"`
     }
 
 
@@ -642,7 +642,7 @@ type (
         Intro string `json:"intro,optional"`       // 个人简介
         Website string `json:"website,optional"`   // 个人网站
         Email string `json:"email,optional"`       // 邮箱
-        Roles []*RoleDTO `json:"roles,optional"`   // 角色列表
+        Roles []*Role `json:"roles,optional"`      // 角色列表
     }
 
     UserInfoReq {
@@ -653,8 +653,8 @@ type (
     }
 
     UserInformation {
-        ID int64 `json:"id,optional"`                // id
-        UserID int64 `json:"user_id,optional"`       // 用户id
+        Id int64 `json:"id,optional"`                // id
+        UserId int64 `json:"user_id,optional"`       // 用户id
         Email string `json:"email,optional"`         // 用户邮箱
         Nickname string `json:"nickname,optional"`   // 用户昵称
         Avatar string `json:"avatar,optional"`       // 用户头像
@@ -666,8 +666,8 @@ type (
     }
 
     UserLoginHistory {
-        ID int64 `json:"id,optional"`                 // id
-        UserID int64 `json:"user_id,optional"`        // 用户id
+        Id int64 `json:"id,optional"`                 // id
+        UserId int64 `json:"user_id,optional"`        // 用户id
         LoginType string `json:"login_type,optional"` // 登录类型
         Agent string `json:"agent,optional"`          // 代理
         IpAddress string `json:"ip_address,optional"` // ip host
@@ -676,7 +676,7 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`  // 更新时间
     }
 
-    UserMenuDTO {
+    UserMenu {
         Id int64 `json:"id,optional"`
         Name string `json:"name,optional"`
         Path string `json:"path,optional"`
@@ -684,12 +684,12 @@ type (
         Icon string `json:"icon,optional"`
         Rank int64 `json:"rank,optional"`
         IsHidden int64 `json:"is_hidden,optional"`
-        Children []UserMenuDTO `json:"children,optional"`
+        Children []UserMenu `json:"children,optional"`
     }
 
     UserOauth {
-        ID int64 `json:"id,optional"`                // id
-        UserID int64 `json:"user_id,optional"`       // 用户id
+        Id int64 `json:"id,optional"`                // id
+        UserId int64 `json:"user_id,optional"`       // 用户id
         OpenID string `json:"open_id,optional"`      // 开发平台id，标识唯一用户
         Platform string `json:"platform,optional"`   // 平台:手机号、邮箱、微信、飞书
         CreatedAt int64 `json:"created_at,optional"` // 创建时间
@@ -697,9 +697,9 @@ type (
     }
 
     UserRole {
-        ID int64 `json:"id,optional"`          // 主键id
-        UserID int64 `json:"user_id,optional"` // 用户id
-        RoleID int64 `json:"role_id,optional"` // 角色id
+        Id int64 `json:"id,optional"`          // 主键id
+        UserId int64 `json:"user_id,optional"` // 用户id
+        RoleId int64 `json:"role_id,optional"` // 角色id
     }
 
     VoiceVO {
@@ -708,14 +708,14 @@ type (
     }
 
     WebsiteConfig {
-        ID int64 `json:"id,optional"`                // id
+        Id int64 `json:"id,optional"`                // id
         Key string `json:"key,optional"`             // 关键词
         Config string `json:"config,optional"`       // 配置信息
         CreatedAt int64 `json:"created_at,optional"` // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
     }
 
-    WebsiteConfigDTO {
+    WebsiteConfig {
         AdminUrl string `json:"admin_url,optional"`                    // 后台地址
         AlipayQrCode string `json:"alipay_qr_code,optional"`           // 支付宝二维码
         Gitee string `json:"gitee,optional"`                           // Gitee

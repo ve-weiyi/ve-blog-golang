@@ -34,7 +34,7 @@ func (l *FindRoleListLogic) FindRoleList(in *account.PageQuery) (*account.RolePa
 		return nil, err
 	}
 
-	var root account.RoleDetailsDTO
+	var root account.RoleDetails
 	root.Children = appendRoleChildren(&root, result)
 
 	out := &account.RolePageResp{}
@@ -44,7 +44,7 @@ func (l *FindRoleListLogic) FindRoleList(in *account.PageQuery) (*account.RolePa
 	return out, nil
 }
 
-func appendRoleChildren(root *account.RoleDetailsDTO, list []*model.Role) (leafs []*account.RoleDetailsDTO) {
+func appendRoleChildren(root *account.RoleDetails, list []*model.Role) (leafs []*account.RoleDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convert.ConvertRoleModelToDetailPb(item)

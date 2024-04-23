@@ -25,7 +25,7 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 	}
 }
 
-func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.PageQuery) (resp *types.PageResult, err error) {
+func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	logx.Info("FindUserLoginHistoryListLogic", jsonconv.ObjectToJsonIndent(req))
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.UserRpc.FindUserLoginHistoryList(l.ctx, in)
@@ -35,10 +35,10 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.Page
 
 	var list []*types.LoginHistory
 	for _, role := range out.List {
-		list = append(list, convert.ConvertLoginHistoryTypes(role))
+		list = append(list, convert.ConvertUserLoginHistoryTypes(role))
 	}
 
-	resp = &types.PageResult{}
+	resp = &types.PageResp{}
 	resp.Page = in.Limit.Page
 	resp.PageSize = in.Limit.PageSize
 	resp.Total = out.Total

@@ -24,19 +24,19 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 	}
 }
 
-func (l *FindApiListLogic) FindApiList(req *types.PageQuery) (resp *types.PageResult, err error) {
+func (l *FindApiListLogic) FindApiList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.ApiRpc.FindApiList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*types.ApiDetailsDTO
+	var list []*types.ApiDetails
 	for _, role := range out.List {
 		list = append(list, convert.ConvertApiDetailsTypes(role))
 	}
 
-	resp = &types.PageResult{}
+	resp = &types.PageResp{}
 	resp.Page = in.Limit.Page
 	resp.PageSize = in.Limit.PageSize
 	resp.Total = out.Total

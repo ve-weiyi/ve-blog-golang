@@ -24,7 +24,7 @@ func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 // 删除角色
-func (l *DeleteRoleLogic) DeleteRole(in *account.IdReq) (*account.BatchResult, error) {
+func (l *DeleteRoleLogic) DeleteRole(in *account.IdReq) (*account.BatchResp, error) {
 	result, err := l.svcCtx.RoleModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (l *DeleteRoleLogic) DeleteRole(in *account.IdReq) (*account.BatchResult, e
 		return nil, err
 	}
 
-	return &account.BatchResult{
+	return &account.BatchResp{
 		SuccessCount: result + result2,
 	}, nil
 }

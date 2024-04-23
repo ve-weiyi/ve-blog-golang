@@ -46,11 +46,11 @@ message PageCondition {
   string operator = 4;
 }
 
-message BatchResult {
+message BatchResp {
   int32 success_count = 1;
 }
 
-message PageResult {
+message PageResp {
   int32 total = 1;
   google.protobuf.Any list = 2;
 }
@@ -96,7 +96,7 @@ service ArticleRpc {
 
   rpc FindArticle(IdReq) returns(Article);
 
-  rpc DeleteArticleList(IdsReq) returns(BatchResult);
+  rpc DeleteArticleList(IdsReq) returns(BatchResp);
 
-  rpc FindArticleList(PageQuery) returns(PageResult);
+  rpc FindArticleList(PageQuery) returns(PageResp);
 }

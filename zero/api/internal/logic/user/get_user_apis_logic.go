@@ -25,15 +25,17 @@ func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp []types.UserApiDTO, err error) {
+func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApisResp, err error) {
 	in := convert.EmptyReq()
 	out, err := l.svcCtx.UserRpc.GetUserApis(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = make([]types.UserApiDTO, 0)
-	jsonconv.ObjectMarshal(out.List, &resp)
+	var list []*types.UserApi
+	jsonconv.ObjectMarshal(out.List, &list)
 
+	resp = &types.UserApisResp{}
+	resp.List = list
 	return
 }

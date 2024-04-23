@@ -14,9 +14,9 @@ import (
 
 type (
 	Api                  = account.Api
-	ApiDetailsDTO        = account.ApiDetailsDTO
+	ApiDetails           = account.ApiDetails
 	ApiPageResp          = account.ApiPageResp
-	BatchResult          = account.BatchResult
+	BatchResp            = account.BatchResp
 	EmptyReq             = account.EmptyReq
 	EmptyResp            = account.EmptyResp
 	IdReq                = account.IdReq
@@ -26,20 +26,20 @@ type (
 	LoginReq             = account.LoginReq
 	LoginResp            = account.LoginResp
 	Menu                 = account.Menu
-	MenuDetailsDTO       = account.MenuDetailsDTO
+	MenuDetails          = account.MenuDetails
 	MenuPageResp         = account.MenuPageResp
 	OauthLoginReq        = account.OauthLoginReq
 	OauthLoginUrlResp    = account.OauthLoginUrlResp
 	PageCondition        = account.PageCondition
 	PageLimit            = account.PageLimit
 	PageQuery            = account.PageQuery
-	PageResult           = account.PageResult
+	PageResp             = account.PageResp
 	PageSort             = account.PageSort
 	PageUserInfoResp     = account.PageUserInfoResp
 	ResetPasswordReq     = account.ResetPasswordReq
 	Role                 = account.Role
-	RoleDetailsDTO       = account.RoleDetailsDTO
-	RoleLabelDTO         = account.RoleLabelDTO
+	RoleDetails          = account.RoleDetails
+	RoleLabel            = account.RoleLabel
 	RolePageResp         = account.RolePageResp
 	RoleResourcesResp    = account.RoleResourcesResp
 	SyncMenuRequest      = account.SyncMenuRequest
@@ -49,7 +49,7 @@ type (
 	UpdateUserInfoReq    = account.UpdateUserInfoReq
 	UpdateUserRoleReq    = account.UpdateUserRoleReq
 	UpdateUserStatusReq  = account.UpdateUserStatusReq
-	UserDTO              = account.UserDTO
+	User                 = account.User
 	UserEmailReq         = account.UserEmailReq
 	UserInfoResp         = account.UserInfoResp
 
@@ -59,17 +59,17 @@ type (
 		// 更新菜单
 		UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 		// 删除菜单
-		DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error)
+		DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 批量删除菜单
-		DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error)
+		DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询菜单
 		FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error)
 		// 分页获取菜单列表
 		FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
 		// 同步菜单列表
-		SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error)
+		SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error)
 		// 清空菜单列表
-		CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error)
+		CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 	}
 
 	defaultMenuRpc struct {
@@ -96,13 +96,13 @@ func (m *defaultMenuRpc) UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.
 }
 
 // 删除菜单
-func (m *defaultMenuRpc) DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultMenuRpc) DeleteMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewMenuRpcClient(m.cli.Conn())
 	return client.DeleteMenu(ctx, in, opts...)
 }
 
 // 批量删除菜单
-func (m *defaultMenuRpc) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultMenuRpc) DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewMenuRpcClient(m.cli.Conn())
 	return client.DeleteMenuList(ctx, in, opts...)
 }
@@ -120,13 +120,13 @@ func (m *defaultMenuRpc) FindMenuList(ctx context.Context, in *PageQuery, opts .
 }
 
 // 同步菜单列表
-func (m *defaultMenuRpc) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultMenuRpc) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewMenuRpcClient(m.cli.Conn())
 	return client.SyncMenuList(ctx, in, opts...)
 }
 
 // 清空菜单列表
-func (m *defaultMenuRpc) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResult, error) {
+func (m *defaultMenuRpc) CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := account.NewMenuRpcClient(m.cli.Conn())
 	return client.CleanMenuList(ctx, in, opts...)
 }
