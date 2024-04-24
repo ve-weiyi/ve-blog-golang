@@ -6,12 +6,11 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
 	"github.com/zeromicro/go-zero/tools/goctl/model/sql/model"
+	"github.com/zeromicro/go-zero/tools/goctl/model/sql/parser"
 	"github.com/zeromicro/go-zero/tools/goctl/model/sql/util"
 	"github.com/zeromicro/go-zero/tools/goctl/util/pathx"
 
@@ -27,7 +26,7 @@ func TestParsePlainText(t *testing.T) {
 	err := os.WriteFile(sqlFile, []byte("plain text"), 0o777)
 	assert.Nil(t, err)
 
-	_, err = Parse(sqlFile, "go_zero", false)
+	_, err = parser.Parse(sqlFile, "go_zero", false)
 	assert.NotNil(t, err)
 }
 
@@ -36,7 +35,7 @@ func TestParseSelect(t *testing.T) {
 	err := os.WriteFile(sqlFile, []byte("select * from user"), 0o777)
 	assert.Nil(t, err)
 
-	tables, err := Parse(sqlFile, "go_zero", false)
+	tables, err := parser.Parse(sqlFile, "go_zero", false)
 	assert.Nil(t, err)
 	assert.Equal(t, 0, len(tables))
 }
@@ -49,7 +48,7 @@ func TestParseCreateTable(t *testing.T) {
 	err := os.WriteFile(sqlFile, []byte(user), 0o777)
 	assert.Nil(t, err)
 
-	tables, err := Parse(sqlFile, "go_zero", false)
+	tables, err := parser.Parse(sqlFile, "go_zero", false)
 	assert.Equal(t, 1, len(tables))
 	table := tables[0]
 	assert.Nil(t, err)
@@ -184,7 +183,7 @@ var rpcTpl string
 var modelTpl string
 
 func TestParseSql(t *testing.T) {
-	tables, err := Parse(filepath.Join(global.GetRuntimeRoot(), "server/test.sql"), "go_zero", false)
+	tables, err := parser.Parse(filepath.Join(global.GetRuntimeRoot(), "server/test.sql"), "go_zero", false)
 	assert.Nil(t, err)
 
 	//log.Printf("table %+v", jsonconv.ObjectToJsonIndent(tables))
@@ -192,27 +191,7 @@ func TestParseSql(t *testing.T) {
 	for _, table := range tables {
 		log.Printf("%+v", table.Name)
 
-		var fs []*field.Field
-		for _, e := range table.Fields {
-
-			//log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
-
-			fs = append(fs, &field.Field{
-				Name: jsonconv.Case2Camel(e.Name.Source()),
-				Type: func() string {
-					if strings.Contains(e.DataType, "time.Time") {
-						return "int64"
-					} else {
-						return e.DataType
-					}
-				}(),
-				ColumnName:    e.Name.Source(),
-				ColumnComment: e.Comment,
-				Tag:           map[string]string{field.TagKeyJson: e.Name.Source()},
-			})
-		}
-
-		metas := NewMetas(table, fs)
+		metas := NewMetas(table)
 
 		for _, meta := range metas {
 			err = meta.Execute()
@@ -223,9 +202,15 @@ func TestParseSql(t *testing.T) {
 	}
 }
 
-func NewMetas(table *Table, fs []*field.Field) []invent.TemplateMeta {
-	var metas []invent.TemplateMeta
+func NewMetas(table *parser.Table) []invent.TemplateMeta {
+	var fs []*field.Field
+	for _, e := range table.Fields {
+		//log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
 
+		fs = append(fs, convertField(e))
+	}
+
+	var metas []invent.TemplateMeta
 	metas = append(metas, invent.TemplateMeta{
 		Key:            "",
 		Mode:           invent.ModeCreateOrReplace,
@@ -287,4 +272,20 @@ func NewMetas(table *Table, fs []*field.Field) []invent.TemplateMeta {
 	})
 
 	return metas
+}
+
+func convertField(e *parser.Field) *field.Field {
+	return &field.Field{
+		Name: jsonconv.Case2Camel(e.Name.Source()),
+		Type: func() string {
+			//if strings.Contains(e.DataType, "time.Time") {
+			//	return "int64"
+			//}
+
+			return e.DataType
+		}(),
+		ColumnName:    e.Name.Source(),
+		ColumnComment: e.Comment,
+		Tag:           map[string]string{field.TagKeyJson: e.Name.Source()},
+	}
 }
