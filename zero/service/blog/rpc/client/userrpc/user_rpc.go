@@ -18,9 +18,10 @@ type (
 	ApiPageResp          = blog.ApiPageResp
 	Article              = blog.Article
 	BatchResp            = blog.BatchResp
-	Config               = blog.Config
 	EmptyReq             = blog.EmptyReq
 	EmptyResp            = blog.EmptyResp
+	FindConfigReq        = blog.FindConfigReq
+	FindConfigResp       = blog.FindConfigResp
 	IdReq                = blog.IdReq
 	IdsReq               = blog.IdsReq
 	LoginHistory         = blog.LoginHistory
@@ -44,6 +45,7 @@ type (
 	RoleLabel            = blog.RoleLabel
 	RolePageResp         = blog.RolePageResp
 	RoleResourcesResp    = blog.RoleResourcesResp
+	SaveConfigReq        = blog.SaveConfigReq
 	SyncMenuRequest      = blog.SyncMenuRequest
 	UpdateRoleApisReq    = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq   = blog.UpdateRoleMenusReq

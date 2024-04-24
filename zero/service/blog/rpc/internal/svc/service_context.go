@@ -27,10 +27,13 @@ type ServiceContext struct {
 	RoleModel             model.RoleModel
 	ApiModel              model.ApiModel
 	MenuModel             model.MenuModel
+	UserRoleModel         model.UserRoleModel
+	RoleApiModel          model.RoleApiModel
+	RoleMenuModel         model.RoleMenuModel
 
-	UserRoleModel model.UserRoleModel
-	RoleApiModel  model.RoleApiModel
-	RoleMenuModel model.RoleMenuModel
+	// blog models
+	WebsiteConfigModel model.WebsiteConfigModel
+	ArticleModel       model.ArticleModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -55,6 +58,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		UserRoleModel:         model.NewUserRoleModel(db, rds),
 		RoleApiModel:          model.NewRoleApiModel(db, rds),
 		RoleMenuModel:         model.NewRoleMenuModel(db, rds),
+
+		// blog models
+		WebsiteConfigModel: model.NewWebsiteConfigModel(db, rds),
+		ArticleModel:       model.NewArticleModel(db, rds),
 	}
 }
 

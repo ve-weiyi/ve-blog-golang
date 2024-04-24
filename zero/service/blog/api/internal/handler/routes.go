@@ -10,6 +10,7 @@ import (
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/role"
 	user "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/user"
+	website "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -341,6 +342,54 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user/roles",
 				Handler: user.GetUserRoleHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 获取后台首页信息
+				Method:  http.MethodGet,
+				Path:    "/admin",
+				Handler: website.GetAdminHomeInfoHandler(serverCtx),
+			},
+			{
+				// 更新关于我的信息
+				Method:  http.MethodPut,
+				Path:    "/admin/about_me",
+				Handler: website.UpdateAboutMeHandler(serverCtx),
+			},
+			{
+				// 获取服务器信息
+				Method:  http.MethodGet,
+				Path:    "/admin/system_state",
+				Handler: website.GetSystemStateHandler(serverCtx),
+			},
+			{
+				// 更新配置
+				Method:  http.MethodPut,
+				Path:    "/admin/websit_config",
+				Handler: website.UpdateWebsiteConfigHandler(serverCtx),
+			},
+			{
+				// 获取博客前台首页信息
+				Method:  http.MethodGet,
+				Path:    "/blog",
+				Handler: website.GetBlogHomeInfoHandler(serverCtx),
+			},
+			{
+				// 获取关于我的信息
+				Method:  http.MethodGet,
+				Path:    "/blog/about_me",
+				Handler: website.GetAboutMeHandler(serverCtx),
+			},
+			{
+				// 获取网站前台配置
+				Method:  http.MethodGet,
+				Path:    "/blog/websit_config",
+				Handler: website.GetWebsiteConfigHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

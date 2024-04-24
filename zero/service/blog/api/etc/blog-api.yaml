@@ -22,3 +22,9 @@ MenuRpcConf:
 UserRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+ConfigRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
+ArticleRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080

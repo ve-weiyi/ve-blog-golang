@@ -6,9 +6,10 @@ import "module/auth.api"
 import "module/api.api"
 import "module/menu.api"
 import "module/role.api"
+import "module/website.api"
 
 type (
-	PingReq {
+	PingReq{
 	}
 	PingResp {
 		Env string `json:"env"`

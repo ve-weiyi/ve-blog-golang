@@ -12,4 +12,7 @@ type Config struct {
 	MenuRpcConf    zrpc.RpcClientConf
 	RoleRpcConf    zrpc.RpcClientConf
 	UserRpcConf    zrpc.RpcClientConf
+
+	ConfigRpcConf  zrpc.RpcClientConf
+	ArticleRpcConf zrpc.RpcClientConf
 }

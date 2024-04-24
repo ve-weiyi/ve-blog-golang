@@ -18,9 +18,10 @@ type (
 	ApiPageResp          = blog.ApiPageResp
 	Article              = blog.Article
 	BatchResp            = blog.BatchResp
-	Config               = blog.Config
 	EmptyReq             = blog.EmptyReq
 	EmptyResp            = blog.EmptyResp
+	FindConfigReq        = blog.FindConfigReq
+	FindConfigResp       = blog.FindConfigResp
 	IdReq                = blog.IdReq
 	IdsReq               = blog.IdsReq
 	LoginHistory         = blog.LoginHistory
@@ -44,6 +45,7 @@ type (
 	RoleLabel            = blog.RoleLabel
 	RolePageResp         = blog.RolePageResp
 	RoleResourcesResp    = blog.RoleResourcesResp
+	SaveConfigReq        = blog.SaveConfigReq
 	SyncMenuRequest      = blog.SyncMenuRequest
 	UpdateRoleApisReq    = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq   = blog.UpdateRoleMenusReq
@@ -56,10 +58,8 @@ type (
 	UserInfoResp         = blog.UserInfoResp
 
 	ConfigRpc interface {
-		CreateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error)
-		UpdateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error)
-		DeleteConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-		FindConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Config, error)
+		SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		FindConfig(ctx context.Context, in *FindConfigReq, opts ...grpc.CallOption) (*FindConfigResp, error)
 	}
 
 	defaultConfigRpc struct {
@@ -73,22 +73,12 @@ func NewConfigRpc(cli zrpc.Client) ConfigRpc {
 	}
 }
 
-func (m *defaultConfigRpc) CreateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error) {
+func (m *defaultConfigRpc) SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := blog.NewConfigRpcClient(m.cli.Conn())
-	return client.CreateConfig(ctx, in, opts...)
+	return client.SaveConfig(ctx, in, opts...)
 }
 
-func (m *defaultConfigRpc) UpdateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error) {
-	client := blog.NewConfigRpcClient(m.cli.Conn())
-	return client.UpdateConfig(ctx, in, opts...)
-}
-
-func (m *defaultConfigRpc) DeleteConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := blog.NewConfigRpcClient(m.cli.Conn())
-	return client.DeleteConfig(ctx, in, opts...)
-}
-
-func (m *defaultConfigRpc) FindConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Config, error) {
+func (m *defaultConfigRpc) FindConfig(ctx context.Context, in *FindConfigReq, opts ...grpc.CallOption) (*FindConfigResp, error) {
 	client := blog.NewConfigRpcClient(m.cli.Conn())
 	return client.FindConfig(ctx, in, opts...)
 }

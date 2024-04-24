@@ -9,27 +9,33 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindConfigLogic struct {
+type SaveConfigLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindConfigLogic {
-	return &FindConfigLogic{
+func NewSaveConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveConfigLogic {
+	return &SaveConfigLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *FindConfigLogic) FindConfig(in *blog.FindConfigReq) (*blog.FindConfigResp, error) {
+func (l *SaveConfigLogic) SaveConfig(in *blog.SaveConfigReq) (*blog.EmptyResp, error) {
+	// 查找
 	result, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.FindConfigResp{
-		ConfigValue: result.Config,
-	}, nil
+	// 修改
+	result.Config = in.ConfigValue
+	_, err = l.svcCtx.WebsiteConfigModel.Save(l.ctx, result)
+	if err != nil {
+		return nil, err
+	}
+
+	return &blog.EmptyResp{}, nil
 }

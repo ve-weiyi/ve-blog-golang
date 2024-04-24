@@ -90,7 +90,7 @@ type (
 )
 
 @server(
-    prefix: /blog_api/v1
+    prefix: /api/v1
     group: website
 )
 
@@ -105,11 +105,11 @@ service blog-api {
 
     @doc "获取关于我的信息"
     @handler GetAboutMe
-    get /blog/about/me (EmptyReq) returns (AboutMe)
+    get /blog/about_me (EmptyReq) returns (AboutMe)
 
     @doc "更新关于我的信息"
     @handler UpdateAboutMe
-    post /admin/about/me (AboutMe) returns (EmptyResp)
+    put /admin/about_me (AboutMe) returns (EmptyResp)
 
     @doc "获取网站前台配置"
     @handler GetWebsiteConfig
@@ -121,5 +121,5 @@ service blog-api {
 
     @doc "获取服务器信息"
     @handler GetSystemState
-    get /admin/system/state (EmptyReq) returns (EmptyResp)
+    get /admin/system_state (EmptyReq) returns (EmptyResp)
 }

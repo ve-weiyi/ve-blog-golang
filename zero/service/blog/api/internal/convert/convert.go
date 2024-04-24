@@ -4,32 +4,31 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func EmptyReq() (out *rolerpc.EmptyReq) {
-	out = &rolerpc.EmptyReq{}
+func EmptyReq() (out *blog.EmptyReq) {
+	out = &blog.EmptyReq{}
 	return
 }
 
-func ConvertIdReq(in *types.IdReq) (out *rolerpc.IdReq) {
-	out = &rolerpc.IdReq{
+func ConvertIdReq(in *types.IdReq) (out *blog.IdReq) {
+	out = &blog.IdReq{
 		Id: in.Id,
 	}
 	return
 }
 
-func ConvertIdsReq(in *types.IdsReq) (out *rolerpc.IdsReq) {
-	out = &rolerpc.IdsReq{
+func ConvertIdsReq(in *types.IdsReq) (out *blog.IdsReq) {
+	out = &blog.IdsReq{
 		Ids: in.IDS,
 	}
 	return
 }
 
-func ConvertPageQuery(in *types.PageQuery) (out *rolerpc.PageQuery) {
-	out = &rolerpc.PageQuery{
-		Limit: &rolerpc.PageLimit{
+func ConvertPageQuery(in *types.PageQuery) (out *blog.PageQuery) {
+	out = &blog.PageQuery{
+		Limit: &blog.PageLimit{
 			Page:     in.Limit.Page,
 			PageSize: in.Limit.PageSize,
 		},
@@ -38,7 +37,7 @@ func ConvertPageQuery(in *types.PageQuery) (out *rolerpc.PageQuery) {
 	}
 
 	for _, sort := range in.Sorts {
-		out.Sorts = append(out.Sorts, &rolerpc.PageSort{
+		out.Sorts = append(out.Sorts, &blog.PageSort{
 			Field: sort.Field,
 			Order: sort.Order,
 		})

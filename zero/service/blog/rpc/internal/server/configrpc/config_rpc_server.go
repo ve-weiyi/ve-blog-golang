@@ -22,22 +22,12 @@ func NewConfigRpcServer(svcCtx *svc.ServiceContext) *ConfigRpcServer {
 	}
 }
 
-func (s *ConfigRpcServer) CreateConfig(ctx context.Context, in *blog.Config) (*blog.Config, error) {
-	l := configrpclogic.NewCreateConfigLogic(ctx, s.svcCtx)
-	return l.CreateConfig(in)
+func (s *ConfigRpcServer) SaveConfig(ctx context.Context, in *blog.SaveConfigReq) (*blog.EmptyResp, error) {
+	l := configrpclogic.NewSaveConfigLogic(ctx, s.svcCtx)
+	return l.SaveConfig(in)
 }
 
-func (s *ConfigRpcServer) UpdateConfig(ctx context.Context, in *blog.Config) (*blog.Config, error) {
-	l := configrpclogic.NewUpdateConfigLogic(ctx, s.svcCtx)
-	return l.UpdateConfig(in)
-}
-
-func (s *ConfigRpcServer) DeleteConfig(ctx context.Context, in *blog.IdReq) (*blog.BatchResp, error) {
-	l := configrpclogic.NewDeleteConfigLogic(ctx, s.svcCtx)
-	return l.DeleteConfig(in)
-}
-
-func (s *ConfigRpcServer) FindConfig(ctx context.Context, in *blog.IdReq) (*blog.Config, error) {
+func (s *ConfigRpcServer) FindConfig(ctx context.Context, in *blog.FindConfigReq) (*blog.FindConfigResp, error) {
 	l := configrpclogic.NewFindConfigLogic(ctx, s.svcCtx)
 	return l.FindConfig(in)
 }

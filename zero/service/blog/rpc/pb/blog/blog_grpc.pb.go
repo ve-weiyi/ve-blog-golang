@@ -2248,10 +2248,8 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConfigRpcClient interface {
-	CreateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error)
-	UpdateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error)
-	DeleteConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-	FindConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Config, error)
+	SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	FindConfig(ctx context.Context, in *FindConfigReq, opts ...grpc.CallOption) (*FindConfigResp, error)
 }
 
 type configRpcClient struct {
@@ -2262,35 +2260,17 @@ func NewConfigRpcClient(cc grpc.ClientConnInterface) ConfigRpcClient {
 	return &configRpcClient{cc}
 }
 
-func (c *configRpcClient) CreateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error) {
-	out := new(Config)
-	err := c.cc.Invoke(ctx, "/blog.ConfigRpc/CreateConfig", in, out, opts...)
+func (c *configRpcClient) SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/blog.ConfigRpc/SaveConfig", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *configRpcClient) UpdateConfig(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Config, error) {
-	out := new(Config)
-	err := c.cc.Invoke(ctx, "/blog.ConfigRpc/UpdateConfig", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *configRpcClient) DeleteConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, "/blog.ConfigRpc/DeleteConfig", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *configRpcClient) FindConfig(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Config, error) {
-	out := new(Config)
+func (c *configRpcClient) FindConfig(ctx context.Context, in *FindConfigReq, opts ...grpc.CallOption) (*FindConfigResp, error) {
+	out := new(FindConfigResp)
 	err := c.cc.Invoke(ctx, "/blog.ConfigRpc/FindConfig", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -2302,10 +2282,8 @@ func (c *configRpcClient) FindConfig(ctx context.Context, in *IdReq, opts ...grp
 // All implementations must embed UnimplementedConfigRpcServer
 // for forward compatibility
 type ConfigRpcServer interface {
-	CreateConfig(context.Context, *Config) (*Config, error)
-	UpdateConfig(context.Context, *Config) (*Config, error)
-	DeleteConfig(context.Context, *IdReq) (*BatchResp, error)
-	FindConfig(context.Context, *IdReq) (*Config, error)
+	SaveConfig(context.Context, *SaveConfigReq) (*EmptyResp, error)
+	FindConfig(context.Context, *FindConfigReq) (*FindConfigResp, error)
 	mustEmbedUnimplementedConfigRpcServer()
 }
 
@@ -2313,16 +2291,10 @@ type ConfigRpcServer interface {
 type UnimplementedConfigRpcServer struct {
 }
 
-func (UnimplementedConfigRpcServer) CreateConfig(context.Context, *Config) (*Config, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateConfig not implemented")
+func (UnimplementedConfigRpcServer) SaveConfig(context.Context, *SaveConfigReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveConfig not implemented")
 }
-func (UnimplementedConfigRpcServer) UpdateConfig(context.Context, *Config) (*Config, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateConfig not implemented")
-}
-func (UnimplementedConfigRpcServer) DeleteConfig(context.Context, *IdReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteConfig not implemented")
-}
-func (UnimplementedConfigRpcServer) FindConfig(context.Context, *IdReq) (*Config, error) {
+func (UnimplementedConfigRpcServer) FindConfig(context.Context, *FindConfigReq) (*FindConfigResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindConfig not implemented")
 }
 func (UnimplementedConfigRpcServer) mustEmbedUnimplementedConfigRpcServer() {}
@@ -2338,62 +2310,26 @@ func RegisterConfigRpcServer(s grpc.ServiceRegistrar, srv ConfigRpcServer) {
 	s.RegisterService(&ConfigRpc_ServiceDesc, srv)
 }
 
-func _ConfigRpc_CreateConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Config)
+func _ConfigRpc_SaveConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveConfigReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ConfigRpcServer).CreateConfig(ctx, in)
+		return srv.(ConfigRpcServer).SaveConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/blog.ConfigRpc/CreateConfig",
+		FullMethod: "/blog.ConfigRpc/SaveConfig",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigRpcServer).CreateConfig(ctx, req.(*Config))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ConfigRpc_UpdateConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Config)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConfigRpcServer).UpdateConfig(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ConfigRpc/UpdateConfig",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigRpcServer).UpdateConfig(ctx, req.(*Config))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ConfigRpc_DeleteConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConfigRpcServer).DeleteConfig(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ConfigRpc/DeleteConfig",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigRpcServer).DeleteConfig(ctx, req.(*IdReq))
+		return srv.(ConfigRpcServer).SaveConfig(ctx, req.(*SaveConfigReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _ConfigRpc_FindConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
+	in := new(FindConfigReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -2405,7 +2341,7 @@ func _ConfigRpc_FindConfig_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/blog.ConfigRpc/FindConfig",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigRpcServer).FindConfig(ctx, req.(*IdReq))
+		return srv.(ConfigRpcServer).FindConfig(ctx, req.(*FindConfigReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2418,16 +2354,8 @@ var ConfigRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ConfigRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateConfig",
-			Handler:    _ConfigRpc_CreateConfig_Handler,
-		},
-		{
-			MethodName: "UpdateConfig",
-			Handler:    _ConfigRpc_UpdateConfig_Handler,
-		},
-		{
-			MethodName: "DeleteConfig",
-			Handler:    _ConfigRpc_DeleteConfig_Handler,
+			MethodName: "SaveConfig",
+			Handler:    _ConfigRpc_SaveConfig_Handler,
 		},
 		{
 			MethodName: "FindConfig",

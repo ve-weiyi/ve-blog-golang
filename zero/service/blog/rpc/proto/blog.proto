@@ -427,17 +427,21 @@ service ArticleRpc {
 }
 
 
-message Config {
+message FindConfigReq {
+  string config_key = 1;
+}
+
+message FindConfigResp {
+  string config_value = 1;
+}
+
+message SaveConfigReq {
   string config_key = 1;
   string config_value = 2;
 }
 
 service ConfigRpc {
-  rpc CreateConfig(Config) returns(Config);
+  rpc SaveConfig(SaveConfigReq) returns(EmptyResp);
 
-  rpc UpdateConfig(Config) returns(Config);
-
-  rpc DeleteConfig(IdReq) returns(BatchResp);
-
-  rpc FindConfig(IdReq) returns(Config);
+  rpc FindConfig(FindConfigReq) returns(FindConfigResp);
 }

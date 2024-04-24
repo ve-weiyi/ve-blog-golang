@@ -6,7 +6,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/apirpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/menurpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/userrpc"
@@ -21,6 +23,9 @@ type ServiceContext struct {
 	MenuRpc menurpc.MenuRpc
 	RoleRpc rolerpc.RoleRpc
 	UserRpc userrpc.UserRpc
+
+	ConfigRpc  configrpc.ConfigRpc
+	ArticleRpc articlerpc.ArticleRpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -32,5 +37,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		MenuRpc: menurpc.NewMenuRpc(zrpc.MustNewClient(c.MenuRpcConf)),
 		RoleRpc: rolerpc.NewRoleRpc(zrpc.MustNewClient(c.RoleRpcConf)),
 		UserRpc: userrpc.NewUserRpc(zrpc.MustNewClient(c.UserRpcConf)),
+
+		ConfigRpc:  configrpc.NewConfigRpc(zrpc.MustNewClient(c.ConfigRpcConf)),
+		ArticleRpc: articlerpc.NewArticleRpc(zrpc.MustNewClient(c.ArticleRpcConf)),
 	}
 }
