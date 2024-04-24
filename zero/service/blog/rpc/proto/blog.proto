@@ -22,9 +22,11 @@ message IdsReq {
 }
 
 message PageQuery {
-  PageLimit limit = 1;
-  repeated PageSort sorts = 2;// 排序
-  repeated PageCondition conditions = 3;// 使用条件语句查询
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+  string conditions = 4; // 条件
+  repeated string args = 5; // 参数
 }
 
 message PageLimit {
@@ -38,10 +40,10 @@ message PageSort {
 }
 
 message PageCondition {
-  string field = 1;
-  string value = 2;
-  string logic = 3;
-  string operator = 4;
+  string field = 1; // 字段
+  string value = 2; // 值
+  string logic = 3; // 逻辑 and or
+  string operator = 4; // 操作符 = > < >= <= != like
 }
 
 message PageResp {
@@ -52,6 +54,10 @@ message PageResp {
 
 message BatchResp {
   int64 success_count = 1;
+}
+
+message CountResp {
+  int64 count = 1;
 }
 
 /************** auth 登录相关 **************/
@@ -340,7 +346,7 @@ message User {
   repeated RoleLabel roles = 15;
 }
 
-message PageUserInfoResp{
+message UserInfoPageResp{
   int64 total = 1;
   repeated User list = 2;
 }
@@ -390,43 +396,10 @@ service UserRpc {
   // 修改用户角色
   rpc UpdateUserRole(UpdateUserRoleReq) returns(EmptyResp);
   // 查找用户列表
-  rpc FindUserList(PageQuery) returns(PageUserInfoResp);
+  rpc FindUserList(PageQuery) returns(UserInfoPageResp);
 }
 
 /************** blog 博客相关 **************/
-// article结构体
-message Article {
-  int64 id = 1;// id
-  int64 user_id = 2;// 作者
-  int64 category_id = 3;// 文章分类
-  string article_cover = 4;// 文章缩略图
-  string article_title = 5;// 标题
-  string article_content = 6;// 内容
-  int64 type = 7;// 文章类型 1原创 2转载 3翻译
-  string original_url = 8;// 原文链接
-  int64 is_top = 9;// 是否置顶 0否 1是
-  int64 is_delete = 10;// 是否删除  0否 1是
-  int64 status = 11;// 状态值 1公开 2私密 3评论可见
-  int64 created_at = 12;// 发表时间
-  int64 updated_at = 13;// 更新时间
-}
-
-// article服务
-service ArticleRpc {
-  rpc CreateArticle(Article) returns(Article);
-
-  rpc UpdateArticle(Article) returns(Article);
-
-  rpc DeleteArticle(IdReq) returns(BatchResp);
-
-  rpc FindArticle(IdReq) returns(Article);
-
-  rpc DeleteArticleList(IdsReq) returns(BatchResp);
-
-  rpc FindArticleList(PageQuery) returns(PageResp);
-}
-
-
 message FindConfigReq {
   string config_key = 1;
 }
@@ -444,4 +417,124 @@ service ConfigRpc {
   rpc SaveConfig(SaveConfigReq) returns(EmptyResp);
 
   rpc FindConfig(FindConfigReq) returns(FindConfigResp);
+}
+
+// article结构体
+message Article {
+  int64 id = 1;// id
+  int64 user_id = 2;// 作者
+  int64 category_id = 3;// 文章分类
+  string article_cover = 4;// 文章缩略图
+  string article_title = 5;// 标题
+  string article_content = 6;// 内容
+  int64 type = 7;// 文章类型 1原创 2转载 3翻译
+  string original_url = 8;// 原文链接
+  int64 is_top = 9;// 是否置顶 0否 1是
+  int64 is_delete = 10;// 是否删除  0否 1是
+  int64 status = 11;// 状态值 1公开 2私密 3评论可见
+  int64 created_at = 12;// 发表时间
+  int64 updated_at = 13;// 更新时间
+}
+
+message ArticlePageResp {
+  int64 total = 1;
+  repeated Article list = 2;
+}
+
+// article服务
+service ArticleRpc {
+  // 创建文章
+  rpc CreateArticle(Article) returns(Article);
+  // 更新文章
+  rpc UpdateArticle(Article) returns(Article);
+  // 删除文章
+  rpc DeleteArticle(IdReq) returns(BatchResp);
+  // 批量删除文章
+  rpc DeleteArticleList(IdsReq) returns(BatchResp);
+  // 查询文章
+  rpc FindArticle(IdReq) returns(Article);
+  // 分页获取文章列表
+  rpc FindArticleList(PageQuery) returns(ArticlePageResp);
+  // 查询文章数量
+  rpc FindArticleCount(PageQuery) returns(CountResp);
+}
+
+message Category {
+  int64 id = 1;// id
+  string category_name = 2;// 分类名
+  int64 created_at = 3;// 创建时间
+  int64 updated_at = 4;// 更新时间
+}
+
+message CategoryPageResp {
+  int64 total = 1;
+  repeated Category list = 2;
+}
+
+message FindCategoryByNameReq{
+  string category_name = 1;
+}
+
+// category服务
+service CategoryRpc {
+  // 创建文章分类
+  rpc CreateCategory(Category) returns(Category);
+  // 更新文章分类
+  rpc UpdateCategory(Category) returns(Category);
+  // 删除文章分类
+  rpc DeleteCategory(IdReq) returns(BatchResp);
+  // 批量删除文章分类
+  rpc DeleteCategoryList(IdsReq) returns(BatchResp);
+  // 查询文章分类
+  rpc FindCategory(IdReq) returns(Category);
+  // 分页获取文章分类列表
+  rpc FindCategoryList(PageQuery) returns(CategoryPageResp);
+  // 查询文章分类数量
+  rpc FindCategoryCount(PageQuery) returns(CountResp);
+  // 查询文章分类
+  //  rpc FindCategoryByName(FindCategoryByNameReq) returns(Category);
+}
+
+message Tag {
+  int64 id = 1;// id
+  string tag_name = 2;// 标签名
+  int64 created_at = 3;// 创建时间
+  int64 updated_at = 4;// 更新时间
+}
+
+message TagPageResp {
+  int64 total = 1;
+  repeated Tag list = 2;
+}
+
+message FindTagArticleCountReq{
+  int64 tag_id = 1;
+}
+
+message FindTagByNameReq{
+  string tag_name = 1;
+}
+
+// tag服务
+service TagRpc {
+  // 创建标签
+  rpc CreateTag(Tag) returns(Tag);
+  // 更新标签
+  rpc UpdateTag(Tag) returns(Tag);
+  // 删除标签
+  rpc DeleteTag(IdReq) returns(BatchResp);
+  // 批量删除标签
+  rpc DeleteTagList(IdsReq) returns(BatchResp);
+  // 查询标签
+  rpc FindTag(IdReq) returns(Tag);
+  // 分页获取标签列表
+  rpc FindTagList(PageQuery) returns(TagPageResp);
+  // 查询文章标签数量
+  rpc FindTagCount(PageQuery) returns(CountResp);
+  // 查询标签关联文章数量
+  rpc FindTagArticleCount(FindTagArticleCountReq) returns(CountResp);
+  // 查询文章标签列表
+  rpc FindTagListByArticleId(IdReq) returns(TagPageResp);
+  // 查询文章分类
+  //  rpc FindTagByName(FindTagByNameReq) returns(Tag);
 }

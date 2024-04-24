@@ -1535,7 +1535,7 @@ type UserRpcClient interface {
 	// 修改用户角色
 	UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 查找用户列表
-	FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageUserInfoResp, error)
+	FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*UserInfoPageResp, error)
 }
 
 type userRpcClient struct {
@@ -1636,8 +1636,8 @@ func (c *userRpcClient) UpdateUserRole(ctx context.Context, in *UpdateUserRoleRe
 	return out, nil
 }
 
-func (c *userRpcClient) FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageUserInfoResp, error) {
-	out := new(PageUserInfoResp)
+func (c *userRpcClient) FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*UserInfoPageResp, error) {
+	out := new(UserInfoPageResp)
 	err := c.cc.Invoke(ctx, "/blog.UserRpc/FindUserList", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1670,7 +1670,7 @@ type UserRpcServer interface {
 	// 修改用户角色
 	UpdateUserRole(context.Context, *UpdateUserRoleReq) (*EmptyResp, error)
 	// 查找用户列表
-	FindUserList(context.Context, *PageQuery) (*PageUserInfoResp, error)
+	FindUserList(context.Context, *PageQuery) (*UserInfoPageResp, error)
 	mustEmbedUnimplementedUserRpcServer()
 }
 
@@ -1708,7 +1708,7 @@ func (UnimplementedUserRpcServer) UpdateUserStatus(context.Context, *UpdateUserS
 func (UnimplementedUserRpcServer) UpdateUserRole(context.Context, *UpdateUserRoleReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserRole not implemented")
 }
-func (UnimplementedUserRpcServer) FindUserList(context.Context, *PageQuery) (*PageUserInfoResp, error) {
+func (UnimplementedUserRpcServer) FindUserList(context.Context, *PageQuery) (*UserInfoPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserList not implemented")
 }
 func (UnimplementedUserRpcServer) mustEmbedUnimplementedUserRpcServer() {}
@@ -1978,272 +1978,6 @@ var UserRpc_ServiceDesc = grpc.ServiceDesc{
 	Metadata: "blog.proto",
 }
 
-// ArticleRpcClient is the client API for ArticleRpc service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ArticleRpcClient interface {
-	CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
-	UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
-	DeleteArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-	FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error)
-	DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-	FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error)
-}
-
-type articleRpcClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewArticleRpcClient(cc grpc.ClientConnInterface) ArticleRpcClient {
-	return &articleRpcClient{cc}
-}
-
-func (c *articleRpcClient) CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
-	out := new(Article)
-	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/CreateArticle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
-	out := new(Article)
-	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/UpdateArticle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) DeleteArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/DeleteArticle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error) {
-	out := new(Article)
-	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticle", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/DeleteArticleList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *articleRpcClient) FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PageResp, error) {
-	out := new(PageResp)
-	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticleList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ArticleRpcServer is the server API for ArticleRpc service.
-// All implementations must embed UnimplementedArticleRpcServer
-// for forward compatibility
-type ArticleRpcServer interface {
-	CreateArticle(context.Context, *Article) (*Article, error)
-	UpdateArticle(context.Context, *Article) (*Article, error)
-	DeleteArticle(context.Context, *IdReq) (*BatchResp, error)
-	FindArticle(context.Context, *IdReq) (*Article, error)
-	DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error)
-	FindArticleList(context.Context, *PageQuery) (*PageResp, error)
-	mustEmbedUnimplementedArticleRpcServer()
-}
-
-// UnimplementedArticleRpcServer must be embedded to have forward compatible implementations.
-type UnimplementedArticleRpcServer struct {
-}
-
-func (UnimplementedArticleRpcServer) CreateArticle(context.Context, *Article) (*Article, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateArticle not implemented")
-}
-func (UnimplementedArticleRpcServer) UpdateArticle(context.Context, *Article) (*Article, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
-}
-func (UnimplementedArticleRpcServer) DeleteArticle(context.Context, *IdReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticle not implemented")
-}
-func (UnimplementedArticleRpcServer) FindArticle(context.Context, *IdReq) (*Article, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindArticle not implemented")
-}
-func (UnimplementedArticleRpcServer) DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticleList not implemented")
-}
-func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *PageQuery) (*PageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindArticleList not implemented")
-}
-func (UnimplementedArticleRpcServer) mustEmbedUnimplementedArticleRpcServer() {}
-
-// UnsafeArticleRpcServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ArticleRpcServer will
-// result in compilation errors.
-type UnsafeArticleRpcServer interface {
-	mustEmbedUnimplementedArticleRpcServer()
-}
-
-func RegisterArticleRpcServer(s grpc.ServiceRegistrar, srv ArticleRpcServer) {
-	s.RegisterService(&ArticleRpc_ServiceDesc, srv)
-}
-
-func _ArticleRpc_CreateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Article)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).CreateArticle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ArticleRpc/CreateArticle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).CreateArticle(ctx, req.(*Article))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_UpdateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Article)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).UpdateArticle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ArticleRpc/UpdateArticle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).UpdateArticle(ctx, req.(*Article))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_DeleteArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).DeleteArticle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ArticleRpc/DeleteArticle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).DeleteArticle(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_FindArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).FindArticle(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ArticleRpc/FindArticle",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).FindArticle(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_DeleteArticleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).DeleteArticleList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ArticleRpc/DeleteArticleList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).DeleteArticleList(ctx, req.(*IdsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ArticleRpc_FindArticleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArticleRpcServer).FindArticleList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/blog.ArticleRpc/FindArticleList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).FindArticleList(ctx, req.(*PageQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// ArticleRpc_ServiceDesc is the grpc.ServiceDesc for ArticleRpc service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.ArticleRpc",
-	HandlerType: (*ArticleRpcServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateArticle",
-			Handler:    _ArticleRpc_CreateArticle_Handler,
-		},
-		{
-			MethodName: "UpdateArticle",
-			Handler:    _ArticleRpc_UpdateArticle_Handler,
-		},
-		{
-			MethodName: "DeleteArticle",
-			Handler:    _ArticleRpc_DeleteArticle_Handler,
-		},
-		{
-			MethodName: "FindArticle",
-			Handler:    _ArticleRpc_FindArticle_Handler,
-		},
-		{
-			MethodName: "DeleteArticleList",
-			Handler:    _ArticleRpc_DeleteArticleList_Handler,
-		},
-		{
-			MethodName: "FindArticleList",
-			Handler:    _ArticleRpc_FindArticleList_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "blog.proto",
-}
-
 // ConfigRpcClient is the client API for ConfigRpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
@@ -2360,6 +2094,1030 @@ var ConfigRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindConfig",
 			Handler:    _ConfigRpc_FindConfig_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+// ArticleRpcClient is the client API for ArticleRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ArticleRpcClient interface {
+	// 创建文章
+	CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
+	// 更新文章
+	UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
+	// 删除文章
+	DeleteArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除文章
+	DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询文章
+	FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error)
+	// 分页获取文章列表
+	FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error)
+	// 查询文章数量
+	FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+}
+
+type articleRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewArticleRpcClient(cc grpc.ClientConnInterface) ArticleRpcClient {
+	return &articleRpcClient{cc}
+}
+
+func (c *articleRpcClient) CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
+	out := new(Article)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/CreateArticle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
+	out := new(Article)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/UpdateArticle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) DeleteArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/DeleteArticle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/DeleteArticleList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error) {
+	out := new(Article)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticle", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error) {
+	out := new(ArticlePageResp)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticleList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticleCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ArticleRpcServer is the server API for ArticleRpc service.
+// All implementations must embed UnimplementedArticleRpcServer
+// for forward compatibility
+type ArticleRpcServer interface {
+	// 创建文章
+	CreateArticle(context.Context, *Article) (*Article, error)
+	// 更新文章
+	UpdateArticle(context.Context, *Article) (*Article, error)
+	// 删除文章
+	DeleteArticle(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除文章
+	DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询文章
+	FindArticle(context.Context, *IdReq) (*Article, error)
+	// 分页获取文章列表
+	FindArticleList(context.Context, *PageQuery) (*ArticlePageResp, error)
+	// 查询文章数量
+	FindArticleCount(context.Context, *PageQuery) (*CountResp, error)
+	mustEmbedUnimplementedArticleRpcServer()
+}
+
+// UnimplementedArticleRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedArticleRpcServer struct {
+}
+
+func (UnimplementedArticleRpcServer) CreateArticle(context.Context, *Article) (*Article, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateArticle not implemented")
+}
+func (UnimplementedArticleRpcServer) UpdateArticle(context.Context, *Article) (*Article, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
+}
+func (UnimplementedArticleRpcServer) DeleteArticle(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticle not implemented")
+}
+func (UnimplementedArticleRpcServer) DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticleList not implemented")
+}
+func (UnimplementedArticleRpcServer) FindArticle(context.Context, *IdReq) (*Article, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindArticle not implemented")
+}
+func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *PageQuery) (*ArticlePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindArticleList not implemented")
+}
+func (UnimplementedArticleRpcServer) FindArticleCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindArticleCount not implemented")
+}
+func (UnimplementedArticleRpcServer) mustEmbedUnimplementedArticleRpcServer() {}
+
+// UnsafeArticleRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ArticleRpcServer will
+// result in compilation errors.
+type UnsafeArticleRpcServer interface {
+	mustEmbedUnimplementedArticleRpcServer()
+}
+
+func RegisterArticleRpcServer(s grpc.ServiceRegistrar, srv ArticleRpcServer) {
+	s.RegisterService(&ArticleRpc_ServiceDesc, srv)
+}
+
+func _ArticleRpc_CreateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Article)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).CreateArticle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/CreateArticle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).CreateArticle(ctx, req.(*Article))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_UpdateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Article)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).UpdateArticle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/UpdateArticle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).UpdateArticle(ctx, req.(*Article))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_DeleteArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).DeleteArticle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/DeleteArticle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).DeleteArticle(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_DeleteArticleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).DeleteArticleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/DeleteArticleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).DeleteArticleList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_FindArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindArticle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/FindArticle",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindArticle(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_FindArticleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindArticleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/FindArticleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindArticleList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_FindArticleCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindArticleCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/FindArticleCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindArticleCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ArticleRpc_ServiceDesc is the grpc.ServiceDesc for ArticleRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.ArticleRpc",
+	HandlerType: (*ArticleRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateArticle",
+			Handler:    _ArticleRpc_CreateArticle_Handler,
+		},
+		{
+			MethodName: "UpdateArticle",
+			Handler:    _ArticleRpc_UpdateArticle_Handler,
+		},
+		{
+			MethodName: "DeleteArticle",
+			Handler:    _ArticleRpc_DeleteArticle_Handler,
+		},
+		{
+			MethodName: "DeleteArticleList",
+			Handler:    _ArticleRpc_DeleteArticleList_Handler,
+		},
+		{
+			MethodName: "FindArticle",
+			Handler:    _ArticleRpc_FindArticle_Handler,
+		},
+		{
+			MethodName: "FindArticleList",
+			Handler:    _ArticleRpc_FindArticleList_Handler,
+		},
+		{
+			MethodName: "FindArticleCount",
+			Handler:    _ArticleRpc_FindArticleCount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+// CategoryRpcClient is the client API for CategoryRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CategoryRpcClient interface {
+	// 创建文章分类
+	CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
+	// 更新文章分类
+	UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
+	// 删除文章分类
+	DeleteCategory(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除文章分类
+	DeleteCategoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询文章分类
+	FindCategory(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Category, error)
+	// 分页获取文章分类列表
+	FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error)
+	// 查询文章分类数量
+	FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+}
+
+type categoryRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCategoryRpcClient(cc grpc.ClientConnInterface) CategoryRpcClient {
+	return &categoryRpcClient{cc}
+}
+
+func (c *categoryRpcClient) CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/CreateCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryRpcClient) UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/UpdateCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryRpcClient) DeleteCategory(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/DeleteCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryRpcClient) DeleteCategoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/DeleteCategoryList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryRpcClient) FindCategory(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Category, error) {
+	out := new(Category)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/FindCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryRpcClient) FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error) {
+	out := new(CategoryPageResp)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/FindCategoryList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryRpcClient) FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.CategoryRpc/FindCategoryCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CategoryRpcServer is the server API for CategoryRpc service.
+// All implementations must embed UnimplementedCategoryRpcServer
+// for forward compatibility
+type CategoryRpcServer interface {
+	// 创建文章分类
+	CreateCategory(context.Context, *Category) (*Category, error)
+	// 更新文章分类
+	UpdateCategory(context.Context, *Category) (*Category, error)
+	// 删除文章分类
+	DeleteCategory(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除文章分类
+	DeleteCategoryList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询文章分类
+	FindCategory(context.Context, *IdReq) (*Category, error)
+	// 分页获取文章分类列表
+	FindCategoryList(context.Context, *PageQuery) (*CategoryPageResp, error)
+	// 查询文章分类数量
+	FindCategoryCount(context.Context, *PageQuery) (*CountResp, error)
+	mustEmbedUnimplementedCategoryRpcServer()
+}
+
+// UnimplementedCategoryRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedCategoryRpcServer struct {
+}
+
+func (UnimplementedCategoryRpcServer) CreateCategory(context.Context, *Category) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCategory not implemented")
+}
+func (UnimplementedCategoryRpcServer) UpdateCategory(context.Context, *Category) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
+}
+func (UnimplementedCategoryRpcServer) DeleteCategory(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
+}
+func (UnimplementedCategoryRpcServer) DeleteCategoryList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategoryList not implemented")
+}
+func (UnimplementedCategoryRpcServer) FindCategory(context.Context, *IdReq) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCategory not implemented")
+}
+func (UnimplementedCategoryRpcServer) FindCategoryList(context.Context, *PageQuery) (*CategoryPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCategoryList not implemented")
+}
+func (UnimplementedCategoryRpcServer) FindCategoryCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCategoryCount not implemented")
+}
+func (UnimplementedCategoryRpcServer) mustEmbedUnimplementedCategoryRpcServer() {}
+
+// UnsafeCategoryRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CategoryRpcServer will
+// result in compilation errors.
+type UnsafeCategoryRpcServer interface {
+	mustEmbedUnimplementedCategoryRpcServer()
+}
+
+func RegisterCategoryRpcServer(s grpc.ServiceRegistrar, srv CategoryRpcServer) {
+	s.RegisterService(&CategoryRpc_ServiceDesc, srv)
+}
+
+func _CategoryRpc_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Category)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).CreateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/CreateCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).CreateCategory(ctx, req.(*Category))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryRpc_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Category)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).UpdateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/UpdateCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).UpdateCategory(ctx, req.(*Category))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryRpc_DeleteCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).DeleteCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/DeleteCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).DeleteCategory(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryRpc_DeleteCategoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).DeleteCategoryList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/DeleteCategoryList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).DeleteCategoryList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryRpc_FindCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).FindCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/FindCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).FindCategory(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryRpc_FindCategoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).FindCategoryList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/FindCategoryList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).FindCategoryList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryRpc_FindCategoryCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).FindCategoryCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.CategoryRpc/FindCategoryCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).FindCategoryCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CategoryRpc_ServiceDesc is the grpc.ServiceDesc for CategoryRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CategoryRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.CategoryRpc",
+	HandlerType: (*CategoryRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateCategory",
+			Handler:    _CategoryRpc_CreateCategory_Handler,
+		},
+		{
+			MethodName: "UpdateCategory",
+			Handler:    _CategoryRpc_UpdateCategory_Handler,
+		},
+		{
+			MethodName: "DeleteCategory",
+			Handler:    _CategoryRpc_DeleteCategory_Handler,
+		},
+		{
+			MethodName: "DeleteCategoryList",
+			Handler:    _CategoryRpc_DeleteCategoryList_Handler,
+		},
+		{
+			MethodName: "FindCategory",
+			Handler:    _CategoryRpc_FindCategory_Handler,
+		},
+		{
+			MethodName: "FindCategoryList",
+			Handler:    _CategoryRpc_FindCategoryList_Handler,
+		},
+		{
+			MethodName: "FindCategoryCount",
+			Handler:    _CategoryRpc_FindCategoryCount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+// TagRpcClient is the client API for TagRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TagRpcClient interface {
+	// 创建标签
+	CreateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
+	// 更新标签
+	UpdateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
+	// 删除标签
+	DeleteTag(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除标签
+	DeleteTagList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询标签
+	FindTag(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Tag, error)
+	// 分页获取标签列表
+	FindTagList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TagPageResp, error)
+	// 查询文章标签数量
+	FindTagCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+	// 查询标签关联文章数量
+	FindTagArticleCount(ctx context.Context, in *FindTagArticleCountReq, opts ...grpc.CallOption) (*CountResp, error)
+	// 查询文章标签列表
+	FindTagListByArticleId(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TagPageResp, error)
+}
+
+type tagRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTagRpcClient(cc grpc.ClientConnInterface) TagRpcClient {
+	return &tagRpcClient{cc}
+}
+
+func (c *tagRpcClient) CreateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error) {
+	out := new(Tag)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/CreateTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) UpdateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error) {
+	out := new(Tag)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/UpdateTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) DeleteTag(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/DeleteTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) DeleteTagList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/DeleteTagList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) FindTag(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Tag, error) {
+	out := new(Tag)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/FindTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) FindTagList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TagPageResp, error) {
+	out := new(TagPageResp)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/FindTagList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) FindTagCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/FindTagCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) FindTagArticleCount(ctx context.Context, in *FindTagArticleCountReq, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/FindTagArticleCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tagRpcClient) FindTagListByArticleId(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TagPageResp, error) {
+	out := new(TagPageResp)
+	err := c.cc.Invoke(ctx, "/blog.TagRpc/FindTagListByArticleId", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TagRpcServer is the server API for TagRpc service.
+// All implementations must embed UnimplementedTagRpcServer
+// for forward compatibility
+type TagRpcServer interface {
+	// 创建标签
+	CreateTag(context.Context, *Tag) (*Tag, error)
+	// 更新标签
+	UpdateTag(context.Context, *Tag) (*Tag, error)
+	// 删除标签
+	DeleteTag(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除标签
+	DeleteTagList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询标签
+	FindTag(context.Context, *IdReq) (*Tag, error)
+	// 分页获取标签列表
+	FindTagList(context.Context, *PageQuery) (*TagPageResp, error)
+	// 查询文章标签数量
+	FindTagCount(context.Context, *PageQuery) (*CountResp, error)
+	// 查询标签关联文章数量
+	FindTagArticleCount(context.Context, *FindTagArticleCountReq) (*CountResp, error)
+	// 查询文章标签列表
+	FindTagListByArticleId(context.Context, *IdReq) (*TagPageResp, error)
+	mustEmbedUnimplementedTagRpcServer()
+}
+
+// UnimplementedTagRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedTagRpcServer struct {
+}
+
+func (UnimplementedTagRpcServer) CreateTag(context.Context, *Tag) (*Tag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTag not implemented")
+}
+func (UnimplementedTagRpcServer) UpdateTag(context.Context, *Tag) (*Tag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTag not implemented")
+}
+func (UnimplementedTagRpcServer) DeleteTag(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTag not implemented")
+}
+func (UnimplementedTagRpcServer) DeleteTagList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTagList not implemented")
+}
+func (UnimplementedTagRpcServer) FindTag(context.Context, *IdReq) (*Tag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTag not implemented")
+}
+func (UnimplementedTagRpcServer) FindTagList(context.Context, *PageQuery) (*TagPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTagList not implemented")
+}
+func (UnimplementedTagRpcServer) FindTagCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTagCount not implemented")
+}
+func (UnimplementedTagRpcServer) FindTagArticleCount(context.Context, *FindTagArticleCountReq) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTagArticleCount not implemented")
+}
+func (UnimplementedTagRpcServer) FindTagListByArticleId(context.Context, *IdReq) (*TagPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTagListByArticleId not implemented")
+}
+func (UnimplementedTagRpcServer) mustEmbedUnimplementedTagRpcServer() {}
+
+// UnsafeTagRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TagRpcServer will
+// result in compilation errors.
+type UnsafeTagRpcServer interface {
+	mustEmbedUnimplementedTagRpcServer()
+}
+
+func RegisterTagRpcServer(s grpc.ServiceRegistrar, srv TagRpcServer) {
+	s.RegisterService(&TagRpc_ServiceDesc, srv)
+}
+
+func _TagRpc_CreateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Tag)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).CreateTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/CreateTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).CreateTag(ctx, req.(*Tag))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_UpdateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Tag)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).UpdateTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/UpdateTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).UpdateTag(ctx, req.(*Tag))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_DeleteTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).DeleteTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/DeleteTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).DeleteTag(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_DeleteTagList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).DeleteTagList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/DeleteTagList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).DeleteTagList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_FindTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).FindTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/FindTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).FindTag(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_FindTagList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).FindTagList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/FindTagList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).FindTagList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_FindTagCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).FindTagCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/FindTagCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).FindTagCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_FindTagArticleCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindTagArticleCountReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).FindTagArticleCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/FindTagArticleCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).FindTagArticleCount(ctx, req.(*FindTagArticleCountReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TagRpc_FindTagListByArticleId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TagRpcServer).FindTagListByArticleId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.TagRpc/FindTagListByArticleId",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TagRpcServer).FindTagListByArticleId(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TagRpc_ServiceDesc is the grpc.ServiceDesc for TagRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TagRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.TagRpc",
+	HandlerType: (*TagRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTag",
+			Handler:    _TagRpc_CreateTag_Handler,
+		},
+		{
+			MethodName: "UpdateTag",
+			Handler:    _TagRpc_UpdateTag_Handler,
+		},
+		{
+			MethodName: "DeleteTag",
+			Handler:    _TagRpc_DeleteTag_Handler,
+		},
+		{
+			MethodName: "DeleteTagList",
+			Handler:    _TagRpc_DeleteTagList_Handler,
+		},
+		{
+			MethodName: "FindTag",
+			Handler:    _TagRpc_FindTag_Handler,
+		},
+		{
+			MethodName: "FindTagList",
+			Handler:    _TagRpc_FindTagList_Handler,
+		},
+		{
+			MethodName: "FindTagCount",
+			Handler:    _TagRpc_FindTagCount_Handler,
+		},
+		{
+			MethodName: "FindTagArticleCount",
+			Handler:    _TagRpc_FindTagArticleCount_Handler,
+		},
+		{
+			MethodName: "FindTagListByArticleId",
+			Handler:    _TagRpc_FindTagListByArticleId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

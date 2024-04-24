@@ -27,10 +27,12 @@ func NewDeleteApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 func (l *DeleteApiListLogic) DeleteApiList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
-	_, err = l.svcCtx.ApiRpc.DeleteApiList(l.ctx, in)
+	out, err := l.svcCtx.ApiRpc.DeleteApiList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.BatchResp{}, nil
+	return &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }

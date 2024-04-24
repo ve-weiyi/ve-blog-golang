@@ -42,9 +42,115 @@ type ApiDetails struct {
 	Children  []*ApiDetails `json:"children,optional"`
 }
 
+type Article struct {
+	Id             int64  `json:"id,optional"`              // id
+	UserId         int64  `json:"user_id,optional"`         // 作者
+	CategoryId     int64  `json:"category_id,optional"`     // 文章分类
+	ArticleCover   string `json:"article_cover,optional"`   // 文章缩略图
+	ArticleTitle   string `json:"article_title,optional"`   // 标题
+	ArticleContent string `json:"article_content,optional"` // 内容
+	Type           int64  `json:"type,optional"`            // 文章类型 1原创 2转载 3翻译
+	OriginalUrl    string `json:"original_url,optional"`    // 原文链接
+	IsTop          int64  `json:"is_top,optional"`          // 是否置顶 0否 1是
+	IsDelete       int64  `json:"is_delete,optional"`       // 是否删除  0否 1是
+	Status         int64  `json:"status,optional"`          // 状态值 1公开 2私密 3评论可见
+	CreatedAt      int64  `json:"created_at,optional"`      // 发表时间
+	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
+}
+
+type ArticleClassifyCategoryReq struct {
+	CategoryId int64 `json:"category_id,optional"` // 文章分类ID
+}
+
+type ArticleClassifyResp struct {
+	ArticleList   []*ArticleHome `json:"article_list,optional"`   // 文章列表
+	ConditionName string         `json:"condition_name,optional"` // 条件名
+}
+
+type ArticleClassifyTagReq struct {
+	TagId int64 `json:"tag_id,optional"` // 文章标签ID
+}
+
+type ArticleDeleteReq struct {
+	Id       int64 `json:"id,optional"`        // 文章ID
+	IsDelete int64 `json:"is_delete,optional"` // 是否删除
+}
+
+type ArticleDetailsReq struct {
+	Id             int64    `json:"id,optional"`              // id
+	UserId         int64    `json:"user_id,optional"`         // 作者
+	CategoryId     int64    `json:"category_id,optional"`     // 文章分类
+	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
+	ArticleTitle   string   `json:"article_title,optional"`   // 标题
+	ArticleContent string   `json:"article_content,optional"` // 内容
+	Type           int64    `json:"type,optional"`            // 文章类型 1原创 2转载 3翻译
+	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
+	IsTop          int64    `json:"is_top,optional"`          // 是否置顶 0否 1是
+	IsDelete       int64    `json:"is_delete,optional"`       // 是否删除  0否 1是
+	Status         int64    `json:"status,optional"`          // 状态值 1公开 2私密 3评论可见
+	CreatedAt      int64    `json:"created_at,optional"`      // 发表时间
+	UpdatedAt      int64    `json:"updated_at,optional"`      // 更新时间
+	CategoryName   string   `json:"category_name,optional"`   // 文章分类名
+	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
+}
+
+type ArticleDetailsResp struct {
+	Id             int64    `json:"id,optional"`              // 文章ID
+	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
+	ArticleTitle   string   `json:"article_title,optional"`   // 标题
+	ArticleContent string   `json:"article_content,optional"` // 内容
+	Type           int64    `json:"type,optional"`            // 文章类型
+	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
+	IsTop          int64    `json:"is_top,optional"`          // 是否置顶
+	Status         int64    `json:"status,optional"`          // 状态值 1 公开 2 私密 3 评论可见
+	CreatedAt      int64    `json:"created_at,optional"`      // 发表时间
+	UpdatedAt      int64    `json:"updated_at,optional"`      // 更新时间
+	CategoryName   string   `json:"category_name,optional"`   // 文章分类名
+	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
+	LikeCount      int64    `json:"like_count,optional"`      // 点赞量
+	ViewsCount     int64    `json:"views_count,optional"`     // 浏览量
+}
+
+type ArticleHome struct {
+	Id              int64    `json:"id,optional"`               // 文章ID
+	ArticleCover    string   `json:"article_cover,optional"`    // 文章缩略图
+	ArticleTitle    string   `json:"article_title,optional"`    // 标题
+	ArticleContent  string   `json:"article_content,optional"`  // 内容
+	Type            int64    `json:"type,optional"`             // 文章类型
+	OriginalUrl     string   `json:"original_url,optional"`     // 原文链接
+	IsTop           int64    `json:"is_top,optional"`           // 是否置顶
+	Status          int64    `json:"status,optional"`           // 状态值 1 公开 2 私密 3 评论可见
+	CreatedAt       int64    `json:"created_at,optional"`       // 发表时间
+	UpdatedAt       int64    `json:"updated_at,optional"`       // 更新时间
+	LikeCount       int64    `json:"like_count,optional"`       // 点赞量
+	ViewsCount      int64    `json:"views_count,optional"`      // 浏览量
+	ArticleCategory string   `json:"article_category,optional"` // 文章分类
+	ArticleTagList  []string `json:"article_tag_list,optional"` // 文章标签列表
+}
+
+type ArticlePreviewDTO struct {
+	Id           int64  `json:"id,optional"`            // 文章ID
+	ArticleCover string `json:"article_cover,optional"` // 文章缩略图
+	ArticleTitle string `json:"article_title,optional"` // 标题
+	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
+}
+
+type ArticleRecommendResp struct {
+	Article
+	LastArticle          *ArticlePreviewDTO   `json:"last_article,optional"`           // 上一篇文章
+	NextArticle          *ArticlePreviewDTO   `json:"next_article,optional"`           // 下一篇文章
+	RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list,optional"` // 推荐文章列表
+	NewestArticleList    []*ArticlePreviewDTO `json:"newest_article_list,optional"`    // 最新文章列表
+}
+
 type ArticleStatisticsDTO struct {
 	Day   string `json:"day,optional"`   // 日期
 	Count int64  `json:"count,optional"` // 数量
+}
+
+type ArticleTopReq struct {
+	Id    int64 `json:"id,optional"`     // 文章ID
+	IsTop int64 `json:"is_top,optional"` // 是否置顶
 }
 
 type ArticleViewRankDTO struct {
@@ -66,9 +172,24 @@ type BlogHomeInfo struct {
 	PageList      []*PageDTO    `json:"page_list,optional"`      // 页面列表
 }
 
+type Category struct {
+	Id           int64  `json:"id,optional"`            // id
+	CategoryName string `json:"category_name,optional"` // 分类名
+	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
+	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
+}
+
 type CategoryDTO struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name,optional"` // 分类名
+}
+
+type CategoryDetails struct {
+	Id           int64  `json:"id,optional"`
+	CategoryName string `json:"category_name,optional"` // 分类名
+	ArticleCount int64  `json:"article_count,optional"`
+	CreatedAt    int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt    int64  `json:"updated_at,optional"` // 更新时间
 }
 
 type EmptyReq struct {
@@ -149,10 +270,10 @@ type OauthLoginUrl struct {
 }
 
 type PageCondition struct {
-	Field    string      `json:"field,optional"`    // 字段
-	Value    interface{} `json:"value,optional"`    // 值
-	Logic    string      `json:"logic,optional"`    // and | or
-	Operator string      `json:"operator,optional"` // = | >= | < | in | not in |....
+	Field    string `json:"field,optional"`    // 字段
+	Value    string `json:"value,optional"`    // 值
+	Logic    string `json:"logic,optional"`    // and | or
+	Operator string `json:"operator,optional"` // = | >= | < | in | not in |....
 }
 
 type PageDTO struct {
@@ -168,9 +289,9 @@ type PageLimit struct {
 }
 
 type PageQuery struct {
-	Limit      PageLimit       `json:"limit,optional"`
-	Sorts      []PageSort      `json:"sorts,optional"`
-	Conditions []PageCondition `json:"conditions,optional"`
+	PageLimit
+	Sorts      []*PageSort      `json:"sorts,optional"`
+	Conditions []*PageCondition `json:"conditions,optional"`
 }
 
 type PageResp struct {
@@ -271,9 +392,24 @@ type SyncMenuRequest struct {
 	Menus []RouteConfigsTable `json:"menus,optional"`
 }
 
+type Tag struct {
+	Id        int64  `json:"id,optional"`         // id
+	TagName   string `json:"tag_name,optional"`   // 标签名
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+}
+
 type TagDTO struct {
 	Id      int64  `json:"id,optional"`       // 标签ID
 	TagName string `json:"tag_name,optional"` // 标签名
+}
+
+type TagDetails struct {
+	Id           int64  `json:"id,optional"`            // 标签ID
+	TagName      string `json:"tag_name,optional"`      // 标签名
+	ArticleCount int64  `json:"article_count,optional"` // 文章数量
+	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
+	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
 }
 
 type Token struct {

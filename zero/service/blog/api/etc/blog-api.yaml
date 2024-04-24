@@ -28,3 +28,9 @@ ConfigRpcConf:
 ArticleRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+CategoryRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
+TagRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080

@@ -34,6 +34,9 @@ type ServiceContext struct {
 	// blog models
 	WebsiteConfigModel model.WebsiteConfigModel
 	ArticleModel       model.ArticleModel
+	CategoryModel      model.CategoryModel
+	TagModel           model.TagModel
+	ArticleTagModel    model.ArticleTagModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -62,6 +65,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		// blog models
 		WebsiteConfigModel: model.NewWebsiteConfigModel(db, rds),
 		ArticleModel:       model.NewArticleModel(db, rds),
+		CategoryModel:      model.NewCategoryModel(db, rds),
+		TagModel:           model.NewTagModel(db, rds),
+		ArticleTagModel:    model.NewArticleTagModel(db, rds),
 	}
 }
 

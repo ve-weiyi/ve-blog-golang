@@ -6,10 +6,13 @@ import (
 
 	account "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/account"
 	api "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/api"
+	article "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/auth"
+	category "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/category"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
+	mine "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/mine"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/role"
-	user "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/user"
+	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/tag"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 
@@ -122,6 +125,84 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 删除文章-物理删除
+				Method:  http.MethodPost,
+				Path:    "/admin/article/delete_article",
+				Handler: article.DeleteArticleHandler(serverCtx),
+			},
+			{
+				// 查询文章
+				Method:  http.MethodPost,
+				Path:    "/admin/article/find_article",
+				Handler: article.FindArticleHandler(serverCtx),
+			},
+			{
+				// 分页获取文章列表
+				Method:  http.MethodPost,
+				Path:    "/admin/article/find_article_list",
+				Handler: article.FindArticleListHandler(serverCtx),
+			},
+			{
+				// 删除文章-逻辑删除
+				Method:  http.MethodPost,
+				Path:    "/admin/article/pre_delete_article",
+				Handler: article.PreDeleteArticleHandler(serverCtx),
+			},
+			{
+				// 保存文章
+				Method:  http.MethodPost,
+				Path:    "/admin/article/save_article",
+				Handler: article.SaveArticleHandler(serverCtx),
+			},
+			{
+				// 置顶文章
+				Method:  http.MethodPost,
+				Path:    "/admin/article/top_article",
+				Handler: article.TopArticleHandler(serverCtx),
+			},
+			{
+				// 文章归档(时间轴)
+				Method:  http.MethodPost,
+				Path:    "/article/article_archives",
+				Handler: article.FindArticleArchivesHandler(serverCtx),
+			},
+			{
+				// 通过标签或者id获取文章列表
+				Method:  http.MethodPost,
+				Path:    "/article/article_classify_category",
+				Handler: article.FindArticleClassifyCategoryHandler(serverCtx),
+			},
+			{
+				// 通过标签或者id获取文章列表
+				Method:  http.MethodPost,
+				Path:    "/article/article_classify_tag",
+				Handler: article.FindArticleClassifyTagHandler(serverCtx),
+			},
+			{
+				// 分页获取文章列表
+				Method:  http.MethodPost,
+				Path:    "/article/find_article_home_list",
+				Handler: article.FindArticleHomeListHandler(serverCtx),
+			},
+			{
+				// 文章相关推荐
+				Method:  http.MethodPost,
+				Path:    "/article/find_article_recommend",
+				Handler: article.FindArticleRecommendHandler(serverCtx),
+			},
+			{
+				// 点赞文章
+				Method:  http.MethodPost,
+				Path:    "/article/like_article",
+				Handler: article.LikeArticleHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				// 发送忘记密码邮件
 				Method:  http.MethodPost,
 				Path:    "/forget/email",
@@ -182,6 +263,48 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 创建文章分类
+				Method:  http.MethodPost,
+				Path:    "/category/create_category",
+				Handler: category.CreateCategoryHandler(serverCtx),
+			},
+			{
+				// 删除文章分类
+				Method:  http.MethodDelete,
+				Path:    "/category/delete_category",
+				Handler: category.DeleteCategoryHandler(serverCtx),
+			},
+			{
+				// 批量删除文章分类
+				Method:  http.MethodDelete,
+				Path:    "/category/delete_category_list",
+				Handler: category.DeleteCategoryListHandler(serverCtx),
+			},
+			{
+				// 查询文章分类
+				Method:  http.MethodPost,
+				Path:    "/category/find_category",
+				Handler: category.FindCategoryHandler(serverCtx),
+			},
+			{
+				// 分页获取文章分类列表
+				Method:  http.MethodPost,
+				Path:    "/category/find_category_list",
+				Handler: category.FindCategoryListHandler(serverCtx),
+			},
+			{
+				// 更新文章分类
+				Method:  http.MethodPut,
+				Path:    "/category/update_category",
+				Handler: category.UpdateCategoryHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				// 清空菜单列表
 				Method:  http.MethodPost,
 				Path:    "/menu/clean_menu_list",
@@ -228,6 +351,60 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/menu/update_menu",
 				Handler: menu.UpdateMenuHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 获取用户接口权限
+				Method:  http.MethodGet,
+				Path:    "/user/apis",
+				Handler: mine.GetUserApisHandler(serverCtx),
+			},
+			{
+				// 更换用户头像
+				Method:  http.MethodPost,
+				Path:    "/user/avatar",
+				Handler: mine.UpdateUserAvatarHandler(serverCtx),
+			},
+			{
+				// 批量删除登录历史
+				Method:  http.MethodDelete,
+				Path:    "/user/delete_login_history_list",
+				Handler: mine.DeleteUserLoginHistoryListHandler(serverCtx),
+			},
+			{
+				// 获取用户信息
+				Method:  http.MethodGet,
+				Path:    "/user/info",
+				Handler: mine.GetUserInfoHandler(serverCtx),
+			},
+			{
+				// 修改用户信息
+				Method:  http.MethodPost,
+				Path:    "/user/info",
+				Handler: mine.UpdateUserInfoHandler(serverCtx),
+			},
+			{
+				// 查询用户登录历史
+				Method:  http.MethodPost,
+				Path:    "/user/login_history",
+				Handler: mine.FindUserLoginHistoryListHandler(serverCtx),
+			},
+			{
+				// 获取用户菜单权限
+				Method:  http.MethodGet,
+				Path:    "/user/menus",
+				Handler: mine.GetUserMenusHandler(serverCtx),
+			},
+			{
+				// 获取用户角色
+				Method:  http.MethodGet,
+				Path:    "/user/roles",
+				Handler: mine.GetUserRoleHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -296,52 +473,40 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 获取用户接口权限
-				Method:  http.MethodGet,
-				Path:    "/user/apis",
-				Handler: user.GetUserApisHandler(serverCtx),
-			},
-			{
-				// 更换用户头像
+				// 创建标签
 				Method:  http.MethodPost,
-				Path:    "/user/avatar",
-				Handler: user.UpdateUserAvatarHandler(serverCtx),
+				Path:    "/tag/create_tag",
+				Handler: tag.CreateTagHandler(serverCtx),
 			},
 			{
-				// 批量删除登录历史
+				// 删除标签
 				Method:  http.MethodDelete,
-				Path:    "/user/delete_login_history_list",
-				Handler: user.DeleteUserLoginHistoryListHandler(serverCtx),
+				Path:    "/tag/delete_tag",
+				Handler: tag.DeleteTagHandler(serverCtx),
 			},
 			{
-				// 获取用户信息
-				Method:  http.MethodGet,
-				Path:    "/user/info",
-				Handler: user.GetUserInfoHandler(serverCtx),
+				// 批量删除标签
+				Method:  http.MethodDelete,
+				Path:    "/tag/delete_tag_list",
+				Handler: tag.DeleteTagListHandler(serverCtx),
 			},
 			{
-				// 修改用户信息
+				// 查询标签
 				Method:  http.MethodPost,
-				Path:    "/user/info",
-				Handler: user.UpdateUserInfoHandler(serverCtx),
+				Path:    "/tag/find_tag",
+				Handler: tag.FindTagHandler(serverCtx),
 			},
 			{
-				// 查询用户登录历史
+				// 分页获取标签列表
 				Method:  http.MethodPost,
-				Path:    "/user/login_history",
-				Handler: user.FindUserLoginHistoryListHandler(serverCtx),
+				Path:    "/tag/find_tag_list",
+				Handler: tag.FindTagListHandler(serverCtx),
 			},
 			{
-				// 获取用户菜单权限
-				Method:  http.MethodGet,
-				Path:    "/user/menus",
-				Handler: user.GetUserMenusHandler(serverCtx),
-			},
-			{
-				// 获取用户角色
-				Method:  http.MethodGet,
-				Path:    "/user/roles",
-				Handler: user.GetUserRoleHandler(serverCtx),
+				// 更新标签
+				Method:  http.MethodPut,
+				Path:    "/tag/update_tag",
+				Handler: tag.UpdateTagHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

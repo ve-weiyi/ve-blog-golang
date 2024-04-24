@@ -3,6 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -24,7 +25,10 @@ func NewFindArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 }
 
 func (l *FindArticleLogic) FindArticle(in *blog.IdReq) (*blog.Article, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &blog.Article{}, nil
+	return convert.ConvertArticleModelToPb(result), nil
 }

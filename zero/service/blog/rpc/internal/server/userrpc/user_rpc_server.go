@@ -83,7 +83,7 @@ func (s *UserRpcServer) UpdateUserRole(ctx context.Context, in *blog.UpdateUserR
 }
 
 // 查找用户列表
-func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.PageQuery) (*blog.PageUserInfoResp, error) {
+func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.PageQuery) (*blog.UserInfoPageResp, error) {
 	l := userrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
 	return l.FindUserList(in)
 }

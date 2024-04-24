@@ -26,7 +26,7 @@ func NewFindApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindApiLo
 
 // 查询接口
 func (l *FindApiLogic) FindApi(in *blog.IdReq) (*blog.Api, error) {
-	result, err := l.svcCtx.ApiModel.First(l.ctx, "id = ?", in.Id)
+	result, err := l.svcCtx.ApiModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

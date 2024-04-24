@@ -24,7 +24,12 @@ func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeleteArticleLogic) DeleteArticle(in *blog.IdReq) (*blog.BatchResp, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.ArticleModel.Delete(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &blog.BatchResp{}, nil
+	return &blog.BatchResp{
+		SuccessCount: result,
+	}, nil
 }

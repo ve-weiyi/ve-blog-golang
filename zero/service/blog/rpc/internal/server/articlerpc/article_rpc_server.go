@@ -22,32 +22,44 @@ func NewArticleRpcServer(svcCtx *svc.ServiceContext) *ArticleRpcServer {
 	}
 }
 
+// 创建文章
 func (s *ArticleRpcServer) CreateArticle(ctx context.Context, in *blog.Article) (*blog.Article, error) {
 	l := articlerpclogic.NewCreateArticleLogic(ctx, s.svcCtx)
 	return l.CreateArticle(in)
 }
 
+// 更新文章
 func (s *ArticleRpcServer) UpdateArticle(ctx context.Context, in *blog.Article) (*blog.Article, error) {
 	l := articlerpclogic.NewUpdateArticleLogic(ctx, s.svcCtx)
 	return l.UpdateArticle(in)
 }
 
+// 删除文章
 func (s *ArticleRpcServer) DeleteArticle(ctx context.Context, in *blog.IdReq) (*blog.BatchResp, error) {
 	l := articlerpclogic.NewDeleteArticleLogic(ctx, s.svcCtx)
 	return l.DeleteArticle(in)
 }
 
-func (s *ArticleRpcServer) FindArticle(ctx context.Context, in *blog.IdReq) (*blog.Article, error) {
-	l := articlerpclogic.NewFindArticleLogic(ctx, s.svcCtx)
-	return l.FindArticle(in)
-}
-
+// 批量删除文章
 func (s *ArticleRpcServer) DeleteArticleList(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
 	l := articlerpclogic.NewDeleteArticleListLogic(ctx, s.svcCtx)
 	return l.DeleteArticleList(in)
 }
 
-func (s *ArticleRpcServer) FindArticleList(ctx context.Context, in *blog.PageQuery) (*blog.PageResp, error) {
+// 查询文章
+func (s *ArticleRpcServer) FindArticle(ctx context.Context, in *blog.IdReq) (*blog.Article, error) {
+	l := articlerpclogic.NewFindArticleLogic(ctx, s.svcCtx)
+	return l.FindArticle(in)
+}
+
+// 分页获取文章列表
+func (s *ArticleRpcServer) FindArticleList(ctx context.Context, in *blog.PageQuery) (*blog.ArticlePageResp, error) {
 	l := articlerpclogic.NewFindArticleListLogic(ctx, s.svcCtx)
 	return l.FindArticleList(in)
+}
+
+// 查询文章数量
+func (s *ArticleRpcServer) FindArticleCount(ctx context.Context, in *blog.PageQuery) (*blog.CountResp, error) {
+	l := articlerpclogic.NewFindArticleCountLogic(ctx, s.svcCtx)
+	return l.FindArticleCount(in)
 }

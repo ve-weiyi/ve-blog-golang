@@ -56,11 +56,11 @@ func TestApiDocs(t *testing.T) {
 	//// 生成ts api定义文件
 	aad.GenerateTsApiFiles()
 	////生成ts type定义文件
-	//aad.GenerateTsTypeFile()
+	aad.GenerateTsTypeFile()
 
 	aad.GenerateGoZeroApiFiles()
 	////
-	//aad.GenerateGoZeroTypeFiles()
+	aad.GenerateGoZeroTypeFiles()
 	//
 	aad.GenerateGoZeroRpcFiles()
 	//

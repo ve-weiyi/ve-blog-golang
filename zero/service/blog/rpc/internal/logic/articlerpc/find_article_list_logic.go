@@ -3,6 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -23,8 +24,20 @@ func NewFindArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindArticleListLogic) FindArticleList(in *blog.PageQuery) (*blog.PageResp, error) {
-	// todo: add your logic here and delete this line
+func (l *FindArticleListLogic) FindArticleList(in *blog.PageQuery) (*blog.ArticlePageResp, error) {
+	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	return &blog.PageResp{}, nil
+	result, err := l.svcCtx.ArticleModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*blog.Article
+	for _, v := range result {
+		list = append(list, convert.ConvertArticleModelToPb(v))
+	}
+
+	return &blog.ArticlePageResp{
+		List: list,
+	}, nil
 }

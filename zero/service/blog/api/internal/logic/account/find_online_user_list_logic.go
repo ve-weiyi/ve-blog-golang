@@ -38,8 +38,8 @@ func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.PageQuery) (resp
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Limit.Page
-	resp.PageSize = in.Limit.PageSize
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
 	resp.Total = users.Total
 	resp.List = list
 	return

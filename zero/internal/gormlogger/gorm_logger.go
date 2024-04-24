@@ -36,7 +36,7 @@ var genSourceDir string = "gen"
 // FileWithLineNum return the file name and line number of the current file
 func FileWithLineNum() string {
 	// the second caller usually from gorm internal, so set i start from 2
-	for i := 2; i < 15; i++ {
+	for i := 5; i < 15; i++ {
 		_, file, line, ok := runtime.Caller(i)
 		if ok && (!strings.HasPrefix(file, gormSourceDir) && !strings.HasSuffix(file, "gen.go")) {
 			return fmt.Sprintf("%v:%v", file, strconv.FormatInt(int64(line), 10))
