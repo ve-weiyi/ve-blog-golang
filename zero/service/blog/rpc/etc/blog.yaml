@@ -1,0 +1,23 @@
+Name: blog.rpc
+ListenOn: 0.0.0.0:8080
+Timeout: 5000
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: blog.rpc
+Log:
+  Mode: console
+  Encoding: plain
+MysqlConf:
+  host: veweiyi.cn
+  port: "3306"
+  config: charset=utf8mb4&parseTime=True&loc=Local
+  dbname: blog-veweiyi
+  username: root
+  password: mysql7914
+
+RedisConf:
+  db: 3
+  host: 127.0.0.1
+  port: "6379"
+  password: redis7914

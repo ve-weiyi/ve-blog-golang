@@ -48,13 +48,9 @@ etcd
 ```
 
 ```sh
-go run rpc/blog.go -f rpc/etc/blog.yaml
+go run service/blog/rpc/blog.go -f service/blog/rpc/etc/blog.yaml
 ```
 
 ```sh
-go run rpc/account.go -f rpc/etc/account.yaml
-```
-
-```sh
-go run api/blog.go -f api/etc/blog-api.yaml
+go run service/blog/api/blog.go -f service/blog/api/etc/blog-api.yaml
 ```
