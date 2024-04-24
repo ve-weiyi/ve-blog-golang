@@ -19,6 +19,7 @@ func ConvertUserLoginHistoryTypes(in *userrpc.LoginHistory) (out *types.LoginHis
 func ConvertUserMenuTypes(in *userrpc.MenuDetails) (out *types.UserMenu) {
 	jsonconv.ObjectMarshal(in, &out)
 
+	out.Children = make([]*types.UserMenu, 0)
 	jsonconv.JsonToObject(in.Extra, &out.Meta)
 	return
 }

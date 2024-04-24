@@ -78,6 +78,7 @@ func (l *GetUserMenusLogic) GetUserMenus(in *account.EmptyReq) (*account.MenuPag
 }
 
 func appendMenuChildren(root *account.MenuDetails, list []*model.Menu) (leafs []*account.MenuDetails) {
+	leafs = make([]*account.MenuDetails, 0)
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convert.ConvertMenuModelToDetailPb(item)

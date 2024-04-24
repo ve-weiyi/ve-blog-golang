@@ -7,8 +7,6 @@ package account;
 // 生成 golang 代码后的包名
 option go_package = "./account";
 
-import "any.proto";
-
 message EmptyReq {
 }
 

@@ -138,16 +138,34 @@ type UserApi struct {
 }
 
 type UserMenu struct {
-	Id        int64       `json:"id,optional"`        // 主键
-	ParentId  int64       `json:"parent_id,optional"` // 父id
-	Title     string      `json:"title,optional"`     // 菜单标题
-	Type      int64       `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-	Path      string      `json:"path,optional"`      // 路由地址
-	Name      string      `json:"name,optional"`      // 路由名字
-	Component string      `json:"component,optional"` // Layout组件
-	Redirect  string      `json:"redirect,optional"`  // 路由重定向
-	Meta      interface{} `json:"meta,optional"`      // meta配置
-	Children  []*UserMenu `json:"children,optional"`
+	Id        int64        `json:"id,optional"`        // 主键
+	ParentId  int64        `json:"parent_id,optional"` // 父id
+	Title     string       `json:"title,optional"`     // 菜单标题
+	Type      int64        `json:"type,optional"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+	Path      string       `json:"path,optional"`      // 路由地址
+	Name      string       `json:"name,optional"`      // 路由名字
+	Component string       `json:"component,optional"` // Layout组件
+	Redirect  string       `json:"redirect,optional"`  // 路由重定向
+	Meta      UserMenuMeta `json:"meta,optional"`      // meta配置
+	Children  []*UserMenu  `json:"children,optional"`
+}
+
+type UserMenuMeta struct {
+	Title        string      `json:"title,optional"`         // 菜单名称
+	Icon         string      `json:"icon,optional"`          // 菜单图标
+	ShowLink     bool        `json:"show_link,optional"`     // 是否在菜单中显示
+	Rank         int64       `json:"rank,optional"`          // 菜单升序排序
+	ExtraIcon    string      `json:"extra_icon,optional"`    // 菜单名称右侧的额外图标
+	ShowParent   bool        `json:"show_parent,optional"`   // 是否显示父级菜单
+	Roles        []string    `json:"roles,optional"`         // 页面级别权限设置
+	Auths        []string    `json:"auths,optional"`         // 按钮级别权限设置
+	KeepAlive    bool        `json:"keep_alive,optional"`    // 路由组件缓存
+	FrameSrc     string      `json:"frame_src,optional"`     // 内嵌的iframe链接
+	FrameLoading bool        `json:"frame_loading,optional"` // iframe页是否开启首次加载动画
+	Transition   interface{} `json:"transition,optional"`    // 页面加载动画
+	HiddenTag    bool        `json:"hidden_tag,optional"`    // 是否不添加信息到标签页
+	DynamicLevel int64       `json:"dynamic_level,optional"` // 动态路由可打开的最大数量
+	ActivePath   string      `json:"active_path,optional"`   // 将某个菜单激活
 }
 
 type UserRole struct {
@@ -365,4 +383,89 @@ type UpdateRoleApisReq struct {
 type UpdateRoleMenusReq struct {
 	RoleId  int64   `json:"role_id,optional"`
 	MenuIds []int64 `json:"menu_ids,optional"`
+}
+
+type BlogHomeInfo struct {
+	ArticleCount  int64         `json:"article_count,optional"`  // 文章数量
+	CategoryCount int64         `json:"category_count,optional"` // 分类数量
+	TagCount      int64         `json:"tag_count,optional"`      // 标签数量
+	ViewsCount    string        `json:"views_count,optional"`    // 访问量
+	WebsiteConfig WebsiteConfig `json:"website_config,optional"` // 网站配置
+	PageList      []*PageDTO    `json:"page_list,optional"`      // 页面列表
+}
+
+type WebsiteConfig struct {
+	AdminUrl          string      `json:"admin_url,optional"`           // 后台地址
+	AlipayQrCode      string      `json:"alipay_qr_code,optional"`      // 支付宝二维码
+	Gitee             string      `json:"gitee,optional"`               // Gitee
+	Github            string      `json:"github,optional"`              // Github
+	IsChatRoom        int64       `json:"is_chat_room,optional"`        // 是否开启聊天室
+	IsCommentReview   int64       `json:"is_comment_review,optional"`   // 是否开启评论审核
+	IsEmailNotice     int64       `json:"is_email_notice,optional"`     // 是否开启邮件通知
+	IsMessageReview   int64       `json:"is_message_review,optional"`   // 是否开启留言审核
+	IsMusicPlayer     int64       `json:"is_music_player,optional"`     // 是否开启音乐播放器
+	IsReward          int64       `json:"is_reward,optional"`           // 是否开启打赏
+	Qq                string      `json:"qq,optional"`                  // QQ
+	SocialLoginList   []string    `json:"social_login_list,optional"`   // 社交登录列表
+	SocialUrlList     []string    `json:"social_url_list,optional"`     // 社交地址列表
+	TouristAvatar     string      `json:"tourist_avatar,optional"`      // 游客头像
+	UserAvatar        string      `json:"user_avatar,optional"`         // 用户头像
+	WebsiteAuthor     string      `json:"website_author,optional"`      // 网站作者
+	WebsiteAvatar     interface{} `json:"website_avatar,optional"`      // 网站头像
+	WebsiteCreateTime string      `json:"website_create_time,optional"` // 网站创建时间
+	WebsiteIntro      string      `json:"website_intro,optional"`       // 网站介绍
+	WebsiteName       string      `json:"website_name,optional"`        // 网站名称
+	WebsiteNotice     string      `json:"website_notice,optional"`      // 网站公告
+	WebsiteRecordNo   string      `json:"website_record_no,optional"`   // 网站备案号
+	WebsocketUrl      string      `json:"websocket_url,optional"`       // websocket地址
+	WeixinQrCode      string      `json:"weixin_qr_code,optional"`      // 微信二维码
+}
+
+type PageDTO struct {
+	Id        int64  `json:"id,optional"`         // 页面ID
+	PageName  string `json:"page_name,optional"`  // 页面名称
+	PageLabel string `json:"page_label,optional"` // 页面标签
+	PageCover string `json:"page_cover,optional"` // 页面封面
+}
+
+type AdminHomeInfo struct {
+	ViewsCount            int64                   `json:"views_count,optional"`             // 访问量
+	MessageCount          int64                   `json:"message_count,optional"`           // 留言量
+	UserCount             int64                   `json:"user_count,optional"`              // 用户量
+	ArticleCount          int64                   `json:"article_count,optional"`           // 文章量
+	CategoryList          []*CategoryDTO          `json:"category_list,optional"`           // 分类列表
+	TagList               []*TagDTO               `json:"tag_list,optional"`                // 标签列表
+	ArticleViewRankList   []*ArticleViewRankDTO   `json:"article_rank_list,optional"`       // 文章浏览量排行
+	ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"` // 每日文章生产量
+	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_list,optional"`        // 每日用户访问量
+}
+
+type CategoryDTO struct {
+	Id           int64  `json:"id,optional"`
+	CategoryName string `json:"category_name,optional"` // 分类名
+}
+
+type TagDTO struct {
+	Id      int64  `json:"id,optional"`       // 标签ID
+	TagName string `json:"tag_name,optional"` // 标签名
+}
+
+type ArticleViewRankDTO struct {
+	Id           int64  `json:"id,optional"`            // 文章ID
+	ArticleTitle string `json:"article_title,optional"` // 文章标题
+	Count        int64  `json:"count,optional"`         // 数量
+}
+
+type ArticleStatisticsDTO struct {
+	Day   string `json:"day,optional"`   // 日期
+	Count int64  `json:"count,optional"` // 数量
+}
+
+type UniqueViewDTO struct {
+	Day   string `json:"day,optional"`   // 日期
+	Count int64  `json:"count,optional"` // 数量
+}
+
+type AboutMe struct {
+	Content string `json:"content,optional"`
 }

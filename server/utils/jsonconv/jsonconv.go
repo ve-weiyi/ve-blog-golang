@@ -51,6 +51,9 @@ func ObjectMarshal(data any, obj any) (err error) {
 
 // 调用 JsonToObject(jsonStr , &obj)
 func JsonToObject(jsonStr string, obj any) error {
+	if jsonStr == "" {
+		return nil
+	}
 	err := jjson.Unmarshal([]byte(jsonStr), obj)
 	if err != nil {
 		fmt.Println("json convert fail:", err)

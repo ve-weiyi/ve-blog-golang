@@ -1,26 +1,26 @@
 syntax = "v1"
 
-import "api/account.api"
-import "api/user.api"
-import "api/auth.api"
-import "api/api.api"
-import "api/menu.api"
-import "api/role.api"
-//import "api/ai.api"
-//import "api/article.api"
-//import "api/captcha.api"
-//import "api/comment.api"
-//import "api/friend_link.api"
-//import "api/operation_log.api"
-//import "api/page.api"
-//import "api/photo.api"
-//import "api/photo_album.api"
-//import "api/remark.api"
-//import "api/tag.api"
-//import "api/talk.api"
-//import "api/upload.api"
-//import "api/website.api"
-//import "api/websocket.api"
+import "blog/account.api"
+import "blog/user.api"
+import "blog/auth.api"
+import "blog/api.api"
+import "blog/menu.api"
+import "blog/role.api"
+	//import "blog/ai.api"
+	//import "blog/article.api"
+	//import "blog/captcha.api"
+	//import "blog/comment.api"
+	//import "blog/friend_link.api"
+	//import "blog/operation_log.api"
+	//import "blog/page.api"
+	//import "blog/photo.api"
+	//import "blog/photo_album.api"
+	//import "blog/remark.api"
+	//import "blog/tag.api"
+	//import "blog/talk.api"
+	//import "blog/upload.api"
+import "blog/website.api"
+//import "blog/websocket.api"
 
 type (
 	PingReq {
@@ -36,7 +36,7 @@ type (
 )
 
 @server(
-	prefix: /api/v1
+	prefix: /blog/v1
 )
 service blog-api {
 	@doc "ping"

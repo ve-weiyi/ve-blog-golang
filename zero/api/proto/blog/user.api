@@ -34,8 +34,26 @@ type (
         Name string `json:"name,optional"`                       // 路由名字
         Component string `json:"component,optional"`             // Layout组件
         Redirect string `json:"redirect,optional"`               // 路由重定向
-        Meta interface{} `json:"meta,optional"`                  // meta配置
+        Meta UserMenuMeta `json:"meta,optional"`                  // meta配置
         Children []*UserMenu `json:"children,optional"`
+    }
+
+    UserMenuMeta {
+        Title string `json:"title,optional"`                // 菜单名称
+        Icon string `json:"icon,optional"`                  // 菜单图标
+        ShowLink bool `json:"show_link,optional"`           // 是否在菜单中显示
+        Rank int64 `json:"rank,optional"`                   // 菜单升序排序
+        ExtraIcon string `json:"extra_icon,optional"`       // 菜单名称右侧的额外图标
+        ShowParent bool `json:"show_parent,optional"`       // 是否显示父级菜单
+        Roles []string `json:"roles,optional"`              // 页面级别权限设置
+        Auths []string `json:"auths,optional"`              // 按钮级别权限设置
+        KeepAlive bool `json:"keep_alive,optional"`         // 路由组件缓存
+        FrameSrc string `json:"frame_src,optional"`         // 内嵌的iframe链接
+        FrameLoading bool `json:"frame_loading,optional"`   // iframe页是否开启首次加载动画
+        Transition interface{} `json:"transition,optional"` // 页面加载动画
+        HiddenTag bool `json:"hidden_tag,optional"`         // 是否不添加信息到标签页
+        DynamicLevel int64 `json:"dynamic_level,optional"`  // 动态路由可打开的最大数量
+        ActivePath string `json:"active_path,optional"`     // 将某个菜单激活
     }
 
     UserRole {

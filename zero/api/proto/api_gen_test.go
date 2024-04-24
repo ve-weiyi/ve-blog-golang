@@ -3,6 +3,7 @@ package proto
 import (
 	_ "embed"
 	"fmt"
+	"log"
 	"strings"
 	"testing"
 
@@ -25,7 +26,7 @@ const typeTemplate = `
 {{ end -}}
 export interface {{ .Name }} {
   {{- range .Members }}
-  {{ convertJson .Name }}?: {{ convertTsType .Type.RawName }}; {{ .Comment }}
+  {{ convertJson .Name }}?: {{ convertTsType .Type.RawName }};{{ .Comment }}
   {{- end }}
 }
 
@@ -43,9 +44,9 @@ const apiTemplate = `
 {{ range .Routes }}
 /** {{ .AtDoc.Text }} */
 export function {{ convertHandler .Handler }}Api(
-{{- if .RequestType -}}data ?: {{convertTsType .RequestType.RawName}}{{- end -}}
-): Promise<{{convertTsType .ResponseType.RawName}}> {
-  return http.request<{{convertTsType .ResponseType.RawName}}>({
+{{- if .RequestType -}}data?: {{convertTsType .RequestType.RawName}}{{- end -}}
+): Promise<IApiResponseData<{{convertTsType .ResponseType.RawName}}>> {
+  return http.request<IApiResponseData<{{convertTsType .ResponseType.RawName}}>>({
     url: ` + "`{{$base}}{{.Path}}`" + `,
     method: "{{ .Method }}",
     {{- if .RequestType }}
@@ -56,7 +57,7 @@ export function {{ convertHandler .Handler }}Api(
 {{ end -}}
 `
 
-func TestParseContent(t *testing.T) {
+func Test_CreateApiTs(t *testing.T) {
 	sp, err := parser.ParseContent(testApi)
 	t.Log(err)
 
@@ -67,8 +68,12 @@ func TestParseContent(t *testing.T) {
 	//}
 	//
 
+	CreateTypesTs(sp)
+	CreateApiTs(sp)
+}
+func CreateApiTs(sp *spec.ApiSpec) {
 	for _, g := range sp.Service.Groups {
-		t.Logf("%v", jsonconv.ObjectToJsonIndent(g))
+		log.Printf("%v", jsonconv.ObjectToJsonIndent(g))
 
 		mmp := make(map[string]spec.Type)
 		for _, r := range g.Routes {
@@ -92,7 +97,7 @@ func TestParseContent(t *testing.T) {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    fmt.Sprintf("./ts/%s.ts", g.Annotation.Properties["group"]),
+			CodeOutPath:    fmt.Sprintf("./api/%s.ts", g.Annotation.Properties["group"]),
 			TemplateString: apiTemplate,
 			FunMap: map[string]any{
 				"joinArray": utils.JoinArray,
@@ -114,17 +119,15 @@ func TestParseContent(t *testing.T) {
 				"Routes":  g.Routes,
 			},
 		}
-		err = meta.Execute()
-		t.Log(err)
+		err := meta.Execute()
+		fmt.Println(err)
 	}
-
 }
-
 func CreateTypesTs(sp *spec.ApiSpec) {
 	meta := invent.TemplateMeta{
 		Key:            "",
 		Mode:           invent.ModeCreateOrReplace,
-		CodeOutPath:    fmt.Sprintf("./ts/types.ts"),
+		CodeOutPath:    fmt.Sprintf("./api/types.ts"),
 		TemplateString: typeTemplate,
 		FunMap: map[string]any{
 			"joinArray": utils.JoinArray,

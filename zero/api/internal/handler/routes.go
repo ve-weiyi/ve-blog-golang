@@ -10,6 +10,7 @@ import (
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/menu"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/role"
 	user "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/user"
+	website "github.com/ve-weiyi/ve-blog-golang/zero/api/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -24,7 +25,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: PingHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/v1"),
 	)
 
 	server.AddRoutes(
@@ -293,6 +294,47 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/role/update_role_apis",
 				Handler: role.UpdateRoleApisHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/blog",
+				Handler: website.GetBlogHomeInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/admin",
+				Handler: website.GetAdminHomeInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/blog/about/me",
+				Handler: website.GetAboutMeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/admin/about/me",
+				Handler: website.UpdateAboutMeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/blog/websit_config",
+				Handler: website.GetWebsiteConfigHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/admin/websit_config",
+				Handler: website.UpdateWebsiteConfigHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/admin/system/state",
+				Handler: website.GetSystemStateHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
