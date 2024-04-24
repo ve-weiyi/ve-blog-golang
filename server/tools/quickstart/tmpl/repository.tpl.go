@@ -7,7 +7,7 @@ import (
 
 )
 
-//对应go-zero model层服务
+// model层服务
 type AppRepository struct {
 	svcCtx *svc.RepositoryContext //持有的repository层引用
 }

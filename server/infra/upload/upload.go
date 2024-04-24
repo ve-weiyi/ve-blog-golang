@@ -12,11 +12,11 @@ type UploadConfig struct {
 	BucketName      string `json:"bucket-name"`
 	BucketUrl       string `json:"bucket-url"`
 	BasePath        string `json:"base-path"`
-	FileNameAsKey   func(file *multipart.FileHeader) string
 }
 
 // Uploader 对象存储接口
 type Uploader interface {
 	UploadFile(prefix string, file *multipart.FileHeader) (string, error)
 	DeleteFile(key string) error
+	FileNameAsKey(file *multipart.FileHeader) string
 }

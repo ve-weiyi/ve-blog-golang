@@ -50,7 +50,7 @@ func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		data	body		request.SyncMenuRequest					true	"请求参数"
+// @Param		data	body		request.SyncMenuReq					true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
 // @Router		/menu/sync_menu_list [post]
 func (s *MenuController) SyncMenuList(c *gin.Context) {
@@ -60,7 +60,7 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 		return
 	}
 
-	var req request.SyncMenuRequest
+	var req request.SyncMenuReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
