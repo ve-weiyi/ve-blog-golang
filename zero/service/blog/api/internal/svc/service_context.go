@@ -9,6 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/categoryrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/friendlinkrpc"
@@ -44,6 +45,7 @@ type ServiceContext struct {
 	PhotoRpc photorpc.PhotoRpc
 	TalkRpc  talkrpc.TalkRpc
 	LogRpc   logrpc.LogRpc
+	ChatRpc  chatrpc.ChatRpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -66,5 +68,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.PhotoRpcConf)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.TalkRpcConf)),
 		LogRpc:        logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf)),
+		ChatRpc:       chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf)),
 	}
 }

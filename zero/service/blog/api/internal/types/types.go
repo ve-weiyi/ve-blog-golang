@@ -192,6 +192,19 @@ type CategoryDetails struct {
 	UpdatedAt    int64  `json:"updated_at,optional"` // 更新时间
 }
 
+type ChatRecord struct {
+	Id        int64  `json:"id,optional"`         // 主键
+	UserID    int64  `json:"user_id,optional"`    // 用户id
+	Nickname  string `json:"nickname,optional"`   // 昵称
+	Avatar    string `json:"avatar,optional"`     // 头像
+	Content   string `json:"content,optional"`    // 聊天内容
+	IpAddress string `json:"ip_address,optional"` // ip地址
+	IpSource  string `json:"ip_source,optional"`  // ip来源
+	Type      int64  `json:"type,optional"`       // 类型
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+}
+
 type Comment struct {
 	Id             int64  `json:"id,optional"`              // 主键
 	UserID         int64  `json:"user_id,optional"`         // 评论用户Id

@@ -25,4 +25,5 @@ type Config struct {
 	PhotoRpcConf zrpc.RpcClientConf
 	TalkRpcConf  zrpc.RpcClientConf
 	LogRpcConf   zrpc.RpcClientConf
+	ChatRpcConf  zrpc.RpcClientConf
 }

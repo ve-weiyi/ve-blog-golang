@@ -9,6 +9,7 @@ import (
 	article "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/category"
+	chat "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/comment"
 	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/friend_link"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
@@ -305,6 +306,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/category/update_category",
 				Handler: category.UpdateCategoryHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 查询聊天记录
+				Method:  http.MethodPost,
+				Path:    "/api/v1/chat/records",
+				Handler: chat.FindChatRecordsHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

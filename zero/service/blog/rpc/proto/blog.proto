@@ -819,3 +819,38 @@ service logRpc {
   // 查询操作记录数量
   rpc FindOperationLogCount(PageQuery) returns(CountResp);
 }
+
+message ChatRecord {
+  int64 id = 1;// 主键
+  int64 user_id = 2;// 用户id
+  string nickname = 3;// 昵称
+  string avatar = 4;// 头像
+  string content = 5;// 聊天内容
+  string ip_address = 6;// ip地址
+  string ip_source = 7;// ip来源
+  int64 type = 8;// 类型
+  int64 created_at = 9;// 创建时间
+  int64 updated_at = 10;// 更新时间
+}
+
+message ChatRecordPageResp {
+  int64 total = 1;
+  repeated ChatRecord list = 2;
+}
+
+service chatRpc {
+  // 创建聊天记录
+  rpc CreateChatRecord(ChatRecord) returns(ChatRecord);
+  // 更新聊天记录
+  rpc UpdateChatRecord(ChatRecord) returns(ChatRecord);
+  // 删除聊天记录
+  rpc DeleteChatRecord(IdReq) returns(BatchResp);
+  // 批量删除聊天记录
+  rpc DeleteChatRecordList(IdsReq) returns(BatchResp);
+  // 查询聊天记录
+  rpc FindChatRecord(IdReq) returns(ChatRecord);
+  // 分页获取聊天记录列表
+  rpc FindChatRecordList(PageQuery) returns(ChatRecordPageResp);
+  // 查询聊天记录数量
+  rpc FindChatRecordCount(PageQuery) returns(CountResp);
+}

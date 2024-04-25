@@ -46,6 +46,7 @@ type ServiceContext struct {
 	TalkModel         model.TalkModel
 	PhotoModel        model.PhotoModel
 	PhotoAlbumModel   model.PhotoAlbumModel
+	ChatRecordModel   model.ChatRecordModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -85,6 +86,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TalkModel:         model.NewTalkModel(db, rds),
 		PhotoModel:        model.NewPhotoModel(db, rds),
 		PhotoAlbumModel:   model.NewPhotoAlbumModel(db, rds),
+		ChatRecordModel:   model.NewChatRecordModel(db, rds),
 	}
 }
 

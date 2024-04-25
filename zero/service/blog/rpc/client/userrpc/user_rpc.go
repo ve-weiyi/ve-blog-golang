@@ -21,6 +21,8 @@ type (
 	BatchResp              = blog.BatchResp
 	Category               = blog.Category
 	CategoryPageResp       = blog.CategoryPageResp
+	ChatRecord             = blog.ChatRecord
+	ChatRecordPageResp     = blog.ChatRecordPageResp
 	Comment                = blog.Comment
 	CommentDetails         = blog.CommentDetails
 	CommentDetailsPageResp = blog.CommentDetailsPageResp

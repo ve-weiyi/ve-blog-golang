@@ -9,6 +9,7 @@ import (
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/articlerpc"
 	authrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/authrpc"
 	categoryrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/categoryrpc"
+	chatrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/chatrpc"
 	commentrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/commentrpc"
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/configrpc"
 	friendlinkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/friendlinkrpc"
@@ -55,6 +56,7 @@ func main() {
 		blog.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
 		blog.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
 		blog.RegisterLogRpcServer(grpcServer, logrpcServer.NewLogRpcServer(ctx))
+		blog.RegisterChatRpcServer(grpcServer, chatrpcServer.NewChatRpcServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
