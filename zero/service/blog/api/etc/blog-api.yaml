@@ -34,3 +34,9 @@ CategoryRpcConf:
 TagRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+FriendLinkRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
+RemarkRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080

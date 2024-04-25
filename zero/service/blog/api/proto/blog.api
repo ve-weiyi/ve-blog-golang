@@ -10,17 +10,19 @@ import "module/website.api"
 import "module/article.api"
 import "module/category.api"
 import "module/tag.api"
+import "module/friend_link.api"
+import "module/remark.api"
 
 type (
-    PingReq{
-    }
+	PingReq{
+	}
 	PingResp {
-        Env string `json:"env"`
-        Name string `json:"name"`
-        Version string `json:"version"`
-        Runtime string `json:"runtime"`
-        Description string `json:"description"`
-        RpcStatus map[string]string `json:"rpc_status"`
+		Env string `json:"env"`
+		Name string `json:"name"`
+		Version string `json:"version"`
+		Runtime string `json:"runtime"`
+		Description string `json:"description"`
+		RpcStatus map[string]string `json:"rpc_status"`
 	}
 )
 

@@ -10,7 +10,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/categoryrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/configrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/friendlinkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/menurpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/tagrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/userrpc"
@@ -30,6 +32,9 @@ type ServiceContext struct {
 	ArticleRpc  articlerpc.ArticleRpc
 	CategoryRpc categoryrpc.CategoryRpc
 	TagRpc      tagrpc.TagRpc
+
+	FriendLinkRpc friendlinkrpc.FriendLinkRpc
+	RemarkRpc     remarkrpc.RemarkRpc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -42,9 +47,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RoleRpc: rolerpc.NewRoleRpc(zrpc.MustNewClient(c.RoleRpcConf)),
 		UserRpc: userrpc.NewUserRpc(zrpc.MustNewClient(c.UserRpcConf)),
 
-		ConfigRpc:   configrpc.NewConfigRpc(zrpc.MustNewClient(c.ConfigRpcConf)),
-		ArticleRpc:  articlerpc.NewArticleRpc(zrpc.MustNewClient(c.ArticleRpcConf)),
-		CategoryRpc: categoryrpc.NewCategoryRpc(zrpc.MustNewClient(c.CategoryRpcConf)),
-		TagRpc:      tagrpc.NewTagRpc(zrpc.MustNewClient(c.TagRpcConf)),
+		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.ConfigRpcConf)),
+		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.ArticleRpcConf)),
+		CategoryRpc:   categoryrpc.NewCategoryRpc(zrpc.MustNewClient(c.CategoryRpcConf)),
+		TagRpc:        tagrpc.NewTagRpc(zrpc.MustNewClient(c.TagRpcConf)),
+		FriendLinkRpc: friendlinkrpc.NewFriendLinkRpc(zrpc.MustNewClient(c.FriendLinkRpcConf)),
+		RemarkRpc:     remarkrpc.NewRemarkRpc(zrpc.MustNewClient(c.RemarkRpcConf)),
 	}
 }

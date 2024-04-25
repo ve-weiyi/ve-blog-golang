@@ -198,6 +198,16 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
+type FriendLink struct {
+	Id          int64  `json:"id,optional"`           // id
+	LinkName    string `json:"link_name,optional"`    // 链接名
+	LinkAvatar  string `json:"link_avatar,optional"`  // 链接头像
+	LinkAddress string `json:"link_address,optional"` // 链接地址
+	LinkIntro   string `json:"link_intro,optional"`   // 链接介绍
+	CreatedAt   int64  `json:"created_at,optional"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
@@ -316,6 +326,19 @@ type PingResp struct {
 	Runtime     string            `json:"runtime"`
 	Description string            `json:"description"`
 	RpcStatus   map[string]string `json:"rpc_status"`
+}
+
+type Remark struct {
+	Id             int64  `json:"id,optional"`              // 主键id
+	Nickname       string `json:"nickname,optional"`        // 昵称
+	Avatar         string `json:"avatar,optional"`          // 头像
+	MessageContent string `json:"message_content,optional"` // 留言内容
+	IpAddress      string `json:"ip_address,optional"`      // 用户ip
+	IpSource       string `json:"ip_source,optional"`       // 用户地址
+	Time           int64  `json:"time,optional"`            // 弹幕速度
+	IsReview       int64  `json:"is_review,optional"`       // 是否审核
+	CreatedAt      int64  `json:"created_at,optional"`      // 发布时间
+	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
 }
 
 type ResetPasswordReq struct {

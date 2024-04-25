@@ -3123,3 +3123,635 @@ var TagRpc_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "blog.proto",
 }
+
+// FriendLinkRpcClient is the client API for FriendLinkRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type FriendLinkRpcClient interface {
+	// 创建友链
+	CreateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
+	// 更新友链
+	UpdateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
+	// 删除友链
+	DeleteFriendLink(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除友链
+	DeleteFriendLinkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询友链
+	FindFriendLink(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FriendLink, error)
+	// 分页获取友链列表
+	FindFriendLinkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*FriendLinkPageResp, error)
+	// 查询友链数量
+	FindFriendLinkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+}
+
+type friendLinkRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewFriendLinkRpcClient(cc grpc.ClientConnInterface) FriendLinkRpcClient {
+	return &friendLinkRpcClient{cc}
+}
+
+func (c *friendLinkRpcClient) CreateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error) {
+	out := new(FriendLink)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/CreateFriendLink", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *friendLinkRpcClient) UpdateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error) {
+	out := new(FriendLink)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/UpdateFriendLink", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *friendLinkRpcClient) DeleteFriendLink(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/DeleteFriendLink", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *friendLinkRpcClient) DeleteFriendLinkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/DeleteFriendLinkList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *friendLinkRpcClient) FindFriendLink(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FriendLink, error) {
+	out := new(FriendLink)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/FindFriendLink", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *friendLinkRpcClient) FindFriendLinkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*FriendLinkPageResp, error) {
+	out := new(FriendLinkPageResp)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/FindFriendLinkList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *friendLinkRpcClient) FindFriendLinkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.FriendLinkRpc/FindFriendLinkCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// FriendLinkRpcServer is the server API for FriendLinkRpc service.
+// All implementations must embed UnimplementedFriendLinkRpcServer
+// for forward compatibility
+type FriendLinkRpcServer interface {
+	// 创建友链
+	CreateFriendLink(context.Context, *FriendLink) (*FriendLink, error)
+	// 更新友链
+	UpdateFriendLink(context.Context, *FriendLink) (*FriendLink, error)
+	// 删除友链
+	DeleteFriendLink(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除友链
+	DeleteFriendLinkList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询友链
+	FindFriendLink(context.Context, *IdReq) (*FriendLink, error)
+	// 分页获取友链列表
+	FindFriendLinkList(context.Context, *PageQuery) (*FriendLinkPageResp, error)
+	// 查询友链数量
+	FindFriendLinkCount(context.Context, *PageQuery) (*CountResp, error)
+	mustEmbedUnimplementedFriendLinkRpcServer()
+}
+
+// UnimplementedFriendLinkRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedFriendLinkRpcServer struct {
+}
+
+func (UnimplementedFriendLinkRpcServer) CreateFriendLink(context.Context, *FriendLink) (*FriendLink, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFriendLink not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) UpdateFriendLink(context.Context, *FriendLink) (*FriendLink, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateFriendLink not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) DeleteFriendLink(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFriendLink not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) DeleteFriendLinkList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFriendLinkList not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) FindFriendLink(context.Context, *IdReq) (*FriendLink, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindFriendLink not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) FindFriendLinkList(context.Context, *PageQuery) (*FriendLinkPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindFriendLinkList not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) FindFriendLinkCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindFriendLinkCount not implemented")
+}
+func (UnimplementedFriendLinkRpcServer) mustEmbedUnimplementedFriendLinkRpcServer() {}
+
+// UnsafeFriendLinkRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FriendLinkRpcServer will
+// result in compilation errors.
+type UnsafeFriendLinkRpcServer interface {
+	mustEmbedUnimplementedFriendLinkRpcServer()
+}
+
+func RegisterFriendLinkRpcServer(s grpc.ServiceRegistrar, srv FriendLinkRpcServer) {
+	s.RegisterService(&FriendLinkRpc_ServiceDesc, srv)
+}
+
+func _FriendLinkRpc_CreateFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FriendLink)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).CreateFriendLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/CreateFriendLink",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).CreateFriendLink(ctx, req.(*FriendLink))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FriendLinkRpc_UpdateFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FriendLink)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).UpdateFriendLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/UpdateFriendLink",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).UpdateFriendLink(ctx, req.(*FriendLink))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FriendLinkRpc_DeleteFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).DeleteFriendLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/DeleteFriendLink",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).DeleteFriendLink(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FriendLinkRpc_DeleteFriendLinkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).DeleteFriendLinkList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/DeleteFriendLinkList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).DeleteFriendLinkList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FriendLinkRpc_FindFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).FindFriendLink(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/FindFriendLink",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).FindFriendLink(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FriendLinkRpc_FindFriendLinkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).FindFriendLinkList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/FindFriendLinkList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).FindFriendLinkList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FriendLinkRpc_FindFriendLinkCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FriendLinkRpcServer).FindFriendLinkCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.FriendLinkRpc/FindFriendLinkCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FriendLinkRpcServer).FindFriendLinkCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// FriendLinkRpc_ServiceDesc is the grpc.ServiceDesc for FriendLinkRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var FriendLinkRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.FriendLinkRpc",
+	HandlerType: (*FriendLinkRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateFriendLink",
+			Handler:    _FriendLinkRpc_CreateFriendLink_Handler,
+		},
+		{
+			MethodName: "UpdateFriendLink",
+			Handler:    _FriendLinkRpc_UpdateFriendLink_Handler,
+		},
+		{
+			MethodName: "DeleteFriendLink",
+			Handler:    _FriendLinkRpc_DeleteFriendLink_Handler,
+		},
+		{
+			MethodName: "DeleteFriendLinkList",
+			Handler:    _FriendLinkRpc_DeleteFriendLinkList_Handler,
+		},
+		{
+			MethodName: "FindFriendLink",
+			Handler:    _FriendLinkRpc_FindFriendLink_Handler,
+		},
+		{
+			MethodName: "FindFriendLinkList",
+			Handler:    _FriendLinkRpc_FindFriendLinkList_Handler,
+		},
+		{
+			MethodName: "FindFriendLinkCount",
+			Handler:    _FriendLinkRpc_FindFriendLinkCount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+// RemarkRpcClient is the client API for RemarkRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type RemarkRpcClient interface {
+	// 创建留言
+	CreateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
+	// 更新留言
+	UpdateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
+	// 删除留言
+	DeleteRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除留言
+	DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询留言
+	FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Remark, error)
+	// 分页获取留言列表
+	FindRemarkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RemarkPageResp, error)
+	// 查询留言数量
+	FindRemarkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+}
+
+type remarkRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewRemarkRpcClient(cc grpc.ClientConnInterface) RemarkRpcClient {
+	return &remarkRpcClient{cc}
+}
+
+func (c *remarkRpcClient) CreateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error) {
+	out := new(Remark)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/CreateRemark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *remarkRpcClient) UpdateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error) {
+	out := new(Remark)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/UpdateRemark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *remarkRpcClient) DeleteRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/DeleteRemark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *remarkRpcClient) DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/DeleteRemarkList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *remarkRpcClient) FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Remark, error) {
+	out := new(Remark)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/FindRemark", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *remarkRpcClient) FindRemarkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RemarkPageResp, error) {
+	out := new(RemarkPageResp)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/FindRemarkList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *remarkRpcClient) FindRemarkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.remarkRpc/FindRemarkCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// RemarkRpcServer is the server API for RemarkRpc service.
+// All implementations must embed UnimplementedRemarkRpcServer
+// for forward compatibility
+type RemarkRpcServer interface {
+	// 创建留言
+	CreateRemark(context.Context, *Remark) (*Remark, error)
+	// 更新留言
+	UpdateRemark(context.Context, *Remark) (*Remark, error)
+	// 删除留言
+	DeleteRemark(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除留言
+	DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询留言
+	FindRemark(context.Context, *IdReq) (*Remark, error)
+	// 分页获取留言列表
+	FindRemarkList(context.Context, *PageQuery) (*RemarkPageResp, error)
+	// 查询留言数量
+	FindRemarkCount(context.Context, *PageQuery) (*CountResp, error)
+	mustEmbedUnimplementedRemarkRpcServer()
+}
+
+// UnimplementedRemarkRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedRemarkRpcServer struct {
+}
+
+func (UnimplementedRemarkRpcServer) CreateRemark(context.Context, *Remark) (*Remark, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRemark not implemented")
+}
+func (UnimplementedRemarkRpcServer) UpdateRemark(context.Context, *Remark) (*Remark, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRemark not implemented")
+}
+func (UnimplementedRemarkRpcServer) DeleteRemark(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRemark not implemented")
+}
+func (UnimplementedRemarkRpcServer) DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRemarkList not implemented")
+}
+func (UnimplementedRemarkRpcServer) FindRemark(context.Context, *IdReq) (*Remark, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRemark not implemented")
+}
+func (UnimplementedRemarkRpcServer) FindRemarkList(context.Context, *PageQuery) (*RemarkPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRemarkList not implemented")
+}
+func (UnimplementedRemarkRpcServer) FindRemarkCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRemarkCount not implemented")
+}
+func (UnimplementedRemarkRpcServer) mustEmbedUnimplementedRemarkRpcServer() {}
+
+// UnsafeRemarkRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RemarkRpcServer will
+// result in compilation errors.
+type UnsafeRemarkRpcServer interface {
+	mustEmbedUnimplementedRemarkRpcServer()
+}
+
+func RegisterRemarkRpcServer(s grpc.ServiceRegistrar, srv RemarkRpcServer) {
+	s.RegisterService(&RemarkRpc_ServiceDesc, srv)
+}
+
+func _RemarkRpc_CreateRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Remark)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).CreateRemark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/CreateRemark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).CreateRemark(ctx, req.(*Remark))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RemarkRpc_UpdateRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Remark)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).UpdateRemark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/UpdateRemark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).UpdateRemark(ctx, req.(*Remark))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RemarkRpc_DeleteRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).DeleteRemark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/DeleteRemark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).DeleteRemark(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RemarkRpc_DeleteRemarkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).DeleteRemarkList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/DeleteRemarkList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).DeleteRemarkList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RemarkRpc_FindRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).FindRemark(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/FindRemark",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).FindRemark(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RemarkRpc_FindRemarkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).FindRemarkList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/FindRemarkList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).FindRemarkList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RemarkRpc_FindRemarkCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RemarkRpcServer).FindRemarkCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.remarkRpc/FindRemarkCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RemarkRpcServer).FindRemarkCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RemarkRpc_ServiceDesc is the grpc.ServiceDesc for RemarkRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.remarkRpc",
+	HandlerType: (*RemarkRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateRemark",
+			Handler:    _RemarkRpc_CreateRemark_Handler,
+		},
+		{
+			MethodName: "UpdateRemark",
+			Handler:    _RemarkRpc_UpdateRemark_Handler,
+		},
+		{
+			MethodName: "DeleteRemark",
+			Handler:    _RemarkRpc_DeleteRemark_Handler,
+		},
+		{
+			MethodName: "DeleteRemarkList",
+			Handler:    _RemarkRpc_DeleteRemarkList_Handler,
+		},
+		{
+			MethodName: "FindRemark",
+			Handler:    _RemarkRpc_FindRemark_Handler,
+		},
+		{
+			MethodName: "FindRemarkList",
+			Handler:    _RemarkRpc_FindRemarkList_Handler,
+		},
+		{
+			MethodName: "FindRemarkCount",
+			Handler:    _RemarkRpc_FindRemarkCount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}

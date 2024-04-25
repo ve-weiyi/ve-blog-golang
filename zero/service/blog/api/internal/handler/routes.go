@@ -9,8 +9,10 @@ import (
 	article "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/category"
+	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/friend_link"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
 	mine "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/mine"
+	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/remark"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/role"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/tag"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/website"
@@ -305,6 +307,48 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 创建友链
+				Method:  http.MethodPost,
+				Path:    "/friend_link/create_friend_link",
+				Handler: friend_link.CreateFriendLinkHandler(serverCtx),
+			},
+			{
+				// 删除友链
+				Method:  http.MethodDelete,
+				Path:    "/friend_link/delete_friend_link",
+				Handler: friend_link.DeleteFriendLinkHandler(serverCtx),
+			},
+			{
+				// 批量删除友链
+				Method:  http.MethodDelete,
+				Path:    "/friend_link/delete_friend_link_list",
+				Handler: friend_link.DeleteFriendLinkListHandler(serverCtx),
+			},
+			{
+				// 查询友链
+				Method:  http.MethodPost,
+				Path:    "/friend_link/find_friend_link",
+				Handler: friend_link.FindFriendLinkHandler(serverCtx),
+			},
+			{
+				// 分页获取友链列表
+				Method:  http.MethodPost,
+				Path:    "/friend_link/find_friend_link_list",
+				Handler: friend_link.FindFriendLinkListHandler(serverCtx),
+			},
+			{
+				// 更新友链
+				Method:  http.MethodPut,
+				Path:    "/friend_link/update_friend_link",
+				Handler: friend_link.UpdateFriendLinkHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				// 清空菜单列表
 				Method:  http.MethodPost,
 				Path:    "/menu/clean_menu_list",
@@ -405,6 +449,48 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user/roles",
 				Handler: mine.GetUserRoleHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 创建留言
+				Method:  http.MethodPost,
+				Path:    "/remark/create_remark",
+				Handler: remark.CreateRemarkHandler(serverCtx),
+			},
+			{
+				// 删除留言
+				Method:  http.MethodDelete,
+				Path:    "/remark/delete_remark",
+				Handler: remark.DeleteRemarkHandler(serverCtx),
+			},
+			{
+				// 批量删除留言
+				Method:  http.MethodDelete,
+				Path:    "/remark/delete_remark_list",
+				Handler: remark.DeleteRemarkListHandler(serverCtx),
+			},
+			{
+				// 查询留言
+				Method:  http.MethodPost,
+				Path:    "/remark/find_remark",
+				Handler: remark.FindRemarkHandler(serverCtx),
+			},
+			{
+				// 分页获取留言列表
+				Method:  http.MethodPost,
+				Path:    "/remark/find_remark_list",
+				Handler: remark.FindRemarkListHandler(serverCtx),
+			},
+			{
+				// 更新留言
+				Method:  http.MethodPut,
+				Path:    "/remark/update_remark",
+				Handler: remark.UpdateRemarkHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

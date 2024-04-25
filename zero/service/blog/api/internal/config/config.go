@@ -17,4 +17,7 @@ type Config struct {
 	ArticleRpcConf  zrpc.RpcClientConf
 	CategoryRpcConf zrpc.RpcClientConf
 	TagRpcConf      zrpc.RpcClientConf
+
+	FriendLinkRpcConf zrpc.RpcClientConf
+	RemarkRpcConf     zrpc.RpcClientConf
 }

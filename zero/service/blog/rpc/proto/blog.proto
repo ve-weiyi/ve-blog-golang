@@ -538,3 +538,71 @@ service TagRpc {
   // 查询文章分类
   //  rpc FindTagByName(FindTagByNameReq) returns(Tag);
 }
+
+/************** blog 消息管理 **************/
+message FriendLink {
+  int64 id = 1;// id
+  string link_name = 2;// 链接名
+  string link_avatar = 3;// 链接头像
+  string link_address = 4;// 链接地址
+  string link_intro = 5;// 链接介绍
+  int64 created_at = 6;// 创建时间
+  int64 updated_at = 7;// 更新时间
+}
+
+message FriendLinkPageResp {
+  int64 total = 1;
+  repeated FriendLink list = 2;
+}
+
+service FriendLinkRpc {
+  // 创建友链
+  rpc CreateFriendLink(FriendLink) returns(FriendLink);
+  // 更新友链
+  rpc UpdateFriendLink(FriendLink) returns(FriendLink);
+  // 删除友链
+  rpc DeleteFriendLink(IdReq) returns(BatchResp);
+  // 批量删除友链
+  rpc DeleteFriendLinkList(IdsReq) returns(BatchResp);
+  // 查询友链
+  rpc FindFriendLink(IdReq) returns(FriendLink);
+  // 分页获取友链列表
+  rpc FindFriendLinkList(PageQuery) returns(FriendLinkPageResp);
+  // 查询友链数量
+  rpc FindFriendLinkCount(PageQuery) returns(CountResp);
+}
+
+message Remark {
+  int64 id = 1;// 主键id
+  string nickname = 2;// 昵称
+  string avatar = 3;// 头像
+  string message_content = 4;// 留言内容
+  string ip_address = 5;// 用户ip
+  string ip_source = 6;// 用户地址
+  int64 time = 7;// 弹幕速度
+  int64 is_review = 8;// 是否审核
+  int64 created_at = 9;// 发布时间
+  int64 updated_at = 10;// 更新时间
+}
+
+message RemarkPageResp {
+  int64 total = 1;
+  repeated Remark list = 2;
+}
+
+service remarkRpc {
+  // 创建留言
+  rpc CreateRemark(Remark) returns(Remark);
+  // 更新留言
+  rpc UpdateRemark(Remark) returns(Remark);
+  // 删除留言
+  rpc DeleteRemark(IdReq) returns(BatchResp);
+  // 批量删除留言
+  rpc DeleteRemarkList(IdsReq) returns(BatchResp);
+  // 查询留言
+  rpc FindRemark(IdReq) returns(Remark);
+  // 分页获取留言列表
+  rpc FindRemarkList(PageQuery) returns(RemarkPageResp);
+  // 查询留言数量
+  rpc FindRemarkCount(PageQuery) returns(CountResp);
+}

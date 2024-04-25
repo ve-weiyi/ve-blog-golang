@@ -29,6 +29,8 @@ type (
 	FindConfigResp         = blog.FindConfigResp
 	FindTagArticleCountReq = blog.FindTagArticleCountReq
 	FindTagByNameReq       = blog.FindTagByNameReq
+	FriendLink             = blog.FriendLink
+	FriendLinkPageResp     = blog.FriendLinkPageResp
 	IdReq                  = blog.IdReq
 	IdsReq                 = blog.IdsReq
 	LoginHistory           = blog.LoginHistory
@@ -45,6 +47,8 @@ type (
 	PageQuery              = blog.PageQuery
 	PageResp               = blog.PageResp
 	PageSort               = blog.PageSort
+	Remark                 = blog.Remark
+	RemarkPageResp         = blog.RemarkPageResp
 	ResetPasswordReq       = blog.ResetPasswordReq
 	Role                   = blog.Role
 	RoleDetails            = blog.RoleDetails
