@@ -42,11 +42,16 @@ type (
 	MenuPageResp           = blog.MenuPageResp
 	OauthLoginReq          = blog.OauthLoginReq
 	OauthLoginUrlResp      = blog.OauthLoginUrlResp
+	OperationLog           = blog.OperationLog
+	OperationLogPageResp   = blog.OperationLogPageResp
 	PageCondition          = blog.PageCondition
 	PageLimit              = blog.PageLimit
 	PageQuery              = blog.PageQuery
 	PageResp               = blog.PageResp
 	PageSort               = blog.PageSort
+	Photo                  = blog.Photo
+	PhotoAlbum             = blog.PhotoAlbum
+	PhotoPageResp          = blog.PhotoPageResp
 	Remark                 = blog.Remark
 	RemarkPageResp         = blog.RemarkPageResp
 	ResetPasswordReq       = blog.ResetPasswordReq
@@ -59,6 +64,9 @@ type (
 	SyncMenuRequest        = blog.SyncMenuRequest
 	Tag                    = blog.Tag
 	TagPageResp            = blog.TagPageResp
+	Talk                   = blog.Talk
+	TalkDetailsDTO         = blog.TalkDetailsDTO
+	TalkPageResp           = blog.TalkPageResp
 	UpdateRoleApisReq      = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq     = blog.UpdateRoleMenusReq
 	UpdateUserAvatarReq    = blog.UpdateUserAvatarReq

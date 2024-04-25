@@ -12,17 +12,22 @@ import "module/category.api"
 import "module/tag.api"
 import "module/friend_link.api"
 import "module/remark.api"
+import "module/operation_log.api"
+import "module/page.api"
+import "module/photo.api"
+import "module/photo_album.api"
+import "module/talk.api"
 
 type (
-	PingReq{
-	}
+    PingReq{
+    }
 	PingResp {
-		Env string `json:"env"`
-		Name string `json:"name"`
-		Version string `json:"version"`
-		Runtime string `json:"runtime"`
-		Description string `json:"description"`
-		RpcStatus map[string]string `json:"rpc_status"`
+        Env string `json:"env"`
+        Name string `json:"name"`
+        Version string `json:"version"`
+        Runtime string `json:"runtime"`
+        Description string `json:"description"`
+        RpcStatus map[string]string `json:"rpc_status"`
 	}
 )
 

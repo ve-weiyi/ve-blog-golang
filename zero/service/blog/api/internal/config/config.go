@@ -20,4 +20,8 @@ type Config struct {
 
 	FriendLinkRpcConf zrpc.RpcClientConf
 	RemarkRpcConf     zrpc.RpcClientConf
+
+	PhotoRpcConf zrpc.RpcClientConf
+	TalkRpcConf  zrpc.RpcClientConf
+	LogRpcConf   zrpc.RpcClientConf
 }

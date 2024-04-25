@@ -606,3 +606,142 @@ service remarkRpc {
   // 查询留言数量
   rpc FindRemarkCount(PageQuery) returns(CountResp);
 }
+
+/************** blog 相册管理 **************/
+
+message Photo {
+  int64 id = 1;// 主键
+  int64 album_id = 2;// 相册id
+  string photo_name = 3;// 照片名
+  string photo_desc = 4;// 照片描述
+  string photo_src = 5;// 照片地址
+  int64 is_delete = 6;// 是否删除
+  int64 created_at = 7;// 创建时间
+  int64 updated_at = 8;// 更新时间
+}
+
+message PhotoPageResp {
+  int64 total = 1;
+  repeated Photo list = 2;
+}
+
+service photoRpc {
+  // 创建照片
+  rpc CreatePhoto(Photo) returns(Photo);
+  // 更新照片
+  rpc UpdatePhoto(Photo) returns(Photo);
+  // 删除照片
+  rpc DeletePhoto(IdReq) returns(BatchResp);
+  // 批量删除照片
+  rpc DeletePhotoList(IdsReq) returns(BatchResp);
+  // 查询照片
+  rpc FindPhoto(IdReq) returns(Photo);
+  // 分页获取照片列表
+  rpc FindPhotoList(PageQuery) returns(PhotoPageResp);
+}
+
+message PhotoAlbum {
+  int64 id = 1;// 主键
+  string album_name = 2;// 相册名
+  string album_desc = 3;// 相册描述
+  string album_cover = 4;// 相册封面
+  int64 is_delete = 5;// 是否删除
+  int64 status = 6;// 状态值 1公开 2私密
+  int64 created_at = 7;// 创建时间
+  int64 updated_at = 8;// 更新时间
+}
+
+
+/************** blog 说说管理 **************/
+message Talk {
+  int64 id = 1;// 说说id
+  int64 user_id = 2;// 用户id
+  string content = 3;// 说说内容
+  string images = 4;// 图片
+  int64 is_top = 5;// 是否置顶
+  int64 status = 6;// 状态 1.公开 2.私密
+  int64 created_at = 7;// 创建时间
+  int64 updated_at = 8;// 更新时间
+}
+
+message TalkDetailsDTO {
+  int64 id = 1;
+  int64 user_id = 2;// 用户ID
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string content = 5;// 评论内容
+  repeated string img_list = 6;// 图片URL列表
+  int64 is_top = 7;// 是否置顶
+  int64 status = 8;// 状态
+  int64 like_count = 9;// 点赞量
+  int64 comment_count = 10;// 评论量
+  int64 created_at = 11;// 创建时间
+  int64 updated_at = 12;// 更新时间
+}
+
+message TalkPageResp {
+  int64 total = 1;
+  repeated Talk list = 2;
+}
+
+service talkRpc {
+  // 创建说说
+  rpc CreateTalk(Talk) returns(Talk);
+  // 更新说说
+  rpc UpdateTalk(Talk) returns(Talk);
+  // 删除说说
+  rpc DeleteTalk(IdReq) returns(BatchResp);
+  // 批量删除说说
+  rpc DeleteTalkList(IdsReq) returns(BatchResp);
+  // 查询说说
+  rpc FindTalk(IdReq) returns(Talk);
+  // 分页获取说说列表
+  rpc FindTalkList(PageQuery) returns(TalkPageResp);
+  // 查询说说数量
+  rpc FindTalkCount(PageQuery) returns(CountResp);
+  // 点赞说说
+  rpc LikeTalk(IdReq) returns(EmptyResp);
+}
+
+
+/************** blog 日志管理 **************/
+message OperationLog {
+  int64 id = 1;// 主键id
+  int64 user_id = 2;// 用户id
+  string nickname = 3;// 用户昵称
+  string ip_address = 4;// 操作ip
+  string ip_source = 5;// 操作地址
+  string opt_module = 6;// 操作模块
+  string opt_desc = 7;// 操作描述
+  string request_url = 8;// 请求地址
+  string request_method = 9;// 请求方式
+  string request_header = 10;// 请求头参数
+  string request_data = 11;// 请求参数
+  string response_data = 12;// 返回数据
+  int64 response_status = 13;// 响应状态码
+  string cost = 14;// 耗时（ms）
+  int64 created_at = 15;// 创建时间
+  int64 updated_at = 16;// 更新时间
+}
+
+message OperationLogPageResp {
+  int64 total = 1;
+  repeated OperationLog list = 2;
+}
+
+service logRpc {
+  // 创建操作记录
+  rpc CreateOperationLog(OperationLog) returns(OperationLog);
+  // 更新操作记录
+  rpc UpdateOperationLog(OperationLog) returns(OperationLog);
+  // 删除操作记录
+  rpc DeleteOperationLog(IdReq) returns(BatchResp);
+  // 批量删除操作记录
+  rpc DeleteOperationLogList(IdsReq) returns(BatchResp);
+  // 查询操作记录
+  rpc FindOperationLog(IdReq) returns(OperationLog);
+  // 分页获取操作记录列表
+  rpc FindOperationLogList(PageQuery) returns(OperationLogPageResp);
+  // 查询操作记录数量
+  rpc FindOperationLogCount(PageQuery) returns(CountResp);
+}

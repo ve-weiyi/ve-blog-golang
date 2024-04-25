@@ -12,9 +12,14 @@ import (
 	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/friend_link"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
 	mine "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/mine"
+	operation_log "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/operation_log"
+	page "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/page"
+	photo "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/photo"
+	photo_album "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/photo_album"
 	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/remark"
 	role "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/role"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/tag"
+	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/talk"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 
@@ -457,6 +462,186 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 创建操作记录
+				Method:  http.MethodPost,
+				Path:    "/operation_log/create_operation_log",
+				Handler: operation_log.CreateOperationLogHandler(serverCtx),
+			},
+			{
+				// 删除操作记录
+				Method:  http.MethodDelete,
+				Path:    "/operation_log/delete_operation_log",
+				Handler: operation_log.DeleteOperationLogHandler(serverCtx),
+			},
+			{
+				// 批量删除操作记录
+				Method:  http.MethodDelete,
+				Path:    "/operation_log/delete_operation_log_list",
+				Handler: operation_log.DeleteOperationLogListHandler(serverCtx),
+			},
+			{
+				// 查询操作记录
+				Method:  http.MethodPost,
+				Path:    "/operation_log/find_operation_log",
+				Handler: operation_log.FindOperationLogHandler(serverCtx),
+			},
+			{
+				// 分页获取操作记录列表
+				Method:  http.MethodPost,
+				Path:    "/operation_log/find_operation_log_list",
+				Handler: operation_log.FindOperationLogListHandler(serverCtx),
+			},
+			{
+				// 更新操作记录
+				Method:  http.MethodPut,
+				Path:    "/operation_log/update_operation_log",
+				Handler: operation_log.UpdateOperationLogHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 创建页面
+				Method:  http.MethodPost,
+				Path:    "/page/create_page",
+				Handler: page.CreatePageHandler(serverCtx),
+			},
+			{
+				// 删除页面
+				Method:  http.MethodDelete,
+				Path:    "/page/delete_page",
+				Handler: page.DeletePageHandler(serverCtx),
+			},
+			{
+				// 批量删除页面
+				Method:  http.MethodDelete,
+				Path:    "/page/delete_page_list",
+				Handler: page.DeletePageListHandler(serverCtx),
+			},
+			{
+				// 查询页面
+				Method:  http.MethodPost,
+				Path:    "/page/find_page",
+				Handler: page.FindPageHandler(serverCtx),
+			},
+			{
+				// 分页获取页面列表
+				Method:  http.MethodPost,
+				Path:    "/page/find_page_list",
+				Handler: page.FindPageListHandler(serverCtx),
+			},
+			{
+				// 更新页面
+				Method:  http.MethodPut,
+				Path:    "/page/update_page",
+				Handler: page.UpdatePageHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 创建照片
+				Method:  http.MethodPost,
+				Path:    "/photo/create_photo",
+				Handler: photo.CreatePhotoHandler(serverCtx),
+			},
+			{
+				// 删除照片
+				Method:  http.MethodDelete,
+				Path:    "/photo/delete_photo",
+				Handler: photo.DeletePhotoHandler(serverCtx),
+			},
+			{
+				// 批量删除照片
+				Method:  http.MethodDelete,
+				Path:    "/photo/delete_photo_list",
+				Handler: photo.DeletePhotoListHandler(serverCtx),
+			},
+			{
+				// 查询照片
+				Method:  http.MethodPost,
+				Path:    "/photo/find_photo",
+				Handler: photo.FindPhotoHandler(serverCtx),
+			},
+			{
+				// 分页获取照片列表
+				Method:  http.MethodPost,
+				Path:    "/photo/find_photo_list",
+				Handler: photo.FindPhotoListHandler(serverCtx),
+			},
+			{
+				// 更新照片
+				Method:  http.MethodPut,
+				Path:    "/photo/update_photo",
+				Handler: photo.UpdatePhotoHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 获取相册详情
+				Method:  http.MethodGet,
+				Path:    "/photo_album/:id/details",
+				Handler: photo_album.FindPhotoAlbumDetailsHandler(serverCtx),
+			},
+			{
+				// 创建相册
+				Method:  http.MethodPost,
+				Path:    "/photo_album/create_photo_album",
+				Handler: photo_album.CreatePhotoAlbumHandler(serverCtx),
+			},
+			{
+				// 删除相册
+				Method:  http.MethodDelete,
+				Path:    "/photo_album/delete_photo_album",
+				Handler: photo_album.DeletePhotoAlbumHandler(serverCtx),
+			},
+			{
+				// 批量删除相册
+				Method:  http.MethodDelete,
+				Path:    "/photo_album/delete_photo_album_list",
+				Handler: photo_album.DeletePhotoAlbumListHandler(serverCtx),
+			},
+			{
+				// 获取相册详情列表
+				Method:  http.MethodPost,
+				Path:    "/photo_album/details_list",
+				Handler: photo_album.FindPhotoAlbumDetailsListHandler(serverCtx),
+			},
+			{
+				// 查询相册
+				Method:  http.MethodPost,
+				Path:    "/photo_album/find_photo_album",
+				Handler: photo_album.FindPhotoAlbumHandler(serverCtx),
+			},
+			{
+				// 分页获取相册列表
+				Method:  http.MethodPost,
+				Path:    "/photo_album/find_photo_album_list",
+				Handler: photo_album.FindPhotoAlbumListHandler(serverCtx),
+			},
+			{
+				// 更新相册
+				Method:  http.MethodPut,
+				Path:    "/photo_album/update_photo_album",
+				Handler: photo_album.UpdatePhotoAlbumHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				// 创建留言
 				Method:  http.MethodPost,
 				Path:    "/remark/create_remark",
@@ -593,6 +778,66 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/tag/update_tag",
 				Handler: tag.UpdateTagHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 分页获取说说详情列表
+				Method:  http.MethodGet,
+				Path:    "/talk/:id/details",
+				Handler: talk.FindTalkDetailHandler(serverCtx),
+			},
+			{
+				// 点赞说说
+				Method:  http.MethodPut,
+				Path:    "/talk/:id/like",
+				Handler: talk.LikeTalkHandler(serverCtx),
+			},
+			{
+				// 创建说说
+				Method:  http.MethodPost,
+				Path:    "/talk/create_talk",
+				Handler: talk.CreateTalkHandler(serverCtx),
+			},
+			{
+				// 删除说说
+				Method:  http.MethodDelete,
+				Path:    "/talk/delete_talk",
+				Handler: talk.DeleteTalkHandler(serverCtx),
+			},
+			{
+				// 批量删除说说
+				Method:  http.MethodDelete,
+				Path:    "/talk/delete_talk_list",
+				Handler: talk.DeleteTalkListHandler(serverCtx),
+			},
+			{
+				// 分页获取说说详情列表
+				Method:  http.MethodPost,
+				Path:    "/talk/details_list",
+				Handler: talk.FindTalkDetailsListHandler(serverCtx),
+			},
+			{
+				// 查询说说
+				Method:  http.MethodPost,
+				Path:    "/talk/find_talk",
+				Handler: talk.FindTalkHandler(serverCtx),
+			},
+			{
+				// 分页获取说说列表
+				Method:  http.MethodPost,
+				Path:    "/talk/find_talk_list",
+				Handler: talk.FindTalkListHandler(serverCtx),
+			},
+			{
+				// 更新说说
+				Method:  http.MethodPut,
+				Path:    "/talk/update_talk",
+				Handler: talk.UpdateTalkHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

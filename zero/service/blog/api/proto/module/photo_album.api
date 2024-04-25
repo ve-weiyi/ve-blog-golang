@@ -1,0 +1,60 @@
+syntax = "v1"
+
+import "base.api"
+
+
+type (
+    PhotoAlbum {
+        Id int64 `json:"id,optional"`                   // 主键
+        AlbumName string `json:"album_name,optional"`   // 相册名
+        AlbumDesc string `json:"album_desc,optional"`   // 相册描述
+        AlbumCover string `json:"album_cover,optional"` // 相册封面
+        IsDelete int64 `json:"is_delete,optional"`      // 是否删除
+        Status int64 `json:"status,optional"`           // 状态值 1公开 2私密
+        CreatedAt int64 `json:"created_at,optional"`    // 创建时间
+        UpdatedAt int64 `json:"updated_at,optional"`    // 更新时间
+    }
+
+    PhotoAlbumDetailsDTO {
+        PhotoCount int64 `json:"photo_count,optional"`
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: photo_album
+)
+
+service blog-api {
+    @doc "创建相册"
+    @handler CreatePhotoAlbum
+    post /photo_album/create_photo_album (PhotoAlbum) returns (PhotoAlbum)
+
+    @doc "更新相册"
+    @handler UpdatePhotoAlbum
+    put /photo_album/update_photo_album (PhotoAlbum) returns (PhotoAlbum)
+
+    @doc "删除相册"
+    @handler DeletePhotoAlbum
+    delete /photo_album/delete_photo_album (IdReq) returns (BatchResp)
+
+    @doc "批量删除相册"
+    @handler DeletePhotoAlbumList
+    delete /photo_album/delete_photo_album_list (IdsReq) returns (BatchResp)
+
+    @doc "查询相册"
+    @handler FindPhotoAlbum
+    post /photo_album/find_photo_album (IdReq) returns (PhotoAlbum)
+
+    @doc "分页获取相册列表"
+    @handler FindPhotoAlbumList
+    post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
+
+    @doc "获取相册详情列表"
+    @handler FindPhotoAlbumDetailsList
+    post /photo_album/details_list (PageQuery) returns (PageResp)
+
+    @doc "获取相册详情"
+    @handler FindPhotoAlbumDetails
+    get /photo_album/:id/details (IdReq) returns (PhotoAlbumDetailsDTO)
+}

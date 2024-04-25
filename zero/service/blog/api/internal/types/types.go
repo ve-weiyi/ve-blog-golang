@@ -279,6 +279,34 @@ type OauthLoginUrl struct {
 	Url string `json:"url,optional"` // 授权地址
 }
 
+type OperationLog struct {
+	Id             int64  `json:"id,optional"`              // 主键id
+	UserID         int64  `json:"user_i_d,optional"`        // 用户id
+	Nickname       string `json:"nickname,optional"`        // 用户昵称
+	IpAddress      string `json:"ip_address,optional"`      // 操作ip
+	IpSource       string `json:"ip_source,optional"`       // 操作地址
+	OptModule      string `json:"opt_module,optional"`      // 操作模块
+	OptDesc        string `json:"opt_desc,optional"`        // 操作描述
+	RequestURL     string `json:"request_u_r_l,optional"`   // 请求地址
+	RequestMethod  string `json:"request_method,optional"`  // 请求方式
+	RequestHeader  string `json:"request_header,optional"`  // 请求头参数
+	RequestData    string `json:"request_data,optional"`    // 请求参数
+	ResponseData   string `json:"response_data,optional"`   // 返回数据
+	ResponseStatus int64  `json:"response_status,optional"` // 响应状态码
+	Cost           string `json:"cost,optional"`            // 耗时（ms）
+	CreatedAt      int64  `json:"created_at,optional"`      // 创建时间
+	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
+}
+
+type Page struct {
+	Id        int64  `json:"id,optional"`         // 页面id
+	PageName  string `json:"page_name,optional"`  // 页面名
+	PageLabel string `json:"page_label,optional"` // 页面标签
+	PageCover string `json:"page_cover,optional"` // 页面封面
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+}
+
 type PageCondition struct {
 	Field    string `json:"field,optional"`    // 字段
 	Value    string `json:"value,optional"`    // 值
@@ -314,6 +342,32 @@ type PageResp struct {
 type PageSort struct {
 	Field string `json:"field,optional"`
 	Order string `json:"order,optional"`
+}
+
+type Photo struct {
+	Id        int64  `json:"id,optional"`         // 主键
+	AlbumID   int64  `json:"album_i_d,optional"`  // 相册id
+	PhotoName string `json:"photo_name,optional"` // 照片名
+	PhotoDesc string `json:"photo_desc,optional"` // 照片描述
+	PhotoSrc  string `json:"photo_src,optional"`  // 照片地址
+	IsDelete  int64  `json:"is_delete,optional"`  // 是否删除
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+}
+
+type PhotoAlbum struct {
+	Id         int64  `json:"id,optional"`          // 主键
+	AlbumName  string `json:"album_name,optional"`  // 相册名
+	AlbumDesc  string `json:"album_desc,optional"`  // 相册描述
+	AlbumCover string `json:"album_cover,optional"` // 相册封面
+	IsDelete   int64  `json:"is_delete,optional"`   // 是否删除
+	Status     int64  `json:"status,optional"`      // 状态值 1公开 2私密
+	CreatedAt  int64  `json:"created_at,optional"`  // 创建时间
+	UpdatedAt  int64  `json:"updated_at,optional"`  // 更新时间
+}
+
+type PhotoAlbumDetailsDTO struct {
+	PhotoCount int64 `json:"photo_count,optional"`
 }
 
 type PingReq struct {
@@ -433,6 +487,32 @@ type TagDetails struct {
 	ArticleCount int64  `json:"article_count,optional"` // 文章数量
 	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
 	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
+}
+
+type Talk struct {
+	Id        int64  `json:"id,optional"`         // 说说id
+	UserID    int64  `json:"user_i_d,optional"`   // 用户id
+	Content   string `json:"content,optional"`    // 说说内容
+	Images    string `json:"images,optional"`     // 图片
+	IsTop     int64  `json:"is_top,optional"`     // 是否置顶
+	Status    int64  `json:"status,optional"`     // 状态 1.公开 2.私密
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+}
+
+type TalkDetailsDTO struct {
+	Id           int64    `json:"id,optional"`
+	UserID       int64    `json:"user_i_d,optional"`      // 用户ID
+	Nickname     string   `json:"nickname,optional"`      // 用户昵称
+	Avatar       string   `json:"avatar,optional"`        // 用户头像
+	Content      string   `json:"content,optional"`       // 评论内容
+	ImgList      []string `json:"img_list,optional"`      // 图片URL列表
+	IsTop        int64    `json:"is_top,optional"`        // 是否置顶
+	Status       int64    `json:"status,optional"`        // 状态
+	LikeCount    int64    `json:"like_count,optional"`    // 点赞量
+	CommentCount int64    `json:"comment_count,optional"` // 评论量
+	CreatedAt    int64    `json:"created_at,optional"`    // 创建时间
+	UpdatedAt    int64    `json:"updated_at,optional"`    // 更新时间
 }
 
 type Token struct {

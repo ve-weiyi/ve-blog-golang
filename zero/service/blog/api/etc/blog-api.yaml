@@ -40,3 +40,12 @@ FriendLinkRpcConf:
 RemarkRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+PhotoRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
+TalkRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
+LogRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080

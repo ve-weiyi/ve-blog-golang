@@ -3755,3 +3755,951 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "blog.proto",
 }
+
+// PhotoRpcClient is the client API for PhotoRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PhotoRpcClient interface {
+	// 创建照片
+	CreatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
+	// 更新照片
+	UpdatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
+	// 删除照片
+	DeletePhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除照片
+	DeletePhotoList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询照片
+	FindPhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Photo, error)
+	// 分页获取照片列表
+	FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error)
+}
+
+type photoRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPhotoRpcClient(cc grpc.ClientConnInterface) PhotoRpcClient {
+	return &photoRpcClient{cc}
+}
+
+func (c *photoRpcClient) CreatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error) {
+	out := new(Photo)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/CreatePhoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) UpdatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error) {
+	out := new(Photo)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/UpdatePhoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) DeletePhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/DeletePhoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) DeletePhotoList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/DeletePhotoList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) FindPhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Photo, error) {
+	out := new(Photo)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/FindPhoto", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error) {
+	out := new(PhotoPageResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/FindPhotoList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PhotoRpcServer is the server API for PhotoRpc service.
+// All implementations must embed UnimplementedPhotoRpcServer
+// for forward compatibility
+type PhotoRpcServer interface {
+	// 创建照片
+	CreatePhoto(context.Context, *Photo) (*Photo, error)
+	// 更新照片
+	UpdatePhoto(context.Context, *Photo) (*Photo, error)
+	// 删除照片
+	DeletePhoto(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除照片
+	DeletePhotoList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询照片
+	FindPhoto(context.Context, *IdReq) (*Photo, error)
+	// 分页获取照片列表
+	FindPhotoList(context.Context, *PageQuery) (*PhotoPageResp, error)
+	mustEmbedUnimplementedPhotoRpcServer()
+}
+
+// UnimplementedPhotoRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedPhotoRpcServer struct {
+}
+
+func (UnimplementedPhotoRpcServer) CreatePhoto(context.Context, *Photo) (*Photo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePhoto not implemented")
+}
+func (UnimplementedPhotoRpcServer) UpdatePhoto(context.Context, *Photo) (*Photo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhoto not implemented")
+}
+func (UnimplementedPhotoRpcServer) DeletePhoto(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePhoto not implemented")
+}
+func (UnimplementedPhotoRpcServer) DeletePhotoList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePhotoList not implemented")
+}
+func (UnimplementedPhotoRpcServer) FindPhoto(context.Context, *IdReq) (*Photo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPhoto not implemented")
+}
+func (UnimplementedPhotoRpcServer) FindPhotoList(context.Context, *PageQuery) (*PhotoPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoList not implemented")
+}
+func (UnimplementedPhotoRpcServer) mustEmbedUnimplementedPhotoRpcServer() {}
+
+// UnsafePhotoRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PhotoRpcServer will
+// result in compilation errors.
+type UnsafePhotoRpcServer interface {
+	mustEmbedUnimplementedPhotoRpcServer()
+}
+
+func RegisterPhotoRpcServer(s grpc.ServiceRegistrar, srv PhotoRpcServer) {
+	s.RegisterService(&PhotoRpc_ServiceDesc, srv)
+}
+
+func _PhotoRpc_CreatePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Photo)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).CreatePhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/CreatePhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).CreatePhoto(ctx, req.(*Photo))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_UpdatePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Photo)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).UpdatePhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/UpdatePhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).UpdatePhoto(ctx, req.(*Photo))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_DeletePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).DeletePhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/DeletePhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).DeletePhoto(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_DeletePhotoList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).DeletePhotoList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/DeletePhotoList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).DeletePhotoList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_FindPhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).FindPhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/FindPhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).FindPhoto(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_FindPhotoList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).FindPhotoList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/FindPhotoList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).FindPhotoList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PhotoRpc_ServiceDesc is the grpc.ServiceDesc for PhotoRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.photoRpc",
+	HandlerType: (*PhotoRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreatePhoto",
+			Handler:    _PhotoRpc_CreatePhoto_Handler,
+		},
+		{
+			MethodName: "UpdatePhoto",
+			Handler:    _PhotoRpc_UpdatePhoto_Handler,
+		},
+		{
+			MethodName: "DeletePhoto",
+			Handler:    _PhotoRpc_DeletePhoto_Handler,
+		},
+		{
+			MethodName: "DeletePhotoList",
+			Handler:    _PhotoRpc_DeletePhotoList_Handler,
+		},
+		{
+			MethodName: "FindPhoto",
+			Handler:    _PhotoRpc_FindPhoto_Handler,
+		},
+		{
+			MethodName: "FindPhotoList",
+			Handler:    _PhotoRpc_FindPhotoList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+// TalkRpcClient is the client API for TalkRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TalkRpcClient interface {
+	// 创建说说
+	CreateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
+	// 更新说说
+	UpdateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
+	// 删除说说
+	DeleteTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除说说
+	DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询说说
+	FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Talk, error)
+	// 分页获取说说列表
+	FindTalkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TalkPageResp, error)
+	// 查询说说数量
+	FindTalkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+	// 点赞说说
+	LikeTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+}
+
+type talkRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTalkRpcClient(cc grpc.ClientConnInterface) TalkRpcClient {
+	return &talkRpcClient{cc}
+}
+
+func (c *talkRpcClient) CreateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error) {
+	out := new(Talk)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/CreateTalk", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) UpdateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error) {
+	out := new(Talk)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/UpdateTalk", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) DeleteTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/DeleteTalk", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/DeleteTalkList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Talk, error) {
+	out := new(Talk)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/FindTalk", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) FindTalkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TalkPageResp, error) {
+	out := new(TalkPageResp)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/FindTalkList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) FindTalkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/FindTalkCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *talkRpcClient) LikeTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/blog.talkRpc/LikeTalk", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TalkRpcServer is the server API for TalkRpc service.
+// All implementations must embed UnimplementedTalkRpcServer
+// for forward compatibility
+type TalkRpcServer interface {
+	// 创建说说
+	CreateTalk(context.Context, *Talk) (*Talk, error)
+	// 更新说说
+	UpdateTalk(context.Context, *Talk) (*Talk, error)
+	// 删除说说
+	DeleteTalk(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除说说
+	DeleteTalkList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询说说
+	FindTalk(context.Context, *IdReq) (*Talk, error)
+	// 分页获取说说列表
+	FindTalkList(context.Context, *PageQuery) (*TalkPageResp, error)
+	// 查询说说数量
+	FindTalkCount(context.Context, *PageQuery) (*CountResp, error)
+	// 点赞说说
+	LikeTalk(context.Context, *IdReq) (*EmptyResp, error)
+	mustEmbedUnimplementedTalkRpcServer()
+}
+
+// UnimplementedTalkRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedTalkRpcServer struct {
+}
+
+func (UnimplementedTalkRpcServer) CreateTalk(context.Context, *Talk) (*Talk, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTalk not implemented")
+}
+func (UnimplementedTalkRpcServer) UpdateTalk(context.Context, *Talk) (*Talk, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTalk not implemented")
+}
+func (UnimplementedTalkRpcServer) DeleteTalk(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTalk not implemented")
+}
+func (UnimplementedTalkRpcServer) DeleteTalkList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTalkList not implemented")
+}
+func (UnimplementedTalkRpcServer) FindTalk(context.Context, *IdReq) (*Talk, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTalk not implemented")
+}
+func (UnimplementedTalkRpcServer) FindTalkList(context.Context, *PageQuery) (*TalkPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTalkList not implemented")
+}
+func (UnimplementedTalkRpcServer) FindTalkCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTalkCount not implemented")
+}
+func (UnimplementedTalkRpcServer) LikeTalk(context.Context, *IdReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LikeTalk not implemented")
+}
+func (UnimplementedTalkRpcServer) mustEmbedUnimplementedTalkRpcServer() {}
+
+// UnsafeTalkRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TalkRpcServer will
+// result in compilation errors.
+type UnsafeTalkRpcServer interface {
+	mustEmbedUnimplementedTalkRpcServer()
+}
+
+func RegisterTalkRpcServer(s grpc.ServiceRegistrar, srv TalkRpcServer) {
+	s.RegisterService(&TalkRpc_ServiceDesc, srv)
+}
+
+func _TalkRpc_CreateTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Talk)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).CreateTalk(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/CreateTalk",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).CreateTalk(ctx, req.(*Talk))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_UpdateTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Talk)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).UpdateTalk(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/UpdateTalk",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).UpdateTalk(ctx, req.(*Talk))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_DeleteTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).DeleteTalk(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/DeleteTalk",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).DeleteTalk(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_DeleteTalkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).DeleteTalkList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/DeleteTalkList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).DeleteTalkList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_FindTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).FindTalk(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/FindTalk",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).FindTalk(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_FindTalkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).FindTalkList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/FindTalkList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).FindTalkList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_FindTalkCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).FindTalkCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/FindTalkCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).FindTalkCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TalkRpc_LikeTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).LikeTalk(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.talkRpc/LikeTalk",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).LikeTalk(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TalkRpc_ServiceDesc is the grpc.ServiceDesc for TalkRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TalkRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.talkRpc",
+	HandlerType: (*TalkRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTalk",
+			Handler:    _TalkRpc_CreateTalk_Handler,
+		},
+		{
+			MethodName: "UpdateTalk",
+			Handler:    _TalkRpc_UpdateTalk_Handler,
+		},
+		{
+			MethodName: "DeleteTalk",
+			Handler:    _TalkRpc_DeleteTalk_Handler,
+		},
+		{
+			MethodName: "DeleteTalkList",
+			Handler:    _TalkRpc_DeleteTalkList_Handler,
+		},
+		{
+			MethodName: "FindTalk",
+			Handler:    _TalkRpc_FindTalk_Handler,
+		},
+		{
+			MethodName: "FindTalkList",
+			Handler:    _TalkRpc_FindTalkList_Handler,
+		},
+		{
+			MethodName: "FindTalkCount",
+			Handler:    _TalkRpc_FindTalkCount_Handler,
+		},
+		{
+			MethodName: "LikeTalk",
+			Handler:    _TalkRpc_LikeTalk_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+// LogRpcClient is the client API for LogRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type LogRpcClient interface {
+	// 创建操作记录
+	CreateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
+	// 更新操作记录
+	UpdateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
+	// 删除操作记录
+	DeleteOperationLog(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除操作记录
+	DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询操作记录
+	FindOperationLog(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*OperationLog, error)
+	// 分页获取操作记录列表
+	FindOperationLogList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*OperationLogPageResp, error)
+	// 查询操作记录数量
+	FindOperationLogCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+}
+
+type logRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewLogRpcClient(cc grpc.ClientConnInterface) LogRpcClient {
+	return &logRpcClient{cc}
+}
+
+func (c *logRpcClient) CreateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error) {
+	out := new(OperationLog)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/CreateOperationLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logRpcClient) UpdateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error) {
+	out := new(OperationLog)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/UpdateOperationLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logRpcClient) DeleteOperationLog(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/DeleteOperationLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logRpcClient) DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/DeleteOperationLogList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logRpcClient) FindOperationLog(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*OperationLog, error) {
+	out := new(OperationLog)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/FindOperationLog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logRpcClient) FindOperationLogList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*OperationLogPageResp, error) {
+	out := new(OperationLogPageResp)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/FindOperationLogList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logRpcClient) FindOperationLogCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.logRpc/FindOperationLogCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// LogRpcServer is the server API for LogRpc service.
+// All implementations must embed UnimplementedLogRpcServer
+// for forward compatibility
+type LogRpcServer interface {
+	// 创建操作记录
+	CreateOperationLog(context.Context, *OperationLog) (*OperationLog, error)
+	// 更新操作记录
+	UpdateOperationLog(context.Context, *OperationLog) (*OperationLog, error)
+	// 删除操作记录
+	DeleteOperationLog(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除操作记录
+	DeleteOperationLogList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询操作记录
+	FindOperationLog(context.Context, *IdReq) (*OperationLog, error)
+	// 分页获取操作记录列表
+	FindOperationLogList(context.Context, *PageQuery) (*OperationLogPageResp, error)
+	// 查询操作记录数量
+	FindOperationLogCount(context.Context, *PageQuery) (*CountResp, error)
+	mustEmbedUnimplementedLogRpcServer()
+}
+
+// UnimplementedLogRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedLogRpcServer struct {
+}
+
+func (UnimplementedLogRpcServer) CreateOperationLog(context.Context, *OperationLog) (*OperationLog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOperationLog not implemented")
+}
+func (UnimplementedLogRpcServer) UpdateOperationLog(context.Context, *OperationLog) (*OperationLog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOperationLog not implemented")
+}
+func (UnimplementedLogRpcServer) DeleteOperationLog(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOperationLog not implemented")
+}
+func (UnimplementedLogRpcServer) DeleteOperationLogList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOperationLogList not implemented")
+}
+func (UnimplementedLogRpcServer) FindOperationLog(context.Context, *IdReq) (*OperationLog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLog not implemented")
+}
+func (UnimplementedLogRpcServer) FindOperationLogList(context.Context, *PageQuery) (*OperationLogPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLogList not implemented")
+}
+func (UnimplementedLogRpcServer) FindOperationLogCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLogCount not implemented")
+}
+func (UnimplementedLogRpcServer) mustEmbedUnimplementedLogRpcServer() {}
+
+// UnsafeLogRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LogRpcServer will
+// result in compilation errors.
+type UnsafeLogRpcServer interface {
+	mustEmbedUnimplementedLogRpcServer()
+}
+
+func RegisterLogRpcServer(s grpc.ServiceRegistrar, srv LogRpcServer) {
+	s.RegisterService(&LogRpc_ServiceDesc, srv)
+}
+
+func _LogRpc_CreateOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperationLog)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).CreateOperationLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/CreateOperationLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).CreateOperationLog(ctx, req.(*OperationLog))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LogRpc_UpdateOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OperationLog)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).UpdateOperationLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/UpdateOperationLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).UpdateOperationLog(ctx, req.(*OperationLog))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LogRpc_DeleteOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).DeleteOperationLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/DeleteOperationLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).DeleteOperationLog(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LogRpc_DeleteOperationLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).DeleteOperationLogList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/DeleteOperationLogList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).DeleteOperationLogList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LogRpc_FindOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).FindOperationLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/FindOperationLog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).FindOperationLog(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LogRpc_FindOperationLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).FindOperationLogList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/FindOperationLogList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).FindOperationLogList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LogRpc_FindOperationLogCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LogRpcServer).FindOperationLogCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.logRpc/FindOperationLogCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LogRpcServer).FindOperationLogCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// LogRpc_ServiceDesc is the grpc.ServiceDesc for LogRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var LogRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.logRpc",
+	HandlerType: (*LogRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateOperationLog",
+			Handler:    _LogRpc_CreateOperationLog_Handler,
+		},
+		{
+			MethodName: "UpdateOperationLog",
+			Handler:    _LogRpc_UpdateOperationLog_Handler,
+		},
+		{
+			MethodName: "DeleteOperationLog",
+			Handler:    _LogRpc_DeleteOperationLog_Handler,
+		},
+		{
+			MethodName: "DeleteOperationLogList",
+			Handler:    _LogRpc_DeleteOperationLogList_Handler,
+		},
+		{
+			MethodName: "FindOperationLog",
+			Handler:    _LogRpc_FindOperationLog_Handler,
+		},
+		{
+			MethodName: "FindOperationLogList",
+			Handler:    _LogRpc_FindOperationLogList_Handler,
+		},
+		{
+			MethodName: "FindOperationLogCount",
+			Handler:    _LogRpc_FindOperationLogCount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}

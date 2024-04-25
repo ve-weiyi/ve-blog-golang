@@ -11,10 +11,13 @@ import (
 	categoryrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/categoryrpc"
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/configrpc"
 	friendlinkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/friendlinkrpc"
+	logrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/logrpc"
 	menurpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/menurpc"
+	photorpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/photorpc"
 	remarkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/remarkrpc"
 	rolerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/rolerpc"
 	tagrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/tagrpc"
+	talkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/talkrpc"
 	userrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/userrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -47,6 +50,9 @@ func main() {
 		blog.RegisterTagRpcServer(grpcServer, tagrpcServer.NewTagRpcServer(ctx))
 		blog.RegisterFriendLinkRpcServer(grpcServer, friendlinkrpcServer.NewFriendLinkRpcServer(ctx))
 		blog.RegisterRemarkRpcServer(grpcServer, remarkrpcServer.NewRemarkRpcServer(ctx))
+		blog.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
+		blog.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
+		blog.RegisterLogRpcServer(grpcServer, logrpcServer.NewLogRpcServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
