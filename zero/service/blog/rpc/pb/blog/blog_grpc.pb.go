@@ -3756,6 +3756,360 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 	Metadata: "blog.proto",
 }
 
+// CommentRpcClient is the client API for CommentRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CommentRpcClient interface {
+	// 创建评论
+	CreateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
+	// 更新评论
+	UpdateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
+	// 删除评论
+	DeleteComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除评论
+	DeleteCommentList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询评论
+	FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error)
+	// 分页获取评论列表
+	FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error)
+	// 分页获取评论列表
+	FindCommentDetailsList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentDetailsPageResp, error)
+	// 点赞评论
+	LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+}
+
+type commentRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCommentRpcClient(cc grpc.ClientConnInterface) CommentRpcClient {
+	return &commentRpcClient{cc}
+}
+
+func (c *commentRpcClient) CreateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error) {
+	out := new(Comment)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/CreateComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) UpdateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error) {
+	out := new(Comment)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/UpdateComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) DeleteComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/DeleteComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) DeleteCommentList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/DeleteCommentList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error) {
+	out := new(Comment)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/FindComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error) {
+	out := new(CommentPageResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/FindCommentList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) FindCommentDetailsList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentDetailsPageResp, error) {
+	out := new(CommentDetailsPageResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/FindCommentDetailsList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/LikeComment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CommentRpcServer is the server API for CommentRpc service.
+// All implementations must embed UnimplementedCommentRpcServer
+// for forward compatibility
+type CommentRpcServer interface {
+	// 创建评论
+	CreateComment(context.Context, *Comment) (*Comment, error)
+	// 更新评论
+	UpdateComment(context.Context, *Comment) (*Comment, error)
+	// 删除评论
+	DeleteComment(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除评论
+	DeleteCommentList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询评论
+	FindComment(context.Context, *IdReq) (*Comment, error)
+	// 分页获取评论列表
+	FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error)
+	// 分页获取评论列表
+	FindCommentDetailsList(context.Context, *PageQuery) (*CommentDetailsPageResp, error)
+	// 点赞评论
+	LikeComment(context.Context, *IdReq) (*EmptyResp, error)
+	mustEmbedUnimplementedCommentRpcServer()
+}
+
+// UnimplementedCommentRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedCommentRpcServer struct {
+}
+
+func (UnimplementedCommentRpcServer) CreateComment(context.Context, *Comment) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateComment not implemented")
+}
+func (UnimplementedCommentRpcServer) UpdateComment(context.Context, *Comment) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
+}
+func (UnimplementedCommentRpcServer) DeleteComment(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
+}
+func (UnimplementedCommentRpcServer) DeleteCommentList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCommentList not implemented")
+}
+func (UnimplementedCommentRpcServer) FindComment(context.Context, *IdReq) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindComment not implemented")
+}
+func (UnimplementedCommentRpcServer) FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentList not implemented")
+}
+func (UnimplementedCommentRpcServer) FindCommentDetailsList(context.Context, *PageQuery) (*CommentDetailsPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentDetailsList not implemented")
+}
+func (UnimplementedCommentRpcServer) LikeComment(context.Context, *IdReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LikeComment not implemented")
+}
+func (UnimplementedCommentRpcServer) mustEmbedUnimplementedCommentRpcServer() {}
+
+// UnsafeCommentRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommentRpcServer will
+// result in compilation errors.
+type UnsafeCommentRpcServer interface {
+	mustEmbedUnimplementedCommentRpcServer()
+}
+
+func RegisterCommentRpcServer(s grpc.ServiceRegistrar, srv CommentRpcServer) {
+	s.RegisterService(&CommentRpc_ServiceDesc, srv)
+}
+
+func _CommentRpc_CreateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Comment)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).CreateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/CreateComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).CreateComment(ctx, req.(*Comment))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Comment)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).UpdateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/UpdateComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).UpdateComment(ctx, req.(*Comment))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).DeleteComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/DeleteComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).DeleteComment(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_DeleteCommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).DeleteCommentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/DeleteCommentList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).DeleteCommentList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_FindComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).FindComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/FindComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).FindComment(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_FindCommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).FindCommentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/FindCommentList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).FindCommentList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_FindCommentDetailsList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).FindCommentDetailsList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/FindCommentDetailsList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).FindCommentDetailsList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_LikeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).LikeComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/LikeComment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).LikeComment(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CommentRpc_ServiceDesc is the grpc.ServiceDesc for CommentRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CommentRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.commentRpc",
+	HandlerType: (*CommentRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateComment",
+			Handler:    _CommentRpc_CreateComment_Handler,
+		},
+		{
+			MethodName: "UpdateComment",
+			Handler:    _CommentRpc_UpdateComment_Handler,
+		},
+		{
+			MethodName: "DeleteComment",
+			Handler:    _CommentRpc_DeleteComment_Handler,
+		},
+		{
+			MethodName: "DeleteCommentList",
+			Handler:    _CommentRpc_DeleteCommentList_Handler,
+		},
+		{
+			MethodName: "FindComment",
+			Handler:    _CommentRpc_FindComment_Handler,
+		},
+		{
+			MethodName: "FindCommentList",
+			Handler:    _CommentRpc_FindCommentList_Handler,
+		},
+		{
+			MethodName: "FindCommentDetailsList",
+			Handler:    _CommentRpc_FindCommentDetailsList_Handler,
+		},
+		{
+			MethodName: "LikeComment",
+			Handler:    _CommentRpc_LikeComment_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
 // PhotoRpcClient is the client API for PhotoRpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.

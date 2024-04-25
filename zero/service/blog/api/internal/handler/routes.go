@@ -9,6 +9,7 @@ import (
 	article "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/category"
+	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/comment"
 	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/friend_link"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
 	mine "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/mine"
@@ -304,6 +305,72 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/category/update_category",
 				Handler: category.UpdateCategoryHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 创建评论
+				Method:  http.MethodPost,
+				Path:    "/comment/create_comment",
+				Handler: comment.CreateCommentHandler(serverCtx),
+			},
+			{
+				// 删除评论
+				Method:  http.MethodDelete,
+				Path:    "/comment/delete_comment",
+				Handler: comment.DeleteCommentHandler(serverCtx),
+			},
+			{
+				// 批量删除评论
+				Method:  http.MethodDelete,
+				Path:    "/comment/delete_comment_list",
+				Handler: comment.DeleteCommentListHandler(serverCtx),
+			},
+			{
+				// 查询评论
+				Method:  http.MethodGet,
+				Path:    "/comment/find_comment",
+				Handler: comment.FindCommentHandler(serverCtx),
+			},
+			{
+				// 获取用户评论列表
+				Method:  http.MethodPost,
+				Path:    "/comment/find_comment_back_list",
+				Handler: comment.FindCommentBackListHandler(serverCtx),
+			},
+			{
+				// 分页获取评论列表
+				Method:  http.MethodPost,
+				Path:    "/comment/find_comment_details_list",
+				Handler: comment.FindCommentDetailsListHandler(serverCtx),
+			},
+			{
+				// 分页获取评论列表
+				Method:  http.MethodPost,
+				Path:    "/comment/find_comment_list",
+				Handler: comment.FindCommentListHandler(serverCtx),
+			},
+			{
+				// 查询评论回复列表
+				Method:  http.MethodPost,
+				Path:    "/comment/find_comment_reply_list",
+				Handler: comment.FindCommentReplyListHandler(serverCtx),
+			},
+			{
+				// 点赞评论
+				Method:  http.MethodPost,
+				Path:    "/comment/like_comment",
+				Handler: comment.LikeCommentHandler(serverCtx),
+			},
+			{
+				// 更新评论
+				Method:  http.MethodPut,
+				Path:    "/comment/update_comment",
+				Handler: comment.UpdateCommentHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

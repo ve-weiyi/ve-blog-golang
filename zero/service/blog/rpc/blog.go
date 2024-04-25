@@ -9,6 +9,7 @@ import (
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/articlerpc"
 	authrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/authrpc"
 	categoryrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/categoryrpc"
+	commentrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/commentrpc"
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/configrpc"
 	friendlinkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/friendlinkrpc"
 	logrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/logrpc"
@@ -50,6 +51,7 @@ func main() {
 		blog.RegisterTagRpcServer(grpcServer, tagrpcServer.NewTagRpcServer(ctx))
 		blog.RegisterFriendLinkRpcServer(grpcServer, friendlinkrpcServer.NewFriendLinkRpcServer(ctx))
 		blog.RegisterRemarkRpcServer(grpcServer, remarkrpcServer.NewRemarkRpcServer(ctx))
+		blog.RegisterCommentRpcServer(grpcServer, commentrpcServer.NewCommentRpcServer(ctx))
 		blog.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
 		blog.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
 		blog.RegisterLogRpcServer(grpcServer, logrpcServer.NewLogRpcServer(ctx))

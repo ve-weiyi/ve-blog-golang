@@ -611,6 +611,76 @@ service remarkRpc {
   rpc FindRemarkCount(PageQuery) returns(CountResp);
 }
 
+message Comment {
+  int64 id = 1;// 主键
+  int64 user_id = 2;// 评论用户Id
+  int64 topic_id = 3;// 评论主题id
+  string comment_content = 4;// 评论内容
+  int64 reply_user_id = 5;// 回复用户id
+  int64 parent_id = 6;// 父评论id
+  int64 type = 7;// 评论类型 1.文章 2.友链 3.说说
+  int64 is_delete = 8;// 是否删除  0否 1是
+  int64 is_review = 9;// 是否审核
+  int64 created_at = 10;// 评论时间
+  int64 updated_at = 11;// 更新时间
+}
+
+message CommentDetails {
+  int64 id = 1;// 评论id
+  int64 user_id = 2;// 用户id
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string website = 5;// 个人网站
+  string comment_content = 6;// 评论内容
+  int64 like_count = 7;// 点赞数
+  int64 created_at = 8;// 评论时间
+  int64 reply_count = 9;// 回复量
+  repeated CommentReply comment_reply_list = 10;// 回复列表
+}
+
+message CommentReply {
+  int64 id = 1;// 评论id
+  int64 parent_id = 2;// 父评论id
+  int64 user_id = 3;// 用户id
+  string nickname = 4;// 用户昵称
+  string avatar = 5;// 用户头像
+  string website = 6;// 个人网站
+  int64 reply_user_id = 7;// 被回复用户id
+  string reply_nickname = 8;// 被回复用户昵称
+  string reply_website = 9;// 被回复个人网站
+  string comment_content = 10;// 评论内容
+  int64 like_count = 11;// 点赞数
+  int64 created_at = 12;// 评论时间
+}
+
+message CommentPageResp {
+  int64 total = 1;
+  repeated Comment list = 2;
+}
+
+message CommentDetailsPageResp {
+  int64 total = 1;
+  repeated CommentDetails list = 2;
+}
+
+service commentRpc {
+  // 创建评论
+  rpc CreateComment(Comment) returns(Comment);
+  // 更新评论
+  rpc UpdateComment(Comment) returns(Comment);
+  // 删除评论
+  rpc DeleteComment(IdReq) returns(BatchResp);
+  // 批量删除评论
+  rpc DeleteCommentList(IdsReq) returns(BatchResp);
+  // 查询评论
+  rpc FindComment(IdReq) returns(Comment);
+  // 分页获取评论列表
+  rpc FindCommentList(PageQuery) returns(CommentPageResp);
+  // 分页获取评论列表
+  rpc FindCommentDetailsList(PageQuery) returns(CommentDetailsPageResp);
+  // 点赞评论
+  rpc LikeComment(IdReq) returns(EmptyResp);
+}
 /************** blog 相册管理 **************/
 
 message Photo {

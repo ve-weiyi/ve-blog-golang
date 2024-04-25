@@ -21,6 +21,11 @@ type (
 	BatchResp              = blog.BatchResp
 	Category               = blog.Category
 	CategoryPageResp       = blog.CategoryPageResp
+	Comment                = blog.Comment
+	CommentDetails         = blog.CommentDetails
+	CommentDetailsPageResp = blog.CommentDetailsPageResp
+	CommentPageResp        = blog.CommentPageResp
+	CommentReply           = blog.CommentReply
 	CountResp              = blog.CountResp
 	EmptyReq               = blog.EmptyReq
 	EmptyResp              = blog.EmptyResp
