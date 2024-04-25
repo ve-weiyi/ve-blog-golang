@@ -14,6 +14,12 @@ import (
 // 获取用户菜单权限
 func GetUserMenusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func GetUserMenusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := mine.NewGetUserMenusLogic(r.Context(), svcCtx)
-		resp, err := l.GetUserMenus(&req)
+		resp, err := l.GetUserMenus(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

@@ -25,7 +25,7 @@ func NewDeleteOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *DeleteOperationLogLogic) DeleteOperationLog(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeleteOperationLogLogic) DeleteOperationLog(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.LogRpc.DeleteOperationLog(l.ctx, in)

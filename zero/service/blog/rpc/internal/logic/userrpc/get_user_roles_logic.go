@@ -3,7 +3,6 @@ package userrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex/metadata"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -26,11 +25,8 @@ func NewGetUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 // 获取用户角色信息
-func (l *GetUserRolesLogic) GetUserRoles(in *blog.EmptyReq) (*blog.RolePageResp, error) {
-	uid, err := metadata.GetRPCInnerXUserId(l.ctx)
-	if err != nil {
-		return nil, err
-	}
+func (l *GetUserRolesLogic) GetUserRoles(in *blog.UserReq) (*blog.RolePageResp, error) {
+	uid := in.UserId
 
 	// 查用户
 	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)

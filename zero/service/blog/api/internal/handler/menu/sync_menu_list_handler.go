@@ -14,6 +14,12 @@ import (
 // 同步菜单列表
 func SyncMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.SyncMenuRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func SyncMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := menu.NewSyncMenuListLogic(r.Context(), svcCtx)
-		resp, err := l.SyncMenuList(&req)
+		resp, err := l.SyncMenuList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

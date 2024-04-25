@@ -24,7 +24,7 @@ func NewFindArticleArchivesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindArticleArchivesLogic) FindArticleArchives(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

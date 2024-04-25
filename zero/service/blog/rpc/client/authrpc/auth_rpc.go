@@ -77,6 +77,7 @@ type (
 	UserEmailReq           = blog.UserEmailReq
 	UserInfoPageResp       = blog.UserInfoPageResp
 	UserInfoResp           = blog.UserInfoResp
+	UserReq                = blog.UserReq
 
 	AuthRpc interface {
 		// 登录

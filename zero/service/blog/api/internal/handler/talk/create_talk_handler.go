@@ -14,14 +14,20 @@ import (
 // 创建说说
 func CreateTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Talk
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
+		var req types.TalkDetails
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
 		l := talk.NewCreateTalkLogic(r.Context(), svcCtx)
-		resp, err := l.CreateTalk(&req)
+		resp, err := l.CreateTalk(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

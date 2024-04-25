@@ -24,7 +24,7 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 	}
 }
 
-func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.UserRpc.FindUserLoginHistoryList(l.ctx, in)
 	if err != nil {

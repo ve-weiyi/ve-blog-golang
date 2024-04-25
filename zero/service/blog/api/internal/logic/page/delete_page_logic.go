@@ -24,7 +24,7 @@ func NewDeletePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeletePageLogic) DeletePage(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletePageLogic) DeletePage(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

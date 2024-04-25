@@ -24,7 +24,7 @@ func NewLikeArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeA
 	}
 }
 
-func (l *LikeArticleLogic) LikeArticle(req *types.IdReq) (resp *types.EmptyResp, err error) {
+func (l *LikeArticleLogic) LikeArticle(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

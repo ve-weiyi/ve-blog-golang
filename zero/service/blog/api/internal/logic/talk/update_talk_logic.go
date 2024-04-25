@@ -3,6 +3,7 @@ package talk
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -24,8 +25,13 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateTalkLogic) UpdateTalk(req *types.Talk) (resp *types.Talk, err error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateTalkLogic) UpdateTalk(reqCtx *types.RestHeader, req *types.TalkDetails) (resp *types.TalkDetails, err error) {
+	in := convert.ConvertTalkPb(req)
 
-	return
+	api, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convert.ConvertTalkTypes(api), nil
 }

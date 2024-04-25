@@ -26,7 +26,7 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 	}
 }
 
-func (l *FindTagListLogic) FindTagList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindTagListLogic) FindTagList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.TagRpc.FindTagList(l.ctx, in)
 	if err != nil {

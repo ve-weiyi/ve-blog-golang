@@ -24,7 +24,7 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 	}
 }
 
-func (l *UpdatePhotoLogic) UpdatePhoto(req *types.Photo) (resp *types.Photo, err error) {
+func (l *UpdatePhotoLogic) UpdatePhoto(reqCtx *types.RestHeader, req *types.Photo) (resp *types.Photo, err error) {
 	// todo: add your logic here and delete this line
 
 	return

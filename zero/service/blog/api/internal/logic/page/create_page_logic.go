@@ -24,7 +24,7 @@ func NewCreatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 	}
 }
 
-func (l *CreatePageLogic) CreatePage(req *types.Page) (resp *types.Page, err error) {
+func (l *CreatePageLogic) CreatePage(reqCtx *types.RestHeader, req *types.Page) (resp *types.Page, err error) {
 	// todo: add your logic here and delete this line
 
 	return

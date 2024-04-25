@@ -23,7 +23,7 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 	}
 }
 
-func (l *SyncApiListLogic) SyncApiList(req *types.EmptyReq) (resp *types.BatchResp, err error) {
+func (l *SyncApiListLogic) SyncApiList(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.BatchResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

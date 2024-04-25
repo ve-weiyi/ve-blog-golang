@@ -14,6 +14,12 @@ import (
 // 清空菜单列表
 func CleanMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func CleanMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := menu.NewCleanMenuListLogic(r.Context(), svcCtx)
-		resp, err := l.CleanMenuList(&req)
+		resp, err := l.CleanMenuList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

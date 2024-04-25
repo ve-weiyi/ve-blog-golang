@@ -24,7 +24,7 @@ func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.Servic
 	}
 }
 
-func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyCategoryReq) (resp *types.ArticleClassifyResp, err error) {
+func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(reqCtx *types.RestHeader, req *types.ArticleClassifyCategoryReq) (resp *types.ArticleClassifyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

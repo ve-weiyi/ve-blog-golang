@@ -77,6 +77,7 @@ type (
 	UserEmailReq           = blog.UserEmailReq
 	UserInfoPageResp       = blog.UserInfoPageResp
 	UserInfoResp           = blog.UserInfoResp
+	UserReq                = blog.UserReq
 
 	ApiRpc interface {
 		// 创建接口

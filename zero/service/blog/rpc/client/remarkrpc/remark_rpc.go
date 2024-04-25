@@ -77,6 +77,7 @@ type (
 	UserEmailReq           = blog.UserEmailReq
 	UserInfoPageResp       = blog.UserInfoPageResp
 	UserInfoResp           = blog.UserInfoResp
+	UserReq                = blog.UserReq
 
 	RemarkRpc interface {
 		// 创建留言

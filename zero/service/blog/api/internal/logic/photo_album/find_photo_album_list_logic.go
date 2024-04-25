@@ -24,7 +24,7 @@ func NewFindPhotoAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

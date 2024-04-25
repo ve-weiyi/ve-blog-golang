@@ -24,7 +24,7 @@ func NewDeleteRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 	}
 }
 
-func (l *DeleteRoleListLogic) DeleteRoleList(req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeleteRoleListLogic) DeleteRoleList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.RoleRpc.DeleteRoleList(l.ctx, in)

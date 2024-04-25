@@ -24,7 +24,7 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindUserListLogic) FindUserList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindUserListLogic) FindUserList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	users, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
 	if err != nil {

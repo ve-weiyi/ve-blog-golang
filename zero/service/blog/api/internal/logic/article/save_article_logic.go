@@ -26,7 +26,7 @@ func NewSaveArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveA
 	}
 }
 
-func (l *SaveArticleLogic) SaveArticle(req *types.ArticleDetailsReq) (resp *types.EmptyResp, err error) {
+func (l *SaveArticleLogic) SaveArticle(reqCtx *types.RestHeader, req *types.ArticleDetailsReq) (resp *types.EmptyResp, err error) {
 	in := &blog.Article{}
 	jsonconv.ObjectMarshal(req, &in)
 

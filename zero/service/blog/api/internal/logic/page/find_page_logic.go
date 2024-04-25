@@ -24,7 +24,7 @@ func NewFindPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPage
 	}
 }
 
-func (l *FindPageLogic) FindPage(req *types.IdReq) (resp *types.Page, err error) {
+func (l *FindPageLogic) FindPage(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Page, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -405,7 +405,7 @@ type Response struct {
 	Code    int         `json:"code"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
-	TraceID string      `json:"trace_id"`
+	TraceId string      `json:"trace_id"`
 }
 
 type RestHeader struct {
@@ -415,7 +415,7 @@ type RestHeader struct {
 	HeaderAppName    string `header:"App-name,optional"`
 	HeaderXUserId    string `header:"X-User-Id,optional"`
 	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
-	HeaderTerminalID string `header:"X-Terminal-ID,optional"`
+	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
 type Role struct {
@@ -489,26 +489,15 @@ type TagDetails struct {
 	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
 }
 
-type Talk struct {
-	Id        int64  `json:"id,optional"`         // 说说id
-	UserID    int64  `json:"user_i_d,optional"`   // 用户id
-	Content   string `json:"content,optional"`    // 说说内容
-	Images    string `json:"images,optional"`     // 图片
-	IsTop     int64  `json:"is_top,optional"`     // 是否置顶
-	Status    int64  `json:"status,optional"`     // 状态 1.公开 2.私密
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
-type TalkDetailsDTO struct {
-	Id           int64    `json:"id,optional"`
+type TalkDetails struct {
+	Id           int64    `json:"id,optional"`            // 说说ID
 	UserID       int64    `json:"user_i_d,optional"`      // 用户ID
 	Nickname     string   `json:"nickname,optional"`      // 用户昵称
 	Avatar       string   `json:"avatar,optional"`        // 用户头像
 	Content      string   `json:"content,optional"`       // 评论内容
 	ImgList      []string `json:"img_list,optional"`      // 图片URL列表
 	IsTop        int64    `json:"is_top,optional"`        // 是否置顶
-	Status       int64    `json:"status,optional"`        // 状态
+	Status       int64    `json:"status,optional"`        // 状态 1.公开 2.私密
 	LikeCount    int64    `json:"like_count,optional"`    // 点赞量
 	CommentCount int64    `json:"comment_count,optional"` // 评论量
 	CreatedAt    int64    `json:"created_at,optional"`    // 创建时间

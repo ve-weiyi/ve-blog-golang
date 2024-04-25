@@ -25,7 +25,7 @@ func NewFindRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRe
 	}
 }
 
-func (l *FindRemarkLogic) FindRemark(req *types.IdReq) (resp *types.Remark, err error) {
+func (l *FindRemarkLogic) FindRemark(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Remark, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.RemarkRpc.FindRemark(l.ctx, in)

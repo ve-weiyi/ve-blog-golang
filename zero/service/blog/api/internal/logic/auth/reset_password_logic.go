@@ -23,7 +23,7 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 	}
 }
 
-func (l *ResetPasswordLogic) ResetPassword(req *types.ResetPasswordReq) (resp *types.EmptyResp, err error) {
+func (l *ResetPasswordLogic) ResetPassword(reqCtx *types.RestHeader, req *types.ResetPasswordReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

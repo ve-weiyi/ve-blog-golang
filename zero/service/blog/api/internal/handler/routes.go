@@ -786,18 +786,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 分页获取说说详情列表
-				Method:  http.MethodGet,
-				Path:    "/talk/:id/details",
-				Handler: talk.FindTalkDetailHandler(serverCtx),
-			},
-			{
-				// 点赞说说
-				Method:  http.MethodPut,
-				Path:    "/talk/:id/like",
-				Handler: talk.LikeTalkHandler(serverCtx),
-			},
-			{
 				// 创建说说
 				Method:  http.MethodPost,
 				Path:    "/talk/create_talk",
@@ -816,12 +804,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: talk.DeleteTalkListHandler(serverCtx),
 			},
 			{
-				// 分页获取说说详情列表
-				Method:  http.MethodPost,
-				Path:    "/talk/details_list",
-				Handler: talk.FindTalkDetailsListHandler(serverCtx),
-			},
-			{
 				// 查询说说
 				Method:  http.MethodPost,
 				Path:    "/talk/find_talk",
@@ -832,6 +814,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/talk/find_talk_list",
 				Handler: talk.FindTalkListHandler(serverCtx),
+			},
+			{
+				// 点赞说说
+				Method:  http.MethodPut,
+				Path:    "/talk/like_talk",
+				Handler: talk.LikeTalkHandler(serverCtx),
 			},
 			{
 				// 更新说说

@@ -14,6 +14,12 @@ import (
 // 分页获取留言列表
 func FindRemarkListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func FindRemarkListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := remark.NewFindRemarkListLogic(r.Context(), svcCtx)
-		resp, err := l.FindRemarkList(&req)
+		resp, err := l.FindRemarkList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

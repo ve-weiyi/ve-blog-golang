@@ -24,7 +24,7 @@ func NewUpdateRoleApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateRoleApisLogic) UpdateRoleApis(req *types.UpdateRoleApisReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateRoleApisLogic) UpdateRoleApis(reqCtx *types.RestHeader, req *types.UpdateRoleApisReq) (resp *types.EmptyResp, err error) {
 	in := rolerpc.UpdateRoleApisReq{
 		RoleId: req.RoleId,
 		ApiIds: req.ApiIds,

@@ -24,7 +24,7 @@ func NewFindArticleHomeListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindArticleHomeListLogic) FindArticleHomeList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

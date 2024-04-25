@@ -23,7 +23,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateUserInfoLogic) UpdateUserInfo(reqCtx *types.RestHeader, req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

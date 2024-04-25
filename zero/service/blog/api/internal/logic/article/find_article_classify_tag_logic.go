@@ -24,7 +24,7 @@ func NewFindArticleClassifyTagLogic(ctx context.Context, svcCtx *svc.ServiceCont
 	}
 }
 
-func (l *FindArticleClassifyTagLogic) FindArticleClassifyTag(req *types.ArticleClassifyTagReq) (resp *types.ArticleClassifyResp, err error) {
+func (l *FindArticleClassifyTagLogic) FindArticleClassifyTag(reqCtx *types.RestHeader, req *types.ArticleClassifyTagReq) (resp *types.ArticleClassifyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

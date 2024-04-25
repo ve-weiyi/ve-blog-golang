@@ -374,19 +374,23 @@ message UpdateUserRoleReq {
   repeated int64 role_ids = 2;
 }
 
+message UserReq {
+  int64 user_id = 1;
+}
+
 service UserRpc {
   // 查询用户登录历史
   rpc FindUserLoginHistoryList(PageQuery) returns(LoginHistoryPageResp);
   // 批量删除登录历史
   rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResp);
   // 获取用户接口权限
-  rpc GetUserApis(EmptyReq) returns(ApiPageResp);
+  rpc GetUserApis(UserReq) returns(ApiPageResp);
   // 获取用户菜单权限
-  rpc GetUserMenus(EmptyReq) returns(MenuPageResp);
+  rpc GetUserMenus(UserReq) returns(MenuPageResp);
   // 获取用户角色信息
-  rpc GetUserRoles(EmptyReq) returns(RolePageResp);
+  rpc GetUserRoles(UserReq) returns(RolePageResp);
   // 获取用户信息
-  rpc GetUserInfo(EmptyReq) returns(UserInfoResp);
+  rpc GetUserInfo(UserReq) returns(UserInfoResp);
   // 修改用户信息
   rpc UpdateUserInfo(UpdateUserInfoReq) returns(UserInfoResp);
   // 修改用户头像

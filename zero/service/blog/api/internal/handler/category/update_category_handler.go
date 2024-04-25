@@ -14,6 +14,12 @@ import (
 // 更新文章分类
 func UpdateCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.Category
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func UpdateCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := category.NewUpdateCategoryLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateCategory(&req)
+		resp, err := l.UpdateCategory(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

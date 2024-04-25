@@ -25,7 +25,7 @@ func NewTopArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TopArt
 	}
 }
 
-func (l *TopArticleLogic) TopArticle(req *types.ArticleTopReq) (resp *types.EmptyResp, err error) {
+func (l *TopArticleLogic) TopArticle(reqCtx *types.RestHeader, req *types.ArticleTopReq) (resp *types.EmptyResp, err error) {
 	article, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blog.IdReq{Id: req.Id})
 	if err != nil {
 		return nil, err

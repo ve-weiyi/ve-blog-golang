@@ -3,9 +3,12 @@ package mine
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +27,11 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 	}
 }
 
-func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
-	in := convert.EmptyReq()
+func (l *GetUserMenusLogic) GetUserMenus(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
+	in := &blog.UserReq{
+		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+	}
+
 	out, err := l.svcCtx.UserRpc.GetUserMenus(l.ctx, in)
 	if err != nil {
 		return nil, err

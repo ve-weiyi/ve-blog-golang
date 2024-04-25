@@ -14,6 +14,12 @@ import (
 // 发送忘记密码邮件
 func ForgetPasswordEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.UserEmailReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func ForgetPasswordEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := auth.NewForgetPasswordEmailLogic(r.Context(), svcCtx)
-		resp, err := l.ForgetPasswordEmail(&req)
+		resp, err := l.ForgetPasswordEmail(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

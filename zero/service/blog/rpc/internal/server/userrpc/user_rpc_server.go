@@ -35,25 +35,25 @@ func (s *UserRpcServer) DeleteUserLoginHistoryList(ctx context.Context, in *blog
 }
 
 // 获取用户接口权限
-func (s *UserRpcServer) GetUserApis(ctx context.Context, in *blog.EmptyReq) (*blog.ApiPageResp, error) {
+func (s *UserRpcServer) GetUserApis(ctx context.Context, in *blog.UserReq) (*blog.ApiPageResp, error) {
 	l := userrpclogic.NewGetUserApisLogic(ctx, s.svcCtx)
 	return l.GetUserApis(in)
 }
 
 // 获取用户菜单权限
-func (s *UserRpcServer) GetUserMenus(ctx context.Context, in *blog.EmptyReq) (*blog.MenuPageResp, error) {
+func (s *UserRpcServer) GetUserMenus(ctx context.Context, in *blog.UserReq) (*blog.MenuPageResp, error) {
 	l := userrpclogic.NewGetUserMenusLogic(ctx, s.svcCtx)
 	return l.GetUserMenus(in)
 }
 
 // 获取用户角色信息
-func (s *UserRpcServer) GetUserRoles(ctx context.Context, in *blog.EmptyReq) (*blog.RolePageResp, error) {
+func (s *UserRpcServer) GetUserRoles(ctx context.Context, in *blog.UserReq) (*blog.RolePageResp, error) {
 	l := userrpclogic.NewGetUserRolesLogic(ctx, s.svcCtx)
 	return l.GetUserRoles(in)
 }
 
 // 获取用户信息
-func (s *UserRpcServer) GetUserInfo(ctx context.Context, in *blog.EmptyReq) (*blog.UserInfoResp, error) {
+func (s *UserRpcServer) GetUserInfo(ctx context.Context, in *blog.UserReq) (*blog.UserInfoResp, error) {
 	l := userrpclogic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
 }

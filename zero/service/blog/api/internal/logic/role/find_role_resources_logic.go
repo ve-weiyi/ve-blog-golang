@@ -24,7 +24,7 @@ func NewFindRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *FindRoleResourcesLogic) FindRoleResources(req *types.IdReq) (resp *types.RoleResourcesResp, err error) {
+func (l *FindRoleResourcesLogic) FindRoleResources(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.RoleResourcesResp, err error) {
 	in := convert.ConvertIdReq(req)
 	out, err := l.svcCtx.RoleRpc.FindRoleResources(l.ctx, in)
 	if err != nil {

@@ -24,7 +24,7 @@ func NewPreDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *PreDeleteArticleLogic) PreDeleteArticle(req *types.ArticleDeleteReq) (resp *types.EmptyResp, err error) {
+func (l *PreDeleteArticleLogic) PreDeleteArticle(reqCtx *types.RestHeader, req *types.ArticleDeleteReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -23,7 +23,7 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(req *types.OauthLoginReq) (resp *types.OauthLoginUrl, err error) {
+func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(reqCtx *types.RestHeader, req *types.OauthLoginReq) (resp *types.OauthLoginUrl, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -24,7 +24,7 @@ func NewDeletePhotoAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *DeletePhotoAlbumListLogic) DeletePhotoAlbumList(req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeletePhotoAlbumListLogic) DeletePhotoAlbumList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -14,6 +14,12 @@ import (
 // 更新配置
 func UpdateWebsiteConfigHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.WebsiteConfig
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func UpdateWebsiteConfigHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := website.NewUpdateWebsiteConfigLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateWebsiteConfig(&req)
+		resp, err := l.UpdateWebsiteConfig(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

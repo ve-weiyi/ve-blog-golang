@@ -24,7 +24,7 @@ func NewGetAdminHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *types.AdminHomeInfo, err error) {
+func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.AdminHomeInfo, err error) {
 	// todo: add your logic here and delete this line
 
 	return

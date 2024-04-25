@@ -3,6 +3,7 @@ package talk
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -24,8 +25,13 @@ func NewFindTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTalk
 	}
 }
 
-func (l *FindTalkLogic) FindTalk(req *types.IdReq) (resp *types.Talk, err error) {
-	// todo: add your logic here and delete this line
+func (l *FindTalkLogic) FindTalk(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.TalkDetails, err error) {
+	in := convert.ConvertIdReq(req)
 
-	return
+	out, err := l.svcCtx.TalkRpc.FindTalk(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convert.ConvertTalkTypes(out), nil
 }

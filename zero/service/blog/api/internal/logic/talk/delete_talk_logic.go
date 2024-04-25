@@ -3,6 +3,7 @@ package talk
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -24,8 +25,15 @@ func NewDeleteTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteTalkLogic) DeleteTalk(req *types.IdReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *DeleteTalkLogic) DeleteTalk(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
+	in := convert.ConvertIdReq(req)
 
-	return
+	out, err := l.svcCtx.TalkRpc.DeleteTalk(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }

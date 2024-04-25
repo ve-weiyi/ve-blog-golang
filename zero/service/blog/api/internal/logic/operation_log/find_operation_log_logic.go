@@ -25,7 +25,7 @@ func NewFindOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindOperationLogLogic) FindOperationLog(req *types.IdReq) (resp *types.OperationLog, err error) {
+func (l *FindOperationLogLogic) FindOperationLog(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.OperationLog, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.LogRpc.FindOperationLog(l.ctx, in)

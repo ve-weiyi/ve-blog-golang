@@ -14,6 +14,12 @@ import (
 // 查询在线用户列表
 func FindOnlineUserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func FindOnlineUserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := account.NewFindOnlineUserListLogic(r.Context(), svcCtx)
-		resp, err := l.FindOnlineUserList(&req)
+		resp, err := l.FindOnlineUserList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

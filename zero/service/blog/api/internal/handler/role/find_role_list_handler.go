@@ -14,6 +14,12 @@ import (
 // 分页获取角色列表
 func FindRoleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func FindRoleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := role.NewFindRoleListLogic(r.Context(), svcCtx)
-		resp, err := l.FindRoleList(&req)
+		resp, err := l.FindRoleList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

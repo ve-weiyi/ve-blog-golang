@@ -25,7 +25,7 @@ func NewFindCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindCategoryLogic) FindCategory(req *types.IdReq) (resp *types.Category, err error) {
+func (l *FindCategoryLogic) FindCategory(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Category, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.CategoryRpc.FindCategory(l.ctx, in)

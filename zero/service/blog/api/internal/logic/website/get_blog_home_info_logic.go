@@ -25,7 +25,7 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 	}
 }
 
-func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types.BlogHomeInfo, err error) {
+func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.BlogHomeInfo, err error) {
 	ac, err := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blog.PageQuery{})
 	if err != nil {
 		return nil, err

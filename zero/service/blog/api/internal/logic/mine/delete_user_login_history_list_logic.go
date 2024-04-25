@@ -24,7 +24,7 @@ func NewDeleteUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.Service
 	}
 }
 
-func (l *DeleteUserLoginHistoryListLogic) DeleteUserLoginHistoryList(req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeleteUserLoginHistoryListLogic) DeleteUserLoginHistoryList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.UserRpc.DeleteUserLoginHistoryList(l.ctx, in)

@@ -15,6 +15,7 @@ type LogoffLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 注销
 func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogic {
 	return &LogoffLogic{
 		Logger: logx.WithContext(ctx),
@@ -23,7 +24,7 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 	}
 }
 
-func (l *LogoffLogic) Logoff() (resp *types.EmptyResp, err error) {
+func (l *LogoffLogic) Logoff(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -24,7 +24,7 @@ func NewFindArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 	}
 }
 
-func (l *FindArticleLogic) FindArticle(req *types.IdReq) (resp *types.ArticleDetailsResp, err error) {
+func (l *FindArticleLogic) FindArticle(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.ArticleDetailsResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

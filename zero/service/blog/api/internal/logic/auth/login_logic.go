@@ -28,7 +28,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
-func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
+func (l *LoginLogic) Login(reqCtx *types.RestHeader, req *types.LoginReq) (resp *types.LoginResp, err error) {
 
 	in := authrpc.LoginReq{
 		Username: req.Username,

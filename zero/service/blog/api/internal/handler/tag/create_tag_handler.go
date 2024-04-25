@@ -14,6 +14,12 @@ import (
 // 创建标签
 func CreateTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.Tag
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func CreateTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := tag.NewCreateTagLogic(r.Context(), svcCtx)
-		resp, err := l.CreateTag(&req)
+		resp, err := l.CreateTag(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

@@ -14,6 +14,12 @@ import (
 // 批量删除登录历史
 func DeleteUserLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func DeleteUserLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerF
 		}
 
 		l := mine.NewDeleteUserLoginHistoryListLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteUserLoginHistoryList(&req)
+		resp, err := l.DeleteUserLoginHistoryList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

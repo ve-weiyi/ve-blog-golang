@@ -23,7 +23,7 @@ func NewCleanApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Clea
 	}
 }
 
-func (l *CleanApiListLogic) CleanApiList(req *types.EmptyReq) (resp *types.BatchResp, err error) {
+func (l *CleanApiListLogic) CleanApiList(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.BatchResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

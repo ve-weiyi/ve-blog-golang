@@ -24,7 +24,7 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdatePageLogic) UpdatePage(req *types.Page) (resp *types.Page, err error) {
+func (l *UpdatePageLogic) UpdatePage(reqCtx *types.RestHeader, req *types.Page) (resp *types.Page, err error) {
 	// todo: add your logic here and delete this line
 
 	return

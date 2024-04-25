@@ -14,6 +14,12 @@ import (
 // 更新关于我的信息
 func UpdateAboutMeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.AboutMe
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func UpdateAboutMeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := website.NewUpdateAboutMeLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateAboutMe(&req)
+		resp, err := l.UpdateAboutMe(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

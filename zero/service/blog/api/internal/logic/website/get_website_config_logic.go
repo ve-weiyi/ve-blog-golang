@@ -26,7 +26,7 @@ func NewGetWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *GetWebsiteConfigLogic) GetWebsiteConfig(req *types.EmptyReq) (resp *types.WebsiteConfig, err error) {
+func (l *GetWebsiteConfigLogic) GetWebsiteConfig(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.WebsiteConfig, err error) {
 	in := &blog.FindConfigReq{
 		ConfigKey: "website_config",
 	}

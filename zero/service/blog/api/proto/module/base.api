@@ -6,7 +6,7 @@ type RestHeader {
 
     HeaderXUserId string `header:"X-User-Id,optional"`
     HeaderXAuthToken string `header:"X-Auth-Token,optional"`
-    HeaderTerminalID string `header:"X-Terminal-ID,optional"`
+    HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
 
@@ -64,6 +64,6 @@ type (
         Code int `json:"code"`
         Message string `json:"message"`
         Data interface{} `json:"data"`
-        TraceID string `json:"trace_id"`
+        TraceId string `json:"trace_id"`
     }
 )

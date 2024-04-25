@@ -24,7 +24,7 @@ func NewDeletePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 	}
 }
 
-func (l *DeletePhotoLogic) DeletePhoto(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletePhotoLogic) DeletePhoto(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

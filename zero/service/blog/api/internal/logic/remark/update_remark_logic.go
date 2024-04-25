@@ -25,7 +25,7 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 	}
 }
 
-func (l *UpdateRemarkLogic) UpdateRemark(req *types.Remark) (resp *types.Remark, err error) {
+func (l *UpdateRemarkLogic) UpdateRemark(reqCtx *types.RestHeader, req *types.Remark) (resp *types.Remark, err error) {
 	in := convert.ConvertRemarkPb(req)
 
 	api, err := l.svcCtx.RemarkRpc.UpdateRemark(l.ctx, in)

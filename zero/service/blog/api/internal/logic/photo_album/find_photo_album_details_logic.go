@@ -24,7 +24,7 @@ func NewFindPhotoAlbumDetailsLogic(ctx context.Context, svcCtx *svc.ServiceConte
 	}
 }
 
-func (l *FindPhotoAlbumDetailsLogic) FindPhotoAlbumDetails(req *types.IdReq) (resp *types.PhotoAlbumDetailsDTO, err error) {
+func (l *FindPhotoAlbumDetailsLogic) FindPhotoAlbumDetails(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.PhotoAlbumDetailsDTO, err error) {
 	// todo: add your logic here and delete this line
 
 	return

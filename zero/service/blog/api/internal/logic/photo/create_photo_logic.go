@@ -24,7 +24,7 @@ func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Creat
 	}
 }
 
-func (l *CreatePhotoLogic) CreatePhoto(req *types.Photo) (resp *types.Photo, err error) {
+func (l *CreatePhotoLogic) CreatePhoto(reqCtx *types.RestHeader, req *types.Photo) (resp *types.Photo, err error) {
 	// todo: add your logic here and delete this line
 
 	return

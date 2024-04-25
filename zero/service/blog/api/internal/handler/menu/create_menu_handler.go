@@ -14,6 +14,12 @@ import (
 // 创建菜单
 func CreateMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.MenuDetails
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func CreateMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := menu.NewCreateMenuLogic(r.Context(), svcCtx)
-		resp, err := l.CreateMenu(&req)
+		resp, err := l.CreateMenu(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

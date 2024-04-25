@@ -24,7 +24,7 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 	}
 }
 
-func (l *UpdateApiLogic) UpdateApi(req *types.Api) (resp *types.Api, err error) {
+func (l *UpdateApiLogic) UpdateApi(reqCtx *types.RestHeader, req *types.Api) (resp *types.Api, err error) {
 	in := convert.ConvertApiPb(req)
 	api, err := l.svcCtx.ApiRpc.UpdateApi(l.ctx, in)
 	if err != nil {

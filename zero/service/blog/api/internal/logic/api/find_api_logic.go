@@ -24,7 +24,7 @@ func NewFindApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindApiLo
 	}
 }
 
-func (l *FindApiLogic) FindApi(req *types.IdReq) (resp *types.Api, err error) {
+func (l *FindApiLogic) FindApi(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Api, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.ApiRpc.FindApi(l.ctx, in)

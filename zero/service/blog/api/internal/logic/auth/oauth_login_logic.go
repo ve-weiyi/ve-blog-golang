@@ -23,7 +23,7 @@ func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthL
 	}
 }
 
-func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.LoginResp, err error) {
+func (l *OauthLoginLogic) OauthLogin(reqCtx *types.RestHeader, req *types.OauthLoginReq) (resp *types.LoginResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

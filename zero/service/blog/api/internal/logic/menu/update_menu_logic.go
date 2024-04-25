@@ -24,7 +24,7 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateMenuLogic) UpdateMenu(req *types.MenuDetails) (resp *types.MenuDetails, err error) {
+func (l *UpdateMenuLogic) UpdateMenu(reqCtx *types.RestHeader, req *types.MenuDetails) (resp *types.MenuDetails, err error) {
 	in := convert.ConvertMenuPb(req)
 	api, err := l.svcCtx.MenuRpc.UpdateMenu(l.ctx, in)
 	if err != nil {

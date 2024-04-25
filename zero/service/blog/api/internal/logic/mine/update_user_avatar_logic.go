@@ -23,7 +23,7 @@ func NewUpdateUserAvatarLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *UpdateUserAvatarLogic) UpdateUserAvatar(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateUserAvatarLogic) UpdateUserAvatar(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -1519,13 +1519,13 @@ type UserRpcClient interface {
 	// 批量删除登录历史
 	DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 获取用户接口权限
-	GetUserApis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ApiPageResp, error)
+	GetUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 	// 获取用户菜单权限
-	GetUserMenus(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*MenuPageResp, error)
+	GetUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
 	// 获取用户角色信息
-	GetUserRoles(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*RolePageResp, error)
+	GetUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
 	// 获取用户信息
-	GetUserInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// 修改用户头像
@@ -1564,7 +1564,7 @@ func (c *userRpcClient) DeleteUserLoginHistoryList(ctx context.Context, in *IdsR
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserApis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
+func (c *userRpcClient) GetUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
 	out := new(ApiPageResp)
 	err := c.cc.Invoke(ctx, "/blog.UserRpc/GetUserApis", in, out, opts...)
 	if err != nil {
@@ -1573,7 +1573,7 @@ func (c *userRpcClient) GetUserApis(ctx context.Context, in *EmptyReq, opts ...g
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserMenus(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
+func (c *userRpcClient) GetUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
 	out := new(MenuPageResp)
 	err := c.cc.Invoke(ctx, "/blog.UserRpc/GetUserMenus", in, out, opts...)
 	if err != nil {
@@ -1582,7 +1582,7 @@ func (c *userRpcClient) GetUserMenus(ctx context.Context, in *EmptyReq, opts ...
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserRoles(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*RolePageResp, error) {
+func (c *userRpcClient) GetUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
 	out := new(RolePageResp)
 	err := c.cc.Invoke(ctx, "/blog.UserRpc/GetUserRoles", in, out, opts...)
 	if err != nil {
@@ -1591,7 +1591,7 @@ func (c *userRpcClient) GetUserRoles(ctx context.Context, in *EmptyReq, opts ...
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (c *userRpcClient) GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	out := new(UserInfoResp)
 	err := c.cc.Invoke(ctx, "/blog.UserRpc/GetUserInfo", in, out, opts...)
 	if err != nil {
@@ -1654,13 +1654,13 @@ type UserRpcServer interface {
 	// 批量删除登录历史
 	DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResp, error)
 	// 获取用户接口权限
-	GetUserApis(context.Context, *EmptyReq) (*ApiPageResp, error)
+	GetUserApis(context.Context, *UserReq) (*ApiPageResp, error)
 	// 获取用户菜单权限
-	GetUserMenus(context.Context, *EmptyReq) (*MenuPageResp, error)
+	GetUserMenus(context.Context, *UserReq) (*MenuPageResp, error)
 	// 获取用户角色信息
-	GetUserRoles(context.Context, *EmptyReq) (*RolePageResp, error)
+	GetUserRoles(context.Context, *UserReq) (*RolePageResp, error)
 	// 获取用户信息
-	GetUserInfo(context.Context, *EmptyReq) (*UserInfoResp, error)
+	GetUserInfo(context.Context, *UserReq) (*UserInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UserInfoResp, error)
 	// 修改用户头像
@@ -1684,16 +1684,16 @@ func (UnimplementedUserRpcServer) FindUserLoginHistoryList(context.Context, *Pag
 func (UnimplementedUserRpcServer) DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserLoginHistoryList not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserApis(context.Context, *EmptyReq) (*ApiPageResp, error) {
+func (UnimplementedUserRpcServer) GetUserApis(context.Context, *UserReq) (*ApiPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserApis not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserMenus(context.Context, *EmptyReq) (*MenuPageResp, error) {
+func (UnimplementedUserRpcServer) GetUserMenus(context.Context, *UserReq) (*MenuPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserMenus not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserRoles(context.Context, *EmptyReq) (*RolePageResp, error) {
+func (UnimplementedUserRpcServer) GetUserRoles(context.Context, *UserReq) (*RolePageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserInfo(context.Context, *EmptyReq) (*UserInfoResp, error) {
+func (UnimplementedUserRpcServer) GetUserInfo(context.Context, *UserReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
 func (UnimplementedUserRpcServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UserInfoResp, error) {
@@ -1761,7 +1761,7 @@ func _UserRpc_DeleteUserLoginHistoryList_Handler(srv interface{}, ctx context.Co
 }
 
 func _UserRpc_GetUserApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1773,13 +1773,13 @@ func _UserRpc_GetUserApis_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/blog.UserRpc/GetUserApis",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserApis(ctx, req.(*EmptyReq))
+		return srv.(UserRpcServer).GetUserApis(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_GetUserMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1791,13 +1791,13 @@ func _UserRpc_GetUserMenus_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/blog.UserRpc/GetUserMenus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserMenus(ctx, req.(*EmptyReq))
+		return srv.(UserRpcServer).GetUserMenus(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1809,13 +1809,13 @@ func _UserRpc_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/blog.UserRpc/GetUserRoles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserRoles(ctx, req.(*EmptyReq))
+		return srv.(UserRpcServer).GetUserRoles(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1827,7 +1827,7 @@ func _UserRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/blog.UserRpc/GetUserInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserInfo(ctx, req.(*EmptyReq))
+		return srv.(UserRpcServer).GetUserInfo(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

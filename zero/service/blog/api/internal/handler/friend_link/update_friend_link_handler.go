@@ -14,6 +14,12 @@ import (
 // 更新友链
 func UpdateFriendLinkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.FriendLink
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func UpdateFriendLinkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := friend_link.NewUpdateFriendLinkLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateFriendLink(&req)
+		resp, err := l.UpdateFriendLink(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

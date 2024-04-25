@@ -14,6 +14,12 @@ import (
 // 获取角色资源列表
 func FindRoleResourcesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func FindRoleResourcesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := role.NewFindRoleResourcesLogic(r.Context(), svcCtx)
-		resp, err := l.FindRoleResources(&req)
+		resp, err := l.FindRoleResources(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

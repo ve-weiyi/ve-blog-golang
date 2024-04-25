@@ -24,7 +24,7 @@ func NewFindPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPho
 	}
 }
 
-func (l *FindPhotoLogic) FindPhoto(req *types.IdReq) (resp *types.Photo, err error) {
+func (l *FindPhotoLogic) FindPhoto(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Photo, err error) {
 	// todo: add your logic here and delete this line
 
 	return

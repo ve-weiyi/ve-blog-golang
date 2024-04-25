@@ -14,6 +14,12 @@ import (
 // 通过标签或者id获取文章列表
 func FindArticleClassifyTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.ArticleClassifyTagReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func FindArticleClassifyTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc 
 		}
 
 		l := article.NewFindArticleClassifyTagLogic(r.Context(), svcCtx)
-		resp, err := l.FindArticleClassifyTag(&req)
+		resp, err := l.FindArticleClassifyTag(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

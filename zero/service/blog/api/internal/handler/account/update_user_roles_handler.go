@@ -14,6 +14,12 @@ import (
 // 修改用户角色
 func UpdateUserRolesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.UpdateUserRolesReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func UpdateUserRolesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := account.NewUpdateUserRolesLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateUserRoles(&req)
+		resp, err := l.UpdateUserRoles(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

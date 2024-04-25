@@ -25,7 +25,7 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindOperationLogListLogic) FindOperationLogList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindOperationLogListLogic) FindOperationLogList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.LogRpc.FindOperationLogList(l.ctx, in)
 	if err != nil {

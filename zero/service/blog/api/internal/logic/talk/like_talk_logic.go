@@ -24,7 +24,7 @@ func NewLikeTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeTalk
 	}
 }
 
-func (l *LikeTalkLogic) LikeTalk(req *types.IdReq) (resp *types.EmptyResp, err error) {
+func (l *LikeTalkLogic) LikeTalk(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

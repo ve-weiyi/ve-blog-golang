@@ -25,7 +25,7 @@ func NewUpdateOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *UpdateOperationLogLogic) UpdateOperationLog(req *types.OperationLog) (resp *types.OperationLog, err error) {
+func (l *UpdateOperationLogLogic) UpdateOperationLog(reqCtx *types.RestHeader, req *types.OperationLog) (resp *types.OperationLog, err error) {
 	in := convert.ConvertOperationLogPb(req)
 
 	api, err := l.svcCtx.LogRpc.UpdateOperationLog(l.ctx, in)

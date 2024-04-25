@@ -24,7 +24,7 @@ func NewGetSystemStateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetSystemStateLogic) GetSystemState(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
+func (l *GetSystemStateLogic) GetSystemState(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

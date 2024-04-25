@@ -14,6 +14,12 @@ import (
 // 创建页面
 func CreatePageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.Page
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func CreatePageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := page.NewCreatePageLogic(r.Context(), svcCtx)
-		resp, err := l.CreatePage(&req)
+		resp, err := l.CreatePage(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

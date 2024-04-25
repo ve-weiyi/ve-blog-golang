@@ -25,7 +25,7 @@ func NewFindTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTagLo
 	}
 }
 
-func (l *FindTagLogic) FindTag(req *types.IdReq) (resp *types.Tag, err error) {
+func (l *FindTagLogic) FindTag(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Tag, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.TagRpc.FindTag(l.ctx, in)

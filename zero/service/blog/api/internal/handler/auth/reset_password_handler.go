@@ -14,6 +14,12 @@ import (
 // 重置密码
 func ResetPasswordHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.ResetPasswordReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func ResetPasswordHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := auth.NewResetPasswordLogic(r.Context(), svcCtx)
-		resp, err := l.ResetPassword(&req)
+		resp, err := l.ResetPassword(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

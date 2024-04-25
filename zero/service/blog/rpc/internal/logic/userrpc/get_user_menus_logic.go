@@ -5,7 +5,6 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex/metadata"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
@@ -27,11 +26,8 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 // 获取用户菜单权限
-func (l *GetUserMenusLogic) GetUserMenus(in *blog.EmptyReq) (*blog.MenuPageResp, error) {
-	uid, err := metadata.GetRPCInnerXUserId(l.ctx)
-	if err != nil {
-		return nil, err
-	}
+func (l *GetUserMenusLogic) GetUserMenus(in *blog.UserReq) (*blog.MenuPageResp, error) {
+	uid := in.UserId
 
 	// 查用户
 	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)

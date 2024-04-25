@@ -3,7 +3,6 @@ package userrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex/metadata"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -26,11 +25,8 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 // 获取用户信息
-func (l *GetUserInfoLogic) GetUserInfo(in *blog.EmptyReq) (*blog.UserInfoResp, error) {
-	uid, err := metadata.GetRPCInnerXUserId(l.ctx)
-	if err != nil {
-		return nil, err
-	}
+func (l *GetUserInfoLogic) GetUserInfo(in *blog.UserReq) (*blog.UserInfoResp, error) {
+	uid := in.UserId
 
 	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
 	//if err != nil {

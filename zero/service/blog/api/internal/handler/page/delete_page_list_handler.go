@@ -14,6 +14,12 @@ import (
 // 批量删除页面
 func DeletePageListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var reqCtx types.RestHeader
+		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
@@ -21,7 +27,7 @@ func DeletePageListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := page.NewDeletePageListLogic(r.Context(), svcCtx)
-		resp, err := l.DeletePageList(&req)
+		resp, err := l.DeletePageList(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }
