@@ -3,11 +3,11 @@ package comment
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindCommentReplyListLogic struct {
@@ -25,26 +25,23 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindCommentReplyListLogic) FindCommentReplyList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
+func (l *FindCommentReplyListLogic) FindCommentReplyList(reqCtx *types.RestHeader, req *types.CommentQueryReq) (resp *types.PageResp, err error) {
+	in := convert.ConvertCommentQueryTypes(req)
+	out, err := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	//total, err := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, in)
-	//if err != nil {
-
-	var list []*types.Comment
+	var list []*types.CommentReply
 	for _, v := range out.List {
-		m := convert.ConvertCommentTypes(v)
+		m := convert.ConvertCommentReplyTypes(v)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
-	resp.Total = 0
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
+	resp.Total = out.Total
 	resp.List = list
-	return
+	return resp, nil
 }

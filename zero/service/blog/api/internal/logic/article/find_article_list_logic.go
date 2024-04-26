@@ -38,7 +38,7 @@ func (l *FindArticleListLogic) FindArticleList(reqCtx *types.RestHeader, req *ty
 		return nil, err
 	}
 
-	var list []*types.ArticleDetailsResp
+	var list []*types.ArticleBackDTO
 	for _, v := range out.List {
 		var category string
 		ct, err := l.svcCtx.CategoryRpc.FindCategory(l.ctx, &blog.IdReq{Id: v.CategoryId})
@@ -56,7 +56,7 @@ func (l *FindArticleListLogic) FindArticleList(reqCtx *types.RestHeader, req *ty
 			tags = append(tags, tag.TagName)
 		}
 
-		m := convert.ConvertArticleDetailsTypes(v)
+		m := convert.ConvertArticleBackTypes(v)
 		m.CategoryName = category
 		m.TagNameList = tags
 		list = append(list, m)

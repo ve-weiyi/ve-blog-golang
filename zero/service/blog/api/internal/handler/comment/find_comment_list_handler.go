@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
-// 分页获取评论列表
+// 查询评论列表
 func FindCommentListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqCtx types.RestHeader
@@ -20,7 +20,7 @@ func FindCommentListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		var req types.PageQuery
+		var req types.CommentQueryReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

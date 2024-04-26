@@ -1,6 +1,7 @@
 Name: account-api
 Host: 0.0.0.0
 Port: 9999
+Timeout: 5000
 Log:
   Mode: console
   Encoding: plain

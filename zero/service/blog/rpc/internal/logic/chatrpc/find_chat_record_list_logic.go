@@ -28,7 +28,7 @@ func NewFindChatRecordListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *FindChatRecordListLogic) FindChatRecordList(in *blog.PageQuery) (*blog.ChatRecordPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.ChatRecordModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.ChatRecordModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

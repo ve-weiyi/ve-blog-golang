@@ -20,7 +20,7 @@ func PreDeleteArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		var req types.ArticleDeleteReq
+		var req types.ArticlePreDeleteReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

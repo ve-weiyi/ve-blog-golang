@@ -52,9 +52,9 @@ func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(reqCtx *t
 		return nil, err
 	}
 
-	var list []*types.ArticleHome
+	var list []*types.ArticlePreviewDTO
 	for _, v := range as.List {
-		m := convert.ConvertArticleHomeTypes(v)
+		m := convert.ConvertArticlePreviewTypes(v)
 		list = append(list, m)
 	}
 

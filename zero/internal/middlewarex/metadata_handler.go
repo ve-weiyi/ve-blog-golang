@@ -1,4 +1,4 @@
-package metadata
+package middlewarex
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 )
 
 // CtxMetadataHandel 将http header 放入 ctx 里面使用 metadata 保存.
-func CtxMetadataHandel(next http.HandlerFunc) http.HandlerFunc {
+func CtxMetadataHandler(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//logx.Infof("CtxMetadataHandel")
 		ctx := r.Context()

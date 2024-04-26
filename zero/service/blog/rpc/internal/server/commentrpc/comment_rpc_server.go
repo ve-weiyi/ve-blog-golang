@@ -58,10 +58,16 @@ func (s *CommentRpcServer) FindCommentList(ctx context.Context, in *blog.PageQue
 	return l.FindCommentList(in)
 }
 
-// 分页获取评论列表
-func (s *CommentRpcServer) FindCommentDetailsList(ctx context.Context, in *blog.PageQuery) (*blog.CommentDetailsPageResp, error) {
-	l := commentrpclogic.NewFindCommentDetailsListLogic(ctx, s.svcCtx)
-	return l.FindCommentDetailsList(in)
+// 分页获取评论回复列表
+func (s *CommentRpcServer) FindCommentReplyList(ctx context.Context, in *blog.PageQuery) (*blog.CommentReplyPageResp, error) {
+	l := commentrpclogic.NewFindCommentReplyListLogic(ctx, s.svcCtx)
+	return l.FindCommentReplyList(in)
+}
+
+// 查询评论数量
+func (s *CommentRpcServer) FindCommentCount(ctx context.Context, in *blog.PageQuery) (*blog.CountResp, error) {
+	l := commentrpclogic.NewFindCommentCountLogic(ctx, s.svcCtx)
+	return l.FindCommentCount(in)
 }
 
 // 点赞评论

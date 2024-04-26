@@ -42,15 +42,17 @@ type (
 
 	Comment struct {
 		Id             int64     `gorm:"column:id"`              // 主键
-		UserId         int64     `gorm:"column:user_id"`         // 评论用户Id
-		TopicId        int64     `gorm:"column:topic_id"`        // 评论主题id
-		CommentContent string    `gorm:"column:comment_content"` // 评论内容
-		ReplyUserId    int64     `gorm:"column:reply_user_id"`   // 回复用户id
+		TopicId        int64     `gorm:"column:topic_id"`        // 主题id
 		ParentId       int64     `gorm:"column:parent_id"`       // 父评论id
+		SessionId      int64     `gorm:"column:session_id"`      // 会话id
+		UserId         int64     `gorm:"column:user_id"`         // 评论用户id
+		ReplyUserId    int64     `gorm:"column:reply_user_id"`   // 评论回复用户id
+		CommentContent string    `gorm:"column:comment_content"` // 评论内容
+		LikeCount      int64     `gorm:"column:like_count"`      // 评论点赞数量
 		Type           int64     `gorm:"column:type"`            // 评论类型 1.文章 2.友链 3.说说
-		IsDelete       int64     `gorm:"column:is_delete"`       // 是否删除  0否 1是
+		Status         int64     `gorm:"column:status"`          // 状态 0.正常 1.已编辑 2.已删除
 		IsReview       int64     `gorm:"column:is_review"`       // 是否审核
-		CreatedAt      time.Time `gorm:"column:created_at"`      // 评论时间
+		CreatedAt      time.Time `gorm:"column:created_at"`      // 创建时间
 		UpdatedAt      time.Time `gorm:"column:updated_at"`      // 更新时间
 	}
 )
@@ -212,7 +214,7 @@ func (m *defaultCommentModel) FindList(ctx context.Context, limit int, offset in
 	}
 
 	// 如果有分页参数
-	if limit > 0 && offset > 0 {
+	if limit > 0 || offset > 0 {
 		db = db.Limit(limit).Offset(offset)
 	}
 

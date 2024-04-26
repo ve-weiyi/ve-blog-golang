@@ -29,7 +29,7 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindMenuListLogic) FindMenuList(in *blog.PageQuery) (*blog.MenuPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.MenuModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.MenuModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

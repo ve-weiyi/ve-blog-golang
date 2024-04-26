@@ -345,24 +345,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				// 查询评论
-				Method:  http.MethodGet,
+				Method:  http.MethodPost,
 				Path:    "/comment/find_comment",
 				Handler: comment.FindCommentHandler(serverCtx),
 			},
 			{
-				// 获取用户评论列表
+				// 查询评论列表(后台)
 				Method:  http.MethodPost,
 				Path:    "/comment/find_comment_back_list",
 				Handler: comment.FindCommentBackListHandler(serverCtx),
 			},
 			{
-				// 分页获取评论列表
-				Method:  http.MethodPost,
-				Path:    "/comment/find_comment_details_list",
-				Handler: comment.FindCommentDetailsListHandler(serverCtx),
-			},
-			{
-				// 分页获取评论列表
+				// 查询评论列表
 				Method:  http.MethodPost,
 				Path:    "/comment/find_comment_list",
 				Handler: comment.FindCommentListHandler(serverCtx),

@@ -28,7 +28,7 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 func (l *FindRemarkListLogic) FindRemarkList(in *blog.PageQuery) (*blog.RemarkPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.RemarkModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.RemarkModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

@@ -24,7 +24,7 @@ func NewFindCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindC
 	}
 }
 
-func (l *FindCommentLogic) FindComment(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Comment, err error) {
+func (l *FindCommentLogic) FindComment(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.CommentNewReq, err error) {
 	// todo: add your logic here and delete this line
 
 	return

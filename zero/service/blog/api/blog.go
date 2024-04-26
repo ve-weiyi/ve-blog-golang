@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex/metadata"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
@@ -27,7 +27,8 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
-	server.Use(metadata.CtxMetadataHandel)
+	server.Use(middlewarex.CtxMetadataHandler)
+	server.Use(middlewarex.JwtHandler)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

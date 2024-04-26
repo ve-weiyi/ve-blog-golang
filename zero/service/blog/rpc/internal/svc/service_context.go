@@ -107,7 +107,7 @@ func ConnectGorm(c config.MysqlConf) (*gorm.DB, error) {
 		},
 		// gorm日志模式
 		Logger: logger.New(gormlogger.NewGormWriter(), logger.Config{
-			SlowThreshold:             200 * time.Millisecond,
+			SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
 			LogLevel:                  logger.Info,
 			IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
 			Colorful:                  true,  // 彩色打印

@@ -6,24 +6,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertArticleTypes(in *blog.Article) (out *types.Article) {
-	jsonconv.ObjectMarshal(in, &out)
-
-	return
-}
-
-func ConvertArticlePb(in *types.Article) (out *blog.Article) {
+func ConvertArticleBackTypes(in *blog.Article) (out *types.ArticleBackDTO) {
 	jsonconv.ObjectMarshal(in, &out)
 	return
 }
 
-func ConvertArticleDetailsTypes(in *blog.Article) (out *types.ArticleDetailsResp) {
-	jsonconv.ObjectMarshal(in, &out)
-	return
-}
-
-func ConvertArticleHomeTypes(in *blog.Article) (out *types.ArticleHome) {
-	out = &types.ArticleHome{
+func ConvertArticleHomeTypes(in *blog.Article) (out *types.ArticleHomeDTO) {
+	out = &types.ArticleHomeDTO{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,
 		ArticleTitle:   in.ArticleTitle,

@@ -702,7 +702,7 @@ type (
         RoleId int64 `json:"role_id,optional"` // 角色id
     }
 
-    VoiceVO {
+    VoiceDTO {
         Type int64 `json:"type,optional"`        // 消息类型
         Content string `json:"content,optional"` // 聊天内容
     }

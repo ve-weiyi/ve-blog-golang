@@ -28,7 +28,7 @@ func NewFindOperationLogCountLogic(ctx context.Context, svcCtx *svc.ServiceConte
 func (l *FindOperationLogCountLogic) FindOperationLogCount(in *blog.PageQuery) (*blog.CountResp, error) {
 	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	count, err := l.svcCtx.OperationLogModel.FindCount(l.ctx, conditions, params)
+	count, err := l.svcCtx.OperationLogModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

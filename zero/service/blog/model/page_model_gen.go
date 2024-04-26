@@ -207,7 +207,7 @@ func (m *defaultPageModel) FindList(ctx context.Context, limit int, offset int, 
 	}
 
 	// 如果有分页参数
-	if limit > 0 && offset > 0 {
+	if limit > 0 || offset > 0 {
 		db = db.Limit(limit).Offset(offset)
 	}
 

@@ -29,7 +29,7 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 func (l *FindApiListLogic) FindApiList(in *blog.PageQuery) (*blog.ApiPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.ApiModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.ApiModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

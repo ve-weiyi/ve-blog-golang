@@ -28,7 +28,7 @@ func NewFindTalkCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 func (l *FindTalkCountLogic) FindTalkCount(in *blog.PageQuery) (*blog.CountResp, error) {
 	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	count, err := l.svcCtx.TalkModel.FindCount(l.ctx, conditions, params)
+	count, err := l.svcCtx.TalkModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

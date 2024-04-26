@@ -38,7 +38,7 @@ func (l *FindArticleHomeListLogic) FindArticleHomeList(reqCtx *types.RestHeader,
 		return nil, err
 	}
 
-	var list []*types.ArticleHome
+	var list []*types.ArticleHomeDTO
 	for _, v := range out.List {
 		var category string
 		ct, err := l.svcCtx.CategoryRpc.FindCategory(l.ctx, &blog.IdReq{Id: v.CategoryId})

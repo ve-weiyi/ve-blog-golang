@@ -3848,8 +3848,10 @@ type CommentRpcClient interface {
 	FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error)
 	// 分页获取评论列表
 	FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error)
-	// 分页获取评论列表
-	FindCommentDetailsList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentDetailsPageResp, error)
+	// 分页获取评论回复列表
+	FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error)
+	// 查询评论数量
+	FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	// 点赞评论
 	LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 }
@@ -3916,9 +3918,18 @@ func (c *commentRpcClient) FindCommentList(ctx context.Context, in *PageQuery, o
 	return out, nil
 }
 
-func (c *commentRpcClient) FindCommentDetailsList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentDetailsPageResp, error) {
-	out := new(CommentDetailsPageResp)
-	err := c.cc.Invoke(ctx, "/blog.commentRpc/FindCommentDetailsList", in, out, opts...)
+func (c *commentRpcClient) FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error) {
+	out := new(CommentReplyPageResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/FindCommentReplyList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentRpcClient) FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.commentRpc/FindCommentCount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3950,8 +3961,10 @@ type CommentRpcServer interface {
 	FindComment(context.Context, *IdReq) (*Comment, error)
 	// 分页获取评论列表
 	FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error)
-	// 分页获取评论列表
-	FindCommentDetailsList(context.Context, *PageQuery) (*CommentDetailsPageResp, error)
+	// 分页获取评论回复列表
+	FindCommentReplyList(context.Context, *PageQuery) (*CommentReplyPageResp, error)
+	// 查询评论数量
+	FindCommentCount(context.Context, *PageQuery) (*CountResp, error)
 	// 点赞评论
 	LikeComment(context.Context, *IdReq) (*EmptyResp, error)
 	mustEmbedUnimplementedCommentRpcServer()
@@ -3979,8 +3992,11 @@ func (UnimplementedCommentRpcServer) FindComment(context.Context, *IdReq) (*Comm
 func (UnimplementedCommentRpcServer) FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCommentList not implemented")
 }
-func (UnimplementedCommentRpcServer) FindCommentDetailsList(context.Context, *PageQuery) (*CommentDetailsPageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindCommentDetailsList not implemented")
+func (UnimplementedCommentRpcServer) FindCommentReplyList(context.Context, *PageQuery) (*CommentReplyPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyList not implemented")
+}
+func (UnimplementedCommentRpcServer) FindCommentCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentCount not implemented")
 }
 func (UnimplementedCommentRpcServer) LikeComment(context.Context, *IdReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LikeComment not implemented")
@@ -4106,20 +4122,38 @@ func _CommentRpc_FindCommentList_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentRpc_FindCommentDetailsList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentRpc_FindCommentReplyList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PageQuery)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentRpcServer).FindCommentDetailsList(ctx, in)
+		return srv.(CommentRpcServer).FindCommentReplyList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/blog.commentRpc/FindCommentDetailsList",
+		FullMethod: "/blog.commentRpc/FindCommentReplyList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentRpcServer).FindCommentDetailsList(ctx, req.(*PageQuery))
+		return srv.(CommentRpcServer).FindCommentReplyList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentRpc_FindCommentCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).FindCommentCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.commentRpc/FindCommentCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).FindCommentCount(ctx, req.(*PageQuery))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4174,8 +4208,12 @@ var CommentRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CommentRpc_FindCommentList_Handler,
 		},
 		{
-			MethodName: "FindCommentDetailsList",
-			Handler:    _CommentRpc_FindCommentDetailsList_Handler,
+			MethodName: "FindCommentReplyList",
+			Handler:    _CommentRpc_FindCommentReplyList_Handler,
+		},
+		{
+			MethodName: "FindCommentCount",
+			Handler:    _CommentRpc_FindCommentCount_Handler,
 		},
 		{
 			MethodName: "LikeComment",

@@ -3,12 +3,13 @@ package comment
 import (
 	"context"
 
+	"github.com/spf13/cast"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindCommentListLogic struct {
@@ -17,7 +18,7 @@ type FindCommentListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 分页获取评论列表
+// 查询评论列表
 func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCommentListLogic {
 	return &FindCommentListLogic{
 		Logger: logx.WithContext(ctx),
@@ -26,29 +27,35 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindCommentListLogic) FindCommentList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
+func (l *FindCommentListLogic) FindCommentList(reqCtx *types.RestHeader, req *types.CommentQueryReq) (resp *types.PageResp, err error) {
+	in := convert.ConvertCommentQueryTypes(req)
+	out, err := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*types.CommentBackDTO
+	var list []*types.CommentDTO
 	for _, v := range out.List {
-		m := convert.ConvertCommentBackTypes(v)
-		user, _ := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &blog.UserReq{UserId: v.UserId})
-		if user != nil {
-			m.UserNickname = user.Nickname
-			m.UserAvatar = user.Avatar
-		}
+		m := convert.ConvertCommentDTOTypes(v)
+		// 查询回复评论
+		reply, _ := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, &blog.PageQuery{
+			Page:       1,
+			PageSize:   3,
+			Sorts:      in.Sorts,
+			Conditions: "parent_id = ?",
+			Args:       []string{cast.ToString(v.Id)},
+		})
 
-		if v.Type == 1 {
-			article, _ := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blog.IdReq{Id: v.TopicId})
-			if article != nil {
-				m.TopicTitle = article.ArticleTitle
-			}
+		for _, r := range reply.List {
+			m.CommentReplyList = append(m.CommentReplyList, convert.ConvertCommentReplyTypes(r))
 		}
-
+		// 查询回复评论数
+		replyCount, _ := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, &blog.PageQuery{
+			Conditions: "parent_id = ?",
+			Sorts:      in.Sorts,
+			Args:       []string{cast.ToString(v.Id)},
+		})
+		m.ReplyCount = replyCount.Count
 		list = append(list, m)
 	}
 

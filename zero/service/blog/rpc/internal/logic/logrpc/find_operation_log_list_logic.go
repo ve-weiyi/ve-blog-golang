@@ -28,7 +28,7 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 func (l *FindOperationLogListLogic) FindOperationLogList(in *blog.PageQuery) (*blog.OperationLogPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.OperationLogModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.OperationLogModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

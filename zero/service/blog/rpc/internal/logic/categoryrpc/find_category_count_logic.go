@@ -28,7 +28,7 @@ func NewFindCategoryCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 func (l *FindCategoryCountLogic) FindCategoryCount(in *blog.PageQuery) (*blog.CountResp, error) {
 	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	count, err := l.svcCtx.CategoryModel.FindCount(l.ctx, conditions, params)
+	count, err := l.svcCtx.CategoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

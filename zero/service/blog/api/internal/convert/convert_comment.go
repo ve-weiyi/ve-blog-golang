@@ -1,19 +1,140 @@
 package convert
 
 import (
+	"fmt"
+
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertCommentTypes(in *blog.Comment) (out *types.Comment) {
+func ConvertCommentPb(in *types.CommentNewReq) (out *blog.Comment) {
+	out = &blog.Comment{
+		Id:             0,
+		ParentId:       in.ParentId,
+		TopicId:        in.TopicId,
+		SessionId:      in.SessionId,
+		UserId:         0,
+		ReplyUserId:    in.ReplyUserId,
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+		Status:         0,
+		IsReview:       0,
+		CreatedAt:      0,
+		UpdatedAt:      0,
+	}
+	return
+}
+
+func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
+	out = &blog.PageQuery{
+		Page:       in.Page,
+		PageSize:   in.PageSize,
+		Sorts:      "",
+		Conditions: "",
+		Args:       nil,
+	}
+
+	if in.OrderBy != "" {
+		out.Sorts = fmt.Sprintf("`%s` desc", in.OrderBy)
+	}
+
+	if in.TopicId >= 0 {
+		out.Conditions = "topic_id = ? "
+		out.Args = append(out.Args, cast.ToString(in.TopicId))
+	}
+
+	if in.ParentId >= 0 {
+		out.Conditions = out.Conditions + "and "
+		out.Conditions = out.Conditions + "parent_id = ? "
+		out.Args = append(out.Args, cast.ToString(in.ParentId))
+	}
+
+	if in.Type >= 0 {
+		out.Conditions = out.Conditions + "and "
+		out.Conditions = out.Conditions + "type = ? "
+		out.Args = append(out.Args, cast.ToString(in.Type))
+	}
+
+	return
+}
+
+func ConvertCommentTypes(in *blog.Comment) (out *types.CommentNewReq) {
 	jsonconv.ObjectMarshal(in, &out)
 
 	return
 }
 
-func ConvertCommentPb(in *types.Comment) (out *blog.Comment) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertCommentDTOTypes(in *blog.CommentReply) (out *types.CommentDTO) {
+	out = &types.CommentDTO{
+		Id:               in.Id,
+		TopicId:          in.TopicId,
+		ParentId:         in.ParentId,
+		SessionId:        in.SessionId,
+		UserId:           0,
+		Nickname:         "",
+		Avatar:           "",
+		Website:          "",
+		ReplyUserId:      0,
+		ReplyNickname:    "",
+		ReplyAvatar:      "",
+		ReplyWebsite:     "",
+		CommentContent:   in.CommentContent,
+		Type:             in.Type,
+		CreatedAt:        in.CreatedAt,
+		LikeCount:        in.LikeCount,
+		ReplyCount:       0,
+		CommentReplyList: make([]*types.CommentReply, 0),
+	}
+
+	if in.User != nil {
+		out.UserId = in.User.UserId
+		out.Avatar = in.User.Avatar
+		out.Nickname = in.User.Nickname
+	}
+
+	if in.ReplyUser != nil {
+		out.ReplyUserId = in.ReplyUser.UserId
+		out.ReplyAvatar = in.ReplyUser.Avatar
+		out.ReplyNickname = in.ReplyUser.Nickname
+	}
+
+	return
+}
+
+func ConvertCommentReplyTypes(in *blog.CommentReply) (out *types.CommentReply) {
+	out = &types.CommentReply{
+		Id:             in.Id,
+		ParentId:       in.ParentId,
+		TopicId:        in.TopicId,
+		UserId:         0,
+		Nickname:       "",
+		Avatar:         "",
+		Website:        "",
+		ReplyUserId:    0,
+		ReplyNickname:  "",
+		ReplyAvatar:    "",
+		ReplyWebsite:   "",
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+		CreatedAt:      in.CreatedAt,
+		LikeCount:      in.LikeCount,
+	}
+
+	if in.User != nil {
+		out.UserId = in.User.UserId
+		out.Avatar = in.User.Avatar
+		out.Nickname = in.User.Nickname
+	}
+
+	if in.ReplyUser != nil {
+		out.ReplyUserId = in.ReplyUser.UserId
+		out.ReplyAvatar = in.ReplyUser.Avatar
+		out.ReplyNickname = in.ReplyUser.Nickname
+	}
+
 	return
 }
 

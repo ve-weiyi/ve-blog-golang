@@ -51,7 +51,7 @@ type (
 		Component string    `gorm:"column:component"`  // 路由组件
 		Redirect  string    `gorm:"column:redirect"`   // 路由重定向
 		Type      int64     `gorm:"column:type"`       // 菜单类型
-		Rank      int64     `gorm:"column:rank"`       // 菜单类型
+		Rank      int64     `gorm:"column:rank"`       // 排序
 		Extra     string    `gorm:"column:extra"`      // 菜单元数据
 		CreatedAt time.Time `gorm:"column:created_at"` // 创建时间
 		UpdatedAt time.Time `gorm:"column:updated_at"` // 更新时间
@@ -215,7 +215,7 @@ func (m *defaultMenuModel) FindList(ctx context.Context, limit int, offset int, 
 	}
 
 	// 如果有分页参数
-	if limit > 0 && offset > 0 {
+	if limit > 0 || offset > 0 {
 		db = db.Limit(limit).Offset(offset)
 	}
 

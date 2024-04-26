@@ -28,7 +28,7 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *blog.PageQuery) (*blog.LoginHistoryPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *blog.PageQu
 		list = append(list, convert.ConvertUserLoginHistoryModelToPb(item))
 	}
 
-	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params)
+	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

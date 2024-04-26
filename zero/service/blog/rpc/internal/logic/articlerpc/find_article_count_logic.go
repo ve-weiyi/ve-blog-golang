@@ -27,7 +27,7 @@ func NewFindArticleCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *FindArticleCountLogic) FindArticleCount(in *blog.PageQuery) (*blog.CountResp, error) {
 	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	count, err := l.svcCtx.ArticleModel.FindCount(l.ctx, conditions, params)
+	count, err := l.svcCtx.ArticleModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

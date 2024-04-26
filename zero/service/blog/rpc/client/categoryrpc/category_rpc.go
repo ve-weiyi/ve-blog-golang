@@ -24,10 +24,9 @@ type (
 	ChatRecord               = blog.ChatRecord
 	ChatRecordPageResp       = blog.ChatRecordPageResp
 	Comment                  = blog.Comment
-	CommentDetails           = blog.CommentDetails
-	CommentDetailsPageResp   = blog.CommentDetailsPageResp
 	CommentPageResp          = blog.CommentPageResp
 	CommentReply             = blog.CommentReply
+	CommentReplyPageResp     = blog.CommentReplyPageResp
 	CountResp                = blog.CountResp
 	EmptyReq                 = blog.EmptyReq
 	EmptyResp                = blog.EmptyResp

@@ -20,7 +20,7 @@ func SaveArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		var req types.ArticleDetailsReq
+		var req types.ArticleNewReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

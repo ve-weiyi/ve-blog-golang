@@ -28,7 +28,7 @@ func NewFindPhotoCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 func (l *FindPhotoCountLogic) FindPhotoCount(in *blog.PageQuery) (*blog.CountResp, error) {
 	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	count, err := l.svcCtx.PhotoModel.FindCount(l.ctx, conditions, params)
+	count, err := l.svcCtx.PhotoModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

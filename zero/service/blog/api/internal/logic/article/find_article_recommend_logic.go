@@ -71,7 +71,7 @@ func (l *FindArticleRecommendLogic) FindArticleRecommend(reqCtx *types.RestHeade
 	})
 
 	resp = &types.ArticleRecommendResp{}
-	resp.ArticleHome = *convert.ConvertArticleHomeTypes(out)
+	resp.ArticleHomeDTO = *convert.ConvertArticleHomeTypes(out)
 
 	for _, v := range last.List {
 		resp.LastArticle = convert.ConvertArticlePreviewTypes(v)

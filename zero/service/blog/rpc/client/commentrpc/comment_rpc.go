@@ -24,10 +24,9 @@ type (
 	ChatRecord               = blog.ChatRecord
 	ChatRecordPageResp       = blog.ChatRecordPageResp
 	Comment                  = blog.Comment
-	CommentDetails           = blog.CommentDetails
-	CommentDetailsPageResp   = blog.CommentDetailsPageResp
 	CommentPageResp          = blog.CommentPageResp
 	CommentReply             = blog.CommentReply
+	CommentReplyPageResp     = blog.CommentReplyPageResp
 	CountResp                = blog.CountResp
 	EmptyReq                 = blog.EmptyReq
 	EmptyResp                = blog.EmptyResp
@@ -102,8 +101,10 @@ type (
 		FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error)
 		// 分页获取评论列表
 		FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error)
-		// 分页获取评论列表
-		FindCommentDetailsList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentDetailsPageResp, error)
+		// 分页获取评论回复列表
+		FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error)
+		// 查询评论数量
+		FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 		// 点赞评论
 		LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	}
@@ -155,10 +156,16 @@ func (m *defaultCommentRpc) FindCommentList(ctx context.Context, in *PageQuery, 
 	return client.FindCommentList(ctx, in, opts...)
 }
 
-// 分页获取评论列表
-func (m *defaultCommentRpc) FindCommentDetailsList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentDetailsPageResp, error) {
+// 分页获取评论回复列表
+func (m *defaultCommentRpc) FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error) {
 	client := blog.NewCommentRpcClient(m.cli.Conn())
-	return client.FindCommentDetailsList(ctx, in, opts...)
+	return client.FindCommentReplyList(ctx, in, opts...)
+}
+
+// 查询评论数量
+func (m *defaultCommentRpc) FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	client := blog.NewCommentRpcClient(m.cli.Conn())
+	return client.FindCommentCount(ctx, in, opts...)
 }
 
 // 点赞评论

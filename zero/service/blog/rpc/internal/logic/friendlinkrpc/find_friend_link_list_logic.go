@@ -28,7 +28,7 @@ func NewFindFriendLinkListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *FindFriendLinkListLogic) FindFriendLinkList(in *blog.PageQuery) (*blog.FriendLinkPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.FriendLinkModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.FriendLinkModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

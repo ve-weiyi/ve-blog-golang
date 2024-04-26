@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
-// 获取用户评论列表
+// 查询评论列表(后台)
 func FindCommentBackListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqCtx types.RestHeader

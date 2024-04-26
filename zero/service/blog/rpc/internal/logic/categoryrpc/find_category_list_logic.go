@@ -28,7 +28,7 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *FindCategoryListLogic) FindCategoryList(in *blog.PageQuery) (*blog.CategoryPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.CategoryModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.CategoryModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

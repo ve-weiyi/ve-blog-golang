@@ -1,4 +1,4 @@
-package tagrpclogic
+package commentrpclogic
 
 import (
 	"context"
@@ -10,25 +10,25 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindTagCountLogic struct {
+type FindCommentCountLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindTagCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTagCountLogic {
-	return &FindTagCountLogic{
+func NewFindCommentCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCommentCountLogic {
+	return &FindCommentCountLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 查询文章标签数量
-func (l *FindTagCountLogic) FindTagCount(in *blog.PageQuery) (*blog.CountResp, error) {
+// 查询评论数量
+func (l *FindCommentCountLogic) FindCommentCount(in *blog.PageQuery) (*blog.CountResp, error) {
 	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	count, err := l.svcCtx.TagModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.CommentModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

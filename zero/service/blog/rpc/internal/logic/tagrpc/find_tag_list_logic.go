@@ -28,7 +28,7 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 func (l *FindTagListLogic) FindTagList(in *blog.PageQuery) (*blog.TagPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.TagModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.TagModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

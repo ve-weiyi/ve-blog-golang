@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,17 @@ func NewPreDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *PreDeleteArticleLogic) PreDeleteArticle(reqCtx *types.RestHeader, req *types.ArticleDeleteReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *PreDeleteArticleLogic) PreDeleteArticle(reqCtx *types.RestHeader, req *types.ArticlePreDeleteReq) (resp *types.EmptyResp, err error) {
+	article, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blog.IdReq{Id: req.Id})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	article.IsDelete = req.IsDelete
+	_, err = l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, article)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }

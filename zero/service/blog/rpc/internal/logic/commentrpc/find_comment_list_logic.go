@@ -28,7 +28,7 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 func (l *FindCommentListLogic) FindCommentList(in *blog.PageQuery) (*blog.CommentPageResp, error) {
 	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.CommentModel.FindList(l.ctx, limit, offset, sorts, conditions, params)
+	result, err := l.svcCtx.CommentModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

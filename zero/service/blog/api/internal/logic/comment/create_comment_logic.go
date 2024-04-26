@@ -3,6 +3,8 @@ package comment
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
@@ -25,8 +27,9 @@ func NewCreateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 	}
 }
 
-func (l *CreateCommentLogic) CreateComment(reqCtx *types.RestHeader, req *types.Comment) (resp *types.Comment, err error) {
+func (l *CreateCommentLogic) CreateComment(reqCtx *types.RestHeader, req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
 	in := convert.ConvertCommentPb(req)
+	in.UserId = cast.ToInt64(reqCtx.HeaderXUserId)
 	out, err := l.svcCtx.CommentRpc.CreateComment(l.ctx, in)
 	if err != nil {
 		return nil, err
