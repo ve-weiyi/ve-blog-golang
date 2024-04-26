@@ -3,6 +3,7 @@ package article
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,30 @@ func NewFindArticleArchivesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *FindArticleArchivesLogic) FindArticleArchives(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertPageQuery(req)
+	in.Sorts = "id desc"
+	in.Conditions = "status = ?"
+	in.Args = []string{"1"}
+	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
+	total, err := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.ArticlePreviewDTO
+	for _, v := range out.List {
+		m := convert.ConvertArticlePreviewTypes(v)
+		list = append(list, m)
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.Total = total.Count
+	resp.List = list
 	return
 }

@@ -13,78 +13,81 @@ import (
 )
 
 type (
-	Api                    = blog.Api
-	ApiDetails             = blog.ApiDetails
-	ApiPageResp            = blog.ApiPageResp
-	Article                = blog.Article
-	ArticlePageResp        = blog.ArticlePageResp
-	BatchResp              = blog.BatchResp
-	Category               = blog.Category
-	CategoryPageResp       = blog.CategoryPageResp
-	ChatRecord             = blog.ChatRecord
-	ChatRecordPageResp     = blog.ChatRecordPageResp
-	Comment                = blog.Comment
-	CommentDetails         = blog.CommentDetails
-	CommentDetailsPageResp = blog.CommentDetailsPageResp
-	CommentPageResp        = blog.CommentPageResp
-	CommentReply           = blog.CommentReply
-	CountResp              = blog.CountResp
-	EmptyReq               = blog.EmptyReq
-	EmptyResp              = blog.EmptyResp
-	FindCategoryByNameReq  = blog.FindCategoryByNameReq
-	FindConfigReq          = blog.FindConfigReq
-	FindConfigResp         = blog.FindConfigResp
-	FindTagArticleCountReq = blog.FindTagArticleCountReq
-	FindTagByNameReq       = blog.FindTagByNameReq
-	FriendLink             = blog.FriendLink
-	FriendLinkPageResp     = blog.FriendLinkPageResp
-	IdReq                  = blog.IdReq
-	IdsReq                 = blog.IdsReq
-	LoginHistory           = blog.LoginHistory
-	LoginHistoryPageResp   = blog.LoginHistoryPageResp
-	LoginReq               = blog.LoginReq
-	LoginResp              = blog.LoginResp
-	Menu                   = blog.Menu
-	MenuDetails            = blog.MenuDetails
-	MenuPageResp           = blog.MenuPageResp
-	OauthLoginReq          = blog.OauthLoginReq
-	OauthLoginUrlResp      = blog.OauthLoginUrlResp
-	OperationLog           = blog.OperationLog
-	OperationLogPageResp   = blog.OperationLogPageResp
-	PageCondition          = blog.PageCondition
-	PageLimit              = blog.PageLimit
-	PageQuery              = blog.PageQuery
-	PageResp               = blog.PageResp
-	PageSort               = blog.PageSort
-	Photo                  = blog.Photo
-	PhotoAlbum             = blog.PhotoAlbum
-	PhotoPageResp          = blog.PhotoPageResp
-	Remark                 = blog.Remark
-	RemarkPageResp         = blog.RemarkPageResp
-	ResetPasswordReq       = blog.ResetPasswordReq
-	Role                   = blog.Role
-	RoleDetails            = blog.RoleDetails
-	RoleLabel              = blog.RoleLabel
-	RolePageResp           = blog.RolePageResp
-	RoleResourcesResp      = blog.RoleResourcesResp
-	SaveConfigReq          = blog.SaveConfigReq
-	SyncMenuRequest        = blog.SyncMenuRequest
-	Tag                    = blog.Tag
-	TagPageResp            = blog.TagPageResp
-	Talk                   = blog.Talk
-	TalkDetailsDTO         = blog.TalkDetailsDTO
-	TalkPageResp           = blog.TalkPageResp
-	UpdateRoleApisReq      = blog.UpdateRoleApisReq
-	UpdateRoleMenusReq     = blog.UpdateRoleMenusReq
-	UpdateUserAvatarReq    = blog.UpdateUserAvatarReq
-	UpdateUserInfoReq      = blog.UpdateUserInfoReq
-	UpdateUserRoleReq      = blog.UpdateUserRoleReq
-	UpdateUserStatusReq    = blog.UpdateUserStatusReq
-	User                   = blog.User
-	UserEmailReq           = blog.UserEmailReq
-	UserInfoPageResp       = blog.UserInfoPageResp
-	UserInfoResp           = blog.UserInfoResp
-	UserReq                = blog.UserReq
+	Api                      = blog.Api
+	ApiDetails               = blog.ApiDetails
+	ApiPageResp              = blog.ApiPageResp
+	Article                  = blog.Article
+	ArticlePageResp          = blog.ArticlePageResp
+	BatchResp                = blog.BatchResp
+	Category                 = blog.Category
+	CategoryPageResp         = blog.CategoryPageResp
+	ChatRecord               = blog.ChatRecord
+	ChatRecordPageResp       = blog.ChatRecordPageResp
+	Comment                  = blog.Comment
+	CommentDetails           = blog.CommentDetails
+	CommentDetailsPageResp   = blog.CommentDetailsPageResp
+	CommentPageResp          = blog.CommentPageResp
+	CommentReply             = blog.CommentReply
+	CountResp                = blog.CountResp
+	EmptyReq                 = blog.EmptyReq
+	EmptyResp                = blog.EmptyResp
+	FindArticleByCategoryReq = blog.FindArticleByCategoryReq
+	FindArticleByTagReq      = blog.FindArticleByTagReq
+	FindCategoryByNameReq    = blog.FindCategoryByNameReq
+	FindConfigReq            = blog.FindConfigReq
+	FindConfigResp           = blog.FindConfigResp
+	FindTagArticleCountReq   = blog.FindTagArticleCountReq
+	FindTagByNameReq         = blog.FindTagByNameReq
+	FriendLink               = blog.FriendLink
+	FriendLinkPageResp       = blog.FriendLinkPageResp
+	IdReq                    = blog.IdReq
+	IdsReq                   = blog.IdsReq
+	LoginHistory             = blog.LoginHistory
+	LoginHistoryPageResp     = blog.LoginHistoryPageResp
+	LoginReq                 = blog.LoginReq
+	LoginResp                = blog.LoginResp
+	Menu                     = blog.Menu
+	MenuDetails              = blog.MenuDetails
+	MenuPageResp             = blog.MenuPageResp
+	OauthLoginReq            = blog.OauthLoginReq
+	OauthLoginUrlResp        = blog.OauthLoginUrlResp
+	OperationLog             = blog.OperationLog
+	OperationLogPageResp     = blog.OperationLogPageResp
+	PageCondition            = blog.PageCondition
+	PageLimit                = blog.PageLimit
+	PageQuery                = blog.PageQuery
+	PageResp                 = blog.PageResp
+	PageSort                 = blog.PageSort
+	Photo                    = blog.Photo
+	PhotoAlbum               = blog.PhotoAlbum
+	PhotoAlbumPageResp       = blog.PhotoAlbumPageResp
+	PhotoPageResp            = blog.PhotoPageResp
+	Remark                   = blog.Remark
+	RemarkPageResp           = blog.RemarkPageResp
+	ResetPasswordReq         = blog.ResetPasswordReq
+	Role                     = blog.Role
+	RoleDetails              = blog.RoleDetails
+	RoleLabel                = blog.RoleLabel
+	RolePageResp             = blog.RolePageResp
+	RoleResourcesResp        = blog.RoleResourcesResp
+	SaveConfigReq            = blog.SaveConfigReq
+	SyncMenuRequest          = blog.SyncMenuRequest
+	Tag                      = blog.Tag
+	TagPageResp              = blog.TagPageResp
+	Talk                     = blog.Talk
+	TalkDetailsDTO           = blog.TalkDetailsDTO
+	TalkPageResp             = blog.TalkPageResp
+	UpdateRoleApisReq        = blog.UpdateRoleApisReq
+	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
+	UpdateUserAvatarReq      = blog.UpdateUserAvatarReq
+	UpdateUserInfoReq        = blog.UpdateUserInfoReq
+	UpdateUserRoleReq        = blog.UpdateUserRoleReq
+	UpdateUserStatusReq      = blog.UpdateUserStatusReq
+	User                     = blog.User
+	UserEmailReq             = blog.UserEmailReq
+	UserInfoPageResp         = blog.UserInfoPageResp
+	UserInfoResp             = blog.UserInfoResp
+	UserReq                  = blog.UserReq
 
 	PhotoRpc interface {
 		// 创建照片
@@ -99,6 +102,22 @@ type (
 		FindPhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Photo, error)
 		// 分页获取照片列表
 		FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error)
+		// 查询照片数量
+		FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+		// 创建相册
+		CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
+		// 更新相册
+		UpdatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
+		// 删除相册
+		DeletePhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+		// 批量删除相册
+		DeletePhotoAlbumList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		// 查询相册
+		FindPhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*PhotoAlbum, error)
+		// 分页获取相册列表
+		FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error)
+		// 查询相册数量
+		FindPhotoAlbumCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	}
 
 	defaultPhotoRpc struct {
@@ -146,4 +165,52 @@ func (m *defaultPhotoRpc) FindPhoto(ctx context.Context, in *IdReq, opts ...grpc
 func (m *defaultPhotoRpc) FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error) {
 	client := blog.NewPhotoRpcClient(m.cli.Conn())
 	return client.FindPhotoList(ctx, in, opts...)
+}
+
+// 查询照片数量
+func (m *defaultPhotoRpc) FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.FindPhotoCount(ctx, in, opts...)
+}
+
+// 创建相册
+func (m *defaultPhotoRpc) CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.CreatePhotoAlbum(ctx, in, opts...)
+}
+
+// 更新相册
+func (m *defaultPhotoRpc) UpdatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.UpdatePhotoAlbum(ctx, in, opts...)
+}
+
+// 删除相册
+func (m *defaultPhotoRpc) DeletePhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.DeletePhotoAlbum(ctx, in, opts...)
+}
+
+// 批量删除相册
+func (m *defaultPhotoRpc) DeletePhotoAlbumList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.DeletePhotoAlbumList(ctx, in, opts...)
+}
+
+// 查询相册
+func (m *defaultPhotoRpc) FindPhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.FindPhotoAlbum(ctx, in, opts...)
+}
+
+// 分页获取相册列表
+func (m *defaultPhotoRpc) FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.FindPhotoAlbumList(ctx, in, opts...)
+}
+
+// 查询相册数量
+func (m *defaultPhotoRpc) FindPhotoAlbumCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	client := blog.NewPhotoRpcClient(m.cli.Conn())
+	return client.FindPhotoAlbumCount(ctx, in, opts...)
 }

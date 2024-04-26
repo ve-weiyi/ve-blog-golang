@@ -3,6 +3,7 @@ package website
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -41,13 +42,25 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(reqCtx *types.RestHeader, req *ty
 		return nil, err
 	}
 
+	in := &blog.FindConfigReq{
+		ConfigKey: "website_config",
+	}
+
+	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	config := &types.WebsiteConfig{}
+	jsonconv.JsonToObject(out.ConfigValue, &config)
+
 	resp = &types.BlogHomeInfo{
 		ArticleCount:  ac.Count,
 		CategoryCount: cc.Count,
 		TagCount:      tc.Count,
 		ViewsCount:    "",
-		WebsiteConfig: types.WebsiteConfig{},
-		PageList:      nil,
+		WebsiteConfig: *config,
+		PageList:      make([]*types.PageDTO, 0),
 	}
 
 	return resp, nil

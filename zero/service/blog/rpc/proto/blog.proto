@@ -445,6 +445,14 @@ message ArticlePageResp {
   repeated Article list = 2;
 }
 
+message FindArticleByTagReq{
+  repeated int64 tag_ids = 1;
+}
+
+message FindArticleByCategoryReq{
+  repeated int64 category_ids = 1;
+}
+
 // article服务
 service ArticleRpc {
   // 创建文章
@@ -461,6 +469,10 @@ service ArticleRpc {
   rpc FindArticleList(PageQuery) returns(ArticlePageResp);
   // 查询文章数量
   rpc FindArticleCount(PageQuery) returns(CountResp);
+  // 查询文章列表
+  rpc FindArticleByTag(FindArticleByTagReq) returns(ArticlePageResp);
+  // 查询文章列表
+  rpc FindArticleByCategory(FindArticleByCategoryReq) returns(ArticlePageResp);
 }
 
 message Category {
@@ -699,6 +711,22 @@ message PhotoPageResp {
   repeated Photo list = 2;
 }
 
+message PhotoAlbum {
+  int64 id = 1;// 主键
+  string album_name = 2;// 相册名
+  string album_desc = 3;// 相册描述
+  string album_cover = 4;// 相册封面
+  int64 is_delete = 5;// 是否删除
+  int64 status = 6;// 状态值 1公开 2私密
+  int64 created_at = 7;// 创建时间
+  int64 updated_at = 8;// 更新时间
+}
+
+message PhotoAlbumPageResp {
+  int64 total = 1;
+  repeated PhotoAlbum list = 2;
+}
+
 service photoRpc {
   // 创建照片
   rpc CreatePhoto(Photo) returns(Photo);
@@ -712,17 +740,23 @@ service photoRpc {
   rpc FindPhoto(IdReq) returns(Photo);
   // 分页获取照片列表
   rpc FindPhotoList(PageQuery) returns(PhotoPageResp);
-}
+  // 查询照片数量
+  rpc FindPhotoCount(PageQuery) returns(CountResp);
 
-message PhotoAlbum {
-  int64 id = 1;// 主键
-  string album_name = 2;// 相册名
-  string album_desc = 3;// 相册描述
-  string album_cover = 4;// 相册封面
-  int64 is_delete = 5;// 是否删除
-  int64 status = 6;// 状态值 1公开 2私密
-  int64 created_at = 7;// 创建时间
-  int64 updated_at = 8;// 更新时间
+  // 创建相册
+  rpc CreatePhotoAlbum(PhotoAlbum) returns(PhotoAlbum);
+  // 更新相册
+  rpc UpdatePhotoAlbum(PhotoAlbum) returns(PhotoAlbum);
+  // 删除相册
+  rpc DeletePhotoAlbum(IdReq) returns(BatchResp);
+  // 批量删除相册
+  rpc DeletePhotoAlbumList(IdsReq) returns(BatchResp);
+  // 查询相册
+  rpc FindPhotoAlbum(IdReq) returns(PhotoAlbum);
+  // 分页获取相册列表
+  rpc FindPhotoAlbumList(PageQuery) returns(PhotoAlbumPageResp);
+  // 查询相册数量
+  rpc FindPhotoAlbumCount(PageQuery) returns(CountResp);
 }
 
 

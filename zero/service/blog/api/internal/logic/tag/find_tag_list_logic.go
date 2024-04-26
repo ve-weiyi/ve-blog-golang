@@ -33,6 +33,11 @@ func (l *FindTagListLogic) FindTagList(reqCtx *types.RestHeader, req *types.Page
 		return nil, err
 	}
 
+	total, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.TagDetails
 	for _, v := range out.List {
 		row, _ := l.svcCtx.TagRpc.FindTagArticleCount(l.ctx, &blog.FindTagArticleCountReq{
@@ -47,7 +52,7 @@ func (l *FindTagListLogic) FindTagList(reqCtx *types.RestHeader, req *types.Page
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

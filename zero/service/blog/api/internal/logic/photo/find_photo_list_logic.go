@@ -3,10 +3,11 @@ package photo
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindPhotoListLogic struct {
@@ -25,7 +26,27 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 func (l *FindPhotoListLogic) FindPhotoList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertPageQuery(req)
+	out, err := l.svcCtx.PhotoRpc.FindPhotoList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	total, err := l.svcCtx.PhotoRpc.FindPhotoCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.Photo
+	for _, v := range out.List {
+		m := convert.ConvertPhotoTypes(v)
+		list = append(list, m)
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
+	resp.Total = total.Count
+	resp.List = list
+	return resp, nil
 }

@@ -13,78 +13,81 @@ import (
 )
 
 type (
-	Api                    = blog.Api
-	ApiDetails             = blog.ApiDetails
-	ApiPageResp            = blog.ApiPageResp
-	Article                = blog.Article
-	ArticlePageResp        = blog.ArticlePageResp
-	BatchResp              = blog.BatchResp
-	Category               = blog.Category
-	CategoryPageResp       = blog.CategoryPageResp
-	ChatRecord             = blog.ChatRecord
-	ChatRecordPageResp     = blog.ChatRecordPageResp
-	Comment                = blog.Comment
-	CommentDetails         = blog.CommentDetails
-	CommentDetailsPageResp = blog.CommentDetailsPageResp
-	CommentPageResp        = blog.CommentPageResp
-	CommentReply           = blog.CommentReply
-	CountResp              = blog.CountResp
-	EmptyReq               = blog.EmptyReq
-	EmptyResp              = blog.EmptyResp
-	FindCategoryByNameReq  = blog.FindCategoryByNameReq
-	FindConfigReq          = blog.FindConfigReq
-	FindConfigResp         = blog.FindConfigResp
-	FindTagArticleCountReq = blog.FindTagArticleCountReq
-	FindTagByNameReq       = blog.FindTagByNameReq
-	FriendLink             = blog.FriendLink
-	FriendLinkPageResp     = blog.FriendLinkPageResp
-	IdReq                  = blog.IdReq
-	IdsReq                 = blog.IdsReq
-	LoginHistory           = blog.LoginHistory
-	LoginHistoryPageResp   = blog.LoginHistoryPageResp
-	LoginReq               = blog.LoginReq
-	LoginResp              = blog.LoginResp
-	Menu                   = blog.Menu
-	MenuDetails            = blog.MenuDetails
-	MenuPageResp           = blog.MenuPageResp
-	OauthLoginReq          = blog.OauthLoginReq
-	OauthLoginUrlResp      = blog.OauthLoginUrlResp
-	OperationLog           = blog.OperationLog
-	OperationLogPageResp   = blog.OperationLogPageResp
-	PageCondition          = blog.PageCondition
-	PageLimit              = blog.PageLimit
-	PageQuery              = blog.PageQuery
-	PageResp               = blog.PageResp
-	PageSort               = blog.PageSort
-	Photo                  = blog.Photo
-	PhotoAlbum             = blog.PhotoAlbum
-	PhotoPageResp          = blog.PhotoPageResp
-	Remark                 = blog.Remark
-	RemarkPageResp         = blog.RemarkPageResp
-	ResetPasswordReq       = blog.ResetPasswordReq
-	Role                   = blog.Role
-	RoleDetails            = blog.RoleDetails
-	RoleLabel              = blog.RoleLabel
-	RolePageResp           = blog.RolePageResp
-	RoleResourcesResp      = blog.RoleResourcesResp
-	SaveConfigReq          = blog.SaveConfigReq
-	SyncMenuRequest        = blog.SyncMenuRequest
-	Tag                    = blog.Tag
-	TagPageResp            = blog.TagPageResp
-	Talk                   = blog.Talk
-	TalkDetailsDTO         = blog.TalkDetailsDTO
-	TalkPageResp           = blog.TalkPageResp
-	UpdateRoleApisReq      = blog.UpdateRoleApisReq
-	UpdateRoleMenusReq     = blog.UpdateRoleMenusReq
-	UpdateUserAvatarReq    = blog.UpdateUserAvatarReq
-	UpdateUserInfoReq      = blog.UpdateUserInfoReq
-	UpdateUserRoleReq      = blog.UpdateUserRoleReq
-	UpdateUserStatusReq    = blog.UpdateUserStatusReq
-	User                   = blog.User
-	UserEmailReq           = blog.UserEmailReq
-	UserInfoPageResp       = blog.UserInfoPageResp
-	UserInfoResp           = blog.UserInfoResp
-	UserReq                = blog.UserReq
+	Api                      = blog.Api
+	ApiDetails               = blog.ApiDetails
+	ApiPageResp              = blog.ApiPageResp
+	Article                  = blog.Article
+	ArticlePageResp          = blog.ArticlePageResp
+	BatchResp                = blog.BatchResp
+	Category                 = blog.Category
+	CategoryPageResp         = blog.CategoryPageResp
+	ChatRecord               = blog.ChatRecord
+	ChatRecordPageResp       = blog.ChatRecordPageResp
+	Comment                  = blog.Comment
+	CommentDetails           = blog.CommentDetails
+	CommentDetailsPageResp   = blog.CommentDetailsPageResp
+	CommentPageResp          = blog.CommentPageResp
+	CommentReply             = blog.CommentReply
+	CountResp                = blog.CountResp
+	EmptyReq                 = blog.EmptyReq
+	EmptyResp                = blog.EmptyResp
+	FindArticleByCategoryReq = blog.FindArticleByCategoryReq
+	FindArticleByTagReq      = blog.FindArticleByTagReq
+	FindCategoryByNameReq    = blog.FindCategoryByNameReq
+	FindConfigReq            = blog.FindConfigReq
+	FindConfigResp           = blog.FindConfigResp
+	FindTagArticleCountReq   = blog.FindTagArticleCountReq
+	FindTagByNameReq         = blog.FindTagByNameReq
+	FriendLink               = blog.FriendLink
+	FriendLinkPageResp       = blog.FriendLinkPageResp
+	IdReq                    = blog.IdReq
+	IdsReq                   = blog.IdsReq
+	LoginHistory             = blog.LoginHistory
+	LoginHistoryPageResp     = blog.LoginHistoryPageResp
+	LoginReq                 = blog.LoginReq
+	LoginResp                = blog.LoginResp
+	Menu                     = blog.Menu
+	MenuDetails              = blog.MenuDetails
+	MenuPageResp             = blog.MenuPageResp
+	OauthLoginReq            = blog.OauthLoginReq
+	OauthLoginUrlResp        = blog.OauthLoginUrlResp
+	OperationLog             = blog.OperationLog
+	OperationLogPageResp     = blog.OperationLogPageResp
+	PageCondition            = blog.PageCondition
+	PageLimit                = blog.PageLimit
+	PageQuery                = blog.PageQuery
+	PageResp                 = blog.PageResp
+	PageSort                 = blog.PageSort
+	Photo                    = blog.Photo
+	PhotoAlbum               = blog.PhotoAlbum
+	PhotoAlbumPageResp       = blog.PhotoAlbumPageResp
+	PhotoPageResp            = blog.PhotoPageResp
+	Remark                   = blog.Remark
+	RemarkPageResp           = blog.RemarkPageResp
+	ResetPasswordReq         = blog.ResetPasswordReq
+	Role                     = blog.Role
+	RoleDetails              = blog.RoleDetails
+	RoleLabel                = blog.RoleLabel
+	RolePageResp             = blog.RolePageResp
+	RoleResourcesResp        = blog.RoleResourcesResp
+	SaveConfigReq            = blog.SaveConfigReq
+	SyncMenuRequest          = blog.SyncMenuRequest
+	Tag                      = blog.Tag
+	TagPageResp              = blog.TagPageResp
+	Talk                     = blog.Talk
+	TalkDetailsDTO           = blog.TalkDetailsDTO
+	TalkPageResp             = blog.TalkPageResp
+	UpdateRoleApisReq        = blog.UpdateRoleApisReq
+	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
+	UpdateUserAvatarReq      = blog.UpdateUserAvatarReq
+	UpdateUserInfoReq        = blog.UpdateUserInfoReq
+	UpdateUserRoleReq        = blog.UpdateUserRoleReq
+	UpdateUserStatusReq      = blog.UpdateUserStatusReq
+	User                     = blog.User
+	UserEmailReq             = blog.UserEmailReq
+	UserInfoPageResp         = blog.UserInfoPageResp
+	UserInfoResp             = blog.UserInfoResp
+	UserReq                  = blog.UserReq
 
 	ArticleRpc interface {
 		// 创建文章
@@ -101,6 +104,10 @@ type (
 		FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error)
 		// 查询文章数量
 		FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+		// 查询文章列表
+		FindArticleByTag(ctx context.Context, in *FindArticleByTagReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
+		// 查询文章列表
+		FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
 	}
 
 	defaultArticleRpc struct {
@@ -154,4 +161,16 @@ func (m *defaultArticleRpc) FindArticleList(ctx context.Context, in *PageQuery, 
 func (m *defaultArticleRpc) FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
 	client := blog.NewArticleRpcClient(m.cli.Conn())
 	return client.FindArticleCount(ctx, in, opts...)
+}
+
+// 查询文章列表
+func (m *defaultArticleRpc) FindArticleByTag(ctx context.Context, in *FindArticleByTagReq, opts ...grpc.CallOption) (*ArticlePageResp, error) {
+	client := blog.NewArticleRpcClient(m.cli.Conn())
+	return client.FindArticleByTag(ctx, in, opts...)
+}
+
+// 查询文章列表
+func (m *defaultArticleRpc) FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error) {
+	client := blog.NewArticleRpcClient(m.cli.Conn())
+	return client.FindArticleByCategory(ctx, in, opts...)
 }

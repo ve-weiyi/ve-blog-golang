@@ -3,6 +3,7 @@ package photorpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -25,7 +26,12 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 
 // 更新照片
 func (l *UpdatePhotoLogic) UpdatePhoto(in *blog.Photo) (*blog.Photo, error) {
-	// todo: add your logic here and delete this line
+	entity := convert.ConvertPhotoPbToModel(in)
 
-	return &blog.Photo{}, nil
+	result, err := l.svcCtx.PhotoModel.Update(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return convert.ConvertPhotoModelToPb(result), nil
 }

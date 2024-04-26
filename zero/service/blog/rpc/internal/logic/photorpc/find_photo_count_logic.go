@@ -10,28 +10,30 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreatePhotoLogic struct {
+type FindPhotoCountLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreatePhotoLogic {
-	return &CreatePhotoLogic{
+func NewFindPhotoCountLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPhotoCountLogic {
+	return &FindPhotoCountLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建照片
-func (l *CreatePhotoLogic) CreatePhoto(in *blog.Photo) (*blog.Photo, error) {
-	entity := convert.ConvertPhotoPbToModel(in)
+// 查询照片数量
+func (l *FindPhotoCountLogic) FindPhotoCount(in *blog.PageQuery) (*blog.CountResp, error) {
+	_, _, _, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
+	count, err := l.svcCtx.PhotoModel.FindCount(l.ctx, conditions, params)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoModelToPb(result), nil
+	return &blog.CountResp{
+		Count: count,
+	}, nil
 }

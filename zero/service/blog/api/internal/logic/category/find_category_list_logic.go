@@ -35,6 +35,11 @@ func (l *FindCategoryListLogic) FindCategoryList(reqCtx *types.RestHeader, req *
 		return nil, err
 	}
 
+	total, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.CategoryDetails
 	for _, v := range out.List {
 		row, _ := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blog.PageQuery{
@@ -50,7 +55,7 @@ func (l *FindCategoryListLogic) FindCategoryList(reqCtx *types.RestHeader, req *
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

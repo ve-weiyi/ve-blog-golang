@@ -25,7 +25,12 @@ func NewDeletePhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 
 // 批量删除照片
 func (l *DeletePhotoListLogic) DeletePhotoList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.PhotoModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &blog.BatchResp{}, nil
+	return &blog.BatchResp{
+		SuccessCount: result,
+	}, nil
 }

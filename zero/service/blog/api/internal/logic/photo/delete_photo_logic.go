@@ -3,6 +3,7 @@ package photo
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,14 @@ func NewDeletePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 }
 
 func (l *DeletePhotoLogic) DeletePhoto(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertIdReq(req)
 
-	return
+	out, err := l.svcCtx.PhotoRpc.DeletePhoto(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }

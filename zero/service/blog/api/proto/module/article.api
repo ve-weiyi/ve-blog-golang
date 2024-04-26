@@ -54,12 +54,8 @@ type (
         ViewsCount int64 `json:"views_count,optional"`          // 浏览量
     }
 
-    ArticleClassifyCategoryReq {
-        CategoryId int64 `json:"category_id,optional"` // 文章分类ID
-    }
-
-    ArticleClassifyTagReq {
-        TagId int64 `json:"tag_id,optional"` // 文章标签ID
+    ArticleClassifyReq {
+        ClassifyName string `json:"classify_name,optional"` // 分类名
     }
 
     ArticleClassifyResp {
@@ -79,15 +75,15 @@ type (
         Status int64 `json:"status,optional"`                          // 状态值 1 公开 2 私密 3 评论可见
         CreatedAt int64 `json:"created_at,optional"`                   // 发表时间
         UpdatedAt int64 `json:"updated_at,optional"`                   // 更新时间
+        CategoryName string `json:"category_name,optional"`            // 文章分类名
+        TagNameList []string `json:"tag_name_list,optional"`           // 文章标签列表
         LikeCount int64 `json:"like_count,optional"`                   // 点赞量
         ViewsCount int64 `json:"views_count,optional"`                 // 浏览量
-        ArticleCategory string `json:"article_category,optional"`      // 文章分类
-        ArticleTagList []string `json:"article_tag_list,optional"`     // 文章标签列表
     }
 
         // 文章推荐
     ArticleRecommendResp {
-        Article
+        ArticleHome
         LastArticle *ArticlePreviewDTO `json:"last_article,optional"`                      // 上一篇文章
         NextArticle *ArticlePreviewDTO `json:"next_article,optional"`                      // 下一篇文章
         RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list,optional"` // 推荐文章列表
@@ -149,11 +145,11 @@ service blog-api {
 
     @doc "通过标签或者id获取文章列表"
     @handler FindArticleClassifyCategory
-    post /article/article_classify_category (ArticleClassifyCategoryReq) returns (ArticleClassifyResp)
+    post /article/article_classify_category (ArticleClassifyReq) returns (ArticleClassifyResp)
 
     @doc "通过标签或者id获取文章列表"
     @handler FindArticleClassifyTag
-    post /article/article_classify_tag (ArticleClassifyTagReq) returns (ArticleClassifyResp)
+    post /article/article_classify_tag (ArticleClassifyReq) returns (ArticleClassifyResp)
 
     @doc "文章相关推荐"
     @handler FindArticleRecommend

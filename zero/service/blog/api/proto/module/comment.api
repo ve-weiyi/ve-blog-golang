@@ -3,6 +3,17 @@ syntax = "v1"
 import "base.api"
 
 type (
+    CommentBackDTO {
+        Id int64 `json:"id,optional"`
+        Type int64 `json:"type,optional"`
+        TopicTitle string `json:"topic_title,optional"`
+        UserAvatar string `json:"user_avatar,optional"`
+        UserNickname string `json:"user_nickname,optional"`
+        CommentContent string `json:"comment_content,optional"`
+        IsReview int64 `json:"is_review,optional"`
+        CreatedAt int64 `json:"created_at,optional"`
+    }
+
     Comment {
         Id int64 `json:"id,optional"`                           // 主键
         UserID int64 `json:"user_id,optional"`                  // 评论用户Id
@@ -17,16 +28,6 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
     }
 
-    CommentBackDTO {
-        Id int64 `json:"id,optional"`
-        Type int64 `json:"type,optional"`
-        TopicTitle string `json:"topic_title,optional"`
-        UserAvatar string `json:"user_avatar,optional"`
-        UserNickname string `json:"user_nickname,optional"`
-        CommentContent string `json:"comment_content,optional"`
-        IsReview int64 `json:"is_review,optional"`
-        CreatedAt int64 `json:"created_at,optional"`
-    }
 
     CommentDTO {
         Id int64 `json:"id,optional"`                                         // 评论id

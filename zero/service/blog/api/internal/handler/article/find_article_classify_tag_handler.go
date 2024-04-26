@@ -20,7 +20,7 @@ func FindArticleClassifyTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc 
 			return
 		}
 
-		var req types.ArticleClassifyTagReq
+		var req types.ArticleClassifyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

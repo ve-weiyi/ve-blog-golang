@@ -3,6 +3,7 @@ package comment
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,25 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *FindCommentReplyListLogic) FindCommentReplyList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertPageQuery(req)
+	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
+	//total, err := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, in)
+	//if err != nil {
+
+	var list []*types.Comment
+	for _, v := range out.List {
+		m := convert.ConvertCommentTypes(v)
+		list = append(list, m)
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.Total = 0
+	resp.List = list
 	return
 }

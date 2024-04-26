@@ -3,6 +3,7 @@ package photo
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,12 @@ func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Creat
 }
 
 func (l *CreatePhotoLogic) CreatePhoto(reqCtx *types.RestHeader, req *types.Photo) (resp *types.Photo, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertPhotoPb(req)
+	out, err := l.svcCtx.PhotoRpc.CreatePhoto(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = convert.ConvertPhotoTypes(out)
+	return resp, nil
 }

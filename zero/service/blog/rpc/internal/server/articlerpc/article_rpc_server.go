@@ -63,3 +63,15 @@ func (s *ArticleRpcServer) FindArticleCount(ctx context.Context, in *blog.PageQu
 	l := articlerpclogic.NewFindArticleCountLogic(ctx, s.svcCtx)
 	return l.FindArticleCount(in)
 }
+
+// 查询文章列表
+func (s *ArticleRpcServer) FindArticleByTag(ctx context.Context, in *blog.FindArticleByTagReq) (*blog.ArticlePageResp, error) {
+	l := articlerpclogic.NewFindArticleByTagLogic(ctx, s.svcCtx)
+	return l.FindArticleByTag(in)
+}
+
+// 查询文章列表
+func (s *ArticleRpcServer) FindArticleByCategory(ctx context.Context, in *blog.FindArticleByCategoryReq) (*blog.ArticlePageResp, error) {
+	l := articlerpclogic.NewFindArticleByCategoryLogic(ctx, s.svcCtx)
+	return l.FindArticleByCategory(in)
+}

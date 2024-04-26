@@ -24,9 +24,11 @@ const typeTemplate = `
 {{- range .Docs -}}
 {{ . }}
 {{ end -}}
-export interface {{ .Name }} {
+export interface {{ .Name }} {{convertExtends .Members}}{
   {{- range .Members }}
+{{- if .Name }}
   {{ convertJson .Name }}?: {{ convertTsType .Type.RawName }};{{ .Comment }}
+{{- end -}}
   {{- end }}
 }
 
@@ -138,6 +140,17 @@ func CreateTypesTs(sp *spec.ApiSpec) {
 				return jsonconv.Camel2Case(name)
 			},
 			"convertTsType": convertx.ConvertGoTypeToTsType,
+			"convertExtends": func(m []spec.Member) string {
+				for _, v := range m {
+					if v.Name == "" {
+						switch t := v.Type.(type) {
+						case spec.DefineStruct:
+							return "extends " + t.RawName
+						}
+					}
+				}
+				return ""
+			},
 		},
 		Data: sp.Types,
 	}

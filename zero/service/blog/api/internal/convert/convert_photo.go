@@ -16,3 +16,14 @@ func ConvertPhotoPb(in *types.Photo) (out *blog.Photo) {
 	jsonconv.ObjectMarshal(in, &out)
 	return
 }
+
+func ConvertPhotoAlbumTypes(in *blog.PhotoAlbum) (out *types.PhotoAlbum) {
+	jsonconv.ObjectMarshal(in, &out)
+
+	return
+}
+
+func ConvertPhotoAlbumPb(in *types.PhotoAlbum) (out *blog.PhotoAlbum) {
+	jsonconv.ObjectMarshal(in, &out)
+	return
+}

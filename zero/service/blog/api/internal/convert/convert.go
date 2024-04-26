@@ -21,7 +21,7 @@ func ConvertIdReq(in *types.IdReq) (out *blog.IdReq) {
 
 func ConvertIdsReq(in *types.IdsReq) (out *blog.IdsReq) {
 	out = &blog.IdsReq{
-		Ids: in.IDS,
+		Ids: in.Ids,
 	}
 	return
 }

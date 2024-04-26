@@ -9,23 +9,23 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeletePhotoLogic struct {
+type DeletePhotoAlbumLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewDeletePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletePhotoLogic {
-	return &DeletePhotoLogic{
+func NewDeletePhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletePhotoAlbumLogic {
+	return &DeletePhotoAlbumLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 删除照片
-func (l *DeletePhotoLogic) DeletePhoto(in *blog.IdReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.PhotoModel.Delete(l.ctx, in.Id)
+// 删除相册
+func (l *DeletePhotoAlbumLogic) DeletePhotoAlbum(in *blog.IdReq) (*blog.BatchResp, error) {
+	result, err := l.svcCtx.PhotoAlbumModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

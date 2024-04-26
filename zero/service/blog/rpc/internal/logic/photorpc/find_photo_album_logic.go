@@ -10,28 +10,26 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreatePhotoLogic struct {
+type FindPhotoAlbumLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreatePhotoLogic {
-	return &CreatePhotoLogic{
+func NewFindPhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPhotoAlbumLogic {
+	return &FindPhotoAlbumLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建照片
-func (l *CreatePhotoLogic) CreatePhoto(in *blog.Photo) (*blog.Photo, error) {
-	entity := convert.ConvertPhotoPbToModel(in)
-
-	result, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
+// 查询相册
+func (l *FindPhotoAlbumLogic) FindPhotoAlbum(in *blog.IdReq) (*blog.PhotoAlbum, error) {
+	result, err := l.svcCtx.PhotoAlbumModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoModelToPb(result), nil
+	return convert.ConvertPhotoAlbumModelToPb(result), nil
 }

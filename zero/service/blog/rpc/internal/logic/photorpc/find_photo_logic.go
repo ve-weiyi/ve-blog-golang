@@ -3,6 +3,7 @@ package photorpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -25,7 +26,10 @@ func NewFindPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPho
 
 // 查询照片
 func (l *FindPhotoLogic) FindPhoto(in *blog.IdReq) (*blog.Photo, error) {
-	// todo: add your logic here and delete this line
+	result, err := l.svcCtx.PhotoModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &blog.Photo{}, nil
+	return convert.ConvertPhotoModelToPb(result), nil
 }

@@ -2118,6 +2118,10 @@ type ArticleRpcClient interface {
 	FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error)
 	// 查询文章数量
 	FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+	// 查询文章列表
+	FindArticleByTag(ctx context.Context, in *FindArticleByTagReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
+	// 查询文章列表
+	FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
 }
 
 type articleRpcClient struct {
@@ -2191,6 +2195,24 @@ func (c *articleRpcClient) FindArticleCount(ctx context.Context, in *PageQuery, 
 	return out, nil
 }
 
+func (c *articleRpcClient) FindArticleByTag(ctx context.Context, in *FindArticleByTagReq, opts ...grpc.CallOption) (*ArticlePageResp, error) {
+	out := new(ArticlePageResp)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticleByTag", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error) {
+	out := new(ArticlePageResp)
+	err := c.cc.Invoke(ctx, "/blog.ArticleRpc/FindArticleByCategory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArticleRpcServer is the server API for ArticleRpc service.
 // All implementations must embed UnimplementedArticleRpcServer
 // for forward compatibility
@@ -2209,6 +2231,10 @@ type ArticleRpcServer interface {
 	FindArticleList(context.Context, *PageQuery) (*ArticlePageResp, error)
 	// 查询文章数量
 	FindArticleCount(context.Context, *PageQuery) (*CountResp, error)
+	// 查询文章列表
+	FindArticleByTag(context.Context, *FindArticleByTagReq) (*ArticlePageResp, error)
+	// 查询文章列表
+	FindArticleByCategory(context.Context, *FindArticleByCategoryReq) (*ArticlePageResp, error)
 	mustEmbedUnimplementedArticleRpcServer()
 }
 
@@ -2236,6 +2262,12 @@ func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *PageQuery
 }
 func (UnimplementedArticleRpcServer) FindArticleCount(context.Context, *PageQuery) (*CountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindArticleCount not implemented")
+}
+func (UnimplementedArticleRpcServer) FindArticleByTag(context.Context, *FindArticleByTagReq) (*ArticlePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindArticleByTag not implemented")
+}
+func (UnimplementedArticleRpcServer) FindArticleByCategory(context.Context, *FindArticleByCategoryReq) (*ArticlePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindArticleByCategory not implemented")
 }
 func (UnimplementedArticleRpcServer) mustEmbedUnimplementedArticleRpcServer() {}
 
@@ -2376,6 +2408,42 @@ func _ArticleRpc_FindArticleCount_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArticleRpc_FindArticleByTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindArticleByTagReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindArticleByTag(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/FindArticleByTag",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindArticleByTag(ctx, req.(*FindArticleByTagReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_FindArticleByCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindArticleByCategoryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindArticleByCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.ArticleRpc/FindArticleByCategory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindArticleByCategory(ctx, req.(*FindArticleByCategoryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArticleRpc_ServiceDesc is the grpc.ServiceDesc for ArticleRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2410,6 +2478,14 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindArticleCount",
 			Handler:    _ArticleRpc_FindArticleCount_Handler,
+		},
+		{
+			MethodName: "FindArticleByTag",
+			Handler:    _ArticleRpc_FindArticleByTag_Handler,
+		},
+		{
+			MethodName: "FindArticleByCategory",
+			Handler:    _ArticleRpc_FindArticleByCategory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -4126,6 +4202,22 @@ type PhotoRpcClient interface {
 	FindPhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Photo, error)
 	// 分页获取照片列表
 	FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error)
+	// 查询照片数量
+	FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+	// 创建相册
+	CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
+	// 更新相册
+	UpdatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
+	// 删除相册
+	DeletePhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除相册
+	DeletePhotoAlbumList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询相册
+	FindPhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*PhotoAlbum, error)
+	// 分页获取相册列表
+	FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error)
+	// 查询相册数量
+	FindPhotoAlbumCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 }
 
 type photoRpcClient struct {
@@ -4190,6 +4282,78 @@ func (c *photoRpcClient) FindPhotoList(ctx context.Context, in *PageQuery, opts 
 	return out, nil
 }
 
+func (c *photoRpcClient) FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/FindPhotoCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+	out := new(PhotoAlbum)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/CreatePhotoAlbum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) UpdatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+	out := new(PhotoAlbum)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/UpdatePhotoAlbum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) DeletePhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/DeletePhotoAlbum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) DeletePhotoAlbumList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/DeletePhotoAlbumList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) FindPhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+	out := new(PhotoAlbum)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/FindPhotoAlbum", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error) {
+	out := new(PhotoAlbumPageResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/FindPhotoAlbumList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) FindPhotoAlbumCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.photoRpc/FindPhotoAlbumCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PhotoRpcServer is the server API for PhotoRpc service.
 // All implementations must embed UnimplementedPhotoRpcServer
 // for forward compatibility
@@ -4206,6 +4370,22 @@ type PhotoRpcServer interface {
 	FindPhoto(context.Context, *IdReq) (*Photo, error)
 	// 分页获取照片列表
 	FindPhotoList(context.Context, *PageQuery) (*PhotoPageResp, error)
+	// 查询照片数量
+	FindPhotoCount(context.Context, *PageQuery) (*CountResp, error)
+	// 创建相册
+	CreatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error)
+	// 更新相册
+	UpdatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error)
+	// 删除相册
+	DeletePhotoAlbum(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除相册
+	DeletePhotoAlbumList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询相册
+	FindPhotoAlbum(context.Context, *IdReq) (*PhotoAlbum, error)
+	// 分页获取相册列表
+	FindPhotoAlbumList(context.Context, *PageQuery) (*PhotoAlbumPageResp, error)
+	// 查询相册数量
+	FindPhotoAlbumCount(context.Context, *PageQuery) (*CountResp, error)
 	mustEmbedUnimplementedPhotoRpcServer()
 }
 
@@ -4230,6 +4410,30 @@ func (UnimplementedPhotoRpcServer) FindPhoto(context.Context, *IdReq) (*Photo, e
 }
 func (UnimplementedPhotoRpcServer) FindPhotoList(context.Context, *PageQuery) (*PhotoPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoList not implemented")
+}
+func (UnimplementedPhotoRpcServer) FindPhotoCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoCount not implemented")
+}
+func (UnimplementedPhotoRpcServer) CreatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePhotoAlbum not implemented")
+}
+func (UnimplementedPhotoRpcServer) UpdatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhotoAlbum not implemented")
+}
+func (UnimplementedPhotoRpcServer) DeletePhotoAlbum(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePhotoAlbum not implemented")
+}
+func (UnimplementedPhotoRpcServer) DeletePhotoAlbumList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePhotoAlbumList not implemented")
+}
+func (UnimplementedPhotoRpcServer) FindPhotoAlbum(context.Context, *IdReq) (*PhotoAlbum, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoAlbum not implemented")
+}
+func (UnimplementedPhotoRpcServer) FindPhotoAlbumList(context.Context, *PageQuery) (*PhotoAlbumPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoAlbumList not implemented")
+}
+func (UnimplementedPhotoRpcServer) FindPhotoAlbumCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoAlbumCount not implemented")
 }
 func (UnimplementedPhotoRpcServer) mustEmbedUnimplementedPhotoRpcServer() {}
 
@@ -4352,6 +4556,150 @@ func _PhotoRpc_FindPhotoList_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PhotoRpc_FindPhotoCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).FindPhotoCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/FindPhotoCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).FindPhotoCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_CreatePhotoAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PhotoAlbum)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).CreatePhotoAlbum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/CreatePhotoAlbum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).CreatePhotoAlbum(ctx, req.(*PhotoAlbum))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_UpdatePhotoAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PhotoAlbum)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).UpdatePhotoAlbum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/UpdatePhotoAlbum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).UpdatePhotoAlbum(ctx, req.(*PhotoAlbum))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_DeletePhotoAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).DeletePhotoAlbum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/DeletePhotoAlbum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).DeletePhotoAlbum(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_DeletePhotoAlbumList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).DeletePhotoAlbumList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/DeletePhotoAlbumList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).DeletePhotoAlbumList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_FindPhotoAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).FindPhotoAlbum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/FindPhotoAlbum",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).FindPhotoAlbum(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_FindPhotoAlbumList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).FindPhotoAlbumList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/FindPhotoAlbumList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).FindPhotoAlbumList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_FindPhotoAlbumCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).FindPhotoAlbumCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.photoRpc/FindPhotoAlbumCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).FindPhotoAlbumCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PhotoRpc_ServiceDesc is the grpc.ServiceDesc for PhotoRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4382,6 +4730,38 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindPhotoList",
 			Handler:    _PhotoRpc_FindPhotoList_Handler,
+		},
+		{
+			MethodName: "FindPhotoCount",
+			Handler:    _PhotoRpc_FindPhotoCount_Handler,
+		},
+		{
+			MethodName: "CreatePhotoAlbum",
+			Handler:    _PhotoRpc_CreatePhotoAlbum_Handler,
+		},
+		{
+			MethodName: "UpdatePhotoAlbum",
+			Handler:    _PhotoRpc_UpdatePhotoAlbum_Handler,
+		},
+		{
+			MethodName: "DeletePhotoAlbum",
+			Handler:    _PhotoRpc_DeletePhotoAlbum_Handler,
+		},
+		{
+			MethodName: "DeletePhotoAlbumList",
+			Handler:    _PhotoRpc_DeletePhotoAlbumList_Handler,
+		},
+		{
+			MethodName: "FindPhotoAlbum",
+			Handler:    _PhotoRpc_FindPhotoAlbum_Handler,
+		},
+		{
+			MethodName: "FindPhotoAlbumList",
+			Handler:    _PhotoRpc_FindPhotoAlbumList_Handler,
+		},
+		{
+			MethodName: "FindPhotoAlbumCount",
+			Handler:    _PhotoRpc_FindPhotoAlbumCount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

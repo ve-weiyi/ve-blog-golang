@@ -3,6 +3,7 @@ package photo_album
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,12 @@ func NewCreatePhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *CreatePhotoAlbumLogic) CreatePhotoAlbum(reqCtx *types.RestHeader, req *types.PhotoAlbum) (resp *types.PhotoAlbum, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertPhotoAlbumPb(req)
+	out, err := l.svcCtx.PhotoRpc.CreatePhotoAlbum(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = convert.ConvertPhotoAlbumTypes(out)
+	return resp, nil
 }
