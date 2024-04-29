@@ -63,15 +63,14 @@ func Test_CreateApiTs(t *testing.T) {
 	sp, err := parser.ParseContent(testApi)
 	t.Log(err)
 
-	//t.Log(jsonconv.ObjectToJsonIndent(sp))
+	t.Log(jsonconv.ObjectToJsonIndent(sp))
 
 	//for _, tp := range sp.Types {
 	//	t.Logf("%v", jsonconv.ObjectToJsonIndent(tp))
 	//}
-	//
 
-	CreateTypesTs(sp)
-	CreateApiTs(sp)
+	//CreateTypesTs(sp)
+	//CreateApiTs(sp)
 }
 func CreateApiTs(sp *spec.ApiSpec) {
 	for _, g := range sp.Service.Groups {

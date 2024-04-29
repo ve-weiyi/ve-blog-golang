@@ -56,3 +56,14 @@ LogRpcConf:
 ChatRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+UploadRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
+UploadConfig:
+  zone: ZoneHuanan
+  endpoint: s3.cn-south-1.qiniucs.com
+  access-key-id: gyoAZPHHZrwXt4HhG7SNRaxRShJPhEKvxJJKhDUV
+  access-key-secret: OqbepkdXNm0pKfZMy1ziPqdYjZMCtdzRIrz1Hlhi
+  bucket-name: veweiyi
+  bucket-url: https://static.veweiyi.cn
+  base-path: blog

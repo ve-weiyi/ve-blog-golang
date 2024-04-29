@@ -19,6 +19,7 @@ import "module/photo_album.api"
 import "module/talk.api"
 import "module/comment.api"
 import "module/chat.api"
+import "module/upload.api"
 
 type (
 	PingReq{

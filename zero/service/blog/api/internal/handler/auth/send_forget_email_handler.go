@@ -11,8 +11,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
-// 获取授权地址
-func GetOauthAuthorizeUrlHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 发送忘记密码邮件
+func SendForgetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqCtx types.RestHeader
 		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
@@ -20,14 +20,14 @@ func GetOauthAuthorizeUrlHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		var req types.OauthLoginReq
+		var req types.UserEmailReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := auth.NewGetOauthAuthorizeUrlLogic(r.Context(), svcCtx)
-		resp, err := l.GetOauthAuthorizeUrl(&reqCtx, &req)
+		l := auth.NewSendForgetEmailLogic(r.Context(), svcCtx)
+		resp, err := l.SendForgetEmail(&reqCtx, &req)
 		responsex.Response(r, w, resp, err)
 	}
 }

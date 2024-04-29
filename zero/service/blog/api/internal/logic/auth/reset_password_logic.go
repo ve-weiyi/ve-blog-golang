@@ -15,6 +15,7 @@ type ResetPasswordLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 重置密码
 func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ResetPasswordLogic {
 	return &ResetPasswordLogic{
 		Logger: logx.WithContext(ctx),

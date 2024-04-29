@@ -9,21 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ForgetPasswordEmailLogic struct {
+type OauthAuthorizeUrlLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewForgetPasswordEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ForgetPasswordEmailLogic {
-	return &ForgetPasswordEmailLogic{
+// 第三方登录授权地址
+func NewOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthAuthorizeUrlLogic {
+	return &OauthAuthorizeUrlLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ForgetPasswordEmailLogic) ForgetPasswordEmail(reqCtx *types.RestHeader, req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
+func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(reqCtx *types.RestHeader, req *types.OauthLoginReq) (resp *types.OauthLoginUrlResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -881,3 +881,32 @@ service chatRpc {
   // 查询聊天记录数量
   rpc FindChatRecordCount(PageQuery) returns(CountResp);
 }
+
+message UploadRecordReq {
+  int64 id = 1;// id
+  int64 user_id = 2;// 用户id
+  string label = 3;// 标签
+  string file_name = 4;// 文件名称
+  int64 file_size = 5;// 文件大小
+  string file_md5 = 6;// 文件md5值
+  string file_url = 7;// 上传路径
+}
+
+message UploadRecordResp {
+  int64 id = 1;// id
+  int64 user_id = 2;// 用户id
+  string label = 3;// 标签
+  string file_name = 4;// 文件名称
+  int64 file_size = 5;// 文件大小
+  string file_md5 = 6;// 文件md5值
+  string file_url = 7;// 上传路径
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+}
+
+service uploadRpc {
+  // 上传文件
+  rpc UploadFile(UploadRecordReq) returns(UploadRecordResp);
+  // 上传语言
+  rpc UploadVoice(UploadRecordReq) returns(UploadRecordResp);
+}

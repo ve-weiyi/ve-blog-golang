@@ -4,6 +4,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/apirpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/articlerpc"
@@ -20,6 +21,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/tagrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/talkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/uploadrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/userrpc"
 )
 
@@ -42,10 +44,13 @@ type ServiceContext struct {
 	RemarkRpc     remarkrpc.RemarkRpc
 	CommentRpc    commentrpc.CommentRpc
 
-	PhotoRpc photorpc.PhotoRpc
-	TalkRpc  talkrpc.TalkRpc
-	LogRpc   logrpc.LogRpc
-	ChatRpc  chatrpc.ChatRpc
+	PhotoRpc  photorpc.PhotoRpc
+	TalkRpc   talkrpc.TalkRpc
+	LogRpc    logrpc.LogRpc
+	ChatRpc   chatrpc.ChatRpc
+	UploadRpc uploadrpc.UploadRpc
+
+	Uploader upload.Uploader
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -69,5 +74,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.TalkRpcConf)),
 		LogRpc:        logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf)),
 		ChatRpc:       chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf)),
+		UploadRpc:     uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf)),
+		Uploader:      upload.NewQiniu(c.UploadConfig),
 	}
 }

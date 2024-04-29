@@ -15,6 +15,7 @@ type OauthLoginLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 第三方登录
 func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthLoginLogic {
 	return &OauthLoginLogic{
 		Logger: logx.WithContext(ctx),

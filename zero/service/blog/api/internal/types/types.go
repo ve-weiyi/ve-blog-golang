@@ -344,7 +344,7 @@ type OauthLoginReq struct {
 	State    string `json:"state,optional"`    // 状态
 }
 
-type OauthLoginUrl struct {
+type OauthLoginUrlResp struct {
 	Url string `json:"url,optional"` // 授权地址
 }
 
@@ -612,6 +612,25 @@ type UpdateUserRolesReq struct {
 type UpdateUserStatusReq struct {
 	UserId int64 `json:"user_id,optional"`
 	Status int64 `json:"status,optional"` // 状态: -1删除 0正常 1禁用
+}
+
+type UploadFileReq struct {
+	Label    string      `form:"label,optional"`
+	File     interface{} `form:"file,optional"`      // 文件
+	FileSize int64       `form:"file_size,optional"` // 文件大小
+	FileMd5  string      `form:"file_md5,optional"`  // 文件md5值
+}
+
+type UploadFileResp struct {
+	Id        int64  `json:"id"`         // id
+	UserId    int64  `json:"user_id"`    // 用户id
+	Label     string `json:"label"`      // 标签
+	FileName  string `json:"file_name"`  // 文件名称
+	FileSize  int64  `json:"file_size"`  // 文件大小
+	FileMd5   string `json:"file_md5"`   // 文件md5值
+	FileUrl   string `json:"file_url"`   // 上传路径
+	CreatedAt int64  `json:"created_at"` // 创建时间
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
 }
 
 type User struct {

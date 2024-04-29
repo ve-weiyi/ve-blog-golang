@@ -5791,3 +5791,129 @@ var ChatRpc_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "blog.proto",
 }
+
+// UploadRpcClient is the client API for UploadRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type UploadRpcClient interface {
+	// 上传文件
+	UploadFile(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error)
+	// 上传语言
+	UploadVoice(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error)
+}
+
+type uploadRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewUploadRpcClient(cc grpc.ClientConnInterface) UploadRpcClient {
+	return &uploadRpcClient{cc}
+}
+
+func (c *uploadRpcClient) UploadFile(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error) {
+	out := new(UploadRecordResp)
+	err := c.cc.Invoke(ctx, "/blog.uploadRpc/UploadFile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *uploadRpcClient) UploadVoice(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error) {
+	out := new(UploadRecordResp)
+	err := c.cc.Invoke(ctx, "/blog.uploadRpc/UploadVoice", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UploadRpcServer is the server API for UploadRpc service.
+// All implementations must embed UnimplementedUploadRpcServer
+// for forward compatibility
+type UploadRpcServer interface {
+	// 上传文件
+	UploadFile(context.Context, *UploadRecordReq) (*UploadRecordResp, error)
+	// 上传语言
+	UploadVoice(context.Context, *UploadRecordReq) (*UploadRecordResp, error)
+	mustEmbedUnimplementedUploadRpcServer()
+}
+
+// UnimplementedUploadRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedUploadRpcServer struct {
+}
+
+func (UnimplementedUploadRpcServer) UploadFile(context.Context, *UploadRecordReq) (*UploadRecordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
+}
+func (UnimplementedUploadRpcServer) UploadVoice(context.Context, *UploadRecordReq) (*UploadRecordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadVoice not implemented")
+}
+func (UnimplementedUploadRpcServer) mustEmbedUnimplementedUploadRpcServer() {}
+
+// UnsafeUploadRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UploadRpcServer will
+// result in compilation errors.
+type UnsafeUploadRpcServer interface {
+	mustEmbedUnimplementedUploadRpcServer()
+}
+
+func RegisterUploadRpcServer(s grpc.ServiceRegistrar, srv UploadRpcServer) {
+	s.RegisterService(&UploadRpc_ServiceDesc, srv)
+}
+
+func _UploadRpc_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadRecordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UploadRpcServer).UploadFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.uploadRpc/UploadFile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UploadRpcServer).UploadFile(ctx, req.(*UploadRecordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UploadRpc_UploadVoice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadRecordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UploadRpcServer).UploadVoice(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.uploadRpc/UploadVoice",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UploadRpcServer).UploadVoice(ctx, req.(*UploadRecordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// UploadRpc_ServiceDesc is the grpc.ServiceDesc for UploadRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var UploadRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.uploadRpc",
+	HandlerType: (*UploadRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "UploadFile",
+			Handler:    _UploadRpc_UploadFile_Handler,
+		},
+		{
+			MethodName: "UploadVoice",
+			Handler:    _UploadRpc_UploadVoice_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}

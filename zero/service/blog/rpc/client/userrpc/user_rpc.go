@@ -82,6 +82,8 @@ type (
 	UpdateUserInfoReq        = blog.UpdateUserInfoReq
 	UpdateUserRoleReq        = blog.UpdateUserRoleReq
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
+	UploadRecordReq          = blog.UploadRecordReq
+	UploadRecordResp         = blog.UploadRecordResp
 	User                     = blog.User
 	UserEmailReq             = blog.UserEmailReq
 	UserInfoPageResp         = blog.UserInfoPageResp

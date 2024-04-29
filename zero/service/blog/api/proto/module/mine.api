@@ -119,25 +119,25 @@ service blog-api {
 
     @doc "获取用户接口权限"
     @handler GetUserApis
-    get /user/apis (EmptyReq) returns (UserApisResp)
+    get /user/get_user_apis (EmptyReq) returns (UserApisResp)
 
     @doc "获取用户菜单权限"
     @handler GetUserMenus
-    get /user/menus (EmptyReq) returns (UserMenusResp)
+    get /user/get_user_menus (EmptyReq) returns (UserMenusResp)
 
     @doc "获取用户角色"
     @handler GetUserRole
-    get /user/roles (EmptyReq) returns (UserRolesResp)
+    get /user/get_user_roles (EmptyReq) returns (UserRolesResp)
 
     @doc "获取用户信息"
     @handler GetUserInfo
-    get /user/info (EmptyReq) returns (UserInfoResp)
+    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
 
     @doc "修改用户信息"
     @handler UpdateUserInfo
-    post /user/info (UserInfoReq) returns (EmptyResp)
+    post /user/update_user_info (UserInfoReq) returns (EmptyResp)
 
     @doc "更换用户头像"
     @handler UpdateUserAvatar
-    post /user/avatar (EmptyReq) returns (EmptyResp)
+    post /user/update_user_avatar (EmptyReq) returns (EmptyResp)
 }

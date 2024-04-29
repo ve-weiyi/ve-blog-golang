@@ -1,4 +1,4 @@
-package auth
+package upload
 
 import (
 	"net/http"
@@ -6,13 +6,13 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/logic/auth"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/logic/upload"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
-// 发送忘记密码邮件
-func ForgetPasswordEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 上传文件
+func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqCtx types.RestHeader
 		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
@@ -20,14 +20,14 @@ func ForgetPasswordEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		var req types.UserEmailReq
+		var req types.UploadFileReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := auth.NewForgetPasswordEmailLogic(r.Context(), svcCtx)
-		resp, err := l.ForgetPasswordEmail(&reqCtx, &req)
+		l := upload.NewUploadFileLogic(r.Context(), svcCtx)
+		resp, err := l.UploadFile(&reqCtx, &req, r)
 		responsex.Response(r, w, resp, err)
 	}
 }

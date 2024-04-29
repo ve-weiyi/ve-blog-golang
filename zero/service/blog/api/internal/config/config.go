@@ -3,10 +3,14 @@ package config
 import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
 )
 
 type Config struct {
 	rest.RestConf
+	UploadConfig *upload.UploadConfig
+
 	AccountRpcConf zrpc.RpcClientConf
 	ApiRpcConf     zrpc.RpcClientConf
 	MenuRpcConf    zrpc.RpcClientConf
@@ -26,4 +30,6 @@ type Config struct {
 	TalkRpcConf  zrpc.RpcClientConf
 	LogRpcConf   zrpc.RpcClientConf
 	ChatRpcConf  zrpc.RpcClientConf
+
+	UploadRpcConf zrpc.RpcClientConf
 }

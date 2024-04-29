@@ -50,7 +50,7 @@ type (
         State string `json:"state,optional"`       // 状态
     }
 
-    OauthLoginUrl {
+    OauthLoginUrlResp {
         Url string `json:"url,optional"` // 授权地址
     }
 )
@@ -78,23 +78,23 @@ service blog-api {
     @handler Register
     post /register (LoginReq) returns (EmptyResp)
 
-    @doc "发送注册邮件"
-    @handler RegisterEmail
-    post /register/email (UserEmailReq) returns (EmptyResp)
+    @doc "发送注册账号邮件"
+    @handler SendRegisterEmail
+    post /send_register_email (UserEmailReq) returns (EmptyResp)
 
     @doc "发送忘记密码邮件"
-    @handler ForgetPasswordEmail
-    post /forget/email (UserEmailReq) returns (EmptyResp)
+    @handler SendForgetEmail
+    post /send_forget_email (UserEmailReq) returns (EmptyResp)
 
     @doc "重置密码"
     @handler ResetPassword
-    post /forget/reset_password (ResetPasswordReq) returns (EmptyResp)
+    post /reset_password (ResetPasswordReq) returns (EmptyResp)
 
     @doc "第三方登录"
     @handler OauthLogin
-    post /oauth/login (OauthLoginReq) returns (LoginResp)
+    post /oauth_login (OauthLoginReq) returns (LoginResp)
 
-    @doc "获取授权地址"
-    @handler GetOauthAuthorizeUrl
-    post /oauth/authorize_url (OauthLoginReq) returns (OauthLoginUrl)
+    @doc "第三方登录授权地址"
+    @handler OauthAuthorizeUrl
+    post /oauth_authorize_url (OauthLoginReq) returns (OauthLoginUrlResp)
 }

@@ -22,6 +22,7 @@ import (
 	role "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/role"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/talk"
+	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/upload"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 
@@ -212,18 +213,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 发送忘记密码邮件
-				Method:  http.MethodPost,
-				Path:    "/forget/email",
-				Handler: auth.ForgetPasswordEmailHandler(serverCtx),
-			},
-			{
-				// 重置密码
-				Method:  http.MethodPost,
-				Path:    "/forget/reset_password",
-				Handler: auth.ResetPasswordHandler(serverCtx),
-			},
-			{
 				// 登录
 				Method:  http.MethodPost,
 				Path:    "/login",
@@ -242,15 +231,15 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.LogoutHandler(serverCtx),
 			},
 			{
-				// 获取授权地址
+				// 第三方登录授权地址
 				Method:  http.MethodPost,
-				Path:    "/oauth/authorize_url",
-				Handler: auth.GetOauthAuthorizeUrlHandler(serverCtx),
+				Path:    "/oauth_authorize_url",
+				Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
 			},
 			{
 				// 第三方登录
 				Method:  http.MethodPost,
-				Path:    "/oauth/login",
+				Path:    "/oauth_login",
 				Handler: auth.OauthLoginHandler(serverCtx),
 			},
 			{
@@ -260,10 +249,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.RegisterHandler(serverCtx),
 			},
 			{
-				// 发送注册邮件
+				// 重置密码
 				Method:  http.MethodPost,
-				Path:    "/register/email",
-				Handler: auth.RegisterEmailHandler(serverCtx),
+				Path:    "/reset_password",
+				Handler: auth.ResetPasswordHandler(serverCtx),
+			},
+			{
+				// 发送忘记密码邮件
+				Method:  http.MethodPost,
+				Path:    "/send_forget_email",
+				Handler: auth.SendForgetEmailHandler(serverCtx),
+			},
+			{
+				// 发送注册账号邮件
+				Method:  http.MethodPost,
+				Path:    "/send_register_email",
+				Handler: auth.SendRegisterEmailHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -482,34 +483,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 获取用户接口权限
-				Method:  http.MethodGet,
-				Path:    "/user/apis",
-				Handler: mine.GetUserApisHandler(serverCtx),
-			},
-			{
-				// 更换用户头像
-				Method:  http.MethodPost,
-				Path:    "/user/avatar",
-				Handler: mine.UpdateUserAvatarHandler(serverCtx),
-			},
-			{
 				// 批量删除登录历史
 				Method:  http.MethodDelete,
 				Path:    "/user/delete_login_history_list",
 				Handler: mine.DeleteUserLoginHistoryListHandler(serverCtx),
 			},
 			{
+				// 获取用户接口权限
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_apis",
+				Handler: mine.GetUserApisHandler(serverCtx),
+			},
+			{
 				// 获取用户信息
 				Method:  http.MethodGet,
-				Path:    "/user/info",
+				Path:    "/user/get_user_info",
 				Handler: mine.GetUserInfoHandler(serverCtx),
 			},
 			{
-				// 修改用户信息
-				Method:  http.MethodPost,
-				Path:    "/user/info",
-				Handler: mine.UpdateUserInfoHandler(serverCtx),
+				// 获取用户菜单权限
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_menus",
+				Handler: mine.GetUserMenusHandler(serverCtx),
+			},
+			{
+				// 获取用户角色
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_roles",
+				Handler: mine.GetUserRoleHandler(serverCtx),
 			},
 			{
 				// 查询用户登录历史
@@ -518,16 +519,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: mine.FindUserLoginHistoryListHandler(serverCtx),
 			},
 			{
-				// 获取用户菜单权限
-				Method:  http.MethodGet,
-				Path:    "/user/menus",
-				Handler: mine.GetUserMenusHandler(serverCtx),
+				// 更换用户头像
+				Method:  http.MethodPost,
+				Path:    "/user/update_user_avatar",
+				Handler: mine.UpdateUserAvatarHandler(serverCtx),
 			},
 			{
-				// 获取用户角色
-				Method:  http.MethodGet,
-				Path:    "/user/roles",
-				Handler: mine.GetUserRoleHandler(serverCtx),
+				// 修改用户信息
+				Method:  http.MethodPost,
+				Path:    "/user/update_user_info",
+				Handler: mine.UpdateUserInfoHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -900,6 +901,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/talk/update_talk",
 				Handler: talk.UpdateTalkHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 上传文件
+				Method:  http.MethodPost,
+				Path:    "/upload/upload_file",
+				Handler: upload.UploadFileHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
