@@ -531,7 +531,7 @@ type RouteConfigsTable struct {
 	Children  []RouteConfigsTable `json:"children,optional"`  // 子路由配置项
 }
 
-type SyncMenuRequest struct {
+type SyncMenuReq struct {
 	Menus []RouteConfigsTable `json:"menus,optional"`
 }
 

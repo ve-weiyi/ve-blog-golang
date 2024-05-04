@@ -209,7 +209,7 @@ message MenuPageResp {
   repeated MenuDetails list = 2;
 }
 
-message SyncMenuRequest {
+message SyncMenuReq {
   repeated MenuDetails menus = 1;
 }
 
@@ -227,7 +227,7 @@ service MenuRpc {
   // 分页获取菜单列表
   rpc FindMenuList(PageQuery) returns(MenuPageResp);
   // 同步菜单列表
-  rpc SyncMenuList(SyncMenuRequest) returns(BatchResp);
+  rpc SyncMenuList(SyncMenuReq) returns(BatchResp);
   // 清空菜单列表
   rpc CleanMenuList(EmptyReq) returns(BatchResp);
 }

@@ -24,7 +24,7 @@ func (l *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 	return list, int64(len(list)), nil
 }
 
-func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuRequest) (data int64, err error) {
+func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuReq) (data int64, err error) {
 
 	for _, item := range req.Menus {
 		// 已存在则跳过

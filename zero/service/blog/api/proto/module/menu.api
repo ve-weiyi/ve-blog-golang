@@ -52,7 +52,7 @@ type (
         Children []RouteConfigsTable `json:"children,optional"` // 子路由配置项
     }
 
-    SyncMenuRequest {
+    SyncMenuReq {
         Menus []RouteConfigsTable `json:"menus,optional"`
     }
 )
@@ -89,7 +89,7 @@ service blog-api {
 
     @doc "同步菜单列表"
     @handler SyncMenuList
-    post /menu/sync_menu_list (SyncMenuRequest) returns (BatchResp)
+    post /menu/sync_menu_list (SyncMenuReq) returns (BatchResp)
 
     @doc "清空菜单列表"
     @handler CleanMenuList

@@ -781,7 +781,7 @@ type MenuRpcClient interface {
 	// 分页获取菜单列表
 	FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
 	// 同步菜单列表
-	SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error)
+	SyncMenuList(ctx context.Context, in *SyncMenuReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 清空菜单列表
 	CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 }
@@ -848,7 +848,7 @@ func (c *menuRpcClient) FindMenuList(ctx context.Context, in *PageQuery, opts ..
 	return out, nil
 }
 
-func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *menuRpcClient) SyncMenuList(ctx context.Context, in *SyncMenuReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, "/blog.MenuRpc/SyncMenuList", in, out, opts...)
 	if err != nil {
@@ -883,7 +883,7 @@ type MenuRpcServer interface {
 	// 分页获取菜单列表
 	FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error)
 	// 同步菜单列表
-	SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResp, error)
+	SyncMenuList(context.Context, *SyncMenuReq) (*BatchResp, error)
 	// 清空菜单列表
 	CleanMenuList(context.Context, *EmptyReq) (*BatchResp, error)
 	mustEmbedUnimplementedMenuRpcServer()
@@ -911,7 +911,7 @@ func (UnimplementedMenuRpcServer) FindMenu(context.Context, *IdReq) (*Menu, erro
 func (UnimplementedMenuRpcServer) FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindMenuList not implemented")
 }
-func (UnimplementedMenuRpcServer) SyncMenuList(context.Context, *SyncMenuRequest) (*BatchResp, error) {
+func (UnimplementedMenuRpcServer) SyncMenuList(context.Context, *SyncMenuReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncMenuList not implemented")
 }
 func (UnimplementedMenuRpcServer) CleanMenuList(context.Context, *EmptyReq) (*BatchResp, error) {
@@ -1039,7 +1039,7 @@ func _MenuRpc_FindMenuList_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _MenuRpc_SyncMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SyncMenuRequest)
+	in := new(SyncMenuReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1051,7 +1051,7 @@ func _MenuRpc_SyncMenuList_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/blog.MenuRpc/SyncMenuList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MenuRpcServer).SyncMenuList(ctx, req.(*SyncMenuRequest))
+		return srv.(MenuRpcServer).SyncMenuList(ctx, req.(*SyncMenuReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

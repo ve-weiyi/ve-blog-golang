@@ -20,7 +20,7 @@ func SyncMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		var req types.SyncMenuRequest
+		var req types.SyncMenuReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

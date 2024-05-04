@@ -72,7 +72,7 @@ type (
 	RolePageResp             = blog.RolePageResp
 	RoleResourcesResp        = blog.RoleResourcesResp
 	SaveConfigReq            = blog.SaveConfigReq
-	SyncMenuRequest          = blog.SyncMenuRequest
+	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk

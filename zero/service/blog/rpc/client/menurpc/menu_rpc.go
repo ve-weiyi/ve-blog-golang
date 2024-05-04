@@ -72,7 +72,7 @@ type (
 	RolePageResp             = blog.RolePageResp
 	RoleResourcesResp        = blog.RoleResourcesResp
 	SaveConfigReq            = blog.SaveConfigReq
-	SyncMenuRequest          = blog.SyncMenuRequest
+	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
@@ -106,7 +106,7 @@ type (
 		// 分页获取菜单列表
 		FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
 		// 同步菜单列表
-		SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error)
+		SyncMenuList(ctx context.Context, in *SyncMenuReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 清空菜单列表
 		CleanMenuList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 	}
@@ -159,7 +159,7 @@ func (m *defaultMenuRpc) FindMenuList(ctx context.Context, in *PageQuery, opts .
 }
 
 // 同步菜单列表
-func (m *defaultMenuRpc) SyncMenuList(ctx context.Context, in *SyncMenuRequest, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultMenuRpc) SyncMenuList(ctx context.Context, in *SyncMenuReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := blog.NewMenuRpcClient(m.cli.Conn())
 	return client.SyncMenuList(ctx, in, opts...)
 }

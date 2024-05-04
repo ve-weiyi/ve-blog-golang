@@ -59,7 +59,7 @@ func (s *MenuRpcServer) FindMenuList(ctx context.Context, in *blog.PageQuery) (*
 }
 
 // 同步菜单列表
-func (s *MenuRpcServer) SyncMenuList(ctx context.Context, in *blog.SyncMenuRequest) (*blog.BatchResp, error) {
+func (s *MenuRpcServer) SyncMenuList(ctx context.Context, in *blog.SyncMenuReq) (*blog.BatchResp, error) {
 	l := menurpclogic.NewSyncMenuListLogic(ctx, s.svcCtx)
 	return l.SyncMenuList(in)
 }

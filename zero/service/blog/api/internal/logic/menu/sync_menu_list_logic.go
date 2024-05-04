@@ -25,8 +25,8 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 	}
 }
 
-func (l *SyncMenuListLogic) SyncMenuList(reqCtx *types.RestHeader, req *types.SyncMenuRequest) (resp *types.BatchResp, err error) {
-	in := &menurpc.SyncMenuRequest{}
+func (l *SyncMenuListLogic) SyncMenuList(reqCtx *types.RestHeader, req *types.SyncMenuReq) (resp *types.BatchResp, err error) {
+	in := &menurpc.SyncMenuReq{}
 	err = jsonconv.ObjectToObject(req, in)
 	if err != nil {
 		return nil, err
