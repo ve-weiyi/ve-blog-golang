@@ -52,8 +52,10 @@ type (
 	OauthLoginUrlResp        = blog.OauthLoginUrlResp
 	OperationLog             = blog.OperationLog
 	OperationLogPageResp     = blog.OperationLogPageResp
+	Page                     = blog.Page
 	PageCondition            = blog.PageCondition
 	PageLimit                = blog.PageLimit
+	PagePageResp             = blog.PagePageResp
 	PageQuery                = blog.PageQuery
 	PageResp                 = blog.PageResp
 	PageSort                 = blog.PageSort

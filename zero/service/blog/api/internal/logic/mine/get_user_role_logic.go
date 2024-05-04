@@ -38,7 +38,7 @@ func (l *GetUserRoleLogic) GetUserRole(reqCtx *types.RestHeader, req *types.Empt
 	}
 
 	var list []*types.UserRole
-	jsonconv.ObjectMarshal(out.List, &list)
+	jsonconv.ObjectToObject(out.List, &list)
 
 	resp = &types.UserRolesResp{}
 	resp.List = list

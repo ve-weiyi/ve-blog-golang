@@ -29,7 +29,7 @@ type (
         TouristAvatar string `json:"tourist_avatar,optional"`          // 游客头像
         UserAvatar string `json:"user_avatar,optional"`                // 用户头像
         WebsiteAuthor string `json:"website_author,optional"`          // 网站作者
-        WebsiteAvatar interface{} `json:"website_avatar,optional"`     // 网站头像
+        WebsiteAvatar string `json:"website_avatar,optional"`          // 网站头像
         WebsiteCreateTime string `json:"website_create_time,optional"` // 网站创建时间
         WebsiteIntro string `json:"website_intro,optional"`            // 网站介绍
         WebsiteName string `json:"website_name,optional"`              // 网站名称
@@ -111,13 +111,13 @@ service blog-api {
     @handler UpdateAboutMe
     put /admin/about_me (AboutMe) returns (EmptyResp)
 
-    @doc "获取网站前台配置"
+    @doc "获取网站配置"
     @handler GetWebsiteConfig
-    get /blog/websit_config (EmptyReq) returns (WebsiteConfig)
+    get /blog/get_website_config (EmptyReq) returns (WebsiteConfig)
 
-    @doc "更新配置"
+    @doc "更新网站配置"
     @handler UpdateWebsiteConfig
-    put /admin/websit_config (WebsiteConfig) returns (EmptyResp)
+    put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)
 
     @doc "获取服务器信息"
     @handler GetSystemState

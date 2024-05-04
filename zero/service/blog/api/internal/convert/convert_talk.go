@@ -6,16 +6,16 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertTalkTypes(in *blog.Talk) (out *types.TalkDetails) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertTalkPb(in *types.TalkDetails) (out *blog.Talk) {
+	jsonconv.ObjectToObject(in, &out)
 
-	jsonconv.ObjectMarshal(in.Images, &out.ImgList)
+	out.Images = jsonconv.ObjectToJson(in.ImgList)
 	return
 }
 
-func ConvertTalkPb(in *types.TalkDetails) (out *blog.Talk) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertTalkTypes(in *blog.Talk) (out *types.TalkDetails) {
+	jsonconv.ObjectToObject(in, &out)
 
-	jsonconv.ObjectMarshal(in.ImgList, &out.Images)
+	jsonconv.JsonToObject(in.Images, &out.ImgList)
 	return
 }

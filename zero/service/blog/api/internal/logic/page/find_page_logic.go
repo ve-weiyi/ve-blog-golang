@@ -3,6 +3,7 @@ package page
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,12 @@ func NewFindPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPage
 }
 
 func (l *FindPageLogic) FindPage(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Page, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertIdReq(req)
 
-	return
+	out, err := l.svcCtx.PageRpc.FindPage(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convert.ConvertPageTypes(out), nil
 }

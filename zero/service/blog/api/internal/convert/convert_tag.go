@@ -6,18 +6,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertTagTypes(in *blog.Tag) (out *types.Tag) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertTagPb(in *types.Tag) (out *blog.Tag) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertTagPb(in *types.Tag) (out *blog.Tag) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertTagTypes(in *blog.Tag) (out *types.Tag) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }
 
 func ConvertTagDetailsTypes(in *blog.Tag) (out *types.TagDetails) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return
 }

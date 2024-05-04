@@ -33,13 +33,18 @@ func (l *FindTalkListLogic) FindTalkList(reqCtx *types.RestHeader, req *types.Pa
 		return nil, err
 	}
 
+	total, err := l.svcCtx.TalkRpc.FindTalkCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.TalkDetails
 	for _, v := range out.List {
 
 		m := convert.ConvertTalkTypes(v)
 		user, _ := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &blog.UserReq{UserId: v.UserId})
 		if user != nil {
-			m.UserID = user.UserId
+			m.UserId = user.UserId
 			m.Nickname = user.Nickname
 			m.Avatar = user.Avatar
 		}
@@ -50,7 +55,7 @@ func (l *FindTalkListLogic) FindTalkList(reqCtx *types.RestHeader, req *types.Pa
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

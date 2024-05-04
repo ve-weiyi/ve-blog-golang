@@ -1,8 +1,6 @@
 package convert
 
 import (
-	"time"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
@@ -16,8 +14,8 @@ func ConvertApiPbToModel(in *blog.Api) (out *model.Api) {
 		Method:    in.Method,
 		Traceable: in.Traceable,
 		Status:    in.Status,
-		CreatedAt: time.Unix(in.CreatedAt, 0),
-		UpdatedAt: time.Unix(in.UpdatedAt, 0),
+		// CreatedAt: time.Unix(in.CreatedAt, 0),
+		// UpdatedAt: time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

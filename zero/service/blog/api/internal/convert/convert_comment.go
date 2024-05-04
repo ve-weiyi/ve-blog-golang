@@ -62,7 +62,7 @@ func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
 }
 
 func ConvertCommentTypes(in *blog.Comment) (out *types.CommentNewReq) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 
 	return
 }

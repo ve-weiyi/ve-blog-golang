@@ -7,17 +7,17 @@ import (
 )
 
 func ConvertUserDetailsTypes(in *blog.User) (out *types.User) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return out
 }
 
 func ConvertUserLoginHistoryTypes(in *blog.LoginHistory) (out *types.LoginHistory) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return out
 }
 
 func ConvertUserMenuTypes(in *blog.MenuDetails) (out *types.UserMenu) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 
 	out.Children = make([]*types.UserMenu, 0)
 	jsonconv.JsonToObject(in.Extra, &out.Meta)

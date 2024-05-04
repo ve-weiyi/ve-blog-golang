@@ -3,6 +3,7 @@ package page
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
@@ -25,7 +26,14 @@ func NewDeletePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeletePageLogic) DeletePage(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertIdReq(req)
 
-	return
+	out, err := l.svcCtx.PageRpc.DeletePage(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}, nil
 }

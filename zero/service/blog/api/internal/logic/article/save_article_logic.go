@@ -28,7 +28,7 @@ func NewSaveArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveA
 
 func (l *SaveArticleLogic) SaveArticle(reqCtx *types.RestHeader, req *types.ArticleNewReq) (resp *types.EmptyResp, err error) {
 	in := &blog.Article{}
-	jsonconv.ObjectMarshal(req, &in)
+	jsonconv.ObjectToObject(req, &in)
 
 	c, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blog.PageQuery{
 		Conditions: "category_name = ?",

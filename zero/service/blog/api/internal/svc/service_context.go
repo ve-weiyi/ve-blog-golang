@@ -16,6 +16,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/friendlinkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/logrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/menurpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/rolerpc"
@@ -43,9 +44,10 @@ type ServiceContext struct {
 	FriendLinkRpc friendlinkrpc.FriendLinkRpc
 	RemarkRpc     remarkrpc.RemarkRpc
 	CommentRpc    commentrpc.CommentRpc
+	PhotoRpc      photorpc.PhotoRpc
+	TalkRpc       talkrpc.TalkRpc
+	PageRpc       pagerpc.PageRpc
 
-	PhotoRpc  photorpc.PhotoRpc
-	TalkRpc   talkrpc.TalkRpc
 	LogRpc    logrpc.LogRpc
 	ChatRpc   chatrpc.ChatRpc
 	UploadRpc uploadrpc.UploadRpc
@@ -72,9 +74,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.CommentRpcConf)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.PhotoRpcConf)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.TalkRpcConf)),
-		LogRpc:        logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf)),
-		ChatRpc:       chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf)),
-		UploadRpc:     uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf)),
-		Uploader:      upload.NewQiniu(c.UploadConfig),
+		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.PageRpcConf)),
+
+		LogRpc:    logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf)),
+		ChatRpc:   chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf)),
+		UploadRpc: uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf)),
+		Uploader:  upload.NewQiniu(c.UploadConfig),
 	}
 }

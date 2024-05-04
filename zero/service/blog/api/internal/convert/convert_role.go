@@ -5,10 +5,10 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertRoleTypes(in *blog.Role) (out *types.Role) {
-	out = &types.Role{
+func ConvertRolePb(in *types.Role) (out *blog.Role) {
+	out = &blog.Role{
 		Id:          in.Id,
-		RolePid:     in.ParentId,
+		ParentId:    in.RolePid,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,
@@ -20,10 +20,10 @@ func ConvertRoleTypes(in *blog.Role) (out *types.Role) {
 	return
 }
 
-func ConvertRolePb(in *types.Role) (out *blog.Role) {
-	out = &blog.Role{
+func ConvertRoleTypes(in *blog.Role) (out *types.Role) {
+	out = &types.Role{
 		Id:          in.Id,
-		ParentId:    in.RolePid,
+		RolePid:     in.ParentId,
 		RoleDomain:  in.RoleDomain,
 		RoleName:    in.RoleName,
 		RoleComment: in.RoleComment,

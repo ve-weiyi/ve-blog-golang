@@ -6,24 +6,24 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertPhotoTypes(in *blog.Photo) (out *types.Photo) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertPhotoPb(in *types.Photo) (out *blog.Photo) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertPhotoPb(in *types.Photo) (out *blog.Photo) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertPhotoTypes(in *blog.Photo) (out *types.Photo) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }
 
 func ConvertPhotoAlbumTypes(in *blog.PhotoAlbum) (out *types.PhotoAlbum) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 
 	return
 }
 
 func ConvertPhotoAlbumPb(in *types.PhotoAlbum) (out *blog.PhotoAlbum) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return
 }

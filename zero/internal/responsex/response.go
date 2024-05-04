@@ -9,7 +9,7 @@ import (
 
 type Body struct {
 	Code        int         `json:"code"`
-	Message     string      `json:"msg"`
+	Message     string      `json:"message"`
 	Data        interface{} `json:"data,omitempty"`
 	EncryptData interface{} `json:"encrypt_data,omitempty"`
 	TraceId     string      `json:"trace_id"`

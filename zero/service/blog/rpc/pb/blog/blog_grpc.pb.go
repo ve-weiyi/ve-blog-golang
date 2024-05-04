@@ -4806,6 +4806,322 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 	Metadata: "blog.proto",
 }
 
+// PageRpcClient is the client API for PageRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PageRpcClient interface {
+	// 创建页面
+	CreatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
+	// 更新页面
+	UpdatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
+	// 删除页面
+	DeletePage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 批量删除页面
+	DeletePageList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询页面
+	FindPage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Page, error)
+	// 分页获取页面列表
+	FindPageList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PagePageResp, error)
+	// 查询页面数量
+	FindPageCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+}
+
+type pageRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPageRpcClient(cc grpc.ClientConnInterface) PageRpcClient {
+	return &pageRpcClient{cc}
+}
+
+func (c *pageRpcClient) CreatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error) {
+	out := new(Page)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/CreatePage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pageRpcClient) UpdatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error) {
+	out := new(Page)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/UpdatePage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pageRpcClient) DeletePage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/DeletePage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pageRpcClient) DeletePageList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/DeletePageList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pageRpcClient) FindPage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Page, error) {
+	out := new(Page)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/FindPage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pageRpcClient) FindPageList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PagePageResp, error) {
+	out := new(PagePageResp)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/FindPageList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pageRpcClient) FindPageCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, "/blog.pageRpc/FindPageCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PageRpcServer is the server API for PageRpc service.
+// All implementations must embed UnimplementedPageRpcServer
+// for forward compatibility
+type PageRpcServer interface {
+	// 创建页面
+	CreatePage(context.Context, *Page) (*Page, error)
+	// 更新页面
+	UpdatePage(context.Context, *Page) (*Page, error)
+	// 删除页面
+	DeletePage(context.Context, *IdReq) (*BatchResp, error)
+	// 批量删除页面
+	DeletePageList(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询页面
+	FindPage(context.Context, *IdReq) (*Page, error)
+	// 分页获取页面列表
+	FindPageList(context.Context, *PageQuery) (*PagePageResp, error)
+	// 查询页面数量
+	FindPageCount(context.Context, *PageQuery) (*CountResp, error)
+	mustEmbedUnimplementedPageRpcServer()
+}
+
+// UnimplementedPageRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedPageRpcServer struct {
+}
+
+func (UnimplementedPageRpcServer) CreatePage(context.Context, *Page) (*Page, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePage not implemented")
+}
+func (UnimplementedPageRpcServer) UpdatePage(context.Context, *Page) (*Page, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePage not implemented")
+}
+func (UnimplementedPageRpcServer) DeletePage(context.Context, *IdReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePage not implemented")
+}
+func (UnimplementedPageRpcServer) DeletePageList(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePageList not implemented")
+}
+func (UnimplementedPageRpcServer) FindPage(context.Context, *IdReq) (*Page, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPage not implemented")
+}
+func (UnimplementedPageRpcServer) FindPageList(context.Context, *PageQuery) (*PagePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPageList not implemented")
+}
+func (UnimplementedPageRpcServer) FindPageCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPageCount not implemented")
+}
+func (UnimplementedPageRpcServer) mustEmbedUnimplementedPageRpcServer() {}
+
+// UnsafePageRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PageRpcServer will
+// result in compilation errors.
+type UnsafePageRpcServer interface {
+	mustEmbedUnimplementedPageRpcServer()
+}
+
+func RegisterPageRpcServer(s grpc.ServiceRegistrar, srv PageRpcServer) {
+	s.RegisterService(&PageRpc_ServiceDesc, srv)
+}
+
+func _PageRpc_CreatePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Page)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).CreatePage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/CreatePage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).CreatePage(ctx, req.(*Page))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PageRpc_UpdatePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Page)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).UpdatePage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/UpdatePage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).UpdatePage(ctx, req.(*Page))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PageRpc_DeletePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).DeletePage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/DeletePage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).DeletePage(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PageRpc_DeletePageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).DeletePageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/DeletePageList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).DeletePageList(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PageRpc_FindPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).FindPage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/FindPage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).FindPage(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PageRpc_FindPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).FindPageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/FindPageList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).FindPageList(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PageRpc_FindPageCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PageRpcServer).FindPageCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.pageRpc/FindPageCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PageRpcServer).FindPageCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PageRpc_ServiceDesc is the grpc.ServiceDesc for PageRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PageRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.pageRpc",
+	HandlerType: (*PageRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreatePage",
+			Handler:    _PageRpc_CreatePage_Handler,
+		},
+		{
+			MethodName: "UpdatePage",
+			Handler:    _PageRpc_UpdatePage_Handler,
+		},
+		{
+			MethodName: "DeletePage",
+			Handler:    _PageRpc_DeletePage_Handler,
+		},
+		{
+			MethodName: "DeletePageList",
+			Handler:    _PageRpc_DeletePageList_Handler,
+		},
+		{
+			MethodName: "FindPage",
+			Handler:    _PageRpc_FindPage_Handler,
+		},
+		{
+			MethodName: "FindPageList",
+			Handler:    _PageRpc_FindPageList_Handler,
+		},
+		{
+			MethodName: "FindPageCount",
+			Handler:    _PageRpc_FindPageCount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
 // TalkRpcClient is the client API for TalkRpc service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.

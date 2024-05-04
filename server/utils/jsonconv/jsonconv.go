@@ -33,7 +33,7 @@ func init() {
 }
 
 // 默认json
-func ObjectMarshal(data any, obj any) (err error) {
+func ObjectToObject(data any, obj any) (err error) {
 	bytes, err := jjson.Marshal(data)
 	if err != nil {
 		fmt.Println("json convert fail:", err)

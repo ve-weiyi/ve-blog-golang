@@ -6,7 +6,7 @@ import "base.api"
 type (
     Photo {
         Id int64 `json:"id,optional"`                 // 主键
-        AlbumID int64 `json:"album_i_d,optional"`     // 相册id
+        AlbumId int64 `json:"album_id,optional"`      // 相册id
         PhotoName string `json:"photo_name,optional"` // 照片名
         PhotoDesc string `json:"photo_desc,optional"` // 照片描述
         PhotoSrc string `json:"photo_src,optional"`   // 照片地址

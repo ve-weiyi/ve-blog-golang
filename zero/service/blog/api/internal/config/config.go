@@ -25,11 +25,11 @@ type Config struct {
 	FriendLinkRpcConf zrpc.RpcClientConf
 	RemarkRpcConf     zrpc.RpcClientConf
 	CommentRpcConf    zrpc.RpcClientConf
+	PhotoRpcConf      zrpc.RpcClientConf
+	TalkRpcConf       zrpc.RpcClientConf
+	PageRpcConf       zrpc.RpcClientConf
 
-	PhotoRpcConf zrpc.RpcClientConf
-	TalkRpcConf  zrpc.RpcClientConf
-	LogRpcConf   zrpc.RpcClientConf
-	ChatRpcConf  zrpc.RpcClientConf
-
+	LogRpcConf    zrpc.RpcClientConf
+	ChatRpcConf   zrpc.RpcClientConf
 	UploadRpcConf zrpc.RpcClientConf
 }

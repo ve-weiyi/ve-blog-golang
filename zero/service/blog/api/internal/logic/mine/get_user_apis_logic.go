@@ -38,7 +38,7 @@ func (l *GetUserApisLogic) GetUserApis(reqCtx *types.RestHeader, req *types.Empt
 	}
 
 	var list []*types.UserApi
-	jsonconv.ObjectMarshal(out.List, &list)
+	jsonconv.ObjectToObject(out.List, &list)
 
 	resp = &types.UserApisResp{}
 	resp.List = list

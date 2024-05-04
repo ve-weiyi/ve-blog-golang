@@ -13,10 +13,7 @@ type (
         Status int64 `json:"status,optional"`           // 状态值 1公开 2私密
         CreatedAt int64 `json:"created_at,optional"`    // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`    // 更新时间
-    }
-
-    PhotoAlbumDetailsDTO {
-        PhotoCount int64 `json:"photo_count,optional"`
+        PhotoCount int64 `json:"photo_count,optional"`  // 照片数量
     }
 )
 
@@ -49,12 +46,4 @@ service blog-api {
     @doc "分页获取相册列表"
     @handler FindPhotoAlbumList
     post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
-
-    @doc "获取相册详情列表"
-    @handler FindPhotoAlbumDetailsList
-    post /photo_album/details_list (PageQuery) returns (PageResp)
-
-    @doc "获取相册详情"
-    @handler FindPhotoAlbumDetails
-    get /photo_album/:id/details (IdReq) returns (PhotoAlbumDetailsDTO)
 }

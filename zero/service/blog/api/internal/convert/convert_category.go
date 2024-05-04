@@ -6,18 +6,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertCategoryTypes(in *blog.Category) (out *types.Category) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertCategoryPb(in *types.Category) (out *blog.Category) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertCategoryPb(in *types.Category) (out *blog.Category) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertCategoryTypes(in *blog.Category) (out *types.Category) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }
 
 func ConvertCategoryDetailsTypes(in *blog.Category) (out *types.CategoryDetails) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return
 }

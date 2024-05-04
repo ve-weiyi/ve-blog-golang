@@ -6,18 +6,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertApiTypes(in *blog.Api) (out *types.Api) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertApiPb(in *types.Api) (out *blog.Api) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertApiPb(in *types.Api) (out *blog.Api) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertApiTypes(in *blog.Api) (out *types.Api) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }
 
 func ConvertApiDetailsTypes(in *blog.ApiDetails) (out *types.ApiDetails) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return
 }

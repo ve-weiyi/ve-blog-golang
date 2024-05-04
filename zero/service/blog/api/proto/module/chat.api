@@ -5,7 +5,7 @@ import "base.api"
 type (
     ChatRecord {
         Id int64 `json:"id,optional"`                 // 主键
-        UserID int64 `json:"user_id,optional"`        // 用户id
+        UserId int64 `json:"user_id,optional"`        // 用户id
         Nickname string `json:"nickname,optional"`    // 昵称
         Avatar string `json:"avatar,optional"`        // 头像
         Content string `json:"content,optional"`      // 聊天内容

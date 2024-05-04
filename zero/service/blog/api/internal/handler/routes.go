@@ -663,12 +663,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 获取相册详情
-				Method:  http.MethodGet,
-				Path:    "/photo_album/:id/details",
-				Handler: photo_album.FindPhotoAlbumDetailsHandler(serverCtx),
-			},
-			{
 				// 创建相册
 				Method:  http.MethodPost,
 				Path:    "/photo_album/create_photo_album",
@@ -685,12 +679,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodDelete,
 				Path:    "/photo_album/delete_photo_album_list",
 				Handler: photo_album.DeletePhotoAlbumListHandler(serverCtx),
-			},
-			{
-				// 获取相册详情列表
-				Method:  http.MethodPost,
-				Path:    "/photo_album/details_list",
-				Handler: photo_album.FindPhotoAlbumDetailsListHandler(serverCtx),
 			},
 			{
 				// 查询相册
@@ -939,9 +927,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: website.GetSystemStateHandler(serverCtx),
 			},
 			{
-				// 更新配置
+				// 更新网站配置
 				Method:  http.MethodPut,
-				Path:    "/admin/websit_config",
+				Path:    "/admin/update_website_config",
 				Handler: website.UpdateWebsiteConfigHandler(serverCtx),
 			},
 			{
@@ -957,9 +945,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: website.GetAboutMeHandler(serverCtx),
 			},
 			{
-				// 获取网站前台配置
+				// 获取网站配置
 				Method:  http.MethodGet,
-				Path:    "/blog/websit_config",
+				Path:    "/blog/get_website_config",
 				Handler: website.GetWebsiteConfigHandler(serverCtx),
 			},
 		},

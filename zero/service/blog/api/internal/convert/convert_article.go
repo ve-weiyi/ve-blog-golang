@@ -7,7 +7,7 @@ import (
 )
 
 func ConvertArticleBackTypes(in *blog.Article) (out *types.ArticleBackDTO) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 

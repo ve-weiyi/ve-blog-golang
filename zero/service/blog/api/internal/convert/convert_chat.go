@@ -6,13 +6,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertChatRecordTypes(in *blog.ChatRecord) (out *types.ChatRecord) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertChatRecordPb(in *types.ChatRecord) (out *blog.ChatRecord) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertChatRecordPb(in *types.ChatRecord) (out *blog.ChatRecord) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertChatRecordTypes(in *blog.ChatRecord) (out *types.ChatRecord) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }

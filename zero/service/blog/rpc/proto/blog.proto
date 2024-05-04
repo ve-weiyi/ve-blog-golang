@@ -753,6 +753,39 @@ service photoRpc {
 }
 
 
+/************** blog 页面管理 **************/
+message Page {
+  int64 id = 1;// 页面id
+  string page_name = 2;// 页面名
+  string page_label = 3;// 页面标签
+  string page_cover = 4;// 页面封面
+  int64 created_at = 5;// 创建时间
+  int64 updated_at = 6;// 更新时间
+}
+
+
+message PagePageResp {
+  int64 total = 1;
+  repeated Page list = 2;
+}
+
+service pageRpc {
+  // 创建页面
+  rpc CreatePage(Page) returns(Page);
+  // 更新页面
+  rpc UpdatePage(Page) returns(Page);
+  // 删除页面
+  rpc DeletePage(IdReq) returns(BatchResp);
+  // 批量删除页面
+  rpc DeletePageList(IdsReq) returns(BatchResp);
+  // 查询页面
+  rpc FindPage(IdReq) returns(Page);
+  // 分页获取页面列表
+  rpc FindPageList(PageQuery) returns(PagePageResp);
+  // 查询页面数量
+  rpc FindPageCount(PageQuery) returns(CountResp);
+}
+
 /************** blog 说说管理 **************/
 message Talk {
   int64 id = 1;// 说说id

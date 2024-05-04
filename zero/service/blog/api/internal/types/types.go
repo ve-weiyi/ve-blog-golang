@@ -174,7 +174,7 @@ type CategoryDetails struct {
 
 type ChatRecord struct {
 	Id        int64  `json:"id,optional"`         // 主键
-	UserID    int64  `json:"user_id,optional"`    // 用户id
+	UserId    int64  `json:"user_id,optional"`    // 用户id
 	Nickname  string `json:"nickname,optional"`   // 昵称
 	Avatar    string `json:"avatar,optional"`     // 头像
 	Content   string `json:"content,optional"`    // 聊天内容
@@ -350,7 +350,7 @@ type OauthLoginUrlResp struct {
 
 type OperationLog struct {
 	Id             int64  `json:"id,optional"`              // 主键id
-	UserID         int64  `json:"user_i_d,optional"`        // 用户id
+	UserId         int64  `json:"user_id,optional"`         // 用户id
 	Nickname       string `json:"nickname,optional"`        // 用户昵称
 	IpAddress      string `json:"ip_address,optional"`      // 操作ip
 	IpSource       string `json:"ip_source,optional"`       // 操作地址
@@ -415,7 +415,7 @@ type PageSort struct {
 
 type Photo struct {
 	Id        int64  `json:"id,optional"`         // 主键
-	AlbumID   int64  `json:"album_i_d,optional"`  // 相册id
+	AlbumId   int64  `json:"album_id,optional"`   // 相册id
 	PhotoName string `json:"photo_name,optional"` // 照片名
 	PhotoDesc string `json:"photo_desc,optional"` // 照片描述
 	PhotoSrc  string `json:"photo_src,optional"`  // 照片地址
@@ -433,10 +433,7 @@ type PhotoAlbum struct {
 	Status     int64  `json:"status,optional"`      // 状态值 1公开 2私密
 	CreatedAt  int64  `json:"created_at,optional"`  // 创建时间
 	UpdatedAt  int64  `json:"updated_at,optional"`  // 更新时间
-}
-
-type PhotoAlbumDetailsDTO struct {
-	PhotoCount int64 `json:"photo_count,optional"`
+	PhotoCount int64  `json:"photo_count,optional"` // 照片数量
 }
 
 type PingReq struct {
@@ -560,7 +557,7 @@ type TagDetails struct {
 
 type TalkDetails struct {
 	Id           int64    `json:"id,optional"`            // 说说ID
-	UserID       int64    `json:"user_i_d,optional"`      // 用户ID
+	UserId       int64    `json:"user_id,optional"`       // 用户ID
 	Nickname     string   `json:"nickname,optional"`      // 用户昵称
 	Avatar       string   `json:"avatar,optional"`        // 用户头像
 	Content      string   `json:"content,optional"`       // 评论内容
@@ -760,28 +757,28 @@ type UserRolesResp struct {
 }
 
 type WebsiteConfig struct {
-	AdminUrl          string      `json:"admin_url,optional"`           // 后台地址
-	AlipayQrCode      string      `json:"alipay_qr_code,optional"`      // 支付宝二维码
-	Gitee             string      `json:"gitee,optional"`               // Gitee
-	Github            string      `json:"github,optional"`              // Github
-	IsChatRoom        int64       `json:"is_chat_room,optional"`        // 是否开启聊天室
-	IsCommentReview   int64       `json:"is_comment_review,optional"`   // 是否开启评论审核
-	IsEmailNotice     int64       `json:"is_email_notice,optional"`     // 是否开启邮件通知
-	IsMessageReview   int64       `json:"is_message_review,optional"`   // 是否开启留言审核
-	IsMusicPlayer     int64       `json:"is_music_player,optional"`     // 是否开启音乐播放器
-	IsReward          int64       `json:"is_reward,optional"`           // 是否开启打赏
-	Qq                string      `json:"qq,optional"`                  // QQ
-	SocialLoginList   []string    `json:"social_login_list,optional"`   // 社交登录列表
-	SocialUrlList     []string    `json:"social_url_list,optional"`     // 社交地址列表
-	TouristAvatar     string      `json:"tourist_avatar,optional"`      // 游客头像
-	UserAvatar        string      `json:"user_avatar,optional"`         // 用户头像
-	WebsiteAuthor     string      `json:"website_author,optional"`      // 网站作者
-	WebsiteAvatar     interface{} `json:"website_avatar,optional"`      // 网站头像
-	WebsiteCreateTime string      `json:"website_create_time,optional"` // 网站创建时间
-	WebsiteIntro      string      `json:"website_intro,optional"`       // 网站介绍
-	WebsiteName       string      `json:"website_name,optional"`        // 网站名称
-	WebsiteNotice     string      `json:"website_notice,optional"`      // 网站公告
-	WebsiteRecordNo   string      `json:"website_record_no,optional"`   // 网站备案号
-	WebsocketUrl      string      `json:"websocket_url,optional"`       // websocket地址
-	WeixinQrCode      string      `json:"weixin_qr_code,optional"`      // 微信二维码
+	AdminUrl          string   `json:"admin_url,optional"`           // 后台地址
+	AlipayQrCode      string   `json:"alipay_qr_code,optional"`      // 支付宝二维码
+	Gitee             string   `json:"gitee,optional"`               // Gitee
+	Github            string   `json:"github,optional"`              // Github
+	IsChatRoom        int64    `json:"is_chat_room,optional"`        // 是否开启聊天室
+	IsCommentReview   int64    `json:"is_comment_review,optional"`   // 是否开启评论审核
+	IsEmailNotice     int64    `json:"is_email_notice,optional"`     // 是否开启邮件通知
+	IsMessageReview   int64    `json:"is_message_review,optional"`   // 是否开启留言审核
+	IsMusicPlayer     int64    `json:"is_music_player,optional"`     // 是否开启音乐播放器
+	IsReward          int64    `json:"is_reward,optional"`           // 是否开启打赏
+	Qq                string   `json:"qq,optional"`                  // QQ
+	SocialLoginList   []string `json:"social_login_list,optional"`   // 社交登录列表
+	SocialUrlList     []string `json:"social_url_list,optional"`     // 社交地址列表
+	TouristAvatar     string   `json:"tourist_avatar,optional"`      // 游客头像
+	UserAvatar        string   `json:"user_avatar,optional"`         // 用户头像
+	WebsiteAuthor     string   `json:"website_author,optional"`      // 网站作者
+	WebsiteAvatar     string   `json:"website_avatar,optional"`      // 网站头像
+	WebsiteCreateTime string   `json:"website_create_time,optional"` // 网站创建时间
+	WebsiteIntro      string   `json:"website_intro,optional"`       // 网站介绍
+	WebsiteName       string   `json:"website_name,optional"`        // 网站名称
+	WebsiteNotice     string   `json:"website_notice,optional"`      // 网站公告
+	WebsiteRecordNo   string   `json:"website_record_no,optional"`   // 网站备案号
+	WebsocketUrl      string   `json:"websocket_url,optional"`       // websocket地址
+	WeixinQrCode      string   `json:"weixin_qr_code,optional"`      // 微信二维码
 }

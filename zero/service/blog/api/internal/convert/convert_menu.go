@@ -6,22 +6,22 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertMenuTypes(in *blog.Menu) (out *types.MenuDetails) {
-	jsonconv.ObjectMarshal(in, &out)
-
-	jsonconv.JsonToObject(in.Extra, &out.Meta)
-	return
-}
-
 func ConvertMenuPb(in *types.MenuDetails) (out *blog.Menu) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 
 	out.Extra = jsonconv.ObjectToJson(in.Meta)
 	return
 }
 
+func ConvertMenuTypes(in *blog.Menu) (out *types.MenuDetails) {
+	jsonconv.ObjectToObject(in, &out)
+
+	jsonconv.JsonToObject(in.Extra, &out.Meta)
+	return
+}
+
 func ConvertMenuDetailsTypes(in *blog.MenuDetails) (out *types.MenuDetails) {
-	jsonconv.ObjectMarshal(in, &out)
+	jsonconv.ObjectToObject(in, &out)
 	jsonconv.JsonToObject(in.Extra, &out.Meta)
 	return
 }

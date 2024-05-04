@@ -3,9 +3,12 @@ package photo_album
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -40,8 +43,14 @@ func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(reqCtx *types.RestHeader, r
 	var list []*types.PhotoAlbum
 	for _, v := range out.List {
 		m := convert.ConvertPhotoAlbumTypes(v)
+		count, _ := l.svcCtx.PhotoRpc.FindPhotoCount(l.ctx, &blog.PageQuery{
+			Conditions: "album_id = ?",
+			Args:       []string{cast.ToString(v.Id)},
+		})
+		m.PhotoCount = count.Count
 		list = append(list, m)
 	}
+
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize

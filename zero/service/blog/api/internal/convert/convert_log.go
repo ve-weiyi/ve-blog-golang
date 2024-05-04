@@ -6,13 +6,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertOperationLogTypes(in *blog.OperationLog) (out *types.OperationLog) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertOperationLogPb(in *types.OperationLog) (out *blog.OperationLog) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertOperationLogPb(in *types.OperationLog) (out *blog.OperationLog) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertOperationLogTypes(in *blog.OperationLog) (out *types.OperationLog) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }

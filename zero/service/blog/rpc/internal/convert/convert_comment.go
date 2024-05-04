@@ -17,8 +17,8 @@ func ConvertCommentPbToModel(in *blog.Comment) (out *model.Comment) {
 		Type:           in.Type,
 		Status:         in.Status,
 		IsReview:       in.IsReview,
-		//CreatedAt:      time.Time{},
-		//UpdatedAt:      time.Time{},
+		//CreatedAt: time.Unix(in.CreatedAt, 0),
+		//UpdatedAt: time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

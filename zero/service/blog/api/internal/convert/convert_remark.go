@@ -6,13 +6,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ConvertRemarkTypes(in *blog.Remark) (out *types.Remark) {
-	jsonconv.ObjectMarshal(in, &out)
-
+func ConvertRemarkPb(in *types.Remark) (out *blog.Remark) {
+	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertRemarkPb(in *types.Remark) (out *blog.Remark) {
-	jsonconv.ObjectMarshal(in, &out)
+func ConvertRemarkTypes(in *blog.Remark) (out *types.Remark) {
+	jsonconv.ObjectToObject(in, &out)
+
 	return
 }

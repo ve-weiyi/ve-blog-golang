@@ -50,6 +50,9 @@ PhotoRpcConf:
 TalkRpcConf:
   Endpoints:
     - 0.0.0.0:8080
+PageRpcConf:
+  Endpoints:
+    - 0.0.0.0:8080
 LogRpcConf:
   Endpoints:
     - 0.0.0.0:8080
