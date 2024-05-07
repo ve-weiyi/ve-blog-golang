@@ -54,3 +54,7 @@ go run service/blog/rpc/blog.go -f service/blog/rpc/etc/blog.yaml
 ```sh
 go run service/blog/api/blog.go -f service/blog/api/etc/blog-api.yaml
 ```
+
+```sh
+goctl docker --go blog.go --exe blog
+```
