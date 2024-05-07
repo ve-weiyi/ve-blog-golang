@@ -1,10 +1,12 @@
 Name: blog.rpc
-ListenOn: 0.0.0.0:8080
+ListenOn: 0.0.0.0:9998
 Mode: dev
 Timeout: 10000
+# 服务注册，直连模式不需要
+# 检查服务是否注册 etcdctl get --prefix blog.rpc
 Etcd:
   Hosts:
-    - 127.0.0.1:2379
+    - veweiyi.cn:2379
   Key: blog.rpc
 Log:
   Mode: console
@@ -19,6 +21,6 @@ MysqlConf:
 
 RedisConf:
   db: 3
-  host: 127.0.0.1
+  host: veweiyi.cn
   port: "6379"
   password: redis7914

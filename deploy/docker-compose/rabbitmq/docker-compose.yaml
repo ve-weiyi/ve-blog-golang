@@ -12,7 +12,7 @@ services:
       - RABBITMQ_DEFAULT_USER=veweiyi
       - RABBITMQ_DEFAULT_PASS=rabbitmq7914
     volumes:
-      - /home/docker/rabbitmq:/var/lib/rabbitmq
+      - ../../docker/rabbitmq:/var/lib/rabbitmq
 #    command:
 #      - rabbitmqctl status
 #      - rabbitmq-plugins enable rabbitmq_management # 开启rabbitmq web管理界面
