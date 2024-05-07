@@ -15,4 +15,4 @@ services:
     environment:
       - REDIS_PASSWORD=redis7914 # redis只有密码，没有账号设置
     volumes:
-      - /home/docker/redis:/data
+      - ../../docker/redis:/data
