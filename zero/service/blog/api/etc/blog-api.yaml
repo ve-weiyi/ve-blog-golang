@@ -2,6 +2,14 @@ Name: account-api
 Host: 0.0.0.0
 Port: 9999
 Timeout: 5000
+# 健康检查
+DevServer:
+  Enabled: true
+  Port: 6060
+  HealthPath: "/ping"
+  MetricsPath: "/metrics"
+  EnableMetrics: true
+# 日志配置
 Log:
   Mode: console
   Encoding: plain
