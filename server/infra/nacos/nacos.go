@@ -1,10 +1,9 @@
 package nacos
 
 import (
-	"log"
-
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
+	"github.com/nacos-group/nacos-sdk-go/v2/common/logger"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
 )
 
@@ -70,7 +69,8 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		return err
 	}
 
-	log.Println("nacos get config :"+content, err)
+	//log.Println("nacos get config:\n" + content)
+	logger.GetLogger().Info("nacos get config:\n" + content)
 
 	err = listener(content)
 	if err != nil {
@@ -82,9 +82,9 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		DataId: dataId,
 		Group:  group,
 		OnChange: func(namespace, group, dataId, data string) {
-			log.Println("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
+			logger.GetLogger().Info("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
 			if err = listener(data); err != nil {
-				log.Println("nacos config changed reload failed")
+				logger.GetLogger().Error("nacos config changed reload failed")
 			}
 		},
 	})

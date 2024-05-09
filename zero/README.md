@@ -41,7 +41,7 @@ https://github.com/zeromicro/goctl-swagger
    goctl api plugin -plugin goctl-swagger="swagger -filename user.json" -api user.api -dir .
 ```
 
-## 4.启动项目
+## 4.本地启动项目
 
 ```sh
 etcd
@@ -57,4 +57,14 @@ go run service/blog/api/blog.go -f service/blog/api/etc/blog-api.yaml
 
 ```sh
 goctl docker --go blog.go --exe blog
+```
+
+## 5.使用nacos配置启动
+
+```sh
+go run service/blog/rpc/blog.go
+```
+
+```sh
+go run service/blog/api/blog.go
 ```

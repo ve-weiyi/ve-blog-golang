@@ -1,6 +1,6 @@
 module github.com/ve-weiyi/ve-blog-golang/server
 
-go 1.20
+go 1.21
 
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v3.0.2+incompatible

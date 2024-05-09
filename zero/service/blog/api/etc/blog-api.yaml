@@ -1,5 +1,5 @@
-Name: account-api
-Host: 0.0.0.0
+Name: blog-api
+Host: 127.0.0.1
 Port: 9999
 Timeout: 5000
 # 健康检查
@@ -13,63 +13,7 @@ DevServer:
 Log:
   Mode: console
   Encoding: plain
-BlogRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-AccountRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-RoleRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-ApiRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-MenuRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-UserRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-ConfigRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-ArticleRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-CategoryRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-TagRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-CommentRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-FriendLinkRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-RemarkRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-PhotoRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-TalkRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-PageRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-LogRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-ChatRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
-UploadRpcConf:
-  Endpoints:
-    - 0.0.0.0:8080
+# 文件上传配置
 UploadConfig:
   zone: ZoneHuanan
   endpoint: s3.cn-south-1.qiniucs.com
@@ -78,3 +22,66 @@ UploadConfig:
   bucket-name: veweiyi
   bucket-url: https://static.veweiyi.cn
   base-path: blog
+# 共同etcd配置
+Etcd:
+  Hosts:
+    - veweiyi.cn:2379
+  Key: blog.api
+
+BlogRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+AccountRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+RoleRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ApiRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+MenuRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+UserRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ConfigRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ArticleRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+CategoryRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+TagRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+CommentRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+FriendLinkRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+RemarkRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+PhotoRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+TalkRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+PageRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+LogRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ChatRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+UploadRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998

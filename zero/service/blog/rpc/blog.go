@@ -3,7 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
+	"github.com/zeromicro/go-zero/core/conf"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/apirpc"
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/articlerpc"
@@ -26,22 +30,50 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
-	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "etc/blog.yaml", "the config file")
+var (
+	nacosIP        = flag.String("nacos-ip", "120.79.136.81", "Input Your Nacos IP")
+	nacosPort      = flag.Int64("nacos-port", 8848, "Input Your Nacos Port")
+	nacosUserName  = flag.String("nacos-username", "nacos", "Input Your Nacos Username")
+	nacosPassword  = flag.String("nacos-password", "nacos", "Input Your Nacos Password")
+	nacosDataId    = flag.String("nacos-data-id", "rpc", "Input Your Nacos DataId")
+	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
+	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceID")
+)
+
+var configFile = flag.String("f", "", "the config file")
 
 func main() {
 	flag.Parse()
 
 	var c config.Config
-	conf.MustLoad(*configFile, &c)
-	ctx := svc.NewServiceContext(c)
+	if *configFile != "" {
+		conf.MustLoad(*configFile, &c)
+	} else {
+		nc := nacos.NacosConfig{
+			IP:          *nacosIP,
+			Port:        uint64(*nacosPort),
+			UserName:    *nacosUserName,
+			Password:    *nacosPassword,
+			NameSpaceID: *nacosNameSpace,
+			Group:       *nacosGroup,
+			DataID:      *nacosDataId,
+			LogLevel:    "debug",
+			Timeout:     5000,
+		}
 
+		nacos.New(&nc).Init(func(content string) error {
+			log.Println("nacos get config:\n" + content)
+			return conf.LoadFromYamlBytes([]byte(content), &c)
+		})
+	}
+
+	ctx := svc.NewServiceContext(c)
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		blog.RegisterAuthRpcServer(grpcServer, authrpcServer.NewAuthRpcServer(ctx))
 		blog.RegisterApiRpcServer(grpcServer, apirpcServer.NewApiRpcServer(ctx))

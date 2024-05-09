@@ -1,6 +1,6 @@
 module github.com/ve-weiyi/ve-blog-golang/zero
 
-go 1.20
+go 1.21
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
@@ -11,7 +11,7 @@ require (
 	github.com/ve-weiyi/ve-blog-golang/server v0.0.0-20240507091801-b625e26af923
 	github.com/zeromicro/go-zero v1.6.4
 	github.com/zeromicro/go-zero/tools/goctl v1.6.4
-	go.opentelemetry.io/otel/trace v1.26.0
+	go.opentelemetry.io/otel/trace v1.19.0
 	google.golang.org/grpc v1.63.2
 	google.golang.org/protobuf v1.34.1
 	gorm.io/driver/mysql v1.5.6
@@ -113,14 +113,14 @@ require (
 	go.etcd.io/etcd/api/v3 v3.5.13 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.13 // indirect
 	go.etcd.io/etcd/client/v3 v3.5.13 // indirect
-	go.opentelemetry.io/otel v1.26.0 // indirect
+	go.opentelemetry.io/otel v1.19.0 // indirect
 	go.opentelemetry.io/otel/exporters/jaeger v1.17.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.19.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.19.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.19.0 // indirect
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.19.0 // indirect
 	go.opentelemetry.io/otel/exporters/zipkin v1.19.0 // indirect
-	go.opentelemetry.io/otel/metric v1.26.0 // indirect
+	go.opentelemetry.io/otel/metric v1.19.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.19.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
 	go.uber.org/automaxprocs v1.5.3 // indirect
@@ -165,4 +165,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/ve-weiyi/ve-blog-golang/server => ../server
+//replace github.com/ve-weiyi/ve-blog-golang/server => ../server
