@@ -15,6 +15,7 @@ type NacosConfig struct {
 	NameSpaceID string
 	Group       string
 	DataID      string
+	RuntimeDir  string //runtime
 	LogLevel    string //debug
 	Timeout     int64  //ms
 }
@@ -44,8 +45,8 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		constant.WithNamespaceId(n.cfg.NameSpaceID),
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
-		constant.WithLogDir("./runtime/logs"),
-		constant.WithCacheDir("./runtime/cache"),
+		constant.WithCacheDir(n.cfg.RuntimeDir+"/cache"),
+		constant.WithLogDir(n.cfg.RuntimeDir+"/logs"),
 		constant.WithLogLevel("debug"),
 	)
 
