@@ -1,5 +1,5 @@
 Name: blog-api
-Host: 127.0.0.1
+Host: 0.0.0.0
 Port: 9999
 Timeout: 5000
 # 健康检查
@@ -23,10 +23,10 @@ UploadConfig:
   bucket-url: https://static.veweiyi.cn
   base-path: blog
 # 共同etcd配置
-Etcd:
-  Hosts:
-    - veweiyi.cn:2379
-  Key: blog.api
+#Etcd:
+#  Hosts:
+#    - veweiyi.cn:2379
+#  Key: blog.api
 
 BlogRpcConf:
   Endpoints:

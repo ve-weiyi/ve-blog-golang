@@ -42,6 +42,7 @@ func main() {
 			NameSpaceID: *nacosNameSpace,
 			Group:       *nacosGroup,
 			DataID:      *nacosDataId,
+			RuntimeDir:  "runtime/nacos",
 			LogLevel:    "debug",
 			Timeout:     5000,
 		}

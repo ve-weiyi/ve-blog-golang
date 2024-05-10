@@ -68,3 +68,8 @@ go run service/blog/rpc/blog.go
 ```sh
 go run service/blog/api/blog.go
 ```
+ 
+构造镜像
+```sh
+docker build -t my-image .
+```

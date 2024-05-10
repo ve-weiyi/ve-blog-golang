@@ -1,12 +1,12 @@
 Name: blog.rpc
-ListenOn: 127.0.0.1:9998
+ListenOn: 0.0.0.0:9998
 Mode: dev
 Timeout: 10000
 # 服务注册，直连模式不需要
 # 检查服务是否注册 etcdctl get --prefix blog.rpc
 #Etcd:
 #  Hosts:
-#    - veweiyi.cn:2379
+#    - 0.0.0.0:2379
 #  Key: blog.rpc
 Log:
   Mode: console
