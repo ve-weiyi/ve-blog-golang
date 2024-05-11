@@ -29,41 +29,35 @@ func ConvertCommentPb(in *types.CommentNewReq) (out *blog.Comment) {
 }
 
 func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
-	var page, pageSize int64
-	var sorts, conditions string
-	var args []string
-
-	page = in.Page
-	pageSize = in.PageSize
+	out = &blog.PageQuery{
+		Page:       in.Page,
+		PageSize:   in.PageSize,
+		Sorts:      "",
+		Conditions: "",
+		Args:       nil,
+	}
 
 	if in.OrderBy != "" {
-		sorts = fmt.Sprintf("`%s` desc", in.OrderBy)
+		out.Sorts = fmt.Sprintf("`%s` desc", in.OrderBy)
 	}
 
 	if in.TopicId >= 0 {
-		conditions = "topic_id = ? "
-		args = append(args, cast.ToString(in.TopicId))
+		out.Conditions = "topic_id = ? "
+		out.Args = append(out.Args, cast.ToString(in.TopicId))
 	}
 
 	if in.ParentId >= 0 {
-		conditions = conditions + "and "
-		conditions = conditions + "parent_id = ? "
-		args = append(args, cast.ToString(in.ParentId))
+		out.Conditions = out.Conditions + "and "
+		out.Conditions = out.Conditions + "parent_id = ? "
+		out.Args = append(out.Args, cast.ToString(in.ParentId))
 	}
 
 	if in.Type >= 0 {
-		conditions = conditions + "and "
-		conditions = conditions + "type = ? "
-		args = append(args, cast.ToString(in.Type))
+		out.Conditions = out.Conditions + "and "
+		out.Conditions = out.Conditions + "type = ? "
+		out.Args = append(out.Args, cast.ToString(in.Type))
 	}
 
-	out = &blog.PageQuery{
-		Page:       page,
-		PageSize:   pageSize,
-		Sorts:      sorts,
-		Conditions: conditions,
-		Args:       nil,
-	}
 	return
 }
 
@@ -149,8 +143,8 @@ func ConvertCommentBackTypes(in *blog.Comment) (out *types.CommentBackDTO) {
 		Id:             in.Id,
 		Type:           in.Type,
 		TopicTitle:     "",
-		Avatar:         "",
-		Nickname:       "",
+		UserAvatar:     "",
+		UserNickname:   "",
 		CommentContent: in.CommentContent,
 		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt,

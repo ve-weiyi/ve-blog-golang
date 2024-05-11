@@ -1,7 +1,7 @@
 package logic
 
 import (
-	jsoniter "github.com/json-iterator/go"
+	"encoding/json"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
@@ -35,7 +35,7 @@ func (l *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface
 		PageList:      convertPageList(pages),
 	}
 
-	jsoniter.Unmarshal([]byte(config.Config), &resp.WebsiteConfig)
+	json.Unmarshal([]byte(config.Config), &resp.WebsiteConfig)
 	return resp, err
 }
 
@@ -110,57 +110,37 @@ func (l *WebsiteService) GetSystemState(reqCtx *request.Context, req interface{}
 	return &sv, nil
 }
 
-func (l *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp *response.AboutMeResp, err error) {
-	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about_me")
+func (l *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp string, err error) {
+	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about")
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	jsoniter.Unmarshal([]byte(config.Config), &resp)
-	return resp, nil
+	return config.Config, err
 }
 
-func (l *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req *request.AboutMeReq) (resp *response.AboutMeResp, err error) {
-	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about_me")
+func (l *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req *request.AboutMeReq) (resp string, err error) {
+	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about")
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	// 更新
 	config.Config = req.Content
 	_, err = l.svcCtx.WebsiteConfigRepository.Update(reqCtx, config)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	jsoniter.Unmarshal([]byte(config.Config), &resp)
-	return resp, nil
+	return config.Config, err
 }
 
-func (l *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface{}) (resp *response.WebsiteConfigDTO, err error) {
+func (l *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface{}) (resp string, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	jsoniter.Unmarshal([]byte(config.Config), &resp)
-	return resp, nil
-}
-
-func (l *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, req *request.WebsiteConfigDTO) (resp *response.WebsiteConfigDTO, err error) {
-	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
-	if err != nil {
-		return nil, err
-	}
-
-	// 更新
-	config.Config, _ = jsoniter.MarshalToString(req)
-	_, err = l.svcCtx.WebsiteConfigRepository.Update(reqCtx, config)
-	if err != nil {
-		return nil, err
-	}
-
-	jsoniter.Unmarshal([]byte(config.Config), &resp)
-	return resp, nil
+	return config.Config, err
 }
 
 func (l *WebsiteService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {

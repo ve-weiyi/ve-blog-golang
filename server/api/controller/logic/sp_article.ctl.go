@@ -29,7 +29,7 @@ func NewArticleController(svcCtx *svc.ControllerContext) *ArticleController {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.ArticleDetailsDTOReq		true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/admin/save_article [post]
+// @Router		/admin/article [post]
 func (s *ArticleController) SaveArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -61,7 +61,7 @@ func (s *ArticleController) SaveArticle(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	request		body		request.IdReq							true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}			"返回信息"
-// @Router		/admin/delete_article [delete]
+// @Router		/admin/article/{id} [delete]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -93,7 +93,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	request		body		request.IdReq							true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.ArticleBack}	"返回信息"
-// @Router 		/admin/find_article [post]
+// @Router 		/admin/article/{id} [get]
 func (s *ArticleController) FindArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -125,7 +125,7 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ArticleBack}}	"返回信息"
-// @Router		/admin/article/find_article_list [post]
+// @Router		/admin/article/list [post]
 func (s *ArticleController) FindArticleList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -163,7 +163,7 @@ func (s *ArticleController) FindArticleList(c *gin.Context) {
 // @Param		data	body		request.ArticleDeleteReq		true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router 		/admin/article/delete [put]
-func (s *ArticleController) LogicDeleteArticle(c *gin.Context) {
+func (s *ArticleController) UpdateArticleDelete(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -195,7 +195,7 @@ func (s *ArticleController) LogicDeleteArticle(c *gin.Context) {
 // @Param		data	body		request.ArticleTopReq		true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router 		/admin/article/top [put]
-func (s *ArticleController) TopArticle(c *gin.Context) {
+func (s *ArticleController) UpdateArticleTop(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -261,56 +261,24 @@ func (s *ArticleController) FindArticleArchives(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string																false	"token"
 // @Param		uid		header		string																false	"uid"
-// @Param		page	body		request.ArticleClassifyReq											true	"分页获取文章列表"
-// @Success		200		{object}	response.Response{data=response.ArticleClassifyResp}	"返回信息"
-// @Router		/article/article_classify_category [post]
-func (s *ArticleController) FindArticleClassifyCategory(c *gin.Context) {
+// @Param		page	body		request.ArticleConditionReq											true	"分页获取文章列表"
+// @Success		200		{object}	response.Response{data=response.ArticleConditionDTO}	"返回信息"
+// @Router		/article/series [post]
+func (s *ArticleController) FindArticleSeries(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var req request.ArticleClassifyReq
+	var req request.ArticleConditionReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.FindArticleClassifyCategory(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		Article
-// @Summary		通过标签或者id获取文章列表
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string																false	"token"
-// @Param		uid		header		string																false	"uid"
-// @Param		page	body		request.ArticleClassifyReq											true	"分页获取文章列表"
-// @Success		200		{object}	response.Response{data=response.ArticleClassifyResp}	"返回信息"
-// @Router		/article/article_classify_tag [post]
-func (s *ArticleController) FindArticleClassifyTag(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.ArticleClassifyReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.ArticleService.FindArticleClassifyTag(reqCtx, &req)
+	data, err := s.svcCtx.ArticleService.FindArticleSeries(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -327,8 +295,8 @@ func (s *ArticleController) FindArticleClassifyTag(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param 	 	request		body		request.IdReq										true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.ArticlePageDetailsDTO}	"返回信息"
-// @Router		/article/find_article_recommend [post]
-func (s *ArticleController) FindArticleRecommend(c *gin.Context) {
+// @Router		/article/{id}/details [get]
+func (s *ArticleController) FindArticleDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -342,7 +310,7 @@ func (s *ArticleController) FindArticleRecommend(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.FindArticleRecommend(reqCtx, &req)
+	data, err := s.svcCtx.ArticleService.FindArticleDetails(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -359,7 +327,7 @@ func (s *ArticleController) FindArticleRecommend(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.ArticleHome}}	"返回信息"
-// @Router		/article/find_article_list [post]
+// @Router		/article/list [post]
 func (s *ArticleController) FindArticleHomeList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -396,7 +364,7 @@ func (s *ArticleController) FindArticleHomeList(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		req		body		request.IdReq										true	"Article.id"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
-// @Router		/article/like_article [put]
+// @Router		/article/{id}/like [put]
 func (s *ArticleController) LikeArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

@@ -38,8 +38,8 @@ func (l *FindCommentBackListLogic) FindCommentBackList(reqCtx *types.RestHeader,
 		m := convert.ConvertCommentBackTypes(v)
 		user, _ := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &blog.UserReq{UserId: v.UserId})
 		if user != nil {
-			m.Nickname = user.Nickname
-			m.Avatar = user.Avatar
+			m.UserNickname = user.Nickname
+			m.UserAvatar = user.Avatar
 		}
 
 		if v.Type == 1 {
