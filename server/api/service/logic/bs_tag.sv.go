@@ -17,40 +17,40 @@ func NewTagService(svcCtx *svc.ServiceContext) *TagService {
 }
 
 // 创建Tag记录
-func (s *TagService) CreateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.Create(reqCtx, tag)
+func (l *TagService) CreateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
+	return l.svcCtx.TagRepository.Create(reqCtx, tag)
 }
 
 // 更新Tag记录
-func (s *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.Update(reqCtx, tag)
+func (l *TagService) UpdateTag(reqCtx *request.Context, tag *entity.Tag) (data *entity.Tag, err error) {
+	return l.svcCtx.TagRepository.Update(reqCtx, tag)
 }
 
 // 删除Tag记录
-func (s *TagService) DeleteTag(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.TagRepository.Delete(reqCtx, "id = ?", id)
+func (l *TagService) DeleteTag(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return l.svcCtx.TagRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询Tag记录
-func (s *TagService) FindTag(reqCtx *request.Context, id int) (data *entity.Tag, err error) {
-	return s.svcCtx.TagRepository.First(reqCtx, "id = ?", id)
+func (l *TagService) FindTag(reqCtx *request.Context, req *request.IdReq) (data *entity.Tag, err error) {
+	return l.svcCtx.TagRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除Tag记录
-func (s *TagService) DeleteTagByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.TagRepository.Delete(reqCtx, "id in (?)", ids)
+func (l *TagService) DeleteTagList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return l.svcCtx.TagRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取Tag记录
-func (s *TagService) FindTagList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Tag, total int64, err error) {
+func (l *TagService) FindTagList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Tag, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.TagRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = l.svcCtx.TagRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
-	total, err = s.svcCtx.TagRepository.Count(reqCtx, cond, args...)
+	total, err = l.svcCtx.TagRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -17,40 +17,40 @@ func NewPhotoAlbumService(svcCtx *svc.ServiceContext) *PhotoAlbumService {
 }
 
 // 创建PhotoAlbum记录
-func (s *PhotoAlbumService) CreatePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.Create(reqCtx, photoAlbum)
+func (l *PhotoAlbumService) CreatePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
+	return l.svcCtx.PhotoAlbumRepository.Create(reqCtx, photoAlbum)
 }
 
 // 更新PhotoAlbum记录
-func (s *PhotoAlbumService) UpdatePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.Update(reqCtx, photoAlbum)
+func (l *PhotoAlbumService) UpdatePhotoAlbum(reqCtx *request.Context, photoAlbum *entity.PhotoAlbum) (data *entity.PhotoAlbum, err error) {
+	return l.svcCtx.PhotoAlbumRepository.Update(reqCtx, photoAlbum)
 }
 
 // 删除PhotoAlbum记录
-func (s *PhotoAlbumService) DeletePhotoAlbum(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.PhotoAlbumRepository.Delete(reqCtx, "id = ?", id)
+func (l *PhotoAlbumService) DeletePhotoAlbum(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return l.svcCtx.PhotoAlbumRepository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询PhotoAlbum记录
-func (s *PhotoAlbumService) FindPhotoAlbum(reqCtx *request.Context, id int) (data *entity.PhotoAlbum, err error) {
-	return s.svcCtx.PhotoAlbumRepository.First(reqCtx, "id = ?", id)
+func (l *PhotoAlbumService) FindPhotoAlbum(reqCtx *request.Context, req *request.IdReq) (data *entity.PhotoAlbum, err error) {
+	return l.svcCtx.PhotoAlbumRepository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除PhotoAlbum记录
-func (s *PhotoAlbumService) DeletePhotoAlbumByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.PhotoAlbumRepository.Delete(reqCtx, "id in (?)", ids)
+func (l *PhotoAlbumService) DeletePhotoAlbumList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return l.svcCtx.PhotoAlbumRepository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取PhotoAlbum记录
-func (s *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
+func (l *PhotoAlbumService) FindPhotoAlbumList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.PhotoAlbum, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = s.svcCtx.PhotoAlbumRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	list, err = l.svcCtx.PhotoAlbumRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
-	total, err = s.svcCtx.PhotoAlbumRepository.Count(reqCtx, cond, args...)
+	total, err = l.svcCtx.PhotoAlbumRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -32,7 +32,8 @@ func JwtToken() gin.HandlerFunc {
 			return
 		}
 
-		global.LOG.JsonIndent(claims)
+		global.LOG.Infof("user login-->%v", claims.Ext.Username)
+		//global.LOG.JsonIndent(claims)
 
 		c.Set("token", token)
 		c.Set("uid", uid)

@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -22,7 +23,7 @@ func Redis() {
 		global.LOG.Errorf("Redis 连接失败, err:%v", err)
 		return
 	}
-	client.Set(context.Background(), "connect", time.Now().String(), -1)
+	client.Set(context.Background(), fmt.Sprintf("redis:%s", pong), time.Now().String(), -1)
 	global.REDIS = client
 
 	global.LOG.Infof("Redis 连接成功%v! address:%v db:%v", pong, address, redisCfg.DB)

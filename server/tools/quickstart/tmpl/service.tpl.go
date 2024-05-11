@@ -77,18 +77,18 @@ func (s *{{.UpperStartCamelName}}Service) Update{{.UpperStartCamelName}}(reqCtx 
 }
 
 // 删除{{.UpperStartCamelName}}记录
-func (s *{{.UpperStartCamelName}}Service) Delete{{.UpperStartCamelName}}(reqCtx *request.Context, id int) (rows int64, err error) {
-	return s.svcCtx.{{.UpperStartCamelName}}Repository.Delete(reqCtx, "id = ?", id)
+func (s *{{.UpperStartCamelName}}Service) Delete{{.UpperStartCamelName}}(reqCtx *request.Context, req *request.IdReq) (rows int64, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.Delete(reqCtx, "id = ?", req.Id)
 }
 
 // 查询{{.UpperStartCamelName}}记录
-func (s *{{.UpperStartCamelName}}Service) Find{{.UpperStartCamelName}}(reqCtx *request.Context, id int) (data *entity.{{.UpperStartCamelName}}, err error) {
-	return s.svcCtx.{{.UpperStartCamelName}}Repository.First(reqCtx, "id = ?", id)
+func (s *{{.UpperStartCamelName}}Service) Find{{.UpperStartCamelName}}(reqCtx *request.Context, req *request.IdReq) (data *entity.{{.UpperStartCamelName}}, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.First(reqCtx, "id = ?", req.Id)
 }
 
 // 批量删除{{.UpperStartCamelName}}记录
-func (s *{{.UpperStartCamelName}}Service) Delete{{.UpperStartCamelName}}ByIds(reqCtx *request.Context, ids []int) (rows int64, err error) {
-	return s.svcCtx.{{.UpperStartCamelName}}Repository.Delete(reqCtx, "id in (?)", ids)
+func (s *{{.UpperStartCamelName}}Service) Delete{{.UpperStartCamelName}}List(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
+	return s.svcCtx.{{.UpperStartCamelName}}Repository.Delete(reqCtx, "id in (?)", req.Ids)
 }
 
 // 分页获取{{.UpperStartCamelName}}记录

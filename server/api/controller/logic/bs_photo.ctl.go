@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -25,14 +23,14 @@ func NewPhotoController(svcCtx *svc.ControllerContext) *PhotoController {
 }
 
 // @Tags		Photo
-// @Summary		创建相片
+// @Summary		创建照片
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Photo		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
-// @Router		/photo [post]
+// @Router		/photo/create_photo [post]
 func (s *PhotoController) CreatePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -40,14 +38,14 @@ func (s *PhotoController) CreatePhoto(c *gin.Context) {
 		return
 	}
 
-	var photo entity.Photo
-	err = s.ShouldBind(c, &photo)
+	var req entity.Photo
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PhotoService.CreatePhoto(reqCtx, &photo)
+	data, err := s.svcCtx.PhotoService.CreatePhoto(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -57,14 +55,14 @@ func (s *PhotoController) CreatePhoto(c *gin.Context) {
 }
 
 // @Tags 	 	Photo
-// @Summary		更新相片
+// @Summary		更新照片
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Photo		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
-// @Router 		/photo [put]
+// @Router 		/photo/update_photo [put]
 func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -72,14 +70,14 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 		return
 	}
 
-	var photo entity.Photo
-	err = s.ShouldBind(c, &photo)
+	var req entity.Photo
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PhotoService.UpdatePhoto(reqCtx, &photo)
+	data, err := s.svcCtx.PhotoService.UpdatePhoto(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -89,14 +87,14 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 }
 
 // @Tags		Photo
-// @Summary		删除相片
+// @Summary		删除照片
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Photo.id"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/photo/{id} [delete]
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/photo/delete_photo [delete]
 func (s *PhotoController) DeletePhoto(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -104,46 +102,14 @@ func (s *PhotoController) DeletePhoto(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PhotoService.DeletePhoto(reqCtx, id)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Photo
-// @Summary		查询相片
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Photo.id"
-// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
-// @Router 		/photo/{id} [get]
-func (s *PhotoController) FindPhoto(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.PhotoService.FindPhoto(reqCtx, id)
+	data, err := s.svcCtx.PhotoService.DeletePhoto(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -153,29 +119,29 @@ func (s *PhotoController) FindPhoto(c *gin.Context) {
 }
 
 // @Tags 	 	Photo
-// @Summary		批量删除相片
+// @Summary		批量删除照片
 // @Accept 	 	application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/photo/batch_delete [delete]
-func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
+// @Router		/photo/delete_photo_list [delete]
+func (s *PhotoController) DeletePhotoList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var ids []int
-	err = s.ShouldBind(c, &ids)
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.PhotoService.DeletePhotoByIds(reqCtx, ids)
+	data, err := s.svcCtx.PhotoService.DeletePhotoList(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -187,14 +153,46 @@ func (s *PhotoController) DeletePhotoByIds(c *gin.Context) {
 }
 
 // @Tags 	 	Photo
-// @Summary		分页获取相片列表
+// @Summary		查询照片
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Photo}	"返回信息"
+// @Router 		/photo/find_photo [post]
+func (s *PhotoController) FindPhoto(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.PhotoService.FindPhoto(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	Photo
+// @Summary		分页获取照片列表
 // @Accept 		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Photo}}	"返回信息"
-// @Router		/photo/list [post]
+// @Router		/photo/find_photo_list [post]
 func (s *PhotoController) FindPhotoList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -218,7 +216,7 @@ func (s *PhotoController) FindPhotoList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }

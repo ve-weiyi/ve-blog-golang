@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
@@ -41,8 +39,8 @@ func (s *TalkController) FindTalkDetailsList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 
@@ -52,7 +50,7 @@ func (s *TalkController) FindTalkDetailsList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"id"
+// @Param		req		body		request.IdReq										true	"id"
 // @Success		200		{object}	response.Response{data=response.TalkDetailsDTO}	"返回信息"
 // @Router		/talk/{id}/details [get]
 func (s *TalkController) FindTalkDetail(c *gin.Context) {
@@ -62,13 +60,14 @@ func (s *TalkController) FindTalkDetail(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TalkService.FindTalkDetailsDTO(reqCtx, id)
+	data, err := s.svcCtx.TalkService.FindTalkDetailsDTO(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -83,8 +82,8 @@ func (s *TalkController) FindTalkDetail(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"id"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Param		req		body		request.IdReq										true	"id"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router		/talk/{id}/like [put]
 func (s *TalkController) LikeTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -93,13 +92,14 @@ func (s *TalkController) LikeTalk(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.TalkService.LikeTalk(reqCtx, id)
+	data, err := s.svcCtx.TalkService.LikeTalk(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

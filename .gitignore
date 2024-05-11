@@ -27,11 +27,14 @@ yarn-error.log*
 *.log
 web/.pnpm-debug.log
 web/pnpm-lock.yaml
-config.yaml
+server/config.yaml
 *.sum
 
 /rm_file
-/server/runtime/
-/server/cache/
 *.ts
-/server/test.sql
+**/test.sql
+**/runtime/*
+**/test/*
+**/tmp/*
+**/default.etcd/*
+/deploy/docker/

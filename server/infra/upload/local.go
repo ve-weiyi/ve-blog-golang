@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 )
 
 type Local struct {
@@ -16,11 +17,7 @@ type Local struct {
 func (s *Local) UploadFile(prefix string, file *multipart.FileHeader) (url string, err error) {
 	var filename string
 	// 读取文件名
-	if s.cfg.FileNameAsKey != nil {
-		filename = s.cfg.FileNameAsKey(file)
-	} else {
-		filename = file.Filename
-	}
+	filename = s.FileNameAsKey(file)
 
 	// 本地文件目录
 	dir := path.Join(s.cfg.BasePath, prefix)
@@ -63,6 +60,17 @@ func (s *Local) DeleteFile(key string) error {
 		}
 	}
 	return nil
+}
+
+func (s *Local) FileNameAsKey(file *multipart.FileHeader) string {
+	// 读取文件后缀
+	ext := path.Ext(file.Filename)
+	// 读取文件名并加密
+	name := strings.TrimSuffix(file.Filename, ext)
+	// 拼接新文件名
+	filename := fmt.Sprintf("%s-%s%s", name, time.Now().Format("20060102150405"), ext)
+
+	return filename
 }
 
 func NewLocal(cfg *UploadConfig) *Local {

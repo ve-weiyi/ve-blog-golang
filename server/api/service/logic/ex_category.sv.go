@@ -6,15 +6,15 @@ import (
 )
 
 // 分页获取Category记录
-func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
+func (l *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	categories, err := s.svcCtx.CategoryRepository.FindList(reqCtx, page.Page, page.PageSize, order, cond, args...)
+	categories, err := l.svcCtx.CategoryRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
 
-	total, err = s.svcCtx.CategoryRepository.Count(reqCtx, cond, args...)
+	total, err = l.svcCtx.CategoryRepository.Count(reqCtx, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -22,7 +22,7 @@ func (s *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page 
 	// 查询分类下的文章数量
 	for _, in := range categories {
 
-		articles, err := s.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.ID)
+		articles, err := l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.ID)
 		if err != nil {
 			return nil, 0, err
 		}

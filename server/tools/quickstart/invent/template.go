@@ -27,7 +27,7 @@ type TemplateMeta struct {
 	Data           interface{}    //填充内容
 }
 
-func (s *TemplateMeta) CreateTempFile() error {
+func (s *TemplateMeta) Execute() error {
 
 	switch s.Mode {
 	case ModeOnlyCreate:

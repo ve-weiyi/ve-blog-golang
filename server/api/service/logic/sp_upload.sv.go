@@ -27,10 +27,10 @@ func NewUploadService(svcCtx *svc.ServiceContext) *UploadService {
 }
 
 // 上传文件
-func (s *UploadService) UploadFile(reqCtx *request.Context, label string, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
-	s.svcCtx.Log.Println("上传文件")
+func (l *UploadService) UploadFile(reqCtx *request.Context, label string, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
+	l.svcCtx.Log.Println("上传文件")
 	label = "upload" + label
-	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
+	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
 		return nil, err
 	}
@@ -44,27 +44,27 @@ func (s *UploadService) UploadFile(reqCtx *request.Context, label string, file *
 		FileURL:  url,
 	}
 
-	return s.svcCtx.UploadRecordRepository.Create(reqCtx, up)
+	return l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }
 
 // 上传语言
-func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceVO) (data *entity.UploadRecord, err error) {
+func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceVO, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
 	label := "voice"
 	filename := time.Now().Format("20060102150405") + ".mp3"
 
-	s.svcCtx.Log.Println("上传语言")
-	url, err := s.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), req.File)
+	l.svcCtx.Log.Println("上传语言")
+	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
 		return nil, err
 	}
 
-	s.svcCtx.Log.Println("查询用户信息")
-	user, err := s.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.UID)
+	l.svcCtx.Log.Println("查询用户信息")
+	user, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}
 
-	s.svcCtx.Log.Println("创建聊天记录")
+	l.svcCtx.Log.Println("创建聊天记录")
 	var chat entity.ChatRecord
 	chat.Type = constant.VoiceMessage
 	chat.UserID = user.UserID
@@ -75,22 +75,22 @@ func (s *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 	chat.IpAddress = reqCtx.IpAddress
 	chat.IpSource = reqCtx.GetIpSource()
 
-	_, err = s.svcCtx.ChatRecordRepository.Create(reqCtx, &chat)
+	_, err = l.svcCtx.ChatRecordRepository.Create(reqCtx, &chat)
 	if err != nil {
 		return nil, err
 	}
 
-	s.svcCtx.Log.Println("Websocket广播")
+	l.svcCtx.Log.Println("Websocket广播")
 	ws.Broadcast([]byte(jsonconv.ObjectToJson(chat)))
 
-	s.svcCtx.Log.Println("创建上传记录")
+	l.svcCtx.Log.Println("创建上传记录")
 	up := &entity.UploadRecord{
 		UserID:   reqCtx.UID,
 		Label:    label,
 		FileName: filename,
-		FileSize: int(req.File.Size),
+		FileSize: int(file.Size),
 		FileMd5:  crypto.MD5V([]byte(filename)),
 		FileURL:  url,
 	}
-	return s.svcCtx.UploadRecordRepository.Create(reqCtx, up)
+	return l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }
