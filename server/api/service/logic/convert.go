@@ -7,6 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
@@ -183,4 +184,27 @@ func convertRoleList(list []*entity.Role) []*response.RoleDTO {
 		roleList = append(roleList, data)
 	}
 	return roleList
+}
+
+func convertMenu(entity *entity.Menu) *response.MenuDetailsDTO {
+	if entity == nil {
+		return nil
+	}
+
+	meta := response.Meta{}
+	jsonconv.JsonToObject(entity.Meta, &meta)
+
+	return &response.MenuDetailsDTO{
+		ID:        entity.ID,
+		Type:      entity.Type,
+		Name:      entity.Name,
+		Path:      entity.Path,
+		Component: entity.Component,
+		Title:     entity.Title,
+		ParentID:  entity.ParentID,
+		Meta:      meta,
+		CreatedAt: entity.CreatedAt,
+		UpdatedAt: entity.UpdatedAt,
+		Children:  nil,
+	}
 }

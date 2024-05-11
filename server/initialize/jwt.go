@@ -2,23 +2,22 @@ package initialize
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 )
 
 func JwtToken() {
-	duration, err := time.ParseDuration(daysToHours(global.CONFIG.JWT.ExpiresTime))
-	if err != nil {
-		panic(err)
-	}
+	//duration, err := time.ParseDuration(daysToHours(global.CONFIG.JWT.ExpiresTime))
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	global.JWT = &jjwt.JwtToken{
-		SigningKey:  []byte(global.CONFIG.JWT.SigningKey),
-		Issuer:      global.CONFIG.JWT.Issuer,
-		ExpiresTime: duration,
-		TokenPrefix: "",
+		SigningKey: []byte(global.CONFIG.JWT.SigningKey),
+		//Issuer:      global.CONFIG.JWT.Issuer,
+		//ExpiresTime: duration,
+		//TokenPrefix: "",
 	}
 }
 

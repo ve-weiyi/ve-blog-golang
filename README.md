@@ -1,4 +1,3 @@
-
 <div align=center>
 <img src="https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG" width=300" height="300" />
 </div>
@@ -13,108 +12,48 @@
 
 联系方式：qq 791422171
 
+练手项目，兴趣是第一驱动力。工作之余持续更新，持续学习新技术。
+
 简体中文
 
 ## 1. 基本介绍
 
 ### 1.1 项目介绍
 
-ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离的架构进行开发。前后端通过RESTful API进行数据交互。  
-博客前台展示页面使用 vite4+vue3+vuetify 开发，  
-博客后台管理系统使用 vite4+vue3+element-plus 开发，  
-博客后端服务使用golang语言+ gin框架开发。 可以使用 飞书、QQ、微博、微信 快速登录。
+ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离的架构进行开发。前后端通过RESTful API进行数据交互。
 
+博客前台展示页面使用 vite4+vue3+vuetify 开发。
 
-ve-blog-golang项目是博客项目的后台服务支撑。
+博客后台管理系统使用 vite4+vue3+element-plus 开发。
 
-[博客前台项目地址](https://github.com/ve-weiyi/ve-blog-vite)
- 
+博客后端服务使用golang语言。项目有两种框架：gin和go-zero
+
++ server/ gin框架开发,适用于golang后端初学者，gin框架的优点是轻量、快速、易用，适合快速开发API接口。
++ zero/ go-zero框架开发,go-zero框架的优点是功能齐全，自带了多种中间价，适合大型项目和复杂业务的解耦。
+
+1.主流框架，cobra、viper、gorm、zap。   
+2.主流中间件，nacos、mysql、redis、rabbitmq、chatgpt服务。    
+3.oauth第三方登录的解决方案，可以使用 飞书、QQ、微博、微信 快速登录。    
+4.jwt鉴权+RBAC权限管理，可以对用户和角色进行权限管理，可以对菜单页面和接口访问进行权限控制。
+5.提供了swagger接口文档，方便接口查看和测试。   
+6.提供了自动化代码生成工具，可以一键生成数据库表到[增删改查]接口。
+
+[博客展示前台项目地址](https://github.com/ve-weiyi/ve-blog-vite)
+
+[博客管理后台项目地址](https://github.com/ve-weiyi/ve-admin-vite)
+
+[博客后端服务项目地址](https://github.com/ve-weiyi/ve-blog-golang)
+
 ### 预览页面
+
 ![img.png](images%2Fimg.png)
 
 ![img_1.png](images%2Fimg_1.png)
+
 ## 项目启动
 
 ### 1.拉取submodule
+
 ```shell
 git submodule update
-```
-
-### 2.拉取golang依赖库
-```shell
-cd server
-go mod tidy
-```
-
-### 3.修改配置文件
-
-在server目录下新增config.yaml文件，文件内容参考[config.default.yaml](server%2Fconfig.default.yaml)  
-修改config.yaml配置文件中的配置信息，然后执行以下命令启动项目
-
-### 4.项目本地启动
-
-```shell
-cd server
-go run main.go server --config=./config.yaml 
-go run main.go migrate --create=true --password=mysql7914 -n=blog3 
-```
-
-格式化代码
-
-```shell
-go fmt ./...
-```
-
-格式化导入包
-
-```shell
-go get golang.org/x/tools/cmd/goimports
-go install golang.org/x/tools/cmd/goimports
-goimports -w .
-./scripts/gofmt.sh
-```
-
-格式化swagger注解
-
-```shell
-swag fmt
-```
-
-```shell
-swag init
-```
-
-## 其他
-
-### 1.cobra使用
-
-1. 安装cobra
-
-```shell
-go get -u github.com/spf13/cobra/cobra
-```
-
-2. 初始化项目
-
-```shell
-cobra-cli init
-cobra-cli init --author "791422171@qq.com"
-cobra-cli init --license apache
-```
-
-3. 添加命令
-
-```shell
-cobra-cli add version
-cobra-cli add migrate
-```
-
-4. 运行命令
-
-```shell
-go run main.go migrate -h
-go run main.go migrate --help
-
-go run main.go migrate --action=reset
-go run main.go server --use-nacos=true --n-ns=test
 ```

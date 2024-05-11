@@ -79,7 +79,7 @@ func (vi *AstInjectionMeta) Inject() error {
 			},
 		}, fParser.Decls...)
 	}
-	//log.Println("Inject start--")
+	//log.Println("Execute start--")
 	//ast.Println(token.NewFileSet(), fParser)
 
 	for _, vi := range vi.ImportMetas {
@@ -103,7 +103,7 @@ func (vi *AstInjectionMeta) Inject() error {
 			return true
 		})
 	}
-	//log.Println("Inject end--")
+	//log.Println("Execute end--")
 	//ast.Println(token.NewFileSet(), fParser)
 	var output []byte
 	buffer := bytes.NewBuffer(output)

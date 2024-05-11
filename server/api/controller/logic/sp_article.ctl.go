@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -30,7 +28,7 @@ func NewArticleController(svcCtx *svc.ControllerContext) *ArticleController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.ArticleDetailsDTOReq		true	"请求参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router		/admin/article [post]
 func (s *ArticleController) SaveArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -61,8 +59,8 @@ func (s *ArticleController) SaveArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Article.id"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
+// @Param 	 	request		body		request.IdReq							true	"Article.id"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}			"返回信息"
 // @Router		/admin/article/{id} [delete]
 func (s *ArticleController) DeleteArticle(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -71,14 +69,14 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.DeleteArticle(reqCtx, id)
+	data, err := s.svcCtx.ArticleService.DeleteArticle(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -93,7 +91,7 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Article.id"
+// @Param 	 	request		body		request.IdReq							true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.ArticleBack}	"返回信息"
 // @Router 		/admin/article/{id} [get]
 func (s *ArticleController) FindArticle(c *gin.Context) {
@@ -103,14 +101,14 @@ func (s *ArticleController) FindArticle(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.FindArticle(reqCtx, id)
+	data, err := s.svcCtx.ArticleService.FindArticle(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -151,8 +149,8 @@ func (s *ArticleController) FindArticleList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 
@@ -163,7 +161,7 @@ func (s *ArticleController) FindArticleList(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.ArticleDeleteReq		true	"请求参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router 		/admin/article/delete [put]
 func (s *ArticleController) UpdateArticleDelete(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -195,7 +193,7 @@ func (s *ArticleController) UpdateArticleDelete(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.ArticleTopReq		true	"请求参数"
-// @Success		200		{object}	response.Response{data=any}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router 		/admin/article/top [put]
 func (s *ArticleController) UpdateArticleTop(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -252,8 +250,8 @@ func (s *ArticleController) FindArticleArchives(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 
@@ -295,7 +293,7 @@ func (s *ArticleController) FindArticleSeries(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param 	 	id		path		int										true	"Article.id"
+// @Param 	 	request		body		request.IdReq										true	"Article.id"
 // @Success		200		{object}	response.Response{data=response.ArticlePageDetailsDTO}	"返回信息"
 // @Router		/article/{id}/details [get]
 func (s *ArticleController) FindArticleDetails(c *gin.Context) {
@@ -305,14 +303,14 @@ func (s *ArticleController) FindArticleDetails(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.FindArticleDetails(reqCtx, id)
+	data, err := s.svcCtx.ArticleService.FindArticleDetails(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -353,8 +351,8 @@ func (s *ArticleController) FindArticleHomeList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }
 
@@ -364,7 +362,7 @@ func (s *ArticleController) FindArticleHomeList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		id		path		int										true	"Article.id"
+// @Param		req		body		request.IdReq										true	"Article.id"
 // @Success		200		{object}	response.Response{data=entity.Article}	"返回信息"
 // @Router		/article/{id}/like [put]
 func (s *ArticleController) LikeArticle(c *gin.Context) {
@@ -374,13 +372,14 @@ func (s *ArticleController) LikeArticle(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.ArticleService.LikeArticle(reqCtx, id)
+	data, err := s.svcCtx.ArticleService.LikeArticle(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

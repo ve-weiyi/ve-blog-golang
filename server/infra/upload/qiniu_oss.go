@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"mime/multipart"
 	"path"
+	"strings"
+	"time"
 
 	"github.com/qiniu/go-sdk/v7/auth/qbox"
 	"github.com/qiniu/go-sdk/v7/storage"
@@ -19,11 +21,7 @@ type Qiniu struct {
 func (s *Qiniu) UploadFile(prefix string, file *multipart.FileHeader) (url string, err error) {
 	var filename string
 	// 读取文件名
-	if s.cfg.FileNameAsKey != nil {
-		filename = s.cfg.FileNameAsKey(file)
-	} else {
-		filename = file.Filename
-	}
+	filename = s.FileNameAsKey(file)
 
 	// 本地文件目录
 	dir := path.Join(s.cfg.BasePath, prefix)
@@ -63,6 +61,16 @@ func (s *Qiniu) DeleteFile(key string) error {
 	return nil
 }
 
+func (s *Qiniu) FileNameAsKey(file *multipart.FileHeader) string {
+	// 读取文件后缀
+	ext := path.Ext(file.Filename)
+	// 读取文件名并加密
+	name := strings.TrimSuffix(file.Filename, ext)
+	// 拼接新文件名
+	filename := fmt.Sprintf("%s-%s%s", name, time.Now().Format("20060102150405"), ext)
+
+	return filename
+}
 func NewQiniu(conf *UploadConfig) *Qiniu {
 
 	var region *storage.Region

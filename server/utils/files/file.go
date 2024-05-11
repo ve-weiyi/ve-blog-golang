@@ -145,3 +145,13 @@ func WriteFile(filename string, content string) error {
 	fmt.Println(l, "bytes written successfully")
 	return nil
 }
+
+func ReadFile(filename string) ([]byte, error) {
+	// 读取文件内容到字符串
+	content, err := os.ReadFile(filename)
+	if err != nil {
+		return nil, fmt.Errorf("无法读取文件:%v", err)
+	}
+
+	return content, nil
+}

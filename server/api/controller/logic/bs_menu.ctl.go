@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
@@ -32,7 +30,7 @@ func NewMenuController(svcCtx *svc.ControllerContext) *MenuController {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Menu		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router		/menu [post]
+// @Router		/menu/create_menu [post]
 func (s *MenuController) CreateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -40,14 +38,14 @@ func (s *MenuController) CreateMenu(c *gin.Context) {
 		return
 	}
 
-	var menu entity.Menu
-	err = s.ShouldBind(c, &menu)
+	var req entity.Menu
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.CreateMenu(reqCtx, &menu)
+	data, err := s.svcCtx.MenuService.CreateMenu(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -64,7 +62,7 @@ func (s *MenuController) CreateMenu(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Menu		true	"请求参数"
 // @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router 		/menu [put]
+// @Router 		/menu/update_menu [put]
 func (s *MenuController) UpdateMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -72,14 +70,14 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 		return
 	}
 
-	var menu entity.Menu
-	err = s.ShouldBind(c, &menu)
+	var req entity.Menu
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.UpdateMenu(reqCtx, &menu)
+	data, err := s.svcCtx.MenuService.UpdateMenu(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -94,9 +92,9 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Menu.id"
-// @Success		200		{object}	response.Response{data=any}			"返回信息"
-// @Router		/menu/{id} [delete]
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Router		/menu/delete_menu [delete]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -104,46 +102,14 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 		return
 	}
 
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.DeleteMenu(reqCtx, id)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags 	 	Menu
-// @Summary		查询菜单
-// @Accept 		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param 	 	id		path		int							true	"Menu.id"
-// @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
-// @Router 		/menu/{id} [get]
-func (s *MenuController) FindMenu(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var id int
-	id, err = strconv.Atoi(c.Param("id"))
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, id)
+	data, err := s.svcCtx.MenuService.DeleteMenu(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -158,24 +124,24 @@ func (s *MenuController) FindMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data 	body		[]int 						true 	"删除id列表"
+// @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/menu/batch_delete [delete]
-func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
+// @Router		/menu/delete_menu_list [delete]
+func (s *MenuController) DeleteMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var ids []int
-	err = s.ShouldBind(c, &ids)
+	var req request.IdsReq
+	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.MenuService.DeleteMenuByIds(reqCtx, ids)
+	data, err := s.svcCtx.MenuService.DeleteMenuList(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -187,6 +153,38 @@ func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 }
 
 // @Tags 	 	Menu
+// @Summary		查询菜单
+// @Accept 		application/json
+// @Produce		application/json
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Param 	 	req		body		request.IdReq				true	"request"
+// @Success		200		{object}	response.Response{data=entity.Menu}	"返回信息"
+// @Router 		/menu/find_menu [post]
+func (s *MenuController) FindMenu(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.IdReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.MenuService.FindMenu(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags 	 	Menu
 // @Summary		分页获取菜单列表
 // @Accept 		application/json
 // @Produce		application/json
@@ -194,7 +192,7 @@ func (s *MenuController) DeleteMenuByIds(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Menu}}	"返回信息"
-// @Router		/menu/list [post]
+// @Router		/menu/find_menu_list [post]
 func (s *MenuController) FindMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -218,7 +216,7 @@ func (s *MenuController) FindMenuList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     page.Page,
-		PageSize: page.PageSize,
+		Page:     page.Limit.Page,
+		PageSize: page.Limit.PageSize,
 	})
 }

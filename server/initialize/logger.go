@@ -2,11 +2,12 @@ package initialize
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"runtime"
 	"strconv"
 	"strings"
 
-	"go.uber.org/zap"
 	"gorm.io/gorm/logger"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
@@ -14,16 +15,13 @@ import (
 
 type gormWriter struct {
 	logger.Writer
-	ZapLogger *zap.Logger
 	UseZapLog bool
 }
 
 // NewWriter gormWriter 构造函数
-// Author [SliverHorn](https://github.com/SliverHorn)
-func NewWriter(w logger.Writer) *gormWriter {
+func NewWriter() *gormWriter {
 	return &gormWriter{
-		Writer:    w,
-		ZapLogger: global.LOG.Logger(),
+		Writer:    log.New(os.Stdout, "\r\n", log.LstdFlags),
 		UseZapLog: false,
 	}
 }

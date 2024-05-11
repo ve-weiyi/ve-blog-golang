@@ -30,3 +30,21 @@ func (s *ApiRepository) FindApiRoles(ctx context.Context, apiId int) (list []*en
 
 	return roles, nil
 }
+
+// 清空菜单
+func (s *ApiRepository) CleanApis(ctx context.Context) (data interface{}, err error) {
+	// 创建db
+	db := s.DbEngin.WithContext(ctx)
+
+	err = ClearTable(db, entity.TableNameApi)
+	if err != nil {
+		return nil, err
+	}
+
+	err = ClearTable(db, entity.TableNameRoleApi)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}

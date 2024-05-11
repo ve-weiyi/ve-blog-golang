@@ -5,7 +5,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
 )
 
-// 对应go-zero rpc层服务
+// model层服务
 type AppRepository struct {
 	svcCtx                     *svc.RepositoryContext            //持有的repository层引用
 	ApiRepository              *logic.ApiRepository              //api路由

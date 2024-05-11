@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.MenuDetailsDTO}}	"返回信息"
-// @Router		/menu/details_list [post]
+// @Router		/menu/find_menu_details_list [post]
 func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -50,9 +50,9 @@ func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string									false	"token"
 // @Param		uid		header		string									false	"uid"
-// @Param		data	body		request.SyncMenuRequest					true	"请求参数"
+// @Param		data	body		request.SyncMenuReq					true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
-// @Router		/menu/sync [post]
+// @Router		/menu/sync_menu_list [post]
 func (s *MenuController) SyncMenuList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -60,7 +60,7 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 		return
 	}
 
-	var req request.SyncMenuRequest
+	var req request.SyncMenuReq
 	err = s.ShouldBind(c, &req)
 	if err != nil {
 		s.ResponseError(c, err)
@@ -76,4 +76,29 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 	s.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
+}
+
+// @Tags		Menu
+// @Summary		清空菜单列表
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string									false	"token"
+// @Param		uid		header		string									false	"uid"
+// @Param		data	body		request.EmptyReq						true	"请求参数"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}				"返回信息"
+// @Router		/menu/clean_menu_list [post]
+func (s *MenuController) CleanMenuList(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.MenuService.CleanMenuList(reqCtx, nil)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
 }

@@ -7,14 +7,3 @@
 
 inject 使用ast在文件中指定位置注入代码
 invent 使用template生成代码文件
-
-
-与go-zero框架对应层级
-
-controller --- api.handler 
-
-service --- api.logic 
-
-repository--- rpc.handler、logic 
-
-entity--- model 

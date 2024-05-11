@@ -1,6 +1,7 @@
 package global
 
 import (
+	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
@@ -66,4 +67,19 @@ func GetRuntimeRoot() string {
 	index := strings.Index(filename, src)
 	root := filename[:index]
 	return root
+}
+
+func GetCurrentDir() string {
+	// 获取当前函数的调用信息
+	_, filename, _, ok := runtime.Caller(1)
+	if !ok {
+		panic("Failed to get caller information")
+	}
+	// 根据文件名获取绝对路径
+	dir := filepath.Dir(filename)
+	absDir, err := filepath.Abs(dir)
+	if err != nil {
+		panic(err)
+	}
+	return absDir
 }

@@ -23,16 +23,17 @@ func (s *MenuRouter) InitMenuRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 	var handler = s.svcCtx.MenuController
 	{
-		loginRouter.POST("menu", handler.CreateMenu)                     // 新建Menu
-		loginRouter.PUT("menu", handler.UpdateMenu)                      // 更新Menu
-		loginRouter.DELETE("menu/:id", handler.DeleteMenu)               // 删除Menu
-		loginRouter.DELETE("menu/batch_delete", handler.DeleteMenuByIds) // 批量删除Menu列表
+		loginRouter.POST("menu", handler.CreateMenu)                    // 新建Menu
+		loginRouter.PUT("menu", handler.UpdateMenu)                     // 更新Menu
+		loginRouter.DELETE("menu/:id", handler.DeleteMenu)              // 删除Menu
+		loginRouter.DELETE("menu/batch_delete", handler.DeleteMenuList) // 批量删除Menu列表
 
 		loginRouter.GET("menu/:id", handler.FindMenu)       // 查询Menu
 		loginRouter.POST("menu/list", handler.FindMenuList) // 分页查询Menu列表
 
 		loginRouter.POST("menu/details_list", handler.FindMenuDetailsList)
 
-		loginRouter.POST("menu/sync", handler.SyncMenuList) // 同步Menu列表
+		loginRouter.POST("menu/sync", handler.SyncMenuList)   // 同步Menu列表
+		loginRouter.POST("menu/clean", handler.CleanMenuList) // 清空Menu列表
 	}
 }

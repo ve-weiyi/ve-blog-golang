@@ -63,7 +63,7 @@ func TestCodeStarter(t *testing.T) {
 
 	cfg := Config{
 		DbEngin:     db,
-		ReplaceMode: invent.ModeCreateOrReplace,
+		ReplaceMode: invent.ModeOnlyReplace,
 		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
 			return fmt.Sprintf("bs_%v", tableName)
@@ -81,7 +81,7 @@ func TestCodeStarter(t *testing.T) {
 			return jsonconv.Case2CamelLowerStart(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
-			return key != tmpl.KeyModel && key != tmpl.KeyRepository
+			return key != tmpl.KeyController
 		},
 		FieldConfig: model.FieldConfig{
 			DataTypeMap: dataMap,
@@ -104,10 +104,9 @@ func TestCodeStarter(t *testing.T) {
 	parser := NewTableParser(cfg)
 	gen := NewCodeStarter(cfg)
 
-	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("chat_session"))...)
-	gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("chat_message"))...)
-	//models, _ := parser.ParseModelFromSchema()
-	//gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
+	//gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("menu"))...)
+	models := parser.ParseModelFromSchema()
+	gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
 
 	err := gen.Execute()
 	t.Log(err)

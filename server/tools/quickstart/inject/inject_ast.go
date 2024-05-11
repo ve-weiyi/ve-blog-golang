@@ -62,7 +62,7 @@ func (vi *AstInjectMeta) Walk() error {
 	return nil
 }
 
-func (vi *AstInjectMeta) Inject() error {
+func (vi *AstInjectMeta) Execute() error {
 	fSet := token.NewFileSet()
 	fParser, err := decorator.ParseFile(fSet, vi.FilePath, nil, parser.ParseComments)
 	if err != nil {
@@ -87,7 +87,7 @@ func (vi *AstInjectMeta) Inject() error {
 			},
 		}, fParser.Decls...)
 	}
-	//log.Println("Inject start--")
+	//log.Println("Execute start--")
 	//dst.Println(fParser)
 
 	for _, vi := range vi.ImportMetas {
@@ -118,7 +118,7 @@ func (vi *AstInjectMeta) Inject() error {
 			return true
 		})
 	}
-	//log.Println("Inject end--")
+	//log.Println("Execute end--")
 	//dst.Print(fParser)
 	var output []byte
 	buffer := bytes.NewBuffer(output)

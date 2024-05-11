@@ -159,8 +159,6 @@ func Redis() {
 
 func JwtToken() {
 	global.JWT = &jjwt.JwtToken{
-		SigningKey:  []byte(global.CONFIG.JWT.SigningKey),
-		TokenPrefix: "",
-		Issuer:      "blog",
+		SigningKey: []byte(global.CONFIG.JWT.SigningKey),
 	}
 }

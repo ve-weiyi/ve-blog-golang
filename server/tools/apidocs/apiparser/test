@@ -1675,7 +1675,7 @@ GOPATH=/Users/weiyi/go #gosetup
           ]
          },
          {
-          "Type": "request.SyncMenuRequest",
+          "Type": "request.SyncMenuReq",
           "Extend": null,
           "Fields": [
            {
