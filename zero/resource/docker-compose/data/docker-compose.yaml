@@ -11,7 +11,7 @@ services:
     container_name: mysql-server # 容器名
     restart: always
     ports:
-      - "3307:3306"  # host物理直接映射端口
+      - "3306:3306"  # host物理直接映射端口
     environment:
       MYSQL_ROOT_PASSWORD: 'mysql7914' # root管理员用户密码
       MYSQL_DATABASE: 'blog-veweiyi' # 初始化启动时要创建的数据库的名称

@@ -1,26 +1,39 @@
 FROM golang:alpine AS builder
 
-WORKDIR /go/src/github.com/ve-weiyi/ve-blog-golang/zero
-COPY . .
+LABEL stage=gobuilder
 
-RUN go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
-    && go env -w CGO_ENABLED=0 \
-    && go env \
-    && go mod tidy
+ENV CGO_ENABLED 0
+ENV GOPROXY https://goproxy.cn,direct
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
+# 安装必要的依赖
+RUN apk update --no-cache
+RUN apk add --no-cache git
+RUN apk add --no-cache tzdata
+
+WORKDIR /
+
+# 下载项目
+RUN git init
+RUN git clone https://github.com/ve-weiyi/ve-blog-golang.git
+
+# 切换到项目目录
+WORKDIR /ve-blog-golang/zero
+
+# 切换到目标分支并拉取最新代码
+RUN git checkout feature/v1.0.0/go-zero
+RUN go mod tidy
 
 COPY service/blog/api/etc /app/api/etc
 RUN go build -ldflags="-s -w" -o /app/api/blog service/blog/api/blog.go
 
-#FROM alpine:latest
-#
 #维护者信息
 LABEL maintainer="791422171@qq.com"
-#
+
+ENV TZ Asia/Shanghai
 WORKDIR /app/api
-#COPY --from=0 /app/blog /app/blog
-#COPY --from=0 /app/etc /app/etc
-#
+
+# 暴露应用程序的端口
 EXPOSE 9999
 EXPOSE 6060
 
