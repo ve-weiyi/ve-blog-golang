@@ -48,7 +48,7 @@ to quickly create a Cobra application.`,
 		cmd: rootCmd,
 	}
 
-	root.cmd.AddCommand(NewServerCmd().cmd)
+	root.cmd.AddCommand(NewApiCmd().cmd)
 	root.cmd.AddCommand(NewMigrateCmd().cmd)
 	root.cmd.AddCommand(NewRabbitmqCmd().cmd)
 	root.init()
