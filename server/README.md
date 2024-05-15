@@ -41,11 +41,6 @@ go run main.go server --config=./config.yaml
 go run main.go server --use-nacos=true --n-ns=test
 ```
 
-```shell
-go run server/main.go server --use-nacos=true --n-ns=test
-```
-
-
 ### 4.其他
 
 格式化代码

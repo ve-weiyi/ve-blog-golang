@@ -15,8 +15,8 @@ services:
     restart: always
     ports:
       - "9998:9998"
-    networks:
-      - blog-network
+#    networks:
+#      - blog-network
     volumes:
       - ./data/docker/blog/rpc:/app/rpc/runtime
     # 一定要使用 host 模式，api才能访问rpc
@@ -34,12 +34,13 @@ services:
       - "9999:9999"
     volumes:
       - ./data/docker/blog/api:/app/api/runtime
-    networks:
-      - blog-network
+#    networks:
+#      - blog-network
     depends_on:
       - ve-blog-golang-rpc
 
 
-networks:
-  blog-network:
-    external: true
+#docker network create blog-network
+#networks:
+#  blog-network:
+#    external: true

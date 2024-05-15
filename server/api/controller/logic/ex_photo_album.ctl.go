@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string									false	"uid"
 // @Param		page	body		request.PageQuery						true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.PhotoAlbumDetailsDTO}}	"返回信息"
-// @Router		/photo_album/details_list [post]
+// @Router		/photo_album/find_photo_album_details_list [post]
 func (s *PhotoAlbumController) FindPhotoAlbumDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,7 +52,7 @@ func (s *PhotoAlbumController) FindPhotoAlbumDetailsList(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param 	 	request		body		request.IdReq										true	"PhotoAlbum.id"
 // @Success		200		{object}	response.Response{data=response.PhotoAlbumDetailsDTO}	"返回信息"
-// @Router		/photo_album/{id}/details [get]
+// @Router		/photo_album/find_photo_album_details [get]
 func (s *PhotoAlbumController) FindPhotoAlbumDetails(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

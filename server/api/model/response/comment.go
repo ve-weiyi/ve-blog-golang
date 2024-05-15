@@ -37,7 +37,7 @@ type CommentBackDTO struct {
 	Avatar         string    `json:"avatar"`
 	Nickname       string    `json:"nickname"`
 	ReplyNickname  string    `json:"reply_nickname"`
-	ArticleTitle   string    `json:"article_title"`
+	TopicTitle     string    `json:"topic_title"`
 	CommentContent string    `json:"comment_content"`
 	Type           int       `json:"type"`
 	IsReview       int       `json:"is_review"`

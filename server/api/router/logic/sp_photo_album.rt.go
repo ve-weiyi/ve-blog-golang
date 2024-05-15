@@ -23,15 +23,15 @@ func (s *PhotoAlbumRouter) InitPhotoAlbumRouter(publicRouter *gin.RouterGroup, l
 
 	var handler = s.svcCtx.PhotoAlbumController
 	{
-		publicRouter.POST("photo_album", handler.CreatePhotoAlbum)                    // 新建PhotoAlbum
-		publicRouter.PUT("photo_album", handler.UpdatePhotoAlbum)                     // 更新PhotoAlbum
-		publicRouter.DELETE("photo_album/:id", handler.DeletePhotoAlbum)              // 删除PhotoAlbum
-		publicRouter.DELETE("photo_album/batch_delete", handler.DeletePhotoAlbumList) // 批量删除PhotoAlbum列表
+		publicRouter.POST("/photo_album/create_photo_album", handler.CreatePhotoAlbum)            // 新建PhotoAlbum
+		publicRouter.PUT("/photo_album/update_photo_album", handler.UpdatePhotoAlbum)             // 更新PhotoAlbum
+		publicRouter.DELETE("/photo_album/delete_photo_album", handler.DeletePhotoAlbum)          // 删除PhotoAlbum
+		publicRouter.DELETE("/photo_album/delete_photo_album_list", handler.DeletePhotoAlbumList) // 批量删除PhotoAlbum列表
 
-		publicRouter.GET("photo_album/:id", handler.FindPhotoAlbum)       // 查询PhotoAlbum
-		publicRouter.POST("photo_album/list", handler.FindPhotoAlbumList) // 分页查询PhotoAlbum列表
+		publicRouter.POST("/photo_album/find_photo_album", handler.FindPhotoAlbum)          // 查询PhotoAlbum
+		publicRouter.POST("/photo_album/find_photo_album_list", handler.FindPhotoAlbumList) // 分页查询PhotoAlbum列表
 
-		publicRouter.GET("photo_album/:id/details", handler.FindPhotoAlbumDetails)       // 获取PhotoAlbum详情
-		publicRouter.POST("photo_album/details_list", handler.FindPhotoAlbumDetailsList) // 获取PhotoAlbum详情列表
+		publicRouter.POST("/photo_album/find_photo_album_details", handler.FindPhotoAlbumDetails)          // 获取PhotoAlbum详情
+		publicRouter.POST("/photo_album/find_photo_album_details_list", handler.FindPhotoAlbumDetailsList) // 获取PhotoAlbum详情列表
 	}
 }

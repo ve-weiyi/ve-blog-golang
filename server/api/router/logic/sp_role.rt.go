@@ -23,16 +23,16 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 	var handler = s.svcCtx.RoleController
 	{
-		loginRouter.POST("role", handler.CreateRole)       // 新建Role
-		loginRouter.PUT("role", handler.UpdateRole)        // 更新Role
-		loginRouter.DELETE("role/:id", handler.DeleteRole) // 删除Role
-		loginRouter.GET("role/:id", handler.FindRole)      // 查询Role
+		loginRouter.POST("/role/create_role", handler.CreateRole)   // 新建Role
+		loginRouter.PUT("/role/update_role", handler.UpdateRole)    // 更新Role
+		loginRouter.DELETE("/role/delete_role", handler.DeleteRole) // 删除Role
+		loginRouter.POST("/role/find_role", handler.FindRole)       // 查询Role
 
-		loginRouter.DELETE("role/batch_delete", handler.DeleteRoleList) // 批量删除Role列表
-		loginRouter.POST("role/list", handler.FindRoleList)             // 分页查询Role列表
+		loginRouter.DELETE("/role/find_delete_role_list", handler.DeleteRoleList) // 批量删除Role列表
+		loginRouter.POST("/role/find_role_list", handler.FindRoleList)            // 分页查询Role列表
 
-		loginRouter.POST("role/details_list", handler.FindRoleDetailsList)
-		loginRouter.POST("role/update_menus", handler.UpdateRoleMenus)
-		loginRouter.POST("role/update_resources", handler.UpdateRoleResources)
+		loginRouter.POST("/role/details_list", handler.FindRoleDetailsList)
+		loginRouter.POST("/role/update_role_menus", handler.UpdateRoleMenus)
+		loginRouter.POST("/role/update_role_resources", handler.UpdateRoleResources)
 	}
 }
