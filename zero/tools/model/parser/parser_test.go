@@ -16,8 +16,8 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/field"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/field"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 

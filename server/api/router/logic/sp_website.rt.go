@@ -23,15 +23,19 @@ func (s *WebsiteRouter) InitWebsiteRouter(publicRouter *gin.RouterGroup, loginRo
 
 	var handler = s.svcCtx.WebsiteController
 	{
-		publicRouter.GET("/", handler.GetBlogHomeInfo)               // 获取博客首页信息
-		publicRouter.POST("chat/records", handler.FindChatRecords)   // 查询前台聊天记录
-		publicRouter.GET("about/me", handler.GetAboutMe)             // 查询关于我
-		publicRouter.GET("website/config", handler.GetWebsiteConfig) // 获取网站配置
+		publicRouter.GET("/blog", handler.GetBlogHomeInfo)  // 获取博客首页信息
+		loginRouter.GET("/admin", handler.GetAdminHomeInfo) // 获取后台首页信息
 
-		loginRouter.GET("admin", handler.GetAdminHomeInfo)            // 获取后台首页信息
-		loginRouter.POST("admin/about/me", handler.UpdateAboutMe)     // 更新关于我
-		loginRouter.POST("admin/config", handler.GetConfig)           // 获取网站配置
-		loginRouter.PUT("admin/config", handler.UpdateConfig)         // 更新网站配置
-		loginRouter.GET("admin/system/state", handler.GetSystemState) // 获取系统信息
+		publicRouter.GET("/blog/about_me", handler.GetAboutMe)     // 查询关于我
+		loginRouter.POST("/admin/about_me", handler.UpdateAboutMe) // 更新关于我
+
+		publicRouter.GET("/blog/get_website_config", handler.GetWebsiteConfig)       // 获取网站配置
+		loginRouter.PUT("/admin/update_website_config", handler.UpdateWebsiteConfig) // 更新网站配置
+
+		loginRouter.POST("/admin/config", handler.GetConfig)   // 获取网站配置
+		loginRouter.PUT("/admin/config", handler.UpdateConfig) // 更新网站配置
+
+		loginRouter.GET("/admin/system/state", handler.GetSystemState) // 获取系统信息
+		publicRouter.POST("/chat/records", handler.FindChatRecords)    // 查询前台聊天记录
 	}
 }

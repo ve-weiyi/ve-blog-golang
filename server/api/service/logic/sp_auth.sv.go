@@ -74,7 +74,7 @@ func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (res
 		LoginType: constant.LoginEmail,
 		IpAddress: reqCtx.IpAddress,
 		IpSource:  reqCtx.GetIpSource(),
-		Agent:     reqCtx.Agent,
+		Agent:     reqCtx.UserAgent,
 		CreatedAt: time.Now(),
 	}
 	//保存此次登录记录
@@ -300,7 +300,7 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		LoginType: req.Platform,
 		IpAddress: reqCtx.IpAddress,
 		IpSource:  reqCtx.GetIpSource(),
-		Agent:     reqCtx.Agent,
+		Agent:     reqCtx.UserAgent,
 		CreatedAt: time.Now(),
 	}
 	//保存此次登录记录

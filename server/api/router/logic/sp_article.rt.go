@@ -24,20 +24,20 @@ func (s *ArticleRouter) InitArticleRouter(publicRouter *gin.RouterGroup, loginRo
 	var handler = s.svcCtx.ArticleController
 	// 后台操作
 	{
-		loginRouter.POST("/admin/article", handler.SaveArticle)          // 新建文章
-		loginRouter.DELETE("/admin/article/:id", handler.DeleteArticle)  // 删除文章
-		loginRouter.GET("/admin/article/:id", handler.FindArticle)       // 查询文章
-		loginRouter.POST("/admin/article/list", handler.FindArticleList) // 分页查询文章列表
-
-		loginRouter.PUT("/admin/article/top", handler.UpdateArticleTop)       // 置顶文章
-		loginRouter.PUT("/admin/article/delete", handler.UpdateArticleDelete) // 逻辑删除文章(假删除)
+		loginRouter.POST("//admin/article/save_article", handler.SaveArticle)               // 新建文章
+		loginRouter.PUT("//admin/article/top_article", handler.TopArticle)                  // 置顶文章
+		loginRouter.PUT("//admin/article/logic_delete_article", handler.LogicDeleteArticle) // 逻辑删除文章(假删除)
+		loginRouter.DELETE("/admin/delete_article", handler.DeleteArticle)                  // 删除文章
+		loginRouter.POST("//admin/article/find_article", handler.FindArticle)               // 查询文章
+		loginRouter.POST("//admin/article/find_article_list", handler.FindArticleList)      // 分页查询文章列表
 	}
 	// 前台操作接口
 	{
-		publicRouter.POST("article/archives", handler.FindArticleArchives)  // 文章归档
-		publicRouter.POST("article/series", handler.FindArticleSeries)      // 根据条件获取Article列表
-		publicRouter.POST("article/list", handler.FindArticleHomeList)      // 首页文章列表
-		publicRouter.GET("article/:id/details", handler.FindArticleDetails) // 查询文章详情
-		publicRouter.PUT("article/:id/like", handler.LikeArticle)           // 点赞文章
+		publicRouter.POST("/article/find_article_home_list", handler.FindArticleHomeList)            // 首页文章列表
+		publicRouter.POST("/article/article_archives", handler.FindArticleArchives)                  // 文章归档
+		publicRouter.POST("/article/article_classify_category", handler.FindArticleClassifyCategory) // 根据条件获取Article列表
+		publicRouter.POST("/article/article_classify_tag", handler.FindArticleClassifyTag)           // 根据条件获取Article列表
+		publicRouter.POST("/article/find_article_recommend", handler.FindArticleRecommend)           // 查询文章详情
+		publicRouter.PUT("/article/like_article", handler.LikeArticle)                               // 点赞文章
 	}
 }

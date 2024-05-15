@@ -125,13 +125,13 @@ service blog-api {
     @handler TopArticle
     post /admin/article/top_article (ArticleTopReq) returns (EmptyResp)
 
-    @doc "删除文章-物理删除"
-    @handler DeleteArticle
-    post /admin/article/delete_article (IdReq) returns (EmptyResp)
-
     @doc "删除文章-逻辑删除"
     @handler PreDeleteArticle
     post /admin/article/pre_delete_article (ArticlePreDeleteReq) returns (EmptyResp)
+
+    @doc "删除文章-物理删除"
+    @handler DeleteArticle
+    post /admin/article/delete_article (IdReq) returns (EmptyResp)
 
     @doc "查询文章"
     @handler FindArticle
@@ -140,6 +140,10 @@ service blog-api {
     @doc "分页获取文章列表"
     @handler FindArticleList
     post /admin/article/find_article_list (PageQuery) returns (PageResp)
+
+    @doc "分页获取文章列表"
+    @handler FindArticleHomeList
+    post /article/find_article_home_list (PageQuery) returns (PageResp)
 
     @doc "文章归档(时间轴)"
     @handler FindArticleArchives
@@ -156,10 +160,6 @@ service blog-api {
     @doc "文章相关推荐"
     @handler FindArticleRecommend
     post /article/find_article_recommend (IdReq) returns (ArticleRecommendResp)
-
-    @doc "分页获取文章列表"
-    @handler FindArticleHomeList
-    post /article/find_article_home_list (PageQuery) returns (PageResp)
 
     @doc "点赞文章"
     @handler LikeArticle

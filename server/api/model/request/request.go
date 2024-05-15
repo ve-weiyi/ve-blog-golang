@@ -12,9 +12,8 @@ type Context struct {
 	context.Context `json:"-" header:"-"`
 	Token           string `json:"token" header:"token" example:""`
 	UID             int    `json:"uid" header:"-" example:""`
-	Username        string `json:"username" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
-	Agent           string `json:"agent" header:"-" example:""`
+	UserAgent       string `json:"user_agent" header:"-" example:""`
 }
 
 func (s *Context) GetContext() context.Context {

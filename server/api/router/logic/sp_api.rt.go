@@ -23,15 +23,15 @@ func (s *ApiRouter) InitApiRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 
 	var handler = s.svcCtx.ApiController
 	{
-		loginRouter.POST("api", handler.CreateApi)                    // 新建Api
-		loginRouter.PUT("api", handler.UpdateApi)                     // 更新Api
-		loginRouter.DELETE("api/:id", handler.DeleteApi)              // 删除Api
-		loginRouter.DELETE("api/batch_delete", handler.DeleteApiList) // 批量删除Api列表
+		loginRouter.POST("/api/create_api", handler.CreateApi)            // 新建Api
+		loginRouter.PUT("/api/update_api", handler.UpdateApi)             // 更新Api
+		loginRouter.DELETE("/api/delete_api", handler.DeleteApi)          // 删除Api
+		loginRouter.DELETE("/api/delete_api_list", handler.DeleteApiList) // 批量删除Api列表
 
-		loginRouter.GET("api/:id", handler.FindApi)                      // 查询Api
-		loginRouter.POST("api/list", handler.FindApiList)                // 分页查询Api列表
-		loginRouter.POST("api/sync", handler.SyncApiList)                // 同步Api列表
-		loginRouter.POST("api/clean", handler.CreateApi)                 // 清空Api列表
-		loginRouter.POST("api/details_list", handler.FindApiDetailsList) // 获取Api列表
+		loginRouter.POST("/api/find_api", handler.FindApi)                         // 查询Api
+		loginRouter.POST("/api/find_api_list", handler.FindApiList)                // 分页查询Api列表
+		loginRouter.POST("/api/sync_api_list", handler.SyncApiList)                // 同步Api列表
+		loginRouter.POST("/api/clean_api_list", handler.CleanApiList)              // 清空Api列表
+		loginRouter.POST("/api/find_api_details_list", handler.FindApiDetailsList) // 获取Api列表
 	}
 }

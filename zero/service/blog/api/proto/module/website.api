@@ -103,14 +103,6 @@ service blog-api {
     @handler GetAdminHomeInfo
     get /admin (EmptyReq) returns (AdminHomeInfo)
 
-    @doc "获取关于我的信息"
-    @handler GetAboutMe
-    get /blog/about_me (EmptyReq) returns (AboutMe)
-
-    @doc "更新关于我的信息"
-    @handler UpdateAboutMe
-    put /admin/about_me (AboutMe) returns (EmptyResp)
-
     @doc "获取网站配置"
     @handler GetWebsiteConfig
     get /blog/get_website_config (EmptyReq) returns (WebsiteConfig)
@@ -118,6 +110,14 @@ service blog-api {
     @doc "更新网站配置"
     @handler UpdateWebsiteConfig
     put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)
+
+    @doc "获取关于我的信息"
+    @handler GetAboutMe
+    get /blog/about_me (EmptyReq) returns (AboutMe)
+
+    @doc "更新关于我的信息"
+    @handler UpdateAboutMe
+    put /admin/about_me (AboutMe) returns (EmptyResp)
 
     @doc "获取服务器信息"
     @handler GetSystemState

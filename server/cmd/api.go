@@ -13,21 +13,21 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
-type ServerCmd struct {
+type ApiCmd struct {
 	cmd        *cobra.Command
 	configFile string
 	useNacos   bool
 	nacosCfg   *nacos.NacosConfig
 }
 
-func NewServerCmd() *ServerCmd {
-	serverCmd := &ServerCmd{}
+func NewApiCmd() *ApiCmd {
+	serverCmd := &ApiCmd{}
 	serverCmd.cmd = &cobra.Command{
-		Use:   "server",
+		Use:   "api",
 		Short: "启动接口服务",
 		Long:  `启动接口服务`,
 		Run: func(cmd *cobra.Command, args []string) {
-			serverCmd.RunServer()
+			serverCmd.RunApi()
 		},
 	}
 	serverCmd.cmd.PersistentPreRun = serverCmd.persistentPreRun
@@ -35,7 +35,7 @@ func NewServerCmd() *ServerCmd {
 	return serverCmd
 }
 
-func (s *ServerCmd) init() {
+func (s *ApiCmd) init() {
 	nacosCfg := s.GetDefaultNacosConfig()
 	s.nacosCfg = nacosCfg
 	// 设置默认参数
@@ -50,7 +50,7 @@ func (s *ServerCmd) init() {
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.NameSpaceID, "n-ns", nacosCfg.NameSpaceID, "the namespace for nacos")
 }
 
-func (s *ServerCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
+func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 	return &nacos.NacosConfig{
 		IP:          "120.79.136.81",
 		Port:        8848,
@@ -64,11 +64,11 @@ func (s *ServerCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 	}
 }
 
-func (s *ServerCmd) persistentPreRun(cmd *cobra.Command, args []string) {
+func (s *ApiCmd) persistentPreRun(cmd *cobra.Command, args []string) {
 
 }
 
-func (s *ServerCmd) RunServer() {
+func (s *ApiCmd) RunApi() {
 	if s.useNacos {
 		log.Println("读取配置文件...使用nacos")
 		err := nacos.New(s.nacosCfg).Init(s.OnConfigChange)
@@ -83,7 +83,7 @@ func (s *ServerCmd) RunServer() {
 	}
 }
 
-func (s *ServerCmd) OnConfigChange(content string) error {
+func (s *ApiCmd) OnConfigChange(content string) error {
 	err := initialize.InitConfigByContent(content)
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (s *ServerCmd) OnConfigChange(content string) error {
 	return nil
 }
 
-func (s *ServerCmd) OnInitialize() {
+func (s *ApiCmd) OnInitialize() {
 	log.Println("let's go")
 
 	// 初始化zap日志库

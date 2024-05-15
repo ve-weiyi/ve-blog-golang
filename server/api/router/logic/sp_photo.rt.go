@@ -23,12 +23,12 @@ func (s *PhotoRouter) InitPhotoRouter(publicRouter *gin.RouterGroup, loginRouter
 
 	var handler = s.svcCtx.PhotoController
 	{
-		publicRouter.POST("photo", handler.CreatePhoto)       // 新建Photo
-		publicRouter.PUT("photo", handler.UpdatePhoto)        // 更新Photo
-		publicRouter.DELETE("photo/:id", handler.DeletePhoto) // 删除Photo
-		publicRouter.GET("photo/:id", handler.FindPhoto)      // 查询Photo
+		publicRouter.POST("/photo/create_photo", handler.CreatePhoto)   // 新建Photo
+		publicRouter.PUT("/photo/update_photo", handler.UpdatePhoto)    // 更新Photo
+		publicRouter.DELETE("/photo/delete_photo", handler.DeletePhoto) // 删除Photo
+		publicRouter.POST("/photo/find_photo", handler.FindPhoto)       // 查询Photo
 
-		publicRouter.DELETE("photo/batch_delete", handler.DeletePhotoList) // 批量删除Photo列表
-		publicRouter.POST("photo/list", handler.FindPhotoList)             // 分页查询Photo列表
+		publicRouter.DELETE("/photo/delete_photo_list", handler.DeletePhotoList) // 批量删除Photo列表
+		publicRouter.POST("/photo/find_photo_list", handler.FindPhotoList)       // 分页查询Photo列表
 	}
 }

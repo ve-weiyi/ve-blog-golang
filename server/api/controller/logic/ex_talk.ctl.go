@@ -15,7 +15,7 @@ import (
 // @Param		uid		header		string																false	"uid"
 // @Param		page	body		request.PageQuery													true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.TalkDetailsDTO}}	"返回信息"
-// @Router		/talk/details_list [post]
+// @Router		/talk/find_talk_details_list [post]
 func (s *TalkController) FindTalkDetailsList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -52,7 +52,7 @@ func (s *TalkController) FindTalkDetailsList(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		req		body		request.IdReq										true	"id"
 // @Success		200		{object}	response.Response{data=response.TalkDetailsDTO}	"返回信息"
-// @Router		/talk/{id}/details [get]
+// @Router		/talk/find_talk_details [get]
 func (s *TalkController) FindTalkDetail(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -84,7 +84,7 @@ func (s *TalkController) FindTalkDetail(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		req		body		request.IdReq										true	"id"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/talk/{id}/like [put]
+// @Router		/talk/like_talk [put]
 func (s *TalkController) LikeTalk(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

@@ -23,6 +23,6 @@ func (s *WebsocketRouter) InitWebsocketRouter(publicRouter *gin.RouterGroup, log
 
 	var handler = s.svcCtx.WebsocketController
 	{
-		publicRouter.GET("ws", handler.WebSocket) // websocket
+		publicRouter.GET("/ws", handler.WebSocket) // websocket
 	}
 }

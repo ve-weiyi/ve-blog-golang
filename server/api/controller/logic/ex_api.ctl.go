@@ -80,7 +80,7 @@ func (s *ApiController) SyncApiList(c *gin.Context) {
 // @Param		data	body		request.EmptyReq						true	"请求参数"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}				"返回信息"
 // @Router		/api/clean_api_list [post]
-func (s *MenuController) CleanApiList(c *gin.Context) {
+func (s *ApiController) CleanApiList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)

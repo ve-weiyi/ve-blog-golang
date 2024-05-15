@@ -4,9 +4,10 @@ import (
 	"time"
 )
 
-type ArticleConditionReq struct {
-	TagID      int `json:"tag_id"`      // 文章标签ID
-	CategoryID int `json:"category_id"` // 文章分类ID
+type ArticleClassifyReq struct {
+	//TagID      int `json:"tag_id"`      // 文章标签ID
+	//CategoryID int `json:"category_id"` // 文章分类ID
+	ClassifyName string `json:"classify_name"` // 分类名
 }
 
 type ArticleTopReq struct {

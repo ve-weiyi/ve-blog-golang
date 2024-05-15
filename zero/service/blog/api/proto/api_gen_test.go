@@ -27,7 +27,7 @@ const typeTemplate = `
 export interface {{ .Name }} {{convertExtends .Members}}{
   {{- range .Members }}
 {{- if .Name }}
-  {{ convertJson .Name }}?: {{ convertTsType .Type.RawName }};{{ .Comment }}
+  {{ convertJson .Name }}?: {{ convertTsType .Type.RawName }}; {{ .Comment }}
 {{- end -}}
   {{- end }}
 }

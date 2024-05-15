@@ -30,7 +30,7 @@ func NewUserController(svcCtx *svc.ControllerContext) *UserController {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserDTO}}	"返回信息"
-// @Router		/user/list [post]
+// @Router		/user/find_user_list [post]
 func (s *UserController) FindUserList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -67,7 +67,7 @@ func (s *UserController) FindUserList(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserDTO}}	"返回信息"
-// @Router		/user/online_list [post]
+// @Router		/user/find_online_user_list [post]
 func (s *UserController) FindOnlineUserList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -104,7 +104,7 @@ func (s *UserController) FindOnlineUserList(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		page	body		request.PageQuery			true	"分页参数"
 // @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.UserAreaDTO}}	"返回信息"
-// @Router		/user/areas [post]
+// @Router		/user/find_user_areas [post]
 func (s *UserController) FindUserAreas(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -141,7 +141,7 @@ func (s *UserController) FindUserAreas(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.UserAccount			true	"请求数据"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/user/update_status [post]
+// @Router		/user/update_user_status [post]
 func (s *UserController) UpdateUserStatus(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -173,7 +173,7 @@ func (s *UserController) UpdateUserStatus(c *gin.Context) {
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.UpdateUserRolesReq				true	"请求数据"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/user/update_roles [post]
+// @Router		/user/update_user_roles [post]
 func (s *UserController) UpdateUserRoles(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
