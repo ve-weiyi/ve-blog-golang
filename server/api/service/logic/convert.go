@@ -110,10 +110,10 @@ func convertUniqueViewList(list []*entity.UniqueView) []*response.UniqueViewDTO 
 	return out
 }
 
-func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
-	var out []*response.ArticleRankDTO
+func convertArticleRankList(list []*entity.Article) []*response.ArticleViewRankDTO {
+	var out []*response.ArticleViewRankDTO
 	for _, item := range list {
-		at := &response.ArticleRankDTO{
+		at := &response.ArticleViewRankDTO{
 			ID:           item.ID,
 			ArticleTitle: item.ArticleTitle,
 			Count:        rand.Int63n(100),

@@ -37,3 +37,4 @@ server/config.yaml
 **/test/*
 **/tmp/*
 **/default.etcd/*
+/deploy/docker/

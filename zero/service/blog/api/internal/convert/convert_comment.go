@@ -62,7 +62,7 @@ func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
 		PageSize:   pageSize,
 		Sorts:      sorts,
 		Conditions: conditions,
-		Args:       nil,
+		Args:       args,
 	}
 	return
 }

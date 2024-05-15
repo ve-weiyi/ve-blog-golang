@@ -50,11 +50,11 @@ type AdminHomeInfo struct {
 	MessageCount          int64                   `json:"message_count"`           // 留言量
 	UserCount             int64                   `json:"user_count"`              // 用户量
 	ArticleCount          int64                   `json:"article_count"`           // 文章量
-	CategoryDTOList       []*CategoryDTO          `json:"category_dto_list"`       // 分类统计
-	TagDTOList            []*TagDTO               `json:"tag_dto_list"`            // 标签列表
+	CategoryList          []*CategoryDTO          `json:"category_list"`           // 分类统计
+	TagList               []*TagDTO               `json:"tag_list"`                // 标签列表
+	ArticleRankList       []*ArticleViewRankDTO   `json:"article_view_rank_list"`  // 文章浏览量排行
 	ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list"` // 文章统计列表
-	UniqueViewDTOList     []*UniqueViewDTO        `json:"unique_view_dto_list"`    // 一周用户量集合
-	ArticleRankDTOList    []*ArticleRankDTO       `json:"article_rank_dto_list"`   // 文章浏览量排行
+	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_dto_list"`    // 一周用户量集合
 }
 
 // 文章统计字段
@@ -70,7 +70,7 @@ type UniqueViewDTO struct {
 }
 
 // 文章浏览量排行
-type ArticleRankDTO struct {
+type ArticleViewRankDTO struct {
 	ID           int    `json:"id"`            // 文章ID
 	ArticleTitle string `json:"article_title"` // 文章标题
 	Count        int64  `json:"count"`         // 数量
