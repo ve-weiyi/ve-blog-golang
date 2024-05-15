@@ -3,7 +3,7 @@ package model
 import (
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/field"
 )
 
 // SchemaNameOpt schema name option

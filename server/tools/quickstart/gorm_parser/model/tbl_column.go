@@ -7,7 +7,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/field"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/field"
 )
 
 // 获取数据库表信息
@@ -25,14 +25,8 @@ type Table struct {
 	TableComment string `json:"table_comment"` // 表注释
 	Type         string `json:"type"`          // 表类型
 
-	Indexes []*Index  `json:"indexes"` // 表索引
-	Columns []*Column `json:"columns"` // 表字段
-}
-
-// 索引
-type Index struct {
-	gorm.Index
-	Priority int32 `gorm:"column:SEQ_IN_INDEX"`
+	Columns []*Column           `json:"columns"` // 表字段
+	Indexes map[string][]*Index `json:"indexes"` // 表索引
 }
 
 // 需要的数据
@@ -54,18 +48,24 @@ type Column struct {
 	HasDefault      bool `json:"has_default"`       //数据是否有默认值
 }
 
+// 索引
+type Index struct {
+	gorm.Index
+	Priority int32 `gorm:"column:SEQ_IN_INDEX"`
+}
+
 // ToField convert to field
-func (c *Column) FiledType(cfg *FieldConfig) string {
-	fieldType := c.getDataType(cfg)
-	if cfg.FieldSignable && strings.Contains(c.columnType(), "unsigned") && strings.HasPrefix(fieldType, "int") {
+func (c *Column) FiledType(nullable, coverable, signable bool) string {
+	fieldType := dataType.Get(c.DatabaseTypeName(), c.columnType())
+	if signable && strings.Contains(c.columnType(), "unsigned") && strings.HasPrefix(fieldType, "int") {
 		fieldType = "u" + fieldType
 	}
 	switch {
 	case c.Name() == "deleted_at" && fieldType == "time.Time":
 		fieldType = "gorm.DeletedAt"
-	case cfg.FieldCoverable && c.needDefaultTag(c.defaultTagValue()):
+	case coverable && c.needDefaultTag(c.defaultTagValue()):
 		fieldType = "*" + fieldType
-	case cfg.FieldNullable:
+	case nullable && !strings.HasPrefix(fieldType, "*"):
 		if n, ok := c.Nullable(); ok && n {
 			fieldType = "*" + fieldType
 		}

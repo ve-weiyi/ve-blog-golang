@@ -32,18 +32,19 @@ func init() {
 	}
 	log.Println("mysql connection done")
 }
+
 func TestGenerator(t *testing.T) {
 
-	path := "./blog"
+	out := "./blog"
 	//path := "./"
 	// 生成实例
 	// 指定生成代码的具体(相对)目录，默认为：./dao
 	// 默认情况下需要使用WithContext之后才可以查询，但可以通过设置gen.WithoutContext避免这个操作
 	g := gen.NewGenerator(gen.Config{
 		// 相对执行`go run`时的路径, 会自动创建目录
-		OutPath:      path + "/dao",
-		OutFile:      path + "/dao/dao.go",
-		ModelPkgPath: path + "/entity", // 默认情况下会跟随OutPath参数，在同目录下生成model目录
+		OutPath:      out + "/dao",
+		OutFile:      out + "/dao/dao.go",
+		ModelPkgPath: out + "/entity", // 默认情况下会跟随OutPath参数，在同目录下生成model目录
 		WithUnitTest: true,
 		// WithDefaultQuery 生成默认查询结构体(作为全局变量使用), 即`Q`结构体和其字段(各表模型)
 		// WithoutContext 生成没有context调用限制的代码供查询
