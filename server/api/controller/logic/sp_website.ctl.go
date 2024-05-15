@@ -59,21 +59,21 @@ func (s *WebsiteController) FindChatRecords(c *gin.Context) {
 }
 
 // @Tags		Website
-// @Summary		关于我
+// @Summary		获取博客前台首页信息
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string								false	"token"
-// @Param		uid		header		string								false	"uid"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/about/me [get]
-func (s *WebsiteController) GetAboutMe(c *gin.Context) {
+// @Param		token	header		string						false	"token"
+// @Param		uid		header		string						false	"uid"
+// @Success		200		{object}	response.Response{data=response.BlogHomeInfo}	"返回信息"
+// @Router		/ [get]
+func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.WebsiteService.GetAboutMe(reqCtx, nil)
+	data, err := s.svcCtx.WebsiteService.GetBlogHomeInfo(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -83,29 +83,21 @@ func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 }
 
 // @Tags		Website
-// @Summary		更新我的信息
+// @Summary		获取后台首页信息
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.AboutMeReq			true	"请求信息"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/admin/about/me [post]
-func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
+// @Success		200		{object}	response.Response{data=response.AdminHomeInfo}	"返回信息"
+// @Router		/admin [get]
+func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	var req request.AboutMeReq
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := s.svcCtx.WebsiteService.UpdateAboutMe(reqCtx, &req)
+	data, err := s.svcCtx.WebsiteService.GetAdminHomeInfo(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -120,7 +112,7 @@ func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.WebsiteConfigDTO}	"返回信息"
 // @Router		/website/config [get]
 func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -146,12 +138,44 @@ func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 }
 
 // @Tags		Website
+// @Summary		更新配置
+// @Accept		application/json
+// @Produce		application/json
+// @Param		token	header		string								false	"token"
+// @Param		uid		header		string								false	"uid"
+// @Param		data	body		request.WebsiteConfigDTO		true	"请求信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Router		/admin/config [put]
+func (s *WebsiteController) UpdateWebsiteConfig(c *gin.Context) {
+	reqCtx, err := s.GetRequestContext(c)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	var req request.WebsiteConfigDTO
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteService.UpdateWebsiteConfig(reqCtx, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	s.ResponseOk(c, data)
+}
+
+// @Tags		Website
 // @Summary		获取配置
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Param		data	body		request.WebsiteConfigReq		true	"请求信息"
+// @Param		data	body		request.WebsiteConfigDTO		true	"请求信息"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
 // @Router		/admin/config [post]
 func (s *WebsiteController) GetConfig(c *gin.Context) {
@@ -209,21 +233,21 @@ func (s *WebsiteController) UpdateConfig(c *gin.Context) {
 }
 
 // @Tags		Website
-// @Summary		获取博客前台首页信息
+// @Summary		关于我
 // @Accept		application/json
 // @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.BlogHomeInfo}	"返回信息"
-// @Router		/ [get]
-func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
+// @Param		token	header		string								false	"token"
+// @Param		uid		header		string								false	"uid"
+// @Success		200		{object}	response.Response{data=response.AboutMeResp}	"返回信息"
+// @Router		/about/me [get]
+func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.WebsiteService.GetBlogHomeInfo(reqCtx, nil)
+	data, err := s.svcCtx.WebsiteService.GetAboutMe(reqCtx, nil)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
@@ -233,21 +257,29 @@ func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
 }
 
 // @Tags		Website
-// @Summary		获取后台首页信息
+// @Summary		更新我的信息
 // @Accept		application/json
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.AdminHomeInfo}	"返回信息"
-// @Router		/admin [get]
-func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
+// @Param		data	body		request.AboutMeReq			true	"请求信息"
+// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Router		/admin/about/me [post]
+func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
 		s.ResponseError(c, err)
 		return
 	}
 
-	data, err := s.svcCtx.WebsiteService.GetAdminHomeInfo(reqCtx, nil)
+	var req request.AboutMeReq
+	err = s.ShouldBind(c, &req)
+	if err != nil {
+		s.ResponseError(c, err)
+		return
+	}
+
+	data, err := s.svcCtx.WebsiteService.UpdateAboutMe(reqCtx, &req)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

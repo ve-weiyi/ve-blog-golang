@@ -8,13 +8,14 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
 // JwtToken jwt中间件
 func JwtToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("token")
-		uid := c.Request.Header.Get("uid")
+		token := c.Request.Header.Get(constant.HeaderXAuthToken)
+		uid := c.Request.Header.Get(constant.HeaderXUserID)
 		claims, err := global.JWT.VerifyToken(token, uid)
 		//必须要token才能过
 		if err != nil {

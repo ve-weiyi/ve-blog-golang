@@ -191,7 +191,7 @@ func (s *TagController) FindTag(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Tag}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.TagDetailsDTO}}	"返回信息"
 // @Router		/tag/find_tag_list [post]
 func (s *TagController) FindTagList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -207,7 +207,7 @@ func (s *TagController) FindTagList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.TagService.FindTagList(reqCtx, &page)
+	list, total, err := s.svcCtx.TagService.FindTagDetailsList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

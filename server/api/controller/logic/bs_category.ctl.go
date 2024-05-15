@@ -191,7 +191,7 @@ func (s *CategoryController) FindCategory(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Category}}	"返回信息"
+// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.CategoryDetailsDTO}}	"返回信息"
 // @Router		/category/find_category_list [post]
 func (s *CategoryController) FindCategoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -207,7 +207,7 @@ func (s *CategoryController) FindCategoryList(c *gin.Context) {
 		return
 	}
 
-	list, total, err := s.svcCtx.CategoryService.FindCategoryList(reqCtx, &page)
+	list, total, err := s.svcCtx.CategoryService.FindCategoryDetailsList(reqCtx, &page)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

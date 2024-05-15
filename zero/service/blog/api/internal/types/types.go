@@ -189,8 +189,8 @@ type CommentBackDTO struct {
 	Id             int64  `json:"id,optional"`
 	Type           int64  `json:"type,optional"`
 	TopicTitle     string `json:"topic_title,optional"`
-	UserAvatar     string `json:"user_avatar,optional"`
-	UserNickname   string `json:"user_nickname,optional"`
+	Nickname       string `json:"nickname,optional"` // 用户昵称
+	Avatar         string `json:"avatar,optional"`   // 用户头像
 	CommentContent string `json:"comment_content,optional"`
 	IsReview       int64  `json:"is_review,optional"`
 	CreatedAt      int64  `json:"created_at,optional"`
