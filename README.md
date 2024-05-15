@@ -28,8 +28,8 @@ ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离
 
 博客后端服务使用golang语言。项目有两种框架：gin和go-zero
 
-+ server/ gin框架开发,适用于golang后端初学者，gin框架的优点是轻量、快速、易用，适合快速开发API接口。
-+ zero/ go-zero框架开发,go-zero框架的优点是功能齐全，自带了多种中间价，适合大型项目和复杂业务的解耦。
++ server/[README.md](server%2FREADME.md) 使用[gin](https://github.com/gin-gonic/gin)框架开发。gin框架的优点是轻量、快速、易用，适合快速开发API接口，适用于golang后端初学者。
++ zero/[README.md](server%2FREADME.md) 使用[go-zero](https://github.com/zeromicro/go-zero)框架开发。go-zero框架的优点是功能齐全，自带了多种中间价，适合大型项目和复杂业务的解耦。
 
 1.主流框架，cobra、viper、gorm、zap。   
 2.主流中间件，nacos、mysql、redis、rabbitmq、chatgpt服务。    

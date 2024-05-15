@@ -23,16 +23,16 @@ func (s *TalkRouter) InitTalkRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 	var handler = s.svcCtx.TalkController
 	{
-		publicRouter.POST("talk", handler.CreateTalk)       // 新建Talk
-		publicRouter.PUT("talk", handler.UpdateTalk)        // 更新Talk
-		publicRouter.DELETE("talk/:id", handler.DeleteTalk) // 删除Talk
-		publicRouter.GET("talk/:id", handler.FindTalk)      // 查询Talk
+		publicRouter.POST("/talk/create_talk", handler.CreateTalk)   // 新建Talk
+		publicRouter.PUT("/talk/update_talk", handler.UpdateTalk)    // 更新Talk
+		publicRouter.DELETE("/talk/delete_talk", handler.DeleteTalk) // 删除Talk
+		publicRouter.POST("/talk/find_talk", handler.FindTalk)       // 查询Talk
 
-		publicRouter.DELETE("talk/batch_delete", handler.DeleteTalkList) // 批量删除Talk列表
-		publicRouter.POST("talk/list", handler.FindTalkList)             // 分页查询Talk列表
+		publicRouter.DELETE("/talk/delete_talk_list", handler.DeleteTalkList) // 批量删除Talk列表
+		publicRouter.POST("/talk/find_talk_list", handler.FindTalkList)       // 分页查询Talk列表
 
-		publicRouter.GET("talk/:id/details", handler.FindTalkDetail)        // 获取Talk详情
-		publicRouter.POST("talk/:id/like", handler.LikeTalk)                // 点赞Talk
-		publicRouter.POST("talk/details_list", handler.FindTalkDetailsList) // 获取Talk详情列表
+		publicRouter.POST("/talk/find_talk_details", handler.FindTalkDetail)           // 获取Talk详情
+		publicRouter.POST("/talk/like_talk", handler.LikeTalk)                         // 点赞Talk
+		publicRouter.POST("/talk/find_talk_details_list", handler.FindTalkDetailsList) // 获取Talk详情列表
 	}
 }

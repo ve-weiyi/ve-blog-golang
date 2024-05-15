@@ -23,13 +23,12 @@ func (s *TagRouter) InitTagRouter(publicRouter *gin.RouterGroup, loginRouter *gi
 
 	var handler = s.svcCtx.TagController
 	{
-		loginRouter.POST("tag", handler.CreateTag)                    // 新建Tag
-		loginRouter.PUT("tag", handler.UpdateTag)                     // 更新Tag
-		loginRouter.DELETE("tag/:id", handler.DeleteTag)              // 删除Tag
-		loginRouter.DELETE("tag/batch_delete", handler.DeleteTagList) // 批量删除Tag列表
+		loginRouter.POST("/tag/create_tag", handler.CreateTag)            // 新建Tag
+		loginRouter.PUT("/tag/update_tag", handler.UpdateTag)             // 更新Tag
+		loginRouter.DELETE("/tag/delete_tag", handler.DeleteTag)          // 删除Tag
+		loginRouter.DELETE("/tag/delete_tag_list", handler.DeleteTagList) // 批量删除Tag列表
 
-		publicRouter.GET("tag/:id", handler.FindTag)       // 查询Tag
-		publicRouter.POST("tag/list", handler.FindTagList) // 分页查询Tag列表
-		publicRouter.POST("tag/details_list", handler.FindTagDetailsList)
+		publicRouter.POST("/tag/find_tag", handler.FindTag)          // 查询Tag
+		publicRouter.POST("/tag/find_tag_list", handler.FindTagList) // 分页查询Tag列表
 	}
 }

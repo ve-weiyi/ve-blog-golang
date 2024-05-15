@@ -189,8 +189,8 @@ type CommentBackDTO struct {
 	Id             int64  `json:"id,optional"`
 	Type           int64  `json:"type,optional"`
 	TopicTitle     string `json:"topic_title,optional"`
-	UserAvatar     string `json:"user_avatar,optional"`
-	UserNickname   string `json:"user_nickname,optional"`
+	Nickname       string `json:"nickname,optional"` // 用户昵称
+	Avatar         string `json:"avatar,optional"`   // 用户头像
 	CommentContent string `json:"comment_content,optional"`
 	IsReview       int64  `json:"is_review,optional"`
 	CreatedAt      int64  `json:"created_at,optional"`
@@ -356,7 +356,7 @@ type OperationLog struct {
 	IpSource       string `json:"ip_source,optional"`       // 操作地址
 	OptModule      string `json:"opt_module,optional"`      // 操作模块
 	OptDesc        string `json:"opt_desc,optional"`        // 操作描述
-	RequestURL     string `json:"request_u_r_l,optional"`   // 请求地址
+	RequestUrl     string `json:"request_url,optional"`     // 请求地址
 	RequestMethod  string `json:"request_method,optional"`  // 请求方式
 	RequestHeader  string `json:"request_header,optional"`  // 请求头参数
 	RequestData    string `json:"request_data,optional"`    // 请求参数

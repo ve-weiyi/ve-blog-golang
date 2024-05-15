@@ -14,9 +14,8 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
+	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
@@ -27,8 +26,6 @@ const dsn = "root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parse
 var db *gorm.DB
 
 func Init() {
-	initest.InitConfig()
-	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var err error
 	// 连接数据库
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
@@ -46,9 +43,9 @@ func Init() {
 
 func TestCodeStarter(t *testing.T) {
 	Init()
+
 	out := path.Join(global.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
-
 	typeInt := "int"
 	// 自定义字段的数据类型
 	// 统一数字类型为int64,兼容protobuf
@@ -67,18 +64,6 @@ func TestCodeStarter(t *testing.T) {
 		OutPath:     out,
 		OutFileNS: func(tableName string) (fileName string) {
 			return fmt.Sprintf("bs_%v", tableName)
-		},
-		FieldNameNS: func(column string) string {
-			return jsonconv.Case2Camel(column)
-		},
-		FieldJsonNS: func(column string) string {
-			return jsonconv.Camel2Case(column)
-		},
-		FieldValueNS: func(columnName string) (valueName string) {
-			if columnName == "id" {
-				return "id"
-			}
-			return jsonconv.Case2CamelLowerStart(columnName)
 		},
 		IsIgnoreKey: func(key string) bool {
 			return key != tmpl.KeyController
@@ -101,12 +86,24 @@ func TestCodeStarter(t *testing.T) {
 		},
 	}
 
+	// 初始化解析器
 	parser := NewTableParser(cfg)
+	// 初始化转换器
+	converter := NewTableConverter(cfg)
+	// 初始化生成器
 	gen := NewCodeStarter(cfg)
 
-	//gen.AddInventMetas(parser.GenerateInventMetas(parser.ParseModelFromTable("menu"))...)
+	// 解析单个表
+	//models := parser.ParseModelFromTable("menu")
+	//metas := parser.GenerateInventMetas(models)
+	//gen.AddInventMetas(metas...)
+
+	// 解析所有数据库表
 	models := parser.ParseModelFromSchema()
-	gen.AddInventMetas(parser.GenerateInventMetas(models...)...)
+	// 转换所有表的元数据
+	metas := converter.GenerateInventMetas(models...)
+	// 生成代码文件
+	gen.AddInventMetas(metas...)
 
 	err := gen.Execute()
 	t.Log(err)

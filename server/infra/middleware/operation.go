@@ -84,7 +84,7 @@ func OperationRecord() gin.HandlerFunc {
 		respParam := make(map[string]interface{})
 		// 尝试将响应体解析为 JSON，并保存为 map[string]interface{} 或字符串
 		if err := jsoniter.Unmarshal(respBody.Bytes(), &respParam); err == nil {
-			respData = jsonconv.ObjectToJson(respParam)
+			respData = respParam
 		} else {
 			respData = respBody.String()
 		}

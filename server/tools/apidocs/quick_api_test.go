@@ -53,18 +53,10 @@ func TestApiDocs(t *testing.T) {
 
 	aad := NewAstApiDoc(cfg)
 	aad.Parse()
-	//// 生成ts api定义文件
+	// 生成ts api定义文件
 	aad.GenerateTsApiFiles()
-	////生成ts type定义文件
+	// 生成ts type定义文件
 	aad.GenerateTsTypeFile()
-
-	aad.GenerateGoZeroApiFiles()
-	////
-	aad.GenerateGoZeroTypeFiles()
-	//
-	aad.GenerateGoZeroRpcFiles()
-	//
-	aad.GenerateGoZeroRpcTypeFiles()
 }
 
 func TestExtractFieldsAfterDot(t *testing.T) {

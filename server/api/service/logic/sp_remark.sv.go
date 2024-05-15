@@ -24,10 +24,16 @@ func NewRemarkService(svcCtx *svc.ServiceContext) *RemarkService {
 func (l *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Remark) (data *entity.Remark, err error) {
 	remark.IpAddress = reqCtx.IpAddress
 	remark.IpSource = reqCtx.GetIpSource()
+
+	user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "user_id = ?", reqCtx.UID)
+	if err != nil {
+		return nil, err
+	}
+
 	msg := &mail.EmailMessage{
 		To:      []string{"791422171@qq.com"},
 		Subject: "【blog】新增留言信息",
-		Content: fmt.Sprintf("%v remark: %v", reqCtx.Username, remark.MessageContent),
+		Content: fmt.Sprintf("%v remark: %v", user.Nickname, remark.MessageContent),
 		Type:    0,
 	}
 

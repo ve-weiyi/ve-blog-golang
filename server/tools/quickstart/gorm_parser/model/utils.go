@@ -4,6 +4,29 @@ import (
 	"gorm.io/gorm"
 )
 
+// 获取数据库信息
+func GetSchema(t *gorm.DB) (data *Schema, err error) {
+	var models []*Table
+	tables, err := t.Migrator().GetTables()
+	if err != nil {
+		return nil, err
+	}
+	for _, table := range tables {
+		m, err := GetTable(t, table)
+		if err != nil {
+			return nil, err
+		}
+		models = append(models, m)
+	}
+
+	data = &Schema{
+		SchemaName: t.Migrator().CurrentDatabase(),
+		Tables:     models,
+	}
+
+	return data, nil
+}
+
 // 获取数据库表信息
 func GetTable(t *gorm.DB, tableName string) (data *Table, err error) {
 	types, err := t.Migrator().TableType(tableName)
@@ -12,12 +35,13 @@ func GetTable(t *gorm.DB, tableName string) (data *Table, err error) {
 	}
 
 	var out Table
+	out.SchemaName = t.Migrator().CurrentDatabase()
 	out.TableType = types
 	out.TableName = types.Name()
 	out.TableComment, _ = types.Comment()
 	out.Type = types.Type()
 	out.Columns, err = GetTableColumns(t, tableName)
-
+	out.Indexes, err = GetTableIndexes(t, tableName)
 	return &out, nil
 }
 
@@ -60,8 +84,13 @@ func GetTableColumns(t *gorm.DB, tableName string) (data []*Column, err error) {
 }
 
 // 获取表索引信息
-func GetTableIndex(t *gorm.DB, tableName string) (indexes []gorm.Index, err error) {
-	return t.Migrator().GetIndexes(tableName)
+func GetTableIndexes(t *gorm.DB, tableName string) (data map[string][]*Index, err error) {
+	indexes, err := t.Migrator().GetIndexes(tableName)
+	if err != nil {
+		return nil, err
+	}
+
+	return GroupByColumn(indexes), nil
 }
 
 // GroupByColumn group columns

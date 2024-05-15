@@ -23,18 +23,17 @@ func (s *CommentRouter) InitCommentRouter(publicRouter *gin.RouterGroup, loginRo
 
 	var handler = s.svcCtx.CommentController
 	{
-		loginRouter.POST("comment", handler.CreateComment)                    // 新建Comment
-		loginRouter.PUT("comment", handler.UpdateComment)                     // 更新Comment
-		loginRouter.DELETE("comment/:id", handler.DeleteComment)              // 删除Comment
-		loginRouter.POST("comment/:id/like", handler.LikeComment)             // 点赞评论
-		loginRouter.DELETE("comment/batch_delete", handler.DeleteCommentList) // 批量删除Comment列表
+		loginRouter.POST("/comment/create_comment", handler.CreateComment)            // 新建Comment
+		loginRouter.PUT("/comment/update_comment", handler.UpdateComment)             // 更新Comment
+		loginRouter.DELETE("/comment/delete_comment", handler.DeleteComment)          // 删除Comment
+		loginRouter.POST("/comment/like_comment", handler.LikeComment)                // 点赞评论
+		loginRouter.DELETE("/comment/delete_comment_list", handler.DeleteCommentList) // 批量删除Comment列表
 
-		loginRouter.GET("comment/:id", handler.FindComment)                // 查询Comment
-		loginRouter.POST("comment/list/back", handler.FindCommentBackList) // 分页查询Comment列表
+		loginRouter.POST("/comment/find_comment", handler.FindComment) // 查询Comment
 	}
 	{
-		publicRouter.POST("comment/list", handler.FindCommentList)                // 分页查询Comment列表
-		publicRouter.POST("comment/details_list", handler.FindCommentDetailsList) // 分页获取评论列表
-		publicRouter.POST("comment/:id/reply_list", handler.FindCommentReplyList) // 查询评论回复列表
+		publicRouter.POST("/comment/find_comment_list", handler.FindCommentList)            // 分页查询Comment列表
+		publicRouter.POST("/comment/find_comment_reply_list", handler.FindCommentReplyList) // 查询评论回复列表
+		loginRouter.POST("/comment/find_comment_back_list", handler.FindCommentBackList)    // 分页查询Comment列表
 	}
 }

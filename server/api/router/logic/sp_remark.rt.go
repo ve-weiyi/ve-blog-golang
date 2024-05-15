@@ -23,12 +23,12 @@ func (s *RemarkRouter) InitRemarkRouter(publicRouter *gin.RouterGroup, loginRout
 
 	var handler = s.svcCtx.RemarkController
 	{
-		loginRouter.POST("remark", handler.CreateRemark)       // 新建Remark
-		loginRouter.PUT("remark", handler.UpdateRemark)        // 更新Remark
-		loginRouter.DELETE("remark/:id", handler.DeleteRemark) // 删除Remark
-		loginRouter.GET("remark/:id", handler.FindRemark)      // 查询Remark
+		loginRouter.POST("/remark/create_remark", handler.CreateRemark)   // 新建Remark
+		loginRouter.PUT("/remark/update_remark", handler.UpdateRemark)    // 更新Remark
+		loginRouter.DELETE("/remark/delete_remark", handler.DeleteRemark) // 删除Remark
+		loginRouter.POST("/remark/find_remark", handler.FindRemark)       // 查询Remark
 
-		loginRouter.DELETE("remark/batch_delete", handler.DeleteRemarkList) // 批量删除Remark列表
-		loginRouter.POST("remark/list", handler.FindRemarkList)             // 分页查询Remark列表
+		loginRouter.DELETE("/remark/delete_remark_list", handler.DeleteRemarkList) // 批量删除Remark列表
+		loginRouter.POST("/remark/find_remark_list", handler.FindRemarkList)       // 分页查询Remark列表
 	}
 }

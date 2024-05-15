@@ -17,6 +17,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
@@ -35,11 +36,10 @@ func NewBaseController(svc *svc.ControllerContext) BaseController {
 func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, error) {
 
 	reqCtx := &request.Context{}
-	reqCtx.Token = ctx.GetHeader("token")
-	reqCtx.UID = cast.ToInt(ctx.GetHeader("uid"))
-	reqCtx.Username = ctx.GetString("username")
+	reqCtx.Token = ctx.GetHeader(constant.HeaderXAuthToken)
+	reqCtx.UID = cast.ToInt(ctx.GetHeader(constant.HeaderXUserID))
 	reqCtx.IpAddress = ctx.ClientIP()
-	reqCtx.Agent = ctx.Request.UserAgent()
+	reqCtx.UserAgent = ctx.Request.UserAgent()
 	reqCtx.Context = ctx.Request.Context()
 	return reqCtx, nil
 }

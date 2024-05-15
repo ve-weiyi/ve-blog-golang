@@ -35,9 +35,9 @@ type ArticleDTO struct {
 }
 
 // 文章系别列表
-type ArticleConditionDTO struct {
-	ArticleDTOList []*ArticleHome `json:"article_dto_list"` // 文章列表
-	ConditionName  string         `json:"condition_name"`   // 条件名
+type ArticleClassifyResp struct {
+	ArticleList   []*ArticleHome `json:"article_list"`   // 文章列表
+	ConditionName string         `json:"condition_name"` // 条件名
 }
 
 // 文章详情，包含文章内容，上一篇文章，下一篇文章，推荐文章列表，最新文章列表

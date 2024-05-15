@@ -14,13 +14,14 @@ RUN apk add --no-cache tzdata
 WORKDIR /
 
 # 下载项目
+RUN git init
 RUN git clone https://github.com/ve-weiyi/ve-blog-golang.git
 
 # 切换到项目目录
 WORKDIR /ve-blog-golang/zero
 
 # 切换到目标分支并拉取最新代码
-RUN git checkout feature/1.0.0/go-zero
+RUN git checkout feature/v1.0.0/go-zero
 RUN go mod tidy
 
 COPY service/blog/rpc/etc /app/rpc/etc
