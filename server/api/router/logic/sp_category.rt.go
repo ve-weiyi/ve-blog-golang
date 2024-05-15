@@ -23,13 +23,12 @@ func (s *CategoryRouter) InitCategoryRouter(publicRouter *gin.RouterGroup, login
 
 	var handler = s.svcCtx.CategoryController
 	{
-		loginRouter.POST("category", handler.CreateCategory)                    // 新建Category
-		loginRouter.PUT("category", handler.UpdateCategory)                     // 更新Category
-		loginRouter.DELETE("category/:id", handler.DeleteCategory)              // 删除Category
-		loginRouter.DELETE("category/batch_delete", handler.DeleteCategoryList) // 批量删除Category列表
+		loginRouter.POST("/category/create_category", handler.CreateCategory)            // 新建Category
+		loginRouter.PUT("/category/update_category", handler.UpdateCategory)             // 更新Category
+		loginRouter.DELETE("/category/delete_category", handler.DeleteCategory)          // 删除Category
+		loginRouter.DELETE("/category/delete_category_list", handler.DeleteCategoryList) // 批量删除Category列表
 
-		publicRouter.GET("category/:id", handler.FindCategory)                      // 查询Category
-		publicRouter.POST("category/list", handler.FindCategoryList)                // 分页查询Category列表
-		publicRouter.POST("category/details_list", handler.FindCategoryDetailsList) // 查询Category详情列表
+		publicRouter.POST("/category/find_category", handler.FindCategory)          // 查询Category
+		publicRouter.POST("/category/find_category_list", handler.FindCategoryList) // 分页查询Category列表
 	}
 }

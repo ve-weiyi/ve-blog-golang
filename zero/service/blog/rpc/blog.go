@@ -54,6 +54,7 @@ func main() {
 
 	var c config.Config
 	if *configFile != "" {
+		log.Println("load config from file: " + *configFile)
 		conf.MustLoad(*configFile, &c)
 	} else {
 		nc := nacos.NacosConfig{

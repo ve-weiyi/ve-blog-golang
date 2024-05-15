@@ -48,7 +48,7 @@ etcd
 ```
 
 ```sh
-go run service/blog/rpc/blog.go -f service/blog/rpc/etc/blog.yaml
+go run service/blog/rpc/blog.go -f service/blog/rpc/etc/blog-rpc.yaml
 ```
 
 ```sh

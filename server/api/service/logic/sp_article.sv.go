@@ -161,43 +161,75 @@ func (l *ArticleService) UpdateArticleTop(reqCtx *request.Context, req *request.
 	return l.svcCtx.ArticleRepository.UpdateArticleTop(reqCtx, req.ID, req.IsTop)
 }
 
-// 文章归类
-func (l *ArticleService) FindArticleSeries(reqCtx *request.Context, req *request.ArticleConditionReq) (data *response.ArticleConditionDTO, err error) {
-	data = &response.ArticleConditionDTO{}
+// 文章归类 category
+func (l *ArticleService) FindArticleClassifyCategory(reqCtx *request.Context, req *request.ArticleClassifyReq) (data *response.ArticleClassifyResp, err error) {
+	data = &response.ArticleClassifyResp{}
 	// 查询文章列表
 	var articles []*entity.Article
 
-	if req.CategoryID != 0 {
-		category, err := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", req.CategoryID)
-		if err != nil {
-			return nil, err
-		}
-		articles, err = l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
-		data.ConditionName = category.CategoryName
-	} else if req.TagID != 0 {
-		tag, err := l.svcCtx.TagRepository.First(reqCtx, "id = ?", req.TagID)
-		if err != nil {
-			return nil, err
-		}
-		articles, err = l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
-		data.ConditionName = tag.TagName
+	category, err := l.svcCtx.CategoryRepository.First(reqCtx, "category_name = ?", req.ClassifyName)
+	if err != nil {
+		return nil, err
 	}
+
+	articles, err = l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	data.ConditionName = category.CategoryName
 
 	var list []*response.ArticleHome
 	for _, article := range articles {
 		//查询文章分类
-		category, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
+		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
 		// 查询文章标签
 		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
 
 		articleDTO := &response.ArticleHome{}
 		articleDTO.ArticleDTO = convertArticle(article)
-		articleDTO.ArticleCategory = convertCategory(category)
+		articleDTO.ArticleCategory = convertCategory(ctg)
 		articleDTO.ArticleTagList = convertTagList(tags)
 		list = append(list, articleDTO)
 	}
 
-	data.ArticleDTOList = list
+	data.ArticleList = list
+	return data, err
+}
+
+// 文章归类 tag
+func (l *ArticleService) FindArticleClassifyTag(reqCtx *request.Context, req *request.ArticleClassifyReq) (data *response.ArticleClassifyResp, err error) {
+	data = &response.ArticleClassifyResp{}
+	// 查询文章列表
+	var articles []*entity.Article
+
+	tag, err := l.svcCtx.TagRepository.First(reqCtx, "tag_name = ?", req.ClassifyName)
+	if err != nil {
+		return nil, err
+	}
+
+	articles, err = l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	data.ConditionName = tag.TagName
+
+	var list []*response.ArticleHome
+	for _, article := range articles {
+		//查询文章分类
+		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
+		// 查询文章标签
+		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
+
+		articleDTO := &response.ArticleHome{}
+		articleDTO.ArticleDTO = convertArticle(article)
+		articleDTO.ArticleCategory = convertCategory(ctg)
+		articleDTO.ArticleTagList = convertTagList(tags)
+		list = append(list, articleDTO)
+	}
+
+	data.ArticleList = list
 	return data, err
 }
 
@@ -217,7 +249,7 @@ func (l *ArticleService) FindArticleArchives(reqCtx *request.Context, page *requ
 }
 
 // 文章推荐
-func (l *ArticleService) FindArticleDetails(reqCtx *request.Context, req *request.IdReq) (data *response.ArticlePageDetailsDTO, err error) {
+func (l *ArticleService) FindArticleRecommend(reqCtx *request.Context, req *request.IdReq) (data *response.ArticlePageDetailsDTO, err error) {
 	// 查询id对应文章
 	article, err := l.svcCtx.ArticleRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {

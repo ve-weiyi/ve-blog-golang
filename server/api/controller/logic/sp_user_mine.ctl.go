@@ -52,7 +52,7 @@ func (s *UserController) FindUserLoginHistoryList(c *gin.Context) {
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
 // @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
-// @Router		/user/login_history/batch_delete [delete]
+// @Router		/user/login_history/delete_login_history_list [delete]
 func (s *UserController) DeleteUserLoginHistoryList(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -133,7 +133,7 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Success		200		{object}	response.Response{data=response.UserInfo}	"返回信息"
-// @Router		/user/info [get]
+// @Router		/user/get_user_info [get]
 func (s *UserController) GetUserInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -159,7 +159,7 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		data	body		request.UserInfoReq					true	"请求body"
 // @Success		200		{object}	response.Response{data=entity.UserInformation}	"返回信息"
-// @Router		/user/info [post]
+// @Router		/user/update_user_info [post]
 func (s *UserController) UpdateUserInfo(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {
@@ -192,7 +192,7 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 // @Param		uid		header		string									false	"uid"
 // @Param		file	formData	file									true	"文件"
 // @Success		200		{object}	response.Response{data=entity.UserInformation}	"返回信息"
-// @Router		/user/avatar [post]
+// @Router		/user/update_user_avatar [post]
 func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
 	if err != nil {

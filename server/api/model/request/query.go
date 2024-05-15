@@ -37,10 +37,10 @@ type PageSort struct {
 
 // 查询条件
 type PageCondition struct {
-	Field    string      `json:"field"`                      // 表字段
-	Value    interface{} `json:"value"`                      // 值
-	Operator string      `json:"rule" enums:"=,like,in,<,>"` // 比较运算符（Comparison Operators）。规则 =,like,in,<,>
-	Logic    string      `json:"flag" enums:"and,or"`        // 逻辑运算符（Logical Operators）。标识 and、or,默认and
+	Field    string      `json:"field"`                          // 表字段
+	Value    interface{} `json:"value"`                          // 值
+	Operator string      `json:"operator" enums:"=,like,in,<,>"` // 比较运算符（Comparison Operators）。规则 =,like,in,<,>
+	Logic    string      `json:"logic" enums:"and,or"`           // 逻辑运算符（Logical Operators）。标识 and、or,默认and
 }
 
 // 分页语句

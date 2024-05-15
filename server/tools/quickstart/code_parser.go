@@ -5,10 +5,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/field"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/model"
+	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 // AutoCodeModel 初始版本自动化代码工具
