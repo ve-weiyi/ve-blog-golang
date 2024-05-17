@@ -1,12 +1,9 @@
 package middlewarex
 
 import (
-	"context"
 	"net/http"
 	"strings"
 
-	"github.com/zeromicro/go-zero/core/logx"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/constantx"
@@ -41,23 +38,4 @@ func CtxMetadataHandler(next http.HandlerFunc) http.HandlerFunc {
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	}
-}
-
-func AppendToOutgoingContextInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-	md, ok := metadata.FromIncomingContext(ctx)
-	if ok {
-		var pairs []string
-		for k, v := range md {
-			for _, value := range v {
-				pairs = append(pairs, k, value)
-			}
-		}
-		ctx = metadata.AppendToOutgoingContext(ctx, pairs...)
-	}
-
-	resp, err := handler(ctx, req)
-	if err != nil {
-		logx.Error("grpc server error", err)
-	}
-	return resp, err
 }
