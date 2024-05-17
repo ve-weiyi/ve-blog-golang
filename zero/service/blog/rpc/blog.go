@@ -8,6 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/apirpc"
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/articlerpc"
@@ -110,6 +111,8 @@ func main() {
 	})
 	defer s.Stop()
 
+	s.AddUnaryInterceptors(interceptorx.ServerErrorInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerMetaInterceptor)
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }
