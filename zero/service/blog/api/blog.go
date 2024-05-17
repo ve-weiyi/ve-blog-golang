@@ -60,7 +60,7 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	server.Use(middlewarex.CtxMetadataHandler)
-	server.Use(middlewarex.JwtHandler)
+	server.Use(middlewarex.JwtAuthHandler)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
