@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/apirpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/articlerpc"
@@ -57,7 +58,7 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	var options []zrpc.ClientOption
-	options = append(options)
+	options = append(options, zrpc.WithUnaryClientInterceptor(interceptorx.ClientLogInterceptor))
 
 	return &ServiceContext{
 		Config:  c,
