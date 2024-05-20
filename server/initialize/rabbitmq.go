@@ -5,9 +5,9 @@ import (
 	"log"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 )
 
 const (

@@ -3,8 +3,8 @@ package initialize
 import (
 	"fmt"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
 )
 
 func JwtToken() {

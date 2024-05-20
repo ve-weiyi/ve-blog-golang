@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 

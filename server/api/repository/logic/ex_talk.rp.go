@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
 )
 
 // 点赞说说

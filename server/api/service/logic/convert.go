@@ -3,11 +3,12 @@ package logic
 import (
 	"math/rand"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {

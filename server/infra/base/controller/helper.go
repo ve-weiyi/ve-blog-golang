@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin/render"
 	"github.com/go-sql-driver/mysql"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
 // mysql 错误码

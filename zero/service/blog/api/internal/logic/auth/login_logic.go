@@ -8,7 +8,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"

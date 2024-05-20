@@ -12,13 +12,14 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 var enforcer *casbin.SyncedEnforcer
@@ -87,9 +88,13 @@ func TestCasbin(t *testing.T) {
 	//enforcer.AddPermissionForUser("hi", "blog", "/api/v1/role/list", "GET")
 	//log.Println(enforcer.Enforce("hi", "blog", "/api/v1/role/list", "GET"))
 
-	log.Println("-->", enforcer.GetPolicy())
-	log.Println("-->", enforcer.GetAllSubjects())
-	log.Println("-->", enforcer.GetAllRoles())
+	policy, err := enforcer.GetPolicy()
+	log.Println("-->", policy, err)
+	subjects, err := enforcer.GetAllSubjects()
+	log.Println("-->", subjects, err)
+	roles, err := enforcer.GetAllRoles()
+	log.Println("-->", roles, err)
+
 	log.Println(enforcer.GetAllDomains())
 	log.Println(enforcer.GetAllActions())
 	log.Println(enforcer.SavePolicy())
@@ -154,7 +159,8 @@ func ResetAllPolicy(db *gorm.DB, rbac *casbin.SyncedEnforcer) {
 
 	}
 
-	log.Println("--->", rbac.GetPolicy())
+	policy, err := enforcer.GetPolicy()
+	log.Println("-->", policy, err)
 }
 
 // 获取角色菜单权限
@@ -183,8 +189,6 @@ func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenuDTO, erro
 			Name:      item.Name,
 			Path:      item.Path,
 			Component: item.Component,
-			Icon:      item.Icon,
-			IsHidden:  item.IsHidden,
 		}
 		res = append(res, menu)
 	}

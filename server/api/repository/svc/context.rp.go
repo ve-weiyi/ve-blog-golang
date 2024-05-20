@@ -4,9 +4,9 @@ import (
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 // 注册需要用到的gorm、redis、model

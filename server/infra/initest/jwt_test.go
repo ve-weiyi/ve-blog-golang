@@ -7,9 +7,10 @@ import (
 
 	"github.com/golang-jwt/jwt"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func TestJwt(t *testing.T) {
