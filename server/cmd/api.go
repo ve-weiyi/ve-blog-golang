@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
@@ -59,6 +59,7 @@ func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 		NameSpaceID: "dev",
 		Group:       "veweiyi.cn",
 		DataID:      "ve-blog-golang",
+		RuntimeDir:  "runtime/nacos",
 		LogLevel:    "warn",
 		Timeout:     5000,
 	}
@@ -71,9 +72,26 @@ func (s *ApiCmd) persistentPreRun(cmd *cobra.Command, args []string) {
 func (s *ApiCmd) RunApi() {
 	if s.useNacos {
 		log.Println("读取配置文件...使用nacos")
-		err := nacos.New(s.nacosCfg).Init(s.OnConfigChange)
+		nc := nacos.New(s.nacosCfg)
+
+		// 获取配置文件
+		content, err := nc.GetConfig()
 		if err != nil {
 			panic("nacos config read failed " + err.Error())
+		}
+
+		initialize.InitConfigByContent(content)
+		s.OnInitialize()
+
+		// 监听配置文件变化
+		err = nc.AddListener(func(content string) error {
+			log.Println("更新配置文件...")
+			initialize.InitConfigByContent(content)
+			s.OnInitialize()
+			return nil
+		})
+		if err != nil {
+			panic("nacos config listener failed " + err.Error())
 		}
 	} else {
 		log.Println("读取配置文件..使用文件路径")
@@ -81,17 +99,6 @@ func (s *ApiCmd) RunApi() {
 		initialize.InitConfigByFile(s.configFile)
 		s.OnInitialize()
 	}
-}
-
-func (s *ApiCmd) OnConfigChange(content string) error {
-	err := initialize.InitConfigByContent(content)
-	if err != nil {
-		return err
-	}
-
-	log.Println("更新配置文件...")
-	s.OnInitialize()
-	return nil
 }
 
 func (s *ApiCmd) OnInitialize() {

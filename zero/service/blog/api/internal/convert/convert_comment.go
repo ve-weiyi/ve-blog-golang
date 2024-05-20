@@ -5,7 +5,8 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
@@ -62,7 +63,7 @@ func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
 		PageSize:   pageSize,
 		Sorts:      sorts,
 		Conditions: conditions,
-		Args:       nil,
+		Args:       args,
 	}
 	return
 }

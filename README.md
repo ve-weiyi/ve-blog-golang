@@ -28,8 +28,8 @@ ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离
 
 博客后端服务使用golang语言。项目有两种框架：gin和go-zero
 
-+ server/[README.md](server%2FREADME.md) 使用[gin](https://github.com/gin-gonic/gin)框架开发。gin框架的优点是轻量、快速、易用，适合快速开发API接口，适用于golang后端初学者。
-+ zero/[README.md](server%2FREADME.md) 使用[go-zero](https://github.com/zeromicro/go-zero)框架开发。go-zero框架的优点是功能齐全，自带了多种中间价，适合大型项目和复杂业务的解耦。
++ server/[README.md](server/README.md) 使用[gin](https://github.com/gin-gonic/gin)框架开发。gin框架的优点是轻量、快速、易用，适合快速开发API接口，适用于golang后端初学者。
++ zero/[README.md](server/README.md) 使用[go-zero](https://github.com/zeromicro/go-zero)框架开发。go-zero框架的优点是功能齐全，自带了多种中间价，适合大型项目和复杂业务的解耦。
 
 1.主流框架，cobra、viper、gorm、zap。   
 2.主流中间件，nacos、mysql、redis、rabbitmq、chatgpt服务。    
@@ -46,14 +46,17 @@ ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离
 
 ### 预览页面
 
-![img.png](images%2Fimg.png)
+![img.png](images/img.png)
 
-![img_1.png](images%2Fimg_1.png)
+![img_1.png](images/img_1.png)
 
-## 项目启动
+## 版本发布记录
+**格式**
 
-### 1.拉取submodule
+主版本号.次版本号.修订号
 
-```shell
-git submodule update
-```
+**说明**
+
+1. 主版本号：项目框架不变。
+2. 次版本号：相同次版本号，接口入参、出参不变。可以与相同次版本号的服务互相调用。
+3. 修订号：修改了一些文件内容，一般是移动、修改、删除文件等。
