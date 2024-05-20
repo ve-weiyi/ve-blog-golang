@@ -21,12 +21,14 @@ require (
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
 	github.com/unrolled/secure v1.14.0
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-00010101000000-000000000000
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20240520074631-990d45a21b18
 	go.uber.org/zap v1.27.0
 	gorm.io/driver/mysql v1.5.6
 	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.10
 )
+
+//replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -150,5 +152,3 @@ require (
 	modernc.org/memory v1.5.0 // indirect
 	modernc.org/sqlite v1.20.3 // indirect
 )
-
-replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit

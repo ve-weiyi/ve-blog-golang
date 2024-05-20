@@ -8,7 +8,7 @@ require (
 	github.com/redis/go-redis/v9 v9.5.1
 	github.com/spf13/cast v1.6.0
 	github.com/stretchr/testify v1.9.0
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-00010101000000-000000000000
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20240520074631-990d45a21b18
 	github.com/zeromicro/go-zero v1.6.4
 	github.com/zeromicro/go-zero/tools/goctl v1.6.4
 	go.opentelemetry.io/otel/trace v1.19.0
@@ -17,6 +17,8 @@ require (
 	gorm.io/driver/mysql v1.5.6
 	gorm.io/gorm v1.25.10
 )
+
+//replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -134,5 +136,3 @@ require (
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
-
-replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
