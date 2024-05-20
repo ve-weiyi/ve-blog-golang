@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserRolesLogic struct {
+type FindUserRolesLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserRolesLogic {
-	return &GetUserRolesLogic{
+func NewFindUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserRolesLogic {
+	return &FindUserRolesLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewGetUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 // 获取用户角色信息
-func (l *GetUserRolesLogic) GetUserRoles(in *blog.UserReq) (*blog.RolePageResp, error) {
+func (l *FindUserRolesLogic) FindUserRoles(in *blog.UserReq) (*blog.RolePageResp, error) {
 	uid := in.UserId
 
 	// 查用户

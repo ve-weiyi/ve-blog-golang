@@ -6,9 +6,11 @@ import (
 
 	"github.com/golang-jwt/jwt"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
-	mail2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
-	oauth2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
@@ -20,8 +22,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
 type AuthService struct {
@@ -102,7 +102,7 @@ func (l *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (
 	// 验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
-		if !l.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
+		if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
 			return nil, apierr.ErrorCaptchaVerify
 		}
 	}
@@ -153,20 +153,20 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 		return nil, apierr.ErrorUserAlreadyExist
 	}
 
-	// 获取code
+	// 验证code是否正确
 	key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
-	code := l.svcCtx.Captcha.GetCodeCaptcha(key)
-	data := mail2.CaptchaEmail{
+	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	data := mail.CaptchaEmail{
 		Username: req.Username,
 		Code:     code,
 	}
 	// 组装邮件内容
-	content, err := temputil.TempParseString(mail2.TempRegister, data)
+	content, err := temputil.TempParseString(mail.TempRegister, data)
 	if err != nil {
 		return nil, err
 	}
 
-	msg := &mail2.EmailMessage{
+	msg := &mail.EmailMessage{
 		To:      []string{req.Username},
 		Subject: "注册邮件提醒",
 		Content: content,
@@ -181,7 +181,7 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 }
 
 func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.OauthLoginUrl, err error) {
-	var auth oauth2.Oauth
+	var auth oauth.Oauth
 	cfg := l.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.OauthQQ:
@@ -201,7 +201,7 @@ func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 }
 
 func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.LoginResp, err error) {
-	var auth oauth2.Oauth
+	var auth oauth.Oauth
 	cfg := l.svcCtx.Config.Oauth
 	switch req.Platform {
 	case constant.OauthQQ:
@@ -235,7 +235,7 @@ func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	return l.oauthLogin(reqCtx, userOauth)
 }
 
-func (l *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *oauth2.UserResult) (resp *entity.UserOauth, err error) {
+func (l *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *oauth.UserResult) (resp *entity.UserOauth, err error) {
 	// 用户未注册,先注册用户
 	pwd := crypto.BcryptHash(info.EnName)
 	username := info.Email

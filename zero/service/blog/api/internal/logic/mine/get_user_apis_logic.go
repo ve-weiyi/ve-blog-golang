@@ -33,7 +33,7 @@ func (l *GetUserApisLogic) GetUserApis(reqCtx *types.RestHeader, req *types.Empt
 		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
 	}
 
-	out, err := l.svcCtx.UserRpc.GetUserApis(l.ctx, in)
+	out, err := l.svcCtx.UserRpc.FindUserApis(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

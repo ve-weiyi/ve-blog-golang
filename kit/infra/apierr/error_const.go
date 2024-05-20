@@ -1,7 +1,7 @@
 package apierr
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr/codex"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 )
 
 var (

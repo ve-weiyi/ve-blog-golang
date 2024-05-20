@@ -12,6 +12,8 @@ import (
 	"github.com/spf13/cast"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -19,8 +21,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
 type BaseController struct {

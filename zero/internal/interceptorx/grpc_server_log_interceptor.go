@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func ServerLogUnaryInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+func ServerLogInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	resp, err := handler(ctx, req)
 	defer func() {
 		reqBs, _ := json.Marshal(req)

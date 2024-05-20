@@ -1,10 +1,15 @@
 package responsex
 
 import (
+	"encoding/json"
 	"net/http"
+	"net/rpc"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"go.opentelemetry.io/otel/trace"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 )
 
 type Body struct {
@@ -19,14 +24,47 @@ type Body struct {
 func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err error) {
 	// 1. err不为nil的情况，匹配错误码返回
 	if err != nil {
-		body := Body{
-			Code:    http.StatusInternalServerError,
-			Message: err.Error(),
-			Data:    resp,
-			TraceId: GetTraceId(r),
+
+		switch e := err.(type) {
+		case rpc.ServerError:
+
+		case apierr.ApiError:
+			body := Body{
+				Code:    e.Code(),
+				Message: e.Error(),
+				Data:    "服务错误",
+				TraceId: GetTraceId(r),
+			}
+			httpx.OkJsonCtx(r.Context(), w, body)
+			return
+		case *json.UnmarshalTypeError:
+			body := Body{
+				Code:    http.StatusInternalServerError,
+				Message: e.Error(),
+				Data:    "服务错误",
+				TraceId: GetTraceId(r),
+			}
+			httpx.OkJsonCtx(r.Context(), w, body)
+			return
+		case *mysql.MySQLError:
+			body := Body{
+				Code:    http.StatusInternalServerError,
+				Message: e.Error(),
+				Data:    "服务错误",
+				TraceId: GetTraceId(r),
+			}
+			httpx.OkJsonCtx(r.Context(), w, body)
+			return
+		default:
+			body := Body{
+				Code:    http.StatusInternalServerError,
+				Message: err.Error(),
+				Data:    "数据库错误",
+				TraceId: GetTraceId(r),
+			}
+			httpx.OkJsonCtx(r.Context(), w, body)
+			return
 		}
-		httpx.OkJsonCtx(r.Context(), w, body)
-		return
 	}
 
 	// 2. err为nil的情况，返回成功响应

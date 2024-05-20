@@ -10,7 +10,7 @@ type (
 
     User {
         Id int64 `json:"id,optional"`
-        Username string `json:"username,optional"`
+        Username string `json:"username"`
         Nickname string `json:"nickname,optional"`
         Avatar string `json:"avatar,optional"`
         Intro string `json:"intro,optional"`

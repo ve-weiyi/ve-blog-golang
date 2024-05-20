@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserInfoLogic struct {
+type FindUserInfoLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInfoLogic {
-	return &GetUserInfoLogic{
+func NewFindUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserInfoLogic {
+	return &FindUserInfoLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 // 获取用户信息
-func (l *GetUserInfoLogic) GetUserInfo(in *blog.UserReq) (*blog.UserInfoResp, error) {
+func (l *FindUserInfoLogic) FindUserInfo(in *blog.UserReq) (*blog.UserInfoResp, error) {
 	uid := in.UserId
 
 	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)

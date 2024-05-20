@@ -24,7 +24,7 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 // 登出
-func (l *LogoutLogic) Logout(in *blog.EmptyReq) (*blog.EmptyResp, error) {
+func (l *LogoutLogic) Logout(in *blog.LogoutReq) (*blog.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &blog.EmptyResp{}, nil

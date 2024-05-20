@@ -24,12 +24,12 @@ import "module/upload.api"
 type (
 	PingReq  {}
 	PingResp {
-		Env         string            `json:"env"`
-		Name        string            `json:"name"`
-		Version     string            `json:"version"`
-		Runtime     string            `json:"runtime"`
-		Description string            `json:"description"`
-		RpcStatus   map[string]string `json:"rpc_status"`
+		Env         string   `json:"env"`
+		Name        string   `json:"name"`
+		Version     string   `json:"version"`
+		Runtime     string   `json:"runtime"`
+		Description string   `json:"description"`
+		RpcStatus   []string `json:"rpc_status"`
 	}
 )
 

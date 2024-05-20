@@ -28,7 +28,7 @@ require (
 	gorm.io/gorm v1.25.10
 )
 
-//replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
+replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect

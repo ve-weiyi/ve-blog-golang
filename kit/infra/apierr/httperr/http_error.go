@@ -1,7 +1,7 @@
 package httperr
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 )
 
 // 定义ERROR常量

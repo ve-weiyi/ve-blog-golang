@@ -52,6 +52,7 @@ var configFile = flag.String("f", "", "the config file")
 func main() {
 	flag.Parse()
 
+	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var c config.Config
 	if *configFile != "" {
 		log.Println("load config from file: " + *configFile)
@@ -110,7 +111,8 @@ func main() {
 	})
 	defer s.Stop()
 
-	s.AddUnaryInterceptors(interceptorx.ServerMetaUnaryInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerErrorInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerMetaInterceptor)
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }

@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/grpc/metadata"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/constantx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 )
 
 // CtxMetadataHandel 将http header 放入 ctx 里面使用 metadata 保存.
@@ -27,7 +27,7 @@ func CtxMetadataHandler(next http.HandlerFunc) http.HandlerFunc {
 				}
 				keyLowercase := strings.ToLower(k)
 				//logx.Infof("add k=%s, v=%+v", keyLowercase, value)
-				for _, key := range constantx.HeaderFields {
+				for _, key := range constant.HeaderFields {
 					if key == keyLowercase {
 						md.Set(keyLowercase, value)
 					}

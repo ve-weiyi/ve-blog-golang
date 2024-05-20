@@ -6,7 +6,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/constantx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 )
 
 // jwt handler
@@ -26,10 +26,10 @@ func JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
 				}
 				keyLowercase := strings.ToLower(k)
 
-				if keyLowercase == constantx.HeaderXAuthToken {
+				if keyLowercase == constant.HeaderXAuthToken {
 					token = value
 				}
-				if keyLowercase == constantx.HeaderXUserID {
+				if keyLowercase == constant.HeaderXUserID {
 					uid = value
 				}
 			}
