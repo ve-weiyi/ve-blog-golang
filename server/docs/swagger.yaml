@@ -831,7 +831,7 @@ definitions:
       article_rank_dto_list:
         description: 文章浏览量排行
         items:
-          $ref: '#/definitions/response.ArticleRankDTO'
+          $ref: '#/definitions/response.ArticleViewRankDTO'
         type: array
       article_statistics_list:
         description: 文章统计列表
@@ -1093,7 +1093,7 @@ definitions:
         description: 文章ID
         type: integer
     type: object
-  response.ArticleRankDTO:
+  response.ArticleViewRankDTO:
     properties:
       article_title:
         description: 文章标题

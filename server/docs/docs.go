@@ -9693,7 +9693,7 @@ const docTemplate = `{
                     "description": "文章浏览量排行",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/response.ArticleRankDTO"
+                        "$ref": "#/definitions/response.ArticleViewRankDTO"
                     }
                 },
                 "article_statistics_list": {
@@ -10064,7 +10064,7 @@ const docTemplate = `{
                 }
             }
         },
-        "response.ArticleRankDTO": {
+        "response.ArticleViewRankDTO": {
             "type": "object",
             "properties": {
                 "article_title": {

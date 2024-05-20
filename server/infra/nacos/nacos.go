@@ -2,6 +2,7 @@ package nacos
 
 import (
 	"github.com/nacos-group/nacos-sdk-go/v2/clients"
+	"github.com/nacos-group/nacos-sdk-go/v2/clients/config_client"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/v2/common/logger"
 	"github.com/nacos-group/nacos-sdk-go/v2/vo"
@@ -21,33 +22,27 @@ type NacosConfig struct {
 }
 
 type NacosReader struct {
-	cfg *NacosConfig
+	cfg    *NacosConfig
+	client config_client.IConfigClient
 }
 
 func New(cfg *NacosConfig) *NacosReader {
-	return &NacosReader{cfg: cfg}
-}
-
-func (n *NacosReader) Init(listener func(content string) error) error {
-	var dataId, group string
-	dataId = n.cfg.DataID
-	group = n.cfg.Group
 
 	//create ServerConfig
 	sc := []constant.ServerConfig{
-		*constant.NewServerConfig(n.cfg.IP, n.cfg.Port),
+		*constant.NewServerConfig(cfg.IP, cfg.Port),
 	}
 
 	//create ClientConfig
 	cc := constant.NewClientConfig(
-		constant.WithUsername(n.cfg.UserName),
-		constant.WithPassword(n.cfg.Password),
-		constant.WithNamespaceId(n.cfg.NameSpaceID),
+		constant.WithUsername(cfg.UserName),
+		constant.WithPassword(cfg.Password),
+		constant.WithNamespaceId(cfg.NameSpaceID),
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
-		constant.WithCacheDir(n.cfg.RuntimeDir+"/cache"),
-		constant.WithLogDir(n.cfg.RuntimeDir+"/logs"),
-		constant.WithLogLevel("debug"),
+		constant.WithCacheDir(cfg.RuntimeDir+"/cache"),
+		constant.WithLogDir(cfg.RuntimeDir+"/logs"),
+		constant.WithLogLevel(cfg.LogLevel),
 	)
 
 	// create config client
@@ -58,33 +53,38 @@ func (n *NacosReader) Init(listener func(content string) error) error {
 		},
 	)
 	if err != nil {
-		return err
+		panic(err)
 	}
 
+	return &NacosReader{
+		cfg:    cfg,
+		client: client,
+	}
+}
+
+func (n *NacosReader) GetConfig() (string, error) {
 	//get config
-	content, err := client.GetConfig(vo.ConfigParam{
-		DataId: dataId,
-		Group:  group,
+	content, err := n.client.GetConfig(vo.ConfigParam{
+		DataId: n.cfg.DataID,
+		Group:  n.cfg.Group,
 	})
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	//log.Println("nacos get config:\n" + content)
 	logger.GetLogger().Info("nacos get config:\n" + content)
+	return content, nil
+}
 
-	err = listener(content)
-	if err != nil {
-		return err
-	}
+func (n *NacosReader) AddListener(listener func(content string) error) error {
 
 	//Listen config change,key=dataId+group+namespaceId.
-	err = client.ListenConfig(vo.ConfigParam{
-		DataId: dataId,
-		Group:  group,
+	err := n.client.ListenConfig(vo.ConfigParam{
+		DataId: n.cfg.DataID,
+		Group:  n.cfg.Group,
 		OnChange: func(namespace, group, dataId, data string) {
 			logger.GetLogger().Info("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
-			if err = listener(data); err != nil {
+			if err := listener(data); err != nil {
 				logger.GetLogger().Error("nacos config changed reload failed")
 			}
 		},
