@@ -7,7 +7,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/conf"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/apirpc"
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/articlerpc"
@@ -69,10 +70,17 @@ func main() {
 			Timeout:     5000,
 		}
 
-		nacos.New(&nc).Init(func(content string) error {
-			log.Println("nacos get config:\n" + content)
-			return conf.LoadFromYamlBytes([]byte(content), &c)
-		})
+		nr := nacos.New(&nc)
+
+		content, err := nr.GetConfig()
+		if err != nil {
+			log.Fatal("nacos get config fail", err)
+		}
+
+		err = conf.LoadFromYamlBytes([]byte(content), &c)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	ctx := svc.NewServiceContext(c)
@@ -102,6 +110,7 @@ func main() {
 	})
 	defer s.Stop()
 
+	s.AddUnaryInterceptors(interceptorx.ServerMetaUnaryInterceptor)
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }

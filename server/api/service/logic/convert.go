@@ -3,11 +3,12 @@ package logic
 import (
 	"math/rand"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/config/properties"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
@@ -110,10 +111,10 @@ func convertUniqueViewList(list []*entity.UniqueView) []*response.UniqueViewDTO 
 	return out
 }
 
-func convertArticleRankList(list []*entity.Article) []*response.ArticleRankDTO {
-	var out []*response.ArticleRankDTO
+func convertArticleRankList(list []*entity.Article) []*response.ArticleViewRankDTO {
+	var out []*response.ArticleViewRankDTO
 	for _, item := range list {
-		at := &response.ArticleRankDTO{
+		at := &response.ArticleViewRankDTO{
 			ID:           item.ID,
 			ArticleTitle: item.ArticleTitle,
 			Count:        rand.Int63n(100),

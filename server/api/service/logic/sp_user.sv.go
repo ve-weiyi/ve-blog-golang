@@ -6,18 +6,19 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
+	mail2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr/httperr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/mail"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/temputil"
 )
 
 type UserService struct {
@@ -185,18 +186,18 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	// 获取code
 	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
 	code := l.svcCtx.Captcha.GetCodeCaptcha(key)
-	data := mail.CaptchaEmail{
+	data := mail2.CaptchaEmail{
 		Username: req.Username,
 		Code:     code,
 	}
 
 	// 组装邮件内容
-	content, err := temputil.TempParseString(mail.TempForgetPassword, data)
+	content, err := temputil.TempParseString(mail2.TempForgetPassword, data)
 	if err != nil {
 		return nil, err
 	}
 
-	msg := &mail.EmailMessage{
+	msg := &mail2.EmailMessage{
 		To:      []string{req.Username},
 		Subject: "忘记密码",
 		Content: content,

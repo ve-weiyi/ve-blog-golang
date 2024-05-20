@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler"
@@ -47,10 +47,17 @@ func main() {
 			Timeout:     5000,
 		}
 
-		nacos.New(&nc).Init(func(content string) error {
-			log.Println("nacos get config:\n" + content)
-			return conf.LoadFromYamlBytes([]byte(content), &c)
-		})
+		nr := nacos.New(&nc)
+
+		content, err := nr.GetConfig()
+		if err != nil {
+			log.Fatal("nacos get config fail", err)
+		}
+
+		err = conf.LoadFromYamlBytes([]byte(content), &c)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	server := rest.MustNewServer(c.RestConf)
@@ -60,7 +67,7 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	server.Use(middlewarex.CtxMetadataHandler)
-	server.Use(middlewarex.JwtHandler)
+	server.Use(middlewarex.JwtAuthHandler)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

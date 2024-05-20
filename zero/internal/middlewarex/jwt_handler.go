@@ -10,7 +10,7 @@ import (
 )
 
 // jwt handler
-func JwtHandler(next http.HandlerFunc) http.HandlerFunc {
+func JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var uid string
 		var token string
@@ -34,7 +34,7 @@ func JwtHandler(next http.HandlerFunc) http.HandlerFunc {
 				}
 			}
 		}
-		logx.Infof("JwtHandler uid=%s, token=%s", uid, token)
+		logx.Infof("JwtAuthHandler uid=%s, token=%s", uid, token)
 		next.ServeHTTP(w, r)
 	}
 }

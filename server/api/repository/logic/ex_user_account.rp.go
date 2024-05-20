@@ -7,8 +7,8 @@ import (
 
 	"github.com/google/uuid"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
@@ -55,7 +55,7 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity.Us
 
 	// 默认邮箱
 	if info.Email == "" {
-		if account.RegisterType == constant.LoginEmail {
+		if account.RegisterType == constant.LoginTypeEmail {
 			info.Email = account.Username
 		}
 	}
