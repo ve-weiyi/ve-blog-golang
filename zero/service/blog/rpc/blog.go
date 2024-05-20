@@ -70,10 +70,17 @@ func main() {
 			Timeout:     5000,
 		}
 
-		nacos.New(&nc).Init(func(content string) error {
-			log.Println("nacos get config:\n" + content)
-			return conf.LoadFromYamlBytes([]byte(content), &c)
-		})
+		nr := nacos.New(&nc)
+
+		content, err := nr.GetConfig()
+		if err != nil {
+			log.Fatal("nacos get config fail", err)
+		}
+
+		err = conf.LoadFromYamlBytes([]byte(content), &c)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	ctx := svc.NewServiceContext(c)

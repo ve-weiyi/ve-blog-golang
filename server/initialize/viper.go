@@ -57,12 +57,12 @@ func InitConfigByFile(path ...string) {
 }
 
 // InitConfigByFile 读取配置文件
-func InitConfigByContent(content string) error {
+func InitConfigByContent(content string) {
 	v := viper.New()
 	v.SetConfigType("yaml")
 	err := v.ReadConfig(bytes.NewBufferString(content))
 	if err != nil {
-		return err
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 	if err = v.Unmarshal(&global.CONFIG); err != nil {
 		log.Println(err)
@@ -77,6 +77,4 @@ func InitConfigByContent(content string) error {
 	log.Printf("配置文件读取成功！")
 	// root 适配性 根据root位置去找到对应迁移位置,保证root路径有效
 	global.VP = v
-
-	return nil
 }

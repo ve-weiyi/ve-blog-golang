@@ -86,9 +86,9 @@ func (l *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interfac
 		ArticleCount:          articleCount,
 		CategoryList:          convertCategoryList(categories),
 		TagList:               convertTagList(tags),
-		ArticleRankList:       convertArticleRankList(articles),
 		ArticleStatisticsList: convertArticleStatisticsList(articles),
 		UniqueViewList:        convertUniqueViewList(uniqueViews),
+		ArticleRankList:       convertArticleRankList(articles),
 	}
 
 	return resp, err
