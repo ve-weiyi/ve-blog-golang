@@ -2,7 +2,9 @@ package authrpclogic
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -25,7 +27,18 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 获取授权地址
 func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *blog.OauthLoginReq) (*blog.OauthLoginUrlResp, error) {
-	// todo: add your logic here and delete this line
+	var auth oauth.Oauth
+	for platform, v := range l.svcCtx.Oauth {
+		if platform == in.Platform {
+			auth = v
+		}
+	}
 
-	return &blog.OauthLoginUrlResp{}, nil
+	if auth == nil {
+		return nil, fmt.Errorf("platform %s not found", in.Platform)
+	}
+
+	resp := &blog.OauthLoginUrlResp{}
+	resp.Url = auth.GetRedirectUrl(in.State)
+	return resp, nil
 }

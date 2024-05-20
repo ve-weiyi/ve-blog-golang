@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -74,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -103,7 +106,7 @@ type (
 		DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询角色
 		FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
-		// 分页获取角色列表
+		// 查询角色列表
 		FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
 		// 查询角色
 		FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error)
@@ -154,7 +157,7 @@ func (m *defaultRoleRpc) FindRole(ctx context.Context, in *IdReq, opts ...grpc.C
 	return client.FindRole(ctx, in, opts...)
 }
 
-// 分页获取角色列表
+// 查询角色列表
 func (m *defaultRoleRpc) FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error) {
 	client := blog.NewRoleRpcClient(m.cli.Conn())
 	return client.FindRoleList(ctx, in, opts...)

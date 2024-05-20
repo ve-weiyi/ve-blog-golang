@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -74,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO

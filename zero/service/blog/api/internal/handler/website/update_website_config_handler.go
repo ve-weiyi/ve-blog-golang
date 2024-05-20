@@ -11,18 +11,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
-// 更新配置
+// 更新网站配置
 func UpdateWebsiteConfigHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqCtx types.RestHeader
 		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			responsex.Response(r, w, nil, err)
 			return
 		}
 
 		var req types.WebsiteConfig
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			responsex.Response(r, w, nil, err)
 			return
 		}
 

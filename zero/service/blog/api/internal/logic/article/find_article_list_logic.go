@@ -38,22 +38,39 @@ func (l *FindArticleListLogic) FindArticleList(reqCtx *types.RestHeader, req *ty
 		return nil, err
 	}
 
+	var aids []int64
+	var cids []int64
+	for _, v := range out.List {
+		aids = append(aids, v.Id)
+		cids = append(cids, v.CategoryId)
+	}
+
+	// 查询分类
+	categories, err := l.svcCtx.CategoryRpc.FindCategoryListByIds(l.ctx, &blog.IdsReq{Ids: cids})
+	if err != nil {
+		return nil, err
+	}
+	// 查询标签
+	tms, err := l.svcCtx.TagRpc.FindTagMapByArticleIds(l.ctx, &blog.IdsReq{Ids: aids})
+	if err != nil {
+		return nil, err
+	}
+	// 转换数据
 	var list []*types.ArticleBackDTO
 	for _, v := range out.List {
 		var category string
-		ct, err := l.svcCtx.CategoryRpc.FindCategory(l.ctx, &blog.IdReq{Id: v.CategoryId})
-		if ct != nil {
-			category = ct.CategoryName
-		}
-
-		ts, err := l.svcCtx.TagRpc.FindTagListByArticleId(l.ctx, &blog.IdReq{Id: v.Id})
-		if err != nil {
-			return nil, err
+		for _, c := range categories.List {
+			if v.CategoryId == c.Id {
+				category = c.CategoryName
+			}
 		}
 
 		var tags []string
-		for _, tag := range ts.List {
-			tags = append(tags, tag.TagName)
+		ts := tms.TagMapList[v.Id].List
+		if ts != nil {
+			for _, t := range ts {
+				tags = append(tags, t.TagName)
+			}
 		}
 
 		m := convert.ConvertArticleBackTypes(v)

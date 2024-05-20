@@ -1,0 +1,17 @@
+Name: blog-gateway
+Host: localhost
+Port: 8888
+Upstreams:
+  - Grpc:
+      Etcd:
+        Hosts:
+          - localhost:2379
+        Key: blog.rpc
+    # protoset mode
+    ProtoSets:
+      - blog.pb
+    # Mappings can also be written in proto options
+    Mappings:
+      - Method: post
+        Path: /login
+        RpcPath: blog.AuthRpc/Login

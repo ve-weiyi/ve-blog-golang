@@ -52,14 +52,20 @@ func (s *CategoryRpcServer) FindCategory(ctx context.Context, in *blog.IdReq) (*
 	return l.FindCategory(in)
 }
 
-// 分页获取文章分类列表
+// 查询文章分类数量
+func (s *CategoryRpcServer) FindCategoryCount(ctx context.Context, in *blog.PageQuery) (*blog.CountResp, error) {
+	l := categoryrpclogic.NewFindCategoryCountLogic(ctx, s.svcCtx)
+	return l.FindCategoryCount(in)
+}
+
+// 查询文章分类列表
 func (s *CategoryRpcServer) FindCategoryList(ctx context.Context, in *blog.PageQuery) (*blog.CategoryPageResp, error) {
 	l := categoryrpclogic.NewFindCategoryListLogic(ctx, s.svcCtx)
 	return l.FindCategoryList(in)
 }
 
-// 查询文章分类数量
-func (s *CategoryRpcServer) FindCategoryCount(ctx context.Context, in *blog.PageQuery) (*blog.CountResp, error) {
-	l := categoryrpclogic.NewFindCategoryCountLogic(ctx, s.svcCtx)
-	return l.FindCategoryCount(in)
+// 查询文章分类列表(通过ids)
+func (s *CategoryRpcServer) FindCategoryListByIds(ctx context.Context, in *blog.IdsReq) (*blog.CategoryPageResp, error) {
+	l := categoryrpclogic.NewFindCategoryListByIdsLogic(ctx, s.svcCtx)
+	return l.FindCategoryListByIds(in)
 }

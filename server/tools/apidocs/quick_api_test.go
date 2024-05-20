@@ -5,13 +5,14 @@ import (
 	"path"
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func TestApiDocs(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/")
+	root := path.Join(files.GetRuntimeRoot(), "server/")
 
 	cfg := Config{
 		OutRoot:        "./tmp",

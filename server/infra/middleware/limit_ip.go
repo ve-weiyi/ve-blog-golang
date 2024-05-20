@@ -1,16 +1,32 @@
 package middleware
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
-func LimitIP() gin.HandlerFunc {
+// IP限流
+func LimitIP(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ip := c.ClientIP()
+		key := c.ClientIP()
 
-		// 如果需要限制ip,可以在这里进行限制
+		v, ok := svcCtx.LocalCache.Get(key)
+		if !ok {
+			svcCtx.LocalCache.Put(key, 1)
+		}
 
-		c.Set("ip_address", ip)
+		// 短时间内请求10次
+		if cast.ToInt(v) > 10 {
+			c.JSON(http.StatusOK, apierr.ErrorFrequentRequest)
+			c.Abort()
+			return
+		}
+
 		c.Next()
 	}
 }

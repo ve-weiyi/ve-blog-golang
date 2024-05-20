@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -74,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -103,7 +106,7 @@ type (
 		DeleteFriendLinkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询友链
 		FindFriendLink(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FriendLink, error)
-		// 分页获取友链列表
+		// 查询友链列表
 		FindFriendLinkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*FriendLinkPageResp, error)
 		// 查询友链数量
 		FindFriendLinkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -150,7 +153,7 @@ func (m *defaultFriendLinkRpc) FindFriendLink(ctx context.Context, in *IdReq, op
 	return client.FindFriendLink(ctx, in, opts...)
 }
 
-// 分页获取友链列表
+// 查询友链列表
 func (m *defaultFriendLinkRpc) FindFriendLinkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*FriendLinkPageResp, error) {
 	client := blog.NewFriendLinkRpcClient(m.cli.Conn())
 	return client.FindFriendLinkList(ctx, in, opts...)

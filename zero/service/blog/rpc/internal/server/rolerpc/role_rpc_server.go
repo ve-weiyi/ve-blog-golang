@@ -52,7 +52,7 @@ func (s *RoleRpcServer) FindRole(ctx context.Context, in *blog.IdReq) (*blog.Rol
 	return l.FindRole(in)
 }
 
-// 分页获取角色列表
+// 查询角色列表
 func (s *RoleRpcServer) FindRoleList(ctx context.Context, in *blog.PageQuery) (*blog.RolePageResp, error) {
 	l := rolerpclogic.NewFindRoleListLogic(ctx, s.svcCtx)
 	return l.FindRoleList(in)

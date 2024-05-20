@@ -5,7 +5,8 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -32,7 +33,7 @@ func (l *GetUserRoleLogic) GetUserRole(reqCtx *types.RestHeader, req *types.Empt
 		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
 	}
 
-	out, err := l.svcCtx.UserRpc.GetUserRoles(l.ctx, in)
+	out, err := l.svcCtx.UserRpc.FindUserRoles(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

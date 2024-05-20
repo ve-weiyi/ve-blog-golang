@@ -52,7 +52,7 @@ func (s *RemarkRpcServer) FindRemark(ctx context.Context, in *blog.IdReq) (*blog
 	return l.FindRemark(in)
 }
 
-// 分页获取留言列表
+// 查询留言列表
 func (s *RemarkRpcServer) FindRemarkList(ctx context.Context, in *blog.PageQuery) (*blog.RemarkPageResp, error) {
 	l := remarkrpclogic.NewFindRemarkListLogic(ctx, s.svcCtx)
 	return l.FindRemarkList(in)

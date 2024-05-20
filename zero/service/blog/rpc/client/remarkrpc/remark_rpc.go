@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -74,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -103,7 +106,7 @@ type (
 		DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询留言
 		FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Remark, error)
-		// 分页获取留言列表
+		// 查询留言列表
 		FindRemarkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RemarkPageResp, error)
 		// 查询留言数量
 		FindRemarkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -150,7 +153,7 @@ func (m *defaultRemarkRpc) FindRemark(ctx context.Context, in *IdReq, opts ...gr
 	return client.FindRemark(ctx, in, opts...)
 }
 
-// 分页获取留言列表
+// 查询留言列表
 func (m *defaultRemarkRpc) FindRemarkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RemarkPageResp, error) {
 	client := blog.NewRemarkRpcClient(m.cli.Conn())
 	return client.FindRemarkList(ctx, in, opts...)

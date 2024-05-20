@@ -6,6 +6,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
@@ -21,7 +22,8 @@ func NewRabbitmqCmd() *RabbitmqCmd {
 		Short: "运行rabbitmq服务",
 		Long:  `运行rabbitmq服务，订阅消息,发送邮件`,
 		Run: func(cmd *cobra.Command, args []string) {
-			initialize.RabbitMq()
+			var c config.Config
+			initialize.SubscribeMessage(c)
 		},
 	}
 	cmdRabbitmq.init()

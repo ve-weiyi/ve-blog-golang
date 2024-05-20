@@ -31,7 +31,7 @@ func (l *GetUserInfoLogic) GetUserInfo(reqCtx *types.RestHeader, req *types.Empt
 		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
 	}
 
-	info, err := l.svcCtx.UserRpc.GetUserInfo(l.ctx, in)
+	info, err := l.svcCtx.UserRpc.FindUserInfo(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

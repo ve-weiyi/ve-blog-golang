@@ -52,7 +52,7 @@ func (s *LogRpcServer) FindOperationLog(ctx context.Context, in *blog.IdReq) (*b
 	return l.FindOperationLog(in)
 }
 
-// 分页获取操作记录列表
+// 查询操作记录列表
 func (s *LogRpcServer) FindOperationLogList(ctx context.Context, in *blog.PageQuery) (*blog.OperationLogPageResp, error) {
 	l := logrpclogic.NewFindOperationLogListLogic(ctx, s.svcCtx)
 	return l.FindOperationLogList(in)

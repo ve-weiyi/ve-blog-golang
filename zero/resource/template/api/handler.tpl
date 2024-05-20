@@ -14,13 +14,13 @@ func {{.HandlerName}}(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
         var reqCtx types.RestHeader
         if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-            httpx.ErrorCtx(r.Context(), w, err)
+            responsex.Response(r, w, nil, err)
             return
         }
 
 		{{if .HasRequest}}var req types.{{.RequestType}}
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			responsex.Response(r, w, nil, err)
 			return
 		}
 

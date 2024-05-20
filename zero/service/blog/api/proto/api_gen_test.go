@@ -10,10 +10,11 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/api/parser"
 	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/convertx"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 )
 
 //go:embed blog.api

@@ -11,14 +11,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/zeromicro/go-zero/tools/goctl/model/sql/model"
 	"github.com/zeromicro/go-zero/tools/goctl/model/sql/parser"
-	"github.com/zeromicro/go-zero/tools/goctl/model/sql/util"
 	"github.com/zeromicro/go-zero/tools/goctl/util/pathx"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/field"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/meta"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
 func TestParsePlainText(t *testing.T) {
@@ -43,44 +40,6 @@ func TestParseSelect(t *testing.T) {
 //go:embed testdata/user.sql
 var user string
 
-func TestParseCreateTable(t *testing.T) {
-	sqlFile := filepath.Join(pathx.MustTempDir(), "tmp.sql")
-	err := os.WriteFile(sqlFile, []byte(user), 0o777)
-	assert.Nil(t, err)
-
-	tables, err := parser.Parse(sqlFile, "go_zero", false)
-	assert.Equal(t, 1, len(tables))
-	table := tables[0]
-	assert.Nil(t, err)
-	assert.Equal(t, "test_user", table.Name.Source())
-	assert.Equal(t, "id", table.PrimaryKey.Name.Source())
-	assert.Equal(t, true, table.ContainsTime())
-	assert.Equal(t, 2, len(table.UniqueIndex))
-
-	log.Printf("table %+v", jsonconv.ObjectToJsonIndent(table))
-
-	var fs []*field.Field
-
-	assert.True(t, func() bool {
-		for _, e := range table.Fields {
-			if e.Comment != util.TrimNewLine(e.Comment) {
-				return false
-			}
-
-			log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
-
-			fs = append(fs, &field.Field{
-				Name:          jsonconv.Case2Camel(e.Name.Source()),
-				Type:          e.DataType,
-				ColumnName:    e.Name.Source(),
-				ColumnComment: e.Comment,
-				Tag:           map[string]string{field.TagKeyJson: e.Name.Source()},
-			})
-		}
-
-		return true
-	}())
-}
 func TestConvertColumn(t *testing.T) {
 	t.Run("missingPrimaryKey", func(t *testing.T) {
 		columnData := model.ColumnData{
@@ -183,7 +142,7 @@ var rpcTpl string
 var modelTpl string
 
 func TestParseSql(t *testing.T) {
-	tables, err := parser.Parse(filepath.Join(global.GetRuntimeRoot(), "server/test.sql"), "go_zero", false)
+	tables, err := parser.Parse("testdata/test.sql", "go_zero", false)
 	assert.Nil(t, err)
 
 	//log.Printf("table %+v", jsonconv.ObjectToJsonIndent(tables))
@@ -203,11 +162,22 @@ func TestParseSql(t *testing.T) {
 }
 
 func NewMetas(table *parser.Table) []invent.TemplateMeta {
-	var fs []*field.Field
+	var fs []*meta.Field
 	for _, e := range table.Fields {
 		//log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
 
 		fs = append(fs, convertField(e))
+	}
+
+	data := map[string]any{
+		"DbName":              table.Db.Source(),
+		"TableName":           table.Name.Source(),
+		"UpperStartCamelName": jsonconv.Case2Camel(table.Name.Source()),
+		"LowerStartCamelName": jsonconv.Case2CamelLowerStart(table.Name.Source()),
+		"SnakeName":           jsonconv.Camel2Case(table.Name.Source()),
+		"CommentName":         table.Name.Source(),
+		"Fields":              fs,
+		"ImportPkgPaths":      nil,
 	}
 
 	var metas []invent.TemplateMeta
@@ -217,18 +187,7 @@ func NewMetas(table *parser.Table) []invent.TemplateMeta {
 		CodeOutPath:    fmt.Sprintf("./test/api/%v.api", table.Name.Source()),
 		TemplateString: apiTpl,
 		FunMap:         nil,
-		Data: quickstart.AutoCodeModel{
-			DbName:              table.Db.Source(),
-			TableName:           table.Name.Source(),
-			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
-			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
-			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
-			CommentName:         table.Name.Source(),
-			Fields:              fs,
-			ImportPkgPaths: []string{
-				"../base.api",
-			},
-		},
+		Data:           data,
 	})
 
 	metas = append(metas, invent.TemplateMeta{
@@ -241,16 +200,7 @@ func NewMetas(table *parser.Table) []invent.TemplateMeta {
 				return index + num
 			},
 		},
-		Data: quickstart.AutoCodeModel{
-			DbName:              table.Db.Source(),
-			TableName:           table.Name.Source(),
-			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
-			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
-			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
-			CommentName:         table.Name.Source(),
-			Fields:              fs,
-			ImportPkgPaths:      nil,
-		},
+		Data: data,
 	})
 
 	metas = append(metas, invent.TemplateMeta{
@@ -259,33 +209,24 @@ func NewMetas(table *parser.Table) []invent.TemplateMeta {
 		CodeOutPath:    fmt.Sprintf("./test/model/%v_model.go", table.Name.Source()),
 		TemplateString: modelTpl,
 		FunMap:         nil,
-		Data: quickstart.AutoCodeModel{
-			DbName:              table.Db.Source(),
-			TableName:           table.Name.Source(),
-			UpperStartCamelName: jsonconv.Case2Camel(table.Name.Source()),
-			LowerStartCamelName: jsonconv.Case2CamelLowerStart(table.Name.Source()),
-			SnakeName:           jsonconv.Camel2Case(table.Name.Source()),
-			CommentName:         table.Name.Source(),
-			Fields:              fs,
-			ImportPkgPaths:      nil,
-		},
+		Data:           data,
 	})
 
 	return metas
 }
 
-func convertField(e *parser.Field) *field.Field {
-	return &field.Field{
-		Name: jsonconv.Case2Camel(e.Name.Source()),
-		Type: func() string {
-			//if strings.Contains(e.DataType, "time.Time") {
-			//	return "int64"
-			//}
+func convertField(e *parser.Field) *meta.Field {
 
-			return e.DataType
-		}(),
-		ColumnName:    e.Name.Source(),
-		ColumnComment: e.Comment,
-		Tag:           map[string]string{field.TagKeyJson: e.Name.Source()},
+	return &meta.Field{
+		Name:    jsonconv.Case2Camel(e.Name.Source()),
+		Type:    e.DataType,
+		Comment: e.Comment,
+		Tag: map[string][]string{
+			"json": []string{
+				e.Name.Source(),
+			},
+		},
+		Docs:     nil,
+		IsInline: false,
 	}
 }

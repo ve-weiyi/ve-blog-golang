@@ -2,9 +2,15 @@ package auth
 
 import (
 	"context"
+	"time"
 
+	"github.com/golang-jwt/jwt"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +31,68 @@ func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthL
 }
 
 func (l *OauthLoginLogic) OauthLogin(reqCtx *types.RestHeader, req *types.OauthLoginReq) (resp *types.LoginResp, err error) {
-	// todo: add your logic here and delete this line
+	in := authrpc.OauthLoginReq{
+		Platform: req.Platform,
+		Code:     req.Code,
+		State:    req.State,
+	}
 
+	out, err := l.svcCtx.AuthRpc.OauthLogin(l.ctx, &in)
+	if err != nil {
+		return
+	}
+
+	tk, err := l.createToken(out.UserId, out.Username, req.Platform)
+	if err != nil {
+		return
+	}
+
+	resp = &types.LoginResp{
+		Token:    tk,
+		UserInfo: convert.ConvertUserInfo(out),
+	}
 	return
+}
+
+func (l *OauthLoginLogic) createToken(uid int64, username string, loginType string) (token *types.Token, err error) {
+	now := time.Now().Unix()
+	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
+	refreshExpiresIn := time.Now().Add(30 * 24 * time.Hour).Unix()
+	issuer := "blog"
+
+	accessToken, err := l.svcCtx.Token.CreateToken(
+		jjwt.TokenExt{
+			Uid:       int(uid),
+			Username:  username,
+			LoginType: loginType,
+		},
+		jwt.StandardClaims{
+			ExpiresAt: expiresIn,
+			IssuedAt:  now,
+			Issuer:    issuer,
+		})
+
+	refreshToken, err := l.svcCtx.Token.CreateToken(
+		jjwt.TokenExt{
+			Uid:       int(uid),
+			Username:  username,
+			LoginType: loginType,
+		},
+		jwt.StandardClaims{
+			ExpiresAt: refreshExpiresIn,
+			IssuedAt:  now,
+			Issuer:    issuer,
+		})
+
+	token = &types.Token{
+		UserId:           uid,
+		TokenType:        "Bearer",
+		AccessToken:      accessToken,
+		ExpiresIn:        expiresIn,
+		RefreshToken:     refreshToken,
+		RefreshExpiresIn: refreshExpiresIn,
+	}
+
+	//生成token
+	return token, nil
 }

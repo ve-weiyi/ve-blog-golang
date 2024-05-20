@@ -7,7 +7,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/conf"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/apirpc"
@@ -44,7 +44,7 @@ var (
 	nacosPassword  = flag.String("nacos-password", "nacos", "Input Your Nacos Password")
 	nacosDataId    = flag.String("nacos-data-id", "rpc", "Input Your Nacos DataId")
 	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
-	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceID")
+	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceId")
 )
 
 var configFile = flag.String("f", "", "the config file")
@@ -52,6 +52,7 @@ var configFile = flag.String("f", "", "the config file")
 func main() {
 	flag.Parse()
 
+	log.SetFlags(log.LstdFlags | log.Llongfile)
 	var c config.Config
 	if *configFile != "" {
 		log.Println("load config from file: " + *configFile)
@@ -62,9 +63,9 @@ func main() {
 			Port:        uint64(*nacosPort),
 			UserName:    *nacosUserName,
 			Password:    *nacosPassword,
-			NameSpaceID: *nacosNameSpace,
+			NameSpaceId: *nacosNameSpace,
 			Group:       *nacosGroup,
-			DataID:      *nacosDataId,
+			DataId:      *nacosDataId,
 			RuntimeDir:  "runtime/nacos",
 			LogLevel:    "debug",
 			Timeout:     5000,
@@ -110,7 +111,8 @@ func main() {
 	})
 	defer s.Stop()
 
-	s.AddUnaryInterceptors(interceptorx.ServerMetaUnaryInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerErrorInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerMetaInterceptor)
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }

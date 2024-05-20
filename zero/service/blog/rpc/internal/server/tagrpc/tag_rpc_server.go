@@ -52,13 +52,13 @@ func (s *TagRpcServer) FindTag(ctx context.Context, in *blog.IdReq) (*blog.Tag, 
 	return l.FindTag(in)
 }
 
-// 分页获取标签列表
+// 查询标签列表
 func (s *TagRpcServer) FindTagList(ctx context.Context, in *blog.PageQuery) (*blog.TagPageResp, error) {
 	l := tagrpclogic.NewFindTagListLogic(ctx, s.svcCtx)
 	return l.FindTagList(in)
 }
 
-// 查询文章标签数量
+// 查询标签数量
 func (s *TagRpcServer) FindTagCount(ctx context.Context, in *blog.PageQuery) (*blog.CountResp, error) {
 	l := tagrpclogic.NewFindTagCountLogic(ctx, s.svcCtx)
 	return l.FindTagCount(in)
@@ -70,8 +70,8 @@ func (s *TagRpcServer) FindTagArticleCount(ctx context.Context, in *blog.FindTag
 	return l.FindTagArticleCount(in)
 }
 
-// 查询文章标签列表
-func (s *TagRpcServer) FindTagListByArticleId(ctx context.Context, in *blog.IdReq) (*blog.TagPageResp, error) {
-	l := tagrpclogic.NewFindTagListByArticleIdLogic(ctx, s.svcCtx)
-	return l.FindTagListByArticleId(in)
+// 查询文章标签列表(通过文章ids)
+func (s *TagRpcServer) FindTagMapByArticleIds(ctx context.Context, in *blog.IdsReq) (*blog.TagMapResp, error) {
+	l := tagrpclogic.NewFindTagMapByArticleIdsLogic(ctx, s.svcCtx)
+	return l.FindTagMapByArticleIds(in)
 }

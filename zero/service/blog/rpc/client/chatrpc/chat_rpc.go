@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -74,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -103,7 +106,7 @@ type (
 		DeleteChatRecordList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询聊天记录
 		FindChatRecord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatRecord, error)
-		// 分页获取聊天记录列表
+		// 查询聊天记录列表
 		FindChatRecordList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ChatRecordPageResp, error)
 		// 查询聊天记录数量
 		FindChatRecordCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -150,7 +153,7 @@ func (m *defaultChatRpc) FindChatRecord(ctx context.Context, in *IdReq, opts ...
 	return client.FindChatRecord(ctx, in, opts...)
 }
 
-// 分页获取聊天记录列表
+// 查询聊天记录列表
 func (m *defaultChatRpc) FindChatRecordList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ChatRecordPageResp, error) {
 	client := blog.NewChatRpcClient(m.cli.Conn())
 	return client.FindChatRecordList(ctx, in, opts...)

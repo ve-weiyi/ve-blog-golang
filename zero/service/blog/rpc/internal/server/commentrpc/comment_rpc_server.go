@@ -52,13 +52,13 @@ func (s *CommentRpcServer) FindComment(ctx context.Context, in *blog.IdReq) (*bl
 	return l.FindComment(in)
 }
 
-// 分页获取评论列表
+// 查询评论列表
 func (s *CommentRpcServer) FindCommentList(ctx context.Context, in *blog.PageQuery) (*blog.CommentPageResp, error) {
 	l := commentrpclogic.NewFindCommentListLogic(ctx, s.svcCtx)
 	return l.FindCommentList(in)
 }
 
-// 分页获取评论回复列表
+// 查询评论回复列表
 func (s *CommentRpcServer) FindCommentReplyList(ctx context.Context, in *blog.PageQuery) (*blog.CommentReplyPageResp, error) {
 	l := commentrpclogic.NewFindCommentReplyListLogic(ctx, s.svcCtx)
 	return l.FindCommentReplyList(in)

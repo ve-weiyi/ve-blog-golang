@@ -30,13 +30,13 @@ func newDefault{{.Type}}Model(conn {{if .Cache}}*monc.Model{{else}}*mon.Model{{e
 
 
 func (m *default{{.Type}}Model) Insert(ctx context.Context, data *{{.Type}}) error {
-    if data.ID.IsZero() {
-        data.ID = primitive.NewObjectID()
+    if data.Id.IsZero() {
+        data.Id = primitive.NewObjectID()
         data.CreateAt = time.Now()
         data.UpdateAt = time.Now()
     }
 
-    {{if .Cache}}key := prefix{{.Type}}CacheKey + data.ID.Hex(){{end}}
+    {{if .Cache}}key := prefix{{.Type}}CacheKey + data.Id.Hex(){{end}}
     _, err := m.conn.InsertOne(ctx, {{if .Cache}}key, {{end}} data)
     return err
 }
@@ -62,8 +62,8 @@ func (m *default{{.Type}}Model) FindOne(ctx context.Context, id string) (*{{.Typ
 
 func (m *default{{.Type}}Model) Update(ctx context.Context, data *{{.Type}}) (*mongo.UpdateResult, error) {
     data.UpdateAt = time.Now()
-    {{if .Cache}}key := prefix{{.Type}}CacheKey + data.ID.Hex(){{end}}
-    res, err := m.conn.UpdateOne(ctx, {{if .Cache}}key, {{end}}bson.M{"_id": data.ID}, bson.M{"$set": data})
+    {{if .Cache}}key := prefix{{.Type}}CacheKey + data.Id.Hex(){{end}}
+    res, err := m.conn.UpdateOne(ctx, {{if .Cache}}key, {{end}}bson.M{"_id": data.Id}, bson.M{"$set": data})
     return res, err
 }
 
