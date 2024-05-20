@@ -3,11 +3,11 @@ package initialize
 import (
 	"log"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 )
 
 // Zap 获取 zap.Logger

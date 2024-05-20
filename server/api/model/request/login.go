@@ -3,7 +3,7 @@ package request
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/valid"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
 
 type LoginReq struct {

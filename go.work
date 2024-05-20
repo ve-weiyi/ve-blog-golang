@@ -3,7 +3,7 @@ go 1.22
 toolchain go1.22.3
 
 use (
+	./kit
 	./server
 	./zero
-//./submodule/go-sdk
 )

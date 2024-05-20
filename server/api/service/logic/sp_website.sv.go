@@ -3,11 +3,12 @@ package logic
 import (
 	jsoniter "github.com/json-iterator/go"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/system"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/system"
 )
 
 type WebsiteService struct {
@@ -84,11 +85,11 @@ func (l *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interfac
 		MessageCount:          msgCount,
 		UserCount:             userCount,
 		ArticleCount:          articleCount,
-		CategoryDTOList:       convertCategoryList(categories),
-		TagDTOList:            convertTagList(tags),
+		CategoryList:          convertCategoryList(categories),
+		TagList:               convertTagList(tags),
 		ArticleStatisticsList: convertArticleStatisticsList(articles),
-		UniqueViewDTOList:     convertUniqueViewList(uniqueViews),
-		ArticleRankDTOList:    convertArticleRankList(articles),
+		UniqueViewList:        convertUniqueViewList(uniqueViews),
+		ArticleRankList:       convertArticleRankList(articles),
 	}
 
 	return resp, err

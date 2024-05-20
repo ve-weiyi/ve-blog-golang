@@ -7,10 +7,11 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 type Config struct {

@@ -3,8 +3,9 @@ package apiparser
 import (
 	"testing"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
 )
 
 func TestSwaggerParser(t *testing.T) {

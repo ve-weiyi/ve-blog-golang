@@ -6,20 +6,22 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/captcha"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogger"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
 )
 
 type ServiceContext struct {
 	Config            config.Config
-	CaptchaRepository *captcha.CaptchaRepository
+	CaptchaRepository *captcha.CaptchaHolder
 
 	UserAccountModel      model.UserAccountModel
 	UserInformationModel  model.UserInformationModel
@@ -52,7 +54,7 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	db, err := ConnectGorm(c.MysqlConf)
+	db, err := ConnectGorm(c.MysqlConf, c.Log)
 	if err != nil {
 		panic(err)
 	}
@@ -95,8 +97,33 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 }
 
-func ConnectGorm(c config.MysqlConf) (*gorm.DB, error) {
+func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", c.Username, c.Password, c.Host, c.Port, c.Dbname, c.Config)
+
+	var lg logger.Interface
+	if l.Mode == "console" && l.Encoding == "plain" {
+		// 跟随gorm的日志输出格式
+		lg = logger.New(
+			gormlogger.NewGormWriter(),
+			logger.Config{
+				SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
+				LogLevel:                  logger.Info,
+				IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
+				Colorful:                  true,  // 彩色打印
+				ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
+			})
+	} else {
+		// 跟随go-zero的日志输出格式
+		lg = gormlogx.New(
+			logger.Config{
+				SlowThreshold:             200 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
+				LogLevel:                  logger.Info,
+				IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
+				Colorful:                  true,  // 彩色打印
+				ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
+			},
+		)
+	}
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		//PrepareStmt:            true, // 缓存预编译语句
@@ -111,13 +138,7 @@ func ConnectGorm(c config.MysqlConf) (*gorm.DB, error) {
 			SingularTable: true,
 		},
 		// gorm日志模式
-		Logger: logger.New(gormlogger.NewGormWriter(), logger.Config{
-			SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
-			LogLevel:                  logger.Info,
-			IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
-			Colorful:                  true,  // 彩色打印
-			ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
-		}),
+		Logger: lg,
 		//Logger: logger.Default,
 	})
 

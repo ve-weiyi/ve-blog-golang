@@ -3,8 +3,8 @@ package quickstart
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/inject"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
+	inject2 "github.com/ve-weiyi/ve-blog-golang/kit/tools/inject"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 )
 
@@ -22,68 +22,68 @@ func NewTableConverter(config Config) *TableConverter {
 	}
 }
 
-func (t *TableConverter) GenerateInjectMetas(models ...*AutoCodeModel) []*inject.AstInjectMeta {
-	var injectMetas []*inject.AstInjectMeta
+func (t *TableConverter) GenerateInjectMetas(models ...*AutoCodeModel) []*inject2.AstInjectMeta {
+	var injectMetas []*inject2.AstInjectMeta
 
 	for _, data := range models {
 		temporaryRoot := t.OutPath
 
-		injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyRepository,
 			FilePath: fmt.Sprintf("%v/repository/repository.go", temporaryRoot),
-			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
+			StructMetas: []*inject2.StructMeta{
+				inject2.NewStructMete("AppRepository", fmt.Sprintf(`%vRepository *logic.%vRepository //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
-			FuncMetas: []*inject.FuncMeta{
-				inject.NewFuncMete("NewRepository", fmt.Sprintf(`return &AppRepository{
+			FuncMetas: []*inject2.FuncMeta{
+				inject2.NewFuncMete("NewRepository", fmt.Sprintf(`return &AppRepository{
 			%vRepository: logic.New%vRepository(svcCtx),
 			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
-		injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyService,
 			FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
-			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
+			StructMetas: []*inject2.StructMeta{
+				inject2.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
-			FuncMetas: []*inject.FuncMeta{
-				inject.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
+			FuncMetas: []*inject2.FuncMeta{
+				inject2.NewFuncMete("NewService", fmt.Sprintf(`return &AppService{
 			%vService: logic.New%vService(svcCtx),
 			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
-		injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyController,
 			FilePath: fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
-			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
+			StructMetas: []*inject2.StructMeta{
+				inject2.NewStructMete("AppController", fmt.Sprintf(`%vController *logic.%vController //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
-			FuncMetas: []*inject.FuncMeta{
-				inject.NewFuncMete("NewController", fmt.Sprintf(`return &AppController{
+			FuncMetas: []*inject2.FuncMeta{
+				inject2.NewFuncMete("NewController", fmt.Sprintf(`return &AppController{
 			%vController: logic.New%vController(svcCtx),
 			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
-		injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyRouter,
 			FilePath: fmt.Sprintf("%v/router/router.go", temporaryRoot),
-			StructMetas: []*inject.StructMeta{
-				inject.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
+			StructMetas: []*inject2.StructMeta{
+				inject2.NewStructMete("AppRouter", fmt.Sprintf(`%vRouter *logic.%vRouter //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
-			FuncMetas: []*inject.FuncMeta{
-				inject.NewFuncMete("NewRouter", fmt.Sprintf(`return &AppRouter{
+			FuncMetas: []*inject2.FuncMeta{
+				inject2.NewFuncMete("NewRouter", fmt.Sprintf(`return &AppRouter{
 			%vRouter: logic.New%vRouter(svcCtx),
 			}`, data.UpperStartCamelName, data.UpperStartCamelName)),
 			},
 		})
 
-		injectMetas = append(injectMetas, &inject.AstInjectMeta{
+		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyRouter,
 			FilePath: fmt.Sprintf("%v/router/logic/register.rt.go", temporaryRoot),
-			DeclMetas: []*inject.DeclMeta{inject.NewDeclMeta(fmt.Sprintf(`
+			DeclMetas: []*inject2.DeclMeta{inject2.NewDeclMeta(fmt.Sprintf(`
 	// 初始化 %s 路由信息
 	// publicRouter 公开路由，不登录就可以访问
 	// loginRouter  登录路由，登录后才可以访问
@@ -188,7 +188,7 @@ func (t *TableConverter) GenerateCommonInventMetas(models ...*AutoCodeModel) []*
 	return metas
 }
 
-func (t *TableConverter) GeneratePkgMetas(models ...*AutoCodeModel) ([]*invent.TemplateMeta, []*inject.AstInjectMeta) {
+func (t *TableConverter) GeneratePkgMetas(models ...*AutoCodeModel) ([]*invent.TemplateMeta, []*inject2.AstInjectMeta) {
 	var metas []*invent.TemplateMeta
 
 	for _, data := range models {

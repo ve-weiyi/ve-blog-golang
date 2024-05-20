@@ -15,12 +15,13 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/copyutil"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/copyutil"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/files"
 )
 
 func init() {
