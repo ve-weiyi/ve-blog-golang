@@ -1,37 +1,38 @@
 package initialize
 
 import (
+	upload2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/copyutil"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/copyutil"
 )
 
 func Upload() {
 
-	var cfg upload.UploadConfig
-	var up upload.Uploader
+	var cfg upload2.UploadConfig
+	var up upload2.Uploader
 	switch global.CONFIG.Upload.Mode {
 	case "local":
 		err := copyutil.DeepCopyByJson(global.CONFIG.Upload.Local, &cfg)
 		if err != nil {
 			global.LOG.Errorf("上传组件初始化失败！%v", err)
 		}
-		up = upload.NewLocal(&cfg)
+		up = upload2.NewLocal(&cfg)
 	case "qiniu":
 		err := copyutil.DeepCopyByJson(global.CONFIG.Upload.Qiniu, &cfg)
 		if err != nil {
 			global.LOG.Errorf("上传组件初始化失败！%v", err)
 		}
-		up = upload.NewQiniu(&cfg)
+		up = upload2.NewQiniu(&cfg)
 	case "aliyun":
 		err := copyutil.DeepCopyByJson(global.CONFIG.Upload.Aliyun, &cfg)
 		global.LOG.JsonIndent("cfg", cfg)
 		if err != nil {
 			global.LOG.Errorf("上传组件初始化失败！%v", err)
 		}
-		up = upload.NewAliyunOSS(&cfg)
+		up = upload2.NewAliyunOSS(&cfg)
 	default:
-		up = upload.NewLocal(&cfg)
+		up = upload2.NewLocal(&cfg)
 	}
 
 	global.Uploader = up

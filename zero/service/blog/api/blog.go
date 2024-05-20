@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler"

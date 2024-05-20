@@ -11,26 +11,27 @@ import (
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/jjwt"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/upload"
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/timer"
 )
 
 var (
-	VP       *viper.Viper
-	DB       *gorm.DB
-	DBList   map[string]*gorm.DB
-	REDIS    *redis.Client
-	CONFIG   config.Config
-	JWT      *jjwt.JwtToken
-	LOG      *glog.Glogger
-	EmailMQ  *rabbitmq.RabbitmqConn
-	Uploader upload.Uploader
-	Timer    timer.Timer = timer.NewTimerTask()
+	VP        *viper.Viper
+	DB        *gorm.DB
+	DBList    map[string]*gorm.DB
+	REDIS     *redis.Client
+	CONFIG    config.Config
+	JWT       *jjwt.JwtToken
+	LOG       *glog.Glogger
+	EmailMQ   *rabbitmq.RabbitmqConn
+	Uploader  upload.Uploader
+	AIChatGPT *chatgpt.AIChatGPT
+	//Timer    timer.Timer = timer.NewTimerTask()
 	//Concurrency_Control             = &singleflight.Group{}
 
 	BlackCache *ecache.Cache

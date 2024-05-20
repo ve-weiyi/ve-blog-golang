@@ -7,7 +7,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/conf"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/server/apirpc"

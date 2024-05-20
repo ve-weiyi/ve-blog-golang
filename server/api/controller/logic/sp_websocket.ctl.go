@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/ws"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
 type WebsocketController struct {

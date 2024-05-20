@@ -3,8 +3,8 @@ package quickstart
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/inject"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/inject"
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 )
 
 type CodeStarter struct {

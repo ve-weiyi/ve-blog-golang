@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/captcha"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
@@ -21,7 +21,7 @@ import (
 
 type ServiceContext struct {
 	Config            config.Config
-	CaptchaRepository *captcha.CaptchaRepository
+	CaptchaRepository *captcha.CaptchaHolder
 
 	UserAccountModel      model.UserAccountModel
 	UserInformationModel  model.UserInformationModel

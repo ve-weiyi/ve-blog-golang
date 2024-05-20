@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
 func TestBcrypt(t *testing.T) {
