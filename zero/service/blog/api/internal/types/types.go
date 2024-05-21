@@ -12,7 +12,7 @@ type AdminHomeInfo struct {
 	ArticleCount          int64                   `json:"article_count,optional"`           // 文章量
 	CategoryList          []*CategoryDTO          `json:"category_list,optional"`           // 分类列表
 	TagList               []*TagDTO               `json:"tag_list,optional"`                // 标签列表
-	ArticleViewRankList   []*ArticleViewRankDTO   `json:"article_rank_list,optional"`       // 文章浏览量排行
+	ArticleViewRankList   []*ArticleViewRankDTO   `json:"article_view_rank_list,optional"`  // 文章浏览量排行
 	ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"` // 每日文章生产量
 	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_list,optional"`        // 每日用户访问量
 }
@@ -440,12 +440,12 @@ type PingReq struct {
 }
 
 type PingResp struct {
-	Env         string            `json:"env"`
-	Name        string            `json:"name"`
-	Version     string            `json:"version"`
-	Runtime     string            `json:"runtime"`
-	Description string            `json:"description"`
-	RpcStatus   map[string]string `json:"rpc_status"`
+	Env         string   `json:"env"`
+	Name        string   `json:"name"`
+	Version     string   `json:"version"`
+	Runtime     string   `json:"runtime"`
+	Description string   `json:"description"`
+	RpcStatus   []string `json:"rpc_status"`
 }
 
 type Remark struct {

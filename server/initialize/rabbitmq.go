@@ -5,26 +5,20 @@ import (
 	"log"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
-const (
-	// email交换机
-	EMAIL_EXCHANGE = "email_exchange"
-	// email队列
-	EMAIL_QUEUE = "email_queue"
-)
-
 // 订阅消息
 func RabbitMq() {
-	url := global.CONFIG.RabbitMQ.GetUrl()
-
+	m := global.CONFIG.RabbitMQ
+	url := m.GetUrl()
 	// 消息发布者只需要声明交换机
 	mq := rabbitmq.NewRabbitmqConn(url,
 		rabbitmq.Exchange(rabbitmq.ExchangeOptions{
-			Name:    EMAIL_EXCHANGE,
+			Name:    constant.EmailExchange,
 			Type:    rabbitmq.ExchangeTypeFanout,
 			Durable: true,
 		}),
@@ -43,16 +37,17 @@ func RabbitMq() {
 }
 
 func SubscribeMessage() {
-	url := global.CONFIG.RabbitMQ.GetUrl()
+	m := global.CONFIG.RabbitMQ
+	url := m.GetUrl()
 	// 消息订阅者需要声明交换机和队列
 	mq := rabbitmq.NewRabbitmqConn(url,
 		rabbitmq.Queue(rabbitmq.QueueOptions{
-			Name:    EMAIL_QUEUE,
+			Name:    constant.EmailQueue,
 			Durable: true,
 			Args:    nil,
 		}),
 		rabbitmq.Exchange(rabbitmq.ExchangeOptions{
-			Name:    EMAIL_EXCHANGE,
+			Name:    constant.EmailExchange,
 			Type:    rabbitmq.ExchangeTypeFanout,
 			Durable: true,
 		}),
@@ -63,16 +58,16 @@ func SubscribeMessage() {
 		log.Fatal("rabbitmq 初始化失败!", err)
 	}
 
-	cfg := global.CONFIG.Email
-	emailSender := &mail.EmailSender{
-		Host:     cfg.Host,
-		Port:     cfg.Port,
-		Username: cfg.Username,
-		Password: cfg.Password,
-		Nickname: cfg.Nickname,
-		Deliver:  strings.Split(cfg.Deliver, ","),
-		IsSSL:    cfg.IsSSL,
-	}
+	e := global.CONFIG.Email
+	emailSender := mail.NewEmailSender(
+		mail.WithHost(e.Host),
+		mail.WithPort(e.Port),
+		mail.WithUsername(e.Username),
+		mail.WithPassword(e.Password),
+		mail.WithNickname(e.Nickname),
+		mail.WithDeliver(strings.Split(e.Deliver, ",")),
+		mail.WithIsSSL(e.IsSSL),
+	)
 
 	//订阅消息队列，发送邮件
 	err = mq.SubscribeMessage(func(message []byte) (err error) {

@@ -100,16 +100,16 @@ type (
 		// 注销
 		Logoff(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 注册
-		Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 发送注册邮件
 		RegisterEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
-		// 发送忘记密码邮件
-		ForgetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 重置密码
 		ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 发送重置密码邮件
+		ResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 第三方登录
 		OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// 获取授权地址
+		// 获取第三方登录授权地址
 		GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error)
 	}
 
@@ -143,7 +143,7 @@ func (m *defaultAuthRpc) Logoff(ctx context.Context, in *EmptyReq, opts ...grpc.
 }
 
 // 注册
-func (m *defaultAuthRpc) Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultAuthRpc) Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := blog.NewAuthRpcClient(m.cli.Conn())
 	return client.Register(ctx, in, opts...)
 }
@@ -154,16 +154,16 @@ func (m *defaultAuthRpc) RegisterEmail(ctx context.Context, in *UserEmailReq, op
 	return client.RegisterEmail(ctx, in, opts...)
 }
 
-// 发送忘记密码邮件
-func (m *defaultAuthRpc) ForgetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	client := blog.NewAuthRpcClient(m.cli.Conn())
-	return client.ForgetPasswordEmail(ctx, in, opts...)
-}
-
 // 重置密码
 func (m *defaultAuthRpc) ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := blog.NewAuthRpcClient(m.cli.Conn())
 	return client.ResetPassword(ctx, in, opts...)
+}
+
+// 发送重置密码邮件
+func (m *defaultAuthRpc) ResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := blog.NewAuthRpcClient(m.cli.Conn())
+	return client.ResetPasswordEmail(ctx, in, opts...)
 }
 
 // 第三方登录
@@ -172,7 +172,7 @@ func (m *defaultAuthRpc) OauthLogin(ctx context.Context, in *OauthLoginReq, opts
 	return client.OauthLogin(ctx, in, opts...)
 }
 
-// 获取授权地址
+// 获取第三方登录授权地址
 func (m *defaultAuthRpc) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error) {
 	client := blog.NewAuthRpcClient(m.cli.Conn())
 	return client.GetOauthAuthorizeUrl(ctx, in, opts...)

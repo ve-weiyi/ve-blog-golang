@@ -6,8 +6,11 @@ import (
 
 	"github.com/spf13/cast"
 
+	apierr2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/httperr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
-	mail2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
@@ -16,9 +19,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr/httperr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
 type UserService struct {
@@ -140,7 +140,7 @@ func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 	//获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
-		return nil, 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
+		return nil, 0, apierr2.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	// 添加用户id条件
@@ -169,7 +169,7 @@ func (l *UserService) DeleteUserLoginHistoryList(reqCtx *request.Context, req *r
 	//获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
-		return 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
+		return 0, apierr2.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	// 添加用户id条件
@@ -180,24 +180,24 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr2.ErrorUserNotExist
 	}
 
 	// 获取code
 	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
-	code := l.svcCtx.Captcha.GetCodeCaptcha(key)
-	data := mail2.CaptchaEmail{
+	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	data := mail.CaptchaEmail{
 		Username: req.Username,
 		Code:     code,
 	}
 
 	// 组装邮件内容
-	content, err := temputil.TempParseString(mail2.TempForgetPassword, data)
+	content, err := temputil.TempParseString(mail.TempForgetPassword, data)
 	if err != nil {
 		return nil, err
 	}
 
-	msg := &mail2.EmailMessage{
+	msg := &mail.EmailMessage{
 		To:      []string{req.Username},
 		Subject: "忘记密码",
 		Content: content,
@@ -214,14 +214,14 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 func (l *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
 	// 验证code是否正确
 	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
-	if !l.svcCtx.Captcha.VerifyCaptcha(key, req.Code) {
-		return nil, apierr.ErrorCaptchaVerify
+	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
+		return nil, apierr2.ErrorCaptchaVerify
 	}
 
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr2.ErrorUserNotExist
 	}
 
 	// 更新密码
@@ -312,7 +312,7 @@ func (l *UserService) UpdateUserInfo(reqCtx *request.Context, req *request.UserI
 func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int) (data *response.UserInfo, err error) {
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", userId)
 	if err != nil {
-		return nil, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
+		return nil, apierr2.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	//获取用户信息

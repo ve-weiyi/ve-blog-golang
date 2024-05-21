@@ -9,14 +9,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ForgetPasswordEmailLogic struct {
+type ResetPasswordEmailLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewForgetPasswordEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ForgetPasswordEmailLogic {
-	return &ForgetPasswordEmailLogic{
+func NewResetPasswordEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ResetPasswordEmailLogic {
+	return &ResetPasswordEmailLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -24,7 +24,7 @@ func NewForgetPasswordEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // 发送忘记密码邮件
-func (l *ForgetPasswordEmailLogic) ForgetPasswordEmail(in *blog.UserEmailReq) (*blog.EmptyResp, error) {
+func (l *ResetPasswordEmailLogic) ResetPasswordEmail(in *blog.UserEmailReq) (*blog.EmptyResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &blog.EmptyResp{}, nil

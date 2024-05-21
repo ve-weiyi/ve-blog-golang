@@ -3,9 +3,8 @@ package authrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/constantx"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -40,7 +39,7 @@ func (l *LoginLogic) Login(req *blog.LoginReq) (*blog.LoginResp, error) {
 	}
 
 	//判断用户是否被禁用
-	if user.Status == constantx.UserStatusDisabled {
+	if user.Status == constant.UserStatusDisabled {
 		return nil, err
 	}
 

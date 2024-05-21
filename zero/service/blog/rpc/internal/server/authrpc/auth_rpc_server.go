@@ -41,7 +41,7 @@ func (s *AuthRpcServer) Logoff(ctx context.Context, in *blog.EmptyReq) (*blog.Em
 }
 
 // 注册
-func (s *AuthRpcServer) Register(ctx context.Context, in *blog.LoginReq) (*blog.EmptyResp, error) {
+func (s *AuthRpcServer) Register(ctx context.Context, in *blog.LoginReq) (*blog.UserInfoResp, error) {
 	l := authrpclogic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
@@ -52,16 +52,16 @@ func (s *AuthRpcServer) RegisterEmail(ctx context.Context, in *blog.UserEmailReq
 	return l.RegisterEmail(in)
 }
 
-// 发送忘记密码邮件
-func (s *AuthRpcServer) ForgetPasswordEmail(ctx context.Context, in *blog.UserEmailReq) (*blog.EmptyResp, error) {
-	l := authrpclogic.NewForgetPasswordEmailLogic(ctx, s.svcCtx)
-	return l.ForgetPasswordEmail(in)
-}
-
 // 重置密码
 func (s *AuthRpcServer) ResetPassword(ctx context.Context, in *blog.ResetPasswordReq) (*blog.EmptyResp, error) {
 	l := authrpclogic.NewResetPasswordLogic(ctx, s.svcCtx)
 	return l.ResetPassword(in)
+}
+
+// 发送重置密码邮件
+func (s *AuthRpcServer) ResetPasswordEmail(ctx context.Context, in *blog.UserEmailReq) (*blog.EmptyResp, error) {
+	l := authrpclogic.NewResetPasswordEmailLogic(ctx, s.svcCtx)
+	return l.ResetPasswordEmail(in)
 }
 
 // 第三方登录
@@ -70,7 +70,7 @@ func (s *AuthRpcServer) OauthLogin(ctx context.Context, in *blog.OauthLoginReq) 
 	return l.OauthLogin(in)
 }
 
-// 获取授权地址
+// 获取第三方登录授权地址
 func (s *AuthRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *blog.OauthLoginReq) (*blog.OauthLoginUrlResp, error) {
 	l := authrpclogic.NewGetOauthAuthorizeUrlLogic(ctx, s.svcCtx)
 	return l.GetOauthAuthorizeUrl(in)

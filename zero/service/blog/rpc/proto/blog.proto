@@ -112,16 +112,16 @@ service AuthRpc {
   // 注销
   rpc Logoff(EmptyReq) returns(EmptyResp);
   // 注册
-  rpc Register(LoginReq) returns(EmptyResp);
+  rpc Register(LoginReq) returns(UserInfoResp);
   // 发送注册邮件
   rpc RegisterEmail(UserEmailReq) returns(EmptyResp);
-  // 发送忘记密码邮件
-  rpc ForgetPasswordEmail(UserEmailReq) returns(EmptyResp);
   // 重置密码
   rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
+  // 发送重置密码邮件
+  rpc ResetPasswordEmail(UserEmailReq) returns(EmptyResp);
   // 第三方登录
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
-  // 获取授权地址
+  // 获取第三方登录授权地址
   rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
 }
 
