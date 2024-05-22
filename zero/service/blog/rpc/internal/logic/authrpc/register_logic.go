@@ -3,7 +3,6 @@ package authrpclogic
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"gorm.io/gorm"
 
@@ -56,7 +55,7 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 	account := &model.UserAccount{
 		Username:     in.Username,
 		Password:     crypto.BcryptHash(in.Password),
-		Status:       1,
+		Status:       constant.UserStatusNormal,
 		RegisterType: constant.LoginTypeEmail,
 		IpAddress:    "",
 		IpSource:     "",
@@ -64,7 +63,7 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 
 	info := &model.UserInformation{
 		Email:    in.Username,
-		Nickname: strings.Split(in.Username, "@")[0],
+		Nickname: in.Username,
 		Avatar:   "https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG",
 		Phone:    "",
 		Intro:    "这个人很神秘，什么都没有写！",

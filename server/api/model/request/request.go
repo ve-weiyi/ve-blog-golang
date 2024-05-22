@@ -3,7 +3,7 @@ package request
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/iputil"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -21,7 +21,7 @@ func (s *Context) GetContext() context.Context {
 
 func (s *Context) GetIpSource() string {
 	ip := s.IpAddress
-	location, err := iputil.GetIpInfoByBaidu(ip)
+	location, err := ipx.GetIpInfoByBaidu(ip)
 	if err != nil {
 		return "未知ip"
 	}

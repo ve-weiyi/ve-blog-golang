@@ -185,6 +185,11 @@ type ChatRecord struct {
 	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
 }
 
+type ChatSocketMsg struct {
+	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Content string `json:"content"` // 消息内容
+}
+
 type CommentBackDTO struct {
 	Id             int64  `json:"id,optional"`
 	Type           int64  `json:"type,optional"`

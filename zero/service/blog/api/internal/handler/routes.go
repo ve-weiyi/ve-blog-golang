@@ -958,7 +958,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 获取博客前台首页信息
+				// WebSocket消息
 				Method:  http.MethodGet,
 				Path:    "/ws",
 				Handler: websocket.WebSocketHandler(serverCtx),

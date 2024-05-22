@@ -1,6 +1,8 @@
 package logic
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
@@ -24,8 +26,8 @@ func NewWebsocketController(svcCtx *svc.ControllerContext) *WebsocketController 
 	}
 }
 
-// @Tags		Websocket
-// @Summary		查询聊天记录
+// @Tags		WebSocket
+// @Summary		WebSocket消息
 // @Router		/ws [get]
 func (s *WebsocketController) WebSocket(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -35,17 +37,17 @@ func (s *WebsocketController) WebSocket(c *gin.Context) {
 	}
 
 	// 接收消息
-	receive := func(msg []byte) {
+	receive := func(msg []byte) (tx []byte, err error) {
 		glog.Println(string(msg))
 
 		var chat entity.ChatRecord
 		err = jsonconv.JsonToObject(string(msg), &chat)
 		if err != nil {
-			glog.Error(err)
+			return nil, err
 		}
 
 		if chat.Content == "" {
-			return
+			return nil, fmt.Errorf("content is empty")
 		}
 		if reqCtx.UID != 0 {
 			chat.UserID = reqCtx.UID
@@ -53,8 +55,10 @@ func (s *WebsocketController) WebSocket(c *gin.Context) {
 
 		_, err = s.svcCtx.ChatRecordService.CreateChatRecord(reqCtx, &chat)
 		if err != nil {
-			glog.Error(err)
+			return nil, err
 		}
+
+		return msg, nil
 	}
 
 	ws.HandleWebSocket(c.Writer, c.Request, receive)
