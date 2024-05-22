@@ -11,7 +11,7 @@ import (
 
 func TestRbacHolder(t *testing.T) {
 	Init()
-	r := rbac.NewPermissionHolder(global.DB, global.LOG)
+	r := rbac.NewPermissionHolder(global.DB, glog)
 	permission, err := r.FindApiPermission("/api/v1/user", "GET")
 	t.Log(err)
 

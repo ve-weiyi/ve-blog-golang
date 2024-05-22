@@ -20,6 +20,7 @@ import "module/talk.api"
 import "module/comment.api"
 import "module/chat.api"
 import "module/upload.api"
+import "module/websocket.api"
 
 type (
 	PingReq  {}

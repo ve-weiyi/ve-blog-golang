@@ -8,6 +8,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
@@ -88,12 +89,12 @@ func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (res
 }
 
 func (l *AuthService) Logout(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
-	l.svcCtx.Log.Info("用户登出")
+	glog.Info("用户登出")
 	return l.svcCtx.UserAccountRepository.Logout(reqCtx, reqCtx.UID)
 }
 
 func (l *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
-	l.svcCtx.Log.Info("用户注销")
+	glog.Info("用户注销")
 
 	return l.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.UID)
 }
@@ -216,7 +217,7 @@ func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 
 	// 获取第三方用户信息
 	info, err := auth.GetUserOpenInfo(req.Code)
-	l.svcCtx.Log.JsonIndent("第三方用户信息", info)
+	glog.JsonIndent("第三方用户信息", info)
 	if err != nil {
 		return nil, err
 	}

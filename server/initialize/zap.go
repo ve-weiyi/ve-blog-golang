@@ -28,7 +28,7 @@ func Zap() {
 	cfg.ShowLine = global.CONFIG.Zap.EncodeCaller == "long"
 	cfg.ShowColor = global.CONFIG.Zap.EncodeColorful
 
-	global.LOG = glog.NewGlogger(1, cfg)
-	global.LOG.Println("日志组件初始化成功！")
+	glog.Init(1, cfg)
+	glog.Println("日志组件初始化成功！")
 	return
 }

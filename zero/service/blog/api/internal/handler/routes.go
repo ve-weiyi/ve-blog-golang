@@ -24,6 +24,7 @@ import (
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/talk"
 	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/upload"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/website"
+	websocket "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/websocket"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -949,6 +950,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/blog/get_website_config",
 				Handler: website.GetWebsiteConfigHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 获取博客前台首页信息
+				Method:  http.MethodGet,
+				Path:    "/ws",
+				Handler: websocket.WebSocketHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
