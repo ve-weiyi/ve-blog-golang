@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -98,13 +100,13 @@ type (
 		// 批量删除登录历史
 		DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 获取用户接口权限
-		GetUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
+		FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 		// 获取用户菜单权限
-		GetUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
+		FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
 		// 获取用户角色信息
-		GetUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
+		FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
 		// 获取用户信息
-		GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户信息
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户头像
@@ -141,27 +143,27 @@ func (m *defaultUserRpc) DeleteUserLoginHistoryList(ctx context.Context, in *Ids
 }
 
 // 获取用户接口权限
-func (m *defaultUserRpc) GetUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
+func (m *defaultUserRpc) FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.GetUserApis(ctx, in, opts...)
+	return client.FindUserApis(ctx, in, opts...)
 }
 
 // 获取用户菜单权限
-func (m *defaultUserRpc) GetUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
+func (m *defaultUserRpc) FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.GetUserMenus(ctx, in, opts...)
+	return client.FindUserMenus(ctx, in, opts...)
 }
 
 // 获取用户角色信息
-func (m *defaultUserRpc) GetUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
+func (m *defaultUserRpc) FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.GetUserRoles(ctx, in, opts...)
+	return client.FindUserRoles(ctx, in, opts...)
 }
 
 // 获取用户信息
-func (m *defaultUserRpc) GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (m *defaultUserRpc) FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.GetUserInfo(ctx, in, opts...)
+	return client.FindUserInfo(ctx, in, opts...)
 }
 
 // 修改用户信息

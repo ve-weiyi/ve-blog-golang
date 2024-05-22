@@ -42,7 +42,7 @@ func (l *FindTalkListLogic) FindTalkList(reqCtx *types.RestHeader, req *types.Pa
 	for _, v := range out.List {
 
 		m := convert.ConvertTalkTypes(v)
-		user, _ := l.svcCtx.UserRpc.GetUserInfo(l.ctx, &blog.UserReq{UserId: v.UserId})
+		user, _ := l.svcCtx.UserRpc.FindUserInfo(l.ctx, &blog.UserReq{UserId: v.UserId})
 		if user != nil {
 			m.UserId = user.UserId
 			m.Nickname = user.Nickname

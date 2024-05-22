@@ -3,22 +3,22 @@ package userrpclogic
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserMenusLogic struct {
+type FindUserMenusLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserMenusLogic {
-	return &GetUserMenusLogic{
+func NewFindUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserMenusLogic {
+	return &FindUserMenusLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -26,7 +26,7 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 // 获取用户菜单权限
-func (l *GetUserMenusLogic) GetUserMenus(in *blog.UserReq) (*blog.MenuPageResp, error) {
+func (l *FindUserMenusLogic) FindUserMenus(in *blog.UserReq) (*blog.MenuPageResp, error) {
 	uid := in.UserId
 
 	// 查用户

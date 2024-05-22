@@ -9,20 +9,21 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type RegisterEmailLogic struct {
+type SendRegisterEmailLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterEmailLogic {
-	return &RegisterEmailLogic{
+func NewSendRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SendRegisterEmailLogic {
+	return &SendRegisterEmailLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -30,10 +31,15 @@ func NewRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Reg
 }
 
 // 发送注册邮件
-func (l *RegisterEmailLogic) RegisterEmail(in *blog.UserEmailReq) (*blog.EmptyResp, error) {
+func (l *SendRegisterEmailLogic) SendRegisterEmail(in *blog.UserEmailReq) (*blog.EmptyResp, error) {
+	// 校验邮箱格式
+	if !valid.IsEmailValid(in.Username) {
+		return nil, apierr.ErrorInvalidParam
+	}
+
 	// 验证用户是否存在
-	account, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
-	if account != nil {
+	exist, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
+	if exist != nil {
 		return nil, apierr.ErrorUserAlreadyExist
 	}
 

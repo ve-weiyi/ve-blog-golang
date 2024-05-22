@@ -10,6 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
@@ -34,18 +35,21 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 // 注册
 func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) {
-	// 验证code是否正确
-	if in.Code != "" {
-		key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
-		if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.Code) {
-			return nil, apierr.ErrorCaptchaVerify
-		}
+	// 校验邮箱格式
+	if !valid.IsEmailValid(in.Username) {
+		return nil, apierr.ErrorInvalidParam
 	}
 
 	// 获取用户
 	exist, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
 	if exist != nil {
 		return nil, apierr.ErrorUserAlreadyExist
+	}
+
+	// 验证code是否正确
+	key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
+	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.Code) {
+		return nil, apierr.ErrorCaptchaVerify
 	}
 
 	// 邮箱注册

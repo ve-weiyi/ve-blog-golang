@@ -45,6 +45,8 @@ type (
 	LoginHistoryPageResp     = blog.LoginHistoryPageResp
 	LoginReq                 = blog.LoginReq
 	LoginResp                = blog.LoginResp
+	LogoffReq                = blog.LogoffReq
+	LogoutReq                = blog.LogoutReq
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp

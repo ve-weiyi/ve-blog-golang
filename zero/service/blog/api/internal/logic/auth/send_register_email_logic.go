@@ -30,7 +30,7 @@ func (l *SendRegisterEmailLogic) SendRegisterEmail(reqCtx *types.RestHeader, req
 		Username: req.Username,
 	}
 
-	_, err = l.svcCtx.AuthRpc.RegisterEmail(l.ctx, in)
+	_, err = l.svcCtx.AuthRpc.SendRegisterEmail(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -4,8 +4,8 @@ import "base.api"
 
 type (
     LoginReq {
-        Username string `json:"username,optional"`
-        Password string `json:"password,optional"`
+        Username string `json:"username"`
+        Password string `json:"password"`
         Code string `json:"code,optional"`
     }
 
@@ -26,7 +26,7 @@ type (
 
     UserInfo {
         UserId int64 `json:"user_id,optional"`     // 用户id
-        Username string `json:"username,optional"` // 用户名
+        Username string `json:"username"` // 用户名
         Nickname string `json:"nickname,optional"` // 昵称
         Avatar string `json:"avatar,optional"`     // 头像
         Intro string `json:"intro,optional"`       // 个人简介
@@ -34,14 +34,14 @@ type (
         Email string `json:"email,optional"`       // 邮箱
     }
 
-    UserEmailReq {
-        Username string `json:"username,optional"`
+    ResetPasswordReq {
+        Username string `json:"username"`
+        Password string `json:"password"`
+        Code string `json:"code,optional"`
     }
 
-    ResetPasswordReq {
-        Username string `json:"username,optional"`
-        Password string `json:"password,optional"`
-        Code string `json:"code,optional"`
+    UserEmailReq {
+        Username string `json:"username"`
     }
 
     OauthLoginReq {
@@ -78,6 +78,10 @@ service blog-api {
     @handler Register
     post /register (LoginReq) returns (EmptyResp)
 
+    @doc "重置密码"
+    @handler ResetPassword
+    post /reset_password (ResetPasswordReq) returns (EmptyResp)
+
     @doc "发送注册账号邮件"
     @handler SendRegisterEmail
     post /send_register_email (UserEmailReq) returns (EmptyResp)
@@ -85,10 +89,6 @@ service blog-api {
     @doc "发送忘记密码邮件"
     @handler SendForgetEmail
     post /send_forget_email (UserEmailReq) returns (EmptyResp)
-
-    @doc "重置密码"
-    @handler ResetPassword
-    post /reset_password (ResetPasswordReq) returns (EmptyResp)
 
     @doc "第三方登录"
     @handler OauthLogin

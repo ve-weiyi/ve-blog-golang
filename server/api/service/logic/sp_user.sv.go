@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cast"
 
-	apierr2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/httperr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
@@ -140,7 +140,7 @@ func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 	//获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
-		return nil, 0, apierr2.NewApiError(httperr.CodeForbidden, "用户不存在！")
+		return nil, 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	// 添加用户id条件
@@ -169,7 +169,7 @@ func (l *UserService) DeleteUserLoginHistoryList(reqCtx *request.Context, req *r
 	//获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
 	if err != nil {
-		return 0, apierr2.NewApiError(httperr.CodeForbidden, "用户不存在！")
+		return 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	// 添加用户id条件
@@ -180,7 +180,7 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
-		return nil, apierr2.ErrorUserNotExist
+		return nil, apierr.ErrorUserNotExist
 	}
 
 	// 获取code
@@ -215,13 +215,13 @@ func (l *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetP
 	// 验证code是否正确
 	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
-		return nil, apierr2.ErrorCaptchaVerify
+		return nil, apierr.ErrorCaptchaVerify
 	}
 
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
-		return nil, apierr2.ErrorUserNotExist
+		return nil, apierr.ErrorUserNotExist
 	}
 
 	// 更新密码
@@ -312,7 +312,7 @@ func (l *UserService) UpdateUserInfo(reqCtx *request.Context, req *request.UserI
 func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int) (data *response.UserInfo, err error) {
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", userId)
 	if err != nil {
-		return nil, apierr2.NewApiError(httperr.CodeForbidden, "用户不存在！")
+		return nil, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	//获取用户信息

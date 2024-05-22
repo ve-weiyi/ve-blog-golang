@@ -16,13 +16,13 @@ func FindUserLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFun
 	return func(w http.ResponseWriter, r *http.Request) {
 		var reqCtx types.RestHeader
 		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			responsex.Response(r, w, nil, err)
 			return
 		}
 
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			responsex.Response(r, w, nil, err)
 			return
 		}
 

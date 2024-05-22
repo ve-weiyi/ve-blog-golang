@@ -104,21 +104,29 @@ message UserEmailReq {
   string username = 1;
 }
 
+message LogoutReq {
+  int64 user_id = 1;
+}
+
+message LogoffReq {
+  int64 user_id = 1;
+}
+
 service AuthRpc {
   // 登录
   rpc Login(LoginReq) returns(LoginResp);
   // 登出
-  rpc Logout(EmptyReq) returns(EmptyResp);
+  rpc Logout(LogoutReq) returns(EmptyResp);
   // 注销
-  rpc Logoff(EmptyReq) returns(EmptyResp);
+  rpc Logoff(LogoffReq) returns(EmptyResp);
   // 注册
   rpc Register(LoginReq) returns(UserInfoResp);
-  // 发送注册邮件
-  rpc RegisterEmail(UserEmailReq) returns(EmptyResp);
   // 重置密码
   rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
+  // 发送注册邮件
+  rpc SendRegisterEmail(UserEmailReq) returns(EmptyResp);
   // 发送重置密码邮件
-  rpc ResetPasswordEmail(UserEmailReq) returns(EmptyResp);
+  rpc SendResetPasswordEmail(UserEmailReq) returns(EmptyResp);
   // 第三方登录
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
   // 获取第三方登录授权地址
@@ -384,13 +392,13 @@ service UserRpc {
   // 批量删除登录历史
   rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResp);
   // 获取用户接口权限
-  rpc GetUserApis(UserReq) returns(ApiPageResp);
+  rpc FindUserApis(UserReq) returns(ApiPageResp);
   // 获取用户菜单权限
-  rpc GetUserMenus(UserReq) returns(MenuPageResp);
+  rpc FindUserMenus(UserReq) returns(MenuPageResp);
   // 获取用户角色信息
-  rpc GetUserRoles(UserReq) returns(RolePageResp);
+  rpc FindUserRoles(UserReq) returns(RolePageResp);
   // 获取用户信息
-  rpc GetUserInfo(UserReq) returns(UserInfoResp);
+  rpc FindUserInfo(UserReq) returns(UserInfoResp);
   // 修改用户信息
   rpc UpdateUserInfo(UpdateUserInfoReq) returns(UserInfoResp);
   // 修改用户头像

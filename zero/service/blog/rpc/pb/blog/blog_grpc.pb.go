@@ -23,15 +23,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AuthRpc_Login_FullMethodName                = "/blog.AuthRpc/Login"
-	AuthRpc_Logout_FullMethodName               = "/blog.AuthRpc/Logout"
-	AuthRpc_Logoff_FullMethodName               = "/blog.AuthRpc/Logoff"
-	AuthRpc_Register_FullMethodName             = "/blog.AuthRpc/Register"
-	AuthRpc_RegisterEmail_FullMethodName        = "/blog.AuthRpc/RegisterEmail"
-	AuthRpc_ResetPassword_FullMethodName        = "/blog.AuthRpc/ResetPassword"
-	AuthRpc_ResetPasswordEmail_FullMethodName   = "/blog.AuthRpc/ResetPasswordEmail"
-	AuthRpc_OauthLogin_FullMethodName           = "/blog.AuthRpc/OauthLogin"
-	AuthRpc_GetOauthAuthorizeUrl_FullMethodName = "/blog.AuthRpc/GetOauthAuthorizeUrl"
+	AuthRpc_Login_FullMethodName                  = "/blog.AuthRpc/Login"
+	AuthRpc_Logout_FullMethodName                 = "/blog.AuthRpc/Logout"
+	AuthRpc_Logoff_FullMethodName                 = "/blog.AuthRpc/Logoff"
+	AuthRpc_Register_FullMethodName               = "/blog.AuthRpc/Register"
+	AuthRpc_ResetPassword_FullMethodName          = "/blog.AuthRpc/ResetPassword"
+	AuthRpc_SendRegisterEmail_FullMethodName      = "/blog.AuthRpc/SendRegisterEmail"
+	AuthRpc_SendResetPasswordEmail_FullMethodName = "/blog.AuthRpc/SendResetPasswordEmail"
+	AuthRpc_OauthLogin_FullMethodName             = "/blog.AuthRpc/OauthLogin"
+	AuthRpc_GetOauthAuthorizeUrl_FullMethodName   = "/blog.AuthRpc/GetOauthAuthorizeUrl"
 )
 
 // AuthRpcClient is the client API for AuthRpc service.
@@ -41,17 +41,17 @@ type AuthRpcClient interface {
 	// 登录
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 登出
-	Logout(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 注销
-	Logoff(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	Logoff(ctx context.Context, in *LogoffReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 注册
 	Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*UserInfoResp, error)
-	// 发送注册邮件
-	RegisterEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 重置密码
 	ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 发送注册邮件
+	SendRegisterEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 发送重置密码邮件
-	ResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	SendResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 第三方登录
 	OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 获取第三方登录授权地址
@@ -75,7 +75,7 @@ func (c *authRpcClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *authRpcClient) Logout(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *authRpcClient) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AuthRpc_Logout_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -84,7 +84,7 @@ func (c *authRpcClient) Logout(ctx context.Context, in *EmptyReq, opts ...grpc.C
 	return out, nil
 }
 
-func (c *authRpcClient) Logoff(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *authRpcClient) Logoff(ctx context.Context, in *LogoffReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AuthRpc_Logoff_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -102,15 +102,6 @@ func (c *authRpcClient) Register(ctx context.Context, in *LoginReq, opts ...grpc
 	return out, nil
 }
 
-func (c *authRpcClient) RegisterEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, AuthRpc_RegisterEmail_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authRpcClient) ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AuthRpc_ResetPassword_FullMethodName, in, out, opts...)
@@ -120,9 +111,18 @@ func (c *authRpcClient) ResetPassword(ctx context.Context, in *ResetPasswordReq,
 	return out, nil
 }
 
-func (c *authRpcClient) ResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *authRpcClient) SendRegisterEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, AuthRpc_ResetPasswordEmail_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AuthRpc_SendRegisterEmail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authRpcClient) SendResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, AuthRpc_SendResetPasswordEmail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -154,17 +154,17 @@ type AuthRpcServer interface {
 	// 登录
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 	// 登出
-	Logout(context.Context, *EmptyReq) (*EmptyResp, error)
+	Logout(context.Context, *LogoutReq) (*EmptyResp, error)
 	// 注销
-	Logoff(context.Context, *EmptyReq) (*EmptyResp, error)
+	Logoff(context.Context, *LogoffReq) (*EmptyResp, error)
 	// 注册
 	Register(context.Context, *LoginReq) (*UserInfoResp, error)
-	// 发送注册邮件
-	RegisterEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
 	// 重置密码
 	ResetPassword(context.Context, *ResetPasswordReq) (*EmptyResp, error)
+	// 发送注册邮件
+	SendRegisterEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
 	// 发送重置密码邮件
-	ResetPasswordEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
+	SendResetPasswordEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
 	// 第三方登录
 	OauthLogin(context.Context, *OauthLoginReq) (*LoginResp, error)
 	// 获取第三方登录授权地址
@@ -179,23 +179,23 @@ type UnimplementedAuthRpcServer struct {
 func (UnimplementedAuthRpcServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedAuthRpcServer) Logout(context.Context, *EmptyReq) (*EmptyResp, error) {
+func (UnimplementedAuthRpcServer) Logout(context.Context, *LogoutReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
-func (UnimplementedAuthRpcServer) Logoff(context.Context, *EmptyReq) (*EmptyResp, error) {
+func (UnimplementedAuthRpcServer) Logoff(context.Context, *LogoffReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logoff not implemented")
 }
 func (UnimplementedAuthRpcServer) Register(context.Context, *LoginReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedAuthRpcServer) RegisterEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterEmail not implemented")
-}
 func (UnimplementedAuthRpcServer) ResetPassword(context.Context, *ResetPasswordReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
 }
-func (UnimplementedAuthRpcServer) ResetPasswordEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResetPasswordEmail not implemented")
+func (UnimplementedAuthRpcServer) SendRegisterEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendRegisterEmail not implemented")
+}
+func (UnimplementedAuthRpcServer) SendResetPasswordEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendResetPasswordEmail not implemented")
 }
 func (UnimplementedAuthRpcServer) OauthLogin(context.Context, *OauthLoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OauthLogin not implemented")
@@ -235,7 +235,7 @@ func _AuthRpc_Login_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _AuthRpc_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(LogoutReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -247,13 +247,13 @@ func _AuthRpc_Logout_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: AuthRpc_Logout_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthRpcServer).Logout(ctx, req.(*EmptyReq))
+		return srv.(AuthRpcServer).Logout(ctx, req.(*LogoutReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AuthRpc_Logoff_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(LogoffReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -265,7 +265,7 @@ func _AuthRpc_Logoff_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: AuthRpc_Logoff_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthRpcServer).Logoff(ctx, req.(*EmptyReq))
+		return srv.(AuthRpcServer).Logoff(ctx, req.(*LogoffReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -288,24 +288,6 @@ func _AuthRpc_Register_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthRpc_RegisterEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserEmailReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthRpcServer).RegisterEmail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuthRpc_RegisterEmail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthRpcServer).RegisterEmail(ctx, req.(*UserEmailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AuthRpc_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ResetPasswordReq)
 	if err := dec(in); err != nil {
@@ -324,20 +306,38 @@ func _AuthRpc_ResetPassword_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthRpc_ResetPasswordEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AuthRpc_SendRegisterEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserEmailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthRpcServer).ResetPasswordEmail(ctx, in)
+		return srv.(AuthRpcServer).SendRegisterEmail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AuthRpc_ResetPasswordEmail_FullMethodName,
+		FullMethod: AuthRpc_SendRegisterEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthRpcServer).ResetPasswordEmail(ctx, req.(*UserEmailReq))
+		return srv.(AuthRpcServer).SendRegisterEmail(ctx, req.(*UserEmailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthRpc_SendResetPasswordEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserEmailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthRpcServer).SendResetPasswordEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthRpc_SendResetPasswordEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthRpcServer).SendResetPasswordEmail(ctx, req.(*UserEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -402,16 +402,16 @@ var AuthRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AuthRpc_Register_Handler,
 		},
 		{
-			MethodName: "RegisterEmail",
-			Handler:    _AuthRpc_RegisterEmail_Handler,
-		},
-		{
 			MethodName: "ResetPassword",
 			Handler:    _AuthRpc_ResetPassword_Handler,
 		},
 		{
-			MethodName: "ResetPasswordEmail",
-			Handler:    _AuthRpc_ResetPasswordEmail_Handler,
+			MethodName: "SendRegisterEmail",
+			Handler:    _AuthRpc_SendRegisterEmail_Handler,
+		},
+		{
+			MethodName: "SendResetPasswordEmail",
+			Handler:    _AuthRpc_SendResetPasswordEmail_Handler,
 		},
 		{
 			MethodName: "OauthLogin",
@@ -1563,10 +1563,10 @@ var RoleRpc_ServiceDesc = grpc.ServiceDesc{
 const (
 	UserRpc_FindUserLoginHistoryList_FullMethodName   = "/blog.UserRpc/FindUserLoginHistoryList"
 	UserRpc_DeleteUserLoginHistoryList_FullMethodName = "/blog.UserRpc/DeleteUserLoginHistoryList"
-	UserRpc_GetUserApis_FullMethodName                = "/blog.UserRpc/GetUserApis"
-	UserRpc_GetUserMenus_FullMethodName               = "/blog.UserRpc/GetUserMenus"
-	UserRpc_GetUserRoles_FullMethodName               = "/blog.UserRpc/GetUserRoles"
-	UserRpc_GetUserInfo_FullMethodName                = "/blog.UserRpc/GetUserInfo"
+	UserRpc_FindUserApis_FullMethodName               = "/blog.UserRpc/FindUserApis"
+	UserRpc_FindUserMenus_FullMethodName              = "/blog.UserRpc/FindUserMenus"
+	UserRpc_FindUserRoles_FullMethodName              = "/blog.UserRpc/FindUserRoles"
+	UserRpc_FindUserInfo_FullMethodName               = "/blog.UserRpc/FindUserInfo"
 	UserRpc_UpdateUserInfo_FullMethodName             = "/blog.UserRpc/UpdateUserInfo"
 	UserRpc_UpdateUserAvatar_FullMethodName           = "/blog.UserRpc/UpdateUserAvatar"
 	UserRpc_UpdateUserStatus_FullMethodName           = "/blog.UserRpc/UpdateUserStatus"
@@ -1583,13 +1583,13 @@ type UserRpcClient interface {
 	// 批量删除登录历史
 	DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 获取用户接口权限
-	GetUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
+	FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 	// 获取用户菜单权限
-	GetUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
+	FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
 	// 获取用户角色信息
-	GetUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
+	FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
 	// 获取用户信息
-	GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// 修改用户头像
@@ -1628,36 +1628,36 @@ func (c *userRpcClient) DeleteUserLoginHistoryList(ctx context.Context, in *IdsR
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
+func (c *userRpcClient) FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
 	out := new(ApiPageResp)
-	err := c.cc.Invoke(ctx, UserRpc_GetUserApis_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserRpc_FindUserApis_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
+func (c *userRpcClient) FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
 	out := new(MenuPageResp)
-	err := c.cc.Invoke(ctx, UserRpc_GetUserMenus_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserRpc_FindUserMenus_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
+func (c *userRpcClient) FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
 	out := new(RolePageResp)
-	err := c.cc.Invoke(ctx, UserRpc_GetUserRoles_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserRpc_FindUserRoles_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userRpcClient) GetUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (c *userRpcClient) FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	out := new(UserInfoResp)
-	err := c.cc.Invoke(ctx, UserRpc_GetUserInfo_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserRpc_FindUserInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1718,13 +1718,13 @@ type UserRpcServer interface {
 	// 批量删除登录历史
 	DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResp, error)
 	// 获取用户接口权限
-	GetUserApis(context.Context, *UserReq) (*ApiPageResp, error)
+	FindUserApis(context.Context, *UserReq) (*ApiPageResp, error)
 	// 获取用户菜单权限
-	GetUserMenus(context.Context, *UserReq) (*MenuPageResp, error)
+	FindUserMenus(context.Context, *UserReq) (*MenuPageResp, error)
 	// 获取用户角色信息
-	GetUserRoles(context.Context, *UserReq) (*RolePageResp, error)
+	FindUserRoles(context.Context, *UserReq) (*RolePageResp, error)
 	// 获取用户信息
-	GetUserInfo(context.Context, *UserReq) (*UserInfoResp, error)
+	FindUserInfo(context.Context, *UserReq) (*UserInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UserInfoResp, error)
 	// 修改用户头像
@@ -1748,17 +1748,17 @@ func (UnimplementedUserRpcServer) FindUserLoginHistoryList(context.Context, *Pag
 func (UnimplementedUserRpcServer) DeleteUserLoginHistoryList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserLoginHistoryList not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserApis(context.Context, *UserReq) (*ApiPageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserApis not implemented")
+func (UnimplementedUserRpcServer) FindUserApis(context.Context, *UserReq) (*ApiPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserApis not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserMenus(context.Context, *UserReq) (*MenuPageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserMenus not implemented")
+func (UnimplementedUserRpcServer) FindUserMenus(context.Context, *UserReq) (*MenuPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserMenus not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserRoles(context.Context, *UserReq) (*RolePageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
+func (UnimplementedUserRpcServer) FindUserRoles(context.Context, *UserReq) (*RolePageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserRoles not implemented")
 }
-func (UnimplementedUserRpcServer) GetUserInfo(context.Context, *UserReq) (*UserInfoResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+func (UnimplementedUserRpcServer) FindUserInfo(context.Context, *UserReq) (*UserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserInfo not implemented")
 }
 func (UnimplementedUserRpcServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
@@ -1824,74 +1824,74 @@ func _UserRpc_DeleteUserLoginHistoryList_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRpc_GetUserApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserRpc_FindUserApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRpcServer).GetUserApis(ctx, in)
+		return srv.(UserRpcServer).FindUserApis(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRpc_GetUserApis_FullMethodName,
+		FullMethod: UserRpc_FindUserApis_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserApis(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserApis(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRpc_GetUserMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserRpc_FindUserMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRpcServer).GetUserMenus(ctx, in)
+		return srv.(UserRpcServer).FindUserMenus(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRpc_GetUserMenus_FullMethodName,
+		FullMethod: UserRpc_FindUserMenus_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserMenus(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserMenus(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRpc_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserRpc_FindUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRpcServer).GetUserRoles(ctx, in)
+		return srv.(UserRpcServer).FindUserRoles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRpc_GetUserRoles_FullMethodName,
+		FullMethod: UserRpc_FindUserRoles_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserRoles(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserRoles(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserRpc_FindUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserRpcServer).GetUserInfo(ctx, in)
+		return srv.(UserRpcServer).FindUserInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserRpc_GetUserInfo_FullMethodName,
+		FullMethod: UserRpc_FindUserInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).GetUserInfo(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserInfo(ctx, req.(*UserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2002,20 +2002,20 @@ var UserRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserRpc_DeleteUserLoginHistoryList_Handler,
 		},
 		{
-			MethodName: "GetUserApis",
-			Handler:    _UserRpc_GetUserApis_Handler,
+			MethodName: "FindUserApis",
+			Handler:    _UserRpc_FindUserApis_Handler,
 		},
 		{
-			MethodName: "GetUserMenus",
-			Handler:    _UserRpc_GetUserMenus_Handler,
+			MethodName: "FindUserMenus",
+			Handler:    _UserRpc_FindUserMenus_Handler,
 		},
 		{
-			MethodName: "GetUserRoles",
-			Handler:    _UserRpc_GetUserRoles_Handler,
+			MethodName: "FindUserRoles",
+			Handler:    _UserRpc_FindUserRoles_Handler,
 		},
 		{
-			MethodName: "GetUserInfo",
-			Handler:    _UserRpc_GetUserInfo_Handler,
+			MethodName: "FindUserInfo",
+			Handler:    _UserRpc_FindUserInfo_Handler,
 		},
 		{
 			MethodName: "UpdateUserInfo",

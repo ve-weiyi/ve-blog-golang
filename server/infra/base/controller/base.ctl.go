@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cast"
 	"gorm.io/gorm"
 
-	apierr2 "github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -53,7 +53,7 @@ func (m *BaseController) LimitLock(ctx *gin.Context) error {
 		global.BlackCache.Put(key, 1)
 	}
 	if cast.ToInt(v) > 10 {
-		return apierr2.ErrorFrequentRequest
+		return apierr.ErrorFrequentRequest
 	}
 	return nil
 }
@@ -71,7 +71,7 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	//}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		return apierr2.ErrorInvalidParam.Wrap(err)
+		return apierr.ErrorInvalidParam.Wrap(err)
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -80,7 +80,7 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	}
 
 	if err := isValid.IsValid(); err != nil {
-		return apierr2.ErrorInvalidParam.Wrap(err)
+		return apierr.ErrorInvalidParam.Wrap(err)
 	}
 
 	return nil
@@ -108,7 +108,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 func (m *BaseController) ShouldBindQuery(ctx *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := ctx.ShouldBind(req); err != nil {
-		return apierr2.ErrorInvalidParam.Wrap(err)
+		return apierr.ErrorInvalidParam.Wrap(err)
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {
@@ -204,30 +204,30 @@ func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {
-	case apierr2.ApiError:
+	case apierr.ApiError:
 		m.Response(ctx, e.Code(), e.Error(), e.Error())
 		return
 
 	case *json.UnmarshalTypeError:
-		m.Response(ctx, apierr2.ErrorInternalServerError.Code(), "json解析错误", e.Error())
+		m.Response(ctx, apierr.ErrorInternalServerError.Code(), "json解析错误", e.Error())
 		return
 
 	case *mysql.MySQLError:
 		switch e.Number {
 		case 1062:
-			m.Response(ctx, apierr2.ErrorSqlQueryError.Code(), "数据已存在", e.Error())
+			m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据已存在", e.Error())
 			return
 		default:
-			m.Response(ctx, apierr2.ErrorSqlQueryError.Code(), "数据库错误", SqlErrorI18n(e))
+			m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据库错误", SqlErrorI18n(e))
 			return
 		}
 	}
 
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		m.Response(ctx, apierr2.ErrorSqlQueryError.Code(), "数据不存在", err.Error())
+		m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据不存在", err.Error())
 		return
 	}
 
-	m.Response(ctx, apierr2.ErrorInternalServerError.Code(), apierr2.ErrorInternalServerError.Error(), err.Error())
+	m.Response(ctx, apierr.ErrorInternalServerError.Code(), apierr.ErrorInternalServerError.Error(), err.Error())
 }

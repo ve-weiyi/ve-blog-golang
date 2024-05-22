@@ -295,8 +295,8 @@ type LoginHistory struct {
 }
 
 type LoginReq struct {
-	Username string `json:"username,optional"`
-	Password string `json:"password,optional"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 	Code     string `json:"code,optional"`
 }
 
@@ -462,8 +462,8 @@ type Remark struct {
 }
 
 type ResetPasswordReq struct {
-	Username string `json:"username,optional"`
-	Password string `json:"password,optional"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 	Code     string `json:"code,optional"`
 }
 
@@ -632,7 +632,7 @@ type UploadFileResp struct {
 
 type User struct {
 	Id           int64        `json:"id,optional"`
-	Username     string       `json:"username,optional"`
+	Username     string       `json:"username"`
 	Nickname     string       `json:"nickname,optional"`
 	Avatar       string       `json:"avatar,optional"`
 	Intro        string       `json:"intro,optional"`
@@ -670,12 +670,12 @@ type UserArea struct {
 }
 
 type UserEmailReq struct {
-	Username string `json:"username,optional"`
+	Username string `json:"username"`
 }
 
 type UserInfo struct {
 	UserId   int64  `json:"user_id,optional"`  // 用户id
-	Username string `json:"username,optional"` // 用户名
+	Username string `json:"username"`          // 用户名
 	Nickname string `json:"nickname,optional"` // 昵称
 	Avatar   string `json:"avatar,optional"`   // 头像
 	Intro    string `json:"intro,optional"`    // 个人简介
