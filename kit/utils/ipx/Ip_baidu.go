@@ -1,9 +1,10 @@
-package iputil
+package ipx
 
 import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	jsoniter "github.com/json-iterator/go"
 )
@@ -21,8 +22,8 @@ type BaiduLocation struct {
 	Appinfo          string `json:"appinfo"`          // 应用信息
 	DispType         int    `json:"disp_type"`        // 显示类型
 	Fetchkey         string `json:"fetchkey"`         // 获取键
-	Location         string `json:"location"`         // 地址
-	Origip           string `json:"origip"`           // 原始 IP 地址
+	Location         string `json:"location"`         // 地址,广东省深圳市 阿里云
+	Origip           string `json:"origip"`           // 原始 IP 地址,119.23.144.144
 	Origipquery      string `json:"origipquery"`      // 原始 IP 地址查询
 	Resourceid       string `json:"resourceid"`       // 资源 ID
 	RoleId           int    `json:"role_id"`          // 角色 ID
@@ -35,9 +36,10 @@ type BaiduLocation struct {
 
 // GetIpSource 获取ip对应的城市地区
 func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
-	if ip == "localhost" || ip == "127.0.0.1" {
+	if strings.HasPrefix(ip, "localhost") || strings.HasPrefix(ip, "127.0.0.1") {
 		return &BaiduLocation{
 			Location: "本机地址",
+			Origip:   ip,
 		}, nil
 	}
 
@@ -60,6 +62,6 @@ func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
 	if len(result.Data) > 0 {
 		return result.Data[0], nil
 	} else {
-		return nil, fmt.Errorf("no data:%v", result)
+		return nil, fmt.Errorf("ip query fail,no data ip:%v", ip)
 	}
 }
