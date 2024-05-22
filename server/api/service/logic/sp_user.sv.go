@@ -10,6 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/httperr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -97,7 +98,7 @@ func (l *UserService) FindOnlineUserList(reqCtx *request.Context, page *request.
 		return nil, 0, err
 	}
 
-	l.svcCtx.Log.JsonIndent("names", keys)
+	glog.JsonIndent("names", keys)
 	page.Limit.Page = 0
 	page.Limit.PageSize = 0
 	page.Conditions = append(page.Conditions, &request.PageCondition{Field: "id", Value: keys, Operator: "in", Logic: "AND"})

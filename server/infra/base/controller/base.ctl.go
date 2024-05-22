@@ -24,13 +24,10 @@ import (
 )
 
 type BaseController struct {
-	Log *glog.Glogger
 }
 
 func NewBaseController(svc *svc.ControllerContext) BaseController {
-	return BaseController{
-		Log: global.LOG,
-	}
+	return BaseController{}
 }
 
 // 获取请求上下文
@@ -100,7 +97,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 	//m.Log.Logger(js)
 	//m.Log.JsonIndent(req)
 	if err != nil {
-		m.Log.Error(err)
+		glog.Error(err)
 	}
 	return err
 }
@@ -200,7 +197,7 @@ func getInternalTime(data string) time.Duration {
 }
 
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
-	m.Log.Error("操作失败!", err)
+	glog.Error("操作失败!", err)
 	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {

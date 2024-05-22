@@ -7,6 +7,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
@@ -20,11 +21,11 @@ func Redis() {
 	})
 	pong, err := client.Ping(context.Background()).Result()
 	if err != nil {
-		global.LOG.Errorf("Redis 连接失败, err:%v", err)
+		glog.Errorf("Redis 连接失败, err:%v", err)
 		return
 	}
 	client.Set(context.Background(), fmt.Sprintf("redis:%s", pong), time.Now().String(), -1)
 	global.REDIS = client
 
-	global.LOG.Infof("Redis 连接成功%v! address:%v db:%v", pong, address, redisCfg.DB)
+	glog.Infof("Redis 连接成功%v! address:%v db:%v", pong, address, redisCfg.DB)
 }

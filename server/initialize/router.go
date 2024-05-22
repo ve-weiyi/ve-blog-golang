@@ -8,6 +8,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/router"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/router/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/docs"
@@ -23,7 +24,7 @@ func Routers() *gin.Engine {
 	blogRouter := router.NewRouter(ctx)
 
 	// Generate Swagger JSON file
-	global.LOG.Info("register swagger handler")
+	glog.Info("register swagger handler")
 	docs.SwaggerInfo.BasePath = global.CONFIG.System.RouterPrefix
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	// 放行后端静态资源目录，为用户头像和文件提供静态地址
@@ -80,6 +81,6 @@ func Routers() *gin.Engine {
 		blogRouter.AIRouter.InitAIRouter(publicGroup, adminGroup)
 	}
 
-	global.LOG.Info("router register success")
+	glog.Info("router register success")
 	return Router
 }

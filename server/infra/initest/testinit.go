@@ -94,9 +94,9 @@ func Zap() {
 	copyutil.DeepCopyByJson(global.CONFIG.Zap, &cfg)
 
 	//glog.ReplaceDefaultLogger(cfg)
-	global.LOG = glog.NewGlogger(1, cfg)
+	glog = glog.NewGlogger(1, cfg)
 
-	global.LOG.Infof("日志组件初始化成功！")
+	glog.Infof("日志组件初始化成功！")
 	return
 }
 

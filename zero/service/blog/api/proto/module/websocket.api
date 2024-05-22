@@ -1,0 +1,12 @@
+syntax = "v1"
+
+@server(
+    prefix: /api/v1
+    group: websocket
+)
+
+service blog-api {
+    @doc "获取博客前台首页信息"
+    @handler WebSocket
+    get /ws () returns ()
+}

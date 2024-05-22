@@ -12,7 +12,6 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
@@ -27,7 +26,6 @@ var (
 	REDIS     *redis.Client
 	CONFIG    config.Config
 	JWT       *jjwt.JwtToken
-	LOG       *glog.Glogger
 	EmailMQ   *rabbitmq.RabbitmqConn
 	Uploader  upload.Uploader
 	AIChatGPT *chatgpt.AIChatGPT

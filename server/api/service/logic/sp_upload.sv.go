@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -29,7 +30,7 @@ func NewUploadService(svcCtx *svc.ServiceContext) *UploadService {
 
 // 上传文件
 func (l *UploadService) UploadFile(reqCtx *request.Context, label string, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
-	l.svcCtx.Log.Println("上传文件")
+	glog.Println("上传文件")
 	label = "upload" + label
 	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
@@ -53,19 +54,19 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 	label := "voice"
 	filename := time.Now().Format("20060102150405") + ".mp3"
 
-	l.svcCtx.Log.Println("上传语言")
+	glog.Println("上传语言")
 	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
 	if err != nil {
 		return nil, err
 	}
 
-	l.svcCtx.Log.Println("查询用户信息")
+	glog.Println("查询用户信息")
 	user, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.UID)
 	if err != nil {
 		return nil, err
 	}
 
-	l.svcCtx.Log.Println("创建聊天记录")
+	glog.Println("创建聊天记录")
 	var chat entity.ChatRecord
 	chat.Type = constant.VoiceMessage
 	chat.UserID = user.UserID
@@ -81,10 +82,10 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 		return nil, err
 	}
 
-	l.svcCtx.Log.Println("Websocket广播")
+	glog.Println("Websocket广播")
 	ws.Broadcast([]byte(jsonconv.ObjectToJson(chat)))
 
-	l.svcCtx.Log.Println("创建上传记录")
+	glog.Println("创建上传记录")
 	up := &entity.UploadRecord{
 		UserID:   reqCtx.UID,
 		Label:    label,

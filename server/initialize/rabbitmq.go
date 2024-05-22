@@ -5,6 +5,8 @@ import (
 	"log"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
@@ -79,7 +81,7 @@ func SubscribeMessage() {
 
 		err = emailSender.SendEmailMessage(msg)
 		if err != nil {
-			global.LOG.Error("邮件发送失败!", err)
+			glog.Error("邮件发送失败!", err)
 		}
 		return err
 	})

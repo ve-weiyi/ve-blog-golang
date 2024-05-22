@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
@@ -32,7 +34,7 @@ func RunWindowsServer() {
 	// 保证文本顺序输出
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
-	global.LOG.Infof("server run success on %v", address)
+	glog.Infof("server run success on %v", address)
 
 	fmt.Printf(`
 	欢迎使用 ve-blog-golang
@@ -41,5 +43,5 @@ func RunWindowsServer() {
 	默认接口文档地址:http://127.0.0.1%s/swagger/index.html
 	默认前端运行地址:http://127.0.0.1:9090
 `, address)
-	global.LOG.Error(s.ListenAndServe().Error())
+	glog.Error(s.ListenAndServe().Error())
 }

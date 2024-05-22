@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
@@ -30,7 +31,7 @@ func CasbinHandler() gin.HandlerFunc {
 			// 获取用户的角色
 			value, ok := c.Get("roles")
 			if !ok {
-				global.LOG.Println("err ", value)
+				glog.Println("err ", value)
 			}
 			roles := value.([]string)
 
@@ -42,8 +43,8 @@ func CasbinHandler() gin.HandlerFunc {
 				}
 				sub := role
 				success, _ := enforcer.Enforce(sub, domain, obj, act)
-				global.LOG.Infof("sub:%v domain:%v obj:%v act:%v", sub, domain, obj, act)
-				global.LOG.Println("success ", success)
+				glog.Infof("sub:%v domain:%v obj:%v act:%v", sub, domain, obj, act)
+				glog.Println("success ", success)
 				if success {
 					c.Next()
 					return
