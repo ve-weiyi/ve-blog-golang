@@ -9,6 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
@@ -48,7 +49,7 @@ func (l *LoginLogic) Login(reqCtx *types.RestHeader, req *types.LoginReq) (resp 
 
 	resp = &types.LoginResp{
 		Token:    tk,
-		UserInfo: convertUserInfo(out),
+		UserInfo: convert.ConvertUserInfo(out),
 	}
 
 	return
@@ -95,17 +96,4 @@ func (l *LoginLogic) createToken(uid int64, username string, loginType string) (
 
 	//生成token
 	return token, nil
-}
-
-func convertUserInfo(in *authrpc.LoginResp) (out *types.UserInfo) {
-	out = &types.UserInfo{
-		UserId:   in.UserId,
-		Username: in.Username,
-		Nickname: in.Nickname,
-		Avatar:   in.Avatar,
-		Intro:    in.Intro,
-		Website:  in.Website,
-		Email:    in.Email,
-	}
-	return
 }

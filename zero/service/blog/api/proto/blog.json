@@ -3519,6 +3519,21 @@
           "account"
         ]
       }
+    },
+    "/api/v1/ws": {
+      "get": {
+        "summary": "WebSocket消息",
+        "operationId": "WebSocket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "tags": [
+          "websocket"
+        ]
+      }
     }
   },
   "definitions": {
@@ -4298,6 +4313,25 @@
       },
       "title": "ChatRecord"
     },
+    "ChatSocketMsg": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
+        },
+        "content": {
+          "type": "string",
+          "description": " 消息内容"
+        }
+      },
+      "title": "ChatSocketMsg",
+      "required": [
+        "type",
+        "content"
+      ]
+    },
     "CommentBackDTO": {
       "type": "object",
       "properties": {
@@ -4710,7 +4744,11 @@
           "type": "string"
         }
       },
-      "title": "LoginReq"
+      "title": "LoginReq",
+      "required": [
+        "username",
+        "password"
+      ]
     },
     "LoginResp": {
       "type": "object",
@@ -4880,7 +4918,10 @@
           "description": " 状态"
         }
       },
-      "title": "OauthLoginReq"
+      "title": "OauthLoginReq",
+      "required": [
+        "platform"
+      ]
     },
     "OauthLoginUrlResp": {
       "type": "object",
@@ -4890,7 +4931,10 @@
           "description": " 授权地址"
         }
       },
-      "title": "OauthLoginUrlResp"
+      "title": "OauthLoginUrlResp",
+      "required": [
+        "url"
+      ]
     },
     "OperationLog": {
       "type": "object",
@@ -5318,7 +5362,11 @@
           "type": "string"
         }
       },
-      "title": "ResetPasswordReq"
+      "title": "ResetPasswordReq",
+      "required": [
+        "username",
+        "password"
+      ]
     },
     "Response": {
       "type": "object",
@@ -5951,7 +5999,10 @@
           }
         }
       },
-      "title": "User"
+      "title": "User",
+      "required": [
+        "username"
+      ]
     },
     "UserApi": {
       "type": "object",
@@ -6039,7 +6090,10 @@
           "type": "string"
         }
       },
-      "title": "UserEmailReq"
+      "title": "UserEmailReq",
+      "required": [
+        "username"
+      ]
     },
     "UserInfo": {
       "type": "object",
@@ -6074,7 +6128,10 @@
           "description": " 邮箱"
         }
       },
-      "title": "UserInfo"
+      "title": "UserInfo",
+      "required": [
+        "username"
+      ]
     },
     "UserInfoReq": {
       "type": "object",

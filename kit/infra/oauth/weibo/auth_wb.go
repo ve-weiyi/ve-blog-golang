@@ -12,18 +12,26 @@ import (
 
 // 微博授权登录
 type AuthWb struct {
-	oauth.AuthOauth
+	Config *oauth.AuthConfig
+	oauth.AuthOauthURL
 }
 
 func NewAuthWb(conf *oauth.AuthConfig) *AuthWb {
-	authRequest := &AuthWb{}
-	authRequest.Set("weibo", conf)
+	auth := oauth.AuthOauthURL{}
 
-	authRequest.AuthorizeUrl = "https://api.weibo.com/oauth2/authorize"
-	authRequest.TokenUrl = "https://api.weibo.com/oauth2/access_token"
-	authRequest.UserInfoUrl = "https://api.weibo.com/2/users/show.json"
+	auth.Name = "weibo"
+	auth.AuthorizeUrl = "https://api.weibo.com/oauth2/authorize"
+	auth.TokenUrl = "https://api.weibo.com/oauth2/access_token"
+	auth.UserInfoUrl = "https://api.weibo.com/2/users/show.json"
 
-	return authRequest
+	return &AuthWb{
+		Config:       conf,
+		AuthOauthURL: auth,
+	}
+}
+
+func (a *AuthWb) GetName() string {
+	return a.Name
 }
 
 // 获取登录地址

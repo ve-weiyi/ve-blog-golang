@@ -17,6 +17,10 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
@@ -30,8 +34,10 @@ type ServiceContext struct {
 	Redis         *redis.Client
 	CaptchaHolder *captcha.CaptchaHolder
 	EmailMQ       *rabbitmq.RabbitmqConn
+	Oauth         map[string]oauth.Oauth
 
 	UserAccountModel      model.UserAccountModel
+	UserOauthModel        model.UserOauthModel
 	UserInformationModel  model.UserInformationModel
 	UserLoginHistoryModel model.UserLoginHistoryModel
 	RoleModel             model.RoleModel
@@ -84,7 +90,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:                 rds,
 		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.NewRedisStore(rds)),
 		EmailMQ:               mq,
+		Oauth:                 InitOauth(c),
 		UserAccountModel:      model.NewUserAccountModel(db, rds),
+		UserOauthModel:        model.NewUserOauthModel(db, rds),
 		UserInformationModel:  model.NewUserInformationModel(db, rds),
 		UserLoginHistoryModel: model.NewUserLoginHistoryModel(db, rds),
 		RoleModel:             model.NewRoleModel(db, rds),
@@ -271,4 +279,28 @@ func SubscribeMessage(c config.Config) {
 	if err != nil {
 		log.Fatal("订阅消息失败!", err)
 	}
+}
+
+func InitOauth(c config.Config) map[string]oauth.Oauth {
+	var om = make(map[string]oauth.Oauth)
+
+	for k, v := range c.OauthConf {
+		conf := &oauth.AuthConfig{
+			ClientID:     v.ClientID,
+			ClientSecret: v.ClientSecret,
+			RedirectUri:  v.RedirectUri,
+		}
+		switch k {
+		case "qq":
+			auth := qq.NewAuthQq(conf)
+			om["qq"] = auth
+		case "weibo":
+			auth := weibo.NewAuthWb(conf)
+			om["weibo"] = auth
+		case "feishu":
+			auth := feishu.NewAuthFeishu(conf)
+			om["feishu"] = auth
+		}
+	}
+	return om
 }

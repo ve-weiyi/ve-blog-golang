@@ -11,20 +11,28 @@ import (
 
 // QQ授权登录
 type AuthQq struct {
-	oauth.AuthOauth
+	Config *oauth.AuthConfig
+	oauth.AuthOauthURL
 }
 
 func NewAuthQq(conf *oauth.AuthConfig) *AuthQq {
-	authRequest := &AuthQq{}
-	authRequest.Set("qq", conf)
+	auth := oauth.AuthOauthURL{}
 
-	authRequest.AuthorizeUrl = "https://graph.qq.com/oauth2.0/authorize"
-	authRequest.TokenUrl = "https://graph.qq.com/oauth2.0/token"
-	authRequest.RefreshUrl = "https://graph.qq.com/oauth2.0/token"
-	authRequest.OpenidUrl = "https://graph.qq.com/oauth2.0/me"
-	authRequest.UserInfoUrl = "https://graph.qq.com/user/get_user_info"
+	auth.Name = "qq"
+	auth.AuthorizeUrl = "https://graph.qq.com/oauth2.0/authorize"
+	auth.TokenUrl = "https://graph.qq.com/oauth2.0/token"
+	auth.RefreshUrl = "https://graph.qq.com/oauth2.0/token"
+	auth.OpenidUrl = "https://graph.qq.com/oauth2.0/me"
+	auth.UserInfoUrl = "https://graph.qq.com/user/get_user_info"
 
-	return authRequest
+	return &AuthQq{
+		Config:       conf,
+		AuthOauthURL: auth,
+	}
+}
+
+func (a *AuthQq) GetName() string {
+	return a.Name
 }
 
 // 获取登录地址

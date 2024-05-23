@@ -1,6 +1,8 @@
 package config
 
-import "github.com/zeromicro/go-zero/zrpc"
+import (
+	"github.com/zeromicro/go-zero/zrpc"
+)
 
 type Config struct {
 	zrpc.RpcServerConf
@@ -8,6 +10,7 @@ type Config struct {
 	RedisConf    RedisConf
 	RabbitMQConf RabbitMQConf
 	EmailConf    EmailConf
+	OauthConf    map[string]AuthConf
 }
 
 type MysqlConf struct {
@@ -41,4 +44,11 @@ type EmailConf struct {
 	Nickname string   `json:"nickname"` // 发件人昵称
 	Deliver  []string `json:"deliver"`  // 抄送邮箱:多个以英文逗号分隔
 	IsSSL    bool     `json:"is_ssl"`   // 是否使用 SSL/TLS
+}
+
+// 基本配置
+type AuthConf struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	RedirectUri  string `json:"redirect_uri"`
 }

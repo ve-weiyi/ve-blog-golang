@@ -12,6 +12,6 @@ const (
 
 const (
 	LoginTypeEmail  = "email" // 邮箱登录
-	LoginTypeQQ     = "phone" // 手机登录
-	LoginTypeWechat = "oauth" // 第三方登录
+	LoginTypeMobile = "phone" // 手机登录
+	LoginTypeOauth  = "oauth" // 第三方登录
 )

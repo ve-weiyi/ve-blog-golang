@@ -38,3 +38,4 @@ server/config.yaml
 **/tmp/*
 **/default.etcd/*
 /deploy/docker/
+blog-rpc.yaml

@@ -13,19 +13,27 @@ import (
 
 // Feishu授权登录
 type AuthFeishu struct {
-	oauth.AuthOauth
+	Config *oauth.AuthConfig
+	oauth.AuthOauthURL
 }
 
 func NewAuthFeishu(conf *oauth.AuthConfig) *AuthFeishu {
-	authRequest := &AuthFeishu{}
-	authRequest.Set("", conf)
+	auth := oauth.AuthOauthURL{}
 
-	authRequest.AuthorizeUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize"
-	authRequest.TokenUrl = "https://passport.feishu.cn/suite/passport/oauth/token"
-	authRequest.UserInfoUrl = "https://passport.feishu.cn/suite/passport/oauth/userinfo"
-	authRequest.RefreshUrl = "https://passport.feishu.cn/suite/passport/oauth/token"
+	auth.Name = "feishu"
+	auth.AuthorizeUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize"
+	auth.TokenUrl = "https://passport.feishu.cn/suite/passport/oauth/token"
+	auth.UserInfoUrl = "https://passport.feishu.cn/suite/passport/oauth/userinfo"
+	auth.RefreshUrl = "https://passport.feishu.cn/suite/passport/oauth/token"
 
-	return authRequest
+	return &AuthFeishu{
+		Config:       conf,
+		AuthOauthURL: auth,
+	}
+}
+
+func (a *AuthFeishu) GetName() string {
+	return a.Name
 }
 
 // 获取登录地址
