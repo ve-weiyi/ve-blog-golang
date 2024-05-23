@@ -51,6 +51,24 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 		return nil, apierr.ErrorCaptchaVerify
 	}
 
+	var account *model.UserAccount
+	err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {
+		account, err = l.register(tx, in)
+		return err
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", account.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return convert.ConvertUserInfoModelToPb(ui), nil
+}
+
+func (l *RegisterLogic) register(tx *gorm.DB, in *blog.LoginReq) (out *model.UserAccount, err error) {
 	// 邮箱注册
 	account := &model.UserAccount{
 		Username:     in.Username,
@@ -70,59 +88,37 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 		Website:  "",
 	}
 
-	err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {
-		_, err = l.register(l.ctx, tx, account, info)
-		if err != nil {
-			return err
-		}
-
-		return nil
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", account.Id)
-	if err != nil {
-		return nil, err
-	}
-
-	return convert.ConvertUserInfoModelToPb(ui), nil
-}
-
-func (l *RegisterLogic) register(ctx context.Context, tx *gorm.DB, account *model.UserAccount, info *model.UserInformation) (out *model.UserAccount, err error) {
-
 	/** 创建用户 **/
-	_, err = l.svcCtx.UserAccountModel.WithTransaction(tx).Insert(ctx, account)
+	_, err = l.svcCtx.UserAccountModel.WithTransaction(tx).Insert(l.ctx, account)
 	if err != nil {
 		return nil, err
 	}
 
 	/** 创建用户信息 **/
 	info.UserId = account.Id
-	_, err = l.svcCtx.UserInformationModel.WithTransaction(tx).Insert(ctx, info)
+	_, err = l.svcCtx.UserInformationModel.WithTransaction(tx).Insert(l.ctx, info)
 	if err != nil {
 		return nil, err
 	}
 
-	/** 创建用户角色 end **/
-	roles, err := l.svcCtx.RoleModel.WithTransaction(tx).FindALL(ctx, "is_default = ?", 1)
-	if err != nil {
-		return nil, err
-	}
-
-	var userRoles []*model.UserRole
-	for _, item := range roles {
-		userRoles = append(userRoles, &model.UserRole{
-			UserId: account.Id,
-			RoleId: item.Id,
-		})
-	}
-
-	_, err = l.svcCtx.UserRoleModel.WithTransaction(tx).InsertBatch(ctx, userRoles...)
-	if err != nil {
-		return nil, err
-	}
+	///** 创建用户角色 end **/
+	//roles, err := l.svcCtx.RoleModel.WithTransaction(tx).FindALL(ctx, "is_default = ?", 1)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//var userRoles []*model.UserRole
+	//for _, item := range roles {
+	//	userRoles = append(userRoles, &model.UserRole{
+	//		UserId: account.Id,
+	//		RoleId: item.Id,
+	//	})
+	//}
+	//
+	//_, err = l.svcCtx.UserRoleModel.WithTransaction(tx).InsertBatch(ctx, userRoles...)
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	return account, nil
 }

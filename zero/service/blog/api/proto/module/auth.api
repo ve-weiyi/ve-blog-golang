@@ -45,13 +45,13 @@ type (
     }
 
     OauthLoginReq {
-        Platform string `json:"platform,optional"` // 平台
+        Platform string `json:"platform"` // 平台
         Code string `json:"code,optional"`         // 授权码
         State string `json:"state,optional"`       // 状态
     }
 
     OauthLoginUrlResp {
-        Url string `json:"url,optional"` // 授权地址
+        Url string `json:"url"` // 授权地址
     }
 )
 

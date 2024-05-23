@@ -2,11 +2,13 @@ package authrpclogic
 
 import (
 	"context"
+	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -66,5 +68,20 @@ func (l *LoginLogic) Login(in *blog.LoginReq) (*blog.LoginResp, error) {
 		Email:    info.Email,
 	}
 
+	//登录记录
+	history := &model.UserLoginHistory{
+		UserId:    account.Id,
+		LoginType: constant.LoginTypeEmail,
+		IpAddress: "",
+		IpSource:  "",
+		Agent:     "",
+		CreatedAt: time.Now(),
+	}
+
+	//保存此次登录记录
+	_, err = l.svcCtx.UserLoginHistoryModel.Insert(l.ctx, history)
+	if err != nil {
+		return nil, err
+	}
 	return resp, nil
 }
