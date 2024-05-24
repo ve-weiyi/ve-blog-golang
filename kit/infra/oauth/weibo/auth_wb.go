@@ -21,7 +21,7 @@ func NewAuthWb(conf *oauth.AuthConfig) *AuthWb {
 
 	auth.Name = "weibo"
 	auth.AuthorizeUrl = "https://api.weibo.com/oauth2/authorize"
-	auth.TokenUrl = "https://api.weibo.com/oauth2/access_token"
+	auth.AccessTokenUrl = "https://api.weibo.com/oauth2/access_token"
 	auth.UserInfoUrl = "https://api.weibo.com/2/users/show.json"
 
 	return &AuthWb{
@@ -78,7 +78,7 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 		httpx.WithParam("client_id", a.Config.ClientID),
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-	).DoRequest("POST", a.TokenUrl)
+	).DoRequest("POST", a.AccessTokenUrl)
 
 	if err != nil {
 		return nil, err

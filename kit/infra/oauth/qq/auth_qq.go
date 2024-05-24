@@ -20,8 +20,8 @@ func NewAuthQq(conf *oauth.AuthConfig) *AuthQq {
 
 	auth.Name = "qq"
 	auth.AuthorizeUrl = "https://graph.qq.com/oauth2.0/authorize"
-	auth.TokenUrl = "https://graph.qq.com/oauth2.0/token"
-	auth.RefreshUrl = "https://graph.qq.com/oauth2.0/token"
+	auth.AccessTokenUrl = "https://graph.qq.com/oauth2.0/token"
+	auth.RefreshTokenUrl = "https://graph.qq.com/oauth2.0/token"
 	auth.OpenidUrl = "https://graph.qq.com/oauth2.0/me"
 	auth.UserInfoUrl = "https://graph.qq.com/user/get_user_info"
 
@@ -86,7 +86,7 @@ func (a *AuthQq) GetAccessToken(code string) (resp *TokenResult, err error) {
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		httpx.WithParam("fmt", "json"), // 由于历史原因，加上这个参数则返回json格式数据
-	).DoRequest("GET", a.TokenUrl)
+	).DoRequest("GET", a.AccessTokenUrl)
 
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (a *AuthQq) RefreshToken(refreshToken string) (resp *RefreshResult, err err
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("refresh_token", refreshToken),
 		httpx.WithParam("fmt", "json"),
-	).DoRequest("GET", a.RefreshUrl)
+	).DoRequest("GET", a.RefreshTokenUrl)
 	if err != nil {
 		return nil, err
 	}

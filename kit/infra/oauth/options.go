@@ -9,13 +9,12 @@ type AuthConfig struct {
 
 type AuthOauthURL struct {
 	//Config *AuthConfig //配置信息
-	Name           string //第三方名称
-	AuthorizeUrl   string //授权登录URL
-	TokenUrl       string //获得令牌URL
-	AccessTokenUrl string //获得访问令牌URL
-	RefreshUrl     string //刷新令牌URL
-	OpenidUrl      string //获取用户OPENID
-	UserInfoUrl    string //获取用户信息URL
+	Name            string //第三方名称
+	AuthorizeUrl    string //授权登录URL
+	AccessTokenUrl  string //获得访问令牌URL
+	RefreshTokenUrl string //刷新令牌URL
+	OpenidUrl       string //获取用户OPENID
+	UserInfoUrl     string //获取用户信息URL
 }
 
 // 获取第三方登录地址
