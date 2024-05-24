@@ -7,8 +7,8 @@ const TableNameOperationLog = "operation_log"
 
 // OperationLog mapped from table <operation_log>
 type OperationLog struct {
-	ID             int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                  // 主键id
-	UserID         int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
+	Id             int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                  // 主键id
+	UserId         int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
 	Nickname       string    `gorm:"column:nickname;type:varchar(64);comment:用户昵称" json:"nickname"`                                     // 用户昵称
 	IpAddress      string    `gorm:"column:ip_address;type:varchar(255);comment:操作ip" json:"ip_address"`                                // 操作ip
 	IpSource       string    `gorm:"column:ip_source;type:varchar(255);comment:操作地址" json:"ip_source"`                                  // 操作地址

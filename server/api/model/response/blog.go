@@ -38,7 +38,7 @@ type WebsiteConfigDTO struct {
 }
 
 type PageDTO struct {
-	ID        int    `json:"id"`         // 页面ID
+	Id        int    `json:"id"`         // 页面ID
 	PageName  string `json:"page_name"`  // 页面名称
 	PageLabel string `json:"page_label"` // 页面标签
 	PageCover string `json:"page_cover"` // 页面封面
@@ -71,7 +71,7 @@ type UniqueViewDTO struct {
 
 // 文章浏览量排行
 type ArticleViewRankDTO struct {
-	ID           int    `json:"id"`            // 文章ID
+	Id           int    `json:"id"`            // 文章ID
 	ArticleTitle string `json:"article_title"` // 文章标题
 	Count        int64  `json:"count"`         // 数量
 }

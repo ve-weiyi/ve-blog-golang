@@ -7,8 +7,8 @@ const TableNameUserLoginHistory = "user_login_history"
 
 // UserLoginHistory mapped from table <user_login_history>
 type UserLoginHistory struct {
-	ID        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                    // id
-	UserID    int       `gorm:"column:user_id;type:int;not null;index:uk_uuid,priority:1;comment:用户id" json:"user_id"`             // 用户id
+	Id        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                    // id
+	UserId    int       `gorm:"column:user_id;type:int;not null;index:uk_uuid,priority:1;comment:用户id" json:"user_id"`             // 用户id
 	LoginType string    `gorm:"column:login_type;type:varchar(64);not null;comment:登录类型" json:"login_type"`                        // 登录类型
 	Agent     string    `gorm:"column:agent;type:varchar(255);not null;comment:代理" json:"agent"`                                   // 代理
 	IpAddress string    `gorm:"column:ip_address;type:varchar(255);not null;comment:ip host" json:"ip_address"`                    // ip host

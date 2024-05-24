@@ -39,7 +39,7 @@ func (a *AuthWb) GetRedirectUrl(state string) string {
 
 	url := httpx.NewClient(
 		httpx.WithParam("response_type", "code"),
-		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_id", a.Config.ClientId),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		httpx.WithParam("state", state),
 	).EncodeURL(a.AuthorizeUrl)
@@ -60,7 +60,7 @@ func (a *AuthWb) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error
 	}
 
 	resp = &oauth.UserResult{
-		OpenID:   strconv.FormatInt(user.ID, 10),
+		OpenId:   strconv.FormatInt(user.Id, 10),
 		NickName: user.ScreenName,
 		Name:     user.Name,
 		Avatar:   user.AvatarLarge,
@@ -75,7 +75,7 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 	body, err := httpx.NewClient(
 		httpx.WithParam("grant_type", "authorization_code"),
 		httpx.WithParam("code", code),
-		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_id", a.Config.ClientId),
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		httpx.WithMethod("GET"),
@@ -97,10 +97,10 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 }
 
 // 获取第三方用户信息
-func (a *AuthWb) GetUserInfo(accessToken string, openID string) (resp *UserResult, err error) {
+func (a *AuthWb) GetUserInfo(accessToken string, openId string) (resp *UserResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("uid", openID),
+		httpx.WithParam("uid", openId),
 		httpx.WithParam("access_token", accessToken),
 		httpx.WithMethod("GET"),
 		httpx.WithURL(a.UserInfoUrl),

@@ -1,9 +1,9 @@
 package constant
 
 const (
-	HeaderXRequestID = "x-request-id"
+	HeaderXRequestId = "x-request-id"
 	HeaderXAuthToken = "x-auth-token"
-	HeaderXUserID    = "x-user-id"
+	HeaderXUserId    = "x-user-id"
 
 	HeaderTimezone = "timezone"
 	HeaderCountry  = "country"
@@ -11,9 +11,9 @@ const (
 )
 
 var HeaderFields = []string{
-	HeaderXRequestID,
+	HeaderXRequestId,
 	HeaderXAuthToken,
-	HeaderXUserID,
+	HeaderXUserId,
 	HeaderTimezone,
 	HeaderCountry,
 	HeaderLanguage,

@@ -7,10 +7,10 @@ const TableNameChatMessage = "chat_message"
 
 // ChatMessage mapped from table <chat_message>
 type ChatMessage struct {
-	ID         int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
-	ChatID     string    `gorm:"column:chat_id;type:varchar(128);not null;comment:聊天id" json:"chat_id"`                             // 聊天id
-	UserID     int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
-	ReplyMsgID int       `gorm:"column:reply_msg_id;type:int;not null;comment:回复消息id" json:"reply_msg_id"`                          // 回复消息id
+	Id         int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
+	ChatId     string    `gorm:"column:chat_id;type:varchar(128);not null;comment:聊天id" json:"chat_id"`                             // 聊天id
+	UserId     int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
+	ReplyMsgId int       `gorm:"column:reply_msg_id;type:int;not null;comment:回复消息id" json:"reply_msg_id"`                          // 回复消息id
 	Content    string    `gorm:"column:content;type:varchar(4096);not null;comment:聊天内容" json:"content"`                            // 聊天内容
 	IpAddress  string    `gorm:"column:ip_address;type:varchar(64);not null;comment:ip地址" json:"ip_address"`                        // ip地址
 	IpSource   string    `gorm:"column:ip_source;type:varchar(255);not null;comment:ip来源" json:"ip_source"`                         // ip来源

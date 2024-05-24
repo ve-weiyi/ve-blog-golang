@@ -19,7 +19,7 @@ func (s *ApiRepository) FindApiRoles(ctx context.Context, apiId int) (list []*en
 
 	var roleIds []int
 	for _, item := range roleApis {
-		roleIds = append(roleIds, item.ApiID)
+		roleIds = append(roleIds, item.ApiId)
 	}
 
 	var roles []*entity.Role

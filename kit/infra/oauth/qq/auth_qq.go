@@ -40,7 +40,7 @@ func (a *AuthQq) GetRedirectUrl(state string) string {
 
 	url := httpx.NewClient(
 		httpx.WithParam("response_type", "code"),
-		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_id", a.Config.ClientId),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		httpx.WithParam("state", state)).
 		EncodeURL(a.AuthorizeUrl)
@@ -65,7 +65,7 @@ func (a *AuthQq) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error
 	}
 
 	resp = &oauth.UserResult{
-		OpenID:   open.OpenId,
+		OpenId:   open.OpenId,
 		NickName: user.Nickname,
 		Name:     user.Nickname,
 		EnName:   user.Nickname,
@@ -82,7 +82,7 @@ func (a *AuthQq) GetAccessToken(code string) (resp *TokenResult, err error) {
 	body, err := httpx.NewClient(
 		httpx.WithParam("grant_type", "authorization_code"),
 		httpx.WithParam("code", code),
-		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_id", a.Config.ClientId),
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		httpx.WithParam("fmt", "json"), // 由于历史原因，加上这个参数则返回json格式数据
@@ -109,7 +109,7 @@ func (a *AuthQq) RefreshToken(refreshToken string) (resp *RefreshResult, err err
 
 	body, err := httpx.NewClient(
 		httpx.WithParam("grant_type", "refresh_token"),
-		httpx.WithParam("client_id", a.Config.ClientID),
+		httpx.WithParam("client_id", a.Config.ClientId),
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("refresh_token", refreshToken),
 		httpx.WithParam("fmt", "json"),
@@ -160,7 +160,7 @@ func (a *AuthQq) GetUserInfo(accessToken string, openId string) (resp *UserResul
 	body, err := httpx.NewClient(
 		httpx.WithParam("openid", openId),
 		httpx.WithParam("access_token", accessToken),
-		httpx.WithParam("oauth_consumer_key", a.Config.ClientID),
+		httpx.WithParam("oauth_consumer_key", a.Config.ClientId),
 		httpx.WithMethod("POST"),
 		httpx.WithURL(a.UserInfoUrl),
 	).DoRequest()

@@ -22,13 +22,13 @@ func NewTalkService(svcCtx *svc.ServiceContext) *TalkService {
 
 // 创建Talk记录
 func (l *TalkService) CreateTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
-	talk.UserID = reqCtx.UID
+	talk.UserId = reqCtx.Uid
 	return l.svcCtx.TalkRepository.Create(reqCtx, talk)
 }
 
 // 更新Talk记录
 func (l *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
-	if talk.UserID != reqCtx.UID {
+	if talk.UserId != reqCtx.Uid {
 		return nil, apierr.ErrorUserNotPermission
 	}
 	return l.svcCtx.TalkRepository.Update(reqCtx, talk)
@@ -76,7 +76,7 @@ func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 
 	for _, talk := range talkList {
 
-		user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", talk.UserID)
+		user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", talk.UserId)
 		if err != nil {
 			continue
 		}
@@ -84,8 +84,8 @@ func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 		var imgList []string
 		jsonconv.JsonToObject(talk.Images, &imgList)
 		data := &response.TalkDetailsDTO{
-			ID:           talk.ID,
-			UserID:       talk.UserID,
+			Id:           talk.Id,
+			UserId:       talk.UserId,
 			Nickname:     user.Nickname,
 			Avatar:       user.Avatar,
 			Content:      talk.Content,
@@ -112,7 +112,7 @@ func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.I
 		return nil, err
 	}
 
-	user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", talk.UserID)
+	user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", talk.UserId)
 	if err != nil {
 		return nil, err
 	}
@@ -120,8 +120,8 @@ func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.I
 	var imgList []string
 	jsonconv.JsonToObject(talk.Images, &imgList)
 	data = &response.TalkDetailsDTO{
-		ID:        talk.ID,
-		UserID:    talk.UserID,
+		Id:        talk.Id,
+		UserId:    talk.UserId,
 		Nickname:  user.Nickname,
 		Avatar:    user.Avatar,
 		Content:   talk.Content,
@@ -137,5 +137,5 @@ func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.I
 
 // 点赞说说
 func (l *TalkService) LikeTalk(reqCtx *request.Context, req *request.IdReq) (data interface{}, err error) {
-	return l.svcCtx.TalkRepository.LikeTalk(reqCtx, reqCtx.UID, req.Id)
+	return l.svcCtx.TalkRepository.LikeTalk(reqCtx, reqCtx.Uid, req.Id)
 }

@@ -7,8 +7,8 @@ const TableNameRole = "role"
 
 // Role mapped from table <role>
 type Role struct {
-	ID          int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                  // 主键id
-	RolePID     int       `gorm:"column:role_pid;type:int;not null;comment:父角色id" json:"role_pid"`                                   // 父角色id
+	Id          int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                  // 主键id
+	RolePId     int       `gorm:"column:role_pid;type:int;not null;comment:父角色id" json:"role_pid"`                                   // 父角色id
 	RoleDomain  string    `gorm:"column:role_domain;type:varchar(64);not null;default:0;comment:角色域" json:"role_domain"`             // 角色域
 	RoleName    string    `gorm:"column:role_name;type:varchar(64);not null;comment:角色名" json:"role_name"`                           // 角色名
 	RoleComment string    `gorm:"column:role_comment;type:varchar(64);not null;comment:角色备注" json:"role_comment"`                    // 角色备注

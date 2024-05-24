@@ -71,7 +71,7 @@ func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 			Name:      api.Summary,
 			Path:      api.Router,
 			Method:    strings.ToUpper(api.Method),
-			ParentID:  parent.ID,
+			ParentId:  parent.Id,
 			Traceable: traceable,
 		}
 
@@ -98,7 +98,7 @@ func (l *MenuService) CleanApiList(reqCtx *request.Context, req interface{}) (da
 }
 func getApiChildren(root response.ApiDetailsDTO, list []*entity.Api) (leafs []*response.ApiDetailsDTO) {
 	for _, item := range list {
-		if item.ParentID == root.ID {
+		if item.ParentId == root.Id {
 			leaf := response.ApiDetailsDTO{
 				Api:      *item,
 				Children: nil,

@@ -104,8 +104,8 @@ func OperationRecord() gin.HandlerFunc {
 		}
 
 		op := entity.OperationLog{
-			ID:            0,
-			UserID:        cast.ToInt(c.GetString("uid")),
+			Id:            0,
+			UserId:        cast.ToInt(c.GetString("uid")),
 			Nickname:      c.GetString("username"),
 			IpAddress:     c.GetString("ip_address"),
 			IpSource:      c.GetString("ip_source"),

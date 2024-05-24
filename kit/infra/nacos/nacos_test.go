@@ -18,12 +18,12 @@ func TestNewNacos(t *testing.T) {
 	cfg := &NacosConfig{
 		IP:          "120.79.136.81",
 		Port:        8848,
-		DataID:      "ve-blog-golang",
+		DataId:      "ve-blog-golang",
 		Group:       "veweiyi.cn",
 		UserName:    "nacos",
 		Password:    "nacos",
 		LogLevel:    "warn",
-		NameSpaceID: "blog",
+		NameSpaceId: "blog",
 		Timeout:     5000,
 	}
 

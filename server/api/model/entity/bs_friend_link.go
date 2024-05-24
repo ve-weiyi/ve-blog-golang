@@ -7,7 +7,7 @@ const TableNameFriendLink = "friend_link"
 
 // FriendLink mapped from table <friend_link>
 type FriendLink struct {
-	ID          int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                               // id
+	Id          int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                               // id
 	LinkName    string    `gorm:"column:link_name;type:varchar(32);not null;index:fk_friend_link_user,priority:1;comment:链接名" json:"link_name"` // 链接名
 	LinkAvatar  string    `gorm:"column:link_avatar;type:varchar(255);not null;comment:链接头像" json:"link_avatar"`                                // 链接头像
 	LinkAddress string    `gorm:"column:link_address;type:varchar(64);not null;comment:链接地址" json:"link_address"`                               // 链接地址

@@ -7,7 +7,7 @@ const TableNamePage = "page"
 
 // Page mapped from table <page>
 type Page struct {
-	ID        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:页面id" json:"id"`                  // 页面id
+	Id        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:页面id" json:"id"`                  // 页面id
 	PageName  string    `gorm:"column:page_name;type:varchar(32);not null;comment:页面名" json:"page_name"`                           // 页面名
 	PageLabel string    `gorm:"column:page_label;type:varchar(32);not null;comment:页面标签" json:"page_label"`                        // 页面标签
 	PageCover string    `gorm:"column:page_cover;type:varchar(255);not null;comment:页面封面" json:"page_cover"`                       // 页面封面

@@ -63,8 +63,8 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 	var userIds []int
 	var commentIds []int
 	for _, item := range commentList {
-		userIds = append(userIds, item.UserID)
-		commentIds = append(commentIds, item.ID)
+		userIds = append(userIds, item.UserId)
+		commentIds = append(commentIds, item.Id)
 	}
 
 	// 查询用户
@@ -72,12 +72,12 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 
 	var userMap = make(map[int]*entity.UserInformation)
 	for _, item := range users {
-		userMap[item.ID] = item
+		userMap[item.Id] = item
 	}
 
 	for _, item := range commentList {
 		// 查询评论下所有回复列表,只显示五条
-		replyList, count, _ := l.FindCommentReplyList(reqCtx, item.ID, &request.PageQuery{
+		replyList, count, _ := l.FindCommentReplyList(reqCtx, item.Id, &request.PageQuery{
 			Limit: request.PageLimit{
 				Page:     1,
 				PageSize: 5,
@@ -85,8 +85,8 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 		})
 		// 查询当前评论下所有回复列表
 		data := &response.CommentDTO{
-			ID:             item.ID,
-			UserID:         item.UserID,
+			Id:             item.Id,
+			UserId:         item.UserId,
 			CommentContent: item.CommentContent,
 			LikeCount:      100,
 			CreatedAt:      item.CreatedAt,
@@ -95,7 +95,7 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 		}
 
 		// 用户信息
-		info, _ := userMap[item.UserID]
+		info, _ := userMap[item.UserId]
 		if info != nil {
 			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
@@ -103,9 +103,9 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 		}
 
 		// 回复的用户信息
-		//rinfo, _ := userMap[item.ReplyUserID]
+		//rinfo, _ := userMap[item.ReplyUserId]
 		//if rinfo != nil {
-		//	data.ReplyUserID = rinfo.ID
+		//	data.ReplyUserId = rinfo.Id
 		//	data.ReplyNickname = rinfo.Nickname
 		//	data.ReplyWebsite = rinfo.Website
 		//}
@@ -136,8 +136,8 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	// 收集需要查询的用户id
 	var userIds []int
 	for _, item := range replyList {
-		userIds = append(userIds, item.UserID)
-		userIds = append(userIds, item.ReplyUserID)
+		userIds = append(userIds, item.UserId)
+		userIds = append(userIds, item.ReplyUserId)
 	}
 
 	// 查询用户
@@ -145,24 +145,24 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 
 	var userMap = make(map[int]*entity.UserInformation)
 	for _, item := range users {
-		userMap[item.ID] = item
+		userMap[item.Id] = item
 	}
 
 	// 组装返回数据
 	for _, item := range replyList {
 
 		data := &response.ReplyDTO{
-			ID:             item.ID,
-			ParentID:       item.ParentID,
-			UserID:         item.UserID,
-			ReplyUserID:    item.ReplyUserID,
+			Id:             item.Id,
+			ParentId:       item.ParentId,
+			UserId:         item.UserId,
+			ReplyUserId:    item.ReplyUserId,
 			CommentContent: item.CommentContent,
 			LikeCount:      5,
 			CreatedAt:      item.CreatedAt,
 		}
 
 		// 用户信息
-		info, _ := userMap[item.UserID]
+		info, _ := userMap[item.UserId]
 		if info != nil {
 			data.Nickname = info.Nickname
 			data.Avatar = info.Avatar
@@ -170,9 +170,9 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 		}
 
 		// 回复的用户信息
-		rinfo, _ := userMap[item.ReplyUserID]
+		rinfo, _ := userMap[item.ReplyUserId]
 		if rinfo != nil {
-			data.ReplyUserID = rinfo.ID
+			data.ReplyUserId = rinfo.Id
 			data.ReplyNickname = rinfo.Nickname
 			data.ReplyWebsite = rinfo.Website
 		}
@@ -200,7 +200,7 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 
 		var userIds []int
 		for _, item := range accounts {
-			userIds = append(userIds, item.ID)
+			userIds = append(userIds, item.Id)
 		}
 		// 替换查询条件
 		cd.Field = "user_id"
@@ -225,29 +225,29 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 	var userIds []int
 	var articleIds []int
 	for _, item := range commentList {
-		userIds = append(userIds, item.UserID)
-		userIds = append(userIds, item.ReplyUserID)
-		articleIds = append(articleIds, item.TopicID)
+		userIds = append(userIds, item.UserId)
+		userIds = append(userIds, item.ReplyUserId)
+		articleIds = append(articleIds, item.TopicId)
 	}
 
 	// 查询用户
 	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
 	var userMap = make(map[int]*entity.UserInformation)
 	for _, item := range users {
-		userMap[item.ID] = item
+		userMap[item.Id] = item
 	}
 	// 查询文章
 	articles, _ := l.svcCtx.ArticleRepository.FindALL(reqCtx, "id in (?)", articleIds)
 	var articleMap = make(map[int]*entity.Article)
 	for _, item := range articles {
-		articleMap[item.ID] = item
+		articleMap[item.Id] = item
 	}
 
 	// 组装返回数据
 	for _, item := range commentList {
 
 		data := &response.CommentBackDTO{
-			ID:             item.ID,
+			Id:             item.Id,
 			Avatar:         "",
 			Nickname:       "",
 			ReplyNickname:  "",
@@ -259,20 +259,20 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 		}
 
 		// 用户信息
-		info, _ := userMap[item.UserID]
+		info, _ := userMap[item.UserId]
 		if info != nil {
 			data.Avatar = info.Avatar
 			data.Nickname = info.Nickname
 		}
 
 		// 回复的用户信息
-		rinfo, _ := userMap[item.ReplyUserID]
+		rinfo, _ := userMap[item.ReplyUserId]
 		if rinfo != nil {
 			data.ReplyNickname = rinfo.Nickname
 		}
 
 		// 回复的文章信息
-		aInfo, _ := articleMap[item.TopicID]
+		aInfo, _ := articleMap[item.TopicId]
 		if aInfo != nil {
 			data.TopicTitle = aInfo.ArticleTitle
 		}
@@ -284,7 +284,7 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 
 // 点赞Comment
 func (l *CommentService) LikeComment(reqCtx *request.Context, commentId int) (data interface{}, err error) {
-	return l.svcCtx.CommentRepository.LikeComment(reqCtx, reqCtx.UID, commentId)
+	return l.svcCtx.CommentRepository.LikeComment(reqCtx, reqCtx.Uid, commentId)
 }
 
 func ConvertCommentQueryTypes(in *request.CommentQueryReq) (page int64, pageSize int64, sorts string, conditions string, args []interface{}) {

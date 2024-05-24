@@ -32,13 +32,13 @@ func NewUploadService(svcCtx *svc.ServiceContext) *UploadService {
 func (l *UploadService) UploadFile(reqCtx *request.Context, label string, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
 	glog.Println("上传文件")
 	label = "upload" + label
-	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
+	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.Uid), label), file)
 	if err != nil {
 		return nil, err
 	}
 
 	up := &entity.UploadRecord{
-		UserID:   reqCtx.UID,
+		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: file.Filename,
 		FileSize: int(file.Size),
@@ -55,13 +55,13 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 	filename := time.Now().Format("20060102150405") + ".mp3"
 
 	glog.Println("上传语言")
-	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
+	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.Uid), label), file)
 	if err != nil {
 		return nil, err
 	}
 
 	glog.Println("查询用户信息")
-	user, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.UID)
+	user, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 	glog.Println("创建聊天记录")
 	var chat entity.ChatRecord
 	chat.Type = constant.VoiceMessage
-	chat.UserID = user.UserID
+	chat.UserId = user.UserId
 	chat.Avatar = user.Avatar
 	chat.Nickname = user.Nickname
 	chat.Content = url
@@ -87,7 +87,7 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 
 	glog.Println("创建上传记录")
 	up := &entity.UploadRecord{
-		UserID:   reqCtx.UID,
+		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: filename,
 		FileSize: int(file.Size),

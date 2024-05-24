@@ -10,7 +10,7 @@ import (
 type Context struct {
 	context.Context `json:"-" header:"-"`
 	Token           string `json:"token" header:"token" example:""`
-	UID             int    `json:"uid" header:"-" example:""`
+	Uid             int    `json:"uid" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
 	UserAgent       string `json:"user_agent" header:"-" example:""`
 }

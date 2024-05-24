@@ -141,7 +141,7 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 		return
 	}
 
-	data, err := s.svcCtx.UserService.GetUserInfo(reqCtx, reqCtx.UID)
+	data, err := s.svcCtx.UserService.GetUserInfo(reqCtx, reqCtx.Uid)
 	if err != nil {
 		s.ResponseError(c, err)
 		return

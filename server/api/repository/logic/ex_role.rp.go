@@ -16,7 +16,7 @@ func (s *RoleRepository) FindUserRoles(ctx context.Context, userId int) (out []*
 
 	var rids []int
 	for _, item := range userRoles {
-		rids = append(rids, item.RoleID)
+		rids = append(rids, item.RoleId)
 	}
 
 	var roles []*entity.Role
@@ -41,7 +41,7 @@ func (s *RoleRepository) FindRoleMenus(ctx context.Context, roleId int) (list []
 
 	var menuIds []int
 	for _, item := range roleMenus {
-		menuIds = append(menuIds, item.MenuID)
+		menuIds = append(menuIds, item.MenuId)
 	}
 
 	var menus []*entity.Menu
@@ -66,7 +66,7 @@ func (s *RoleRepository) FindRoleApis(ctx context.Context, roleId int) (list []*
 
 	var apiIds []int
 	for _, item := range roleApis {
-		apiIds = append(apiIds, item.ApiID)
+		apiIds = append(apiIds, item.ApiId)
 	}
 
 	var apis []*entity.Api
@@ -91,8 +91,8 @@ func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int, roleIds [
 	var userRoles []*entity.UserRole
 	for _, id := range roleIds {
 		ur := &entity.UserRole{
-			UserID: account.ID,
-			RoleID: id,
+			UserId: account.Id,
+			RoleId: id,
 		}
 		userRoles = append(userRoles, ur)
 	}
@@ -132,7 +132,7 @@ func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int, menuId
 	tx := db.Begin()
 
 	//先删除所有菜单，再添加
-	err = tx.Delete(&entity.RoleMenu{}, "role_id = ?", role.ID).Error
+	err = tx.Delete(&entity.RoleMenu{}, "role_id = ?", role.Id).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, 0, err
@@ -142,8 +142,8 @@ func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int, menuId
 	//再添加
 	for _, id := range menuIds {
 		rm := &entity.RoleMenu{
-			RoleID: role.ID,
-			MenuID: id,
+			RoleId: role.Id,
+			MenuId: id,
 		}
 		roleMenus = append(roleMenus, rm)
 	}
@@ -175,7 +175,7 @@ func (s *RoleRepository) UpdateRoleResources(ctx context.Context, roleId int, ap
 	tx := db.Begin()
 
 	//先删除所有菜单，再添加
-	err = tx.Delete(&entity.RoleApi{}, "role_id = ?", role.ID).Error
+	err = tx.Delete(&entity.RoleApi{}, "role_id = ?", role.Id).Error
 	if err != nil {
 		tx.Rollback()
 		return nil, 0, err
@@ -185,8 +185,8 @@ func (s *RoleRepository) UpdateRoleResources(ctx context.Context, roleId int, ap
 	var roleApis []*entity.RoleApi
 	for _, id := range apiIds {
 		ra := &entity.RoleApi{
-			RoleID: role.ID,
-			ApiID:  id,
+			RoleId: role.Id,
+			ApiId:  id,
 		}
 		roleApis = append(roleApis, ra)
 	}

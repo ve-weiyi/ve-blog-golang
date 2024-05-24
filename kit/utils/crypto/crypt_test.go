@@ -16,6 +16,13 @@ var Bit1024 = Bit512 + Bit512
 
 // 组成32位16进制 128bit x 4
 
+func TestBase64Std(t *testing.T) {
+	s64 := "eyJoZWFkIjp7InZlcnNpb24iOiIxLjAuMC4xIiwiY2xpZW50X2lkIjoiQUs3MDIzMEUxOTEwMDAwMSIsInNlc3NfaWQiOiIxNTkyLTYxOTciLCJtc2dfc2VxIjoyMSwiY21kIjoxNiwiY21kX3N0YXR1cyI6MSwic2lnbl9jb2RlIjowLCJzZWVkIjoibnVsbCIsInRpbWVzdGFtcCI6MTcxNTkyNjE5N30sInBheWxvYWQiOiJ7XCJkYXRhXCI6XCIvd2t0QUFNQkR3TUFvUUV5b2c0RUFBQUFBQUFBQUFBQUFBQUFBS01EQWdBQXBBSUJDUDRGQTdUMFJtWjZcIixcInNuXCI6XCJBSzcwMjMwRTE5MTAwMDAxXCIsXCJwblwiOlwiQTIzNDVcIn0ifQ=="
+	s64_std, _ := base64.StdEncoding.DecodeString(s64)
+	fmt.Println("base64.StdEncoding.EncodeToString")
+	fmt.Println(string(s64_std))
+}
+
 func TestBase64(t *testing.T) {
 	s := "{  }"
 

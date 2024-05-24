@@ -23,13 +23,13 @@ func (l *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.P
 
 	for _, in := range categories {
 
-		articles, err := l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, in.ID)
+		articles, err := l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, in.Id)
 		if err != nil {
 			return nil, 0, err
 		}
 
 		out := &response.TagDetailsDTO{
-			ID:           in.ID,
+			Id:           in.Id,
 			TagName:      in.TagName,
 			ArticleCount: int64(len(articles)),
 			CreatedAt:    in.CreatedAt,

@@ -34,7 +34,7 @@ type UserInfo struct {
 }
 
 type LoginHistory struct {
-	ID        int    `json:"id"`
+	Id        int    `json:"id"`
 	LoginType string `json:"login_type"` // 登录类型
 	Agent     string `json:"agent"`      // 代理
 	IpAddress string `json:"ip_address"` // ip host

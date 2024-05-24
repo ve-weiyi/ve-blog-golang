@@ -7,7 +7,7 @@ const TableNameRemark = "remark"
 
 // Remark mapped from table <remark>
 type Remark struct {
-	ID             int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                  // 主键id
+	Id             int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键id" json:"id"`                  // 主键id
 	Nickname       string    `gorm:"column:nickname;type:varchar(64);not null;comment:昵称" json:"nickname"`                              // 昵称
 	Avatar         string    `gorm:"column:avatar;type:varchar(255);not null;comment:头像" json:"avatar"`                                 // 头像
 	MessageContent string    `gorm:"column:message_content;type:varchar(255);not null;comment:留言内容" json:"message_content"`             // 留言内容

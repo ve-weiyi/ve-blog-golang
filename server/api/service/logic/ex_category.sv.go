@@ -22,13 +22,13 @@ func (l *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page 
 	// 查询分类下的文章数量
 	for _, in := range categories {
 
-		articles, err := l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.ID)
+		articles, err := l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, in.Id)
 		if err != nil {
 			return nil, 0, err
 		}
 
 		out := &response.CategoryDetailsDTO{
-			ID:           in.ID,
+			Id:           in.Id,
 			CategoryName: in.CategoryName,
 			ArticleCount: int64(len(articles)),
 			CreatedAt:    in.CreatedAt,

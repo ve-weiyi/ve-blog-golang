@@ -49,8 +49,8 @@ func (s *WebsocketController) WebSocket(c *gin.Context) {
 		if chat.Content == "" {
 			return nil, fmt.Errorf("content is empty")
 		}
-		if reqCtx.UID != 0 {
-			chat.UserID = reqCtx.UID
+		if reqCtx.Uid != 0 {
+			chat.UserId = reqCtx.Uid
 		}
 
 		_, err = s.svcCtx.ChatRecordService.CreateChatRecord(reqCtx, &chat)

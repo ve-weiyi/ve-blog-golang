@@ -38,15 +38,15 @@ func TestLogger(t *testing.T) {
 		return
 	}
 
-	traceID, err := trace.TraceIDFromHex("4bf92f3577b34da6a3ce929d0e0e4736")
+	traceId, err := trace.TraceIDFromHex("4bf92f3577b34da6a3ce929d0e0e4736")
 	assert.Equal(t, nil, err)
-	spanID, err := trace.SpanIDFromHex("00f067aa0ba902b7")
+	spanId, err := trace.SpanIDFromHex("00f067aa0ba902b7")
 	assert.Equal(t, nil, err)
 	state, err := trace.ParseTraceState("key1=value1,key2=value2")
 	assert.Equal(t, nil, err)
 	sc := trace.NewSpanContext(trace.SpanContextConfig{
-		TraceID:    traceID,
-		SpanID:     spanID,
+		TraceId:    traceId,
+		SpanId:     spanId,
 		TraceState: state,
 		Remote:     true,
 	})
@@ -58,7 +58,7 @@ func TestLogger(t *testing.T) {
 	gormDB.Logger.Warn(ctx, "我是Info日志")
 
 	var result []Tag
-	// 实际项目需要传入来自go-zero启用trace的ctx，才能获取到traceID和spanID
+	// 实际项目需要传入来自go-zero启用trace的ctx，才能获取到traceId和spanID
 	err = gormDB.WithContext(ctx).Table("tag").First(&result).Error
 	assert.Equal(t, nil, err)
 	t.Log(result)

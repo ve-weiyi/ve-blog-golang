@@ -21,8 +21,8 @@ func NewArticleService(svcCtx *svc.ServiceContext) *ArticleService {
 func (l *ArticleService) SaveArticle(reqCtx *request.Context, req *request.ArticleDetailsDTOReq) (data *entity.Article, err error) {
 	// 创建文章
 	article := &entity.Article{
-		ID:             req.ID,
-		UserID:         reqCtx.UID,
+		Id:             req.Id,
+		UserId:         reqCtx.Uid,
 		ArticleCover:   req.ArticleCover,
 		ArticleTitle:   req.ArticleTitle,
 		ArticleContent: req.ArticleContent,
@@ -43,11 +43,11 @@ func (l *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 	// 查找分类是否存在
 	category, _ := l.svcCtx.CategoryRepository.CreateCategoryNotExist(reqCtx, req.CategoryName)
 	if category != nil {
-		article.CategoryID = category.ID
+		article.CategoryId = category.Id
 	}
 
 	// 创建文章或保存文章
-	if article.ID == 0 {
+	if article.Id == 0 {
 		_, err = l.svcCtx.ArticleRepository.Create(reqCtx, article)
 		if err != nil {
 			return nil, err
@@ -60,14 +60,14 @@ func (l *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 	}
 
 	// 删除文章标签映射
-	_, _ = l.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", article.ID)
+	_, _ = l.svcCtx.ArticleTagRepository.Delete(reqCtx, "article_id = ?", article.Id)
 	// 创建不存在的标签
 	tags, _ := l.svcCtx.TagRepository.InsertBatchTagNotExist(reqCtx, req.TagNameList)
 	// 创建文章标签映射
 	for _, tag := range tags {
 		at := &entity.ArticleTag{
-			ArticleID: article.ID,
-			TagID:     tag.ID,
+			ArticleId: article.Id,
+			TagId:     tag.Id,
 		}
 		_, _ = l.svcCtx.ArticleTagRepository.Create(reqCtx, at)
 	}
@@ -95,10 +95,10 @@ func (l *ArticleService) FindArticle(reqCtx *request.Context, req *request.IdReq
 	}
 
 	// 查询文章分类
-	category, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
+	category, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryId)
 
 	// 查询文章标签
-	tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
+	tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.Id)
 
 	resp := &response.ArticleBack{}
 	resp.ArticleDTO = convertArticle(article)
@@ -126,15 +126,15 @@ func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 	var articleIds []int
 	var categoryIds []int
 	for _, article := range articles {
-		articleIds = append(articleIds, article.ID)
-		categoryIds = append(categoryIds, article.CategoryID)
+		articleIds = append(articleIds, article.Id)
+		categoryIds = append(categoryIds, article.CategoryId)
 	}
 
 	// 查询所有文章分类
 	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
 	var cmp = make(map[int]*entity.Category)
 	for _, item := range category {
-		cmp[item.ID] = item
+		cmp[item.Id] = item
 	}
 
 	// 查询所有文章标签映射
@@ -144,8 +144,8 @@ func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 
 		articleDTO := &response.ArticleBack{}
 		articleDTO.ArticleDTO = convertArticle(article)
-		articleDTO.CategoryName = getCategoryName(cmp[article.CategoryID])
-		articleDTO.TagNameList = getTagNameList(amp[article.ID])
+		articleDTO.CategoryName = getCategoryName(cmp[article.CategoryId])
+		articleDTO.TagNameList = getTagNameList(amp[article.Id])
 		list = append(list, articleDTO)
 	}
 	return list, total, err
@@ -153,12 +153,12 @@ func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 
 // 更新Article删除状态
 func (l *ArticleService) UpdateArticleDelete(reqCtx *request.Context, req *request.ArticleDeleteReq) (rows int, err error) {
-	return l.svcCtx.ArticleRepository.UpdateArticleDelete(reqCtx, req.ID, req.IsDelete)
+	return l.svcCtx.ArticleRepository.UpdateArticleDelete(reqCtx, req.Id, req.IsDelete)
 }
 
 // 更新Article记录
 func (l *ArticleService) UpdateArticleTop(reqCtx *request.Context, req *request.ArticleTopReq) (rows int, err error) {
-	return l.svcCtx.ArticleRepository.UpdateArticleTop(reqCtx, req.ID, req.IsTop)
+	return l.svcCtx.ArticleRepository.UpdateArticleTop(reqCtx, req.Id, req.IsTop)
 }
 
 // 文章归类 category
@@ -172,7 +172,7 @@ func (l *ArticleService) FindArticleClassifyCategory(reqCtx *request.Context, re
 		return nil, err
 	}
 
-	articles, err = l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.ID)
+	articles, err = l.svcCtx.ArticleRepository.FindArticleListByCategoryId(reqCtx, category.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -182,9 +182,9 @@ func (l *ArticleService) FindArticleClassifyCategory(reqCtx *request.Context, re
 	var list []*response.ArticleHome
 	for _, article := range articles {
 		//查询文章分类
-		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
+		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryId)
 		// 查询文章标签
-		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
+		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.Id)
 
 		articleDTO := &response.ArticleHome{}
 		articleDTO.ArticleDTO = convertArticle(article)
@@ -208,7 +208,7 @@ func (l *ArticleService) FindArticleClassifyTag(reqCtx *request.Context, req *re
 		return nil, err
 	}
 
-	articles, err = l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.ID)
+	articles, err = l.svcCtx.ArticleRepository.FindArticleListByTagId(reqCtx, tag.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -218,9 +218,9 @@ func (l *ArticleService) FindArticleClassifyTag(reqCtx *request.Context, req *re
 	var list []*response.ArticleHome
 	for _, article := range articles {
 		//查询文章分类
-		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
+		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryId)
 		// 查询文章标签
-		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
+		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.Id)
 
 		articleDTO := &response.ArticleHome{}
 		articleDTO.ArticleDTO = convertArticle(article)
@@ -257,13 +257,13 @@ func (l *ArticleService) FindArticleRecommend(reqCtx *request.Context, req *requ
 	}
 
 	// 查询文章分类
-	category, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryID)
+	category, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryId)
 
 	// 查询文章标签
-	tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.ID)
+	tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.Id)
 
 	// 查询推荐文章
-	rmArticle, err := l.svcCtx.ArticleRepository.FindRecommendArticle(reqCtx, article.CategoryID)
+	rmArticle, err := l.svcCtx.ArticleRepository.FindRecommendArticle(reqCtx, article.CategoryId)
 	if err != nil {
 		return nil, err
 	}
@@ -316,15 +316,15 @@ func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 	var articleIds []int
 	var categoryIds []int
 	for _, article := range articles {
-		articleIds = append(articleIds, article.ID)
-		categoryIds = append(categoryIds, article.CategoryID)
+		articleIds = append(articleIds, article.Id)
+		categoryIds = append(categoryIds, article.CategoryId)
 	}
 
 	// 查询所有文章分类
 	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
 	var cmp = make(map[int]*entity.Category)
 	for _, item := range category {
-		cmp[item.ID] = item
+		cmp[item.Id] = item
 	}
 
 	// 查询所有文章标签映射
@@ -334,15 +334,15 @@ func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 
 		articleDTO := &response.ArticleHome{}
 		articleDTO.ArticleDTO = convertArticle(article)
-		articleDTO.ArticleCategory = convertCategory(cmp[article.CategoryID])
-		articleDTO.ArticleTagList = convertTagList(amp[article.ID])
+		articleDTO.ArticleCategory = convertCategory(cmp[article.CategoryId])
+		articleDTO.ArticleTagList = convertTagList(amp[article.Id])
 		list = append(list, articleDTO)
 	}
 	return list, total, err
 }
 
 func (l *ArticleService) LikeArticle(reqCtx *request.Context, req *request.IdReq) (data interface{}, err error) {
-	return l.svcCtx.ArticleRepository.LikeArticle(reqCtx, reqCtx.UID, req.Id)
+	return l.svcCtx.ArticleRepository.LikeArticle(reqCtx, reqCtx.Uid, req.Id)
 }
 
 func getCategoryName(category *entity.Category) string {

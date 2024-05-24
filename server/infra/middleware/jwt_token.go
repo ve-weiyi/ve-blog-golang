@@ -16,7 +16,7 @@ import (
 func JwtToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.Request.Header.Get(constant.HeaderXAuthToken)
-		uid := c.Request.Header.Get(constant.HeaderXUserID)
+		uid := c.Request.Header.Get(constant.HeaderXUserId)
 		claims, err := global.JWT.VerifyToken(token, uid)
 		//必须要token才能过
 		if err != nil {

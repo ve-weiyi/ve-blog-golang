@@ -17,7 +17,7 @@ func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 	var menuMap = make(map[int][]int)
 	var apiMap = make(map[int][]int)
 	for _, role := range roles {
-		roleIds = append(roleIds, role.ID)
+		roleIds = append(roleIds, role.Id)
 	}
 
 	// 查找角色菜单
@@ -27,7 +27,7 @@ func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 	}
 
 	for _, menu := range menus {
-		menuMap[menu.RoleID] = append(menuMap[menu.RoleID], menu.MenuID)
+		menuMap[menu.RoleId] = append(menuMap[menu.RoleId], menu.MenuId)
 	}
 
 	// 查找角色资源
@@ -37,13 +37,13 @@ func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 	}
 
 	for _, api := range apis {
-		apiMap[api.RoleID] = append(apiMap[api.RoleID], api.ApiID)
+		apiMap[api.RoleId] = append(apiMap[api.RoleId], api.ApiId)
 	}
 
 	// 拼装数据
 	for _, role := range roles {
-		menuIds := menuMap[role.ID]
-		apiIds := apiMap[role.ID]
+		menuIds := menuMap[role.Id]
+		apiIds := apiMap[role.Id]
 
 		r := response.RoleDetailsDTO{
 			Role:           *role,

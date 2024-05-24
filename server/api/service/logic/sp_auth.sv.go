@@ -53,7 +53,7 @@ func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (res
 	}
 
 	//生成token
-	token, err := l.createToken(account.ID, account.Username, constant.LoginTypeEmail)
+	token, err := l.createToken(account.Id, account.Username, constant.LoginTypeEmail)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (res
 	}
 
 	history := &entity.UserLoginHistory{
-		UserID:    account.ID,
+		UserId:    account.Id,
 		LoginType: constant.LoginTypeEmail,
 		IpAddress: reqCtx.IpAddress,
 		IpSource:  reqCtx.GetIpSource(),
@@ -90,13 +90,13 @@ func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (res
 
 func (l *AuthService) Logout(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
 	glog.Info("用户登出")
-	return l.svcCtx.UserAccountRepository.Logout(reqCtx, reqCtx.UID)
+	return l.svcCtx.UserAccountRepository.Logout(reqCtx, reqCtx.Uid)
 }
 
 func (l *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp interface{}, err error) {
 	glog.Info("用户注销")
 
-	return l.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.UID)
+	return l.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.Uid)
 }
 
 func (l *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (resp *response.LoginResp, err error) {
@@ -134,7 +134,7 @@ func (l *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (
 		return nil, err
 	}
 
-	token, err := l.createToken(account.ID, account.Username, account.RegisterType)
+	token, err := l.createToken(account.Id, account.Username, account.RegisterType)
 	if err != nil {
 		return nil, err
 	}
@@ -223,7 +223,7 @@ func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	}
 
 	// 查询用户是否存在
-	userOauth, err := l.svcCtx.UserAccountRepository.FindUserOauthByOpenid(reqCtx, info.OpenID, req.Platform)
+	userOauth, err := l.svcCtx.UserAccountRepository.FindUserOauthByOpenid(reqCtx, info.OpenId, req.Platform)
 	if userOauth == nil {
 		// 用户未注册,先注册用户
 		userOauth, err = l.oauthRegister(reqCtx, req, info)
@@ -265,8 +265,8 @@ func (l *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 
 	// 绑定用户第三方信息
 	userOauth := &entity.UserOauth{
-		UserID:   userAccount.ID,
-		OpenID:   info.OpenID,
+		UserId:   userAccount.Id,
+		OpenId:   info.OpenId,
 		Platform: req.Platform,
 	}
 
@@ -281,7 +281,7 @@ func (l *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.LoginResp, err error) {
 
 	//获取用户
-	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserID)
+	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserId)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
@@ -291,7 +291,7 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	}
 
 	history := &entity.UserLoginHistory{
-		UserID:    account.ID,
+		UserId:    account.Id,
 		LoginType: req.Platform,
 		IpAddress: reqCtx.IpAddress,
 		IpSource:  reqCtx.GetIpSource(),
@@ -305,7 +305,7 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	}
 
 	//生成token
-	token, err := l.createToken(account.ID, account.Username, req.Platform)
+	token, err := l.createToken(account.Id, account.Username, req.Platform)
 	if err != nil {
 		return nil, err
 	}
@@ -325,18 +325,18 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 
 func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *response.UserInfo, err error) {
 	//获取用户信息
-	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	//accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
-	//commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
-	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
+	//accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.Id)
+	//commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.Id)
+	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
 
-	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	resp = &response.UserInfo{
-		UserId:   account.ID,
+		UserId:   account.Id,
 		Username: account.Username,
 		Nickname: info.Nickname,
 		Avatar:   info.Avatar,

@@ -49,7 +49,7 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 
 	var ids []int
 	for _, ua := range userAccounts {
-		ids = append(ids, ua.ID)
+		ids = append(ids, ua.Id)
 	}
 
 	//获取用户信息
@@ -60,16 +60,16 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 
 	var infoMap = make(map[int]*entity.UserInformation)
 	for _, info := range infos {
-		infoMap[info.ID] = info
+		infoMap[info.Id] = info
 	}
 
 	for _, account := range userAccounts {
-		info := infoMap[account.ID]
+		info := infoMap[account.Id]
 		// 查询账号角色信息
-		roles, _ := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+		roles, _ := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 
 		item := &response.UserDTO{
-			ID:           account.ID,
+			Id:           account.Id,
 			Username:     account.Username,
 			Nickname:     info.Nickname,
 			Status:       account.Status,
@@ -139,13 +139,13 @@ func (l *UserService) FindUserAreaList(reqCtx *request.Context, page *request.Pa
 
 func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *request.PageQuery) (result []*response.LoginHistory, total int64, err error) {
 	//获取用户
-	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	// 添加用户id条件
-	c := &request.PageCondition{Field: "user_id", Value: account.ID, Operator: "=", Logic: "AND"}
+	c := &request.PageCondition{Field: "user_id", Value: account.Id, Operator: "=", Logic: "AND"}
 	page.Conditions = append(page.Conditions, c)
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
@@ -168,13 +168,13 @@ func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 
 func (l *UserService) DeleteUserLoginHistoryList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
 	//获取用户
-	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
 	// 添加用户id条件
-	return l.svcCtx.UserLoginHistoryRepository.Delete(reqCtx, "id in (?) and user_id = ?", req.Ids, account.ID)
+	return l.svcCtx.UserLoginHistoryRepository.Delete(reqCtx, "id in (?) and user_id = ?", req.Ids, account.Id)
 }
 
 func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.UserEmailReq) (resp interface{}, err error) {
@@ -238,14 +238,14 @@ func (l *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetP
 // 修改用户角色
 func (l *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.FileHeader) (data *entity.UserInformation, err error) {
 	label := "avatar"
-	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.UID), label), file)
+	url, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.Uid), label), file)
 	if err != nil {
 		return nil, err
 	}
 
 	// 保存上传记录
 	up := &entity.UploadRecord{
-		UserID:   reqCtx.UID,
+		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: file.Filename,
 		FileSize: int(file.Size),
@@ -259,7 +259,7 @@ func (l *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.
 	}
 
 	// 更新用户信息
-	information, err := l.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	information, err := l.svcCtx.UserInformationRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +277,7 @@ func (l *UserService) UpdateUserRoles(reqCtx *request.Context, req *request.Upda
 // 修改用户状态
 func (l *UserService) UpdateUserStatus(reqCtx *request.Context, req *entity.UserAccount) (data *entity.UserAccount, err error) {
 	// 创建db
-	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.ID)
+	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -293,7 +293,7 @@ func (l *UserService) UpdateUserStatus(reqCtx *request.Context, req *entity.User
 
 // 修改用户信息
 func (l *UserService) UpdateUserInfo(reqCtx *request.Context, req *request.UserInfoReq) (data *entity.UserInformation, err error) {
-	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.UID)
+	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
@@ -317,18 +317,18 @@ func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int) (data *re
 	}
 
 	//获取用户信息
-	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	//accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.ID)
-	//commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.ID)
-	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.ID)
+	//accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.Id)
+	//commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.Id)
+	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
 
-	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	data = &response.UserInfo{
-		UserId:   account.ID,
+		UserId:   account.Id,
 		Username: account.Username,
 		Nickname: info.Nickname,
 		Avatar:   info.Avatar,
@@ -346,13 +346,13 @@ func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int) (data *re
 
 func (l *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*response.MenuDetailsDTO, err error) {
 	//查询用户信息
-	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
 
 	//查询用户角色
-	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -360,14 +360,14 @@ func (l *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 	//查询角色权限,取交集
 	menuMaps := make(map[int]*entity.Menu)
 	for _, item := range roles {
-		menus, err := l.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.ID)
+		menus, err := l.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.Id)
 		if err != nil {
 			return nil, err
 		}
 		// 去重
 		for _, m := range menus {
-			if _, ok := menuMaps[m.ID]; !ok {
-				menuMaps[m.ID] = m
+			if _, ok := menuMaps[m.Id]; !ok {
+				menuMaps[m.Id] = m
 			}
 		}
 	}
@@ -385,13 +385,13 @@ func (l *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 
 func (l *UserService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*response.ApiDetailsDTO, err error) {
 	//查询用户信息
-	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.UID)
+	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
 
 	//查询用户角色
-	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.ID)
+	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -399,14 +399,14 @@ func (l *UserService) GetUserApis(reqCtx *request.Context, req interface{}) (dat
 	//查询角色权限,取交集
 	menuMaps := make(map[int]*entity.Api)
 	for _, item := range roles {
-		menus, err := l.svcCtx.RoleRepository.FindRoleApis(reqCtx, item.ID)
+		menus, err := l.svcCtx.RoleRepository.FindRoleApis(reqCtx, item.Id)
 		if err != nil {
 			return nil, err
 		}
 		// 去重
 		for _, m := range menus {
-			if _, ok := menuMaps[m.ID]; !ok {
-				menuMaps[m.ID] = m
+			if _, ok := menuMaps[m.Id]; !ok {
+				menuMaps[m.Id] = m
 			}
 		}
 	}

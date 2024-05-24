@@ -13,9 +13,9 @@ type NacosConfig struct {
 	Port        uint64 //8848
 	UserName    string
 	Password    string
-	NameSpaceID string
+	NameSpaceId string
 	Group       string
-	DataID      string
+	DataId      string
 	RuntimeDir  string //runtime
 	LogLevel    string //debug
 	Timeout     int64  //ms
@@ -37,7 +37,7 @@ func New(cfg *NacosConfig) *NacosReader {
 	cc := constant.NewClientConfig(
 		constant.WithUsername(cfg.UserName),
 		constant.WithPassword(cfg.Password),
-		constant.WithNamespaceId(cfg.NameSpaceID),
+		constant.WithNamespaceId(cfg.NameSpaceId),
 		constant.WithTimeoutMs(5000),
 		constant.WithNotLoadCacheAtStart(true),
 		constant.WithCacheDir(cfg.RuntimeDir+"/cache"),
@@ -65,7 +65,7 @@ func New(cfg *NacosConfig) *NacosReader {
 func (n *NacosReader) GetConfig() (string, error) {
 	//get config
 	content, err := n.client.GetConfig(vo.ConfigParam{
-		DataId: n.cfg.DataID,
+		DataId: n.cfg.DataId,
 		Group:  n.cfg.Group,
 	})
 	if err != nil {
@@ -80,7 +80,7 @@ func (n *NacosReader) AddListener(listener func(content string) error) error {
 
 	//Listen config change,key=dataId+group+namespaceId.
 	err := n.client.ListenConfig(vo.ConfigParam{
-		DataId: n.cfg.DataID,
+		DataId: n.cfg.DataId,
 		Group:  n.cfg.Group,
 		OnChange: func(namespace, group, dataId, data string) {
 			logger.GetLogger().Info("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)

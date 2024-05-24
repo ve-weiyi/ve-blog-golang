@@ -27,7 +27,7 @@ func (l *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Rem
 	remark.IpAddress = reqCtx.IpAddress
 	remark.IpSource = reqCtx.GetIpSource()
 
-	user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "user_id = ?", reqCtx.UID)
+	user, err := l.svcCtx.UserInformationRepository.First(reqCtx, "user_id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}

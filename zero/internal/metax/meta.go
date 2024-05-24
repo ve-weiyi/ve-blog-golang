@@ -15,11 +15,11 @@ func GetRPCInnerXUserId(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[constant.HeaderXUserID]; ok {
+	if val, ok := md[constant.HeaderXUserId]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", constant.HeaderXUserID)
+	return "", fmt.Errorf("get rpc meta error:%v", constant.HeaderXUserId)
 }
