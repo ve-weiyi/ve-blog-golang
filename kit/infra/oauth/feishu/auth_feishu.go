@@ -87,7 +87,9 @@ func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 	body, err := httpx.NewClient(
 		httpx.WithParam("app_id", a.Config.ClientID),
 		httpx.WithParam("app_secret", a.Config.ClientSecret),
-	).DoRequest("POST", a.AppAccessTokenUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(a.AppAccessTokenUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
@@ -113,7 +115,9 @@ func (a *AuthFeishu) GetTenantAccessToken() (resp *TenantTokenResp, err error) {
 	body, err := httpx.NewClient(
 		httpx.WithParam("app_id", a.Config.ClientID),
 		httpx.WithParam("app_secret", a.Config.ClientSecret),
-	).DoRequest("POST", a.TenantAccessTokenUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(a.TenantAccessTokenUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
@@ -147,7 +151,9 @@ func (a *AuthFeishu) GetUserAccessToken(code string) (resp *UserAccessTokenResp,
 			"grant_type": "authorization_code",
 			"code":       code,
 		}),
-	).DoRequest("POST", a.UserAccessTokenUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(a.UserAccessTokenUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
@@ -181,7 +187,9 @@ func (a *AuthFeishu) RefreshAccessToken(refreshToken string) (resp *UserAccessTo
 			"grant_type":    "refresh_token",
 			"refresh_token": refreshToken,
 		}),
-	).DoRequest("POST", a.RefreshTokenUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(a.RefreshTokenUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
@@ -205,7 +213,9 @@ func (a *AuthFeishu) GetUserInfo(accessToken string) (resp *UserInfoResp, err er
 
 	body, err := httpx.NewClient(
 		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)),
-	).DoRequest("GET", a.UserInfoUrl)
+		httpx.WithMethod("GET"),
+		httpx.WithURL(a.UserInfoUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err

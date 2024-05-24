@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -15,6 +14,9 @@ type ClientBuilder struct {
 	httpClient *http.Client  // 底层HTTP客户端
 	timeout    time.Duration // 请求超时时间
 
+	method string // 请求方法
+	url    string // 请求URL
+
 	headers map[string]string // 请求头部
 	params  map[string]string // 请求参数
 	body    []byte            // 请求体
@@ -22,12 +24,16 @@ type ClientBuilder struct {
 
 // NewClientBuilder 创建一个具有默认设置的新 ClientBuilder。
 func NewClientBuilder() *ClientBuilder {
-	return &ClientBuilder{
+	client := &ClientBuilder{
 		httpClient: &http.Client{},
 		timeout:    30 * time.Second, // 默认超时时间
+		method:     http.MethodGet,
+		url:        "",
 		headers:    make(map[string]string),
 		params:     make(map[string]string),
 	}
+
+	return client
 }
 
 // WithTimeout 设置 HTTP 请求的超时时间。
@@ -54,6 +60,18 @@ func (c *ClientBuilder) WithBody(body []byte) *ClientBuilder {
 	return c
 }
 
+// WithMethod 设置 HTTP 请求的方法。
+func (c *ClientBuilder) WithMethod(method string) *ClientBuilder {
+	c.method = method
+	return c
+}
+
+// WithURL 设置 HTTP 请求的 URL。
+func (c *ClientBuilder) WithURL(url string) *ClientBuilder {
+	c.url = url
+	return c
+}
+
 // Build 根据构建器的设置创建一个新的 HTTP 客户端。
 func (c *ClientBuilder) Build() *http.Client {
 	client := &http.Client{
@@ -64,14 +82,14 @@ func (c *ClientBuilder) Build() *http.Client {
 }
 
 // DoRequest 执行一个 HTTP 请求。
-func (c *ClientBuilder) DoRequest(method, rawURL string) (respBody []byte, err error) {
-	uv, err := url.ParseRequestURI(rawURL)
+func (c *ClientBuilder) DoRequest() (respBody []byte, err error) {
+	uv, err := url.ParseRequestURI(c.url)
 	if err != nil {
 		return nil, err
 	}
 
-	// 创建请求
-	req, err := http.NewRequest(method, uv.String(), nil)
+	// 使用请求体创建请求
+	req, err := http.NewRequest(c.method, uv.String(), bytes.NewBuffer(c.body))
 	if err != nil {
 		return nil, err
 	}
@@ -88,10 +106,9 @@ func (c *ClientBuilder) DoRequest(method, rawURL string) (respBody []byte, err e
 	}
 	req.URL.RawQuery = query.Encode()
 
-	// 设置请求体
-	req.Body = io.NopCloser(bytes.NewReader(c.body))
+	// 设置超时时间
+	c.httpClient.Timeout = c.timeout
 
-	log.Println("requestUrl:", req.URL.String())
 	// 执行请求
 	resp, err := c.httpClient.Do(req)
 	if err != nil {

@@ -53,7 +53,9 @@ func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
 		httpx.WithBodyObject(content),
-	).DoRequest("POST", s.ApiHost+ChatUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(s.ApiHost+ChatUrl),
+	).DoRequest()
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +82,9 @@ func (s *AIChatGPT) ImageGeneration(prompt string) (resp any, err error) {
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
 		httpx.WithBodyObject(req),
-	).DoRequest("POST", s.ApiHost+ImageUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(s.ApiHost+ImageUrl),
+	).DoRequest()
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +117,9 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 		httpx.WithHeader("Content-Type", "application/json"),
 		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
 		httpx.WithBodyObject(content),
-	).DoRequest("POST", s.ApiHost+ChatUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(s.ApiHost+ChatUrl),
+	).DoRequest()
 	if err != nil {
 		return nil, err
 	}

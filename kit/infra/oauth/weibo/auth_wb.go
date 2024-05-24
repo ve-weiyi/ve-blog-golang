@@ -78,7 +78,9 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 		httpx.WithParam("client_id", a.Config.ClientID),
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-	).DoRequest("POST", a.AccessTokenUrl)
+		httpx.WithMethod("GET"),
+		httpx.WithURL(a.AccessTokenUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
@@ -100,7 +102,9 @@ func (a *AuthWb) GetUserInfo(accessToken string, openID string) (resp *UserResul
 	body, err := httpx.NewClient(
 		httpx.WithParam("uid", openID),
 		httpx.WithParam("access_token", accessToken),
-	).DoRequest("GET", a.UserInfoUrl)
+		httpx.WithMethod("GET"),
+		httpx.WithURL(a.UserInfoUrl),
+	).DoRequest()
 	if err != nil {
 		return nil, err
 	}
