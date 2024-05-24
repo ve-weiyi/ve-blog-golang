@@ -86,7 +86,9 @@ func (a *AuthQq) GetAccessToken(code string) (resp *TokenResult, err error) {
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		httpx.WithParam("fmt", "json"), // 由于历史原因，加上这个参数则返回json格式数据
-	).DoRequest("GET", a.AccessTokenUrl)
+		httpx.WithMethod("GET"),
+		httpx.WithURL(a.AccessTokenUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
@@ -111,7 +113,9 @@ func (a *AuthQq) RefreshToken(refreshToken string) (resp *RefreshResult, err err
 		httpx.WithParam("client_secret", a.Config.ClientSecret),
 		httpx.WithParam("refresh_token", refreshToken),
 		httpx.WithParam("fmt", "json"),
-	).DoRequest("GET", a.RefreshTokenUrl)
+		httpx.WithMethod("GET"),
+		httpx.WithURL(a.RefreshTokenUrl),
+	).DoRequest()
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +137,9 @@ func (a *AuthQq) GetOpenid(accessToken string) (resp *OpenResult, err error) {
 	body, err := httpx.NewClient(
 		httpx.WithParam("access_token", accessToken),
 		httpx.WithParam("fmt", "json"),
-	).DoRequest("GET", a.OpenidUrl)
+		httpx.WithMethod("GET"),
+		httpx.WithURL(a.OpenidUrl),
+	).DoRequest()
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +161,9 @@ func (a *AuthQq) GetUserInfo(accessToken string, openId string) (resp *UserResul
 		httpx.WithParam("openid", openId),
 		httpx.WithParam("access_token", accessToken),
 		httpx.WithParam("oauth_consumer_key", a.Config.ClientID),
-	).DoRequest("POST", a.UserInfoUrl)
+		httpx.WithMethod("POST"),
+		httpx.WithURL(a.UserInfoUrl),
+	).DoRequest()
 
 	if err != nil {
 		return nil, err
