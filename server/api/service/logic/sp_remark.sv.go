@@ -3,6 +3,7 @@ package logic
 import (
 	"fmt"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -40,7 +41,7 @@ func (l *RemarkService) CreateRemark(reqCtx *request.Context, remark *entity.Rem
 
 	err = l.svcCtx.EmailPublisher.PublishMessage([]byte(jsonconv.ObjectToJson(msg)))
 	if err != nil {
-		l.svcCtx.Log.Info("PublishMessage:", err)
+		glog.Info("PublishMessage:", err)
 	}
 
 	return l.svcCtx.RemarkRepository.Create(reqCtx, remark)

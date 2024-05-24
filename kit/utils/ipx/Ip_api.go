@@ -1,4 +1,4 @@
-package iputil
+package ipx
 
 import (
 	"fmt"
@@ -53,8 +53,6 @@ func GetIpInfoByApi(ip string) (*Location, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(string(body))
 
 	var location Location
 	err = jsoniter.Unmarshal(body, &location)

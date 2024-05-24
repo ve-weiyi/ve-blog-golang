@@ -12,6 +12,8 @@ import (
 	"github.com/spf13/cast"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -19,18 +21,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
 type BaseController struct {
-	Log *glog.Glogger
 }
 
 func NewBaseController(svc *svc.ControllerContext) BaseController {
-	return BaseController{
-		Log: global.LOG,
-	}
+	return BaseController{}
 }
 
 // 获取请求上下文
@@ -100,7 +97,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 	//m.Log.Logger(js)
 	//m.Log.JsonIndent(req)
 	if err != nil {
-		m.Log.Error(err)
+		glog.Error(err)
 	}
 	return err
 }
@@ -200,7 +197,7 @@ func getInternalTime(data string) time.Duration {
 }
 
 func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
-	m.Log.Error("操作失败!", err)
+	glog.Error("操作失败!", err)
 	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {

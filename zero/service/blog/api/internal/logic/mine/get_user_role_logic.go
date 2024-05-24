@@ -33,7 +33,7 @@ func (l *GetUserRoleLogic) GetUserRole(reqCtx *types.RestHeader, req *types.Empt
 		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
 	}
 
-	out, err := l.svcCtx.UserRpc.GetUserRoles(l.ctx, in)
+	out, err := l.svcCtx.UserRpc.FindUserRoles(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

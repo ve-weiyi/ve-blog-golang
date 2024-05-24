@@ -3,6 +3,8 @@ package logic
 import (
 	"fmt"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
@@ -10,8 +12,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/service/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/constant"
 )
 
 type CaptchaService struct {
@@ -39,7 +39,7 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 
 	// 设置key
 	key := fmt.Sprintf("%s:%s", req.Service, req.Email)
-	code := l.svcCtx.Captcha.GetCodeCaptcha(key)
+	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.NewEmailContent()
 
 	data.Title = fmt.Sprintf("重置密码邮件提醒")
@@ -79,7 +79,7 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 
 // 获取图片验证码
 func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.CaptchaReq) (resp *response.CaptchaDTO, err error) {
-	id, b64s, err := l.svcCtx.Captcha.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
+	id, b64s, err := l.svcCtx.CaptchaHolder.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.C
 }
 
 func (l *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerifyReq) (resp interface{}, err error) {
-	if !l.svcCtx.Captcha.VerifyCaptcha(req.ID, req.Code) {
+	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(req.ID, req.Code) {
 		return nil, apierr.ErrorCaptchaVerify
 	}
 

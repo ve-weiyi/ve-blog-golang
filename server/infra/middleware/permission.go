@@ -5,9 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/apierr"
 )
 
 func PermissionHandler() gin.HandlerFunc {
@@ -25,7 +26,7 @@ func PermissionHandler() gin.HandlerFunc {
 		// 权限校验
 		err := permissionHolder.CheckUserAccessApi(uid, obj, act)
 		if err != nil {
-			global.LOG.Error(err)
+			glog.Error(err)
 			c.JSON(http.StatusOK, response.Response{
 				Code:    apierr.ErrorUserNotPermission.Code(),
 				Message: "用户无权限访问",
@@ -38,7 +39,7 @@ func PermissionHandler() gin.HandlerFunc {
 		// 检测接口是否可用
 		permission, err := permissionHolder.FindApiPermission(obj, act)
 		if err != nil {
-			global.LOG.Error(err)
+			glog.Error(err)
 		}
 		if permission != nil && permission.Status != 1 {
 			c.JSON(http.StatusOK, response.Response{

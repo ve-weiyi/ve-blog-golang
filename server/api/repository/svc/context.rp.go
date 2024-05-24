@@ -4,7 +4,6 @@ import (
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
@@ -15,7 +14,6 @@ type RepositoryContext struct {
 	DbEngin *gorm.DB
 	DBList  map[string]*gorm.DB
 	Cache   *redis.Client
-	Log     *glog.Glogger
 	//下面是一些Model
 }
 
@@ -25,6 +23,5 @@ func NewRepositoryContext(cfg *config.Config) *RepositoryContext {
 		DbEngin: global.DB,
 		DBList:  global.DBList,
 		Cache:   global.REDIS,
-		Log:     global.LOG,
 	}
 }

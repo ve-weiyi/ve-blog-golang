@@ -3,7 +3,6 @@ package svc
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
@@ -19,10 +18,9 @@ type ServiceContext struct {
 	*repository.AppRepository
 
 	Config         *config.Config
-	Log            *glog.Glogger
 	Token          *jjwt.JwtToken
 	RBAC           *rbac.CachedEnforcer
-	Captcha        *captcha.CaptchaHolder
+	CaptchaHolder  *captcha.CaptchaHolder
 	EmailPublisher rabbitmq.MessagePublisher
 	Uploader       upload.Uploader
 	AIChatGPT      *chatgpt.AIChatGPT
@@ -38,9 +36,8 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 	return &ServiceContext{
 		AppRepository:  repo,
 		Config:         cfg,
-		Log:            global.LOG,
 		Token:          global.JWT,
-		Captcha:        captcha.NewCaptchaHolder(captcha.NewDefaultRedisStore(global.REDIS)),
+		CaptchaHolder:  captcha.NewCaptchaHolder(captcha.NewRedisStore(global.REDIS)),
 		EmailPublisher: global.EmailMQ,
 		Uploader:       global.Uploader,
 		AIChatGPT:      global.AIChatGPT,
