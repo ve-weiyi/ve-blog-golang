@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -12,6 +13,9 @@ import (
 type Client struct {
 	httpClient *http.Client  // 底层HTTP客户端
 	timeout    time.Duration // 请求超时时间
+
+	method string // 请求方法
+	url    string // 请求URL
 
 	headers map[string]string // 请求头部
 	params  map[string]string // 请求参数
@@ -26,6 +30,8 @@ func NewClient(options ...Option) *Client {
 	client := &Client{
 		httpClient: &http.Client{},
 		timeout:    30 * time.Second, // 默认超时时间
+		method:     http.MethodGet,
+		url:        "",
 		headers:    make(map[string]string),
 		params:     make(map[string]string),
 	}
@@ -63,6 +69,20 @@ func WithParams(params map[string]string) Option {
 	}
 }
 
+// WithMethod 设置HTTP请求的方法。
+func WithMethod(method string) Option {
+	return func(c *Client) {
+		c.method = method
+	}
+}
+
+// WithURL 设置HTTP请求的URL。
+func WithURL(url string) Option {
+	return func(c *Client) {
+		c.url = url
+	}
+}
+
 // WithBody 设置HTTP请求的请求体。
 func WithBody(body []byte) Option {
 	return func(c *Client) {
@@ -71,9 +91,14 @@ func WithBody(body []byte) Option {
 }
 
 // DoRequest 执行一个HTTP请求。
-func (c *Client) DoRequest(method, url string) (respBody []byte, err error) {
+func (c *Client) DoRequest() (respBody []byte, err error) {
+	uv, err := url.ParseRequestURI(c.url)
+	if err != nil {
+		return nil, err
+	}
+
 	// 使用请求体创建请求
-	req, err := http.NewRequest(method, url, bytes.NewBuffer(c.body))
+	req, err := http.NewRequest(c.method, uv.String(), bytes.NewBuffer(c.body))
 	if err != nil {
 		return nil, err
 	}
@@ -131,16 +156,18 @@ func (c *Client) EncodeURL(rawURL string) string {
 }
 
 // 输出 curl
-func (c *Client) CURL(method, url string) (string, error) {
+func (c *Client) CURL() (string, error) {
 	var curl string
-	curl = fmt.Sprintf("curl -X %s %s", method, url)
+	curl = fmt.Sprintf("curl --location --request %s '%s'", c.method, c.url)
 
 	for key, value := range c.headers {
-		curl += fmt.Sprintf(" -H '%s: %s'", key, value)
+		curl += " \\\n"
+		curl += fmt.Sprintf("--header '%s: %s'", key, value)
 	}
 
 	if len(c.body) > 0 {
-		curl += fmt.Sprintf(" -d '%s'", string(c.body))
+		curl += " \\\n"
+		curl += fmt.Sprintf("--data-raw '%s'", string(c.body))
 	}
 
 	return curl, nil

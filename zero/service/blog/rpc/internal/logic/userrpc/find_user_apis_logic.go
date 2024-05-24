@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserApisLogic struct {
+type FindUserApisLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserApisLogic {
-	return &GetUserApisLogic{
+func NewFindUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserApisLogic {
+	return &FindUserApisLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 // 获取用户接口权限
-func (l *GetUserApisLogic) GetUserApis(in *blog.UserReq) (*blog.ApiPageResp, error) {
+func (l *FindUserApisLogic) FindUserApis(in *blog.UserReq) (*blog.ApiPageResp, error) {
 	uid := in.UserId
 
 	// 查用户

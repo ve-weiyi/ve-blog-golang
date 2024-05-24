@@ -30,7 +30,7 @@ func TestGoZero(t *testing.T) {
 
 	ctx := logx.ContextWithFields(context.Background(), logx.Field("trace", "test"))
 
-	logx.WithContext(ctx).Info("hello world")
+	logx.Info("hello world")
 	logx.WithContext(ctx).Info("hello world")
 	logx.WithContext(ctx).Info("hello world")
 	logx.WithContext(ctx).Info("hello world")

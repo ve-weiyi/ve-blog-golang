@@ -20,7 +20,9 @@ var (
 	clients = make(map[*websocket.Conn]bool)
 )
 
-func HandleWebSocket(w http.ResponseWriter, r *http.Request, onReceive func(msg []byte)) {
+type Receive func(msg []byte) (tx []byte, err error)
+
+func HandleWebSocket(w http.ResponseWriter, r *http.Request, receive Receive) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("Failed to upgrade connection:", err)
@@ -39,11 +41,20 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request, onReceive func(msg 
 			break
 		}
 
-		onReceive(msg)
+		tx, err := receive(msg)
+		if err != nil {
+			log.Println("Failed to handle message:", err)
+			_ = conn.WriteMessage(websocket.TextMessage, []byte(err.Error()))
+			continue
+		}
+
+		if tx == nil {
+			continue
+		}
 
 		// 将消息广播给所有连接的客户端
 		for client := range clients {
-			err := client.WriteMessage(websocket.TextMessage, msg)
+			err := client.WriteMessage(websocket.TextMessage, tx)
 			if err != nil {
 				log.Println("Failed to send message:", err)
 				client.Close()

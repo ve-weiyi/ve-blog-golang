@@ -12,7 +12,7 @@ type AdminHomeInfo struct {
 	ArticleCount          int64                   `json:"article_count,optional"`           // 文章量
 	CategoryList          []*CategoryDTO          `json:"category_list,optional"`           // 分类列表
 	TagList               []*TagDTO               `json:"tag_list,optional"`                // 标签列表
-	ArticleViewRankList   []*ArticleViewRankDTO   `json:"article_rank_list,optional"`       // 文章浏览量排行
+	ArticleViewRankList   []*ArticleViewRankDTO   `json:"article_view_rank_list,optional"`  // 文章浏览量排行
 	ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"` // 每日文章生产量
 	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_list,optional"`        // 每日用户访问量
 }
@@ -185,6 +185,11 @@ type ChatRecord struct {
 	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
 }
 
+type ChatSocketMsg struct {
+	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Content string `json:"content"` // 消息内容
+}
+
 type CommentBackDTO struct {
 	Id             int64  `json:"id,optional"`
 	Type           int64  `json:"type,optional"`
@@ -295,8 +300,8 @@ type LoginHistory struct {
 }
 
 type LoginReq struct {
-	Username string `json:"username,optional"`
-	Password string `json:"password,optional"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 	Code     string `json:"code,optional"`
 }
 
@@ -440,12 +445,12 @@ type PingReq struct {
 }
 
 type PingResp struct {
-	Env         string            `json:"env"`
-	Name        string            `json:"name"`
-	Version     string            `json:"version"`
-	Runtime     string            `json:"runtime"`
-	Description string            `json:"description"`
-	RpcStatus   map[string]string `json:"rpc_status"`
+	Env         string   `json:"env"`
+	Name        string   `json:"name"`
+	Version     string   `json:"version"`
+	Runtime     string   `json:"runtime"`
+	Description string   `json:"description"`
+	RpcStatus   []string `json:"rpc_status"`
 }
 
 type Remark struct {
@@ -462,8 +467,8 @@ type Remark struct {
 }
 
 type ResetPasswordReq struct {
-	Username string `json:"username,optional"`
-	Password string `json:"password,optional"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 	Code     string `json:"code,optional"`
 }
 
@@ -632,7 +637,7 @@ type UploadFileResp struct {
 
 type User struct {
 	Id           int64        `json:"id,optional"`
-	Username     string       `json:"username,optional"`
+	Username     string       `json:"username"`
 	Nickname     string       `json:"nickname,optional"`
 	Avatar       string       `json:"avatar,optional"`
 	Intro        string       `json:"intro,optional"`
@@ -670,12 +675,12 @@ type UserArea struct {
 }
 
 type UserEmailReq struct {
-	Username string `json:"username,optional"`
+	Username string `json:"username"`
 }
 
 type UserInfo struct {
 	UserId   int64  `json:"user_id,optional"`  // 用户id
-	Username string `json:"username,optional"` // 用户名
+	Username string `json:"username"`          // 用户名
 	Nickname string `json:"nickname,optional"` // 昵称
 	Avatar   string `json:"avatar,optional"`   // 头像
 	Intro    string `json:"intro,optional"`    // 个人简介

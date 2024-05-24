@@ -43,7 +43,6 @@ func NewServiceContext(cfg *config.Config) *ServiceContext {
 	return &ServiceContext{
 		AppRepository: repo,
 		Config:        cfg,
-		Log:           global.LOG,
 	}
 }
 

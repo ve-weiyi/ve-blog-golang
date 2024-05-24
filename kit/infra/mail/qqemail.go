@@ -8,6 +8,13 @@ import (
 	"github.com/jordan-wright/email"
 )
 
+type EmailMessage struct {
+	To      []string `json:"to"`      // 目标邮箱号
+	Subject string   `json:"subject"` // 主题
+	Content string   `json:"content"` // 内容
+	Type    int      `json:"type"`    // 0:普通邮件 1:需要抄送
+}
+
 type EmailSender struct {
 	Host     string   // 服务器地址
 	Port     int      // 端口
@@ -16,6 +23,16 @@ type EmailSender struct {
 	Nickname string   // 发件人昵称
 	Deliver  []string // 抄送邮箱:多个以英文逗号分隔
 	IsSSL    bool     // 是否使用 SSL/TLS
+}
+
+func NewEmailSender(opts ...Option) *EmailSender {
+	sender := &EmailSender{}
+
+	for _, opt := range opts {
+		opt(sender)
+	}
+
+	return sender
 }
 
 func (s *EmailSender) SendEmailMessage(message EmailMessage) error {

@@ -10,7 +10,7 @@ import (
 
 	"gorm.io/gorm/logger"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 )
 
 type gormWriter struct {
@@ -33,7 +33,7 @@ func (w *gormWriter) Printf(message string, data ...interface{}) {
 	data[0] = FileWithLineNum()
 	if w.UseZapLog {
 		//w.Writer.Printf(message, data...)
-		global.LOG.Info(fmt.Sprintf(message, data...))
+		glog.Info(fmt.Sprintf(message, data...))
 	} else {
 		w.Writer.Printf(message, data...)
 	}

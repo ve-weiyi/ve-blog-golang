@@ -16,7 +16,7 @@ type RedisStore struct {
 	Context    context.Context
 }
 
-func NewDefaultRedisStore(rd *redis.Client) *RedisStore {
+func NewRedisStore(rd *redis.Client) *RedisStore {
 	return &RedisStore{
 		Expiration: 15 * 60 * time.Second,
 		PrefixKey:  "captcha:",

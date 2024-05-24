@@ -3,8 +3,11 @@ package auth
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +28,14 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 }
 
 func (l *LogoffLogic) Logoff(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	in := authrpc.LogoffReq{
+		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+	}
 
-	return
+	_, err = l.svcCtx.AuthRpc.Logoff(l.ctx, &in)
+	if err != nil {
+		return
+	}
+
+	return &types.EmptyResp{}, nil
 }
