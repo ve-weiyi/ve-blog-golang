@@ -19,7 +19,7 @@ func (s *TagRepository) FindArticleTagList(ctx context.Context, articleId int) (
 
 	var tagIds []int
 	for _, at := range ats {
-		tagIds = append(tagIds, at.TagID)
+		tagIds = append(tagIds, at.TagId)
 	}
 
 	err = db.Where("id in (?)", tagIds).Find(&tags).Error
@@ -45,7 +45,7 @@ func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int)
 	// 收集id
 	var tagIds []int
 	for _, at := range ats {
-		tagIds = append(tagIds, at.TagID)
+		tagIds = append(tagIds, at.TagId)
 	}
 
 	// 查询tag
@@ -57,16 +57,16 @@ func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int)
 	// tag map
 	var tagMap = make(map[int]*entity.Tag)
 	for _, tag := range tags {
-		tagMap[tag.ID] = tag
+		tagMap[tag.Id] = tag
 	}
 
 	// article []tag map
 	var atMap = make(map[int][]*entity.Tag)
 	for _, at := range ats {
-		if _, ok := atMap[at.ArticleID]; ok {
-			atMap[at.ArticleID] = append(atMap[at.ArticleID], tagMap[at.TagID])
+		if _, ok := atMap[at.ArticleId]; ok {
+			atMap[at.ArticleId] = append(atMap[at.ArticleId], tagMap[at.TagId])
 		} else {
-			atMap[at.ArticleID] = []*entity.Tag{tagMap[at.TagID]}
+			atMap[at.ArticleId] = []*entity.Tag{tagMap[at.TagId]}
 		}
 	}
 

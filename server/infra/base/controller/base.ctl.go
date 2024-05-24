@@ -35,7 +35,7 @@ func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, 
 
 	reqCtx := &request.Context{}
 	reqCtx.Token = ctx.GetHeader(constant.HeaderXAuthToken)
-	reqCtx.UID = cast.ToInt(ctx.GetHeader(constant.HeaderXUserID))
+	reqCtx.Uid = cast.ToInt(ctx.GetHeader(constant.HeaderXUserId))
 	reqCtx.IpAddress = ctx.ClientIP()
 	reqCtx.UserAgent = ctx.Request.UserAgent()
 	reqCtx.Context = ctx.Request.Context()
@@ -126,7 +126,7 @@ func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data i
 		Code:    code,
 		Message: msg,
 		Data:    data,
-		TraceID: ctx.Request.Context().Value("X-Trace-ID").(string),
+		TraceId: ctx.Request.Context().Value("X-Trace-ID").(string),
 	}
 	ctx.JSON(http.StatusOK, obj)
 

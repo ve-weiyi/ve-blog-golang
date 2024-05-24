@@ -23,14 +23,14 @@ func NewAIService(svcCtx *svc.ServiceContext) *AIService {
 func (l *AIService) ChatAI(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
 	// 查询用户消息历史记录
 	// 查询历史记录
-	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 0, 8, "created_at desc", "chat_id = ?", req.ChatID)
+	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 0, 8, "created_at desc", "chat_id = ?", req.ChatId)
 	if err != nil {
 		return nil, err
 	}
 
 	var msgs []*chatgpt.ChatMessage
 	for _, v := range list {
-		if v.UserID != -1 {
+		if v.UserId != -1 {
 			msgs = append(msgs, &chatgpt.ChatMessage{
 				Role:    chatgpt.RoleUser,
 				Content: v.Content,
@@ -55,8 +55,8 @@ func (l *AIService) ChatAI(reqCtx *request.Context, req *request.ChatMessage) (d
 
 	// 保存用户历史记录
 	msg := &entity.ChatMessage{
-		ChatID:    req.ChatID,
-		UserID:    reqCtx.UID,
+		ChatId:    req.ChatId,
+		UserId:    reqCtx.Uid,
 		Content:   req.Content,
 		IpAddress: reqCtx.IpAddress,
 		//IpSource:  reqCtx.GetIpSource(),
@@ -72,9 +72,9 @@ func (l *AIService) ChatAI(reqCtx *request.Context, req *request.ChatMessage) (d
 	// 保存ai历史记录
 	for _, v := range resp.Choices {
 		m := &entity.ChatMessage{
-			ChatID:     req.ChatID,
-			UserID:     -1,
-			ReplyMsgID: create.ReplyMsgID,
+			ChatId:     req.ChatId,
+			UserId:     -1,
+			ReplyMsgId: create.ReplyMsgId,
 			Content:    v.Message.Content,
 			Type:       1,
 			Status:     0,
@@ -98,8 +98,8 @@ func (l *AIService) ChatCos(reqCtx *request.Context, req *request.ChatMessage) (
 
 	// 保存用户历史记录
 	msg := &entity.ChatMessage{
-		ChatID:    req.ChatID,
-		UserID:    reqCtx.UID,
+		ChatId:    req.ChatId,
+		UserId:    reqCtx.Uid,
 		Content:   req.Content,
 		IpAddress: reqCtx.IpAddress,
 		//IpSource:  reqCtx.GetIpSource(),
@@ -115,9 +115,9 @@ func (l *AIService) ChatCos(reqCtx *request.Context, req *request.ChatMessage) (
 	// 保存ai历史记录
 	for _, v := range resp.Choices {
 		m := &entity.ChatMessage{
-			ChatID:     req.ChatID,
-			UserID:     -1,
-			ReplyMsgID: create.ReplyMsgID,
+			ChatId:     req.ChatId,
+			UserId:     -1,
+			ReplyMsgId: create.ReplyMsgId,
 			Content:    v.Message.Content,
 			Type:       1,
 			Status:     0,
@@ -136,7 +136,7 @@ func (l *AIService) ChatCos(reqCtx *request.Context, req *request.ChatMessage) (
 func (l *AIService) ChatStream(reqCtx *request.Context, req *request.ChatStream) (data *chatgpt.ChatResponse, err error) {
 
 	return l.ChatAI(reqCtx, &request.ChatMessage{
-		ChatID:  req.ChatID,
+		ChatId:  req.ChatId,
 		Content: req.Content,
 	})
 }
@@ -144,14 +144,14 @@ func (l *AIService) ChatStream(reqCtx *request.Context, req *request.ChatStream)
 // 和Chatgpt聊天
 func (l *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
 	// 查询历史记录
-	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 1, 3, "created_at desc", "chat_id = ?", req.ChatID)
+	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 1, 3, "created_at desc", "chat_id = ?", req.ChatId)
 	if err != nil {
 		return nil, err
 	}
 
 	var msgs []*chatgpt.ChatMessage
 	for _, v := range list {
-		if v.UserID == reqCtx.UID {
+		if v.UserId == reqCtx.Uid {
 			msgs = append(msgs, &chatgpt.ChatMessage{
 				Role:    chatgpt.RoleUser,
 				Content: v.Content,
@@ -176,8 +176,8 @@ func (l *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMess
 
 	// 保存历史记录
 	msg := &entity.ChatMessage{
-		ChatID:    req.ChatID,
-		UserID:    reqCtx.UID,
+		ChatId:    req.ChatId,
+		UserId:    reqCtx.Uid,
 		Content:   req.Content,
 		IpAddress: reqCtx.IpAddress,
 		//IpSource:  reqCtx.GetIpSource(),
@@ -192,9 +192,9 @@ func (l *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMess
 
 	for _, v := range resp.Choices {
 		m := &entity.ChatMessage{
-			ChatID:     req.ChatID,
-			UserID:     -1,
-			ReplyMsgID: create.ReplyMsgID,
+			ChatId:     req.ChatId,
+			UserId:     -1,
+			ReplyMsgId: create.ReplyMsgId,
 			Content:    v.Message.Content,
 			Type:       1,
 			Status:     0,
@@ -215,7 +215,7 @@ func (l *AIService) ChatAssistantHistory(reqCtx *request.Context, req *request.C
 	}
 
 	// 查询历史记录
-	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 0, 0, "created_at desc", "chat_id = ? and ? < created_at and created_at < ?", req.ChatID, time.Unix(req.After, 0), time.Unix(req.Before, 0))
+	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 0, 0, "created_at desc", "chat_id = ? and ? < created_at and created_at < ?", req.ChatId, time.Unix(req.After, 0), time.Unix(req.Before, 0))
 	if err != nil {
 		return nil, err
 	}

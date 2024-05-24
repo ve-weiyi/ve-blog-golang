@@ -60,7 +60,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 
 				// 插入数据
 				menu = &entity.Menu{
-					ParentID:  exist.ID,
+					ParentId:  exist.Id,
 					Title:     child.Meta.Title,
 					Path:      child.Path,
 					Name:      child.Name,
@@ -89,7 +89,7 @@ func (l *MenuService) CleanMenuList(reqCtx *request.Context, req interface{}) (d
 
 func getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {
 	for _, item := range list {
-		if item.ParentID == root.ID {
+		if item.ParentId == root.Id {
 			leaf := convertMenu(item)
 			leaf.Children = getMenuChildren(*leaf, list)
 			leafs = append(leafs, leaf)

@@ -286,7 +286,7 @@ func InitOauth(c config.Config) map[string]oauth.Oauth {
 
 	for k, v := range c.OauthConf {
 		conf := &oauth.AuthConfig{
-			ClientID:     v.ClientID,
+			ClientId:     v.ClientId,
 			ClientSecret: v.ClientSecret,
 			RedirectUri:  v.RedirectUri,
 		}

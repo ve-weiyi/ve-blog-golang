@@ -5,7 +5,7 @@ import (
 )
 
 type UserDTO struct {
-	ID       int    `json:"id"`
+	Id       int    `json:"id"`
 	Username string `json:"username"`
 	Nickname string `json:"nickname"`
 	Avatar   string `json:"avatar"`

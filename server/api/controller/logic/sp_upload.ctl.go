@@ -98,7 +98,7 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 
 	req := request.VoiceVO{
 		Type: cast.ToInt(tp),
-		//UserID:    cast.ToInt(uid),
+		//UserId:    cast.ToInt(uid),
 		//Nickname:  nickname,
 		//Avatar:    avatar,
 		Content: content,

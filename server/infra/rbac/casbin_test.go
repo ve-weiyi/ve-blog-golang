@@ -146,7 +146,7 @@ func ResetAllPolicy(db *gorm.DB, rbac *casbin.SyncedEnforcer) {
 	log.Println("--->", jsonconv.ObjectToJsonIndent(roles))
 	//域
 	for _, role := range roles {
-		menus, err := ResetRoleMenuPolicy(db, role.ID)
+		menus, err := ResetRoleMenuPolicy(db, role.Id)
 		if err != nil {
 			log.Println("err-->", err)
 			return
@@ -173,7 +173,7 @@ func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenuDTO, erro
 
 	var mids []int
 	for _, item := range urs {
-		mids = append(mids, item.MenuID)
+		mids = append(mids, item.MenuId)
 	}
 
 	var menus []entity.Menu
@@ -185,7 +185,7 @@ func ResetRoleMenuPolicy(db *gorm.DB, roleId int) ([]*response.UserMenuDTO, erro
 	var res []*response.UserMenuDTO
 	for _, item := range menus {
 		menu := &response.UserMenuDTO{
-			Id:        item.ID,
+			Id:        item.Id,
 			Name:      item.Name,
 			Path:      item.Path,
 			Component: item.Component,

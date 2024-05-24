@@ -16,7 +16,7 @@ func (s *CategoryRepository) CreateCategoryNotExist(ctx context.Context, categor
 		return nil, err
 	}
 
-	if category.ID != 0 {
+	if category.Id != 0 {
 		return &category, nil
 	}
 

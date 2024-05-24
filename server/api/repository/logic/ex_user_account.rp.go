@@ -51,7 +51,7 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity.Us
 	db.Create(&account)
 
 	/** 创建用户信息 start**/
-	info.UserID = account.ID
+	info.UserId = account.Id
 
 	// 默认邮箱
 	if info.Email == "" {
@@ -89,8 +89,8 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity.Us
 	var userRoles []*entity.UserRole
 	for _, item := range roles {
 		userRoles = append(userRoles, &entity.UserRole{
-			UserID: account.ID,
-			RoleID: item.ID,
+			UserId: account.Id,
+			RoleId: item.Id,
 		})
 	}
 
@@ -128,7 +128,7 @@ func (s *UserAccountRepository) FindUserMenus(ctx context.Context, userId int) (
 
 	var ids []int
 	for _, item := range roleApis {
-		ids = append(ids, item.MenuID)
+		ids = append(ids, item.MenuId)
 	}
 
 	var apis []*entity.Menu
@@ -193,7 +193,7 @@ func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid in
 // 用户登录
 func (s *UserAccountRepository) Login(ctx context.Context, account *entity.UserAccount) (data string, err error) {
 	// redis 保存用户登录信息
-	onlineKey := cache.WrapCacheKey(cache.UserOnline, account.ID)
+	onlineKey := cache.WrapCacheKey(cache.UserOnline, account.Id)
 	return s.Cache.Set(ctx, onlineKey, account.Username, cache.ExpireTimeWeek).Result()
 }
 

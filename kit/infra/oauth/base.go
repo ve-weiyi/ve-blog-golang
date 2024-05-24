@@ -2,9 +2,9 @@ package oauth
 
 type Option func(*AuthConfig)
 
-func WithClientID(clientID string) Option {
+func WithClientID(clientId string) Option {
 	return func(o *AuthConfig) {
-		o.ClientID = clientID
+		o.ClientId = clientId
 	}
 }
 

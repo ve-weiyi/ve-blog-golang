@@ -32,7 +32,7 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 		return nil, apierr.ErrorUserNotExist
 	}
 
-	userinfo, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.ID)
+	userinfo, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
@@ -85,7 +85,7 @@ func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.C
 	}
 
 	resp = &response.CaptchaDTO{
-		ID:         id,
+		Id:         id,
 		EncodeData: b64s,
 		Length:     req.Length,
 	}
@@ -93,7 +93,7 @@ func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.C
 }
 
 func (l *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerifyReq) (resp interface{}, err error) {
-	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(req.ID, req.Code) {
+	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(req.Id, req.Code) {
 		return nil, apierr.ErrorCaptchaVerify
 	}
 

@@ -19,7 +19,7 @@ type ArticleBack struct {
 }
 
 type ArticleDTO struct {
-	ID             int       `json:"id"`              // 文章ID
+	Id             int       `json:"id"`              // 文章ID
 	ArticleCover   string    `json:"article_cover"`   // 文章缩略图
 	ArticleTitle   string    `json:"article_title"`   // 标题
 	ArticleContent string    `json:"article_content"` // 内容
@@ -51,7 +51,7 @@ type ArticlePageDetailsDTO struct {
 
 // 文章预览
 type ArticlePreviewDTO struct {
-	ID           int       `json:"id"`            // 文章ID
+	Id           int       `json:"id"`            // 文章ID
 	ArticleCover string    `json:"article_cover"` // 文章缩略图
 	ArticleTitle string    `json:"article_title"` // 标题
 	CreatedAt    time.Time `json:"created_at"`    // 创建时间

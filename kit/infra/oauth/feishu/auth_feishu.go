@@ -46,7 +46,7 @@ func (a *AuthFeishu) GetName() string {
 func (a *AuthFeishu) GetRedirectUrl(state string) string {
 
 	url := httpx.NewClient(
-		httpx.WithParam("app_id", a.Config.ClientID),
+		httpx.WithParam("app_id", a.Config.ClientId),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
 		//httpx.WithParam("scope", "contact:user.base:readonly"),
 		httpx.WithParam("state", state),
@@ -69,7 +69,7 @@ func (a *AuthFeishu) GetUserOpenInfo(code string) (resp *oauth.UserResult, err e
 	user := out.Data
 
 	resp = &oauth.UserResult{
-		OpenID:   user.OpenId,
+		OpenId:   user.OpenId,
 		NickName: user.EnName,
 		Name:     user.Name,
 		EnName:   user.EnName,
@@ -85,7 +85,7 @@ func (a *AuthFeishu) GetUserOpenInfo(code string) (resp *oauth.UserResult, err e
 func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("app_id", a.Config.ClientID),
+		httpx.WithParam("app_id", a.Config.ClientId),
 		httpx.WithParam("app_secret", a.Config.ClientSecret),
 		httpx.WithMethod("POST"),
 		httpx.WithURL(a.AppAccessTokenUrl),
@@ -113,7 +113,7 @@ func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 func (a *AuthFeishu) GetTenantAccessToken() (resp *TenantTokenResp, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("app_id", a.Config.ClientID),
+		httpx.WithParam("app_id", a.Config.ClientId),
 		httpx.WithParam("app_secret", a.Config.ClientSecret),
 		httpx.WithMethod("POST"),
 		httpx.WithURL(a.TenantAccessTokenUrl),

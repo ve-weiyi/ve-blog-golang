@@ -4,8 +4,8 @@ import "time"
 
 // CommentDTO 评论
 type CommentDTO struct {
-	ID             int         `json:"id"`              // 评论id
-	UserID         int         `json:"user_id"`         // 用户id
+	Id             int         `json:"id"`              // 评论id
+	UserId         int         `json:"user_id"`         // 用户id
 	Nickname       string      `json:"nickname"`        // 用户昵称
 	Avatar         string      `json:"avatar"`          // 用户头像
 	Website        string      `json:"website"`         // 个人网站
@@ -18,13 +18,13 @@ type CommentDTO struct {
 
 // ReplyDTO 回复
 type ReplyDTO struct {
-	ID             int       `json:"id"`              // 评论id
-	ParentID       int       `json:"parent_id"`       // 父评论id
-	UserID         int       `json:"user_id"`         // 用户id
+	Id             int       `json:"id"`              // 评论id
+	ParentId       int       `json:"parent_id"`       // 父评论id
+	UserId         int       `json:"user_id"`         // 用户id
 	Nickname       string    `json:"nickname"`        // 用户昵称
 	Avatar         string    `json:"avatar"`          // 用户头像
 	Website        string    `json:"website"`         // 个人网站
-	ReplyUserID    int       `json:"reply_user_id"`   // 被回复用户id
+	ReplyUserId    int       `json:"reply_user_id"`   // 被回复用户id
 	ReplyNickname  string    `json:"reply_nickname"`  // 被回复用户昵称
 	ReplyWebsite   string    `json:"reply_website"`   // 被回复个人网站
 	CommentContent string    `json:"comment_content"` // 评论内容
@@ -33,7 +33,7 @@ type ReplyDTO struct {
 }
 
 type CommentBackDTO struct {
-	ID             int       `json:"id"`
+	Id             int       `json:"id"`
 	Avatar         string    `json:"avatar"`
 	Nickname       string    `json:"nickname"`
 	ReplyNickname  string    `json:"reply_nickname"`

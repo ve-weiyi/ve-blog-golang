@@ -5,8 +5,8 @@ import (
 )
 
 type MenuDetailsDTO struct {
-	ID        int               `json:"id"`        // 主键
-	ParentID  int               `json:"parent_id"` // 父id
+	Id        int               `json:"id"`        // 主键
+	ParentId  int               `json:"parent_id"` // 父id
 	Title     string            `json:"title"`     // 菜单标题
 	Type      int               `json:"type"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
 	Path      string            `json:"path"`      // 路由地址

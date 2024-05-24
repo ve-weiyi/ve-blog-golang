@@ -13,7 +13,7 @@ import (
 
 func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
 	return &oauth.AuthConfig{
-		ClientID:     conf.ClientID,
+		ClientId:     conf.ClientId,
 		ClientSecret: conf.ClientSecret,
 		RedirectUri:  conf.RedirectUri,
 	}
@@ -21,7 +21,7 @@ func convertAuthConfig(conf properties.AuthConfig) *oauth.AuthConfig {
 
 func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory {
 	return &response.LoginHistory{
-		ID:        entity.ID,
+		Id:        entity.Id,
 		LoginType: entity.LoginType,
 		Agent:     entity.Agent,
 		IpAddress: entity.IpAddress,
@@ -32,7 +32,7 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 
 func convertArticle(article *entity.Article) response.ArticleDTO {
 	out := response.ArticleDTO{
-		ID:             article.ID,
+		Id:             article.Id,
 		ArticleCover:   article.ArticleCover,
 		ArticleTitle:   article.ArticleTitle,
 		ArticleContent: article.ArticleContent,
@@ -53,7 +53,7 @@ func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePrevie
 	var out []*response.ArticlePreviewDTO
 	for _, item := range list {
 		at := &response.ArticlePreviewDTO{
-			ID:           item.ID,
+			Id:           item.Id,
 			ArticleCover: item.ArticleCover,
 			ArticleTitle: item.ArticleTitle,
 			CreatedAt:    item.CreatedAt,
@@ -69,7 +69,7 @@ func convertArticlePreview(article *entity.Article) *response.ArticlePreviewDTO 
 		return nil
 	}
 	return &response.ArticlePreviewDTO{
-		ID:           article.ID,
+		Id:           article.Id,
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
@@ -115,7 +115,7 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleViewRankD
 	var out []*response.ArticleViewRankDTO
 	for _, item := range list {
 		at := &response.ArticleViewRankDTO{
-			ID:           item.ID,
+			Id:           item.Id,
 			ArticleTitle: item.ArticleTitle,
 			Count:        rand.Int63n(100),
 		}
@@ -130,7 +130,7 @@ func convertCategory(entity *entity.Category) *response.CategoryDTO {
 		return &response.CategoryDTO{}
 	}
 	return &response.CategoryDTO{
-		ID:           entity.ID,
+		Id:           entity.Id,
 		CategoryName: entity.CategoryName,
 	}
 }
@@ -139,7 +139,7 @@ func convertTagList(list []*entity.Tag) []*response.TagDTO {
 	var tagList []*response.TagDTO
 	for _, tag := range list {
 		tagList = append(tagList, &response.TagDTO{
-			ID:      tag.ID,
+			Id:      tag.Id,
 			TagName: tag.TagName,
 		})
 	}
@@ -151,7 +151,7 @@ func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
 
 	for _, in := range list {
 		data := &response.CategoryDTO{
-			ID:           in.ID,
+			Id:           in.Id,
 			CategoryName: in.CategoryName,
 		}
 		categoryList = append(categoryList, data)
@@ -164,7 +164,7 @@ func convertPageList(list []*entity.Page) []*response.PageDTO {
 
 	for _, in := range list {
 		data := &response.PageDTO{
-			ID:        in.ID,
+			Id:        in.Id,
 			PageName:  in.PageName,
 			PageLabel: in.PageLabel,
 			PageCover: in.PageCover,
@@ -196,13 +196,13 @@ func convertMenu(entity *entity.Menu) *response.MenuDetailsDTO {
 	jsonconv.JsonToObject(entity.Meta, &meta)
 
 	return &response.MenuDetailsDTO{
-		ID:        entity.ID,
+		Id:        entity.Id,
 		Type:      entity.Type,
 		Name:      entity.Name,
 		Path:      entity.Path,
 		Component: entity.Component,
 		Title:     entity.Title,
-		ParentID:  entity.ParentID,
+		ParentId:  entity.ParentId,
 		Meta:      meta,
 		CreatedAt: entity.CreatedAt,
 		UpdatedAt: entity.UpdatedAt,

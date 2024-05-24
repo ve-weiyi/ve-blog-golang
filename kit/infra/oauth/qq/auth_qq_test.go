@@ -9,7 +9,7 @@ import (
 
 func TestQQ(t *testing.T) {
 	conf := &oauth.AuthConfig{
-		ClientID:     "xxx",
+		ClientId:     "xxx",
 		ClientSecret: "xxx",
 		RedirectUri:  "https://veweiyi.cn/blog/oauth/login/qq",
 	}

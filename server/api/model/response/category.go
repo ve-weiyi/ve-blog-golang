@@ -3,7 +3,7 @@ package response
 import "time"
 
 type CategoryDetailsDTO struct {
-	ID           int       `json:"id"`
+	Id           int       `json:"id"`
 	CategoryName string    `json:"category_name"` // 分类名
 	ArticleCount int64     `json:"article_count"`
 	CreatedAt    time.Time `json:"created_at"` // 创建时间
@@ -11,7 +11,7 @@ type CategoryDetailsDTO struct {
 }
 
 type TagDetailsDTO struct {
-	ID           int       `json:"id"`            // 标签ID
+	Id           int       `json:"id"`            // 标签ID
 	TagName      string    `json:"tag_name"`      // 标签名
 	ArticleCount int64     `json:"article_count"` // 文章数量
 	CreatedAt    time.Time `json:"created_at"`    // 创建时间
@@ -20,12 +20,12 @@ type TagDetailsDTO struct {
 
 // 分类
 type CategoryDTO struct {
-	ID           int    `json:"id"`
+	Id           int    `json:"id"`
 	CategoryName string `json:"category_name"` // 分类名
 }
 
 // 标签
 type TagDTO struct {
-	ID      int    `json:"id"`       // 标签ID
+	Id      int    `json:"id"`       // 标签ID
 	TagName string `json:"tag_name"` // 标签名
 }

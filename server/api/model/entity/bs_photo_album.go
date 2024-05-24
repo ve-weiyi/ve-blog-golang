@@ -7,7 +7,7 @@ const TableNamePhotoAlbum = "photo_album"
 
 // PhotoAlbum mapped from table <photo_album>
 type PhotoAlbum struct {
-	ID         int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
+	Id         int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
 	AlbumName  string    `gorm:"column:album_name;type:varchar(32);not null;comment:相册名" json:"album_name"`                         // 相册名
 	AlbumDesc  string    `gorm:"column:album_desc;type:varchar(64);not null;comment:相册描述" json:"album_desc"`                        // 相册描述
 	AlbumCover string    `gorm:"column:album_cover;type:varchar(255);not null;comment:相册封面" json:"album_cover"`                     // 相册封面

@@ -7,8 +7,8 @@ const TableNameMenu = "menu"
 
 // Menu mapped from table <menu>
 type Menu struct {
-	ID        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
-	ParentID  int       `gorm:"column:parent_id;type:int;not null;comment:父id" json:"parent_id"`                                   // 父id
+	Id        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
+	ParentId  int       `gorm:"column:parent_id;type:int;not null;comment:父id" json:"parent_id"`                                   // 父id
 	Title     string    `gorm:"column:title;type:varchar(64);not null;comment:菜单标题" json:"title"`                                  // 菜单标题
 	Path      string    `gorm:"column:path;type:varchar(64);not null;uniqueIndex:uk_path,priority:1;comment:路由路径" json:"path"`     // 路由路径
 	Name      string    `gorm:"column:name;type:varchar(64);not null;comment:路由名称" json:"name"`                                    // 路由名称

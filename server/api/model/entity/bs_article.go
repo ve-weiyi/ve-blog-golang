@@ -7,9 +7,9 @@ const TableNameArticle = "article"
 
 // Article mapped from table <article>
 type Article struct {
-	ID             int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                    // id
-	UserID         int       `gorm:"column:user_id;type:int;not null;comment:作者" json:"user_id"`                                        // 作者
-	CategoryID     int       `gorm:"column:category_id;type:int;not null;comment:文章分类" json:"category_id"`                              // 文章分类
+	Id             int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:id" json:"id"`                    // id
+	UserId         int       `gorm:"column:user_id;type:int;not null;comment:作者" json:"user_id"`                                        // 作者
+	CategoryId     int       `gorm:"column:category_id;type:int;not null;comment:文章分类" json:"category_id"`                              // 文章分类
 	ArticleCover   string    `gorm:"column:article_cover;type:varchar(1024);not null;comment:文章缩略图" json:"article_cover"`               // 文章缩略图
 	ArticleTitle   string    `gorm:"column:article_title;type:varchar(64);not null;comment:标题" json:"article_title"`                    // 标题
 	ArticleContent string    `gorm:"column:article_content;type:longtext;not null;comment:内容" json:"article_content"`                   // 内容

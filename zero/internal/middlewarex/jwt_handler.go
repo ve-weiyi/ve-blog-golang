@@ -29,7 +29,7 @@ func JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
 				if keyLowercase == constant.HeaderXAuthToken {
 					token = value
 				}
-				if keyLowercase == constant.HeaderXUserID {
+				if keyLowercase == constant.HeaderXUserId {
 					uid = value
 				}
 			}

@@ -7,8 +7,8 @@ const TableNameChatRecord = "chat_record"
 
 // ChatRecord mapped from table <chat_record>
 type ChatRecord struct {
-	ID        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
-	UserID    int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
+	Id        int       `gorm:"column:id;type:int unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"`                    // 主键
+	UserId    int       `gorm:"column:user_id;type:int;not null;comment:用户id" json:"user_id"`                                      // 用户id
 	Nickname  string    `gorm:"column:nickname;type:varchar(64);not null;comment:昵称" json:"nickname"`                              // 昵称
 	Avatar    string    `gorm:"column:avatar;type:varchar(255);not null;comment:头像" json:"avatar"`                                 // 头像
 	Content   string    `gorm:"column:content;type:varchar(1000);not null;comment:聊天内容" json:"content"`                            // 聊天内容

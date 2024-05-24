@@ -45,9 +45,9 @@ func (s *ApiCmd) init() {
 	s.cmd.PersistentFlags().Uint64Var(&s.nacosCfg.Port, "n-port", nacosCfg.Port, "the port for nacos")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.UserName, "n-user", nacosCfg.UserName, "the user for nacos")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.Password, "n-password", nacosCfg.Password, "the password for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.DataID, "n-data-id", nacosCfg.DataID, "the DataId for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.DataId, "n-data-id", nacosCfg.DataId, "the DataId for nacos")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.Group, "n-group", nacosCfg.Group, "the group for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.NameSpaceID, "n-ns", nacosCfg.NameSpaceID, "the namespace for nacos")
+	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.NameSpaceId, "n-ns", nacosCfg.NameSpaceId, "the namespace for nacos")
 }
 
 func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
@@ -56,9 +56,9 @@ func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 		Port:        8848,
 		UserName:    "nacos",
 		Password:    "nacos",
-		NameSpaceID: "dev",
+		NameSpaceId: "dev",
 		Group:       "veweiyi.cn",
-		DataID:      "ve-blog-golang",
+		DataId:      "ve-blog-golang",
 		RuntimeDir:  "runtime/nacos",
 		LogLevel:    "warn",
 		Timeout:     5000,

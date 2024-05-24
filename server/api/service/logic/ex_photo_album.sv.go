@@ -14,7 +14,7 @@ func (l *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 
 	// 查询相册下的照片数量
 	for _, in := range albumList {
-		count, err := l.svcCtx.PhotoRepository.Count(reqCtx, "album_id = ?", in.ID)
+		count, err := l.svcCtx.PhotoRepository.Count(reqCtx, "album_id = ?", in.Id)
 		if err != nil {
 			return nil, 0, err
 		}

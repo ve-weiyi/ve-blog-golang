@@ -16,7 +16,7 @@ type CaptchaReq struct {
 
 // 验证码验证请求
 type CaptchaVerifyReq struct {
-	ID   string `json:"id"`
+	Id   string `json:"id"`
 	Code string `json:"code"`
 }
 
