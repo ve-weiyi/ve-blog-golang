@@ -52,7 +52,7 @@ func (s *ArticleRpcServer) FindArticle(ctx context.Context, in *blog.IdReq) (*bl
 	return l.FindArticle(in)
 }
 
-// 分页获取文章列表
+// 查询文章列表
 func (s *ArticleRpcServer) FindArticleList(ctx context.Context, in *blog.PageQuery) (*blog.ArticlePageResp, error) {
 	l := articlerpclogic.NewFindArticleListLogic(ctx, s.svcCtx)
 	return l.FindArticleList(in)

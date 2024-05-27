@@ -52,7 +52,7 @@ func (s *ApiRpcServer) FindApi(ctx context.Context, in *blog.IdReq) (*blog.Api, 
 	return l.FindApi(in)
 }
 
-// 分页获取接口列表
+// 查询接口列表
 func (s *ApiRpcServer) FindApiList(ctx context.Context, in *blog.PageQuery) (*blog.ApiPageResp, error) {
 	l := apirpclogic.NewFindApiListLogic(ctx, s.svcCtx)
 	return l.FindApiList(in)

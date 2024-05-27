@@ -175,7 +175,7 @@ service ApiRpc {
   rpc DeleteApiList(IdsReq) returns(BatchResp);
   // 查询接口
   rpc FindApi(IdReq) returns(Api);
-  // 分页获取接口列表
+  // 查询接口列表
   rpc FindApiList(PageQuery) returns(ApiPageResp);
   // 同步接口列表
   rpc SyncApiList(EmptyReq) returns(BatchResp);
@@ -232,7 +232,7 @@ service MenuRpc {
   rpc DeleteMenuList(IdsReq) returns(BatchResp);
   // 查询菜单
   rpc FindMenu(IdReq) returns(Menu);
-  // 分页获取菜单列表
+  // 查询菜单列表
   rpc FindMenuList(PageQuery) returns(MenuPageResp);
   // 同步菜单列表
   rpc SyncMenuList(SyncMenuReq) returns(BatchResp);
@@ -297,7 +297,7 @@ service RoleRpc {
   rpc DeleteRoleList(IdsReq) returns(BatchResp);
   // 查询角色
   rpc FindRole(IdReq) returns(Role);
-  // 分页获取角色列表
+  // 查询角色列表
   rpc FindRoleList(PageQuery) returns(RolePageResp);
   // 查询角色
   rpc FindRoleResources(IdReq) returns(RoleResourcesResp);
@@ -473,7 +473,7 @@ service ArticleRpc {
   rpc DeleteArticleList(IdsReq) returns(BatchResp);
   // 查询文章
   rpc FindArticle(IdReq) returns(Article);
-  // 分页获取文章列表
+  // 查询文章列表
   rpc FindArticleList(PageQuery) returns(ArticlePageResp);
   // 查询文章数量
   rpc FindArticleCount(PageQuery) returns(CountResp);
@@ -511,10 +511,12 @@ service CategoryRpc {
   rpc DeleteCategoryList(IdsReq) returns(BatchResp);
   // 查询文章分类
   rpc FindCategory(IdReq) returns(Category);
-  // 分页获取文章分类列表
-  rpc FindCategoryList(PageQuery) returns(CategoryPageResp);
   // 查询文章分类数量
   rpc FindCategoryCount(PageQuery) returns(CountResp);
+  // 查询文章分类列表
+  rpc FindCategoryList(PageQuery) returns(CategoryPageResp);
+  // 查询文章分类列表(通过ids)
+  rpc FindCategoryListByIds(IdsReq) returns(CategoryPageResp);
   // 查询文章分类
   //  rpc FindCategoryByName(FindCategoryByNameReq) returns(Category);
 }
@@ -539,6 +541,10 @@ message FindTagByNameReq{
   string tag_name = 1;
 }
 
+message TagMapResp{
+  map<int64, TagPageResp> tag_map_list = 1;
+}
+
 // tag服务
 service TagRpc {
   // 创建标签
@@ -551,14 +557,14 @@ service TagRpc {
   rpc DeleteTagList(IdsReq) returns(BatchResp);
   // 查询标签
   rpc FindTag(IdReq) returns(Tag);
-  // 分页获取标签列表
+  // 查询标签列表
   rpc FindTagList(PageQuery) returns(TagPageResp);
-  // 查询文章标签数量
+  // 查询标签数量
   rpc FindTagCount(PageQuery) returns(CountResp);
   // 查询标签关联文章数量
   rpc FindTagArticleCount(FindTagArticleCountReq) returns(CountResp);
-  // 查询文章标签列表
-  rpc FindTagListByArticleId(IdReq) returns(TagPageResp);
+  // 查询文章标签列表(通过文章ids)
+  rpc FindTagMapByArticleIds(IdsReq) returns(TagMapResp);
   // 查询文章分类
   //  rpc FindTagByName(FindTagByNameReq) returns(Tag);
 }
@@ -590,7 +596,7 @@ service FriendLinkRpc {
   rpc DeleteFriendLinkList(IdsReq) returns(BatchResp);
   // 查询友链
   rpc FindFriendLink(IdReq) returns(FriendLink);
-  // 分页获取友链列表
+  // 查询友链列表
   rpc FindFriendLinkList(PageQuery) returns(FriendLinkPageResp);
   // 查询友链数量
   rpc FindFriendLinkCount(PageQuery) returns(CountResp);
@@ -625,7 +631,7 @@ service remarkRpc {
   rpc DeleteRemarkList(IdsReq) returns(BatchResp);
   // 查询留言
   rpc FindRemark(IdReq) returns(Remark);
-  // 分页获取留言列表
+  // 查询留言列表
   rpc FindRemarkList(PageQuery) returns(RemarkPageResp);
   // 查询留言数量
   rpc FindRemarkCount(PageQuery) returns(CountResp);
@@ -685,9 +691,9 @@ service commentRpc {
   rpc DeleteCommentList(IdsReq) returns(BatchResp);
   // 查询评论
   rpc FindComment(IdReq) returns(Comment);
-  // 分页获取评论列表
+  // 查询评论列表
   rpc FindCommentList(PageQuery) returns(CommentPageResp);
-  // 分页获取评论回复列表
+  // 查询评论回复列表
   rpc FindCommentReplyList(PageQuery) returns(CommentReplyPageResp);
   // 查询评论数量
   rpc FindCommentCount(PageQuery) returns(CountResp);
@@ -739,7 +745,7 @@ service photoRpc {
   rpc DeletePhotoList(IdsReq) returns(BatchResp);
   // 查询照片
   rpc FindPhoto(IdReq) returns(Photo);
-  // 分页获取照片列表
+  // 查询照片列表
   rpc FindPhotoList(PageQuery) returns(PhotoPageResp);
   // 查询照片数量
   rpc FindPhotoCount(PageQuery) returns(CountResp);
@@ -754,7 +760,7 @@ service photoRpc {
   rpc DeletePhotoAlbumList(IdsReq) returns(BatchResp);
   // 查询相册
   rpc FindPhotoAlbum(IdReq) returns(PhotoAlbum);
-  // 分页获取相册列表
+  // 查询相册列表
   rpc FindPhotoAlbumList(PageQuery) returns(PhotoAlbumPageResp);
   // 查询相册数量
   rpc FindPhotoAlbumCount(PageQuery) returns(CountResp);
@@ -788,7 +794,7 @@ service pageRpc {
   rpc DeletePageList(IdsReq) returns(BatchResp);
   // 查询页面
   rpc FindPage(IdReq) returns(Page);
-  // 分页获取页面列表
+  // 查询页面列表
   rpc FindPageList(PageQuery) returns(PagePageResp);
   // 查询页面数量
   rpc FindPageCount(PageQuery) returns(CountResp);
@@ -837,7 +843,7 @@ service talkRpc {
   rpc DeleteTalkList(IdsReq) returns(BatchResp);
   // 查询说说
   rpc FindTalk(IdReq) returns(Talk);
-  // 分页获取说说列表
+  // 查询说说列表
   rpc FindTalkList(PageQuery) returns(TalkPageResp);
   // 查询说说数量
   rpc FindTalkCount(PageQuery) returns(CountResp);
@@ -882,7 +888,7 @@ service logRpc {
   rpc DeleteOperationLogList(IdsReq) returns(BatchResp);
   // 查询操作记录
   rpc FindOperationLog(IdReq) returns(OperationLog);
-  // 分页获取操作记录列表
+  // 查询操作记录列表
   rpc FindOperationLogList(PageQuery) returns(OperationLogPageResp);
   // 查询操作记录数量
   rpc FindOperationLogCount(PageQuery) returns(CountResp);
@@ -917,7 +923,7 @@ service chatRpc {
   rpc DeleteChatRecordList(IdsReq) returns(BatchResp);
   // 查询聊天记录
   rpc FindChatRecord(IdReq) returns(ChatRecord);
-  // 分页获取聊天记录列表
+  // 查询聊天记录列表
   rpc FindChatRecordList(PageQuery) returns(ChatRecordPageResp);
   // 查询聊天记录数量
   rpc FindChatRecordCount(PageQuery) returns(CountResp);

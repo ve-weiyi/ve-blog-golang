@@ -52,7 +52,7 @@ func (s *ChatRpcServer) FindChatRecord(ctx context.Context, in *blog.IdReq) (*bl
 	return l.FindChatRecord(in)
 }
 
-// 分页获取聊天记录列表
+// 查询聊天记录列表
 func (s *ChatRpcServer) FindChatRecordList(ctx context.Context, in *blog.PageQuery) (*blog.ChatRecordPageResp, error) {
 	l := chatrpclogic.NewFindChatRecordListLogic(ctx, s.svcCtx)
 	return l.FindChatRecordList(in)

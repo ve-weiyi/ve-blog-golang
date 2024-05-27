@@ -52,7 +52,7 @@ func (s *FriendLinkRpcServer) FindFriendLink(ctx context.Context, in *blog.IdReq
 	return l.FindFriendLink(in)
 }
 
-// 分页获取友链列表
+// 查询友链列表
 func (s *FriendLinkRpcServer) FindFriendLinkList(ctx context.Context, in *blog.PageQuery) (*blog.FriendLinkPageResp, error) {
 	l := friendlinkrpclogic.NewFindFriendLinkListLogic(ctx, s.svcCtx)
 	return l.FindFriendLinkList(in)

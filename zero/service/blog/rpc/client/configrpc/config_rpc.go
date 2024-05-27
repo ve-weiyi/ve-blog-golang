@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO

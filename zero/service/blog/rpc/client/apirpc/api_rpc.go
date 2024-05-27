@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,7 +106,7 @@ type (
 		DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询接口
 		FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
-		// 分页获取接口列表
+		// 查询接口列表
 		FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error)
 		// 同步接口列表
 		SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
@@ -154,7 +155,7 @@ func (m *defaultApiRpc) FindApi(ctx context.Context, in *IdReq, opts ...grpc.Cal
 	return client.FindApi(ctx, in, opts...)
 }
 
-// 分页获取接口列表
+// 查询接口列表
 func (m *defaultApiRpc) FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error) {
 	client := blog.NewApiRpcClient(m.cli.Conn())
 	return client.FindApiList(ctx, in, opts...)

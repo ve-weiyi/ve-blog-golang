@@ -4,13 +4,14 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 )
 
 // CtxMetadataHandel 将http header 放入 ctx 里面使用 metadata 保存.
-func CtxMetadataHandler(next http.HandlerFunc) http.HandlerFunc {
+func CtxMetaHandler(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//logx.Infof("CtxMetadataHandel")
 		ctx := r.Context()
@@ -25,8 +26,9 @@ func CtxMetadataHandler(next http.HandlerFunc) http.HandlerFunc {
 				if len(v) > 0 {
 					value = v[0]
 				}
+
 				keyLowercase := strings.ToLower(k)
-				//logx.Infof("add k=%s, v=%+v", keyLowercase, value)
+				logx.Infof("add k=%s, v=%+v", keyLowercase, value)
 				for _, key := range constant.HeaderFields {
 					if key == keyLowercase {
 						md.Set(keyLowercase, value)
@@ -34,6 +36,12 @@ func CtxMetadataHandler(next http.HandlerFunc) http.HandlerFunc {
 				}
 			}
 		}
+
+		r.Referer()
+
+		md.Set(constant.HeaderRPCUserAgent, r.UserAgent())
+		md.Set(constant.HeaderRPCReferer, r.Referer())
+
 		ctx = metadata.NewOutgoingContext(ctx, md)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)

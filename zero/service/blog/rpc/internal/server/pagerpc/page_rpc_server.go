@@ -52,7 +52,7 @@ func (s *PageRpcServer) FindPage(ctx context.Context, in *blog.IdReq) (*blog.Pag
 	return l.FindPage(in)
 }
 
-// 分页获取页面列表
+// 查询页面列表
 func (s *PageRpcServer) FindPageList(ctx context.Context, in *blog.PageQuery) (*blog.PagePageResp, error) {
 	l := pagerpclogic.NewFindPageListLogic(ctx, s.svcCtx)
 	return l.FindPageList(in)
