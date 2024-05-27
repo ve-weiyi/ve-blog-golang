@@ -30,14 +30,14 @@ func TestAstParser(t *testing.T) {
 		ApiBase: "/api/v1",
 	}
 	ac := NewAstParser(cfg)
-	//apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/api/controller")
+	//apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/api/blog/controller")
 	//if err != nil {
 	//	t.Error(err)
 	//}
 	//
 	//t.Log(jsonconv.ObjectToJsonIndent(apis))
 
-	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/api/model")
+	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/api/blog/model")
 	if err != nil {
 		t.Error(err)
 	}

@@ -11,8 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志
@@ -57,12 +57,8 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 						zap.String("request", string(httpRequest)),
 					)
 				}
-				c.AbortWithStatusJSON(http.StatusInternalServerError,
-					response.Response{
-						Code:    504,
-						Message: "系统错误",
-						Data:    nil,
-					})
+
+				c.AbortWithStatusJSON(http.StatusInternalServerError, apierr.ErrorInternalServerError)
 				return
 			}
 		}()

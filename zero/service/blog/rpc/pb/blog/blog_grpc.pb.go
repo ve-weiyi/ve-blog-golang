@@ -451,7 +451,7 @@ type ApiRpcClient interface {
 	DeleteApiList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询接口
 	FindApi(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Api, error)
-	// 分页获取接口列表
+	// 查询接口列表
 	FindApiList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ApiPageResp, error)
 	// 同步接口列表
 	SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
@@ -553,7 +553,7 @@ type ApiRpcServer interface {
 	DeleteApiList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询接口
 	FindApi(context.Context, *IdReq) (*Api, error)
-	// 分页获取接口列表
+	// 查询接口列表
 	FindApiList(context.Context, *PageQuery) (*ApiPageResp, error)
 	// 同步接口列表
 	SyncApiList(context.Context, *EmptyReq) (*BatchResp, error)
@@ -816,7 +816,7 @@ type MenuRpcClient interface {
 	DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询菜单
 	FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error)
-	// 分页获取菜单列表
+	// 查询菜单列表
 	FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
 	// 同步菜单列表
 	SyncMenuList(ctx context.Context, in *SyncMenuReq, opts ...grpc.CallOption) (*BatchResp, error)
@@ -918,7 +918,7 @@ type MenuRpcServer interface {
 	DeleteMenuList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询菜单
 	FindMenu(context.Context, *IdReq) (*Menu, error)
-	// 分页获取菜单列表
+	// 查询菜单列表
 	FindMenuList(context.Context, *PageQuery) (*MenuPageResp, error)
 	// 同步菜单列表
 	SyncMenuList(context.Context, *SyncMenuReq) (*BatchResp, error)
@@ -1182,7 +1182,7 @@ type RoleRpcClient interface {
 	DeleteRoleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询角色
 	FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
-	// 分页获取角色列表
+	// 查询角色列表
 	FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
 	// 查询角色
 	FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error)
@@ -1295,7 +1295,7 @@ type RoleRpcServer interface {
 	DeleteRoleList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询角色
 	FindRole(context.Context, *IdReq) (*Role, error)
-	// 分页获取角色列表
+	// 查询角色列表
 	FindRoleList(context.Context, *PageQuery) (*RolePageResp, error)
 	// 查询角色
 	FindRoleResources(context.Context, *IdReq) (*RoleResourcesResp, error)
@@ -2195,7 +2195,7 @@ type ArticleRpcClient interface {
 	DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询文章
 	FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error)
-	// 分页获取文章列表
+	// 查询文章列表
 	FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error)
 	// 查询文章数量
 	FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -2308,7 +2308,7 @@ type ArticleRpcServer interface {
 	DeleteArticleList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询文章
 	FindArticle(context.Context, *IdReq) (*Article, error)
-	// 分页获取文章列表
+	// 查询文章列表
 	FindArticleList(context.Context, *PageQuery) (*ArticlePageResp, error)
 	// 查询文章数量
 	FindArticleCount(context.Context, *PageQuery) (*CountResp, error)
@@ -2574,13 +2574,14 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	CategoryRpc_CreateCategory_FullMethodName     = "/blog.CategoryRpc/CreateCategory"
-	CategoryRpc_UpdateCategory_FullMethodName     = "/blog.CategoryRpc/UpdateCategory"
-	CategoryRpc_DeleteCategory_FullMethodName     = "/blog.CategoryRpc/DeleteCategory"
-	CategoryRpc_DeleteCategoryList_FullMethodName = "/blog.CategoryRpc/DeleteCategoryList"
-	CategoryRpc_FindCategory_FullMethodName       = "/blog.CategoryRpc/FindCategory"
-	CategoryRpc_FindCategoryList_FullMethodName   = "/blog.CategoryRpc/FindCategoryList"
-	CategoryRpc_FindCategoryCount_FullMethodName  = "/blog.CategoryRpc/FindCategoryCount"
+	CategoryRpc_CreateCategory_FullMethodName        = "/blog.CategoryRpc/CreateCategory"
+	CategoryRpc_UpdateCategory_FullMethodName        = "/blog.CategoryRpc/UpdateCategory"
+	CategoryRpc_DeleteCategory_FullMethodName        = "/blog.CategoryRpc/DeleteCategory"
+	CategoryRpc_DeleteCategoryList_FullMethodName    = "/blog.CategoryRpc/DeleteCategoryList"
+	CategoryRpc_FindCategory_FullMethodName          = "/blog.CategoryRpc/FindCategory"
+	CategoryRpc_FindCategoryCount_FullMethodName     = "/blog.CategoryRpc/FindCategoryCount"
+	CategoryRpc_FindCategoryList_FullMethodName      = "/blog.CategoryRpc/FindCategoryList"
+	CategoryRpc_FindCategoryListByIds_FullMethodName = "/blog.CategoryRpc/FindCategoryListByIds"
 )
 
 // CategoryRpcClient is the client API for CategoryRpc service.
@@ -2597,10 +2598,12 @@ type CategoryRpcClient interface {
 	DeleteCategoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询文章分类
 	FindCategory(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Category, error)
-	// 分页获取文章分类列表
-	FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error)
 	// 查询文章分类数量
 	FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+	// 查询文章分类列表
+	FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error)
+	// 查询文章分类列表(通过ids)
+	FindCategoryListByIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*CategoryPageResp, error)
 }
 
 type categoryRpcClient struct {
@@ -2656,6 +2659,15 @@ func (c *categoryRpcClient) FindCategory(ctx context.Context, in *IdReq, opts ..
 	return out, nil
 }
 
+func (c *categoryRpcClient) FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	out := new(CountResp)
+	err := c.cc.Invoke(ctx, CategoryRpc_FindCategoryCount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *categoryRpcClient) FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error) {
 	out := new(CategoryPageResp)
 	err := c.cc.Invoke(ctx, CategoryRpc_FindCategoryList_FullMethodName, in, out, opts...)
@@ -2665,9 +2677,9 @@ func (c *categoryRpcClient) FindCategoryList(ctx context.Context, in *PageQuery,
 	return out, nil
 }
 
-func (c *categoryRpcClient) FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
-	out := new(CountResp)
-	err := c.cc.Invoke(ctx, CategoryRpc_FindCategoryCount_FullMethodName, in, out, opts...)
+func (c *categoryRpcClient) FindCategoryListByIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*CategoryPageResp, error) {
+	out := new(CategoryPageResp)
+	err := c.cc.Invoke(ctx, CategoryRpc_FindCategoryListByIds_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2688,10 +2700,12 @@ type CategoryRpcServer interface {
 	DeleteCategoryList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询文章分类
 	FindCategory(context.Context, *IdReq) (*Category, error)
-	// 分页获取文章分类列表
-	FindCategoryList(context.Context, *PageQuery) (*CategoryPageResp, error)
 	// 查询文章分类数量
 	FindCategoryCount(context.Context, *PageQuery) (*CountResp, error)
+	// 查询文章分类列表
+	FindCategoryList(context.Context, *PageQuery) (*CategoryPageResp, error)
+	// 查询文章分类列表(通过ids)
+	FindCategoryListByIds(context.Context, *IdsReq) (*CategoryPageResp, error)
 	mustEmbedUnimplementedCategoryRpcServer()
 }
 
@@ -2714,11 +2728,14 @@ func (UnimplementedCategoryRpcServer) DeleteCategoryList(context.Context, *IdsRe
 func (UnimplementedCategoryRpcServer) FindCategory(context.Context, *IdReq) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCategory not implemented")
 }
+func (UnimplementedCategoryRpcServer) FindCategoryCount(context.Context, *PageQuery) (*CountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCategoryCount not implemented")
+}
 func (UnimplementedCategoryRpcServer) FindCategoryList(context.Context, *PageQuery) (*CategoryPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCategoryList not implemented")
 }
-func (UnimplementedCategoryRpcServer) FindCategoryCount(context.Context, *PageQuery) (*CountResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindCategoryCount not implemented")
+func (UnimplementedCategoryRpcServer) FindCategoryListByIds(context.Context, *IdsReq) (*CategoryPageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCategoryListByIds not implemented")
 }
 func (UnimplementedCategoryRpcServer) mustEmbedUnimplementedCategoryRpcServer() {}
 
@@ -2823,6 +2840,24 @@ func _CategoryRpc_FindCategory_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CategoryRpc_FindCategoryCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageQuery)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryRpcServer).FindCategoryCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryRpc_FindCategoryCount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryRpcServer).FindCategoryCount(ctx, req.(*PageQuery))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CategoryRpc_FindCategoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PageQuery)
 	if err := dec(in); err != nil {
@@ -2841,20 +2876,20 @@ func _CategoryRpc_FindCategoryList_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CategoryRpc_FindCategoryCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageQuery)
+func _CategoryRpc_FindCategoryListByIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CategoryRpcServer).FindCategoryCount(ctx, in)
+		return srv.(CategoryRpcServer).FindCategoryListByIds(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CategoryRpc_FindCategoryCount_FullMethodName,
+		FullMethod: CategoryRpc_FindCategoryListByIds_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryRpcServer).FindCategoryCount(ctx, req.(*PageQuery))
+		return srv.(CategoryRpcServer).FindCategoryListByIds(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2887,12 +2922,16 @@ var CategoryRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CategoryRpc_FindCategory_Handler,
 		},
 		{
+			MethodName: "FindCategoryCount",
+			Handler:    _CategoryRpc_FindCategoryCount_Handler,
+		},
+		{
 			MethodName: "FindCategoryList",
 			Handler:    _CategoryRpc_FindCategoryList_Handler,
 		},
 		{
-			MethodName: "FindCategoryCount",
-			Handler:    _CategoryRpc_FindCategoryCount_Handler,
+			MethodName: "FindCategoryListByIds",
+			Handler:    _CategoryRpc_FindCategoryListByIds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -2908,7 +2947,7 @@ const (
 	TagRpc_FindTagList_FullMethodName            = "/blog.TagRpc/FindTagList"
 	TagRpc_FindTagCount_FullMethodName           = "/blog.TagRpc/FindTagCount"
 	TagRpc_FindTagArticleCount_FullMethodName    = "/blog.TagRpc/FindTagArticleCount"
-	TagRpc_FindTagListByArticleId_FullMethodName = "/blog.TagRpc/FindTagListByArticleId"
+	TagRpc_FindTagMapByArticleIds_FullMethodName = "/blog.TagRpc/FindTagMapByArticleIds"
 )
 
 // TagRpcClient is the client API for TagRpc service.
@@ -2925,14 +2964,14 @@ type TagRpcClient interface {
 	DeleteTagList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询标签
 	FindTag(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Tag, error)
-	// 分页获取标签列表
+	// 查询标签列表
 	FindTagList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TagPageResp, error)
-	// 查询文章标签数量
+	// 查询标签数量
 	FindTagCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	// 查询标签关联文章数量
 	FindTagArticleCount(ctx context.Context, in *FindTagArticleCountReq, opts ...grpc.CallOption) (*CountResp, error)
-	// 查询文章标签列表
-	FindTagListByArticleId(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TagPageResp, error)
+	// 查询文章标签列表(通过文章ids)
+	FindTagMapByArticleIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*TagMapResp, error)
 }
 
 type tagRpcClient struct {
@@ -3015,9 +3054,9 @@ func (c *tagRpcClient) FindTagArticleCount(ctx context.Context, in *FindTagArtic
 	return out, nil
 }
 
-func (c *tagRpcClient) FindTagListByArticleId(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TagPageResp, error) {
-	out := new(TagPageResp)
-	err := c.cc.Invoke(ctx, TagRpc_FindTagListByArticleId_FullMethodName, in, out, opts...)
+func (c *tagRpcClient) FindTagMapByArticleIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*TagMapResp, error) {
+	out := new(TagMapResp)
+	err := c.cc.Invoke(ctx, TagRpc_FindTagMapByArticleIds_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3038,14 +3077,14 @@ type TagRpcServer interface {
 	DeleteTagList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询标签
 	FindTag(context.Context, *IdReq) (*Tag, error)
-	// 分页获取标签列表
+	// 查询标签列表
 	FindTagList(context.Context, *PageQuery) (*TagPageResp, error)
-	// 查询文章标签数量
+	// 查询标签数量
 	FindTagCount(context.Context, *PageQuery) (*CountResp, error)
 	// 查询标签关联文章数量
 	FindTagArticleCount(context.Context, *FindTagArticleCountReq) (*CountResp, error)
-	// 查询文章标签列表
-	FindTagListByArticleId(context.Context, *IdReq) (*TagPageResp, error)
+	// 查询文章标签列表(通过文章ids)
+	FindTagMapByArticleIds(context.Context, *IdsReq) (*TagMapResp, error)
 	mustEmbedUnimplementedTagRpcServer()
 }
 
@@ -3077,8 +3116,8 @@ func (UnimplementedTagRpcServer) FindTagCount(context.Context, *PageQuery) (*Cou
 func (UnimplementedTagRpcServer) FindTagArticleCount(context.Context, *FindTagArticleCountReq) (*CountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindTagArticleCount not implemented")
 }
-func (UnimplementedTagRpcServer) FindTagListByArticleId(context.Context, *IdReq) (*TagPageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindTagListByArticleId not implemented")
+func (UnimplementedTagRpcServer) FindTagMapByArticleIds(context.Context, *IdsReq) (*TagMapResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTagMapByArticleIds not implemented")
 }
 func (UnimplementedTagRpcServer) mustEmbedUnimplementedTagRpcServer() {}
 
@@ -3237,20 +3276,20 @@ func _TagRpc_FindTagArticleCount_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TagRpc_FindTagListByArticleId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
+func _TagRpc_FindTagMapByArticleIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TagRpcServer).FindTagListByArticleId(ctx, in)
+		return srv.(TagRpcServer).FindTagMapByArticleIds(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TagRpc_FindTagListByArticleId_FullMethodName,
+		FullMethod: TagRpc_FindTagMapByArticleIds_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TagRpcServer).FindTagListByArticleId(ctx, req.(*IdReq))
+		return srv.(TagRpcServer).FindTagMapByArticleIds(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3295,8 +3334,8 @@ var TagRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TagRpc_FindTagArticleCount_Handler,
 		},
 		{
-			MethodName: "FindTagListByArticleId",
-			Handler:    _TagRpc_FindTagListByArticleId_Handler,
+			MethodName: "FindTagMapByArticleIds",
+			Handler:    _TagRpc_FindTagMapByArticleIds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -3327,7 +3366,7 @@ type FriendLinkRpcClient interface {
 	DeleteFriendLinkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询友链
 	FindFriendLink(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*FriendLink, error)
-	// 分页获取友链列表
+	// 查询友链列表
 	FindFriendLinkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*FriendLinkPageResp, error)
 	// 查询友链数量
 	FindFriendLinkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -3418,7 +3457,7 @@ type FriendLinkRpcServer interface {
 	DeleteFriendLinkList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询友链
 	FindFriendLink(context.Context, *IdReq) (*FriendLink, error)
-	// 分页获取友链列表
+	// 查询友链列表
 	FindFriendLinkList(context.Context, *PageQuery) (*FriendLinkPageResp, error)
 	// 查询友链数量
 	FindFriendLinkCount(context.Context, *PageQuery) (*CountResp, error)
@@ -3653,7 +3692,7 @@ type RemarkRpcClient interface {
 	DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询留言
 	FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Remark, error)
-	// 分页获取留言列表
+	// 查询留言列表
 	FindRemarkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RemarkPageResp, error)
 	// 查询留言数量
 	FindRemarkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -3744,7 +3783,7 @@ type RemarkRpcServer interface {
 	DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询留言
 	FindRemark(context.Context, *IdReq) (*Remark, error)
-	// 分页获取留言列表
+	// 查询留言列表
 	FindRemarkList(context.Context, *PageQuery) (*RemarkPageResp, error)
 	// 查询留言数量
 	FindRemarkCount(context.Context, *PageQuery) (*CountResp, error)
@@ -3981,9 +4020,9 @@ type CommentRpcClient interface {
 	DeleteCommentList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询评论
 	FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error)
-	// 分页获取评论列表
+	// 查询评论列表
 	FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error)
-	// 分页获取评论回复列表
+	// 查询评论回复列表
 	FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error)
 	// 查询评论数量
 	FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -4094,9 +4133,9 @@ type CommentRpcServer interface {
 	DeleteCommentList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询评论
 	FindComment(context.Context, *IdReq) (*Comment, error)
-	// 分页获取评论列表
+	// 查询评论列表
 	FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error)
-	// 分页获取评论回复列表
+	// 查询评论回复列表
 	FindCommentReplyList(context.Context, *PageQuery) (*CommentReplyPageResp, error)
 	// 查询评论数量
 	FindCommentCount(context.Context, *PageQuery) (*CountResp, error)
@@ -4390,7 +4429,7 @@ type PhotoRpcClient interface {
 	DeletePhotoList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询照片
 	FindPhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Photo, error)
-	// 分页获取照片列表
+	// 查询照片列表
 	FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error)
 	// 查询照片数量
 	FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -4404,7 +4443,7 @@ type PhotoRpcClient interface {
 	DeletePhotoAlbumList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询相册
 	FindPhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*PhotoAlbum, error)
-	// 分页获取相册列表
+	// 查询相册列表
 	FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error)
 	// 查询相册数量
 	FindPhotoAlbumCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -4558,7 +4597,7 @@ type PhotoRpcServer interface {
 	DeletePhotoList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询照片
 	FindPhoto(context.Context, *IdReq) (*Photo, error)
-	// 分页获取照片列表
+	// 查询照片列表
 	FindPhotoList(context.Context, *PageQuery) (*PhotoPageResp, error)
 	// 查询照片数量
 	FindPhotoCount(context.Context, *PageQuery) (*CountResp, error)
@@ -4572,7 +4611,7 @@ type PhotoRpcServer interface {
 	DeletePhotoAlbumList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询相册
 	FindPhotoAlbum(context.Context, *IdReq) (*PhotoAlbum, error)
-	// 分页获取相册列表
+	// 查询相册列表
 	FindPhotoAlbumList(context.Context, *PageQuery) (*PhotoAlbumPageResp, error)
 	// 查询相册数量
 	FindPhotoAlbumCount(context.Context, *PageQuery) (*CountResp, error)
@@ -4982,7 +5021,7 @@ type PageRpcClient interface {
 	DeletePageList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询页面
 	FindPage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Page, error)
-	// 分页获取页面列表
+	// 查询页面列表
 	FindPageList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PagePageResp, error)
 	// 查询页面数量
 	FindPageCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -5073,7 +5112,7 @@ type PageRpcServer interface {
 	DeletePageList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询页面
 	FindPage(context.Context, *IdReq) (*Page, error)
-	// 分页获取页面列表
+	// 查询页面列表
 	FindPageList(context.Context, *PageQuery) (*PagePageResp, error)
 	// 查询页面数量
 	FindPageCount(context.Context, *PageQuery) (*CountResp, error)
@@ -5309,7 +5348,7 @@ type TalkRpcClient interface {
 	DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询说说
 	FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Talk, error)
-	// 分页获取说说列表
+	// 查询说说列表
 	FindTalkList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TalkPageResp, error)
 	// 查询说说数量
 	FindTalkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -5411,7 +5450,7 @@ type TalkRpcServer interface {
 	DeleteTalkList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询说说
 	FindTalk(context.Context, *IdReq) (*Talk, error)
-	// 分页获取说说列表
+	// 查询说说列表
 	FindTalkList(context.Context, *PageQuery) (*TalkPageResp, error)
 	// 查询说说数量
 	FindTalkCount(context.Context, *PageQuery) (*CountResp, error)
@@ -5673,7 +5712,7 @@ type LogRpcClient interface {
 	DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询操作记录
 	FindOperationLog(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*OperationLog, error)
-	// 分页获取操作记录列表
+	// 查询操作记录列表
 	FindOperationLogList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*OperationLogPageResp, error)
 	// 查询操作记录数量
 	FindOperationLogCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -5764,7 +5803,7 @@ type LogRpcServer interface {
 	DeleteOperationLogList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询操作记录
 	FindOperationLog(context.Context, *IdReq) (*OperationLog, error)
-	// 分页获取操作记录列表
+	// 查询操作记录列表
 	FindOperationLogList(context.Context, *PageQuery) (*OperationLogPageResp, error)
 	// 查询操作记录数量
 	FindOperationLogCount(context.Context, *PageQuery) (*CountResp, error)
@@ -5999,7 +6038,7 @@ type ChatRpcClient interface {
 	DeleteChatRecordList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询聊天记录
 	FindChatRecord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatRecord, error)
-	// 分页获取聊天记录列表
+	// 查询聊天记录列表
 	FindChatRecordList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ChatRecordPageResp, error)
 	// 查询聊天记录数量
 	FindChatRecordCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -6090,7 +6129,7 @@ type ChatRpcServer interface {
 	DeleteChatRecordList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询聊天记录
 	FindChatRecord(context.Context, *IdReq) (*ChatRecord, error)
-	// 分页获取聊天记录列表
+	// 查询聊天记录列表
 	FindChatRecordList(context.Context, *PageQuery) (*ChatRecordPageResp, error)
 	// 查询聊天记录数量
 	FindChatRecordCount(context.Context, *PageQuery) (*CountResp, error)

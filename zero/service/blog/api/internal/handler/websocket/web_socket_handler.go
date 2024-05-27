@@ -2,7 +2,9 @@ package websocket
 
 import (
 	"fmt"
+	"net"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/spf13/cast"
@@ -47,7 +49,12 @@ func WebSocketHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 				return nil, err
 			}
 
-			ip, err := ipx.GetIpInfoByBaidu(r.RemoteAddr)
+			host, _, err := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr))
+			if err != nil {
+				return nil, err
+			}
+
+			ip, err := ipx.GetIpInfoByBaidu(host)
 			if err != nil {
 				return nil, err
 			}

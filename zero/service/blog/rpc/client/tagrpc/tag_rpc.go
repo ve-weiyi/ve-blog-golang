@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,14 +106,14 @@ type (
 		DeleteTagList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询标签
 		FindTag(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Tag, error)
-		// 分页获取标签列表
+		// 查询标签列表
 		FindTagList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TagPageResp, error)
-		// 查询文章标签数量
+		// 查询标签数量
 		FindTagCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 		// 查询标签关联文章数量
 		FindTagArticleCount(ctx context.Context, in *FindTagArticleCountReq, opts ...grpc.CallOption) (*CountResp, error)
-		// 查询文章标签列表
-		FindTagListByArticleId(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TagPageResp, error)
+		// 查询文章标签列表(通过文章ids)
+		FindTagMapByArticleIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*TagMapResp, error)
 	}
 
 	defaultTagRpc struct {
@@ -156,13 +157,13 @@ func (m *defaultTagRpc) FindTag(ctx context.Context, in *IdReq, opts ...grpc.Cal
 	return client.FindTag(ctx, in, opts...)
 }
 
-// 分页获取标签列表
+// 查询标签列表
 func (m *defaultTagRpc) FindTagList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*TagPageResp, error) {
 	client := blog.NewTagRpcClient(m.cli.Conn())
 	return client.FindTagList(ctx, in, opts...)
 }
 
-// 查询文章标签数量
+// 查询标签数量
 func (m *defaultTagRpc) FindTagCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
 	client := blog.NewTagRpcClient(m.cli.Conn())
 	return client.FindTagCount(ctx, in, opts...)
@@ -174,8 +175,8 @@ func (m *defaultTagRpc) FindTagArticleCount(ctx context.Context, in *FindTagArti
 	return client.FindTagArticleCount(ctx, in, opts...)
 }
 
-// 查询文章标签列表
-func (m *defaultTagRpc) FindTagListByArticleId(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TagPageResp, error) {
+// 查询文章标签列表(通过文章ids)
+func (m *defaultTagRpc) FindTagMapByArticleIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*TagMapResp, error) {
 	client := blog.NewTagRpcClient(m.cli.Conn())
-	return client.FindTagListByArticleId(ctx, in, opts...)
+	return client.FindTagMapByArticleIds(ctx, in, opts...)
 }

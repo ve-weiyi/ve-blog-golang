@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -32,6 +33,7 @@ type ServiceContext struct {
 	Config        config.Config
 	Gorm          *gorm.DB
 	Redis         *redis.Client
+	LocalCache    *collection.Cache
 	CaptchaHolder *captcha.CaptchaHolder
 	EmailMQ       *rabbitmq.RabbitmqConn
 	Oauth         map[string]oauth.Oauth
@@ -84,10 +86,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	go SubscribeMessage(c)
+
+	cache, err := collection.NewCache(60 * time.Minute)
+	if err != nil {
+		panic(err)
+	}
+
 	return &ServiceContext{
 		Config:                c,
 		Gorm:                  db,
 		Redis:                 rds,
+		LocalCache:            cache,
 		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.NewRedisStore(rds)),
 		EmailMQ:               mq,
 		Oauth:                 InitOauth(c),
@@ -142,7 +151,7 @@ func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 		// 跟随go-zero的日志输出格式
 		lg = gormlogx.New(
 			logger.Config{
-				SlowThreshold:             200 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
+				SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
 				LogLevel:                  logger.Info,
 				IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
 				Colorful:                  true,  // 彩色打印

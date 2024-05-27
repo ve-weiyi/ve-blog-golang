@@ -7,7 +7,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
@@ -27,11 +26,7 @@ func PermissionHandler() gin.HandlerFunc {
 		err := permissionHolder.CheckUserAccessApi(uid, obj, act)
 		if err != nil {
 			glog.Error(err)
-			c.JSON(http.StatusOK, response.Response{
-				Code:    apierr.ErrorUserNotPermission.Code(),
-				Message: "用户无权限访问",
-				Data:    nil,
-			})
+			c.JSON(http.StatusOK, apierr.ErrorUserNotPermission)
 			c.Abort()
 			return
 		}
@@ -42,11 +37,7 @@ func PermissionHandler() gin.HandlerFunc {
 			glog.Error(err)
 		}
 		if permission != nil && permission.Status != 1 {
-			c.JSON(http.StatusOK, response.Response{
-				Code:    apierr.ErrorInternalServerError.Code(),
-				Message: "该接口未开放",
-				Data:    nil,
-			})
+			c.JSON(http.StatusOK, apierr.ErrorInternalServerError.WrapMessage("该接口未开放"))
 			c.Abort()
 			return
 		}

@@ -66,7 +66,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
-	server.Use(middlewarex.CtxMetadataHandler)
+	server.Use(middlewarex.CtxMetaHandler)
 	server.Use(middlewarex.JwtAuthHandler)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)

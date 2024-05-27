@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,7 +106,7 @@ type (
 		DeleteArticleList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询文章
 		FindArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Article, error)
-		// 分页获取文章列表
+		// 查询文章列表
 		FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error)
 		// 查询文章数量
 		FindArticleCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -156,7 +157,7 @@ func (m *defaultArticleRpc) FindArticle(ctx context.Context, in *IdReq, opts ...
 	return client.FindArticle(ctx, in, opts...)
 }
 
-// 分页获取文章列表
+// 查询文章列表
 func (m *defaultArticleRpc) FindArticleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*ArticlePageResp, error) {
 	client := blog.NewArticleRpcClient(m.cli.Conn())
 	return client.FindArticleList(ctx, in, opts...)

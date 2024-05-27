@@ -43,7 +43,7 @@ func (t *TableConverter) GenerateInjectMetas(models ...*AutoCodeModel) []*inject
 
 		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyService,
-			FilePath: fmt.Sprintf("%v/service/service.go", temporaryRoot),
+			FilePath: fmt.Sprintf("%v/service.go", temporaryRoot),
 			StructMetas: []*inject2.StructMeta{
 				inject2.NewStructMete("AppService", fmt.Sprintf(`%vService *logic.%vService //%v`, data.UpperStartCamelName, data.UpperStartCamelName, data.CommentName)),
 			},
@@ -237,7 +237,7 @@ func (t *TableConverter) GeneratePkgMetas(models ...*AutoCodeModel) ([]*invent.T
 		})
 		metas = append(metas, &invent.TemplateMeta{
 			TemplateString: tmpl.AppService,
-			CodeOutPath:    fmt.Sprintf("%v/service/service.go", temporaryRoot),
+			CodeOutPath:    fmt.Sprintf("%v/service.go", temporaryRoot),
 			Data:           data,
 			Mode:           mode,
 		})

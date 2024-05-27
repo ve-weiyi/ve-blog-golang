@@ -16,17 +16,15 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/api/controller/svc"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 type BaseController struct {
 }
 
-func NewBaseController(svc *svc.ControllerContext) BaseController {
+func NewBaseController() BaseController {
 	return BaseController{}
 }
 
@@ -63,12 +61,12 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	//value := reflect.ValueOf(req)
 	//if value.Kind() == reflect.Ptr && value.Elem().Kind() == reflect.Struct {
 	//	if err := m.BindJSONIgnoreCase(ctx, req); err != nil {
-	//		return apierror.NewApiError(apierror.CodeMissingParameter, "参数错误").Wrap(err)
+	//		return apierror.NewApiError(apierror.CodeMissingParameter, "参数错误").WrapError(err)
 	//	}
 	//}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		return apierr.ErrorInvalidParam.Wrap(err)
+		return apierr.ErrorInvalidParam.WrapError(err)
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -77,7 +75,7 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	}
 
 	if err := isValid.IsValid(); err != nil {
-		return apierr.ErrorInvalidParam.Wrap(err)
+		return apierr.ErrorInvalidParam.WrapError(err)
 	}
 
 	return nil
@@ -105,7 +103,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 func (m *BaseController) ShouldBindQuery(ctx *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := ctx.ShouldBind(req); err != nil {
-		return apierr.ErrorInvalidParam.Wrap(err)
+		return apierr.ErrorInvalidParam.WrapError(err)
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {
@@ -201,30 +199,30 @@ func (m *BaseController) ResponseError(ctx *gin.Context, err error) {
 	//debug.PrintStack() // 打印调用栈
 
 	switch e := err.(type) {
-	case apierr.ApiError:
-		m.Response(ctx, e.Code(), e.Error(), e.Error())
+	case *apierr.ApiError:
+		m.Response(ctx, e.Code, e.Error(), e.Error())
 		return
 
 	case *json.UnmarshalTypeError:
-		m.Response(ctx, apierr.ErrorInternalServerError.Code(), "json解析错误", e.Error())
+		m.Response(ctx, apierr.ErrorInternalServerError.Code, "json解析错误", e.Error())
 		return
 
 	case *mysql.MySQLError:
 		switch e.Number {
 		case 1062:
-			m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据已存在", e.Error())
+			m.Response(ctx, apierr.ErrorSqlQueryError.Code, "数据已存在", e.Error())
 			return
 		default:
-			m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据库错误", SqlErrorI18n(e))
+			m.Response(ctx, apierr.ErrorSqlQueryError.Code, "数据库错误", SqlErrorI18n(e))
 			return
 		}
 	}
 
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		m.Response(ctx, apierr.ErrorSqlQueryError.Code(), "数据不存在", err.Error())
+		m.Response(ctx, apierr.ErrorSqlQueryError.Code, "数据不存在", err.Error())
 		return
 	}
 
-	m.Response(ctx, apierr.ErrorInternalServerError.Code(), apierr.ErrorInternalServerError.Error(), err.Error())
+	m.Response(ctx, apierr.ErrorInternalServerError.Code, apierr.ErrorInternalServerError.Error(), err.Error())
 }

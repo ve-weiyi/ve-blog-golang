@@ -3,7 +3,7 @@ package rbac
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 type UserPermission struct {

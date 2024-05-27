@@ -11,6 +11,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -154,13 +156,16 @@ func (l *OauthLoginLogic) oauthLogin(ua *model.UserOauth) (resp *blog.LoginResp,
 		Email:    info.Email,
 	}
 
+	agent, _ := rpcutil.GetRPCUserAgent(l.ctx)
+	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
+	is, _ := ipx.GetIpInfoByBaidu(ip)
 	//登录记录
 	history := &model.UserLoginHistory{
 		UserId:    account.Id,
 		LoginType: constant.LoginTypeOauth,
-		IpAddress: "",
-		IpSource:  "",
-		Agent:     "",
+		IpAddress: ip,
+		IpSource:  is.Location,
+		Agent:     agent,
 		CreatedAt: time.Now(),
 	}
 

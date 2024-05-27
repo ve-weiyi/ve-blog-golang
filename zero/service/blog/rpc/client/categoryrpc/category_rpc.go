@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,10 +106,12 @@ type (
 		DeleteCategoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询文章分类
 		FindCategory(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Category, error)
-		// 分页获取文章分类列表
-		FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error)
 		// 查询文章分类数量
 		FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
+		// 查询文章分类列表
+		FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error)
+		// 查询文章分类列表(通过ids)
+		FindCategoryListByIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*CategoryPageResp, error)
 	}
 
 	defaultCategoryRpc struct {
@@ -152,14 +155,20 @@ func (m *defaultCategoryRpc) FindCategory(ctx context.Context, in *IdReq, opts .
 	return client.FindCategory(ctx, in, opts...)
 }
 
-// 分页获取文章分类列表
+// 查询文章分类数量
+func (m *defaultCategoryRpc) FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+	client := blog.NewCategoryRpcClient(m.cli.Conn())
+	return client.FindCategoryCount(ctx, in, opts...)
+}
+
+// 查询文章分类列表
 func (m *defaultCategoryRpc) FindCategoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CategoryPageResp, error) {
 	client := blog.NewCategoryRpcClient(m.cli.Conn())
 	return client.FindCategoryList(ctx, in, opts...)
 }
 
-// 查询文章分类数量
-func (m *defaultCategoryRpc) FindCategoryCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
+// 查询文章分类列表(通过ids)
+func (m *defaultCategoryRpc) FindCategoryListByIds(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*CategoryPageResp, error) {
 	client := blog.NewCategoryRpcClient(m.cli.Conn())
-	return client.FindCategoryCount(ctx, in, opts...)
+	return client.FindCategoryListByIds(ctx, in, opts...)
 }
