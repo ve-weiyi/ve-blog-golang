@@ -10,7 +10,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/docs"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"
@@ -20,8 +20,6 @@ import (
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	gin.SetMode(gin.DebugMode)
-	ctx := svc.NewRouterContext(&global.CONFIG)
-	blogRouter := router.NewRouter(ctx)
 
 	// Generate Swagger JSON file
 	glog.Info("register swagger handler")
@@ -58,27 +56,28 @@ func Routers() *gin.Engine {
 	adminGroup.Use(middleware.PermissionHandler()) // 接口权限校验
 	adminGroup.Use(middleware.OperationRecord())   // 访问记录 > 私有接口 > 操作记录
 	{
-		blogRouter.WebsiteRouter.InitWebsiteRouter(publicGroup, adminGroup)
-		blogRouter.WebsocketRouter.InitWebsocketRouter(publicGroup, adminGroup)
-		blogRouter.AuthRouter.InitAuthRouter(publicGroup, adminGroup)
-		blogRouter.UserRouter.InitUserRouter(publicGroup, adminGroup)
-		blogRouter.ApiRouter.InitApiRouter(publicGroup, adminGroup)
-		blogRouter.MenuRouter.InitMenuRouter(publicGroup, adminGroup)
-		blogRouter.RoleRouter.InitRoleRouter(publicGroup, adminGroup)
-		blogRouter.ArticleRouter.InitArticleRouter(publicGroup, adminGroup)
-		blogRouter.CategoryRouter.InitCategoryRouter(publicGroup, adminGroup)
-		blogRouter.TagRouter.InitTagRouter(publicGroup, adminGroup)
-		blogRouter.FriendLinkRouter.InitFriendLinkRouter(publicGroup, adminGroup)
-		blogRouter.CommentRouter.InitCommentRouter(publicGroup, adminGroup)
-		blogRouter.PhotoRouter.InitPhotoRouter(publicGroup, adminGroup)
-		blogRouter.PhotoAlbumRouter.InitPhotoAlbumRouter(publicGroup, adminGroup)
-		blogRouter.TalkRouter.InitTalkRouter(publicGroup, adminGroup)
-		blogRouter.PageRouter.InitPageRouter(publicGroup, adminGroup)
-		blogRouter.CaptchaRouter.InitCaptchaRouter(publicGroup, adminGroup)
-		blogRouter.UploadRouter.InitUploadRouter(publicGroup, adminGroup)
-		blogRouter.RemarkRouter.InitRemarkRouter(publicGroup, adminGroup)
-		blogRouter.OperationLogRouter.InitOperationLogRouter(publicGroup, adminGroup)
-		blogRouter.AIRouter.InitAIRouter(publicGroup, adminGroup)
+		ctx := svc.NewServiceContext(&global.CONFIG)
+		router.NewWebsiteRouter(ctx).InitWebsiteRouter(publicGroup, adminGroup)
+		router.NewWebsocketRouter(ctx).InitWebsocketRouter(publicGroup, adminGroup)
+		router.NewAuthRouter(ctx).InitAuthRouter(publicGroup, adminGroup)
+		router.NewUserRouter(ctx).InitUserRouter(publicGroup, adminGroup)
+		router.NewApiRouter(ctx).InitApiRouter(publicGroup, adminGroup)
+		router.NewMenuRouter(ctx).InitMenuRouter(publicGroup, adminGroup)
+		router.NewRoleRouter(ctx).InitRoleRouter(publicGroup, adminGroup)
+		router.NewArticleRouter(ctx).InitArticleRouter(publicGroup, adminGroup)
+		router.NewCategoryRouter(ctx).InitCategoryRouter(publicGroup, adminGroup)
+		router.NewTagRouter(ctx).InitTagRouter(publicGroup, adminGroup)
+		router.NewFriendLinkRouter(ctx).InitFriendLinkRouter(publicGroup, adminGroup)
+		router.NewCommentRouter(ctx).InitCommentRouter(publicGroup, adminGroup)
+		router.NewPhotoRouter(ctx).InitPhotoRouter(publicGroup, adminGroup)
+		router.NewPhotoAlbumRouter(ctx).InitPhotoAlbumRouter(publicGroup, adminGroup)
+		router.NewTalkRouter(ctx).InitTalkRouter(publicGroup, adminGroup)
+		router.NewPageRouter(ctx).InitPageRouter(publicGroup, adminGroup)
+		router.NewCaptchaRouter(ctx).InitCaptchaRouter(publicGroup, adminGroup)
+		router.NewUploadRouter(ctx).InitUploadRouter(publicGroup, adminGroup)
+		router.NewRemarkRouter(ctx).InitRemarkRouter(publicGroup, adminGroup)
+		router.NewOperationLogRouter(ctx).InitOperationLogRouter(publicGroup, adminGroup)
+		router.NewAIRouter(ctx).InitAIRouter(publicGroup, adminGroup)
 	}
 
 	glog.Info("router register success")

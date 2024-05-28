@@ -16,8 +16,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 )
@@ -100,30 +98,6 @@ func TestCasbin(t *testing.T) {
 	log.Println(enforcer.SavePolicy())
 	//用户添加角色
 	//enforcer.AddRoleForUser("zhangsan", "member") //这是单条添加用户
-}
-
-func TestAddAllPolicy(t *testing.T) {
-	//policy, err := enforcer.AddPolicy("admin", "blog", "home", "login")
-	//清理数据库
-	enforcer.ClearPolicy()
-	enforcer.SavePolicy()
-
-	ctx := svc.NewRepositoryContext(&global.CONFIG)
-	rp := repository.NewRepository(ctx)
-
-	re := NewCachedEnforcer(global.DB)
-	policy, err := re.DeleteRolePolicy("admin", "blog")
-	if err != nil {
-		return
-	}
-	data, err := rp.RoleRepository.FindRoleApis(nil, 1)
-	rolePolicy, err := re.AddRolePolicy("admin", "blog", data)
-	if err != nil {
-		return
-	}
-
-	log.Println(policy, rolePolicy)
-	//ResetAllPolicy(db, enforcer)
 }
 
 func ResetAllPolicy(db *gorm.DB, rbac *casbin.SyncedEnforcer) {
