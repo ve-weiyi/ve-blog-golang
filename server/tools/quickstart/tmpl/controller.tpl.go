@@ -60,7 +60,7 @@ type {{.UpperStartCamelName}}Controller struct {
 func New{{.UpperStartCamelName}}Controller(svcCtx *svc.ControllerContext) *{{.UpperStartCamelName}}Controller {
 	return &{{.UpperStartCamelName}}Controller{
 		svcCtx: svcCtx,
-		BaseController: controller.NewBaseController(svcCtx),
+		BaseController: controller.NewBaseController(),
 	}
 }
 
@@ -279,7 +279,7 @@ type {{.UpperStartCamelName}}Controller struct {
 func New{{.UpperStartCamelName}}Controller(svcCtx *svc.ControllerContext) *{{.UpperStartCamelName}}Controller {
 	return &{{.UpperStartCamelName}}Controller{
 		svcCtx: svcCtx,
-		BaseController: controller.NewBaseController(svcCtx),
+		BaseController: controller.NewBaseController(),
 	}
 }
 `

@@ -9,8 +9,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/router"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/router/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/docs"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"

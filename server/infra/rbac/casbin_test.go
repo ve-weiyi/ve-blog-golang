@@ -14,10 +14,10 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/repository"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/repository/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository/svc"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/initest"
 )

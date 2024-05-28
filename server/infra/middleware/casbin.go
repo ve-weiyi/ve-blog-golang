@@ -7,7 +7,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 )
@@ -53,12 +52,7 @@ func CasbinHandler() gin.HandlerFunc {
 				enforcer.LoadPolicy()
 			}
 
-			c.JSON(http.StatusOK,
-				response.Response{
-					Code:    apierr.ErrorUserNotPermission.Code(),
-					Message: "角色权限不足",
-					Data:    nil,
-				})
+			c.JSON(http.StatusOK, apierr.ErrorUserNotPermission.WrapMessage("角色权限不足"))
 			c.Abort()
 			return
 		}

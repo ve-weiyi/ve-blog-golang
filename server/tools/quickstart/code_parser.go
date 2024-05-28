@@ -72,11 +72,11 @@ func (t *TableParser) ParseModelFromTable(tableName string) *AutoCodeModel {
 		CommentName:         tableComment,
 		Fields:              t.ConvertField(table.Columns),
 		ImportPkgPaths:      []string{
-			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller/svc",
-			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity",
-			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request",
-			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/controller",
-			//"github.com/ve-weiyi/ve-blog-golang/server/api/common/model/response",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/blog/controller/svc",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/blog/model/entity",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/blog/model/request",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/common/controller",
+			//"github.com/ve-weiyi/ve-blog-golang/server/api/blog/common/model/response",
 		},
 	}
 

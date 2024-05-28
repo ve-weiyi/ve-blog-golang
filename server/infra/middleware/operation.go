@@ -17,9 +17,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
@@ -124,11 +123,7 @@ func OperationRecord() gin.HandlerFunc {
 		err = global.DB.Create(&op).Error
 		if err != nil {
 			glog.Error(err)
-			c.JSON(http.StatusOK, response.Response{
-				Code:    apierr.ErrorInternalServerError.Code(),
-				Message: "日志记录错误",
-				Data:    nil,
-			})
+			c.JSON(http.StatusOK, apierr.ErrorInternalServerError.WrapMessage("日志记录错误"))
 			c.Abort()
 			return
 		}
