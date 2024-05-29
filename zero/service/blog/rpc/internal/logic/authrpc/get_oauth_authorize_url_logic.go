@@ -35,7 +35,7 @@ func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *blog.OauthLoginReq)
 	}
 
 	if auth == nil {
-		return nil, fmt.Errorf("platform %s not found", in.Platform)
+		return nil, fmt.Errorf("platform %s is not support", in.Platform)
 	}
 
 	resp := &blog.OauthLoginUrlResp{}

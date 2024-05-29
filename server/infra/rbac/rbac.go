@@ -30,7 +30,6 @@ type RbacHolder interface {
 type PermissionHolder struct {
 	DbEngin    *gorm.DB
 	CacheEngin CacheStrategy
-	logger     glog.Logger
 	debug      bool
 }
 
@@ -241,17 +240,16 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 }
 
 func (s *PermissionHolder) info(format string, args ...interface{}) {
-	if !s.debug || s.logger == nil {
+	if !s.debug {
 		return
 	}
-	s.logger.Infof(format, args...)
+	glog.Infof(format, args...)
 }
 
-func NewPermissionHolder(db *gorm.DB, logger glog.Logger) RbacHolder {
+func NewPermissionHolder(db *gorm.DB) RbacHolder {
 	return &PermissionHolder{
 		DbEngin:    db,
 		CacheEngin: NewCacheStrategy(),
-		logger:     logger,
 		debug:      false,
 	}
 }

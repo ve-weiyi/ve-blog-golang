@@ -4,8 +4,14 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/spf13/cobra"
+	"fmt"
+	"log"
 
+	"github.com/mitchellh/mapstructure"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
@@ -16,20 +22,53 @@ type RabbitmqCmd struct {
 }
 
 func NewRabbitmqCmd() *RabbitmqCmd {
-	cmdRabbitmq := &RabbitmqCmd{}
-	cmdRabbitmq.cmd = &cobra.Command{
+	rabbitmqCmd := &RabbitmqCmd{}
+	rabbitmqCmd.cmd = &cobra.Command{
 		Use:   "rabbitmq",
 		Short: "运行rabbitmq服务",
 		Long:  `运行rabbitmq服务，订阅消息,发送邮件`,
 		Run: func(cmd *cobra.Command, args []string) {
-			var c config.Config
-			initialize.SubscribeMessage(c)
+			rabbitmqCmd.RunRabbitmq()
 		},
 	}
-	cmdRabbitmq.init()
-	return cmdRabbitmq
+	rabbitmqCmd.cmd.PersistentPreRun = rabbitmqCmd.persistentPreRun
+	rabbitmqCmd.init()
+	return rabbitmqCmd
 }
 
 func (s *RabbitmqCmd) init() {
 	// 设置默认参数
+	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "config.yaml", "config file (default is $HOME/.config.yaml)")
+}
+
+func (s *RabbitmqCmd) persistentPreRun(cmd *cobra.Command, args []string) {
+
+}
+
+func (s *RabbitmqCmd) RunRabbitmq() {
+	var c config.Config
+	// 初始化Viper
+	v := viper.New()
+	v.SetConfigFile(s.configFile)
+	v.SetConfigType("yaml")
+	// 读取配置文件
+	err := v.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %s \n", err))
+	}
+
+	// 修改解析的tag（默认是mapstructure）
+	withJsonTag := func(c *mapstructure.DecoderConfig) {
+		c.TagName = "json"
+	}
+
+	// 解析配置文件
+	if err = v.Unmarshal(&c, withJsonTag); err != nil {
+		panic(err)
+	}
+
+	log.Println("rabbitmq服务启动成功", jsonconv.ObjectToJsonIndent(c))
+	log.Println("rabbitmq服务启动成功")
+
+	initialize.SubscribeMessage(c)
 }

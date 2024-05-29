@@ -12,9 +12,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
@@ -183,16 +180,14 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 
 func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.OauthLoginUrl, err error) {
 	var auth oauth.Oauth
-	cfg := l.svcCtx.Config.Oauth
-	switch req.Platform {
-	case constant.OauthQQ:
-		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
-	case constant.OauthWeibo:
-		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
-	case constant.OauthFeishu:
-		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
-	default:
-		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
+	for platform, v := range l.svcCtx.Oauth {
+		if platform == req.Platform {
+			auth = v
+		}
+	}
+
+	if auth == nil {
+		return nil, fmt.Errorf("platform %s is not support", req.Platform)
 	}
 
 	resp = &response.OauthLoginUrl{
@@ -203,16 +198,14 @@ func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 
 func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.LoginResp, err error) {
 	var auth oauth.Oauth
-	cfg := l.svcCtx.Config.Oauth
-	switch req.Platform {
-	case constant.OauthQQ:
-		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
-	case constant.OauthWeibo:
-		auth = weibo.NewAuthWb(convertAuthConfig(cfg.Weibo))
-	case constant.OauthFeishu:
-		auth = feishu.NewAuthFeishu(convertAuthConfig(cfg.Feishu))
-	default:
-		auth = qq.NewAuthQq(convertAuthConfig(cfg.QQ))
+	for platform, v := range l.svcCtx.Oauth {
+		if platform == req.Platform {
+			auth = v
+		}
+	}
+
+	if auth == nil {
+		return nil, fmt.Errorf("platform %s is not support", req.Platform)
 	}
 
 	// 获取第三方用户信息

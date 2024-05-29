@@ -30,12 +30,9 @@ web/pnpm-lock.yaml
 server/config.yaml
 *.sum
 
-/rm_file
-*.ts
-**/test.sql
-**/runtime/*
-**/test/*
-**/tmp/*
-**/default.etcd/*
 /deploy/docker/
+test
+runtime
+default.etcd
 blog-rpc.yaml
+test.sql
