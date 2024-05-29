@@ -12,6 +12,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/docs"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
@@ -35,17 +36,8 @@ func RunWindowsServer(c *config.Config) {
 	r.StaticFS(c.System.RuntimePath, http.Dir(c.System.RuntimePath))
 
 	// Generate Swagger JSON file
+	docs.SwaggerInfo.Version = c.System.Version
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	now := time.Now()
-	// 健康监测
-	r.GET("/version", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"runtime":  now.String(),
-			"version":  "1.0.0",
-			"trace_id": c.Request.Context().Value("X-Trace-ID").(string),
-		})
-	})
 
 	RegisterRouters(r, ctx)
 

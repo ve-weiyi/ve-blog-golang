@@ -21,16 +21,15 @@ func NewAIService(svcCtx *svc.ServiceContext) *AIService {
 
 // 和Chatgpt聊天
 func (l *AIService) ChatAI(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
-	// 查询用户消息历史记录
 	// 查询历史记录
-	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 0, 8, "created_at desc", "chat_id = ?", req.ChatId)
+	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 1, 3, "created_at desc", "chat_id = ?", req.ChatId)
 	if err != nil {
 		return nil, err
 	}
 
 	var msgs []*chatgpt.ChatMessage
 	for _, v := range list {
-		if v.UserId != -1 {
+		if v.UserId == reqCtx.Uid {
 			msgs = append(msgs, &chatgpt.ChatMessage{
 				Role:    chatgpt.RoleUser,
 				Content: v.Content,
@@ -53,7 +52,7 @@ func (l *AIService) ChatAI(reqCtx *request.Context, req *request.ChatMessage) (d
 		return nil, err
 	}
 
-	// 保存用户历史记录
+	// 保存历史记录
 	msg := &entity.ChatMessage{
 		ChatId:    req.ChatId,
 		UserId:    reqCtx.Uid,
@@ -139,74 +138,6 @@ func (l *AIService) ChatStream(reqCtx *request.Context, req *request.ChatStream)
 		ChatId:  req.ChatId,
 		Content: req.Content,
 	})
-}
-
-// 和Chatgpt聊天
-func (l *AIService) ChatAssistant(reqCtx *request.Context, req *request.ChatMessage) (data *chatgpt.ChatResponse, err error) {
-	// 查询历史记录
-	list, err := l.svcCtx.ChatMessageRepository.FindList(reqCtx, 1, 3, "created_at desc", "chat_id = ?", req.ChatId)
-	if err != nil {
-		return nil, err
-	}
-
-	var msgs []*chatgpt.ChatMessage
-	for _, v := range list {
-		if v.UserId == reqCtx.Uid {
-			msgs = append(msgs, &chatgpt.ChatMessage{
-				Role:    chatgpt.RoleUser,
-				Content: v.Content,
-			})
-		} else {
-			msgs = append(msgs, &chatgpt.ChatMessage{
-				Role:    chatgpt.RoleAI,
-				Content: v.Content,
-			})
-		}
-	}
-
-	msgs = append(msgs, &chatgpt.ChatMessage{
-		Role:    chatgpt.RoleUser,
-		Content: req.Content,
-	})
-
-	resp, err := chatgpt.NewAIChatGPT().Chat(msgs)
-	if err != nil {
-		return nil, err
-	}
-
-	// 保存历史记录
-	msg := &entity.ChatMessage{
-		ChatId:    req.ChatId,
-		UserId:    reqCtx.Uid,
-		Content:   req.Content,
-		IpAddress: reqCtx.IpAddress,
-		//IpSource:  reqCtx.GetIpSource(),
-		Type:   0,
-		Status: 0,
-	}
-
-	create, err := l.svcCtx.ChatMessageRepository.Create(reqCtx, msg)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, v := range resp.Choices {
-		m := &entity.ChatMessage{
-			ChatId:     req.ChatId,
-			UserId:     -1,
-			ReplyMsgId: create.ReplyMsgId,
-			Content:    v.Message.Content,
-			Type:       1,
-			Status:     0,
-		}
-
-		_, err = l.svcCtx.ChatMessageRepository.Create(reqCtx, m)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return resp, nil
 }
 
 func (l *AIService) ChatAssistantHistory(reqCtx *request.Context, req *request.ChatHistory) (data []*entity.ChatMessage, err error) {
