@@ -97,9 +97,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Gorm:                  db,
 		Redis:                 rds,
 		LocalCache:            cache,
-		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.NewRedisStore(rds)),
+		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 		EmailMQ:               mq,
-		Oauth:                 InitOauth(c),
+		Oauth:                 InitOauth(c.OauthConfList),
 		UserAccountModel:      model.NewUserAccountModel(db, rds),
 		UserOauthModel:        model.NewUserOauthModel(db, rds),
 		UserInformationModel:  model.NewUserInformationModel(db, rds),
@@ -290,10 +290,10 @@ func SubscribeMessage(c config.Config) {
 	}
 }
 
-func InitOauth(c config.Config) map[string]oauth.Oauth {
+func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
 	var om = make(map[string]oauth.Oauth)
 
-	for k, v := range c.OauthConfList {
+	for k, v := range c {
 		conf := &oauth.AuthConfig{
 			ClientId:     v.ClientId,
 			ClientSecret: v.ClientSecret,

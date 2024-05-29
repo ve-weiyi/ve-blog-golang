@@ -9,6 +9,7 @@ import (
 	"log"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -24,18 +25,18 @@ type ApiCmd struct {
 }
 
 func NewApiCmd() *ApiCmd {
-	serverCmd := &ApiCmd{}
-	serverCmd.cmd = &cobra.Command{
+	apiCmd := &ApiCmd{}
+	apiCmd.cmd = &cobra.Command{
 		Use:   "api",
 		Short: "启动接口服务",
 		Long:  `启动接口服务`,
 		Run: func(cmd *cobra.Command, args []string) {
-			serverCmd.RunApi()
+			apiCmd.RunApi()
 		},
 	}
-	serverCmd.cmd.PersistentPreRun = serverCmd.persistentPreRun
-	serverCmd.init()
-	return serverCmd
+	apiCmd.cmd.PersistentPreRun = apiCmd.persistentPreRun
+	apiCmd.init()
+	return apiCmd
 }
 
 func (s *ApiCmd) init() {
@@ -85,8 +86,12 @@ func (s *ApiCmd) RunApi() {
 		if err != nil {
 			panic(fmt.Errorf("fatal error config file: %s \n", err))
 		}
+		// 修改解析的tag（默认是mapstructure）
+		withJsonTag := func(c *mapstructure.DecoderConfig) {
+			c.TagName = "json"
+		}
 		// 解析配置文件
-		if err = v.Unmarshal(&c); err != nil {
+		if err = v.Unmarshal(&c, withJsonTag); err != nil {
 			panic(err)
 		}
 
@@ -94,7 +99,7 @@ func (s *ApiCmd) RunApi() {
 		v.WatchConfig()
 		v.OnConfigChange(func(e fsnotify.Event) {
 			log.Println("config file changed:", e.Name)
-			if err = v.Unmarshal(&c); err != nil {
+			if err = v.Unmarshal(&c, withJsonTag); err != nil {
 				log.Println(err)
 			}
 		})

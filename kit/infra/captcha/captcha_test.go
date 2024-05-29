@@ -14,7 +14,7 @@ import (
 
 func TestRedisStore_RandCode(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		code := NewCaptchaHolder(base64Captcha.DefaultMemStore).GetCodeCaptcha("key")
+		code := NewCaptchaHolder().GetCodeCaptcha("key")
 		t.Log(code)
 	}
 }

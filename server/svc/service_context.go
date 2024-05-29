@@ -9,8 +9,8 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
@@ -27,6 +27,7 @@ type ServiceContext struct {
 	RedisEngin     *redis.Client
 	LocalCache     *ecache.Cache
 	Token          *jjwt.JwtToken
+	Oauth          map[string]oauth.Oauth
 	CaptchaHolder  *captcha.CaptchaHolder
 	AIChatGPT      *chatgpt.AIChatGPT
 	EmailPublisher rabbitmq.MessagePublisher
@@ -84,6 +85,10 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 		panic(err)
 	}
 
+	cache := ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
+
+	ch := captcha.NewCaptchaHolder(captcha.WithRedisStore(rdb))
+
 	gpt := chatgpt.NewAIChatGPT(
 		chatgpt.WithApiKey(c.ChatGPT.ApiKey),
 		chatgpt.WithApiHost(c.ChatGPT.ApiHost),
@@ -94,13 +99,14 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 		Config:         c,
 		DbEngin:        db,
 		RedisEngin:     rdb,
-		LocalCache:     ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024),
+		LocalCache:     cache,
 		Token:          jjwt.NewJwtToken([]byte(c.JWT.SigningKey)),
-		CaptchaHolder:  captcha.NewCaptchaHolder(captcha.NewRedisStore(rdb)),
+		Oauth:          initialize.InitOauth(c.Oauth),
+		CaptchaHolder:  ch,
 		AIChatGPT:      gpt,
 		EmailPublisher: mq,
 		Uploader:       up,
-		RbacHolder:     rbac.NewPermissionHolder(db, glog.Default()),
+		RbacHolder:     rbac.NewPermissionHolder(db),
 
 		ApiRepository:              repository.NewApiRepository(db, rdb),
 		ArticleRepository:          repository.NewArticleRepository(db, rdb),

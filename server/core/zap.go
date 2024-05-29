@@ -20,12 +20,14 @@ func SetLog(c config.Zap) {
 	cfg = zaplog.NewFileConfig()
 	cfg.Mode = c.Mode
 	cfg.Encoding = c.Format
-	cfg.Path = c.CacheDir
-	cfg.FileName = c.ServerName + ".log"
 	cfg.Prefix = c.Prefix
 	cfg.Level = c.Level
 	cfg.ShowLine = c.EncodeCaller == "long"
 	cfg.ShowColor = c.EncodeColorful
+
+	cfg.FileName = c.Filename + ".log"
+	cfg.Path = c.CacheDir
+	cfg.KeepDays = c.MaxAge
 
 	glog.Init(1, cfg)
 	glog.Println("日志组件初始化成功！")

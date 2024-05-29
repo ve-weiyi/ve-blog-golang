@@ -3,21 +3,10 @@ package service
 import (
 	"math/rand"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/server/config"
-
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
-
-func convertAuthConfig(conf config.AuthConfig) *oauth.AuthConfig {
-	return &oauth.AuthConfig{
-		ClientId:     conf.ClientId,
-		ClientSecret: conf.ClientSecret,
-		RedirectUri:  conf.RedirectUri,
-	}
-}
 
 func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory {
 	return &response.LoginHistory{

@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 )
 
-func Upload(c config.Upload) (upload.Uploader, error) {
+func Upload(c config.UploadConf) (upload.Uploader, error) {
 
 	var cfg upload.UploadConfig
 	var up upload.Uploader

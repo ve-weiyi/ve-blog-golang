@@ -30,7 +30,7 @@
 
 如果您不会使用docker，可以参考[Docker.md](../deploy/docker-compose/Docker.md)文档，或者其他相关博客。
 
-如果你不想使用这些服务，可以在[server.go](server/cmd/server.go) OnInitialize 函数中，注释掉相关初始化代码。
+如果你不想使用这些服务，可以在[service_context.go](svc/service_context.go) NewServiceContext 函数中，注释掉相关初始化代码。
 
 - 初始化数据库,创建表和数据
 ```shell

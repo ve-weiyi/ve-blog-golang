@@ -4,7 +4,6 @@ system:
   env: develop
   port: 9999
   router-prefix: "api/v1"
-  use-redis: false
   use-multipoint: false
   runtime-path: runtime/
 
@@ -17,14 +16,13 @@ jwt:
 
 # zap logger configuration
 zap:
-  server-name: blog
   mode: console # 模式 console or file
   format: console # 格式化 json or console
   level: info # 等级 debug info warn error dpanic panic fatal
   prefix: '' # 前缀 logger prefix
-  encode-level: LowercaseLevelEncoder
   encode-caller: long # 显示调用信息 short or long
   encode-colorful: true # 彩色显示
+  filename: blog.log
   cache-dir: runtime/logs # 缓存目录 log file dir
   max-age: 0
 
@@ -32,24 +30,17 @@ zap:
 mysql:
   host: 127.0.0.1
   port: "3306"
-  config: charset=utf8mb4&parseTime=True&loc=Local
-  db-name: blog-veweiyi
   username: root
   password: mysql7914
-  prefix: ""
-  singular: false
-  engine: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-  log-mode: info
-  log-zap: false
+  dbname: blog-veweiyi
+  config: charset=utf8mb4&parseTime=True&loc=Local
 
 # redis configuration
 redis:
-  db: 3
   host: 127.0.0.1
   port: 6379
   password: ""
+  db: 3
 
 # mq配置
 rabbitmq:
