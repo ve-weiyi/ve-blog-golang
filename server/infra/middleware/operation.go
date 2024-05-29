@@ -19,12 +19,12 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 // 操作日志
-func OperationRecord() gin.HandlerFunc {
-	permissionHolder := global.Permission
+func OperationRecord(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+	permissionHolder := svcCtx.RbacHolder
 
 	return func(c *gin.Context) {
 		// 检测接口是否需要操作记录
@@ -120,7 +120,7 @@ func OperationRecord() gin.HandlerFunc {
 			Cost:           fmt.Sprintf("%v", cost),
 			CreatedAt:      time.Now(),
 		}
-		err = global.DB.Create(&op).Error
+		err = svcCtx.DbEngin.Create(&op).Error
 		if err != nil {
 			glog.Error(err)
 			c.JSON(http.StatusOK, apierr.ErrorInternalServerError.WrapMessage("日志记录错误"))

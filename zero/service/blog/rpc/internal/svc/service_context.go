@@ -17,13 +17,13 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
@@ -293,7 +293,7 @@ func SubscribeMessage(c config.Config) {
 func InitOauth(c config.Config) map[string]oauth.Oauth {
 	var om = make(map[string]oauth.Oauth)
 
-	for k, v := range c.OauthConf {
+	for k, v := range c.OauthConfList {
 		conf := &oauth.AuthConfig{
 			ClientId:     v.ClientId,
 			ClientSecret: v.ClientSecret,

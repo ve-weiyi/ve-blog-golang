@@ -1,22 +1,25 @@
 package initialize
 
-import (
-	"time"
-
-	"github.com/orca-zhang/ecache"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
-)
-
-func OtherInit() {
-	global.BlackCache = ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
-
-	gpt := chatgpt.NewAIChatGPT(
-		chatgpt.WithApiKey(global.CONFIG.ChatGPT.ApiKey),
-		chatgpt.WithApiHost(global.CONFIG.ChatGPT.ApiHost),
-		chatgpt.WithModel(global.CONFIG.ChatGPT.Model),
-	)
-
-	global.AIChatGPT = gpt
-}
+//func InitOauth(c config.Config) map[string]oauth.Oauth {
+//	var om = make(map[string]oauth.Oauth)
+//
+//	for k, v := range c.OauthConf {
+//		conf := &oauth.AuthConfig{
+//			ClientId:     v.ClientId,
+//			ClientSecret: v.ClientSecret,
+//			RedirectUri:  v.RedirectUri,
+//		}
+//		switch k {
+//		case "qq":
+//			auth := qq.NewAuthQq(conf)
+//			om["qq"] = auth
+//		case "weibo":
+//			auth := weibo.NewAuthWb(conf)
+//			om["weibo"] = auth
+//		case "feishu":
+//			auth := feishu.NewAuthFeishu(conf)
+//			om["feishu"] = auth
+//		}
+//	}
+//	return om
+//}

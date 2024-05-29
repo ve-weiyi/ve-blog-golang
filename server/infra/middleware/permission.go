@@ -7,11 +7,11 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
-func PermissionHandler() gin.HandlerFunc {
-	permissionHolder := global.Permission
+func PermissionHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+	permissionHolder := svcCtx.RbacHolder
 
 	return func(c *gin.Context) {
 

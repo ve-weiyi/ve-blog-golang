@@ -1,4 +1,4 @@
-package properties
+package config
 
 type System struct {
 	Version       string `mapstructure:"version" json:"version" yaml:"version"`                      // 程序版本

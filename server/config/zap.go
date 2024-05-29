@@ -1,4 +1,4 @@
-package properties
+package config
 
 import (
 	"strings"

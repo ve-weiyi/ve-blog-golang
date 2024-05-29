@@ -1,4 +1,4 @@
-package properties
+package config
 
 type Oauth struct {
 	QQ     AuthConfig `json:"qq" yaml:"qq" mapstructure:"qq"`

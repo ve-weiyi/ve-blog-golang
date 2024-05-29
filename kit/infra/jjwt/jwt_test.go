@@ -1,4 +1,4 @@
-package initest
+package jjwt
 
 import (
 	"log"
@@ -7,16 +7,14 @@ import (
 
 	"github.com/golang-jwt/jwt"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 func TestJwt(t *testing.T) {
-	Init()
-	tk, err := global.JWT.CreateToken(
-		jjwt.TokenExt{
+	jj := NewJwtToken([]byte("test"))
+
+	tk, err := jj.CreateToken(
+		TokenExt{
 			Uid:      0,
 			Username: "121",
 		},
@@ -28,7 +26,7 @@ func TestJwt(t *testing.T) {
 
 	log.Println(tk, err)
 
-	token, err := global.JWT.ParserToken(tk)
+	token, err := jj.ParserToken(tk)
 	if err != nil {
 		return
 	}
