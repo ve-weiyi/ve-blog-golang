@@ -18,7 +18,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 type BaseController struct {
@@ -41,17 +40,6 @@ func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, 
 }
 
 // IP限流
-func (m *BaseController) LimitLock(ctx *gin.Context) error {
-	key := ctx.ClientIP()
-	v, ok := global.BlackCache.Get(key)
-	if !ok {
-		global.BlackCache.Put(key, 1)
-	}
-	if cast.ToInt(v) > 10 {
-		return apierr.ErrorFrequentRequest
-	}
-	return nil
-}
 
 type IsValidChecker interface {
 	IsValid() error

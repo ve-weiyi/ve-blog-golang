@@ -3,21 +3,20 @@ package apiparser
 import (
 	"testing"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
 )
 
 func TestSwaggerParser(t *testing.T) {
 	ac := NewSwaggerParser()
-	apis, err := ac.ParseApiDocsByRoots(global.GetRuntimeRoot() + "server/docs")
+	apis, err := ac.ParseApiDocsByRoots(files.GetRuntimeRoot() + "server/docs")
 	if err != nil {
 		t.Error(err)
 	}
 
 	t.Log(jsonconv.ObjectToJsonIndent(apis))
 
-	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/docs")
+	models, err := ac.ParseModelDocsByRoots(files.GetRuntimeRoot() + "server/docs")
 	if err != nil {
 		t.Error(err)
 	}
@@ -37,7 +36,7 @@ func TestAstParser(t *testing.T) {
 	//
 	//t.Log(jsonconv.ObjectToJsonIndent(apis))
 
-	models, err := ac.ParseModelDocsByRoots(global.GetRuntimeRoot() + "server/api/blog/model")
+	models, err := ac.ParseModelDocsByRoots(files.GetRuntimeRoot() + "server/api/blog/model")
 	if err != nil {
 		t.Error(err)
 	}

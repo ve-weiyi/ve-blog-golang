@@ -36,7 +36,7 @@ go run main.go api --config=./config.yaml
 
 2. 使用nacos的配置文件启动项目
 ```shell
-go run main.go api --use-nacos=true --n-ns=test
+go run main.go api --n-namespace=test
 ```
 
 ### 4.其他

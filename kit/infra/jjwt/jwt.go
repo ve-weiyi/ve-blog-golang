@@ -2,7 +2,6 @@ package jjwt
 
 import (
 	"errors"
-	"strconv"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -94,25 +93,4 @@ func (j *JwtToken) ParserToken(tokenString string) (*TokenClaims, error) {
 	}
 
 	return nil, TokenInvalid
-}
-
-// 验证token
-func (j *JwtToken) VerifyToken(token string, uid string) (*TokenClaims, error) {
-	if token == "" {
-		return nil, errors.New("token is null")
-	}
-	if uid == "" {
-		return nil, errors.New("uid is null")
-	}
-
-	// 解析token
-	claims, err := j.ParserToken(token)
-	if err != nil {
-		return nil, err
-	}
-
-	if uid != strconv.Itoa(claims.Ext.Uid) {
-		return nil, errors.New("uid is not equal")
-	}
-	return claims, nil
 }

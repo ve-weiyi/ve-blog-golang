@@ -14,9 +14,9 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/gorm_parser/model"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/quickstart/tmpl"
 )
@@ -45,7 +45,7 @@ func Init() {
 func TestCodeStarter(t *testing.T) {
 	Init()
 
-	out := path.Join(global.GetRuntimeRoot(), "server/api")
+	out := path.Join(files.GetRuntimeRoot(), "server/api")
 	//out := path.Join("./autocode_template", "test")
 	typeInt := "int"
 	// 自定义字段的数据类型
@@ -142,7 +142,7 @@ func TestCodeStarter(t *testing.T) {
 }
 
 func TestVisitFile(t *testing.T) {
-	root := path.Join(global.GetRuntimeRoot(), "server/api", "model/entity")
+	root := path.Join(files.GetRuntimeRoot(), "server/api", "model/entity")
 	err := filepath.Walk(root, visitFile)
 	t.Log(err)
 }

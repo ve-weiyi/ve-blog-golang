@@ -1,18 +1,22 @@
 package svc
 
 import (
+	"time"
+
+	"github.com/orca-zhang/ecache"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
+	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
 
 // 注册需要用到的gorm、redis、model
@@ -20,14 +24,14 @@ type ServiceContext struct {
 	Config *config.Config
 
 	DbEngin        *gorm.DB
-	DBList         map[string]*gorm.DB
-	Cache          *redis.Client
+	RedisEngin     *redis.Client
+	LocalCache     *ecache.Cache
 	Token          *jjwt.JwtToken
-	RBAC           *rbac.CachedEnforcer
 	CaptchaHolder  *captcha.CaptchaHolder
+	AIChatGPT      *chatgpt.AIChatGPT
 	EmailPublisher rabbitmq.MessagePublisher
 	Uploader       upload.Uploader
-	AIChatGPT      *chatgpt.AIChatGPT
+	RbacHolder     rbac.RbacHolder //RBAC角色访问控制器
 
 	ApiRepository              *repository.ApiRepository              //api路由
 	ArticleRepository          *repository.ArticleRepository          //文章
@@ -59,20 +63,44 @@ type ServiceContext struct {
 	ChatMessageRepository      *repository.ChatMessageRepository      //聊天消息
 }
 
-func NewServiceContext(cfg *config.Config) *ServiceContext {
-	db := global.DB
-	rdb := global.REDIS
+func NewServiceContext(c *config.Config) *ServiceContext {
+	db, err := initialize.ConnectGorm(c.Mysql)
+	if err != nil {
+		panic(err)
+	}
+
+	rdb, err := initialize.ConnectRedis(c.Redis)
+	if err != nil {
+		panic(err)
+	}
+
+	mq, err := initialize.ConnectRabbitMq(c.RabbitMQ)
+	if err != nil {
+		panic(err)
+	}
+
+	up, err := initialize.Upload(c.Upload)
+	if err != nil {
+		panic(err)
+	}
+
+	gpt := chatgpt.NewAIChatGPT(
+		chatgpt.WithApiKey(c.ChatGPT.ApiKey),
+		chatgpt.WithApiHost(c.ChatGPT.ApiHost),
+		chatgpt.WithModel(c.ChatGPT.Model),
+	)
 
 	return &ServiceContext{
-		Config:         cfg,
-		Token:          global.JWT,
-		CaptchaHolder:  captcha.NewCaptchaHolder(captcha.NewRedisStore(global.REDIS)),
-		EmailPublisher: global.EmailMQ,
-		Uploader:       global.Uploader,
-		AIChatGPT:      global.AIChatGPT,
-		DbEngin:        global.DB,
-		DBList:         global.DBList,
-		Cache:          global.REDIS,
+		Config:         c,
+		DbEngin:        db,
+		RedisEngin:     rdb,
+		LocalCache:     ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024),
+		Token:          jjwt.NewJwtToken([]byte(c.JWT.SigningKey)),
+		CaptchaHolder:  captcha.NewCaptchaHolder(captcha.NewRedisStore(rdb)),
+		AIChatGPT:      gpt,
+		EmailPublisher: mq,
+		Uploader:       up,
+		RbacHolder:     rbac.NewPermissionHolder(db, glog.Default()),
 
 		ApiRepository:              repository.NewApiRepository(db, rdb),
 		ArticleRepository:          repository.NewArticleRepository(db, rdb),
