@@ -1,6 +1,9 @@
 package core
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router"
@@ -17,6 +20,15 @@ func RegisterRouters(r *gin.RouterGroup, serverCtx *svc.ServiceContext) {
 	r.Use(middleware.Cors())             // 直接放行全部跨域请求
 	r.Use(middleware.TraceMiddleware())  // 打印请求的traceId
 	r.Use(middleware.LimitIP(serverCtx)) // 限制IP
+	now := time.Now()
+	// 健康监测
+	r.GET("/version", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"version":  "1.0.0",
+			"runtime":  now.String(),
+			"trace_id": c.Request.Context().Value("X-Trace-ID").(string),
+		})
+	})
 
 	//公开接口，不需要token
 	publicGroup := r.Group("/")

@@ -1,63 +1,5 @@
 basePath: /api/v1
 definitions:
-  chatgpt.ChatChoice:
-    properties:
-      finish_reason:
-        description: 回复的完成原因
-        type: string
-      index:
-        description: 回复的索引
-        type: integer
-      message:
-        allOf:
-        - $ref: '#/definitions/chatgpt.ChatMessage'
-        description: 回复的消息
-    type: object
-  chatgpt.ChatMessage:
-    properties:
-      content:
-        description: 消息内容
-        type: string
-      role:
-        description: 角色：system 或 user ，assistant ChatGPT 生成的响应
-        type: string
-    type: object
-  chatgpt.ChatResponse:
-    properties:
-      choices:
-        description: 生成的回复列表
-        items:
-          $ref: '#/definitions/chatgpt.ChatChoice'
-        type: array
-      created:
-        description: 创建时间戳
-        type: integer
-      id:
-        description: 对话 ID
-        type: string
-      model:
-        description: 模型名称
-        type: string
-      object:
-        description: 对象类型
-        type: string
-      usage:
-        allOf:
-        - $ref: '#/definitions/chatgpt.ChatUsage'
-        description: API 调用的使用情况
-    type: object
-  chatgpt.ChatUsage:
-    properties:
-      completion_tokens:
-        description: 生成回复的 tokens 数量
-        type: integer
-      prompt_tokens:
-        description: 提示 tokens 数量
-        type: integer
-      total_tokens:
-        description: 总 tokens 数量
-        type: integer
-    type: object
   entity.Api:
     properties:
       created_at:
@@ -106,6 +48,7 @@ definitions:
         description: 发表时间
         type: string
       id:
+        description: id
         type: integer
       is_delete:
         description: 是否删除  0否 1是
@@ -138,10 +81,47 @@ definitions:
         description: 创建时间
         type: string
       id:
+        description: id
         type: integer
       updated_at:
         description: 更新时间
         type: string
+    type: object
+  entity.ChatMessage:
+    properties:
+      chat_id:
+        description: 聊天id
+        type: string
+      content:
+        description: 聊天内容
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: 主键
+        type: integer
+      ip_address:
+        description: ip地址
+        type: string
+      ip_source:
+        description: ip来源
+        type: string
+      reply_msg_id:
+        description: 回复消息id
+        type: integer
+      status:
+        description: 0正常 1撤回 2已编辑
+        type: integer
+      type:
+        description: 类型
+        type: integer
+      updated_at:
+        description: 更新时间
+        type: string
+      user_id:
+        description: 用户id
+        type: integer
     type: object
   entity.ChatRecord:
     properties:
@@ -218,6 +198,7 @@ definitions:
         description: 创建时间
         type: string
       id:
+        description: id
         type: integer
       link_address:
         description: 链接地址
@@ -238,31 +219,34 @@ definitions:
   entity.Menu:
     properties:
       component:
-        description: 组件
+        description: 路由组件
         type: string
       created_at:
         description: 创建时间
         type: string
-      icon:
-        description: 菜单icon
-        type: string
       id:
         description: 主键
         type: integer
-      is_hidden:
-        description: 是否隐藏  0否1是
-        type: integer
+      meta:
+        description: 菜单元数据
+        type: string
       name:
-        description: 菜单名
+        description: 路由名称
         type: string
       parent_id:
         description: 父id
         type: integer
       path:
-        description: 菜单路径
+        description: 路由路径
         type: string
-      rank:
-        description: 排序
+      redirect:
+        description: 路由重定向
+        type: string
+      title:
+        description: 菜单标题
+        type: string
+      type:
+        description: 菜单类型
         type: integer
       updated_at:
         description: 更新时间
@@ -291,31 +275,25 @@ definitions:
       opt_desc:
         description: 操作描述
         type: string
-      opt_method:
-        description: 操作方法
-        type: string
       opt_module:
         description: 操作模块
         type: string
-      opt_type:
-        description: 操作类型
+      request_data:
+        description: 请求参数
         type: string
       request_header:
-        description: 请求头
+        description: 请求头参数
         type: string
       request_method:
         description: 请求方式
         type: string
-      request_param:
-        description: 请求参数
-        type: string
       request_url:
-        description: 操作url
+        description: 请求地址
         type: string
       response_data:
         description: 返回数据
         type: string
-      status:
+      response_status:
         description: 响应状态码
         type: integer
       updated_at:
@@ -430,7 +408,7 @@ definitions:
         description: 弹幕速度
         type: integer
       updated_at:
-        description: 修改时间
+        description: 更新时间
         type: string
     type: object
   entity.Role:
@@ -469,6 +447,7 @@ definitions:
         description: 创建时间
         type: string
       id:
+        description: id
         type: integer
       tag_name:
         description: 标签名
@@ -597,14 +576,19 @@ definitions:
         description: 个人网站
         type: string
     type: object
-  request.ArticleConditionReq:
+  request.AboutMeReq:
     properties:
-      category_id:
-        description: 文章分类ID
-        type: integer
-      tag_id:
-        description: 文章标签ID
-        type: integer
+      content:
+        example: about me
+        type: string
+    type: object
+  request.ArticleClassifyReq:
+    properties:
+      classify_name:
+        description: |-
+          TagId      int `json:"tag_id"`      // 文章标签ID
+          CategoryId int `json:"category_id"` // 文章分类ID
+        type: string
     type: object
   request.ArticleDeleteReq:
     properties:
@@ -704,6 +688,135 @@ definitions:
       id:
         type: string
     type: object
+  request.ChatHistory:
+    properties:
+      after:
+        description: 从这个时间点之后的消息
+        type: integer
+      before:
+        description: 从这个时间点之前的消息
+        type: integer
+      chat_id:
+        description: 聊天ID
+        type: string
+    type: object
+  request.ChatMessage:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+    type: object
+  request.ChatStream:
+    properties:
+      chat_id:
+        type: string
+      content:
+        type: string
+    type: object
+  request.CommentQueryReq:
+    properties:
+      order_by:
+        description: 排序字段 create_at|like_count
+        type: string
+      page:
+        description: 页码
+        type: integer
+      page_size:
+        description: 每页数量
+        type: integer
+      parent_id:
+        description: 父评论id
+        type: integer
+      topic_id:
+        description: 主题id
+        type: integer
+      type:
+        description: 评论类型 1.文章 2.友链 3.说说
+        type: integer
+    type: object
+  request.EmptyReq:
+    type: object
+  request.IdReq:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  request.IdsReq:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  request.LoginReq:
+    properties:
+      code:
+        example: ""
+        type: string
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: admin@qq.com
+        type: string
+    type: object
+  request.Meta:
+    properties:
+      activePath:
+        description: 将某个菜单激活
+        type: string
+      auths:
+        description: 按钮级别权限设置
+        items:
+          type: string
+        type: array
+      dynamicLevel:
+        description: 动态路由可打开的最大数量
+        type: integer
+      extraIcon:
+        description: 子菜单才有的属性
+      frameLoading:
+        description: iframe页是否开启首次加载动画
+        type: boolean
+      frameSrc:
+        description: 内嵌的iframe链接
+        type: string
+      hiddenTag:
+        description: 是否不添加信息到标签页
+        type: boolean
+      icon:
+        description: 菜单图标
+        type: string
+      keepAlive:
+        description: 路由组件缓存
+        type: boolean
+      rank:
+        description: 菜单升序排序
+        type: integer
+      roles:
+        description: 页面级别权限设置
+        items:
+          type: string
+        type: array
+      showLink:
+        description: 是否在菜单中显示
+        type: boolean
+      showParent:
+        description: 是否显示父级菜单
+        type: boolean
+      title:
+        description: 菜单名称
+        type: string
+      transition:
+        allOf:
+        - $ref: '#/definitions/request.Transition'
+        description: 页面加载动画
+    type: object
   request.OauthLoginReq:
     properties:
       code:
@@ -719,24 +832,64 @@ definitions:
         example: ""
         type: string
     type: object
-  request.PageQuery:
+  request.PageCondition:
     properties:
-      conditions:
-        description: 使用条件语句查询
-        items:
-          $ref: '#/definitions/sqlx.Condition'
-        type: array
+      field:
+        description: 表字段
+        type: string
+      logic:
+        description: 逻辑运算符（Logical Operators）。标识 and、or,默认and
+        enum:
+        - and
+        - or
+        type: string
+      operator:
+        description: 比较运算符（Comparison Operators）。规则 =,like,in,<,>
+        enum:
+        - =
+        - like
+        - in
+        - <
+        - '>'
+        type: string
+      value:
+        description: 值
+    type: object
+  request.PageLimit:
+    properties:
       page:
         description: 页码
         type: integer
       page_size:
         description: 每页大小
         type: integer
+    type: object
+  request.PageQuery:
+    properties:
+      conditions:
+        description: 使用条件语句查询
+        items:
+          $ref: '#/definitions/request.PageCondition'
+        type: array
+      limit:
+        $ref: '#/definitions/request.PageLimit'
       sorts:
         description: 排序
         items:
-          $ref: '#/definitions/sqlx.Sort'
+          $ref: '#/definitions/request.PageSort'
         type: array
+    type: object
+  request.PageSort:
+    properties:
+      field:
+        description: 表字段
+        type: string
+      order:
+        description: 排序规则 asc|desc
+        enum:
+        - asc
+        - desc
+        type: string
     type: object
   request.ResetPasswordReq:
     properties:
@@ -748,6 +901,51 @@ definitions:
         type: string
       username:
         example: admin@qq.com
+        type: string
+    type: object
+  request.RouteConfigsTable:
+    properties:
+      children:
+        description: 子路由配置项
+        items:
+          $ref: '#/definitions/request.RouteConfigsTable'
+        type: array
+      component:
+        description: Layout组件
+      meta:
+        allOf:
+        - $ref: '#/definitions/request.Meta'
+        description: meta配置
+      name:
+        description: 路由名字
+        type: string
+      path:
+        description: 路由地址
+        type: string
+      redirect:
+        description: 路由重定向
+        type: string
+      type:
+        description: 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        type: integer
+    type: object
+  request.SyncMenuReq:
+    properties:
+      menus:
+        items:
+          $ref: '#/definitions/request.RouteConfigsTable'
+        type: array
+    type: object
+  request.Transition:
+    properties:
+      enterTransition:
+        description: 进场动画
+        type: string
+      leaveTransition:
+        description: 离场动画
+        type: string
+      name:
+        description: 当前路由动画效果
         type: string
     type: object
   request.UpdateRoleApisReq:
@@ -777,7 +975,7 @@ definitions:
       user_id:
         type: integer
     type: object
-  request.UserEmail:
+  request.UserEmailReq:
     properties:
       username:
         example: admin@qq.com
@@ -802,16 +1000,82 @@ definitions:
         example: website
         type: string
     type: object
-  request.UserReq:
+  request.WebsiteConfigDTO:
     properties:
-      code:
-        example: ""
+      admin_url:
+        description: 后台地址
         type: string
-      password:
-        example: "123456"
+      alipay_qr_code:
+        description: 支付宝二维码
         type: string
-      username:
-        example: admin@qq.com
+      gitee:
+        description: Gitee
+        type: string
+      github:
+        description: Github
+        type: string
+      is_chat_room:
+        description: 是否开启聊天室
+        type: integer
+      is_comment_review:
+        description: 是否开启评论审核
+        type: integer
+      is_email_notice:
+        description: 是否开启邮件通知
+        type: integer
+      is_message_review:
+        description: 是否开启留言审核
+        type: integer
+      is_music_player:
+        description: 是否开启音乐播放器
+        type: integer
+      is_reward:
+        description: 是否开启打赏
+        type: integer
+      qq:
+        description: QQ
+        type: string
+      social_login_list:
+        description: 社交登录列表
+        items:
+          type: string
+        type: array
+      social_url_list:
+        description: 社交地址列表
+        items:
+          type: string
+        type: array
+      tourist_avatar:
+        description: 游客头像
+        type: string
+      user_avatar:
+        description: 用户头像
+        type: string
+      website_author:
+        description: 网站作者
+        type: string
+      website_avatar:
+        description: 网站头像
+      website_create_time:
+        description: 网站创建时间
+        type: string
+      website_intro:
+        description: 网站介绍
+        type: string
+      website_name:
+        description: 网站名称
+        type: string
+      website_notice:
+        description: 网站公告
+        type: string
+      website_record_no:
+        description: 网站备案号
+        type: string
+      websocket_url:
+        description: websocket地址
+        type: string
+      weixin_qr_code:
+        description: 微信二维码
         type: string
     type: object
   request.WebsiteConfigReq:
@@ -823,22 +1087,28 @@ definitions:
         example: about me
         type: string
     type: object
+  response.AboutMeResp:
+    properties:
+      content:
+        example: about me
+        type: string
+    type: object
   response.AdminHomeInfo:
     properties:
       article_count:
         description: 文章量
         type: integer
-      article_rank_dto_list:
-        description: 文章浏览量排行
-        items:
-          $ref: '#/definitions/response.ArticleViewRankDTO'
-        type: array
       article_statistics_list:
         description: 文章统计列表
         items:
           $ref: '#/definitions/response.ArticleStatisticsDTO'
         type: array
-      category_dto_list:
+      article_view_rank_list:
+        description: 文章浏览量排行
+        items:
+          $ref: '#/definitions/response.ArticleViewRankDTO'
+        type: array
+      category_list:
         description: 分类统计
         items:
           $ref: '#/definitions/response.CategoryDTO'
@@ -846,7 +1116,7 @@ definitions:
       message_count:
         description: 留言量
         type: integer
-      tag_dto_list:
+      tag_list:
         description: 标签列表
         items:
           $ref: '#/definitions/response.TagDTO'
@@ -947,9 +1217,9 @@ definitions:
         description: 浏览量
         type: integer
     type: object
-  response.ArticleConditionDTO:
+  response.ArticleClassifyResp:
     properties:
-      article_dto_list:
+      article_list:
         description: 文章列表
         items:
           $ref: '#/definitions/response.ArticleHome'
@@ -1093,6 +1363,15 @@ definitions:
         description: 文章ID
         type: integer
     type: object
+  response.ArticleStatisticsDTO:
+    properties:
+      count:
+        description: 数量
+        type: integer
+      day:
+        description: 日期
+        type: string
+    type: object
   response.ArticleViewRankDTO:
     properties:
       article_title:
@@ -1104,15 +1383,6 @@ definitions:
       id:
         description: 文章ID
         type: integer
-    type: object
-  response.ArticleStatisticsDTO:
-    properties:
-      count:
-        description: 数量
-        type: integer
-      day:
-        description: 日期
-        type: string
     type: object
   response.BatchResult:
     properties:
@@ -1180,8 +1450,6 @@ definitions:
     type: object
   response.CommentBackDTO:
     properties:
-      article_title:
-        type: string
       avatar:
         type: string
       comment_content:
@@ -1196,52 +1464,12 @@ definitions:
         type: string
       reply_nickname:
         type: string
+      topic_title:
+        type: string
       type:
         type: integer
     type: object
-  response.CommentDTO:
-    properties:
-      avatar:
-        description: 用户头像
-        type: string
-      comment_content:
-        description: 评论内容
-        type: string
-      created_at:
-        description: 评论时间
-        type: string
-      id:
-        description: 评论id
-        type: integer
-      like_count:
-        description: 点赞数
-        type: integer
-      nickname:
-        description: 用户昵称
-        type: string
-      reply_count:
-        description: 回复量
-        type: integer
-      reply_dto_list:
-        description: 回复列表
-        items:
-          $ref: '#/definitions/response.ReplyDTO'
-        type: array
-      user_id:
-        description: 用户id
-        type: integer
-      website:
-        description: 个人网站
-        type: string
-    type: object
-  response.Login:
-    properties:
-      login_history:
-        $ref: '#/definitions/response.LoginHistory'
-      token:
-        $ref: '#/definitions/response.Token'
-      user_info:
-        $ref: '#/definitions/response.UserInfo'
+  response.EmptyResp:
     type: object
   response.LoginHistory:
     properties:
@@ -1263,6 +1491,15 @@ definitions:
         description: 登录类型
         type: string
     type: object
+  response.LoginResp:
+    properties:
+      login_history:
+        $ref: '#/definitions/response.LoginHistory'
+      token:
+        $ref: '#/definitions/response.Token'
+      user_info:
+        $ref: '#/definitions/response.UserInfo'
+    type: object
   response.MenuDetailsDTO:
     properties:
       children:
@@ -1270,35 +1507,90 @@ definitions:
           $ref: '#/definitions/response.MenuDetailsDTO'
         type: array
       component:
-        description: 组件
-        type: string
+        description: Layout组件
       created_at:
         description: 创建时间
-        type: string
-      icon:
-        description: 菜单icon
         type: string
       id:
         description: 主键
         type: integer
-      is_hidden:
-        description: 是否隐藏  0否1是
-        type: integer
+      meta:
+        allOf:
+        - $ref: '#/definitions/response.Meta'
+        description: meta配置
       name:
-        description: 菜单名
+        description: 路由名字
         type: string
       parent_id:
         description: 父id
         type: integer
       path:
-        description: 菜单路径
+        description: 路由地址
         type: string
-      rank:
-        description: 排序
+      redirect:
+        description: 路由重定向
+        type: string
+      title:
+        description: 菜单标题
+        type: string
+      type:
+        description: 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
         type: integer
       updated_at:
         description: 更新时间
         type: string
+    type: object
+  response.Meta:
+    properties:
+      activePath:
+        description: 将某个菜单激活
+        type: string
+      auths:
+        description: 按钮级别权限设置
+        items:
+          type: string
+        type: array
+      dynamicLevel:
+        description: 动态路由可打开的最大数量
+        type: integer
+      extraIcon:
+        description: 子菜单才有的属性
+      frameLoading:
+        description: iframe页是否开启首次加载动画
+        type: boolean
+      frameSrc:
+        description: 内嵌的iframe链接
+        type: string
+      hiddenTag:
+        description: 是否不添加信息到标签页
+        type: boolean
+      icon:
+        description: 菜单图标
+        type: string
+      keepAlive:
+        description: 路由组件缓存
+        type: boolean
+      rank:
+        description: 菜单升序排序
+        type: integer
+      roles:
+        description: 页面级别权限设置
+        items:
+          type: string
+        type: array
+      showLink:
+        description: 是否在菜单中显示
+        type: boolean
+      showParent:
+        description: 是否显示父级菜单
+        type: boolean
+      title:
+        description: 菜单名称
+        type: string
+      transition:
+        allOf:
+        - $ref: '#/definitions/response.Transition'
+        description: 页面加载动画
     type: object
   response.OauthLoginUrl:
     properties:
@@ -1542,9 +1834,21 @@ definitions:
       token_type:
         description: token类型,Bearer
         type: string
-      uid:
+      user_id:
         description: 用户id
         type: integer
+    type: object
+  response.Transition:
+    properties:
+      enterTransition:
+        description: 进场动画
+        type: string
+      leaveTransition:
+        description: 离场动画
+        type: string
+      name:
+        description: 当前路由动画效果
+        type: string
     type: object
   response.UniqueViewDTO:
     properties:
@@ -1599,38 +1903,31 @@ definitions:
     type: object
   response.UserInfo:
     properties:
-      article_like_set:
-        description: 文章点赞集合
-        items:
-          type: string
-        type: array
       avatar:
+        description: 头像
         type: string
-      comment_like_set:
-        description: 评论点赞集合
-        items:
-          type: string
-        type: array
       email:
+        description: 邮箱
         type: string
-      id:
-        type: integer
       intro:
+        description: 个人简介
         type: string
       nickname:
+        description: 昵称
         type: string
       roles:
+        description: 角色列表
         items:
           $ref: '#/definitions/response.RoleDTO'
         type: array
-      talk_like_set:
-        description: 说说点赞集合
-        items:
-          type: string
-        type: array
+      user_id:
+        description: 用户id
+        type: integer
       username:
+        description: 用户名
         type: string
       website:
+        description: 个人网站
         type: string
     type: object
   response.WebsiteConfigDTO:
@@ -1711,53 +2008,18 @@ definitions:
         description: 微信二维码
         type: string
     type: object
-  sqlx.Condition:
-    properties:
-      field:
-        description: 表字段
-        type: string
-      flag:
-        description: 逻辑运算符（Logical Operators）。标识 and、or,默认and
-        enum:
-        - and
-        - or
-        type: string
-      rule:
-        description: 比较运算符（Comparison Operators）。规则 =,like,in,<,>
-        enum:
-        - =
-        - like
-        - in
-        - <
-        - '>'
-        type: string
-      value:
-        description: 值
-    type: object
-  sqlx.Sort:
-    properties:
-      field:
-        description: 表字段
-        type: string
-      order:
-        description: 排序规则 asc|desc
-        enum:
-        - asc
-        - desc
-        type: string
-    type: object
-host: localhost:9999/
+host: localhost:9999
 info:
   contact:
     email: support@swagger.io
     name: API Support
-    url: http://www.swagger.io/support
+    url: https://www.swagger.io/support/
   description: APP接口鉴权方式：token采用自加密token的方式，自加密token规则：sha256(${x-timestamp}${base_secret})
     生成的加密token，x-timestamp 时间戳需要保持10分钟内
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://swagger.io/terms/
   title: Swagger Example API
   version: "1.0"
 paths:
@@ -1812,7 +2074,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.AboutMeResp'
               type: object
       summary: 关于我
       tags:
@@ -1863,7 +2125,7 @@ paths:
         name: data
         required: true
         schema:
-          type: string
+          $ref: '#/definitions/request.AboutMeReq'
       produces:
       - application/json
       responses:
@@ -1874,110 +2136,11 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 更新我的信息
       tags:
       - Website
-  /admin/article:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.ArticleDetailsDTOReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  type: object
-              type: object
-      summary: 保存文章
-      tags:
-      - Article
-  /admin/article/{id}:
-    delete:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Article.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  type: object
-              type: object
-      summary: 删除文章
-      tags:
-      - Article
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Article.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.ArticleBack'
-              type: object
-      summary: 查询文章
-      tags:
-      - Article
   /admin/article/delete:
     put:
       consumes:
@@ -2007,12 +2170,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 删除文章-逻辑删除
       tags:
       - Article
-  /admin/article/list:
+  /admin/article/find_article_list:
     post:
       consumes:
       - application/json
@@ -2082,7 +2245,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 更新文章
       tags:
@@ -2105,7 +2268,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.WebsiteConfigReq'
+          $ref: '#/definitions/request.WebsiteConfigDTO'
       produces:
       - application/json
       responses:
@@ -2116,7 +2279,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 获取配置
       tags:
@@ -2149,11 +2312,113 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 更新配置
       tags:
       - Website
+  /admin/delete_article:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: Article.id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmptyResp'
+              type: object
+      summary: 删除文章
+      tags:
+      - Article
+  /admin/find_article:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: Article.id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.ArticleBack'
+              type: object
+      summary: 查询文章
+      tags:
+      - Article
+  /admin/save_article:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ArticleDetailsDTOReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmptyResp'
+              type: object
+      summary: 保存文章
+      tags:
+      - Article
   /admin/system/state:
     get:
       consumes:
@@ -2177,12 +2442,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 获取服务器信息
       tags:
       - Website
-  /ai/chat:
+  /ai/assistant/history:
     post:
       consumes:
       - application/json
@@ -2192,9 +2457,7 @@ paths:
         name: data
         required: true
         schema:
-          items:
-            $ref: '#/definitions/chatgpt.ChatMessage'
-          type: array
+          $ref: '#/definitions/request.ChatHistory'
       produces:
       - application/json
       responses:
@@ -2205,7 +2468,61 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/chatgpt.ChatResponse'
+                  items:
+                    $ref: '#/definitions/entity.ChatMessage'
+                  type: array
+              type: object
+      summary: 和Chatgpt聊天历史记录
+      tags:
+      - AI
+  /ai/chat:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ChatMessage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.ChatMessage'
+              type: object
+      summary: 和Chatgpt聊天
+      tags:
+      - AI
+  /ai/chat/stream:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ChatStream'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.ChatMessage'
               type: object
       summary: 和Chatgpt聊天
       tags:
@@ -2221,6 +2538,12 @@ paths:
         required: true
         schema:
           type: string
+      - description: 请求body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.ChatMessage'
       produces:
       - application/json
       responses:
@@ -2231,12 +2554,46 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/chatgpt.ChatResponse'
+                  $ref: '#/definitions/entity.ChatMessage'
               type: object
       summary: Chatgpt扮演角色
       tags:
       - AI
-  /api:
+  /api/clean_api_list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.EmptyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmptyResp'
+              type: object
+      summary: 清空接口列表
+      tags:
+      - Api
+  /api/create_api:
     post:
       consumes:
       - application/json
@@ -2270,40 +2627,7 @@ paths:
       summary: 创建接口
       tags:
       - Api
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Api'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Api'
-              type: object
-      summary: 更新接口
-      tags:
-      - Api
-  /api/{id}:
+  /api/delete_api:
     delete:
       consumes:
       - application/json
@@ -2316,11 +2640,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Api.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -2331,44 +2656,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除接口
       tags:
       - Api
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Api.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Api'
-              type: object
-      summary: 查询接口
-      tags:
-      - Api
-  /api/batch_delete:
+  /api/delete_api_list:
     delete:
       consumes:
       - application/json
@@ -2383,12 +2676,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -2404,7 +2695,41 @@ paths:
       summary: 批量删除接口
       tags:
       - Api
-  /api/details_list:
+  /api/find_api:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Api'
+              type: object
+      summary: 查询接口
+      tags:
+      - Api
+  /api/find_api_details_list:
     post:
       consumes:
       - application/json
@@ -2442,10 +2767,10 @@ paths:
                         type: array
                     type: object
               type: object
-      summary: 获取api列表
+      summary: 获取接口列表
       tags:
       - Api
-  /api/list:
+  /api/find_api_list:
     post:
       consumes:
       - application/json
@@ -2486,7 +2811,7 @@ paths:
       summary: 分页获取接口列表
       tags:
       - Api
-  /api/sync:
+  /api/sync_api_list:
     post:
       consumes:
       - application/json
@@ -2499,6 +2824,12 @@ paths:
         in: header
         name: uid
         type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.EmptyReq'
       produces:
       - application/json
       responses:
@@ -2511,43 +2842,10 @@ paths:
                 data:
                   $ref: '#/definitions/response.BatchResult'
               type: object
-      summary: 同步api列表
+      summary: 同步接口列表
       tags:
       - Api
-  /article/{id}/details:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Article.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.ArticlePageDetailsDTO'
-              type: object
-      summary: 文章相关推荐
-      tags:
-      - Article
-  /article/{id}/like:
+  /api/update_api:
     put:
       consumes:
       - application/json
@@ -2560,11 +2858,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Article.id
-        in: path
-        name: id
+      - description: 请求参数
+        in: body
+        name: data
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/entity.Api'
       produces:
       - application/json
       responses:
@@ -2575,11 +2874,11 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/entity.Article'
+                  $ref: '#/definitions/entity.Api'
               type: object
-      summary: 点赞文章
+      summary: 更新接口
       tags:
-      - Article
+      - Api
   /article/archives:
     post:
       consumes:
@@ -2621,7 +2920,75 @@ paths:
       summary: 文章归档(时间轴)
       tags:
       - Article
-  /article/list:
+  /article/article_classify_category:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 分页获取文章列表
+        in: body
+        name: page
+        required: true
+        schema:
+          $ref: '#/definitions/request.ArticleClassifyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.ArticleClassifyResp'
+              type: object
+      summary: 通过标签或者id获取文章列表
+      tags:
+      - Article
+  /article/article_classify_tag:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 分页获取文章列表
+        in: body
+        name: page
+        required: true
+        schema:
+          $ref: '#/definitions/request.ArticleClassifyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.ArticleClassifyResp'
+              type: object
+      summary: 通过标签或者id获取文章列表
+      tags:
+      - Article
+  /article/find_article_list:
     post:
       consumes:
       - application/json
@@ -2662,7 +3029,7 @@ paths:
       summary: 分页获取文章列表
       tags:
       - Article
-  /article/series:
+  /article/find_article_recommend:
     post:
       consumes:
       - application/json
@@ -2675,12 +3042,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 分页获取文章列表
+      - description: Article.id
         in: body
-        name: page
+        name: request
         required: true
         schema:
-          $ref: '#/definitions/request.ArticleConditionReq'
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -2691,9 +3058,43 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/response.ArticleConditionDTO'
+                  $ref: '#/definitions/response.ArticlePageDetailsDTO'
               type: object
-      summary: 通过标签或者id获取文章列表
+      summary: 文章相关推荐
+      tags:
+      - Article
+  /article/like_article:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: Article.id
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Article'
+              type: object
+      summary: 点赞文章
       tags:
       - Article
   /captcha/email:
@@ -2725,7 +3126,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 发送验证码
       tags:
@@ -2793,12 +3194,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 检验验证码
       tags:
       - Captcha
-  /category:
+  /category/create_category:
     post:
       consumes:
       - application/json
@@ -2832,40 +3233,7 @@ paths:
       summary: 创建文章分类
       tags:
       - Category
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Category'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Category'
-              type: object
-      summary: 更新文章分类
-      tags:
-      - Category
-  /category/{id}:
+  /category/delete_category:
     delete:
       consumes:
       - application/json
@@ -2878,11 +3246,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Category.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -2893,44 +3262,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除文章分类
       tags:
       - Category
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Category.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Category'
-              type: object
-      summary: 查询文章分类
-      tags:
-      - Category
-  /category/batch_delete:
+  /category/delete_category_list:
     delete:
       consumes:
       - application/json
@@ -2945,12 +3282,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -2966,7 +3301,41 @@ paths:
       summary: 批量删除文章分类
       tags:
       - Category
-  /category/details_list:
+  /category/find_category:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Category'
+              type: object
+      summary: 查询文章分类
+      tags:
+      - Category
+  /category/find_category_list:
     post:
       consumes:
       - application/json
@@ -3004,11 +3373,11 @@ paths:
                         type: array
                     type: object
               type: object
-      summary: 分页获取文章分类详情列表
+      summary: 分页获取文章分类列表
       tags:
       - Category
-  /category/list:
-    post:
+  /category/update_category:
+    put:
       consumes:
       - application/json
       parameters:
@@ -3020,12 +3389,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 分页参数
+      - description: 请求参数
         in: body
-        name: page
+        name: data
         required: true
         schema:
-          $ref: '#/definitions/request.PageQuery'
+          $ref: '#/definitions/entity.Category'
       produces:
       - application/json
       responses:
@@ -3036,16 +3405,9 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Category'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/entity.Category'
               type: object
-      summary: 分页获取文章分类列表
+      summary: 更新文章分类
       tags:
       - Category
   /chat/records:
@@ -3089,7 +3451,7 @@ paths:
       summary: 查询聊天记录
       tags:
       - Website
-  /comment:
+  /comment/create_comment:
     post:
       consumes:
       - application/json
@@ -3123,40 +3485,7 @@ paths:
       summary: 创建评论
       tags:
       - Comment
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Comment'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Comment'
-              type: object
-      summary: 更新评论
-      tags:
-      - Comment
-  /comment/{id}:
+  /comment/delete_comment:
     delete:
       consumes:
       - application/json
@@ -3170,10 +3499,11 @@ paths:
         name: uid
         type: string
       - description: Comment.id
-        in: path
-        name: id
+        in: body
+        name: request
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -3184,127 +3514,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 删除评论
       tags:
       - Comment
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Comment.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Comment'
-              type: object
-      summary: 查询评论
-      tags:
-      - Comment
-  /comment/{id}/like:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  type: object
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 点赞评论
-      tags:
-      - Comment
-  /comment/{id}/reply_list:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: 请求body
-        in: body
-        name: page
-        required: true
-        schema:
-          $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/response.ReplyDTO'
-                        type: array
-                    type: object
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 查询评论回复列表
-      tags:
-      - Comment
-  /comment/batch_delete:
+  /comment/delete_comment_list:
     delete:
       consumes:
       - application/json
@@ -3319,12 +3534,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -3340,8 +3553,8 @@ paths:
       summary: 批量删除评论
       tags:
       - Comment
-  /comment/details_list:
-    post:
+  /comment/find_comment:
+    get:
       consumes:
       - application/json
       parameters:
@@ -3353,12 +3566,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 分页参数
+      - description: Comment.id
         in: body
-        name: page
+        name: request
         required: true
         schema:
-          $ref: '#/definitions/request.PageQuery'
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -3369,60 +3582,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/response.CommentDTO'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/entity.Comment'
               type: object
-      summary: 分页获取评论列表
+      summary: 查询评论
       tags:
       - Comment
-  /comment/list:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 分页参数
-        in: body
-        name: page
-        required: true
-        schema:
-          $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Comment'
-                        type: array
-                    type: object
-              type: object
-      summary: 分页获取评论列表
-      tags:
-      - Comment
-  /comment/list/back:
+  /comment/find_comment_back_list:
     post:
       consumes:
       - application/json
@@ -3463,7 +3628,167 @@ paths:
       summary: 获取用户评论列表
       tags:
       - Comment
-  /forget/password:
+  /comment/find_comment_list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 分页参数
+        in: body
+        name: page
+        required: true
+        schema:
+          $ref: '#/definitions/request.CommentQueryReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/response.PageResult'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/entity.Comment'
+                        type: array
+                    type: object
+              type: object
+      summary: 分页获取评论列表
+      tags:
+      - Comment
+  /comment/find_comment_reply_list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: id
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      - description: 请求body
+        in: body
+        name: page
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/response.PageResult'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/response.ReplyDTO'
+                        type: array
+                    type: object
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 查询评论回复列表
+      tags:
+      - Comment
+  /comment/like_comment:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: id
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmptyResp'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 点赞评论
+      tags:
+      - Comment
+  /comment/update_comment:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Comment'
+              type: object
+      summary: 更新评论
+      tags:
+      - Comment
+  /forget/email:
     post:
       consumes:
       - application/json
@@ -3481,7 +3806,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UserEmail'
+          $ref: '#/definitions/request.UserEmailReq'
       produces:
       - application/json
       responses:
@@ -3492,7 +3817,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 发送忘记密码邮件
       tags:
@@ -3526,12 +3851,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 重置密码
       tags:
       - Auth
-  /friend_link:
+  /friend_link/create_friend_link:
     post:
       consumes:
       - application/json
@@ -3565,40 +3890,7 @@ paths:
       summary: 创建友链
       tags:
       - FriendLink
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.FriendLink'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.FriendLink'
-              type: object
-      summary: 更新友链
-      tags:
-      - FriendLink
-  /friend_link/{id}:
+  /friend_link/delete_friend_link:
     delete:
       consumes:
       - application/json
@@ -3611,11 +3903,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: FriendLink.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -3626,44 +3919,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除友链
       tags:
       - FriendLink
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: FriendLink.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.FriendLink'
-              type: object
-      summary: 查询友链
-      tags:
-      - FriendLink
-  /friend_link/batch_delete:
+  /friend_link/delete_friend_link_list:
     delete:
       consumes:
       - application/json
@@ -3678,12 +3939,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -3699,7 +3958,41 @@ paths:
       summary: 批量删除友链
       tags:
       - FriendLink
-  /friend_link/list:
+  /friend_link/find_friend_link:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.FriendLink'
+              type: object
+      summary: 查询友链
+      tags:
+      - FriendLink
+  /friend_link/find_friend_link_list:
     post:
       consumes:
       - application/json
@@ -3740,6 +4033,40 @@ paths:
       summary: 分页获取友链列表
       tags:
       - FriendLink
+  /friend_link/update_friend_link:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.FriendLink'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.FriendLink'
+              type: object
+      summary: 更新友链
+      tags:
+      - FriendLink
   /login:
     post:
       consumes:
@@ -3753,12 +4080,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 创建权限认证
+      - description: 请求body
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UserReq'
+          $ref: '#/definitions/request.LoginReq'
       produces:
       - application/json
       responses:
@@ -3769,7 +4096,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/response.Login'
+                  $ref: '#/definitions/response.LoginResp'
               type: object
       summary: 登录
       tags:
@@ -3797,13 +4124,13 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 注销
       tags:
       - Auth
   /logout:
-    get:
+    post:
       consumes:
       - application/json
       parameters:
@@ -3825,12 +4152,46 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 登出
       tags:
       - Auth
-  /menu:
+  /menu/clean_menu_list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.EmptyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmptyResp'
+              type: object
+      summary: 清空菜单列表
+      tags:
+      - Menu
+  /menu/create_menu:
     post:
       consumes:
       - application/json
@@ -3864,40 +4225,7 @@ paths:
       summary: 创建菜单
       tags:
       - Menu
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Menu'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Menu'
-              type: object
-      summary: 更新菜单
-      tags:
-      - Menu
-  /menu/{id}:
+  /menu/delete_menu:
     delete:
       consumes:
       - application/json
@@ -3910,11 +4238,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Menu.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -3925,44 +4254,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除菜单
       tags:
       - Menu
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Menu.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Menu'
-              type: object
-      summary: 查询菜单
-      tags:
-      - Menu
-  /menu/batch_delete:
+  /menu/delete_menu_list:
     delete:
       consumes:
       - application/json
@@ -3977,12 +4274,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -3998,7 +4293,41 @@ paths:
       summary: 批量删除菜单
       tags:
       - Menu
-  /menu/details_list:
+  /menu/find_menu:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Menu'
+              type: object
+      summary: 查询菜单
+      tags:
+      - Menu
+  /menu/find_menu_details_list:
     post:
       consumes:
       - application/json
@@ -4039,7 +4368,7 @@ paths:
       summary: 获取菜单列表
       tags:
       - Menu
-  /menu/list:
+  /menu/find_menu_list:
     post:
       consumes:
       - application/json
@@ -4080,7 +4409,7 @@ paths:
       summary: 分页获取菜单列表
       tags:
       - Menu
-  /oauth/login:
+  /menu/sync_menu_list:
     post:
       consumes:
       - application/json
@@ -4093,12 +4422,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 请求body
+      - description: 请求参数
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.OauthLoginReq'
+          $ref: '#/definitions/request.SyncMenuReq'
       produces:
       - application/json
       responses:
@@ -4109,12 +4438,46 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/response.Login'
+                  $ref: '#/definitions/response.BatchResult'
               type: object
-      summary: 获取授权地址
+      summary: 同步菜单列表
       tags:
-      - Auth
-  /oauth/url:
+      - Menu
+  /menu/update_menu:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Menu'
+              type: object
+      summary: 更新菜单
+      tags:
+      - Menu
+  /oauth/authorize_url:
     post:
       consumes:
       - application/json
@@ -4148,7 +4511,41 @@ paths:
       summary: 获取授权地址
       tags:
       - Auth
-  /operation_log:
+  /oauth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.OauthLoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.LoginResp'
+              type: object
+      summary: 第三方登录
+      tags:
+      - Auth
+  /operation_log/create_operation_log:
     post:
       consumes:
       - application/json
@@ -4182,40 +4579,7 @@ paths:
       summary: 创建操作记录
       tags:
       - OperationLog
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.OperationLog'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.OperationLog'
-              type: object
-      summary: 更新操作记录
-      tags:
-      - OperationLog
-  /operation_log/{id}:
+  /operation_log/delete_operation_log:
     delete:
       consumes:
       - application/json
@@ -4228,11 +4592,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: OperationLog.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -4243,44 +4608,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除操作记录
       tags:
       - OperationLog
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: OperationLog.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.OperationLog'
-              type: object
-      summary: 查询操作记录
-      tags:
-      - OperationLog
-  /operation_log/batch_delete:
+  /operation_log/delete_operation_log_list:
     delete:
       consumes:
       - application/json
@@ -4295,12 +4628,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -4316,7 +4647,41 @@ paths:
       summary: 批量删除操作记录
       tags:
       - OperationLog
-  /operation_log/list:
+  /operation_log/find_operation_log:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.OperationLog'
+              type: object
+      summary: 查询操作记录
+      tags:
+      - OperationLog
+  /operation_log/find_operation_log_list:
     post:
       consumes:
       - application/json
@@ -4357,7 +4722,41 @@ paths:
       summary: 分页获取操作记录列表
       tags:
       - OperationLog
-  /page:
+  /operation_log/update_operation_log:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.OperationLog'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.OperationLog'
+              type: object
+      summary: 更新操作记录
+      tags:
+      - OperationLog
+  /page/create_page:
     post:
       consumes:
       - application/json
@@ -4391,40 +4790,7 @@ paths:
       summary: 创建页面
       tags:
       - Page
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Page'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Page'
-              type: object
-      summary: 更新页面
-      tags:
-      - Page
-  /page/{id}:
+  /page/delete_page:
     delete:
       consumes:
       - application/json
@@ -4437,11 +4803,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Page.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -4452,44 +4819,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除页面
       tags:
       - Page
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Page.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Page'
-              type: object
-      summary: 查询页面
-      tags:
-      - Page
-  /page/batch_delete:
+  /page/delete_page_list:
     delete:
       consumes:
       - application/json
@@ -4504,12 +4839,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -4525,7 +4858,41 @@ paths:
       summary: 批量删除页面
       tags:
       - Page
-  /page/list:
+  /page/find_page:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Page'
+              type: object
+      summary: 查询页面
+      tags:
+      - Page
+  /page/find_page_list:
     post:
       consumes:
       - application/json
@@ -4566,7 +4933,41 @@ paths:
       summary: 分页获取页面列表
       tags:
       - Page
-  /photo:
+  /page/update_page:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Page'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Page'
+              type: object
+      summary: 更新页面
+      tags:
+      - Page
+  /photo/create_photo:
     post:
       consumes:
       - application/json
@@ -4597,43 +4998,10 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Photo'
               type: object
-      summary: 创建相片
+      summary: 创建照片
       tags:
       - Photo
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Photo'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Photo'
-              type: object
-      summary: 更新相片
-      tags:
-      - Photo
-  /photo/{id}:
+  /photo/delete_photo:
     delete:
       consumes:
       - application/json
@@ -4646,11 +5014,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Photo.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -4661,44 +5030,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
-      summary: 删除相片
+      summary: 删除照片
       tags:
       - Photo
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Photo.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Photo'
-              type: object
-      summary: 查询相片
-      tags:
-      - Photo
-  /photo/batch_delete:
+  /photo/delete_photo_list:
     delete:
       consumes:
       - application/json
@@ -4713,12 +5050,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -4731,10 +5066,44 @@ paths:
                 data:
                   $ref: '#/definitions/response.BatchResult'
               type: object
-      summary: 批量删除相片
+      summary: 批量删除照片
       tags:
       - Photo
-  /photo/list:
+  /photo/find_photo:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Photo'
+              type: object
+      summary: 查询照片
+      tags:
+      - Photo
+  /photo/find_photo_list:
     post:
       consumes:
       - application/json
@@ -4772,10 +5141,44 @@ paths:
                         type: array
                     type: object
               type: object
-      summary: 分页获取相片列表
+      summary: 分页获取照片列表
       tags:
       - Photo
-  /photo_album:
+  /photo/update_photo:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Photo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Photo'
+              type: object
+      summary: 更新照片
+      tags:
+      - Photo
+  /photo_album/create_photo_album:
     post:
       consumes:
       - application/json
@@ -4809,40 +5212,7 @@ paths:
       summary: 创建相册
       tags:
       - PhotoAlbum
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.PhotoAlbum'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.PhotoAlbum'
-              type: object
-      summary: 更新相册
-      tags:
-      - PhotoAlbum
-  /photo_album/{id}:
+  /photo_album/delete_photo_album:
     delete:
       consumes:
       - application/json
@@ -4855,11 +5225,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: PhotoAlbum.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -4870,77 +5241,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除相册
       tags:
       - PhotoAlbum
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: PhotoAlbum.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.PhotoAlbum'
-              type: object
-      summary: 查询相册
-      tags:
-      - PhotoAlbum
-  /photo_album/{id}/details:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: PhotoAlbum.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.PhotoAlbumDetailsDTO'
-              type: object
-      summary: 获取相册详情
-      tags:
-      - PhotoAlbum
-  /photo_album/batch_delete:
+  /photo_album/delete_photo_album_list:
     delete:
       consumes:
       - application/json
@@ -4955,12 +5261,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -4976,7 +5280,75 @@ paths:
       summary: 批量删除相册
       tags:
       - PhotoAlbum
-  /photo_album/details_list:
+  /photo_album/find_photo_album:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.PhotoAlbum'
+              type: object
+      summary: 查询相册
+      tags:
+      - PhotoAlbum
+  /photo_album/find_photo_album_details:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: PhotoAlbum.id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PhotoAlbumDetailsDTO'
+              type: object
+      summary: 获取相册详情
+      tags:
+      - PhotoAlbum
+  /photo_album/find_photo_album_details_list:
     post:
       consumes:
       - application/json
@@ -5017,7 +5389,7 @@ paths:
       summary: 获取相册详情列表
       tags:
       - PhotoAlbum
-  /photo_album/list:
+  /photo_album/find_photo_album_list:
     post:
       consumes:
       - application/json
@@ -5058,6 +5430,40 @@ paths:
       summary: 分页获取相册列表
       tags:
       - PhotoAlbum
+  /photo_album/update_photo_album:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.PhotoAlbum'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.PhotoAlbum'
+              type: object
+      summary: 更新相册
+      tags:
+      - PhotoAlbum
   /register:
     post:
       consumes:
@@ -5076,7 +5482,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UserReq'
+          $ref: '#/definitions/request.LoginReq'
       produces:
       - application/json
       responses:
@@ -5087,7 +5493,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 注册
       tags:
@@ -5110,7 +5516,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/request.UserEmail'
+          $ref: '#/definitions/request.UserEmailReq'
       produces:
       - application/json
       responses:
@@ -5121,12 +5527,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 发送注册邮件
       tags:
       - Auth
-  /remark:
+  /remark/create_remark:
     post:
       consumes:
       - application/json
@@ -5160,40 +5566,7 @@ paths:
       summary: 创建留言
       tags:
       - Remark
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Remark'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Remark'
-              type: object
-      summary: 更新留言
-      tags:
-      - Remark
-  /remark/{id}:
+  /remark/delete_remark:
     delete:
       consumes:
       - application/json
@@ -5206,11 +5579,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Remark.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -5221,44 +5595,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除留言
       tags:
       - Remark
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Remark.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Remark'
-              type: object
-      summary: 查询留言
-      tags:
-      - Remark
-  /remark/batch_delete:
+  /remark/delete_remark_list:
     delete:
       consumes:
       - application/json
@@ -5273,12 +5615,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -5294,7 +5634,41 @@ paths:
       summary: 批量删除留言
       tags:
       - Remark
-  /remark/list:
+  /remark/find_remark:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Remark'
+              type: object
+      summary: 查询留言
+      tags:
+      - Remark
+  /remark/find_remark_list:
     post:
       consumes:
       - application/json
@@ -5335,7 +5709,41 @@ paths:
       summary: 分页获取留言列表
       tags:
       - Remark
-  /role:
+  /remark/update_remark:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Remark'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Remark'
+              type: object
+      summary: 更新留言
+      tags:
+      - Remark
+  /role/create_role:
     post:
       consumes:
       - application/json
@@ -5369,40 +5777,7 @@ paths:
       summary: 创建角色
       tags:
       - Role
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Role'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
-      summary: 更新角色
-      tags:
-      - Role
-  /role/{id}:
+  /role/delete_role:
     delete:
       consumes:
       - application/json
@@ -5415,11 +5790,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Role.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -5430,44 +5806,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除角色
       tags:
       - Role
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Role.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Role'
-              type: object
-      summary: 查询角色
-      tags:
-      - Role
-  /role/batch_delete:
+  /role/delete_role_list:
     delete:
       consumes:
       - application/json
@@ -5482,12 +5826,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -5503,7 +5845,41 @@ paths:
       summary: 批量删除角色
       tags:
       - Role
-  /role/details_list:
+  /role/find_role:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Role'
+              type: object
+      summary: 查询角色
+      tags:
+      - Role
+  /role/find_role_details_list:
     post:
       consumes:
       - application/json
@@ -5544,7 +5920,7 @@ paths:
       summary: 获取角色列表
       tags:
       - Role
-  /role/list:
+  /role/find_role_list:
     post:
       consumes:
       - application/json
@@ -5585,7 +5961,41 @@ paths:
       summary: 分页获取角色列表
       tags:
       - Role
-  /role/update_menus:
+  /role/update_role:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Role'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Role'
+              type: object
+      summary: 更新角色
+      tags:
+      - Role
+  /role/update_role_menus:
     post:
       consumes:
       - application/json
@@ -5614,12 +6024,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 更新角色菜单
       tags:
       - Role
-  /role/update_resources:
+  /role/update_role_resources:
     post:
       consumes:
       - application/json
@@ -5648,12 +6058,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 更新角色资源
       tags:
       - Role
-  /tag:
+  /tag/create_tag:
     post:
       consumes:
       - application/json
@@ -5684,43 +6094,10 @@ paths:
                 data:
                   $ref: '#/definitions/entity.Tag'
               type: object
-      summary: 创建文章标签
+      summary: 创建标签
       tags:
       - Tag
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Tag'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Tag'
-              type: object
-      summary: 更新文章标签
-      tags:
-      - Tag
-  /tag/{id}:
+  /tag/delete_tag:
     delete:
       consumes:
       - application/json
@@ -5733,11 +6110,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Tag.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -5748,44 +6126,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
-      summary: 删除文章标签
+      summary: 删除标签
       tags:
       - Tag
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Tag.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Tag'
-              type: object
-      summary: 查询文章标签
-      tags:
-      - Tag
-  /tag/batch_delete:
+  /tag/delete_tag_list:
     delete:
       consumes:
       - application/json
@@ -5800,12 +6146,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -5818,10 +6162,44 @@ paths:
                 data:
                   $ref: '#/definitions/response.BatchResult'
               type: object
-      summary: 批量删除文章标签
+      summary: 批量删除标签
       tags:
       - Tag
-  /tag/details_list:
+  /tag/find_tag:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Tag'
+              type: object
+      summary: 查询标签
+      tags:
+      - Tag
+  /tag/find_tag_list:
     post:
       consumes:
       - application/json
@@ -5859,11 +6237,11 @@ paths:
                         type: array
                     type: object
               type: object
-      summary: 分页获取文章分类详情列表
+      summary: 分页获取标签列表
       tags:
       - Tag
-  /tag/list:
-    post:
+  /tag/update_tag:
+    put:
       consumes:
       - application/json
       parameters:
@@ -5875,12 +6253,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 分页参数
+      - description: 请求参数
         in: body
-        name: page
+        name: data
         required: true
         schema:
-          $ref: '#/definitions/request.PageQuery'
+          $ref: '#/definitions/entity.Tag'
       produces:
       - application/json
       responses:
@@ -5891,19 +6269,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/entity.Tag'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/entity.Tag'
               type: object
-      summary: 分页获取文章标签列表
+      summary: 更新标签
       tags:
       - Tag
-  /talk:
+  /talk/create_talk:
     post:
       consumes:
       - application/json
@@ -5937,40 +6308,7 @@ paths:
       summary: 创建说说
       tags:
       - Talk
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/entity.Talk'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Talk'
-              type: object
-      summary: 更新说说
-      tags:
-      - Talk
-  /talk/{id}:
+  /talk/delete_talk:
     delete:
       consumes:
       - application/json
@@ -5983,11 +6321,12 @@ paths:
         in: header
         name: uid
         type: string
-      - description: Talk.id
-        in: path
-        name: id
+      - description: request
+        in: body
+        name: req
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/request.IdReq'
       produces:
       - application/json
       responses:
@@ -5998,110 +6337,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.BatchResult'
               type: object
       summary: 删除说说
       tags:
       - Talk
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: Talk.id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.Talk'
-              type: object
-      summary: 查询说说
-      tags:
-      - Talk
-  /talk/{id}/details:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.TalkDetailsDTO'
-              type: object
-      summary: 分页获取说说详情列表
-      tags:
-      - Talk
-  /talk/{id}/like:
-    put:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  type: object
-              type: object
-      summary: 点赞说说
-      tags:
-      - Talk
-  /talk/batch_delete:
+  /talk/delete_talk_list:
     delete:
       consumes:
       - application/json
@@ -6116,12 +6357,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -6137,7 +6376,75 @@ paths:
       summary: 批量删除说说
       tags:
       - Talk
-  /talk/details_list:
+  /talk/find_talk:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: request
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Talk'
+              type: object
+      summary: 查询说说
+      tags:
+      - Talk
+  /talk/find_talk_details:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: id
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.TalkDetailsDTO'
+              type: object
+      summary: 分页获取说说详情列表
+      tags:
+      - Talk
+  /talk/find_talk_details_list:
     post:
       consumes:
       - application/json
@@ -6178,7 +6485,7 @@ paths:
       summary: 分页获取说说详情列表
       tags:
       - Talk
-  /talk/list:
+  /talk/find_talk_list:
     post:
       consumes:
       - application/json
@@ -6217,6 +6524,74 @@ paths:
                     type: object
               type: object
       summary: 分页获取说说列表
+      tags:
+      - Talk
+  /talk/like_talk:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: id
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.EmptyResp'
+              type: object
+      summary: 点赞说说
+      tags:
+      - Talk
+  /talk/update_talk:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Talk'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Talk'
+              type: object
+      summary: 更新说说
       tags:
       - Talk
   /upload/{label}:
@@ -6288,147 +6663,8 @@ paths:
               type: object
       summary: 获取用户接口权限
       tags:
-      - User
-  /user/area_list:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 分页参数
-        in: body
-        name: page
-        required: true
-        schema:
-          $ref: '#/definitions/request.PageQuery'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/response.UserAreaDTO'
-                        type: array
-                    type: object
-              type: object
-      summary: 获取用户地区列表
-      tags:
-      - User
-  /user/avatar:
-    post:
-      consumes:
-      - multipart/form-data
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 文件
-        in: formData
-        name: file
-        required: true
-        type: file
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.UserInformation'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 更换用户头像
-      tags:
-      - User
-  /user/info:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.UserInfo'
-              type: object
-      summary: 获取用户信息
-      tags:
-      - User
-    post:
-      consumes:
-      - multipart/form-data
-      parameters:
-      - description: token
-        in: header
-        name: token
-        type: string
-      - description: uid
-        in: header
-        name: uid
-        type: string
-      - description: 请求body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.UserInfoReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/entity.UserInformation'
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 修改用户信息
-      tags:
-      - User
-  /user/list:
+      - Account
+  /user/find_online_user_list:
     post:
       consumes:
       - application/json
@@ -6466,9 +6702,119 @@ paths:
                         type: array
                     type: object
               type: object
-      summary: 获取用户列表
+      summary: 查询在线用户列表
       tags:
-      - User
+      - Account
+  /user/find_user_areas:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 分页参数
+        in: body
+        name: page
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/response.PageResult'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/response.UserAreaDTO'
+                        type: array
+                    type: object
+              type: object
+      summary: 获取用户分布地区
+      tags:
+      - Account
+  /user/find_user_list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 分页参数
+        in: body
+        name: page
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/response.PageResult'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/response.UserDTO'
+                        type: array
+                    type: object
+              type: object
+      summary: 查询用户列表
+      tags:
+      - Account
+  /user/get_user_info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserInfo'
+              type: object
+      summary: 获取用户信息
+      tags:
+      - Account
   /user/login_history:
     post:
       consumes:
@@ -6507,10 +6853,10 @@ paths:
                         type: array
                     type: object
               type: object
-      summary: 获取用户登录历史
+      summary: 查询用户登录历史
       tags:
-      - User
-  /user/login_history/batch_delete:
+      - Account
+  /user/login_history/delete_login_history_list:
     delete:
       consumes:
       - application/json
@@ -6525,12 +6871,10 @@ paths:
         type: string
       - description: 删除id列表
         in: body
-        name: data
+        name: req
         required: true
         schema:
-          items:
-            type: integer
-          type: array
+          $ref: '#/definitions/request.IdsReq'
       produces:
       - application/json
       responses:
@@ -6541,11 +6885,11 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 批量删除登录历史
       tags:
-      - User
+      - Account
   /user/menus:
     get:
       consumes:
@@ -6575,11 +6919,11 @@ paths:
               type: object
       summary: 获取用户菜单权限
       tags:
-      - User
-  /user/online_list:
+      - Account
+  /user/update_user_avatar:
     post:
       consumes:
-      - application/json
+      - multipart/form-data
       parameters:
       - description: token
         in: header
@@ -6589,12 +6933,11 @@ paths:
         in: header
         name: uid
         type: string
-      - description: 分页参数
-        in: body
-        name: page
+      - description: 文件
+        in: formData
+        name: file
         required: true
-        schema:
-          $ref: '#/definitions/request.PageQuery'
+        type: file
       produces:
       - application/json
       responses:
@@ -6605,19 +6948,50 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  allOf:
-                  - $ref: '#/definitions/response.PageResult'
-                  - properties:
-                      list:
-                        items:
-                          $ref: '#/definitions/response.UserDTO'
-                        type: array
-                    type: object
+                  $ref: '#/definitions/entity.UserInformation'
               type: object
-      summary: 获取在线用户列表
+      security:
+      - ApiKeyAuth: []
+      summary: 更换用户头像
       tags:
-      - User
-  /user/update_roles:
+      - Account
+  /user/update_user_info:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      - description: uid
+        in: header
+        name: uid
+        type: string
+      - description: 请求body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserInfoReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.UserInformation'
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 修改用户信息
+      tags:
+      - Account
+  /user/update_user_roles:
     post:
       consumes:
       - application/json
@@ -6646,12 +7020,12 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/entity.Role'
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 修改用户角色
       tags:
-      - User
-  /user/update_status:
+      - Account
+  /user/update_user_status:
     post:
       consumes:
       - application/json
@@ -6680,11 +7054,11 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.EmptyResp'
               type: object
       summary: 修改用户状态
       tags:
-      - User
+      - Account
   /voice:
     post:
       consumes:
@@ -6775,7 +7149,7 @@ paths:
             - $ref: '#/definitions/response.Response'
             - properties:
                 data:
-                  type: object
+                  $ref: '#/definitions/response.WebsiteConfigDTO'
               type: object
       summary: 获取网站配置
       tags:
@@ -6783,9 +7157,9 @@ paths:
   /ws:
     get:
       responses: {}
-      summary: 查询聊天记录
+      summary: WebSocket消息
       tags:
-      - Websocket
+      - WebSocket
 securityDefinitions:
   ApiKeyAuth:
     in: header
