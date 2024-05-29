@@ -28,9 +28,9 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 		switch e := err.(type) {
 		case rpc.ServerError:
 
-		case apierr.ApiError:
+		case *apierr.ApiError:
 			body := Body{
-				Code:    e.Code(),
+				Code:    e.Code,
 				Message: e.Error(),
 				Data:    "服务错误",
 				TraceId: GetTraceId(r),

@@ -1,22 +1,33 @@
 package initialize
 
 import (
-	"time"
-
-	"github.com/orca-zhang/ecache"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
-	"github.com/ve-weiyi/ve-blog-golang/server/global"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
+	"github.com/ve-weiyi/ve-blog-golang/server/config"
 )
 
-func OtherInit() {
-	global.BlackCache = ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
+func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
+	var om = make(map[string]oauth.Oauth)
 
-	gpt := chatgpt.NewAIChatGPT(
-		chatgpt.WithApiKey(global.CONFIG.ChatGPT.ApiKey),
-		chatgpt.WithApiHost(global.CONFIG.ChatGPT.ApiHost),
-		chatgpt.WithModel(global.CONFIG.ChatGPT.Model),
-	)
-
-	global.AIChatGPT = gpt
+	for k, v := range c {
+		conf := &oauth.AuthConfig{
+			ClientId:     v.ClientId,
+			ClientSecret: v.ClientSecret,
+			RedirectUri:  v.RedirectUri,
+		}
+		switch k {
+		case "qq":
+			auth := qq.NewAuthQq(conf)
+			om["qq"] = auth
+		case "weibo":
+			auth := weibo.NewAuthWb(conf)
+			om["weibo"] = auth
+		case "feishu":
+			auth := feishu.NewAuthFeishu(conf)
+			om["feishu"] = auth
+		}
+	}
+	return om
 }

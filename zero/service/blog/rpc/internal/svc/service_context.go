@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -16,13 +17,13 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
@@ -32,6 +33,7 @@ type ServiceContext struct {
 	Config        config.Config
 	Gorm          *gorm.DB
 	Redis         *redis.Client
+	LocalCache    *collection.Cache
 	CaptchaHolder *captcha.CaptchaHolder
 	EmailMQ       *rabbitmq.RabbitmqConn
 	Oauth         map[string]oauth.Oauth
@@ -84,13 +86,20 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	go SubscribeMessage(c)
+
+	cache, err := collection.NewCache(60 * time.Minute)
+	if err != nil {
+		panic(err)
+	}
+
 	return &ServiceContext{
 		Config:                c,
 		Gorm:                  db,
 		Redis:                 rds,
-		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.NewRedisStore(rds)),
+		LocalCache:            cache,
+		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 		EmailMQ:               mq,
-		Oauth:                 InitOauth(c),
+		Oauth:                 InitOauth(c.OauthConfList),
 		UserAccountModel:      model.NewUserAccountModel(db, rds),
 		UserOauthModel:        model.NewUserOauthModel(db, rds),
 		UserInformationModel:  model.NewUserInformationModel(db, rds),
@@ -142,7 +151,7 @@ func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 		// 跟随go-zero的日志输出格式
 		lg = gormlogx.New(
 			logger.Config{
-				SlowThreshold:             200 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
+				SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
 				LogLevel:                  logger.Info,
 				IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
 				Colorful:                  true,  // 彩色打印
@@ -281,12 +290,12 @@ func SubscribeMessage(c config.Config) {
 	}
 }
 
-func InitOauth(c config.Config) map[string]oauth.Oauth {
+func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
 	var om = make(map[string]oauth.Oauth)
 
-	for k, v := range c.OauthConf {
+	for k, v := range c {
 		conf := &oauth.AuthConfig{
-			ClientID:     v.ClientID,
+			ClientId:     v.ClientId,
 			ClientSecret: v.ClientSecret,
 			RedirectUri:  v.RedirectUri,
 		}

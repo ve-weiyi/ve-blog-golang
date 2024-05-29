@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,7 +106,7 @@ type (
 		DeleteMenuList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询菜单
 		FindMenu(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Menu, error)
-		// 分页获取菜单列表
+		// 查询菜单列表
 		FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error)
 		// 同步菜单列表
 		SyncMenuList(ctx context.Context, in *SyncMenuReq, opts ...grpc.CallOption) (*BatchResp, error)
@@ -154,7 +155,7 @@ func (m *defaultMenuRpc) FindMenu(ctx context.Context, in *IdReq, opts ...grpc.C
 	return client.FindMenu(ctx, in, opts...)
 }
 
-// 分页获取菜单列表
+// 查询菜单列表
 func (m *defaultMenuRpc) FindMenuList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*MenuPageResp, error) {
 	client := blog.NewMenuRpcClient(m.cli.Conn())
 	return client.FindMenuList(ctx, in, opts...)

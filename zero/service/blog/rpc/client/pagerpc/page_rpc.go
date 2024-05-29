@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,7 +106,7 @@ type (
 		DeletePageList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询页面
 		FindPage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Page, error)
-		// 分页获取页面列表
+		// 查询页面列表
 		FindPageList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PagePageResp, error)
 		// 查询页面数量
 		FindPageCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -152,7 +153,7 @@ func (m *defaultPageRpc) FindPage(ctx context.Context, in *IdReq, opts ...grpc.C
 	return client.FindPage(ctx, in, opts...)
 }
 
-// 分页获取页面列表
+// 查询页面列表
 func (m *defaultPageRpc) FindPageList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PagePageResp, error) {
 	client := blog.NewPageRpcClient(m.cli.Conn())
 	return client.FindPageList(ctx, in, opts...)

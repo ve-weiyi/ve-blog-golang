@@ -2,7 +2,7 @@ package oauth
 
 // 基本配置
 type AuthConfig struct {
-	ClientID     string `json:"client_id"`
+	ClientId     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
 	RedirectUri  string `json:"redirect_uri"`
 }

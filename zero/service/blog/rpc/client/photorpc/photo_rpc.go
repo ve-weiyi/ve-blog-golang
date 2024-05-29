@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,7 +106,7 @@ type (
 		DeletePhotoList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询照片
 		FindPhoto(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Photo, error)
-		// 分页获取照片列表
+		// 查询照片列表
 		FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error)
 		// 查询照片数量
 		FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -119,7 +120,7 @@ type (
 		DeletePhotoAlbumList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询相册
 		FindPhotoAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*PhotoAlbum, error)
-		// 分页获取相册列表
+		// 查询相册列表
 		FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error)
 		// 查询相册数量
 		FindPhotoAlbumCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -166,7 +167,7 @@ func (m *defaultPhotoRpc) FindPhoto(ctx context.Context, in *IdReq, opts ...grpc
 	return client.FindPhoto(ctx, in, opts...)
 }
 
-// 分页获取照片列表
+// 查询照片列表
 func (m *defaultPhotoRpc) FindPhotoList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoPageResp, error) {
 	client := blog.NewPhotoRpcClient(m.cli.Conn())
 	return client.FindPhotoList(ctx, in, opts...)
@@ -208,7 +209,7 @@ func (m *defaultPhotoRpc) FindPhotoAlbum(ctx context.Context, in *IdReq, opts ..
 	return client.FindPhotoAlbum(ctx, in, opts...)
 }
 
-// 分页获取相册列表
+// 查询相册列表
 func (m *defaultPhotoRpc) FindPhotoAlbumList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*PhotoAlbumPageResp, error) {
 	client := blog.NewPhotoRpcClient(m.cli.Conn())
 	return client.FindPhotoAlbumList(ctx, in, opts...)

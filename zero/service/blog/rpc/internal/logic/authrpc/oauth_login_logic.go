@@ -11,6 +11,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -42,7 +44,7 @@ func (l *OauthLoginLogic) OauthLogin(in *blog.OauthLoginReq) (*blog.LoginResp, e
 	}
 
 	if auth == nil {
-		return nil, fmt.Errorf("platform %s not found", in.Platform)
+		return nil, fmt.Errorf("platform %s is not support", in.Platform)
 	}
 
 	// 获取第三方用户信息
@@ -51,11 +53,11 @@ func (l *OauthLoginLogic) OauthLogin(in *blog.OauthLoginReq) (*blog.LoginResp, e
 		return nil, err
 	}
 
-	if info.OpenID == "" {
+	if info.OpenId == "" {
 		return nil, fmt.Errorf("open_id is empty")
 	}
 	// 查询用户是否存在
-	userOauth, err := l.svcCtx.UserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenID, in.Platform)
+	userOauth, err := l.svcCtx.UserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenId, in.Platform)
 	if userOauth == nil {
 		// 用户未注册,先注册用户
 		err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {
@@ -98,7 +100,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 
 	// 绑定用户第三方信息
 	userOauth := &model.UserOauth{
-		OpenId:   info.OpenID,
+		OpenId:   info.OpenId,
 		Platform: platform,
 	}
 
@@ -154,13 +156,16 @@ func (l *OauthLoginLogic) oauthLogin(ua *model.UserOauth) (resp *blog.LoginResp,
 		Email:    info.Email,
 	}
 
+	agent, _ := rpcutil.GetRPCUserAgent(l.ctx)
+	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
+	is, _ := ipx.GetIpInfoByBaidu(ip)
 	//登录记录
 	history := &model.UserLoginHistory{
 		UserId:    account.Id,
 		LoginType: constant.LoginTypeOauth,
-		IpAddress: "",
-		IpSource:  "",
-		Agent:     "",
+		IpAddress: ip,
+		IpSource:  is.Location,
+		Agent:     agent,
 		CreatedAt: time.Now(),
 	}
 

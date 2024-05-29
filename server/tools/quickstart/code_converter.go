@@ -82,7 +82,7 @@ func (t *TableConverter) GenerateInjectMetas(models ...*AutoCodeModel) []*inject
 
 		injectMetas = append(injectMetas, &inject2.AstInjectMeta{
 			Key:      tmpl.KeyRouter,
-			FilePath: fmt.Sprintf("%v/router/logic/register.rt.go", temporaryRoot),
+			FilePath: fmt.Sprintf("%v/router/register.rt.go", temporaryRoot),
 			DeclMetas: []*inject2.DeclMeta{inject2.NewDeclMeta(fmt.Sprintf(`
 	// 初始化 %s 路由信息
 	// publicRouter 公开路由，不登录就可以访问
@@ -113,28 +113,28 @@ func (t *TableConverter) GenerateInventMetas(models ...*AutoCodeModel) []*invent
 		metas = append(metas, &invent.TemplateMeta{
 			Key:            tmpl.KeyRepository,
 			TemplateString: tmpl.Repository,
-			CodeOutPath:    fmt.Sprintf("%v/repository/logic/%s.rp.go", temporaryRoot, fileName),
+			CodeOutPath:    fmt.Sprintf("%v/repository/%s.rp.go", temporaryRoot, fileName),
 			Data:           data,
 			Mode:           mode,
 		})
 		metas = append(metas, &invent.TemplateMeta{
 			Key:            tmpl.KeyService,
 			TemplateString: tmpl.Service,
-			CodeOutPath:    fmt.Sprintf("%v/service/logic/%s.sv.go", temporaryRoot, fileName),
+			CodeOutPath:    fmt.Sprintf("%v/service/%s.sv.go", temporaryRoot, fileName),
 			Data:           data,
 			Mode:           mode,
 		})
 		metas = append(metas, &invent.TemplateMeta{
 			Key:            tmpl.KeyController,
 			TemplateString: tmpl.Controller,
-			CodeOutPath:    fmt.Sprintf("%v/controller/logic/%s.ctl.go", temporaryRoot, fileName),
+			CodeOutPath:    fmt.Sprintf("%v/controller/%s.ctl.go", temporaryRoot, fileName),
 			Data:           data,
 			Mode:           mode,
 		})
 		metas = append(metas, &invent.TemplateMeta{
 			Key:            tmpl.KeyRouter,
 			TemplateString: tmpl.Router,
-			CodeOutPath:    fmt.Sprintf("%v/router/logic/%s.rt.go", temporaryRoot, fileName),
+			CodeOutPath:    fmt.Sprintf("%v/router/%s.rt.go", temporaryRoot, fileName),
 			Data:           data,
 			Mode:           mode,
 		})
@@ -148,106 +148,4 @@ func (t *TableConverter) GenerateInventMetas(models ...*AutoCodeModel) []*invent
 	}
 
 	return metas
-}
-
-func (t *TableConverter) GenerateCommonInventMetas(models ...*AutoCodeModel) []*invent.TemplateMeta {
-	var metas []*invent.TemplateMeta
-
-	for _, data := range models {
-		temporaryRoot := t.OutPath
-		fileName := t.OutFileNS(data.TableName)
-		mode := t.ReplaceMode
-
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.CommonRepository,
-			CodeOutPath:    fmt.Sprintf("%v/repository/logic/%s.rp.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.CommonService,
-			CodeOutPath:    fmt.Sprintf("%v/service/logic/%s.sv.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.CommonController,
-			CodeOutPath:    fmt.Sprintf("%v/controller/logic/%s.ctl.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.CommonRouter,
-			CodeOutPath:    fmt.Sprintf("%v/router/logic/%s.rt.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-	}
-	return metas
-}
-
-func (t *TableConverter) GeneratePkgMetas(models ...*AutoCodeModel) ([]*invent.TemplateMeta, []*inject2.AstInjectMeta) {
-	var metas []*invent.TemplateMeta
-
-	for _, data := range models {
-		temporaryRoot := t.OutPath
-		fileName := "context"
-		mode := t.ReplaceMode
-
-		//context 是下层引用
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.RouterContext,
-			CodeOutPath:    fmt.Sprintf("%v/router/svc/%s.rt.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.ControllerContext,
-			CodeOutPath:    fmt.Sprintf("%v/controller/svc/%s.ctl.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.ServiceContext,
-			CodeOutPath:    fmt.Sprintf("%v/service/svc/%s.sv.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.RepositoryContext,
-			CodeOutPath:    fmt.Sprintf("%v/repository/svc/%s.rp.go", temporaryRoot, fileName),
-			Data:           data,
-			Mode:           mode,
-		})
-
-		//入口文件
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.AppRouter,
-			CodeOutPath:    fmt.Sprintf("%v/router/router.go", temporaryRoot),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.AppController,
-			CodeOutPath:    fmt.Sprintf("%v/controller/controller.go", temporaryRoot),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.AppService,
-			CodeOutPath:    fmt.Sprintf("%v/service/service.go", temporaryRoot),
-			Data:           data,
-			Mode:           mode,
-		})
-		metas = append(metas, &invent.TemplateMeta{
-			TemplateString: tmpl.AppRepository,
-			CodeOutPath:    fmt.Sprintf("%v/repository/repository.go", temporaryRoot),
-			Data:           data,
-			Mode:           mode,
-		})
-	}
-
-	return metas, nil
 }

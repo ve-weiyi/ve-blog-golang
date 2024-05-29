@@ -10,7 +10,7 @@ type TokenResult struct {
 }
 
 type UserResult struct {
-	ID               int64  `json:"id" example:"1404376560"`
+	Id               int64  `json:"id" example:"1404376560"`
 	ScreenName       string `json:"screen_name" example:"zaku"`
 	Name             string `json:"name" example:"zaku"`
 	Province         string `json:"province" example:"11"`
@@ -41,16 +41,16 @@ type UserResult struct {
 
 type Status struct {
 	CreatedAt           string        `json:"created_at" example:"Tue May 24 18:04:53 +0800 2011"`
-	ID                  int64         `json:"id" example:"11142488790"`
+	Id                  int64         `json:"id" example:"11142488790"`
 	Text                string        `json:"text" example:"我的相机到了。"`
 	Source              string        `json:"source" example:"<a href='http://weibo.com' rel='nofollow'>新浪微博</a>"`
 	Favorited           bool          `json:"favorited" example:"false"`
 	Truncated           bool          `json:"truncated" example:"false"`
-	InReplyToStatusID   string        `json:"in_reply_to_status_id" example:""`
-	InReplyToUserID     string        `json:"in_reply_to_user_id" example:""`
+	InReplyToStatusId   string        `json:"in_reply_to_status_id" example:""`
+	InReplyToUserId     string        `json:"in_reply_to_user_id" example:""`
 	InReplyToScreenName string        `json:"in_reply_to_screen_name" example:""`
 	Geo                 interface{}   `json:"geo" example:"null"`
-	MID                 string        `json:"mid" example:"5610221544300749636"`
+	MId                 string        `json:"mid" example:"5610221544300749636"`
 	Annotations         []interface{} `json:"annotations" example:"[]"`
 	RepostsCount        int           `json:"reposts_count" example:"5"`
 	CommentsCount       int           `json:"comments_count" example:"8"`

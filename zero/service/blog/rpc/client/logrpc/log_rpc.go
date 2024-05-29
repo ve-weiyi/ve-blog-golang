@@ -76,6 +76,7 @@ type (
 	SaveConfigReq            = blog.SaveConfigReq
 	SyncMenuReq              = blog.SyncMenuReq
 	Tag                      = blog.Tag
+	TagMapResp               = blog.TagMapResp
 	TagPageResp              = blog.TagPageResp
 	Talk                     = blog.Talk
 	TalkDetailsDTO           = blog.TalkDetailsDTO
@@ -105,7 +106,7 @@ type (
 		DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询操作记录
 		FindOperationLog(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*OperationLog, error)
-		// 分页获取操作记录列表
+		// 查询操作记录列表
 		FindOperationLogList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*OperationLogPageResp, error)
 		// 查询操作记录数量
 		FindOperationLogCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
@@ -152,7 +153,7 @@ func (m *defaultLogRpc) FindOperationLog(ctx context.Context, in *IdReq, opts ..
 	return client.FindOperationLog(ctx, in, opts...)
 }
 
-// 分页获取操作记录列表
+// 查询操作记录列表
 func (m *defaultLogRpc) FindOperationLogList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*OperationLogPageResp, error) {
 	client := blog.NewLogRpcClient(m.cli.Conn())
 	return client.FindOperationLogList(ctx, in, opts...)

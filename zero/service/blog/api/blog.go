@@ -22,7 +22,7 @@ var (
 	nacosPassword  = flag.String("nacos-password", "nacos", "Input Your Nacos Password")
 	nacosDataId    = flag.String("nacos-data-id", "api", "Input Your Nacos DataId")
 	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
-	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceID")
+	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceId")
 )
 
 var configFile = flag.String("f", "", "the config file")
@@ -39,9 +39,9 @@ func main() {
 			Port:        uint64(*nacosPort),
 			UserName:    *nacosUserName,
 			Password:    *nacosPassword,
-			NameSpaceID: *nacosNameSpace,
+			NameSpaceId: *nacosNameSpace,
 			Group:       *nacosGroup,
-			DataID:      *nacosDataId,
+			DataId:      *nacosDataId,
 			RuntimeDir:  "runtime/nacos",
 			LogLevel:    "debug",
 			Timeout:     5000,
@@ -66,7 +66,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
-	server.Use(middlewarex.CtxMetadataHandler)
+	server.Use(middlewarex.CtxMetaHandler)
 	server.Use(middlewarex.JwtAuthHandler)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)

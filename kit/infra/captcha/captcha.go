@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/mojocn/base64Captcha"
+	"github.com/redis/go-redis/v9"
 )
 
 // 验证码仓库
@@ -27,22 +28,36 @@ type CaptchaHolder struct {
 	DriverDigit   *base64Captcha.DriverDigit
 }
 
-func NewCaptchaHolder(store base64Captcha.Store) *CaptchaHolder {
-	return &CaptchaHolder{
+type Option func(*CaptchaHolder)
+
+func WithRedisStore(rdb *redis.Client) Option {
+	return func(o *CaptchaHolder) {
+		o.store = NewRedisStore(rdb)
+	}
+}
+
+func NewCaptchaHolder(options ...Option) *CaptchaHolder {
+	ch := &CaptchaHolder{
 		randSource:     rand.New(rand.NewSource(time.Now().UnixNano())),
 		DefaultHeight:  80,
 		DefaultWidth:   240,
 		DefaultLength:  6,
 		DefaultMaxSkew: 0.7,
 		DefaultDotRate: 0.20,
-		store:          store,
-		//store:         base64Captcha.DefaultMemStore,
-		DriverAudio:   base64Captcha.DefaultDriverAudio,
-		DriverString:  base64Captcha.NewDriverString(80, 240, 0, 0, 5, "1234567890abcdefghijklmnopqrstuvwxyz", nil, nil, nil),
-		DriverChinese: base64Captcha.NewDriverChinese(80, 240, 0, 0, 5, "1234567890abcdefghijklmnopqrstuvwxyz", nil, nil, nil),
-		DriverMath:    base64Captcha.NewDriverMath(80, 240, 0, 0, nil, nil, nil),
-		DriverDigit:   base64Captcha.NewDriverDigit(40, 80, 6, 0.7, 10),
+		store:          base64Captcha.DefaultMemStore,
+		DriverAudio:    base64Captcha.DefaultDriverAudio,
+		DriverString:   base64Captcha.NewDriverString(80, 240, 0, 0, 5, "1234567890abcdefghijklmnopqrstuvwxyz", nil, nil, nil),
+		DriverChinese:  base64Captcha.NewDriverChinese(80, 240, 0, 0, 5, "1234567890abcdefghijklmnopqrstuvwxyz", nil, nil, nil),
+		DriverMath:     base64Captcha.NewDriverMath(80, 240, 0, 0, nil, nil, nil),
+		DriverDigit:    base64Captcha.NewDriverDigit(40, 80, 6, 0.7, 10),
 	}
+
+	// 应用选项
+	for _, option := range options {
+		option(ch)
+	}
+
+	return ch
 }
 
 // 生成随机验证码

@@ -77,8 +77,6 @@ sudo yum install docker
 sudo systemctl start docker
 ```
 
-## Docker的常用命令
-
 
 ## Docker的使用
 ### 如何构建一个镜像？
@@ -144,6 +142,12 @@ docker-compose.yaml 文件通常包含以下内容：
 5. 构建配置：如果你希望构建自定义镜像而不是使用现有的镜像，你可以在 docker-compose.yaml 文件中指定构建上下文和构建参数。
 6. 扩展性：docker-compose.yaml 文件支持使用 YAML 的特性，如继承和扩展。这使得你可以重用部分配置，并将其应用于多个服务或环境。
 
+
+## Docker的常用命令
+```shell
+# 删除所有未使用的镜像、容器、卷和网络
+docker system prune
+```
 
 ## 总结
 

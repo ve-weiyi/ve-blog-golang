@@ -99,9 +99,9 @@ func (s *ExcelExportImpl) RowCount() int {
 }
 
 // (1,1),(2,2),(3,3) -> A1,B2,C3
-func (s *ExcelExportImpl) point(charaID int, i int) string {
+func (s *ExcelExportImpl) point(charaId int, i int) string {
 	row := strconv.Itoa(i)
-	return s.charColIndex(charaID) + row
+	return s.charColIndex(charaId) + row
 }
 
 // 1,2,3 -> A,B,C

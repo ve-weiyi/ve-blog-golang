@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 type RbacHolder interface {
@@ -30,7 +30,6 @@ type RbacHolder interface {
 type PermissionHolder struct {
 	DbEngin    *gorm.DB
 	CacheEngin CacheStrategy
-	logger     glog.Logger
 	debug      bool
 }
 
@@ -114,7 +113,7 @@ func (s *PermissionHolder) LoadUser(uid string) (*UserPermission, error) {
 
 	var roleIds []int
 	for _, item := range userApis {
-		roleIds = append(roleIds, item.UserID)
+		roleIds = append(roleIds, item.UserId)
 	}
 
 	var roles []*entity.Role
@@ -149,21 +148,21 @@ func (s *PermissionHolder) LoadApi(path string, method string) (*ApiPermission, 
 
 	// 查询接口分组
 	var parent entity.Api
-	err = db.Where("id", api.ParentID).First(&parent).Error
+	err = db.Where("id", api.ParentId).First(&parent).Error
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询接口角色
 	var roleApis []*entity.RoleApi
-	err = db.Where("api_id = ?", api.ID).Find(&roleApis).Error
+	err = db.Where("api_id = ?", api.Id).Find(&roleApis).Error
 	if err != nil {
 		return nil, err
 	}
 
 	var roleIds []int
 	for _, item := range roleApis {
-		roleIds = append(roleIds, item.RoleID)
+		roleIds = append(roleIds, item.RoleId)
 	}
 
 	var roles []*entity.Role
@@ -196,14 +195,14 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 
 	// 查询接口
 	var roleApis []*entity.RoleApi
-	err = db.Where("role_id = ?", role.ID).First(&roleApis).Error
+	err = db.Where("role_id = ?", role.Id).First(&roleApis).Error
 	if err != nil {
 		return nil, err
 	}
 
 	var apiIds []int
 	for _, item := range roleApis {
-		apiIds = append(apiIds, item.ApiID)
+		apiIds = append(apiIds, item.ApiId)
 	}
 
 	var apis []*entity.Api
@@ -214,14 +213,14 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 
 	// 查询接口
 	var roleMenus []*entity.RoleMenu
-	err = db.Where("role_id = ?", role.ID).Find(&roleMenus).Error
+	err = db.Where("role_id = ?", role.Id).Find(&roleMenus).Error
 	if err != nil {
 		return nil, err
 	}
 
 	var menuIds []int
 	for _, item := range roleMenus {
-		apiIds = append(apiIds, item.MenuID)
+		apiIds = append(apiIds, item.MenuId)
 	}
 
 	var menus []*entity.Menu
@@ -241,17 +240,16 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 }
 
 func (s *PermissionHolder) info(format string, args ...interface{}) {
-	if !s.debug || s.logger == nil {
+	if !s.debug {
 		return
 	}
-	s.logger.Infof(format, args...)
+	glog.Infof(format, args...)
 }
 
-func NewPermissionHolder(db *gorm.DB, logger glog.Logger) RbacHolder {
+func NewPermissionHolder(db *gorm.DB) RbacHolder {
 	return &PermissionHolder{
 		DbEngin:    db,
 		CacheEngin: NewCacheStrategy(),
-		logger:     logger,
 		debug:      false,
 	}
 }
