@@ -26,7 +26,7 @@ func NewAIController(svcCtx *svc.ServiceContext) *AIController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.ChatMessage				true	"请求body"
-// @Success		200		{object}	response.Response{data=chatgpt.ChatResponse}	"返回信息"
+// @Success		200		{object}	response.Response{data=entity.ChatMessage}	"返回信息"
 // @Router		/ai/chat [post]
 func (s *AIController) ChatAI(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -57,7 +57,7 @@ func (s *AIController) ChatAI(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		string				true	"请求body"
 // @Param		data	body		request.ChatMessage				true	"请求body"
-// @Success		200		{object}	response.Response{data=chatgpt.ChatResponse}	"返回信息"
+// @Success		200		{object}	response.Response{data=entity.ChatMessage}	"返回信息"
 // @Router		/ai/cos [post]
 func (s *AIController) ChatCos(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -87,7 +87,7 @@ func (s *AIController) ChatCos(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.ChatStream				true	"请求body"
-// @Success		200		{object}	response.Response{data=chatgpt.ChatResponse}	"返回信息"
+// @Success		200		{object}	response.Response{data=entity.ChatMessage}	"返回信息"
 // @Router		/ai/chat/stream [post]
 func (s *AIController) ChatStream(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
@@ -113,41 +113,11 @@ func (s *AIController) ChatStream(c *gin.Context) {
 }
 
 // @Tags		AI
-// @Summary		和Chatgpt聊天
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		request.ChatMessage				true	"请求body"
-// @Success		200		{object}	response.Response{data=chatgpt.ChatResponse}	"返回信息"
-// @Router		/ai/assistant [post]
-func (s *AIController) ChatAssistant(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	var req request.ChatMessage
-	err = s.ShouldBind(c, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewAIService(s.svcCtx).ChatAssistant(reqCtx, &req)
-	if err != nil {
-		s.ResponseError(c, err)
-		return
-	}
-
-	s.ResponseOk(c, data)
-}
-
-// @Tags		AI
-// @Summary		和Chatgpt聊天
+// @Summary		和Chatgpt聊天历史记录
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		request.ChatHistory				true	"请求body"
-// @Success		200		{object}	response.Response{data=[]*entity.ChatMessage}	"返回信息"
+// @Success		200		{object}	response.Response{data=[]entity.ChatMessage}	"返回信息"
 // @Router		/ai/assistant/history [post]
 func (s *AIController) ChatAssistantHistory(c *gin.Context) {
 	reqCtx, err := s.GetRequestContext(c)
