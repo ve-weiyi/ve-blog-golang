@@ -28,7 +28,7 @@
 
 如果您不知道如何安装这些服务，可以参考[docker-compose](../deploy/docker-compose)目录下的docker-compose.yaml文件，使用docker-compose启动这些服务。
 
-如果您不会使用docker，可以参考[Docker.md](../deploy/docker-compose/Docker.md)文档，或者其他相关博客。
+如果您不会使用docker，可以参考[Docker.md](../zero/resource/docker-compose/Docker.md)文档，或者其他相关博客。
 
 如果你不想使用这些服务，可以在[service_context.go](svc/service_context.go) NewServiceContext 函数中，注释掉相关初始化代码。
 
@@ -52,12 +52,12 @@ go run main.go migrate --action=migrate \
 
 1. 使用本地配置文件 config.yaml 启动项目
 ```shell
-go run main.go api --config=./config.yaml 
+go run main.go api -c=file -f=./config.yaml
 ```
 
 2. 使用nacos的配置文件启动项目
 ```shell
-go run main.go api --n-namespace=test
+go run main.go api -c=nacos --n-namespace=test
 ```
 
 ### 4.其他
