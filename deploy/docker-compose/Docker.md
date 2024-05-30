@@ -142,13 +142,6 @@ docker-compose.yaml 文件通常包含以下内容：
 5. 构建配置：如果你希望构建自定义镜像而不是使用现有的镜像，你可以在 docker-compose.yaml 文件中指定构建上下文和构建参数。
 6. 扩展性：docker-compose.yaml 文件支持使用 YAML 的特性，如继承和扩展。这使得你可以重用部分配置，并将其应用于多个服务或环境。
 
-
-## Docker的常用命令
-```shell
-# 删除所有未使用的镜像、容器、卷和网络
-docker system prune
-```
-
 ## 总结
 
 在本文中，全面探讨了Docker的核心概念，涵盖了镜像、容器、仓库、卷以及Dockerfile的最佳实践。通过详实的示例代码，演示了从创建自定义镜像到构建多容器应用和管理Docker网络的方方面面。强调了Docker的灵活性和便携性，使得应用程序能够轻松、一致地在不同环境中运行。
@@ -156,3 +149,18 @@ docker system prune
 介绍了Docker Compose的高级用法，包括服务扩展、网络设置和环境变量定义，大家能够更灵活地管理复杂应用的部署。此外，还提供了关于Docker安全性的最佳实践，强调了使用官方镜像、最小化镜像层数、定期更新镜像等关键策略，以确保容器化环境的安全性。
 
 总体而言，通过对Docker基础概念的深入剖析和实用示例的呈现，大家可以建立起对Docker技术栈全貌的清晰认识。希望这篇文章能够成为初学者的入门指南，同时为有经验的开发者提供更深层次的实践经验，使其能够更好地应用Docker来实现高效、可靠和安全的容器化部署。
+
+## Docker的常用命令
+```shell
+# 删除所有未使用的镜像、容器、卷和网络
+docker system prune
+
+# 清理容器
+docker container prune
+
+# 清理镜像
+docker image prune
+```
+
+## 参考文档
+[Docker基础（三）镜像制作](https://blog.csdn.net/du_zhe_/article/details/132357258)

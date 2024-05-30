@@ -16,7 +16,7 @@ services:
     ports:
       - "9998:9998"
     volumes:
-      - ./data/rpc/runtime:/app/rpc/runtime
+      - ./runtime/rpc:/app/blog/rpc/runtime
 
   ve-blog-golang-api:
     build:
@@ -29,7 +29,7 @@ services:
       - "6060:6060"
       - "9999:9999"
     volumes:
-      - ./data/api/runtime:/app/api/runtime
+      - ./runtime/api:/app/blog/api/runtime
     depends_on:
       - ve-blog-golang-rpc
 

@@ -31,25 +31,30 @@ RUN git checkout feature/blog
 RUN go mod tidy
 
 # 构建Golang运行程序到 /app 目录下
-RUN go build -ldflags="-s -w" -o /app/main main.go
+RUN go build -ldflags="-s -w" -o /app/server/main main.go
 
-# 使用scratch作为基础镜像,scratch用于构建轻量级的、无操作系统依赖的容器镜像
+# 使用golang:alpine作为构建镜像,上面安装了git,go等运行环境，方便编译项目。直接在golang:alpine上运行时，image的体积约为2.5g
+# 使用scratch作为基础镜像,scratch用于构建轻量级的、无操作系统依赖的容器镜像。使用scratch镜像运行，image的体积约为50m
 
 FROM scratch
 
-# 设置语言环境为en_US.utf8
-#ENV LANG=en_US.utf8
-# 设置时区环境变量
-#ENV TZ Asia/Shanghai
+#维护者信息
+LABEL maintainer="791422171@qq.com"
 
-# 复制启动文件到新容器中
-COPY --from=builder /app/main /app/main
+# 设置语言环境为en_US.utf8
+ENV LANG=en_US.utf8
+# 设置时区环境变量
+ENV TZ Asia/Shanghai
 
 # 设置新新容器的工作目录
-WORKDIR /app
+WORKDIR /app/server
+
+# 复制启动文件到新容器中
+COPY --from=builder /app/server/main /app/server/main
+
 
 # 设置启动命令(使用config.yaml)
-#ENTRYPOINT ./main api --config=config.yaml
+#CMD ["./main","api", "-c=file", "-f=./config.yaml"]
 
 # 设置启动命令(使用nacos作为配置中心)
-ENTRYPOINT ./main api --n-namespace=test
+CMD ["./main","api", "-c=nacos","--n-namespace=test"]

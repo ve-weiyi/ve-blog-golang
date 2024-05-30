@@ -14,7 +14,7 @@ services:
     container_name: ve-blog-golang-server
     restart: always
     ports:
-      - "9999:9999"
+      - "9997:9999"
     volumes:
 #      - ./config.yaml:/app/config.yaml
       - ./runtime:/app/runtime
