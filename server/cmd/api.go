@@ -4,11 +4,11 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
+	"os"
+	"strings"
 
-	"github.com/fsnotify/fsnotify"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -20,7 +20,8 @@ import (
 
 type ApiCmd struct {
 	cmd        *cobra.Command
-	configFile string
+	configMode string // 运行方式 file|nacos
+	filepath   string
 	nacosCfg   *nacos.NacosConfig
 }
 
@@ -43,7 +44,8 @@ func (s *ApiCmd) init() {
 	nacosCfg := s.GetDefaultNacosConfig()
 	s.nacosCfg = nacosCfg
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().StringVarP(&s.configMode, "config", "c", "file", "the way of read config file (file|nacos)")
+	s.cmd.PersistentFlags().StringVarP(&s.filepath, "filepath", "f", "config.yaml", "config file path (default is ./config.yaml)")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.IP, "n-ip", nacosCfg.IP, "the ip for nacos")
 	s.cmd.PersistentFlags().Uint64Var(&s.nacosCfg.Port, "n-port", nacosCfg.Port, "the port for nacos")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.UserName, "n-user", nacosCfg.UserName, "the user for nacos")
@@ -74,66 +76,54 @@ func (s *ApiCmd) persistentPreRun(cmd *cobra.Command, args []string) {
 
 func (s *ApiCmd) RunApi() {
 	var c config.Config
+	var content string
 
-	if s.configFile != "" {
+	switch s.configMode {
+	case "file":
 		log.Println("读取配置文件..使用文件路径")
-		// 初始化Viper
-		v := viper.New()
-		v.SetConfigFile(s.configFile)
-		v.SetConfigType("yaml")
-		// 读取配置文件
-		err := v.ReadInConfig()
+
+		text, err := os.ReadFile(s.filepath)
 		if err != nil {
-			panic(fmt.Errorf("fatal error config file: %s \n", err))
-		}
-		// 修改解析的tag（默认是mapstructure）
-		withJsonTag := func(c *mapstructure.DecoderConfig) {
-			c.TagName = "json"
-		}
-		// 解析配置文件
-		if err = v.Unmarshal(&c, withJsonTag); err != nil {
 			panic(err)
 		}
 
-		// 监听配置文件变化
-		v.WatchConfig()
-		v.OnConfigChange(func(e fsnotify.Event) {
-			log.Println("config file changed:", e.Name)
-			if err = v.Unmarshal(&c, withJsonTag); err != nil {
-				log.Println(err)
-			}
-		})
+		content = string(text)
 
-	} else {
+	case "nacos":
 		log.Println("读取配置文件...使用nacos")
 		// 初始化Nacos
 		nc := nacos.New(s.nacosCfg)
 
 		// 读取配置文件
-		content, err := nc.GetConfig()
+		text, err := nc.GetConfig()
 		if err != nil {
 			panic("nacos config read failed " + err.Error())
 		}
-		// 解析配置文件
-		if err = json.Unmarshal([]byte(content), &c); err != nil {
-			panic(err)
-		}
 
-		// 监听配置文件变化
-		err = nc.AddListener(func(content string) error {
-			log.Println("更新配置文件...")
-			// 解析配置文件
-			if err = json.Unmarshal([]byte(content), &c); err != nil {
-				panic(err)
-			}
-			return nil
-		})
-		if err != nil {
-			panic("nacos config listener failed " + err.Error())
-		}
+		content = text
+	default:
+		panic("config mode not support,please use cmd 'go run main.go api --c=file --f=./config.yaml'")
 	}
 
-	log.Println("let's go")
+	// 初始化Viper
+	v := viper.New()
+	v.SetConfigType("yaml")
+
+	// 读取配置文件
+	err := v.ReadConfig(strings.NewReader(content))
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %s \n", err))
+	}
+	// 修改解析的tag（默认是mapstructure）
+	withJsonTag := func(c *mapstructure.DecoderConfig) {
+		c.TagName = "json"
+	}
+	// 解析配置文件
+	if err = v.Unmarshal(&c, withJsonTag); err != nil {
+		panic(err)
+	}
+	// 暂时不开启监听配置文件变化
+
 	// 初始化配置文件
 	core.RunWindowsServer(&c)
 }

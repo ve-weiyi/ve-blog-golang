@@ -17,8 +17,8 @@ import (
 )
 
 type RabbitmqCmd struct {
-	cmd        *cobra.Command
-	configFile string
+	cmd      *cobra.Command
+	filepath string
 }
 
 func NewRabbitmqCmd() *RabbitmqCmd {
@@ -38,7 +38,7 @@ func NewRabbitmqCmd() *RabbitmqCmd {
 
 func (s *RabbitmqCmd) init() {
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().StringVarP(&s.filepath, "filepath", "f", "config.yaml", "config file path (default is ./config.yaml)")
 }
 
 func (s *RabbitmqCmd) persistentPreRun(cmd *cobra.Command, args []string) {
@@ -49,7 +49,7 @@ func (s *RabbitmqCmd) RunRabbitmq() {
 	var c config.Config
 	// 初始化Viper
 	v := viper.New()
-	v.SetConfigFile(s.configFile)
+	v.SetConfigFile(s.filepath)
 	v.SetConfigType("yaml")
 	// 读取配置文件
 	err := v.ReadInConfig()

@@ -52,12 +52,12 @@ go run main.go migrate --action=migrate \
 
 1. 使用本地配置文件 config.yaml 启动项目
 ```shell
-go run main.go api --config=./config.yaml 
+go run main.go api -c=file -f=./config.yaml
 ```
 
 2. 使用nacos的配置文件启动项目
 ```shell
-go run main.go api --n-namespace=test
+go run main.go api -c=nacos --n-namespace=test
 ```
 
 ### 4.其他
