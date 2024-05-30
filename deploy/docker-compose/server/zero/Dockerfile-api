@@ -24,7 +24,6 @@ WORKDIR /ve-blog-golang/zero
 RUN git checkout feature/blog
 RUN go mod tidy
 
-COPY service/blog/api/etc /app/api/etc
 RUN go build -ldflags="-s -w" -o /app/api/blog service/blog/api/blog.go
 
 #维护者信息

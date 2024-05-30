@@ -9,7 +9,7 @@ services:
   ve-blog:
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: server/Dockerfile
     image: ve-blog:latest  # 设置新的镜像名称和标签
     container_name: ve-blog-server
     restart: always

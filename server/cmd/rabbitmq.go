@@ -38,7 +38,7 @@ func NewRabbitmqCmd() *RabbitmqCmd {
 
 func (s *RabbitmqCmd) init() {
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "config.yaml", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "", "config file (default is $HOME/.config.yaml)")
 }
 
 func (s *RabbitmqCmd) persistentPreRun(cmd *cobra.Command, args []string) {

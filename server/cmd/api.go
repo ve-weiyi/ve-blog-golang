@@ -43,7 +43,7 @@ func (s *ApiCmd) init() {
 	nacosCfg := s.GetDefaultNacosConfig()
 	s.nacosCfg = nacosCfg
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "config.yaml", "config file (default is $HOME/.config.yaml)")
+	s.cmd.PersistentFlags().StringVarP(&s.configFile, "config", "c", "", "config file (default is $HOME/.config.yaml)")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.IP, "n-ip", nacosCfg.IP, "the ip for nacos")
 	s.cmd.PersistentFlags().Uint64Var(&s.nacosCfg.Port, "n-port", nacosCfg.Port, "the port for nacos")
 	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.UserName, "n-user", nacosCfg.UserName, "the user for nacos")
