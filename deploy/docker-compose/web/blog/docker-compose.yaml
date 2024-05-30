@@ -6,14 +6,12 @@ version: "3"
 #  redis:
 
 services:
-  ve-blog:
+  ve-blog-vite:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: ve-blog:latest  # 设置新的镜像名称和标签
-    container_name: ve-blog-server
+    image: ve-blog-vite:latest  # 设置新的镜像名称和标签
+    container_name: ve-blog-vite
     restart: always
     ports:
-      - "9999:9999"
-    volumes:
-      - /home/docker/server:/home/blog
+      - "8888:80"

@@ -28,6 +28,5 @@ func SetLog(c config.Zap) {
 	cfg.ShowColor = c.EncodeColorful
 
 	glog.Init(1, cfg)
-	glog.Println("日志组件初始化成功！")
 	return
 }
