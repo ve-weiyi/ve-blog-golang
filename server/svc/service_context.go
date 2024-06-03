@@ -9,7 +9,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
@@ -26,7 +26,7 @@ type ServiceContext struct {
 	DbEngin        *gorm.DB
 	RedisEngin     *redis.Client
 	LocalCache     *ecache.Cache
-	Token          *jjwt.JwtToken
+	Token          *jtoken.JWTInstance
 	Oauth          map[string]oauth.Oauth
 	CaptchaHolder  *captcha.CaptchaHolder
 	AIChatGPT      *chatgpt.AIChatGPT
@@ -100,7 +100,7 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 		DbEngin:        db,
 		RedisEngin:     rdb,
 		LocalCache:     cache,
-		Token:          jjwt.NewJwtToken([]byte(c.JWT.SigningKey)),
+		Token:          jtoken.NewJWTInstance([]byte(c.JWT.SigningKey)),
 		Oauth:          initialize.InitOauth(c.Oauth),
 		CaptchaHolder:  ch,
 		AIChatGPT:      gpt,

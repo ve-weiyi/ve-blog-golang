@@ -3,7 +3,7 @@ package svc
 import (
 	"github.com/zeromicro/go-zero/zrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
@@ -29,7 +29,7 @@ import (
 
 type ServiceContext struct {
 	Config config.Config
-	Token  *jjwt.JwtToken
+	Token  *jtoken.JWTInstance
 
 	AuthRpc authrpc.AuthRpc
 	ApiRpc  apirpc.ApiRpc
@@ -62,7 +62,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	return &ServiceContext{
 		Config:  c,
-		Token:   jjwt.NewJwtToken([]byte(c.Name)),
+		Token:   jtoken.NewJWTInstance([]byte(c.Name)),
 		AuthRpc: authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...)),
 		ApiRpc:  apirpc.NewApiRpc(zrpc.MustNewClient(c.ApiRpcConf, options...)),
 		MenuRpc: menurpc.NewMenuRpc(zrpc.MustNewClient(c.MenuRpcConf, options...)),
