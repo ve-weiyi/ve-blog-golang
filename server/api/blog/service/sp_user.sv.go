@@ -185,8 +185,8 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 	}
 
 	// 获取code
-	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
-	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	key := cache.WrapCacheKey(constant.ResetPwd, req.Username)
+	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: req.Username,
 		Code:     code,
@@ -214,7 +214,7 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *request.U
 
 func (l *UserService) ResetPassword(reqCtx *request.Context, req *request.ResetPasswordReq) (resp interface{}, err error) {
 	// 验证code是否正确
-	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
+	key := cache.WrapCacheKey(constant.ResetPwd, req.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
 		return nil, apierr.ErrorCaptchaVerify
 	}

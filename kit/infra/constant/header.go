@@ -33,22 +33,29 @@ const (
 
 // 自定义的HTTP请求头部字段
 const (
-	HeaderAppName  = "app-name"
-	HeaderTimezone = "timezone"
-	HeaderCountry  = "country"
-	HeaderLanguage = "language"
+	HeaderAppName   = "app-name"
+	HeaderTimezone  = "timezone"
+	HeaderTimestamp = "timestamp"
+	HeaderCountry   = "country"
+	HeaderLanguage  = "language"
 
 	HeaderXRequestId = "x-request-id"
-	HeaderXAuthToken = "x-auth-token"
-	HeaderXUserId    = "x-user-id"
+
+	HeaderAuthorization = "authorization"
+	HeaderToken         = "token"
+	HeaderUid           = "uid"
+	HeaderTerminal      = "terminal"
 )
 
 var HeaderFields = []string{
 	HeaderXRequestId,
-	HeaderXAuthToken,
-	HeaderXUserId,
 	HeaderTimezone,
+	HeaderTimestamp,
 	HeaderCountry,
 	HeaderLanguage,
 	HeaderAppName,
+	HeaderAuthorization,
+	HeaderToken,
+	HeaderUid,
+	HeaderTerminal,
 }

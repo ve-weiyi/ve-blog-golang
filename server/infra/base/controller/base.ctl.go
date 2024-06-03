@@ -31,8 +31,8 @@ func NewBaseController() BaseController {
 func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, error) {
 
 	reqCtx := &request.Context{}
-	reqCtx.Token = ctx.GetHeader(constant.HeaderXAuthToken)
-	reqCtx.Uid = cast.ToInt(ctx.GetHeader(constant.HeaderXUserId))
+	reqCtx.Token = ctx.GetHeader(constant.HeaderToken)
+	reqCtx.Uid = cast.ToInt(ctx.GetHeader(constant.HeaderUid))
 	reqCtx.IpAddress = ctx.ClientIP()
 	reqCtx.UserAgent = ctx.Request.UserAgent()
 	reqCtx.Context = ctx.Request.Context()
@@ -49,12 +49,12 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	//value := reflect.ValueOf(req)
 	//if value.Kind() == reflect.Ptr && value.Elem().Kind() == reflect.Struct {
 	//	if err := m.BindJSONIgnoreCase(ctx, req); err != nil {
-	//		return apierror.NewApiError(apierror.CodeMissingParameter, "参数错误").WrapError(err)
+	//		return apierror.NewApiError(apierror.CodeMissingParameter, "参数错误").WrapMessage(err.Error())
 	//	}
 	//}
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		return apierr.ErrorInvalidParam.WrapError(err)
+		return apierr.ErrorInvalidParam.WrapMessage(err.Error())
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -63,7 +63,7 @@ func (m *BaseController) ShouldBindJSON(ctx *gin.Context, req interface{}) error
 	}
 
 	if err := isValid.IsValid(); err != nil {
-		return apierr.ErrorInvalidParam.WrapError(err)
+		return apierr.ErrorInvalidParam.WrapMessage(err.Error())
 	}
 
 	return nil
@@ -91,7 +91,7 @@ func (m *BaseController) BindJSONIgnoreCase(ctx *gin.Context, req interface{}) (
 func (m *BaseController) ShouldBindQuery(ctx *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := ctx.ShouldBind(req); err != nil {
-		return apierr.ErrorInvalidParam.WrapError(err)
+		return apierr.ErrorInvalidParam.WrapMessage(err.Error())
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {

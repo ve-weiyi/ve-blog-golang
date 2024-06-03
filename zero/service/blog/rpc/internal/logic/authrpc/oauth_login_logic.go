@@ -44,7 +44,7 @@ func (l *OauthLoginLogic) OauthLogin(in *blog.OauthLoginReq) (*blog.LoginResp, e
 	}
 
 	if auth == nil {
-		return nil, fmt.Errorf("platform %s not found", in.Platform)
+		return nil, fmt.Errorf("platform %s is not support", in.Platform)
 	}
 
 	// 获取第三方用户信息
