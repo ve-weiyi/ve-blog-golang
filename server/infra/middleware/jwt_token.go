@@ -1,49 +1,68 @@
 package middleware
 
 import (
+	"context"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 // JwtToken jwt中间件
 func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
-	tk := svcCtx.Token
+	parser := svcCtx.Token
 
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get(constant.HeaderXAuthToken)
-		uid := c.Request.Header.Get(constant.HeaderXUserId)
+		var token string
+		var uid string
+
+		token = c.Request.Header.Get(constant.HeaderToken)
+		uid = c.Request.Header.Get(constant.HeaderUid)
 
 		//token为空或者uid为空
 		if token == "" || uid == "" {
 			// 有错误，直接返回给前端错误，前端直接报错500
 			//c.AbortWithStatus(http.StatusInternalServerError)
 			// 该方式前端不报错
-			c.JSON(http.StatusOK, apierr.ErrorUserUnLogin)
+			c.JSON(http.StatusOK, apierr.ErrorUnauthorized)
 			c.Abort()
 			return
 		}
 
 		// 解析token
-		claims, err := tk.ParserToken(token)
-
-		// token验证失败
+		tok, err := parser.ParseToken(token)
 		if err != nil {
-			c.JSON(http.StatusOK, apierr.ErrorUserUnLogin.WrapError(err))
+			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage(err.Error()))
+			c.Abort()
+			return
+		}
+
+		// token不合法
+		if !tok.Valid {
+			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("token is invalid"))
+			c.Abort()
+			return
+		}
+
+		// 获取claims
+		claims, ok := tok.Claims.(jwt.MapClaims)
+		if !ok {
+			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("token claims is not jwt.MapClaims"))
 			c.Abort()
 			return
 		}
 
 		// uid不一致
-		if uid != strconv.Itoa(claims.Ext.Uid) {
-			c.JSON(http.StatusOK, apierr.ErrorUserUnLogin.WrapMessage("uid is not equal"))
+		if uid != cast.ToString(claims["uid"]) {
+			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("token uid is not equal"))
 			c.Abort()
 			return
 		}
@@ -53,14 +72,19 @@ func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		//
 		//}
 
-		glog.Infof("user login-->%v", claims.Ext.Username)
-		//glog.JsonIndent(claims)
+		glog.Infof("user login-->%v", claims)
 
-		c.Set("token", token)
-		c.Set("uid", uid)
-		c.Set("domain", claims.Issuer)
-		c.Set("username", claims.Ext.Username)
-		c.Set("login_type", claims.Ext.LoginType)
+		// 写入上下文
+		ctx := c.Request.Context()
+		for k, v := range claims {
+			switch k {
+			case jtoken.JwtAudience, jtoken.JwtExpire, jtoken.JwtId, jtoken.JwtIssueAt, jtoken.JwtIssuer, jtoken.JwtNotBefore, jtoken.JwtSubject:
+				// ignore the standard claims
+			default:
+				ctx = context.WithValue(ctx, k, v)
+			}
+		}
+
 		c.Next()
 
 	}

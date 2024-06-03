@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang-jwt/jwt"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jjwt"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
@@ -352,28 +350,22 @@ func (l *AuthService) createToken(uid int, username string, loginType string) (t
 	issuer := "blog"
 
 	accessToken, err := l.svcCtx.Token.CreateToken(
-		jjwt.TokenExt{
-			Uid:       uid,
-			Username:  username,
-			LoginType: loginType,
-		},
-		jwt.StandardClaims{
-			ExpiresAt: expiresIn,
-			IssuedAt:  now,
-			Issuer:    issuer,
-		})
+		jtoken.WithExpiresAt(expiresIn),
+		jtoken.WithIssuedAt(now),
+		jtoken.WithIssuer(issuer),
+		jtoken.WithClaimExt("uid", uid),
+		jtoken.WithClaimExt("username", username),
+		jtoken.WithClaimExt("login_type", loginType),
+	)
 
 	refreshToken, err := l.svcCtx.Token.CreateToken(
-		jjwt.TokenExt{
-			Uid:       uid,
-			Username:  username,
-			LoginType: loginType,
-		},
-		jwt.StandardClaims{
-			ExpiresAt: refreshExpiresIn,
-			IssuedAt:  now,
-			Issuer:    issuer,
-		})
+		jtoken.WithExpiresAt(expiresIn),
+		jtoken.WithIssuedAt(now),
+		jtoken.WithIssuer(issuer),
+		jtoken.WithClaimExt("uid", uid),
+		jtoken.WithClaimExt("username", username),
+		jtoken.WithClaimExt("login_type", loginType),
+	)
 
 	token = &response.Token{
 		TokenType:        "Bearer",

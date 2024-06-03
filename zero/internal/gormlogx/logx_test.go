@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"go.opentelemetry.io/otel/sdk/trace"
 )
 
 // https://zhuanlan.zhihu.com/p/652570748
@@ -29,6 +30,11 @@ func TestGoZero(t *testing.T) {
 	logx.SetUp(c)
 
 	ctx := logx.ContextWithFields(context.Background(), logx.Field("trace", "test"))
+
+	handlerName := "gormlogx"
+	tracer := trace.NewTracerProvider().Tracer(handlerName)
+	ctx, span := tracer.Start(ctx, handlerName)
+	defer span.End()
 
 	logx.Info("hello world")
 	logx.WithContext(ctx).Info("hello world")
