@@ -7,7 +7,7 @@ import (
 )
 
 // 使用公钥加密消息
-func ecdsaEncrypt(publicKey *ecdsa.PublicKey, message []byte) ([]byte, error) {
+func EcdsaEncrypt(publicKey *ecdsa.PublicKey, message []byte) ([]byte, error) {
 	// 生成临时密钥对
 	tempPrivateKey, err := ecdsa.GenerateKey(publicKey.Curve, rand.Reader)
 	if err != nil {
@@ -25,7 +25,7 @@ func ecdsaEncrypt(publicKey *ecdsa.PublicKey, message []byte) ([]byte, error) {
 }
 
 // 使用私钥解密消息
-func ecdsaDecrypt(privateKey *ecdsa.PrivateKey, ciphertext []byte) ([]byte, error) {
+func EcdsaDecrypt(privateKey *ecdsa.PrivateKey, ciphertext []byte) ([]byte, error) {
 	curve := privateKey.Curve
 	keySize := curve.Params().BitSize / 8
 

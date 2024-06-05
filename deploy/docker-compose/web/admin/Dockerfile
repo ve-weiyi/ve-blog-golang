@@ -4,11 +4,11 @@ FROM node:latest
 # 设置当前阶段标签，当前阶段是用于构建 Golang 项目的
 LABEL stage=gobuilder
 
-# 安装Git
-RUN apt-get update && apt-get install -y git
-
 # 设置新构建容器的工作目录
 WORKDIR /
+
+# 安装Git
+RUN apt-get update && apt-get install -y git
 
 # 下载项目
 RUN git init
@@ -32,7 +32,7 @@ RUN pnpm run build
 FROM nginx:latest
 
 # 将 Vite 项目的 dist 目录复制到 Nginx 的默认静态文件目录
-COPY --from=0 /ve-admin-vite/dist /usr/share/nginx/html
+COPY --from=0 /ve-admin-vite/admin /usr/share/nginx/html/admin
 
 # 暴露容器的 80 端口
 EXPOSE 80

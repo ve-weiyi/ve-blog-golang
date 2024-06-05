@@ -1,4 +1,4 @@
-package crypto
+package _test
 
 import (
 	"crypto/ecdsa"
@@ -6,6 +6,8 @@ import (
 	"crypto/rand"
 	"fmt"
 	"testing"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
 func TestECC(t *testing.T) {
@@ -35,7 +37,7 @@ func TestECC(t *testing.T) {
 	message := []byte("hello, world")
 
 	// 加密消息
-	ciphertext, err := ecdsaEncrypt(publicKey, message)
+	ciphertext, err := crypto.EcdsaEncrypt(publicKey, message)
 	if err != nil {
 		fmt.Println("Encryption failed:", err)
 		return
@@ -46,7 +48,7 @@ func TestECC(t *testing.T) {
 	fmt.Printf("%x\n", ciphertext)
 
 	// 解密消息
-	plaintext, err := ecdsaDecrypt(privateKey, ciphertext)
+	plaintext, err := crypto.EcdsaDecrypt(privateKey, ciphertext)
 	if err != nil {
 		fmt.Println("Decryption failed:", err)
 		return

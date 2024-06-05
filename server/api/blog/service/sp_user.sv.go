@@ -249,7 +249,7 @@ func (l *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.
 		Label:    label,
 		FileName: file.Filename,
 		FileSize: int(file.Size),
-		FileMd5:  crypto.MD5V([]byte(file.Filename)),
+		FileMd5:  crypto.Md5v(file.Filename, ""),
 		FileURL:  url,
 	}
 
