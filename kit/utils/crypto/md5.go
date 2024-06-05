@@ -5,17 +5,6 @@ import (
 	"encoding/hex"
 )
 
-//@function: MD5V
-//@description: md5加密
-//@param: str []byte
-//@return: string
-
-func MD5V(str []byte, b ...byte) string {
-	h := md5.New()
-	h.Write(str)
-	return hex.EncodeToString(h.Sum(b))
-}
-
 // Md5v md5 加盐加密
 func Md5v(str string, salt string) string {
 	h := md5.New()
