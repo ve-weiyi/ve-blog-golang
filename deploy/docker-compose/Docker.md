@@ -160,6 +160,15 @@ docker container prune
 
 # 清理镜像
 docker image prune
+
+# 清除构建缓存
+docker builder prune
+
+# 搜索镜像
+docker search nginx
+
+# 拉取镜像
+docker pull nginx:latest
 ```
 
 ## 参考文档

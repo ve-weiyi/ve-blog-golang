@@ -47,7 +47,7 @@ func (l *UploadFileLogic) UploadFile(reqCtx *types.RestHeader, req *types.Upload
 		Label:    label,
 		FileName: h.Filename,
 		FileSize: h.Size,
-		FileMd5:  crypto.MD5V([]byte(h.Filename)),
+		FileMd5:  crypto.Md5v(h.Filename, ""),
 		FileUrl:  up,
 	}
 
