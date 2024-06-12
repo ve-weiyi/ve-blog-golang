@@ -27,10 +27,10 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 // 上传文件
 func (l *UploadFileLogic) UploadFile(in *blog.UploadRecordReq) (*blog.UploadRecordResp, error) {
 	entity := convert.ConvertUploadPbToModel(in)
-	insert, err := l.svcCtx.UploadRecordModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.UploadRecordModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertUploadModelToPb(insert), nil
+	return convert.ConvertUploadModelToPb(entity), nil
 }

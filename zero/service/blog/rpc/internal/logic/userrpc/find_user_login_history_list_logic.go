@@ -26,9 +26,9 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 
 // 查询用户登录历史
 func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *blog.PageQuery) (*blog.LoginHistoryPageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

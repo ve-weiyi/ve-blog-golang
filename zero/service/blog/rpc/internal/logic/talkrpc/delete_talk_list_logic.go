@@ -25,12 +25,12 @@ func NewDeleteTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 批量删除说说
 func (l *DeleteTalkListLogic) DeleteTalkList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.TalkModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.TalkModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

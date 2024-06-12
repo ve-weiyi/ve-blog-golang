@@ -25,9 +25,9 @@ func NewFindArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 }
 
 func (l *FindArticleListLogic) FindArticleList(in *blog.PageQuery) (*blog.ArticlePageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.ArticleModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.ArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

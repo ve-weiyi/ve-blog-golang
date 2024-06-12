@@ -25,12 +25,12 @@ func NewDeleteCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 删除文章分类
 func (l *DeleteCategoryLogic) DeleteCategory(in *blog.IdReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.CategoryModel.Delete(l.ctx, in.Id)
+	rows, err := l.svcCtx.CategoryModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

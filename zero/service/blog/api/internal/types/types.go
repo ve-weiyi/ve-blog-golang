@@ -344,13 +344,13 @@ type Meta struct {
 }
 
 type OauthLoginReq struct {
-	Platform string `json:"platform,optional"` // 平台
-	Code     string `json:"code,optional"`     // 授权码
-	State    string `json:"state,optional"`    // 状态
+	Platform string `json:"platform"`       // 平台
+	Code     string `json:"code,optional"`  // 授权码
+	State    string `json:"state,optional"` // 状态
 }
 
 type OauthLoginUrlResp struct {
-	Url string `json:"url,optional"` // 授权地址
+	Url string `json:"url"` // 授权地址
 }
 
 type OperationLog struct {
@@ -401,7 +401,8 @@ type PageLimit struct {
 }
 
 type PageQuery struct {
-	PageLimit
+	Page       int64            `json:"page,optional"`
+	PageSize   int64            `json:"page_size,optional"`
 	Sorts      []*PageSort      `json:"sorts,optional"`
 	Conditions []*PageCondition `json:"conditions,optional"`
 }
@@ -415,7 +416,7 @@ type PageResp struct {
 
 type PageSort struct {
 	Field string `json:"field,optional"`
-	Order string `json:"order,optional"`
+	Order string `json:"order,optional"` // asc | desc
 }
 
 type Photo struct {

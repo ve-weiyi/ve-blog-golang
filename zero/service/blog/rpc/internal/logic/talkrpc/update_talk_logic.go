@@ -28,10 +28,10 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateTalkLogic) UpdateTalk(in *blog.Talk) (*blog.Talk, error) {
 	entity := convert.ConvertTalkPbToModel(in)
 
-	result, err := l.svcCtx.TalkModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.TalkModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTalkModelToPb(result), nil
+	return convert.ConvertTalkModelToPb(entity), nil
 }

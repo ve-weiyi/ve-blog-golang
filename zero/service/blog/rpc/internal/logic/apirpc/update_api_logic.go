@@ -28,10 +28,10 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 func (l *UpdateApiLogic) UpdateApi(in *blog.Api) (*blog.Api, error) {
 	entity := convert.ConvertApiPbToModel(in)
 
-	result, err := l.svcCtx.ApiModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.ApiModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertApiModelToPb(result), nil
+	return convert.ConvertApiModelToPb(entity), nil
 }

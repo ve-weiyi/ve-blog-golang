@@ -28,10 +28,10 @@ func NewCreateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Crea
 func (l *CreateRemarkLogic) CreateRemark(in *blog.Remark) (*blog.Remark, error) {
 	entity := convert.ConvertRemarkPbToModel(in)
 
-	result, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRemarkModelToPb(result), nil
+	return convert.ConvertRemarkModelToPb(entity), nil
 }

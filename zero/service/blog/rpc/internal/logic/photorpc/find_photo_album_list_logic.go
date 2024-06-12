@@ -26,9 +26,9 @@ func NewFindPhotoAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 分页获取相册列表
 func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(in *blog.PageQuery) (*blog.PhotoAlbumPageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.PhotoAlbumModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.PhotoAlbumModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

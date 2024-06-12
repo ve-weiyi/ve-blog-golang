@@ -26,10 +26,10 @@ func NewFindCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindC
 
 // 查询评论
 func (l *FindCommentLogic) FindComment(in *blog.IdReq) (*blog.Comment, error) {
-	result, err := l.svcCtx.CommentModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.CommentModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCommentModelToPb(result), nil
+	return convert.ConvertCommentModelToPb(entity), nil
 }
