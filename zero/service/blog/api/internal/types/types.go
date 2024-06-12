@@ -344,13 +344,13 @@ type Meta struct {
 }
 
 type OauthLoginReq struct {
-	Platform string `json:"platform,optional"` // 平台
-	Code     string `json:"code,optional"`     // 授权码
-	State    string `json:"state,optional"`    // 状态
+	Platform string `json:"platform"`       // 平台
+	Code     string `json:"code,optional"`  // 授权码
+	State    string `json:"state,optional"` // 状态
 }
 
 type OauthLoginUrlResp struct {
-	Url string `json:"url,optional"` // 授权地址
+	Url string `json:"url"` // 授权地址
 }
 
 type OperationLog struct {

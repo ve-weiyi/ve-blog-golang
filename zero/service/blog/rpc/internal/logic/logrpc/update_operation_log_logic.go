@@ -28,10 +28,10 @@ func NewUpdateOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *UpdateOperationLogLogic) UpdateOperationLog(in *blog.OperationLog) (*blog.OperationLog, error) {
 	entity := convert.ConvertOperationLogPbToModel(in)
 
-	result, err := l.svcCtx.OperationLogModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.OperationLogModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertOperationLogModelToPb(result), nil
+	return convert.ConvertOperationLogModelToPb(entity), nil
 }

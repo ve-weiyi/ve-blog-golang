@@ -28,10 +28,10 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 func (l *UpdateTagLogic) UpdateTag(in *blog.Tag) (*blog.Tag, error) {
 	entity := convert.ConvertTagPbToModel(in)
 
-	result, err := l.svcCtx.TagModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.TagModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTagModelToPb(result), nil
+	return convert.ConvertTagModelToPb(entity), nil
 }

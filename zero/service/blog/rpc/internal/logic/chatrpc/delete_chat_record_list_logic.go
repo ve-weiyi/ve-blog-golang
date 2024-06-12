@@ -25,12 +25,12 @@ func NewDeleteChatRecordListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 批量删除聊天记录
 func (l *DeleteChatRecordListLogic) DeleteChatRecordList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.ChatRecordModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.ChatRecordModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

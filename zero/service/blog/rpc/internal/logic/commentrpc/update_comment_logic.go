@@ -28,10 +28,10 @@ func NewUpdateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 func (l *UpdateCommentLogic) UpdateComment(in *blog.Comment) (*blog.Comment, error) {
 	entity := convert.ConvertCommentPbToModel(in)
 
-	result, err := l.svcCtx.CommentModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.CommentModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCommentModelToPb(result), nil
+	return convert.ConvertCommentModelToPb(entity), nil
 }

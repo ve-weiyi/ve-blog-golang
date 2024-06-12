@@ -26,9 +26,9 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取页面列表
 func (l *FindPageListLogic) FindPageList(in *blog.PageQuery) (*blog.PagePageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.PageModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.PageModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

@@ -26,10 +26,10 @@ func NewFindFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询友链
 func (l *FindFriendLinkLogic) FindFriendLink(in *blog.IdReq) (*blog.FriendLink, error) {
-	result, err := l.svcCtx.FriendLinkModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.FriendLinkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertFriendLinkModelToPb(result), nil
+	return convert.ConvertFriendLinkModelToPb(entity), nil
 }

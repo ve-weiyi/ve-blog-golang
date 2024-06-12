@@ -27,10 +27,10 @@ func NewCreateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 func (l *CreateArticleLogic) CreateArticle(in *blog.Article) (*blog.Article, error) {
 	entity := convert.ConvertArticlePbToModel(in)
 
-	result, err := l.svcCtx.ArticleModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.ArticleModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertArticleModelToPb(result), nil
+	return convert.ConvertArticleModelToPb(entity), nil
 }

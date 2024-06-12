@@ -148,7 +148,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: article.FindArticleHandler(serverCtx),
 			},
 			{
-				// 分页获取文章列表
+				// 获取后台文章列表
 				Method:  http.MethodPost,
 				Path:    "/admin/article/find_article_list",
 				Handler: article.FindArticleListHandler(serverCtx),
@@ -178,19 +178,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: article.FindArticleArchivesHandler(serverCtx),
 			},
 			{
-				// 通过标签或者id获取文章列表
+				// 通过分类获取文章列表
 				Method:  http.MethodPost,
 				Path:    "/article/article_classify_category",
 				Handler: article.FindArticleClassifyCategoryHandler(serverCtx),
 			},
 			{
-				// 通过标签或者id获取文章列表
+				// 通过标签获取文章列表
 				Method:  http.MethodPost,
 				Path:    "/article/article_classify_tag",
 				Handler: article.FindArticleClassifyTagHandler(serverCtx),
 			},
 			{
-				// 分页获取文章列表
+				// 获取首页文章列表
 				Method:  http.MethodPost,
 				Path:    "/article/find_article_home_list",
 				Handler: article.FindArticleHomeListHandler(serverCtx),

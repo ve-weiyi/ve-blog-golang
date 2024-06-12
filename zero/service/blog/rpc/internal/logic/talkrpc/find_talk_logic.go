@@ -26,10 +26,10 @@ func NewFindTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTalk
 
 // 查询说说
 func (l *FindTalkLogic) FindTalk(in *blog.IdReq) (*blog.Talk, error) {
-	result, err := l.svcCtx.TalkModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TalkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTalkModelToPb(result), nil
+	return convert.ConvertTalkModelToPb(entity), nil
 }

@@ -13,8 +13,8 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/model/sql/parser"
 	"github.com/zeromicro/go-zero/tools/goctl/util/pathx"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/tools/field"
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
-	"github.com/ve-weiyi/ve-blog-golang/kit/tools/meta"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
@@ -162,7 +162,7 @@ func TestParseSql(t *testing.T) {
 }
 
 func NewMetas(table *parser.Table) []invent.TemplateMeta {
-	var fs []*meta.Field
+	var fs []*field.Field
 	for _, e := range table.Fields {
 		//log.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
 
@@ -215,15 +215,20 @@ func NewMetas(table *parser.Table) []invent.TemplateMeta {
 	return metas
 }
 
-func convertField(e *parser.Field) *meta.Field {
+func convertField(e *parser.Field) *field.Field {
 
-	return &meta.Field{
+	return &field.Field{
 		Name:    jsonconv.Case2Camel(e.Name.Source()),
 		Type:    e.DataType,
 		Comment: e.Comment,
-		Tag: map[string][]string{
-			"json": []string{
-				e.Name.Source(),
+		Tag: []field.Tag{
+			{
+				Name:  "json",
+				Value: []string{e.Name.Source()},
+			},
+			{
+				Name:  "gorm",
+				Value: []string{e.Name.Source()},
 			},
 		},
 		Docs:     nil,

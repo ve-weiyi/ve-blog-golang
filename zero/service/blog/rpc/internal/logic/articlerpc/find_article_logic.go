@@ -25,10 +25,10 @@ func NewFindArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 }
 
 func (l *FindArticleLogic) FindArticle(in *blog.IdReq) (*blog.Article, error) {
-	result, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertArticleModelToPb(result), nil
+	return convert.ConvertArticleModelToPb(entity), nil
 }

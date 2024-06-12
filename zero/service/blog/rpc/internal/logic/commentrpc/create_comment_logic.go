@@ -28,10 +28,10 @@ func NewCreateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 func (l *CreateCommentLogic) CreateComment(in *blog.Comment) (*blog.Comment, error) {
 	entity := convert.ConvertCommentPbToModel(in)
 
-	result, err := l.svcCtx.CommentModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.CommentModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCommentModelToPb(result), nil
+	return convert.ConvertCommentModelToPb(entity), nil
 }

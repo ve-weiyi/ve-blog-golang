@@ -26,10 +26,10 @@ func NewFindMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindMenu
 
 // 查询菜单
 func (l *FindMenuLogic) FindMenu(in *blog.IdReq) (*blog.Menu, error) {
-	result, err := l.svcCtx.MenuModel.First(l.ctx, "id = ?", in.Id)
+	entity, err := l.svcCtx.MenuModel.First(l.ctx, "id = ?", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertMenuModelToPb(result), nil
+	return convert.ConvertMenuModelToPb(entity), nil
 }

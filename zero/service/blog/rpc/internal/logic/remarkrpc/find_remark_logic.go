@@ -26,10 +26,10 @@ func NewFindRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRe
 
 // 查询留言
 func (l *FindRemarkLogic) FindRemark(in *blog.IdReq) (*blog.Remark, error) {
-	result, err := l.svcCtx.RemarkModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.RemarkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRemarkModelToPb(result), nil
+	return convert.ConvertRemarkModelToPb(entity), nil
 }

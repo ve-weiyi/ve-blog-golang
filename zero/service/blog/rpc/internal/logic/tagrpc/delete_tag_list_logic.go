@@ -25,12 +25,12 @@ func NewDeleteTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 
 // 批量删除标签
 func (l *DeleteTagListLogic) DeleteTagList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.TagModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.TagModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

@@ -28,10 +28,10 @@ func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Creat
 func (l *CreatePhotoLogic) CreatePhoto(in *blog.Photo) (*blog.Photo, error) {
 	entity := convert.ConvertPhotoPbToModel(in)
 
-	result, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoModelToPb(result), nil
+	return convert.ConvertPhotoModelToPb(entity), nil
 }

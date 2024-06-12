@@ -25,12 +25,12 @@ func NewDeletePageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 批量删除页面
 func (l *DeletePageListLogic) DeletePageList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.PageModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.PageModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

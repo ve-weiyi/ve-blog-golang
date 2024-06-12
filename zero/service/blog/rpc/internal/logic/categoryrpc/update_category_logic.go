@@ -28,10 +28,10 @@ func NewUpdateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 func (l *UpdateCategoryLogic) UpdateCategory(in *blog.Category) (*blog.Category, error) {
 	entity := convert.ConvertCategoryPbToModel(in)
 
-	result, err := l.svcCtx.CategoryModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.CategoryModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCategoryModelToPb(result), nil
+	return convert.ConvertCategoryModelToPb(entity), nil
 }
