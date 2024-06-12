@@ -28,10 +28,10 @@ func NewCreateFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *CreateFriendLinkLogic) CreateFriendLink(in *blog.FriendLink) (*blog.FriendLink, error) {
 	entity := convert.ConvertFriendLinkPbToModel(in)
 
-	result, err := l.svcCtx.FriendLinkModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.FriendLinkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertFriendLinkModelToPb(result), nil
+	return convert.ConvertFriendLinkModelToPb(entity), nil
 }

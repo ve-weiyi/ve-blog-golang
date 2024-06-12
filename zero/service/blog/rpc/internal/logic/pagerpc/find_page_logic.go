@@ -26,10 +26,10 @@ func NewFindPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPage
 
 // 查询页面
 func (l *FindPageLogic) FindPage(in *blog.IdReq) (*blog.Page, error) {
-	result, err := l.svcCtx.PageModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.PageModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPageModelToPb(result), nil
+	return convert.ConvertPageModelToPb(entity), nil
 }

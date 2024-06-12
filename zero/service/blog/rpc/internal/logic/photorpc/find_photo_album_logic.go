@@ -26,10 +26,10 @@ func NewFindPhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询相册
 func (l *FindPhotoAlbumLogic) FindPhotoAlbum(in *blog.IdReq) (*blog.PhotoAlbum, error) {
-	result, err := l.svcCtx.PhotoAlbumModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.PhotoAlbumModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoAlbumModelToPb(result), nil
+	return convert.ConvertPhotoAlbumModelToPb(entity), nil
 }

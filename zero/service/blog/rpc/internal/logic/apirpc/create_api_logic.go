@@ -28,10 +28,10 @@ func NewCreateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateA
 func (l *CreateApiLogic) CreateApi(in *blog.Api) (*blog.Api, error) {
 	entity := convert.ConvertApiPbToModel(in)
 
-	result, err := l.svcCtx.ApiModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.ApiModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertApiModelToPb(result), nil
+	return convert.ConvertApiModelToPb(entity), nil
 }

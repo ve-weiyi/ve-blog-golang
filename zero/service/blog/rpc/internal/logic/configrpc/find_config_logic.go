@@ -24,12 +24,12 @@ func NewFindConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCo
 }
 
 func (l *FindConfigLogic) FindConfig(in *blog.FindConfigReq) (*blog.FindConfigResp, error) {
-	result, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
+	entity, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.FindConfigResp{
-		ConfigValue: result.Config,
+		ConfigValue: entity.Config,
 	}, nil
 }

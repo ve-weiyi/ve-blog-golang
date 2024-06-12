@@ -28,10 +28,10 @@ func NewCreatePhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *CreatePhotoAlbumLogic) CreatePhotoAlbum(in *blog.PhotoAlbum) (*blog.PhotoAlbum, error) {
 	entity := convert.ConvertPhotoAlbumPbToModel(in)
 
-	result, err := l.svcCtx.PhotoAlbumModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.PhotoAlbumModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoAlbumModelToPb(result), nil
+	return convert.ConvertPhotoAlbumModelToPb(entity), nil
 }

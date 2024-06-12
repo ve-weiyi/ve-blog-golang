@@ -26,10 +26,10 @@ func NewFindRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRole
 
 // 查询角色
 func (l *FindRoleLogic) FindRole(in *blog.IdReq) (*blog.Role, error) {
-	result, err := l.svcCtx.RoleModel.First(l.ctx, "id = ?", in.Id)
+	entity, err := l.svcCtx.RoleModel.First(l.ctx, "id = ?", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRoleModelToPb(result), nil
+	return convert.ConvertRoleModelToPb(entity), nil
 }

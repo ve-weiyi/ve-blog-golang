@@ -27,9 +27,9 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取菜单列表
 func (l *FindMenuListLogic) FindMenuList(in *blog.PageQuery) (*blog.MenuPageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.MenuModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.MenuModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

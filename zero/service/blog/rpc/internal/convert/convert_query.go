@@ -6,11 +6,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 )
 
-func ParsePageQuery(in *blog.PageQuery) (limit int, offset int, sorts string, conditions string, params []interface{}) {
-	limit, offset = LimitClause(in)
+func ParsePageQuery(in *blog.PageQuery) (page int, size int, sorts string, conditions string, params []interface{}) {
+	//limit, offset = LimitClause(in)
 	//sorts = OrderClause(in.Sorts)
 	//conditions, params = ConditionClause(in.Conditions)
 
+	page = int(in.Page)
+	size = int(in.PageSize)
 	sorts = in.Sorts
 	conditions = in.Conditions
 
@@ -18,7 +20,7 @@ func ParsePageQuery(in *blog.PageQuery) (limit int, offset int, sorts string, co
 		params = append(params, v)
 	}
 
-	return limit, offset, sorts, conditions, params
+	return page, size, sorts, conditions, params
 }
 
 // 分页语句

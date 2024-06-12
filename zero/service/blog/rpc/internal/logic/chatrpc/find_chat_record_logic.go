@@ -26,10 +26,10 @@ func NewFindChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询聊天记录
 func (l *FindChatRecordLogic) FindChatRecord(in *blog.IdReq) (*blog.ChatRecord, error) {
-	result, err := l.svcCtx.ChatRecordModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.ChatRecordModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertChatRecordModelToPb(result), nil
+	return convert.ConvertChatRecordModelToPb(entity), nil
 }

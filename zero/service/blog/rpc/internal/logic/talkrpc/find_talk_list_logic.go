@@ -26,9 +26,9 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 分页获取说说列表
 func (l *FindTalkListLogic) FindTalkList(in *blog.PageQuery) (*blog.TalkPageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.TalkModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.TalkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

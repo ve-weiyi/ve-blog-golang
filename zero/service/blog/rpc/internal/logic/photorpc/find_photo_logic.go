@@ -26,10 +26,10 @@ func NewFindPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPho
 
 // 查询照片
 func (l *FindPhotoLogic) FindPhoto(in *blog.IdReq) (*blog.Photo, error) {
-	result, err := l.svcCtx.PhotoModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.PhotoModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoModelToPb(result), nil
+	return convert.ConvertPhotoModelToPb(entity), nil
 }

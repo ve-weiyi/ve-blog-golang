@@ -28,10 +28,10 @@ func NewCreateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateTalkLogic) CreateTalk(in *blog.Talk) (*blog.Talk, error) {
 	entity := convert.ConvertTalkPbToModel(in)
 
-	result, err := l.svcCtx.TalkModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TalkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTalkModelToPb(result), nil
+	return convert.ConvertTalkModelToPb(entity), nil
 }

@@ -25,12 +25,12 @@ func NewDeletePhotoAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 批量删除相册
 func (l *DeletePhotoAlbumListLogic) DeletePhotoAlbumList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.PhotoAlbumModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.PhotoAlbumModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

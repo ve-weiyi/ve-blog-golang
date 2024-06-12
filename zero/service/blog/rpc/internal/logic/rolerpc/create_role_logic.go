@@ -28,10 +28,10 @@ func NewCreateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateRoleLogic) CreateRole(in *blog.Role) (*blog.Role, error) {
 	entity := convert.ConvertRolePbToModel(in)
 
-	result, err := l.svcCtx.RoleModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.RoleModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRoleModelToPb(result), nil
+	return convert.ConvertRoleModelToPb(entity), nil
 }

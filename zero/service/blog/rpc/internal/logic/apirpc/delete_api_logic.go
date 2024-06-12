@@ -25,17 +25,17 @@ func NewDeleteApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteA
 
 // 删除接口
 func (l *DeleteApiLogic) DeleteApi(in *blog.IdReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.ApiModel.Delete(l.ctx, in.Id)
+	rows, err := l.svcCtx.ApiModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	result2, err := l.svcCtx.ApiModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
+	rows2, err := l.svcCtx.ApiModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result + result2,
+		SuccessCount: rows + rows2,
 	}, nil
 }
