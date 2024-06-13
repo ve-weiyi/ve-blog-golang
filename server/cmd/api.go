@@ -32,10 +32,10 @@ func NewApiCmd() *ApiCmd {
 		Short: "启动接口服务",
 		Long:  `启动接口服务`,
 		Run: func(cmd *cobra.Command, args []string) {
-			apiCmd.RunApi()
+			apiCmd.RunApi(cmd, args)
 		},
 	}
-	apiCmd.cmd.PersistentPreRun = apiCmd.persistentPreRun
+
 	apiCmd.init()
 	return apiCmd
 }
@@ -44,15 +44,15 @@ func (s *ApiCmd) init() {
 	nacosCfg := s.GetDefaultNacosConfig()
 	s.nacosCfg = nacosCfg
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVarP(&s.configMode, "config", "c", "file", "the way of read config file (file|nacos)")
-	s.cmd.PersistentFlags().StringVarP(&s.filepath, "filepath", "f", "config.yaml", "config file path (default is ./config.yaml)")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.IP, "n-ip", nacosCfg.IP, "the ip for nacos")
-	s.cmd.PersistentFlags().Uint64Var(&s.nacosCfg.Port, "n-port", nacosCfg.Port, "the port for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.UserName, "n-user", nacosCfg.UserName, "the user for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.Password, "n-password", nacosCfg.Password, "the password for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.DataId, "n-data-id", nacosCfg.DataId, "the DataId for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.Group, "n-group", nacosCfg.Group, "the group for nacos")
-	s.cmd.PersistentFlags().StringVar(&s.nacosCfg.NameSpaceId, "n-namespace", nacosCfg.NameSpaceId, "the namespace for nacos")
+	s.cmd.Flags().StringVarP(&s.configMode, "config", "c", "file", "the way of read config file (file|nacos)")
+	s.cmd.Flags().StringVarP(&s.filepath, "filepath", "f", "config.yaml", "config file path (default is ./config.yaml)")
+	s.cmd.Flags().StringVar(&s.nacosCfg.IP, "n-ip", nacosCfg.IP, "the ip for nacos")
+	s.cmd.Flags().Uint64Var(&s.nacosCfg.Port, "n-port", nacosCfg.Port, "the port for nacos")
+	s.cmd.Flags().StringVar(&s.nacosCfg.UserName, "n-user", nacosCfg.UserName, "the user for nacos")
+	s.cmd.Flags().StringVar(&s.nacosCfg.Password, "n-password", nacosCfg.Password, "the password for nacos")
+	s.cmd.Flags().StringVar(&s.nacosCfg.DataId, "n-data-id", nacosCfg.DataId, "the DataId for nacos")
+	s.cmd.Flags().StringVar(&s.nacosCfg.Group, "n-group", nacosCfg.Group, "the group for nacos")
+	s.cmd.Flags().StringVar(&s.nacosCfg.NameSpaceId, "n-namespace", nacosCfg.NameSpaceId, "the namespace for nacos")
 }
 
 func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
@@ -70,11 +70,7 @@ func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 	}
 }
 
-func (s *ApiCmd) persistentPreRun(cmd *cobra.Command, args []string) {
-
-}
-
-func (s *ApiCmd) RunApi() {
+func (s *ApiCmd) RunApi(cmd *cobra.Command, args []string) {
 	var c config.Config
 	var content string
 

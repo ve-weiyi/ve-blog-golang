@@ -28,24 +28,20 @@ func NewRabbitmqCmd() *RabbitmqCmd {
 		Short: "运行rabbitmq服务",
 		Long:  `运行rabbitmq服务，订阅消息,发送邮件`,
 		Run: func(cmd *cobra.Command, args []string) {
-			rabbitmqCmd.RunRabbitmq()
+			rabbitmqCmd.RunRabbitmq(cmd, args)
 		},
 	}
-	rabbitmqCmd.cmd.PersistentPreRun = rabbitmqCmd.persistentPreRun
+
 	rabbitmqCmd.init()
 	return rabbitmqCmd
 }
 
 func (s *RabbitmqCmd) init() {
 	// 设置默认参数
-	s.cmd.PersistentFlags().StringVarP(&s.filepath, "filepath", "f", "config.yaml", "config file path (default is ./config.yaml)")
+	s.cmd.Flags().StringVarP(&s.filepath, "filepath", "f", "config.yaml", "config file path (default is ./config.yaml)")
 }
 
-func (s *RabbitmqCmd) persistentPreRun(cmd *cobra.Command, args []string) {
-
-}
-
-func (s *RabbitmqCmd) RunRabbitmq() {
+func (s *RabbitmqCmd) RunRabbitmq(cmd *cobra.Command, args []string) {
 	var c config.Config
 	// 初始化Viper
 	v := viper.New()
