@@ -40,26 +40,27 @@ func NewMigrateCmd() *MigrateCmd {
 		Short: "初始化数据库表",
 		Long:  `初始化数据库表，支持自定义数据库配置和sql文件`,
 		Run: func(cmd *cobra.Command, args []string) {
-			migrateCmd.MigrateDB()
+			migrateCmd.RunMigrate(cmd, args)
 		},
 	}
+
 	migrateCmd.init()
 	return migrateCmd
 }
 
 func (s *MigrateCmd) init() {
-	s.cmd.PersistentFlags().StringVarP(&s.action, "action", "a", "migrate", "migrate|reset")
-	s.cmd.PersistentFlags().StringVarP(&s.sqlFile, "file", "", "blog-veweiyi.sql", "数据库sql文件")
+	s.cmd.Flags().StringVarP(&s.action, "action", "a", "migrate", "migrate|reset")
+	s.cmd.Flags().StringVarP(&s.sqlFile, "file", "", "blog-veweiyi.sql", "数据库sql文件")
 
-	s.cmd.PersistentFlags().StringVarP(&s.Host, "host", "", "localhost", "数据库ip")
-	s.cmd.PersistentFlags().StringVarP(&s.Port, "port", "", "3306", "数据库端口")
-	s.cmd.PersistentFlags().StringVarP(&s.Username, "username", "", "root", "账号")
-	s.cmd.PersistentFlags().StringVarP(&s.Password, "password", "", "123456", "密码")
-	s.cmd.PersistentFlags().StringVarP(&s.Dbname, "name", "", "blog", "数据库名称")
-	s.cmd.PersistentFlags().StringVarP(&s.Config, "config", "", "charset=utf8mb4&parseTime=True&loc=Local", "数据库配置")
+	s.cmd.Flags().StringVarP(&s.Host, "host", "", "localhost", "数据库ip")
+	s.cmd.Flags().StringVarP(&s.Port, "port", "", "3306", "数据库端口")
+	s.cmd.Flags().StringVarP(&s.Username, "username", "", "root", "账号")
+	s.cmd.Flags().StringVarP(&s.Password, "password", "", "123456", "密码")
+	s.cmd.Flags().StringVarP(&s.Dbname, "name", "", "blog", "数据库名称")
+	s.cmd.Flags().StringVarP(&s.Config, "config", "", "charset=utf8mb4&parseTime=True&loc=Local", "数据库配置")
 }
 
-func (s *MigrateCmd) MigrateDB() {
+func (s *MigrateCmd) RunMigrate(cmd *cobra.Command, args []string) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", s.Username, s.Password, s.Host, s.Port, "", s.Config)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		//PrepareStmt:            true, // 缓存预编译语句
