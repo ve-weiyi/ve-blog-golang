@@ -1,4 +1,4 @@
-package svctest
+package svc
 
 import (
 	"log"
@@ -9,7 +9,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/config"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 )
 
 func NewTestConfig() config.Config {
@@ -47,21 +46,21 @@ func NewTestConfig() config.Config {
 	}
 }
 
-func NewTestServiceContext() *svc.ServiceContext {
+func NewTestServiceContext() *ServiceContext {
 	log.SetFlags(log.LstdFlags | log.Llongfile)
 
 	c := NewTestConfig()
 
-	db, err := svc.ConnectGorm(c.MysqlConf, c.Log)
+	db, err := ConnectGorm(c.MysqlConf, c.Log)
 	if err != nil {
 		panic(err)
 	}
 
-	rds, err := svc.ConnectRedis(c.RedisConf)
+	rds, err := ConnectRedis(c.RedisConf)
 	if err != nil {
 		panic(err)
 	}
-	return &svc.ServiceContext{
+	return &ServiceContext{
 		Config: c,
 		Gorm:   db,
 

@@ -2,17 +2,42 @@ package _test
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/model"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/utils/svctest"
 )
 
+const dsn = "root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local"
+
+var db *gorm.DB
+
+func init() {
+	var err error
+	// 连接数据库
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			//TablePrefix: "tb_",
+			// 使用单数表名，启用该选项，此时，`User` 的表名应该是 `user`
+			SingularTable: true,
+		},
+	})
+	if err != nil {
+		panic(fmt.Errorf("cannot establish db connection: %w", err))
+	}
+	log.Println("mysql connection done")
+}
+
 func Test_Api_Update(t *testing.T) {
-	svcCtx := svctest.NewTestServiceContext()
+
+	OperationLogModel := model.NewOperationLogModel(db, nil)
 	ctx := context.Background()
 
 	data := &model.OperationLog{
@@ -31,11 +56,11 @@ func Test_Api_Update(t *testing.T) {
 		Cost:           "",
 	}
 
-	batch, err := svcCtx.OperationLogModel.DeleteBatch(ctx, "1=1")
+	batch, err := OperationLogModel.DeleteBatch(ctx, "1=1")
 	assert.Equal(t, nil, err)
 	t.Log(batch)
 
-	insert, err := svcCtx.OperationLogModel.Insert(ctx, data)
+	insert, err := OperationLogModel.Insert(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), insert)
 	t.Log(jsonconv.ObjectToJsonIndent(data))
@@ -43,22 +68,22 @@ func Test_Api_Update(t *testing.T) {
 	data.Nickname = "test_nickname_update"
 	data.IpAddress = ""
 	data.ResponseStatus = 0
-	update, err := svcCtx.OperationLogModel.Update(ctx, data)
+	update, err := OperationLogModel.Update(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), update)
 
-	one, err := svcCtx.OperationLogModel.FindOne(ctx, data.Id)
+	one, err := OperationLogModel.FindOne(ctx, data.Id)
 	assert.Equal(t, nil, err)
 	t.Log(jsonconv.ObjectToJsonIndent(one))
 
 	data.Nickname = "test_nickname_save"
 	data.IpAddress = ""
 	data.ResponseStatus = 0
-	save, err := svcCtx.OperationLogModel.Save(ctx, data)
+	save, err := OperationLogModel.Save(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), save)
 
-	first, err := svcCtx.OperationLogModel.First(ctx, "id = ?", data.Id)
+	first, err := OperationLogModel.First(ctx, "id = ?", data.Id)
 	assert.Equal(t, nil, err)
 	t.Log(jsonconv.ObjectToJsonIndent(first))
 }
