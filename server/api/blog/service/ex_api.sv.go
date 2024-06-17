@@ -58,7 +58,7 @@ func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 			}
 		}
 
-		var traceable int
+		var traceable int64
 		if strings.ToUpper(api.Method) == "PUT" || strings.ToUpper(api.Method) == "DELETE" {
 			traceable = 1
 		}

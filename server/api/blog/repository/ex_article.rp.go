@@ -8,7 +8,7 @@ import (
 )
 
 // 根据分类id获取文章
-func (s *ArticleRepository) FindArticleListByCategoryId(ctx context.Context, categoryId int) (list []*entity.Article, err error) {
+func (s *ArticleRepository) FindArticleListByCategoryId(ctx context.Context, categoryId int64) (list []*entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	err = db.Model(&entity.Article{}).Where("category_id = ?", categoryId).Find(&list).Error
 	if err != nil {
@@ -19,7 +19,7 @@ func (s *ArticleRepository) FindArticleListByCategoryId(ctx context.Context, cat
 }
 
 // 根据标签id获取文章
-func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId int) (list []*entity.Article, err error) {
+func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId int64) (list []*entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	// 获取文章标签映射
@@ -30,7 +30,7 @@ func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId in
 	}
 
 	// 获取文章id列表
-	var ids []int
+	var ids []int64
 	for _, at := range ats {
 		ids = append(ids, at.ArticleId)
 	}
@@ -45,7 +45,7 @@ func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId in
 }
 
 // 获取推荐文章,与id相同分类的文章
-func (s *ArticleRepository) FindRecommendArticle(ctx context.Context, cateId int) (list []*entity.Article, err error) {
+func (s *ArticleRepository) FindRecommendArticle(ctx context.Context, cateId int64) (list []*entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("category_id = ?", cateId).Limit(5).Find(&list).Error
 	if err != nil {
@@ -55,7 +55,7 @@ func (s *ArticleRepository) FindRecommendArticle(ctx context.Context, cateId int
 }
 
 // 获取上一篇文章
-func (s *ArticleRepository) FindLastArticle(ctx context.Context, id int) (out *entity.Article, err error) {
+func (s *ArticleRepository) FindLastArticle(ctx context.Context, id int64) (out *entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	var lastArticle entity.Article
 	err = db.Where("id < ?", id).Order("`id` desc").First(&lastArticle).Error
@@ -67,7 +67,7 @@ func (s *ArticleRepository) FindLastArticle(ctx context.Context, id int) (out *e
 }
 
 // 获取下一篇文章
-func (s *ArticleRepository) FindNextArticle(ctx context.Context, id int) (out *entity.Article, err error) {
+func (s *ArticleRepository) FindNextArticle(ctx context.Context, id int64) (out *entity.Article, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	var nextArticle entity.Article
 	err = db.Where("id > ?", id).Order("`id` asc").First(&nextArticle).Error
@@ -79,7 +79,7 @@ func (s *ArticleRepository) FindNextArticle(ctx context.Context, id int) (out *e
 }
 
 // 修改文章删除状态
-func (s *ArticleRepository) UpdateArticleDelete(ctx context.Context, id int, delete int) (rows int, err error) {
+func (s *ArticleRepository) UpdateArticleDelete(ctx context.Context, id int64, delete int64) (rows int, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	query := db.Model(&entity.Article{}).Where("id = ?", id).Update("is_delete", delete)
 	err = query.Error
@@ -88,7 +88,7 @@ func (s *ArticleRepository) UpdateArticleDelete(ctx context.Context, id int, del
 }
 
 // 修改文章置顶状态
-func (s *ArticleRepository) UpdateArticleTop(ctx context.Context, id int, top int) (rows int, err error) {
+func (s *ArticleRepository) UpdateArticleTop(ctx context.Context, id int64, top int64) (rows int, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	query := db.Model(&entity.Article{}).Where("id = ?", id).Update("is_top", top)
 	err = query.Error
@@ -97,7 +97,7 @@ func (s *ArticleRepository) UpdateArticleTop(ctx context.Context, id int, top in
 }
 
 // 点赞评论
-func (s *ArticleRepository) LikeArticle(ctx context.Context, uid int, articleId int) (data interface{}, err error) {
+func (s *ArticleRepository) LikeArticle(ctx context.Context, uid int64, articleId int64) (data interface{}, err error) {
 	// 用户点赞的评论列表
 	articleUserLikeKey := cache.WrapCacheKey(cache.ArticleUserLike, uid)
 	// 当前评论的点赞量
@@ -120,7 +120,7 @@ func (s *ArticleRepository) LikeArticle(ctx context.Context, uid int, articleId 
 }
 
 // 获取用户点赞记录
-func (s *ArticleRepository) FindUserLikeArticle(ctx context.Context, uid int) (data []string, err error) {
+func (s *ArticleRepository) FindUserLikeArticle(ctx context.Context, uid int64) (data []string, err error) {
 	// 用户点赞的评论列表
 	articleUserLikeKey := cache.WrapCacheKey(cache.ArticleUserLike, uid)
 	return s.Cache.SMembers(ctx, articleUserLikeKey).Result()

@@ -4,7 +4,7 @@ import "fmt"
 
 // ApiError 是一个API错误的结构体
 type ApiError struct {
-	Code    int         `json:"code"`
+	Code    int64       `json:"code"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
@@ -28,7 +28,7 @@ func (e *ApiError) WrapMessage(err string) *ApiError {
 }
 
 // NewApiError 创建一个新的API错误
-func NewApiError(code int, message string) *ApiError {
+func NewApiError(code int64, message string) *ApiError {
 	return &ApiError{
 		Code:    code,
 		Message: message,

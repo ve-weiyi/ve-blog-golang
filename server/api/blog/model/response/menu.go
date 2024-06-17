@@ -5,10 +5,10 @@ import (
 )
 
 type MenuDetailsDTO struct {
-	Id        int               `json:"id"`        // 主键
-	ParentId  int               `json:"parent_id"` // 父id
+	Id        int64             `json:"id"`        // 主键
+	ParentId  int64             `json:"parent_id"` // 父id
 	Title     string            `json:"title"`     // 菜单标题
-	Type      int               `json:"type"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+	Type      int64             `json:"type"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
 	Path      string            `json:"path"`      // 路由地址
 	Name      string            `json:"name"`      // 路由名字
 	Component interface{}       `json:"component"` // Layout组件
@@ -24,7 +24,7 @@ type Meta struct {
 	Title    string `json:"title"`    // 菜单名称
 	Icon     string `json:"icon"`     // 菜单图标
 	ShowLink bool   `json:"showLink"` // 是否在菜单中显示
-	Rank     int    `json:"rank"`     // 菜单升序排序
+	Rank     int64  `json:"rank"`     // 菜单升序排序
 
 	// 子菜单才有的属性
 	ExtraIcon    interface{} `json:"extraIcon,omitempty"`    // 菜单名称右侧的额外图标
@@ -36,7 +36,7 @@ type Meta struct {
 	FrameLoading bool        `json:"frameLoading,omitempty"` // iframe页是否开启首次加载动画
 	Transition   Transition  `json:"transition,omitempty"`   // 页面加载动画
 	HiddenTag    bool        `json:"hiddenTag,omitempty"`    // 是否不添加信息到标签页
-	DynamicLevel int         `json:"dynamicLevel,omitempty"` // 动态路由可打开的最大数量
+	DynamicLevel int64       `json:"dynamicLevel,omitempty"` // 动态路由可打开的最大数量
 	ActivePath   string      `json:"activePath,omitempty"`   // 将某个菜单激活
 }
 

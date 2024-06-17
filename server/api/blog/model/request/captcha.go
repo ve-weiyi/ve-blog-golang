@@ -9,9 +9,9 @@ import (
 // 验证码生成
 type CaptchaReq struct {
 	CaptchaType string `json:"captcha_type"`
-	Height      int    `json:"height"` // Height png height in pixel.
-	Width       int    `json:"width"`  // Width CaptchaReq png width in pixel.
-	Length      int    `json:"length"` // DefaultLen Default number of digits in captcha solution.
+	Height      int64  `json:"height"` // Height png height in pixel.
+	Width       int64  `json:"width"`  // Width CaptchaReq png width in pixel.
+	Length      int64  `json:"length"` // DefaultLen Default number of digits in captcha solution.
 }
 
 // 验证码验证请求

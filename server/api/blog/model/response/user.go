@@ -5,7 +5,7 @@ import (
 )
 
 type UserDTO struct {
-	Id       int    `json:"id"`
+	Id       int64  `json:"id"`
 	Username string `json:"username"`
 	Nickname string `json:"nickname"`
 	Avatar   string `json:"avatar"`
@@ -13,7 +13,7 @@ type UserDTO struct {
 	Website  string `json:"website"`
 	Email    string `json:"email"`
 
-	Status       int    `json:"status"`
+	Status       int64  `json:"status"`
 	RegisterType string `json:"register_type"`
 	IpAddress    string `json:"ip_address"` // ip host
 	IpSource     string `json:"ip_source"`  // ip 源
@@ -25,16 +25,16 @@ type UserDTO struct {
 
 type UserAreaDTO struct {
 	Name  string `json:"name"`
-	Value int    `json:"value"`
+	Value int64  `json:"value"`
 }
 
 type UserMenuDTO struct {
-	Id        int           `json:"id"`
+	Id        int64         `json:"id"`
 	Name      string        `json:"name"`
 	Path      string        `json:"path"`
 	Component string        `json:"component"`
 	Icon      string        `json:"icon"`
-	Rank      int           `json:"rank"`
-	IsHidden  int           `json:"is_hidden"`
+	Rank      int64         `json:"rank"`
+	IsHidden  int64         `json:"is_hidden"`
 	Children  []UserMenuDTO `json:"children"`
 }

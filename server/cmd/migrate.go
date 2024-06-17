@@ -197,12 +197,6 @@ func (s *MigrateCmd) ResetDatabase(db *gorm.DB) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// ****重置casbin记录表****
-	err = ClearTable(db, entity.TableNameCasbinRule)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func ClearTable(db *gorm.DB, tableName string) (err error) {

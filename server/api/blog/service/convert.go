@@ -31,7 +31,7 @@ func convertArticle(article *entity.Article) response.ArticleDTO {
 		IsDelete:       article.IsDelete,
 		Type:           article.Type,
 		Status:         article.Status,
-		OriginalURL:    article.OriginalURL,
+		OriginalUrl:    article.OriginalUrl,
 		CreatedAt:      article.CreatedAt,
 		UpdatedAt:      article.UpdatedAt,
 	}
@@ -182,7 +182,7 @@ func convertMenu(entity *entity.Menu) *response.MenuDetailsDTO {
 	}
 
 	meta := response.Meta{}
-	jsonconv.JsonToObject(entity.Meta, &meta)
+	jsonconv.JsonToObject(entity.Extra, &meta)
 
 	return &response.MenuDetailsDTO{
 		Id:        entity.Id,

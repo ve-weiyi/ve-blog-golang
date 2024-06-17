@@ -19,17 +19,17 @@ type ArticleBack struct {
 }
 
 type ArticleDTO struct {
-	Id             int       `json:"id"`              // 文章ID
+	Id             int64     `json:"id"`              // 文章ID
 	ArticleCover   string    `json:"article_cover"`   // 文章缩略图
 	ArticleTitle   string    `json:"article_title"`   // 标题
 	ArticleContent string    `json:"article_content"` // 内容
-	LikeCount      int       `json:"like_count"`      // 点赞量
-	ViewsCount     int       `json:"views_count"`     // 浏览量
-	Type           int       `json:"type"`            // 文章类型
-	OriginalURL    string    `json:"original_url"`    // 原文链接
-	IsTop          int       `json:"is_top"`          // 是否置顶
-	IsDelete       int       `json:"is_delete"`       // 是否删除
-	Status         int       `json:"status"`          // 状态值 1 公开 2 私密 3 评论可见
+	LikeCount      int64     `json:"like_count"`      // 点赞量
+	ViewsCount     int64     `json:"views_count"`     // 浏览量
+	Type           int64     `json:"type"`            // 文章类型
+	OriginalUrl    string    `json:"original_url"`    // 原文链接
+	IsTop          int64     `json:"is_top"`          // 是否置顶
+	IsDelete       int64     `json:"is_delete"`       // 是否删除
+	Status         int64     `json:"status"`          // 状态值 1 公开 2 私密 3 评论可见
 	CreatedAt      time.Time `json:"created_at"`      // 发表时间
 	UpdatedAt      time.Time `json:"updated_at"`      // 更新时间
 }
@@ -51,7 +51,7 @@ type ArticlePageDetailsDTO struct {
 
 // 文章预览
 type ArticlePreviewDTO struct {
-	Id           int       `json:"id"`            // 文章ID
+	Id           int64     `json:"id"`            // 文章ID
 	ArticleCover string    `json:"article_cover"` // 文章缩略图
 	ArticleTitle string    `json:"article_title"` // 标题
 	CreatedAt    time.Time `json:"created_at"`    // 创建时间

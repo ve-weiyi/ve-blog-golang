@@ -32,7 +32,7 @@ func (m *BaseController) GetRequestContext(ctx *gin.Context) (*request.Context, 
 
 	reqCtx := &request.Context{}
 	reqCtx.Token = ctx.GetHeader(constant.HeaderToken)
-	reqCtx.Uid = cast.ToInt(ctx.GetHeader(constant.HeaderUid))
+	reqCtx.Uid = cast.ToInt64(ctx.GetHeader(constant.HeaderUid))
 	reqCtx.IpAddress = ctx.ClientIP()
 	reqCtx.UserAgent = ctx.Request.UserAgent()
 	reqCtx.Context = ctx.Request.Context()
@@ -107,7 +107,7 @@ func (m *BaseController) ShouldBind(ctx *gin.Context, req interface{}) error {
 	return m.ShouldBindJSON(ctx, req)
 }
 
-func (m *BaseController) Response(ctx *gin.Context, code int, msg string, data interface{}) {
+func (m *BaseController) Response(ctx *gin.Context, code int64, msg string, data interface{}) {
 	obj := response.Response{
 		Code:    code,
 		Message: msg,

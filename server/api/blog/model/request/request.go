@@ -10,7 +10,7 @@ import (
 type Context struct {
 	context.Context `json:"-" header:"-"`
 	Token           string `json:"token" header:"token" example:""`
-	Uid             int    `json:"uid" header:"-" example:""`
+	Uid             int64  `json:"uid" header:"-" example:""`
 	IpAddress       string `json:"ip_address" header:"-" example:""`
 	UserAgent       string `json:"user_agent" header:"-" example:""`
 }
@@ -29,11 +29,11 @@ func (s *Context) GetIpSource() string {
 }
 
 type IdReq struct {
-	Id int `json:"id" form:"id" binding:"required"`
+	Id int64 `json:"id" form:"id" binding:"required"`
 }
 
 type IdsReq struct {
-	Ids []int `json:"ids" form:"ids" binding:"required"`
+	Ids []int64 `json:"ids" form:"ids" binding:"required"`
 }
 
 type EmptyReq struct{}

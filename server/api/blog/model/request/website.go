@@ -11,9 +11,9 @@ type WebsiteConfigReq struct {
 
 // VoiceVO 表示系统中的音频数据。
 type VoiceVO struct {
-	Type int `json:"type" validate:"required"` // 消息类型
+	Type int64 `json:"type" validate:"required"` // 消息类型
 	//File *multipart.FileHeader `json:"file" validate:"required"` // 文件
-	//UserId    int                   `json:"user_id" validate:"required"`    // 用户id
+	//UserId    int64                   `json:"user_id" validate:"required"`    // 用户id
 	//Nickname  string                `json:"nickname" validate:"required"`   // 用户昵称
 	//Avatar    string                `json:"avatar" validate:"required"`     // 用户头像
 	Content string `json:"content" validate:"required"` // 聊天内容
@@ -27,12 +27,12 @@ type WebsiteConfigDTO struct {
 	AlipayQrCode      string      `json:"alipay_qr_code"`      // 支付宝二维码
 	Gitee             string      `json:"gitee"`               // Gitee
 	Github            string      `json:"github"`              // Github
-	IsChatRoom        int         `json:"is_chat_room"`        // 是否开启聊天室
-	IsCommentReview   int         `json:"is_comment_review"`   // 是否开启评论审核
-	IsEmailNotice     int         `json:"is_email_notice"`     // 是否开启邮件通知
-	IsMessageReview   int         `json:"is_message_review"`   // 是否开启留言审核
-	IsMusicPlayer     int         `json:"is_music_player"`     // 是否开启音乐播放器
-	IsReward          int         `json:"is_reward"`           // 是否开启打赏
+	IsChatRoom        int64       `json:"is_chat_room"`        // 是否开启聊天室
+	IsCommentReview   int64       `json:"is_comment_review"`   // 是否开启评论审核
+	IsEmailNotice     int64       `json:"is_email_notice"`     // 是否开启邮件通知
+	IsMessageReview   int64       `json:"is_message_review"`   // 是否开启留言审核
+	IsMusicPlayer     int64       `json:"is_music_player"`     // 是否开启音乐播放器
+	IsReward          int64       `json:"is_reward"`           // 是否开启打赏
 	Qq                string      `json:"qq"`                  // QQ
 	SocialLoginList   []string    `json:"social_login_list"`   // 社交登录列表
 	SocialUrlList     []string    `json:"social_url_list"`     // 社交地址列表

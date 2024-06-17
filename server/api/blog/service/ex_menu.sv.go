@@ -40,7 +40,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 				Component: jsonconv.ObjectToJson(item.Component),
 				Redirect:  item.Redirect,
 				Type:      item.Type,
-				Meta:      jsonconv.ObjectToJson(item.Meta),
+				Extra:     jsonconv.ObjectToJson(item.Meta),
 			}
 			_, err = l.svcCtx.MenuRepository.Create(reqCtx, exist)
 			if err != nil {
@@ -55,7 +55,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 			menu, _ := l.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
 			if menu == nil {
 				if child.Meta.Rank == 0 {
-					child.Meta.Rank = i
+					child.Meta.Rank = int64(i)
 				}
 
 				// 插入数据
@@ -67,7 +67,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 					Component: jsonconv.ObjectToJson(child.Component),
 					Redirect:  child.Redirect,
 					Type:      child.Type,
-					Meta:      jsonconv.ObjectToJson(child.Meta),
+					Extra:     jsonconv.ObjectToJson(child.Meta),
 				}
 				_, err = l.svcCtx.MenuRepository.Create(reqCtx, menu)
 				if err != nil {
