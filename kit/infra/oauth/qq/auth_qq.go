@@ -36,7 +36,7 @@ func (a *AuthQq) GetName() string {
 }
 
 // 获取登录地址
-func (a *AuthQq) GetRedirectUrl(state string) string {
+func (a *AuthQq) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
 		httpx.WithParam("response_type", "code"),

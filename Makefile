@@ -6,3 +6,6 @@ build-blog-rpc:
 
 build-blog-api:
 	go run zero/service/api/blog/blog.go
+
+build-admin-api:
+	go run zero/service/api/admin/admin.go
