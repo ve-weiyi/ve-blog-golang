@@ -1,16 +1,17 @@
 package service
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type OperationLogService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogService(svcCtx *svc.ServiceContext) *OperationLogService {
+func NewOperationLogService(svcCtx *svctx.ServiceContext) *OperationLogService {
 	return &OperationLogService{
 		svcCtx: svcCtx,
 	}
@@ -42,11 +43,12 @@ func (l *OperationLogService) DeleteOperationLogList(reqCtx *request.Context, re
 }
 
 // 分页获取OperationLog记录
-func (l *OperationLogService) FindOperationLogList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.OperationLog, total int64, err error) {
+func (l *OperationLogService) FindOperationLogList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.OperationLog, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = l.svcCtx.OperationLogRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err = l.svcCtx.OperationLogRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

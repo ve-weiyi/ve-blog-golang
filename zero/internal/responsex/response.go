@@ -30,7 +30,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 
 		case *apierr.ApiError:
 			body := Body{
-				Code:    e.Code,
+				Code:    int(e.Code),
 				Message: e.Error(),
 				Data:    "服务错误",
 				TraceId: GetTraceId(r),
@@ -50,7 +50,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 			body := Body{
 				Code:    http.StatusInternalServerError,
 				Message: e.Error(),
-				Data:    "服务错误",
+				Data:    "数据库错误",
 				TraceId: GetTraceId(r),
 			}
 			httpx.OkJsonCtx(r.Context(), w, body)
@@ -59,7 +59,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 			body := Body{
 				Code:    http.StatusInternalServerError,
 				Message: err.Error(),
-				Data:    "数据库错误",
+				Data:    "服务错误",
 				TraceId: GetTraceId(r),
 			}
 			httpx.OkJsonCtx(r.Context(), w, body)

@@ -31,7 +31,7 @@ RUN git checkout feature/blog
 RUN go mod tidy
 
 # 构建Golang运行程序到 /app 目录下
-RUN go build -ldflags="-s -w" -o /app/blog/rpc/blog service/blog/rpc/blog.go
+RUN go build -ldflags="-s -w" -o /app/rpc/blog/blog service/rpc/blog/blog.go
 
 # 使用golang:alpine作为构建镜像,上面安装了git,go等运行环境，方便编译项目。直接在golang:alpine上运行时，image的体积约为2.5g
 # 使用scratch作为基础镜像,scratch用于构建轻量级的、无操作系统依赖的容器镜像。使用scratch镜像运行，image的体积约为50m
@@ -47,10 +47,10 @@ ENV LANG=en_US.utf8
 ENV TZ Asia/Shanghai
 
 # 设置新新容器的工作目录
-WORKDIR /app/blog/rpc
+WORKDIR /app/rpc/blog
 
 # 复制启动文件到新容器中
-COPY --from=builder /app/blog/rpc/blog /app/blog/rpc/blog
+COPY --from=builder /app/rpc/blog/blog /app/rpc/blog/blog
 
 # 暴露应用程序的端口
 EXPOSE 9998

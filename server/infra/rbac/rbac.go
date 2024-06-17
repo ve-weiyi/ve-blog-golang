@@ -111,7 +111,7 @@ func (s *PermissionHolder) LoadUser(uid string) (*UserPermission, error) {
 		return nil, err
 	}
 
-	var roleIds []int
+	var roleIds []int64
 	for _, item := range userApis {
 		roleIds = append(roleIds, item.UserId)
 	}
@@ -160,7 +160,7 @@ func (s *PermissionHolder) LoadApi(path string, method string) (*ApiPermission, 
 		return nil, err
 	}
 
-	var roleIds []int
+	var roleIds []int64
 	for _, item := range roleApis {
 		roleIds = append(roleIds, item.RoleId)
 	}
@@ -200,7 +200,7 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 		return nil, err
 	}
 
-	var apiIds []int
+	var apiIds []int64
 	for _, item := range roleApis {
 		apiIds = append(apiIds, item.ApiId)
 	}
@@ -218,7 +218,7 @@ func (s *PermissionHolder) LoadRole(rid string) (*RolePermission, error) {
 		return nil, err
 	}
 
-	var menuIds []int
+	var menuIds []int64
 	for _, item := range roleMenus {
 		apiIds = append(apiIds, item.MenuId)
 	}

@@ -1,12 +1,12 @@
 package service
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 )
 
 // 分页获取PhotoAlbum记录
-func (l *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.PhotoAlbumDetailsDTO, total int64, err error) {
+func (l *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.PhotoAlbumDetailsDTO, total int64, err error) {
 	albumList, total, err := l.FindPhotoAlbumList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -19,7 +19,7 @@ func (l *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 			return nil, 0, err
 		}
 
-		out := &response.PhotoAlbumDetailsDTO{
+		out := &dto.PhotoAlbumDetailsDTO{
 			PhotoAlbum: in,
 			PhotoCount: count,
 		}
@@ -31,7 +31,7 @@ func (l *PhotoAlbumService) FindPhotoAlbumDetailsList(reqCtx *request.Context, p
 }
 
 // 查询PhotoAlbum记录
-func (l *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, req *request.IdReq) (data *response.PhotoAlbumDetailsDTO, err error) {
+func (l *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, req *request.IdReq) (data *dto.PhotoAlbumDetailsDTO, err error) {
 	album, err := l.svcCtx.PhotoAlbumRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (l *PhotoAlbumService) FindPhotoAlbumDetails(reqCtx *request.Context, req *
 		return nil, err
 	}
 
-	out := &response.PhotoAlbumDetailsDTO{
+	out := &dto.PhotoAlbumDetailsDTO{
 		PhotoAlbum: album,
 		PhotoCount: count,
 	}

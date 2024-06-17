@@ -21,7 +21,7 @@ type IModel[T any] interface {
 	// 增删改查
 	Create(ctx context.Context, in T) (out T, err error)
 	Update(ctx context.Context, in T) (out T, err error)
-	Delete(ctx context.Context, id int) (rows int64, err error)
+	Delete(ctx context.Context, id int64) (rows int64, err error)
 	First(ctx context.Context, conditions string, args ...interface{}) (out T, err error)
 	// 批量操作
 	InsertBatch(ctx context.Context, in ...T) (rows int64, err error)

@@ -30,7 +30,7 @@
 
 如果您不会使用docker，可以参考[Docker.md](../zero/resource/docker-compose/Docker.md)文档，或者其他相关博客。
 
-如果你不想使用这些服务，可以在[service_context.go](svc/service_context.go) NewServiceContext 函数中，注释掉相关初始化代码。
+如果你不想使用这些服务，可以在[service_context.go](svctx/service_context.go) NewServiceContext 函数中，注释掉相关初始化代码。
 
 - 初始化数据库,创建表和数据
 ```shell
@@ -65,6 +65,12 @@ go run main.go api -c=nacos --n-namespace=test
 格式化代码
 ```shell
 go fmt ./...
+```
+
+格式化导入包
+```shell
+go install golang.org/x/tools/cmd/goimports
+goimports -w .
 ```
 
 ### 5.生成swagger文档

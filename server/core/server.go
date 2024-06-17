@@ -13,7 +13,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/docs"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type server interface {
@@ -40,7 +40,7 @@ func RunWindowsServer(c *config.Config) {
 	docs.SwaggerInfo.Version = c.System.Version
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	ctx := svc.NewServiceContext(c)
+	ctx := svctx.NewServiceContext(c)
 	RegisterRouters(r, ctx)
 
 	glog.Info("register router success")

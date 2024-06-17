@@ -27,7 +27,7 @@ func GetRPCAppName(ctx context.Context) (string, error) {
 	return "", fmt.Errorf("get rpc meta error:%v", constant.HeaderAppName)
 }
 
-func GetRPCInnerXUserId(ctx context.Context) (string, error) {
+func GetRPCUserId(ctx context.Context) (string, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return "", fmt.Errorf("metadata error")

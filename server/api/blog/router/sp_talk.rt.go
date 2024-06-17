@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type TalkRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTalkRouter(svcCtx *svc.ServiceContext) *TalkRouter {
+func NewTalkRouter(svcCtx *svctx.ServiceContext) *TalkRouter {
 	return &TalkRouter{
 		svcCtx: svcCtx,
 	}

@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type UploadRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewUploadRouter(svcCtx *svc.ServiceContext) *UploadRouter {
+func NewUploadRouter(svcCtx *svctx.ServiceContext) *UploadRouter {
 	return &UploadRouter{
 		svcCtx: svcCtx,
 	}

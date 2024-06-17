@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type CommentRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCommentRouter(svcCtx *svc.ServiceContext) *CommentRouter {
+func NewCommentRouter(svcCtx *svctx.ServiceContext) *CommentRouter {
 	return &CommentRouter{
 		svcCtx: svcCtx,
 	}

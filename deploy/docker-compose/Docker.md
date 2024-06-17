@@ -105,8 +105,8 @@ RUN go env -w GO111MODULE=on \
     && go env \
     && go mod tidy
 
-COPY service/blog/rpc/etc /app/etc
-RUN go build -ldflags="-s -w" -o /app/blog service/blog/rpc/blog.go
+COPY service/rpc/blog/etc /app/etc
+RUN go build -ldflags="-s -w" -o /app/blog service/rpc/blog/blog.go
 
 FROM alpine:latest
 
@@ -169,6 +169,9 @@ docker search nginx
 
 # 拉取镜像
 docker pull nginx:latest
+
+# 使用Dockerfile构建镜像
+docker build -t my-image .
 ```
 
 ## 参考文档

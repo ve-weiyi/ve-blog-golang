@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type WebsocketRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsocketRouter(svcCtx *svc.ServiceContext) *WebsocketRouter {
+func NewWebsocketRouter(svcCtx *svctx.ServiceContext) *WebsocketRouter {
 	return &WebsocketRouter{
 		svcCtx: svcCtx,
 	}
