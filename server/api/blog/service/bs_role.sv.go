@@ -43,10 +43,11 @@ func (l *RoleService) DeleteRoleList(reqCtx *request.Context, req *request.IdsRe
 
 // 分页获取Role记录
 func (l *RoleService) FindRoleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Role, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = l.svcCtx.RoleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err = l.svcCtx.RoleRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -13,9 +13,9 @@ func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 	if err != nil {
 		return nil, 0, err
 	}
-	var roleIds []int
-	var menuMap = make(map[int][]int)
-	var apiMap = make(map[int][]int)
+	var roleIds []int64
+	var menuMap = make(map[int64][]int64)
+	var apiMap = make(map[int64][]int64)
 	for _, role := range roles {
 		roleIds = append(roleIds, role.Id)
 	}

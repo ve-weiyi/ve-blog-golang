@@ -13,7 +13,7 @@ import (
 )
 
 // 注销用户
-func (s *UserAccountRepository) Logoff(ctx context.Context, id int) (data any, err error) {
+func (s *UserAccountRepository) Logoff(ctx context.Context, id int64) (data any, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var account entity.UserAccount
@@ -108,7 +108,7 @@ func (s *UserAccountRepository) Register(ctx context.Context, account *entity.Us
 	return account, info, nil
 }
 
-func (s *UserAccountRepository) FindUserMenus(ctx context.Context, userId int) (list []*entity.Menu, err error) {
+func (s *UserAccountRepository) FindUserMenus(ctx context.Context, userId int64) (list []*entity.Menu, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
@@ -126,7 +126,7 @@ func (s *UserAccountRepository) FindUserMenus(ctx context.Context, userId int) (
 		return nil, err
 	}
 
-	var ids []int
+	var ids []int64
 	for _, item := range roleApis {
 		ids = append(ids, item.MenuId)
 	}
@@ -165,7 +165,7 @@ func (s *UserAccountRepository) FindUserOauthByOpenid(ctx context.Context, openI
 }
 
 // 查询用户信息
-func (s *UserAccountRepository) FindUserInfo(ctx context.Context, userId int) (out *entity.UserInformation, err error) {
+func (s *UserAccountRepository) FindUserInfo(ctx context.Context, userId int64) (out *entity.UserInformation, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 
@@ -179,7 +179,7 @@ func (s *UserAccountRepository) FindUserInfo(ctx context.Context, userId int) (o
 }
 
 // 根据id获取UserLoginHistory记录
-func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid int) (out *entity.UserLoginHistory, err error) {
+func (s *UserAccountRepository) FindLastLoginHistory(ctx context.Context, uid int64) (out *entity.UserLoginHistory, err error) {
 	db := s.DbEngin.WithContext(ctx)
 
 	out = &entity.UserLoginHistory{}
@@ -198,7 +198,7 @@ func (s *UserAccountRepository) Login(ctx context.Context, account *entity.UserA
 }
 
 // 用户登出
-func (s *UserAccountRepository) Logout(ctx context.Context, uid int) (data int64, err error) {
+func (s *UserAccountRepository) Logout(ctx context.Context, uid int64) (data int64, err error) {
 	// redis 删除用户登录信息
 	onlineKey := cache.WrapCacheKey(cache.UserOnline, uid)
 	return s.Cache.Del(ctx, onlineKey).Result()

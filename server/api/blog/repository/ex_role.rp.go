@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
-func (s *RoleRepository) FindUserRoles(ctx context.Context, userId int) (out []*entity.Role, err error) {
+func (s *RoleRepository) FindUserRoles(ctx context.Context, userId int64) (out []*entity.Role, err error) {
 	db := s.DbEngin.WithContext(ctx)
 	var userRoles []entity.UserRole
 	err = db.Where("user_id = ?", userId).Find(&userRoles).Error
@@ -14,7 +14,7 @@ func (s *RoleRepository) FindUserRoles(ctx context.Context, userId int) (out []*
 		return nil, err
 	}
 
-	var rids []int
+	var rids []int64
 	for _, item := range userRoles {
 		rids = append(rids, item.RoleId)
 	}
@@ -29,7 +29,7 @@ func (s *RoleRepository) FindUserRoles(ctx context.Context, userId int) (out []*
 }
 
 // 获取Menu记录
-func (s *RoleRepository) FindRoleMenus(ctx context.Context, roleId int) (list []*entity.Menu, err error) {
+func (s *RoleRepository) FindRoleMenus(ctx context.Context, roleId int64) (list []*entity.Menu, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var roleMenus []*entity.RoleMenu
@@ -39,7 +39,7 @@ func (s *RoleRepository) FindRoleMenus(ctx context.Context, roleId int) (list []
 		return nil, err
 	}
 
-	var menuIds []int
+	var menuIds []int64
 	for _, item := range roleMenus {
 		menuIds = append(menuIds, item.MenuId)
 	}
@@ -54,7 +54,7 @@ func (s *RoleRepository) FindRoleMenus(ctx context.Context, roleId int) (list []
 }
 
 // 获取Api记录
-func (s *RoleRepository) FindRoleApis(ctx context.Context, roleId int) (list []*entity.Api, err error) {
+func (s *RoleRepository) FindRoleApis(ctx context.Context, roleId int64) (list []*entity.Api, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var roleApis []*entity.RoleApi
@@ -64,7 +64,7 @@ func (s *RoleRepository) FindRoleApis(ctx context.Context, roleId int) (list []*
 		return nil, err
 	}
 
-	var apiIds []int
+	var apiIds []int64
 	for _, item := range roleApis {
 		apiIds = append(apiIds, item.ApiId)
 	}
@@ -79,7 +79,7 @@ func (s *RoleRepository) FindRoleApis(ctx context.Context, roleId int) (list []*
 }
 
 // 修改用户角色
-func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int, roleIds []int) (data interface{}, err error) {
+func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int64, roleIds []int64) (data interface{}, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var account entity.UserAccount
@@ -120,7 +120,7 @@ func (s *RoleRepository) UpdateUserRoles(ctx context.Context, uid int, roleIds [
 }
 
 // 设置角色菜单
-func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int, menuIds []int) (role *entity.Role, count int64, err error) {
+func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int64, menuIds []int64) (role *entity.Role, count int64, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	err = db.Where("id = ?", roleId).First(&role).Error
@@ -161,7 +161,7 @@ func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int, menuId
 }
 
 // 设置角色菜单
-func (s *RoleRepository) UpdateRoleResources(ctx context.Context, roleId int, apiIds []int) (role *entity.Role, count int64, err error) {
+func (s *RoleRepository) UpdateRoleResources(ctx context.Context, roleId int64, apiIds []int64) (role *entity.Role, count int64, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 

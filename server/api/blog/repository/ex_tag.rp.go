@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
-func (s *TagRepository) FindArticleTagList(ctx context.Context, articleId int) (list []*entity.Tag, err error) {
+func (s *TagRepository) FindArticleTagList(ctx context.Context, articleId int64) (list []*entity.Tag, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var ats []*entity.ArticleTag
@@ -17,7 +17,7 @@ func (s *TagRepository) FindArticleTagList(ctx context.Context, articleId int) (
 		return nil, err
 	}
 
-	var tagIds []int
+	var tagIds []int64
 	for _, at := range ats {
 		tagIds = append(tagIds, at.TagId)
 	}
@@ -30,7 +30,7 @@ func (s *TagRepository) FindArticleTagList(ctx context.Context, articleId int) (
 	return tags, nil
 }
 
-func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int) (mp map[int][]*entity.Tag, err error) {
+func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int64) (mp map[int64][]*entity.Tag, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var ats []*entity.ArticleTag
@@ -43,7 +43,7 @@ func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int)
 	}
 
 	// 收集id
-	var tagIds []int
+	var tagIds []int64
 	for _, at := range ats {
 		tagIds = append(tagIds, at.TagId)
 	}
@@ -55,13 +55,13 @@ func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int)
 	}
 
 	// tag map
-	var tagMap = make(map[int]*entity.Tag)
+	var tagMap = make(map[int64]*entity.Tag)
 	for _, tag := range tags {
 		tagMap[tag.Id] = tag
 	}
 
 	// article []tag map
-	var atMap = make(map[int][]*entity.Tag)
+	var atMap = make(map[int64][]*entity.Tag)
 	for _, at := range ats {
 		if _, ok := atMap[at.ArticleId]; ok {
 			atMap[at.ArticleId] = append(atMap[at.ArticleId], tagMap[at.TagId])

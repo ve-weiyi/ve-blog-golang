@@ -41,7 +41,7 @@ func (s *MenuController) FindMenuDetailsList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     1,
-		PageSize: int(total),
+		PageSize: total,
 	})
 }
 

@@ -343,7 +343,7 @@ func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 	return resp, nil
 }
 
-func (l *AuthService) createToken(uid int, username string, loginType string) (token *response.Token, err error) {
+func (l *AuthService) createToken(uid int64, username string, loginType string) (token *response.Token, err error) {
 	now := time.Now().Unix()
 	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
 	refreshExpiresIn := time.Now().Add(30 * 24 * time.Hour).Unix()

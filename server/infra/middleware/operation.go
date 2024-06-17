@@ -104,19 +104,19 @@ func OperationRecord(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		op := entity.OperationLog{
 			Id:            0,
-			UserId:        cast.ToInt(c.GetString("uid")),
+			UserId:        cast.ToInt64(c.GetString("uid")),
 			Nickname:      c.GetString("username"),
 			IpAddress:     c.GetString("ip_address"),
 			IpSource:      c.GetString("ip_source"),
 			OptModule:     permission.Group,
 			OptDesc:       permission.Name,
-			RequestURL:    c.Request.URL.String(),
+			RequestUrl:    c.Request.URL.String(),
 			RequestMethod: c.Request.Method,
 			// 请求头携带token，数据太多
 			//RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
 			RequestData:    req,
 			ResponseData:   resp,
-			ResponseStatus: c.Writer.Status(),
+			ResponseStatus: int64(c.Writer.Status()),
 			Cost:           fmt.Sprintf("%v", cost),
 			CreatedAt:      time.Now(),
 		}

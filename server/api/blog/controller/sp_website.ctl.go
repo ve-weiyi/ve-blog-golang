@@ -55,7 +55,7 @@ func (s *WebsiteController) FindChatRecords(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     1,
-		PageSize: int(total),
+		PageSize: total,
 	})
 }
 

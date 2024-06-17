@@ -17,13 +17,13 @@ type BatchResult struct {
 // 分页查询结果
 type PageResult struct {
 	List     interface{} `json:"list"`
-	Page     int         `json:"page"`
-	PageSize int         `json:"page_size"`
+	Page     int64       `json:"page"`
+	PageSize int64       `json:"page_size"`
 	Total    int64       `json:"total"`
 }
 
 type Response struct {
-	Code    int         `json:"code"`
+	Code    int64       `json:"code"`
 	Message string      `json:"message" `
 	Data    interface{} `json:"data"`
 	TraceId string      `json:"trace_id"`
@@ -34,7 +34,7 @@ const (
 	SUCCESS = 200
 )
 
-func Result(c *gin.Context, code int, msg string, data interface{}) {
+func Result(c *gin.Context, code int64, msg string, data interface{}) {
 	// 开始时间
 	c.JSON(http.StatusOK, Response{
 		Code:    code,

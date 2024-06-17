@@ -25,8 +25,8 @@ func (s *PageQuery) ConditionClause() (string, []interface{}) {
 
 // 分页
 type PageLimit struct {
-	Page     int `json:"page" form:"page"`           // 页码
-	PageSize int `json:"page_size" form:"page_size"` // 每页大小
+	Page     int64 `json:"page" form:"page"`           // 页码
+	PageSize int64 `json:"page_size" form:"page_size"` // 每页大小
 }
 
 // 排序语句
@@ -44,13 +44,12 @@ type PageCondition struct {
 }
 
 // 分页语句
-func LimitClause(page PageLimit) (int, int) {
+func LimitClause(page PageLimit) (limit int, offset int) {
 
 	var p, s int
-	var limit, offset int
 
-	p = page.Page
-	s = page.PageSize
+	p = int(page.Page)
+	s = int(page.PageSize)
 
 	if p <= 0 {
 		p = 1
@@ -61,7 +60,7 @@ func LimitClause(page PageLimit) (int, int) {
 	}
 
 	limit = s
-	offset = (page.Page - 1) * limit
+	offset = (p - 1) * s
 
 	return limit, offset
 }

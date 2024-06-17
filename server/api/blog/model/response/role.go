@@ -11,8 +11,8 @@ type ApiDetailsDTO struct {
 
 type RoleDetailsDTO struct {
 	entity.Role
-	MenuIdList     []int `json:"menu_id_list"`
-	ResourceIdList []int `json:"resource_id_list"`
+	MenuIdList     []int64 `json:"menu_id_list"`
+	ResourceIdList []int64 `json:"resource_id_list"`
 }
 
 type RoleDTO struct {

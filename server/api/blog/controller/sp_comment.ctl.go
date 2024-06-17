@@ -218,8 +218,8 @@ func (s *CommentController) FindCommentList(c *gin.Context) {
 	s.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
-		Page:     int(page.Page),
-		PageSize: int(page.PageSize),
+		Page:     page.Page,
+		PageSize: page.PageSize,
 	})
 }
 
@@ -241,7 +241,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 		return
 	}
 
-	id := cast.ToInt(c.Param("id"))
+	id := cast.ToInt64(c.Param("id"))
 
 	var page request.PageQuery
 	err = s.ShouldBind(c, &page)
@@ -318,7 +318,7 @@ func (s *CommentController) LikeComment(c *gin.Context) {
 		return
 	}
 
-	id := cast.ToInt(c.Param("id"))
+	id := cast.ToInt64(c.Param("id"))
 
 	data, err := service.NewCommentService(s.svcCtx).LikeComment(reqCtx, id)
 	if err != nil {

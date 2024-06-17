@@ -51,7 +51,7 @@ type ResetPasswordReq struct {
 
 // Modify password structure
 type ChangePasswordReq struct {
-	Id          int    `json:"-"`           // 从 JWT 中提取 user id，避免越权
+	Id          int64  `json:"-"`           // 从 JWT 中提取 user id，避免越权
 	Password    string `json:"password"`    // 旧密码
 	NewPassword string `json:"newPassword"` // 新密码
 }

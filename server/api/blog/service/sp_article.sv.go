@@ -27,7 +27,7 @@ func (l *ArticleService) SaveArticle(reqCtx *request.Context, req *request.Artic
 		ArticleTitle:   req.ArticleTitle,
 		ArticleContent: req.ArticleContent,
 		Type:           req.Type,
-		OriginalURL:    req.OriginalURL,
+		OriginalUrl:    req.OriginalUrl,
 		IsTop:          req.IsTop,
 		IsDelete:       0,
 		Status:         req.Status,
@@ -109,10 +109,11 @@ func (l *ArticleService) FindArticle(reqCtx *request.Context, req *request.IdReq
 
 // 分页获取Article记录
 func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticleBack, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询文章列表
-	articles, err := l.svcCtx.ArticleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	articles, err := l.svcCtx.ArticleRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -123,8 +124,8 @@ func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 	}
 
 	// id
-	var articleIds []int
-	var categoryIds []int
+	var articleIds []int64
+	var categoryIds []int64
 	for _, article := range articles {
 		articleIds = append(articleIds, article.Id)
 		categoryIds = append(categoryIds, article.CategoryId)
@@ -132,7 +133,7 @@ func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *request.
 
 	// 查询所有文章分类
 	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
-	var cmp = make(map[int]*entity.Category)
+	var cmp = make(map[int64]*entity.Category)
 	for _, item := range category {
 		cmp[item.Id] = item
 	}
@@ -235,8 +236,9 @@ func (l *ArticleService) FindArticleClassifyTag(reqCtx *request.Context, req *re
 
 // 文章时间轴
 func (l *ArticleService) FindArticleArchives(reqCtx *request.Context, page *request.PageQuery) (list []*response.ArticlePreviewDTO, total int64, err error) {
+	p, s := page.PageClause()
 	// 查找最新数据
-	newestArticle, err := l.svcCtx.ArticleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, "id desc", "status = ?", entity.ArticleStatusPublic)
+	newestArticle, err := l.svcCtx.ArticleRepository.FindList(reqCtx, p, s, "id desc", "status = ?", entity.ArticleStatusPublic)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -299,10 +301,11 @@ func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 	page.Sorts = append(page.Sorts, &request.PageSort{Field: "is_top", Order: "desc"})
 	page.Conditions = append(page.Conditions, &request.PageCondition{Field: "status", Operator: "=", Value: entity.ArticleStatusPublic})
 
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询文章列表
-	articles, err := l.svcCtx.ArticleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	articles, err := l.svcCtx.ArticleRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -313,8 +316,8 @@ func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 	}
 
 	// id
-	var articleIds []int
-	var categoryIds []int
+	var articleIds []int64
+	var categoryIds []int64
 	for _, article := range articles {
 		articleIds = append(articleIds, article.Id)
 		categoryIds = append(categoryIds, article.CategoryId)
@@ -322,7 +325,7 @@ func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *requ
 
 	// 查询所有文章分类
 	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
-	var cmp = make(map[int]*entity.Category)
+	var cmp = make(map[int64]*entity.Category)
 	for _, item := range category {
 		cmp[item.Id] = item
 	}

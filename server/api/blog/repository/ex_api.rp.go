@@ -7,7 +7,7 @@ import (
 )
 
 // 获取Api记录
-func (s *ApiRepository) FindApiRoles(ctx context.Context, apiId int) (list []*entity.Role, err error) {
+func (s *ApiRepository) FindApiRoles(ctx context.Context, apiId int64) (list []*entity.Role, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 	var roleApis []*entity.RoleApi
@@ -17,7 +17,7 @@ func (s *ApiRepository) FindApiRoles(ctx context.Context, apiId int) (list []*en
 		return nil, err
 	}
 
-	var roleIds []int
+	var roleIds []int64
 	for _, item := range roleApis {
 		roleIds = append(roleIds, item.ApiId)
 	}

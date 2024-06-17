@@ -15,12 +15,12 @@ type WebsiteConfigDTO struct {
 	AlipayQrCode      string      `json:"alipay_qr_code"`      // 支付宝二维码
 	Gitee             string      `json:"gitee"`               // Gitee
 	Github            string      `json:"github"`              // Github
-	IsChatRoom        int         `json:"is_chat_room"`        // 是否开启聊天室
-	IsCommentReview   int         `json:"is_comment_review"`   // 是否开启评论审核
-	IsEmailNotice     int         `json:"is_email_notice"`     // 是否开启邮件通知
-	IsMessageReview   int         `json:"is_message_review"`   // 是否开启留言审核
-	IsMusicPlayer     int         `json:"is_music_player"`     // 是否开启音乐播放器
-	IsReward          int         `json:"is_reward"`           // 是否开启打赏
+	IsChatRoom        int64       `json:"is_chat_room"`        // 是否开启聊天室
+	IsCommentReview   int64       `json:"is_comment_review"`   // 是否开启评论审核
+	IsEmailNotice     int64       `json:"is_email_notice"`     // 是否开启邮件通知
+	IsMessageReview   int64       `json:"is_message_review"`   // 是否开启留言审核
+	IsMusicPlayer     int64       `json:"is_music_player"`     // 是否开启音乐播放器
+	IsReward          int64       `json:"is_reward"`           // 是否开启打赏
 	Qq                string      `json:"qq"`                  // QQ
 	SocialLoginList   []string    `json:"social_login_list"`   // 社交登录列表
 	SocialUrlList     []string    `json:"social_url_list"`     // 社交地址列表
@@ -38,7 +38,7 @@ type WebsiteConfigDTO struct {
 }
 
 type PageDTO struct {
-	Id        int    `json:"id"`         // 页面ID
+	Id        int64  `json:"id"`         // 页面ID
 	PageName  string `json:"page_name"`  // 页面名称
 	PageLabel string `json:"page_label"` // 页面标签
 	PageCover string `json:"page_cover"` // 页面封面
@@ -71,7 +71,7 @@ type UniqueViewDTO struct {
 
 // 文章浏览量排行
 type ArticleViewRankDTO struct {
-	Id           int    `json:"id"`            // 文章ID
+	Id           int64  `json:"id"`            // 文章ID
 	ArticleTitle string `json:"article_title"` // 文章标题
 	Count        int64  `json:"count"`         // 数量
 }

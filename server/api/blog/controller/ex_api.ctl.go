@@ -41,7 +41,7 @@ func (s *ApiController) FindApiDetailsList(c *gin.Context) {
 		List:     list,
 		Total:    total,
 		Page:     0,
-		PageSize: len(list),
+		PageSize: int64(len(list)),
 	})
 }
 

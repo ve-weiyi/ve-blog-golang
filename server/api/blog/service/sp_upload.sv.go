@@ -41,9 +41,9 @@ func (l *UploadService) UploadFile(reqCtx *request.Context, label string, file *
 		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: file.Filename,
-		FileSize: int(file.Size),
+		FileSize: file.Size,
 		FileMd5:  crypto.Md5v(file.Filename, ""),
-		FileURL:  url,
+		FileUrl:  url,
 	}
 
 	return l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
@@ -90,9 +90,9 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: filename,
-		FileSize: int(file.Size),
+		FileSize: file.Size,
 		FileMd5:  crypto.Md5v(filename, ""),
-		FileURL:  url,
+		FileUrl:  url,
 	}
 	return l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }

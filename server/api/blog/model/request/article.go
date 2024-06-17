@@ -5,32 +5,32 @@ import (
 )
 
 type ArticleClassifyReq struct {
-	//TagId      int `json:"tag_id"`      // 文章标签ID
-	//CategoryId int `json:"category_id"` // 文章分类ID
+	//TagId      int64 `json:"tag_id"`      // 文章标签ID
+	//CategoryId int64 `json:"category_id"` // 文章分类ID
 	ClassifyName string `json:"classify_name"` // 分类名
 }
 
 type ArticleTopReq struct {
-	Id    int `json:"id"`     // 文章ID
-	IsTop int `json:"is_top"` // 是否置顶
+	Id    int64 `json:"id"`     // 文章ID
+	IsTop int64 `json:"is_top"` // 是否置顶
 }
 
 type ArticleDeleteReq struct {
-	Id       int `json:"id"`        // 文章ID
-	IsDelete int `json:"is_delete"` // 是否删除
+	Id       int64 `json:"id"`        // 文章ID
+	IsDelete int64 `json:"is_delete"` // 是否删除
 }
 
 type ArticleDetailsDTOReq struct {
-	Id             int       `json:"id"`              // 文章ID
+	Id             int64     `json:"id"`              // 文章ID
 	ArticleCover   string    `json:"article_cover"`   // 文章缩略图
 	ArticleTitle   string    `json:"article_title"`   // 标题
 	ArticleContent string    `json:"article_content"` // 内容
-	LikeCount      int       `json:"like_count"`      // 点赞量
-	ViewsCount     int       `json:"views_count"`     // 浏览量
-	Type           int       `json:"type"`            // 文章类型
-	OriginalURL    string    `json:"original_url"`    // 原文链接
-	IsTop          int       `json:"is_top"`          // 是否置顶
-	Status         int       `json:"status"`          // 状态值 1 公开 2 私密 3 评论可见
+	LikeCount      int64     `json:"like_count"`      // 点赞量
+	ViewsCount     int64     `json:"views_count"`     // 浏览量
+	Type           int64     `json:"type"`            // 文章类型
+	OriginalUrl    string    `json:"original_url"`    // 原文链接
+	IsTop          int64     `json:"is_top"`          // 是否置顶
+	Status         int64     `json:"status"`          // 状态值 1 公开 2 私密 3 评论可见
 	CreatedAt      time.Time `json:"created_at"`      // 发表时间
 	UpdatedAt      time.Time `json:"updated_at"`      // 更新时间
 	CategoryName   string    `json:"category_name"`   // 文章分类名

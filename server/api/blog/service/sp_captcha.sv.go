@@ -79,7 +79,7 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 
 // 获取图片验证码
 func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.CaptchaReq) (resp *response.CaptchaDTO, err error) {
-	id, b64s, err := l.svcCtx.CaptchaHolder.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
+	id, b64s, err := l.svcCtx.CaptchaHolder.GetImageCaptcha(req.CaptchaType, int(req.Height), int(req.Width), int(req.Length))
 	if err != nil {
 		return nil, err
 	}

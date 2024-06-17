@@ -34,10 +34,11 @@ func NewUserService(svcCtx *svc.ServiceContext) *UserService {
 
 // 分页获取UserAccount记录
 func (l *UserService) FindUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserDTO, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询账号信息
-	userAccounts, err := l.svcCtx.UserAccountRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	userAccounts, err := l.svcCtx.UserAccountRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -47,7 +48,7 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 		return nil, 0, err
 	}
 
-	var ids []int
+	var ids []int64
 	for _, ua := range userAccounts {
 		ids = append(ids, ua.Id)
 	}
@@ -58,7 +59,7 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 		return nil, 0, err
 	}
 
-	var infoMap = make(map[int]*entity.UserInformation)
+	var infoMap = make(map[int64]*entity.UserInformation)
 	for _, info := range infos {
 		infoMap[info.Id] = info
 	}
@@ -93,7 +94,8 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *request.PageQu
 
 // 获取在线用户列表
 func (l *UserService) FindOnlineUserList(reqCtx *request.Context, page *request.PageQuery) (list []*response.UserDTO, total int64, err error) {
-	keys, err := l.svcCtx.UserAccountRepository.Online(reqCtx, page.Limit.Page, page.Limit.PageSize)
+	p, s := page.PageClause()
+	keys, err := l.svcCtx.UserAccountRepository.Online(reqCtx, p, s)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -106,9 +108,10 @@ func (l *UserService) FindOnlineUserList(reqCtx *request.Context, page *request.
 }
 
 func (l *UserService) FindUserAreaList(reqCtx *request.Context, page *request.PageQuery) (result []*response.UserAreaDTO, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	list, err := l.svcCtx.UserAccountRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err := l.svcCtx.UserAccountRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -118,7 +121,7 @@ func (l *UserService) FindUserAreaList(reqCtx *request.Context, page *request.Pa
 		return nil, 0, err
 	}
 	// 分类
-	AreaMap := make(map[string]int)
+	AreaMap := make(map[string]int64)
 	for _, item := range list {
 		key := item.IpSource
 		if _, ok := AreaMap[key]; ok {
@@ -147,9 +150,11 @@ func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *re
 	// 添加用户id条件
 	c := &request.PageCondition{Field: "user_id", Value: account.Id, Operator: "=", Logic: "AND"}
 	page.Conditions = append(page.Conditions, c)
+
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	histories, err := l.svcCtx.UserLoginHistoryRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	histories, err := l.svcCtx.UserLoginHistoryRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -248,9 +253,9 @@ func (l *UserService) UpdateUserAvatar(reqCtx *request.Context, file *multipart.
 		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: file.Filename,
-		FileSize: int(file.Size),
+		FileSize: file.Size,
 		FileMd5:  crypto.Md5v(file.Filename, ""),
-		FileURL:  url,
+		FileUrl:  url,
 	}
 
 	_, err = l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
@@ -310,7 +315,7 @@ func (l *UserService) UpdateUserInfo(reqCtx *request.Context, req *request.UserI
 	return info, err
 }
 
-func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int) (data *response.UserInfo, err error) {
+func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int64) (data *response.UserInfo, err error) {
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", userId)
 	if err != nil {
 		return nil, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
@@ -358,7 +363,7 @@ func (l *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 	}
 
 	//查询角色权限,取交集
-	menuMaps := make(map[int]*entity.Menu)
+	menuMaps := make(map[int64]*entity.Menu)
 	for _, item := range roles {
 		menus, err := l.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.Id)
 		if err != nil {
@@ -397,7 +402,7 @@ func (l *UserService) GetUserApis(reqCtx *request.Context, req interface{}) (dat
 	}
 
 	//查询角色权限,取交集
-	menuMaps := make(map[int]*entity.Api)
+	menuMaps := make(map[int64]*entity.Api)
 	for _, item := range roles {
 		menus, err := l.svcCtx.RoleRepository.FindRoleApis(reqCtx, item.Id)
 		if err != nil {

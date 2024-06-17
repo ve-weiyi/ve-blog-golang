@@ -8,7 +8,7 @@ type LoginResp struct {
 }
 
 type Token struct {
-	UserId           int    `json:"user_id"`            // 用户id
+	UserId           int64  `json:"user_id"`            // 用户id
 	TokenType        string `json:"token_type"`         // token类型,Bearer
 	AccessToken      string `json:"access_token"`       // 访问token,过期时间较短。2h
 	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
@@ -18,7 +18,7 @@ type Token struct {
 }
 
 type UserInfo struct {
-	UserId   int    `json:"user_id"`  // 用户id
+	UserId   int64  `json:"user_id"`  // 用户id
 	Username string `json:"username"` // 用户名
 	Nickname string `json:"nickname"` // 昵称
 	Avatar   string `json:"avatar"`   // 头像
@@ -34,7 +34,7 @@ type UserInfo struct {
 }
 
 type LoginHistory struct {
-	Id        int    `json:"id"`
+	Id        int64  `json:"id"`
 	LoginType string `json:"login_type"` // 登录类型
 	Agent     string `json:"agent"`      // 代理
 	IpAddress string `json:"ip_address"` // ip host
