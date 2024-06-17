@@ -16,8 +16,9 @@ const Bit1024 = Bit512 + Bit512
 
 func TestMd5(t *testing.T) {
 	//1bdf247646854ad6d841ba6b0cd376fe
-	var plaintext = Bit512 + Bit512
-	log.Println(crypto.Md5v(plaintext, "123"))
+	var plaintext = "dev"
+	var salt = "1719910138"
+	log.Println(crypto.Md5v(plaintext, salt))
 }
 
 func TestSha256(t *testing.T) {

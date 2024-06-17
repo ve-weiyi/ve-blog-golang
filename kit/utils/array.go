@@ -1,44 +1,60 @@
 package utils
 
+import (
+	"fmt"
+)
+
 // [a,b,c] -> a, b, c
-func JoinArray(arr []string) string {
-	var result string
-	for i, v := range arr {
-		result += v
-		if i < len(arr)-1 {
-			result += ", "
+func JoinArray[S ~[]E, E any](elems S, sep string) string {
+	var out string
+
+	for _, e := range elems {
+		if out == "" {
+			out = out + fmt.Sprintf("%v", e)
+		} else {
+			out = out + sep
+			out = out + fmt.Sprintf("%v", e)
 		}
 	}
-	return result
+
+	return out
 }
 
-// 数组 [a, b, c] 转换为字符串 a<b<c>>
-func JoinArrayBracket(params []string) string {
-	var result string
-	for i, val := range params {
-		if i > 0 {
-			result += "<"
+func AppendSlice(keys []string, key string) []string {
+	for _, item := range keys {
+		if item == key {
+			return keys
 		}
-		result += val
 	}
-	for i := 0; i < len(params)-1; i++ {
-		result += ">"
-	}
+	return append(keys, key)
+}
 
-	return result
+func ExistSlice(keys []string, key string) bool {
+	for _, id := range keys {
+		if id == key {
+			return true
+		}
+	}
+	return false
 }
 
 // 删除数组中的重复元素
-func RemoveDuplicates(input []string) []string {
-	encountered := map[string]bool{}
-	var result []string
-
-	for _, v := range input {
-		if encountered[v] == false {
-			encountered[v] = true
-			result = append(result, v)
+func RemoveSliceDuplicates(arr []string) (ret []string) {
+	exists := make(map[string]struct{})
+	for _, s := range arr {
+		if _, ok := exists[s]; !ok {
+			ret = append(ret, s)
+			exists[s] = struct{}{}
 		}
 	}
 
-	return result
+	return
+}
+
+func MapKeys(m map[string]interface{}) []string {
+	keys := make([]string, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	return keys
 }

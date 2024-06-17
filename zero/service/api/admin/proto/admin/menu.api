@@ -1,0 +1,99 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+    MenuBackDTO {
+        Id int64 `json:"id,optional"`                     // 主键
+        ParentId int64 `json:"parent_id"`        // 父id
+        Title string `json:"title"`              // 菜单标题
+        Type int64 `json:"type"`                 // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        Path string `json:"path"`                // 路由地址
+        Name string `json:"name"`                // 路由名字
+        Component string `json:"component"`      // Layout组件
+        Redirect string `json:"redirect"`        // 路由重定向
+        Meta Meta `json:"meta"`                  // meta配置
+        Children []*MenuBackDTO `json:"children"`
+        CreatedAt int64 `json:"created_at"`      // 创建时间
+        UpdatedAt int64 `json:"updated_at"`      // 更新时间
+    }
+
+    Meta {
+        Title string `json:"title"`               // 菜单名称
+        Icon string `json:"icon"`                 // 菜单图标
+        ShowLink bool `json:"show_link"`          // 是否在菜单中显示
+        Rank int64 `json:"rank"`                  // 菜单升序排序
+        ExtraIcon string `json:"extra_icon"`      // 菜单名称右侧的额外图标
+        ShowParent bool `json:"show_parent"`      // 是否显示父级菜单
+        Roles []string `json:"roles"`             // 页面级别权限设置
+        Auths []string `json:"auths"`             // 按钮级别权限设置
+        KeepAlive bool `json:"keep_alive"`        // 路由组件缓存
+        FrameSrc string `json:"frame_src"`        // 内嵌的iframe链接
+        FrameLoading bool `json:"frame_loading"`  // iframe页是否开启首次加载动画
+        Transition Transition `json:"transition"` // 页面加载动画
+        HiddenTag bool `json:"hidden_tag"`        // 是否不添加信息到标签页
+        DynamicLevel int64 `json:"dynamic_level"` // 动态路由可打开的最大数量
+        ActivePath string `json:"active_path"`    // 将某个菜单激活
+    }
+
+    Transition {
+        Name string `json:"name"`                        // 当前路由动画效果
+        EnterTransition string `json:"enter_transition"` // 进场动画
+        LeaveTransition string `json:"leave_transition"` // 离场动画
+    }
+
+    RouteConfigsTable {
+        Type int64 `json:"type"`                       // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        Path string `json:"path"`                      // 路由地址
+        Name string `json:"name"`                      // 路由名字
+        Component string `json:"component"`            // Layout组件
+        Redirect string `json:"redirect"`              // 路由重定向
+        Meta Meta `json:"meta"`                        // meta配置
+        Children []RouteConfigsTable `json:"children"` // 子路由配置项
+    }
+
+    SyncMenuReq {
+        Menus []RouteConfigsTable `json:"menus"`
+    }
+
+    MenuQuery {
+        PageQuery
+        Name string `json:"name,optional"`                      // 路由名字
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: menu
+    middleware: SignToken,JwtToken
+)
+
+service admin-api {
+    @doc "创建菜单"
+    @handler AddMenu
+    post /menu/add_menu (MenuBackDTO) returns (MenuBackDTO)
+
+    @doc "更新菜单"
+    @handler UpdateMenu
+    put /menu/update_menu (MenuBackDTO) returns (MenuBackDTO)
+
+    @doc "删除菜单"
+    @handler DeleteMenu
+    delete /menu/delete_menu (IdReq) returns (BatchResp)
+
+    @doc "批量删除菜单"
+    @handler BatchDeleteMenu
+    delete /menu/batch_delete_menu (IdsReq) returns (BatchResp)
+
+    @doc "分页获取菜单列表"
+    @handler FindMenuList
+    post /menu/find_menu_list (MenuQuery) returns (PageResp)
+
+    @doc "同步菜单列表"
+    @handler SyncMenuList
+    post /menu/sync_menu_list (SyncMenuReq) returns (BatchResp)
+
+    @doc "清空菜单列表"
+    @handler CleanMenuList
+    post /menu/clean_menu_list (EmptyReq) returns (BatchResp)
+}

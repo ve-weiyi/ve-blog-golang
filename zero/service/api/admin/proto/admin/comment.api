@@ -1,0 +1,69 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+
+    // 后台评论
+    CommentBackDTO {
+        Id int64 `json:"id,optional"`                                                     // 评论id
+        TopicId int64 `json:"topic_id,optional"`                                          // 主题id
+        ParentId int64 `json:"parent_id,optional"`                                        // 父评论id
+        SessionId int64 `json:"session_id,optional"`                                      // 会话id
+        UserId int64 `json:"user_id,optional"`                                            // 用户id
+        ReplyUserId int64 `json:"reply_user_id,optional"`                                 // 被回复用户id
+        CommentContent string `json:"comment_content,optional"`                           // 评论内容
+        Type int64 `json:"type,optional"`                                                 // 评论类型 1.文章 2.友链 3.说说
+        CreatedAt int64 `json:"created_at,optional"`                                      // 评论时间
+        LikeCount int64 `json:"like_count,optional"`                                      // 点赞数
+        User *CommentUserInfo `json:"user"`                                               // 评论用户
+        ReplyUser *CommentUserInfo `json:"reply_user"`                                    // 被回复评论用户
+        ReplyCount int64 `json:"reply_count,optional"`                                    // 回复量
+        TopicTitle string `json:"topic_title"`
+    }
+
+    CommentUserInfo {
+        Id int64 `json:"id,optional"`
+        Nickname string `json:"nickname"`
+        Avatar string `json:"avatar"`
+        Website string `json:"website"`
+    }
+
+
+        // 创建评论
+    CommentReviewReq {
+        Id int64 `json:"id,optional"`
+        IsReview int64 `json:"is_review,optional"`
+    }
+
+    CommentQuery {
+        PageQuery
+        Avatar string `json:"avatar,optional"`                                  // 用户头像
+        IsReview int64 `json:"is_review,optional"`
+        Type int64 `json:"type,optional"`                                       // 评论类型 1.文章 2.友链 3.说说
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: comment
+    middleware: SignToken,JwtToken
+)
+
+service admin-api {
+    @doc "更新评论审核状态"
+    @handler UpdateCommentReview
+    put /comment/update_comment_review (CommentReviewReq) returns (CommentBackDTO)
+
+    @doc "删除评论"
+    @handler DeleteComment
+    delete /comment/delete_comment (IdReq) returns (BatchResp)
+
+    @doc "批量删除评论"
+    @handler BatchDeleteComment
+    delete /comment/batch_delete_comment (IdsReq) returns (BatchResp)
+
+    @doc "查询评论列表(后台)"
+    @handler FindCommentBackList
+    post /comment/find_comment_back_list (CommentQuery) returns (PageResp)
+}

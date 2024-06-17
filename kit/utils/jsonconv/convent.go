@@ -23,7 +23,7 @@ var replaceKey = map[string]string{
  * 驼峰式写法转为下划线写法
  * @description XxYx->xx_yy	XxYY->xx_yy	EncodeURL->url  TagDTOList->tag_dto_list
  **/
-func Camel2Case(XxYY string) string {
+func Case2Snake(XxYY string) string {
 	xx_y_y := make([]byte, 0)
 	i := 0
 

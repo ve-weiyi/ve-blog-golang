@@ -61,16 +61,19 @@ func NewCaptchaHolder(options ...Option) *CaptchaHolder {
 }
 
 // 生成随机验证码
-func (rs *CaptchaHolder) GetCodeCaptcha(key string) string {
+func (rs *CaptchaHolder) GetCodeCaptcha(key string) (code string, err error) {
 	var randomInt string
 	// 生成随机6位整数
 	for i := 0; i < rs.DefaultLength; i++ {
 		randomInt = randomInt + strconv.Itoa(rs.randSource.Intn(10))
 	}
 
-	rs.store.Set(key, randomInt)
+	err = rs.store.Set(key, randomInt)
+	if err != nil {
+		return "", err
+	}
 
-	return randomInt
+	return randomInt, nil
 }
 
 func (rs *CaptchaHolder) GetImageCaptcha(CaptchaType string, height int, width int, length int) (string, string, error) {
