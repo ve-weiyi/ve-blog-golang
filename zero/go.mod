@@ -10,6 +10,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.5.1
 	github.com/spf13/cast v1.6.0
+	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.9.0
 	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20240520074631-990d45a21b18
 	github.com/zeromicro/go-zero v1.6.5
@@ -95,7 +96,6 @@ require (
 	github.com/qiniu/go-sdk/v7 v7.20.2 // indirect
 	github.com/rabbitmq/amqp091-go v1.10.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
-	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	github.com/zeromicro/antlr v0.0.1 // indirect

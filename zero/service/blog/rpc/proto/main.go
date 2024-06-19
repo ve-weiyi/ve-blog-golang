@@ -81,7 +81,7 @@ func GenerateModel(c Config) error {
 			"tableName":             table.Name.Source(),
 			"upperStartCamelObject": jsonconv.Case2Camel(table.Name.Source()),
 			"lowerStartCamelObject": jsonconv.Case2CamelLowerStart(table.Name.Source()),
-			"snakeName":             jsonconv.Camel2Case(table.Name.Source()),
+			"snakeName":             jsonconv.Case2Snake(table.Name.Source()),
 			"fields":                fs,
 			"uniqueFields":          ufs,
 		}
@@ -107,7 +107,7 @@ func GenerateModel(c Config) error {
 				"funcFieldsKeyVar": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						tp := ff.Type
 						if name != "" {
 							name += ", "
@@ -120,7 +120,7 @@ func GenerateModel(c Config) error {
 				"funcFieldsKeyCond": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						if name != "" {
 							name += " and "
 						}
@@ -132,7 +132,7 @@ func GenerateModel(c Config) error {
 				"funcFieldsKeyCondVar": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						if name != "" {
 							name += ", "
 						}

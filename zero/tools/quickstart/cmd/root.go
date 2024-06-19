@@ -23,7 +23,7 @@ import (
 )
 
 type RootCmd struct {
-	cmd *cobra.Command
+	CMD *cobra.Command
 }
 
 func NewRootCmd() *RootCmd {
@@ -45,10 +45,10 @@ to quickly create a Cobra application.`,
 		},
 	}
 
-	rootCmd.AddCommand(NewModelCmd().cmd)
-
+	rootCmd.AddCommand(NewModelCmd().CMD)
+	rootCmd.AddCommand(NewApiCmd().CMD)
 	root := &RootCmd{
-		cmd: rootCmd,
+		CMD: rootCmd,
 	}
 	root.init()
 	return root
@@ -68,7 +68,7 @@ func (s *RootCmd) init() {
 }
 
 func (s *RootCmd) Execute() {
-	err := s.cmd.Execute()
+	err := s.CMD.Execute()
 	if err != nil {
 		os.Exit(1)
 	}

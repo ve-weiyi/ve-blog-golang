@@ -68,7 +68,7 @@ func (t *TableParser) ParseModelFromTable(tableName string) *AutoCodeModel {
 		TableName:           tableName,
 		UpperStartCamelName: jsonconv.Case2Camel(tableName),
 		LowerStartCamelName: jsonconv.Case2CamelLowerStart(tableName),
-		SnakeName:           jsonconv.Camel2Case(tableName),
+		SnakeName:           jsonconv.Case2Snake(tableName),
 		CommentName:         tableComment,
 		Fields:              t.ConvertField(table.Columns),
 		ImportPkgPaths:      []string{
@@ -94,7 +94,7 @@ func (t *TableParser) ConvertField(columns []*model.Column) []*field.Field {
 			ColumnName:       c.Name(),
 			ColumnComment:    comment,
 			MultilineComment: strings.Contains(comment, "\n"),
-			Tag:              map[string]string{field.TagKeyJson: jsonconv.Camel2Case(c.Name())},
+			Tag:              map[string]string{field.TagKeyJson: jsonconv.Case2Snake(c.Name())},
 			GORMTag:          c.BuildGormTag(),
 		}
 

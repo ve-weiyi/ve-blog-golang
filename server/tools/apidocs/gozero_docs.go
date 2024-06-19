@@ -100,7 +100,7 @@ func (s *GozeroDoc) GenerateGoZeroApiFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("api/%s.api", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("api/%s.api", jsonconv.Case2Snake(apiDoc.Tag))),
 			TemplateString: string(apiTpl),
 			FunMap: map[string]any{
 				"joinArray": apiparser.JoinArray,
@@ -193,7 +193,7 @@ func (s *GozeroDoc) GenerateGoZeroRpcFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("proto/%s.proto", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("proto/%s.proto", jsonconv.Case2Snake(apiDoc.Tag))),
 			TemplateString: string(apiTpl),
 			FunMap: map[string]any{
 				"joinArray": apiparser.JoinArray,
@@ -366,7 +366,7 @@ func (s *GozeroDoc) convertZeroApiDocs(groups map[string][]*apiparser.ApiDeclare
 
 		var apiDoc *TsApiDoc
 		apiDoc = &TsApiDoc{
-			Tag:              jsonconv.Camel2Case(tag),
+			Tag:              jsonconv.Case2Snake(tag),
 			ImportPkgPaths:   s.ImportPkgPaths,
 			ImportModelTypes: tsModelsName,
 			ModelDeclares:    tsModels,
@@ -441,7 +441,7 @@ func (s *GozeroDoc) convertZeroModelDeclare(model *apiparser.ModelDeclare) *TsMo
 				}
 				return field.Type
 			}(),
-			Json:    jsonconv.Camel2Case(field.Name),
+			Json:    jsonconv.Case2Snake(field.Name),
 			Comment: field.Comment,
 		}
 

@@ -8,7 +8,7 @@ import (
 )
 
 // migrateCmd represents the migrate command
-type ModelCmd struct {
+type ApiCmd struct {
 	CMD     *cobra.Command
 	SqlFile string
 	TplFile string
@@ -17,26 +17,25 @@ type ModelCmd struct {
 	Style string
 }
 
-func NewModelCmd() *ModelCmd {
-	rootCmd := &ModelCmd{}
+func NewApiCmd() *ApiCmd {
+	rootCmd := &ApiCmd{}
 	rootCmd.CMD = &cobra.Command{
-		Use:   "model",
-		Short: "从sql文件生成go代码",
+		Use:   "api",
+		Short: "从api文件生成",
 		Run: func(cmd *cobra.Command, args []string) {
 			rootCmd.RunCommand(cmd, args)
 		},
 	}
 
-	rootCmd.CMD.AddCommand(NewModelDDLCmd().CMD)
-	rootCmd.CMD.AddCommand(NewModelDSNCmd().CMD)
+	rootCmd.CMD.AddCommand(NewRouterCmd())
 	rootCmd.init()
 	return rootCmd
 }
 
-func (s *ModelCmd) init() {
+func (s *ApiCmd) init() {
 
 }
 
-func (s *ModelCmd) RunCommand(cmd *cobra.Command, args []string) {
+func (s *ApiCmd) RunCommand(cmd *cobra.Command, args []string) {
 
 }

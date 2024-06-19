@@ -45,7 +45,7 @@ func TestApiDocs(t *testing.T) {
 				return model.JsonTag
 			}
 
-			return jsonconv.Camel2Case(model.Name)
+			return jsonconv.Case2Snake(model.Name)
 		},
 		ApiFieldTypeAs: func(name string) string {
 			return convertGoTypeToTsType(name)

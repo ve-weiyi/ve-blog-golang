@@ -127,7 +127,7 @@ func (s *AstApiDoc) GenerateTsApiFiles() {
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("ts/%s.ts", jsonconv.Camel2Case(apiDoc.Tag))),
+			CodeOutPath:    path.Join(s.OutRoot, fmt.Sprintf("ts/%s.ts", jsonconv.Case2Snake(apiDoc.Tag))),
 			TemplateString: ApiTypeScript,
 			FunMap:         map[string]any{"joinArray": utils.JoinArray},
 			Data:           apiDoc,

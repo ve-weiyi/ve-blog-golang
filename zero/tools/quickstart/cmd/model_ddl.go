@@ -20,7 +20,7 @@ import (
 
 // migrateCmd represents the migrate command
 type ModelDDLCmd struct {
-	cmd     *cobra.Command
+	CMD     *cobra.Command
 	SqlFile string
 	TplFile string
 	OutPath string
@@ -30,7 +30,7 @@ type ModelDDLCmd struct {
 
 func NewModelDDLCmd() *ModelDDLCmd {
 	rootCmd := &ModelDDLCmd{}
-	rootCmd.cmd = &cobra.Command{
+	rootCmd.CMD = &cobra.Command{
 		Use: "ddl",
 		Run: func(cmd *cobra.Command, args []string) {
 			rootCmd.RunCommand(cmd, args)
@@ -42,10 +42,10 @@ func NewModelDDLCmd() *ModelDDLCmd {
 }
 
 func (s *ModelDDLCmd) init() {
-	s.cmd.PersistentFlags().StringVarP(&s.SqlFile, "sql-file", "s", "test.sql", "sql文件")
-	s.cmd.PersistentFlags().StringVarP(&s.TplFile, "tpl-file", "t", "model.tpl", "模板文件")
-	s.cmd.PersistentFlags().StringVarP(&s.OutPath, "out-path", "o", "./", "输出路径")
-	s.cmd.PersistentFlags().StringVarP(&s.NameAs, "name-as", "n", "%s.go", "输出名称")
+	s.CMD.PersistentFlags().StringVarP(&s.SqlFile, "sql-file", "s", "test.sql", "sql文件")
+	s.CMD.PersistentFlags().StringVarP(&s.TplFile, "tpl-file", "t", "model.tpl", "模板文件")
+	s.CMD.PersistentFlags().StringVarP(&s.OutPath, "out-path", "o", "./", "输出路径")
+	s.CMD.PersistentFlags().StringVarP(&s.NameAs, "name-as", "n", "%s.go", "输出名称")
 }
 
 func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
@@ -95,7 +95,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 				"funcFieldsKeyVar": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						tp := ff.Type
 						if name != "" {
 							name += ", "
@@ -107,7 +107,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 				"funcFieldsKeyCond": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						if name != "" {
 							name += " and "
 						}
@@ -118,7 +118,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 				"funcFieldsKeyCondVar": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						if name != "" {
 							name += ", "
 						}
@@ -142,12 +142,13 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 
 // 从sql文件解析Table
 func ParseTableFromSql(sql string) (list []*Table, err error) {
+	n := strings.TrimRight(sql, ".sql")
+
 	dir, err := os.Getwd()
 	if err != nil {
 		return nil, err
 	}
 
-	n := strings.TrimRight(sql, ".sql")
 	f := path.Join(dir, sql)
 	tables, err := parser.Parse(f, n, false)
 	if err != nil {
@@ -211,7 +212,7 @@ func convertTableToData(table *Table) any {
 		"TableName":           table.Name,
 		"UpperStartCamelName": jsonconv.Case2Camel(table.Name),
 		"LowerStartCamelName": jsonconv.Case2CamelLowerStart(table.Name),
-		"SnakeName":           jsonconv.Camel2Case(table.Name),
+		"SnakeName":           jsonconv.Case2Snake(table.Name),
 		"Fields":              fs,
 		"UniqueFields":        ufs,
 	}

@@ -82,7 +82,7 @@ func TestCodeStarter(t *testing.T) {
 			// 生成 gorm 标签的字段类型属性
 			FieldWithTypeTag: true, // generate with gorm column type tag
 			FieldJSONTagNS: func(column string) string {
-				return jsonconv.Camel2Case(column)
+				return jsonconv.Case2Snake(column)
 			},
 		},
 	}
