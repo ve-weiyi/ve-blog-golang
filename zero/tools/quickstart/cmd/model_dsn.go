@@ -21,7 +21,7 @@ import (
 
 // migrateCmd represents the migrate command
 type ModelDSNCmd struct {
-	cmd     *cobra.Command
+	CMD     *cobra.Command
 	SqlFile string
 	TplFile string
 	OutPath string
@@ -31,7 +31,7 @@ type ModelDSNCmd struct {
 
 func NewModelDSNCmd() *ModelDSNCmd {
 	rootCmd := &ModelDSNCmd{}
-	rootCmd.cmd = &cobra.Command{
+	rootCmd.CMD = &cobra.Command{
 		Use: "dsn",
 		Run: func(cmd *cobra.Command, args []string) {
 			rootCmd.RunCommand(cmd, args)
@@ -44,10 +44,10 @@ func NewModelDSNCmd() *ModelDSNCmd {
 
 func (s *ModelDSNCmd) init() {
 	dsn := "root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local"
-	s.cmd.PersistentFlags().StringVarP(&s.SqlFile, "source", "s", dsn, "数据库地址")
-	s.cmd.PersistentFlags().StringVarP(&s.TplFile, "tpl-file", "t", "entity.tpl", "模板文件")
-	s.cmd.PersistentFlags().StringVarP(&s.OutPath, "out-path", "o", "./", "输出路径")
-	s.cmd.PersistentFlags().StringVarP(&s.NameAs, "name-as", "n", "%s.go", "输出名称")
+	s.CMD.PersistentFlags().StringVarP(&s.SqlFile, "source", "s", dsn, "数据库地址")
+	s.CMD.PersistentFlags().StringVarP(&s.TplFile, "tpl-file", "t", "entity.tpl", "模板文件")
+	s.CMD.PersistentFlags().StringVarP(&s.OutPath, "out-path", "o", "./", "输出路径")
+	s.CMD.PersistentFlags().StringVarP(&s.NameAs, "name-as", "n", "%s.go", "输出名称")
 }
 
 func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
@@ -97,7 +97,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 				"funcFieldsKeyVar": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						tp := ff.Type
 						if name != "" {
 							name += ", "
@@ -109,7 +109,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 				"funcFieldsKeyCond": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						if name != "" {
 							name += " and "
 						}
@@ -120,7 +120,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 				"funcFieldsKeyCondVar": func(fs []*field.Field) string {
 					var name string
 					for _, ff := range fs {
-						v := jsonconv.Camel2Case(ff.Name)
+						v := jsonconv.Case2Snake(ff.Name)
 						if name != "" {
 							name += ", "
 						}

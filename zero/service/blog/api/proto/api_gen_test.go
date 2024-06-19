@@ -107,7 +107,7 @@ func CreateApiTs(sp *spec.ApiSpec) {
 					if name == "ID" {
 						return "id"
 					}
-					return jsonconv.Camel2Case(name)
+					return jsonconv.Case2Snake(name)
 				},
 				"convertTsType": convertx.ConvertGoTypeToTsType,
 				"convertHandler": func(name string) string {
@@ -137,7 +137,7 @@ func CreateTypesTs(sp *spec.ApiSpec) {
 				if name == "ID" {
 					return "id"
 				}
-				return jsonconv.Camel2Case(name)
+				return jsonconv.Case2Snake(name)
 			},
 			"convertTsType": convertx.ConvertGoTypeToTsType,
 			"convertExtends": func(m []spec.Member) string {

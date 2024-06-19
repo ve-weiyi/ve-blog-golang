@@ -21,3 +21,27 @@ func Test_ParseTableFormDsn(t *testing.T) {
 
 	assert.Equal(t, jsonconv.ObjectToJsonIndent(fromDsn), jsonconv.ObjectToJsonIndent(fromSql))
 }
+
+func Test_ParseTableFromSql(t *testing.T) {
+	const sql = "test.sql"
+	fromSql, err := ParseTableFromSql(sql)
+	t.Log(err)
+	t.Log(jsonconv.ObjectToJsonIndent(fromSql))
+}
+
+func Test_ParseAPI(t *testing.T) {
+	//const api = "../test.api"
+	const api = "/Users/weiyi/Github/ve-blog-golang/zero/service/blog/api/proto/blog.api"
+	fromApi, err := ParseAPI(api)
+	t.Log(err)
+	//t.Log(jsonconv.ObjectToJsonIndent(fromApi))
+
+	for _, v := range fromApi.Service.Groups {
+		t.Log(jsonconv.ObjectToJsonIndent(v))
+	}
+
+	//for _, v := range fromApi.Types {
+	//	t.Log(jsonconv.ObjectToJsonIndent(v))
+	//}
+
+}
