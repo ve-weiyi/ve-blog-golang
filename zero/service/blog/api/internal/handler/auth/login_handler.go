@@ -14,12 +14,6 @@ import (
 // 登录
 func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.LoginReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := auth.NewLoginLogic(r.Context(), svcCtx)
-		resp, err := l.Login(&reqCtx, &req)
+		resp, err := l.Login(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

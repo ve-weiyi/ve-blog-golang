@@ -25,7 +25,7 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 	}
 }
 
-func (l *UpdatePhotoLogic) UpdatePhoto(reqCtx *types.RestHeader, req *types.Photo) (resp *types.Photo, err error) {
+func (l *UpdatePhotoLogic) UpdatePhoto(req *types.Photo) (resp *types.Photo, err error) {
 	in := convert.ConvertPhotoPb(req)
 
 	api, err := l.svcCtx.PhotoRpc.UpdatePhoto(l.ctx, in)

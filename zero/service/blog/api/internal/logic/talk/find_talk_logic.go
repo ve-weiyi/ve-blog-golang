@@ -25,7 +25,7 @@ func NewFindTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTalk
 	}
 }
 
-func (l *FindTalkLogic) FindTalk(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.TalkDetails, err error) {
+func (l *FindTalkLogic) FindTalk(req *types.IdReq) (resp *types.TalkDetails, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.TalkRpc.FindTalk(l.ctx, in)

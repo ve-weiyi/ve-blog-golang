@@ -14,12 +14,6 @@ import (
 // 删除文章-物理删除
 func DeleteArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func DeleteArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := article.NewDeleteArticleLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteArticle(&reqCtx, &req)
+		resp, err := l.DeleteArticle(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

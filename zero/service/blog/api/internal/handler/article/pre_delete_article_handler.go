@@ -14,12 +14,6 @@ import (
 // 删除文章-逻辑删除
 func PreDeleteArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.ArticlePreDeleteReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func PreDeleteArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := article.NewPreDeleteArticleLogic(r.Context(), svcCtx)
-		resp, err := l.PreDeleteArticle(&reqCtx, &req)
+		resp, err := l.PreDeleteArticle(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

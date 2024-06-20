@@ -25,7 +25,7 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 	}
 }
 
-func (l *UpdateTagLogic) UpdateTag(reqCtx *types.RestHeader, req *types.Tag) (resp *types.Tag, err error) {
+func (l *UpdateTagLogic) UpdateTag(req *types.Tag) (resp *types.Tag, err error) {
 	in := convert.ConvertTagPb(req)
 
 	api, err := l.svcCtx.TagRpc.UpdateTag(l.ctx, in)

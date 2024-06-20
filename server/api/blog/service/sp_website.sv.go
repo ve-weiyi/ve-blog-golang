@@ -4,11 +4,11 @@ import (
 	jsoniter "github.com/json-iterator/go"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/system"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 type WebsiteService struct {
@@ -21,14 +21,14 @@ func NewWebsiteService(svcCtx *svc.ServiceContext) *WebsiteService {
 	}
 }
 
-func (l *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.BlogHomeInfo, err error) {
+func (l *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface{}) (resp *dto.BlogHomeInfo, err error) {
 	articleCount, _ := l.svcCtx.ArticleRepository.Count(reqCtx, "`is_delete` = ?", entity.False)
 	categoryCount, _ := l.svcCtx.CategoryRepository.Count(reqCtx, "")
 	tagCount, _ := l.svcCtx.TagRepository.Count(reqCtx, "")
 	pages, _ := l.svcCtx.PageRepository.FindALL(reqCtx, "")
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
 
-	resp = &response.BlogHomeInfo{
+	resp = &dto.BlogHomeInfo{
 		ArticleCount:  articleCount,
 		CategoryCount: categoryCount,
 		TagCount:      tagCount,
@@ -40,7 +40,7 @@ func (l *WebsiteService) GetBlogHomeInfo(reqCtx *request.Context, data interface
 	return resp, err
 }
 
-func (l *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *response.AdminHomeInfo, err error) {
+func (l *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interface{}) (resp *dto.AdminHomeInfo, err error) {
 	// 查询消息数量
 	msgCount, err := l.svcCtx.RemarkRepository.Count(reqCtx, "")
 	if err != nil {
@@ -80,7 +80,7 @@ func (l *WebsiteService) GetAdminHomeInfo(reqCtx *request.Context, data interfac
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.AdminHomeInfo{
+	resp = &dto.AdminHomeInfo{
 		ViewsCount:            10,
 		MessageCount:          msgCount,
 		UserCount:             userCount,
@@ -111,7 +111,7 @@ func (l *WebsiteService) GetSystemState(reqCtx *request.Context, req interface{}
 	return &sv, nil
 }
 
-func (l *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp *response.AboutMeResp, err error) {
+func (l *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (resp *dto.AboutMeResp, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about_me")
 	if err != nil {
 		return nil, err
@@ -121,7 +121,7 @@ func (l *WebsiteService) GetAboutMe(reqCtx *request.Context, req interface{}) (r
 	return resp, nil
 }
 
-func (l *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req *request.AboutMeReq) (resp *response.AboutMeResp, err error) {
+func (l *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req *dto.AboutMeReq) (resp *dto.AboutMeResp, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "about_me")
 	if err != nil {
 		return nil, err
@@ -137,7 +137,7 @@ func (l *WebsiteService) UpdateAboutMe(reqCtx *request.Context, req *request.Abo
 	return resp, nil
 }
 
-func (l *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface{}) (resp *response.WebsiteConfigDTO, err error) {
+func (l *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface{}) (resp *dto.WebsiteConfigDTO, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
 	if err != nil {
 		return nil, err
@@ -147,7 +147,7 @@ func (l *WebsiteService) GetWebsiteConfig(reqCtx *request.Context, req interface
 	return resp, nil
 }
 
-func (l *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, req *request.WebsiteConfigDTO) (resp *response.WebsiteConfigDTO, err error) {
+func (l *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, req *dto.WebsiteConfigDTO) (resp *dto.WebsiteConfigDTO, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", "website_config")
 	if err != nil {
 		return nil, err
@@ -164,7 +164,7 @@ func (l *WebsiteService) UpdateWebsiteConfig(reqCtx *request.Context, req *reque
 	return resp, nil
 }
 
-func (l *WebsiteService) GetConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {
+func (l *WebsiteService) GetConfig(reqCtx *request.Context, req *dto.WebsiteConfigReq) (resp string, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", req.Key)
 	if err != nil {
 		return "", err
@@ -173,7 +173,7 @@ func (l *WebsiteService) GetConfig(reqCtx *request.Context, req *request.Website
 	return config.Config, err
 }
 
-func (l *WebsiteService) UpdateConfig(reqCtx *request.Context, req *request.WebsiteConfigReq) (resp string, err error) {
+func (l *WebsiteService) UpdateConfig(reqCtx *request.Context, req *dto.WebsiteConfigReq) (resp string, err error) {
 	config, err := l.svcCtx.WebsiteConfigRepository.First(reqCtx, "`key` = ?", req.Key)
 	if err != nil {
 		return "", err

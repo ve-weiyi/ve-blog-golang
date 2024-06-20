@@ -27,7 +27,7 @@ func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(reqCtx *types.RestHeader, req *types.WebsiteConfig) (resp *types.EmptyResp, err error) {
+func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(req *types.WebsiteConfig) (resp *types.EmptyResp, err error) {
 	in := blog.SaveConfigReq{
 		ConfigKey:   "website_config",
 		ConfigValue: jsonconv.ObjectToJson(req),

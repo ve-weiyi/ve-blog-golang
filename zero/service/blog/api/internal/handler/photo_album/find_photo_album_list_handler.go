@@ -14,12 +14,6 @@ import (
 // 分页获取相册列表
 func FindPhotoAlbumListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindPhotoAlbumListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := photo_album.NewFindPhotoAlbumListLogic(r.Context(), svcCtx)
-		resp, err := l.FindPhotoAlbumList(&reqCtx, &req)
+		resp, err := l.FindPhotoAlbumList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

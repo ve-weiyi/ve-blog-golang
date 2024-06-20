@@ -14,12 +14,6 @@ import (
 // 更新菜单
 func UpdateMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.MenuDetails
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func UpdateMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := menu.NewUpdateMenuLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateMenu(&reqCtx, &req)
+		resp, err := l.UpdateMenu(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

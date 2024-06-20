@@ -14,12 +14,6 @@ import (
 // 更新照片
 func UpdatePhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.Photo
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func UpdatePhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := photo.NewUpdatePhotoLogic(r.Context(), svcCtx)
-		resp, err := l.UpdatePhoto(&reqCtx, &req)
+		resp, err := l.UpdatePhoto(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

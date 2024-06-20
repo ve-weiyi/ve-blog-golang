@@ -25,7 +25,7 @@ func NewSendRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *SendRegisterEmailLogic) SendRegisterEmail(reqCtx *types.RestHeader, req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
+func (l *SendRegisterEmailLogic) SendRegisterEmail(req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
 	in := &blog.UserEmailReq{
 		Username: req.Username,
 	}

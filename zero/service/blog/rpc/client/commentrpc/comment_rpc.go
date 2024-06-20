@@ -39,6 +39,8 @@ type (
 	FindTagByNameReq         = blog.FindTagByNameReq
 	FriendLink               = blog.FriendLink
 	FriendLinkPageResp       = blog.FriendLinkPageResp
+	GetLogoutAtReq           = blog.GetLogoutAtReq
+	GetLogoutAtResp          = blog.GetLogoutAtResp
 	IdReq                    = blog.IdReq
 	IdsReq                   = blog.IdsReq
 	LoginHistory             = blog.LoginHistory
@@ -91,8 +93,8 @@ type (
 	UploadRecordResp         = blog.UploadRecordResp
 	User                     = blog.User
 	UserEmailReq             = blog.UserEmailReq
-	UserInfoPageResp         = blog.UserInfoPageResp
 	UserInfoResp             = blog.UserInfoResp
+	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
 
 	CommentRpc interface {

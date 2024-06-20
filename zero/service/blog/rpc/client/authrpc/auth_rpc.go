@@ -39,6 +39,8 @@ type (
 	FindTagByNameReq         = blog.FindTagByNameReq
 	FriendLink               = blog.FriendLink
 	FriendLinkPageResp       = blog.FriendLinkPageResp
+	GetLogoutAtReq           = blog.GetLogoutAtReq
+	GetLogoutAtResp          = blog.GetLogoutAtResp
 	IdReq                    = blog.IdReq
 	IdsReq                   = blog.IdsReq
 	LoginHistory             = blog.LoginHistory
@@ -91,8 +93,8 @@ type (
 	UploadRecordResp         = blog.UploadRecordResp
 	User                     = blog.User
 	UserEmailReq             = blog.UserEmailReq
-	UserInfoPageResp         = blog.UserInfoPageResp
 	UserInfoResp             = blog.UserInfoResp
+	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
 
 	AuthRpc interface {
@@ -114,6 +116,8 @@ type (
 		OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// 获取第三方登录授权地址
 		GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error)
+		// 获取用户登录时间
+		GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*GetLogoutAtResp, error)
 	}
 
 	defaultAuthRpc struct {
@@ -179,4 +183,10 @@ func (m *defaultAuthRpc) OauthLogin(ctx context.Context, in *OauthLoginReq, opts
 func (m *defaultAuthRpc) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error) {
 	client := blog.NewAuthRpcClient(m.cli.Conn())
 	return client.GetOauthAuthorizeUrl(ctx, in, opts...)
+}
+
+// 获取用户登录时间
+func (m *defaultAuthRpc) GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*GetLogoutAtResp, error) {
+	client := blog.NewAuthRpcClient(m.cli.Conn())
+	return client.GetLogoutAt(ctx, in, opts...)
 }

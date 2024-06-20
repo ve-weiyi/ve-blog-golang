@@ -16,6 +16,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/field"
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd/api"
 )
 
 // migrateCmd represents the migrate command
@@ -56,7 +57,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 	log.Println("name-as:", s.NameAs)
 
 	var metas []invent.TemplateMeta
-	var tables []*Table
+	var tables []*api.Table
 	var err error
 
 	f := s.SqlFile
@@ -141,7 +142,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 }
 
 // 从sql文件解析Table
-func ParseTableFromSql(sql string) (list []*Table, err error) {
+func ParseTableFromSql(sql string) (list []*api.Table, err error) {
 	n := strings.TrimRight(sql, ".sql")
 
 	dir, err := os.Getwd()
@@ -157,15 +158,15 @@ func ParseTableFromSql(sql string) (list []*Table, err error) {
 
 	for _, table := range tables {
 
-		fs := make([]*Field, 0)
+		fs := make([]*api.Field, 0)
 		for _, field := range table.Fields {
 			f := convertFieldToField(field)
 			fs = append(fs, &f)
 		}
 
-		ufs := make(map[string][]*Field)
+		ufs := make(map[string][]*api.Field)
 		for k, index := range table.UniqueIndex {
-			uf := make([]*Field, 0)
+			uf := make([]*api.Field, 0)
 			for _, field := range index {
 				f := convertFieldToField(field)
 				uf = append(uf, &f)
@@ -173,10 +174,10 @@ func ParseTableFromSql(sql string) (list []*Table, err error) {
 			ufs[k] = uf
 		}
 
-		v := &Table{
+		v := &api.Table{
 			Name: table.Name.Source(),
 			Db:   table.Db.Source(),
-			PrimaryKey: Primary{
+			PrimaryKey: api.Primary{
 				AutoIncrement: table.PrimaryKey.AutoIncrement,
 				Field:         convertFieldToField(&table.PrimaryKey.Field),
 			},
@@ -191,7 +192,7 @@ func ParseTableFromSql(sql string) (list []*Table, err error) {
 	return list, nil
 }
 
-func convertTableToData(table *Table) any {
+func convertTableToData(table *api.Table) any {
 
 	var fs []*field.Field
 	for _, e := range table.Fields {
@@ -220,7 +221,7 @@ func convertTableToData(table *Table) any {
 	return data
 }
 
-func convertField(e *Field) *field.Field {
+func convertField(e *api.Field) *field.Field {
 
 	return &field.Field{
 		Name:    jsonconv.Case2Camel(e.Name),
@@ -243,8 +244,8 @@ func convertField(e *Field) *field.Field {
 	}
 }
 
-func convertFieldToField(col *parser.Field) Field {
-	f := Field{
+func convertFieldToField(col *parser.Field) api.Field {
+	f := api.Field{
 		Name:            col.Name.Source(),
 		DataType:        col.DataType,
 		Comment:         col.Comment,

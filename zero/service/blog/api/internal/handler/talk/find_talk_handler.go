@@ -14,12 +14,6 @@ import (
 // 查询说说
 func FindTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := talk.NewFindTalkLogic(r.Context(), svcCtx)
-		resp, err := l.FindTalk(&reqCtx, &req)
+		resp, err := l.FindTalk(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

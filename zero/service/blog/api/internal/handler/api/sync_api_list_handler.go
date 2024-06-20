@@ -14,12 +14,6 @@ import (
 // 同步api列表
 func SyncApiListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func SyncApiListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := api.NewSyncApiListLogic(r.Context(), svcCtx)
-		resp, err := l.SyncApiList(&reqCtx, &req)
+		resp, err := l.SyncApiList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

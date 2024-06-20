@@ -23,6 +23,19 @@ type (
 @server(
     prefix: /api/v1
     group: tag
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取标签列表"
+    @handler FindTagList
+    post /tag/find_tag_list (PageQuery) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: tag
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -45,8 +58,4 @@ service blog-api {
     @doc "查询标签"
     @handler FindTag
     post /tag/find_tag (IdReq) returns (Tag)
-
-    @doc "分页获取标签列表"
-    @handler FindTagList
-    post /tag/find_tag_list (PageQuery) returns (PageResp)
 }

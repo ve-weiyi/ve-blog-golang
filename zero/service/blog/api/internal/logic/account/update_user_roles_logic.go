@@ -23,7 +23,7 @@ func NewUpdateUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 	}
 }
 
-func (l *UpdateUserRolesLogic) UpdateUserRoles(reqCtx *types.RestHeader, req *types.UpdateUserRolesReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateUserRolesLogic) UpdateUserRoles(req *types.UpdateUserRolesReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

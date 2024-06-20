@@ -26,7 +26,7 @@ type ServiceContext struct {
 	DbEngin        *gorm.DB
 	RedisEngin     *redis.Client
 	LocalCache     *ecache.Cache
-	Token          *jtoken.JWTInstance
+	Token          *jtoken.JwtInstance
 	Oauth          map[string]oauth.Oauth
 	CaptchaHolder  *captcha.CaptchaHolder
 	AIChatGPT      *chatgpt.AIChatGPT

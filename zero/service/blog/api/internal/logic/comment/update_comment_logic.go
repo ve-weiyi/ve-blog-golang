@@ -25,7 +25,7 @@ func NewUpdateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 	}
 }
 
-func (l *UpdateCommentLogic) UpdateComment(reqCtx *types.RestHeader, req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
+func (l *UpdateCommentLogic) UpdateComment(req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
 	in := convert.ConvertCommentPb(req)
 
 	api, err := l.svcCtx.CommentRpc.UpdateComment(l.ctx, in)

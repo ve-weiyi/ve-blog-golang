@@ -25,7 +25,7 @@ func NewSendForgetEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *S
 	}
 }
 
-func (l *SendForgetEmailLogic) SendForgetEmail(reqCtx *types.RestHeader, req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
+func (l *SendForgetEmailLogic) SendForgetEmail(req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
 	in := &blog.UserEmailReq{
 		Username: req.Username,
 	}

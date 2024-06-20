@@ -24,7 +24,7 @@ func NewLikeCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeC
 	}
 }
 
-func (l *LikeCommentLogic) LikeComment(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.EmptyResp, err error) {
+func (l *LikeCommentLogic) LikeComment(req *types.IdReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

@@ -34,6 +34,12 @@ func (s *UserRpcServer) DeleteUserLoginHistoryList(ctx context.Context, in *blog
 	return l.DeleteUserLoginHistoryList(in)
 }
 
+// 查找用户列表
+func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.PageQuery) (*blog.UserPageResp, error) {
+	l := userrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
+	return l.FindUserList(in)
+}
+
 // 获取用户接口权限
 func (s *UserRpcServer) FindUserApis(ctx context.Context, in *blog.UserReq) (*blog.ApiPageResp, error) {
 	l := userrpclogic.NewFindUserApisLogic(ctx, s.svcCtx)
@@ -59,13 +65,13 @@ func (s *UserRpcServer) FindUserInfo(ctx context.Context, in *blog.UserReq) (*bl
 }
 
 // 修改用户信息
-func (s *UserRpcServer) UpdateUserInfo(ctx context.Context, in *blog.UpdateUserInfoReq) (*blog.UserInfoResp, error) {
+func (s *UserRpcServer) UpdateUserInfo(ctx context.Context, in *blog.UpdateUserInfoReq) (*blog.EmptyResp, error) {
 	l := userrpclogic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
 	return l.UpdateUserInfo(in)
 }
 
 // 修改用户头像
-func (s *UserRpcServer) UpdateUserAvatar(ctx context.Context, in *blog.UpdateUserAvatarReq) (*blog.UserInfoResp, error) {
+func (s *UserRpcServer) UpdateUserAvatar(ctx context.Context, in *blog.UpdateUserAvatarReq) (*blog.EmptyResp, error) {
 	l := userrpclogic.NewUpdateUserAvatarLogic(ctx, s.svcCtx)
 	return l.UpdateUserAvatar(in)
 }
@@ -80,10 +86,4 @@ func (s *UserRpcServer) UpdateUserStatus(ctx context.Context, in *blog.UpdateUse
 func (s *UserRpcServer) UpdateUserRole(ctx context.Context, in *blog.UpdateUserRoleReq) (*blog.EmptyResp, error) {
 	l := userrpclogic.NewUpdateUserRoleLogic(ctx, s.svcCtx)
 	return l.UpdateUserRole(in)
-}
-
-// 查找用户列表
-func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.PageQuery) (*blog.UserInfoPageResp, error) {
-	l := userrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
-	return l.FindUserList(in)
 }

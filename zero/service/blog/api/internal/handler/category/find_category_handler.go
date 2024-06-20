@@ -14,12 +14,6 @@ import (
 // 查询文章分类
 func FindCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := category.NewFindCategoryLogic(r.Context(), svcCtx)
-		resp, err := l.FindCategory(&reqCtx, &req)
+		resp, err := l.FindCategory(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

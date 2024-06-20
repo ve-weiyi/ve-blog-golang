@@ -20,6 +20,19 @@ type (
 @server(
     prefix: /api/v1
     group: photo_album
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取相册列表"
+    @handler FindPhotoAlbumList
+    post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: photo_album
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -42,8 +55,4 @@ service blog-api {
     @doc "查询相册"
     @handler FindPhotoAlbum
     post /photo_album/find_photo_album (IdReq) returns (PhotoAlbum)
-
-    @doc "分页获取相册列表"
-    @handler FindPhotoAlbumList
-    post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
 }

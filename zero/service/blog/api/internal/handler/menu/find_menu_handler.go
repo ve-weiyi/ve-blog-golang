@@ -14,12 +14,6 @@ import (
 // 查询菜单
 func FindMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := menu.NewFindMenuLogic(r.Context(), svcCtx)
-		resp, err := l.FindMenu(&reqCtx, &req)
+		resp, err := l.FindMenu(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

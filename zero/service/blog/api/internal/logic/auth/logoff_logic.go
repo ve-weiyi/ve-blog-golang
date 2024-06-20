@@ -27,9 +27,9 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 	}
 }
 
-func (l *LogoffLogic) Logoff(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.EmptyResp, err error) {
+func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	in := authrpc.LogoffReq{
-		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	_, err = l.svcCtx.AuthRpc.Logoff(l.ctx, &in)

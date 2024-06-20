@@ -24,7 +24,7 @@ func NewFindOnlineUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *FindOnlineUserListLogic) FindOnlineUserList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	users, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
 	if err != nil {

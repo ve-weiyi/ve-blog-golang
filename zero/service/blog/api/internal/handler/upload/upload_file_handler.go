@@ -14,12 +14,6 @@ import (
 // 上传文件
 func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.UploadFileReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := upload.NewUploadFileLogic(r.Context(), svcCtx)
-		resp, err := l.UploadFile(&reqCtx, &req, r)
+		resp, err := l.UploadFile(&req, r)
 		responsex.Response(r, w, resp, err)
 	}
 }

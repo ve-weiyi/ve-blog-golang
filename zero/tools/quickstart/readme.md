@@ -12,11 +12,13 @@ invent 使用template生成代码文件
 ### 2. 使用
 
 cobra-cli init
-cobra-cli add entity
 cobra-cli add repository
 cobra-cli add service
 cobra-cli add controller
 cobra-cli add router
+
+cobra-cli add model
+
 
 1. 生成entity文件
 

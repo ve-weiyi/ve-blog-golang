@@ -14,12 +14,6 @@ import (
 // 点赞说说
 func LikeTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func LikeTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := talk.NewLikeTalkLogic(r.Context(), svcCtx)
-		resp, err := l.LikeTalk(&reqCtx, &req)
+		resp, err := l.LikeTalk(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

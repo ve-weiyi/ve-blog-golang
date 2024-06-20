@@ -14,12 +14,6 @@ import (
 // 获取网站配置
 func GetWebsiteConfigHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func GetWebsiteConfigHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := website.NewGetWebsiteConfigLogic(r.Context(), svcCtx)
-		resp, err := l.GetWebsiteConfig(&reqCtx, &req)
+		resp, err := l.GetWebsiteConfig(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

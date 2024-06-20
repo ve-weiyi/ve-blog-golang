@@ -25,7 +25,7 @@ func NewFindFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindFriendLinkLogic) FindFriendLink(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.FriendLink, err error) {
+func (l *FindFriendLinkLogic) FindFriendLink(req *types.IdReq) (resp *types.FriendLink, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.FriendLinkRpc.FindFriendLink(l.ctx, in)

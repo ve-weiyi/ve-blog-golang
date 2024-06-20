@@ -26,7 +26,7 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindCommentBackListLogic) FindCommentBackList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindCommentBackListLogic) FindCommentBackList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
 	if err != nil {

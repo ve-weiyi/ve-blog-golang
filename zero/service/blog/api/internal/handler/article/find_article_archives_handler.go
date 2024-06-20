@@ -14,12 +14,6 @@ import (
 // 文章归档(时间轴)
 func FindArticleArchivesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindArticleArchivesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := article.NewFindArticleArchivesLogic(r.Context(), svcCtx)
-		resp, err := l.FindArticleArchives(&reqCtx, &req)
+		resp, err := l.FindArticleArchives(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

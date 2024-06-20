@@ -25,7 +25,7 @@ func NewDeleteCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *DeleteCategoryListLogic) DeleteCategoryList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeleteCategoryListLogic) DeleteCategoryList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.CategoryRpc.DeleteCategoryList(l.ctx, in)

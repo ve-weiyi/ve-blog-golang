@@ -25,7 +25,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(reqCtx *types.RestHeader, req *types.LoginReq) (resp *types.EmptyResp, err error) {
+func (l *RegisterLogic) Register(req *types.LoginReq) (resp *types.EmptyResp, err error) {
 	in := &blog.LoginReq{
 		Username: req.Username,
 		Password: req.Password,

@@ -32,6 +32,7 @@ type (
 @server(
     prefix: /api/v1
     group: api
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {

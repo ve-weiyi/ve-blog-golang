@@ -14,12 +14,6 @@ import (
 // 更新api路由
 func UpdateApiHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.Api
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func UpdateApiHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := api.NewUpdateApiLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateApi(&reqCtx, &req)
+		resp, err := l.UpdateApi(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

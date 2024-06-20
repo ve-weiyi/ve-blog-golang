@@ -24,7 +24,7 @@ func NewFindRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRole
 	}
 }
 
-func (l *FindRoleLogic) FindRole(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Role, err error) {
+func (l *FindRoleLogic) FindRole(req *types.IdReq) (resp *types.Role, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.RoleRpc.FindRole(l.ctx, in)

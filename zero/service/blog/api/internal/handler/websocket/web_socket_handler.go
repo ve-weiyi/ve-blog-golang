@@ -9,12 +9,10 @@ import (
 
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
@@ -23,12 +21,6 @@ import (
 // WebSocket消息
 func WebSocketHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		// 接收消息
 		receive := func(msg []byte) (tx []byte, err error) {
 			logx.Info(string(msg))
@@ -43,7 +35,7 @@ func WebSocketHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 				return nil, fmt.Errorf("content is empty")
 			}
 
-			uid := cast.ToInt64(reqCtx.HeaderXUserId)
+			uid := cast.ToInt64(r.Context().Value("userId"))
 			info, err := svcCtx.UserRpc.FindUserInfo(r.Context(), &blog.UserReq{UserId: uid})
 			if err != nil {
 				return nil, err

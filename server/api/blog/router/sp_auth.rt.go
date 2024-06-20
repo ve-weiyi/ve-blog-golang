@@ -23,11 +23,11 @@ func (s *AuthRouter) InitAuthRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 	var handler = controller.NewAuthController(s.svcCtx)
 	{
-		authPublicRouter.POST("/login", handler.Login)                    // 登录
-		authPublicRouter.POST("/logout", handler.Logout)                  // 登出
-		authPublicRouter.POST("/register", handler.Register)              // 注册
-		authPublicRouter.POST("/register/email", handler.RegisterEmail)   // 注册邮件
-		authPublicRouter.POST("/oauth/login", handler.OauthLogin)         // 使用第三方登录
-		authPublicRouter.POST("/oauth/url", handler.GetOauthAuthorizeUrl) // 获取授权地址
+		authPublicRouter.POST("/login", handler.Login)                      // 登录
+		authPublicRouter.POST("/logout", handler.Logout)                    // 登出
+		authPublicRouter.POST("/register", handler.Register)                // 注册
+		authPublicRouter.POST("/register/email", handler.SendRegisterEmail) // 注册邮件
+		authPublicRouter.POST("/oauth/login", handler.OauthLogin)           // 使用第三方登录
+		authPublicRouter.POST("/oauth/url", handler.OauthAuthorizeUrl)      // 获取授权地址
 	}
 }

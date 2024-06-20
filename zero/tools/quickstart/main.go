@@ -1,12 +1,10 @@
 /*
-Copyright © 2024 791422171@qq.com
+Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import (
-	"github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd"
-)
+import "github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd"
 
 func main() {
-	cmd.NewRootCmd().Execute()
+	cmd.Execute()
 }

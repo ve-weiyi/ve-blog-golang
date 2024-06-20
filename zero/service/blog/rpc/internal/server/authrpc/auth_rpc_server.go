@@ -75,3 +75,9 @@ func (s *AuthRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *blog.Oauth
 	l := authrpclogic.NewGetOauthAuthorizeUrlLogic(ctx, s.svcCtx)
 	return l.GetOauthAuthorizeUrl(in)
 }
+
+// 获取用户登录时间
+func (s *AuthRpcServer) GetLogoutAt(ctx context.Context, in *blog.GetLogoutAtReq) (*blog.GetLogoutAtResp, error) {
+	l := authrpclogic.NewGetLogoutAtLogic(ctx, s.svcCtx)
+	return l.GetLogoutAt(in)
+}

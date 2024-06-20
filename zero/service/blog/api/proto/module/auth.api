@@ -66,6 +66,18 @@ service blog-api {
     @handler Login
     post /login (LoginReq) returns (LoginResp)
 
+    @doc "第三方登录"
+    @handler OauthLogin
+    post /oauth_login (OauthLoginReq) returns (LoginResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: auth
+    middleware: JwtToken
+)
+
+service blog-api {
     @doc "登出"
     @handler Logout
     post /logout (EmptyReq) returns (EmptyResp)
@@ -89,10 +101,6 @@ service blog-api {
     @doc "发送忘记密码邮件"
     @handler SendForgetEmail
     post /send_forget_email (UserEmailReq) returns (EmptyResp)
-
-    @doc "第三方登录"
-    @handler OauthLogin
-    post /oauth_login (OauthLoginReq) returns (LoginResp)
 
     @doc "第三方登录授权地址"
     @handler OauthAuthorizeUrl

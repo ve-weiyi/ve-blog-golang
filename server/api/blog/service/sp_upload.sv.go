@@ -12,10 +12,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 )
 
 type UploadService struct {
@@ -50,7 +51,7 @@ func (l *UploadService) UploadFile(reqCtx *request.Context, label string, file *
 }
 
 // 上传语言
-func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceVO, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
+func (l *UploadService) UploadVoice(reqCtx *request.Context, req *dto.VoiceVO, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
 	label := "voice"
 	filename := time.Now().Format("20060102150405") + ".mp3"
 

@@ -28,7 +28,7 @@ func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthL
 	}
 }
 
-func (l *OauthLoginLogic) OauthLogin(reqCtx *types.RestHeader, req *types.OauthLoginReq) (resp *types.LoginResp, err error) {
+func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.LoginResp, err error) {
 	in := authrpc.OauthLoginReq{
 		Platform: req.Platform,
 		Code:     req.Code,

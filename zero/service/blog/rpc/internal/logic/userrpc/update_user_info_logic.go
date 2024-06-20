@@ -3,7 +3,6 @@ package userrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -25,7 +24,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 // 修改用户信息
-func (l *UpdateUserInfoLogic) UpdateUserInfo(in *blog.UpdateUserInfoReq) (*blog.UserInfoResp, error) {
+func (l *UpdateUserInfoLogic) UpdateUserInfo(in *blog.UpdateUserInfoReq) (*blog.EmptyResp, error) {
 	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", in.UserId)
 	if err != nil {
 		return nil, err
@@ -41,5 +40,5 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *blog.UpdateUserInfoReq) (*blog.
 		return nil, err
 	}
 
-	return convert.ConvertUserInfoModelToPb(ui), nil
+	return &blog.EmptyResp{}, nil
 }

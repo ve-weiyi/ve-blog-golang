@@ -25,7 +25,7 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdatePageLogic) UpdatePage(reqCtx *types.RestHeader, req *types.Page) (resp *types.Page, err error) {
+func (l *UpdatePageLogic) UpdatePage(req *types.Page) (resp *types.Page, err error) {
 	in := convert.ConvertPagePb(req)
 
 	api, err := l.svcCtx.PageRpc.UpdatePage(l.ctx, in)

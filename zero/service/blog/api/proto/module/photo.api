@@ -19,6 +19,19 @@ type (
 @server(
     prefix: /api/v1
     group: photo
+    middleware: SignToken,JwtToken
+)
+
+service blog-api {
+    @doc "分页获取照片列表"
+    @handler FindPhotoList
+    post /photo/find_photo_list (PageQuery) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: photo
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -41,8 +54,4 @@ service blog-api {
     @doc "查询照片"
     @handler FindPhoto
     post /photo/find_photo (IdReq) returns (Photo)
-
-    @doc "分页获取照片列表"
-    @handler FindPhotoList
-    post /photo/find_photo_list (PageQuery) returns (PageResp)
 }

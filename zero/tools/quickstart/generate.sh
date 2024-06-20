@@ -17,5 +17,5 @@
 go run main.go api router \
 -t=./temp \
 -n='%s.go' \
--o='/Users/weiyi/Github/ve-blog-golang/server/api/test'  \
+-o='/Users/weiyi/Github/ve-blog-golang/server/api/blog'  \
 -f='/Users/weiyi/Github/ve-blog-golang/zero/service/blog/api/proto/blog.api'

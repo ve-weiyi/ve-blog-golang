@@ -25,7 +25,7 @@ func NewFindArticleArchivesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindArticleArchivesLogic) FindArticleArchives(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	in.Sorts = "id desc"
 	in.Conditions = "status = ?"

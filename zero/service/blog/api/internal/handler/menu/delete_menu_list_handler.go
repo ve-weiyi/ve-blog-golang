@@ -14,12 +14,6 @@ import (
 // 批量删除菜单
 func DeleteMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func DeleteMenuListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := menu.NewDeleteMenuListLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteMenuList(&reqCtx, &req)
+		resp, err := l.DeleteMenuList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

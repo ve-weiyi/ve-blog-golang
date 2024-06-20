@@ -14,12 +14,6 @@ import (
 // 登出
 func LogoutHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func LogoutHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := auth.NewLogoutLogic(r.Context(), svcCtx)
-		resp, err := l.Logout(&reqCtx, &req)
+		resp, err := l.Logout(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

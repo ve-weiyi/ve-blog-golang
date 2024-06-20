@@ -28,7 +28,7 @@ func NewFindPhotoAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.PhotoRpc.FindPhotoAlbumList(l.ctx, in)
 	if err != nil {

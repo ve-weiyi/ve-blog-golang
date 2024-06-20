@@ -14,12 +14,6 @@ import (
 // 创建留言
 func CreateRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.Remark
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func CreateRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := remark.NewCreateRemarkLogic(r.Context(), svcCtx)
-		resp, err := l.CreateRemark(&reqCtx, &req)
+		resp, err := l.CreateRemark(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

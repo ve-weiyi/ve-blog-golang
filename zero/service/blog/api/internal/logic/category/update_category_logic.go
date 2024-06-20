@@ -25,7 +25,7 @@ func NewUpdateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateCategoryLogic) UpdateCategory(reqCtx *types.RestHeader, req *types.Category) (resp *types.Category, err error) {
+func (l *UpdateCategoryLogic) UpdateCategory(req *types.Category) (resp *types.Category, err error) {
 	in := convert.ConvertCategoryPb(req)
 
 	api, err := l.svcCtx.CategoryRpc.UpdateCategory(l.ctx, in)

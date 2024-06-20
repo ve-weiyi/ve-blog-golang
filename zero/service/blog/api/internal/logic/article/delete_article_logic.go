@@ -24,7 +24,7 @@ func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 	}
 }
 
-func (l *DeleteArticleLogic) DeleteArticle(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.EmptyResp, err error) {
+func (l *DeleteArticleLogic) DeleteArticle(req *types.IdReq) (resp *types.EmptyResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

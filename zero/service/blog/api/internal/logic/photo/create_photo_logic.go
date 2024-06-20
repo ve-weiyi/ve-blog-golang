@@ -25,7 +25,7 @@ func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Creat
 	}
 }
 
-func (l *CreatePhotoLogic) CreatePhoto(reqCtx *types.RestHeader, req *types.Photo) (resp *types.Photo, err error) {
+func (l *CreatePhotoLogic) CreatePhoto(req *types.Photo) (resp *types.Photo, err error) {
 	in := convert.ConvertPhotoPb(req)
 	out, err := l.svcCtx.PhotoRpc.CreatePhoto(l.ctx, in)
 	if err != nil {
