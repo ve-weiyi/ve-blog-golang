@@ -1,12 +1,12 @@
 package service
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 )
 
 // 分页获取Role记录
-func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.RoleDetailsDTO, total int64, err error) {
+func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.RoleDetailsDTO, total int64, err error) {
 
 	// 查找角色列表
 	roles, total, err := l.FindRoleList(reqCtx, page)
@@ -45,7 +45,7 @@ func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 		menuIds := menuMap[role.Id]
 		apiIds := apiMap[role.Id]
 
-		r := response.RoleDetailsDTO{
+		r := dto.RoleDetailsDTO{
 			Role:           *role,
 			MenuIdList:     menuIds,
 			ResourceIdList: apiIds,
@@ -57,7 +57,7 @@ func (l *RoleService) FindRoleDetailsList(reqCtx *request.Context, page *request
 }
 
 // 设置角色菜单
-func (l *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *request.UpdateRoleMenusReq) (data interface{}, err error) {
+func (l *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *dto.UpdateRoleMenusReq) (data interface{}, err error) {
 	// 重置角色菜单权限
 	menu, _, err := l.svcCtx.RoleRepository.UpdateRoleMenus(reqCtx, req.RoleId, req.MenuIds)
 	if err != nil {
@@ -68,7 +68,7 @@ func (l *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *request.Upda
 }
 
 // 设置角色菜单
-func (l *RoleService) UpdateRoleResources(reqCtx *request.Context, req *request.UpdateRoleApisReq) (data interface{}, err error) {
+func (l *RoleService) UpdateRoleResources(reqCtx *request.Context, req *dto.UpdateRoleApisReq) (data interface{}, err error) {
 	// 重置角色接口权限
 	role, _, err := l.svcCtx.RoleRepository.UpdateRoleResources(reqCtx, req.RoleId, req.ResourceIds)
 	if err != nil {

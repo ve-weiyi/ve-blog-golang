@@ -1,4 +1,8 @@
-package request
+package dto
+
+import (
+	"time"
+)
 
 // CustomizeRouteMeta 对应TypeScript中的CustomizeRouteMeta接口
 //type CustomizeRouteMeta struct {
@@ -69,4 +73,19 @@ type RouteConfigsTable struct {
 
 type SyncMenuReq struct {
 	Menus []RouteConfigsTable `json:"menus"`
+}
+
+type MenuDetailsDTO struct {
+	Id        int64             `json:"id"`        // 主键
+	ParentId  int64             `json:"parent_id"` // 父id
+	Title     string            `json:"title"`     // 菜单标题
+	Type      int64             `json:"type"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+	Path      string            `json:"path"`      // 路由地址
+	Name      string            `json:"name"`      // 路由名字
+	Component interface{}       `json:"component"` // Layout组件
+	Redirect  string            `json:"redirect"`  // 路由重定向
+	Meta      Meta              `json:"meta"`      // meta配置
+	Children  []*MenuDetailsDTO `json:"children"`
+	CreatedAt time.Time         `json:"created_at"` // 创建时间
+	UpdatedAt time.Time         `json:"updated_at"` // 更新时间
 }

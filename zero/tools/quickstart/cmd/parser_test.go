@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	api2 "github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd/api"
 )
 
 func Test_ParseTableFormDsn(t *testing.T) {
@@ -32,7 +33,7 @@ func Test_ParseTableFromSql(t *testing.T) {
 func Test_ParseAPI(t *testing.T) {
 	//const api = "../test.api"
 	const api = "/Users/weiyi/Github/ve-blog-golang/zero/service/blog/api/proto/blog.api"
-	fromApi, err := ParseAPI(api)
+	fromApi, err := api2.ParseAPI(api)
 	t.Log(err)
 	//t.Log(jsonconv.ObjectToJsonIndent(fromApi))
 

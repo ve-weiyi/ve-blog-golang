@@ -4,14 +4,14 @@ import (
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
 )
 
 // 分页获取Api记录
-func (l *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.ApiDetailsDTO, total int64, err error) {
+func (l *ApiService) FindApiDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.ApiDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	// 查询api信息
 	apis, err := l.svcCtx.ApiRepository.FindALL(reqCtx, cond, args...)
@@ -20,7 +20,7 @@ func (l *ApiService) FindApiDetailsList(reqCtx *request.Context, page *request.P
 	}
 
 	// to tree
-	var tree response.ApiDetailsDTO
+	var tree dto.ApiDetailsDTO
 	tree.Children = getApiChildren(tree, apis)
 
 	list = tree.Children
@@ -96,10 +96,10 @@ func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 func (l *MenuService) CleanApiList(reqCtx *request.Context, req interface{}) (data interface{}, err error) {
 	return l.svcCtx.ApiRepository.CleanApis(reqCtx)
 }
-func getApiChildren(root response.ApiDetailsDTO, list []*entity.Api) (leafs []*response.ApiDetailsDTO) {
+func getApiChildren(root dto.ApiDetailsDTO, list []*entity.Api) (leafs []*dto.ApiDetailsDTO) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
-			leaf := response.ApiDetailsDTO{
+			leaf := dto.ApiDetailsDTO{
 				Api:      *item,
 				Children: nil,
 			}

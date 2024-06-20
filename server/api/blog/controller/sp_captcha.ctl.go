@@ -3,21 +3,20 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 type CaptchaController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewCaptchaController(svcCtx *svc.ServiceContext) *CaptchaController {
 	return &CaptchaController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -28,29 +27,29 @@ func NewCaptchaController(svcCtx *svc.ServiceContext) *CaptchaController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.CaptchaEmailReq		true	"请求body"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
 // @Router		/captcha/email [post]
 func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.CaptchaEmailReq
-	err = s.ShouldBind(c, &req)
+	var req dto.CaptchaEmailReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewCaptchaService(s.svcCtx).SendCaptchaEmail(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Captcha
@@ -60,29 +59,29 @@ func (s *CaptchaController) SendCaptchaEmail(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.CaptchaReq				true	"请求body"
-// @Success		200		{object}	response.Response{data=response.CaptchaDTO}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Success		200		{object}	response.Response{data=dto.CaptchaDTO}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/image [post]
 func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.CaptchaReq
-	err = s.ShouldBind(c, &req)
+	var req dto.CaptchaReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewCaptchaService(s.svcCtx).GetCaptchaImage(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Captcha
@@ -92,27 +91,27 @@ func (s *CaptchaController) GetCaptchaImage(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.CaptchaVerifyReq		true	"请求body"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
+// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"生成验证码,返回包括随机数id,base64,验证码长度,是否开启验证码"
 // @Router		/captcha/verify [post]
 func (s *CaptchaController) VerifyCaptcha(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.CaptchaVerifyReq
-	err = s.ShouldBind(c, &req)
+	var req dto.CaptchaVerifyReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewCaptchaService(s.svcCtx).VerifyImageCaptcha(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }

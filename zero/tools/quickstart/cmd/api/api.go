@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package api
 
 import (
 	"github.com/spf13/cobra"
@@ -27,7 +27,7 @@ func NewApiCmd() *ApiCmd {
 		},
 	}
 
-	rootCmd.CMD.AddCommand(NewRouterCmd())
+	rootCmd.CMD.AddCommand(apiAllCmd)
 	rootCmd.init()
 	return rootCmd
 }

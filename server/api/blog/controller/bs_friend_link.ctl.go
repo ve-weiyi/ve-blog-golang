@@ -3,23 +3,21 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 type FriendLinkController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewFriendLinkController(svcCtx *svc.ServiceContext) *FriendLinkController {
 	return &FriendLinkController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -30,29 +28,29 @@ func NewFriendLinkController(svcCtx *svc.ServiceContext) *FriendLinkController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.FriendLink		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.FriendLink}	"返回信息"
 // @Router		/friend_link/create_friend_link [post]
 func (s *FriendLinkController) CreateFriendLink(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req entity.FriendLink
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewFriendLinkService(s.svcCtx).CreateFriendLink(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	FriendLink
@@ -62,29 +60,29 @@ func (s *FriendLinkController) CreateFriendLink(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.FriendLink		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.FriendLink}	"返回信息"
 // @Router 		/friend_link/update_friend_link [put]
 func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req entity.FriendLink
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewFriendLinkService(s.svcCtx).UpdateFriendLink(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		FriendLink
@@ -94,29 +92,29 @@ func (s *FriendLinkController) UpdateFriendLink(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResult}	"返回信息"
 // @Router		/friend_link/delete_friend_link [delete]
 func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewFriendLinkService(s.svcCtx).DeleteFriendLink(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	FriendLink
@@ -126,29 +124,29 @@ func (s *FriendLinkController) DeleteFriendLink(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResult}	"返回信息"
 // @Router		/friend_link/delete_friend_link_list [delete]
 func (s *FriendLinkController) DeleteFriendLinkList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewFriendLinkService(s.svcCtx).DeleteFriendLinkList(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.BatchResult{
+	response.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
 }
@@ -160,29 +158,29 @@ func (s *FriendLinkController) DeleteFriendLinkList(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.FriendLink}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.FriendLink}	"返回信息"
 // @Router 		/friend_link/find_friend_link [post]
 func (s *FriendLinkController) FindFriendLink(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewFriendLinkService(s.svcCtx).FindFriendLink(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	FriendLink
@@ -192,29 +190,29 @@ func (s *FriendLinkController) FindFriendLink(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.FriendLink}}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.PageResult{list=[]entity.FriendLink}}	"返回信息"
 // @Router		/friend_link/find_friend_link_list [post]
 func (s *FriendLinkController) FindFriendLinkList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
+	var page dto.PageQuery
+	err = request.ShouldBind(c, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	list, total, err := service.NewFriendLinkService(s.svcCtx).FindFriendLinkList(reqCtx, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.PageResult{
+	response.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
 		Page:     page.Limit.Page,

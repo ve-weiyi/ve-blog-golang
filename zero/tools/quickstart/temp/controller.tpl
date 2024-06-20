@@ -1,50 +1,49 @@
-package controller
+package {{.Package}}
 
 import (
-	"github.com/gin-gonic/gin"
-
+{{- range .Imports}}
+    {{.}}
+{{- end}}
 )
 
-type {{Case2Camel .Name}}Controller struct {
-	controller.BaseController
+type {{.Name}}Controller struct {
 	svcCtx *svc.ServiceContext
 }
 
-func New{{Case2Camel .Name}}Controller(svcCtx *svc.ServiceContext) *{{Case2Camel .Name}}Controller {
-	return &{{Case2Camel .Name}}Controller{
+func New{{.Name}}Controller(svcCtx *svc.ServiceContext) *{{.Name}}Controller {
+	return &{{.Name}}Controller{
 		svcCtx: svcCtx,
-		BaseController: controller.NewBaseController(),
 	}
 }
 
 {{- range .Routes}}
 
 // @Tags		{{$.Name}}
-// @Summary		{{.Doc}}
+// @Summary		"{{.Doc}}"
 // @Param		data	body		types.{{.Request}}		true	"请求参数"
-// @Success		200		{object}	response.Response{data=types.{{.Response}}}	"返回信息"
+// @Success		200		{object}	response.Body{data=types.{{.Response}}}	"返回信息"
 // @Router		{{.Path}} [{{.Method}}]
-func (s *{{Case2Camel $.Name}}Controller) {{.Handler}}(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+func (s *{{$.Name}}Controller) {{.Handler}}(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req types.{{.Request}}
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-    data, err := service.New{{Case2Camel $.Name}}Service(s.svcCtx).{{.Handler}}(reqCtx, &req)
+    data, err := service.New{{$.Name}}Service(s.svcCtx).{{.Handler}}(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 {{- end}}

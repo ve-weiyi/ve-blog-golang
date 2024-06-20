@@ -7,23 +7,22 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
 )
 
 type WebsocketController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewWebsocketController(svcCtx *svc.ServiceContext) *WebsocketController {
 	return &WebsocketController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -31,9 +30,9 @@ func NewWebsocketController(svcCtx *svc.ServiceContext) *WebsocketController {
 // @Summary		WebSocket消息
 // @Router		/ws [get]
 func (s *WebsocketController) WebSocket(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 

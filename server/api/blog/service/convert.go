@@ -4,12 +4,12 @@ import (
 	"math/rand"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
-func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory {
-	return &response.LoginHistory{
+func convertLoginHistory(entity *entity.UserLoginHistory) *dto.LoginHistory {
+	return &dto.LoginHistory{
 		Id:        entity.Id,
 		LoginType: entity.LoginType,
 		Agent:     entity.Agent,
@@ -19,8 +19,8 @@ func convertLoginHistory(entity *entity.UserLoginHistory) *response.LoginHistory
 	}
 }
 
-func convertArticle(article *entity.Article) response.ArticleDTO {
-	out := response.ArticleDTO{
+func convertArticle(article *entity.Article) dto.ArticleDTO {
+	out := dto.ArticleDTO{
 		Id:             article.Id,
 		ArticleCover:   article.ArticleCover,
 		ArticleTitle:   article.ArticleTitle,
@@ -38,10 +38,10 @@ func convertArticle(article *entity.Article) response.ArticleDTO {
 	return out
 }
 
-func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePreviewDTO {
-	var out []*response.ArticlePreviewDTO
+func convertArticlePreviewList(list []*entity.Article) []*dto.ArticlePreviewDTO {
+	var out []*dto.ArticlePreviewDTO
 	for _, item := range list {
-		at := &response.ArticlePreviewDTO{
+		at := &dto.ArticlePreviewDTO{
 			Id:           item.Id,
 			ArticleCover: item.ArticleCover,
 			ArticleTitle: item.ArticleTitle,
@@ -53,18 +53,18 @@ func convertArticlePreviewList(list []*entity.Article) []*response.ArticlePrevie
 	return out
 }
 
-func convertArticlePreview(article *entity.Article) *response.ArticlePreviewDTO {
+func convertArticlePreview(article *entity.Article) *dto.ArticlePreviewDTO {
 	if article == nil {
 		return nil
 	}
-	return &response.ArticlePreviewDTO{
+	return &dto.ArticlePreviewDTO{
 		Id:           article.Id,
 		ArticleCover: article.ArticleCover,
 		ArticleTitle: article.ArticleTitle,
 	}
 }
 
-func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleStatisticsDTO {
+func convertArticleStatisticsList(list []*entity.Article) []*dto.ArticleStatisticsDTO {
 	var dateMap = make(map[string]int64)
 	for _, item := range list {
 		key := item.CreatedAt.Format("2006-01-02")
@@ -75,9 +75,9 @@ func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleSta
 		}
 	}
 	// 日期统计
-	var out []*response.ArticleStatisticsDTO
+	var out []*dto.ArticleStatisticsDTO
 	for k, v := range dateMap {
-		at := &response.ArticleStatisticsDTO{
+		at := &dto.ArticleStatisticsDTO{
 			Day:   k,
 			Count: v,
 		}
@@ -87,10 +87,10 @@ func convertArticleStatisticsList(list []*entity.Article) []*response.ArticleSta
 	return out
 }
 
-func convertUniqueViewList(list []*entity.UniqueView) []*response.UniqueViewDTO {
-	var out []*response.UniqueViewDTO
+func convertUniqueViewList(list []*entity.UniqueView) []*dto.UniqueViewDTO {
+	var out []*dto.UniqueViewDTO
 	for _, item := range list {
-		at := &response.UniqueViewDTO{
+		at := &dto.UniqueViewDTO{
 			Day:   item.CreatedAt.Format("2006-01-02"),
 			Count: rand.Int63n(100),
 		}
@@ -100,10 +100,10 @@ func convertUniqueViewList(list []*entity.UniqueView) []*response.UniqueViewDTO 
 	return out
 }
 
-func convertArticleRankList(list []*entity.Article) []*response.ArticleViewRankDTO {
-	var out []*response.ArticleViewRankDTO
+func convertArticleRankList(list []*entity.Article) []*dto.ArticleViewRankDTO {
+	var out []*dto.ArticleViewRankDTO
 	for _, item := range list {
-		at := &response.ArticleViewRankDTO{
+		at := &dto.ArticleViewRankDTO{
 			Id:           item.Id,
 			ArticleTitle: item.ArticleTitle,
 			Count:        rand.Int63n(100),
@@ -114,20 +114,20 @@ func convertArticleRankList(list []*entity.Article) []*response.ArticleViewRankD
 	return out
 }
 
-func convertCategory(entity *entity.Category) *response.CategoryDTO {
+func convertCategory(entity *entity.Category) *dto.CategoryDTO {
 	if entity == nil {
-		return &response.CategoryDTO{}
+		return &dto.CategoryDTO{}
 	}
-	return &response.CategoryDTO{
+	return &dto.CategoryDTO{
 		Id:           entity.Id,
 		CategoryName: entity.CategoryName,
 	}
 }
 
-func convertTagList(list []*entity.Tag) []*response.TagDTO {
-	var tagList []*response.TagDTO
+func convertTagList(list []*entity.Tag) []*dto.TagDTO {
+	var tagList []*dto.TagDTO
 	for _, tag := range list {
-		tagList = append(tagList, &response.TagDTO{
+		tagList = append(tagList, &dto.TagDTO{
 			Id:      tag.Id,
 			TagName: tag.TagName,
 		})
@@ -135,11 +135,11 @@ func convertTagList(list []*entity.Tag) []*response.TagDTO {
 	return tagList
 }
 
-func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
-	var categoryList []*response.CategoryDTO
+func convertCategoryList(list []*entity.Category) []*dto.CategoryDTO {
+	var categoryList []*dto.CategoryDTO
 
 	for _, in := range list {
-		data := &response.CategoryDTO{
+		data := &dto.CategoryDTO{
 			Id:           in.Id,
 			CategoryName: in.CategoryName,
 		}
@@ -148,11 +148,11 @@ func convertCategoryList(list []*entity.Category) []*response.CategoryDTO {
 	return categoryList
 }
 
-func convertPageList(list []*entity.Page) []*response.PageDTO {
-	var pageList []*response.PageDTO
+func convertPageList(list []*entity.Page) []*dto.PageDTO {
+	var pageList []*dto.PageDTO
 
 	for _, in := range list {
-		data := &response.PageDTO{
+		data := &dto.PageDTO{
 			Id:        in.Id,
 			PageName:  in.PageName,
 			PageLabel: in.PageLabel,
@@ -163,11 +163,11 @@ func convertPageList(list []*entity.Page) []*response.PageDTO {
 	return pageList
 }
 
-func convertRoleList(list []*entity.Role) []*response.RoleDTO {
-	var roleList []*response.RoleDTO
+func convertRoleList(list []*entity.Role) []*dto.RoleDTO {
+	var roleList []*dto.RoleDTO
 
 	for _, in := range list {
-		data := &response.RoleDTO{
+		data := &dto.RoleDTO{
 			RoleName:    in.RoleName,
 			RoleComment: in.RoleComment,
 		}
@@ -176,15 +176,15 @@ func convertRoleList(list []*entity.Role) []*response.RoleDTO {
 	return roleList
 }
 
-func convertMenu(entity *entity.Menu) *response.MenuDetailsDTO {
+func convertMenu(entity *entity.Menu) *dto.MenuDetailsDTO {
 	if entity == nil {
 		return nil
 	}
 
-	meta := response.Meta{}
+	meta := dto.Meta{}
 	jsonconv.JsonToObject(entity.Extra, &meta)
 
-	return &response.MenuDetailsDTO{
+	return &dto.MenuDetailsDTO{
 		Id:        entity.Id,
 		Type:      entity.Type,
 		Name:      entity.Name,

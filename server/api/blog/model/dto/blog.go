@@ -1,4 +1,4 @@
-package response
+package dto
 
 // 博客前台信息
 type BlogHomeInfo struct {

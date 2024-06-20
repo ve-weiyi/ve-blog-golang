@@ -13,11 +13,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 type AuthService struct {
@@ -30,7 +30,7 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 	}
 }
 
-func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (resp *response.LoginResp, err error) {
+func (l *AuthService) Login(reqCtx *request.Context, req *dto.LoginReq) (resp *dto.LoginResp, err error) {
 	//获取用户
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
@@ -75,7 +75,7 @@ func (l *AuthService) Login(reqCtx *request.Context, req *request.LoginReq) (res
 
 	// 更新用户登录信息
 	_, _ = l.svcCtx.UserAccountRepository.Login(reqCtx, account)
-	resp = &response.LoginResp{
+	resp = &dto.LoginResp{
 		Token:        token,
 		UserInfo:     info,
 		LoginHistory: convertLoginHistory(history),
@@ -94,7 +94,7 @@ func (l *AuthService) Logoff(reqCtx *request.Context, req interface{}) (resp int
 	return l.svcCtx.UserAccountRepository.Logoff(reqCtx, reqCtx.Uid)
 }
 
-func (l *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (resp *response.LoginResp, err error) {
+func (l *AuthService) Register(reqCtx *request.Context, req *dto.LoginReq) (resp *dto.LoginResp, err error) {
 	// 验证码校验
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
@@ -133,7 +133,7 @@ func (l *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.LoginResp{
+	resp = &dto.LoginResp{
 		Token:        token,
 		UserInfo:     info,
 		LoginHistory: nil,
@@ -142,7 +142,7 @@ func (l *AuthService) Register(reqCtx *request.Context, req *request.LoginReq) (
 	return resp, nil
 }
 
-func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.UserEmailReq) (resp interface{}, err error) {
+func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *dto.UserEmailReq) (resp interface{}, err error) {
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account != nil {
@@ -176,7 +176,7 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *request.Us
 	return true, nil
 }
 
-func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.OauthLoginUrl, err error) {
+func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *dto.OauthLoginReq) (resp *dto.OauthLoginUrl, err error) {
 	var auth oauth.Oauth
 	for platform, v := range l.svcCtx.Oauth {
 		if platform == req.Platform {
@@ -188,13 +188,13 @@ func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *request.Oaut
 		return nil, fmt.Errorf("platform %s is not support", req.Platform)
 	}
 
-	resp = &response.OauthLoginUrl{
+	resp = &dto.OauthLoginUrl{
 		Url: auth.GetRedirectUrl(req.State),
 	}
 	return resp, nil
 }
 
-func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLoginReq) (resp *response.LoginResp, err error) {
+func (l *AuthService) OauthLogin(reqCtx *request.Context, req *dto.OauthLoginReq) (resp *dto.LoginResp, err error) {
 	var auth oauth.Oauth
 	for platform, v := range l.svcCtx.Oauth {
 		if platform == req.Platform {
@@ -227,7 +227,7 @@ func (l *AuthService) OauthLogin(reqCtx *request.Context, req *request.OauthLogi
 	return l.oauthLogin(reqCtx, userOauth)
 }
 
-func (l *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthLoginReq, info *oauth.UserResult) (resp *entity.UserOauth, err error) {
+func (l *AuthService) oauthRegister(reqCtx *request.Context, req *dto.OauthLoginReq, info *oauth.UserResult) (resp *entity.UserOauth, err error) {
 	// 用户未注册,先注册用户
 	pwd := crypto.BcryptHash(info.EnName)
 	username := info.Email
@@ -269,7 +269,7 @@ func (l *AuthService) oauthRegister(reqCtx *request.Context, req *request.OauthL
 	return userOauth, nil
 }
 
-func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *response.LoginResp, err error) {
+func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *dto.LoginResp, err error) {
 
 	//获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserId)
@@ -306,7 +306,7 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	if err != nil {
 		return nil, err
 	}
-	resp = &response.LoginResp{
+	resp = &dto.LoginResp{
 		Token:        token,
 		UserInfo:     info,
 		LoginHistory: convertLoginHistory(history),
@@ -314,7 +314,7 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	return resp, nil
 }
 
-func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *response.UserInfo, err error) {
+func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *dto.UserInfo, err error) {
 	//获取用户信息
 	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
@@ -326,7 +326,7 @@ func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
 
 	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
-	resp = &response.UserInfo{
+	resp = &dto.UserInfo{
 		UserId:   account.Id,
 		Username: account.Username,
 		Nickname: info.Nickname,
@@ -343,7 +343,7 @@ func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 	return resp, nil
 }
 
-func (l *AuthService) createToken(uid int64, username string, loginType string) (token *response.Token, err error) {
+func (l *AuthService) createToken(uid int64, username string, loginType string) (token *dto.Token, err error) {
 	now := time.Now().Unix()
 	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
 	refreshExpiresIn := time.Now().Add(30 * 24 * time.Hour).Unix()
@@ -367,7 +367,7 @@ func (l *AuthService) createToken(uid int64, username string, loginType string) 
 		jtoken.WithClaimExt("login_type", loginType),
 	)
 
-	token = &response.Token{
+	token = &dto.Token{
 		TokenType:        "Bearer",
 		AccessToken:      accessToken,
 		ExpiresIn:        expiresIn,

@@ -1,4 +1,4 @@
-package cmd
+package api
 
 var (
 	VarStringSqlFile string

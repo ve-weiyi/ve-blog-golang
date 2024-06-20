@@ -3,22 +3,20 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 type WebsiteController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewWebsiteController(svcCtx *svc.ServiceContext) *WebsiteController {
 	return &WebsiteController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -29,29 +27,29 @@ func NewWebsiteController(svcCtx *svc.ServiceContext) *WebsiteController {
 // @Param		token	header		string										false	"token"
 // @Param		uid		header		string										false	"uid"
 // @Param		page	body		request.PageQuery							true	"分页信息"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.ChatRecord}}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.PageResult{list=[]entity.ChatRecord}}	"返回信息"
 // @Router		/chat/records [post]
 func (s *WebsiteController) FindChatRecords(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
+	var page dto.PageQuery
+	err = request.ShouldBind(c, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	list, total, err := service.NewChatRecordService(s.svcCtx).FindChatRecordList(reqCtx, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.PageResult{
+	response.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
 		Page:     1,
@@ -65,22 +63,22 @@ func (s *WebsiteController) FindChatRecords(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.BlogHomeInfo}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BlogHomeInfo}	"返回信息"
 // @Router		/ [get]
 func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).GetBlogHomeInfo(reqCtx, nil)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -89,22 +87,22 @@ func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.AdminHomeInfo}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.AdminHomeInfo}	"返回信息"
 // @Router		/admin [get]
 func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).GetAdminHomeInfo(reqCtx, nil)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -113,29 +111,29 @@ func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Success		200		{object}	response.Response{data=response.WebsiteConfigDTO}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.WebsiteConfigDTO}	"返回信息"
 // @Router		/website/config [get]
 func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.WebsiteConfigReq
-	err = s.ShouldBind(c, &req)
+	var req dto.WebsiteConfigReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).GetWebsiteConfig(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -145,29 +143,29 @@ func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.WebsiteConfigDTO		true	"请求信息"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
 // @Router		/admin/config [put]
 func (s *WebsiteController) UpdateWebsiteConfig(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.WebsiteConfigDTO
-	err = s.ShouldBind(c, &req)
+	var req dto.WebsiteConfigDTO
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).UpdateWebsiteConfig(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -177,28 +175,28 @@ func (s *WebsiteController) UpdateWebsiteConfig(c *gin.Context) {
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.WebsiteConfigDTO		true	"请求信息"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
 // @Router		/admin/config [post]
 func (s *WebsiteController) GetConfig(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
-	var req request.WebsiteConfigReq
-	err = s.ShouldBind(c, &req)
+	var req dto.WebsiteConfigReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).GetConfig(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -208,29 +206,29 @@ func (s *WebsiteController) GetConfig(c *gin.Context) {
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
 // @Param		data	body		request.WebsiteConfigReq		true	"请求信息"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
 // @Router		/admin/config [put]
 func (s *WebsiteController) UpdateConfig(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.WebsiteConfigReq
-	err = s.ShouldBind(c, &req)
+	var req dto.WebsiteConfigReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).UpdateConfig(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -239,22 +237,22 @@ func (s *WebsiteController) UpdateConfig(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string								false	"token"
 // @Param		uid		header		string								false	"uid"
-// @Success		200		{object}	response.Response{data=response.AboutMeResp}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.AboutMeResp}	"返回信息"
 // @Router		/about/me [get]
 func (s *WebsiteController) GetAboutMe(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).GetAboutMe(reqCtx, nil)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -264,29 +262,29 @@ func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		request.AboutMeReq			true	"请求信息"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
 // @Router		/admin/about/me [post]
 func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var req request.AboutMeReq
-	err = s.ShouldBind(c, &req)
+	var req dto.AboutMeReq
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).UpdateAboutMe(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Website
@@ -295,20 +293,20 @@ func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
 // @Produce		application/json
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=response.EmptyResp}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
 // @Router		/admin/system/state [get]
 func (s *WebsiteController) GetSystemState(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewWebsiteService(s.svcCtx).GetSystemState(reqCtx, nil)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }

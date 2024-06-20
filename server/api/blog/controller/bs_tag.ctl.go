@@ -3,23 +3,21 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 type TagController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewTagController(svcCtx *svc.ServiceContext) *TagController {
 	return &TagController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -30,29 +28,29 @@ func NewTagController(svcCtx *svc.ServiceContext) *TagController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Tag		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.Tag}	"返回信息"
 // @Router		/tag/create_tag [post]
 func (s *TagController) CreateTag(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req entity.Tag
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewTagService(s.svcCtx).CreateTag(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	Tag
@@ -62,29 +60,29 @@ func (s *TagController) CreateTag(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Tag		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.Tag}	"返回信息"
 // @Router 		/tag/update_tag [put]
 func (s *TagController) UpdateTag(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req entity.Tag
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewTagService(s.svcCtx).UpdateTag(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Tag
@@ -94,29 +92,29 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResult}	"返回信息"
 // @Router		/tag/delete_tag [delete]
 func (s *TagController) DeleteTag(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewTagService(s.svcCtx).DeleteTag(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	Tag
@@ -126,29 +124,29 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResult}	"返回信息"
 // @Router		/tag/delete_tag_list [delete]
 func (s *TagController) DeleteTagList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewTagService(s.svcCtx).DeleteTagList(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.BatchResult{
+	response.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
 }
@@ -160,29 +158,29 @@ func (s *TagController) DeleteTagList(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Tag}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.Tag}	"返回信息"
 // @Router 		/tag/find_tag [post]
 func (s *TagController) FindTag(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewTagService(s.svcCtx).FindTag(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	Tag
@@ -192,29 +190,29 @@ func (s *TagController) FindTag(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]response.TagDetailsDTO}}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.PageResult{list=[]dto.TagDetailsDTO}}	"返回信息"
 // @Router		/tag/find_tag_list [post]
 func (s *TagController) FindTagList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
+	var page dto.PageQuery
+	err = request.ShouldBind(c, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	list, total, err := service.NewTagService(s.svcCtx).FindTagDetailsList(reqCtx, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.PageResult{
+	response.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
 		Page:     page.Limit.Page,

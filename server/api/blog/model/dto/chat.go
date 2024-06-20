@@ -1,4 +1,4 @@
-package request
+package dto
 
 type ChatStream struct {
 	ChatId  string `json:"chat_id" form:"chat_id"`

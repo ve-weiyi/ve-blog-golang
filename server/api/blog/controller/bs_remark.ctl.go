@@ -3,23 +3,21 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 type RemarkController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewRemarkController(svcCtx *svc.ServiceContext) *RemarkController {
 	return &RemarkController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -30,29 +28,29 @@ func NewRemarkController(svcCtx *svc.ServiceContext) *RemarkController {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param		data	body		entity.Remark		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.Remark}	"返回信息"
 // @Router		/remark/create_remark [post]
 func (s *RemarkController) CreateRemark(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req entity.Remark
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewRemarkService(s.svcCtx).CreateRemark(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	Remark
@@ -62,29 +60,29 @@ func (s *RemarkController) CreateRemark(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	data	body 	 	entity.Remark		true	"请求参数"
-// @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.Remark}	"返回信息"
 // @Router 		/remark/update_remark [put]
 func (s *RemarkController) UpdateRemark(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req entity.Remark
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewRemarkService(s.svcCtx).UpdateRemark(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Remark
@@ -94,29 +92,29 @@ func (s *RemarkController) UpdateRemark(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResult}	"返回信息"
 // @Router		/remark/delete_remark [delete]
 func (s *RemarkController) DeleteRemark(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewRemarkService(s.svcCtx).DeleteRemark(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	Remark
@@ -126,29 +124,29 @@ func (s *RemarkController) DeleteRemark(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdsReq				true	"删除id列表"
-// @Success		200		{object}	response.Response{data=response.BatchResult}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResult}	"返回信息"
 // @Router		/remark/delete_remark_list [delete]
 func (s *RemarkController) DeleteRemarkList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdsReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewRemarkService(s.svcCtx).DeleteRemarkList(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.BatchResult{
+	response.ResponseOk(c, response.BatchResult{
 		SuccessCount: data,
 	})
 }
@@ -160,29 +158,29 @@ func (s *RemarkController) DeleteRemarkList(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	req		body		request.IdReq				true	"request"
-// @Success		200		{object}	response.Response{data=entity.Remark}	"返回信息"
+// @Success		200		{object}	response.Body{data=entity.Remark}	"返回信息"
 // @Router 		/remark/find_remark [post]
 func (s *RemarkController) FindRemark(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	var req request.IdReq
-	err = s.ShouldBind(c, &req)
+	err = request.ShouldBind(c, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewRemarkService(s.svcCtx).FindRemark(reqCtx, &req)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags 	 	Remark
@@ -192,29 +190,29 @@ func (s *RemarkController) FindRemark(c *gin.Context) {
 // @Param		token	header		string						false	"token"
 // @Param		uid		header		string						false	"uid"
 // @Param 	 	page 	body		request.PageQuery 			true 	"分页参数"
-// @Success		200		{object}	response.Response{data=response.PageResult{list=[]entity.Remark}}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.PageResult{list=[]entity.Remark}}	"返回信息"
 // @Router		/remark/find_remark_list [post]
 func (s *RemarkController) FindRemarkList(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	var page request.PageQuery
-	err = s.ShouldBind(c, &page)
+	var page dto.PageQuery
+	err = request.ShouldBind(c, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	list, total, err := service.NewRemarkService(s.svcCtx).FindRemarkList(reqCtx, &page)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, response.PageResult{
+	response.ResponseOk(c, response.PageResult{
 		List:     list,
 		Total:    total,
 		Page:     page.Limit.Page,

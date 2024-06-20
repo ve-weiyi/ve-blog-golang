@@ -1,7 +1,9 @@
-package service
+package {{.Package}}
 
 import (
-
+{{- range .Imports}}
+    {{.}}
+{{- end}}
 )
 
 type {{Case2Camel .Name}}Service struct {
@@ -15,20 +17,19 @@ func New{{Case2Camel .Name}}Service(svcCtx *svc.ServiceContext) *{{Case2Camel .N
 }
 
 {{- range .Routes}}
-
 // {{.Doc}}
-{{ if .Request }}
+{{- if .Request }}
 func (s *{{Case2Camel $.Name}}Service) {{.Handler}}(reqCtx *request.Context, in *types.{{.Request}}) (out *types.{{.Response}}, err error) {
     // todo
 
     return
 }
-{{ else }}
+{{- else }}
 func (s *{{Case2Camel $.Name}}Service) {{.Handler}}(reqCtx *request.Context) (err error) {
     // todo
 
     return
 }
-{{ end }}
+{{- end }}
 
 {{- end}}

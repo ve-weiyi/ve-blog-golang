@@ -1,8 +1,9 @@
 package service
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
@@ -42,7 +43,7 @@ func (l *RoleService) DeleteRoleList(reqCtx *request.Context, req *request.IdsRe
 }
 
 // 分页获取Role记录
-func (l *RoleService) FindRoleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Role, total int64, err error) {
+func (l *RoleService) FindRoleList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.Role, total int64, err error) {
 	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()

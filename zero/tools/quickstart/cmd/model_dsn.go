@@ -17,6 +17,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd/api"
 )
 
 // migrateCmd represents the migrate command
@@ -58,7 +59,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 	log.Println("name-as:", s.NameAs)
 
 	var metas []invent.TemplateMeta
-	var tables []*Table
+	var tables []*api.Table
 	var err error
 
 	f := s.SqlFile
@@ -143,7 +144,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 }
 
 // 从数据库中解析Table
-func ParseTableFromDsn(dsn string) (list []*Table, err error) {
+func ParseTableFromDsn(dsn string) (list []*api.Table, err error) {
 	db, err := gorm.Open(mysql.Open(dsn), nil)
 	if err != nil {
 		return nil, err
@@ -162,7 +163,7 @@ func ParseTableFromDsn(dsn string) (list []*Table, err error) {
 			return nil, err
 		}
 
-		pm := Primary{}
+		pm := api.Primary{}
 		for _, entity := range types {
 			is, ok := entity.PrimaryKey()
 			if ok && is {
@@ -171,15 +172,15 @@ func ParseTableFromDsn(dsn string) (list []*Table, err error) {
 			}
 		}
 
-		fs := make([]*Field, 0)
+		fs := make([]*api.Field, 0)
 		for _, entity := range types {
 			f := convertColumnToField(entity)
 			fs = append(fs, &f)
 		}
 
-		ufs := make(map[string][]*Field)
+		ufs := make(map[string][]*api.Field)
 		for k, index := range GroupByColumn(indexes) {
-			uf := make([]*Field, 0)
+			uf := make([]*api.Field, 0)
 			for _, field := range index {
 				for _, entity := range types {
 					if entity.Name() == field {
@@ -191,7 +192,7 @@ func ParseTableFromDsn(dsn string) (list []*Table, err error) {
 			ufs[k] = uf
 		}
 
-		v := &Table{
+		v := &api.Table{
 			Name:        tableName,
 			Db:          dbName,
 			PrimaryKey:  pm,
@@ -204,8 +205,8 @@ func ParseTableFromDsn(dsn string) (list []*Table, err error) {
 	return list, nil
 }
 
-func convertColumnToField(col gorm.ColumnType) Field {
-	f := Field{}
+func convertColumnToField(col gorm.ColumnType) api.Field {
+	f := api.Field{}
 
 	f.Name = col.Name()
 	f.Comment, _ = col.Comment()

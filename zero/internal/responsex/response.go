@@ -30,7 +30,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 
 		case *apierr.ApiError:
 			body := Body{
-				Code:    e.Code,
+				Code:    int(e.Code),
 				Message: e.Error(),
 				Data:    "服务错误",
 				TraceId: GetTraceId(r),

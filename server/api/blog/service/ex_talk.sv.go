@@ -3,11 +3,11 @@ package service
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 type TalkService struct {
@@ -50,7 +50,7 @@ func (l *TalkService) DeleteTalkList(reqCtx *request.Context, req *request.IdsRe
 }
 
 // 分页获取Talk记录
-func (l *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
+func (l *TalkService) FindTalkList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.Talk, total int64, err error) {
 	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
@@ -67,7 +67,7 @@ func (l *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQu
 }
 
 // 获取说说详情列表
-func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetailsDTO, total int64, err error) {
+func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.TalkDetailsDTO, total int64, err error) {
 	talkList, total, err := l.FindTalkList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -84,7 +84,7 @@ func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 
 		var imgList []string
 		jsonconv.JsonToObject(talk.Images, &imgList)
-		data := &response.TalkDetailsDTO{
+		data := &dto.TalkDetailsDTO{
 			Id:           talk.Id,
 			UserId:       talk.UserId,
 			Nickname:     user.Nickname,
@@ -106,7 +106,7 @@ func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 }
 
 // 获取说说详情
-func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.IdReq) (data *response.TalkDetailsDTO, err error) {
+func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.IdReq) (data *dto.TalkDetailsDTO, err error) {
 	// 查询api信息
 	talk, err := l.svcCtx.TalkRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
@@ -120,7 +120,7 @@ func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.I
 
 	var imgList []string
 	jsonconv.JsonToObject(talk.Images, &imgList)
-	data = &response.TalkDetailsDTO{
+	data = &dto.TalkDetailsDTO{
 		Id:        talk.Id,
 		UserId:    talk.UserId,
 		Nickname:  user.Nickname,

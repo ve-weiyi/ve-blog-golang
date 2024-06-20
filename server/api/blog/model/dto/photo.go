@@ -1,4 +1,4 @@
-package response
+package dto
 
 import "github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 

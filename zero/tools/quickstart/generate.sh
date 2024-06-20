@@ -14,8 +14,8 @@
 #-s='root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
 
 # api生成router文件
-go run main.go api router \
+go run main.go api all \
 -t=./temp \
 -n='%s.go' \
--o='/Users/weiyi/Github/ve-blog-golang/server/api/test'  \
+-o='/Users/weiyi/Github/ve-blog-golang/server/api/blog'  \
 -f='/Users/weiyi/Github/ve-blog-golang/zero/service/blog/api/proto/blog.api'

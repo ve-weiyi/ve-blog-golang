@@ -1,10 +1,16 @@
-package request
+package dto
 
 import (
 	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
+
+type CaptchaDTO struct {
+	Id         string `json:"id"`
+	EncodeData string `json:"encode_data"` // 验证码内容，base64编码
+	Length     int64  `json:"length"`
+}
 
 // 验证码生成
 type CaptchaReq struct {

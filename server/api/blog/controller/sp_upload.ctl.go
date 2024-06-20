@@ -4,21 +4,20 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/controller"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
 type UploadController struct {
-	controller.BaseController
 	svcCtx *svc.ServiceContext
 }
 
 func NewUploadController(svcCtx *svc.ServiceContext) *UploadController {
 	return &UploadController{
-		svcCtx:         svcCtx,
-		BaseController: controller.NewBaseController(),
+		svcCtx: svcCtx,
 	}
 }
 
@@ -34,9 +33,9 @@ func NewUploadController(svcCtx *svc.ServiceContext) *UploadController {
 // @Success		200		{object}	response.Response{data=entity.UploadRecord}	"返回信息"
 // @Router		/upload/{label} [post]
 func (s *UploadController) UploadFile(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
@@ -46,17 +45,17 @@ func (s *UploadController) UploadFile(c *gin.Context) {
 	// 获取上传的文件
 	file, err := c.FormFile("file")
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
 	data, err := service.NewUploadService(s.svcCtx).UploadFile(reqCtx, label, file)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
 
 // @Tags		Upload
@@ -76,9 +75,9 @@ func (s *UploadController) UploadFile(c *gin.Context) {
 // @Success		200		{object}	response.Response{data=entity.UploadRecord}	"返回信息"
 // @Router		/voice [post]
 func (s *UploadController) UploadVoice(c *gin.Context) {
-	reqCtx, err := s.GetRequestContext(c)
+	reqCtx, err := request.GetRequestContext(c)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
@@ -93,11 +92,11 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 	// 获取上传的文件
 	file, err := c.FormFile("file")
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	req := request.VoiceVO{
+	req := dto.VoiceVO{
 		Type: cast.ToInt64(tp),
 		//UserId:    cast.ToInt(uid),
 		//Nickname:  nickname,
@@ -110,9 +109,9 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 
 	data, err := service.NewUploadService(s.svcCtx).UploadVoice(reqCtx, &req, file)
 	if err != nil {
-		s.ResponseError(c, err)
+		response.ResponseError(c, err)
 		return
 	}
 
-	s.ResponseOk(c, data)
+	response.ResponseOk(c, data)
 }
