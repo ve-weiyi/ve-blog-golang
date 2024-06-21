@@ -68,15 +68,15 @@ func (l *RoleService) UpdateRoleMenus(reqCtx *request.Context, req *dto.UpdateRo
 }
 
 // 设置角色菜单
-func (l *RoleService) UpdateRoleResources(reqCtx *request.Context, req *dto.UpdateRoleApisReq) (data interface{}, err error) {
+func (l *RoleService) UpdateRoleApis(reqCtx *request.Context, req *dto.UpdateRoleApisReq) (data interface{}, err error) {
 	// 重置角色接口权限
-	role, _, err := l.svcCtx.RoleRepository.UpdateRoleResources(reqCtx, req.RoleId, req.ResourceIds)
+	role, _, err := l.svcCtx.RoleRepository.UpdateRoleApis(reqCtx, req.RoleId, req.ApiIds)
 	if err != nil {
 		return nil, err
 	}
 
 	//// 查询资源列表
-	//resources, err := l.svcCtx.ApiRepository.FindALL(reqCtx, "api_id in (?)", req.ResourceIds)
+	//resources, err := l.svcCtx.ApiRepository.FindALL(reqCtx, "api_id in (?)", req.ApiIds)
 	//if err != nil {
 	//	return nil, err
 	//}

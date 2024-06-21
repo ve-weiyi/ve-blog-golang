@@ -31,6 +31,6 @@ type UpdateRoleMenusReq struct {
 }
 
 type UpdateRoleApisReq struct {
-	RoleId      int64   `json:"role_id"`
-	ResourceIds []int64 `json:"resource_ids"`
+	RoleId int64   `json:"role_id"`
+	ApiIds []int64 `json:"api_ids"`
 }

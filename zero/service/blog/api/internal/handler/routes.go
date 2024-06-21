@@ -13,7 +13,6 @@ import (
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/comment"
 	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/friend_link"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/menu"
-	mine "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/mine"
 	operation_log "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/operation_log"
 	page "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/page"
 	photo "github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/handler/photo"
@@ -46,6 +45,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 批量删除登录历史
+				Method:  http.MethodDelete,
+				Path:    "/user/delete_login_history_list",
+				Handler: account.DeleteUserLoginHistoryListHandler(serverCtx),
+			},
+			{
 				// 查询在线用户列表
 				Method:  http.MethodPost,
 				Path:    "/user/find_online_user_list",
@@ -62,6 +67,48 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/user/find_user_list",
 				Handler: account.FindUserListHandler(serverCtx),
+			},
+			{
+				// 获取用户接口权限
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_apis",
+				Handler: account.GetUserApisHandler(serverCtx),
+			},
+			{
+				// 获取用户信息
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_info",
+				Handler: account.GetUserInfoHandler(serverCtx),
+			},
+			{
+				// 获取用户菜单权限
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_menus",
+				Handler: account.GetUserMenusHandler(serverCtx),
+			},
+			{
+				// 获取用户角色
+				Method:  http.MethodGet,
+				Path:    "/user/get_user_roles",
+				Handler: account.GetUserRoleHandler(serverCtx),
+			},
+			{
+				// 查询用户登录历史
+				Method:  http.MethodPost,
+				Path:    "/user/login_history",
+				Handler: account.FindUserLoginHistoryListHandler(serverCtx),
+			},
+			{
+				// 更换用户头像
+				Method:  http.MethodPost,
+				Path:    "/user/update_user_avatar",
+				Handler: account.UpdateUserAvatarHandler(serverCtx),
+			},
+			{
+				// 修改用户信息
+				Method:  http.MethodPost,
+				Path:    "/user/update_user_info",
+				Handler: account.UpdateUserInfoHandler(serverCtx),
 			},
 			{
 				// 修改用户角色
@@ -476,60 +523,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/menu/update_menu",
 				Handler: menu.UpdateMenuHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				// 批量删除登录历史
-				Method:  http.MethodDelete,
-				Path:    "/user/delete_login_history_list",
-				Handler: mine.DeleteUserLoginHistoryListHandler(serverCtx),
-			},
-			{
-				// 获取用户接口权限
-				Method:  http.MethodGet,
-				Path:    "/user/get_user_apis",
-				Handler: mine.GetUserApisHandler(serverCtx),
-			},
-			{
-				// 获取用户信息
-				Method:  http.MethodGet,
-				Path:    "/user/get_user_info",
-				Handler: mine.GetUserInfoHandler(serverCtx),
-			},
-			{
-				// 获取用户菜单权限
-				Method:  http.MethodGet,
-				Path:    "/user/get_user_menus",
-				Handler: mine.GetUserMenusHandler(serverCtx),
-			},
-			{
-				// 获取用户角色
-				Method:  http.MethodGet,
-				Path:    "/user/get_user_roles",
-				Handler: mine.GetUserRoleHandler(serverCtx),
-			},
-			{
-				// 查询用户登录历史
-				Method:  http.MethodPost,
-				Path:    "/user/login_history",
-				Handler: mine.FindUserLoginHistoryListHandler(serverCtx),
-			},
-			{
-				// 更换用户头像
-				Method:  http.MethodPost,
-				Path:    "/user/update_user_avatar",
-				Handler: mine.UpdateUserAvatarHandler(serverCtx),
-			},
-			{
-				// 修改用户信息
-				Method:  http.MethodPost,
-				Path:    "/user/update_user_info",
-				Handler: mine.UpdateUserInfoHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

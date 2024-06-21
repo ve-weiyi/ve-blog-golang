@@ -7287,7 +7287,7 @@ var file_blog_proto_depIdxs = []int32{
 	17,  // 33: blog.AuthRpc.SendRegisterEmail:input_type -> blog.UserEmailReq
 	17,  // 34: blog.AuthRpc.SendResetPasswordEmail:input_type -> blog.UserEmailReq
 	14,  // 35: blog.AuthRpc.OauthLogin:input_type -> blog.OauthLoginReq
-	14,  // 36: blog.AuthRpc.GetOauthAuthorizeUrl:input_type -> blog.OauthLoginReq
+	14,  // 36: blog.AuthRpc.OauthAuthorizeUrl:input_type -> blog.OauthLoginReq
 	20,  // 37: blog.ApiRpc.CreateApi:input_type -> blog.Api
 	20,  // 38: blog.ApiRpc.UpdateApi:input_type -> blog.Api
 	2,   // 39: blog.ApiRpc.DeleteApi:input_type -> blog.IdReq
@@ -7428,7 +7428,7 @@ var file_blog_proto_depIdxs = []int32{
 	1,   // 174: blog.AuthRpc.SendRegisterEmail:output_type -> blog.EmptyResp
 	1,   // 175: blog.AuthRpc.SendResetPasswordEmail:output_type -> blog.EmptyResp
 	12,  // 176: blog.AuthRpc.OauthLogin:output_type -> blog.LoginResp
-	15,  // 177: blog.AuthRpc.GetOauthAuthorizeUrl:output_type -> blog.OauthLoginUrlResp
+	15,  // 177: blog.AuthRpc.OauthAuthorizeUrl:output_type -> blog.OauthLoginUrlResp
 	20,  // 178: blog.ApiRpc.CreateApi:output_type -> blog.Api
 	20,  // 179: blog.ApiRpc.UpdateApi:output_type -> blog.Api
 	9,   // 180: blog.ApiRpc.DeleteApi:output_type -> blog.BatchResp

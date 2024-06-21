@@ -31,7 +31,7 @@ const (
 	AuthRpc_SendRegisterEmail_FullMethodName      = "/blog.AuthRpc/SendRegisterEmail"
 	AuthRpc_SendResetPasswordEmail_FullMethodName = "/blog.AuthRpc/SendResetPasswordEmail"
 	AuthRpc_OauthLogin_FullMethodName             = "/blog.AuthRpc/OauthLogin"
-	AuthRpc_GetOauthAuthorizeUrl_FullMethodName   = "/blog.AuthRpc/GetOauthAuthorizeUrl"
+	AuthRpc_GetOauthAuthorizeUrl_FullMethodName   = "/blog.AuthRpc/OauthAuthorizeUrl"
 )
 
 // AuthRpcClient is the client API for AuthRpc service.
@@ -201,7 +201,7 @@ func (UnimplementedAuthRpcServer) OauthLogin(context.Context, *OauthLoginReq) (*
 	return nil, status.Errorf(codes.Unimplemented, "method OauthLogin not implemented")
 }
 func (UnimplementedAuthRpcServer) GetOauthAuthorizeUrl(context.Context, *OauthLoginReq) (*OauthLoginUrlResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOauthAuthorizeUrl not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method OauthAuthorizeUrl not implemented")
 }
 func (UnimplementedAuthRpcServer) mustEmbedUnimplementedAuthRpcServer() {}
 
@@ -418,7 +418,7 @@ var AuthRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AuthRpc_OauthLogin_Handler,
 		},
 		{
-			MethodName: "GetOauthAuthorizeUrl",
+			MethodName: "OauthAuthorizeUrl",
 			Handler:    _AuthRpc_GetOauthAuthorizeUrl_Handler,
 		},
 	},

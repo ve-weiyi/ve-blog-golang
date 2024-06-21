@@ -161,7 +161,7 @@ func (s *RoleRepository) UpdateRoleMenus(ctx context.Context, roleId int64, menu
 }
 
 // 设置角色菜单
-func (s *RoleRepository) UpdateRoleResources(ctx context.Context, roleId int64, apiIds []int64) (role *entity.Role, count int64, err error) {
+func (s *RoleRepository) UpdateRoleApis(ctx context.Context, roleId int64, apiIds []int64) (role *entity.Role, count int64, err error) {
 	// 创建db
 	db := s.DbEngin.WithContext(ctx)
 

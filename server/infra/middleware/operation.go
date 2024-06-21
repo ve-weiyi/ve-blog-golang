@@ -96,9 +96,11 @@ func OperationRecord(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		// 数据太长时，需要截取
 		if len(req) > 4000 {
 			req = jsonconv.ObjectToJsonIndent(&req)
+			req = req[:4000]
 		}
 		if len(resp) > 4000 {
 			resp = jsonconv.ObjectToJsonIndent(&resp)
+			resp = resp[:4000]
 		}
 
 		op := entity.OperationLog{

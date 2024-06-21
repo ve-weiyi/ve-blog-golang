@@ -28,6 +28,9 @@ func NewApiCmd() *ApiCmd {
 	}
 
 	rootCmd.CMD.AddCommand(apiAllCmd)
+	rootCmd.CMD.AddCommand(routerCmd)
+	rootCmd.CMD.AddCommand(serviceCmd)
+	rootCmd.CMD.AddCommand(controllerCmd)
 	rootCmd.init()
 	return rootCmd
 }

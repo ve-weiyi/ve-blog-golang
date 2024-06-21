@@ -33,16 +33,12 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// controllerCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// controllerCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	controllerCmd.PersistentFlags().StringVarP(&VarStringApiFile, "api-file", "f", "test.api", "sql文件")
+	controllerCmd.PersistentFlags().StringVarP(&VarStringTplPath, "tpl-path", "t", "test.tpl", "模板文件")
+	controllerCmd.PersistentFlags().StringVarP(&VarStringOutPath, "out-path", "o", "./", "输出路径")
+	controllerCmd.PersistentFlags().StringVarP(&VarStringNameAs, "name-as", "n", "%s.go", "输出名称")
 }
+
 func RunCommandController(cmd *cobra.Command, args []string) {
 	f := VarStringApiFile
 	t := VarStringTplPath

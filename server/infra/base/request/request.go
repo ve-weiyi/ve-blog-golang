@@ -37,7 +37,7 @@ func (s *Context) GetIpSource() string {
 }
 
 // 获取请求上下文
-func GetRequestContext(c *gin.Context) (*Context, error) {
+func ParseRequestContext(c *gin.Context) (*Context, error) {
 	reqCtx := &Context{}
 	reqCtx.Token = c.GetHeader(constant.HeaderToken)
 	reqCtx.Uid = cast.ToInt64(c.GetHeader(constant.HeaderUid))

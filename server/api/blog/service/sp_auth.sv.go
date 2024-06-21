@@ -176,7 +176,7 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *dto.UserEm
 	return true, nil
 }
 
-func (l *AuthService) GetAuthorizeUrl(reqCtx *request.Context, req *dto.OauthLoginReq) (resp *dto.OauthLoginUrl, err error) {
+func (l *AuthService) OauthAuthorizeUrl(reqCtx *request.Context, req *dto.OauthLoginReq) (resp *dto.OauthLoginUrl, err error) {
 	var auth oauth.Oauth
 	for platform, v := range l.svcCtx.Oauth {
 		if platform == req.Platform {

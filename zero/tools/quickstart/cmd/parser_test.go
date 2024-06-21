@@ -38,7 +38,11 @@ func Test_ParseAPI(t *testing.T) {
 	//t.Log(jsonconv.ObjectToJsonIndent(fromApi))
 
 	for _, v := range fromApi.Service.Groups {
-		t.Log(jsonconv.ObjectToJsonIndent(v))
+		t.Log("--->", v.Annotation.Properties["group"])
+		for _, v2 := range v.Routes {
+			t.Log(v2.Path)
+		}
+		//t.Log(jsonconv.ObjectToJsonIndent(v))
 	}
 
 	//for _, v := range fromApi.Types {
