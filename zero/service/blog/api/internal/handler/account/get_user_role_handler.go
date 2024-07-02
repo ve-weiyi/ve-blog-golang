@@ -14,12 +14,6 @@ import (
 // 获取用户角色
 func GetUserRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func GetUserRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := account.NewGetUserRoleLogic(r.Context(), svcCtx)
-		resp, err := l.GetUserRole(&reqCtx, &req)
+		resp, err := l.GetUserRole(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

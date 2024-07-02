@@ -27,9 +27,9 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 	}
 }
 
-func (l *LogoutLogic) Logout(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.EmptyResp, err error) {
+func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	in := &blog.LogoutReq{
-		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	_, err = l.svcCtx.AuthRpc.Logout(l.ctx, in)

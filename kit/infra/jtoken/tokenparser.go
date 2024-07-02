@@ -15,16 +15,16 @@ const (
 	JwtExt       = "ext"
 )
 
-type JWTInstance struct {
+type JwtInstance struct {
 	SecretKey []byte
 }
 
-func NewJWTInstance(SecretKey []byte) *JWTInstance {
-	return &JWTInstance{SecretKey}
+func NewJWTInstance(SecretKey []byte) *JwtInstance {
+	return &JwtInstance{SecretKey}
 }
 
 // GenerateJWT 生成JWT
-func (that JWTInstance) CreateToken(options ...Option) (string, error) {
+func (that JwtInstance) CreateToken(options ...Option) (string, error) {
 	claims := jwt.MapClaims{}
 
 	for _, option := range options {
@@ -43,7 +43,7 @@ func (that JWTInstance) CreateToken(options ...Option) (string, error) {
 }
 
 // ParseToken 解析JWT
-func (that JWTInstance) ParseToken(tokenString string) (*jwt.Token, error) {
+func (that JwtInstance) ParseToken(tokenString string) (*jwt.Token, error) {
 	// 解析JWT字符串
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return that.SecretKey, nil

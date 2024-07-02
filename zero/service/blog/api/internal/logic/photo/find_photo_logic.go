@@ -25,7 +25,7 @@ func NewFindPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPho
 	}
 }
 
-func (l *FindPhotoLogic) FindPhoto(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.Photo, err error) {
+func (l *FindPhotoLogic) FindPhoto(req *types.IdReq) (resp *types.Photo, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.PhotoRpc.FindPhoto(l.ctx, in)

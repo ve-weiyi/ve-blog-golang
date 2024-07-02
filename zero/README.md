@@ -12,8 +12,12 @@ goctl rpc new mini_power --style go_zero
 ## 2. goctl代码生成
 
 ```
+安装grpc
+   go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+
 1. 升级goctl
-   GO111MODULE=on go install github.com/zeromicro/go-zero/tools/goctl@latest
+   GO111MODULE=on 
+   go install github.com/zeromicro/go-zero/tools/goctl@latest
 
 2. 替换代码模板
    goctl template init

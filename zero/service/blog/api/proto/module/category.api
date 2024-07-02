@@ -22,6 +22,19 @@ type (
 @server(
     prefix: /api/v1
     group: category
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取文章分类列表"
+    @handler FindCategoryList
+    post /category/find_category_list (PageQuery) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: category
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -44,8 +57,4 @@ service blog-api {
     @doc "查询文章分类"
     @handler FindCategory
     post /category/find_category (IdReq) returns (Category)
-
-    @doc "分页获取文章分类列表"
-    @handler FindCategoryList
-    post /category/find_category_list (PageQuery) returns (PageResp)
 }

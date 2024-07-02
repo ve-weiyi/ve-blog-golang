@@ -63,14 +63,14 @@ type (
     }
 
     UserMenu {
-        Id int64 `json:"id,optional"`                            // 主键
-        ParentId int64 `json:"parent_id,optional"`               // 父id
-        Title string `json:"title,optional"`                     // 菜单标题
-        Type int64 `json:"type,optional"`                        // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-        Path string `json:"path,optional"`                       // 路由地址
-        Name string `json:"name,optional"`                       // 路由名字
-        Component string `json:"component,optional"`             // Layout组件
-        Redirect string `json:"redirect,optional"`               // 路由重定向
+        Id int64 `json:"id,optional"`                             // 主键
+        ParentId int64 `json:"parent_id,optional"`                // 父id
+        Title string `json:"title,optional"`                      // 菜单标题
+        Type int64 `json:"type,optional"`                         // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
+        Path string `json:"path,optional"`                        // 路由地址
+        Name string `json:"name,optional"`                        // 路由名字
+        Component string `json:"component,optional"`              // Layout组件
+        Redirect string `json:"redirect,optional"`                // 路由重定向
         Meta UserMenuMeta `json:"meta,optional"`                  // meta配置
         Children []*UserMenu `json:"children,optional"`
     }
@@ -143,6 +143,7 @@ type (
 @server(
     prefix: /api/v1
     group: account
+    middleware: JwtToken
 )
 
 service blog-api {
@@ -165,7 +166,15 @@ service blog-api {
     @doc "修改用户角色"
     @handler UpdateUserRoles
     post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
+}
 
+@server(
+    prefix: /api/v1
+    group: account
+    middleware: SignToken,JwtToken
+)
+
+service blog-api {
     @doc "查询用户登录历史"
     @handler FindUserLoginHistoryList
     post /user/login_history (PageQuery) returns (PageResp)

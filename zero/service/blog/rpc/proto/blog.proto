@@ -112,6 +112,15 @@ message LogoffReq {
   int64 user_id = 1;
 }
 
+message GetLogoutAtReq {
+  int64 user_id = 1;
+}
+
+message  GetLogoutAtResp {
+  int64 user_id = 1;
+  int64 logout_at = 2;
+}
+
 service AuthRpc {
   // 登录
   rpc Login(LoginReq) returns(LoginResp);
@@ -131,6 +140,8 @@ service AuthRpc {
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
   // 获取第三方登录授权地址
   rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
+  // 获取用户登录时间
+  rpc GetLogoutAt(GetLogoutAtReq) returns(GetLogoutAtResp);
 }
 
 /************** rbac 权限相关 **************/
@@ -354,7 +365,7 @@ message User {
   repeated RoleLabel roles = 15;
 }
 
-message UserInfoPageResp{
+message UserPageResp{
   int64 total = 1;
   repeated User list = 2;
 }
@@ -391,6 +402,8 @@ service UserRpc {
   rpc FindUserLoginHistoryList(PageQuery) returns(LoginHistoryPageResp);
   // 批量删除登录历史
   rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResp);
+  // 查找用户列表
+  rpc FindUserList(PageQuery) returns(UserPageResp);
   // 获取用户接口权限
   rpc FindUserApis(UserReq) returns(ApiPageResp);
   // 获取用户菜单权限
@@ -400,15 +413,13 @@ service UserRpc {
   // 获取用户信息
   rpc FindUserInfo(UserReq) returns(UserInfoResp);
   // 修改用户信息
-  rpc UpdateUserInfo(UpdateUserInfoReq) returns(UserInfoResp);
+  rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
   // 修改用户头像
-  rpc UpdateUserAvatar(UpdateUserAvatarReq) returns(UserInfoResp);
+  rpc UpdateUserAvatar(UpdateUserAvatarReq) returns(EmptyResp);
   // 修改用户状态
   rpc UpdateUserStatus(UpdateUserStatusReq) returns(EmptyResp);
   // 修改用户角色
   rpc UpdateUserRole(UpdateUserRoleReq) returns(EmptyResp);
-  // 查找用户列表
-  rpc FindUserList(PageQuery) returns(UserInfoPageResp);
 }
 
 /************** blog 博客相关 **************/

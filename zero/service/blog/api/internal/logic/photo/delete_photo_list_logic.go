@@ -25,7 +25,7 @@ func NewDeletePhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 	}
 }
 
-func (l *DeletePhotoListLogic) DeletePhotoList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeletePhotoListLogic) DeletePhotoList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.PhotoRpc.DeletePhotoList(l.ctx, in)

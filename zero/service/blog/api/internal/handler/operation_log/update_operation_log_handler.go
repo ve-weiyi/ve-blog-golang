@@ -14,12 +14,6 @@ import (
 // 更新操作记录
 func UpdateOperationLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.OperationLog
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func UpdateOperationLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := operation_log.NewUpdateOperationLogLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateOperationLog(&reqCtx, &req)
+		resp, err := l.UpdateOperationLog(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

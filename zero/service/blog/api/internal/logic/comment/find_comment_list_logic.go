@@ -27,7 +27,7 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindCommentListLogic) FindCommentList(reqCtx *types.RestHeader, req *types.CommentQueryReq) (resp *types.PageResp, err error) {
+func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
 	in := convert.ConvertCommentQueryTypes(req)
 	out, err := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {

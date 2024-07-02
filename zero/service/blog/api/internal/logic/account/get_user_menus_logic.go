@@ -27,9 +27,9 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 	}
 }
 
-func (l *GetUserMenusLogic) GetUserMenus(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
+func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
 	in := &blog.UserReq{
-		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.UserRpc.FindUserMenus(l.ctx, in)

@@ -25,7 +25,7 @@ func NewFindPhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindPhotoAlbumLogic) FindPhotoAlbum(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.PhotoAlbum, err error) {
+func (l *FindPhotoAlbumLogic) FindPhotoAlbum(req *types.IdReq) (resp *types.PhotoAlbum, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.PhotoRpc.FindPhotoAlbum(l.ctx, in)

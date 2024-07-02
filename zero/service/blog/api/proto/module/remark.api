@@ -20,6 +20,20 @@ type (
 @server(
     prefix: /api/v1
     group: remark
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取留言列表"
+    @handler FindRemarkList
+    post /remark/find_remark_list (PageQuery) returns (PageResp)
+}
+
+
+@server(
+    prefix: /api/v1
+    group: remark
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -42,8 +56,4 @@ service blog-api {
     @doc "查询留言"
     @handler FindRemark
     post /remark/find_remark (IdReq) returns (Remark)
-
-    @doc "分页获取留言列表"
-    @handler FindRemarkList
-    post /remark/find_remark_list (PageQuery) returns (PageResp)
 }

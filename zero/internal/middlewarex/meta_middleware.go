@@ -1,6 +1,7 @@
 package middlewarex
 
 import (
+	"context"
 	"net/http"
 	"strings"
 
@@ -10,10 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 )
 
-// CtxMetadataHandel 将http header 放入 ctx 里面使用 metadata 保存.
-func CtxMetaHandler(next http.HandlerFunc) http.HandlerFunc {
+type CtxMetaMiddleware struct {
+}
+
+func NewCtxMetaMiddleware() *CtxMetaMiddleware {
+	return &CtxMetaMiddleware{}
+}
+
+// 将http header 放入 ctx 里面使用 metadata 保存.
+func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		//logx.Infof("CtxMetadataHandel")
+		logx.Infof("CtxMetaMiddleware Handle")
 		ctx := r.Context()
 		md := metadata.MD{}
 		// 从真实http 头获取header
@@ -28,10 +36,11 @@ func CtxMetaHandler(next http.HandlerFunc) http.HandlerFunc {
 				}
 
 				keyLowercase := strings.ToLower(k)
-				logx.Infof("add k=%s, v=%+v", keyLowercase, value)
+				//logx.Infof("add k=%s, v=%+v", keyLowercase, value)
 				for _, key := range constant.HeaderFields {
 					if key == keyLowercase {
-						md.Set(keyLowercase, value)
+						md.Set(key, value)
+						ctx = context.WithValue(ctx, key, value)
 					}
 				}
 			}

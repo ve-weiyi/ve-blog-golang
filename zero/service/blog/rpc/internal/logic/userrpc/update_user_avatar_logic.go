@@ -3,7 +3,6 @@ package userrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
@@ -25,7 +24,7 @@ func NewUpdateUserAvatarLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 修改用户头像
-func (l *UpdateUserAvatarLogic) UpdateUserAvatar(in *blog.UpdateUserAvatarReq) (*blog.UserInfoResp, error) {
+func (l *UpdateUserAvatarLogic) UpdateUserAvatar(in *blog.UpdateUserAvatarReq) (*blog.EmptyResp, error) {
 	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", in.UserId)
 	if err != nil {
 		return nil, err
@@ -38,5 +37,5 @@ func (l *UpdateUserAvatarLogic) UpdateUserAvatar(in *blog.UpdateUserAvatarReq) (
 		return nil, err
 	}
 
-	return convert.ConvertUserInfoModelToPb(ui), nil
+	return &blog.EmptyResp{}, nil
 }

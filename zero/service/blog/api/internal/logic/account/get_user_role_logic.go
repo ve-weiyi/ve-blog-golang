@@ -28,9 +28,9 @@ func NewGetUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserRoleLogic) GetUserRole(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
+func (l *GetUserRoleLogic) GetUserRole(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
 	in := &blog.UserReq{
-		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.UserRpc.FindUserRoles(l.ctx, in)

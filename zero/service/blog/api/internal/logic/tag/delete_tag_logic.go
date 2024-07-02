@@ -25,7 +25,7 @@ func NewDeleteTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteT
 	}
 }
 
-func (l *DeleteTagLogic) DeleteTag(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeleteTagLogic) DeleteTag(req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.TagRpc.DeleteTag(l.ctx, in)

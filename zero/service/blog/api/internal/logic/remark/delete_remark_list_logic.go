@@ -25,7 +25,7 @@ func NewDeleteRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *DeleteRemarkListLogic) DeleteRemarkList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeleteRemarkListLogic) DeleteRemarkList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.RemarkRpc.DeleteRemarkList(l.ctx, in)

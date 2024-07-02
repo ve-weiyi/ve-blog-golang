@@ -26,9 +26,9 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserInfoLogic) GetUserInfo(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
+func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
 	in := &blog.UserReq{
-		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	info, err := l.svcCtx.UserRpc.FindUserInfo(l.ctx, in)

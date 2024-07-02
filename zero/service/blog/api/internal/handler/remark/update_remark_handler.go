@@ -14,12 +14,6 @@ import (
 // 更新留言
 func UpdateRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.Remark
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func UpdateRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := remark.NewUpdateRemarkLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateRemark(&reqCtx, &req)
+		resp, err := l.UpdateRemark(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

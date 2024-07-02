@@ -1,12 +1,13 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/config"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/apirpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
@@ -29,7 +30,6 @@ import (
 
 type ServiceContext struct {
 	Config config.Config
-	Token  *jtoken.JWTInstance
 
 	AuthRpc authrpc.AuthRpc
 	ApiRpc  apirpc.ApiRpc
@@ -37,32 +37,37 @@ type ServiceContext struct {
 	RoleRpc rolerpc.RoleRpc
 	UserRpc userrpc.UserRpc
 
-	ConfigRpc   configrpc.ConfigRpc
-	ArticleRpc  articlerpc.ArticleRpc
-	CategoryRpc categoryrpc.CategoryRpc
-	TagRpc      tagrpc.TagRpc
-
-	FriendLinkRpc friendlinkrpc.FriendLinkRpc
+	ArticleRpc    articlerpc.ArticleRpc
+	CategoryRpc   categoryrpc.CategoryRpc
+	TagRpc        tagrpc.TagRpc
 	RemarkRpc     remarkrpc.RemarkRpc
 	CommentRpc    commentrpc.CommentRpc
 	PhotoRpc      photorpc.PhotoRpc
 	TalkRpc       talkrpc.TalkRpc
 	PageRpc       pagerpc.PageRpc
+	FriendLinkRpc friendlinkrpc.FriendLinkRpc
 
+	ConfigRpc configrpc.ConfigRpc
 	LogRpc    logrpc.LogRpc
 	ChatRpc   chatrpc.ChatRpc
 	UploadRpc uploadrpc.UploadRpc
 
 	Uploader upload.Uploader
+	Token    *jtoken.JwtInstance
+
+	JwtToken  rest.Middleware
+	SignToken rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	var options []zrpc.ClientOption
-	options = append(options, zrpc.WithUnaryClientInterceptor(interceptorx.ClientLogInterceptor))
+	options = append(options)
+
+	jwt := jtoken.NewJWTInstance([]byte(c.Name))
 
 	return &ServiceContext{
 		Config:  c,
-		Token:   jtoken.NewJWTInstance([]byte(c.Name)),
+		Token:   jwt,
 		AuthRpc: authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...)),
 		ApiRpc:  apirpc.NewApiRpc(zrpc.MustNewClient(c.ApiRpcConf, options...)),
 		MenuRpc: menurpc.NewMenuRpc(zrpc.MustNewClient(c.MenuRpcConf, options...)),
@@ -84,5 +89,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ChatRpc:   chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf, options...)),
 		UploadRpc: uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf, options...)),
 		Uploader:  upload.NewQiniu(c.UploadConfig),
+		JwtToken:  middleware.NewJwtTokenMiddleware(jwt, authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...))).Handle,
+		SignToken: middleware.NewSignTokenMiddleware().Handle,
 	}
 }

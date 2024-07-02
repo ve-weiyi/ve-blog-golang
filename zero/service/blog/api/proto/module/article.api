@@ -114,32 +114,13 @@ type (
 @server(
     prefix: /api/v1
     group: article
+    middleware: SignToken
 )
 
 service blog-api {
-    @doc "保存文章"
-    @handler SaveArticle
-    post /admin/article/save_article (ArticleNewReq) returns (EmptyResp)
-
-    @doc "置顶文章"
-    @handler TopArticle
-    post /admin/article/top_article (ArticleTopReq) returns (EmptyResp)
-
-    @doc "删除文章-逻辑删除"
-    @handler PreDeleteArticle
-    post /admin/article/pre_delete_article (ArticlePreDeleteReq) returns (EmptyResp)
-
-    @doc "删除文章-物理删除"
-    @handler DeleteArticle
-    post /admin/article/delete_article (IdReq) returns (EmptyResp)
-
     @doc "查询文章"
     @handler FindArticle
     post /admin/article/find_article (IdReq) returns (ArticleHomeDTO)
-
-    @doc "获取后台文章列表"
-    @handler FindArticleList
-    post /admin/article/find_article_list (PageQuery) returns (PageResp)
 
     @doc "获取首页文章列表"
     @handler FindArticleHomeList
@@ -160,6 +141,34 @@ service blog-api {
     @doc "文章相关推荐"
     @handler FindArticleRecommend
     post /article/find_article_recommend (IdReq) returns (ArticleRecommendResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: article
+    middleware: SignToken,JwtToken
+)
+
+service blog-api {
+    @doc "保存文章"
+    @handler SaveArticle
+    post /admin/article/save_article (ArticleNewReq) returns (EmptyResp)
+
+    @doc "置顶文章"
+    @handler TopArticle
+    post /admin/article/top_article (ArticleTopReq) returns (EmptyResp)
+
+    @doc "删除文章-逻辑删除"
+    @handler PreDeleteArticle
+    post /admin/article/pre_delete_article (ArticlePreDeleteReq) returns (EmptyResp)
+
+    @doc "删除文章-物理删除"
+    @handler DeleteArticle
+    post /admin/article/delete_article (IdReq) returns (EmptyResp)
+
+    @doc "获取后台文章列表"
+    @handler FindArticleList
+    post /admin/article/find_article_list (PageQuery) returns (PageResp)
 
     @doc "点赞文章"
     @handler LikeArticle

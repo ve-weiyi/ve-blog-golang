@@ -24,7 +24,7 @@ func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 	}
 }
 
-func (l *UpdateRoleMenusLogic) UpdateRoleMenus(reqCtx *types.RestHeader, req *types.UpdateRoleMenusReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateRoleMenusLogic) UpdateRoleMenus(req *types.UpdateRoleMenusReq) (resp *types.EmptyResp, err error) {
 	in := rolerpc.UpdateRoleMenusReq{
 		RoleId:  req.RoleId,
 		MenuIds: req.MenuIds,

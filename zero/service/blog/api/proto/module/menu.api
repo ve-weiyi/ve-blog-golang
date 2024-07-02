@@ -60,6 +60,7 @@ type (
 @server(
     prefix: /api/v1
     group: menu
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {

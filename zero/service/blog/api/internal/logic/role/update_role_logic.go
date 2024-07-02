@@ -24,7 +24,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateRoleLogic) UpdateRole(reqCtx *types.RestHeader, req *types.Role) (resp *types.Role, err error) {
+func (l *UpdateRoleLogic) UpdateRole(req *types.Role) (resp *types.Role, err error) {
 	in := convert.ConvertRolePb(req)
 
 	out, err := l.svcCtx.RoleRpc.UpdateRole(l.ctx, in)

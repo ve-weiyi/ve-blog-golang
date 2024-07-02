@@ -14,12 +14,6 @@ import (
 // 查询照片
 func FindPhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindPhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := photo.NewFindPhotoLogic(r.Context(), svcCtx)
-		resp, err := l.FindPhoto(&reqCtx, &req)
+		resp, err := l.FindPhoto(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

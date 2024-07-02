@@ -14,12 +14,6 @@ import (
 // 创建说说
 func CreateTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.TalkDetails
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func CreateTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := talk.NewCreateTalkLogic(r.Context(), svcCtx)
-		resp, err := l.CreateTalk(&reqCtx, &req)
+		resp, err := l.CreateTalk(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

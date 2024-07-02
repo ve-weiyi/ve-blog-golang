@@ -25,7 +25,7 @@ func NewFindChatRecordsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindChatRecordsLogic) FindChatRecords(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindChatRecordsLogic) FindChatRecords(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.ChatRpc.FindChatRecordList(l.ctx, in)
 	if err != nil {

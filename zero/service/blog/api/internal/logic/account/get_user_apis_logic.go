@@ -28,9 +28,9 @@ func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserApisLogic) GetUserApis(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.UserApisResp, err error) {
+func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApisResp, err error) {
 	in := &blog.UserReq{
-		UserId: cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.UserRpc.FindUserApis(l.ctx, in)

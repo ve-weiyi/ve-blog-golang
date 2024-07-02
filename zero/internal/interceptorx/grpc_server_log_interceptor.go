@@ -13,6 +13,9 @@ func ServerLogInterceptor(ctx context.Context, req interface{}, info *grpc.Unary
 	defer func() {
 		reqBs, _ := json.Marshal(req)
 		respBs, _ := json.Marshal(resp)
+		if len(respBs) > 1000 {
+			respBs = []byte("response too long")
+		}
 		logx.WithContext(ctx).Infow("grpc server request info",
 			logx.LogField{Key: "full_method", Value: info.FullMethod},
 			logx.LogField{Key: "grpc_request", Value: string(reqBs)},

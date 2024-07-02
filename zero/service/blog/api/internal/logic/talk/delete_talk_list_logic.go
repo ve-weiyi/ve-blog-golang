@@ -25,7 +25,7 @@ func NewDeleteTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 	}
 }
 
-func (l *DeleteTalkListLogic) DeleteTalkList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeleteTalkListLogic) DeleteTalkList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.TalkRpc.DeleteTalkList(l.ctx, in)

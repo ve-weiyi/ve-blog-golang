@@ -25,7 +25,7 @@ func NewDeleteFriendLinkListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *DeleteFriendLinkListLogic) DeleteFriendLinkList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeleteFriendLinkListLogic) DeleteFriendLinkList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.FriendLinkRpc.DeleteFriendLinkList(l.ctx, in)

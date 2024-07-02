@@ -1,4 +1,4 @@
-package middlewarex
+package middleware
 
 import (
 	"context"
@@ -12,34 +12,28 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
 )
 
-type (
-	JwtTokenClaims struct {
-		// 用户自定义字段
-		jwt.RegisteredClaims
-		jwt.MapClaims
-	}
+type JwtTokenMiddleware struct {
+	Token   *jtoken.JwtInstance
+	AuthRpc authrpc.AuthRpc
+}
 
-	JwtMiddleware struct {
-		// 依赖注入
-		Token *jtoken.JWTInstance
-	}
-)
-
-func NewJwtMiddleware(tk *jtoken.JWTInstance) *JwtMiddleware {
-	return &JwtMiddleware{
-		Token: tk,
+func NewJwtTokenMiddleware(tk *jtoken.JwtInstance, auth authrpc.AuthRpc) *JwtTokenMiddleware {
+	return &JwtTokenMiddleware{
+		Token:   tk,
+		AuthRpc: auth,
 	}
 }
 
-// jwt handler
-func (j *JwtMiddleware) JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
+func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		logx.Infof("JwtTokenMiddleware Handle")
 		var token string
 		var uid string
 
-		token = r.Header.Get(constant.HeaderToken)
+		token = r.Header.Get(constant.HeaderAuthorization)
 		uid = r.Header.Get(constant.HeaderUid)
 
 		//token为空或者uid为空
@@ -70,7 +64,7 @@ func (j *JwtMiddleware) JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
 
 		// uid不一致
 		if uid != cast.ToString(claims["uid"]) {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("token uid is not equal"))
+			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("token cannot use by uid"))
 			return
 		}
 
@@ -78,6 +72,11 @@ func (j *JwtMiddleware) JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
 		//if jwtService.IsBlacklist(token) {
 		//
 		//}
+
+		if j.IsBlacklist(claims) {
+			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("user already logout or login in other place"))
+			return
+		}
 
 		// 写入上下文
 		ctx := r.Context()
@@ -90,7 +89,26 @@ func (j *JwtMiddleware) JwtAuthHandler(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		logx.Infof("JwtAuthHandler uid=%s, token=%s", uid, token)
+		logx.Infof("JwtMiddleware uid=%s, token=%s", uid, token)
 		next.ServeHTTP(w, r)
 	}
+}
+
+func (j *JwtTokenMiddleware) IsBlacklist(claims jwt.MapClaims) bool {
+	uid := cast.ToInt64(claims["uid"])
+	loginAt := cast.ToInt64(claims[jtoken.JwtIssueAt])
+
+	at, err := j.AuthRpc.GetLogoutAt(context.Background(), &authrpc.GetLogoutAtReq{
+		UserId: uid,
+	})
+	if err != nil {
+		return false
+	}
+	logx.Infof("loginAt=%d, at.LogoutAt=%d", loginAt, at.LogoutAt)
+
+	if loginAt < at.LogoutAt {
+		return true
+	}
+
+	return false
 }

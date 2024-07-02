@@ -23,6 +23,19 @@ type (
 @server(
     prefix: /api/v1
     group: talk
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取说说列表"
+    @handler FindTalkList
+    post /talk/find_talk_list (PageQuery) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: talk
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -45,10 +58,6 @@ service blog-api {
     @doc "查询说说"
     @handler FindTalk
     post /talk/find_talk (IdReq) returns (TalkDetails)
-
-    @doc "分页获取说说列表"
-    @handler FindTalkList
-    post /talk/find_talk_list (PageQuery) returns (PageResp)
 
     @doc "点赞说说"
     @handler LikeTalk

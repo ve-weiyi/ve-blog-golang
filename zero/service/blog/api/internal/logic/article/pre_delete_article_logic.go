@@ -25,7 +25,7 @@ func NewPreDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *PreDeleteArticleLogic) PreDeleteArticle(reqCtx *types.RestHeader, req *types.ArticlePreDeleteReq) (resp *types.EmptyResp, err error) {
+func (l *PreDeleteArticleLogic) PreDeleteArticle(req *types.ArticlePreDeleteReq) (resp *types.EmptyResp, err error) {
 	article, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blog.IdReq{Id: req.Id})
 	if err != nil {
 		return nil, err

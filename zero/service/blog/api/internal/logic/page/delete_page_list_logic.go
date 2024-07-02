@@ -25,7 +25,7 @@ func NewDeletePageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 	}
 }
 
-func (l *DeletePageListLogic) DeletePageList(reqCtx *types.RestHeader, req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeletePageListLogic) DeletePageList(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdsReq(req)
 
 	out, err := l.svcCtx.PageRpc.DeletePageList(l.ctx, in)

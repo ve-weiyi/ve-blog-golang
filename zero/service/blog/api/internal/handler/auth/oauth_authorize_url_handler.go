@@ -14,12 +14,6 @@ import (
 // 第三方登录授权地址
 func OauthAuthorizeUrlHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.OauthLoginReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func OauthAuthorizeUrlHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := auth.NewOauthAuthorizeUrlLogic(r.Context(), svcCtx)
-		resp, err := l.OauthAuthorizeUrl(&reqCtx, &req)
+		resp, err := l.OauthAuthorizeUrl(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

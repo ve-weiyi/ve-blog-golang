@@ -14,12 +14,6 @@ import (
 // 发送忘记密码邮件
 func SendForgetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.UserEmailReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func SendForgetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := auth.NewSendForgetEmailLogic(r.Context(), svcCtx)
-		resp, err := l.SendForgetEmail(&reqCtx, &req)
+		resp, err := l.SendForgetEmail(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

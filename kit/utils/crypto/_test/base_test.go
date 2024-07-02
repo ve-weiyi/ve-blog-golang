@@ -10,7 +10,7 @@ import (
 )
 
 func Test_Base64Decode(t *testing.T) {
-	str := "SGVsbG8sIFdvcmxkIQ=="
+	str := "=="
 
 	// base64 转换 string
 	ts, _ := base64.StdEncoding.DecodeString(str)

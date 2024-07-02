@@ -14,12 +14,6 @@ import (
 // 查询用户登录历史
 func FindUserLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindUserLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFun
 		}
 
 		l := account.NewFindUserLoginHistoryListLogic(r.Context(), svcCtx)
-		resp, err := l.FindUserLoginHistoryList(&reqCtx, &req)
+		resp, err := l.FindUserLoginHistoryList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

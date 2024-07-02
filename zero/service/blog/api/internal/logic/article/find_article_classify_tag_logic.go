@@ -28,7 +28,7 @@ func NewFindArticleClassifyTagLogic(ctx context.Context, svcCtx *svc.ServiceCont
 	}
 }
 
-func (l *FindArticleClassifyTagLogic) FindArticleClassifyTag(reqCtx *types.RestHeader, req *types.ArticleClassifyReq) (resp *types.ArticleClassifyResp, err error) {
+func (l *FindArticleClassifyTagLogic) FindArticleClassifyTag(req *types.ArticleClassifyReq) (resp *types.ArticleClassifyResp, err error) {
 	cs, err := l.svcCtx.TagRpc.FindTagList(l.ctx, &blog.PageQuery{
 		Page:       1,
 		PageSize:   1,
