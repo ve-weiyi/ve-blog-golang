@@ -28,10 +28,10 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 func (l *UpdateRemarkLogic) UpdateRemark(in *blog.Remark) (*blog.Remark, error) {
 	entity := convert.ConvertRemarkPbToModel(in)
 
-	result, err := l.svcCtx.RemarkModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.RemarkModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRemarkModelToPb(result), nil
+	return convert.ConvertRemarkModelToPb(entity), nil
 }

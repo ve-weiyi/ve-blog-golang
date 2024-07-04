@@ -27,7 +27,8 @@ func RunWindowsServer(c *config.Config) {
 	// 初始化zap日志库
 	SetLog(c.Zap)
 
-	ctx := svc.NewServiceContext(c)
+	// 设置ReleaseMode则不会打印路由注册日志
+	gin.SetMode(gin.ReleaseMode)
 	engine := gin.Default()
 
 	r := engine.Group(c.System.RouterPrefix)
@@ -39,9 +40,10 @@ func RunWindowsServer(c *config.Config) {
 	docs.SwaggerInfo.Version = c.System.Version
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	ctx := svc.NewServiceContext(c)
 	RegisterRouters(r, ctx)
 
-	glog.Info("router register success")
+	glog.Info("register router success")
 
 	address := fmt.Sprintf(":%d", c.System.Port)
 	var s server
@@ -55,7 +57,7 @@ func RunWindowsServer(c *config.Config) {
 	// 保证文本顺序输出
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
-	glog.Infof("server run success on %v", address)
+	glog.Infof("run server on http://localhost:%v success", c.System.Port)
 
 	fmt.Printf(`
 	欢迎使用 ve-blog-golang

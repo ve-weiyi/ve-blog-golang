@@ -14,12 +14,6 @@ import (
 // 批量删除角色
 func DeleteRoleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func DeleteRoleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := role.NewDeleteRoleListLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteRoleList(&reqCtx, &req)
+		resp, err := l.DeleteRoleList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

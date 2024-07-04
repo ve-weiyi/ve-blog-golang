@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 )
 
@@ -47,7 +47,7 @@ func (l *CommentService) DeleteCommentList(reqCtx *request.Context, req *request
 }
 
 // 分页获取Comment记录
-func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.CommentQueryReq) (list []*response.CommentDTO, total int64, err error) {
+func (l *CommentService) FindCommentList(reqCtx *request.Context, page *dto.CommentQueryReq) (list []*dto.CommentDTO, total int64, err error) {
 	p, s, order, cond, args := ConvertCommentQueryTypes(page)
 
 	commentList, err := l.svcCtx.CommentRepository.FindList(reqCtx, int(p), int(s), order, cond, args...)
@@ -60,8 +60,8 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 		return nil, 0, err
 	}
 
-	var userIds []int
-	var commentIds []int
+	var userIds []int64
+	var commentIds []int64
 	for _, item := range commentList {
 		userIds = append(userIds, item.UserId)
 		commentIds = append(commentIds, item.Id)
@@ -70,21 +70,21 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 	// 查询用户
 	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
 
-	var userMap = make(map[int]*entity.UserInformation)
+	var userMap = make(map[int64]*entity.UserInformation)
 	for _, item := range users {
 		userMap[item.Id] = item
 	}
 
 	for _, item := range commentList {
 		// 查询评论下所有回复列表,只显示五条
-		replyList, count, _ := l.FindCommentReplyList(reqCtx, item.Id, &request.PageQuery{
-			Limit: request.PageLimit{
+		replyList, count, _ := l.FindCommentReplyList(reqCtx, item.Id, &dto.PageQuery{
+			Limit: dto.PageLimit{
 				Page:     1,
 				PageSize: 5,
 			},
 		})
 		// 查询当前评论下所有回复列表
-		data := &response.CommentDTO{
+		data := &dto.CommentDTO{
 			Id:             item.Id,
 			UserId:         item.UserId,
 			CommentContent: item.CommentContent,
@@ -117,13 +117,14 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *request.
 }
 
 // 查询Comment记录
-func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId int, page *request.PageQuery) (list []*response.ReplyDTO, total int64, err error) {
-	page.Conditions = append(page.Conditions, &request.PageCondition{Field: "parent_id", Operator: "=", Value: commentId})
+func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId int64, page *dto.PageQuery) (list []*dto.ReplyDTO, total int64, err error) {
+	page.Conditions = append(page.Conditions, &dto.PageCondition{Field: "parent_id", Operator: "=", Value: commentId})
 
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询评论下所有回复列表
-	replyList, err := l.svcCtx.CommentRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	replyList, err := l.svcCtx.CommentRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -134,7 +135,7 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	}
 
 	// 收集需要查询的用户id
-	var userIds []int
+	var userIds []int64
 	for _, item := range replyList {
 		userIds = append(userIds, item.UserId)
 		userIds = append(userIds, item.ReplyUserId)
@@ -143,7 +144,7 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	// 查询用户
 	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
 
-	var userMap = make(map[int]*entity.UserInformation)
+	var userMap = make(map[int64]*entity.UserInformation)
 	for _, item := range users {
 		userMap[item.Id] = item
 	}
@@ -151,7 +152,7 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	// 组装返回数据
 	for _, item := range replyList {
 
-		data := &response.ReplyDTO{
+		data := &dto.ReplyDTO{
 			Id:             item.Id,
 			ParentId:       item.ParentId,
 			UserId:         item.UserId,
@@ -183,9 +184,9 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 }
 
 // 查询Comment后台记录
-func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CommentBackDTO, total int64, err error) {
+func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.CommentBackDTO, total int64, err error) {
 	// 使用用户昵称查询
-	var cd *request.PageCondition
+	var cd *dto.PageCondition
 	for _, condition := range page.Conditions {
 		if condition.Field == "username" {
 			cd = condition
@@ -198,7 +199,7 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 			return nil, 0, err
 		}
 
-		var userIds []int
+		var userIds []int64
 		for _, item := range accounts {
 			userIds = append(userIds, item.Id)
 		}
@@ -208,10 +209,11 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 		cd.Operator = "in"
 	}
 
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 查询评论下所有回复列表
-	commentList, err := l.svcCtx.CommentRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	commentList, err := l.svcCtx.CommentRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -222,8 +224,8 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 	}
 
 	// 收集需要查询的用户id
-	var userIds []int
-	var articleIds []int
+	var userIds []int64
+	var articleIds []int64
 	for _, item := range commentList {
 		userIds = append(userIds, item.UserId)
 		userIds = append(userIds, item.ReplyUserId)
@@ -232,13 +234,13 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 
 	// 查询用户
 	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
-	var userMap = make(map[int]*entity.UserInformation)
+	var userMap = make(map[int64]*entity.UserInformation)
 	for _, item := range users {
 		userMap[item.Id] = item
 	}
 	// 查询文章
 	articles, _ := l.svcCtx.ArticleRepository.FindALL(reqCtx, "id in (?)", articleIds)
-	var articleMap = make(map[int]*entity.Article)
+	var articleMap = make(map[int64]*entity.Article)
 	for _, item := range articles {
 		articleMap[item.Id] = item
 	}
@@ -246,7 +248,7 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 	// 组装返回数据
 	for _, item := range commentList {
 
-		data := &response.CommentBackDTO{
+		data := &dto.CommentBackDTO{
 			Id:             item.Id,
 			Avatar:         "",
 			Nickname:       "",
@@ -283,11 +285,11 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *requ
 }
 
 // 点赞Comment
-func (l *CommentService) LikeComment(reqCtx *request.Context, commentId int) (data interface{}, err error) {
+func (l *CommentService) LikeComment(reqCtx *request.Context, commentId int64) (data interface{}, err error) {
 	return l.svcCtx.CommentRepository.LikeComment(reqCtx, reqCtx.Uid, commentId)
 }
 
-func ConvertCommentQueryTypes(in *request.CommentQueryReq) (page int64, pageSize int64, sorts string, conditions string, args []interface{}) {
+func ConvertCommentQueryTypes(in *dto.CommentQueryReq) (page int64, pageSize int64, sorts string, conditions string, args []interface{}) {
 	//var page, pageSize int64
 	//var sorts, conditions string
 	//var args []string

@@ -23,7 +23,8 @@ type (
     }
 
     PageQuery {
-        PageLimit
+        Page int64 `json:"page,optional"`
+        PageSize int64 `json:"page_size,optional"`
         Sorts []*PageSort `json:"sorts,optional"`
         Conditions []*PageCondition `json:"conditions,optional"`
     }
@@ -35,7 +36,7 @@ type (
 
     PageSort {
         Field string `json:"field,optional"`
-        Order string `json:"order,optional"`
+        Order string `json:"order,optional"` // asc | desc
     }
 
     PageCondition {

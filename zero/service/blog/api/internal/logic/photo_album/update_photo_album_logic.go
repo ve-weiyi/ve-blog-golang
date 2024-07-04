@@ -25,7 +25,7 @@ func NewUpdatePhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *UpdatePhotoAlbumLogic) UpdatePhotoAlbum(reqCtx *types.RestHeader, req *types.PhotoAlbum) (resp *types.PhotoAlbum, err error) {
+func (l *UpdatePhotoAlbumLogic) UpdatePhotoAlbum(req *types.PhotoAlbum) (resp *types.PhotoAlbum, err error) {
 	in := convert.ConvertPhotoAlbumPb(req)
 
 	api, err := l.svcCtx.PhotoRpc.UpdatePhotoAlbum(l.ctx, in)

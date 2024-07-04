@@ -25,7 +25,7 @@ func NewUpdateFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *UpdateFriendLinkLogic) UpdateFriendLink(reqCtx *types.RestHeader, req *types.FriendLink) (resp *types.FriendLink, err error) {
+func (l *UpdateFriendLinkLogic) UpdateFriendLink(req *types.FriendLink) (resp *types.FriendLink, err error) {
 	in := convert.ConvertFriendLinkPb(req)
 
 	api, err := l.svcCtx.FriendLinkRpc.UpdateFriendLink(l.ctx, in)

@@ -74,13 +74,13 @@ func SetCamelCaseJsonTag(v interface{}) {
 		jsonTag := field.Tag.Get("json")
 
 		if jsonTag != "" && jsonTag != "-" {
-			newJsonTag := Camel2Case(jsonTag)
+			newJsonTag := Case2Snake(jsonTag)
 			field.Tag = reflect.StructTag(strings.Replace(string(field.Tag), jsonTag, newJsonTag, 1))
 			log.Println(string(field.Tag))
 		} else {
 			//无法在运行时添加tag
 			fieldName := field.Name
-			newJsonTag := Camel2Case(fieldName)
+			newJsonTag := Case2Snake(fieldName)
 			field.Tag = reflect.StructTag(fmt.Sprintf(`json:"%v"`, newJsonTag))
 			log.Println(string(field.Tag))
 		}

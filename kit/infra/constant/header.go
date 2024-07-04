@@ -39,16 +39,24 @@ const (
 	HeaderLanguage = "language"
 
 	HeaderXRequestId = "x-request-id"
-	HeaderXAuthToken = "x-auth-token"
-	HeaderXUserId    = "x-user-id"
+
+	HeaderAuthorization = "authorization"
+	HeaderUid           = "uid"
+
+	HeaderToken     = "token"
+	HeaderTerminal  = "terminal"
+	HeaderTimestamp = "timestamp"
 )
 
 var HeaderFields = []string{
 	HeaderXRequestId,
-	HeaderXAuthToken,
-	HeaderXUserId,
 	HeaderTimezone,
+	HeaderTimestamp,
 	HeaderCountry,
 	HeaderLanguage,
 	HeaderAppName,
+	HeaderAuthorization,
+	HeaderToken,
+	HeaderUid,
+	HeaderTerminal,
 }

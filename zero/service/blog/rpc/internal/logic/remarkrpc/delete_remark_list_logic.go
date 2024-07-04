@@ -25,12 +25,12 @@ func NewDeleteRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 批量删除留言
 func (l *DeleteRemarkListLogic) DeleteRemarkList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.RemarkModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.RemarkModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

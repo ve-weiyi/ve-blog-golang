@@ -27,10 +27,10 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 func (l *UpdateArticleLogic) UpdateArticle(in *blog.Article) (*blog.Article, error) {
 	entity := convert.ConvertArticlePbToModel(in)
 
-	result, err := l.svcCtx.ArticleModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.ArticleModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertArticleModelToPb(result), nil
+	return convert.ConvertArticleModelToPb(entity), nil
 }

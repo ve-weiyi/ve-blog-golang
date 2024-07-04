@@ -14,12 +14,6 @@ import (
 // ping
 func PingHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.PingReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func PingHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewPingLogic(r.Context(), svcCtx)
-		resp, err := l.Ping(&reqCtx, &req)
+		resp, err := l.Ping(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

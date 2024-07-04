@@ -14,12 +14,6 @@ import (
 // 置顶文章
 func TopArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.ArticleTopReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func TopArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := article.NewTopArticleLogic(r.Context(), svcCtx)
-		resp, err := l.TopArticle(&reqCtx, &req)
+		resp, err := l.TopArticle(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

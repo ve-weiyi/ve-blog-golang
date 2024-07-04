@@ -74,6 +74,13 @@ func (l *LoginLogic) Login(in *blog.LoginReq) (*blog.LoginResp, error) {
 	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
 	is, _ := ipx.GetIpInfoByBaidu(ip)
 
+	account.LoginAt = time.Now()
+	// 修改登录时间
+	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, account)
+	if err != nil {
+		return nil, err
+	}
+
 	//登录记录
 	history := &model.UserLoginHistory{
 		UserId:    account.Id,

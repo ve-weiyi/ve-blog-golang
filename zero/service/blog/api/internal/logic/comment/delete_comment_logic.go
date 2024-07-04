@@ -25,7 +25,7 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 	}
 }
 
-func (l *DeleteCommentLogic) DeleteComment(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeleteCommentLogic) DeleteComment(req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, in)

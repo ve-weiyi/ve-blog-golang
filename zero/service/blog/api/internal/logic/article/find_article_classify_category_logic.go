@@ -28,7 +28,7 @@ func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.Servic
 	}
 }
 
-func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(reqCtx *types.RestHeader, req *types.ArticleClassifyReq) (resp *types.ArticleClassifyResp, err error) {
+func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyReq) (resp *types.ArticleClassifyResp, err error) {
 	cs, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blog.PageQuery{
 		Page:       1,
 		PageSize:   1,

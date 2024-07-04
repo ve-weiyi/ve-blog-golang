@@ -27,10 +27,10 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateRoleLogic) UpdateRole(in *blog.Role) (*blog.Role, error) {
 	entity := convert.ConvertRolePbToModel(in)
 
-	result, err := l.svcCtx.RoleModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.RoleModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRoleModelToPb(result), nil
+	return convert.ConvertRoleModelToPb(entity), nil
 }

@@ -14,12 +14,6 @@ import (
 // 创建操作记录
 func CreateOperationLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.OperationLog
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func CreateOperationLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := operation_log.NewCreateOperationLogLogic(r.Context(), svcCtx)
-		resp, err := l.CreateOperationLog(&reqCtx, &req)
+		resp, err := l.CreateOperationLog(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

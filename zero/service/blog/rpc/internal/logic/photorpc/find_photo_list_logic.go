@@ -26,9 +26,9 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 // 分页获取照片列表
 func (l *FindPhotoListLogic) FindPhotoList(in *blog.PageQuery) (*blog.PhotoPageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.PhotoModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.PhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

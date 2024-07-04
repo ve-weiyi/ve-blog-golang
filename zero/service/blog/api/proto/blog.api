@@ -1,7 +1,6 @@
 syntax = "v1"
 
 import "module/account.api"
-import "module/mine.api"
 import "module/auth.api"
 import "module/api.api"
 import "module/menu.api"

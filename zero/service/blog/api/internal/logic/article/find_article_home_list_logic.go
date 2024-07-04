@@ -26,7 +26,7 @@ func NewFindArticleHomeListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindArticleHomeListLogic) FindArticleHomeList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
 	if err != nil {

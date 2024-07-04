@@ -90,6 +90,23 @@ type (
 @server(
     prefix: /api/v1
     group: comment
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "查询评论列表"
+    @handler FindCommentList
+    post /comment/find_comment_list (CommentQueryReq) returns (PageResp)
+
+    @doc "查询评论回复列表"
+    @handler FindCommentReplyList
+    post /comment/find_comment_reply_list (CommentQueryReq) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: comment
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -112,14 +129,6 @@ service blog-api {
     @doc "查询评论"
     @handler FindComment
     post /comment/find_comment (IdReq) returns (CommentBackDTO)
-
-    @doc "查询评论列表"
-    @handler FindCommentList
-    post /comment/find_comment_list (CommentQueryReq) returns (PageResp)
-
-    @doc "查询评论回复列表"
-    @handler FindCommentReplyList
-    post /comment/find_comment_reply_list (CommentQueryReq) returns (PageResp)
 
     @doc "查询评论列表(后台)"
     @handler FindCommentBackList

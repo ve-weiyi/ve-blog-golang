@@ -26,7 +26,7 @@ func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 
 var runtime = time.Now()
 
-func (l *PingLogic) Ping(reqCtx *types.RestHeader, req *types.PingReq) (resp *types.PingResp, err error) {
+func (l *PingLogic) Ping(req *types.PingReq) (resp *types.PingResp, err error) {
 	resp = &types.PingResp{
 		Env:         l.svcCtx.Config.Mode,
 		Name:        l.svcCtx.Config.Name,

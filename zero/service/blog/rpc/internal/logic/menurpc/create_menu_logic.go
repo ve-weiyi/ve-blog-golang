@@ -28,10 +28,10 @@ func NewCreateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreateMenuLogic) CreateMenu(in *blog.Menu) (*blog.Menu, error) {
 	entity := convert.ConvertMenuPbToModel(in)
 
-	result, err := l.svcCtx.MenuModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.MenuModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertMenuModelToPb(result), nil
+	return convert.ConvertMenuModelToPb(entity), nil
 }

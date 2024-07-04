@@ -115,7 +115,7 @@
     },
     "/api/v1/admin/article/find_article_list": {
       "post": {
-        "summary": "分页获取文章列表",
+        "summary": "获取后台文章列表",
         "operationId": "FindArticleList",
         "responses": {
           "200": {
@@ -538,7 +538,7 @@
     },
     "/api/v1/article/article_classify_category": {
       "post": {
-        "summary": "通过标签或者id获取文章列表",
+        "summary": "通过分类获取文章列表",
         "operationId": "FindArticleClassifyCategory",
         "responses": {
           "200": {
@@ -565,7 +565,7 @@
     },
     "/api/v1/article/article_classify_tag": {
       "post": {
-        "summary": "通过标签或者id获取文章列表",
+        "summary": "通过标签获取文章列表",
         "operationId": "FindArticleClassifyTag",
         "responses": {
           "200": {
@@ -592,7 +592,7 @@
     },
     "/api/v1/article/find_article_home_list": {
       "post": {
-        "summary": "分页获取文章列表",
+        "summary": "获取首页文章列表",
         "operationId": "FindArticleHomeList",
         "responses": {
           "200": {
@@ -3232,7 +3232,7 @@
           }
         ],
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3330,7 +3330,7 @@
           }
         },
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3347,7 +3347,7 @@
           }
         },
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3364,7 +3364,7 @@
           }
         },
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3381,7 +3381,7 @@
           }
         },
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3408,7 +3408,7 @@
           }
         ],
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3435,7 +3435,7 @@
           }
         ],
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -3462,7 +3462,7 @@
           }
         ],
         "tags": [
-          "mine"
+          "account"
         ]
       }
     },
@@ -5163,7 +5163,8 @@
           "type": "string"
         },
         "order": {
-          "type": "string"
+          "type": "string",
+          "description": " asc | desc"
         }
       },
       "title": "PageSort"

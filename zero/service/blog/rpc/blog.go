@@ -111,8 +111,10 @@ func main() {
 	})
 	defer s.Stop()
 
-	s.AddUnaryInterceptors(interceptorx.ServerErrorInterceptor)
 	s.AddUnaryInterceptors(interceptorx.ServerMetaInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerErrorInterceptor)
+	s.AddUnaryInterceptors(interceptorx.ServerLogInterceptor)
+
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }

@@ -25,7 +25,7 @@ func NewCreatePhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *CreatePhotoAlbumLogic) CreatePhotoAlbum(reqCtx *types.RestHeader, req *types.PhotoAlbum) (resp *types.PhotoAlbum, err error) {
+func (l *CreatePhotoAlbumLogic) CreatePhotoAlbum(req *types.PhotoAlbum) (resp *types.PhotoAlbum, err error) {
 	in := convert.ConvertPhotoAlbumPb(req)
 	out, err := l.svcCtx.PhotoRpc.CreatePhotoAlbum(l.ctx, in)
 	if err != nil {

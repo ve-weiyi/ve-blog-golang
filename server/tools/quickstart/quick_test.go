@@ -82,7 +82,7 @@ func TestCodeStarter(t *testing.T) {
 			// 生成 gorm 标签的字段类型属性
 			FieldWithTypeTag: true, // generate with gorm column type tag
 			FieldJSONTagNS: func(column string) string {
-				return jsonconv.Camel2Case(column)
+				return jsonconv.Case2Snake(column)
 			},
 		},
 	}
@@ -142,7 +142,7 @@ func TestCodeStarter(t *testing.T) {
 }
 
 func TestVisitFile(t *testing.T) {
-	root := path.Join(files.GetRuntimeRoot(), "server/api", "model/entity")
+	root := path.Join(files.GetRuntimeRoot(), "../../api/blog", "controller")
 	err := filepath.Walk(root, visitFile)
 	t.Log(err)
 }
@@ -165,7 +165,7 @@ func visitFile(path string, info os.FileInfo, err error) error {
 		//}
 
 		// 添加前缀 "gen_" 到文件名
-		newName := strings.Replace(oldName, "ex_", "ex_", 1)
+		newName := strings.Replace(oldName, "bs_", "", 1)
 
 		// 修改文件名
 		err := os.Rename(path, filepath.Join(filepath.Dir(path), newName))

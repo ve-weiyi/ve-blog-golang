@@ -25,12 +25,12 @@ func NewDeleteOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 // 批量删除操作记录
 func (l *DeleteOperationLogListLogic) DeleteOperationLogList(in *blog.IdsReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.OperationLogModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.OperationLogModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result,
+		SuccessCount: rows,
 	}, nil
 }

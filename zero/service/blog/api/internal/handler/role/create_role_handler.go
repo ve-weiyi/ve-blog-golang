@@ -14,12 +14,6 @@ import (
 // 创建角色
 func CreateRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.Role
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func CreateRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := role.NewCreateRoleLogic(r.Context(), svcCtx)
-		resp, err := l.CreateRole(&reqCtx, &req)
+		resp, err := l.CreateRole(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

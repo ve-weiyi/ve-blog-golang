@@ -12,7 +12,7 @@ DevServer:
 # 日志配置
 Log:
   Mode: console
-  Encoding: plain
+  Encoding: json
   Path: runtime/api/logs
 # 文件上传配置
 UploadConfig:

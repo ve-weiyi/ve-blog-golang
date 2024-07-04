@@ -28,10 +28,10 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdatePageLogic) UpdatePage(in *blog.Page) (*blog.Page, error) {
 	entity := convert.ConvertPagePbToModel(in)
 
-	result, err := l.svcCtx.PageModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.PageModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPageModelToPb(result), nil
+	return convert.ConvertPageModelToPb(entity), nil
 }

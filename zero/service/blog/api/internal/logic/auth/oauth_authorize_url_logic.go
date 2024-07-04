@@ -25,7 +25,7 @@ func NewOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(reqCtx *types.RestHeader, req *types.OauthLoginReq) (resp *types.OauthLoginUrlResp, err error) {
+func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(req *types.OauthLoginReq) (resp *types.OauthLoginUrlResp, err error) {
 	in := &blog.OauthLoginReq{
 		Platform: req.Platform,
 		Code:     req.Code,

@@ -25,7 +25,7 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindPageListLogic) FindPageList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindPageListLogic) FindPageList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.PageRpc.FindPageList(l.ctx, in)
 	if err != nil {

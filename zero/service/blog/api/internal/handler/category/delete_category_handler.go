@@ -14,12 +14,6 @@ import (
 // 删除文章分类
 func DeleteCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func DeleteCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := category.NewDeleteCategoryLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteCategory(&reqCtx, &req)
+		resp, err := l.DeleteCategory(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

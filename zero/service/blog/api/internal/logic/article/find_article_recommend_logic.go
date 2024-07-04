@@ -28,7 +28,7 @@ func NewFindArticleRecommendLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindArticleRecommendLogic) FindArticleRecommend(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.ArticleRecommendResp, err error) {
+func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.IdReq) (resp *types.ArticleRecommendResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, in)

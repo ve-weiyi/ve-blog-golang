@@ -14,12 +14,6 @@ import (
 // 删除留言
 func DeleteRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func DeleteRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := remark.NewDeleteRemarkLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteRemark(&reqCtx, &req)
+		resp, err := l.DeleteRemark(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

@@ -26,10 +26,10 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 查找用户列表
-func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserInfoPageResp, error) {
-	limit, offset, sorts, conditions, params := convert.ParsePageQuery(in)
+func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp, error) {
+	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
-	result, err := l.svcCtx.UserAccountModel.FindList(l.ctx, limit, offset, sorts, conditions, params...)
+	result, err := l.svcCtx.UserAccountModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserInfoPage
 		list = append(list, convert.ConvertUserDetailsModelToPb(item, ui, roles))
 	}
 
-	resp := &blog.UserInfoPageResp{}
+	resp := &blog.UserPageResp{}
 	resp.Total = total
 	resp.List = list
 

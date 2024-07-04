@@ -26,10 +26,10 @@ func NewFindOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 查询操作记录
 func (l *FindOperationLogLogic) FindOperationLog(in *blog.IdReq) (*blog.OperationLog, error) {
-	result, err := l.svcCtx.OperationLogModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.OperationLogModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertOperationLogModelToPb(result), nil
+	return convert.ConvertOperationLogModelToPb(entity), nil
 }

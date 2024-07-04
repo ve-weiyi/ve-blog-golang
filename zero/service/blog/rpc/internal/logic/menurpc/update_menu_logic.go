@@ -28,10 +28,10 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateMenuLogic) UpdateMenu(in *blog.Menu) (*blog.Menu, error) {
 	entity := convert.ConvertMenuPbToModel(in)
 
-	result, err := l.svcCtx.MenuModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.MenuModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertMenuModelToPb(result), nil
+	return convert.ConvertMenuModelToPb(entity), nil
 }

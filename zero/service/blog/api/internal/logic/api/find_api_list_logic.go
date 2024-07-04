@@ -24,7 +24,7 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 	}
 }
 
-func (l *FindApiListLogic) FindApiList(reqCtx *types.RestHeader, req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindApiListLogic) FindApiList(req *types.PageQuery) (resp *types.PageResp, err error) {
 	in := convert.ConvertPageQuery(req)
 	out, err := l.svcCtx.ApiRpc.FindApiList(l.ctx, in)
 	if err != nil {

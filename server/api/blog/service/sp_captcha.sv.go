@@ -8,10 +8,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 type CaptchaService struct {
@@ -25,7 +24,7 @@ func NewCaptchaService(svcCtx *svc.ServiceContext) *CaptchaService {
 }
 
 // 发送验证码
-func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.CaptchaEmailReq) (result interface{}, err error) {
+func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *dto.CaptchaEmailReq) (result interface{}, err error) {
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Email)
 	if err != nil {
@@ -78,13 +77,13 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *request.
 }
 
 // 获取图片验证码
-func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.CaptchaReq) (resp *response.CaptchaDTO, err error) {
-	id, b64s, err := l.svcCtx.CaptchaHolder.GetImageCaptcha(req.CaptchaType, req.Height, req.Width, req.Length)
+func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *dto.CaptchaReq) (resp *dto.CaptchaDTO, err error) {
+	id, b64s, err := l.svcCtx.CaptchaHolder.GetImageCaptcha(req.CaptchaType, int(req.Height), int(req.Width), int(req.Length))
 	if err != nil {
 		return nil, err
 	}
 
-	resp = &response.CaptchaDTO{
+	resp = &dto.CaptchaDTO{
 		Id:         id,
 		EncodeData: b64s,
 		Length:     req.Length,
@@ -92,7 +91,7 @@ func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *request.C
 	return resp, nil
 }
 
-func (l *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *request.CaptchaVerifyReq) (resp interface{}, err error) {
+func (l *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *dto.CaptchaVerifyReq) (resp interface{}, err error) {
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(req.Id, req.Code) {
 		return nil, apierr.ErrorCaptchaVerify
 	}

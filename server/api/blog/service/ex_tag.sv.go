@@ -1,16 +1,17 @@
 package service
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 )
 
 // 分页获取Tag记录
-func (l *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TagDetailsDTO, total int64, err error) {
+func (l *TagService) FindTagDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.TagDetailsDTO, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	categories, err := l.svcCtx.TagRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	categories, err := l.svcCtx.TagRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -28,7 +29,7 @@ func (l *TagService) FindTagDetailsList(reqCtx *request.Context, page *request.P
 			return nil, 0, err
 		}
 
-		out := &response.TagDetailsDTO{
+		out := &dto.TagDetailsDTO{
 			Id:           in.Id,
 			TagName:      in.TagName,
 			ArticleCount: int64(len(articles)),

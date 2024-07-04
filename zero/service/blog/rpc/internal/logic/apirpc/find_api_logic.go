@@ -26,10 +26,10 @@ func NewFindApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindApiLo
 
 // 查询接口
 func (l *FindApiLogic) FindApi(in *blog.IdReq) (*blog.Api, error) {
-	result, err := l.svcCtx.ApiModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.ApiModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertApiModelToPb(result), nil
+	return convert.ConvertApiModelToPb(entity), nil
 }

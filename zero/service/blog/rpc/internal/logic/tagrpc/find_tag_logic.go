@@ -26,10 +26,10 @@ func NewFindTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTagLo
 
 // 查询标签
 func (l *FindTagLogic) FindTag(in *blog.IdReq) (*blog.Tag, error) {
-	result, err := l.svcCtx.TagModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TagModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTagModelToPb(result), nil
+	return convert.ConvertTagModelToPb(entity), nil
 }

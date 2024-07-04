@@ -14,12 +14,6 @@ import (
 // 批量删除相册
 func DeletePhotoAlbumListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func DeletePhotoAlbumListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := photo_album.NewDeletePhotoAlbumListLogic(r.Context(), svcCtx)
-		resp, err := l.DeletePhotoAlbumList(&reqCtx, &req)
+		resp, err := l.DeletePhotoAlbumList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

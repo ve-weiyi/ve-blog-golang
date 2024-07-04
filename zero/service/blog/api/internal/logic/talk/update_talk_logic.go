@@ -25,7 +25,7 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateTalkLogic) UpdateTalk(reqCtx *types.RestHeader, req *types.TalkDetails) (resp *types.TalkDetails, err error) {
+func (l *UpdateTalkLogic) UpdateTalk(req *types.TalkDetails) (resp *types.TalkDetails, err error) {
 	in := convert.ConvertTalkPb(req)
 
 	api, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)

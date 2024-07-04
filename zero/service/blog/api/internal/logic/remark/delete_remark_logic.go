@@ -25,7 +25,7 @@ func NewDeleteRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 	}
 }
 
-func (l *DeleteRemarkLogic) DeleteRemark(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeleteRemarkLogic) DeleteRemark(req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.RemarkRpc.DeleteRemark(l.ctx, in)

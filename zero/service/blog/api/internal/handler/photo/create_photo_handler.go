@@ -14,12 +14,6 @@ import (
 // 创建照片
 func CreatePhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.Photo
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func CreatePhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := photo.NewCreatePhotoLogic(r.Context(), svcCtx)
-		resp, err := l.CreatePhoto(&reqCtx, &req)
+		resp, err := l.CreatePhoto(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

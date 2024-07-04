@@ -27,7 +27,7 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 	}
 }
 
-func (l *GetAboutMeLogic) GetAboutMe(reqCtx *types.RestHeader, req *types.EmptyReq) (resp *types.AboutMe, err error) {
+func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, err error) {
 	in := &blog.FindConfigReq{
 		ConfigKey: "about_me",
 	}

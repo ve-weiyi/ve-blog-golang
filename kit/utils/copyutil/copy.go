@@ -105,7 +105,7 @@ func DeepCopyByJsonCamelOrCase(src, dst any, useCamel bool) error {
 		if tmp, err := jsoniter.Marshal(&src); err != nil {
 			return err
 		} else {
-			tmp = []byte(jsonconv.Camel2Case(string(tmp)))
+			tmp = []byte(jsonconv.Case2Snake(string(tmp)))
 			err = jsoniter.Unmarshal(tmp, dst)
 			return err
 		}

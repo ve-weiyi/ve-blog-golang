@@ -7,7 +7,7 @@ import (
 )
 
 // 点赞评论
-func (s *CommentRepository) LikeComment(ctx context.Context, uid int, commentId int) (data interface{}, err error) {
+func (s *CommentRepository) LikeComment(ctx context.Context, uid int64, commentId int64) (data interface{}, err error) {
 	// 用户点赞的评论列表
 	commentUserLikeKey := cache.WrapCacheKey(cache.CommentUserLike, uid)
 	// 当前评论的点赞量
@@ -30,7 +30,7 @@ func (s *CommentRepository) LikeComment(ctx context.Context, uid int, commentId 
 }
 
 // 获取用户点赞记录
-func (s *CommentRepository) FindUserLikeComment(ctx context.Context, uid int) (data []string, err error) {
+func (s *CommentRepository) FindUserLikeComment(ctx context.Context, uid int64) (data []string, err error) {
 	// 用户点赞的评论列表
 	commentUserLikeKey := cache.WrapCacheKey(cache.CommentUserLike, uid)
 	return s.Cache.SMembers(ctx, commentUserLikeKey).Result()

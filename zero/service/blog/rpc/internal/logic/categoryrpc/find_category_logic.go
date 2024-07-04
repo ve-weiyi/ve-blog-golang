@@ -26,10 +26,10 @@ func NewFindCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 查询文章分类
 func (l *FindCategoryLogic) FindCategory(in *blog.IdReq) (*blog.Category, error) {
-	result, err := l.svcCtx.CategoryModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.CategoryModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCategoryModelToPb(result), nil
+	return convert.ConvertCategoryModelToPb(entity), nil
 }

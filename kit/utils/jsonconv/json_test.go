@@ -14,13 +14,13 @@ func TestCamel2Case(t *testing.T) {
 	str := "link__intro"
 	log.Println("--->", str)
 
-	cases := Camel2Case(str)
+	cases := Case2Snake(str)
 	log.Println("--->", cases)
 
 	camel := Case2Camel(cases)
 	log.Println("--->", camel)
 
-	cases = Camel2Case(camel)
+	cases = Case2Snake(camel)
 	log.Println("--->", cases)
 }
 

@@ -25,17 +25,17 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 
 // 删除菜单
 func (l *DeleteMenuLogic) DeleteMenu(in *blog.IdReq) (*blog.BatchResp, error) {
-	result, err := l.svcCtx.MenuModel.Delete(l.ctx, in.Id)
+	rows, err := l.svcCtx.MenuModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	result2, err := l.svcCtx.MenuModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
+	rows2, err := l.svcCtx.MenuModel.DeleteBatch(l.ctx, "parent_id = ? ", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	return &blog.BatchResp{
-		SuccessCount: result + result2,
+		SuccessCount: rows + rows2,
 	}, nil
 }

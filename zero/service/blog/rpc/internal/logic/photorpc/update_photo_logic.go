@@ -28,10 +28,10 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 func (l *UpdatePhotoLogic) UpdatePhoto(in *blog.Photo) (*blog.Photo, error) {
 	entity := convert.ConvertPhotoPbToModel(in)
 
-	result, err := l.svcCtx.PhotoModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.PhotoModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoModelToPb(result), nil
+	return convert.ConvertPhotoModelToPb(entity), nil
 }

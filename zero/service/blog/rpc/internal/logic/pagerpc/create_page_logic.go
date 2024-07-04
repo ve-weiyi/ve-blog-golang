@@ -28,10 +28,10 @@ func NewCreatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 func (l *CreatePageLogic) CreatePage(in *blog.Page) (*blog.Page, error) {
 	entity := convert.ConvertPagePbToModel(in)
 
-	result, err := l.svcCtx.PageModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.PageModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPageModelToPb(result), nil
+	return convert.ConvertPageModelToPb(entity), nil
 }

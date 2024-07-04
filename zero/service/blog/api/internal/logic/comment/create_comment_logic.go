@@ -27,9 +27,10 @@ func NewCreateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 	}
 }
 
-func (l *CreateCommentLogic) CreateComment(reqCtx *types.RestHeader, req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
+func (l *CreateCommentLogic) CreateComment(req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
 	in := convert.ConvertCommentPb(req)
-	in.UserId = cast.ToInt64(reqCtx.HeaderXUserId)
+	// l.ctx.Value("uid")
+	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
 	out, err := l.svcCtx.CommentRpc.CreateComment(l.ctx, in)
 	if err != nil {
 		return nil, err

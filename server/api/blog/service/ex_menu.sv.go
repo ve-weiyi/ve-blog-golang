@@ -2,14 +2,14 @@ package service
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 // 分页获取Menu记录
-func (l *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.MenuDetailsDTO, total int64, err error) {
+func (l *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.MenuDetailsDTO, total int64, err error) {
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 	// 创建db
@@ -18,14 +18,14 @@ func (l *MenuService) FindMenuDetailsList(reqCtx *request.Context, page *request
 		return nil, 0, err
 	}
 	// to tree
-	var tree response.MenuDetailsDTO
+	var tree dto.MenuDetailsDTO
 	tree.Children = getMenuChildren(tree, menuList)
 
 	list = tree.Children
 	return list, int64(len(list)), nil
 }
 
-func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMenuReq) (data int64, err error) {
+func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *dto.SyncMenuReq) (data int64, err error) {
 
 	for _, item := range req.Menus {
 		// 已存在则跳过
@@ -40,7 +40,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 				Component: jsonconv.ObjectToJson(item.Component),
 				Redirect:  item.Redirect,
 				Type:      item.Type,
-				Meta:      jsonconv.ObjectToJson(item.Meta),
+				Extra:     jsonconv.ObjectToJson(item.Meta),
 			}
 			_, err = l.svcCtx.MenuRepository.Create(reqCtx, exist)
 			if err != nil {
@@ -55,7 +55,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 			menu, _ := l.svcCtx.MenuRepository.First(reqCtx, "path = ?", child.Path)
 			if menu == nil {
 				if child.Meta.Rank == 0 {
-					child.Meta.Rank = i
+					child.Meta.Rank = int64(i)
 				}
 
 				// 插入数据
@@ -67,7 +67,7 @@ func (l *MenuService) SyncMenuList(reqCtx *request.Context, req *request.SyncMen
 					Component: jsonconv.ObjectToJson(child.Component),
 					Redirect:  child.Redirect,
 					Type:      child.Type,
-					Meta:      jsonconv.ObjectToJson(child.Meta),
+					Extra:     jsonconv.ObjectToJson(child.Meta),
 				}
 				_, err = l.svcCtx.MenuRepository.Create(reqCtx, menu)
 				if err != nil {
@@ -87,7 +87,7 @@ func (l *MenuService) CleanMenuList(reqCtx *request.Context, req interface{}) (d
 	return l.svcCtx.MenuRepository.CleanMenus(reqCtx)
 }
 
-func getMenuChildren(root response.MenuDetailsDTO, list []*entity.Menu) (leafs []*response.MenuDetailsDTO) {
+func getMenuChildren(root dto.MenuDetailsDTO, list []*entity.Menu) (leafs []*dto.MenuDetailsDTO) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertMenu(item)

@@ -14,12 +14,6 @@ import (
 // 查询评论列表
 func FindCommentListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.CommentQueryReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindCommentListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := comment.NewFindCommentListLogic(r.Context(), svcCtx)
-		resp, err := l.FindCommentList(&reqCtx, &req)
+		resp, err := l.FindCommentList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

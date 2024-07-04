@@ -6,10 +6,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 )
 
 type RemarkService struct {
@@ -68,11 +69,12 @@ func (l *RemarkService) DeleteRemarkList(reqCtx *request.Context, req *request.I
 }
 
 // 分页获取Remark记录
-func (l *RemarkService) FindRemarkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Remark, total int64, err error) {
+func (l *RemarkService) FindRemarkList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.Remark, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = l.svcCtx.RemarkRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err = l.svcCtx.RemarkRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -28,10 +28,10 @@ func NewCreateChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *CreateChatRecordLogic) CreateChatRecord(in *blog.ChatRecord) (*blog.ChatRecord, error) {
 	entity := convert.ConvertChatRecordPbToModel(in)
 
-	result, err := l.svcCtx.ChatRecordModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.ChatRecordModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertChatRecordModelToPb(result), nil
+	return convert.ConvertChatRecordModelToPb(entity), nil
 }

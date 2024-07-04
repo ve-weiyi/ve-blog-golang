@@ -17,6 +17,19 @@ type (
 @server(
     prefix: /api/v1
     group: friend_link
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取友链列表"
+    @handler FindFriendLinkList
+    post /friend_link/find_friend_link_list (PageQuery) returns (PageResp)
+}
+
+@server(
+    prefix: /api/v1
+    group: friend_link
+    middleware: SignToken,JwtToken
 )
 
 service blog-api {
@@ -39,8 +52,4 @@ service blog-api {
     @doc "查询友链"
     @handler FindFriendLink
     post /friend_link/find_friend_link (IdReq) returns (FriendLink)
-
-    @doc "分页获取友链列表"
-    @handler FindFriendLinkList
-    post /friend_link/find_friend_link_list (PageQuery) returns (PageResp)
 }

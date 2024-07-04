@@ -1,9 +1,11 @@
 ### cobra使用
 
-1. 安装cobra
+https://github.com/spf13/cobra
+
+1. 安装cobra-cli
 
 ```shell
-go get -u github.com/spf13/cobra/cobra
+go install github.com/spf13/cobra-cli@latest
 ```
 
 2. 初始化项目

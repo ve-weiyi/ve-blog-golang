@@ -14,12 +14,6 @@ import (
 // 分页获取api路由列表
 func FindApiListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var reqCtx types.RestHeader
-		if err := httpx.ParseHeaders(r, &reqCtx); err != nil {
-			responsex.Response(r, w, nil, err)
-			return
-		}
-
 		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
@@ -27,7 +21,7 @@ func FindApiListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := api.NewFindApiListLogic(r.Context(), svcCtx)
-		resp, err := l.FindApiList(&reqCtx, &req)
+		resp, err := l.FindApiList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

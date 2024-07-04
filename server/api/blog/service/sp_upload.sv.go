@@ -12,10 +12,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/svc"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
 )
 
 type UploadService struct {
@@ -41,16 +42,16 @@ func (l *UploadService) UploadFile(reqCtx *request.Context, label string, file *
 		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: file.Filename,
-		FileSize: int(file.Size),
-		FileMd5:  crypto.MD5V([]byte(file.Filename)),
-		FileURL:  url,
+		FileSize: file.Size,
+		FileMd5:  crypto.Md5v(file.Filename, ""),
+		FileUrl:  url,
 	}
 
 	return l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }
 
 // 上传语言
-func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceVO, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
+func (l *UploadService) UploadVoice(reqCtx *request.Context, req *dto.VoiceVO, file *multipart.FileHeader) (data *entity.UploadRecord, err error) {
 	label := "voice"
 	filename := time.Now().Format("20060102150405") + ".mp3"
 
@@ -90,9 +91,9 @@ func (l *UploadService) UploadVoice(reqCtx *request.Context, req *request.VoiceV
 		UserId:   reqCtx.Uid,
 		Label:    label,
 		FileName: filename,
-		FileSize: int(file.Size),
-		FileMd5:  crypto.MD5V([]byte(filename)),
-		FileURL:  url,
+		FileSize: file.Size,
+		FileMd5:  crypto.Md5v(filename, ""),
+		FileUrl:  url,
 	}
 	return l.svcCtx.UploadRecordRepository.Create(reqCtx, up)
 }

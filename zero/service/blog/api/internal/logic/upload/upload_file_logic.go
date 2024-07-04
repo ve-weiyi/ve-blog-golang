@@ -32,22 +32,22 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 	}
 }
 
-func (l *UploadFileLogic) UploadFile(reqCtx *types.RestHeader, req *types.UploadFileReq, r *http.Request) (resp *types.UploadFileResp, err error) {
+func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) (resp *types.UploadFileResp, err error) {
 	f, h, _ := r.FormFile("file")
 	defer f.Close()
 
 	label := req.Label
-	up, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(reqCtx.HeaderXUserId), label), h)
+	up, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(l.ctx.Value("uid")), label), h)
 	if err != nil {
 		return nil, err
 	}
 
 	in := &blog.UploadRecordReq{
-		UserId:   cast.ToInt64(reqCtx.HeaderXUserId),
+		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Label:    label,
 		FileName: h.Filename,
 		FileSize: h.Size,
-		FileMd5:  crypto.MD5V([]byte(h.Filename)),
+		FileMd5:  crypto.Md5v(h.Filename, ""),
 		FileUrl:  up,
 	}
 

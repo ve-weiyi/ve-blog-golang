@@ -25,7 +25,7 @@ func NewDeletePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 	}
 }
 
-func (l *DeletePhotoLogic) DeletePhoto(reqCtx *types.RestHeader, req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletePhotoLogic) DeletePhoto(req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.PhotoRpc.DeletePhoto(l.ctx, in)
