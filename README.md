@@ -28,15 +28,17 @@ ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离
 
 博客后端服务使用golang语言。项目有两种框架：gin和go-zero
 
-+ server/[README.md](server/README.md) 使用[gin](https://github.com/gin-gonic/gin)框架开发。gin框架的优点是轻量、快速、易用，适合快速开发API接口，适用于golang后端初学者。
-+ zero/[README.md](server/README.md) 使用[go-zero](https://github.com/zeromicro/go-zero)框架开发。go-zero框架的优点是功能齐全，自带了多种中间价，适合大型项目和复杂业务的解耦。
++ server/[README.md](server/README.md) 使用[gin](https://github.com/gin-gonic/gin)
+  框架开发。gin框架的优点是轻量、快速、易用，适合快速开发API接口，适用于golang后端初学者。
++ zero/[README.md](server/README.md) 使用[go-zero](https://github.com/zeromicro/go-zero)
+  框架开发。go-zero框架的优点是功能齐全，自带了多种中间件，适合大型项目和复杂业务的解耦。
 
-1.主流框架，cobra、viper、gorm、zap。   
-2.主流中间件，nacos、mysql、redis、rabbitmq、chatgpt服务。    
-3.oauth第三方登录的解决方案，可以使用 飞书、QQ、微博、微信 快速登录。    
-4.jwt鉴权+RBAC权限管理，可以对用户和角色进行权限管理，可以对菜单页面和接口访问进行权限控制。
-5.提供了swagger接口文档，方便接口查看和测试。   
-6.提供了自动化代码生成工具，可以一键生成数据库表到[增删改查]接口。
+1.主流框架。cobra、viper、gorm、zap。   
+2.主流中间件。nacos、mysql、redis、rabbitmq、chatgpt服务。    
+3.第三方登录的解决方案。可以使用 飞书、QQ、微博、微信 快速登录。    
+4.jwt鉴权+RBAC权限管理。可以对用户和角色进行权限管理，可以对菜单页面和接口访问进行权限控制。
+5.提供了接口文档。通过导入swagger.json可以在apifox和postman查看和调试接口。   
+6.提供了自动化代=码生成工具。从数据库表一键生成业务代码。
 
 [博客展示前台项目地址](https://github.com/ve-weiyi/ve-blog-vite)
 
@@ -50,13 +52,12 @@ ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离
 
 ![img_1.png](images/img_1.png)
 
+## todo
+
+- [ ] 拆分rpc服务和api服务
+
 ## 版本发布记录
+
 **格式**
 
 主版本号.次版本号.修订号
-
-**说明**
-
-1. 主版本号：项目框架不变。
-2. 次版本号：相同次版本号，接口入参、出参不变。可以与相同次版本号的服务互相调用。
-3. 修订号：修改了一些文件内容，一般是移动、修改、删除文件等。

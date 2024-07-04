@@ -169,6 +169,9 @@ docker search nginx
 
 # 拉取镜像
 docker pull nginx:latest
+
+# 使用Dockerfile构建镜像
+docker build -t my-image .
 ```
 
 ## 参考文档
