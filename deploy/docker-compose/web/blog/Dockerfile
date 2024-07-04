@@ -1,11 +1,14 @@
 # 使用Node.js的最新官方镜像作为基础镜像，也可以固定版本
-FROM node:20-alpine as build-stage
+FROM node:latest
+
+# 设置当前阶段标签，当前阶段是用于构建 Golang 项目的
+LABEL stage=gobuilder
 
 # 设置新构建容器的工作目录
 WORKDIR /
 
 # 安装Git
-RUN yum  update && yum install -y git
+RUN apt-get update && apt-get install -y git
 
 # 下载项目
 RUN git init
@@ -26,10 +29,10 @@ RUN pnpm run build
 
 # 使用 Nginx 镜像作为运行时镜像
 
-FROM nginx:stable-alpine as production-stage
+FROM nginx:latest
 
 # 将 Vite 项目的 dist 目录复制到 Nginx 的默认静态文件目录
-COPY --from=build-stage /ve-blog-vite/blog /usr/share/nginx/html
+COPY --from=0 /ve-blog-vite/blog /usr/share/nginx/html/blog
 
 # 暴露容器的 80 端口
 EXPOSE 80

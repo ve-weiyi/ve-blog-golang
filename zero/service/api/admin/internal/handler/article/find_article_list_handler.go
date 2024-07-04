@@ -6,15 +6,15 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/logic/article"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/logic/article"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
-// 查询文章列表
+// 分页获取文章列表
 func FindArticleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ArticleQuery
+		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

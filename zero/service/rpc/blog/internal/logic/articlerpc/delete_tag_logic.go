@@ -1,10 +1,10 @@
-package articlerpclogic
+package tagrpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,11 +24,13 @@ func NewDeleteTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteT
 }
 
 // 删除标签
-func (l *DeleteTagLogic) DeleteTag(in *articlerpc.IdsReq) (*articlerpc.BatchResp, error) {
-	_, err := l.svcCtx.TTagModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+func (l *DeleteTagLogic) DeleteTag(in *blog.IdReq) (*blog.BatchResp, error) {
+	rows, err := l.svcCtx.TagModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &articlerpc.BatchResp{}, nil
+	return &blog.BatchResp{
+		SuccessCount: rows,
+	}, nil
 }

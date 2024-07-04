@@ -3,9 +3,8 @@ package commentrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,13 +24,13 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 // 删除评论
-func (l *DeleteCommentLogic) DeleteComment(in *commentrpc.IdsReq) (*commentrpc.BatchResp, error) {
-	rows, err := l.svcCtx.TCommentModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+func (l *DeleteCommentLogic) DeleteComment(in *blog.IdReq) (*blog.BatchResp, error) {
+	rows, err := l.svcCtx.CommentModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &commentrpc.BatchResp{
+	return &blog.BatchResp{
 		SuccessCount: rows,
 	}, nil
 }

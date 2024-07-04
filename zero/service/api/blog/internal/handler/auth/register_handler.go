@@ -6,15 +6,15 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/logic/auth"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/logic/auth"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 )
 
 // 注册
 func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.RegisterReq
+		var req types.LoginReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

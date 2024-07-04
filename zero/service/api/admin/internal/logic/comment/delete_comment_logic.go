@@ -3,9 +3,9 @@ package comment
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,17 +26,14 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeleteCommentLogic) DeleteComment(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &commentrpc.IdsReq{
-		Ids: []int64{req.Id},
-	}
+	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = &types.BatchResp{
+	return &types.BatchResp{
 		SuccessCount: out.SuccessCount,
-	}
-	return resp, nil
+	}, nil
 }

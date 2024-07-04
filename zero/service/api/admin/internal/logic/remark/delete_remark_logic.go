@@ -3,9 +3,9 @@ package remark
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/convert"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,17 +26,14 @@ func NewDeleteRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteRemarkLogic) DeleteRemark(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &remarkrpc.IdsReq{
-		Ids: []int64{req.Id},
-	}
+	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.RemarkRpc.DeleteRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = &types.BatchResp{
+	return &types.BatchResp{
 		SuccessCount: out.SuccessCount,
-	}
-	return resp, nil
+	}, nil
 }

@@ -3,8 +3,8 @@ package configrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -23,14 +23,13 @@ func NewFindConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCo
 	}
 }
 
-// 查询配置
-func (l *FindConfigLogic) FindConfig(in *configrpc.FindConfigReq) (*configrpc.FindConfigResp, error) {
-	entity, err := l.svcCtx.TWebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
+func (l *FindConfigLogic) FindConfig(in *blog.FindConfigReq) (*blog.FindConfigResp, error) {
+	entity, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
 	if err != nil {
 		return nil, err
 	}
 
-	return &configrpc.FindConfigResp{
+	return &blog.FindConfigResp{
 		ConfigValue: entity.Config,
 	}, nil
 }

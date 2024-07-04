@@ -3,10 +3,9 @@ package auth
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,13 +26,13 @@ func NewOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(req *types.OauthLoginReq) (resp *types.OauthLoginUrlResp, err error) {
-	in := &accountrpc.OauthLoginReq{
+	in := &blog.OauthLoginReq{
 		Platform: req.Platform,
 		Code:     req.Code,
 		State:    req.State,
 	}
 
-	out, err := l.svcCtx.AccountRpc.GetOauthAuthorizeUrl(l.ctx, in)
+	out, err := l.svcCtx.AuthRpc.GetOauthAuthorizeUrl(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

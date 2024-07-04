@@ -1,10 +1,10 @@
-package articlerpclogic
+package categoryrpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,11 +24,13 @@ func NewDeleteCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 // 删除文章分类
-func (l *DeleteCategoryLogic) DeleteCategory(in *articlerpc.IdsReq) (*articlerpc.BatchResp, error) {
-	_, err := l.svcCtx.TCategoryModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+func (l *DeleteCategoryLogic) DeleteCategory(in *blog.IdReq) (*blog.BatchResp, error) {
+	rows, err := l.svcCtx.CategoryModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &articlerpc.BatchResp{}, nil
+	return &blog.BatchResp{
+		SuccessCount: rows,
+	}, nil
 }
