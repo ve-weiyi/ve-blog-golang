@@ -63,7 +63,7 @@ type (
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建菜单"
     @handler CreateMenu
     post /menu/create_menu (MenuDetails) returns (MenuDetails)

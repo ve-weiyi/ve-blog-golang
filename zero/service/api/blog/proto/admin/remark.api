@@ -23,7 +23,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "分页获取留言列表"
     @handler FindRemarkList
     post /remark/find_remark_list (PageQuery) returns (PageResp)
@@ -36,7 +36,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建留言"
     @handler CreateRemark
     post /remark/create_remark (Remark) returns (Remark)

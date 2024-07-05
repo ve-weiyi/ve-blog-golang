@@ -22,7 +22,7 @@ type (
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "分页获取照片列表"
     @handler FindPhotoList
     post /photo/find_photo_list (PageQuery) returns (PageResp)
@@ -34,7 +34,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建照片"
     @handler CreatePhoto
     post /photo/create_photo (Photo) returns (Photo)

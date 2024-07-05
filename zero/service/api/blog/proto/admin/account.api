@@ -146,7 +146,7 @@ type (
     middleware: JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "查询用户列表"
     @handler FindUserList
     post /user/find_user_list (PageQuery) returns (PageResp)
@@ -174,7 +174,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "查询用户登录历史"
     @handler FindUserLoginHistoryList
     post /user/login_history (PageQuery) returns (PageResp)

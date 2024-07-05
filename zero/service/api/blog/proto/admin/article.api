@@ -117,7 +117,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "获取首页文章列表"
     @handler FindArticleHomeList
     post /article/find_article_home_list (PageQuery) returns (PageResp)
@@ -145,7 +145,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "导出文章"
     @handler ExportArticle
     post /admin/article/export_article (IdsReq) returns (EmptyResp)

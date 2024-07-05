@@ -29,7 +29,7 @@ type (
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建操作记录"
     @handler CreateOperationLog
     post /operation_log/create_operation_log (OperationLog) returns (OperationLog)

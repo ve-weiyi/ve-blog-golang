@@ -29,7 +29,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "上传文件"
     @handler UploadFile
     post /upload/upload_file (UploadFileReq) returns (UploadFileResp)

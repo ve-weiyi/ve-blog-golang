@@ -20,7 +20,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "分页获取友链列表"
     @handler FindFriendLinkList
     post /friend_link/find_friend_link_list (PageQuery) returns (PageResp)
@@ -32,7 +32,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建友链"
     @handler CreateFriendLink
     post /friend_link/create_friend_link (FriendLink) returns (FriendLink)

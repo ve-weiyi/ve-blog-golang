@@ -53,7 +53,7 @@ type (
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建角色"
     @handler CreateRole
     post /role/create_role (Role) returns (Role)

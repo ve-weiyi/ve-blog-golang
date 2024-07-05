@@ -23,7 +23,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "分页获取相册列表"
     @handler FindPhotoAlbumList
     post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
@@ -35,7 +35,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建相册"
     @handler CreatePhotoAlbum
     post /photo_album/create_photo_album (PhotoAlbum) returns (PhotoAlbum)

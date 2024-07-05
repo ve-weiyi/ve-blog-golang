@@ -4,11 +4,18 @@ package handler
 import (
 	"net/http"
 
+	account "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/account"
 	article "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/category"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/comment"
+	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/friend_link"
+	photo "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/photo"
+	photo_album "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/photo_album"
+	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/tag"
+	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/talk"
+	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -24,6 +31,33 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: PingHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Route{
+				{
+					// 获取用户信息
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_info",
+					Handler: account.GetUserInfoHandler(serverCtx),
+				},
+				{
+					// 更换用户头像
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_avatar",
+					Handler: account.UpdateUserAvatarHandler(serverCtx),
+				},
+				{
+					// 修改用户信息
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_info",
+					Handler: account.UpdateUserInfoHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithPrefix("/api/v1"),
 	)
 
@@ -212,10 +246,127 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
+					// 分页获取友链列表
+					Method:  http.MethodPost,
+					Path:    "/friend_link/find_friend_link_list",
+					Handler: friend_link.FindFriendLinkListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Route{
+				{
+					// 分页获取照片列表
+					Method:  http.MethodPost,
+					Path:    "/photo/find_photo_list",
+					Handler: photo.FindPhotoListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 分页获取相册列表
+					Method:  http.MethodPost,
+					Path:    "/photo_album/find_photo_album_list",
+					Handler: photo_album.FindPhotoAlbumListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 分页获取留言列表
+					Method:  http.MethodPost,
+					Path:    "/remark/find_remark_list",
+					Handler: remark.FindRemarkListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Route{
+				{
+					// 创建留言
+					Method:  http.MethodPost,
+					Path:    "/remark/create_remark",
+					Handler: remark.CreateRemarkHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
 					// 分页获取标签列表
 					Method:  http.MethodPost,
 					Path:    "/tag/find_tag_list",
 					Handler: tag.FindTagListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 分页获取说说列表
+					Method:  http.MethodPost,
+					Path:    "/talk/find_talk_list",
+					Handler: talk.FindTalkListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 获取博客前台首页信息
+					Method:  http.MethodGet,
+					Path:    "/blog",
+					Handler: website.GetBlogHomeInfoHandler(serverCtx),
+				},
+				{
+					// 获取关于我的信息
+					Method:  http.MethodGet,
+					Path:    "/blog/about_me",
+					Handler: website.GetAboutMeHandler(serverCtx),
+				},
+				{
+					// 获取网站配置
+					Method:  http.MethodGet,
+					Path:    "/blog/get_website_config",
+					Handler: website.GetWebsiteConfigHandler(serverCtx),
 				},
 			}...,
 		),
