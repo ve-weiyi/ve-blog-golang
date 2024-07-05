@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/client/authrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
 )
 
 type SsoMiddleware struct {

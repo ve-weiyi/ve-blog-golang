@@ -1,0 +1,6575 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/admin": {
+      "get": {
+        "summary": "获取后台首页信息",
+        "operationId": "GetAdminHomeInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AdminHomeInfo"
+            }
+          }
+        },
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/admin/about_me": {
+      "put": {
+        "summary": "更新关于我的信息",
+        "operationId": "UpdateAboutMe",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AboutMe"
+            }
+          }
+        ],
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/admin/article/delete_article": {
+      "post": {
+        "summary": "删除文章-物理删除",
+        "operationId": "DeleteArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/article/export_article": {
+      "post": {
+        "summary": "导出文章",
+        "operationId": "ExportArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/article/find_article": {
+      "post": {
+        "summary": "查询文章",
+        "operationId": "FindArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleHomeDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/article/find_article_list": {
+      "post": {
+        "summary": "获取后台文章列表",
+        "operationId": "FindArticleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/article/pre_delete_article": {
+      "post": {
+        "summary": "删除文章-逻辑删除",
+        "operationId": "PreDeleteArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticlePreDeleteReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/article/save_article": {
+      "post": {
+        "summary": "保存文章",
+        "operationId": "SaveArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "    Article {,        Id int64 `json:\"id,optional\"`                            id,        UserId int64 `json:\"user_id,optional\"`                   作者,        CategoryId int64 `json:\"category_id,optional\"`           文章分类,        ArticleCover string `json:\"article_cover,optional\"`      文章缩略图,        ArticleTitle string `json:\"article_title,optional\"`      标题,        ArticleContent string `json:\"article_content,optional\"`  内容,        Type int64 `json:\"type,optional\"`                        文章类型 1原创 2转载 3翻译,        OriginalUrl string `json:\"original_url,optional\"`        原文链接,        IsTop int64 `json:\"is_top,optional\"`                     是否置顶 0否 1是,        IsDelete int64 `json:\"is_delete,optional\"`               是否删除  0否 1是,        Status int64 `json:\"status,optional\"`                    状态值 1公开 2私密 3评论可见,        CreatedAt int64 `json:\"created_at,optional\"`             发表时间,        UpdatedAt int64 `json:\"updated_at,optional\"`             更新时间,    }, 新建文章",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/article/top_article": {
+      "post": {
+        "summary": "置顶文章",
+        "operationId": "TopArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleTopReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/admin/system_state": {
+      "get": {
+        "summary": "获取服务器信息",
+        "operationId": "GetSystemState",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/admin/update_website_config": {
+      "put": {
+        "summary": "更新网站配置",
+        "operationId": "UpdateWebsiteConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WebsiteConfig"
+            }
+          }
+        ],
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/api/clean_api_list": {
+      "post": {
+        "summary": "清空接口列表",
+        "operationId": "CleanApiList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/create_api": {
+      "post": {
+        "summary": "创建api路由",
+        "operationId": "CreateApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Api"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Api"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/delete_api": {
+      "delete": {
+        "summary": "删除api路由",
+        "operationId": "DeleteApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/delete_api_list": {
+      "delete": {
+        "summary": "批量删除api路由",
+        "operationId": "DeleteApiList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/find_api": {
+      "post": {
+        "summary": "查询api路由",
+        "operationId": "FindApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Api"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/find_api_list": {
+      "post": {
+        "summary": "分页获取api路由列表",
+        "operationId": "FindApiList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/sync_api_list": {
+      "post": {
+        "summary": "同步api列表",
+        "operationId": "SyncApiList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/update_api": {
+      "put": {
+        "summary": "更新api路由",
+        "operationId": "UpdateApi",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Api"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Api"
+            }
+          }
+        ],
+        "tags": [
+          "api"
+        ]
+      }
+    },
+    "/api/v1/api/v1/chat/records": {
+      "post": {
+        "summary": "查询聊天记录",
+        "operationId": "FindChatRecords",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "chat"
+        ]
+      }
+    },
+    "/api/v1/article/article_archives": {
+      "post": {
+        "summary": "文章归档(时间轴)",
+        "operationId": "FindArticleArchives",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/article_classify_category": {
+      "post": {
+        "summary": "通过分类获取文章列表",
+        "operationId": "FindArticleClassifyCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/article_classify_tag": {
+      "post": {
+        "summary": "通过标签获取文章列表",
+        "operationId": "FindArticleClassifyTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/find_article_home_list": {
+      "post": {
+        "summary": "获取首页文章列表",
+        "operationId": "FindArticleHomeList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/find_article_recommend": {
+      "post": {
+        "summary": "文章相关推荐",
+        "operationId": "FindArticleRecommend",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleRecommendResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/like_article": {
+      "post": {
+        "summary": "点赞文章",
+        "operationId": "LikeArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/blog": {
+      "get": {
+        "summary": "获取博客前台首页信息",
+        "operationId": "GetBlogHomeInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BlogHomeInfo"
+            }
+          }
+        },
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/blog/about_me": {
+      "get": {
+        "summary": "获取关于我的信息",
+        "operationId": "GetAboutMe",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AboutMe"
+            }
+          }
+        },
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/blog/get_website_config": {
+      "get": {
+        "summary": "获取网站配置",
+        "operationId": "GetWebsiteConfig",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/WebsiteConfig"
+            }
+          }
+        },
+        "tags": [
+          "website"
+        ]
+      }
+    },
+    "/api/v1/category/create_category": {
+      "post": {
+        "summary": "创建文章分类",
+        "operationId": "CreateCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/category/delete_category": {
+      "delete": {
+        "summary": "删除文章分类",
+        "operationId": "DeleteCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/category/delete_category_list": {
+      "delete": {
+        "summary": "批量删除文章分类",
+        "operationId": "DeleteCategoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/category/find_category": {
+      "post": {
+        "summary": "查询文章分类",
+        "operationId": "FindCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/category/find_category_list": {
+      "post": {
+        "summary": "分页获取文章分类列表",
+        "operationId": "FindCategoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/category/update_category": {
+      "put": {
+        "summary": "更新文章分类",
+        "operationId": "UpdateCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/comment/create_comment": {
+      "post": {
+        "summary": "创建评论",
+        "operationId": "CreateComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentNewReq"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 创建评论",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/delete_comment": {
+      "delete": {
+        "summary": "删除评论",
+        "operationId": "DeleteComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/delete_comment_list": {
+      "delete": {
+        "summary": "批量删除评论",
+        "operationId": "DeleteCommentList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/find_comment": {
+      "post": {
+        "summary": "查询评论",
+        "operationId": "FindComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/find_comment_back_list": {
+      "post": {
+        "summary": "查询评论列表(后台)",
+        "operationId": "FindCommentBackList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/find_comment_list": {
+      "post": {
+        "summary": "查询评论列表",
+        "operationId": "FindCommentList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/find_comment_reply_list": {
+      "post": {
+        "summary": "查询评论回复列表",
+        "operationId": "FindCommentReplyList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/like_comment": {
+      "post": {
+        "summary": "点赞评论",
+        "operationId": "LikeComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/update_comment": {
+      "put": {
+        "summary": "更新评论",
+        "operationId": "UpdateComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentNewReq"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 创建评论",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/friend_link/create_friend_link": {
+      "post": {
+        "summary": "创建友链",
+        "operationId": "CreateFriendLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FriendLink"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FriendLink"
+            }
+          }
+        ],
+        "tags": [
+          "friend_link"
+        ]
+      }
+    },
+    "/api/v1/friend_link/delete_friend_link": {
+      "delete": {
+        "summary": "删除友链",
+        "operationId": "DeleteFriendLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "friend_link"
+        ]
+      }
+    },
+    "/api/v1/friend_link/delete_friend_link_list": {
+      "delete": {
+        "summary": "批量删除友链",
+        "operationId": "DeleteFriendLinkList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "friend_link"
+        ]
+      }
+    },
+    "/api/v1/friend_link/find_friend_link": {
+      "post": {
+        "summary": "查询友链",
+        "operationId": "FindFriendLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FriendLink"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "friend_link"
+        ]
+      }
+    },
+    "/api/v1/friend_link/find_friend_link_list": {
+      "post": {
+        "summary": "分页获取友链列表",
+        "operationId": "FindFriendLinkList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "friend_link"
+        ]
+      }
+    },
+    "/api/v1/friend_link/update_friend_link": {
+      "put": {
+        "summary": "更新友链",
+        "operationId": "UpdateFriendLink",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FriendLink"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FriendLink"
+            }
+          }
+        ],
+        "tags": [
+          "friend_link"
+        ]
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "summary": "登录",
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/logoff": {
+      "post": {
+        "summary": "注销",
+        "operationId": "Logoff",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/logout": {
+      "post": {
+        "summary": "登出",
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/menu/clean_menu_list": {
+      "post": {
+        "summary": "清空菜单列表",
+        "operationId": "CleanMenuList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/create_menu": {
+      "post": {
+        "summary": "创建菜单",
+        "operationId": "CreateMenu",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MenuDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MenuDetails"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/delete_menu": {
+      "delete": {
+        "summary": "删除菜单",
+        "operationId": "DeleteMenu",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/delete_menu_list": {
+      "delete": {
+        "summary": "批量删除菜单",
+        "operationId": "DeleteMenuList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/find_menu": {
+      "post": {
+        "summary": "查询菜单",
+        "operationId": "FindMenu",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MenuDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/find_menu_list": {
+      "post": {
+        "summary": "分页获取菜单列表",
+        "operationId": "FindMenuList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/sync_menu_list": {
+      "post": {
+        "summary": "同步菜单列表",
+        "operationId": "SyncMenuList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SyncMenuReq"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/menu/update_menu": {
+      "put": {
+        "summary": "更新菜单",
+        "operationId": "UpdateMenu",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MenuDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MenuDetails"
+            }
+          }
+        ],
+        "tags": [
+          "menu"
+        ]
+      }
+    },
+    "/api/v1/oauth_authorize_url": {
+      "post": {
+        "summary": "第三方登录授权地址",
+        "operationId": "OauthAuthorizeUrl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OauthLoginUrlResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OauthLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/oauth_login": {
+      "post": {
+        "summary": "第三方登录",
+        "operationId": "OauthLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OauthLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/operation_log/create_operation_log": {
+      "post": {
+        "summary": "创建操作记录",
+        "operationId": "CreateOperationLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OperationLog"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OperationLog"
+            }
+          }
+        ],
+        "tags": [
+          "operation_log"
+        ]
+      }
+    },
+    "/api/v1/operation_log/delete_operation_log": {
+      "delete": {
+        "summary": "删除操作记录",
+        "operationId": "DeleteOperationLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "operation_log"
+        ]
+      }
+    },
+    "/api/v1/operation_log/delete_operation_log_list": {
+      "delete": {
+        "summary": "批量删除操作记录",
+        "operationId": "DeleteOperationLogList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "operation_log"
+        ]
+      }
+    },
+    "/api/v1/operation_log/find_operation_log": {
+      "post": {
+        "summary": "查询操作记录",
+        "operationId": "FindOperationLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OperationLog"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "operation_log"
+        ]
+      }
+    },
+    "/api/v1/operation_log/find_operation_log_list": {
+      "post": {
+        "summary": "分页获取操作记录列表",
+        "operationId": "FindOperationLogList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "operation_log"
+        ]
+      }
+    },
+    "/api/v1/operation_log/update_operation_log": {
+      "put": {
+        "summary": "更新操作记录",
+        "operationId": "UpdateOperationLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OperationLog"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OperationLog"
+            }
+          }
+        ],
+        "tags": [
+          "operation_log"
+        ]
+      }
+    },
+    "/api/v1/page/create_page": {
+      "post": {
+        "summary": "创建页面",
+        "operationId": "CreatePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/v1/page/delete_page": {
+      "delete": {
+        "summary": "删除页面",
+        "operationId": "DeletePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/v1/page/delete_page_list": {
+      "delete": {
+        "summary": "批量删除页面",
+        "operationId": "DeletePageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/v1/page/find_page": {
+      "post": {
+        "summary": "查询页面",
+        "operationId": "FindPage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/v1/page/find_page_list": {
+      "post": {
+        "summary": "分页获取页面列表",
+        "operationId": "FindPageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/v1/page/update_page": {
+      "put": {
+        "summary": "更新页面",
+        "operationId": "UpdatePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/v1/photo/create_photo": {
+      "post": {
+        "summary": "创建照片",
+        "operationId": "CreatePhoto",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Photo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Photo"
+            }
+          }
+        ],
+        "tags": [
+          "photo"
+        ]
+      }
+    },
+    "/api/v1/photo/delete_photo": {
+      "delete": {
+        "summary": "删除照片",
+        "operationId": "DeletePhoto",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "photo"
+        ]
+      }
+    },
+    "/api/v1/photo/delete_photo_list": {
+      "delete": {
+        "summary": "批量删除照片",
+        "operationId": "DeletePhotoList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "photo"
+        ]
+      }
+    },
+    "/api/v1/photo/find_photo": {
+      "post": {
+        "summary": "查询照片",
+        "operationId": "FindPhoto",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Photo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "photo"
+        ]
+      }
+    },
+    "/api/v1/photo/find_photo_list": {
+      "post": {
+        "summary": "分页获取照片列表",
+        "operationId": "FindPhotoList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "photo"
+        ]
+      }
+    },
+    "/api/v1/photo/update_photo": {
+      "put": {
+        "summary": "更新照片",
+        "operationId": "UpdatePhoto",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Photo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Photo"
+            }
+          }
+        ],
+        "tags": [
+          "photo"
+        ]
+      }
+    },
+    "/api/v1/photo_album/create_photo_album": {
+      "post": {
+        "summary": "创建相册",
+        "operationId": "CreatePhotoAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PhotoAlbum"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PhotoAlbum"
+            }
+          }
+        ],
+        "tags": [
+          "photo_album"
+        ]
+      }
+    },
+    "/api/v1/photo_album/delete_photo_album": {
+      "delete": {
+        "summary": "删除相册",
+        "operationId": "DeletePhotoAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "photo_album"
+        ]
+      }
+    },
+    "/api/v1/photo_album/delete_photo_album_list": {
+      "delete": {
+        "summary": "批量删除相册",
+        "operationId": "DeletePhotoAlbumList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "photo_album"
+        ]
+      }
+    },
+    "/api/v1/photo_album/find_photo_album": {
+      "post": {
+        "summary": "查询相册",
+        "operationId": "FindPhotoAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PhotoAlbum"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "photo_album"
+        ]
+      }
+    },
+    "/api/v1/photo_album/find_photo_album_list": {
+      "post": {
+        "summary": "分页获取相册列表",
+        "operationId": "FindPhotoAlbumList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "photo_album"
+        ]
+      }
+    },
+    "/api/v1/photo_album/update_photo_album": {
+      "put": {
+        "summary": "更新相册",
+        "operationId": "UpdatePhotoAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PhotoAlbum"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PhotoAlbum"
+            }
+          }
+        ],
+        "tags": [
+          "photo_album"
+        ]
+      }
+    },
+    "/api/v1/ping": {
+      "get": {
+        "summary": "ping",
+        "operationId": "Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PingResp"
+            }
+          }
+        },
+        "tags": [
+          "blog-api"
+        ]
+      }
+    },
+    "/api/v1/register": {
+      "post": {
+        "summary": "注册",
+        "operationId": "Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/remark/create_remark": {
+      "post": {
+        "summary": "创建留言",
+        "operationId": "CreateRemark",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
+          }
+        ],
+        "tags": [
+          "remark"
+        ]
+      }
+    },
+    "/api/v1/remark/delete_remark": {
+      "delete": {
+        "summary": "删除留言",
+        "operationId": "DeleteRemark",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "remark"
+        ]
+      }
+    },
+    "/api/v1/remark/delete_remark_list": {
+      "delete": {
+        "summary": "批量删除留言",
+        "operationId": "DeleteRemarkList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "remark"
+        ]
+      }
+    },
+    "/api/v1/remark/find_remark": {
+      "post": {
+        "summary": "查询留言",
+        "operationId": "FindRemark",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "remark"
+        ]
+      }
+    },
+    "/api/v1/remark/find_remark_list": {
+      "post": {
+        "summary": "分页获取留言列表",
+        "operationId": "FindRemarkList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "remark"
+        ]
+      }
+    },
+    "/api/v1/remark/update_remark": {
+      "put": {
+        "summary": "更新留言",
+        "operationId": "UpdateRemark",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Remark"
+            }
+          }
+        ],
+        "tags": [
+          "remark"
+        ]
+      }
+    },
+    "/api/v1/reset_password": {
+      "post": {
+        "summary": "重置密码",
+        "operationId": "ResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/role/create_role": {
+      "post": {
+        "summary": "创建角色",
+        "operationId": "CreateRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 角色",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/delete_role": {
+      "delete": {
+        "summary": "删除角色",
+        "operationId": "DeleteRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/delete_role_list": {
+      "delete": {
+        "summary": "批量删除角色",
+        "operationId": "DeleteRoleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/find_role": {
+      "post": {
+        "summary": "查询角色",
+        "operationId": "FindRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/find_role_list": {
+      "post": {
+        "summary": "分页获取角色列表",
+        "operationId": "FindRoleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/find_role_resources": {
+      "post": {
+        "summary": "获取角色资源列表",
+        "operationId": "FindRoleResources",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RoleResourcesResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/update_role": {
+      "put": {
+        "summary": "更新角色",
+        "operationId": "UpdateRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 角色",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Role"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/update_role_apis": {
+      "post": {
+        "summary": "更新角色接口权限",
+        "operationId": "UpdateRoleApis",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRoleApisReq"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/role/update_role_menus": {
+      "post": {
+        "summary": "更新角色菜单权限",
+        "operationId": "UpdateRoleMenus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRoleMenusReq"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ]
+      }
+    },
+    "/api/v1/send_forget_email": {
+      "post": {
+        "summary": "发送忘记密码邮件",
+        "operationId": "SendForgetEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/send_register_email": {
+      "post": {
+        "summary": "发送注册账号邮件",
+        "operationId": "SendRegisterEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/tag/create_tag": {
+      "post": {
+        "summary": "创建标签",
+        "operationId": "CreateTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Tag"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tag"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/api/v1/tag/delete_tag": {
+      "delete": {
+        "summary": "删除标签",
+        "operationId": "DeleteTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/api/v1/tag/delete_tag_list": {
+      "delete": {
+        "summary": "批量删除标签",
+        "operationId": "DeleteTagList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/api/v1/tag/find_tag": {
+      "post": {
+        "summary": "查询标签",
+        "operationId": "FindTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Tag"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/api/v1/tag/find_tag_list": {
+      "post": {
+        "summary": "分页获取标签列表",
+        "operationId": "FindTagList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/api/v1/tag/update_tag": {
+      "put": {
+        "summary": "更新标签",
+        "operationId": "UpdateTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Tag"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tag"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/api/v1/talk/create_talk": {
+      "post": {
+        "summary": "创建说说",
+        "operationId": "CreateTalk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/TalkDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TalkDetails"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/talk/delete_talk": {
+      "delete": {
+        "summary": "删除说说",
+        "operationId": "DeleteTalk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/talk/delete_talk_list": {
+      "delete": {
+        "summary": "批量删除说说",
+        "operationId": "DeleteTalkList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/talk/find_talk": {
+      "post": {
+        "summary": "查询说说",
+        "operationId": "FindTalk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/TalkDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/talk/find_talk_list": {
+      "post": {
+        "summary": "分页获取说说列表",
+        "operationId": "FindTalkList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/talk/like_talk": {
+      "put": {
+        "summary": "点赞说说",
+        "operationId": "LikeTalk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/talk/update_talk": {
+      "put": {
+        "summary": "更新说说",
+        "operationId": "UpdateTalk",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/TalkDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TalkDetails"
+            }
+          }
+        ],
+        "tags": [
+          "talk"
+        ]
+      }
+    },
+    "/api/v1/upload/upload_file": {
+      "post": {
+        "summary": "上传文件",
+        "operationId": "UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UploadFileResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "upload"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/user/delete_login_history_list": {
+      "delete": {
+        "summary": "批量删除登录历史",
+        "operationId": "DeleteUserLoginHistoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/find_online_user_list": {
+      "post": {
+        "summary": "查询在线用户列表",
+        "operationId": "FindOnlineUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/find_user_areas": {
+      "post": {
+        "summary": "获取用户分布地区",
+        "operationId": "FindUserAreas",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/find_user_list": {
+      "post": {
+        "summary": "查询用户列表",
+        "operationId": "FindUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/get_user_apis": {
+      "get": {
+        "summary": "获取用户接口权限",
+        "operationId": "GetUserApis",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserApisResp"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/get_user_info": {
+      "get": {
+        "summary": "获取用户信息",
+        "operationId": "GetUserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserInfoResp"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/get_user_menus": {
+      "get": {
+        "summary": "获取用户菜单权限",
+        "operationId": "GetUserMenus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserMenusResp"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/get_user_roles": {
+      "get": {
+        "summary": "获取用户角色",
+        "operationId": "GetUserRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserRolesResp"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/login_history": {
+      "post": {
+        "summary": "查询用户登录历史",
+        "operationId": "FindUserLoginHistoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/update_user_avatar": {
+      "post": {
+        "summary": "更换用户头像",
+        "operationId": "UpdateUserAvatar",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/update_user_info": {
+      "post": {
+        "summary": "修改用户信息",
+        "operationId": "UpdateUserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInfoReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/update_user_roles": {
+      "post": {
+        "summary": "修改用户角色",
+        "operationId": "UpdateUserRoles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserRolesReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/user/update_user_status": {
+      "post": {
+        "summary": "修改用户状态",
+        "operationId": "UpdateUserStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserStatusReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/api/v1/ws": {
+      "get": {
+        "summary": "WebSocket消息",
+        "operationId": "WebSocket",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "tags": [
+          "websocket"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AboutMe": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        }
+      },
+      "title": "AboutMe"
+    },
+    "AdminHomeInfo": {
+      "type": "object",
+      "properties": {
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 访问量"
+        },
+        "message_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 留言量"
+        },
+        "user_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户量"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章量"
+        },
+        "category_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoryDTO"
+          },
+          "description": " 分类列表"
+        },
+        "tag_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TagDTO"
+          },
+          "description": " 标签列表"
+        },
+        "article_view_rank_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticleViewRankDTO"
+          },
+          "description": " 文章浏览量排行"
+        },
+        "article_statistics_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticleStatisticsDTO"
+          },
+          "description": " 每日文章生产量"
+        },
+        "unique_view_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UniqueViewDTO"
+          },
+          "description": " 每日用户访问量"
+        }
+      },
+      "title": "AdminHomeInfo"
+    },
+    "Api": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "name": {
+          "type": "string",
+          "description": " api名称"
+        },
+        "path": {
+          "type": "string",
+          "description": " api路径"
+        },
+        "method": {
+          "type": "string",
+          "description": " api请求方法"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
+        },
+        "traceable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否追溯操作记录 0需要，1是"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态 1开，2关"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Api"
+    },
+    "ApiDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "name": {
+          "type": "string",
+          "description": " api名称"
+        },
+        "path": {
+          "type": "string",
+          "description": " api路径"
+        },
+        "method": {
+          "type": "string",
+          "description": " api请求方法"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
+        },
+        "traceable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否追溯操作记录 0需要，1是"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态 1开，2关"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApiDetails"
+          }
+        }
+      },
+      "title": "ApiDetails"
+    },
+    "ArticleBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "article_content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章类型"
+        },
+        "original_url": {
+          "type": "string",
+          "description": " 原文链接"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1 公开 2 私密 3 评论可见"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发表时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 文章分类名"
+        },
+        "tag_name_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文章标签列表"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        }
+      },
+      "title": "ArticleBackDTO"
+    },
+    "ArticleClassifyReq": {
+      "type": "object",
+      "properties": {
+        "classify_name": {
+          "type": "string",
+          "description": " 分类名"
+        }
+      },
+      "title": "ArticleClassifyReq"
+    },
+    "ArticleClassifyResp": {
+      "type": "object",
+      "properties": {
+        "article_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticlePreviewDTO"
+          },
+          "description": " 文章列表"
+        },
+        "condition_name": {
+          "type": "string",
+          "description": " 条件名"
+        }
+      },
+      "title": "ArticleClassifyResp"
+    },
+    "ArticleHomeDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "article_content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章类型"
+        },
+        "original_url": {
+          "type": "string",
+          "description": " 原文链接"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1 公开 2 私密 3 评论可见"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发表时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 文章分类名"
+        },
+        "tag_name_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文章标签列表"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        }
+      },
+      "title": "ArticleHomeDTO"
+    },
+    "ArticleNewReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 作者"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章分类"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "article_content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章类型 1原创 2转载 3翻译"
+        },
+        "original_url": {
+          "type": "string",
+          "description": " 原文链接"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶 0否 1是"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除  0否 1是"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1公开 2私密 3评论可见"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发表时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 文章分类名"
+        },
+        "tag_name_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文章标签列表"
+        }
+      },
+      "title": "ArticleNewReq"
+    },
+    "ArticlePreDeleteReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
+        }
+      },
+      "title": "ArticlePreDeleteReq"
+    },
+    "ArticlePreviewDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        }
+      },
+      "title": "ArticlePreviewDTO"
+    },
+    "ArticleRecommendResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "article_content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章类型"
+        },
+        "original_url": {
+          "type": "string",
+          "description": " 原文链接"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1 公开 2 私密 3 评论可见"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发表时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 文章分类名"
+        },
+        "tag_name_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文章标签列表"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        },
+        "last_article": {
+          "$ref": "#/definitions/ArticlePreviewDTO",
+          "description": " 上一篇文章"
+        },
+        "next_article": {
+          "$ref": "#/definitions/ArticlePreviewDTO",
+          "description": " 下一篇文章"
+        },
+        "recommend_article_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticlePreviewDTO"
+          },
+          "description": " 推荐文章列表"
+        },
+        "newest_article_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticlePreviewDTO"
+          },
+          "description": " 最新文章列表"
+        }
+      },
+      "title": "ArticleRecommendResp"
+    },
+    "ArticleStatisticsDTO": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": " 日期"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 数量"
+        }
+      },
+      "title": "ArticleStatisticsDTO"
+    },
+    "ArticleTopReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        }
+      },
+      "title": "ArticleTopReq"
+    },
+    "ArticleViewRankDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 文章标题"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 数量"
+        }
+      },
+      "title": "ArticleViewRankDTO"
+    },
+    "BatchResp": {
+      "type": "object",
+      "properties": {
+        "success_count": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BatchResp",
+      "required": [
+        "success_count"
+      ]
+    },
+    "BlogHomeInfo": {
+      "type": "object",
+      "properties": {
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
+        },
+        "category_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分类数量"
+        },
+        "tag_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 标签数量"
+        },
+        "views_count": {
+          "type": "string",
+          "description": " 访问量"
+        },
+        "website_config": {
+          "$ref": "#/definitions/WebsiteConfig",
+          "description": " 网站配置"
+        },
+        "page_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageDTO"
+          },
+          "description": " 页面列表"
+        }
+      },
+      "title": "BlogHomeInfo"
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 分类名"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Category"
+    },
+    "CategoryDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 分类名"
+        }
+      },
+      "title": "CategoryDTO"
+    },
+    "CategoryDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 分类名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "CategoryDetails"
+    },
+    "ChatRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "content": {
+          "type": "string",
+          "description": " 聊天内容"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " ip地址"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip来源"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 类型"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "ChatRecord"
+    },
+    "ChatSocketMsg": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
+        },
+        "content": {
+          "type": "string",
+          "description": " 消息内容"
+        }
+      },
+      "title": "ChatSocketMsg",
+      "required": [
+        "type",
+        "content"
+      ]
+    },
+    "CommentBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "topic_title": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "comment_content": {
+          "type": "string"
+        },
+        "is_review": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentBackDTO"
+    },
+    "CommentDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论id"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 会话id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "website": {
+          "type": "string",
+          "description": " 用户网站"
+        },
+        "reply_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 被回复用户id"
+        },
+        "reply_nickname": {
+          "type": "string",
+          "description": " 被回复用户昵称"
+        },
+        "reply_avatar": {
+          "type": "string",
+          "description": " 被回复用户头像"
+        },
+        "reply_website": {
+          "type": "string",
+          "description": " 被回复用户网站"
+        },
+        "comment_content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论时间"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞数"
+        },
+        "reply_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 回复量"
+        },
+        "comment_reply_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommentReply"
+          },
+          "description": " 评论回复列表"
+        }
+      },
+      "title": "CommentDTO"
+    },
+    "CommentNewReq": {
+      "type": "object",
+      "properties": {
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 会话id"
+        },
+        "reply_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 回复用户id"
+        },
+        "comment_content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        }
+      },
+      "title": "CommentNewReq"
+    },
+    "CommentQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        },
+        "order_by": {
+          "type": "string",
+          "description": " 排序字段 create_at|like_count"
+        }
+      },
+      "title": "CommentQueryReq"
+    },
+    "CommentReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论id"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 会话id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "website": {
+          "type": "string",
+          "description": " 用户网站"
+        },
+        "reply_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 被回复用户id"
+        },
+        "reply_nickname": {
+          "type": "string",
+          "description": " 被回复用户昵称"
+        },
+        "reply_avatar": {
+          "type": "string",
+          "description": " 被回复用户头像"
+        },
+        "reply_website": {
+          "type": "string",
+          "description": " 被回复用户网站"
+        },
+        "comment_content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论时间"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞数"
+        }
+      },
+      "title": "CommentReply"
+    },
+    "CommentUserInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        }
+      },
+      "title": "CommentUserInfo"
+    },
+    "EmptyReq": {
+      "type": "object",
+      "title": "EmptyReq"
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "FriendLink": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "link_name": {
+          "type": "string",
+          "description": " 链接名"
+        },
+        "link_avatar": {
+          "type": "string",
+          "description": " 链接头像"
+        },
+        "link_address": {
+          "type": "string",
+          "description": " 链接地址"
+        },
+        "link_intro": {
+          "type": "string",
+          "description": " 链接介绍"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "FriendLink"
+    },
+    "IdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "IdsReq": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "IdsReq",
+      "required": [
+        "ids"
+      ]
+    },
+    "LoginHistory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "login_type": {
+          "type": "string",
+          "description": " 登录类型"
+        },
+        "agent": {
+          "type": "string",
+          "description": " 代理"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " ip host"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip 源"
+        },
+        "login_time": {
+          "type": "string",
+          "description": " 创建时间"
+        }
+      },
+      "title": "LoginHistory"
+    },
+    "LoginReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "LoginReq",
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "LoginResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "$ref": "#/definitions/Token"
+        },
+        "user_info": {
+          "$ref": "#/definitions/UserInfo"
+        }
+      },
+      "title": "LoginResp"
+    },
+    "MenuDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父id"
+        },
+        "title": {
+          "type": "string",
+          "description": " 菜单标题"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）"
+        },
+        "path": {
+          "type": "string",
+          "description": " 路由地址"
+        },
+        "name": {
+          "type": "string",
+          "description": " 路由名字"
+        },
+        "component": {
+          "type": "string",
+          "description": " Layout组件"
+        },
+        "redirect": {
+          "type": "string",
+          "description": " 路由重定向"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta",
+          "description": " meta配置"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuDetails"
+          }
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "MenuDetails"
+    },
+    "Meta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": " 菜单名称"
+        },
+        "icon": {
+          "type": "string",
+          "description": " 菜单图标"
+        },
+        "show_link": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否在菜单中显示"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单升序排序"
+        },
+        "extra_icon": {
+          "type": "string",
+          "description": " 菜单名称右侧的额外图标"
+        },
+        "show_parent": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否显示父级菜单"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 页面级别权限设置"
+        },
+        "auths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 按钮级别权限设置"
+        },
+        "keep_alive": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 路由组件缓存"
+        },
+        "frame_src": {
+          "type": "string",
+          "description": " 内嵌的iframe链接"
+        },
+        "frame_loading": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " iframe页是否开启首次加载动画"
+        },
+        "transition": {
+          "$ref": "#/definitions/Transition",
+          "description": " 页面加载动画"
+        },
+        "hidden_tag": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否不添加信息到标签页"
+        },
+        "dynamic_level": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 动态路由可打开的最大数量"
+        },
+        "active_path": {
+          "type": "string",
+          "description": " 将某个菜单激活"
+        }
+      },
+      "title": "Meta"
+    },
+    "OauthLoginReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": " 平台"
+        },
+        "code": {
+          "type": "string",
+          "description": " 授权码"
+        },
+        "state": {
+          "type": "string",
+          "description": " 状态"
+        }
+      },
+      "title": "OauthLoginReq",
+      "required": [
+        "platform"
+      ]
+    },
+    "OauthLoginUrlResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": " 授权地址"
+        }
+      },
+      "title": "OauthLoginUrlResp",
+      "required": [
+        "url"
+      ]
+    },
+    "OperationLog": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " 操作ip"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " 操作地址"
+        },
+        "opt_module": {
+          "type": "string",
+          "description": " 操作模块"
+        },
+        "opt_desc": {
+          "type": "string",
+          "description": " 操作描述"
+        },
+        "request_url": {
+          "type": "string",
+          "description": " 请求地址"
+        },
+        "request_method": {
+          "type": "string",
+          "description": " 请求方式"
+        },
+        "request_header": {
+          "type": "string",
+          "description": " 请求头参数"
+        },
+        "request_data": {
+          "type": "string",
+          "description": " 请求参数"
+        },
+        "response_data": {
+          "type": "string",
+          "description": " 返回数据"
+        },
+        "response_status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 响应状态码"
+        },
+        "cost": {
+          "type": "string",
+          "description": " 耗时（ms）"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "OperationLog"
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页面id"
+        },
+        "page_name": {
+          "type": "string",
+          "description": " 页面名"
+        },
+        "page_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "page_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Page"
+    },
+    "PageCondition": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": " 字段"
+        },
+        "value": {
+          "type": "string",
+          "description": " 值"
+        },
+        "logic": {
+          "type": "string",
+          "description": " and | or"
+        },
+        "operator": {
+          "type": "string",
+          "description": " = | \u003e= | \u003c | in | not in |...."
+        }
+      },
+      "title": "PageCondition"
+    },
+    "PageDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页面ID"
+        },
+        "page_name": {
+          "type": "string",
+          "description": " 页面名称"
+        },
+        "page_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "page_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        }
+      },
+      "title": "PageDTO"
+    },
+    "PageLimit": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PageLimit"
+    },
+    "PageQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageSort"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageCondition"
+          }
+        }
+      },
+      "title": "PageQuery"
+    },
+    "PageResp": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "list": {
+          "type": "object"
+        }
+      },
+      "title": "PageResp",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ]
+    },
+    "PageSort": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "order": {
+          "type": "string",
+          "description": " asc | desc"
+        }
+      },
+      "title": "PageSort"
+    },
+    "Photo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "album_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 相册id"
+        },
+        "photo_name": {
+          "type": "string",
+          "description": " 照片名"
+        },
+        "photo_desc": {
+          "type": "string",
+          "description": " 照片描述"
+        },
+        "photo_src": {
+          "type": "string",
+          "description": " 照片地址"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Photo"
+    },
+    "PhotoAlbum": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "album_name": {
+          "type": "string",
+          "description": " 相册名"
+        },
+        "album_desc": {
+          "type": "string",
+          "description": " 相册描述"
+        },
+        "album_cover": {
+          "type": "string",
+          "description": " 相册封面"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1公开 2私密"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "photo_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 照片数量"
+        }
+      },
+      "title": "PhotoAlbum"
+    },
+    "PingReq": {
+      "type": "object",
+      "title": "PingReq"
+    },
+    "PingResp": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rpc_status": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "PingResp",
+      "required": [
+        "env",
+        "name",
+        "version",
+        "runtime",
+        "description",
+        "rpc_status"
+      ]
+    },
+    "Remark": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "message_content": {
+          "type": "string",
+          "description": " 留言内容"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " 用户ip"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " 用户地址"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 弹幕速度"
+        },
+        "is_review": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否审核"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发布时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Remark"
+    },
+    "ResetPasswordReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "ResetPasswordReq",
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "trace_id": {
+          "type": "string"
+        }
+      },
+      "title": "Response",
+      "required": [
+        "code",
+        "message",
+        "data",
+        "trace_id"
+      ]
+    },
+    "RestHeader": {
+      "type": "object",
+      "title": "RestHeader"
+    },
+    "Role": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "role_pid": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父角色id"
+        },
+        "role_domain": {
+          "type": "string",
+          "description": " 角色域"
+        },
+        "role_name": {
+          "type": "string",
+          "description": " 角色名"
+        },
+        "role_comment": {
+          "type": "string",
+          "description": " 角色备注"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用  0否 1是"
+        },
+        "is_default": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否默认角色 0否 1是"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Role"
+    },
+    "RoleDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "role_pid": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父角色id"
+        },
+        "role_domain": {
+          "type": "string",
+          "description": " 角色域"
+        },
+        "role_name": {
+          "type": "string",
+          "description": " 角色名"
+        },
+        "role_comment": {
+          "type": "string",
+          "description": " 角色备注"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用  0否 1是"
+        },
+        "is_default": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否默认角色 0否 1是"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "menu_id_list": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "resource_id_list": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "RoleDetails"
+    },
+    "RoleLabel": {
+      "type": "object",
+      "properties": {
+        "role_name": {
+          "type": "string"
+        },
+        "role_comment": {
+          "type": "string"
+        }
+      },
+      "title": "RoleLabel"
+    },
+    "RoleResourcesResp": {
+      "type": "object",
+      "properties": {
+        "role_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "api_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "menu_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "RoleResourcesResp"
+    },
+    "RouteConfigsTable": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）"
+        },
+        "path": {
+          "type": "string",
+          "description": " 路由地址"
+        },
+        "name": {
+          "type": "string",
+          "description": " 路由名字"
+        },
+        "component": {
+          "type": "string",
+          "description": " Layout组件"
+        },
+        "redirect": {
+          "type": "string",
+          "description": " 路由重定向"
+        },
+        "meta": {
+          "$ref": "#/definitions/Meta",
+          "description": " meta配置"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RouteConfigsTable"
+          },
+          "description": " 子路由配置项"
+        }
+      },
+      "title": "RouteConfigsTable"
+    },
+    "SyncMenuReq": {
+      "type": "object",
+      "properties": {
+        "menus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RouteConfigsTable"
+          }
+        }
+      },
+      "title": "SyncMenuReq"
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "tag_name": {
+          "type": "string",
+          "description": " 标签名"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Tag"
+    },
+    "TagDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 标签ID"
+        },
+        "tag_name": {
+          "type": "string",
+          "description": " 标签名"
+        }
+      },
+      "title": "TagDTO"
+    },
+    "TagDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 标签ID"
+        },
+        "tag_name": {
+          "type": "string",
+          "description": " 标签名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "TagDetails"
+    },
+    "TalkDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 说说ID"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "img_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 图片URL列表"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态 1.公开 2.私密"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "comment_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论量"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "TalkDetails"
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "token_type": {
+          "type": "string",
+          "description": " token类型,Bearer"
+        },
+        "access_token": {
+          "type": "string",
+          "description": " 访问token,过期时间较短。2h"
+        },
+        "expires_in": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 访问token过期时间"
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": " 刷新token,过期时间较长。30d"
+        },
+        "refresh_expires_in": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 刷新token过期时间"
+        },
+        "scope": {
+          "type": "string",
+          "description": " 作用域"
+        }
+      },
+      "title": "Token"
+    },
+    "Transition": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 当前路由动画效果"
+        },
+        "enter_transition": {
+          "type": "string",
+          "description": " 进场动画"
+        },
+        "leave_transition": {
+          "type": "string",
+          "description": " 离场动画"
+        }
+      },
+      "title": "Transition"
+    },
+    "UniqueViewDTO": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": " 日期"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 数量"
+        }
+      },
+      "title": "UniqueViewDTO"
+    },
+    "UpdateRoleApisReq": {
+      "type": "object",
+      "properties": {
+        "role_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "api_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UpdateRoleApisReq"
+    },
+    "UpdateRoleMenusReq": {
+      "type": "object",
+      "properties": {
+        "role_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "menu_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UpdateRoleMenusReq"
+    },
+    "UpdateUserRolesReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UpdateUserRolesReq"
+    },
+    "UpdateUserStatusReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态: -1删除 0正常 1禁用"
+        }
+      },
+      "title": "UpdateUserStatusReq"
+    },
+    "UploadFileReq": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "file": {
+          "type": "object",
+          "description": " 文件"
+        },
+        "file_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件大小"
+        },
+        "file_md5": {
+          "type": "string",
+          "description": " 文件md5值"
+        }
+      },
+      "title": "UploadFileReq"
+    },
+    "UploadFileResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "label": {
+          "type": "string",
+          "description": " 标签"
+        },
+        "file_name": {
+          "type": "string",
+          "description": " 文件名称"
+        },
+        "file_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件大小"
+        },
+        "file_md5": {
+          "type": "string",
+          "description": " 文件md5值"
+        },
+        "file_url": {
+          "type": "string",
+          "description": " 上传路径"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "UploadFileResp",
+      "required": [
+        "id",
+        "user_id",
+        "label",
+        "file_name",
+        "file_size",
+        "file_md5",
+        "file_url",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "intro": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "register_type": {
+          "type": "string"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " ip host"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip 源"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleLabel"
+          }
+        }
+      },
+      "title": "User",
+      "required": [
+        "username"
+      ]
+    },
+    "UserApi": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "name": {
+          "type": "string",
+          "description": " api名称"
+        },
+        "path": {
+          "type": "string",
+          "description": " api路径"
+        },
+        "method": {
+          "type": "string",
+          "description": " api请求方法"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
+        },
+        "traceable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否追溯操作记录 0需要，1是"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态 1开，2关"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserApi"
+          }
+        }
+      },
+      "title": "UserApi"
+    },
+    "UserApisResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserApi"
+          }
+        }
+      },
+      "title": "UserApisResp"
+    },
+    "UserArea": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UserArea"
+    },
+    "UserEmailReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "UserEmailReq",
+      "required": [
+        "username"
+      ]
+    },
+    "UserInfo": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "username": {
+          "type": "string",
+          "description": " 用户名"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "intro": {
+          "type": "string",
+          "description": " 个人简介"
+        },
+        "website": {
+          "type": "string",
+          "description": " 个人网站"
+        },
+        "email": {
+          "type": "string",
+          "description": " 邮箱"
+        }
+      },
+      "title": "UserInfo",
+      "required": [
+        "username"
+      ]
+    },
+    "UserInfoReq": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "website": {
+          "type": "string",
+          "description": " 网站"
+        },
+        "intro": {
+          "type": "string",
+          "description": " 简介"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        }
+      },
+      "title": "UserInfoReq"
+    },
+    "UserInfoResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "email": {
+          "type": "string",
+          "description": " 用户邮箱"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "phone": {
+          "type": "string",
+          "description": " 用户手机号"
+        },
+        "intro": {
+          "type": "string",
+          "description": " 个人简介"
+        },
+        "website": {
+          "type": "string",
+          "description": " 个人网站"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "UserInfoResp"
+    },
+    "UserMenu": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父id"
+        },
+        "title": {
+          "type": "string",
+          "description": " 菜单标题"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）"
+        },
+        "path": {
+          "type": "string",
+          "description": " 路由地址"
+        },
+        "name": {
+          "type": "string",
+          "description": " 路由名字"
+        },
+        "component": {
+          "type": "string",
+          "description": " Layout组件"
+        },
+        "redirect": {
+          "type": "string",
+          "description": " 路由重定向"
+        },
+        "meta": {
+          "$ref": "#/definitions/UserMenuMeta",
+          "description": " meta配置"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserMenu"
+          }
+        }
+      },
+      "title": "UserMenu"
+    },
+    "UserMenuMeta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": " 菜单名称"
+        },
+        "icon": {
+          "type": "string",
+          "description": " 菜单图标"
+        },
+        "show_link": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否在菜单中显示"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单升序排序"
+        },
+        "extra_icon": {
+          "type": "string",
+          "description": " 菜单名称右侧的额外图标"
+        },
+        "show_parent": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否显示父级菜单"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 页面级别权限设置"
+        },
+        "auths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 按钮级别权限设置"
+        },
+        "keep_alive": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 路由组件缓存"
+        },
+        "frame_src": {
+          "type": "string",
+          "description": " 内嵌的iframe链接"
+        },
+        "frame_loading": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " iframe页是否开启首次加载动画"
+        },
+        "transition": {
+          "type": "object",
+          "description": " 页面加载动画"
+        },
+        "hidden_tag": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否不添加信息到标签页"
+        },
+        "dynamic_level": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 动态路由可打开的最大数量"
+        },
+        "active_path": {
+          "type": "string",
+          "description": " 将某个菜单激活"
+        }
+      },
+      "title": "UserMenuMeta"
+    },
+    "UserMenusResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserMenu"
+          }
+        }
+      },
+      "title": "UserMenusResp"
+    },
+    "UserRole": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "role_pid": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父角色id"
+        },
+        "role_domain": {
+          "type": "string",
+          "description": " 角色域"
+        },
+        "role_name": {
+          "type": "string",
+          "description": " 角色名"
+        },
+        "role_comment": {
+          "type": "string",
+          "description": " 角色备注"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用  0否 1是"
+        },
+        "is_default": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否默认角色 0否 1是"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "menu_id_list": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "resource_id_list": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UserRole"
+    },
+    "UserRolesResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserRole"
+          }
+        }
+      },
+      "title": "UserRolesResp"
+    },
+    "WebsiteConfig": {
+      "type": "object",
+      "properties": {
+        "admin_url": {
+          "type": "string",
+          "description": " 后台地址"
+        },
+        "alipay_qr_code": {
+          "type": "string",
+          "description": " 支付宝二维码"
+        },
+        "gitee": {
+          "type": "string",
+          "description": " Gitee"
+        },
+        "github": {
+          "type": "string",
+          "description": " Github"
+        },
+        "is_chat_room": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启聊天室"
+        },
+        "is_comment_review": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启评论审核"
+        },
+        "is_email_notice": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启邮件通知"
+        },
+        "is_message_review": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启留言审核"
+        },
+        "is_music_player": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启音乐播放器"
+        },
+        "is_reward": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否开启打赏"
+        },
+        "qq": {
+          "type": "string",
+          "description": " QQ"
+        },
+        "social_login_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 社交登录列表"
+        },
+        "social_url_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 社交地址列表"
+        },
+        "tourist_avatar": {
+          "type": "string",
+          "description": " 游客头像"
+        },
+        "user_avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "website_author": {
+          "type": "string",
+          "description": " 网站作者"
+        },
+        "website_avatar": {
+          "type": "string",
+          "description": " 网站头像"
+        },
+        "website_create_time": {
+          "type": "string",
+          "description": " 网站创建时间"
+        },
+        "website_intro": {
+          "type": "string",
+          "description": " 网站介绍"
+        },
+        "website_name": {
+          "type": "string",
+          "description": " 网站名称"
+        },
+        "website_notice": {
+          "type": "string",
+          "description": " 网站公告"
+        },
+        "website_record_no": {
+          "type": "string",
+          "description": " 网站备案号"
+        },
+        "websocket_url": {
+          "type": "string",
+          "description": " websocket地址"
+        },
+        "weixin_qr_code": {
+          "type": "string",
+          "description": " 微信二维码"
+        }
+      },
+      "title": "WebsiteConfig"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
