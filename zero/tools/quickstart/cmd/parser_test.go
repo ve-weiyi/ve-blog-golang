@@ -32,7 +32,7 @@ func Test_ParseTableFromSql(t *testing.T) {
 
 func Test_ParseAPI(t *testing.T) {
 	//const api = "../test.api"
-	const api = "/Users/weiyi/Github/ve-blog-golang/zero/service/blog/api/proto/blog.api"
+	const api = "/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/module/category.api"
 	fromApi, err := api2.ParseAPI(api)
 	t.Log(err)
 	//t.Log(jsonconv.ObjectToJsonIndent(fromApi))

@@ -67,23 +67,23 @@ etcd
 启动rpc服务
 
 ```sh
-go run service/blog/rpc/blog.go -f service/blog/rpc/etc/blog-rpc.yaml
+go run service/rpc/blog/blog.go -f service/rpc/blog/etc/blog-rpc.yaml
 ```
 
 启动api服务
 
 ```sh
-go run service/blog/api/blog.go -f service/blog/api/etc/blog-api.yaml
+go run service/api/blog/blog.go -f service/api/blog/etc/blog-api.yaml
 ```
 
 ## 2.使用nacos配置启动
 
 ```sh
-go run service/blog/rpc/blog.go
+go run service/rpc/blog/blog.go
 ```
 
 ```sh
-go run service/blog/api/blog.go
+go run service/api/blog/blog.go
 ```
 
 ## 3.使用docker启动
@@ -91,5 +91,5 @@ go run service/blog/api/blog.go
 构造镜像
 
 ```sh
-goctl docker --go service/blog/rpc/blog.go --exe blog
+goctl docker --go service/rpc/blog/blog.go --exe blog
 ```

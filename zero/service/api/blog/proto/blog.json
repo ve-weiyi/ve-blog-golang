@@ -1,0 +1,1665 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/article/article_archives": {
+      "post": {
+        "summary": "文章归档(时间轴)",
+        "operationId": "FindArticleArchives",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/article_classify_category": {
+      "post": {
+        "summary": "通过分类获取文章列表",
+        "operationId": "FindArticleClassifyCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/article_classify_tag": {
+      "post": {
+        "summary": "通过标签获取文章列表",
+        "operationId": "FindArticleClassifyTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleClassifyReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/find_article_home_list": {
+      "post": {
+        "summary": "获取首页文章列表",
+        "operationId": "FindArticleHomeList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/find_article_recommend": {
+      "post": {
+        "summary": "文章相关推荐",
+        "operationId": "FindArticleRecommend",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleRecommendResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/article/like_article": {
+      "post": {
+        "summary": "点赞文章",
+        "operationId": "LikeArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/api/v1/category/find_category_list": {
+      "post": {
+        "summary": "分页获取文章分类列表",
+        "operationId": "FindCategoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/api/v1/comment/create_comment": {
+      "post": {
+        "summary": "创建评论",
+        "operationId": "CreateComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommentNewReq"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 创建评论",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/find_comment_list": {
+      "post": {
+        "summary": "查询评论列表",
+        "operationId": "FindCommentList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/find_comment_reply_list": {
+      "post": {
+        "summary": "查询评论回复列表",
+        "operationId": "FindCommentReplyList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/comment/like_comment": {
+      "post": {
+        "summary": "点赞评论",
+        "operationId": "LikeComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "summary": "登录",
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/logoff": {
+      "post": {
+        "summary": "注销",
+        "operationId": "Logoff",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/logout": {
+      "post": {
+        "summary": "登出",
+        "operationId": "Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/oauth_authorize_url": {
+      "post": {
+        "summary": "第三方登录授权地址",
+        "operationId": "OauthAuthorizeUrl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OauthLoginUrlResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OauthLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/oauth_login": {
+      "post": {
+        "summary": "第三方登录",
+        "operationId": "OauthLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OauthLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/ping": {
+      "get": {
+        "summary": "ping",
+        "operationId": "Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PingResp"
+            }
+          }
+        },
+        "tags": [
+          "blog-api"
+        ]
+      }
+    },
+    "/api/v1/register": {
+      "post": {
+        "summary": "注册",
+        "operationId": "Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/reset_password": {
+      "post": {
+        "summary": "重置密码",
+        "operationId": "ResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/send_forget_email": {
+      "post": {
+        "summary": "发送忘记密码邮件",
+        "operationId": "SendForgetEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/send_register_email": {
+      "post": {
+        "summary": "发送注册账号邮件",
+        "operationId": "SendRegisterEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/tag/find_tag_list": {
+      "post": {
+        "summary": "分页获取标签列表",
+        "operationId": "FindTagList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQuery"
+            }
+          }
+        ],
+        "tags": [
+          "tag"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ArticleClassifyReq": {
+      "type": "object",
+      "properties": {
+        "classify_name": {
+          "type": "string",
+          "description": " 分类名"
+        }
+      },
+      "title": "ArticleClassifyReq"
+    },
+    "ArticleClassifyResp": {
+      "type": "object",
+      "properties": {
+        "article_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticlePreviewDTO"
+          },
+          "description": " 文章列表"
+        },
+        "condition_name": {
+          "type": "string",
+          "description": " 条件名"
+        }
+      },
+      "title": "ArticleClassifyResp"
+    },
+    "ArticleHomeDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "article_content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章类型"
+        },
+        "original_url": {
+          "type": "string",
+          "description": " 原文链接"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1 公开 2 私密 3 评论可见"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发表时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 文章分类名"
+        },
+        "tag_name_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文章标签列表"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        }
+      },
+      "title": "ArticleHomeDTO"
+    },
+    "ArticlePreDeleteReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
+        }
+      },
+      "title": "ArticlePreDeleteReq"
+    },
+    "ArticlePreviewDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        }
+      },
+      "title": "ArticlePreviewDTO"
+    },
+    "ArticleRecommendResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "article_cover": {
+          "type": "string",
+          "description": " 文章缩略图"
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
+        },
+        "article_content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章类型"
+        },
+        "original_url": {
+          "type": "string",
+          "description": " 原文链接"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1 公开 2 私密 3 评论可见"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发表时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 文章分类名"
+        },
+        "tag_name_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文章标签列表"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        },
+        "last_article": {
+          "$ref": "#/definitions/ArticlePreviewDTO",
+          "description": " 上一篇文章"
+        },
+        "next_article": {
+          "$ref": "#/definitions/ArticlePreviewDTO",
+          "description": " 下一篇文章"
+        },
+        "recommend_article_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticlePreviewDTO"
+          },
+          "description": " 推荐文章列表"
+        },
+        "newest_article_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticlePreviewDTO"
+          },
+          "description": " 最新文章列表"
+        }
+      },
+      "title": "ArticleRecommendResp"
+    },
+    "ArticleTopReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章ID"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        }
+      },
+      "title": "ArticleTopReq"
+    },
+    "BatchResp": {
+      "type": "object",
+      "properties": {
+        "success_count": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BatchResp",
+      "required": [
+        "success_count"
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 分类名"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Category"
+    },
+    "CategoryDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category_name": {
+          "type": "string",
+          "description": " 分类名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "CategoryDetails"
+    },
+    "CommentBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "topic_title": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "comment_content": {
+          "type": "string"
+        },
+        "is_review": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CommentBackDTO"
+    },
+    "CommentDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论id"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 会话id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "website": {
+          "type": "string",
+          "description": " 用户网站"
+        },
+        "reply_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 被回复用户id"
+        },
+        "reply_nickname": {
+          "type": "string",
+          "description": " 被回复用户昵称"
+        },
+        "reply_avatar": {
+          "type": "string",
+          "description": " 被回复用户头像"
+        },
+        "reply_website": {
+          "type": "string",
+          "description": " 被回复用户网站"
+        },
+        "comment_content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论时间"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞数"
+        },
+        "reply_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 回复量"
+        },
+        "comment_reply_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommentReply"
+          },
+          "description": " 评论回复列表"
+        }
+      },
+      "title": "CommentDTO"
+    },
+    "CommentNewReq": {
+      "type": "object",
+      "properties": {
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 会话id"
+        },
+        "reply_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 回复用户id"
+        },
+        "comment_content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        }
+      },
+      "title": "CommentNewReq"
+    },
+    "CommentQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        },
+        "order_by": {
+          "type": "string",
+          "description": " 排序字段 create_at|like_count"
+        }
+      },
+      "title": "CommentQueryReq"
+    },
+    "CommentReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论id"
+        },
+        "topic_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主题id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父评论id"
+        },
+        "session_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 会话id"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "website": {
+          "type": "string",
+          "description": " 用户网站"
+        },
+        "reply_user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 被回复用户id"
+        },
+        "reply_nickname": {
+          "type": "string",
+          "description": " 被回复用户昵称"
+        },
+        "reply_avatar": {
+          "type": "string",
+          "description": " 被回复用户头像"
+        },
+        "reply_website": {
+          "type": "string",
+          "description": " 被回复用户网站"
+        },
+        "comment_content": {
+          "type": "string",
+          "description": " 评论内容"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论类型 1.文章 2.友链 3.说说"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 评论时间"
+        },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞数"
+        }
+      },
+      "title": "CommentReply"
+    },
+    "CommentUserInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        }
+      },
+      "title": "CommentUserInfo"
+    },
+    "EmptyReq": {
+      "type": "object",
+      "title": "EmptyReq"
+    },
+    "EmptyResp": {
+      "type": "object",
+      "title": "EmptyResp"
+    },
+    "IdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "IdsReq": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "IdsReq",
+      "required": [
+        "ids"
+      ]
+    },
+    "LoginReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "LoginReq",
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "LoginResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "$ref": "#/definitions/Token"
+        },
+        "user_info": {
+          "$ref": "#/definitions/UserInfo"
+        }
+      },
+      "title": "LoginResp"
+    },
+    "OauthLoginReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": " 平台"
+        },
+        "code": {
+          "type": "string",
+          "description": " 授权码"
+        },
+        "state": {
+          "type": "string",
+          "description": " 状态"
+        }
+      },
+      "title": "OauthLoginReq",
+      "required": [
+        "platform"
+      ]
+    },
+    "OauthLoginUrlResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": " 授权地址"
+        }
+      },
+      "title": "OauthLoginUrlResp",
+      "required": [
+        "url"
+      ]
+    },
+    "PageCondition": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": " 字段"
+        },
+        "value": {
+          "type": "string",
+          "description": " 值"
+        },
+        "logic": {
+          "type": "string",
+          "description": " and | or"
+        },
+        "operator": {
+          "type": "string",
+          "description": " = | \u003e= | \u003c | in | not in |...."
+        }
+      },
+      "title": "PageCondition"
+    },
+    "PageLimit": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PageLimit"
+    },
+    "PageQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageSort"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageCondition"
+          }
+        }
+      },
+      "title": "PageQuery"
+    },
+    "PageResp": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "list": {
+          "type": "object"
+        }
+      },
+      "title": "PageResp",
+      "required": [
+        "page",
+        "page_size",
+        "total",
+        "list"
+      ]
+    },
+    "PageSort": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "order": {
+          "type": "string",
+          "description": " asc | desc"
+        }
+      },
+      "title": "PageSort"
+    },
+    "PingReq": {
+      "type": "object",
+      "title": "PingReq"
+    },
+    "PingResp": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rpc_status": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "PingResp",
+      "required": [
+        "env",
+        "name",
+        "version",
+        "runtime",
+        "description",
+        "rpc_status"
+      ]
+    },
+    "ResetPasswordReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "ResetPasswordReq",
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "trace_id": {
+          "type": "string"
+        }
+      },
+      "title": "Response",
+      "required": [
+        "code",
+        "message",
+        "data",
+        "trace_id"
+      ]
+    },
+    "RestHeader": {
+      "type": "object",
+      "title": "RestHeader"
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "tag_name": {
+          "type": "string",
+          "description": " 标签名"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "Tag"
+    },
+    "TagDetails": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 标签ID"
+        },
+        "tag_name": {
+          "type": "string",
+          "description": " 标签名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "TagDetails"
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "token_type": {
+          "type": "string",
+          "description": " token类型,Bearer"
+        },
+        "access_token": {
+          "type": "string",
+          "description": " 访问token,过期时间较短。2h"
+        },
+        "expires_in": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 访问token过期时间"
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": " 刷新token,过期时间较长。30d"
+        },
+        "refresh_expires_in": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 刷新token过期时间"
+        },
+        "scope": {
+          "type": "string",
+          "description": " 作用域"
+        }
+      },
+      "title": "Token"
+    },
+    "UserEmailReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "UserEmailReq",
+      "required": [
+        "username"
+      ]
+    },
+    "UserInfo": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "username": {
+          "type": "string",
+          "description": " 用户名"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "intro": {
+          "type": "string",
+          "description": " 个人简介"
+        },
+        "website": {
+          "type": "string",
+          "description": " 个人网站"
+        },
+        "email": {
+          "type": "string",
+          "description": " 邮箱"
+        }
+      },
+      "title": "UserInfo",
+      "required": [
+        "username"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

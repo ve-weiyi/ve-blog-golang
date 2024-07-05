@@ -3,6 +3,7 @@ package files
 import (
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 )
 
@@ -71,13 +72,20 @@ func Open(name string, flag int, perm os.FileMode) (*os.File, error) {
 }
 
 // 打开文件 不存在则创建
-func OpenExistFile(fileName, filePath string) (*os.File, error) {
-	dir, err := os.Getwd()
-	if err != nil {
-		return nil, fmt.Errorf("获取目录: %v", err)
+func OpenExistFile(fileName string) (*os.File, error) {
+	var src string
+	var err error
+
+	if path.IsAbs(fileName) {
+		src = fileName
+	} else {
+		dir, err := os.Getwd()
+		if err != nil {
+			return nil, fmt.Errorf("获取目录: %v", err)
+		}
+		src = path.Join(dir, fileName)
 	}
 
-	src := dir + "/" + filePath
 	perm := CheckPermission(src)
 	if perm == true {
 		return nil, fmt.Errorf("无此权限: %s", src)

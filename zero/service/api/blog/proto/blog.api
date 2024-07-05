@@ -1,0 +1,29 @@
+syntax = "v1"
+
+import "blog/login.api"
+import "blog/article.api"
+import "blog/category.api"
+import "blog/tag.api"
+import "blog/comment.api"
+
+type (
+	PingReq  {}
+	PingResp {
+		Env         string   `json:"env"`
+		Name        string   `json:"name"`
+		Version     string   `json:"version"`
+		Runtime     string   `json:"runtime"`
+		Description string   `json:"description"`
+		RpcStatus   []string `json:"rpc_status"`
+	}
+)
+
+@server (
+	prefix: /api/v1
+)
+service blog-api {
+	@doc "ping"
+	@handler Ping
+	get /ping (PingReq) returns (PingResp)
+}
+

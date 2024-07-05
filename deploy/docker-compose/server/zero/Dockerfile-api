@@ -24,7 +24,7 @@ WORKDIR /ve-blog-golang/zero
 RUN git checkout feature/blog
 RUN go mod tidy
 
-RUN go build -ldflags="-s -w" -o /app/blog/api/blog service/blog/api/blog.go
+RUN go build -ldflags="-s -w" -o /app/api/blog/blog service/api/blog/blog.go
 
 # 使用golang:alpine作为构建镜像,上面安装了git,go等运行环境，方便编译项目。直接在golang:alpine上运行时，image的体积约为2.5g
 # 使用scratch作为基础镜像,scratch用于构建轻量级的、无操作系统依赖的容器镜像。使用scratch镜像运行，image的体积约为50m
@@ -40,10 +40,10 @@ ENV LANG=en_US.utf8
 ENV TZ Asia/Shanghai
 
 # 设置新新容器的工作目录
-WORKDIR /app/blog/api
+WORKDIR /app/api/blog
 
 # 复制启动文件到新容器中
-COPY --from=builder /app/blog/api/blog /app/blog/api/blog
+COPY --from=builder /app/api/blog/blog /app/api/blog/blog
 
 # 暴露应用程序的端口
 EXPOSE 9999

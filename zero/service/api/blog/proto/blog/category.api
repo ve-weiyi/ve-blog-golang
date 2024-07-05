@@ -1,0 +1,32 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+    Category {
+        Id int64 `json:"id,optional"`                       // id
+        CategoryName string `json:"category_name,optional"` // 分类名
+        CreatedAt int64 `json:"created_at,optional"`        // 创建时间
+        UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
+    }
+
+    CategoryDetails {
+        Id int64 `json:"id,optional"`
+        CategoryName string `json:"category_name,optional"` // 分类名
+        ArticleCount int64 `json:"article_count,optional"`
+        CreatedAt int64 `json:"created_at,optional"`        // 创建时间
+        UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: category
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "分页获取文章分类列表"
+    @handler FindCategoryList
+    post /category/find_category_list (PageQuery) returns (PageResp)
+}
