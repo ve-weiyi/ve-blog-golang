@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package model
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/field"
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd/api"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/parsex"
 )
 
 // migrateCmd represents the migrate command
@@ -57,7 +57,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 	log.Println("name-as:", s.NameAs)
 
 	var metas []invent.TemplateMeta
-	var tables []*api.Table
+	var tables []*parsex.Table
 	var err error
 
 	f := s.SqlFile
@@ -142,7 +142,7 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 }
 
 // 从sql文件解析Table
-func ParseTableFromSql(sql string) (list []*api.Table, err error) {
+func ParseTableFromSql(sql string) (list []*parsex.Table, err error) {
 	n := strings.TrimRight(sql, ".sql")
 
 	dir, err := os.Getwd()
@@ -158,15 +158,15 @@ func ParseTableFromSql(sql string) (list []*api.Table, err error) {
 
 	for _, table := range tables {
 
-		fs := make([]*api.Field, 0)
+		fs := make([]*parsex.Field, 0)
 		for _, field := range table.Fields {
 			f := convertFieldToField(field)
 			fs = append(fs, &f)
 		}
 
-		ufs := make(map[string][]*api.Field)
+		ufs := make(map[string][]*parsex.Field)
 		for k, index := range table.UniqueIndex {
-			uf := make([]*api.Field, 0)
+			uf := make([]*parsex.Field, 0)
 			for _, field := range index {
 				f := convertFieldToField(field)
 				uf = append(uf, &f)
@@ -174,10 +174,10 @@ func ParseTableFromSql(sql string) (list []*api.Table, err error) {
 			ufs[k] = uf
 		}
 
-		v := &api.Table{
+		v := &parsex.Table{
 			Name: table.Name.Source(),
 			Db:   table.Db.Source(),
-			PrimaryKey: api.Primary{
+			PrimaryKey: parsex.Primary{
 				AutoIncrement: table.PrimaryKey.AutoIncrement,
 				Field:         convertFieldToField(&table.PrimaryKey.Field),
 			},
@@ -192,7 +192,7 @@ func ParseTableFromSql(sql string) (list []*api.Table, err error) {
 	return list, nil
 }
 
-func convertTableToData(table *api.Table) any {
+func convertTableToData(table *parsex.Table) any {
 
 	var fs []*field.Field
 	for _, e := range table.Fields {
@@ -221,7 +221,7 @@ func convertTableToData(table *api.Table) any {
 	return data
 }
 
-func convertField(e *api.Field) *field.Field {
+func convertField(e *parsex.Field) *field.Field {
 
 	return &field.Field{
 		Name:    jsonconv.Case2Camel(e.Name),
@@ -244,8 +244,8 @@ func convertField(e *api.Field) *field.Field {
 	}
 }
 
-func convertFieldToField(col *parser.Field) api.Field {
-	f := api.Field{
+func convertFieldToField(col *parser.Field) parsex.Field {
+	f := parsex.Field{
 		Name:            col.Name.Source(),
 		DataType:        col.DataType,
 		Comment:         col.Comment,

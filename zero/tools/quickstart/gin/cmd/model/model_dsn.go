@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package cmd
+package model
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd/api"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/parsex"
 )
 
 // migrateCmd represents the migrate command
@@ -59,7 +59,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 	log.Println("name-as:", s.NameAs)
 
 	var metas []invent.TemplateMeta
-	var tables []*api.Table
+	var tables []*parsex.Table
 	var err error
 
 	f := s.SqlFile
@@ -144,7 +144,7 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 }
 
 // 从数据库中解析Table
-func ParseTableFromDsn(dsn string) (list []*api.Table, err error) {
+func ParseTableFromDsn(dsn string) (list []*parsex.Table, err error) {
 	db, err := gorm.Open(mysql.Open(dsn), nil)
 	if err != nil {
 		return nil, err
@@ -163,7 +163,7 @@ func ParseTableFromDsn(dsn string) (list []*api.Table, err error) {
 			return nil, err
 		}
 
-		pm := api.Primary{}
+		pm := parsex.Primary{}
 		for _, entity := range types {
 			is, ok := entity.PrimaryKey()
 			if ok && is {
@@ -172,15 +172,15 @@ func ParseTableFromDsn(dsn string) (list []*api.Table, err error) {
 			}
 		}
 
-		fs := make([]*api.Field, 0)
+		fs := make([]*parsex.Field, 0)
 		for _, entity := range types {
 			f := convertColumnToField(entity)
 			fs = append(fs, &f)
 		}
 
-		ufs := make(map[string][]*api.Field)
+		ufs := make(map[string][]*parsex.Field)
 		for k, index := range GroupByColumn(indexes) {
-			uf := make([]*api.Field, 0)
+			uf := make([]*parsex.Field, 0)
 			for _, field := range index {
 				for _, entity := range types {
 					if entity.Name() == field {
@@ -192,7 +192,7 @@ func ParseTableFromDsn(dsn string) (list []*api.Table, err error) {
 			ufs[k] = uf
 		}
 
-		v := &api.Table{
+		v := &parsex.Table{
 			Name:        tableName,
 			Db:          dbName,
 			PrimaryKey:  pm,
@@ -205,8 +205,8 @@ func ParseTableFromDsn(dsn string) (list []*api.Table, err error) {
 	return list, nil
 }
 
-func convertColumnToField(col gorm.ColumnType) api.Field {
-	f := api.Field{}
+func convertColumnToField(col gorm.ColumnType) parsex.Field {
+	f := parsex.Field{}
 
 	f.Name = col.Name()
 	f.Comment, _ = col.Comment()

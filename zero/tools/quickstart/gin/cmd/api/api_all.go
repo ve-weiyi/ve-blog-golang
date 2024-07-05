@@ -11,11 +11,11 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zeromicro/go-zero/tools/goctl/api/parser"
 	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/parsex"
 )
 
 var apiAllCmd = &cobra.Command{
@@ -39,7 +39,7 @@ func RunRouterCommand(cmd *cobra.Command, args []string) {
 	o := VarStringOutPath
 	n := VarStringNameAs
 
-	sp, err := ParseAPI(f)
+	sp, err := parsex.ParseAPI(f)
 	if err != nil {
 		panic(err)
 	}
@@ -63,20 +63,6 @@ func RunRouterCommand(cmd *cobra.Command, args []string) {
 	//if err != nil {
 	//	panic(err)
 	//}
-}
-
-func ParseAPI(filename string) (out *spec.ApiSpec, err error) {
-	if path.IsAbs(filename) {
-		return parser.Parse(filename)
-	}
-
-	dir, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	f := path.Join(dir, filename)
-	return parser.Parse(f)
 }
 
 func GenerateTypes(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
@@ -106,10 +92,10 @@ func GenerateTypes(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
 	return nil
 }
 
-func convertGroups(sp *spec.ApiSpec) (out []GroupRoute) {
-	var groups []GroupRoute
+func convertGroups(sp *spec.ApiSpec) (out []parsex.GroupRoute) {
+	var groups []parsex.GroupRoute
 	for _, v := range sp.Service.Groups {
-		var routes []Route
+		var routes []parsex.Route
 		for _, r := range v.Routes {
 
 			var doc string
@@ -134,7 +120,7 @@ func convertGroups(sp *spec.ApiSpec) (out []GroupRoute) {
 				resp = r.ResponseType.Name()
 			}
 
-			rt := Route{
+			rt := parsex.Route{
 				Method:   strings.ToUpper(r.Method),
 				Path:     r.Path,
 				Handler:  jsonconv.Case2Camel(r.Handler),
@@ -151,7 +137,7 @@ func convertGroups(sp *spec.ApiSpec) (out []GroupRoute) {
 			name = "base"
 		}
 
-		g := GroupRoute{
+		g := parsex.GroupRoute{
 			Name:   name,
 			Routes: routes,
 		}

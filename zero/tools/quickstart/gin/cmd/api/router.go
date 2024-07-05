@@ -13,6 +13,7 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/parsex"
 )
 
 // routerCmd represents the router command
@@ -43,7 +44,7 @@ func RunCommandRouter(cmd *cobra.Command, args []string) {
 	o := VarStringOutPath
 	n := VarStringNameAs
 
-	sp, err := ParseAPI(f)
+	sp, err := parsex.ParseAPI(f)
 	if err != nil {
 		panic(err)
 	}
@@ -62,7 +63,7 @@ func generateRouters(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
 		return err
 	}
 
-	var groups []GroupRoute
+	var groups []parsex.GroupRoute
 	groups = convertGroups(sp)
 
 	pkg, _ := golang.GetParentPackage(outPath)

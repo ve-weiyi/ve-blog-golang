@@ -1,4 +1,4 @@
-package api
+package parsex
 
 type (
 	// Table describes a mysql table

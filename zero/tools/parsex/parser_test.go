@@ -1,4 +1,4 @@
-package cmd
+package parsex
 
 import (
 	"testing"
@@ -6,17 +6,17 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	api2 "github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/cmd/api"
+	model2 "github.com/ve-weiyi/ve-blog-golang/zero/tools/quickstart/gin/cmd/model"
 )
 
 func Test_ParseTableFormDsn(t *testing.T) {
 	const dsn = "root:mysql7914@(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
-	fromDsn, err := ParseTableFromDsn(dsn)
+	fromDsn, err := model2.ParseTableFromDsn(dsn)
 	t.Log(err)
 	//t.Log(jsonconv.ObjectToJsonIndent(fromDsn))
 
 	const sql = "test.sql"
-	fromSql, err := ParseTableFromSql(sql)
+	fromSql, err := model2.ParseTableFromSql(sql)
 	t.Log(err)
 	//t.Log(jsonconv.ObjectToJsonIndent(fromSql))
 
@@ -25,7 +25,7 @@ func Test_ParseTableFormDsn(t *testing.T) {
 
 func Test_ParseTableFromSql(t *testing.T) {
 	const sql = "test.sql"
-	fromSql, err := ParseTableFromSql(sql)
+	fromSql, err := model2.ParseTableFromSql(sql)
 	t.Log(err)
 	t.Log(jsonconv.ObjectToJsonIndent(fromSql))
 }
@@ -33,7 +33,7 @@ func Test_ParseTableFromSql(t *testing.T) {
 func Test_ParseAPI(t *testing.T) {
 	//const api = "../test.api"
 	const api = "/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/module/category.api"
-	fromApi, err := api2.ParseAPI(api)
+	fromApi, err := ParseAPI(api)
 	t.Log(err)
 	//t.Log(jsonconv.ObjectToJsonIndent(fromApi))
 

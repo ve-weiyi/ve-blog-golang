@@ -15,6 +15,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/zero/tools/parsex"
 )
 
 // serviceCmd represents the service command
@@ -45,7 +46,7 @@ func RunCommandServices(cmd *cobra.Command, args []string) {
 	o := VarStringOutPath
 	n := VarStringNameAs
 
-	sp, err := ParseAPI(f)
+	sp, err := parsex.ParseAPI(f)
 	if err != nil {
 		panic(err)
 	}
@@ -64,7 +65,7 @@ func generateServices(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
 		return err
 	}
 
-	var groups []GroupRoute
+	var groups []parsex.GroupRoute
 	groups = convertGroups(sp)
 	pkg, _ := golang.GetParentPackage(outPath)
 	// handler
