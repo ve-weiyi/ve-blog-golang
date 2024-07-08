@@ -1,13 +1,9 @@
 package service
 
 import (
-	"strings"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/tools/apidocs/apiparser"
 )
 
 // 分页获取Api记录
@@ -28,68 +24,68 @@ func (l *ApiService) FindApiDetailsList(reqCtx *request.Context, page *dto.PageQ
 }
 
 func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data int64, err error) {
-	ap := apiparser.NewSwaggerParser()
-	apis, err := ap.ParseApiDocsByRoots(files.GetRuntimeRoot() + "server/docs")
-	if err != nil {
-		return 0, err
-	}
-
-	var apiModels []*entity.Api
-	for _, api := range apis {
-		if api.Router == "" {
-			continue
-		}
-
-		// 已存在则跳过
-		exist, _ := l.svcCtx.ApiRepository.First(reqCtx, "path = ? and method = ?", api.Router, api.Method)
-		if exist != nil {
-			continue
-		}
-
-		// 查找父分类，没有则创建
-		parent, _ := l.svcCtx.ApiRepository.First(reqCtx, "name = ? and parent_id = ?", api.Tag, 0)
-		if parent == nil {
-			parent = &entity.Api{
-				Name: api.Tag,
-			}
-			_, err = l.svcCtx.ApiRepository.Create(reqCtx, parent)
-			if err != nil {
-				return 0, err
-			}
-		}
-
-		var traceable int64
-		if strings.ToUpper(api.Method) == "PUT" || strings.ToUpper(api.Method) == "DELETE" {
-			traceable = 1
-		}
-		if strings.ToUpper(api.Method) == "POST" && !strings.Contains(api.Router, "list") {
-			traceable = 1
-		}
-
-		// 插入数据
-		model := &entity.Api{
-			Name:      api.Summary,
-			Path:      api.Router,
-			Method:    strings.ToUpper(api.Method),
-			ParentId:  parent.Id,
-			Traceable: traceable,
-		}
-
-		apiModels = append(apiModels, model)
-		//_, err = l.svcCtx.ApiRepository.Create(reqCtx, model)
-		//if err != nil {
-		//	return 0, err
-		//}
-		//data++
-	}
-
-	// 批量插入，减少数据库压力
-	query := l.svcCtx.ApiRepository.DbEngin.CreateInBatches(apiModels, len(apiModels))
-	data = query.RowsAffected
-	err = query.Error
-	if err != nil {
-		return 0, err
-	}
+	//ap := apiparser.NewSwaggerParser()
+	//apis, err := ap.ParseApiDocsByRoots(files.GetRuntimeRoot() + "server/docs")
+	//if err != nil {
+	//	return 0, err
+	//}
+	//
+	//var apiModels []*entity.Api
+	//for _, api := range apis {
+	//	if api.Router == "" {
+	//		continue
+	//	}
+	//
+	//	// 已存在则跳过
+	//	exist, _ := l.svcCtx.ApiRepository.First(reqCtx, "path = ? and method = ?", api.Router, api.Method)
+	//	if exist != nil {
+	//		continue
+	//	}
+	//
+	//	// 查找父分类，没有则创建
+	//	parent, _ := l.svcCtx.ApiRepository.First(reqCtx, "name = ? and parent_id = ?", api.Tag, 0)
+	//	if parent == nil {
+	//		parent = &entity.Api{
+	//			Name: api.Tag,
+	//		}
+	//		_, err = l.svcCtx.ApiRepository.Create(reqCtx, parent)
+	//		if err != nil {
+	//			return 0, err
+	//		}
+	//	}
+	//
+	//	var traceable int64
+	//	if strings.ToUpper(api.Method) == "PUT" || strings.ToUpper(api.Method) == "DELETE" {
+	//		traceable = 1
+	//	}
+	//	if strings.ToUpper(api.Method) == "POST" && !strings.Contains(api.Router, "list") {
+	//		traceable = 1
+	//	}
+	//
+	//	// 插入数据
+	//	model := &entity.Api{
+	//		Name:      api.Summary,
+	//		Path:      api.Router,
+	//		Method:    strings.ToUpper(api.Method),
+	//		ParentId:  parent.Id,
+	//		Traceable: traceable,
+	//	}
+	//
+	//	apiModels = append(apiModels, model)
+	//	//_, err = l.svcCtx.ApiRepository.Create(reqCtx, model)
+	//	//if err != nil {
+	//	//	return 0, err
+	//	//}
+	//	//data++
+	//}
+	//
+	//// 批量插入，减少数据库压力
+	//query := l.svcCtx.ApiRepository.DbEngin.CreateInBatches(apiModels, len(apiModels))
+	//data = query.RowsAffected
+	//err = query.Error
+	//if err != nil {
+	//	return 0, err
+	//}
 	return data, nil
 }
 
