@@ -23,7 +23,7 @@ type (
     middleware: SignToken
 )
 
-service admin-api {
+service blog-api {
     @doc "分页获取留言列表"
     @handler FindRemarkList
     post /remark/find_remark_list (PageQuery) returns (PageResp)
@@ -36,24 +36,8 @@ service admin-api {
     middleware: SignToken,JwtToken
 )
 
-service admin-api {
+service blog-api {
     @doc "创建留言"
     @handler CreateRemark
     post /remark/create_remark (Remark) returns (Remark)
-
-    @doc "更新留言"
-    @handler UpdateRemark
-    put /remark/update_remark (Remark) returns (Remark)
-
-    @doc "删除留言"
-    @handler DeleteRemark
-    delete /remark/delete_remark (IdReq) returns (BatchResp)
-
-    @doc "批量删除留言"
-    @handler DeleteRemarkList
-    delete /remark/delete_remark_list (IdsReq) returns (BatchResp)
-
-    @doc "查询留言"
-    @handler FindRemark
-    post /remark/find_remark (IdReq) returns (Remark)
 }

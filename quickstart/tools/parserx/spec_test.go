@@ -1,4 +1,4 @@
-package apiparser
+package parserx
 
 import (
 	"testing"

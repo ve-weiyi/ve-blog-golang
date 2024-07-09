@@ -61,7 +61,7 @@ type (
     group: auth
 )
 
-service blog-api {
+service admin-api {
     @doc "登录"
     @handler Login
     post /login (LoginReq) returns (LoginResp)
@@ -77,7 +77,7 @@ service blog-api {
     middleware: JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "登出"
     @handler Logout
     post /logout (EmptyReq) returns (EmptyResp)

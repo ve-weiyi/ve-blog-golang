@@ -23,36 +23,8 @@ type (
     middleware: SignToken
 )
 
-service admin-api {
+service blog-api {
     @doc "分页获取相册列表"
     @handler FindPhotoAlbumList
     post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
-}
-
-@server(
-    prefix: /api/v1
-    group: photo_album
-    middleware: SignToken,JwtToken
-)
-
-service admin-api {
-    @doc "创建相册"
-    @handler CreatePhotoAlbum
-    post /photo_album/create_photo_album (PhotoAlbum) returns (PhotoAlbum)
-
-    @doc "更新相册"
-    @handler UpdatePhotoAlbum
-    put /photo_album/update_photo_album (PhotoAlbum) returns (PhotoAlbum)
-
-    @doc "删除相册"
-    @handler DeletePhotoAlbum
-    delete /photo_album/delete_photo_album (IdReq) returns (BatchResp)
-
-    @doc "批量删除相册"
-    @handler DeletePhotoAlbumList
-    delete /photo_album/delete_photo_album_list (IdsReq) returns (BatchResp)
-
-    @doc "查询相册"
-    @handler FindPhotoAlbum
-    post /photo_album/find_photo_album (IdReq) returns (PhotoAlbum)
 }

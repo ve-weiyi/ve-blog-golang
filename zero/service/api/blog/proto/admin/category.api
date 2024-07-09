@@ -25,7 +25,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "分页获取文章分类列表"
     @handler FindCategoryList
     post /category/find_category_list (PageQuery) returns (PageResp)
@@ -37,7 +37,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建文章分类"
     @handler CreateCategory
     post /category/create_category (Category) returns (Category)

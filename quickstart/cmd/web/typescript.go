@@ -5,26 +5,26 @@ package web
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path"
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/cobrax"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx/aspec"
 )
 
 type typescriptFlags struct {
-	VarStringModel   string `name:"var_string_model" shorthand:"m"`    // 解析模式 swagger、api、ast
-	VarStringTplPath string `name:"var_string_tpl_path" shorthand:"t"` // 模板路径
-	VarStringOutPath string `name:"var_string_out_path" shorthand:"o"` // 文件输出路径
-	VarStringNameAs  string `name:"var_string_name_as" shorthand:"n"`  // 文件命名模版 %s.go
+	VarStringMode     string `name:"var_string_mode" shorthand:"m"`      // 解析模式 swagger、api、ast
+	VarStringFilePath string `name:"var_string_file_path" shorthand:"f"` // 模板路径
+	VarStringTplPath  string `name:"var_string_tpl_path" shorthand:"t"`  // 模板路径
+	VarStringOutPath  string `name:"var_string_out_path" shorthand:"o"`  // 文件输出路径
+	VarStringNameAs   string `name:"var_string_name_as" shorthand:"n"`   // 文件命名模版 %s.go
 }
 
 var flag = &typescriptFlags{}
@@ -63,78 +63,95 @@ func init() {
 }
 
 func RunTypescriptCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("typescript called", flag.VarStringModel, flag.VarStringTplPath, flag.VarStringOutPath, flag.VarStringNameAs)
+	RunTypescript(flag)
+}
 
-	//var sp *spec.ApiSpec
-	switch flag.VarStringModel {
+func RunTypescript(conf *typescriptFlags) {
+	fmt.Println("typescript called", jsonconv.ObjectToJsonIndent(conf))
+	var err error
+	var sp *aspec.ApiSpec
+	switch conf.VarStringMode {
 	case "api":
+		sp, err = parserx.NewSpecParser().ParseApi(conf.VarStringFilePath)
 	case "swagger":
+		sp, err = parserx.NewSwaggerParser().ParseApi(conf.VarStringFilePath)
 	case "ast":
 	}
 
-	//
-	//err = generateTypescript(sp, t, o, n)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//
-	//err = generateTypesTs(sp, t, o, n)
-	//if err != nil {
-	//	panic(err)
-	//}
+	if err != nil {
+		panic(err)
+	}
+
+	err = generateApiTs(sp, conf)
+	if err != nil {
+		panic(err)
+	}
+
+	err = generateTypesTs(sp, conf)
+	if err != nil {
+		panic(err)
+	}
 }
 
-func generateTypescript(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
-	apiTemplate, err := os.ReadFile(path.Join(tplPath, "api.ts.tpl"))
+func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
+	t := path.Join(conf.VarStringTplPath, "api.ts.tpl")
+
+	tpl, err := os.ReadFile(t)
 	if err != nil {
 		return err
 	}
 
+	gps := make(map[string][]aspec.Route)
 	for _, g := range sp.Service.Groups {
-		log.Printf("%v", jsonconv.ObjectToJsonIndent(g))
+		group := g.Annotation.Properties["group"]
+		gps[group] = append(gps[group], g.Routes...)
+	}
 
-		mmp := make(map[string]spec.Type)
-		for _, r := range g.Routes {
+	for n, g := range gps {
+		mt := make(map[string]aspec.Type)
+		for _, r := range g {
 			if r.RequestType != nil {
-				name := convertx.ConvertGoTypeToTsType(r.RequestType.Name())
-				name = strings.ReplaceAll(name, "[]", "")
-				mmp[name] = r.RequestType
+				name := r.RequestType.Name()
+				mt[name] = r.RequestType
 			}
 			if r.ResponseType != nil {
-				name := convertx.ConvertGoTypeToTsType(r.ResponseType.Name())
-				name = strings.ReplaceAll(name, "[]", "")
-				mmp[name] = r.ResponseType
+				name := r.ResponseType.Name()
+				mt[name] = r.ResponseType
 			}
 		}
-		var models []string
-		for k := range mmp {
 
-			models = append(models, k)
+		var tns []string
+		for k := range mt {
+			tns = append(tns, k)
+		}
+
+		var trs []TsApiRoute
+		for _, r := range g {
+			tr := TsApiRoute{
+				Summery:  r.AtDoc.Text,
+				Path:     r.Path,
+				Method:   r.Method,
+				Handler:  r.Handler,
+				Request:  r.RequestType.Name(),
+				Response: r.ResponseType.Name(),
+			}
+			trs = append(trs, tr)
 		}
 
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    fmt.Sprintf("./api/%s.ts", g.Annotation.Properties["group"]),
-			TemplateString: string(apiTemplate),
+			CodeOutPath:    path.Join(conf.VarStringOutPath, fmt.Sprintf("%s.ts", n)),
+			TemplateString: string(tpl),
 			FunMap: map[string]any{
-				"joinArray": utils.JoinArray,
-				"convertJson": func(name string) string {
-					if name == "ID" {
-						return "id"
-					}
-					return jsonconv.Case2Snake(name)
-				},
-				"convertTsType": convertx.ConvertGoTypeToTsType,
-				"convertHandler": func(name string) string {
-					return jsonconv.Case2CamelLowerStart(name)
+				"Join": func(s []string) string {
+					return strings.Join(s, ", ")
 				},
 			},
-			Data: map[string]any{
-				"Imports": []string{`import http from "@/utils/request"`},
-				"Models":  models,
-				"Base":    g.Annotation.Properties["prefix"],
-				"Routes":  g.Routes,
+			Data: TsApi{
+				ImportPkgPaths: []string{`import http from "@/utils/request"`},
+				ImportTypes:    tns,
+				Routes:         trs,
 			},
 		}
 		err := meta.Execute()
@@ -144,105 +161,99 @@ func generateTypescript(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error
 	return nil
 }
 
-func generateTypesTs(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
-	tpl, err := os.ReadFile(path.Join(tplPath, "types.ts.tpl"))
+func generateTypesTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
+	t := path.Join(conf.VarStringTplPath, "types.ts.tpl")
+	o := path.Join(conf.VarStringOutPath, "types.ts")
+
+	tpl, err := os.ReadFile(t)
 	if err != nil {
 		return err
 	}
 
-	ts := make(map[string]*TypesDeclare)
+	ts := make(map[string]TsType)
 
 	for _, v := range sp.Types {
-		t := &TypesDeclare{
-			Comment: strings.Join(v.Documents(), "\n"),
-			Name:    v.Name(),
-			Extends: getExtends(v),
-			Fields:  getFields(v),
-		}
-
-		ts[t.Name] = t
+		ts[v.Name()] = convertTypeTs(v)
 	}
 
 	meta := invent.TemplateMeta{
 		Mode:           invent.ModeCreateOrReplace,
-		CodeOutPath:    path.Join(outPath, "types.ts"),
+		CodeOutPath:    o,
 		TemplateString: string(tpl),
-		FunMap:         nil,
-		Data:           ts,
+		FunMap: map[string]any{
+			"Join": func(s []string) string {
+				return strings.Join(s, ", ")
+			},
+		},
+		Data: ts,
 	}
 
 	return meta.Execute()
 }
 
-type ApiDeclare struct {
+type TsApi struct {
+	ImportPkgPaths []string
+	ImportTypes    []string
+	Routes         []TsApiRoute
+}
+type TsApiRoute struct {
+	Summery  string
+	Path     string
+	Method   string
+	Handler  string
+	Request  string
+	Response string
 }
 
-type TypesDeclare struct {
+type TsType struct {
 	Comment string
 	Name    string
 	Extends []string
-	Fields  []Field
+	Fields  []TsTypeField
 }
 
-type Field struct {
-	Comment string
+type TsTypeField struct {
 	Name    string
 	Type    string
+	Comment string
 }
 
-func getExtends(st spec.Type) []string {
-	var ex []string
+func convertTypeTs(st aspec.Type) TsType {
+	var ts TsType
 
 	switch t := st.(type) {
-	case spec.DefineStruct:
+	case aspec.DefineStruct:
+
+		var ex []string
+		var tfs []TsTypeField
 		for _, v := range t.Members {
 			if v.Name == "" {
-				switch tt := v.Type.(type) {
-				case spec.DefineStruct:
-					ex = append(ex, tt.RawName)
+				ex = append(ex, v.Type.Name())
+			} else {
+				m := TsTypeField{
+					Comment: v.Comment,
+					Name:    jsonconv.Case2Snake(v.Name),
+					Type:    convertx.ConvertGoTypeToTsType(v.Type.Name()),
 				}
+				tfs = append(tfs, m)
 			}
 		}
 
-	}
-	return ex
-}
-
-func getFields(st spec.Type) []Field {
-	var ex []Field
-
-	switch t := st.(type) {
-	case spec.DefineStruct:
-		for _, v := range t.Members {
-			m := Field{
-				Comment: v.Comment,
-				Name:    v.Name,
-				Type:    convertx.ConvertGoTypeToTsType(getType(v.Type)),
-			}
-			ex = append(ex, m)
+		ts = TsType{
+			Comment: strings.Join(t.Comments(), "\n"),
+			Name:    t.Name(),
+			Extends: ex,
+			Fields:  tfs,
 		}
 
-	}
-	return ex
-}
-
-func getType(st spec.Type) string {
-	var out string
-	switch t := st.(type) {
-	case spec.DefineStruct:
-		out = t.RawName
-	case spec.PrimitiveType:
-		out = t.RawName
-	case spec.MapType:
-		out = t.RawName
-	case spec.ArrayType:
-		out = t.RawName
-	case spec.InterfaceType:
-		out = t.RawName
-	case spec.PointerType:
-		out = t.RawName
+	case aspec.PrimitiveType:
+	case aspec.MapType:
+	case aspec.ArrayType:
+	case aspec.InterfaceType:
+	case aspec.PointerType:
 	default:
 		panic("unknown type")
 	}
-	return out
+
+	return ts
 }

@@ -1,4 +1,4 @@
-package apiparser
+package parserx
 
 import (
 	"os"
@@ -7,7 +7,7 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/api/parser"
 	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
 
-	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/apiparser/aspec"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx/aspec"
 )
 
 type SpecParser struct {

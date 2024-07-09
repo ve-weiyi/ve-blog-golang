@@ -93,7 +93,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "查询评论列表"
     @handler FindCommentList
     post /comment/find_comment_list (CommentQueryReq) returns (PageResp)
@@ -109,7 +109,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建评论"
     @handler CreateComment
     post /comment/create_comment (CommentNewReq) returns (CommentNewReq)

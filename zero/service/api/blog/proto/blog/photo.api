@@ -22,36 +22,8 @@ type (
     middleware: SignToken,JwtToken
 )
 
-service admin-api {
+service blog-api {
     @doc "分页获取照片列表"
     @handler FindPhotoList
     post /photo/find_photo_list (PageQuery) returns (PageResp)
-}
-
-@server(
-    prefix: /api/v1
-    group: photo
-    middleware: SignToken,JwtToken
-)
-
-service admin-api {
-    @doc "创建照片"
-    @handler CreatePhoto
-    post /photo/create_photo (Photo) returns (Photo)
-
-    @doc "更新照片"
-    @handler UpdatePhoto
-    put /photo/update_photo (Photo) returns (Photo)
-
-    @doc "删除照片"
-    @handler DeletePhoto
-    delete /photo/delete_photo (IdReq) returns (BatchResp)
-
-    @doc "批量删除照片"
-    @handler DeletePhotoList
-    delete /photo/delete_photo_list (IdsReq) returns (BatchResp)
-
-    @doc "查询照片"
-    @handler FindPhoto
-    post /photo/find_photo (IdReq) returns (Photo)
 }

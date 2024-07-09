@@ -26,40 +26,8 @@ type (
     middleware: SignToken
 )
 
-service admin-api {
+service blog-api {
     @doc "分页获取说说列表"
     @handler FindTalkList
     post /talk/find_talk_list (PageQuery) returns (PageResp)
-}
-
-@server(
-    prefix: /api/v1
-    group: talk
-    middleware: SignToken,JwtToken
-)
-
-service admin-api {
-    @doc "创建说说"
-    @handler CreateTalk
-    post /talk/create_talk (TalkDetails) returns (TalkDetails)
-
-    @doc "更新说说"
-    @handler UpdateTalk
-    put /talk/update_talk (TalkDetails) returns (TalkDetails)
-
-    @doc "删除说说"
-    @handler DeleteTalk
-    delete /talk/delete_talk (IdReq) returns (BatchResp)
-
-    @doc "批量删除说说"
-    @handler DeleteTalkList
-    delete /talk/delete_talk_list (IdsReq) returns (BatchResp)
-
-    @doc "查询说说"
-    @handler FindTalk
-    post /talk/find_talk (IdReq) returns (TalkDetails)
-
-    @doc "点赞说说"
-    @handler LikeTalk
-    put /talk/like_talk (IdReq) returns (EmptyResp)
 }

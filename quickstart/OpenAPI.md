@@ -20,12 +20,12 @@ A：refer：https://www.cnblogs.com/origin-zy/p/17541703.html
 
 ### 1. 介绍
 
-#### SwaggerParser ([swagger.go](apiparser/swagger.go))
+#### SwaggerParser ([swagger.go](tools/parserx/swagger.go))
 
 解析swagger.json，提取接口定义。包括接口路径、接口方法、接口参数、接口返回值等信息。
 
 
-####  ApiParser ([ast.go](apiparser/ast.go))
+####  ApiParser ([ast.go](parserx/ast.go))
 使用golang ast语法树，解析路径下的接口注释，提取接口定义。包括接口路径、接口方法、接口参数、接口返回值等信息。
 
 ### 2. 使用方式

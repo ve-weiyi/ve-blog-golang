@@ -45,8 +45,6 @@ type (
 		IpSource     string    `json:"ip_source" gorm:"column:ip_source" `         // 注册ip 源
 		CreatedAt    time.Time `json:"created_at" gorm:"column:created_at" `       // 创建时间
 		UpdatedAt    time.Time `json:"updated_at" gorm:"column:updated_at" `       // 更新时间
-		LoginAt      time.Time `json:"login_at" gorm:"column:login_at" `           // 登录时间
-		LogoutAt     time.Time `json:"logout_at" gorm:"column:logout_at" `         // 登出时间
 	}
 
 	// 接口实现

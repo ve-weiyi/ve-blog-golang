@@ -26,7 +26,7 @@ type (
     middleware: SignToken
 )
 
-service blog-api {
+service admin-api {
     @doc "分页获取标签列表"
     @handler FindTagList
     post /tag/find_tag_list (PageQuery) returns (PageResp)
@@ -38,7 +38,7 @@ service blog-api {
     middleware: SignToken,JwtToken
 )
 
-service blog-api {
+service admin-api {
     @doc "创建标签"
     @handler CreateTag
     post /tag/create_tag (Tag) returns (Tag)

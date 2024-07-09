@@ -92,22 +92,18 @@ type (
 @server(
     prefix: /api/v1
     group: website
-    middleware: SignToken,JwtToken
+    middleware: SignToken
 )
-service admin-api {
-    @doc "获取后台首页信息"
-    @handler GetAdminHomeInfo
-    get /admin (EmptyReq) returns (AdminHomeInfo)
+service blog-api {
+    @doc "获取博客前台首页信息"
+    @handler GetBlogHomeInfo
+    get /blog (EmptyReq) returns (BlogHomeInfo)
 
-    @doc "更新网站配置"
-    @handler UpdateWebsiteConfig
-    put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)
+    @doc "获取网站配置"
+    @handler GetWebsiteConfig
+    get /blog/get_website_config (EmptyReq) returns (WebsiteConfig)
 
-    @doc "更新关于我的信息"
-    @handler UpdateAboutMe
-    put /admin/about_me (AboutMe) returns (EmptyResp)
-
-    @doc "获取服务器信息"
-    @handler GetSystemState
-    get /admin/system_state (EmptyReq) returns (EmptyResp)
+    @doc "获取关于我的信息"
+    @handler GetAboutMe
+    get /blog/about_me (EmptyReq) returns (AboutMe)
 }

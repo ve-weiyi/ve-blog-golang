@@ -1,10 +1,18 @@
 syntax = "v1"
 
 import "blog/login.api"
+import "blog/account.api"
 import "blog/article.api"
 import "blog/category.api"
 import "blog/tag.api"
+import "blog/website.api"
+import "blog/photo.api"
+import "blog/photo_album.api"
+import "blog/talk.api"
+import "blog/friend_link.api"
 import "blog/comment.api"
+import "blog/remark.api"
+import "blog/chat.api"
 
 type (
 	PingReq  {}
@@ -20,6 +28,7 @@ type (
 
 @server (
 	prefix: /api/v1
+	group:  ping
 )
 service blog-api {
 	@doc "ping"

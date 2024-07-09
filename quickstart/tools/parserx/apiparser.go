@@ -1,7 +1,7 @@
-package apiparser
+package parserx
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/apiparser/aspec"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx/aspec"
 )
 
 // api方法定义信息

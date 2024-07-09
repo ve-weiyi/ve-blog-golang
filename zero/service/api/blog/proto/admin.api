@@ -1,25 +1,25 @@
 syntax = "v1"
 
-import "module/account.api"
-import "module/auth.api"
-import "module/api.api"
-import "module/menu.api"
-import "module/role.api"
-import "module/website.api"
-import "module/article.api"
-import "module/category.api"
-import "module/tag.api"
-import "module/friend_link.api"
-import "module/remark.api"
-import "module/operation_log.api"
-import "module/page.api"
-import "module/photo.api"
-import "module/photo_album.api"
-import "module/talk.api"
-import "module/comment.api"
-import "module/chat.api"
-import "module/upload.api"
-import "module/websocket.api"
+import "admin/account.api"
+import "admin/auth.api"
+import "admin/api.api"
+import "admin/menu.api"
+import "admin/role.api"
+import "admin/website.api"
+import "admin/article.api"
+import "admin/category.api"
+import "admin/tag.api"
+import "admin/friend_link.api"
+import "admin/remark.api"
+import "admin/operation_log.api"
+import "admin/page.api"
+import "admin/photo.api"
+import "admin/photo_album.api"
+import "admin/talk.api"
+import "admin/comment.api"
+import "admin/chat.api"
+import "admin/upload.api"
+import "admin/websocket.api"
 
 type (
 	PingReq  {}
@@ -36,7 +36,7 @@ type (
 @server (
 	prefix: /api/v1
 )
-service blog-api {
+service admin-api {
 	@doc "ping"
 	@handler Ping
 	get /ping (PingReq) returns (PingResp)

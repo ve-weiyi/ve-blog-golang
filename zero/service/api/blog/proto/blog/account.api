@@ -142,59 +142,11 @@ type (
 
 @server(
     prefix: /api/v1
-    group: account
-    middleware: JwtToken
-)
-
-service admin-api {
-    @doc "查询用户列表"
-    @handler FindUserList
-    post /user/find_user_list (PageQuery) returns (PageResp)
-
-    @doc "查询在线用户列表"
-    @handler FindOnlineUserList
-    post /user/find_online_user_list (PageQuery) returns (PageResp)
-
-    @doc "获取用户分布地区"
-    @handler FindUserAreas
-    post /user/find_user_areas (PageQuery) returns (PageResp)
-
-    @doc "修改用户状态"
-    @handler UpdateUserStatus
-    post /user/update_user_status (UpdateUserStatusReq) returns (EmptyResp)
-
-    @doc "修改用户角色"
-    @handler UpdateUserRoles
-    post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
-}
-
-@server(
-    prefix: /api/v1
-    group: account
+    group: user
     middleware: SignToken,JwtToken
 )
 
-service admin-api {
-    @doc "查询用户登录历史"
-    @handler FindUserLoginHistoryList
-    post /user/login_history (PageQuery) returns (PageResp)
-
-    @doc "批量删除登录历史"
-    @handler DeleteUserLoginHistoryList
-    delete /user/delete_login_history_list (IdsReq) returns (BatchResp)
-
-    @doc "获取用户接口权限"
-    @handler GetUserApis
-    get /user/get_user_apis (EmptyReq) returns (UserApisResp)
-
-    @doc "获取用户菜单权限"
-    @handler GetUserMenus
-    get /user/get_user_menus (EmptyReq) returns (UserMenusResp)
-
-    @doc "获取用户角色"
-    @handler GetUserRole
-    get /user/get_user_roles (EmptyReq) returns (UserRolesResp)
-
+service blog-api {
     @doc "获取用户信息"
     @handler GetUserInfo
     get /user/get_user_info (EmptyReq) returns (UserInfoResp)
