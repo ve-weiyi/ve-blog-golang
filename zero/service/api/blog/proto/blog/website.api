@@ -99,10 +99,6 @@ service blog-api {
     @handler GetBlogHomeInfo
     get /blog (EmptyReq) returns (BlogHomeInfo)
 
-    @doc "获取网站配置"
-    @handler GetWebsiteConfig
-    get /blog/get_website_config (EmptyReq) returns (WebsiteConfig)
-
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /blog/about_me (EmptyReq) returns (AboutMe)

@@ -13,6 +13,7 @@ import "blog/friend_link.api"
 import "blog/comment.api"
 import "blog/remark.api"
 import "blog/chat.api"
+import "blog/websocket.api"
 
 type (
 	PingReq  {}
@@ -28,7 +29,6 @@ type (
 
 @server (
 	prefix: /api/v1
-	group:  ping
 )
 service blog-api {
 	@doc "ping"

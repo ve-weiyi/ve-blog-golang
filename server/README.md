@@ -67,6 +67,12 @@ go run main.go api -c=nacos --n-namespace=test
 go fmt ./...
 ```
 
+格式化导入包
+```shell
+go install golang.org/x/tools/cmd/goimports
+goimports -w .
+```
+
 ### 5.生成swagger文档
 安装swag
 ```shell

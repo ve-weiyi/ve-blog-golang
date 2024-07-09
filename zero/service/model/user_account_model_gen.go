@@ -43,6 +43,8 @@ type (
 		RegisterType string    `json:"register_type" gorm:"column:register_type" ` // 注册方式
 		IpAddress    string    `json:"ip_address" gorm:"column:ip_address" `       // 注册ip
 		IpSource     string    `json:"ip_source" gorm:"column:ip_source" `         // 注册ip 源
+		LoginAt      time.Time `json:"login_at" gorm:"column:login_at" `           // 登录时间
+		LogoutAt     time.Time `json:"logout_at" gorm:"column:logout_at" `         // 登出时间
 		CreatedAt    time.Time `json:"created_at" gorm:"column:created_at" `       // 创建时间
 		UpdatedAt    time.Time `json:"updated_at" gorm:"column:updated_at" `       // 更新时间
 	}

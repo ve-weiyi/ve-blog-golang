@@ -76,6 +76,10 @@ go run service/rpc/blog/blog.go -f service/rpc/blog/etc/blog-rpc.yaml
 go run service/api/blog/blog.go -f service/api/blog/etc/blog-api.yaml
 ```
 
+```sh
+go run service/api/admin/admin.go -f service/api/blog/etc/admin-api.yaml
+```
+
 ## 2.使用nacos配置启动
 
 ```sh

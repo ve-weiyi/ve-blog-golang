@@ -55,10 +55,10 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// typescriptCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	//typescriptCmd.PersistentFlags().StringVarP(&VarStringApiFile, "api-file", "f", "test.api", "sql文件")
-	//typescriptCmd.PersistentFlags().StringVarP(&VarStringTplPath, "tpl-path", "t", "test.tpl", "模板文件")
-	//typescriptCmd.PersistentFlags().StringVarP(&VarStringOutPath, "out-path", "o", "./", "输出路径")
-	//typescriptCmd.PersistentFlags().StringVarP(&VarStringNameAs, "name-as", "n", "%s.go", "输出名称")
+	// typescriptCmd.PersistentFlags().StringVarP(&VarStringApiFile, "api-file", "f", "test.api", "sql文件")
+	// typescriptCmd.PersistentFlags().StringVarP(&VarStringTplPath, "tpl-path", "t", "test.tpl", "模板文件")
+	// typescriptCmd.PersistentFlags().StringVarP(&VarStringOutPath, "out-path", "o", "./", "输出路径")
+	// typescriptCmd.PersistentFlags().StringVarP(&VarStringNameAs, "name-as", "n", "%s.go", "输出名称")
 	cobrax.ParseFlag(typescriptCmd, flag)
 }
 
@@ -108,6 +108,7 @@ func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 	}
 
 	for n, g := range gps {
+
 		mt := make(map[string]aspec.Type)
 		for _, r := range g {
 			if r.RequestType != nil {
@@ -127,21 +128,36 @@ func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 
 		var trs []TsApiRoute
 		for _, r := range g {
+			req := "any"
+			resp := "any"
+			if r.RequestType != nil {
+				req = r.RequestType.Name()
+			}
+
+			if r.ResponseType != nil {
+				resp = r.ResponseType.Name()
+			}
+
 			tr := TsApiRoute{
 				Summery:  r.AtDoc.Text,
 				Path:     r.Path,
 				Method:   r.Method,
-				Handler:  r.Handler,
-				Request:  r.RequestType.Name(),
-				Response: r.ResponseType.Name(),
+				Handler:  jsonconv.Lcfirst(r.Handler) + "Api",
+				Request:  req,
+				Response: resp,
 			}
 			trs = append(trs, tr)
+		}
+
+		var fn = n
+		if fn == "" {
+			fn = strings.Split(path.Base(conf.VarStringFilePath), ".")[0]
 		}
 
 		meta := invent.TemplateMeta{
 			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(conf.VarStringOutPath, fmt.Sprintf("%s.ts", n)),
+			CodeOutPath:    path.Join(conf.VarStringOutPath, fmt.Sprintf("%s.ts", fn)),
 			TemplateString: string(tpl),
 			FunMap: map[string]any{
 				"Join": func(s []string) string {
@@ -149,7 +165,7 @@ func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 				},
 			},
 			Data: TsApi{
-				ImportPkgPaths: []string{`import http from "@/utils/request"`},
+				ImportPkgPaths: []string{`import request from "@/utils/request"`},
 				ImportTypes:    tns,
 				Routes:         trs,
 			},

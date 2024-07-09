@@ -4,10 +4,10 @@ package handler
 import (
 	"net/http"
 
-	account "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/account"
 	article "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/category"
+	chat "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/comment"
 	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/friend_link"
 	photo "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/photo"
@@ -15,7 +15,9 @@ import (
 	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/talk"
+	user "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/user"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/website"
+	websocket "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/websocket"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -31,33 +33,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: PingHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
-			[]rest.Route{
-				{
-					// 获取用户信息
-					Method:  http.MethodGet,
-					Path:    "/user/get_user_info",
-					Handler: account.GetUserInfoHandler(serverCtx),
-				},
-				{
-					// 更换用户头像
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_avatar",
-					Handler: account.UpdateUserAvatarHandler(serverCtx),
-				},
-				{
-					// 修改用户信息
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_info",
-					Handler: account.UpdateUserInfoHandler(serverCtx),
-				},
-			}...,
-		),
 		rest.WithPrefix("/api/v1"),
 	)
 
@@ -201,6 +176,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Route{
+				{
+					// 查询聊天记录
+					Method:  http.MethodPost,
+					Path:    "/chat/records",
+					Handler: chat.FindChatRecordsHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
@@ -336,10 +326,49 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
+					// 查询说说
+					Method:  http.MethodPost,
+					Path:    "/talk/find_talk",
+					Handler: talk.FindTalkHandler(serverCtx),
+				},
+				{
 					// 分页获取说说列表
 					Method:  http.MethodPost,
 					Path:    "/talk/find_talk_list",
 					Handler: talk.FindTalkListHandler(serverCtx),
+				},
+				{
+					// 点赞说说
+					Method:  http.MethodPut,
+					Path:    "/talk/like_talk",
+					Handler: talk.LikeTalkHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Route{
+				{
+					// 获取用户信息
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_info",
+					Handler: user.GetUserInfoHandler(serverCtx),
+				},
+				{
+					// 更换用户头像
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_avatar",
+					Handler: user.UpdateUserAvatarHandler(serverCtx),
+				},
+				{
+					// 修改用户信息
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_info",
+					Handler: user.UpdateUserInfoHandler(serverCtx),
 				},
 			}...,
 		),
@@ -362,14 +391,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/blog/about_me",
 					Handler: website.GetAboutMeHandler(serverCtx),
 				},
-				{
-					// 获取网站配置
-					Method:  http.MethodGet,
-					Path:    "/blog/get_website_config",
-					Handler: website.GetWebsiteConfigHandler(serverCtx),
-				},
 			}...,
 		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// WebSocket消息
+				Method:  http.MethodGet,
+				Path:    "/ws",
+				Handler: websocket.WebSocketHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/api/v1"),
 	)
 }

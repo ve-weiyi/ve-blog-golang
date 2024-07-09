@@ -99,9 +99,17 @@ service admin-api {
     @handler GetAdminHomeInfo
     get /admin (EmptyReq) returns (AdminHomeInfo)
 
+    @doc "获取网站配置"
+    @handler GetWebsiteConfig
+    get /admin/get_website_config (EmptyReq) returns (WebsiteConfig)
+
     @doc "更新网站配置"
     @handler UpdateWebsiteConfig
     put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)
+
+    @doc "获取关于我的信息"
+    @handler GetAboutMe
+    get /admin/about_me (EmptyReq) returns (AboutMe)
 
     @doc "更新关于我的信息"
     @handler UpdateAboutMe

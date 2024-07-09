@@ -1,0 +1,88 @@
+Name: blog-api
+Host: 0.0.0.0
+Port: 9999
+Timeout: 5000
+# 健康检查
+DevServer:
+  Enabled: true
+  Port: 6060
+  HealthPath: "/ping"
+  MetricsPath: "/metrics"
+  EnableMetrics: true
+# 日志配置
+Log:
+  Mode: console
+  Encoding: json
+  Path: runtime/api/logs
+# 文件上传配置
+UploadConfig:
+  zone: ZoneHuanan
+  endpoint: s3.cn-south-1.qiniucs.com
+  access-key-id: gyoAZPHHZrwXt4HhG7SNRaxRShJPhEKvxJJKhDUV
+  access-key-secret: OqbepkdXNm0pKfZMy1ziPqdYjZMCtdzRIrz1Hlhi
+  bucket-name: veweiyi
+  bucket-url: https://static.veweiyi.cn
+  base-path: blog
+# 共同etcd配置
+#Etcd:
+#  Hosts:
+#    - veweiyi.cn:2379
+#  Key: blog.api
+
+BlogRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+AccountRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+RoleRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ApiRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+MenuRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+UserRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ConfigRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ArticleRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+CategoryRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+TagRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+CommentRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+FriendLinkRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+RemarkRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+PhotoRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+TalkRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+PageRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+LogRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+ChatRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
+UploadRpcConf:
+  Endpoints:
+    - 0.0.0.0:9998
