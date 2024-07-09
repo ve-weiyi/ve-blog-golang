@@ -20,7 +20,7 @@ type (
 		InsertBatch(ctx context.Context, in ...*ChatMessage) (rows int64, err error)
 		// 更新
 		Update(ctx context.Context, in *ChatMessage) (rows int64, err error)
-		Save(ctx context.Context, in *ChatMessage) (rows int64, err error)
+		UpdateNotEmpty(ctx context.Context, in *ChatMessage) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
@@ -97,7 +97,7 @@ func (m *defaultChatMessageModel) InsertBatch(ctx context.Context, in ...*ChatMe
 func (m *defaultChatMessageModel) Update(ctx context.Context, in *ChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Updates(&in)
+	result := db.Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -106,10 +106,10 @@ func (m *defaultChatMessageModel) Update(ctx context.Context, in *ChatMessage) (
 }
 
 // 更新记录（更新零值）
-func (m *defaultChatMessageModel) Save(ctx context.Context, in *ChatMessage) (rows int64, err error) {
+func (m *defaultChatMessageModel) UpdateNotEmpty(ctx context.Context, in *ChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Save(&in)
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

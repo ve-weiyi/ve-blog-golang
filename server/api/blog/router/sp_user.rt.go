@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type UserRouter struct {
@@ -20,7 +20,7 @@ func NewUserRouter(svcCtx *svc.ServiceContext) *UserRouter {
 // InitUserRouter 初始化 User 路由信息
 func (s *UserRouter) InitUserRouter(publicRouter *gin.RouterGroup, loginRouter *gin.RouterGroup) {
 
-	var handler = controller.NewUserController(s.svcCtx)
+	var handler = controller.NewAccountController(s.svcCtx)
 	{
 		loginRouter.GET("/user/get_user_info", handler.GetUserInfo)   // 用户信息
 		loginRouter.GET("/user/get_user_menus", handler.GetUserMenus) // 用户菜单

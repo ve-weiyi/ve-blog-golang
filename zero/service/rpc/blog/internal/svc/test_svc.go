@@ -67,7 +67,6 @@ func NewTestServiceContext() *ServiceContext {
 
 		UserAccountModel:      model.NewUserAccountModel(db, rds),
 		UserOauthModel:        model.NewUserOauthModel(db, rds),
-		UserInformationModel:  model.NewUserInformationModel(db, rds),
 		UserLoginHistoryModel: model.NewUserLoginHistoryModel(db, rds),
 		RoleModel:             model.NewRoleModel(db, rds),
 		ApiModel:              model.NewApiModel(db, rds),

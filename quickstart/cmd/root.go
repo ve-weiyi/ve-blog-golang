@@ -22,6 +22,7 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/model"
 	"github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/web"
 )
 
@@ -42,7 +43,7 @@ to quickly create a Cobra application.`,
 		// Uncomment the following line if your bare application
 		// has an action associated with it:
 		Run: func(cmd *cobra.Command, args []string) {
-			//实现功能逻辑的函数。
+			// 实现功能逻辑的函数。
 			_ = cmd.Help()
 			return
 		},
@@ -50,6 +51,7 @@ to quickly create a Cobra application.`,
 
 	rootCmd.Version = fmt.Sprintf("%s %s/%s", "v1.0.0", runtime.GOOS, runtime.GOARCH)
 	rootCmd.AddCommand(web.NewWebCmd())
+	rootCmd.AddCommand(model.NewModelCmd())
 
 	root := &RootCmd{
 		cmd: rootCmd,

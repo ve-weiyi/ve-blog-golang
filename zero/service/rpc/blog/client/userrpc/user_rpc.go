@@ -85,7 +85,6 @@ type (
 	TalkPageResp             = blog.TalkPageResp
 	UpdateRoleApisReq        = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
-	UpdateUserAvatarReq      = blog.UpdateUserAvatarReq
 	UpdateUserInfoReq        = blog.UpdateUserInfoReq
 	UpdateUserRoleReq        = blog.UpdateUserRoleReq
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
@@ -114,8 +113,6 @@ type (
 		FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户信息
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
-		// 修改用户头像
-		UpdateUserAvatar(ctx context.Context, in *UpdateUserAvatarReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户状态
 		UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户角色
@@ -179,12 +176,6 @@ func (m *defaultUserRpc) FindUserInfo(ctx context.Context, in *UserReq, opts ...
 func (m *defaultUserRpc) UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
 	return client.UpdateUserInfo(ctx, in, opts...)
-}
-
-// 修改用户头像
-func (m *defaultUserRpc) UpdateUserAvatar(ctx context.Context, in *UpdateUserAvatarReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.UpdateUserAvatar(ctx, in, opts...)
 }
 
 // 修改用户状态

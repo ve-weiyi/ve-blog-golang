@@ -32,6 +32,11 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.PageQuery) (resp *types.
 		return nil, err
 	}
 
+	total, err := l.svcCtx.RemarkRpc.FindRemarkCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.Remark
 	for _, v := range out.List {
 		list = append(list, convert.ConvertRemarkTypes(v))
@@ -40,7 +45,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.PageQuery) (resp *types.
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

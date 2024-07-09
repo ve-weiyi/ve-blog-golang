@@ -6,16 +6,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 )
 
-func ConvertUserInfoModelToPb(in *model.UserInformation) (out *blog.UserInfoResp) {
+func ConvertUserInfoModelToPb(in *model.UserAccount) (out *blog.UserInfoResp) {
 	out = &blog.UserInfoResp{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		Email:     in.Email,
+		UserId:    in.Id,
+		Username:  in.Username,
 		Nickname:  in.Nickname,
 		Avatar:    in.Avatar,
-		Phone:     in.Phone,
-		Intro:     in.Intro,
-		Website:   in.Website,
+		Info:      in.Info,
+		Status:    in.Status,
+		LoginType: in.LoginType,
+		IpAddress: in.IpAddress,
+		IpSource:  in.IpSource,
 		CreatedAt: in.CreatedAt.Unix(),
 		UpdatedAt: in.UpdatedAt.Unix(),
 	}
@@ -23,7 +24,7 @@ func ConvertUserInfoModelToPb(in *model.UserInformation) (out *blog.UserInfoResp
 	return out
 }
 
-func ConvertUserDetailsModelToPb(a *model.UserAccount, info *model.UserInformation, roles []*model.Role) (out *blog.User) {
+func ConvertUserDetailsModelToPb(a *model.UserAccount, roles []*model.Role) (out *blog.User) {
 	var list []*blog.RoleLabel
 	for _, role := range roles {
 		m := &blog.RoleLabel{
@@ -35,21 +36,20 @@ func ConvertUserDetailsModelToPb(a *model.UserAccount, info *model.UserInformati
 	}
 
 	out = &blog.User{
-		Id:           a.Id,
-		Username:     a.Username,
-		Email:        info.Email,
-		Nickname:     info.Nickname,
-		Avatar:       info.Avatar,
-		Phone:        info.Phone,
-		Intro:        info.Intro,
-		Website:      info.Website,
-		Status:       a.Status,
-		RegisterType: a.RegisterType,
-		IpAddress:    a.IpAddress,
-		IpSource:     a.IpSource,
-		Roles:        list,
-		CreatedAt:    info.CreatedAt.Unix(),
-		UpdatedAt:    info.UpdatedAt.Unix(),
+		UserId:    a.Id,
+		Username:  a.Username,
+		Nickname:  a.Nickname,
+		Avatar:    a.Avatar,
+		Info:      a.Info,
+		Status:    a.Status,
+		LoginType: a.LoginType,
+		IpAddress: a.IpAddress,
+		IpSource:  a.IpSource,
+		CreatedAt: a.CreatedAt.Unix(),
+		UpdatedAt: a.UpdatedAt.Unix(),
+		LoginAt:   a.LoginAt.Unix(),
+		LogoutAt:  a.LogoutAt.Unix(),
+		Roles:     list,
 	}
 
 	return out

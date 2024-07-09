@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/system"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )

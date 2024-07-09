@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type WebsiteController struct {

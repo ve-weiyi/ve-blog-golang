@@ -8,7 +8,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/router"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 // 初始化总路由
@@ -30,7 +30,7 @@ func RegisterRouters(r *gin.RouterGroup, serverCtx *svc.ServiceContext) {
 		})
 	})
 
-	//公开接口，不需要token
+	// 公开接口，不需要token
 	publicGroup := r.Group("/")
 	publicGroup.Use(middleware.SignToken()) // 签名 校验
 	// 后台接口，需要token和角色认证，

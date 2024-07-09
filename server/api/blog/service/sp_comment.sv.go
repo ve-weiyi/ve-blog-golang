@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type CommentService struct {
@@ -103,12 +103,12 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *dto.Comm
 		}
 
 		// 回复的用户信息
-		//rinfo, _ := userMap[item.ReplyUserId]
-		//if rinfo != nil {
+		// rinfo, _ := userMap[item.ReplyUserId]
+		// if rinfo != nil {
 		//	data.ReplyUserId = rinfo.Id
 		//	data.ReplyNickname = rinfo.Nickname
 		//	data.ReplyWebsite = rinfo.Website
-		//}
+		// }
 
 		list = append(list, data)
 	}
@@ -290,9 +290,9 @@ func (l *CommentService) LikeComment(reqCtx *request.Context, commentId int64) (
 }
 
 func ConvertCommentQueryTypes(in *dto.CommentQueryReq) (page int64, pageSize int64, sorts string, conditions string, args []interface{}) {
-	//var page, pageSize int64
-	//var sorts, conditions string
-	//var args []string
+	// var page, pageSize int64
+	// var sorts, conditions string
+	// var args []string
 
 	page = in.Page
 	pageSize = in.PageSize

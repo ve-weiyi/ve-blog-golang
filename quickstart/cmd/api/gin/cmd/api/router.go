@@ -9,11 +9,11 @@ import (
 	"path"
 
 	"github.com/spf13/cobra"
-	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
-	"github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/api/gin/cmd/model"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx/aspec"
 )
 
 // routerCmd represents the router command
@@ -44,7 +44,7 @@ func RunCommandRouter(cmd *cobra.Command, args []string) {
 	o := VarStringOutPath
 	n := VarStringNameAs
 
-	sp, err := ParseApiSpec(f)
+	sp, err := parserx.NewSpecParser().ParseApi(f)
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +55,7 @@ func RunCommandRouter(cmd *cobra.Command, args []string) {
 	}
 }
 
-func generateRouters(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
+func generateRouters(sp *aspec.ApiSpec, tplPath, outPath, nameAs string) error {
 	var metas []invent.TemplateMeta
 
 	routesTpl, err := os.ReadFile(path.Join(tplPath, "routes.tpl"))
@@ -63,7 +63,7 @@ func generateRouters(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
 		return err
 	}
 
-	var groups []model.GroupRoute
+	var groups []GroupRoute
 	groups = convertGroups(sp)
 
 	pkg, _ := golang.GetParentPackage(outPath)

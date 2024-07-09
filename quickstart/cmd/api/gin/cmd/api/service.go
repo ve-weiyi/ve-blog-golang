@@ -10,12 +10,12 @@ import (
 	"path"
 
 	"github.com/spf13/cobra"
-	"github.com/zeromicro/go-zero/tools/goctl/api/spec"
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/api/gin/cmd/model"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx/aspec"
 )
 
 // serviceCmd represents the service command
@@ -46,7 +46,7 @@ func RunCommandServices(cmd *cobra.Command, args []string) {
 	o := VarStringOutPath
 	n := VarStringNameAs
 
-	sp, err := ParseApiSpec(f)
+	sp, err := parserx.NewSpecParser().ParseApi(f)
 	if err != nil {
 		panic(err)
 	}
@@ -57,7 +57,7 @@ func RunCommandServices(cmd *cobra.Command, args []string) {
 	}
 }
 
-func generateServices(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
+func generateServices(sp *aspec.ApiSpec, tplPath, outPath, nameAs string) error {
 	var metas []invent.TemplateMeta
 
 	handlerTpl, err := os.ReadFile(path.Join(tplPath, "service.tpl"))
@@ -65,7 +65,7 @@ func generateServices(sp *spec.ApiSpec, tplPath, outPath, nameAs string) error {
 		return err
 	}
 
-	var groups []model.GroupRoute
+	var groups []GroupRoute
 	groups = convertGroups(sp)
 	pkg, _ := golang.GetParentPackage(outPath)
 	// handler

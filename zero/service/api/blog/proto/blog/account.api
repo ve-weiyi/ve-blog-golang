@@ -3,140 +3,25 @@ syntax = "v1"
 import "base.api"
 
 type (
-    UserArea {
-        Name string `json:"name,optional"`
-        Value int64 `json:"value,optional"`
-    }
-
-    User {
-        Id int64 `json:"id,optional"`
-        Username string `json:"username"`
-        Nickname string `json:"nickname,optional"`
-        Avatar string `json:"avatar,optional"`
-        Intro string `json:"intro,optional"`
-        Website string `json:"website,optional"`
-        Email string `json:"email,optional"`
-        Status int64 `json:"status,optional"`
-        RegisterType string `json:"register_type,optional"`
-        IpAddress string `json:"ip_address,optional"` // ip host
-        IpSource string `json:"ip_source,optional"`   // ip 源
-        CreatedAt int64 `json:"created_at,optional"`
-        UpdatedAt int64 `json:"updated_at,optional"`
-        Roles []*RoleLabel `json:"roles,optional"`
-    }
-
-    RoleLabel {
-        RoleName string `json:"role_name,optional"`
-        RoleComment string `json:"role_comment,optional"`
-    }
-
-    UpdateUserStatusReq {
-        UserId int64 `json:"user_id,optional"`
-        Status int64 `json:"status,optional"`               // 状态: -1删除 0正常 1禁用
-    }
-
-    UpdateUserRolesReq {
-        UserId int64 `json:"user_id,optional"`
-        RoleIds []int64 `json:"role_ids,optional"`
-    }
-
-    LoginHistory {
-        Id int64 `json:"id,optional"`
-        LoginType string `json:"login_type,optional"` // 登录类型
-        Agent string `json:"agent,optional"`          // 代理
-        IpAddress string `json:"ip_address,optional"` // ip host
-        IpSource string `json:"ip_source,optional"`   // ip 源
-        LoginTime string `json:"login_time,optional"` // 创建时间
-    }
-
-    UserApi {
-        Id int64 `json:"id,optional"`                // 主键id
-        Name string `json:"name,optional"`           // api名称
-        Path string `json:"path,optional"`           // api路径
-        Method string `json:"method,optional"`       // api请求方法
-        ParentId int64 `json:"parent_id,optional"`   // 分组id
-        Traceable int64 `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
-        Status int64 `json:"status,optional"`        // 状态 1开，2关
-        CreatedAt int64 `json:"created_at,optional"` // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
-        Children []*UserApi `json:"children,optional"`
-    }
-
-    UserMenu {
-        Id int64 `json:"id,optional"`                             // 主键
-        ParentId int64 `json:"parent_id,optional"`                // 父id
-        Title string `json:"title,optional"`                      // 菜单标题
-        Type int64 `json:"type,optional"`                         // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-        Path string `json:"path,optional"`                        // 路由地址
-        Name string `json:"name,optional"`                        // 路由名字
-        Component string `json:"component,optional"`              // Layout组件
-        Redirect string `json:"redirect,optional"`                // 路由重定向
-        Meta UserMenuMeta `json:"meta,optional"`                  // meta配置
-        Children []*UserMenu `json:"children,optional"`
-    }
-
-    UserMenuMeta {
-        Title string `json:"title,optional"`                // 菜单名称
-        Icon string `json:"icon,optional"`                  // 菜单图标
-        ShowLink bool `json:"show_link,optional"`           // 是否在菜单中显示
-        Rank int64 `json:"rank,optional"`                   // 菜单升序排序
-        ExtraIcon string `json:"extra_icon,optional"`       // 菜单名称右侧的额外图标
-        ShowParent bool `json:"show_parent,optional"`       // 是否显示父级菜单
-        Roles []string `json:"roles,optional"`              // 页面级别权限设置
-        Auths []string `json:"auths,optional"`              // 按钮级别权限设置
-        KeepAlive bool `json:"keep_alive,optional"`         // 路由组件缓存
-        FrameSrc string `json:"frame_src,optional"`         // 内嵌的iframe链接
-        FrameLoading bool `json:"frame_loading,optional"`   // iframe页是否开启首次加载动画
-        Transition interface{} `json:"transition,optional"` // 页面加载动画
-        HiddenTag bool `json:"hidden_tag,optional"`         // 是否不添加信息到标签页
-        DynamicLevel int64 `json:"dynamic_level,optional"`  // 动态路由可打开的最大数量
-        ActivePath string `json:"active_path,optional"`     // 将某个菜单激活
-    }
-
-    UserRole {
-        Id int64 `json:"id,optional"`                     // 主键id
-        RolePId int64 `json:"role_pid,optional"`          // 父角色id
-        RoleDomain string `json:"role_domain,optional"`   // 角色域
-        RoleName string `json:"role_name,optional"`       // 角色名
-        RoleComment string `json:"role_comment,optional"` // 角色备注
-        IsDisable int64 `json:"is_disable,optional"`      // 是否禁用  0否 1是
-        IsDefault int64 `json:"is_default,optional"`      // 是否默认角色 0否 1是
-        CreatedAt int64 `json:"created_at,optional"`      // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
-        MenuIdList []int64 `json:"menu_id_list,optional"`
-        ResourceIdList []int64 `json:"resource_id_list,optional"`
-    }
-
-    UserApisResp {
-        List []*UserApi `json:"list,optional"`
-    }
-
-    UserMenusResp {
-        List []*UserMenu `json:"list,optional"`
-    }
-
-    UserRolesResp {
-        List []*UserRole `json:"list,optional"`
+    UserInfoExt {
+        Email string `json:"email,optional"`         // 用户邮箱
+        Phone string `json:"phone,optional"`         // 用户手机号
+        Intro string `json:"intro,optional"`         // 简介
+        Website string `json:"website,optional"`     // 网站
     }
 
     UserInfoReq {
         Nickname string `json:"nickname,optional"` // 昵称
-        Website string `json:"website,optional"`   // 网站
-        Intro string `json:"intro,optional"`       // 简介
         Avatar string `json:"avatar,optional"`     // 头像
+        UserInfoExt
     }
 
     UserInfoResp {
-        Id int64 `json:"id,optional"`                // id
         UserId int64 `json:"user_id,optional"`       // 用户id
-        Email string `json:"email,optional"`         // 用户邮箱
+        Username string `json:"username"`               // 用户名
         Nickname string `json:"nickname,optional"`   // 用户昵称
         Avatar string `json:"avatar,optional"`       // 用户头像
-        Phone string `json:"phone,optional"`         // 用户手机号
-        Intro string `json:"intro,optional"`         // 个人简介
-        Website string `json:"website,optional"`     // 个人网站
-        CreatedAt int64 `json:"created_at,optional"` // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
+        UserInfoExt
     }
 )
 
@@ -154,8 +39,4 @@ service blog-api {
     @doc "修改用户信息"
     @handler UpdateUserInfo
     post /user/update_user_info (UserInfoReq) returns (EmptyResp)
-
-    @doc "更换用户头像"
-    @handler UpdateUserAvatar
-    post /user/update_user_avatar (EmptyReq) returns (EmptyResp)
 }

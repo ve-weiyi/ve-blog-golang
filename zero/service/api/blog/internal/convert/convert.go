@@ -3,9 +3,8 @@ package convert
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 )
 
 func EmptyReq() (out *blog.EmptyReq) {

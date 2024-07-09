@@ -85,7 +85,6 @@ type (
 	TalkPageResp             = blog.TalkPageResp
 	UpdateRoleApisReq        = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
-	UpdateUserAvatarReq      = blog.UpdateUserAvatarReq
 	UpdateUserInfoReq        = blog.UpdateUserInfoReq
 	UpdateUserRoleReq        = blog.UpdateUserRoleReq
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
@@ -99,9 +98,7 @@ type (
 
 	UploadRpc interface {
 		// 上传文件
-		UploadFile(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error)
-		// 上传语言
-		UploadVoice(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error)
+		AddUploadRecord(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error)
 	}
 
 	defaultUploadRpc struct {
@@ -116,13 +113,7 @@ func NewUploadRpc(cli zrpc.Client) UploadRpc {
 }
 
 // 上传文件
-func (m *defaultUploadRpc) UploadFile(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error) {
+func (m *defaultUploadRpc) AddUploadRecord(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error) {
 	client := blog.NewUploadRpcClient(m.cli.Conn())
-	return client.UploadFile(ctx, in, opts...)
-}
-
-// 上传语言
-func (m *defaultUploadRpc) UploadVoice(ctx context.Context, in *UploadRecordReq, opts ...grpc.CallOption) (*UploadRecordResp, error) {
-	client := blog.NewUploadRpcClient(m.cli.Conn())
-	return client.UploadVoice(ctx, in, opts...)
+	return client.AddUploadRecord(ctx, in, opts...)
 }

@@ -58,7 +58,7 @@ func (s *RoleRpcServer) FindRoleList(ctx context.Context, in *blog.PageQuery) (*
 	return l.FindRoleList(in)
 }
 
-// 查询角色
+// 查询角色资源权限
 func (s *RoleRpcServer) FindRoleResources(ctx context.Context, in *blog.IdReq) (*blog.RoleResourcesResp, error) {
 	l := rolerpclogic.NewFindRoleResourcesLogic(ctx, s.svcCtx)
 	return l.FindRoleResources(in)

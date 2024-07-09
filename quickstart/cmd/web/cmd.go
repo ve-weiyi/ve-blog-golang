@@ -23,7 +23,6 @@ func NewWebCmd() *cobra.Command {
 	var rootCmd = &cobra.Command{
 		Use: "web",
 		Run: func(cmd *cobra.Command, args []string) {
-			//实现功能逻辑的函数。
 			_ = cmd.Help()
 			return
 		},

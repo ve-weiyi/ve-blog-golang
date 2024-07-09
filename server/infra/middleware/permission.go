@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 func PermissionHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -15,7 +15,7 @@ func PermissionHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 
-		//获取请求的PATH
+		// 获取请求的PATH
 		obj := c.Request.URL.Path
 		// 获取请求方法
 		act := c.Request.Method

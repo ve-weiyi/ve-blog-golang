@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-// 通过标签或者id获取文章列表
+// 通过分类获取文章列表
 func FindArticleClassifyCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ArticleClassifyReq

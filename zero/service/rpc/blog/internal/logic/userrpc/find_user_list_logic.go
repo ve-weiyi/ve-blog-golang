@@ -45,18 +45,6 @@ func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp
 		userIds = append(userIds, item.Id)
 	}
 
-	// 查找用户信息
-	uiList, err := l.svcCtx.UserInformationModel.FindALL(l.ctx, "user_id in ?", userIds)
-	if err != nil {
-		return nil, err
-	}
-
-	// 将用户信息列表转换为map
-	var uiMap = make(map[int64]*model.UserInformation)
-	for _, item := range uiList {
-		uiMap[item.UserId] = item
-	}
-
 	// 查找用户角色
 	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in ?", userIds)
 	if err != nil {
@@ -78,10 +66,6 @@ func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp
 
 	var list []*blog.User
 	for _, item := range result {
-		ui, ok := uiMap[item.Id]
-		if !ok {
-			continue
-		}
 
 		var roles []*model.Role
 		ur, _ := ursMap[item.Id]
@@ -94,7 +78,7 @@ func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp
 			}
 		}
 
-		list = append(list, convert.ConvertUserDetailsModelToPb(item, ui, roles))
+		list = append(list, convert.ConvertUserDetailsModelToPb(item, roles))
 	}
 
 	resp := &blog.UserPageResp{}

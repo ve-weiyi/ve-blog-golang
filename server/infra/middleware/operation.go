@@ -18,7 +18,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 // 操作日志
@@ -114,7 +114,7 @@ func OperationRecord(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			RequestUrl:    c.Request.URL.String(),
 			RequestMethod: c.Request.Method,
 			// 请求头携带token，数据太多
-			//RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
+			// RequestHeader: jsonconv.ObjectToJson(c.Request.Header),
 			RequestData:    req,
 			ResponseData:   resp,
 			ResponseStatus: int64(c.Writer.Status()),

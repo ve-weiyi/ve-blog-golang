@@ -2,4 +2,8 @@
 rm -f ../*
 #goctl model mysql ddl -src  test.sql -dir ../ --style go_zero -c --home ../../../../resource/template
 
-go run main.go -f ./test.sql -t ./model.tpl -o ../
+go run /Users/weiyi/Github/ve-blog-golang/quickstart/main.go model ddl \
+-t=./temp/model.tpl \
+-n='%s.go' \
+-o=./tmp \
+-s=./test.sql

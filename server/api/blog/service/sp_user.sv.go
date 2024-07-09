@@ -17,7 +17,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
@@ -53,7 +53,7 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *dto.PageQuery)
 		ids = append(ids, ua.Id)
 	}
 
-	//获取用户信息
+	// 获取用户信息
 	infos, err := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", ids)
 	if err != nil {
 		return nil, 0, err
@@ -141,7 +141,7 @@ func (l *UserService) FindUserAreaList(reqCtx *request.Context, page *dto.PageQu
 }
 
 func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *dto.PageQuery) (result []*dto.LoginHistory, total int64, err error) {
-	//获取用户
+	// 获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
@@ -172,7 +172,7 @@ func (l *UserService) FindUserLoginHistoryList(reqCtx *request.Context, page *dt
 }
 
 func (l *UserService) DeleteUserLoginHistoryList(reqCtx *request.Context, req *request.IdsReq) (rows int64, err error) {
-	//获取用户
+	// 获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return 0, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
@@ -321,15 +321,15 @@ func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int64) (data *
 		return nil, apierr.NewApiError(httperr.CodeForbidden, "用户不存在！")
 	}
 
-	//获取用户信息
+	// 获取用户信息
 	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	//accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.Id)
-	//commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.Id)
-	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
+	// accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.Id)
+	// commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.Id)
+	// talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
 
 	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	data = &dto.UserInfo{
@@ -340,9 +340,9 @@ func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int64) (data *
 		Intro:    info.Intro,
 		Website:  info.Website,
 		Email:    info.Email,
-		//ArticleLikeSet: accountLikeSet,
-		//CommentLikeSet: commentLikeSet,
-		//TalkLikeSet:    talkLikeSet,
+		// ArticleLikeSet: accountLikeSet,
+		// CommentLikeSet: commentLikeSet,
+		// TalkLikeSet:    talkLikeSet,
 		Roles: convertRoleList(roles),
 	}
 
@@ -350,19 +350,19 @@ func (l *UserService) GetUserInfo(reqCtx *request.Context, userId int64) (data *
 }
 
 func (l *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (data []*dto.MenuDetailsDTO, err error) {
-	//查询用户信息
+	// 查询用户信息
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
 
-	//查询用户角色
+	// 查询用户角色
 	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	//查询角色权限,取交集
+	// 查询角色权限,取交集
 	menuMaps := make(map[int64]*entity.Menu)
 	for _, item := range roles {
 		menus, err := l.svcCtx.RoleRepository.FindRoleMenus(reqCtx, item.Id)
@@ -389,19 +389,19 @@ func (l *UserService) GetUserMenus(reqCtx *request.Context, req interface{}) (da
 }
 
 func (l *UserService) GetUserApis(reqCtx *request.Context, req interface{}) (data []*dto.ApiDetailsDTO, err error) {
-	//查询用户信息
+	// 查询用户信息
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", reqCtx.Uid)
 	if err != nil {
 		return nil, err
 	}
 
-	//查询用户角色
+	// 查询用户角色
 	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	//查询角色权限,取交集
+	// 查询角色权限,取交集
 	menuMaps := make(map[int64]*entity.Api)
 	for _, item := range roles {
 		menus, err := l.svcCtx.RoleRepository.FindRoleApis(reqCtx, item.Id)

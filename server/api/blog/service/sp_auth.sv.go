@@ -15,7 +15,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
@@ -31,23 +31,23 @@ func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
 }
 
 func (l *AuthService) Login(reqCtx *request.Context, req *dto.LoginReq) (resp *dto.LoginResp, err error) {
-	//获取用户
+	// 获取用户
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
 
-	//验证密码是否正确
+	// 验证密码是否正确
 	if !crypto.BcryptCheck(req.Password, account.Password) {
 		return nil, apierr.ErrorUserPasswordError
 	}
 
-	//判断用户是否被禁用
+	// 判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
 		return nil, apierr.ErrorUserDisabled
 	}
 
-	//生成token
+	// 生成token
 	token, err := l.createToken(account.Id, account.Username, constant.LoginTypeEmail)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (l *AuthService) Login(reqCtx *request.Context, req *dto.LoginReq) (resp *d
 		Agent:     reqCtx.UserAgent,
 		CreatedAt: time.Now(),
 	}
-	//保存此次登录记录
+	// 保存此次登录记录
 	_, err = l.svcCtx.UserLoginHistoryRepository.Create(reqCtx, history)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ func (l *AuthService) Register(reqCtx *request.Context, req *dto.LoginReq) (resp
 		}
 	}
 
-	//获取用户
+	// 获取用户
 	exist, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if exist != nil {
 		return nil, apierr.ErrorUserAlreadyExist
@@ -271,12 +271,12 @@ func (l *AuthService) oauthRegister(reqCtx *request.Context, req *dto.OauthLogin
 
 func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth) (resp *dto.LoginResp, err error) {
 
-	//获取用户
+	// 获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserId)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
 	}
-	//判断用户是否被禁用
+	// 判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
 		return nil, apierr.ErrorUserDisabled
 	}
@@ -289,13 +289,13 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 		Agent:     reqCtx.UserAgent,
 		CreatedAt: time.Now(),
 	}
-	//保存此次登录记录
+	// 保存此次登录记录
 	_, err = l.svcCtx.UserLoginHistoryRepository.Create(reqCtx, history)
 	if err != nil {
 		return nil, err
 	}
 
-	//生成token
+	// 生成token
 	token, err := l.createToken(account.Id, account.Username, req.Platform)
 	if err != nil {
 		return nil, err
@@ -315,15 +315,15 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 }
 
 func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserAccount) (resp *dto.UserInfo, err error) {
-	//获取用户信息
+	// 获取用户信息
 	info, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	//accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.Id)
-	//commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.Id)
-	//talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
+	// accountLikeSet, _ := l.svcCtx.ArticleRepository.FindUserLikeArticle(reqCtx, account.Id)
+	// commentLikeSet, _ := l.svcCtx.CommentRepository.FindUserLikeComment(reqCtx, account.Id)
+	// talkLikeSet, _ := l.svcCtx.TalkRepository.FindUserLikeTalk(reqCtx, account.Id)
 
 	roles, err := l.svcCtx.RoleRepository.FindUserRoles(reqCtx, account.Id)
 	resp = &dto.UserInfo{
@@ -334,9 +334,9 @@ func (l *AuthService) getUserInfo(reqCtx *request.Context, account *entity.UserA
 		Intro:    info.Intro,
 		Website:  info.Website,
 		Email:    info.Email,
-		//ArticleLikeSet: accountLikeSet,
-		//CommentLikeSet: commentLikeSet,
-		//TalkLikeSet:    talkLikeSet,
+		// ArticleLikeSet: accountLikeSet,
+		// CommentLikeSet: commentLikeSet,
+		// TalkLikeSet:    talkLikeSet,
 		Roles: convertRoleList(roles),
 	}
 
@@ -376,6 +376,6 @@ func (l *AuthService) createToken(uid int64, username string, loginType string) 
 		UserId:           uid,
 	}
 
-	//生成token
+	// 生成token
 	return token, nil
 }

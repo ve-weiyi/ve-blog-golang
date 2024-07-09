@@ -28,12 +28,12 @@ func NewFindUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindUserInfoLogic) FindUserInfo(in *blog.UserReq) (*blog.UserInfoResp, error) {
 	uid := in.UserId
 
-	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
-	//if err != nil {
+	// ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	// if err != nil {
 	//	return nil, err
-	//}
+	// }
 
-	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", uid)
+	ui, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
 	if err != nil {
 		return nil, err
 	}
