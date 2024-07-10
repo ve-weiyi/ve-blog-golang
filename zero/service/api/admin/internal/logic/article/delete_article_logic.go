@@ -3,6 +3,7 @@ package article
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -25,7 +26,12 @@ func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeleteArticleLogic) DeleteArticle(req *types.IdReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertIdReq(req)
 
-	return
+	_, err = l.svcCtx.ArticleRpc.DeleteArticle(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }

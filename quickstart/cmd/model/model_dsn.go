@@ -4,29 +4,19 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package model
 
 import (
-	"fmt"
 	"log"
-	"os"
-	"path"
 
 	"github.com/spf13/cobra"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/tools/field"
-	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
 // migrateCmd represents the migrate command
 type ModelDSNCmd struct {
-	CMD     *cobra.Command
-	SqlFile string
-	TplFile string
-	OutPath string
-
-	NameAs string
+	CMD *cobra.Command
+	modelConfig
 }
 
 func NewModelDSNCmd() *ModelDSNCmd {
@@ -57,88 +47,17 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 	log.Println("out-path:", s.OutPath)
 	log.Println("name-as:", s.NameAs)
 
-	var metas []invent.TemplateMeta
 	var tables []*Table
 	var err error
 
-	f := s.SqlFile
-	t := s.TplFile
-	o := s.OutPath
-	n := s.NameAs
-
-	tables, err = ParseTableFromDsn(f)
+	tables, err = ParseTableFromDsn(s.SqlFile)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	tpl, err := os.ReadFile(t)
+	err = generateModel(tables, s.modelConfig)
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	for _, table := range tables {
-		fmt.Printf("%+v\n", table.Name)
-
-		data := convertTableToData(table)
-
-		meta := invent.TemplateMeta{
-			Key:            "",
-			Mode:           invent.ModeCreateOrReplace,
-			CodeOutPath:    path.Join(o, fmt.Sprintf(n, table.Name)),
-			TemplateString: string(tpl),
-			FunMap: map[string]any{
-				"funcFieldsKey": func(fs []*field.Field) string {
-					var name string
-					for _, ff := range fs {
-						name += ff.Name
-					}
-					return name
-				},
-				"funcFieldsKeyVar": func(fs []*field.Field) string {
-					var name string
-					for _, ff := range fs {
-						v := jsonconv.Case2Snake(ff.Name)
-						tp := ff.Type
-						if name != "" {
-							name += ", "
-						}
-						name += fmt.Sprintf("%s %s", v, tp)
-					}
-					return name
-				},
-				"funcFieldsKeyCond": func(fs []*field.Field) string {
-					var name string
-					for _, ff := range fs {
-						v := jsonconv.Case2Snake(ff.Name)
-						if name != "" {
-							name += " and "
-						}
-						name += fmt.Sprintf("`%s` = ?", v)
-					}
-					return name
-				},
-				"funcFieldsKeyCondVar": func(fs []*field.Field) string {
-					var name string
-					for _, ff := range fs {
-						v := jsonconv.Case2Snake(ff.Name)
-						if name != "" {
-							name += ", "
-						}
-						name += v
-					}
-					return name
-				},
-			},
-			Data: data,
-		}
-		metas = append(metas, meta)
-	}
-
-	for _, m := range metas {
-		err := m.Execute()
-		if err != nil {
-			log.Println(err)
-		}
 	}
 }
 

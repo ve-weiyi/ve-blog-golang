@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 删除文章-逻辑删除
-func PreDeleteArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 回收文章
+func RecycleArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ArticlePreDeleteReq
+		var req types.ArticleRecycleReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := article.NewPreDeleteArticleLogic(r.Context(), svcCtx)
-		resp, err := l.PreDeleteArticle(&req)
+		l := article.NewRecycleArticleLogic(r.Context(), svcCtx)
+		resp, err := l.RecycleArticle(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

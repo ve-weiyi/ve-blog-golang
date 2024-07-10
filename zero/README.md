@@ -77,7 +77,7 @@ go run service/api/blog/blog.go -f service/api/blog/etc/blog-api.yaml
 ```
 
 ```sh
-go run service/api/admin/admin.go -f service/api/blog/etc/admin-api.yaml
+go run service/api/admin/admin.go -f service/api/admin/etc/admin-api.yaml
 ```
 
 ## 2.使用nacos配置启动

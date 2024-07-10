@@ -32,6 +32,11 @@ func (l *FindFriendLinkListLogic) FindFriendLinkList(req *types.PageQuery) (resp
 		return nil, err
 	}
 
+	total, err := l.svcCtx.FriendLinkRpc.FindFriendLinkCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.FriendLink
 	for _, v := range out.List {
 		list = append(list, convert.ConvertFriendLinkTypes(v))
@@ -40,7 +45,7 @@ func (l *FindFriendLinkListLogic) FindFriendLinkList(req *types.PageQuery) (resp
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

@@ -3,6 +3,7 @@ package article
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -25,7 +26,12 @@ func NewFindArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 }
 
 func (l *FindArticleLogic) FindArticle(req *types.IdReq) (resp *types.ArticleBackDTO, err error) {
-	// todo: add your logic here and delete this line
+	in := convert.ConvertIdReq(req)
 
-	return
+	out, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convert.ConvertArticleBackTypes(out), nil
 }

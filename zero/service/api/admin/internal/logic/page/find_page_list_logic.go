@@ -32,6 +32,11 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQuery) (resp *types.Page
 		return nil, err
 	}
 
+	total, err := l.svcCtx.PageRpc.FindPageCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.Page
 	for _, v := range out.List {
 		list = append(list, convert.ConvertPageTypes(v))
@@ -40,7 +45,7 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQuery) (resp *types.Page
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

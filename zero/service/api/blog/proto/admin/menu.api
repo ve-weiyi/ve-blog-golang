@@ -55,6 +55,10 @@ type (
     SyncMenuReq {
         Menus []RouteConfigsTable `json:"menus,optional"`
     }
+
+    MenuPageQuery {
+
+    }
 )
 
 @server(

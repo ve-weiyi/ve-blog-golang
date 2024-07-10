@@ -85,7 +85,6 @@ type (
 	TalkPageResp             = blog.TalkPageResp
 	UpdateRoleApisReq        = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
-	UpdateUserAvatarReq      = blog.UpdateUserAvatarReq
 	UpdateUserInfoReq        = blog.UpdateUserInfoReq
 	UpdateUserRoleReq        = blog.UpdateUserRoleReq
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
@@ -110,7 +109,7 @@ type (
 		FindRole(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Role, error)
 		// 查询角色列表
 		FindRoleList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*RolePageResp, error)
-		// 查询角色
+		// 查询角色资源权限
 		FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error)
 		// 更新角色菜单
 		UpdateRoleMenus(ctx context.Context, in *UpdateRoleMenusReq, opts ...grpc.CallOption) (*EmptyResp, error)
@@ -165,7 +164,7 @@ func (m *defaultRoleRpc) FindRoleList(ctx context.Context, in *PageQuery, opts .
 	return client.FindRoleList(ctx, in, opts...)
 }
 
-// 查询角色
+// 查询角色资源权限
 func (m *defaultRoleRpc) FindRoleResources(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RoleResourcesResp, error) {
 	client := blog.NewRoleRpcClient(m.cli.Conn())
 	return client.FindRoleResources(ctx, in, opts...)

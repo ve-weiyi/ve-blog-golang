@@ -42,8 +42,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
+				{
+					// 批量删除登录历史
+					Method:  http.MethodDelete,
+					Path:    "/user/delete_login_history_list",
+					Handler: account.DeleteUserLoginHistoryListHandler(serverCtx),
+				},
 				{
 					// 查询在线用户列表
 					Method:  http.MethodPost,
@@ -61,33 +67,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/user/find_user_list",
 					Handler: account.FindUserListHandler(serverCtx),
-				},
-				{
-					// 修改用户角色
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_roles",
-					Handler: account.UpdateUserRolesHandler(serverCtx),
-				},
-				{
-					// 修改用户状态
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_status",
-					Handler: account.UpdateUserStatusHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
-			[]rest.Route{
-				{
-					// 批量删除登录历史
-					Method:  http.MethodDelete,
-					Path:    "/user/delete_login_history_list",
-					Handler: account.DeleteUserLoginHistoryListHandler(serverCtx),
 				},
 				{
 					// 获取用户接口权限
@@ -120,16 +99,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: account.FindUserLoginHistoryListHandler(serverCtx),
 				},
 				{
-					// 更换用户头像
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_avatar",
-					Handler: account.UpdateUserAvatarHandler(serverCtx),
-				},
-				{
 					// 修改用户信息
 					Method:  http.MethodPost,
 					Path:    "/user/update_user_info",
 					Handler: account.UpdateUserInfoHandler(serverCtx),
+				},
+				{
+					// 修改用户角色
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_roles",
+					Handler: account.UpdateUserRolesHandler(serverCtx),
+				},
+				{
+					// 修改用户状态
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_status",
+					Handler: account.UpdateUserStatusHandler(serverCtx),
 				},
 			}...,
 		),
@@ -198,16 +183,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
-					// 删除文章-物理删除
+					// 删除文章
 					Method:  http.MethodPost,
 					Path:    "/admin/article/delete_article",
 					Handler: article.DeleteArticleHandler(serverCtx),
 				},
 				{
-					// 导出文章
+					// 导出文章列表
 					Method:  http.MethodPost,
-					Path:    "/admin/article/export_article",
-					Handler: article.ExportArticleHandler(serverCtx),
+					Path:    "/admin/article/export_article_list",
+					Handler: article.ExportArticleListHandler(serverCtx),
 				},
 				{
 					// 查询文章
@@ -216,16 +201,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: article.FindArticleHandler(serverCtx),
 				},
 				{
-					// 获取后台文章列表
+					// 查询文章列表
 					Method:  http.MethodPost,
 					Path:    "/admin/article/find_article_list",
 					Handler: article.FindArticleListHandler(serverCtx),
 				},
 				{
-					// 删除文章-逻辑删除
+					// 回收文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/pre_delete_article",
-					Handler: article.PreDeleteArticleHandler(serverCtx),
+					Path:    "/admin/article/recycle_article",
+					Handler: article.RecycleArticleHandler(serverCtx),
 				},
 				{
 					// 保存文章

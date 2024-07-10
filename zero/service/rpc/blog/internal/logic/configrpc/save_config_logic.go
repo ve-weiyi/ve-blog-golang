@@ -32,7 +32,7 @@ func (l *SaveConfigLogic) SaveConfig(in *blog.SaveConfigReq) (*blog.EmptyResp, e
 
 	// 修改
 	result.Config = in.ConfigValue
-	_, err = l.svcCtx.WebsiteConfigModel.Save(l.ctx, result)
+	_, err = l.svcCtx.WebsiteConfigModel.Update(l.ctx, result)
 	if err != nil {
 		return nil, err
 	}

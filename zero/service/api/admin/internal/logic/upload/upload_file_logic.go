@@ -51,7 +51,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 		FileUrl:  up,
 	}
 
-	out, err := l.svcCtx.UploadRpc.UploadFile(l.ctx, in)
+	out, err := l.svcCtx.UploadRpc.AddUploadRecord(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

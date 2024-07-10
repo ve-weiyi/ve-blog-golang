@@ -32,6 +32,11 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.PageQuery) (
 		return nil, err
 	}
 
+	total, err := l.svcCtx.LogRpc.FindOperationLogCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.OperationLog
 	for _, v := range out.List {
 		list = append(list, convert.ConvertOperationLogTypes(v))
@@ -40,7 +45,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.PageQuery) (
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

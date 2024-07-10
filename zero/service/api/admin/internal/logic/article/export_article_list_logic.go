@@ -13,22 +13,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ExportArticleLogic struct {
+type ExportArticleListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 导出文章
-func NewExportArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ExportArticleLogic {
-	return &ExportArticleLogic{
+// 导出文章列表
+func NewExportArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ExportArticleListLogic {
+	return &ExportArticleListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ExportArticleLogic) ExportArticle(req *types.IdsReq) (resp *types.EmptyResp, err error) {
+func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *types.EmptyResp, err error) {
 	in := &blog.PageQuery{}
 
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
@@ -70,7 +70,7 @@ func (l *ExportArticleLogic) ExportArticle(req *types.IdsReq) (resp *types.Empty
 			}
 		}
 
-		m := convert.ConvertArticleHomeTypes(v)
+		m := convert.ConvertArticleBackTypes(v)
 		m.CategoryName = category
 		m.TagNameList = tags
 		err = l.exportArticle(m)
@@ -82,7 +82,7 @@ func (l *ExportArticleLogic) ExportArticle(req *types.IdsReq) (resp *types.Empty
 	return &types.EmptyResp{}, nil
 }
 
-func (l *ExportArticleLogic) exportArticle(a *types.ArticleHomeDTO) (err error) {
+func (l *ExportArticleListLogic) exportArticle(a *types.ArticleBackDTO) (err error) {
 	fn := path.Join("./runtime/article", a.ArticleTitle+".md")
 
 	ac := invent.TemplateMeta{

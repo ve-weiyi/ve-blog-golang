@@ -1,77 +1,34 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package model
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path"
 	"strings"
 
-	"github.com/spf13/cobra"
-	"github.com/zeromicro/go-zero/tools/goctl/model/sql/parser"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/field"
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
-// migrateCmd represents the migrate command
-type ModelDDLCmd struct {
-	CMD     *cobra.Command
+type modelConfig struct {
 	SqlFile string
 	TplFile string
 	OutPath string
-
-	NameAs string
+	NameAs  string
 }
 
-func NewModelDDLCmd() *ModelDDLCmd {
-	rootCmd := &ModelDDLCmd{}
-	rootCmd.CMD = &cobra.Command{
-		Use: "ddl",
-		Run: func(cmd *cobra.Command, args []string) {
-			rootCmd.RunCommand(cmd, args)
-		},
-	}
-
-	rootCmd.init()
-	return rootCmd
-}
-
-func (s *ModelDDLCmd) init() {
-	s.CMD.PersistentFlags().StringVarP(&s.SqlFile, "sql-file", "s", "test.sql", "sql文件")
-	s.CMD.PersistentFlags().StringVarP(&s.TplFile, "tpl-file", "t", "model.tpl", "模板文件")
-	s.CMD.PersistentFlags().StringVarP(&s.OutPath, "out-path", "o", "./", "输出路径")
-	s.CMD.PersistentFlags().StringVarP(&s.NameAs, "name-as", "n", "%s.go", "输出名称")
-}
-
-func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
-	log.Println("run model ddl")
-	log.Println("sql-file:", s.SqlFile)
-	log.Println("tpl-file:", s.TplFile)
-	log.Println("out-path:", s.OutPath)
-	log.Println("name-as:", s.NameAs)
+func generateModel(tables []*Table, conf modelConfig) error {
+	t := files.ToAbs(conf.TplFile)
+	o := conf.OutPath
+	n := conf.NameAs
 
 	var metas []invent.TemplateMeta
-	var tables []*Table
-	var err error
-
-	f := s.SqlFile
-	t := s.TplFile
-	o := s.OutPath
-	n := s.NameAs
-
-	tables, err = ParseTableFromSql(f)
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	tpl, err := os.ReadFile(t)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	for _, table := range tables {
@@ -135,67 +92,17 @@ func (s *ModelDDLCmd) RunCommand(cmd *cobra.Command, args []string) {
 	for _, m := range metas {
 		err := m.Execute()
 		if err != nil {
-			log.Println(err)
+			return err
 		}
 	}
-}
 
-// 从sql文件解析Table
-func ParseTableFromSql(sql string) (list []*Table, err error) {
-	n := strings.TrimRight(sql, ".sql")
-
-	dir, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	f := path.Join(dir, sql)
-	tables, err := parser.Parse(f, n, false)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, table := range tables {
-
-		fs := make([]*Field, 0)
-		for _, field := range table.Fields {
-			f := convertFieldToField(field)
-			fs = append(fs, &f)
-		}
-
-		ufs := make(map[string][]*Field)
-		for k, index := range table.UniqueIndex {
-			uf := make([]*Field, 0)
-			for _, field := range index {
-				f := convertFieldToField(field)
-				uf = append(uf, &f)
-			}
-			ufs[k] = uf
-		}
-
-		v := &Table{
-			Name: table.Name.Source(),
-			Db:   table.Db.Source(),
-			PrimaryKey: Primary{
-				AutoIncrement: table.PrimaryKey.AutoIncrement,
-				Field:         convertFieldToField(&table.PrimaryKey.Field),
-			},
-			UniqueIndex: ufs,
-			Fields:      fs,
-		}
-
-		list = append(list, v)
-
-	}
-
-	return list, nil
+	return nil
 }
 
 func convertTableToData(table *Table) any {
 
 	var fs []*field.Field
 	for _, e := range table.Fields {
-		//fmt.Printf("%+v", jsonconv.ObjectToJsonIndent(e))
 		fs = append(fs, convertField(e))
 	}
 
@@ -228,29 +135,17 @@ func convertField(e *Field) *field.Field {
 		Comment: e.Comment,
 		Tag: []field.Tag{
 			{
+				Name:  "json",
+				Value: []string{e.Name},
+			},
+			{
 				Name: "gorm",
 				Value: []string{
 					fmt.Sprintf("column:%s", e.Name),
 				},
 			},
-			{
-				Name:  "json",
-				Value: []string{e.Name},
-			},
 		},
 		Docs:     nil,
 		IsInline: false,
 	}
-}
-
-func convertFieldToField(col *parser.Field) Field {
-	f := Field{
-		Name:            col.Name.Source(),
-		DataType:        col.DataType,
-		Comment:         col.Comment,
-		SeqInIndex:      col.SeqInIndex,
-		OrdinalPosition: col.OrdinalPosition,
-	}
-
-	return f
 }

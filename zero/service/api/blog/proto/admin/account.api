@@ -22,6 +22,8 @@ type (
         IpSource string `json:"ip_source,optional"`   // ip 源
         CreatedAt int64 `json:"created_at,optional"`
         UpdatedAt int64 `json:"updated_at,optional"`
+        LoginAt int64 `json:"login_at,optional"`
+        LogoutAt int64 `json:"logout_at,optional"`
         Roles []*RoleLabel `json:"roles,optional"`
     }
 
@@ -143,10 +145,14 @@ type (
 @server(
     prefix: /api/v1
     group: account
-    middleware: JwtToken
+    middleware: SignToken,JwtToken
 )
 
 service admin-api {
+    @doc "获取用户分布地区"
+    @handler FindUserAreas
+    post /user/find_user_areas (PageQuery) returns (PageResp)
+
     @doc "查询用户列表"
     @handler FindUserList
     post /user/find_user_list (PageQuery) returns (PageResp)
@@ -155,9 +161,13 @@ service admin-api {
     @handler FindOnlineUserList
     post /user/find_online_user_list (PageQuery) returns (PageResp)
 
-    @doc "获取用户分布地区"
-    @handler FindUserAreas
-    post /user/find_user_areas (PageQuery) returns (PageResp)
+    @doc "查询用户登录历史"
+    @handler FindUserLoginHistoryList
+    post /user/login_history (PageQuery) returns (PageResp)
+
+    @doc "批量删除登录历史"
+    @handler DeleteUserLoginHistoryList
+    delete /user/delete_login_history_list (IdsReq) returns (BatchResp)
 
     @doc "修改用户状态"
     @handler UpdateUserStatus
@@ -166,22 +176,14 @@ service admin-api {
     @doc "修改用户角色"
     @handler UpdateUserRoles
     post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
-}
 
-@server(
-    prefix: /api/v1
-    group: account
-    middleware: SignToken,JwtToken
-)
+    @doc "修改用户信息"
+    @handler UpdateUserInfo
+    post /user/update_user_info (UserInfoReq) returns (EmptyResp)
 
-service admin-api {
-    @doc "查询用户登录历史"
-    @handler FindUserLoginHistoryList
-    post /user/login_history (PageQuery) returns (PageResp)
-
-    @doc "批量删除登录历史"
-    @handler DeleteUserLoginHistoryList
-    delete /user/delete_login_history_list (IdsReq) returns (BatchResp)
+    @doc "获取用户角色"
+    @handler GetUserRole
+    get /user/get_user_roles (EmptyReq) returns (UserRolesResp)
 
     @doc "获取用户接口权限"
     @handler GetUserApis
@@ -191,19 +193,8 @@ service admin-api {
     @handler GetUserMenus
     get /user/get_user_menus (EmptyReq) returns (UserMenusResp)
 
-    @doc "获取用户角色"
-    @handler GetUserRole
-    get /user/get_user_roles (EmptyReq) returns (UserRolesResp)
-
     @doc "获取用户信息"
     @handler GetUserInfo
     get /user/get_user_info (EmptyReq) returns (UserInfoResp)
 
-    @doc "修改用户信息"
-    @handler UpdateUserInfo
-    post /user/update_user_info (UserInfoReq) returns (EmptyResp)
-
-    @doc "更换用户头像"
-    @handler UpdateUserAvatar
-    post /user/update_user_avatar (EmptyReq) returns (EmptyResp)
 }

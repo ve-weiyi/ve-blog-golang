@@ -85,7 +85,6 @@ type (
 	TalkPageResp             = blog.TalkPageResp
 	UpdateRoleApisReq        = blog.UpdateRoleApisReq
 	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
-	UpdateUserAvatarReq      = blog.UpdateUserAvatarReq
 	UpdateUserInfoReq        = blog.UpdateUserInfoReq
 	UpdateUserRoleReq        = blog.UpdateUserRoleReq
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq

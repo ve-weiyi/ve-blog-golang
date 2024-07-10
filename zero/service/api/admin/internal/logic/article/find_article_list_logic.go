@@ -17,7 +17,7 @@ type FindArticleListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 分页获取文章列表
+// 查询文章列表
 func NewFindArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindArticleListLogic {
 	return &FindArticleListLogic{
 		Logger: logx.WithContext(ctx),

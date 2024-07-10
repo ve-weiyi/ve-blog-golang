@@ -37,9 +37,9 @@ func (l *FindMenuListLogic) FindMenuList(req *types.PageQuery) (resp *types.Page
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Page = 1
+	resp.PageSize = int64(len(list))
+	resp.Total = int64(len(list))
 	resp.List = list
 	return resp, nil
 }

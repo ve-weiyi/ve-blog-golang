@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type PreDeleteArticleLogic struct {
+type RecycleArticleLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 删除文章-逻辑删除
-func NewPreDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreDeleteArticleLogic {
-	return &PreDeleteArticleLogic{
+// 回收文章
+func NewRecycleArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RecycleArticleLogic {
+	return &RecycleArticleLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *PreDeleteArticleLogic) PreDeleteArticle(req *types.ArticlePreDeleteReq) (resp *types.EmptyResp, err error) {
+func (l *RecycleArticleLogic) RecycleArticle(req *types.ArticleRecycleReq) (resp *types.EmptyResp, err error) {
 	article, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blog.IdReq{Id: req.Id})
 	if err != nil {
 		return nil, err

@@ -11,8 +11,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 导出文章
-func ExportArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 导出文章列表
+func ExportArticleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -20,8 +20,8 @@ func ExportArticleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := article.NewExportArticleLogic(r.Context(), svcCtx)
-		resp, err := l.ExportArticle(&req)
+		l := article.NewExportArticleListLogic(r.Context(), svcCtx)
+		resp, err := l.ExportArticleList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

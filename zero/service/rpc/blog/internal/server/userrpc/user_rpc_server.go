@@ -70,12 +70,6 @@ func (s *UserRpcServer) UpdateUserInfo(ctx context.Context, in *blog.UpdateUserI
 	return l.UpdateUserInfo(in)
 }
 
-// 修改用户头像
-func (s *UserRpcServer) UpdateUserAvatar(ctx context.Context, in *blog.UpdateUserAvatarReq) (*blog.EmptyResp, error) {
-	l := userrpclogic.NewUpdateUserAvatarLogic(ctx, s.svcCtx)
-	return l.UpdateUserAvatar(in)
-}
-
 // 修改用户状态
 func (s *UserRpcServer) UpdateUserStatus(ctx context.Context, in *blog.UpdateUserStatusReq) (*blog.EmptyResp, error) {
 	l := userrpclogic.NewUpdateUserStatusLogic(ctx, s.svcCtx)

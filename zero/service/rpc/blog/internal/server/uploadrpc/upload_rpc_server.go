@@ -23,13 +23,7 @@ func NewUploadRpcServer(svcCtx *svc.ServiceContext) *UploadRpcServer {
 }
 
 // 上传文件
-func (s *UploadRpcServer) UploadFile(ctx context.Context, in *blog.UploadRecordReq) (*blog.UploadRecordResp, error) {
-	l := uploadrpclogic.NewUploadFileLogic(ctx, s.svcCtx)
-	return l.UploadFile(in)
-}
-
-// 上传语言
-func (s *UploadRpcServer) UploadVoice(ctx context.Context, in *blog.UploadRecordReq) (*blog.UploadRecordResp, error) {
-	l := uploadrpclogic.NewUploadVoiceLogic(ctx, s.svcCtx)
-	return l.UploadVoice(in)
+func (s *UploadRpcServer) AddUploadRecord(ctx context.Context, in *blog.UploadRecordReq) (*blog.UploadRecordResp, error) {
+	l := uploadrpclogic.NewAddUploadRecordLogic(ctx, s.svcCtx)
+	return l.AddUploadRecord(in)
 }

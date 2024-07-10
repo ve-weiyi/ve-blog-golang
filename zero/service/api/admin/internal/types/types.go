@@ -50,32 +50,7 @@ type ArticleBackDTO struct {
 	Type           int64    `json:"type,optional"`            // 文章类型
 	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
 	IsTop          int64    `json:"is_top,optional"`          // 是否置顶
-	Status         int64    `json:"status,optional"`          // 状态值 1 公开 2 私密 3 评论可见
-	CreatedAt      int64    `json:"created_at,optional"`      // 发表时间
-	UpdatedAt      int64    `json:"updated_at,optional"`      // 更新时间
-	CategoryName   string   `json:"category_name,optional"`   // 文章分类名
-	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
-	LikeCount      int64    `json:"like_count,optional"`      // 点赞量
-	ViewsCount     int64    `json:"views_count,optional"`     // 浏览量
-}
-
-type ArticleClassifyReq struct {
-	ClassifyName string `json:"classify_name,optional"` // 分类名
-}
-
-type ArticleClassifyResp struct {
-	ArticleList   []*ArticlePreviewDTO `json:"article_list,optional"`   // 文章列表
-	ConditionName string               `json:"condition_name,optional"` // 条件名
-}
-
-type ArticleHomeDTO struct {
-	Id             int64    `json:"id,optional"`              // 文章ID
-	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
-	ArticleTitle   string   `json:"article_title,optional"`   // 标题
-	ArticleContent string   `json:"article_content,optional"` // 内容
-	Type           int64    `json:"type,optional"`            // 文章类型
-	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
-	IsTop          int64    `json:"is_top,optional"`          // 是否置顶
+	IsDelete       int64    `json:"is_delete,optional"`       // 是否删除
 	Status         int64    `json:"status,optional"`          // 状态值 1 公开 2 私密 3 评论可见
 	CreatedAt      int64    `json:"created_at,optional"`      // 发表时间
 	UpdatedAt      int64    `json:"updated_at,optional"`      // 更新时间
@@ -103,24 +78,9 @@ type ArticleNewReq struct {
 	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
 }
 
-type ArticlePreDeleteReq struct {
+type ArticleRecycleReq struct {
 	Id       int64 `json:"id,optional"`        // 文章ID
 	IsDelete int64 `json:"is_delete,optional"` // 是否删除
-}
-
-type ArticlePreviewDTO struct {
-	Id           int64  `json:"id,optional"`            // 文章ID
-	ArticleCover string `json:"article_cover,optional"` // 文章缩略图
-	ArticleTitle string `json:"article_title,optional"` // 标题
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
-}
-
-type ArticleRecommendResp struct {
-	ArticleHomeDTO
-	LastArticle          *ArticlePreviewDTO   `json:"last_article,optional"`           // 上一篇文章
-	NextArticle          *ArticlePreviewDTO   `json:"next_article,optional"`           // 下一篇文章
-	RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list,optional"` // 推荐文章列表
-	NewestArticleList    []*ArticlePreviewDTO `json:"newest_article_list,optional"`    // 最新文章列表
 }
 
 type ArticleStatisticsDTO struct {
@@ -305,6 +265,9 @@ type MenuDetails struct {
 	Children  []*MenuDetails `json:"children,optional"`
 	CreatedAt int64          `json:"created_at,optional"` // 创建时间
 	UpdatedAt int64          `json:"updated_at,optional"` // 更新时间
+}
+
+type MenuPageQuery struct {
 }
 
 type Meta struct {
@@ -632,6 +595,8 @@ type User struct {
 	IpSource     string       `json:"ip_source,optional"`  // ip 源
 	CreatedAt    int64        `json:"created_at,optional"`
 	UpdatedAt    int64        `json:"updated_at,optional"`
+	LoginAt      int64        `json:"login_at,optional"`
+	LogoutAt     int64        `json:"logout_at,optional"`
 	Roles        []*RoleLabel `json:"roles,optional"`
 }
 

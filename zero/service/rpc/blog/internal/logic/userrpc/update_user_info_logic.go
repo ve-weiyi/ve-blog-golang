@@ -31,6 +31,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *blog.UpdateUserInfoReq) (*blog.
 	}
 
 	ui.Nickname = in.Nickname
+	ui.Avatar = in.Avatar
 	ui.Phone = in.Phone
 	ui.Intro = in.Intro
 	ui.Website = in.Website
