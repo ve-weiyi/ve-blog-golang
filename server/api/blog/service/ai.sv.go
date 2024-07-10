@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type AIService struct {
@@ -59,7 +59,7 @@ func (l *AIService) ChatAI(reqCtx *request.Context, req *dto.ChatMessage) (data 
 		UserId:    reqCtx.Uid,
 		Content:   req.Content,
 		IpAddress: reqCtx.IpAddress,
-		//IpSource:  reqCtx.GetIpSource(),
+		// IpSource:  reqCtx.GetIpSource(),
 		Type:   0,
 		Status: 0,
 	}
@@ -102,7 +102,7 @@ func (l *AIService) ChatCos(reqCtx *request.Context, req *dto.ChatMessage) (data
 		UserId:    reqCtx.Uid,
 		Content:   req.Content,
 		IpAddress: reqCtx.IpAddress,
-		//IpSource:  reqCtx.GetIpSource(),
+		// IpSource:  reqCtx.GetIpSource(),
 		Type:   0,
 		Status: 0,
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type UploadController struct {
@@ -82,13 +82,13 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 	}
 
 	tp := c.PostForm("type")
-	//uid := c.PostForm("user_id")
-	//nickname := c.PostForm("nickname")
-	//avatar := c.PostForm("avatar")
+	// uid := c.PostForm("user_id")
+	// nickname := c.PostForm("nickname")
+	// avatar := c.PostForm("avatar")
 	content := c.PostForm("content")
-	//created_at := c.PostForm("created_at")
-	//ip_address := c.PostForm("ip_address")
-	//ip_source := c.PostForm("ip_source")
+	// created_at := c.PostForm("created_at")
+	// ip_address := c.PostForm("ip_address")
+	// ip_source := c.PostForm("ip_source")
 	// 获取上传的文件
 	file, err := c.FormFile("file")
 	if err != nil {
@@ -98,13 +98,13 @@ func (s *UploadController) UploadVoice(c *gin.Context) {
 
 	req := dto.VoiceVO{
 		Type: cast.ToInt64(tp),
-		//UserId:    cast.ToInt(uid),
-		//Nickname:  nickname,
-		//Avatar:    avatar,
+		// UserId:    cast.ToInt(uid),
+		// Nickname:  nickname,
+		// Avatar:    avatar,
 		Content: content,
-		//CreatedAt: time.Now(),
-		//IPAddress: ip_address,
-		//IPSource:  ip_source,
+		// CreatedAt: time.Now(),
+		// IPAddress: ip_address,
+		// IPSource:  ip_source,
 	}
 
 	data, err := service.NewUploadService(s.svcCtx).UploadVoice(reqCtx, &req, file)

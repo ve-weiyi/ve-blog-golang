@@ -12,7 +12,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 // JwtToken jwt中间件
@@ -27,10 +27,10 @@ func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		token = c.Request.Header.Get(constant.HeaderToken)
 		uid = c.Request.Header.Get(constant.HeaderUid)
 
-		//token为空或者uid为空
+		// token为空或者uid为空
 		if token == "" || uid == "" {
 			// 有错误，直接返回给前端错误，前端直接报错500
-			//c.AbortWithStatus(http.StatusInternalServerError)
+			// c.AbortWithStatus(http.StatusInternalServerError)
 			// 该方式前端不报错
 			c.JSON(http.StatusOK, apierr.ErrorUnauthorized)
 			c.Abort()
@@ -67,10 +67,10 @@ func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		//token验证成功,但用户在别处登录或退出登录
-		//if jwtService.IsBlacklist(token) {
+		// token验证成功,但用户在别处登录或退出登录
+		// if jwtService.IsBlacklist(token) {
 		//
-		//}
+		// }
 
 		glog.Infof("user login-->%v", claims)
 

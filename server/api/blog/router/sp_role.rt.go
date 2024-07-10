@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type RoleRouter struct {
@@ -34,6 +34,6 @@ func (s *RoleRouter) InitRoleRouter(publicRouter *gin.RouterGroup, loginRouter *
 
 		loginRouter.POST("/role/details_list", handler.FindRoleDetailsList)
 		loginRouter.POST("/role/update_role_menus", handler.UpdateRoleMenus)
-		loginRouter.POST("/role/update_role_resources", handler.UpdateRoleResources)
+		loginRouter.POST("/role/update_role_apis", handler.UpdateRoleApis)
 	}
 }

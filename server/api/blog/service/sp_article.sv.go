@@ -4,7 +4,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type ArticleService struct {
@@ -182,7 +182,7 @@ func (l *ArticleService) FindArticleClassifyCategory(reqCtx *request.Context, re
 
 	var list []*dto.ArticleHome
 	for _, article := range articles {
-		//查询文章分类
+		// 查询文章分类
 		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryId)
 		// 查询文章标签
 		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.Id)
@@ -218,7 +218,7 @@ func (l *ArticleService) FindArticleClassifyTag(reqCtx *request.Context, req *dt
 
 	var list []*dto.ArticleHome
 	for _, article := range articles {
-		//查询文章分类
+		// 查询文章分类
 		ctg, _ := l.svcCtx.CategoryRepository.First(reqCtx, "id = ?", article.CategoryId)
 		// 查询文章标签
 		tags, _ := l.svcCtx.TagRepository.FindArticleTagList(reqCtx, article.Id)
