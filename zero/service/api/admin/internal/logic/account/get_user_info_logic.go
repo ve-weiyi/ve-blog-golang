@@ -5,6 +5,7 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
@@ -36,18 +37,5 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	resp = &types.UserInfoResp{
-		Id:        info.Id,
-		UserId:    info.UserId,
-		Email:     info.Email,
-		Nickname:  info.Nickname,
-		Avatar:    info.Avatar,
-		Phone:     info.Phone,
-		Intro:     info.Intro,
-		Website:   info.Website,
-		CreatedAt: 0,
-		UpdatedAt: 0,
-	}
-
-	return
+	return convert.ConvertUserInfoTypes(info), nil
 }

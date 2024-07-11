@@ -69,14 +69,12 @@ message LoginReq {
 }
 
 message LoginResp {
-  int64 user_id = 1;// 用户id
+  int64 user_id = 1; // 用户id// 用户id
   string username = 2;// 用户名
-  string nickname = 3;// 昵称
-  string avatar = 4;// 头像
-  string intro = 5;// 个人简介
-  string website = 6;// 个人网站
-  string email = 7;// 邮箱
-  repeated RoleLabel roles = 8;// 角色列表
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string info = 5;// 用户信息
+  repeated RoleLabel roles = 6;// 角色列表
 }
 
 message RoleLabel {
@@ -105,19 +103,19 @@ message UserEmailReq {
 }
 
 message LogoutReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
 }
 
 message LogoffReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
 }
 
 message GetLogoutAtReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
 }
 
 message  GetLogoutAtResp {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
   int64 logout_at = 2;
 }
 
@@ -335,62 +333,62 @@ message LoginHistoryPageResp {
 }
 
 message UserInfoResp {
-  int64 id = 1;// id
-  int64 user_id = 2;// 用户id
-  string email = 3;// 用户邮箱
-  string nickname = 4;// 用户昵称
-  string avatar = 5;// 用户头像
-  string phone = 6;// 用户手机号
-  string intro = 7;// 个人简介
-  string website = 8;// 个人网站
-  int64 created_at = 9;// 创建时间
-  int64 updated_at = 10;// 更新时间
+  int64 user_id = 1; // 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string info = 5;// 用户信息
+  int64 status = 6;
+  string login_type = 7;
+  string ip_address = 8;// ip host
+  string ip_source = 9;// ip 源
+  int64 created_at = 10;
+  int64 updated_at = 11;
+  int64 login_at = 12;
+  int64 logout_at = 13;
 }
 
 message User {
-  int64 id = 1;
-  string username = 2;
-  string email = 3;// 用户邮箱
-  string nickname = 4;// 用户昵称
-  string avatar = 5;// 用户头像
-  string phone = 6;// 用户手机号
-  string intro = 7;// 个人简介
-  string website = 8;// 个人网站
-  int64 status = 9;
-  string register_type = 10;
-  string ip_address = 11;// ip host
-  string ip_source = 12;// ip 源
-  int64 created_at = 13;
-  int64 updated_at = 14;
-  repeated RoleLabel roles = 15;
+  int64 user_id = 1; // 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string info = 5;// 用户信息
+  int64 status = 6;
+  string login_type = 7;
+  string ip_address = 8;// ip host
+  string ip_source = 9;// ip 源
+  int64 created_at = 10;
+  int64 updated_at = 11;
+  int64 login_at = 12;
+  int64 logout_at = 13;
+  repeated RoleLabel roles = 14;
 }
 
 message UserPageResp{
-  int64 total = 1;
-  repeated User list = 2;
+  repeated User list = 1;
+  int64 total = 2;
 }
 
 message UpdateUserInfoReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
   string nickname = 2;// 昵称
   string avatar = 3; // 头像
-  string phone = 4;// 手机号
-  string website = 5;// 网站
-  string intro = 6;// 简介
+  string info = 4;// 用户信息
 }
 
 message UpdateUserStatusReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
   int64 status = 2;
 }
 
 message UpdateUserRoleReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
   repeated int64 role_ids = 2;
 }
 
 message UserReq {
-  int64 user_id = 1;
+  int64 user_id = 1; // 用户id
 }
 
 service UserRpc {

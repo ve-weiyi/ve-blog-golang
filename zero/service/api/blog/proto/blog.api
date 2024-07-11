@@ -1,6 +1,6 @@
 syntax = "v1"
 
-import "blog/login.api"
+import "blog/auth.api"
 import "blog/account.api"
 import "blog/article.api"
 import "blog/category.api"

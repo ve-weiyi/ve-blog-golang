@@ -20,11 +20,11 @@ import (
 )
 
 type typescriptFlags struct {
-	VarStringMode     string `name:"var_string_mode" shorthand:"m"`      // 解析模式 swagger、api、ast
-	VarStringFilePath string `name:"var_string_file_path" shorthand:"f"` // 模板路径
 	VarStringTplPath  string `name:"var_string_tpl_path" shorthand:"t"`  // 模板路径
 	VarStringOutPath  string `name:"var_string_out_path" shorthand:"o"`  // 文件输出路径
 	VarStringNameAs   string `name:"var_string_name_as" shorthand:"n"`   // 文件命名模版 %s.go
+	VarStringMode     string `name:"var_string_mode" shorthand:"m"`      // 解析模式 swagger、api、ast
+	VarStringFilePath string `name:"var_string_file_path" shorthand:"f"` // 文件路径
 }
 
 var flag = &typescriptFlags{}

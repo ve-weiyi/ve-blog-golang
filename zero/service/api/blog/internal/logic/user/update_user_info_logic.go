@@ -3,8 +3,12 @@ package user
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +29,20 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+	var info string
+	jsonconv.ObjectToJson(info)
 
-	return
+	in := &blog.UpdateUserInfoReq{
+		UserId:   cast.ToInt64(l.ctx.Value("uid")),
+		Nickname: req.Nickname,
+		Avatar:   req.Avatar,
+		Info:     info,
+	}
+
+	_, err = l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 
@@ -47,8 +46,7 @@ func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.Logi
 	}
 
 	resp = &types.LoginResp{
-		Token:    tk,
-		UserInfo: convert.ConvertUserInfo(out),
+		Token: tk,
 	}
 	return
 }
@@ -86,6 +84,6 @@ func (l *OauthLoginLogic) createToken(uid int64, username string, loginType stri
 		RefreshExpiresIn: refreshExpiresIn,
 	}
 
-	//生成token
+	// 生成token
 	return token, nil
 }

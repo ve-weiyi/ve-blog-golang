@@ -248,8 +248,7 @@ type LoginReq struct {
 }
 
 type LoginResp struct {
-	Token    *Token    `json:"token,optional"`
-	UserInfo *UserInfo `json:"user_info,optional"`
+	Token *Token `json:"token,optional"`
 }
 
 type MenuDetails struct {
@@ -286,16 +285,6 @@ type Meta struct {
 	HiddenTag    bool       `json:"hidden_tag,optional"`    // 是否不添加信息到标签页
 	DynamicLevel int64      `json:"dynamic_level,optional"` // 动态路由可打开的最大数量
 	ActivePath   string     `json:"active_path,optional"`   // 将某个菜单激活
-}
-
-type OauthLoginReq struct {
-	Platform string `json:"platform"`       // 平台
-	Code     string `json:"code,optional"`  // 授权码
-	State    string `json:"state,optional"` // 状态
-}
-
-type OauthLoginUrlResp struct {
-	Url string `json:"url"` // 授权地址
 }
 
 type OperationLog struct {
@@ -410,12 +399,6 @@ type Remark struct {
 	IsReview       int64  `json:"is_review,optional"`       // 是否审核
 	CreatedAt      int64  `json:"created_at,optional"`      // 发布时间
 	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
-}
-
-type ResetPasswordReq struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Code     string `json:"code,optional"`
 }
 
 type Response struct {
@@ -582,22 +565,20 @@ type UploadFileResp struct {
 }
 
 type User struct {
-	Id           int64        `json:"id,optional"`
-	Username     string       `json:"username"`
-	Nickname     string       `json:"nickname,optional"`
-	Avatar       string       `json:"avatar,optional"`
-	Intro        string       `json:"intro,optional"`
-	Website      string       `json:"website,optional"`
-	Email        string       `json:"email,optional"`
-	Status       int64        `json:"status,optional"`
-	RegisterType string       `json:"register_type,optional"`
-	IpAddress    string       `json:"ip_address,optional"` // ip host
-	IpSource     string       `json:"ip_source,optional"`  // ip 源
-	CreatedAt    int64        `json:"created_at,optional"`
-	UpdatedAt    int64        `json:"updated_at,optional"`
-	LoginAt      int64        `json:"login_at,optional"`
-	LogoutAt     int64        `json:"logout_at,optional"`
-	Roles        []*RoleLabel `json:"roles,optional"`
+	Id        int64        `json:"id,optional"`
+	Username  string       `json:"username"`
+	Nickname  string       `json:"nickname,optional"`
+	Avatar    string       `json:"avatar,optional"`
+	Status    int64        `json:"status,optional"`
+	LoginType string       `json:"login_type,optional"`
+	IpAddress string       `json:"ip_address,optional"` // ip host
+	IpSource  string       `json:"ip_source,optional"`  // ip 源
+	CreatedAt int64        `json:"created_at,optional"`
+	UpdatedAt int64        `json:"updated_at,optional"`
+	LoginAt   int64        `json:"login_at,optional"`
+	LogoutAt  int64        `json:"logout_at,optional"`
+	Roles     []*RoleLabel `json:"roles,optional"`
+	UserInfoExt
 }
 
 type UserApi struct {
@@ -622,38 +603,25 @@ type UserArea struct {
 	Value int64  `json:"value,optional"`
 }
 
-type UserEmailReq struct {
-	Username string `json:"username"`
-}
-
-type UserInfo struct {
-	UserId   int64  `json:"user_id,optional"`  // 用户id
-	Username string `json:"username"`          // 用户名
-	Nickname string `json:"nickname,optional"` // 昵称
-	Avatar   string `json:"avatar,optional"`   // 头像
-	Intro    string `json:"intro,optional"`    // 个人简介
-	Website  string `json:"website,optional"`  // 个人网站
-	Email    string `json:"email,optional"`    // 邮箱
+type UserInfoExt struct {
+	Email   string `json:"email,optional"`   // 用户邮箱
+	Phone   string `json:"phone,optional"`   // 用户手机号
+	Intro   string `json:"intro,optional"`   // 简介
+	Website string `json:"website,optional"` // 网站
 }
 
 type UserInfoReq struct {
 	Nickname string `json:"nickname,optional"` // 昵称
-	Website  string `json:"website,optional"`  // 网站
-	Intro    string `json:"intro,optional"`    // 简介
 	Avatar   string `json:"avatar,optional"`   // 头像
+	UserInfoExt
 }
 
 type UserInfoResp struct {
-	Id        int64  `json:"id,optional"`         // id
-	UserId    int64  `json:"user_id,optional"`    // 用户id
-	Email     string `json:"email,optional"`      // 用户邮箱
-	Nickname  string `json:"nickname,optional"`   // 用户昵称
-	Avatar    string `json:"avatar,optional"`     // 用户头像
-	Phone     string `json:"phone,optional"`      // 用户手机号
-	Intro     string `json:"intro,optional"`      // 个人简介
-	Website   string `json:"website,optional"`    // 个人网站
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+	UserId   int64  `json:"user_id,optional"`  // 用户id
+	Username string `json:"username"`          // 用户名
+	Nickname string `json:"nickname,optional"` // 用户昵称
+	Avatar   string `json:"avatar,optional"`   // 用户头像
+	UserInfoExt
 }
 
 type UserMenu struct {

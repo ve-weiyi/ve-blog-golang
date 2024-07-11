@@ -44,14 +44,14 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *blog.PageQuery) (*b
 
 		// 用户信息
 		if v.UserId != 0 {
-			user, _ := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", v.UserId)
+			user, _ := l.svcCtx.UserAccountModel.FindOne(l.ctx, v.UserId)
 			if user != nil {
 				m.User = convert.ConvertUserInfoModelToPb(user)
 			}
 		}
 		// 回复用户信息
 		if v.ReplyUserId != 0 {
-			user, _ := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", v.ReplyUserId)
+			user, _ := l.svcCtx.UserAccountModel.FindOne(l.ctx, v.ReplyUserId)
 			if user != nil {
 				m.ReplyUser = convert.ConvertUserInfoModelToPb(user)
 			}

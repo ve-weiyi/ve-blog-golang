@@ -5,6 +5,7 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
@@ -27,12 +28,14 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
+	var info string
+	jsonconv.ObjectToJson(info)
+
 	in := &blog.UpdateUserInfoReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Nickname: req.Nickname,
-		// Phone:    req.Phone,
-		Website: req.Website,
-		Intro:   req.Intro,
+		Avatar:   req.Avatar,
+		Info:     info,
 	}
 
 	_, err = l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, in)

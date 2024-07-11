@@ -56,12 +56,6 @@ func (l *LogoffLogic) logoff(ctx context.Context, tx *gorm.DB, uid int64) (*blog
 		return nil, err
 	}
 
-	// 删除用户信息
-	_, err = l.svcCtx.UserInformationModel.WithTransaction(tx).DeleteBatch(ctx, "user_id = ?", uid)
-	if err != nil {
-		return nil, err
-	}
-
 	// 删除用户角色
 	_, err = l.svcCtx.UserRoleModel.WithTransaction(tx).DeleteBatch(ctx, "user_id = ?", uid)
 	if err != nil {

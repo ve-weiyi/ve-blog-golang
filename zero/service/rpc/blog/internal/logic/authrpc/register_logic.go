@@ -61,7 +61,7 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 		return nil, err
 	}
 
-	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", account.Id)
+	ui, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", account.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -72,21 +72,14 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 func (l *RegisterLogic) register(tx *gorm.DB, in *blog.LoginReq) (out *model.UserAccount, err error) {
 	// 邮箱注册
 	account := &model.UserAccount{
-		Username:     in.Username,
-		Password:     crypto.BcryptHash(in.Password),
-		Status:       constant.UserStatusNormal,
-		RegisterType: constant.LoginTypeEmail,
-		IpAddress:    "",
-		IpSource:     "",
-	}
-
-	info := &model.UserInformation{
-		Email:    in.Username,
-		Nickname: in.Username,
-		Avatar:   "https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG",
-		Phone:    "",
-		Intro:    "这个人很神秘，什么都没有写！",
-		Website:  "",
+		Username:  in.Username,
+		Password:  crypto.BcryptHash(in.Password),
+		Nickname:  in.Username,
+		Avatar:    "https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG",
+		Status:    constant.UserStatusNormal,
+		LoginType: constant.LoginTypeEmail,
+		IpAddress: "",
+		IpSource:  "",
 	}
 
 	/** 创建用户 **/
@@ -95,31 +88,24 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *blog.LoginReq) (out *model.Use
 		return nil, err
 	}
 
-	/** 创建用户信息 **/
-	info.UserId = account.Id
-	_, err = l.svcCtx.UserInformationModel.WithTransaction(tx).Insert(l.ctx, info)
-	if err != nil {
-		return nil, err
-	}
-
-	///** 创建用户角色 end **/
-	//roles, err := l.svcCtx.RoleModel.WithTransaction(tx).FindALL(ctx, "is_default = ?", 1)
-	//if err != nil {
+	// /** 创建用户角色 end **/
+	// roles, err := l.svcCtx.RoleModel.WithTransaction(tx).FindALL(ctx, "is_default = ?", 1)
+	// if err != nil {
 	//	return nil, err
-	//}
+	// }
 	//
-	//var userRoles []*model.UserRole
-	//for _, item := range roles {
+	// var userRoles []*model.UserRole
+	// for _, item := range roles {
 	//	userRoles = append(userRoles, &model.UserRole{
 	//		UserId: account.Id,
 	//		RoleId: item.Id,
 	//	})
-	//}
+	// }
 	//
-	//_, err = l.svcCtx.UserRoleModel.WithTransaction(tx).InsertBatch(ctx, userRoles...)
-	//if err != nil {
+	// _, err = l.svcCtx.UserRoleModel.WithTransaction(tx).InsertBatch(ctx, userRoles...)
+	// if err != nil {
 	//	return nil, err
-	//}
+	// }
 
 	return account, nil
 }

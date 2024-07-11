@@ -25,18 +25,16 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 修改用户信息
 func (l *UpdateUserInfoLogic) UpdateUserInfo(in *blog.UpdateUserInfoReq) (*blog.EmptyResp, error) {
-	ui, err := l.svcCtx.UserInformationModel.First(l.ctx, "user_id = ?", in.UserId)
+	ui, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", in.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	ui.Nickname = in.Nickname
 	ui.Avatar = in.Avatar
-	ui.Phone = in.Phone
-	ui.Intro = in.Intro
-	ui.Website = in.Website
+	ui.Info = in.Info
 
-	_, err = l.svcCtx.UserInformationModel.Update(l.ctx, ui)
+	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, ui)
 	if err != nil {
 		return nil, err
 	}

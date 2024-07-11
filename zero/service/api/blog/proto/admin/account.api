@@ -13,11 +13,8 @@ type (
         Username string `json:"username"`
         Nickname string `json:"nickname,optional"`
         Avatar string `json:"avatar,optional"`
-        Intro string `json:"intro,optional"`
-        Website string `json:"website,optional"`
-        Email string `json:"email,optional"`
         Status int64 `json:"status,optional"`
-        RegisterType string `json:"register_type,optional"`
+        LoginType string `json:"login_type,optional"`
         IpAddress string `json:"ip_address,optional"` // ip host
         IpSource string `json:"ip_source,optional"`   // ip 源
         CreatedAt int64 `json:"created_at,optional"`
@@ -25,11 +22,34 @@ type (
         LoginAt int64 `json:"login_at,optional"`
         LogoutAt int64 `json:"logout_at,optional"`
         Roles []*RoleLabel `json:"roles,optional"`
+        UserInfoExt
     }
 
     RoleLabel {
         RoleName string `json:"role_name,optional"`
         RoleComment string `json:"role_comment,optional"`
+    }
+
+
+    UserInfoExt {
+        Email string `json:"email,optional"`         // 用户邮箱
+        Phone string `json:"phone,optional"`         // 用户手机号
+        Intro string `json:"intro,optional"`         // 简介
+        Website string `json:"website,optional"`     // 网站
+    }
+
+    UserInfoReq {
+        Nickname string `json:"nickname,optional"` // 昵称
+        Avatar string `json:"avatar,optional"`     // 头像
+        UserInfoExt
+    }
+
+    UserInfoResp {
+        UserId int64 `json:"user_id,optional"`       // 用户id
+        Username string `json:"username"`               // 用户名
+        Nickname string `json:"nickname,optional"`   // 用户昵称
+        Avatar string `json:"avatar,optional"`       // 用户头像
+        UserInfoExt
     }
 
     UpdateUserStatusReq {
@@ -120,26 +140,6 @@ type (
     UserRolesResp {
         List []*UserRole `json:"list,optional"`
     }
-
-    UserInfoReq {
-        Nickname string `json:"nickname,optional"` // 昵称
-        Website string `json:"website,optional"`   // 网站
-        Intro string `json:"intro,optional"`       // 简介
-        Avatar string `json:"avatar,optional"`     // 头像
-    }
-
-    UserInfoResp {
-        Id int64 `json:"id,optional"`                // id
-        UserId int64 `json:"user_id,optional"`       // 用户id
-        Email string `json:"email,optional"`         // 用户邮箱
-        Nickname string `json:"nickname,optional"`   // 用户昵称
-        Avatar string `json:"avatar,optional"`       // 用户头像
-        Phone string `json:"phone,optional"`         // 用户手机号
-        Intro string `json:"intro,optional"`         // 个人简介
-        Website string `json:"website,optional"`     // 个人网站
-        CreatedAt int64 `json:"created_at,optional"` // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
-    }
 )
 
 @server(
@@ -196,5 +196,4 @@ service admin-api {
     @doc "获取用户信息"
     @handler GetUserInfo
     get /user/get_user_info (EmptyReq) returns (UserInfoResp)
-
 }

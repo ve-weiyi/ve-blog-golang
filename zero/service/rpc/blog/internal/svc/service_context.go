@@ -41,7 +41,6 @@ type ServiceContext struct {
 
 	UserAccountModel      model.UserAccountModel
 	UserOauthModel        model.UserOauthModel
-	UserInformationModel  model.UserInformationModel
 	UserLoginHistoryModel model.UserLoginHistoryModel
 	RoleModel             model.RoleModel
 	ApiModel              model.ApiModel
@@ -103,7 +102,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Oauth:                 InitOauth(c.OauthConfList),
 		UserAccountModel:      model.NewUserAccountModel(db, rds),
 		UserOauthModel:        model.NewUserOauthModel(db, rds),
-		UserInformationModel:  model.NewUserInformationModel(db, rds),
 		UserLoginHistoryModel: model.NewUserLoginHistoryModel(db, rds),
 		RoleModel:             model.NewRoleModel(db, rds),
 		ApiModel:              model.NewApiModel(db, rds),
@@ -162,9 +160,9 @@ func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 	}
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		//PrepareStmt:            true, // 缓存预编译语句
+		// PrepareStmt:            true, // 缓存预编译语句
 		// 外键约束
-		//DisableForeignKeyConstraintWhenMigrating: true,
+		// DisableForeignKeyConstraintWhenMigrating: true,
 		// 禁用默认事务（提高运行速度）
 		SkipDefaultTransaction: true,
 		NamingStrategy: schema.NamingStrategy{
@@ -175,7 +173,7 @@ func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 		},
 		// gorm日志模式
 		Logger: lg,
-		//Logger: logger.Default,
+		// Logger: logger.Default,
 	})
 
 	if err != nil {
@@ -272,7 +270,7 @@ func SubscribeMessage(c config.Config) {
 		mail.WithIsSSL(e.IsSSL),
 	)
 
-	//订阅消息队列，发送邮件
+	// 订阅消息队列，发送邮件
 	err = mq.SubscribeMessage(func(message []byte) (err error) {
 		var msg mail.EmailMessage
 		err = json.Unmarshal(message, &msg)

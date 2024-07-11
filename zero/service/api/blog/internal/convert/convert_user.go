@@ -7,20 +7,16 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertUserDetailsTypes(in *blog.User) (out *types.User) {
-	jsonconv.ObjectToObject(in, &out)
+func ConvertUserInfoTypes(in *blog.UserInfoResp) (out *types.UserInfoResp) {
+	out = &types.UserInfoResp{
+		UserId:      in.UserId,
+		Username:    in.Username,
+		Nickname:    in.Nickname,
+		Avatar:      in.Avatar,
+		UserInfoExt: types.UserInfoExt{},
+	}
+
+	jsonconv.JsonToObject(in.Info, &out.UserInfoExt)
+
 	return out
-}
-
-func ConvertUserLoginHistoryTypes(in *blog.LoginHistory) (out *types.LoginHistory) {
-	jsonconv.ObjectToObject(in, &out)
-	return out
-}
-
-func ConvertUserMenuTypes(in *blog.MenuDetails) (out *types.UserMenu) {
-	jsonconv.ObjectToObject(in, &out)
-
-	out.Children = make([]*types.UserMenu, 0)
-	jsonconv.JsonToObject(in.Extra, &out.Meta)
-	return
 }

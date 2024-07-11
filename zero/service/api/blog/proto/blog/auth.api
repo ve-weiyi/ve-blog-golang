@@ -11,7 +11,6 @@ type (
 
     LoginResp {
         Token *Token `json:"token,optional"`
-        UserInfo *UserInfo `json:"user_info,optional"`
     }
 
     Token {
@@ -24,15 +23,6 @@ type (
         Scope string `json:"scope,optional"`                        // 作用域
     }
 
-    UserInfo {
-        UserId int64 `json:"user_id,optional"`     // 用户id
-        Username string `json:"username"` // 用户名
-        Nickname string `json:"nickname,optional"` // 昵称
-        Avatar string `json:"avatar,optional"`     // 头像
-        Intro string `json:"intro,optional"`       // 个人简介
-        Website string `json:"website,optional"`   // 个人网站
-        Email string `json:"email,optional"`       // 邮箱
-    }
 
     ResetPasswordReq {
         Username string `json:"username"`
@@ -45,7 +35,7 @@ type (
     }
 
     OauthLoginReq {
-        Platform string `json:"platform"` // 平台
+        Platform string `json:"platform"`          // 平台
         Code string `json:"code,optional"`         // 授权码
         State string `json:"state,optional"`       // 状态
     }

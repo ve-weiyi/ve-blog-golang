@@ -359,12 +359,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: user.GetUserInfoHandler(serverCtx),
 				},
 				{
-					// 更换用户头像
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_avatar",
-					Handler: user.UpdateUserAvatarHandler(serverCtx),
-				},
-				{
 					// 修改用户信息
 					Method:  http.MethodPost,
 					Path:    "/user/update_user_info",
