@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	MenuRpc interface {
 		// 创建菜单
-		CreateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
+		AddMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 		// 更新菜单
 		UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 		// 删除菜单
@@ -127,9 +129,9 @@ func NewMenuRpc(cli zrpc.Client) MenuRpc {
 }
 
 // 创建菜单
-func (m *defaultMenuRpc) CreateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error) {
+func (m *defaultMenuRpc) AddMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error) {
 	client := blog.NewMenuRpcClient(m.cli.Conn())
-	return client.CreateMenu(ctx, in, opts...)
+	return client.AddMenu(ctx, in, opts...)
 }
 
 // 更新菜单

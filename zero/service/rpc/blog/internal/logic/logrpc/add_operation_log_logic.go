@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateOperationLogLogic struct {
+type AddOperationLogLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateOperationLogLogic {
-	return &CreateOperationLogLogic{
+func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddOperationLogLogic {
+	return &AddOperationLogLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewCreateOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 // 创建操作记录
-func (l *CreateOperationLogLogic) CreateOperationLog(in *blog.OperationLog) (*blog.OperationLog, error) {
+func (l *AddOperationLogLogic) AddOperationLog(in *blog.OperationLog) (*blog.OperationLog, error) {
 	entity := convert.ConvertOperationLogPbToModel(in)
 
 	_, err := l.svcCtx.OperationLogModel.Insert(l.ctx, entity)

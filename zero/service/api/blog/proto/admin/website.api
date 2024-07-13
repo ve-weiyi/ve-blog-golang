@@ -47,15 +47,15 @@ type (
     }
 
     AdminHomeInfo {
-        ViewsCount int64 `json:"views_count,optional"`                                          // 访问量
-        MessageCount int64 `json:"message_count,optional"`                                      // 留言量
-        UserCount int64 `json:"user_count,optional"`                                            // 用户量
-        ArticleCount int64 `json:"article_count,optional"`                                      // 文章量
-        CategoryList []*CategoryDTO `json:"category_list,optional"`                             // 分类列表
-        TagList []*TagDTO `json:"tag_list,optional"`                                            // 标签列表
+        ViewsCount int64 `json:"views_count,optional"`                                               // 访问量
+        MessageCount int64 `json:"message_count,optional"`                                           // 留言量
+        UserCount int64 `json:"user_count,optional"`                                                 // 用户量
+        ArticleCount int64 `json:"article_count,optional"`                                           // 文章量
+        CategoryList []*CategoryDTO `json:"category_list,optional"`                                  // 分类列表
+        TagList []*TagDTO `json:"tag_list,optional"`                                                 // 标签列表
         ArticleViewRankList []*ArticleViewRankDTO `json:"article_view_rank_list,optional"`           // 文章浏览量排行
-        ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"` // 每日文章生产量
-        UniqueViewList []*UniqueViewDTO `json:"unique_view_list,optional"`                      // 每日用户访问量
+        ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"`      // 每日文章生产量
+        UniqueViewList []*UniqueViewDTO `json:"unique_view_list,optional"`                           // 每日用户访问量
     }
 
     CategoryDTO {
@@ -89,6 +89,14 @@ type (
     }
 )
 
+type Server {
+    Os interface{} `json:"os"`
+    Cpu interface{} `json:"cpu"`
+    Ram interface{} `json:"ram"`
+    Disk interface{} `json:"disk"`
+}
+
+
 @server(
     prefix: /api/v1
     group: website
@@ -117,5 +125,5 @@ service admin-api {
 
     @doc "获取服务器信息"
     @handler GetSystemState
-    get /admin/system_state (EmptyReq) returns (EmptyResp)
+    get /admin/system_state (EmptyReq) returns (Server)
 }

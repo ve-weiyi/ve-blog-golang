@@ -476,7 +476,7 @@ var AuthRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ApiRpc_CreateApi_FullMethodName     = "/blog.ApiRpc/CreateApi"
+	ApiRpc_AddApi_FullMethodName        = "/blog.ApiRpc/AddApi"
 	ApiRpc_UpdateApi_FullMethodName     = "/blog.ApiRpc/UpdateApi"
 	ApiRpc_DeleteApi_FullMethodName     = "/blog.ApiRpc/DeleteApi"
 	ApiRpc_DeleteApiList_FullMethodName = "/blog.ApiRpc/DeleteApiList"
@@ -491,7 +491,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiRpcClient interface {
 	// 创建接口
-	CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
+	AddApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 	// 更新接口
 	UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 	// 删除接口
@@ -516,10 +516,10 @@ func NewApiRpcClient(cc grpc.ClientConnInterface) ApiRpcClient {
 	return &apiRpcClient{cc}
 }
 
-func (c *apiRpcClient) CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
+func (c *apiRpcClient) AddApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Api)
-	err := c.cc.Invoke(ctx, ApiRpc_CreateApi_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ApiRpc_AddApi_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -601,7 +601,7 @@ func (c *apiRpcClient) CleanApiList(ctx context.Context, in *EmptyReq, opts ...g
 // for forward compatibility
 type ApiRpcServer interface {
 	// 创建接口
-	CreateApi(context.Context, *Api) (*Api, error)
+	AddApi(context.Context, *Api) (*Api, error)
 	// 更新接口
 	UpdateApi(context.Context, *Api) (*Api, error)
 	// 删除接口
@@ -623,8 +623,8 @@ type ApiRpcServer interface {
 type UnimplementedApiRpcServer struct {
 }
 
-func (UnimplementedApiRpcServer) CreateApi(context.Context, *Api) (*Api, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateApi not implemented")
+func (UnimplementedApiRpcServer) AddApi(context.Context, *Api) (*Api, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddApi not implemented")
 }
 func (UnimplementedApiRpcServer) UpdateApi(context.Context, *Api) (*Api, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateApi not implemented")
@@ -660,20 +660,20 @@ func RegisterApiRpcServer(s grpc.ServiceRegistrar, srv ApiRpcServer) {
 	s.RegisterService(&ApiRpc_ServiceDesc, srv)
 }
 
-func _ApiRpc_CreateApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ApiRpc_AddApi_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Api)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiRpcServer).CreateApi(ctx, in)
+		return srv.(ApiRpcServer).AddApi(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiRpc_CreateApi_FullMethodName,
+		FullMethod: ApiRpc_AddApi_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiRpcServer).CreateApi(ctx, req.(*Api))
+		return srv.(ApiRpcServer).AddApi(ctx, req.(*Api))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -812,8 +812,8 @@ var ApiRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ApiRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateApi",
-			Handler:    _ApiRpc_CreateApi_Handler,
+			MethodName: "AddApi",
+			Handler:    _ApiRpc_AddApi_Handler,
 		},
 		{
 			MethodName: "UpdateApi",
@@ -849,7 +849,7 @@ var ApiRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	MenuRpc_CreateMenu_FullMethodName     = "/blog.MenuRpc/CreateMenu"
+	MenuRpc_AddMenu_FullMethodName        = "/blog.MenuRpc/AddMenu"
 	MenuRpc_UpdateMenu_FullMethodName     = "/blog.MenuRpc/UpdateMenu"
 	MenuRpc_DeleteMenu_FullMethodName     = "/blog.MenuRpc/DeleteMenu"
 	MenuRpc_DeleteMenuList_FullMethodName = "/blog.MenuRpc/DeleteMenuList"
@@ -864,7 +864,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MenuRpcClient interface {
 	// 创建菜单
-	CreateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
+	AddMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 	// 更新菜单
 	UpdateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error)
 	// 删除菜单
@@ -889,10 +889,10 @@ func NewMenuRpcClient(cc grpc.ClientConnInterface) MenuRpcClient {
 	return &menuRpcClient{cc}
 }
 
-func (c *menuRpcClient) CreateMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error) {
+func (c *menuRpcClient) AddMenu(ctx context.Context, in *Menu, opts ...grpc.CallOption) (*Menu, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Menu)
-	err := c.cc.Invoke(ctx, MenuRpc_CreateMenu_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, MenuRpc_AddMenu_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -974,7 +974,7 @@ func (c *menuRpcClient) CleanMenuList(ctx context.Context, in *EmptyReq, opts ..
 // for forward compatibility
 type MenuRpcServer interface {
 	// 创建菜单
-	CreateMenu(context.Context, *Menu) (*Menu, error)
+	AddMenu(context.Context, *Menu) (*Menu, error)
 	// 更新菜单
 	UpdateMenu(context.Context, *Menu) (*Menu, error)
 	// 删除菜单
@@ -996,8 +996,8 @@ type MenuRpcServer interface {
 type UnimplementedMenuRpcServer struct {
 }
 
-func (UnimplementedMenuRpcServer) CreateMenu(context.Context, *Menu) (*Menu, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateMenu not implemented")
+func (UnimplementedMenuRpcServer) AddMenu(context.Context, *Menu) (*Menu, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddMenu not implemented")
 }
 func (UnimplementedMenuRpcServer) UpdateMenu(context.Context, *Menu) (*Menu, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenu not implemented")
@@ -1033,20 +1033,20 @@ func RegisterMenuRpcServer(s grpc.ServiceRegistrar, srv MenuRpcServer) {
 	s.RegisterService(&MenuRpc_ServiceDesc, srv)
 }
 
-func _MenuRpc_CreateMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MenuRpc_AddMenu_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Menu)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MenuRpcServer).CreateMenu(ctx, in)
+		return srv.(MenuRpcServer).AddMenu(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MenuRpc_CreateMenu_FullMethodName,
+		FullMethod: MenuRpc_AddMenu_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MenuRpcServer).CreateMenu(ctx, req.(*Menu))
+		return srv.(MenuRpcServer).AddMenu(ctx, req.(*Menu))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1185,8 +1185,8 @@ var MenuRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MenuRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateMenu",
-			Handler:    _MenuRpc_CreateMenu_Handler,
+			MethodName: "AddMenu",
+			Handler:    _MenuRpc_AddMenu_Handler,
 		},
 		{
 			MethodName: "UpdateMenu",
@@ -1222,7 +1222,7 @@ var MenuRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	RoleRpc_CreateRole_FullMethodName        = "/blog.RoleRpc/CreateRole"
+	RoleRpc_AddRole_FullMethodName           = "/blog.RoleRpc/AddRole"
 	RoleRpc_UpdateRole_FullMethodName        = "/blog.RoleRpc/UpdateRole"
 	RoleRpc_DeleteRole_FullMethodName        = "/blog.RoleRpc/DeleteRole"
 	RoleRpc_DeleteRoleList_FullMethodName    = "/blog.RoleRpc/DeleteRoleList"
@@ -1238,7 +1238,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RoleRpcClient interface {
 	// 创建角色
-	CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
+	AddRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 	// 更新角色
 	UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 	// 删除角色
@@ -1265,10 +1265,10 @@ func NewRoleRpcClient(cc grpc.ClientConnInterface) RoleRpcClient {
 	return &roleRpcClient{cc}
 }
 
-func (c *roleRpcClient) CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
+func (c *roleRpcClient) AddRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Role)
-	err := c.cc.Invoke(ctx, RoleRpc_CreateRole_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, RoleRpc_AddRole_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1360,7 +1360,7 @@ func (c *roleRpcClient) UpdateRoleApis(ctx context.Context, in *UpdateRoleApisRe
 // for forward compatibility
 type RoleRpcServer interface {
 	// 创建角色
-	CreateRole(context.Context, *Role) (*Role, error)
+	AddRole(context.Context, *Role) (*Role, error)
 	// 更新角色
 	UpdateRole(context.Context, *Role) (*Role, error)
 	// 删除角色
@@ -1384,8 +1384,8 @@ type RoleRpcServer interface {
 type UnimplementedRoleRpcServer struct {
 }
 
-func (UnimplementedRoleRpcServer) CreateRole(context.Context, *Role) (*Role, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
+func (UnimplementedRoleRpcServer) AddRole(context.Context, *Role) (*Role, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRole not implemented")
 }
 func (UnimplementedRoleRpcServer) UpdateRole(context.Context, *Role) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
@@ -1424,20 +1424,20 @@ func RegisterRoleRpcServer(s grpc.ServiceRegistrar, srv RoleRpcServer) {
 	s.RegisterService(&RoleRpc_ServiceDesc, srv)
 }
 
-func _RoleRpc_CreateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RoleRpc_AddRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Role)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RoleRpcServer).CreateRole(ctx, in)
+		return srv.(RoleRpcServer).AddRole(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RoleRpc_CreateRole_FullMethodName,
+		FullMethod: RoleRpc_AddRole_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoleRpcServer).CreateRole(ctx, req.(*Role))
+		return srv.(RoleRpcServer).AddRole(ctx, req.(*Role))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1594,8 +1594,8 @@ var RoleRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*RoleRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateRole",
-			Handler:    _RoleRpc_CreateRole_Handler,
+			MethodName: "AddRole",
+			Handler:    _RoleRpc_AddRole_Handler,
 		},
 		{
 			MethodName: "UpdateRole",
@@ -2217,7 +2217,7 @@ var ConfigRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ArticleRpc_CreateArticle_FullMethodName         = "/blog.ArticleRpc/CreateArticle"
+	ArticleRpc_AddArticle_FullMethodName            = "/blog.ArticleRpc/AddArticle"
 	ArticleRpc_UpdateArticle_FullMethodName         = "/blog.ArticleRpc/UpdateArticle"
 	ArticleRpc_DeleteArticle_FullMethodName         = "/blog.ArticleRpc/DeleteArticle"
 	ArticleRpc_DeleteArticleList_FullMethodName     = "/blog.ArticleRpc/DeleteArticleList"
@@ -2235,7 +2235,7 @@ const (
 // article服务
 type ArticleRpcClient interface {
 	// 创建文章
-	CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
+	AddArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
 	// 更新文章
 	UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
 	// 删除文章
@@ -2262,10 +2262,10 @@ func NewArticleRpcClient(cc grpc.ClientConnInterface) ArticleRpcClient {
 	return &articleRpcClient{cc}
 }
 
-func (c *articleRpcClient) CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
+func (c *articleRpcClient) AddArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Article)
-	err := c.cc.Invoke(ctx, ArticleRpc_CreateArticle_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ArticleRpc_AddArticle_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2359,7 +2359,7 @@ func (c *articleRpcClient) FindArticleByCategory(ctx context.Context, in *FindAr
 // article服务
 type ArticleRpcServer interface {
 	// 创建文章
-	CreateArticle(context.Context, *Article) (*Article, error)
+	AddArticle(context.Context, *Article) (*Article, error)
 	// 更新文章
 	UpdateArticle(context.Context, *Article) (*Article, error)
 	// 删除文章
@@ -2383,8 +2383,8 @@ type ArticleRpcServer interface {
 type UnimplementedArticleRpcServer struct {
 }
 
-func (UnimplementedArticleRpcServer) CreateArticle(context.Context, *Article) (*Article, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateArticle not implemented")
+func (UnimplementedArticleRpcServer) AddArticle(context.Context, *Article) (*Article, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddArticle not implemented")
 }
 func (UnimplementedArticleRpcServer) UpdateArticle(context.Context, *Article) (*Article, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
@@ -2423,20 +2423,20 @@ func RegisterArticleRpcServer(s grpc.ServiceRegistrar, srv ArticleRpcServer) {
 	s.RegisterService(&ArticleRpc_ServiceDesc, srv)
 }
 
-func _ArticleRpc_CreateArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ArticleRpc_AddArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Article)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArticleRpcServer).CreateArticle(ctx, in)
+		return srv.(ArticleRpcServer).AddArticle(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ArticleRpc_CreateArticle_FullMethodName,
+		FullMethod: ArticleRpc_AddArticle_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleRpcServer).CreateArticle(ctx, req.(*Article))
+		return srv.(ArticleRpcServer).AddArticle(ctx, req.(*Article))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2593,8 +2593,8 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ArticleRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateArticle",
-			Handler:    _ArticleRpc_CreateArticle_Handler,
+			MethodName: "AddArticle",
+			Handler:    _ArticleRpc_AddArticle_Handler,
 		},
 		{
 			MethodName: "UpdateArticle",
@@ -2634,7 +2634,7 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	CategoryRpc_CreateCategory_FullMethodName        = "/blog.CategoryRpc/CreateCategory"
+	CategoryRpc_AddCategory_FullMethodName           = "/blog.CategoryRpc/AddCategory"
 	CategoryRpc_UpdateCategory_FullMethodName        = "/blog.CategoryRpc/UpdateCategory"
 	CategoryRpc_DeleteCategory_FullMethodName        = "/blog.CategoryRpc/DeleteCategory"
 	CategoryRpc_DeleteCategoryList_FullMethodName    = "/blog.CategoryRpc/DeleteCategoryList"
@@ -2651,7 +2651,7 @@ const (
 // category服务
 type CategoryRpcClient interface {
 	// 创建文章分类
-	CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
+	AddCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 	// 更新文章分类
 	UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 	// 删除文章分类
@@ -2676,10 +2676,10 @@ func NewCategoryRpcClient(cc grpc.ClientConnInterface) CategoryRpcClient {
 	return &categoryRpcClient{cc}
 }
 
-func (c *categoryRpcClient) CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+func (c *categoryRpcClient) AddCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Category)
-	err := c.cc.Invoke(ctx, CategoryRpc_CreateCategory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CategoryRpc_AddCategory_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2763,7 +2763,7 @@ func (c *categoryRpcClient) FindCategoryListByIds(ctx context.Context, in *IdsRe
 // category服务
 type CategoryRpcServer interface {
 	// 创建文章分类
-	CreateCategory(context.Context, *Category) (*Category, error)
+	AddCategory(context.Context, *Category) (*Category, error)
 	// 更新文章分类
 	UpdateCategory(context.Context, *Category) (*Category, error)
 	// 删除文章分类
@@ -2785,8 +2785,8 @@ type CategoryRpcServer interface {
 type UnimplementedCategoryRpcServer struct {
 }
 
-func (UnimplementedCategoryRpcServer) CreateCategory(context.Context, *Category) (*Category, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateCategory not implemented")
+func (UnimplementedCategoryRpcServer) AddCategory(context.Context, *Category) (*Category, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCategory not implemented")
 }
 func (UnimplementedCategoryRpcServer) UpdateCategory(context.Context, *Category) (*Category, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
@@ -2822,20 +2822,20 @@ func RegisterCategoryRpcServer(s grpc.ServiceRegistrar, srv CategoryRpcServer) {
 	s.RegisterService(&CategoryRpc_ServiceDesc, srv)
 }
 
-func _CategoryRpc_CreateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CategoryRpc_AddCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Category)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CategoryRpcServer).CreateCategory(ctx, in)
+		return srv.(CategoryRpcServer).AddCategory(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CategoryRpc_CreateCategory_FullMethodName,
+		FullMethod: CategoryRpc_AddCategory_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CategoryRpcServer).CreateCategory(ctx, req.(*Category))
+		return srv.(CategoryRpcServer).AddCategory(ctx, req.(*Category))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2974,8 +2974,8 @@ var CategoryRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CategoryRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateCategory",
-			Handler:    _CategoryRpc_CreateCategory_Handler,
+			MethodName: "AddCategory",
+			Handler:    _CategoryRpc_AddCategory_Handler,
 		},
 		{
 			MethodName: "UpdateCategory",
@@ -3011,7 +3011,7 @@ var CategoryRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	TagRpc_CreateTag_FullMethodName              = "/blog.TagRpc/CreateTag"
+	TagRpc_AddTag_FullMethodName                 = "/blog.TagRpc/AddTag"
 	TagRpc_UpdateTag_FullMethodName              = "/blog.TagRpc/UpdateTag"
 	TagRpc_DeleteTag_FullMethodName              = "/blog.TagRpc/DeleteTag"
 	TagRpc_DeleteTagList_FullMethodName          = "/blog.TagRpc/DeleteTagList"
@@ -3029,7 +3029,7 @@ const (
 // tag服务
 type TagRpcClient interface {
 	// 创建标签
-	CreateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
+	AddTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
 	// 更新标签
 	UpdateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
 	// 删除标签
@@ -3056,10 +3056,10 @@ func NewTagRpcClient(cc grpc.ClientConnInterface) TagRpcClient {
 	return &tagRpcClient{cc}
 }
 
-func (c *tagRpcClient) CreateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error) {
+func (c *tagRpcClient) AddTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Tag)
-	err := c.cc.Invoke(ctx, TagRpc_CreateTag_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TagRpc_AddTag_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3153,7 +3153,7 @@ func (c *tagRpcClient) FindTagMapByArticleIds(ctx context.Context, in *IdsReq, o
 // tag服务
 type TagRpcServer interface {
 	// 创建标签
-	CreateTag(context.Context, *Tag) (*Tag, error)
+	AddTag(context.Context, *Tag) (*Tag, error)
 	// 更新标签
 	UpdateTag(context.Context, *Tag) (*Tag, error)
 	// 删除标签
@@ -3177,8 +3177,8 @@ type TagRpcServer interface {
 type UnimplementedTagRpcServer struct {
 }
 
-func (UnimplementedTagRpcServer) CreateTag(context.Context, *Tag) (*Tag, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTag not implemented")
+func (UnimplementedTagRpcServer) AddTag(context.Context, *Tag) (*Tag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTag not implemented")
 }
 func (UnimplementedTagRpcServer) UpdateTag(context.Context, *Tag) (*Tag, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTag not implemented")
@@ -3217,20 +3217,20 @@ func RegisterTagRpcServer(s grpc.ServiceRegistrar, srv TagRpcServer) {
 	s.RegisterService(&TagRpc_ServiceDesc, srv)
 }
 
-func _TagRpc_CreateTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TagRpc_AddTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Tag)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TagRpcServer).CreateTag(ctx, in)
+		return srv.(TagRpcServer).AddTag(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TagRpc_CreateTag_FullMethodName,
+		FullMethod: TagRpc_AddTag_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TagRpcServer).CreateTag(ctx, req.(*Tag))
+		return srv.(TagRpcServer).AddTag(ctx, req.(*Tag))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3387,8 +3387,8 @@ var TagRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*TagRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateTag",
-			Handler:    _TagRpc_CreateTag_Handler,
+			MethodName: "AddTag",
+			Handler:    _TagRpc_AddTag_Handler,
 		},
 		{
 			MethodName: "UpdateTag",
@@ -3428,7 +3428,7 @@ var TagRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	CommentRpc_CreateComment_FullMethodName        = "/blog.commentRpc/CreateComment"
+	CommentRpc_AddComment_FullMethodName           = "/blog.commentRpc/AddComment"
 	CommentRpc_UpdateComment_FullMethodName        = "/blog.commentRpc/UpdateComment"
 	CommentRpc_DeleteComment_FullMethodName        = "/blog.commentRpc/DeleteComment"
 	CommentRpc_DeleteCommentList_FullMethodName    = "/blog.commentRpc/DeleteCommentList"
@@ -3444,7 +3444,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommentRpcClient interface {
 	// 创建评论
-	CreateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
+	AddComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
 	// 更新评论
 	UpdateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
 	// 删除评论
@@ -3471,10 +3471,10 @@ func NewCommentRpcClient(cc grpc.ClientConnInterface) CommentRpcClient {
 	return &commentRpcClient{cc}
 }
 
-func (c *commentRpcClient) CreateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error) {
+func (c *commentRpcClient) AddComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Comment)
-	err := c.cc.Invoke(ctx, CommentRpc_CreateComment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CommentRpc_AddComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3566,7 +3566,7 @@ func (c *commentRpcClient) LikeComment(ctx context.Context, in *IdReq, opts ...g
 // for forward compatibility
 type CommentRpcServer interface {
 	// 创建评论
-	CreateComment(context.Context, *Comment) (*Comment, error)
+	AddComment(context.Context, *Comment) (*Comment, error)
 	// 更新评论
 	UpdateComment(context.Context, *Comment) (*Comment, error)
 	// 删除评论
@@ -3590,8 +3590,8 @@ type CommentRpcServer interface {
 type UnimplementedCommentRpcServer struct {
 }
 
-func (UnimplementedCommentRpcServer) CreateComment(context.Context, *Comment) (*Comment, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateComment not implemented")
+func (UnimplementedCommentRpcServer) AddComment(context.Context, *Comment) (*Comment, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddComment not implemented")
 }
 func (UnimplementedCommentRpcServer) UpdateComment(context.Context, *Comment) (*Comment, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
@@ -3630,20 +3630,20 @@ func RegisterCommentRpcServer(s grpc.ServiceRegistrar, srv CommentRpcServer) {
 	s.RegisterService(&CommentRpc_ServiceDesc, srv)
 }
 
-func _CommentRpc_CreateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentRpc_AddComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Comment)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentRpcServer).CreateComment(ctx, in)
+		return srv.(CommentRpcServer).AddComment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommentRpc_CreateComment_FullMethodName,
+		FullMethod: CommentRpc_AddComment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentRpcServer).CreateComment(ctx, req.(*Comment))
+		return srv.(CommentRpcServer).AddComment(ctx, req.(*Comment))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3800,8 +3800,8 @@ var CommentRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*CommentRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateComment",
-			Handler:    _CommentRpc_CreateComment_Handler,
+			MethodName: "AddComment",
+			Handler:    _CommentRpc_AddComment_Handler,
 		},
 		{
 			MethodName: "UpdateComment",
@@ -3841,7 +3841,7 @@ var CommentRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	RemarkRpc_CreateRemark_FullMethodName     = "/blog.remarkRpc/CreateRemark"
+	RemarkRpc_AddRemark_FullMethodName        = "/blog.remarkRpc/AddRemark"
 	RemarkRpc_UpdateRemark_FullMethodName     = "/blog.remarkRpc/UpdateRemark"
 	RemarkRpc_DeleteRemark_FullMethodName     = "/blog.remarkRpc/DeleteRemark"
 	RemarkRpc_DeleteRemarkList_FullMethodName = "/blog.remarkRpc/DeleteRemarkList"
@@ -3855,7 +3855,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RemarkRpcClient interface {
 	// 创建留言
-	CreateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
+	AddRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
 	// 更新留言
 	UpdateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
 	// 删除留言
@@ -3878,10 +3878,10 @@ func NewRemarkRpcClient(cc grpc.ClientConnInterface) RemarkRpcClient {
 	return &remarkRpcClient{cc}
 }
 
-func (c *remarkRpcClient) CreateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error) {
+func (c *remarkRpcClient) AddRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Remark)
-	err := c.cc.Invoke(ctx, RemarkRpc_CreateRemark_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, RemarkRpc_AddRemark_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3953,7 +3953,7 @@ func (c *remarkRpcClient) FindRemarkCount(ctx context.Context, in *PageQuery, op
 // for forward compatibility
 type RemarkRpcServer interface {
 	// 创建留言
-	CreateRemark(context.Context, *Remark) (*Remark, error)
+	AddRemark(context.Context, *Remark) (*Remark, error)
 	// 更新留言
 	UpdateRemark(context.Context, *Remark) (*Remark, error)
 	// 删除留言
@@ -3973,8 +3973,8 @@ type RemarkRpcServer interface {
 type UnimplementedRemarkRpcServer struct {
 }
 
-func (UnimplementedRemarkRpcServer) CreateRemark(context.Context, *Remark) (*Remark, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateRemark not implemented")
+func (UnimplementedRemarkRpcServer) AddRemark(context.Context, *Remark) (*Remark, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRemark not implemented")
 }
 func (UnimplementedRemarkRpcServer) UpdateRemark(context.Context, *Remark) (*Remark, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRemark not implemented")
@@ -4007,20 +4007,20 @@ func RegisterRemarkRpcServer(s grpc.ServiceRegistrar, srv RemarkRpcServer) {
 	s.RegisterService(&RemarkRpc_ServiceDesc, srv)
 }
 
-func _RemarkRpc_CreateRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RemarkRpc_AddRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Remark)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RemarkRpcServer).CreateRemark(ctx, in)
+		return srv.(RemarkRpcServer).AddRemark(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RemarkRpc_CreateRemark_FullMethodName,
+		FullMethod: RemarkRpc_AddRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).CreateRemark(ctx, req.(*Remark))
+		return srv.(RemarkRpcServer).AddRemark(ctx, req.(*Remark))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4141,8 +4141,8 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*RemarkRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateRemark",
-			Handler:    _RemarkRpc_CreateRemark_Handler,
+			MethodName: "AddRemark",
+			Handler:    _RemarkRpc_AddRemark_Handler,
 		},
 		{
 			MethodName: "UpdateRemark",
@@ -4174,14 +4174,14 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	PhotoRpc_CreatePhoto_FullMethodName          = "/blog.photoRpc/CreatePhoto"
+	PhotoRpc_AddPhoto_FullMethodName             = "/blog.photoRpc/AddPhoto"
 	PhotoRpc_UpdatePhoto_FullMethodName          = "/blog.photoRpc/UpdatePhoto"
 	PhotoRpc_DeletePhoto_FullMethodName          = "/blog.photoRpc/DeletePhoto"
 	PhotoRpc_DeletePhotoList_FullMethodName      = "/blog.photoRpc/DeletePhotoList"
 	PhotoRpc_FindPhoto_FullMethodName            = "/blog.photoRpc/FindPhoto"
 	PhotoRpc_FindPhotoList_FullMethodName        = "/blog.photoRpc/FindPhotoList"
 	PhotoRpc_FindPhotoCount_FullMethodName       = "/blog.photoRpc/FindPhotoCount"
-	PhotoRpc_CreatePhotoAlbum_FullMethodName     = "/blog.photoRpc/CreatePhotoAlbum"
+	PhotoRpc_AddPhotoAlbum_FullMethodName        = "/blog.photoRpc/AddPhotoAlbum"
 	PhotoRpc_UpdatePhotoAlbum_FullMethodName     = "/blog.photoRpc/UpdatePhotoAlbum"
 	PhotoRpc_DeletePhotoAlbum_FullMethodName     = "/blog.photoRpc/DeletePhotoAlbum"
 	PhotoRpc_DeletePhotoAlbumList_FullMethodName = "/blog.photoRpc/DeletePhotoAlbumList"
@@ -4195,7 +4195,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PhotoRpcClient interface {
 	// 创建照片
-	CreatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
+	AddPhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
 	// 更新照片
 	UpdatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
 	// 删除照片
@@ -4209,7 +4209,7 @@ type PhotoRpcClient interface {
 	// 查询照片数量
 	FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	// 创建相册
-	CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
+	AddPhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
 	// 更新相册
 	UpdatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
 	// 删除相册
@@ -4232,10 +4232,10 @@ func NewPhotoRpcClient(cc grpc.ClientConnInterface) PhotoRpcClient {
 	return &photoRpcClient{cc}
 }
 
-func (c *photoRpcClient) CreatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error) {
+func (c *photoRpcClient) AddPhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Photo)
-	err := c.cc.Invoke(ctx, PhotoRpc_CreatePhoto_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PhotoRpc_AddPhoto_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -4302,10 +4302,10 @@ func (c *photoRpcClient) FindPhotoCount(ctx context.Context, in *PageQuery, opts
 	return out, nil
 }
 
-func (c *photoRpcClient) CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+func (c *photoRpcClient) AddPhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PhotoAlbum)
-	err := c.cc.Invoke(ctx, PhotoRpc_CreatePhotoAlbum_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PhotoRpc_AddPhotoAlbum_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -4377,7 +4377,7 @@ func (c *photoRpcClient) FindPhotoAlbumCount(ctx context.Context, in *PageQuery,
 // for forward compatibility
 type PhotoRpcServer interface {
 	// 创建照片
-	CreatePhoto(context.Context, *Photo) (*Photo, error)
+	AddPhoto(context.Context, *Photo) (*Photo, error)
 	// 更新照片
 	UpdatePhoto(context.Context, *Photo) (*Photo, error)
 	// 删除照片
@@ -4391,7 +4391,7 @@ type PhotoRpcServer interface {
 	// 查询照片数量
 	FindPhotoCount(context.Context, *PageQuery) (*CountResp, error)
 	// 创建相册
-	CreatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error)
+	AddPhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error)
 	// 更新相册
 	UpdatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error)
 	// 删除相册
@@ -4411,8 +4411,8 @@ type PhotoRpcServer interface {
 type UnimplementedPhotoRpcServer struct {
 }
 
-func (UnimplementedPhotoRpcServer) CreatePhoto(context.Context, *Photo) (*Photo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePhoto not implemented")
+func (UnimplementedPhotoRpcServer) AddPhoto(context.Context, *Photo) (*Photo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPhoto not implemented")
 }
 func (UnimplementedPhotoRpcServer) UpdatePhoto(context.Context, *Photo) (*Photo, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhoto not implemented")
@@ -4432,8 +4432,8 @@ func (UnimplementedPhotoRpcServer) FindPhotoList(context.Context, *PageQuery) (*
 func (UnimplementedPhotoRpcServer) FindPhotoCount(context.Context, *PageQuery) (*CountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindPhotoCount not implemented")
 }
-func (UnimplementedPhotoRpcServer) CreatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePhotoAlbum not implemented")
+func (UnimplementedPhotoRpcServer) AddPhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPhotoAlbum not implemented")
 }
 func (UnimplementedPhotoRpcServer) UpdatePhotoAlbum(context.Context, *PhotoAlbum) (*PhotoAlbum, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePhotoAlbum not implemented")
@@ -4466,20 +4466,20 @@ func RegisterPhotoRpcServer(s grpc.ServiceRegistrar, srv PhotoRpcServer) {
 	s.RegisterService(&PhotoRpc_ServiceDesc, srv)
 }
 
-func _PhotoRpc_CreatePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PhotoRpc_AddPhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Photo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhotoRpcServer).CreatePhoto(ctx, in)
+		return srv.(PhotoRpcServer).AddPhoto(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PhotoRpc_CreatePhoto_FullMethodName,
+		FullMethod: PhotoRpc_AddPhoto_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhotoRpcServer).CreatePhoto(ctx, req.(*Photo))
+		return srv.(PhotoRpcServer).AddPhoto(ctx, req.(*Photo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4592,20 +4592,20 @@ func _PhotoRpc_FindPhotoCount_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhotoRpc_CreatePhotoAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PhotoRpc_AddPhotoAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PhotoAlbum)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhotoRpcServer).CreatePhotoAlbum(ctx, in)
+		return srv.(PhotoRpcServer).AddPhotoAlbum(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PhotoRpc_CreatePhotoAlbum_FullMethodName,
+		FullMethod: PhotoRpc_AddPhotoAlbum_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhotoRpcServer).CreatePhotoAlbum(ctx, req.(*PhotoAlbum))
+		return srv.(PhotoRpcServer).AddPhotoAlbum(ctx, req.(*PhotoAlbum))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4726,8 +4726,8 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PhotoRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreatePhoto",
-			Handler:    _PhotoRpc_CreatePhoto_Handler,
+			MethodName: "AddPhoto",
+			Handler:    _PhotoRpc_AddPhoto_Handler,
 		},
 		{
 			MethodName: "UpdatePhoto",
@@ -4754,8 +4754,8 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PhotoRpc_FindPhotoCount_Handler,
 		},
 		{
-			MethodName: "CreatePhotoAlbum",
-			Handler:    _PhotoRpc_CreatePhotoAlbum_Handler,
+			MethodName: "AddPhotoAlbum",
+			Handler:    _PhotoRpc_AddPhotoAlbum_Handler,
 		},
 		{
 			MethodName: "UpdatePhotoAlbum",
@@ -4787,7 +4787,7 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	PageRpc_CreatePage_FullMethodName     = "/blog.pageRpc/CreatePage"
+	PageRpc_AddPage_FullMethodName        = "/blog.pageRpc/AddPage"
 	PageRpc_UpdatePage_FullMethodName     = "/blog.pageRpc/UpdatePage"
 	PageRpc_DeletePage_FullMethodName     = "/blog.pageRpc/DeletePage"
 	PageRpc_DeletePageList_FullMethodName = "/blog.pageRpc/DeletePageList"
@@ -4801,7 +4801,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PageRpcClient interface {
 	// 创建页面
-	CreatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
+	AddPage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
 	// 更新页面
 	UpdatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
 	// 删除页面
@@ -4824,10 +4824,10 @@ func NewPageRpcClient(cc grpc.ClientConnInterface) PageRpcClient {
 	return &pageRpcClient{cc}
 }
 
-func (c *pageRpcClient) CreatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error) {
+func (c *pageRpcClient) AddPage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Page)
-	err := c.cc.Invoke(ctx, PageRpc_CreatePage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PageRpc_AddPage_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -4899,7 +4899,7 @@ func (c *pageRpcClient) FindPageCount(ctx context.Context, in *PageQuery, opts .
 // for forward compatibility
 type PageRpcServer interface {
 	// 创建页面
-	CreatePage(context.Context, *Page) (*Page, error)
+	AddPage(context.Context, *Page) (*Page, error)
 	// 更新页面
 	UpdatePage(context.Context, *Page) (*Page, error)
 	// 删除页面
@@ -4919,8 +4919,8 @@ type PageRpcServer interface {
 type UnimplementedPageRpcServer struct {
 }
 
-func (UnimplementedPageRpcServer) CreatePage(context.Context, *Page) (*Page, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePage not implemented")
+func (UnimplementedPageRpcServer) AddPage(context.Context, *Page) (*Page, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPage not implemented")
 }
 func (UnimplementedPageRpcServer) UpdatePage(context.Context, *Page) (*Page, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePage not implemented")
@@ -4953,20 +4953,20 @@ func RegisterPageRpcServer(s grpc.ServiceRegistrar, srv PageRpcServer) {
 	s.RegisterService(&PageRpc_ServiceDesc, srv)
 }
 
-func _PageRpc_CreatePage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PageRpc_AddPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Page)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PageRpcServer).CreatePage(ctx, in)
+		return srv.(PageRpcServer).AddPage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PageRpc_CreatePage_FullMethodName,
+		FullMethod: PageRpc_AddPage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PageRpcServer).CreatePage(ctx, req.(*Page))
+		return srv.(PageRpcServer).AddPage(ctx, req.(*Page))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5087,8 +5087,8 @@ var PageRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PageRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreatePage",
-			Handler:    _PageRpc_CreatePage_Handler,
+			MethodName: "AddPage",
+			Handler:    _PageRpc_AddPage_Handler,
 		},
 		{
 			MethodName: "UpdatePage",
@@ -5120,7 +5120,7 @@ var PageRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	FriendLinkRpc_CreateFriendLink_FullMethodName     = "/blog.FriendLinkRpc/CreateFriendLink"
+	FriendLinkRpc_AddFriendLink_FullMethodName        = "/blog.FriendLinkRpc/AddFriendLink"
 	FriendLinkRpc_UpdateFriendLink_FullMethodName     = "/blog.FriendLinkRpc/UpdateFriendLink"
 	FriendLinkRpc_DeleteFriendLink_FullMethodName     = "/blog.FriendLinkRpc/DeleteFriendLink"
 	FriendLinkRpc_DeleteFriendLinkList_FullMethodName = "/blog.FriendLinkRpc/DeleteFriendLinkList"
@@ -5134,7 +5134,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FriendLinkRpcClient interface {
 	// 创建友链
-	CreateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
+	AddFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
 	// 更新友链
 	UpdateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
 	// 删除友链
@@ -5157,10 +5157,10 @@ func NewFriendLinkRpcClient(cc grpc.ClientConnInterface) FriendLinkRpcClient {
 	return &friendLinkRpcClient{cc}
 }
 
-func (c *friendLinkRpcClient) CreateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error) {
+func (c *friendLinkRpcClient) AddFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FriendLink)
-	err := c.cc.Invoke(ctx, FriendLinkRpc_CreateFriendLink_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FriendLinkRpc_AddFriendLink_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -5232,7 +5232,7 @@ func (c *friendLinkRpcClient) FindFriendLinkCount(ctx context.Context, in *PageQ
 // for forward compatibility
 type FriendLinkRpcServer interface {
 	// 创建友链
-	CreateFriendLink(context.Context, *FriendLink) (*FriendLink, error)
+	AddFriendLink(context.Context, *FriendLink) (*FriendLink, error)
 	// 更新友链
 	UpdateFriendLink(context.Context, *FriendLink) (*FriendLink, error)
 	// 删除友链
@@ -5252,8 +5252,8 @@ type FriendLinkRpcServer interface {
 type UnimplementedFriendLinkRpcServer struct {
 }
 
-func (UnimplementedFriendLinkRpcServer) CreateFriendLink(context.Context, *FriendLink) (*FriendLink, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateFriendLink not implemented")
+func (UnimplementedFriendLinkRpcServer) AddFriendLink(context.Context, *FriendLink) (*FriendLink, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddFriendLink not implemented")
 }
 func (UnimplementedFriendLinkRpcServer) UpdateFriendLink(context.Context, *FriendLink) (*FriendLink, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateFriendLink not implemented")
@@ -5286,20 +5286,20 @@ func RegisterFriendLinkRpcServer(s grpc.ServiceRegistrar, srv FriendLinkRpcServe
 	s.RegisterService(&FriendLinkRpc_ServiceDesc, srv)
 }
 
-func _FriendLinkRpc_CreateFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FriendLinkRpc_AddFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FriendLink)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FriendLinkRpcServer).CreateFriendLink(ctx, in)
+		return srv.(FriendLinkRpcServer).AddFriendLink(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FriendLinkRpc_CreateFriendLink_FullMethodName,
+		FullMethod: FriendLinkRpc_AddFriendLink_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FriendLinkRpcServer).CreateFriendLink(ctx, req.(*FriendLink))
+		return srv.(FriendLinkRpcServer).AddFriendLink(ctx, req.(*FriendLink))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5420,8 +5420,8 @@ var FriendLinkRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FriendLinkRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateFriendLink",
-			Handler:    _FriendLinkRpc_CreateFriendLink_Handler,
+			MethodName: "AddFriendLink",
+			Handler:    _FriendLinkRpc_AddFriendLink_Handler,
 		},
 		{
 			MethodName: "UpdateFriendLink",
@@ -5453,7 +5453,7 @@ var FriendLinkRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	TalkRpc_CreateTalk_FullMethodName     = "/blog.talkRpc/CreateTalk"
+	TalkRpc_AddTalk_FullMethodName        = "/blog.talkRpc/AddTalk"
 	TalkRpc_UpdateTalk_FullMethodName     = "/blog.talkRpc/UpdateTalk"
 	TalkRpc_DeleteTalk_FullMethodName     = "/blog.talkRpc/DeleteTalk"
 	TalkRpc_DeleteTalkList_FullMethodName = "/blog.talkRpc/DeleteTalkList"
@@ -5468,7 +5468,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TalkRpcClient interface {
 	// 创建说说
-	CreateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
+	AddTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
 	// 更新说说
 	UpdateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
 	// 删除说说
@@ -5493,10 +5493,10 @@ func NewTalkRpcClient(cc grpc.ClientConnInterface) TalkRpcClient {
 	return &talkRpcClient{cc}
 }
 
-func (c *talkRpcClient) CreateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error) {
+func (c *talkRpcClient) AddTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Talk)
-	err := c.cc.Invoke(ctx, TalkRpc_CreateTalk_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TalkRpc_AddTalk_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -5578,7 +5578,7 @@ func (c *talkRpcClient) LikeTalk(ctx context.Context, in *IdReq, opts ...grpc.Ca
 // for forward compatibility
 type TalkRpcServer interface {
 	// 创建说说
-	CreateTalk(context.Context, *Talk) (*Talk, error)
+	AddTalk(context.Context, *Talk) (*Talk, error)
 	// 更新说说
 	UpdateTalk(context.Context, *Talk) (*Talk, error)
 	// 删除说说
@@ -5600,8 +5600,8 @@ type TalkRpcServer interface {
 type UnimplementedTalkRpcServer struct {
 }
 
-func (UnimplementedTalkRpcServer) CreateTalk(context.Context, *Talk) (*Talk, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTalk not implemented")
+func (UnimplementedTalkRpcServer) AddTalk(context.Context, *Talk) (*Talk, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTalk not implemented")
 }
 func (UnimplementedTalkRpcServer) UpdateTalk(context.Context, *Talk) (*Talk, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTalk not implemented")
@@ -5637,20 +5637,20 @@ func RegisterTalkRpcServer(s grpc.ServiceRegistrar, srv TalkRpcServer) {
 	s.RegisterService(&TalkRpc_ServiceDesc, srv)
 }
 
-func _TalkRpc_CreateTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TalkRpc_AddTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Talk)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TalkRpcServer).CreateTalk(ctx, in)
+		return srv.(TalkRpcServer).AddTalk(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TalkRpc_CreateTalk_FullMethodName,
+		FullMethod: TalkRpc_AddTalk_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TalkRpcServer).CreateTalk(ctx, req.(*Talk))
+		return srv.(TalkRpcServer).AddTalk(ctx, req.(*Talk))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5789,8 +5789,8 @@ var TalkRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*TalkRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateTalk",
-			Handler:    _TalkRpc_CreateTalk_Handler,
+			MethodName: "AddTalk",
+			Handler:    _TalkRpc_AddTalk_Handler,
 		},
 		{
 			MethodName: "UpdateTalk",
@@ -5826,7 +5826,7 @@ var TalkRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	LogRpc_CreateOperationLog_FullMethodName     = "/blog.logRpc/CreateOperationLog"
+	LogRpc_AddOperationLog_FullMethodName        = "/blog.logRpc/AddOperationLog"
 	LogRpc_UpdateOperationLog_FullMethodName     = "/blog.logRpc/UpdateOperationLog"
 	LogRpc_DeleteOperationLog_FullMethodName     = "/blog.logRpc/DeleteOperationLog"
 	LogRpc_DeleteOperationLogList_FullMethodName = "/blog.logRpc/DeleteOperationLogList"
@@ -5840,7 +5840,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LogRpcClient interface {
 	// 创建操作记录
-	CreateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
+	AddOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
 	// 更新操作记录
 	UpdateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
 	// 删除操作记录
@@ -5863,10 +5863,10 @@ func NewLogRpcClient(cc grpc.ClientConnInterface) LogRpcClient {
 	return &logRpcClient{cc}
 }
 
-func (c *logRpcClient) CreateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error) {
+func (c *logRpcClient) AddOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OperationLog)
-	err := c.cc.Invoke(ctx, LogRpc_CreateOperationLog_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, LogRpc_AddOperationLog_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -5938,7 +5938,7 @@ func (c *logRpcClient) FindOperationLogCount(ctx context.Context, in *PageQuery,
 // for forward compatibility
 type LogRpcServer interface {
 	// 创建操作记录
-	CreateOperationLog(context.Context, *OperationLog) (*OperationLog, error)
+	AddOperationLog(context.Context, *OperationLog) (*OperationLog, error)
 	// 更新操作记录
 	UpdateOperationLog(context.Context, *OperationLog) (*OperationLog, error)
 	// 删除操作记录
@@ -5958,8 +5958,8 @@ type LogRpcServer interface {
 type UnimplementedLogRpcServer struct {
 }
 
-func (UnimplementedLogRpcServer) CreateOperationLog(context.Context, *OperationLog) (*OperationLog, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateOperationLog not implemented")
+func (UnimplementedLogRpcServer) AddOperationLog(context.Context, *OperationLog) (*OperationLog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddOperationLog not implemented")
 }
 func (UnimplementedLogRpcServer) UpdateOperationLog(context.Context, *OperationLog) (*OperationLog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOperationLog not implemented")
@@ -5992,20 +5992,20 @@ func RegisterLogRpcServer(s grpc.ServiceRegistrar, srv LogRpcServer) {
 	s.RegisterService(&LogRpc_ServiceDesc, srv)
 }
 
-func _LogRpc_CreateOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _LogRpc_AddOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OperationLog)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LogRpcServer).CreateOperationLog(ctx, in)
+		return srv.(LogRpcServer).AddOperationLog(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: LogRpc_CreateOperationLog_FullMethodName,
+		FullMethod: LogRpc_AddOperationLog_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LogRpcServer).CreateOperationLog(ctx, req.(*OperationLog))
+		return srv.(LogRpcServer).AddOperationLog(ctx, req.(*OperationLog))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -6126,8 +6126,8 @@ var LogRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*LogRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateOperationLog",
-			Handler:    _LogRpc_CreateOperationLog_Handler,
+			MethodName: "AddOperationLog",
+			Handler:    _LogRpc_AddOperationLog_Handler,
 		},
 		{
 			MethodName: "UpdateOperationLog",
@@ -6159,7 +6159,7 @@ var LogRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ChatRpc_CreateChatRecord_FullMethodName     = "/blog.chatRpc/CreateChatRecord"
+	ChatRpc_AddChatRecord_FullMethodName        = "/blog.chatRpc/AddChatRecord"
 	ChatRpc_UpdateChatRecord_FullMethodName     = "/blog.chatRpc/UpdateChatRecord"
 	ChatRpc_DeleteChatRecord_FullMethodName     = "/blog.chatRpc/DeleteChatRecord"
 	ChatRpc_DeleteChatRecordList_FullMethodName = "/blog.chatRpc/DeleteChatRecordList"
@@ -6173,7 +6173,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatRpcClient interface {
 	// 创建聊天记录
-	CreateChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error)
+	AddChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error)
 	// 更新聊天记录
 	UpdateChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error)
 	// 删除聊天记录
@@ -6196,10 +6196,10 @@ func NewChatRpcClient(cc grpc.ClientConnInterface) ChatRpcClient {
 	return &chatRpcClient{cc}
 }
 
-func (c *chatRpcClient) CreateChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error) {
+func (c *chatRpcClient) AddChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ChatRecord)
-	err := c.cc.Invoke(ctx, ChatRpc_CreateChatRecord_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, ChatRpc_AddChatRecord_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -6271,7 +6271,7 @@ func (c *chatRpcClient) FindChatRecordCount(ctx context.Context, in *PageQuery, 
 // for forward compatibility
 type ChatRpcServer interface {
 	// 创建聊天记录
-	CreateChatRecord(context.Context, *ChatRecord) (*ChatRecord, error)
+	AddChatRecord(context.Context, *ChatRecord) (*ChatRecord, error)
 	// 更新聊天记录
 	UpdateChatRecord(context.Context, *ChatRecord) (*ChatRecord, error)
 	// 删除聊天记录
@@ -6291,8 +6291,8 @@ type ChatRpcServer interface {
 type UnimplementedChatRpcServer struct {
 }
 
-func (UnimplementedChatRpcServer) CreateChatRecord(context.Context, *ChatRecord) (*ChatRecord, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateChatRecord not implemented")
+func (UnimplementedChatRpcServer) AddChatRecord(context.Context, *ChatRecord) (*ChatRecord, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddChatRecord not implemented")
 }
 func (UnimplementedChatRpcServer) UpdateChatRecord(context.Context, *ChatRecord) (*ChatRecord, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateChatRecord not implemented")
@@ -6325,20 +6325,20 @@ func RegisterChatRpcServer(s grpc.ServiceRegistrar, srv ChatRpcServer) {
 	s.RegisterService(&ChatRpc_ServiceDesc, srv)
 }
 
-func _ChatRpc_CreateChatRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChatRpc_AddChatRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ChatRecord)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatRpcServer).CreateChatRecord(ctx, in)
+		return srv.(ChatRpcServer).AddChatRecord(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChatRpc_CreateChatRecord_FullMethodName,
+		FullMethod: ChatRpc_AddChatRecord_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatRpcServer).CreateChatRecord(ctx, req.(*ChatRecord))
+		return srv.(ChatRpcServer).AddChatRecord(ctx, req.(*ChatRecord))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -6459,8 +6459,8 @@ var ChatRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ChatRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateChatRecord",
-			Handler:    _ChatRpc_CreateChatRecord_Handler,
+			MethodName: "AddChatRecord",
+			Handler:    _ChatRpc_AddChatRecord_Handler,
 		},
 		{
 			MethodName: "UpdateChatRecord",
@@ -6578,6 +6578,99 @@ var UploadRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddUploadRecord",
 			Handler:    _UploadRpc_AddUploadRecord_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "blog.proto",
+}
+
+const (
+	BlogRpc_GetUserVisitList_FullMethodName = "/blog.BlogRpc/GetUserVisitList"
+)
+
+// BlogRpcClient is the client API for BlogRpc service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type BlogRpcClient interface {
+	// 上传文件
+	GetUserVisitList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserVisitPageRsp, error)
+}
+
+type blogRpcClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBlogRpcClient(cc grpc.ClientConnInterface) BlogRpcClient {
+	return &blogRpcClient{cc}
+}
+
+func (c *blogRpcClient) GetUserVisitList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserVisitPageRsp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserVisitPageRsp)
+	err := c.cc.Invoke(ctx, BlogRpc_GetUserVisitList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BlogRpcServer is the server API for BlogRpc service.
+// All implementations must embed UnimplementedBlogRpcServer
+// for forward compatibility
+type BlogRpcServer interface {
+	// 上传文件
+	GetUserVisitList(context.Context, *EmptyReq) (*UserVisitPageRsp, error)
+	mustEmbedUnimplementedBlogRpcServer()
+}
+
+// UnimplementedBlogRpcServer must be embedded to have forward compatible implementations.
+type UnimplementedBlogRpcServer struct {
+}
+
+func (UnimplementedBlogRpcServer) GetUserVisitList(context.Context, *EmptyReq) (*UserVisitPageRsp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserVisitList not implemented")
+}
+func (UnimplementedBlogRpcServer) mustEmbedUnimplementedBlogRpcServer() {}
+
+// UnsafeBlogRpcServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BlogRpcServer will
+// result in compilation errors.
+type UnsafeBlogRpcServer interface {
+	mustEmbedUnimplementedBlogRpcServer()
+}
+
+func RegisterBlogRpcServer(s grpc.ServiceRegistrar, srv BlogRpcServer) {
+	s.RegisterService(&BlogRpc_ServiceDesc, srv)
+}
+
+func _BlogRpc_GetUserVisitList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlogRpcServer).GetUserVisitList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BlogRpc_GetUserVisitList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlogRpcServer).GetUserVisitList(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// BlogRpc_ServiceDesc is the grpc.ServiceDesc for BlogRpc service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BlogRpc_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blog.BlogRpc",
+	HandlerType: (*BlogRpcServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUserVisitList",
+			Handler:    _BlogRpc_GetUserVisitList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

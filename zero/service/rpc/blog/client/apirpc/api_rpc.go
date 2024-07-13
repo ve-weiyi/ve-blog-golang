@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	ApiRpc interface {
 		// 创建接口
-		CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
+		AddApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 		// 更新接口
 		UpdateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error)
 		// 删除接口
@@ -127,9 +129,9 @@ func NewApiRpc(cli zrpc.Client) ApiRpc {
 }
 
 // 创建接口
-func (m *defaultApiRpc) CreateApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
+func (m *defaultApiRpc) AddApi(ctx context.Context, in *Api, opts ...grpc.CallOption) (*Api, error) {
 	client := blog.NewApiRpcClient(m.cli.Conn())
-	return client.CreateApi(ctx, in, opts...)
+	return client.AddApi(ctx, in, opts...)
 }
 
 // 更新接口

@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	RemarkRpc interface {
 		// 创建留言
-		CreateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
+		AddRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
 		// 更新留言
 		UpdateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error)
 		// 删除留言
@@ -125,9 +127,9 @@ func NewRemarkRpc(cli zrpc.Client) RemarkRpc {
 }
 
 // 创建留言
-func (m *defaultRemarkRpc) CreateRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error) {
+func (m *defaultRemarkRpc) AddRemark(ctx context.Context, in *Remark, opts ...grpc.CallOption) (*Remark, error) {
 	client := blog.NewRemarkRpcClient(m.cli.Conn())
-	return client.CreateRemark(ctx, in, opts...)
+	return client.AddRemark(ctx, in, opts...)
 }
 
 // 更新留言

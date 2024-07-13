@@ -1,4 +1,4 @@
-package menurpclogic
+package commentrpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateMenuLogic struct {
+type AddCommentLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateMenuLogic {
-	return &CreateMenuLogic{
+func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCommentLogic {
+	return &AddCommentLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建菜单
-func (l *CreateMenuLogic) CreateMenu(in *blog.Menu) (*blog.Menu, error) {
-	entity := convert.ConvertMenuPbToModel(in)
+// 创建评论
+func (l *AddCommentLogic) AddComment(in *blog.Comment) (*blog.Comment, error) {
+	entity := convert.ConvertCommentPbToModel(in)
 
-	_, err := l.svcCtx.MenuModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.CommentModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertMenuModelToPb(entity), nil
+	return convert.ConvertCommentModelToPb(entity), nil
 }

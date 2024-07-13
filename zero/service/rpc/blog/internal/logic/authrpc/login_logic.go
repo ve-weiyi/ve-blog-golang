@@ -2,7 +2,6 @@ package authrpclogic
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
@@ -77,7 +76,6 @@ func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, account *model.Use
 		IpAddress: ip,
 		IpSource:  is.Location,
 		Agent:     agent,
-		CreatedAt: time.Now(),
 	}
 
 	// 保存此次登录记录

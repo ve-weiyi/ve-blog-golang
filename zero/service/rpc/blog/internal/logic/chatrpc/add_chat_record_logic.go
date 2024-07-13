@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateChatRecordLogic struct {
+type AddChatRecordLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateChatRecordLogic {
-	return &CreateChatRecordLogic{
+func NewAddChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddChatRecordLogic {
+	return &AddChatRecordLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewCreateChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 创建聊天记录
-func (l *CreateChatRecordLogic) CreateChatRecord(in *blog.ChatRecord) (*blog.ChatRecord, error) {
+func (l *AddChatRecordLogic) AddChatRecord(in *blog.ChatRecord) (*blog.ChatRecord, error) {
 	entity := convert.ConvertChatRecordPbToModel(in)
 
 	_, err := l.svcCtx.ChatRecordModel.Insert(l.ctx, entity)

@@ -26,7 +26,7 @@ func NewCreateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateMenuLogic) CreateMenu(req *types.MenuDetails) (resp *types.MenuDetails, err error) {
 	in := convert.ConvertMenuPb(req)
-	out, err := l.svcCtx.MenuRpc.CreateMenu(l.ctx, in)
+	out, err := l.svcCtx.MenuRpc.AddMenu(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -1,4 +1,4 @@
-package photorpclogic
+package categoryrpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreatePhotoLogic struct {
+type AddCategoryLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreatePhotoLogic {
-	return &CreatePhotoLogic{
+func NewAddCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCategoryLogic {
+	return &AddCategoryLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建照片
-func (l *CreatePhotoLogic) CreatePhoto(in *blog.Photo) (*blog.Photo, error) {
-	entity := convert.ConvertPhotoPbToModel(in)
+// 创建文章分类
+func (l *AddCategoryLogic) AddCategory(in *blog.Category) (*blog.Category, error) {
+	entity := convert.ConvertCategoryPbToModel(in)
 
-	_, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.CategoryModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoModelToPb(entity), nil
+	return convert.ConvertCategoryModelToPb(entity), nil
 }

@@ -29,10 +29,10 @@ func (l *FindUserApisLogic) FindUserApis(in *blog.UserReq) (*blog.ApiPageResp, e
 	uid := in.UserId
 
 	// 查用户
-	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
-	//if err != nil {
+	// ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	// if err != nil {
 	//	return nil, err
-	//}
+	// }
 
 	// 查用户角色
 	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
@@ -68,7 +68,6 @@ func (l *FindUserApisLogic) FindUserApis(in *blog.UserReq) (*blog.ApiPageResp, e
 	}
 
 	out := &blog.ApiPageResp{}
-	out.Total = int64(len(list))
 	out.List = list
 	return out, nil
 }

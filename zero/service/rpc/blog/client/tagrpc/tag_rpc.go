@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	TagRpc interface {
 		// 创建标签
-		CreateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
+		AddTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
 		// 更新标签
 		UpdateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error)
 		// 删除标签
@@ -129,9 +131,9 @@ func NewTagRpc(cli zrpc.Client) TagRpc {
 }
 
 // 创建标签
-func (m *defaultTagRpc) CreateTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error) {
+func (m *defaultTagRpc) AddTag(ctx context.Context, in *Tag, opts ...grpc.CallOption) (*Tag, error) {
 	client := blog.NewTagRpcClient(m.cli.Conn())
-	return client.CreateTag(ctx, in, opts...)
+	return client.AddTag(ctx, in, opts...)
 }
 
 // 更新标签

@@ -23,9 +23,9 @@ func NewTalkRpcServer(svcCtx *svc.ServiceContext) *TalkRpcServer {
 }
 
 // 创建说说
-func (s *TalkRpcServer) CreateTalk(ctx context.Context, in *blog.Talk) (*blog.Talk, error) {
-	l := talkrpclogic.NewCreateTalkLogic(ctx, s.svcCtx)
-	return l.CreateTalk(in)
+func (s *TalkRpcServer) AddTalk(ctx context.Context, in *blog.Talk) (*blog.Talk, error) {
+	l := talkrpclogic.NewAddTalkLogic(ctx, s.svcCtx)
+	return l.AddTalk(in)
 }
 
 // 更新说说

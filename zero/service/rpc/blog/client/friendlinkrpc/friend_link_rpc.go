@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	FriendLinkRpc interface {
 		// 创建友链
-		CreateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
+		AddFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
 		// 更新友链
 		UpdateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error)
 		// 删除友链
@@ -125,9 +127,9 @@ func NewFriendLinkRpc(cli zrpc.Client) FriendLinkRpc {
 }
 
 // 创建友链
-func (m *defaultFriendLinkRpc) CreateFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error) {
+func (m *defaultFriendLinkRpc) AddFriendLink(ctx context.Context, in *FriendLink, opts ...grpc.CallOption) (*FriendLink, error) {
 	client := blog.NewFriendLinkRpcClient(m.cli.Conn())
-	return client.CreateFriendLink(ctx, in, opts...)
+	return client.AddFriendLink(ctx, in, opts...)
 }
 
 // 更新友链

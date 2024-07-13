@@ -31,10 +31,10 @@ func (l *FindUserMenusLogic) FindUserMenus(in *blog.UserReq) (*blog.MenuPageResp
 	uid := in.UserId
 
 	// 查用户
-	//ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
-	//if err != nil {
+	// ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	// if err != nil {
 	//	return nil, err
-	//}
+	// }
 
 	// 查用户角色
 	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
@@ -68,7 +68,6 @@ func (l *FindUserMenusLogic) FindUserMenus(in *blog.UserReq) (*blog.MenuPageResp
 	root.Children = appendMenuChildren(&root, list)
 
 	out := &blog.MenuPageResp{}
-	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil

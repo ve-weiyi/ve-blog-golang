@@ -23,9 +23,9 @@ func NewPageRpcServer(svcCtx *svc.ServiceContext) *PageRpcServer {
 }
 
 // 创建页面
-func (s *PageRpcServer) CreatePage(ctx context.Context, in *blog.Page) (*blog.Page, error) {
-	l := pagerpclogic.NewCreatePageLogic(ctx, s.svcCtx)
-	return l.CreatePage(in)
+func (s *PageRpcServer) AddPage(ctx context.Context, in *blog.Page) (*blog.Page, error) {
+	l := pagerpclogic.NewAddPageLogic(ctx, s.svcCtx)
+	return l.AddPage(in)
 }
 
 // 更新页面

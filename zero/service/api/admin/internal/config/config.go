@@ -11,6 +11,8 @@ type Config struct {
 	rest.RestConf
 	UploadConfig *upload.UploadConfig
 
+	BLogRpcConf zrpc.RpcClientConf
+
 	AccountRpcConf zrpc.RpcClientConf
 	ApiRpcConf     zrpc.RpcClientConf
 	MenuRpcConf    zrpc.RpcClientConf

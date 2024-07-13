@@ -1,4 +1,4 @@
-package remarkrpclogic
+package apirpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateRemarkLogic struct {
+type AddApiLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateRemarkLogic {
-	return &CreateRemarkLogic{
+func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogic {
+	return &AddApiLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建留言
-func (l *CreateRemarkLogic) CreateRemark(in *blog.Remark) (*blog.Remark, error) {
-	entity := convert.ConvertRemarkPbToModel(in)
+// 创建接口
+func (l *AddApiLogic) AddApi(in *blog.Api) (*blog.Api, error) {
+	entity := convert.ConvertApiPbToModel(in)
 
-	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.ApiModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRemarkModelToPb(entity), nil
+	return convert.ConvertApiModelToPb(entity), nil
 }

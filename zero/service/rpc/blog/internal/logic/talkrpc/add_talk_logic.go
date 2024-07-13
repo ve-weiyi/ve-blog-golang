@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateTalkLogic struct {
+type AddTalkLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateTalkLogic {
-	return &CreateTalkLogic{
+func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLogic {
+	return &AddTalkLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewCreateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 }
 
 // 创建说说
-func (l *CreateTalkLogic) CreateTalk(in *blog.Talk) (*blog.Talk, error) {
+func (l *AddTalkLogic) AddTalk(in *blog.Talk) (*blog.Talk, error) {
 	entity := convert.ConvertTalkPbToModel(in)
 
 	_, err := l.svcCtx.TalkModel.Insert(l.ctx, entity)

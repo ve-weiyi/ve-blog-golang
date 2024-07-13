@@ -3,6 +3,7 @@ package website
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/system"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -24,8 +25,19 @@ func NewGetSystemStateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetSystemStateLogic) GetSystemState(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *GetSystemStateLogic) GetSystemState(req *types.EmptyReq) (resp *types.Server, err error) {
+	sv := types.Server{}
 
-	return
+	sv.Os = system.InitOS()
+	if sv.Cpu, err = system.InitCPU(); err != nil {
+		return &sv, err
+	}
+	if sv.Ram, err = system.InitRAM(); err != nil {
+		return &sv, err
+	}
+	if sv.Disk, err = system.InitDisk(); err != nil {
+		return &sv, err
+	}
+
+	return &sv, err
 }

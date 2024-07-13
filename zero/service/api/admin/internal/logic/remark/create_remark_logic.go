@@ -27,7 +27,7 @@ func NewCreateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Crea
 
 func (l *CreateRemarkLogic) CreateRemark(req *types.Remark) (resp *types.Remark, err error) {
 	in := convert.ConvertRemarkPb(req)
-	out, err := l.svcCtx.RemarkRpc.CreateRemark(l.ctx, in)
+	out, err := l.svcCtx.RemarkRpc.AddRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

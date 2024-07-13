@@ -23,9 +23,9 @@ func NewTagRpcServer(svcCtx *svc.ServiceContext) *TagRpcServer {
 }
 
 // 创建标签
-func (s *TagRpcServer) CreateTag(ctx context.Context, in *blog.Tag) (*blog.Tag, error) {
-	l := tagrpclogic.NewCreateTagLogic(ctx, s.svcCtx)
-	return l.CreateTag(in)
+func (s *TagRpcServer) AddTag(ctx context.Context, in *blog.Tag) (*blog.Tag, error) {
+	l := tagrpclogic.NewAddTagLogic(ctx, s.svcCtx)
+	return l.AddTag(in)
 }
 
 // 更新标签

@@ -1,4 +1,4 @@
-package categoryrpclogic
+package remarkrpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateCategoryLogic struct {
+type AddRemarkLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateCategoryLogic {
-	return &CreateCategoryLogic{
+func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRemarkLogic {
+	return &AddRemarkLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建文章分类
-func (l *CreateCategoryLogic) CreateCategory(in *blog.Category) (*blog.Category, error) {
-	entity := convert.ConvertCategoryPbToModel(in)
+// 创建留言
+func (l *AddRemarkLogic) AddRemark(in *blog.Remark) (*blog.Remark, error) {
+	entity := convert.ConvertRemarkPbToModel(in)
 
-	_, err := l.svcCtx.CategoryModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCategoryModelToPb(entity), nil
+	return convert.ConvertRemarkModelToPb(entity), nil
 }

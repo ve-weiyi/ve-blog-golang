@@ -27,7 +27,7 @@ func NewCreateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cr
 
 func (l *CreateCategoryLogic) CreateCategory(req *types.Category) (resp *types.Category, err error) {
 	in := convert.ConvertCategoryPb(req)
-	out, err := l.svcCtx.CategoryRpc.CreateCategory(l.ctx, in)
+	out, err := l.svcCtx.CategoryRpc.AddCategory(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

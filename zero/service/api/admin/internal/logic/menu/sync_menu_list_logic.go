@@ -3,13 +3,11 @@ package menu
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/menurpc"
+	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type SyncMenuListLogic struct {
@@ -27,8 +25,9 @@ func NewSyncMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sync
 }
 
 func (l *SyncMenuListLogic) SyncMenuList(req *types.SyncMenuReq) (resp *types.BatchResp, err error) {
-	in := &menurpc.SyncMenuReq{}
-	err = jsonconv.ObjectToObject(req, in)
+
+	in := convert.ConvertSyncMenuPb(req)
+
 	if err != nil {
 		return nil, err
 	}

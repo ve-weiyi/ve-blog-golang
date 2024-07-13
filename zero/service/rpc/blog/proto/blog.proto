@@ -169,13 +169,12 @@ message ApiDetails {
 }
 
 message ApiPageResp {
-  int64 total = 1;
-  repeated ApiDetails list = 2;
+  repeated ApiDetails list = 1;
 }
 
 service ApiRpc {
   // 创建接口
-  rpc CreateApi(Api) returns(Api);
+  rpc AddApi(Api) returns(Api);
   // 更新接口
   rpc UpdateApi(Api) returns(Api);
   // 删除接口
@@ -222,8 +221,7 @@ message MenuDetails {
 }
 
 message MenuPageResp {
-  int64 total = 1;
-  repeated MenuDetails list = 2;
+  repeated MenuDetails list = 1;
 }
 
 message SyncMenuReq {
@@ -232,7 +230,7 @@ message SyncMenuReq {
 
 service MenuRpc {
   // 创建菜单
-  rpc CreateMenu(Menu) returns(Menu);
+  rpc AddMenu(Menu) returns(Menu);
   // 更新菜单
   rpc UpdateMenu(Menu) returns(Menu);
   // 删除菜单
@@ -275,8 +273,8 @@ message RoleDetails {
 }
 
 message RolePageResp {
-  int64 total = 1;
-  repeated RoleDetails list = 2;
+  repeated RoleDetails list = 1;
+  int64 total = 2;
 }
 
 message RoleResourcesResp {
@@ -297,7 +295,7 @@ message UpdateRoleMenusReq {
 
 service RoleRpc {
   // 创建角色
-  rpc CreateRole(Role) returns(Role);
+  rpc AddRole(Role) returns(Role);
   // 更新角色
   rpc UpdateRole(Role) returns(Role);
   // 删除角色
@@ -467,7 +465,7 @@ message FindArticleByCategoryReq{
 // article服务
 service ArticleRpc {
   // 创建文章
-  rpc CreateArticle(Article) returns(Article);
+  rpc AddArticle(Article) returns(Article);
   // 更新文章
   rpc UpdateArticle(Article) returns(Article);
   // 删除文章
@@ -505,7 +503,7 @@ message FindCategoryByNameReq{
 // category服务
 service CategoryRpc {
   // 创建文章分类
-  rpc CreateCategory(Category) returns(Category);
+  rpc AddCategory(Category) returns(Category);
   // 更新文章分类
   rpc UpdateCategory(Category) returns(Category);
   // 删除文章分类
@@ -551,7 +549,7 @@ message TagMapResp{
 // tag服务
 service TagRpc {
   // 创建标签
-  rpc CreateTag(Tag) returns(Tag);
+  rpc AddTag(Tag) returns(Tag);
   // 更新标签
   rpc UpdateTag(Tag) returns(Tag);
   // 删除标签
@@ -618,7 +616,7 @@ message CommentReplyPageResp {
 
 service commentRpc {
   // 创建评论
-  rpc CreateComment(Comment) returns(Comment);
+  rpc AddComment(Comment) returns(Comment);
   // 更新评论
   rpc UpdateComment(Comment) returns(Comment);
   // 删除评论
@@ -656,7 +654,7 @@ message RemarkPageResp {
 
 service remarkRpc {
   // 创建留言
-  rpc CreateRemark(Remark) returns(Remark);
+  rpc AddRemark(Remark) returns(Remark);
   // 更新留言
   rpc UpdateRemark(Remark) returns(Remark);
   // 删除留言
@@ -705,7 +703,7 @@ message PhotoAlbumPageResp {
 
 service photoRpc {
   // 创建照片
-  rpc CreatePhoto(Photo) returns(Photo);
+  rpc AddPhoto(Photo) returns(Photo);
   // 更新照片
   rpc UpdatePhoto(Photo) returns(Photo);
   // 删除照片
@@ -720,7 +718,7 @@ service photoRpc {
   rpc FindPhotoCount(PageQuery) returns(CountResp);
 
   // 创建相册
-  rpc CreatePhotoAlbum(PhotoAlbum) returns(PhotoAlbum);
+  rpc AddPhotoAlbum(PhotoAlbum) returns(PhotoAlbum);
   // 更新相册
   rpc UpdatePhotoAlbum(PhotoAlbum) returns(PhotoAlbum);
   // 删除相册
@@ -753,7 +751,7 @@ message PagePageResp {
 
 service pageRpc {
   // 创建页面
-  rpc CreatePage(Page) returns(Page);
+  rpc AddPage(Page) returns(Page);
   // 更新页面
   rpc UpdatePage(Page) returns(Page);
   // 删除页面
@@ -785,7 +783,7 @@ message FriendLinkPageResp {
 
 service FriendLinkRpc {
   // 创建友链
-  rpc CreateFriendLink(FriendLink) returns(FriendLink);
+  rpc AddFriendLink(FriendLink) returns(FriendLink);
   // 更新友链
   rpc UpdateFriendLink(FriendLink) returns(FriendLink);
   // 删除友链
@@ -833,7 +831,7 @@ message TalkPageResp {
 
 service talkRpc {
   // 创建说说
-  rpc CreateTalk(Talk) returns(Talk);
+  rpc AddTalk(Talk) returns(Talk);
   // 更新说说
   rpc UpdateTalk(Talk) returns(Talk);
   // 删除说说
@@ -877,7 +875,7 @@ message OperationLogPageResp {
 
 service logRpc {
   // 创建操作记录
-  rpc CreateOperationLog(OperationLog) returns(OperationLog);
+  rpc AddOperationLog(OperationLog) returns(OperationLog);
   // 更新操作记录
   rpc UpdateOperationLog(OperationLog) returns(OperationLog);
   // 删除操作记录
@@ -911,7 +909,7 @@ message ChatRecordPageResp {
 
 service chatRpc {
   // 创建聊天记录
-  rpc CreateChatRecord(ChatRecord) returns(ChatRecord);
+  rpc AddChatRecord(ChatRecord) returns(ChatRecord);
   // 更新聊天记录
   rpc UpdateChatRecord(ChatRecord) returns(ChatRecord);
   // 删除聊天记录
@@ -951,4 +949,18 @@ message UploadRecordResp {
 service uploadRpc {
   // 上传文件
   rpc AddUploadRecord(UploadRecordReq) returns(UploadRecordResp);
+}
+
+message UserVisit {
+  string date = 1;
+  int64 view_count = 2;
+}
+
+message UserVisitPageRsp{
+  repeated UserVisit list = 1;
+}
+
+service BlogRpc {
+  // 上传文件
+  rpc GetUserVisitList(EmptyReq) returns(UserVisitPageRsp);
 }

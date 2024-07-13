@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	ArticleRpc interface {
 		// 创建文章
-		CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
+		AddArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
 		// 更新文章
 		UpdateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error)
 		// 删除文章
@@ -129,9 +131,9 @@ func NewArticleRpc(cli zrpc.Client) ArticleRpc {
 }
 
 // 创建文章
-func (m *defaultArticleRpc) CreateArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
+func (m *defaultArticleRpc) AddArticle(ctx context.Context, in *Article, opts ...grpc.CallOption) (*Article, error) {
 	client := blog.NewArticleRpcClient(m.cli.Conn())
-	return client.CreateArticle(ctx, in, opts...)
+	return client.AddArticle(ctx, in, opts...)
 }
 
 // 更新文章

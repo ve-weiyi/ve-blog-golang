@@ -27,7 +27,7 @@ func NewCreateOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 func (l *CreateOperationLogLogic) CreateOperationLog(req *types.OperationLog) (resp *types.OperationLog, err error) {
 	in := convert.ConvertOperationLogPb(req)
-	out, err := l.svcCtx.LogRpc.CreateOperationLog(l.ctx, in)
+	out, err := l.svcCtx.LogRpc.AddOperationLog(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

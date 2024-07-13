@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	PhotoRpc interface {
 		// 创建照片
-		CreatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
+		AddPhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
 		// 更新照片
 		UpdatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error)
 		// 删除照片
@@ -112,7 +114,7 @@ type (
 		// 查询照片数量
 		FindPhotoCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 		// 创建相册
-		CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
+		AddPhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
 		// 更新相册
 		UpdatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error)
 		// 删除相册
@@ -139,9 +141,9 @@ func NewPhotoRpc(cli zrpc.Client) PhotoRpc {
 }
 
 // 创建照片
-func (m *defaultPhotoRpc) CreatePhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error) {
+func (m *defaultPhotoRpc) AddPhoto(ctx context.Context, in *Photo, opts ...grpc.CallOption) (*Photo, error) {
 	client := blog.NewPhotoRpcClient(m.cli.Conn())
-	return client.CreatePhoto(ctx, in, opts...)
+	return client.AddPhoto(ctx, in, opts...)
 }
 
 // 更新照片
@@ -181,9 +183,9 @@ func (m *defaultPhotoRpc) FindPhotoCount(ctx context.Context, in *PageQuery, opt
 }
 
 // 创建相册
-func (m *defaultPhotoRpc) CreatePhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
+func (m *defaultPhotoRpc) AddPhotoAlbum(ctx context.Context, in *PhotoAlbum, opts ...grpc.CallOption) (*PhotoAlbum, error) {
 	client := blog.NewPhotoRpcClient(m.cli.Conn())
-	return client.CreatePhotoAlbum(ctx, in, opts...)
+	return client.AddPhotoAlbum(ctx, in, opts...)
 }
 
 // 更新相册

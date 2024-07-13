@@ -23,9 +23,9 @@ func NewApiRpcServer(svcCtx *svc.ServiceContext) *ApiRpcServer {
 }
 
 // 创建接口
-func (s *ApiRpcServer) CreateApi(ctx context.Context, in *blog.Api) (*blog.Api, error) {
-	l := apirpclogic.NewCreateApiLogic(ctx, s.svcCtx)
-	return l.CreateApi(in)
+func (s *ApiRpcServer) AddApi(ctx context.Context, in *blog.Api) (*blog.Api, error) {
+	l := apirpclogic.NewAddApiLogic(ctx, s.svcCtx)
+	return l.AddApi(in)
 }
 
 // 更新接口

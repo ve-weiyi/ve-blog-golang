@@ -27,7 +27,7 @@ func NewCreateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateT
 
 func (l *CreateTagLogic) CreateTag(req *types.Tag) (resp *types.Tag, err error) {
 	in := convert.ConvertTagPb(req)
-	out, err := l.svcCtx.TagRpc.CreateTag(l.ctx, in)
+	out, err := l.svcCtx.TagRpc.AddTag(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

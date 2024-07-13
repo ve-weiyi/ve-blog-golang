@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	ChatRpc interface {
 		// 创建聊天记录
-		CreateChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error)
+		AddChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error)
 		// 更新聊天记录
 		UpdateChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error)
 		// 删除聊天记录
@@ -125,9 +127,9 @@ func NewChatRpc(cli zrpc.Client) ChatRpc {
 }
 
 // 创建聊天记录
-func (m *defaultChatRpc) CreateChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error) {
+func (m *defaultChatRpc) AddChatRecord(ctx context.Context, in *ChatRecord, opts ...grpc.CallOption) (*ChatRecord, error) {
 	client := blog.NewChatRpcClient(m.cli.Conn())
-	return client.CreateChatRecord(ctx, in, opts...)
+	return client.AddChatRecord(ctx, in, opts...)
 }
 
 // 更新聊天记录

@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	TalkRpc interface {
 		// 创建说说
-		CreateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
+		AddTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
 		// 更新说说
 		UpdateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error)
 		// 删除说说
@@ -127,9 +129,9 @@ func NewTalkRpc(cli zrpc.Client) TalkRpc {
 }
 
 // 创建说说
-func (m *defaultTalkRpc) CreateTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error) {
+func (m *defaultTalkRpc) AddTalk(ctx context.Context, in *Talk, opts ...grpc.CallOption) (*Talk, error) {
 	client := blog.NewTalkRpcClient(m.cli.Conn())
-	return client.CreateTalk(ctx, in, opts...)
+	return client.AddTalk(ctx, in, opts...)
 }
 
 // 更新说说

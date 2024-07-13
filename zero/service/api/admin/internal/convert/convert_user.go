@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"strings"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
@@ -19,10 +21,29 @@ func ConvertUserLoginHistoryTypes(in *blog.LoginHistory) (out *types.LoginHistor
 }
 
 func ConvertUserMenuTypes(in *blog.MenuDetails) (out *types.UserMenu) {
-	jsonconv.ObjectToObject(in, &out)
+	out = &types.UserMenu{
+		Id:        in.Id,
+		ParentId:  in.ParentId,
+		Title:     in.Title,
+		Type:      in.Type,
+		Path:      in.Path,
+		Name:      in.Name,
+		Component: in.Component,
+		Redirect:  in.Redirect,
+		Meta:      types.UserMenuMeta{},
+		Children:  make([]*types.UserMenu, 0),
+	}
 
-	out.Children = make([]*types.UserMenu, 0)
 	jsonconv.JsonToObject(in.Extra, &out.Meta)
+	if !strings.Contains(in.Path, ":") {
+		out.Meta.ShowLink = true
+		out.Meta.ShowParent = true
+	}
+
+	for _, v := range in.Children {
+		out.Children = append(out.Children, ConvertUserMenuTypes(v))
+	}
+
 	return
 }
 

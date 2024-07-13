@@ -23,9 +23,9 @@ func NewPhotoRpcServer(svcCtx *svc.ServiceContext) *PhotoRpcServer {
 }
 
 // 创建照片
-func (s *PhotoRpcServer) CreatePhoto(ctx context.Context, in *blog.Photo) (*blog.Photo, error) {
-	l := photorpclogic.NewCreatePhotoLogic(ctx, s.svcCtx)
-	return l.CreatePhoto(in)
+func (s *PhotoRpcServer) AddPhoto(ctx context.Context, in *blog.Photo) (*blog.Photo, error) {
+	l := photorpclogic.NewAddPhotoLogic(ctx, s.svcCtx)
+	return l.AddPhoto(in)
 }
 
 // 更新照片
@@ -65,9 +65,9 @@ func (s *PhotoRpcServer) FindPhotoCount(ctx context.Context, in *blog.PageQuery)
 }
 
 // 创建相册
-func (s *PhotoRpcServer) CreatePhotoAlbum(ctx context.Context, in *blog.PhotoAlbum) (*blog.PhotoAlbum, error) {
-	l := photorpclogic.NewCreatePhotoAlbumLogic(ctx, s.svcCtx)
-	return l.CreatePhotoAlbum(in)
+func (s *PhotoRpcServer) AddPhotoAlbum(ctx context.Context, in *blog.PhotoAlbum) (*blog.PhotoAlbum, error) {
+	l := photorpclogic.NewAddPhotoAlbumLogic(ctx, s.svcCtx)
+	return l.AddPhotoAlbum(in)
 }
 
 // 更新相册

@@ -3,8 +3,10 @@ package website
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +27,78 @@ func NewGetAdminHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *types.AdminHomeInfo, err error) {
-	// todo: add your logic here and delete this line
+
+	in := &blog.PageQuery{}
+
+	// 查询文章
+	articles, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询分类
+	categories, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询标签
+	tags, err := l.svcCtx.TagRpc.FindTagList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询消息
+	msgCount, err := l.svcCtx.RemarkRpc.FindRemarkCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	// 查询用户数量
+	userCount, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	views, err := l.svcCtx.BlogRpc.GetUserVisitList(l.ctx, &blog.EmptyReq{})
+	if err != nil {
+		return nil, err
+	}
+
+	var cs []*types.CategoryDTO
+	var ts []*types.TagDTO
+	var ars []*types.ArticleViewRankDTO
+	var ass []*types.ArticleStatisticsDTO
+	var uvs []*types.UniqueViewDTO
+
+	for _, v := range categories.List {
+		cs = append(cs, convert.ConvertHomeCategoryTypes(v))
+	}
+
+	for _, v := range tags.List {
+		ts = append(ts, convert.ConvertHomeTagTypes(v))
+	}
+
+	for _, v := range articles.List {
+		ars = append(ars, convert.ConvertHomeArticleRankTypes(v))
+		ass = append(ass, convert.ConvertHomeArticleStaticsTypes(v))
+	}
+
+	for _, v := range views.List {
+		uvs = append(uvs, convert.ConvertHomeViewTypes(v))
+	}
+
+	resp = &types.AdminHomeInfo{
+		ViewsCount:            0,
+		MessageCount:          msgCount.Count,
+		UserCount:             userCount.Total,
+		ArticleCount:          int64(len(articles.List)),
+		CategoryList:          cs,
+		TagList:               ts,
+		ArticleViewRankList:   ars,
+		ArticleStatisticsList: ass,
+		UniqueViewList:        uvs,
+	}
 
 	return
 }

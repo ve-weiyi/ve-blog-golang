@@ -23,9 +23,9 @@ func NewRemarkRpcServer(svcCtx *svc.ServiceContext) *RemarkRpcServer {
 }
 
 // 创建留言
-func (s *RemarkRpcServer) CreateRemark(ctx context.Context, in *blog.Remark) (*blog.Remark, error) {
-	l := remarkrpclogic.NewCreateRemarkLogic(ctx, s.svcCtx)
-	return l.CreateRemark(in)
+func (s *RemarkRpcServer) AddRemark(ctx context.Context, in *blog.Remark) (*blog.Remark, error) {
+	l := remarkrpclogic.NewAddRemarkLogic(ctx, s.svcCtx)
+	return l.AddRemark(in)
 }
 
 // 更新留言

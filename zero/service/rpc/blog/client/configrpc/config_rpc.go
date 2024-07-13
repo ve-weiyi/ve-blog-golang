@@ -95,6 +95,8 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	ConfigRpc interface {
 		SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error)

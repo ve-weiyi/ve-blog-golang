@@ -76,7 +76,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			CreatedAt: time.Now().Unix(),
 		}
 
-		out, err := l.svcCtx.ChatRpc.CreateChatRecord(r.Context(), chat)
+		out, err := l.svcCtx.ChatRpc.AddChatRecord(r.Context(), chat)
 		if err != nil {
 			return nil, err
 		}

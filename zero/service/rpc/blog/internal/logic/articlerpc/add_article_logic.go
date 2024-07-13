@@ -1,4 +1,4 @@
-package pagerpclogic
+package articlerpclogic
 
 import (
 	"context"
@@ -10,28 +10,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreatePageLogic struct {
+type AddArticleLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreatePageLogic {
-	return &CreatePageLogic{
+func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArticleLogic {
+	return &AddArticleLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建页面
-func (l *CreatePageLogic) CreatePage(in *blog.Page) (*blog.Page, error) {
-	entity := convert.ConvertPagePbToModel(in)
+func (l *AddArticleLogic) AddArticle(in *blog.Article) (*blog.Article, error) {
+	entity := convert.ConvertArticlePbToModel(in)
 
-	_, err := l.svcCtx.PageModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.ArticleModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPageModelToPb(entity), nil
+	return convert.ConvertArticleModelToPb(entity), nil
 }

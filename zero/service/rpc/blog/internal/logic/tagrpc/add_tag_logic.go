@@ -1,4 +1,4 @@
-package apirpclogic
+package tagrpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateApiLogic struct {
+type AddTagLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateApiLogic {
-	return &CreateApiLogic{
+func NewAddTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTagLogic {
+	return &AddTagLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建接口
-func (l *CreateApiLogic) CreateApi(in *blog.Api) (*blog.Api, error) {
-	entity := convert.ConvertApiPbToModel(in)
+// 创建标签
+func (l *AddTagLogic) AddTag(in *blog.Tag) (*blog.Tag, error) {
+	entity := convert.ConvertTagPbToModel(in)
 
-	_, err := l.svcCtx.ApiModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TagModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertApiModelToPb(entity), nil
+	return convert.ConvertTagModelToPb(entity), nil
 }

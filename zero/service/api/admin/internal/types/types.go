@@ -465,6 +465,13 @@ type RouteConfigsTable struct {
 	Children  []RouteConfigsTable `json:"children,optional"`  // 子路由配置项
 }
 
+type Server struct {
+	Os   interface{} `json:"os"`
+	Cpu  interface{} `json:"cpu"`
+	Ram  interface{} `json:"ram"`
+	Disk interface{} `json:"disk"`
+}
+
 type SyncMenuReq struct {
 	Menus []RouteConfigsTable `json:"menus,optional"`
 }

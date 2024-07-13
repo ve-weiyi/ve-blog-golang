@@ -1,4 +1,4 @@
-package commentrpclogic
+package photorpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateCommentLogic struct {
+type AddPhotoLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateCommentLogic {
-	return &CreateCommentLogic{
+func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhotoLogic {
+	return &AddPhotoLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建评论
-func (l *CreateCommentLogic) CreateComment(in *blog.Comment) (*blog.Comment, error) {
-	entity := convert.ConvertCommentPbToModel(in)
+// 创建照片
+func (l *AddPhotoLogic) AddPhoto(in *blog.Photo) (*blog.Photo, error) {
+	entity := convert.ConvertPhotoPbToModel(in)
 
-	_, err := l.svcCtx.CommentModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCommentModelToPb(entity), nil
+	return convert.ConvertPhotoModelToPb(entity), nil
 }

@@ -1,4 +1,4 @@
-package tagrpclogic
+package pagerpclogic
 
 import (
 	"context"
@@ -10,28 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateTagLogic struct {
+type AddPageLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateTagLogic {
-	return &CreateTagLogic{
+func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLogic {
+	return &AddPageLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 创建标签
-func (l *CreateTagLogic) CreateTag(in *blog.Tag) (*blog.Tag, error) {
-	entity := convert.ConvertTagPbToModel(in)
+// 创建页面
+func (l *AddPageLogic) AddPage(in *blog.Page) (*blog.Page, error) {
+	entity := convert.ConvertPagePbToModel(in)
 
-	_, err := l.svcCtx.TagModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.PageModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTagModelToPb(entity), nil
+	return convert.ConvertPageModelToPb(entity), nil
 }

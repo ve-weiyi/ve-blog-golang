@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	CategoryRpc interface {
 		// 创建文章分类
-		CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
+		AddCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 		// 更新文章分类
 		UpdateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error)
 		// 删除文章分类
@@ -127,9 +129,9 @@ func NewCategoryRpc(cli zrpc.Client) CategoryRpc {
 }
 
 // 创建文章分类
-func (m *defaultCategoryRpc) CreateCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
+func (m *defaultCategoryRpc) AddCategory(ctx context.Context, in *Category, opts ...grpc.CallOption) (*Category, error) {
 	client := blog.NewCategoryRpcClient(m.cli.Conn())
-	return client.CreateCategory(ctx, in, opts...)
+	return client.AddCategory(ctx, in, opts...)
 }
 
 // 更新文章分类

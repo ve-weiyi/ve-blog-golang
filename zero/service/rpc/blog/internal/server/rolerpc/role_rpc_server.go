@@ -23,9 +23,9 @@ func NewRoleRpcServer(svcCtx *svc.ServiceContext) *RoleRpcServer {
 }
 
 // 创建角色
-func (s *RoleRpcServer) CreateRole(ctx context.Context, in *blog.Role) (*blog.Role, error) {
-	l := rolerpclogic.NewCreateRoleLogic(ctx, s.svcCtx)
-	return l.CreateRole(in)
+func (s *RoleRpcServer) AddRole(ctx context.Context, in *blog.Role) (*blog.Role, error) {
+	l := rolerpclogic.NewAddRoleLogic(ctx, s.svcCtx)
+	return l.AddRole(in)
 }
 
 // 更新角色

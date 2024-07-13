@@ -23,9 +23,9 @@ func NewArticleRpcServer(svcCtx *svc.ServiceContext) *ArticleRpcServer {
 }
 
 // 创建文章
-func (s *ArticleRpcServer) CreateArticle(ctx context.Context, in *blog.Article) (*blog.Article, error) {
-	l := articlerpclogic.NewCreateArticleLogic(ctx, s.svcCtx)
-	return l.CreateArticle(in)
+func (s *ArticleRpcServer) AddArticle(ctx context.Context, in *blog.Article) (*blog.Article, error) {
+	l := articlerpclogic.NewAddArticleLogic(ctx, s.svcCtx)
+	return l.AddArticle(in)
 }
 
 // 更新文章

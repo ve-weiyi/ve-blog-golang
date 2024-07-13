@@ -1,4 +1,4 @@
-package articlerpclogic
+package rolerpclogic
 
 import (
 	"context"
@@ -10,27 +10,28 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateArticleLogic struct {
+type AddRoleLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateArticleLogic {
-	return &CreateArticleLogic{
+func NewAddRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRoleLogic {
+	return &AddRoleLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *CreateArticleLogic) CreateArticle(in *blog.Article) (*blog.Article, error) {
-	entity := convert.ConvertArticlePbToModel(in)
+// 创建角色
+func (l *AddRoleLogic) AddRole(in *blog.Role) (*blog.Role, error) {
+	entity := convert.ConvertRolePbToModel(in)
 
-	_, err := l.svcCtx.ArticleModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.RoleModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertArticleModelToPb(entity), nil
+	return convert.ConvertRoleModelToPb(entity), nil
 }

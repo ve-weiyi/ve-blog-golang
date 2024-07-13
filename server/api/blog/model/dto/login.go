@@ -17,7 +17,7 @@ func (m LoginReq) IsValid() error {
 		return fmt.Errorf("用户名或密码不能为空")
 	}
 
-	//验证邮箱格式是否正确
+	// 验证邮箱格式是否正确
 	if !valid.IsEmailValid(m.Username) {
 		return fmt.Errorf("邮箱格式不正确")
 	}
@@ -35,7 +35,7 @@ type UserEmailReq struct {
 }
 
 func (m UserEmailReq) IsValid() error {
-	//验证邮箱格式是否正确
+	// 验证邮箱格式是否正确
 	if !valid.IsEmailValid(m.Username) {
 		return fmt.Errorf("邮箱格式不正确")
 	}
@@ -88,9 +88,9 @@ type UserInfo struct {
 	Website  string `json:"website"`  // 个人网站
 	Email    string `json:"email"`    // 邮箱
 
-	//ArticleLikeSet []string `json:"article_like_set"` // 文章点赞集合
-	//CommentLikeSet []string `json:"comment_like_set"` // 评论点赞集合
-	//TalkLikeSet    []string `json:"talk_like_set"`    // 说说点赞集合
+	// ArticleLikeSet []string `json:"article_like_set"` // 文章点赞集合
+	// CommentLikeSet []string `json:"comment_like_set"` // 评论点赞集合
+	// TalkLikeSet    []string `json:"talk_like_set"`    // 说说点赞集合
 
 	Roles []*RoleDTO `json:"roles"` // 角色列表
 }

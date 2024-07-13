@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	RoleRpc interface {
 		// 创建角色
-		CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
+		AddRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 		// 更新角色
 		UpdateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error)
 		// 删除角色
@@ -129,9 +131,9 @@ func NewRoleRpc(cli zrpc.Client) RoleRpc {
 }
 
 // 创建角色
-func (m *defaultRoleRpc) CreateRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
+func (m *defaultRoleRpc) AddRole(ctx context.Context, in *Role, opts ...grpc.CallOption) (*Role, error) {
 	client := blog.NewRoleRpcClient(m.cli.Conn())
-	return client.CreateRole(ctx, in, opts...)
+	return client.AddRole(ctx, in, opts...)
 }
 
 // 更新角色

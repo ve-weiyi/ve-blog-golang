@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CreateFriendLinkLogic struct {
+type AddFriendLinkLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCreateFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateFriendLinkLogic {
-	return &CreateFriendLinkLogic{
+func NewAddFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFriendLinkLogic {
+	return &AddFriendLinkLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewCreateFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 创建友链
-func (l *CreateFriendLinkLogic) CreateFriendLink(in *blog.FriendLink) (*blog.FriendLink, error) {
+func (l *AddFriendLinkLogic) AddFriendLink(in *blog.FriendLink) (*blog.FriendLink, error) {
 	entity := convert.ConvertFriendLinkPbToModel(in)
 
 	_, err := l.svcCtx.FriendLinkModel.Insert(l.ctx, entity)

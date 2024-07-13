@@ -26,7 +26,7 @@ func NewCreateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateA
 
 func (l *CreateApiLogic) CreateApi(req *types.Api) (resp *types.Api, err error) {
 	in := convert.ConvertApiPb(req)
-	out, err := l.svcCtx.ApiRpc.CreateApi(l.ctx, in)
+	out, err := l.svcCtx.ApiRpc.AddApi(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
