@@ -23,9 +23,9 @@ func NewFriendLinkRpcServer(svcCtx *svc.ServiceContext) *FriendLinkRpcServer {
 }
 
 // 创建友链
-func (s *FriendLinkRpcServer) CreateFriendLink(ctx context.Context, in *blog.FriendLink) (*blog.FriendLink, error) {
-	l := friendlinkrpclogic.NewCreateFriendLinkLogic(ctx, s.svcCtx)
-	return l.CreateFriendLink(in)
+func (s *FriendLinkRpcServer) AddFriendLink(ctx context.Context, in *blog.FriendLink) (*blog.FriendLink, error) {
+	l := friendlinkrpclogic.NewAddFriendLinkLogic(ctx, s.svcCtx)
+	return l.AddFriendLink(in)
 }
 
 // 更新友链

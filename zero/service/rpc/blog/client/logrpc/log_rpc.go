@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	LogRpc interface {
 		// 创建操作记录
-		CreateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
+		AddOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
 		// 更新操作记录
 		UpdateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
 		// 删除操作记录
@@ -125,9 +127,9 @@ func NewLogRpc(cli zrpc.Client) LogRpc {
 }
 
 // 创建操作记录
-func (m *defaultLogRpc) CreateOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error) {
+func (m *defaultLogRpc) AddOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error) {
 	client := blog.NewLogRpcClient(m.cli.Conn())
-	return client.CreateOperationLog(ctx, in, opts...)
+	return client.AddOperationLog(ctx, in, opts...)
 }
 
 // 更新操作记录

@@ -33,6 +33,11 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.PageQuery) (re
 		return nil, err
 	}
 
+	total, err := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*types.CommentBackDTO
 	for _, v := range out.List {
 		m := convert.ConvertCommentBackTypes(v)
@@ -55,7 +60,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.PageQuery) (re
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = out.Total
+	resp.Total = total.Count
 	resp.List = list
 	return resp, nil
 }

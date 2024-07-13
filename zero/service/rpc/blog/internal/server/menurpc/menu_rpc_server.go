@@ -23,9 +23,9 @@ func NewMenuRpcServer(svcCtx *svc.ServiceContext) *MenuRpcServer {
 }
 
 // 创建菜单
-func (s *MenuRpcServer) CreateMenu(ctx context.Context, in *blog.Menu) (*blog.Menu, error) {
-	l := menurpclogic.NewCreateMenuLogic(ctx, s.svcCtx)
-	return l.CreateMenu(in)
+func (s *MenuRpcServer) AddMenu(ctx context.Context, in *blog.Menu) (*blog.Menu, error) {
+	l := menurpclogic.NewAddMenuLogic(ctx, s.svcCtx)
+	return l.AddMenu(in)
 }
 
 // 更新菜单

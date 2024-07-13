@@ -39,13 +39,13 @@ func (l *FindTagListLogic) FindTagList(req *types.PageQuery) (resp *types.PageRe
 		return nil, err
 	}
 
-	var list []*types.TagDetails
+	var list []*types.Tag
 	for _, v := range out.List {
 		row, _ := l.svcCtx.TagRpc.FindTagArticleCount(l.ctx, &blog.FindTagArticleCountReq{
 			TagId: v.Id,
 		})
 
-		m := convert.ConvertTagDetailsTypes(v)
+		m := convert.ConvertTagTypes(v)
 		m.ArticleCount = row.Count
 		list = append(list, m)
 	}

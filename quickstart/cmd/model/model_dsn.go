@@ -52,12 +52,12 @@ func (s *ModelDSNCmd) RunCommand(cmd *cobra.Command, args []string) {
 
 	tables, err = ParseTableFromDsn(s.SqlFile)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	err = generateModel(tables, s.modelConfig)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
 

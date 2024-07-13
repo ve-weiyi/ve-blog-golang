@@ -84,7 +84,7 @@ type ArticleRecycleReq struct {
 }
 
 type ArticleStatisticsDTO struct {
-	Day   string `json:"day,optional"`   // 日期
+	Date  string `json:"date,optional"`  // 日期
 	Count int64  `json:"count,optional"` // 数量
 }
 
@@ -445,6 +445,7 @@ type RoleDetails struct {
 }
 
 type RoleLabel struct {
+	RoleId      int64  `json:"role_id,optional"`
 	RoleName    string `json:"role_name,optional"`
 	RoleComment string `json:"role_comment,optional"`
 }
@@ -463,6 +464,13 @@ type RouteConfigsTable struct {
 	Redirect  string              `json:"redirect,optional"`  // 路由重定向
 	Meta      Meta                `json:"meta,optional"`      // meta配置
 	Children  []RouteConfigsTable `json:"children,optional"`  // 子路由配置项
+}
+
+type Server struct {
+	Os   interface{} `json:"os"`
+	Cpu  interface{} `json:"cpu"`
+	Ram  interface{} `json:"ram"`
+	Disk interface{} `json:"disk"`
 }
 
 type SyncMenuReq struct {
@@ -521,7 +529,7 @@ type Transition struct {
 }
 
 type UniqueViewDTO struct {
-	Day   string `json:"day,optional"`   // 日期
+	Date  string `json:"date,optional"`  // 日期
 	Count int64  `json:"count,optional"` // 数量
 }
 

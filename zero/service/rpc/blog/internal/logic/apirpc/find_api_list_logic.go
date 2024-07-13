@@ -39,7 +39,6 @@ func (l *FindApiListLogic) FindApiList(in *blog.PageQuery) (*blog.ApiPageResp, e
 	root.Children = appendApiChildren(&root, result)
 
 	out := &blog.ApiPageResp{}
-	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil

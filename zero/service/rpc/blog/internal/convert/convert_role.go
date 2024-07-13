@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"time"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
@@ -15,8 +17,8 @@ func ConvertRolePbToModel(in *blog.Role) (out *model.Role) {
 		RoleComment: in.RoleComment,
 		IsDisable:   in.IsDisable,
 		IsDefault:   in.IsDefault,
-		// CreatedAt: time.Unix(in.CreatedAt, 0),
-		// UpdatedAt: time.Unix(in.UpdatedAt, 0),
+		CreatedAt:   time.Unix(in.CreatedAt, 0),
+		UpdatedAt:   time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

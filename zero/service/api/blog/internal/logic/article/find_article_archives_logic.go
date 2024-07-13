@@ -40,7 +40,7 @@ func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.PageQuery) (re
 		return nil, err
 	}
 
-	var list []*types.ArticlePreviewDTO
+	var list []*types.ArticlePreview
 	for _, v := range out.List {
 		m := convert.ConvertArticlePreviewTypes(v)
 		list = append(list, m)

@@ -38,6 +38,6 @@ service blog-api {
 
 service blog-api {
     @doc "创建留言"
-    @handler CreateRemark
-    post /remark/create_remark (Remark) returns (Remark)
+    @handler AddRemark
+    post /remark/add_remark (Remark) returns (Remark)
 }

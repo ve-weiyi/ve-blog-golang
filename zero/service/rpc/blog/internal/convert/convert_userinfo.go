@@ -28,6 +28,7 @@ func ConvertUserDetailsModelToPb(a *model.UserAccount, roles []*model.Role) (out
 	var list []*blog.RoleLabel
 	for _, role := range roles {
 		m := &blog.RoleLabel{
+			RoleId:      role.Id,
 			RoleName:    role.RoleName,
 			RoleComment: role.RoleComment,
 		}

@@ -5,6 +5,7 @@ package web
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"strings"
@@ -40,7 +41,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("typescript called")
+		log.Println("typescript called")
 		RunTypescriptCmd(cmd, args)
 	},
 }
@@ -67,7 +68,7 @@ func RunTypescriptCmd(cmd *cobra.Command, args []string) {
 }
 
 func RunTypescript(conf *typescriptFlags) {
-	fmt.Println("typescript called", jsonconv.ObjectToJsonIndent(conf))
+	log.Println("typescript called", jsonconv.ObjectToJsonIndent(conf))
 	var err error
 	var sp *aspec.ApiSpec
 	switch conf.VarStringMode {
@@ -171,7 +172,9 @@ func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 			},
 		}
 		err := meta.Execute()
-		fmt.Println(err)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

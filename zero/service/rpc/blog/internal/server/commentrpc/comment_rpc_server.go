@@ -23,9 +23,9 @@ func NewCommentRpcServer(svcCtx *svc.ServiceContext) *CommentRpcServer {
 }
 
 // 创建评论
-func (s *CommentRpcServer) CreateComment(ctx context.Context, in *blog.Comment) (*blog.Comment, error) {
-	l := commentrpclogic.NewCreateCommentLogic(ctx, s.svcCtx)
-	return l.CreateComment(in)
+func (s *CommentRpcServer) AddComment(ctx context.Context, in *blog.Comment) (*blog.Comment, error) {
+	l := commentrpclogic.NewAddCommentLogic(ctx, s.svcCtx)
+	return l.AddComment(in)
 }
 
 // 更新评论

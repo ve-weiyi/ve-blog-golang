@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	CommentRpc interface {
 		// 创建评论
-		CreateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
+		AddComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
 		// 更新评论
 		UpdateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error)
 		// 删除评论
@@ -129,9 +131,9 @@ func NewCommentRpc(cli zrpc.Client) CommentRpc {
 }
 
 // 创建评论
-func (m *defaultCommentRpc) CreateComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error) {
+func (m *defaultCommentRpc) AddComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*Comment, error) {
 	client := blog.NewCommentRpcClient(m.cli.Conn())
-	return client.CreateComment(ctx, in, opts...)
+	return client.AddComment(ctx, in, opts...)
 }
 
 // 更新评论

@@ -39,7 +39,6 @@ func (l *FindMenuListLogic) FindMenuList(in *blog.PageQuery) (*blog.MenuPageResp
 	root.Children = appendMenuChildren(&root, result)
 
 	out := &blog.MenuPageResp{}
-	out.Total = int64(len(root.Children))
 	out.List = root.Children
 
 	return out, nil

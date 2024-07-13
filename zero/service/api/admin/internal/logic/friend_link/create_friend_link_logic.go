@@ -27,7 +27,7 @@ func NewCreateFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *CreateFriendLinkLogic) CreateFriendLink(req *types.FriendLink) (resp *types.FriendLink, err error) {
 	in := convert.ConvertFriendLinkPb(req)
-	out, err := l.svcCtx.FriendLinkRpc.CreateFriendLink(l.ctx, in)
+	out, err := l.svcCtx.FriendLinkRpc.AddFriendLink(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

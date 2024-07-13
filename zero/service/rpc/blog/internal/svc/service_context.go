@@ -63,6 +63,7 @@ type ServiceContext struct {
 	PhotoModel      model.PhotoModel
 	PhotoAlbumModel model.PhotoAlbumModel
 	PageModel       model.PageModel
+	UniqueViewModel model.UniqueViewModel
 
 	OperationLogModel model.OperationLogModel
 	ChatRecordModel   model.ChatRecordModel
@@ -124,6 +125,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PhotoModel:      model.NewPhotoModel(db, rds),
 		PhotoAlbumModel: model.NewPhotoAlbumModel(db, rds),
 		PageModel:       model.NewPageModel(db, rds),
+		UniqueViewModel: model.NewUniqueViewModel(db, rds),
 
 		OperationLogModel: model.NewOperationLogModel(db, rds),
 		ChatRecordModel:   model.NewChatRecordModel(db, rds),

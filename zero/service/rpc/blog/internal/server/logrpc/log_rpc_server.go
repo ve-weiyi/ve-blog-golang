@@ -23,9 +23,9 @@ func NewLogRpcServer(svcCtx *svc.ServiceContext) *LogRpcServer {
 }
 
 // 创建操作记录
-func (s *LogRpcServer) CreateOperationLog(ctx context.Context, in *blog.OperationLog) (*blog.OperationLog, error) {
-	l := logrpclogic.NewCreateOperationLogLogic(ctx, s.svcCtx)
-	return l.CreateOperationLog(in)
+func (s *LogRpcServer) AddOperationLog(ctx context.Context, in *blog.OperationLog) (*blog.OperationLog, error) {
+	l := logrpclogic.NewAddOperationLogLogic(ctx, s.svcCtx)
+	return l.AddOperationLog(in)
 }
 
 // 更新操作记录

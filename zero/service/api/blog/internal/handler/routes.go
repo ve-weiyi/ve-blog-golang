@@ -4,17 +4,18 @@ package handler
 import (
 	"net/http"
 
+	album "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/album"
 	article "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/category"
 	chat "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/comment"
-	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/friend_link"
-	photo "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/photo"
-	photo_album "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/photo_album"
+	friend "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/friend"
+	page "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/page"
 	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/talk"
+	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/upload"
 	user "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/user"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/website"
 	websocket "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/websocket"
@@ -38,36 +39,69 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Route{
+				{
+					// 获取相册列表
+					Method:  http.MethodPost,
+					Path:    "/album/find_album_list",
+					Handler: album.FindAlbumListHandler(serverCtx),
+				},
+				{
+					// 获取相册下的照片列表
+					Method:  http.MethodPost,
+					Path:    "/album/find_photo_list",
+					Handler: album.FindPhotoListHandler(serverCtx),
+				},
+				{
+					// 获取相册
+					Method:  http.MethodPost,
+					Path:    "/album/get_album",
+					Handler: album.GetAlbumHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 文章归档(时间轴)
 					Method:  http.MethodPost,
-					Path:    "/article/article_archives",
+					Path:    "/article/get_article_archives",
 					Handler: article.FindArticleArchivesHandler(serverCtx),
 				},
 				{
 					// 通过分类获取文章列表
 					Method:  http.MethodPost,
-					Path:    "/article/article_classify_category",
+					Path:    "/article/get_article_classify_category",
 					Handler: article.FindArticleClassifyCategoryHandler(serverCtx),
 				},
 				{
 					// 通过标签获取文章列表
 					Method:  http.MethodPost,
-					Path:    "/article/article_classify_tag",
+					Path:    "/article/get_article_classify_tag",
 					Handler: article.FindArticleClassifyTagHandler(serverCtx),
+				},
+				{
+					// 获取文章详情
+					Method:  http.MethodPost,
+					Path:    "/article/get_article_details",
+					Handler: article.GetArticleDetailsHandler(serverCtx),
 				},
 				{
 					// 获取首页文章列表
 					Method:  http.MethodPost,
-					Path:    "/article/find_article_home_list",
+					Path:    "/article/get_article_home_list",
 					Handler: article.FindArticleHomeListHandler(serverCtx),
 				},
 				{
-					// 文章相关推荐
+					// 获取首页推荐文章列表
 					Method:  http.MethodPost,
-					Path:    "/article/find_article_recommend",
+					Path:    "/article/get_article_recommend",
 					Handler: article.FindArticleRecommendHandler(serverCtx),
 				},
 			}...,
@@ -182,7 +216,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					// 查询聊天记录
 					Method:  http.MethodPost,
 					Path:    "/chat/records",
-					Handler: chat.FindChatRecordsHandler(serverCtx),
+					Handler: chat.GetChatRecordsHandler(serverCtx),
 				},
 			}...,
 		),
@@ -217,8 +251,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建评论
 					Method:  http.MethodPost,
-					Path:    "/comment/create_comment",
-					Handler: comment.CreateCommentHandler(serverCtx),
+					Path:    "/comment/add_comment",
+					Handler: comment.AddCommentHandler(serverCtx),
 				},
 				{
 					// 点赞评论
@@ -238,8 +272,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 分页获取友链列表
 					Method:  http.MethodPost,
-					Path:    "/friend_link/find_friend_link_list",
-					Handler: friend_link.FindFriendLinkListHandler(serverCtx),
+					Path:    "/friend_link/find_friend_list",
+					Handler: friend.FindFriendListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -251,25 +285,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
-					// 分页获取照片列表
+					// 分页获取页面列表
 					Method:  http.MethodPost,
-					Path:    "/photo/find_photo_list",
-					Handler: photo.FindPhotoListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
-			[]rest.Route{
-				{
-					// 分页获取相册列表
-					Method:  http.MethodPost,
-					Path:    "/photo_album/find_photo_album_list",
-					Handler: photo_album.FindPhotoAlbumListHandler(serverCtx),
+					Path:    "/page/find_page_list",
+					Handler: page.FindPageListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -298,8 +317,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建留言
 					Method:  http.MethodPost,
-					Path:    "/remark/create_remark",
-					Handler: remark.CreateRemarkHandler(serverCtx),
+					Path:    "/remark/add_remark",
+					Handler: remark.AddRemarkHandler(serverCtx),
 				},
 			}...,
 		),
@@ -326,22 +345,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
-					// 查询说说
-					Method:  http.MethodPost,
-					Path:    "/talk/find_talk",
-					Handler: talk.FindTalkHandler(serverCtx),
-				},
-				{
 					// 分页获取说说列表
 					Method:  http.MethodPost,
 					Path:    "/talk/find_talk_list",
 					Handler: talk.FindTalkListHandler(serverCtx),
 				},
 				{
+					// 查询说说
+					Method:  http.MethodPost,
+					Path:    "/talk/get_talk",
+					Handler: talk.GetTalkHandler(serverCtx),
+				},
+				{
 					// 点赞说说
 					Method:  http.MethodPut,
 					Path:    "/talk/like_talk",
 					Handler: talk.LikeTalkHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 上传文件
+					Method:  http.MethodPost,
+					Path:    "/upload/upload_file",
+					Handler: upload.UploadFileHandler(serverCtx),
 				},
 			}...,
 		),

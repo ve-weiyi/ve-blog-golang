@@ -39,7 +39,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.PageQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var list []*types.TalkDetails
+	var list []*types.Talk
 	for _, v := range out.List {
 
 		m := convert.ConvertTalkTypes(v)

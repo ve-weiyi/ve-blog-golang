@@ -3,11 +3,10 @@ package article
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -18,7 +17,7 @@ type FindArticleHomeListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 分页获取文章列表
+// 获取首页文章列表
 func NewFindArticleHomeListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindArticleHomeListLogic {
 	return &FindArticleHomeListLogic{
 		Logger: logx.WithContext(ctx),
@@ -57,7 +56,7 @@ func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.PageQuery) (re
 		return nil, err
 	}
 	// 转换数据
-	var list []*types.ArticleHomeDTO
+	var list []*types.ArticleHome
 	for _, v := range out.List {
 		var category string
 		for _, c := range categories.List {

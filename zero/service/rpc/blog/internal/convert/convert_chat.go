@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"time"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
@@ -16,8 +18,8 @@ func ConvertChatRecordPbToModel(in *blog.ChatRecord) (out *model.ChatRecord) {
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
 		Type:      in.Type,
-		// CreatedAt: time.Unix(in.CreatedAt, 0),
-		// UpdatedAt: time.Unix(in.UpdatedAt, 0),
+		CreatedAt: time.Unix(in.CreatedAt, 0),
+		UpdatedAt: time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

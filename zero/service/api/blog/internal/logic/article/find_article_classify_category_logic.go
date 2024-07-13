@@ -5,11 +5,10 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -20,7 +19,7 @@ type FindArticleClassifyCategoryLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 通过标签或者id获取文章列表
+// 通过分类获取文章列表
 func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindArticleClassifyCategoryLogic {
 	return &FindArticleClassifyCategoryLogic{
 		Logger: logx.WithContext(ctx),
@@ -29,7 +28,7 @@ func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.Servic
 	}
 }
 
-func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyReq) (resp *types.ArticleClassifyResp, err error) {
+func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyReq) (resp *types.PageResp, err error) {
 	cs, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blog.PageQuery{
 		Page:       1,
 		PageSize:   1,
@@ -53,14 +52,16 @@ func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *type
 		return nil, err
 	}
 
-	var list []*types.ArticlePreviewDTO
+	var list []*types.ArticlePreview
 	for _, v := range as.List {
 		m := convert.ConvertArticlePreviewTypes(v)
 		list = append(list, m)
 	}
 
-	resp = &types.ArticleClassifyResp{}
-	resp.ConditionName = req.ClassifyName
-	resp.ArticleList = list
+	resp = &types.PageResp{}
+	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.Total = int64(len(list))
+	resp.List = list
 	return
 }

@@ -31,7 +31,7 @@ func (l *CreateCommentLogic) CreateComment(req *types.CommentNewReq) (resp *type
 	in := convert.ConvertCommentPb(req)
 	// l.ctx.Value("uid")
 	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
-	out, err := l.svcCtx.CommentRpc.CreateComment(l.ctx, in)
+	out, err := l.svcCtx.CommentRpc.AddComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

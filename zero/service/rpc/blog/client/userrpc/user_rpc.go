@@ -95,6 +95,8 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	UserRpc interface {
 		// 查询用户登录历史

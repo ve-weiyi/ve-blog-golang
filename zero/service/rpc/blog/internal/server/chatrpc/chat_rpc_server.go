@@ -23,9 +23,9 @@ func NewChatRpcServer(svcCtx *svc.ServiceContext) *ChatRpcServer {
 }
 
 // 创建聊天记录
-func (s *ChatRpcServer) CreateChatRecord(ctx context.Context, in *blog.ChatRecord) (*blog.ChatRecord, error) {
-	l := chatrpclogic.NewCreateChatRecordLogic(ctx, s.svcCtx)
-	return l.CreateChatRecord(in)
+func (s *ChatRpcServer) AddChatRecord(ctx context.Context, in *blog.ChatRecord) (*blog.ChatRecord, error) {
+	l := chatrpclogic.NewAddChatRecordLogic(ctx, s.svcCtx)
+	return l.AddChatRecord(in)
 }
 
 // 更新聊天记录

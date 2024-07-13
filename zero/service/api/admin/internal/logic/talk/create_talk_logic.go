@@ -27,7 +27,7 @@ func NewCreateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateTalkLogic) CreateTalk(req *types.TalkDetails) (resp *types.TalkDetails, err error) {
 	in := convert.ConvertTalkPb(req)
-	out, err := l.svcCtx.TalkRpc.CreateTalk(l.ctx, in)
+	out, err := l.svcCtx.TalkRpc.AddTalk(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -7,12 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertFriendLinkPb(in *types.FriendLink) (out *blog.FriendLink) {
-	jsonconv.ObjectToObject(in, &out)
-	return
-}
-
-func ConvertFriendLinkTypes(in *blog.FriendLink) (out *types.FriendLink) {
+func ConvertFriendTypes(in *blog.FriendLink) (out *types.Friend) {
 	jsonconv.ObjectToObject(in, &out)
 
 	return

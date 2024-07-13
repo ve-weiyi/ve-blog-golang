@@ -22,6 +22,7 @@ type (
         Nickname string `json:"nickname,optional"`   // 用户昵称
         Avatar string `json:"avatar,optional"`       // 用户头像
         UserInfoExt
+
     }
 )
 

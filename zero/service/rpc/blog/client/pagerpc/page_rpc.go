@@ -95,10 +95,12 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	PageRpc interface {
 		// 创建页面
-		CreatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
+		AddPage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
 		// 更新页面
 		UpdatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error)
 		// 删除页面
@@ -125,9 +127,9 @@ func NewPageRpc(cli zrpc.Client) PageRpc {
 }
 
 // 创建页面
-func (m *defaultPageRpc) CreatePage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error) {
+func (m *defaultPageRpc) AddPage(ctx context.Context, in *Page, opts ...grpc.CallOption) (*Page, error) {
 	client := blog.NewPageRpcClient(m.cli.Conn())
-	return client.CreatePage(ctx, in, opts...)
+	return client.AddPage(ctx, in, opts...)
 }
 
 // 更新页面

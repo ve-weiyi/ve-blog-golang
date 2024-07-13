@@ -11,10 +11,10 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-// 文章相关推荐
+// 获取首页推荐文章列表
 func FindArticleRecommendHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IdReq
+		var req types.PageQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

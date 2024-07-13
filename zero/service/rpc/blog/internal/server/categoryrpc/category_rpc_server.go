@@ -23,9 +23,9 @@ func NewCategoryRpcServer(svcCtx *svc.ServiceContext) *CategoryRpcServer {
 }
 
 // 创建文章分类
-func (s *CategoryRpcServer) CreateCategory(ctx context.Context, in *blog.Category) (*blog.Category, error) {
-	l := categoryrpclogic.NewCreateCategoryLogic(ctx, s.svcCtx)
-	return l.CreateCategory(in)
+func (s *CategoryRpcServer) AddCategory(ctx context.Context, in *blog.Category) (*blog.Category, error) {
+	l := categoryrpclogic.NewAddCategoryLogic(ctx, s.svcCtx)
+	return l.AddCategory(in)
 }
 
 // 更新文章分类

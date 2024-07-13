@@ -25,6 +25,6 @@ type (
 
 service blog-api {
     @doc "查询聊天记录"
-    @handler FindChatRecords
+    @handler GetChatRecords
     post /chat/records (PageQuery) returns (PageResp)
 }

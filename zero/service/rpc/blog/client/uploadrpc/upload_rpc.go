@@ -95,6 +95,8 @@ type (
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
 	UserReq                  = blog.UserReq
+	UserVisit                = blog.UserVisit
+	UserVisitPageRsp         = blog.UserVisitPageRsp
 
 	UploadRpc interface {
 		// 上传文件
