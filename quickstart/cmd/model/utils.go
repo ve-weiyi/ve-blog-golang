@@ -32,8 +32,6 @@ func generateModel(tables []*Table, conf modelConfig) error {
 	}
 
 	for _, table := range tables {
-		fmt.Printf("%+v\n", table.Name)
-
 		data := convertTableToData(table)
 
 		meta := invent.TemplateMeta{

@@ -23,8 +23,8 @@ func ToAbs(filename string) string {
 
 	dir, err := os.Getwd()
 	if err != nil {
-		return path.Join(dir, filename)
+		return filename
 	}
 
-	return filename
+	return path.Join(dir, filename)
 }

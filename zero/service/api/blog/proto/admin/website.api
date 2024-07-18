@@ -75,12 +75,12 @@ type (
     }
 
     ArticleStatisticsDTO {
-        Day string `json:"day,optional"`    // 日期
+        Date string `json:"date,optional"`    // 日期
         Count int64 `json:"count,optional"` // 数量
     }
 
     UniqueViewDTO {
-        Day string `json:"day,optional"`    // 日期
+        Date string `json:"date,optional"`    // 日期
         Count int64 `json:"count,optional"` // 数量
     }
 

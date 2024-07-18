@@ -16,8 +16,8 @@ func ConvertPhotoPbToModel(in *blog.Photo) (out *model.Photo) {
 		PhotoDesc: in.PhotoDesc,
 		PhotoSrc:  in.PhotoSrc,
 		IsDelete:  in.IsDelete,
-		// CreatedAt: time.Unix(in.CreatedAt, 0),
-		// UpdatedAt: time.Unix(in.UpdatedAt, 0),
+		CreatedAt: time.Unix(in.CreatedAt, 0),
+		UpdatedAt: time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

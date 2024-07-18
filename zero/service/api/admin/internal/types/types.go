@@ -84,7 +84,7 @@ type ArticleRecycleReq struct {
 }
 
 type ArticleStatisticsDTO struct {
-	Day   string `json:"day,optional"`   // 日期
+	Date  string `json:"date,optional"`  // 日期
 	Count int64  `json:"count,optional"` // 数量
 }
 
@@ -445,6 +445,7 @@ type RoleDetails struct {
 }
 
 type RoleLabel struct {
+	RoleId      int64  `json:"role_id,optional"`
 	RoleName    string `json:"role_name,optional"`
 	RoleComment string `json:"role_comment,optional"`
 }
@@ -528,7 +529,7 @@ type Transition struct {
 }
 
 type UniqueViewDTO struct {
-	Day   string `json:"day,optional"`   // 日期
+	Date  string `json:"date,optional"`  // 日期
 	Count int64  `json:"count,optional"` // 数量
 }
 

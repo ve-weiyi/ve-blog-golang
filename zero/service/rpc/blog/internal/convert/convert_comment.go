@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"time"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
@@ -18,8 +20,8 @@ func ConvertCommentPbToModel(in *blog.Comment) (out *model.Comment) {
 		Type:           in.Type,
 		Status:         in.Status,
 		IsReview:       in.IsReview,
-		//CreatedAt: time.Unix(in.CreatedAt, 0),
-		//UpdatedAt: time.Unix(in.UpdatedAt, 0),
+		CreatedAt:      time.Unix(in.CreatedAt, 0),
+		UpdatedAt:      time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

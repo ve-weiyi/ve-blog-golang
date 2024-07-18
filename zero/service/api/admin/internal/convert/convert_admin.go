@@ -33,7 +33,7 @@ func ConvertHomeArticleRankTypes(in *blog.Article) (out *types.ArticleViewRankDT
 func ConvertHomeViewTypes(in *blog.UserVisit) (out *types.UniqueViewDTO) {
 
 	return &types.UniqueViewDTO{
-		Day:   in.Date,
+		Date:  in.Date,
 		Count: in.ViewCount,
 	}
 }

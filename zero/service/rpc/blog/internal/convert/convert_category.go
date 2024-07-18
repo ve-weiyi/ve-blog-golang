@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"time"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
@@ -10,8 +12,8 @@ func ConvertCategoryPbToModel(in *blog.Category) (out *model.Category) {
 	out = &model.Category{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
-		//CreatedAt:    time.Unix(in.CreatedAt, 0),
-		//UpdatedAt:    time.Unix(in.UpdatedAt, 0),
+		CreatedAt:    time.Unix(in.CreatedAt, 0),
+		UpdatedAt:    time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out

@@ -2,6 +2,7 @@ package website
 
 import (
 	"context"
+	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
@@ -71,6 +72,8 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	var ass []*types.ArticleStatisticsDTO
 	var uvs []*types.UniqueViewDTO
 
+	mad := make(map[string]int64)
+
 	for _, v := range categories.List {
 		cs = append(cs, convert.ConvertHomeCategoryTypes(v))
 	}
@@ -81,11 +84,20 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 
 	for _, v := range articles.List {
 		ars = append(ars, convert.ConvertHomeArticleRankTypes(v))
-		ass = append(ass, convert.ConvertHomeArticleStaticsTypes(v))
+		mad[time.Unix(v.CreatedAt, 0).Format(time.DateOnly)]++
 	}
 
 	for _, v := range views.List {
 		uvs = append(uvs, convert.ConvertHomeViewTypes(v))
+	}
+
+	for k, v := range mad {
+		as := &types.ArticleStatisticsDTO{
+			Date:  k,
+			Count: v,
+		}
+
+		ass = append(ass, as)
 	}
 
 	resp = &types.AdminHomeInfo{

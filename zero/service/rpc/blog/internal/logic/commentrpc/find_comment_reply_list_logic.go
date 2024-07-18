@@ -33,11 +33,6 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *blog.PageQuery) (*b
 		return nil, err
 	}
 
-	count, err := l.svcCtx.CommentModel.FindCount(l.ctx, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
 	var list []*blog.CommentReply
 	for _, v := range result {
 		m := convert.ConvertCommentReplyPb(v)
@@ -62,7 +57,6 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *blog.PageQuery) (*b
 	}
 
 	return &blog.CommentReplyPageResp{
-		Total: count,
-		List:  list,
+		List: list,
 	}, nil
 }
