@@ -95,12 +95,12 @@ type (
 
 service blog-api {
     @doc "查询评论列表"
-    @handler FindCommentList
-    post /comment/find_comment_list (CommentQueryReq) returns (PageResp)
+    @handler GetCommentList
+    post /comment/get_comment_list (CommentQueryReq) returns (PageResp)
 
     @doc "查询评论回复列表"
-    @handler FindCommentReplyList
-    post /comment/find_comment_reply_list (CommentQueryReq) returns (PageResp)
+    @handler GetCommentReplyList
+    post /comment/get_comment_reply_list (CommentQueryReq) returns (PageResp)
 }
 
 @server(

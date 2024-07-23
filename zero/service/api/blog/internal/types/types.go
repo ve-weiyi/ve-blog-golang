@@ -17,6 +17,18 @@ type AdminHomeInfo struct {
 	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_list,optional"`        // 每日用户访问量
 }
 
+type Album struct {
+	Id         int64  `json:"id"`          // 主键
+	AlbumName  string `json:"album_name"`  // 相册名
+	AlbumDesc  string `json:"album_desc"`  // 相册描述
+	AlbumCover string `json:"album_cover"` // 相册封面
+}
+
+type AlbumDetails struct {
+	AlbumName string  `json:"album_name"` // 相册名
+	PhotoList []Photo `json:"photo_list"` // 照片列表
+}
+
 type ArticleClassifyReq struct {
 	ClassifyName string `json:"classify_name,optional"` // 分类名
 }
@@ -90,13 +102,6 @@ type BlogHomeInfo struct {
 	ViewsCount    string        `json:"views_count,optional"`    // 访问量
 	WebsiteConfig WebsiteConfig `json:"website_config,optional"` // 网站配置
 	PageList      []*PageDTO    `json:"page_list,optional"`      // 页面列表
-}
-
-type Category struct {
-	Id           int64  `json:"id,optional"`            // id
-	CategoryName string `json:"category_name,optional"` // 分类名
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
 }
 
 type CategoryDTO struct {
@@ -289,26 +294,12 @@ type PageSort struct {
 }
 
 type Photo struct {
-	Id        int64  `json:"id,optional"`         // 主键
-	AlbumId   int64  `json:"album_id,optional"`   // 相册id
-	PhotoName string `json:"photo_name,optional"` // 照片名
-	PhotoDesc string `json:"photo_desc,optional"` // 照片描述
-	PhotoSrc  string `json:"photo_src,optional"`  // 照片地址
-	IsDelete  int64  `json:"is_delete,optional"`  // 是否删除
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+	Id       int64  `json:"id"`        // 主键
+	PhotoUrl string `json:"photo_url"` // 照片地址
 }
 
-type PhotoAlbum struct {
-	Id         int64  `json:"id,optional"`          // 主键
-	AlbumName  string `json:"album_name,optional"`  // 相册名
-	AlbumDesc  string `json:"album_desc,optional"`  // 相册描述
-	AlbumCover string `json:"album_cover,optional"` // 相册封面
-	IsDelete   int64  `json:"is_delete,optional"`   // 是否删除
-	Status     int64  `json:"status,optional"`      // 状态值 1公开 2私密
-	CreatedAt  int64  `json:"created_at,optional"`  // 创建时间
-	UpdatedAt  int64  `json:"updated_at,optional"`  // 更新时间
-	PhotoCount int64  `json:"photo_count,optional"` // 照片数量
+type PhotoQuery struct {
+	AlbumId int64 `json:"album_id"` // 相册ID
 }
 
 type PingReq struct {
@@ -359,13 +350,6 @@ type RestHeader struct {
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
-type Tag struct {
-	Id        int64  `json:"id,optional"`         // id
-	TagName   string `json:"tag_name,optional"`   // 标签名
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
 type TagDTO struct {
 	Id      int64  `json:"id,optional"`       // 标签ID
 	TagName string `json:"tag_name,optional"` // 标签名
@@ -407,6 +391,25 @@ type Token struct {
 type UniqueViewDTO struct {
 	Day   string `json:"day,optional"`   // 日期
 	Count int64  `json:"count,optional"` // 数量
+}
+
+type UploadFileReq struct {
+	Label    string      `form:"label,optional"`
+	File     interface{} `form:"file,optional"`      // 文件
+	FileSize int64       `form:"file_size,optional"` // 文件大小
+	FileMd5  string      `form:"file_md5,optional"`  // 文件md5值
+}
+
+type UploadFileResp struct {
+	Id        int64  `json:"id"`         // id
+	UserId    int64  `json:"user_id"`    // 用户id
+	Label     string `json:"label"`      // 标签
+	FileName  string `json:"file_name"`  // 文件名称
+	FileSize  int64  `json:"file_size"`  // 文件大小
+	FileMd5   string `json:"file_md5"`   // 文件md5值
+	FileUrl   string `json:"file_url"`   // 上传路径
+	CreatedAt int64  `json:"created_at"` // 创建时间
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
 }
 
 type UserEmailReq struct {

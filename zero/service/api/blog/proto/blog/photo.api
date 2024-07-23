@@ -4,15 +4,26 @@ import "base.api"
 
 
 type (
+    Album {
+        Id int64 `json:"id"`                   // 主键
+        AlbumName string `json:"album_name"`   // 相册名
+        AlbumDesc string `json:"album_desc"`   // 相册描述
+        AlbumCover string `json:"album_cover"` // 相册封面
+    }
+
+    AlbumDetails {
+        AlbumName string `json:"album_name"`      // 相册名
+        PhotoList []Photo `json:"photo_list"`     // 照片列表
+    }
+
     Photo {
-        Id int64 `json:"id,optional"`                 // 主键
-        AlbumId int64 `json:"album_id,optional"`      // 相册id
-        PhotoName string `json:"photo_name,optional"` // 照片名
-        PhotoDesc string `json:"photo_desc,optional"` // 照片描述
-        PhotoSrc string `json:"photo_src,optional"`   // 照片地址
-        IsDelete int64 `json:"is_delete,optional"`    // 是否删除
-        CreatedAt int64 `json:"created_at,optional"`  // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`  // 更新时间
+        Id int64 `json:"id"`                 // 主键
+        PhotoUrl string `json:"photo_url"`   // 照片地址
+    }
+
+
+    PhotoQuery {
+        AlbumId int64 `json:"album_id"` // 相册ID
     }
 )
 
@@ -23,7 +34,11 @@ type (
 )
 
 service blog-api {
-    @doc "分页获取照片列表"
-    @handler FindPhotoList
-    post /photo/find_photo_list (PageQuery) returns (PageResp)
+    @doc "获取相册列表"
+    @handler GetAlbumList
+    post /album/get_album_list (PageQuery) returns (PageResp)
+
+    @doc "获取相册下的照片列表"
+    @handler GetPhotoList
+    post /photo/get_photo_list (PhotoQuery) returns (PageResp)
 }

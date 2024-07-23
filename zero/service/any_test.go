@@ -11,7 +11,7 @@ import (
 
 func Test_VisitFile(t *testing.T) {
 
-	err := files.VisitFile("./rpc/blog/internal/logic", func(path string, f os.FileInfo, err error) error {
+	err := files.VisitFile("./api/blog/internal/logic", func(path string, f os.FileInfo, err error) error {
 		if err != nil {
 			return err
 
@@ -21,9 +21,9 @@ func Test_VisitFile(t *testing.T) {
 			return nil
 		}
 
-		if strings.Contains(f.Name(), "create_") {
+		if strings.Contains(f.Name(), "find_") {
 			// 添加前缀 "gen_" 到文件名
-			newName := strings.Replace(f.Name(), "create_", "add_", 1)
+			newName := strings.Replace(f.Name(), "find_", "get_", 1)
 
 			// 修改文件名
 			err = os.Rename(path, filepath.Join(filepath.Dir(path), newName))

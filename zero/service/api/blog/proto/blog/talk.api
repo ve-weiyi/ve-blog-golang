@@ -28,12 +28,12 @@ type (
 
 service blog-api {
     @doc "分页获取说说列表"
-    @handler FindTalkList
-    post /talk/find_talk_list (PageQuery) returns (PageResp)
+    @handler GetTalkList
+    post /talk/get_talk_list (PageQuery) returns (PageResp)
 
     @doc "查询说说"
-    @handler FindTalk
-    post /talk/find_talk (IdReq) returns (TalkDetails)
+    @handler GetTalk
+    post /talk/get_talk (IdReq) returns (TalkDetails)
 
     @doc "点赞说说"
     @handler LikeTalk
