@@ -33,20 +33,20 @@ func ConvertPageQuery(in *types.PageQuery) (out *blog.PageQuery) {
 	out.Sorts = OrderClause(in.Sorts)
 	out.Conditions, out.Args = ConditionClause(in.Conditions)
 
-	//for _, sort := range in.Sorts {
+	// for _, sort := range in.Sorts {
 	//	out.Sorts = append(out.Sorts, &blog.PageSort{
 	//		Field: sort.Field,
 	//		Order: sort.Order,
 	//	})
-	//}
+	// }
 	//
-	//for _, condition := range in.Conditions {
+	// for _, condition := range in.Conditions {
 	//	out.Conditions = append(out.Conditions, &blog.PageCondition{
 	//		Field:    condition.Field,
 	//		Operator: condition.Operator,
 	//		Value:    cast.ToString(condition.Value),
 	//	})
-	//}
+	// }
 
 	return
 }

@@ -10,7 +10,7 @@ export function {{ .Handler }}(
 
 {{- if .Request }}data?: {{ .Request }}{{ end -}}
 
-): Promise<IApiResponseData<{{.Response}}>> {
+): Promise<IApiResponse<{{.Response}}>> {
   return request({
     url: "{{.Path}}",
     method: "{{.Method}}",

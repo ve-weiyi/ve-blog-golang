@@ -20,6 +20,6 @@ type (
 
 service blog-api {
     @doc "分页获取文章分类列表"
-    @handler GetCategoryList
-    post /category/get_category_list (PageQuery) returns (PageResp)
+    @handler FindCategoryList
+    post /category/find_category_list (PageQuery) returns (PageResp)
 }

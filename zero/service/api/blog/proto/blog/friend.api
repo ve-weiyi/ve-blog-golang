@@ -3,7 +3,7 @@ syntax = "v1"
 import "base.api"
 
 type (
-    FriendLink {
+    Friend {
         Id int64 `json:"id,optional"`                     // id
         LinkName string `json:"link_name,optional"`       // 链接名
         LinkAvatar string `json:"link_avatar,optional"`   // 链接头像
@@ -16,12 +16,12 @@ type (
 
 @server(
     prefix: /api/v1
-    group: friend_link
+    group: friend
     middleware: SignToken
 )
 
 service blog-api {
     @doc "分页获取友链列表"
-    @handler GetFriendLinkList
-    post /friend_link/get_friend_link_list (PageQuery) returns (PageResp)
+    @handler FindFriendList
+    post /friend_link/find_friend_list (PageQuery) returns (PageResp)
 }

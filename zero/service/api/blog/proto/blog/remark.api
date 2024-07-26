@@ -25,8 +25,8 @@ type (
 
 service blog-api {
     @doc "分页获取留言列表"
-    @handler GetRemarkList
-    post /remark/get_remark_list (PageQuery) returns (PageResp)
+    @handler FindRemarkList
+    post /remark/find_remark_list (PageQuery) returns (PageResp)
 }
 
 
@@ -38,6 +38,6 @@ service blog-api {
 
 service blog-api {
     @doc "创建留言"
-    @handler CreateRemark
-    post /remark/create_remark (Remark) returns (Remark)
+    @handler AddRemark
+    post /remark/add_remark (Remark) returns (Remark)
 }

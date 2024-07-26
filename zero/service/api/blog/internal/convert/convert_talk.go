@@ -7,14 +7,14 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertTalkPb(in *types.TalkDetails) (out *blog.Talk) {
+func ConvertTalkPb(in *types.Talk) (out *blog.Talk) {
 	jsonconv.ObjectToObject(in, &out)
 
 	out.Images = jsonconv.ObjectToJson(in.ImgList)
 	return
 }
 
-func ConvertTalkTypes(in *blog.Talk) (out *types.TalkDetails) {
+func ConvertTalkTypes(in *blog.Talk) (out *types.Talk) {
 	jsonconv.ObjectToObject(in, &out)
 
 	jsonconv.JsonToObject(in.Images, &out.ImgList)

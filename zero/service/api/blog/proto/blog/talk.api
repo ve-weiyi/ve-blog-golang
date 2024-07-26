@@ -4,7 +4,7 @@ import "base.api"
 
 
 type (
-    TalkDetails {
+    Talk {
         Id int64 `json:"id,optional"`                      // 说说ID
         UserId int64 `json:"user_id,optional"`             // 用户ID
         Nickname string `json:"nickname,optional"`         // 用户昵称
@@ -28,12 +28,12 @@ type (
 
 service blog-api {
     @doc "分页获取说说列表"
-    @handler GetTalkList
-    post /talk/get_talk_list (PageQuery) returns (PageResp)
+    @handler FindTalkList
+    post /talk/find_talk_list (PageQuery) returns (PageResp)
 
     @doc "查询说说"
     @handler GetTalk
-    post /talk/get_talk (IdReq) returns (TalkDetails)
+    post /talk/get_talk (IdReq) returns (Talk)
 
     @doc "点赞说说"
     @handler LikeTalk

@@ -24,21 +24,21 @@ type Album struct {
 	AlbumCover string `json:"album_cover"` // 相册封面
 }
 
-type AlbumDetails struct {
-	AlbumName string  `json:"album_name"` // 相册名
-	PhotoList []Photo `json:"photo_list"` // 照片列表
-}
-
 type ArticleClassifyReq struct {
+	Page         int64  `json:"page,optional"`          // 页码
+	PageSize     int64  `json:"page_size,optional"`     // 每页数量
 	ClassifyName string `json:"classify_name,optional"` // 分类名
 }
 
-type ArticleClassifyResp struct {
-	ArticleList   []*ArticlePreviewDTO `json:"article_list,optional"`   // 文章列表
-	ConditionName string               `json:"condition_name,optional"` // 条件名
+type ArticleDeatils struct {
+	ArticleHome
+	LastArticle          *ArticlePreview   `json:"last_article,optional"`           // 上一篇文章
+	NextArticle          *ArticlePreview   `json:"next_article,optional"`           // 下一篇文章
+	RecommendArticleList []*ArticlePreview `json:"recommend_article_list,optional"` // 推荐文章列表
+	NewestArticleList    []*ArticlePreview `json:"newest_article_list,optional"`    // 最新文章列表
 }
 
-type ArticleHomeDTO struct {
+type ArticleHome struct {
 	Id             int64    `json:"id,optional"`              // 文章ID
 	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
 	ArticleTitle   string   `json:"article_title,optional"`   // 标题
@@ -55,34 +55,16 @@ type ArticleHomeDTO struct {
 	ViewsCount     int64    `json:"views_count,optional"`     // 浏览量
 }
 
-type ArticlePreDeleteReq struct {
-	Id       int64 `json:"id,optional"`        // 文章ID
-	IsDelete int64 `json:"is_delete,optional"` // 是否删除
-}
-
-type ArticlePreviewDTO struct {
+type ArticlePreview struct {
 	Id           int64  `json:"id,optional"`            // 文章ID
 	ArticleCover string `json:"article_cover,optional"` // 文章缩略图
 	ArticleTitle string `json:"article_title,optional"` // 标题
 	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
 }
 
-type ArticleRecommendResp struct {
-	ArticleHomeDTO
-	LastArticle          *ArticlePreviewDTO   `json:"last_article,optional"`           // 上一篇文章
-	NextArticle          *ArticlePreviewDTO   `json:"next_article,optional"`           // 下一篇文章
-	RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list,optional"` // 推荐文章列表
-	NewestArticleList    []*ArticlePreviewDTO `json:"newest_article_list,optional"`    // 最新文章列表
-}
-
 type ArticleStatisticsDTO struct {
 	Day   string `json:"day,optional"`   // 日期
 	Count int64  `json:"count,optional"` // 数量
-}
-
-type ArticleTopReq struct {
-	Id    int64 `json:"id,optional"`     // 文章ID
-	IsTop int64 `json:"is_top,optional"` // 是否置顶
 }
 
 type ArticleViewRankDTO struct {
@@ -217,7 +199,7 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FriendLink struct {
+type Friend struct {
 	Id          int64  `json:"id,optional"`           // id
 	LinkName    string `json:"link_name,optional"`    // 链接名
 	LinkAvatar  string `json:"link_avatar,optional"`  // 链接头像
@@ -253,6 +235,15 @@ type OauthLoginReq struct {
 
 type OauthLoginUrlResp struct {
 	Url string `json:"url"` // 授权地址
+}
+
+type Page struct {
+	Id        int64  `json:"id,optional"`         // 页面id
+	PageName  string `json:"page_name,optional"`  // 页面名
+	PageLabel string `json:"page_label,optional"` // 页面标签
+	PageCover string `json:"page_cover,optional"` // 页面封面
+	CreatedAt int64  `json:"created_at,optional"` // 创建时间
+	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
 }
 
 type PageCondition struct {
@@ -350,12 +341,7 @@ type RestHeader struct {
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
-type TagDTO struct {
-	Id      int64  `json:"id,optional"`       // 标签ID
-	TagName string `json:"tag_name,optional"` // 标签名
-}
-
-type TagDetails struct {
+type Tag struct {
 	Id           int64  `json:"id,optional"`            // 标签ID
 	TagName      string `json:"tag_name,optional"`      // 标签名
 	ArticleCount int64  `json:"article_count,optional"` // 文章数量
@@ -363,7 +349,12 @@ type TagDetails struct {
 	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
 }
 
-type TalkDetails struct {
+type TagDTO struct {
+	Id      int64  `json:"id,optional"`       // 标签ID
+	TagName string `json:"tag_name,optional"` // 标签名
+}
+
+type Talk struct {
 	Id           int64    `json:"id,optional"`            // 说说ID
 	UserId       int64    `json:"user_id,optional"`       // 用户ID
 	Nickname     string   `json:"nickname,optional"`      // 用户昵称

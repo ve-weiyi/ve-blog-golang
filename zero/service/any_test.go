@@ -21,9 +21,9 @@ func Test_VisitFile(t *testing.T) {
 			return nil
 		}
 
-		if strings.Contains(f.Name(), "find_") {
+		if strings.Contains(f.Name(), "list") {
 			// 添加前缀 "gen_" 到文件名
-			newName := strings.Replace(f.Name(), "find_", "get_", 1)
+			newName := strings.Replace(f.Name(), "get_", "find_", 1)
 
 			// 修改文件名
 			err = os.Rename(path, filepath.Join(filepath.Dir(path), newName))

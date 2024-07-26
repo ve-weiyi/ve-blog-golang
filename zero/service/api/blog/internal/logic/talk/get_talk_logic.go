@@ -25,7 +25,7 @@ func NewGetTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTalkLo
 	}
 }
 
-func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.TalkDetails, err error) {
+func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.Talk, err error) {
 	in := convert.ConvertIdReq(req)
 
 	out, err := l.svcCtx.TalkRpc.FindTalk(l.ctx, in)

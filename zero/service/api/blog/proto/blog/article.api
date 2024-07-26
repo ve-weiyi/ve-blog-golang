@@ -19,9 +19,8 @@ type (
     //        UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
     //    }
 
-
     // 首页文章
-    ArticleHomeDTO {
+    ArticleHome {
         Id int64 `json:"id,optional"`                                  // 文章ID
         ArticleCover string `json:"article_cover,optional"`            // 文章缩略图
         ArticleTitle string `json:"article_title,optional"`            // 标题
@@ -39,7 +38,7 @@ type (
     }
 
         // 文章预览
-    ArticlePreviewDTO {
+    ArticlePreview {
         Id int64 `json:"id,optional"`                       // 文章ID
         ArticleCover string `json:"article_cover,optional"` // 文章缩略图
         ArticleTitle string `json:"article_title,optional"` // 标题
@@ -47,31 +46,18 @@ type (
     }
 
         // 文章推荐详情
-    ArticleRecommendResp {
-        ArticleHomeDTO
-        LastArticle *ArticlePreviewDTO `json:"last_article,optional"`                      // 上一篇文章
-        NextArticle *ArticlePreviewDTO `json:"next_article,optional"`                      // 下一篇文章
-        RecommendArticleList []*ArticlePreviewDTO `json:"recommend_article_list,optional"` // 推荐文章列表
-        NewestArticleList []*ArticlePreviewDTO `json:"newest_article_list,optional"`       // 最新文章列表
+    ArticleDeatils {
+        ArticleHome
+        LastArticle *ArticlePreview `json:"last_article,optional"`                      // 上一篇文章
+        NextArticle *ArticlePreview `json:"next_article,optional"`                      // 下一篇文章
+        RecommendArticleList []*ArticlePreview `json:"recommend_article_list,optional"` // 推荐文章列表
+        NewestArticleList []*ArticlePreview `json:"newest_article_list,optional"`       // 最新文章列表
     }
 
     ArticleClassifyReq {
+        Page int64 `json:"page,optional"`                   // 页码
+        PageSize int64 `json:"page_size,optional"`          // 每页数量
         ClassifyName string `json:"classify_name,optional"` // 分类名
-    }
-
-    ArticleClassifyResp {
-        ArticleList []*ArticlePreviewDTO `json:"article_list,optional"`          // 文章列表
-        ConditionName string `json:"condition_name,optional"`                    // 条件名
-    }
-
-    ArticlePreDeleteReq {
-        Id int64 `json:"id,optional"`              // 文章ID
-        IsDelete int64 `json:"is_delete,optional"` // 是否删除
-    }
-
-    ArticleTopReq {
-        Id int64 `json:"id,optional"`        // 文章ID
-        IsTop int64 `json:"is_top,optional"` // 是否置顶
     }
 )
 
@@ -83,24 +69,28 @@ type (
 
 service blog-api {
     @doc "获取首页文章列表"
-    @handler GetArticleList
-    post /article/get_article_list (PageQuery) returns (PageResp)
+    @handler FindArticleHomeList
+    post /article/get_article_home_list (PageQuery) returns (PageResp)
+
+    @doc "获取首页推荐文章列表"
+    @handler FindArticleRecommend
+    post /article/get_article_recommend (PageQuery) returns (PageResp)
 
     @doc "文章归档(时间轴)"
-    @handler GetArticleArchives
+    @handler FindArticleArchives
     post /article/get_article_archives (PageQuery) returns (PageResp)
 
     @doc "通过分类获取文章列表"
-    @handler GetArticleClassifyCategory
-    post /article/get_article_classify_category (ArticleClassifyReq) returns (ArticleClassifyResp)
+    @handler FindArticleClassifyCategory
+    post /article/get_article_classify_category (ArticleClassifyReq) returns (PageResp)
 
     @doc "通过标签获取文章列表"
-    @handler GetArticleClassifyTag
-    post /article/get_article_classify_tag (ArticleClassifyReq) returns (ArticleClassifyResp)
+    @handler FindArticleClassifyTag
+    post /article/get_article_classify_tag (ArticleClassifyReq) returns (PageResp)
 
-    @doc "文章相关推荐"
-    @handler GetArticleRecommend
-    post /article/get_article_recommend (IdReq) returns (ArticleRecommendResp)
+    @doc "获取文章详情"
+    @handler GetArticleDetails
+    post /article/get_article_details (IdReq) returns (ArticleDeatils)
 }
 
 @server(

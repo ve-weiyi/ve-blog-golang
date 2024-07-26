@@ -95,12 +95,12 @@ type (
 
 service blog-api {
     @doc "查询评论列表"
-    @handler GetCommentList
-    post /comment/get_comment_list (CommentQueryReq) returns (PageResp)
+    @handler FindCommentList
+    post /comment/find_comment_list (CommentQueryReq) returns (PageResp)
 
     @doc "查询评论回复列表"
-    @handler GetCommentReplyList
-    post /comment/get_comment_reply_list (CommentQueryReq) returns (PageResp)
+    @handler FindCommentReplyList
+    post /comment/find_comment_reply_list (CommentQueryReq) returns (PageResp)
 }
 
 @server(
@@ -111,8 +111,8 @@ service blog-api {
 
 service blog-api {
     @doc "创建评论"
-    @handler CreateComment
-    post /comment/create_comment (CommentNewReq) returns (CommentNewReq)
+    @handler AddComment
+    post /comment/add_comment (CommentNewReq) returns (CommentNewReq)
 
     @doc "点赞评论"
     @handler LikeComment

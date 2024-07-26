@@ -3,7 +3,7 @@ syntax = "v1"
 import "base.api"
 
 type (
-    TagDetails {
+    Tag {
         Id int64 `json:"id,optional"`                      // 标签ID
         TagName string `json:"tag_name,optional"`          // 标签名
         ArticleCount int64 `json:"article_count,optional"` // 文章数量
@@ -20,6 +20,6 @@ type (
 
 service blog-api {
     @doc "分页获取标签列表"
-    @handler GetTagList
-    post /tag/get_tag_list (PageQuery) returns (PageResp)
+    @handler FindTagList
+    post /tag/find_tag_list (PageQuery) returns (PageResp)
 }
