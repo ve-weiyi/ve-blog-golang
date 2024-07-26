@@ -2,9 +2,11 @@
 {{.}}
 {{ end -}}
 
-{{ if .ImportTypes }}import { {{ Join .ImportTypes }} } from "./types"{{ end }}
+{{ if .ImportTypes -}}
+import { {{ Join .ImportTypes }} } from "./types"
+{{ end -}}
 
-{{ range .Routes -}}
+{{ range .Routes }}
 /** {{ .Summery }} */
 export function {{ .Handler }}(
 

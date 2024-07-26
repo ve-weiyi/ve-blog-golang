@@ -1437,7 +1437,7 @@
       },
       "title": "CategoryDTO"
     },
-    "CategoryDetails": {
+    "Category": {
       "type": "object",
       "properties": {
         "id": {
@@ -1463,7 +1463,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "CategoryDetails"
+      "title": "Category"
     },
     "ChatRecord": {
       "type": "object",

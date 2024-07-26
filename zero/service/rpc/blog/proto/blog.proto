@@ -585,33 +585,31 @@ message Comment {
   int64 is_review = 10;// 是否审核
   int64 created_at = 11;// 评论时间
   int64 updated_at = 12;// 更新时间
+  int64 like_count = 13;// 点赞数
+  CommentUserInfo user = 14;
+  CommentUserInfo reply_user = 15;
 }
+
+message CommentUserInfo {
+  int64 user_id = 1; // 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string info = 5;// 用户信息
+}
+
+//message CommentPageReq {
+//  int64 page = 1;
+//  int64 page_size = 2;
+//  string sorts = 3; // 排序
+//  int64 topic_id = 2;// 主题id
+//  int64 parent_id = 3;// 父评论id
+//  int64 session_id = 4; // 会话id
+//  int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
+//}
 
 message CommentPageResp {
-  int64 total = 1;
-  repeated Comment list = 2;
-}
-
-message CommentReply {
-  int64 id = 1;// 主键
-  int64 topic_id = 2;// 主题id
-  int64 parent_id = 3;// 父评论id
-  int64 session_id = 4; // 会话id
-  int64 user_id = 5;// 评论用户id
-  int64 reply_user_id = 6; // 评论回复用户id
-  string comment_content = 7;// 评论内容
-  int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
-  int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
-  int64 is_review = 10;// 是否审核
-  int64 created_at = 11;// 评论时间
-  int64 updated_at = 12;// 更新时间
-  UserInfoResp user = 13;// 用户信息
-  UserInfoResp reply_user = 14;// 回复用户信息
-  int64 like_count = 15;// 点赞数
-}
-
-message CommentReplyPageResp {
-  repeated CommentReply list = 1;
+  repeated Comment list = 1;
 }
 
 service commentRpc {
@@ -627,8 +625,6 @@ service commentRpc {
   rpc FindComment(IdReq) returns(Comment);
   // 查询评论列表
   rpc FindCommentList(PageQuery) returns(CommentPageResp);
-  // 查询评论回复列表
-  rpc FindCommentReplyList(PageQuery) returns(CommentReplyPageResp);
   // 查询评论数量
   rpc FindCommentCount(PageQuery) returns(CountResp);
   // 点赞评论

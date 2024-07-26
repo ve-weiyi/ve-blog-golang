@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"slices"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -21,11 +22,12 @@ import (
 )
 
 type typescriptFlags struct {
-	VarStringTplPath  string `name:"var_string_tpl_path" shorthand:"t"`  // 模板路径
-	VarStringOutPath  string `name:"var_string_out_path" shorthand:"o"`  // 文件输出路径
-	VarStringNameAs   string `name:"var_string_name_as" shorthand:"n"`   // 文件命名模版 %s.go
-	VarStringMode     string `name:"var_string_mode" shorthand:"m"`      // 解析模式 swagger、api、ast
-	VarStringFilePath string `name:"var_string_file_path" shorthand:"f"` // 文件路径
+	VarStringTplPath     string `name:"var_string_tpl_path" shorthand:"t"`     // 模板路径
+	VarStringOutPath     string `name:"var_string_out_path" shorthand:"o"`     // 文件输出路径
+	VarStringNameAs      string `name:"var_string_name_as" shorthand:"n"`      // 文件命名模版 %s.go
+	VarStringMode        string `name:"var_string_mode" shorthand:"m"`         // 解析模式 swagger、api、ast
+	VarStringFilePath    string `name:"var_string_file_path" shorthand:"f"`    // 文件路径
+	VarStringIgnoreModel string `name:"var_string_ignore_model" shorthand:"i"` // 忽略的模型
 }
 
 var flag = &typescriptFlags{}
@@ -108,6 +110,7 @@ func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 		gps[group] = append(gps[group], g.Routes...)
 	}
 
+	ims := strings.Split(conf.VarStringIgnoreModel, ",")
 	for n, g := range gps {
 
 		mt := make(map[string]aspec.Type)
@@ -124,7 +127,9 @@ func generateApiTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 
 		var tns []string
 		for k := range mt {
-			tns = append(tns, k)
+			if !slices.Contains(ims, k) {
+				tns = append(tns, k)
+			}
 		}
 
 		var trs []TsApiRoute
@@ -189,10 +194,13 @@ func generateTypesTs(sp *aspec.ApiSpec, conf *typescriptFlags) error {
 		return err
 	}
 
+	ims := strings.Split(conf.VarStringIgnoreModel, ",")
 	ts := make(map[string]TsType)
 
 	for _, v := range sp.Types {
-		ts[v.Name()] = convertTypeTs(v)
+		if !slices.Contains(ims, v.Name()) {
+			ts[v.Name()] = convertTypeTs(v)
+		}
 	}
 
 	meta := invent.TemplateMeta{

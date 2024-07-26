@@ -20,7 +20,7 @@ type (
 @server(
     prefix: /api/v1
     group: chat
-    middleware: SignToken,JwtToken
+    middleware: SignToken
 )
 
 service blog-api {

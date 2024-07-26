@@ -3428,15 +3428,14 @@ var TagRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	CommentRpc_AddComment_FullMethodName           = "/blog.commentRpc/AddComment"
-	CommentRpc_UpdateComment_FullMethodName        = "/blog.commentRpc/UpdateComment"
-	CommentRpc_DeleteComment_FullMethodName        = "/blog.commentRpc/DeleteComment"
-	CommentRpc_DeleteCommentList_FullMethodName    = "/blog.commentRpc/DeleteCommentList"
-	CommentRpc_FindComment_FullMethodName          = "/blog.commentRpc/FindComment"
-	CommentRpc_FindCommentList_FullMethodName      = "/blog.commentRpc/FindCommentList"
-	CommentRpc_FindCommentReplyList_FullMethodName = "/blog.commentRpc/FindCommentReplyList"
-	CommentRpc_FindCommentCount_FullMethodName     = "/blog.commentRpc/FindCommentCount"
-	CommentRpc_LikeComment_FullMethodName          = "/blog.commentRpc/LikeComment"
+	CommentRpc_AddComment_FullMethodName        = "/blog.commentRpc/AddComment"
+	CommentRpc_UpdateComment_FullMethodName     = "/blog.commentRpc/UpdateComment"
+	CommentRpc_DeleteComment_FullMethodName     = "/blog.commentRpc/DeleteComment"
+	CommentRpc_DeleteCommentList_FullMethodName = "/blog.commentRpc/DeleteCommentList"
+	CommentRpc_FindComment_FullMethodName       = "/blog.commentRpc/FindComment"
+	CommentRpc_FindCommentList_FullMethodName   = "/blog.commentRpc/FindCommentList"
+	CommentRpc_FindCommentCount_FullMethodName  = "/blog.commentRpc/FindCommentCount"
+	CommentRpc_LikeComment_FullMethodName       = "/blog.commentRpc/LikeComment"
 )
 
 // CommentRpcClient is the client API for CommentRpc service.
@@ -3455,8 +3454,6 @@ type CommentRpcClient interface {
 	FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error)
 	// 查询评论列表
 	FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error)
-	// 查询评论回复列表
-	FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error)
 	// 查询评论数量
 	FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	// 点赞评论
@@ -3531,16 +3528,6 @@ func (c *commentRpcClient) FindCommentList(ctx context.Context, in *PageQuery, o
 	return out, nil
 }
 
-func (c *commentRpcClient) FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CommentReplyPageResp)
-	err := c.cc.Invoke(ctx, CommentRpc_FindCommentReplyList_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *commentRpcClient) FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CountResp)
@@ -3577,8 +3564,6 @@ type CommentRpcServer interface {
 	FindComment(context.Context, *IdReq) (*Comment, error)
 	// 查询评论列表
 	FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error)
-	// 查询评论回复列表
-	FindCommentReplyList(context.Context, *PageQuery) (*CommentReplyPageResp, error)
 	// 查询评论数量
 	FindCommentCount(context.Context, *PageQuery) (*CountResp, error)
 	// 点赞评论
@@ -3607,9 +3592,6 @@ func (UnimplementedCommentRpcServer) FindComment(context.Context, *IdReq) (*Comm
 }
 func (UnimplementedCommentRpcServer) FindCommentList(context.Context, *PageQuery) (*CommentPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCommentList not implemented")
-}
-func (UnimplementedCommentRpcServer) FindCommentReplyList(context.Context, *PageQuery) (*CommentReplyPageResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyList not implemented")
 }
 func (UnimplementedCommentRpcServer) FindCommentCount(context.Context, *PageQuery) (*CountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindCommentCount not implemented")
@@ -3738,24 +3720,6 @@ func _CommentRpc_FindCommentList_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentRpc_FindCommentReplyList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PageQuery)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CommentRpcServer).FindCommentReplyList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CommentRpc_FindCommentReplyList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentRpcServer).FindCommentReplyList(ctx, req.(*PageQuery))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _CommentRpc_FindCommentCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PageQuery)
 	if err := dec(in); err != nil {
@@ -3822,10 +3786,6 @@ var CommentRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindCommentList",
 			Handler:    _CommentRpc_FindCommentList_Handler,
-		},
-		{
-			MethodName: "FindCommentReplyList",
-			Handler:    _CommentRpc_FindCommentReplyList_Handler,
 		},
 		{
 			MethodName: "FindCommentCount",

@@ -41,29 +41,18 @@ func ConvertCommentModelToPb(in *model.Comment) (out *blog.Comment) {
 		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt.Unix(),
 		UpdatedAt:      in.UpdatedAt.Unix(),
+		LikeCount:      in.LikeCount,
 	}
 
 	return out
 }
 
-func ConvertCommentReplyPb(in *model.Comment) (out *blog.CommentReply) {
-	out = &blog.CommentReply{
-		Id:             in.Id,
-		TopicId:        in.TopicId,
-		ParentId:       in.ParentId,
-		SessionId:      in.SessionId,
-		UserId:         in.UserId,
-		ReplyUserId:    in.ReplyUserId,
-		CommentContent: in.CommentContent,
-		Type:           in.Type,
-		Status:         in.Status,
-		IsReview:       in.IsReview,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
-		User:           nil,
-		ReplyUser:      nil,
-		LikeCount:      in.LikeCount,
+func ConvertCommentUserInfoToPb(in *model.UserAccount) (out *blog.CommentUserInfo) {
+	return &blog.CommentUserInfo{
+		UserId:   in.Id,
+		Username: in.Username,
+		Nickname: in.Nickname,
+		Avatar:   in.Avatar,
+		Info:     in.Info,
 	}
-
-	return out
 }

@@ -41,14 +41,14 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *ty
 		return nil, err
 	}
 
-	var list []*types.CategoryDetails
+	var list []*types.Category
 	for _, v := range out.List {
 		row, _ := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blog.PageQuery{
 			Conditions: "category_id = ?",
 			Args:       []string{cast.ToString(v.Id)},
 		})
 
-		m := convert.ConvertCategoryDetailsTypes(v)
+		m := convert.ConvertCategoryTypes(v)
 		m.ArticleCount = row.Count
 		list = append(list, m)
 	}

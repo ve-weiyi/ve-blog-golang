@@ -27,9 +27,8 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 	}
 }
 
-func (l *AddCommentLogic) AddComment(req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
+func (l *AddCommentLogic) AddComment(req *types.CommentNewReq) (resp *types.Comment, err error) {
 	in := convert.ConvertCommentPb(req)
-	// l.ctx.Value("uid")
 	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
 	out, err := l.svcCtx.CommentRpc.AddComment(l.ctx, in)
 	if err != nil {

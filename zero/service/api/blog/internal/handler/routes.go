@@ -39,7 +39,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 获取相册列表
@@ -133,10 +133,40 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.LoginHandler(serverCtx),
 			},
 			{
+				// 第三方登录授权地址
+				Method:  http.MethodPost,
+				Path:    "/oauth_authorize_url",
+				Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
+			},
+			{
 				// 第三方登录
 				Method:  http.MethodPost,
 				Path:    "/oauth_login",
 				Handler: auth.OauthLoginHandler(serverCtx),
+			},
+			{
+				// 注册
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: auth.RegisterHandler(serverCtx),
+			},
+			{
+				// 发送注册账号邮件
+				Method:  http.MethodPost,
+				Path:    "/send_register_email",
+				Handler: auth.SendRegisterEmailHandler(serverCtx),
+			},
+			{
+				// 重置密码
+				Method:  http.MethodPost,
+				Path:    "/user/reset_password",
+				Handler: auth.ResetPasswordHandler(serverCtx),
+			},
+			{
+				// 发送重置密码邮件
+				Method:  http.MethodPost,
+				Path:    "/user/send_reset_email",
+				Handler: auth.SendResetEmailHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -157,36 +187,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/logout",
 					Handler: auth.LogoutHandler(serverCtx),
-				},
-				{
-					// 第三方登录授权地址
-					Method:  http.MethodPost,
-					Path:    "/oauth_authorize_url",
-					Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
-				},
-				{
-					// 注册
-					Method:  http.MethodPost,
-					Path:    "/register",
-					Handler: auth.RegisterHandler(serverCtx),
-				},
-				{
-					// 重置密码
-					Method:  http.MethodPost,
-					Path:    "/reset_password",
-					Handler: auth.ResetPasswordHandler(serverCtx),
-				},
-				{
-					// 发送忘记密码邮件
-					Method:  http.MethodPost,
-					Path:    "/send_forget_email",
-					Handler: auth.SendForgetEmailHandler(serverCtx),
-				},
-				{
-					// 发送注册账号邮件
-					Method:  http.MethodPost,
-					Path:    "/send_register_email",
-					Handler: auth.SendRegisterEmailHandler(serverCtx),
 				},
 			}...,
 		),
@@ -210,7 +210,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 查询聊天记录
@@ -232,6 +232,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/comment/find_comment_list",
 					Handler: comment.FindCommentListHandler(serverCtx),
+				},
+				{
+					// 查询最新评论回复列表
+					Method:  http.MethodPost,
+					Path:    "/comment/find_comment_recent_list",
+					Handler: comment.FindCommentRecentListHandler(serverCtx),
 				},
 				{
 					// 查询评论回复列表
@@ -282,7 +288,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 分页获取页面列表
