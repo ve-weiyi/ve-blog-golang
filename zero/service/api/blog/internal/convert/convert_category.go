@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertCategoryDetailsTypes(in *blog.Category) (out *types.CategoryDetails) {
+func ConvertCategoryTypes(in *blog.Category) (out *types.Category) {
 	jsonconv.ObjectToObject(in, &out)
 	return
 }

@@ -25,8 +25,7 @@ type (
 	ChatRecordPageResp       = blog.ChatRecordPageResp
 	Comment                  = blog.Comment
 	CommentPageResp          = blog.CommentPageResp
-	CommentReply             = blog.CommentReply
-	CommentReplyPageResp     = blog.CommentReplyPageResp
+	CommentUserInfo          = blog.CommentUserInfo
 	CountResp                = blog.CountResp
 	EmptyReq                 = blog.EmptyReq
 	EmptyResp                = blog.EmptyResp
@@ -111,8 +110,6 @@ type (
 		FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*Comment, error)
 		// 查询评论列表
 		FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error)
-		// 查询评论回复列表
-		FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error)
 		// 查询评论数量
 		FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 		// 点赞评论
@@ -164,12 +161,6 @@ func (m *defaultCommentRpc) FindComment(ctx context.Context, in *IdReq, opts ...
 func (m *defaultCommentRpc) FindCommentList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentPageResp, error) {
 	client := blog.NewCommentRpcClient(m.cli.Conn())
 	return client.FindCommentList(ctx, in, opts...)
-}
-
-// 查询评论回复列表
-func (m *defaultCommentRpc) FindCommentReplyList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CommentReplyPageResp, error) {
-	client := blog.NewCommentRpcClient(m.cli.Conn())
-	return client.FindCommentReplyList(ctx, in, opts...)
 }
 
 // 查询评论数量

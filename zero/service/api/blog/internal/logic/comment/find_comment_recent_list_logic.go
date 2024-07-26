@@ -1,49 +1,45 @@
-package photo
+package comment
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 )
 
-type GetPhotoListLogic struct {
+type FindCommentRecentListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 分页获取照片列表
-func NewGetPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetPhotoListLogic {
-	return &GetPhotoListLogic{
+// 查询最新评论回复列表
+func NewFindCommentRecentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCommentRecentListLogic {
+	return &FindCommentRecentListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GetPhotoListLogic) GetPhotoList(req *types.PhotoQuery) (resp *types.PageResp, err error) {
-	in := &blog.PageQuery{
-		Conditions: fmt.Sprintf("album_id = %v", req.AlbumId),
-	}
-	out, err := l.svcCtx.PhotoRpc.FindPhotoList(l.ctx, in)
+func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
+	in := convert.ConvertCommentQueryPb(req)
+	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.PhotoRpc.FindPhotoCount(l.ctx, in)
+	total, err := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*types.Photo
+	var list []*types.Comment
 	for _, v := range out.List {
-		m := convert.ConvertPhotoTypes(v)
+		m := convert.ConvertCommentTypes(v)
 		list = append(list, m)
 	}
 

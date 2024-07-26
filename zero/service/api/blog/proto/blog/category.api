@@ -3,7 +3,7 @@ syntax = "v1"
 import "base.api"
 
 type (
-    CategoryDetails {
+    Category {
         Id int64 `json:"id,optional"`
         CategoryName string `json:"category_name,optional"` // 分类名
         ArticleCount int64 `json:"article_count,optional"`

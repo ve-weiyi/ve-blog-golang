@@ -86,17 +86,17 @@ type BlogHomeInfo struct {
 	PageList      []*PageDTO    `json:"page_list,optional"`      // 页面列表
 }
 
-type CategoryDTO struct {
-	Id           int64  `json:"id,optional"`
-	CategoryName string `json:"category_name,optional"` // 分类名
-}
-
-type CategoryDetails struct {
+type Category struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name,optional"` // 分类名
 	ArticleCount int64  `json:"article_count,optional"`
 	CreatedAt    int64  `json:"created_at,optional"` // 创建时间
 	UpdatedAt    int64  `json:"updated_at,optional"` // 更新时间
+}
+
+type CategoryDTO struct {
+	Id           int64  `json:"id,optional"`
+	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
 type ChatRecord struct {
@@ -117,34 +117,19 @@ type ChatSocketMsg struct {
 	Content string `json:"content"` // 消息内容
 }
 
-type CommentBackDTO struct {
-	Id             int64  `json:"id,optional"`
-	Type           int64  `json:"type,optional"`
-	TopicTitle     string `json:"topic_title,optional"`
-	Nickname       string `json:"nickname,optional"` // 用户昵称
-	Avatar         string `json:"avatar,optional"`   // 用户头像
-	CommentContent string `json:"comment_content,optional"`
-	IsReview       int64  `json:"is_review,optional"`
-	CreatedAt      int64  `json:"created_at,optional"`
-}
-
-type CommentDTO struct {
+type Comment struct {
 	Id               int64           `json:"id,optional"`                 // 评论id
 	TopicId          int64           `json:"topic_id,optional"`           // 主题id
 	ParentId         int64           `json:"parent_id,optional"`          // 父评论id
 	SessionId        int64           `json:"session_id,optional"`         // 会话id
 	UserId           int64           `json:"user_id,optional"`            // 用户id
-	Nickname         string          `json:"nickname,optional"`           // 用户昵称
-	Avatar           string          `json:"avatar,optional"`             // 用户头像
-	Website          string          `json:"website,optional"`            // 用户网站
 	ReplyUserId      int64           `json:"reply_user_id,optional"`      // 被回复用户id
-	ReplyNickname    string          `json:"reply_nickname,optional"`     // 被回复用户昵称
-	ReplyAvatar      string          `json:"reply_avatar,optional"`       // 被回复用户头像
-	ReplyWebsite     string          `json:"reply_website,optional"`      // 被回复用户网站
 	CommentContent   string          `json:"comment_content,optional"`    // 评论内容
 	Type             int64           `json:"type,optional"`               // 评论类型 1.文章 2.友链 3.说说
 	CreatedAt        int64           `json:"created_at,optional"`         // 评论时间
 	LikeCount        int64           `json:"like_count,optional"`         // 点赞数
+	User             CommentUserInfo `json:"user"`                        // 评论用户
+	ReplyUser        CommentUserInfo `json:"reply_user"`                  // 被回复评论用户
 	ReplyCount       int64           `json:"reply_count,optional"`        // 回复量
 	CommentReplyList []*CommentReply `json:"comment_reply_list,optional"` // 评论回复列表
 }
@@ -168,22 +153,18 @@ type CommentQueryReq struct {
 }
 
 type CommentReply struct {
-	Id             int64  `json:"id,optional"`              // 评论id
-	TopicId        int64  `json:"topic_id,optional"`        // 主题id
-	ParentId       int64  `json:"parent_id,optional"`       // 父评论id
-	SessionId      int64  `json:"session_id,optional"`      // 会话id
-	UserId         int64  `json:"user_id,optional"`         // 用户id
-	Nickname       string `json:"nickname,optional"`        // 用户昵称
-	Avatar         string `json:"avatar,optional"`          // 用户头像
-	Website        string `json:"website,optional"`         // 用户网站
-	ReplyUserId    int64  `json:"reply_user_id,optional"`   // 被回复用户id
-	ReplyNickname  string `json:"reply_nickname,optional"`  // 被回复用户昵称
-	ReplyAvatar    string `json:"reply_avatar,optional"`    // 被回复用户头像
-	ReplyWebsite   string `json:"reply_website,optional"`   // 被回复用户网站
-	CommentContent string `json:"comment_content,optional"` // 评论内容
-	Type           int64  `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt      int64  `json:"created_at,optional"`      // 评论时间
-	LikeCount      int64  `json:"like_count,optional"`      // 点赞数
+	Id             int64           `json:"id,optional"`              // 评论id
+	TopicId        int64           `json:"topic_id,optional"`        // 主题id
+	ParentId       int64           `json:"parent_id,optional"`       // 父评论id
+	SessionId      int64           `json:"session_id,optional"`      // 会话id
+	UserId         int64           `json:"user_id,optional"`         // 用户id
+	ReplyUserId    int64           `json:"reply_user_id,optional"`   // 被回复用户id
+	CommentContent string          `json:"comment_content,optional"` // 评论内容
+	Type           int64           `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt      int64           `json:"created_at,optional"`      // 评论时间
+	LikeCount      int64           `json:"like_count,optional"`      // 点赞数
+	User           CommentUserInfo `json:"user"`                     // 评论用户
+	ReplyUser      CommentUserInfo `json:"reply_user"`               // 被回复评论用户
 }
 
 type CommentUserInfo struct {

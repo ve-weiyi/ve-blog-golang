@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -29,7 +28,7 @@ func ConvertCommentPb(in *types.CommentNewReq) (out *blog.Comment) {
 	return
 }
 
-func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
+func ConvertCommentQueryPb(in *types.CommentQueryReq) (out *blog.PageQuery) {
 	var page, pageSize int64
 	var sorts, conditions string
 	var args []string
@@ -68,26 +67,14 @@ func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blog.PageQuery) {
 	return
 }
 
-func ConvertCommentTypes(in *blog.Comment) (out *types.CommentNewReq) {
-	jsonconv.ObjectToObject(in, &out)
-
-	return
-}
-
-func ConvertCommentDTOTypes(in *blog.CommentReply) (out *types.CommentDTO) {
-	out = &types.CommentDTO{
+func ConvertCommentTypes(in *blog.Comment) (out *types.Comment) {
+	out = &types.Comment{
 		Id:               in.Id,
 		TopicId:          in.TopicId,
 		ParentId:         in.ParentId,
 		SessionId:        in.SessionId,
-		UserId:           0,
-		Nickname:         "",
-		Avatar:           "",
-		Website:          "",
-		ReplyUserId:      0,
-		ReplyNickname:    "",
-		ReplyAvatar:      "",
-		ReplyWebsite:     "",
+		UserId:           in.UserId,
+		ReplyUserId:      in.ReplyUserId,
 		CommentContent:   in.CommentContent,
 		Type:             in.Type,
 		CreatedAt:        in.CreatedAt,
@@ -97,33 +84,34 @@ func ConvertCommentDTOTypes(in *blog.CommentReply) (out *types.CommentDTO) {
 	}
 
 	if in.User != nil {
-		out.UserId = in.User.UserId
-		out.Avatar = in.User.Avatar
-		out.Nickname = in.User.Nickname
+		out.User = types.CommentUserInfo{
+			Id:       in.User.UserId,
+			Nickname: in.User.Nickname,
+			Avatar:   in.User.Avatar,
+			Website:  in.User.Info,
+		}
 	}
 
 	if in.ReplyUser != nil {
-		out.ReplyUserId = in.ReplyUser.UserId
-		out.ReplyAvatar = in.ReplyUser.Avatar
-		out.ReplyNickname = in.ReplyUser.Nickname
+		out.ReplyUser = types.CommentUserInfo{
+			Id:       in.ReplyUser.UserId,
+			Nickname: in.ReplyUser.Nickname,
+			Avatar:   in.ReplyUser.Avatar,
+			Website:  in.ReplyUser.Info,
+		}
 	}
 
 	return
 }
 
-func ConvertCommentReplyTypes(in *blog.CommentReply) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(in *blog.Comment) (out *types.CommentReply) {
 	out = &types.CommentReply{
 		Id:             in.Id,
-		ParentId:       in.ParentId,
 		TopicId:        in.TopicId,
-		UserId:         0,
-		Nickname:       "",
-		Avatar:         "",
-		Website:        "",
-		ReplyUserId:    0,
-		ReplyNickname:  "",
-		ReplyAvatar:    "",
-		ReplyWebsite:   "",
+		ParentId:       in.ParentId,
+		SessionId:      in.SessionId,
+		UserId:         in.UserId,
+		ReplyUserId:    in.ReplyUserId,
 		CommentContent: in.CommentContent,
 		Type:           in.Type,
 		CreatedAt:      in.CreatedAt,
@@ -131,30 +119,21 @@ func ConvertCommentReplyTypes(in *blog.CommentReply) (out *types.CommentReply) {
 	}
 
 	if in.User != nil {
-		out.UserId = in.User.UserId
-		out.Avatar = in.User.Avatar
-		out.Nickname = in.User.Nickname
+		out.User = types.CommentUserInfo{
+			Id:       in.User.UserId,
+			Nickname: in.User.Nickname,
+			Avatar:   in.User.Avatar,
+			Website:  in.User.Info,
+		}
 	}
 
 	if in.ReplyUser != nil {
-		out.ReplyUserId = in.ReplyUser.UserId
-		out.ReplyAvatar = in.ReplyUser.Avatar
-		out.ReplyNickname = in.ReplyUser.Nickname
-	}
-
-	return
-}
-
-func ConvertCommentBackTypes(in *blog.Comment) (out *types.CommentBackDTO) {
-	out = &types.CommentBackDTO{
-		Id:             in.Id,
-		Type:           in.Type,
-		TopicTitle:     "",
-		Avatar:         "",
-		Nickname:       "",
-		CommentContent: in.CommentContent,
-		IsReview:       in.IsReview,
-		CreatedAt:      in.CreatedAt,
+		out.ReplyUser = types.CommentUserInfo{
+			Id:       in.ReplyUser.UserId,
+			Nickname: in.ReplyUser.Nickname,
+			Avatar:   in.ReplyUser.Avatar,
+			Website:  in.ReplyUser.Info,
+		}
 	}
 
 	return

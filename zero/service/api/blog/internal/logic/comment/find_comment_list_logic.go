@@ -29,22 +29,26 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 }
 
 func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
-	in := convert.ConvertCommentQueryTypes(req)
-	out, err := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, in)
+	in := convert.ConvertCommentQueryPb(req)
+
+	// 查找评论列表
+	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
+	// 查找评论数量
 	total, err := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*types.CommentDTO
+	// 查找评论回复列表
+	var list []*types.Comment
 	for _, v := range out.List {
-		m := convert.ConvertCommentDTOTypes(v)
+		m := convert.ConvertCommentTypes(v)
 		// 查询回复评论
-		reply, _ := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, &blog.PageQuery{
+		reply, _ := l.svcCtx.CommentRpc.FindCommentList(l.ctx, &blog.PageQuery{
 			Page:       1,
 			PageSize:   3,
 			Sorts:      in.Sorts,
@@ -52,15 +56,16 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 			Args:       []string{cast.ToString(v.Id)},
 		})
 
-		for _, r := range reply.List {
-			m.CommentReplyList = append(m.CommentReplyList, convert.ConvertCommentReplyTypes(r))
-		}
 		// 查询回复评论数
 		replyCount, _ := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, &blog.PageQuery{
 			Conditions: "parent_id = ?",
 			Sorts:      in.Sorts,
 			Args:       []string{cast.ToString(v.Id)},
 		})
+
+		for _, r := range reply.List {
+			m.CommentReplyList = append(m.CommentReplyList, convert.ConvertCommentReplyTypes(r))
+		}
 		m.ReplyCount = replyCount.Count
 		list = append(list, m)
 	}

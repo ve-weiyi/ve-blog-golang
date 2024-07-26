@@ -11,8 +11,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-// 发送忘记密码邮件
-func SendForgetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 发送重置密码邮件
+func SendResetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UserEmailReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -20,8 +20,8 @@ func SendForgetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewSendForgetEmailLogic(r.Context(), svcCtx)
-		resp, err := l.SendForgetEmail(&req)
+		l := auth.NewSendResetEmailLogic(r.Context(), svcCtx)
+		resp, err := l.SendResetEmail(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

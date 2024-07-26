@@ -17,13 +17,13 @@ type (
     }
 
     UserInfoResp {
-        UserId int64 `json:"user_id,optional"`       // 用户id
+        UserId int64 `json:"user_id,optional"`          // 用户id
         Username string `json:"username"`               // 用户名
-        Nickname string `json:"nickname,optional"`   // 用户昵称
-        Avatar string `json:"avatar,optional"`       // 用户头像
+        Nickname string `json:"nickname,optional"`      // 用户昵称
+        Avatar string `json:"avatar,optional"`          // 用户头像
         UserInfoExt
-
     }
+
 )
 
 @server(
