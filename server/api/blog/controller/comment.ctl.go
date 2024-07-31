@@ -13,10 +13,10 @@ import (
 )
 
 type CommentController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCommentController(svcCtx *svc.ServiceContext) *CommentController {
+func NewCommentController(svcCtx *svctx.ServiceContext) *CommentController {
 	return &CommentController{
 		svcCtx: svcCtx,
 	}

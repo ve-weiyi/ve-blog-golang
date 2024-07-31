@@ -10,7 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
-func PermissionHandler(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+func PermissionHandler(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
 	permissionHolder := svcCtx.RbacHolder
 
 	return func(c *gin.Context) {

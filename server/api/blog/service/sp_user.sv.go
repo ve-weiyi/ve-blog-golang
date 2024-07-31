@@ -23,10 +23,10 @@ import (
 )
 
 type UserService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewUserService(svcCtx *svc.ServiceContext) *UserService {
+func NewUserService(svcCtx *svctx.ServiceContext) *UserService {
 	return &UserService{
 		svcCtx: svcCtx,
 	}

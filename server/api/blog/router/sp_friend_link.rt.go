@@ -8,10 +8,10 @@ import (
 )
 
 type FriendLinkRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewFriendLinkRouter(svcCtx *svc.ServiceContext) *FriendLinkRouter {
+func NewFriendLinkRouter(svcCtx *svctx.ServiceContext) *FriendLinkRouter {
 	return &FriendLinkRouter{
 		svcCtx: svcCtx,
 	}

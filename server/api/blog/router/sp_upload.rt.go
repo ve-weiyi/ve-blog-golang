@@ -8,10 +8,10 @@ import (
 )
 
 type UploadRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewUploadRouter(svcCtx *svc.ServiceContext) *UploadRouter {
+func NewUploadRouter(svcCtx *svctx.ServiceContext) *UploadRouter {
 	return &UploadRouter{
 		svcCtx: svcCtx,
 	}

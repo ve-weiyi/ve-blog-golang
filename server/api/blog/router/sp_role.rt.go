@@ -8,10 +8,10 @@ import (
 )
 
 type RoleRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRoleRouter(svcCtx *svc.ServiceContext) *RoleRouter {
+func NewRoleRouter(svcCtx *svctx.ServiceContext) *RoleRouter {
 	return &RoleRouter{
 		svcCtx: svcCtx,
 	}

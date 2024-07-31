@@ -8,10 +8,10 @@ import (
 )
 
 type WebsiteRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsiteRouter(svcCtx *svc.ServiceContext) *WebsiteRouter {
+func NewWebsiteRouter(svcCtx *svctx.ServiceContext) *WebsiteRouter {
 	return &WebsiteRouter{
 		svcCtx: svcCtx,
 	}

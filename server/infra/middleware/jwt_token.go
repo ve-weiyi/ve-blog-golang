@@ -16,7 +16,7 @@ import (
 )
 
 // JwtToken jwt中间件
-func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+func JwtToken(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
 
 	parser := svcCtx.Token
 

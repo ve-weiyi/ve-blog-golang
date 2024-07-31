@@ -8,10 +8,10 @@ import (
 )
 
 type TagService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTagService(svcCtx *svc.ServiceContext) *TagService {
+func NewTagService(svcCtx *svctx.ServiceContext) *TagService {
 	return &TagService{
 		svcCtx: svcCtx,
 	}

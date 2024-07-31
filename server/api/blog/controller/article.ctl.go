@@ -11,10 +11,10 @@ import (
 )
 
 type ArticleController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewArticleController(svcCtx *svc.ServiceContext) *ArticleController {
+func NewArticleController(svcCtx *svctx.ServiceContext) *ArticleController {
 	return &ArticleController{
 		svcCtx: svcCtx,
 	}

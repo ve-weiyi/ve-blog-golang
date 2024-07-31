@@ -22,8 +22,17 @@ func IsExistSlice(keys []string, key string) bool {
 	return false
 }
 
-func removeDuplicates(keys []string) {
+// RemoveStringSliceDuplicate O(n) 复杂度去重.
+func RemoveStringSliceDuplicate(arr []string) (ret []string) {
+	exists := make(map[string]struct{})
+	for _, s := range arr {
+		if _, ok := exists[s]; !ok {
+			ret = append(ret, s)
+			exists[s] = struct{}{}
+		}
+	}
 
+	return
 }
 
 func Join[S ~[]E, E any](elems S, sep string) string {

@@ -12,10 +12,10 @@ import (
 )
 
 type TagController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTagController(svcCtx *svc.ServiceContext) *TagController {
+func NewTagController(svcCtx *svctx.ServiceContext) *TagController {
 	return &TagController{
 		svcCtx: svcCtx,
 	}

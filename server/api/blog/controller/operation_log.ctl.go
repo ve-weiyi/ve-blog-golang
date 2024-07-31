@@ -12,10 +12,10 @@ import (
 )
 
 type OperationLogController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogController(svcCtx *svc.ServiceContext) *OperationLogController {
+func NewOperationLogController(svcCtx *svctx.ServiceContext) *OperationLogController {
 	return &OperationLogController{
 		svcCtx: svcCtx,
 	}

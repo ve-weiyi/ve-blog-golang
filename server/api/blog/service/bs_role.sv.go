@@ -8,10 +8,10 @@ import (
 )
 
 type RoleService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRoleService(svcCtx *svc.ServiceContext) *RoleService {
+func NewRoleService(svcCtx *svctx.ServiceContext) *RoleService {
 	return &RoleService{
 		svcCtx: svcCtx,
 	}

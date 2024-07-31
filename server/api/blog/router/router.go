@@ -28,7 +28,7 @@ type AppRouter struct {
 	AIRouter           *AIRouter           // AI
 }
 
-func NewRouter(svcCtx *svc.ServiceContext) *AppRouter {
+func NewRouter(svcCtx *svctx.ServiceContext) *AppRouter {
 	return &AppRouter{
 		WebsiteRouter:      NewWebsiteRouter(svcCtx),
 		WebsocketRouter:    NewWebsocketRouter(svcCtx),

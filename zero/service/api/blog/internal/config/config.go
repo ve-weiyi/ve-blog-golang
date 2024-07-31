@@ -9,7 +9,6 @@ import (
 
 type Config struct {
 	rest.RestConf
-	UploadConfig *upload.UploadConfig
 
 	AccountRpcConf zrpc.RpcClientConf
 	ApiRpcConf     zrpc.RpcClientConf
@@ -32,4 +31,6 @@ type Config struct {
 	LogRpcConf    zrpc.RpcClientConf
 	ChatRpcConf   zrpc.RpcClientConf
 	UploadRpcConf zrpc.RpcClientConf
+
+	UploadConfig *upload.UploadConfig
 }

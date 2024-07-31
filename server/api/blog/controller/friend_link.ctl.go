@@ -12,10 +12,10 @@ import (
 )
 
 type FriendLinkController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewFriendLinkController(svcCtx *svc.ServiceContext) *FriendLinkController {
+func NewFriendLinkController(svcCtx *svctx.ServiceContext) *FriendLinkController {
 	return &FriendLinkController{
 		svcCtx: svcCtx,
 	}

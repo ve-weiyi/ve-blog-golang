@@ -12,10 +12,10 @@ import (
 )
 
 type PhotoAlbumController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPhotoAlbumController(svcCtx *svc.ServiceContext) *PhotoAlbumController {
+func NewPhotoAlbumController(svcCtx *svctx.ServiceContext) *PhotoAlbumController {
 	return &PhotoAlbumController{
 		svcCtx: svcCtx,
 	}

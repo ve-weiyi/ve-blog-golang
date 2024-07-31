@@ -12,10 +12,10 @@ import (
 )
 
 type AccountController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewAccountController(svcCtx *svc.ServiceContext) *AccountController {
+func NewAccountController(svcCtx *svctx.ServiceContext) *AccountController {
 	return &AccountController{
 		svcCtx: svcCtx,
 	}

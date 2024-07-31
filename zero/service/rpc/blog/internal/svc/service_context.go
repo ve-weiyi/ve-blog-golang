@@ -15,6 +15,8 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
@@ -294,6 +296,7 @@ func SubscribeMessage(c config.Config) {
 func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
 	var om = make(map[string]oauth.Oauth)
 
+	log.Println("oauth config:", c)
 	for k, v := range c {
 		conf := &oauth.AuthConfig{
 			ClientId:     v.ClientId,
@@ -310,6 +313,12 @@ func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
 		case "feishu":
 			auth := feishu.NewAuthFeishu(conf)
 			om["feishu"] = auth
+		case "github":
+			auth := github.NewAuthGithub(conf)
+			om["github"] = auth
+		case "gitee":
+			auth := gitee.NewAuthGitee(conf)
+			om["gitee"] = auth
 		}
 	}
 	return om

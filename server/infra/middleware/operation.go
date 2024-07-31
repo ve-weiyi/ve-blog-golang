@@ -22,7 +22,7 @@ import (
 )
 
 // 操作日志
-func OperationRecord(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+func OperationRecord(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
 	permissionHolder := svcCtx.RbacHolder
 
 	return func(c *gin.Context) {

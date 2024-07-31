@@ -8,10 +8,10 @@ import (
 )
 
 type CommentRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCommentRouter(svcCtx *svc.ServiceContext) *CommentRouter {
+func NewCommentRouter(svcCtx *svctx.ServiceContext) *CommentRouter {
 	return &CommentRouter{
 		svcCtx: svcCtx,
 	}

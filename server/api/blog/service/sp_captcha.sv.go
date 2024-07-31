@@ -14,10 +14,10 @@ import (
 )
 
 type CaptchaService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCaptchaService(svcCtx *svc.ServiceContext) *CaptchaService {
+func NewCaptchaService(svcCtx *svctx.ServiceContext) *CaptchaService {
 	return &CaptchaService{
 		svcCtx: svcCtx,
 	}

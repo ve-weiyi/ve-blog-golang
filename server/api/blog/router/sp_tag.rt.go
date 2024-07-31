@@ -8,10 +8,10 @@ import (
 )
 
 type TagRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTagRouter(svcCtx *svc.ServiceContext) *TagRouter {
+func NewTagRouter(svcCtx *svctx.ServiceContext) *TagRouter {
 	return &TagRouter{
 		svcCtx: svcCtx,
 	}

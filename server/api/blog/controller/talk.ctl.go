@@ -12,10 +12,10 @@ import (
 )
 
 type TalkController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTalkController(svcCtx *svc.ServiceContext) *TalkController {
+func NewTalkController(svcCtx *svctx.ServiceContext) *TalkController {
 	return &TalkController{
 		svcCtx: svcCtx,
 	}

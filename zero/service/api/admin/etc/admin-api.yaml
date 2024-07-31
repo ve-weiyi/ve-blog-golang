@@ -1,6 +1,6 @@
 Name: blog-api
 Host: 0.0.0.0
-Port: 9999
+Port: 10000
 Timeout: 5000
 # 健康检查
 DevServer:

@@ -14,10 +14,10 @@ import (
 )
 
 type RemarkService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRemarkService(svcCtx *svc.ServiceContext) *RemarkService {
+func NewRemarkService(svcCtx *svctx.ServiceContext) *RemarkService {
 	return &RemarkService{
 		svcCtx: svcCtx,
 	}

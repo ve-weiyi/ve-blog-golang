@@ -8,10 +8,10 @@ import (
 )
 
 type CategoryRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCategoryRouter(svcCtx *svc.ServiceContext) *CategoryRouter {
+func NewCategoryRouter(svcCtx *svctx.ServiceContext) *CategoryRouter {
 	return &CategoryRouter{
 		svcCtx: svcCtx,
 	}

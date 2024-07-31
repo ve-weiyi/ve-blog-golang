@@ -12,10 +12,10 @@ import (
 )
 
 type RoleController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRoleController(svcCtx *svc.ServiceContext) *RoleController {
+func NewRoleController(svcCtx *svctx.ServiceContext) *RoleController {
 	return &RoleController{
 		svcCtx: svcCtx,
 	}

@@ -21,10 +21,10 @@ import (
 )
 
 type AuthService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewAuthService(svcCtx *svc.ServiceContext) *AuthService {
+func NewAuthService(svcCtx *svctx.ServiceContext) *AuthService {
 	return &AuthService{
 		svcCtx: svcCtx,
 	}
@@ -189,7 +189,7 @@ func (l *AuthService) OauthAuthorizeUrl(reqCtx *request.Context, req *dto.OauthL
 	}
 
 	resp = &dto.OauthLoginUrl{
-		Url: auth.GetRedirectUrl(req.State),
+		Url: auth.GetAuthorizeUrl(req.State),
 	}
 	return resp, nil
 }

@@ -89,7 +89,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		LogRpc:    logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf, options...)),
 		ChatRpc:   chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf, options...)),
 		UploadRpc: uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf, options...)),
-		Uploader:  upload.NewQiniu(c.UploadConfig),
+		Uploader:  upload.NewLocal(c.UploadConfig),
 		JwtToken:  middleware.NewJwtTokenMiddleware(jwt, authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...))).Handle,
 		SignToken: middleware.NewSignTokenMiddleware().Handle,
 	}

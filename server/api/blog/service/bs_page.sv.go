@@ -8,10 +8,10 @@ import (
 )
 
 type PageService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPageService(svcCtx *svc.ServiceContext) *PageService {
+func NewPageService(svcCtx *svctx.ServiceContext) *PageService {
 	return &PageService{
 		svcCtx: svcCtx,
 	}

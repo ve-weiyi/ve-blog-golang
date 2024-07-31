@@ -11,10 +11,10 @@ import (
 )
 
 type WebsiteController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsiteController(svcCtx *svc.ServiceContext) *WebsiteController {
+func NewWebsiteController(svcCtx *svctx.ServiceContext) *WebsiteController {
 	return &WebsiteController{
 		svcCtx: svcCtx,
 	}

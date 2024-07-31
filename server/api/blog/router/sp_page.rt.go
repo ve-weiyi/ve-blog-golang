@@ -8,10 +8,10 @@ import (
 )
 
 type PageRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPageRouter(svcCtx *svc.ServiceContext) *PageRouter {
+func NewPageRouter(svcCtx *svctx.ServiceContext) *PageRouter {
 	return &PageRouter{
 		svcCtx: svcCtx,
 	}

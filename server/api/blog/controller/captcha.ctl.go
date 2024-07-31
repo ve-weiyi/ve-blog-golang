@@ -11,10 +11,10 @@ import (
 )
 
 type CaptchaController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCaptchaController(svcCtx *svc.ServiceContext) *CaptchaController {
+func NewCaptchaController(svcCtx *svctx.ServiceContext) *CaptchaController {
 	return &CaptchaController{
 		svcCtx: svcCtx,
 	}

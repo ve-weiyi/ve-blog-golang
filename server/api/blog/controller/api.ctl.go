@@ -12,10 +12,10 @@ import (
 )
 
 type ApiController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewApiController(svcCtx *svc.ServiceContext) *ApiController {
+func NewApiController(svcCtx *svctx.ServiceContext) *ApiController {
 	return &ApiController{
 		svcCtx: svcCtx,
 	}
