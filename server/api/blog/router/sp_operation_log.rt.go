@@ -8,10 +8,10 @@ import (
 )
 
 type OperationLogRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogRouter(svcCtx *svc.ServiceContext) *OperationLogRouter {
+func NewOperationLogRouter(svcCtx *svctx.ServiceContext) *OperationLogRouter {
 	return &OperationLogRouter{
 		svcCtx: svcCtx,
 	}

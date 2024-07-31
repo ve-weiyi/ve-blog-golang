@@ -30,9 +30,9 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 
 	in := authrpc.LoginReq{
-		Username: req.Username,
-		Password: req.Password,
-		Code:     req.Code,
+		Username:   req.Username,
+		Password:   req.Password,
+		VerifyCode: req.VerifyCode,
 	}
 
 	out, err := l.svcCtx.AuthRpc.Login(l.ctx, &in)

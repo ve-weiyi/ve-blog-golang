@@ -39,6 +39,6 @@ func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *blog.OauthLoginReq)
 	}
 
 	resp := &blog.OauthLoginUrlResp{}
-	resp.Url = auth.GetRedirectUrl(in.State)
+	resp.Url = auth.GetAuthorizeUrl(in.State)
 	return resp, nil
 }

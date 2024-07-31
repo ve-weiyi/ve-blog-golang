@@ -20,10 +20,10 @@ import (
 )
 
 type UploadService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewUploadService(svcCtx *svc.ServiceContext) *UploadService {
+func NewUploadService(svcCtx *svctx.ServiceContext) *UploadService {
 	return &UploadService{
 		svcCtx: svcCtx,
 	}

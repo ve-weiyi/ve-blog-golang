@@ -8,10 +8,10 @@ import (
 )
 
 type PhotoService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPhotoService(svcCtx *svc.ServiceContext) *PhotoService {
+func NewPhotoService(svcCtx *svctx.ServiceContext) *PhotoService {
 	return &PhotoService{
 		svcCtx: svcCtx,
 	}

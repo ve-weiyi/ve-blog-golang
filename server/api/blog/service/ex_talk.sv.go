@@ -11,10 +11,10 @@ import (
 )
 
 type TalkService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTalkService(svcCtx *svc.ServiceContext) *TalkService {
+func NewTalkService(svcCtx *svctx.ServiceContext) *TalkService {
 	return &TalkService{
 		svcCtx: svcCtx,
 	}

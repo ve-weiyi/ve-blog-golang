@@ -8,10 +8,10 @@ import (
 )
 
 type ArticleRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewArticleRouter(svcCtx *svc.ServiceContext) *ArticleRouter {
+func NewArticleRouter(svcCtx *svctx.ServiceContext) *ArticleRouter {
 	return &ArticleRouter{
 		svcCtx: svcCtx,
 	}

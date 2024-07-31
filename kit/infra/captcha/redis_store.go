@@ -29,7 +29,7 @@ func (rs *RedisStore) Set(key string, value string) error {
 	cacheKey := rs.PrefixKey + key
 	err := rs.Redis.Set(rs.Context, cacheKey, value, rs.Expiration).Err()
 	if err != nil {
-		log.Printf("RedisStoreGetError!cacheKey:%v ,err:%v", cacheKey, err)
+		log.Printf("RedisStore set!cacheKey:%v ,err:%v", cacheKey, err)
 		return err
 	}
 
@@ -40,13 +40,13 @@ func (rs *RedisStore) Get(key string, clear bool) string {
 	cacheKey := rs.PrefixKey + key
 	val, err := rs.Redis.Get(rs.Context, cacheKey).Result()
 	if err != nil {
-		log.Printf("RedisStoreGetError!cacheKey:%v ,err:%v", cacheKey, err)
+		log.Printf("RedisStore get!cacheKey:%v ,err:%v", cacheKey, err)
 		return ""
 	}
 	if clear {
 		err := rs.Redis.Del(rs.Context, cacheKey).Err()
 		if err != nil {
-			log.Printf("RedisStoreGetError!cacheKey:%v ,err:%v", cacheKey, err)
+			log.Printf("RedisStore get!cacheKey:%v ,err:%v", cacheKey, err)
 			return ""
 		}
 	}
@@ -55,5 +55,6 @@ func (rs *RedisStore) Get(key string, clear bool) string {
 
 func (rs *RedisStore) Verify(key, answer string, clear bool) bool {
 	v := rs.Get(key, clear)
+	log.Printf("RedisStore Verify!key:%v,answer:%v,v:%v,clear:%v", key, answer, v, clear)
 	return v == answer
 }

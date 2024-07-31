@@ -15,11 +15,11 @@ func TestFeishu(t *testing.T) {
 	}
 
 	auth := NewAuthFeishu(conf)
-	//获取第三方登录地址
-	url := auth.GetRedirectUrl("state")
+	// 获取第三方登录地址
+	url := auth.GetAuthorizeUrl("state")
 	log.Println("url:", url)
 
-	//获取用户信息
+	// 获取用户信息
 	userInfo, err := auth.GetUserOpenInfo("5ebhf5a54b19408892c18e2042edf792")
 	if err != nil {
 		return

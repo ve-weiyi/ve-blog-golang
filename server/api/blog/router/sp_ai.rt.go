@@ -8,10 +8,10 @@ import (
 )
 
 type AIRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewAIRouter(svcCtx *svc.ServiceContext) *AIRouter {
+func NewAIRouter(svcCtx *svctx.ServiceContext) *AIRouter {
 	return &AIRouter{
 		svcCtx: svcCtx,
 	}

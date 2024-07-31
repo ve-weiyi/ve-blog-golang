@@ -8,10 +8,10 @@ import (
 )
 
 type OperationLogService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogService(svcCtx *svc.ServiceContext) *OperationLogService {
+func NewOperationLogService(svcCtx *svctx.ServiceContext) *OperationLogService {
 	return &OperationLogService{
 		svcCtx: svcCtx,
 	}

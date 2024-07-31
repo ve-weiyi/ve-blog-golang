@@ -12,10 +12,10 @@ import (
 )
 
 type UploadController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewUploadController(svcCtx *svc.ServiceContext) *UploadController {
+func NewUploadController(svcCtx *svctx.ServiceContext) *UploadController {
 	return &UploadController{
 		svcCtx: svcCtx,
 	}

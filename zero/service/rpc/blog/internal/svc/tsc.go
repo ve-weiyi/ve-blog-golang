@@ -7,6 +7,7 @@ import (
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/config"
@@ -62,8 +63,9 @@ func NewTestServiceContext() *ServiceContext {
 		panic(err)
 	}
 	return &ServiceContext{
-		Config: c,
-		Gorm:   db,
+		Config:        c,
+		Gorm:          db,
+		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 
 		UserAccountModel:      model.NewUserAccountModel(db, rds),
 		UserOauthModel:        model.NewUserOauthModel(db, rds),

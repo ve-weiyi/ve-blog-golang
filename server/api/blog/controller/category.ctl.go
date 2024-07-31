@@ -12,10 +12,10 @@ import (
 )
 
 type CategoryController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCategoryController(svcCtx *svc.ServiceContext) *CategoryController {
+func NewCategoryController(svcCtx *svctx.ServiceContext) *CategoryController {
 	return &CategoryController{
 		svcCtx: svcCtx,
 	}

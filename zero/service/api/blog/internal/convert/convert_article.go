@@ -12,7 +12,7 @@ func ConvertArticleHomeTypes(in *blog.Article) (out *types.ArticleHome) {
 		ArticleCover:   in.ArticleCover,
 		ArticleTitle:   in.ArticleTitle,
 		ArticleContent: in.ArticleContent,
-		Type:           in.Type,
+		ArticleType:    in.ArticleType,
 		OriginalUrl:    in.OriginalUrl,
 		IsTop:          in.IsTop,
 		Status:         in.Status,
@@ -20,7 +20,7 @@ func ConvertArticleHomeTypes(in *blog.Article) (out *types.ArticleHome) {
 		UpdatedAt:      in.UpdatedAt,
 		CategoryName:   "",
 		TagNameList:    make([]string, 0),
-		LikeCount:      0,
+		LikeCount:      in.LikeCount,
 		ViewsCount:     0,
 	}
 

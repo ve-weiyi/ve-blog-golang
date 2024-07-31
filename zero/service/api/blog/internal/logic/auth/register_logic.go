@@ -26,11 +26,11 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(req *types.LoginReq) (resp *types.EmptyResp, err error) {
-	in := &blog.LoginReq{
-		Username: req.Username,
-		Password: req.Password,
-		Code:     req.Code,
+func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.EmptyResp, err error) {
+	in := &blog.RegisterReq{
+		Username:   req.Username,
+		Password:   req.Password,
+		VerifyCode: req.VerifyCode,
 	}
 
 	_, err = l.svcCtx.AuthRpc.Register(l.ctx, in)

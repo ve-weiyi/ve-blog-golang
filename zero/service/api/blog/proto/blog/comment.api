@@ -42,8 +42,8 @@ type (
         Type int64 `json:"type,optional"`                                                // 评论类型 1.文章 2.友链 3.说说
         CreatedAt int64 `json:"created_at,optional"`                                     // 评论时间
         LikeCount int64 `json:"like_count,optional"`                                     // 点赞数
-        User CommentUserInfo `json:"user"`                                               // 评论用户
-        ReplyUser CommentUserInfo `json:"reply_user"`                                    // 被回复评论用户
+        User *CommentUserInfo `json:"user"`                                               // 评论用户
+        ReplyUser *CommentUserInfo `json:"reply_user"`                                    // 被回复评论用户
     }
 
 
@@ -59,8 +59,8 @@ type (
         Type int64 `json:"type,optional"`                                                // 评论类型 1.文章 2.友链 3.说说
         CreatedAt int64 `json:"created_at,optional"`                                     // 评论时间
         LikeCount int64 `json:"like_count,optional"`                                     // 点赞数
-        User CommentUserInfo `json:"user"`                                               // 评论用户
-        ReplyUser CommentUserInfo `json:"reply_user"`                                    // 被回复评论用户
+        User *CommentUserInfo `json:"user"`                                               // 评论用户
+        ReplyUser *CommentUserInfo `json:"reply_user"`                                    // 被回复评论用户
         ReplyCount int64 `json:"reply_count,optional"`                                   // 回复量
         CommentReplyList []*CommentReply `json:"comment_reply_list,optional"`            // 评论回复列表
     }

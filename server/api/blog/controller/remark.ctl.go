@@ -12,10 +12,10 @@ import (
 )
 
 type RemarkController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRemarkController(svcCtx *svc.ServiceContext) *RemarkController {
+func NewRemarkController(svcCtx *svctx.ServiceContext) *RemarkController {
 	return &RemarkController{
 		svcCtx: svcCtx,
 	}

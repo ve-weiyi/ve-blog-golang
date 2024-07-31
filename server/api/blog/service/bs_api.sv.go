@@ -8,10 +8,10 @@ import (
 )
 
 type ApiService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewApiService(svcCtx *svc.ServiceContext) *ApiService {
+func NewApiService(svcCtx *svctx.ServiceContext) *ApiService {
 	return &ApiService{
 		svcCtx: svcCtx,
 	}

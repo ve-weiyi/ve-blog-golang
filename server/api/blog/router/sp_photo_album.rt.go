@@ -8,10 +8,10 @@ import (
 )
 
 type PhotoAlbumRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPhotoAlbumRouter(svcCtx *svc.ServiceContext) *PhotoAlbumRouter {
+func NewPhotoAlbumRouter(svcCtx *svctx.ServiceContext) *PhotoAlbumRouter {
 	return &PhotoAlbumRouter{
 		svcCtx: svcCtx,
 	}

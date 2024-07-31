@@ -87,6 +87,10 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	userAccount := &model.UserAccount{
 		Username:  username,
 		Password:  pwd,
+		Nickname:  info.NickName,
+		Avatar:    info.Avatar,
+		Info:      "",
+		Status:    0,
 		LoginType: platform,
 		IpAddress: "",
 		IpSource:  "",

@@ -8,10 +8,10 @@ import (
 )
 
 type TalkRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTalkRouter(svcCtx *svc.ServiceContext) *TalkRouter {
+func NewTalkRouter(svcCtx *svctx.ServiceContext) *TalkRouter {
 	return &TalkRouter{
 		svcCtx: svcCtx,
 	}

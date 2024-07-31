@@ -31,7 +31,7 @@ func (l *FindArticleByTagLogic) FindArticleByTag(in *blog.FindArticleByTagReq) (
 		return nil, err
 	}
 
-	var ids []int64
+	ids := make([]int64, 0)
 	for _, v := range ts {
 		ids = append(ids, v.ArticleId)
 	}

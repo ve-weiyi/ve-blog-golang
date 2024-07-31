@@ -17,10 +17,10 @@ import (
 )
 
 type WebsocketController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsocketController(svcCtx *svc.ServiceContext) *WebsocketController {
+func NewWebsocketController(svcCtx *svctx.ServiceContext) *WebsocketController {
 	return &WebsocketController{
 		svcCtx: svcCtx,
 	}

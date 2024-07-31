@@ -11,10 +11,10 @@ import (
 )
 
 type AIController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewAIController(svcCtx *svc.ServiceContext) *AIController {
+func NewAIController(svcCtx *svctx.ServiceContext) *AIController {
 	return &AIController{
 		svcCtx: svcCtx,
 	}

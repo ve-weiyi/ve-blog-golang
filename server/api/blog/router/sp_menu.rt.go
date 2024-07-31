@@ -8,10 +8,10 @@ import (
 )
 
 type MenuRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewMenuRouter(svcCtx *svc.ServiceContext) *MenuRouter {
+func NewMenuRouter(svcCtx *svctx.ServiceContext) *MenuRouter {
 	return &MenuRouter{
 		svcCtx: svcCtx,
 	}

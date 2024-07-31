@@ -8,10 +8,10 @@ import (
 )
 
 type ApiRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewApiRouter(svcCtx *svc.ServiceContext) *ApiRouter {
+func NewApiRouter(svcCtx *svctx.ServiceContext) *ApiRouter {
 	return &ApiRouter{
 		svcCtx: svcCtx,
 	}

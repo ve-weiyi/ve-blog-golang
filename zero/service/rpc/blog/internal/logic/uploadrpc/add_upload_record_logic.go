@@ -3,6 +3,7 @@ package uploadrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
@@ -25,7 +26,11 @@ func NewAddUploadRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 
 // 上传文件
 func (l *AddUploadRecordLogic) AddUploadRecord(in *blog.UploadRecordReq) (*blog.UploadRecordResp, error) {
-	// todo: add your logic here and delete this line
+	entity := convert.ConvertUploadPbToModel(in)
+	_, err := l.svcCtx.UploadRecordModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
 
-	return &blog.UploadRecordResp{}, nil
+	return convert.ConvertUploadModelToPb(entity), nil
 }

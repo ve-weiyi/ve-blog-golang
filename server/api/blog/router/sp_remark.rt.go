@@ -8,10 +8,10 @@ import (
 )
 
 type RemarkRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRemarkRouter(svcCtx *svc.ServiceContext) *RemarkRouter {
+func NewRemarkRouter(svcCtx *svctx.ServiceContext) *RemarkRouter {
 	return &RemarkRouter{
 		svcCtx: svcCtx,
 	}

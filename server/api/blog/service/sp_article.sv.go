@@ -8,10 +8,10 @@ import (
 )
 
 type ArticleService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewArticleService(svcCtx *svc.ServiceContext) *ArticleService {
+func NewArticleService(svcCtx *svctx.ServiceContext) *ArticleService {
 	return &ArticleService{
 		svcCtx: svcCtx,
 	}

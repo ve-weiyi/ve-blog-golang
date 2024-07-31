@@ -69,3 +69,9 @@ func (s *TalkRpcServer) LikeTalk(ctx context.Context, in *blog.IdReq) (*blog.Emp
 	l := talkrpclogic.NewLikeTalkLogic(ctx, s.svcCtx)
 	return l.LikeTalk(in)
 }
+
+// 用户点赞的说说
+func (s *TalkRpcServer) FindUserLikeTalk(ctx context.Context, in *blog.UserIdReq) (*blog.FindLikeTalkResp, error) {
+	l := talkrpclogic.NewFindUserLikeTalkLogic(ctx, s.svcCtx)
+	return l.FindUserLikeTalk(in)
+}

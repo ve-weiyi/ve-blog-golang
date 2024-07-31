@@ -12,10 +12,10 @@ import (
 )
 
 type PageController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPageController(svcCtx *svc.ServiceContext) *PageController {
+func NewPageController(svcCtx *svctx.ServiceContext) *PageController {
 	return &PageController{
 		svcCtx: svcCtx,
 	}

@@ -8,10 +8,10 @@ import (
 )
 
 type WebsocketRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsocketRouter(svcCtx *svc.ServiceContext) *WebsocketRouter {
+func NewWebsocketRouter(svcCtx *svctx.ServiceContext) *WebsocketRouter {
 	return &WebsocketRouter{
 		svcCtx: svcCtx,
 	}

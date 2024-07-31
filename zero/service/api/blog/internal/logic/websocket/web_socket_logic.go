@@ -50,7 +50,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 		}
 
 		uid := cast.ToInt64(r.Context().Value("userId"))
-		info, err := l.svcCtx.UserRpc.FindUserInfo(r.Context(), &blog.UserReq{UserId: uid})
+		info, err := l.svcCtx.UserRpc.FindUserInfo(r.Context(), &blog.UserIdReq{UserId: uid})
 		if err != nil {
 			return nil, err
 		}

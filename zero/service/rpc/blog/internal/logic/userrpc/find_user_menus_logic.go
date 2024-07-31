@@ -27,7 +27,7 @@ func NewFindUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 // 获取用户菜单权限
-func (l *FindUserMenusLogic) FindUserMenus(in *blog.UserReq) (*blog.MenuPageResp, error) {
+func (l *FindUserMenusLogic) FindUserMenus(in *blog.UserIdReq) (*blog.MenuPageResp, error) {
 	uid := in.UserId
 
 	// 查用户
@@ -42,7 +42,7 @@ func (l *FindUserMenusLogic) FindUserMenus(in *blog.UserReq) (*blog.MenuPageResp
 		return nil, err
 	}
 
-	var ids []int64
+	ids := make([]int64, 0)
 	for _, v := range urs {
 		ids = append(ids, v.RoleId)
 	}

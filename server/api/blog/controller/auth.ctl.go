@@ -11,10 +11,10 @@ import (
 )
 
 type AuthController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewAuthController(svcCtx *svc.ServiceContext) *AuthController {
+func NewAuthController(svcCtx *svctx.ServiceContext) *AuthController {
 	return &AuthController{
 		svcCtx: svcCtx,
 	}

@@ -75,3 +75,15 @@ func (s *ArticleRpcServer) FindArticleByCategory(ctx context.Context, in *blog.F
 	l := articlerpclogic.NewFindArticleByCategoryLogic(ctx, s.svcCtx)
 	return l.FindArticleByCategory(in)
 }
+
+// 点赞文章
+func (s *ArticleRpcServer) LikeArticle(ctx context.Context, in *blog.IdReq) (*blog.EmptyResp, error) {
+	l := articlerpclogic.NewLikeArticleLogic(ctx, s.svcCtx)
+	return l.LikeArticle(in)
+}
+
+// 用户点赞的文章
+func (s *ArticleRpcServer) FindUserLikeArticle(ctx context.Context, in *blog.UserIdReq) (*blog.FindLikeArticleResp, error) {
+	l := articlerpclogic.NewFindUserLikeArticleLogic(ctx, s.svcCtx)
+	return l.FindUserLikeArticle(in)
+}

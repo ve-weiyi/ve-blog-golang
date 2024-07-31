@@ -25,18 +25,29 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 // 登出
-func (l *LogoutLogic) Logout(in *blog.LogoutReq) (*blog.EmptyResp, error) {
-	find, err := l.svcCtx.UserAccountModel.FindOne(l.ctx, in.UserId)
+func (l *LogoutLogic) Logout(in *blog.LogoutReq) (*blog.LogoutResp, error) {
+	list, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, 1, 1, "id desc", "user_id = ?", in.UserId)
 	if err != nil {
 		return nil, err
 	}
+
+	if len(list) == 0 {
+		return &blog.LogoutResp{
+			UserId: in.UserId,
+		}, nil
+	}
+
+	find := list[0]
 
 	find.LogoutAt = time.Now()
 	// 修改登出时间
-	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, find)
+	_, err = l.svcCtx.UserLoginHistoryModel.Update(l.ctx, find)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.EmptyResp{}, nil
+	return &blog.LogoutResp{
+		UserId:   in.UserId,
+		LogoutAt: find.LogoutAt.Unix(),
+	}, nil
 }

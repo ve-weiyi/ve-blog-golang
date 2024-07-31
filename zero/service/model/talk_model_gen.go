@@ -41,6 +41,7 @@ type (
 		Images    string    `json:"images" gorm:"column:images" `         // 图片
 		IsTop     int64     `json:"is_top" gorm:"column:is_top" `         // 是否置顶
 		Status    int64     `json:"status" gorm:"column:status" `         // 状态 1.公开 2.私密
+		LikeCount int64     `json:"like_count" gorm:"column:like_count" ` // 点赞数
 		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
 		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
 	}

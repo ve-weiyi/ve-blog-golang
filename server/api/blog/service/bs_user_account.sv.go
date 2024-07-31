@@ -8,10 +8,10 @@ import (
 )
 
 type UserAccountService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewUserAccountService(svcCtx *svc.ServiceContext) *UserAccountService {
+func NewUserAccountService(svcCtx *svctx.ServiceContext) *UserAccountService {
 	return &UserAccountService{
 		svcCtx: svcCtx,
 	}

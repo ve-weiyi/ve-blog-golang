@@ -41,11 +41,12 @@ type (
 		ArticleCover   string    `json:"article_cover" gorm:"column:article_cover" `     // 文章缩略图
 		ArticleTitle   string    `json:"article_title" gorm:"column:article_title" `     // 标题
 		ArticleContent string    `json:"article_content" gorm:"column:article_content" ` // 内容
-		Type           int64     `json:"type" gorm:"column:type" `                       // 文章类型 1原创 2转载 3翻译
+		ArticleType    int64     `json:"article_type" gorm:"column:article_type" `       // 文章类型 1原创 2转载 3翻译
 		OriginalUrl    string    `json:"original_url" gorm:"column:original_url" `       // 原文链接
 		IsTop          int64     `json:"is_top" gorm:"column:is_top" `                   // 是否置顶 0否 1是
 		IsDelete       int64     `json:"is_delete" gorm:"column:is_delete" `             // 是否删除  0否 1是
 		Status         int64     `json:"status" gorm:"column:status" `                   // 状态值 1公开 2私密 3评论可见
+		LikeCount      int64     `json:"like_count" gorm:"column:like_count" `           // 点赞数
 		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 发表时间
 		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
 	}

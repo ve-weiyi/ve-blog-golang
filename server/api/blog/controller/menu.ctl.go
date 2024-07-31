@@ -12,10 +12,10 @@ import (
 )
 
 type MenuController struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewMenuController(svcCtx *svc.ServiceContext) *MenuController {
+func NewMenuController(svcCtx *svctx.ServiceContext) *MenuController {
 	return &MenuController{
 		svcCtx: svcCtx,
 	}

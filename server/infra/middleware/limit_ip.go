@@ -11,7 +11,7 @@ import (
 )
 
 // IP限流
-func LimitIP(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+func LimitIP(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		key := c.ClientIP()
 

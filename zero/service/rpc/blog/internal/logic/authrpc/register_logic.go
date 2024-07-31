@@ -12,7 +12,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
@@ -34,7 +33,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 // 注册
-func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) {
+func (l *RegisterLogic) Register(in *blog.RegisterReq) (*blog.LoginResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
 		return nil, apierr.ErrorInvalidParam
@@ -48,28 +47,36 @@ func (l *RegisterLogic) Register(in *blog.LoginReq) (*blog.UserInfoResp, error) 
 
 	// 验证code是否正确
 	key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
-	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.Code) {
+	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, apierr.ErrorCaptchaVerify
 	}
 
-	var account *model.UserAccount
+	var ua *model.UserAccount
 	err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {
-		account, err = l.register(tx, in)
+		ua, err = l.register(tx, in)
 		return err
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	ui, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", account.Id)
+	account, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", ua.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertUserInfoModelToPb(ui), nil
+	resp := &blog.LoginResp{
+		UserId:   account.Id,
+		Username: account.Username,
+		Nickname: account.Nickname,
+		Avatar:   account.Avatar,
+		Info:     account.Info,
+	}
+
+	return resp, nil
 }
 
-func (l *RegisterLogic) register(tx *gorm.DB, in *blog.LoginReq) (out *model.UserAccount, err error) {
+func (l *RegisterLogic) register(tx *gorm.DB, in *blog.RegisterReq) (out *model.UserAccount, err error) {
 	// 邮箱注册
 	account := &model.UserAccount{
 		Username:  in.Username,
@@ -78,6 +85,7 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *blog.LoginReq) (out *model.Use
 		Avatar:    "https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG",
 		Status:    constant.UserStatusNormal,
 		LoginType: constant.LoginTypeEmail,
+		Email:     in.Username,
 		IpAddress: "",
 		IpSource:  "",
 	}

@@ -177,6 +177,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken},
 			[]rest.Route{
 				{
+					// 绑定邮箱
+					Method:  http.MethodPost,
+					Path:    "/bind_user_email",
+					Handler: auth.BindUserEmailHandler(serverCtx),
+				},
+				{
 					// 注销
 					Method:  http.MethodPost,
 					Path:    "/logoff",
@@ -187,6 +193,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/logout",
 					Handler: auth.LogoutHandler(serverCtx),
+				},
+				{
+					// 发送绑定邮箱验证码
+					Method:  http.MethodPost,
+					Path:    "/send_bind_email",
+					Handler: auth.SendBindEmailHandler(serverCtx),
 				},
 			}...,
 		),
@@ -397,6 +409,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/user/get_user_info",
 					Handler: user.GetUserInfoHandler(serverCtx),
+				},
+				{
+					// 获取用户点赞列表
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_like",
+					Handler: user.GetUserLikeHandler(serverCtx),
+				},
+				{
+					// 修改用户头像
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_avatar",
+					Handler: user.UpdateUserAvatarHandler(serverCtx),
 				},
 				{
 					// 修改用户信息

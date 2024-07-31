@@ -8,10 +8,10 @@ import (
 )
 
 type ChatRecordService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewChatRecordService(svcCtx *svc.ServiceContext) *ChatRecordService {
+func NewChatRecordService(svcCtx *svctx.ServiceContext) *ChatRecordService {
 	return &ChatRecordService{
 		svcCtx: svcCtx,
 	}

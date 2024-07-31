@@ -12,10 +12,10 @@ import (
 )
 
 type WebsiteService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsiteService(svcCtx *svc.ServiceContext) *WebsiteService {
+func NewWebsiteService(svcCtx *svctx.ServiceContext) *WebsiteService {
 	return &WebsiteService{
 		svcCtx: svcCtx,
 	}

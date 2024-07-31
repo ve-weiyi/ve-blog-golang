@@ -8,10 +8,10 @@ import (
 )
 
 type MenuService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewMenuService(svcCtx *svc.ServiceContext) *MenuService {
+func NewMenuService(svcCtx *svctx.ServiceContext) *MenuService {
 	return &MenuService{
 		svcCtx: svcCtx,
 	}

@@ -8,10 +8,10 @@ import (
 )
 
 type CaptchaRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCaptchaRouter(svcCtx *svc.ServiceContext) *CaptchaRouter {
+func NewCaptchaRouter(svcCtx *svctx.ServiceContext) *CaptchaRouter {
 	return &CaptchaRouter{
 		svcCtx: svcCtx,
 	}

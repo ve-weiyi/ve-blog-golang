@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-func ConvertUserDetailsTypes(in *blog.User) (out *types.User) {
+func ConvertUserDetailsTypes(in *blog.UserDetails) (out *types.User) {
 	jsonconv.ObjectToObject(in, &out)
 	out.Id = in.UserId
 	return out

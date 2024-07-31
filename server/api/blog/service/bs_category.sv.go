@@ -8,10 +8,10 @@ import (
 )
 
 type CategoryService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCategoryService(svcCtx *svc.ServiceContext) *CategoryService {
+func NewCategoryService(svcCtx *svctx.ServiceContext) *CategoryService {
 	return &CategoryService{
 		svcCtx: svcCtx,
 	}

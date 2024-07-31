@@ -41,7 +41,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.PageQuery) (re
 	var list []*types.CommentBackDTO
 	for _, v := range out.List {
 		m := convert.ConvertCommentBackTypes(v)
-		user, _ := l.svcCtx.UserRpc.FindUserInfo(l.ctx, &blog.UserReq{UserId: v.UserId})
+		user, _ := l.svcCtx.UserRpc.FindUserInfo(l.ctx, &blog.UserIdReq{UserId: v.UserId})
 		if user != nil {
 			m.Nickname = user.Nickname
 			m.Avatar = user.Avatar

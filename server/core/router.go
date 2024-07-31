@@ -12,7 +12,7 @@ import (
 )
 
 // 初始化总路由
-func RegisterRouters(r *gin.RouterGroup, serverCtx *svc.ServiceContext) {
+func RegisterRouters(r *gin.RouterGroup, serverCtx *svctx.ServiceContext) {
 
 	// r.Use(middleware.LoadTls())  // 如果需要使用https 请打开此中间件 然后前往 core/server.go 将启动模式 更变为 r.RunTLS("端口","你的cre/pem文件","你的key文件")
 	// r.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求

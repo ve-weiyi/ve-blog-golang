@@ -84,7 +84,7 @@ func ConvertCommentTypes(in *blog.Comment) (out *types.Comment) {
 	}
 
 	if in.User != nil {
-		out.User = types.CommentUserInfo{
+		out.User = &types.CommentUserInfo{
 			Id:       in.User.UserId,
 			Nickname: in.User.Nickname,
 			Avatar:   in.User.Avatar,
@@ -93,7 +93,7 @@ func ConvertCommentTypes(in *blog.Comment) (out *types.Comment) {
 	}
 
 	if in.ReplyUser != nil {
-		out.ReplyUser = types.CommentUserInfo{
+		out.ReplyUser = &types.CommentUserInfo{
 			Id:       in.ReplyUser.UserId,
 			Nickname: in.ReplyUser.Nickname,
 			Avatar:   in.ReplyUser.Avatar,
@@ -119,7 +119,7 @@ func ConvertCommentReplyTypes(in *blog.Comment) (out *types.CommentReply) {
 	}
 
 	if in.User != nil {
-		out.User = types.CommentUserInfo{
+		out.User = &types.CommentUserInfo{
 			Id:       in.User.UserId,
 			Nickname: in.User.Nickname,
 			Avatar:   in.User.Avatar,
@@ -128,7 +128,7 @@ func ConvertCommentReplyTypes(in *blog.Comment) (out *types.CommentReply) {
 	}
 
 	if in.ReplyUser != nil {
-		out.ReplyUser = types.CommentUserInfo{
+		out.ReplyUser = &types.CommentUserInfo{
 			Id:       in.ReplyUser.UserId,
 			Nickname: in.ReplyUser.Nickname,
 			Avatar:   in.ReplyUser.Avatar,

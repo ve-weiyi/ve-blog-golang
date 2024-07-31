@@ -29,7 +29,7 @@ func NewGetUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserRoleLogic) GetUserRole(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
-	in := &blog.UserReq{
+	in := &blog.UserIdReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 

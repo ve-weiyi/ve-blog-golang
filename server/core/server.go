@@ -40,7 +40,7 @@ func RunWindowsServer(c *config.Config) {
 	docs.SwaggerInfo.Version = c.System.Version
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	ctx := svc.NewServiceContext(c)
+	ctx := svctx.NewServiceContext(c)
 	RegisterRouters(r, ctx)
 
 	glog.Info("register router success")
