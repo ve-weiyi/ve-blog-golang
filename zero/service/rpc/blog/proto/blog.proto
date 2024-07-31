@@ -115,7 +115,7 @@ message GetLogoutAtReq {
   int64 user_id = 1; // 用户id
 }
 
-message  GetLogoutAtResp {
+message  LogoutResp {
   int64 user_id = 1; // 用户id
   int64 logout_at = 2;
 }
@@ -124,7 +124,7 @@ service AuthRpc {
   // 登录
   rpc Login(LoginReq) returns(LoginResp);
   // 登出
-  rpc Logout(LogoutReq) returns(EmptyResp);
+  rpc Logout(LogoutReq) returns(LogoutResp);
   // 注销
   rpc Logoff(LogoffReq) returns(EmptyResp);
   // 注册
@@ -140,7 +140,7 @@ service AuthRpc {
   // 获取第三方登录授权地址
   rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
   // 获取用户登录时间
-  rpc GetLogoutAt(GetLogoutAtReq) returns(GetLogoutAtResp);
+  rpc GetLogoutAt(GetLogoutAtReq) returns(LogoutResp);
 }
 
 /************** rbac 权限相关 **************/

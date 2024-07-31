@@ -25,7 +25,7 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 // 登出
-func (l *LogoutLogic) Logout(in *blog.LogoutReq) (*blog.EmptyResp, error) {
+func (l *LogoutLogic) Logout(in *blog.LogoutReq) (*blog.LogoutResp, error) {
 	find, err := l.svcCtx.UserAccountModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		return nil, err
@@ -38,5 +38,8 @@ func (l *LogoutLogic) Logout(in *blog.LogoutReq) (*blog.EmptyResp, error) {
 		return nil, err
 	}
 
-	return &blog.EmptyResp{}, nil
+	return &blog.LogoutResp{
+		UserId:   in.UserId,
+		LogoutAt: find.LogoutAt.Unix(),
+	}, nil
 }

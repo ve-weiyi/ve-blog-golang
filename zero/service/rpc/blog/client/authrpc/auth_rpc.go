@@ -39,7 +39,6 @@ type (
 	FriendLink               = blog.FriendLink
 	FriendLinkPageResp       = blog.FriendLinkPageResp
 	GetLogoutAtReq           = blog.GetLogoutAtReq
-	GetLogoutAtResp          = blog.GetLogoutAtResp
 	IdReq                    = blog.IdReq
 	IdsReq                   = blog.IdsReq
 	LoginHistory             = blog.LoginHistory
@@ -48,6 +47,7 @@ type (
 	LoginResp                = blog.LoginResp
 	LogoffReq                = blog.LogoffReq
 	LogoutReq                = blog.LogoutReq
+	LogoutResp               = blog.LogoutResp
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp
@@ -101,7 +101,7 @@ type (
 		// 登录
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// 登出
-		Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error)
 		// 注销
 		Logoff(ctx context.Context, in *LogoffReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 注册
@@ -117,7 +117,7 @@ type (
 		// 获取第三方登录授权地址
 		GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error)
 		// 获取用户登录时间
-		GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*GetLogoutAtResp, error)
+		GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*LogoutResp, error)
 	}
 
 	defaultAuthRpc struct {
@@ -138,7 +138,7 @@ func (m *defaultAuthRpc) Login(ctx context.Context, in *LoginReq, opts ...grpc.C
 }
 
 // 登出
-func (m *defaultAuthRpc) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultAuthRpc) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error) {
 	client := blog.NewAuthRpcClient(m.cli.Conn())
 	return client.Logout(ctx, in, opts...)
 }
@@ -186,7 +186,7 @@ func (m *defaultAuthRpc) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLogi
 }
 
 // 获取用户登录时间
-func (m *defaultAuthRpc) GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*GetLogoutAtResp, error) {
+func (m *defaultAuthRpc) GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*LogoutResp, error) {
 	client := blog.NewAuthRpcClient(m.cli.Conn())
 	return client.GetLogoutAt(ctx, in, opts...)
 }

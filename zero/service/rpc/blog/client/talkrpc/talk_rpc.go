@@ -39,7 +39,6 @@ type (
 	FriendLink               = blog.FriendLink
 	FriendLinkPageResp       = blog.FriendLinkPageResp
 	GetLogoutAtReq           = blog.GetLogoutAtReq
-	GetLogoutAtResp          = blog.GetLogoutAtResp
 	IdReq                    = blog.IdReq
 	IdsReq                   = blog.IdsReq
 	LoginHistory             = blog.LoginHistory
@@ -48,6 +47,7 @@ type (
 	LoginResp                = blog.LoginResp
 	LogoffReq                = blog.LogoffReq
 	LogoutReq                = blog.LogoutReq
+	LogoutResp               = blog.LogoutResp
 	Menu                     = blog.Menu
 	MenuDetails              = blog.MenuDetails
 	MenuPageResp             = blog.MenuPageResp

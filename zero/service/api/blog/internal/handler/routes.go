@@ -399,6 +399,24 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: user.GetUserInfoHandler(serverCtx),
 				},
 				{
+					// 发送绑定邮箱验证码
+					Method:  http.MethodPost,
+					Path:    "/user/send_bind_email",
+					Handler: user.SendBindEmailHandler(serverCtx),
+				},
+				{
+					// 修改用户信息
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_avatar",
+					Handler: user.UpdateUserAvatarHandler(serverCtx),
+				},
+				{
+					// 修改用户邮箱
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_email",
+					Handler: user.UpdateUserEmailHandler(serverCtx),
+				},
+				{
 					// 修改用户信息
 					Method:  http.MethodPost,
 					Path:    "/user/update_user_info",

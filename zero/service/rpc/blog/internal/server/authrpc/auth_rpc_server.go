@@ -29,7 +29,7 @@ func (s *AuthRpcServer) Login(ctx context.Context, in *blog.LoginReq) (*blog.Log
 }
 
 // 登出
-func (s *AuthRpcServer) Logout(ctx context.Context, in *blog.LogoutReq) (*blog.EmptyResp, error) {
+func (s *AuthRpcServer) Logout(ctx context.Context, in *blog.LogoutReq) (*blog.LogoutResp, error) {
 	l := authrpclogic.NewLogoutLogic(ctx, s.svcCtx)
 	return l.Logout(in)
 }
@@ -77,7 +77,7 @@ func (s *AuthRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *blog.Oauth
 }
 
 // 获取用户登录时间
-func (s *AuthRpcServer) GetLogoutAt(ctx context.Context, in *blog.GetLogoutAtReq) (*blog.GetLogoutAtResp, error) {
+func (s *AuthRpcServer) GetLogoutAt(ctx context.Context, in *blog.GetLogoutAtReq) (*blog.LogoutResp, error) {
 	l := authrpclogic.NewGetLogoutAtLogic(ctx, s.svcCtx)
 	return l.GetLogoutAt(in)
 }

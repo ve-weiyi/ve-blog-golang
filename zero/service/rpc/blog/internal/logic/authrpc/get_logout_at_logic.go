@@ -24,13 +24,13 @@ func NewGetLogoutAtLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLo
 }
 
 // 获取用户登录时间
-func (l *GetLogoutAtLogic) GetLogoutAt(in *blog.GetLogoutAtReq) (*blog.GetLogoutAtResp, error) {
+func (l *GetLogoutAtLogic) GetLogoutAt(in *blog.GetLogoutAtReq) (*blog.LogoutResp, error) {
 	find, err := l.svcCtx.UserAccountModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.GetLogoutAtResp{
+	return &blog.LogoutResp{
 		UserId:   in.UserId,
 		LogoutAt: find.LogoutAt.Unix(),
 	}, nil

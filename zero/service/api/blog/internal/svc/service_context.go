@@ -1,9 +1,15 @@
 package svc
 
 import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/apirpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
@@ -26,7 +32,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/config"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/middleware"
 )
 
 type ServiceContext struct {
@@ -55,6 +60,7 @@ type ServiceContext struct {
 
 	Uploader upload.Uploader
 	Token    *jtoken.JwtInstance
+	Redis    *redis.Redis
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -66,9 +72,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	jwt := jtoken.NewJWTInstance([]byte(c.Name))
 
+	rds, err := ConnectRedis(c.RedisConf)
+	if err != nil {
+		panic(err)
+	}
+
 	return &ServiceContext{
 		Config:  c,
 		Token:   jwt,
+		Redis:   rds,
 		AuthRpc: authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...)),
 		ApiRpc:  apirpc.NewApiRpc(zrpc.MustNewClient(c.ApiRpcConf, options...)),
 		MenuRpc: menurpc.NewMenuRpc(zrpc.MustNewClient(c.MenuRpcConf, options...)),
@@ -89,8 +101,25 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		LogRpc:    logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf, options...)),
 		ChatRpc:   chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf, options...)),
 		UploadRpc: uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf, options...)),
-		Uploader:  upload.NewLocal(c.UploadConfig),
-		JwtToken:  middleware.NewJwtTokenMiddleware(jwt, authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...))).Handle,
-		SignToken: middleware.NewSignTokenMiddleware().Handle,
+		Uploader:  upload.NewQiniu(c.UploadConfig),
+		JwtToken:  middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
+		SignToken: middlewarex.NewSignTokenMiddleware().Handle,
 	}
+}
+
+func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
+	address := c.Host + ":" + c.Port
+	client, err := redis.NewRedis(redis.RedisConf{
+		Host: address,
+		Type: redis.NodeType,
+		Pass: c.Password,
+		Tls:  false,
+	})
+
+	if err != nil {
+		return nil, fmt.Errorf("redis 连接失败: %v", err)
+	}
+
+	client.SetexCtx(context.Background(), fmt.Sprintf("redis:%s", "pong"), time.Now().String(), -1)
+	return client, nil
 }

@@ -10,10 +10,19 @@ type (
         Website string `json:"website,optional"`     // 网站
     }
 
-    UserInfoReq {
+    UpdateUserInfoReq {
         Nickname string `json:"nickname,optional"` // 昵称
         Avatar string `json:"avatar,optional"`     // 头像
         UserInfoExt
+    }
+
+    UpdateUserAvatarReq {
+        Avatar string `json:"avatar,optional"`     // 头像
+    }
+
+    UpdateUserEmailReq {
+        Email string `json:"email"`                // 邮箱
+        Code string `json:"code"`                  // 验证码
     }
 
     UserInfoResp {
@@ -24,6 +33,9 @@ type (
         UserInfoExt
     }
 
+    SendBindEmailReq {
+        Email string `json:"email"`                // 邮箱
+    }
 )
 
 @server(
@@ -39,5 +51,17 @@ service blog-api {
 
     @doc "修改用户信息"
     @handler UpdateUserInfo
-    post /user/update_user_info (UserInfoReq) returns (EmptyResp)
+    post /user/update_user_info (UpdateUserInfoReq) returns (EmptyResp)
+
+    @doc "修改用户信息"
+    @handler UpdateUserAvatar
+    post /user/update_user_avatar (UpdateUserAvatarReq) returns (EmptyResp)
+
+    @doc "修改用户邮箱"
+    @handler UpdateUserEmail
+    post /user/update_user_email (UpdateUserEmailReq) returns (EmptyResp)
+
+    @doc "发送绑定邮箱验证码"
+    @handler SendBindEmail
+    post /user/send_bind_email (SendBindEmailReq) returns (EmptyResp)
 }

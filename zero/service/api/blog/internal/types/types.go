@@ -322,6 +322,10 @@ type RestHeader struct {
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
+type SendBindEmailReq struct {
+	Email string `json:"email"` // 邮箱
+}
+
 type Tag struct {
 	Id           int64  `json:"id,optional"`            // 标签ID
 	TagName      string `json:"tag_name,optional"`      // 标签名
@@ -365,6 +369,21 @@ type UniqueViewDTO struct {
 	Count int64  `json:"count,optional"` // 数量
 }
 
+type UpdateUserAvatarReq struct {
+	Avatar string `json:"avatar,optional"` // 头像
+}
+
+type UpdateUserEmailReq struct {
+	Email string `json:"email"` // 邮箱
+	Code  string `json:"code"`  // 验证码
+}
+
+type UpdateUserInfoReq struct {
+	Nickname string `json:"nickname,optional"` // 昵称
+	Avatar   string `json:"avatar,optional"`   // 头像
+	UserInfoExt
+}
+
 type UploadFileReq struct {
 	Label    string      `form:"label,optional"`
 	File     interface{} `form:"file,optional"`      // 文件
@@ -393,12 +412,6 @@ type UserInfoExt struct {
 	Phone   string `json:"phone,optional"`   // 用户手机号
 	Intro   string `json:"intro,optional"`   // 简介
 	Website string `json:"website,optional"` // 网站
-}
-
-type UserInfoReq struct {
-	Nickname string `json:"nickname,optional"` // 昵称
-	Avatar   string `json:"avatar,optional"`   // 头像
-	UserInfoExt
 }
 
 type UserInfoResp struct {

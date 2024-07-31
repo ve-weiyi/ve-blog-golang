@@ -42,7 +42,7 @@ type AuthRpcClient interface {
 	// 登录
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 登出
-	Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error)
 	// 注销
 	Logoff(ctx context.Context, in *LogoffReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 注册
@@ -58,7 +58,7 @@ type AuthRpcClient interface {
 	// 获取第三方登录授权地址
 	GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error)
 	// 获取用户登录时间
-	GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*GetLogoutAtResp, error)
+	GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*LogoutResp, error)
 }
 
 type authRpcClient struct {
@@ -79,9 +79,9 @@ func (c *authRpcClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *authRpcClient) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *authRpcClient) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(EmptyResp)
+	out := new(LogoutResp)
 	err := c.cc.Invoke(ctx, AuthRpc_Logout_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -159,9 +159,9 @@ func (c *authRpcClient) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLogin
 	return out, nil
 }
 
-func (c *authRpcClient) GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*GetLogoutAtResp, error) {
+func (c *authRpcClient) GetLogoutAt(ctx context.Context, in *GetLogoutAtReq, opts ...grpc.CallOption) (*LogoutResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetLogoutAtResp)
+	out := new(LogoutResp)
 	err := c.cc.Invoke(ctx, AuthRpc_GetLogoutAt_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -176,7 +176,7 @@ type AuthRpcServer interface {
 	// 登录
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 	// 登出
-	Logout(context.Context, *LogoutReq) (*EmptyResp, error)
+	Logout(context.Context, *LogoutReq) (*LogoutResp, error)
 	// 注销
 	Logoff(context.Context, *LogoffReq) (*EmptyResp, error)
 	// 注册
@@ -192,7 +192,7 @@ type AuthRpcServer interface {
 	// 获取第三方登录授权地址
 	GetOauthAuthorizeUrl(context.Context, *OauthLoginReq) (*OauthLoginUrlResp, error)
 	// 获取用户登录时间
-	GetLogoutAt(context.Context, *GetLogoutAtReq) (*GetLogoutAtResp, error)
+	GetLogoutAt(context.Context, *GetLogoutAtReq) (*LogoutResp, error)
 	mustEmbedUnimplementedAuthRpcServer()
 }
 
@@ -203,7 +203,7 @@ type UnimplementedAuthRpcServer struct {
 func (UnimplementedAuthRpcServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedAuthRpcServer) Logout(context.Context, *LogoutReq) (*EmptyResp, error) {
+func (UnimplementedAuthRpcServer) Logout(context.Context, *LogoutReq) (*LogoutResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedAuthRpcServer) Logoff(context.Context, *LogoffReq) (*EmptyResp, error) {
@@ -227,7 +227,7 @@ func (UnimplementedAuthRpcServer) OauthLogin(context.Context, *OauthLoginReq) (*
 func (UnimplementedAuthRpcServer) GetOauthAuthorizeUrl(context.Context, *OauthLoginReq) (*OauthLoginUrlResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOauthAuthorizeUrl not implemented")
 }
-func (UnimplementedAuthRpcServer) GetLogoutAt(context.Context, *GetLogoutAtReq) (*GetLogoutAtResp, error) {
+func (UnimplementedAuthRpcServer) GetLogoutAt(context.Context, *GetLogoutAtReq) (*LogoutResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLogoutAt not implemented")
 }
 func (UnimplementedAuthRpcServer) mustEmbedUnimplementedAuthRpcServer() {}

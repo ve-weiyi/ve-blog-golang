@@ -2,9 +2,11 @@ package auth
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -29,14 +31,19 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
+	uid := l.ctx.Value("uid").(string)
+
 	in := &blog.LogoutReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToInt64(uid),
 	}
 
-	_, err = l.svcCtx.AuthRpc.Logout(l.ctx, in)
+	out, err := l.svcCtx.AuthRpc.Logout(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
+
+	redisKey := rediskey.GetUserLogoutKey(uid)
+	_ = l.svcCtx.Redis.SetexCtx(l.ctx, redisKey, fmt.Sprintf("%d", out.LogoutAt), 7*24*60*60)
 
 	return &types.EmptyResp{}, nil
 }
