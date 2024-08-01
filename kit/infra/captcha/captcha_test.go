@@ -14,7 +14,7 @@ import (
 
 func TestRedisStore_RandCode(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		code := NewCaptchaHolder().GetCodeCaptcha("key")
+		code, _ := NewCaptchaHolder().GetCodeCaptcha("key")
 		t.Log(code)
 	}
 }

@@ -19,6 +19,7 @@ type (
 	Article                  = blog.Article
 	ArticlePageResp          = blog.ArticlePageResp
 	BatchResp                = blog.BatchResp
+	BindUserEmailReq         = blog.BindUserEmailReq
 	Category                 = blog.Category
 	CategoryPageResp         = blog.CategoryPageResp
 	ChatRecord               = blog.ChatRecord
@@ -34,6 +35,9 @@ type (
 	FindCategoryByNameReq    = blog.FindCategoryByNameReq
 	FindConfigReq            = blog.FindConfigReq
 	FindConfigResp           = blog.FindConfigResp
+	FindLikeArticleResp      = blog.FindLikeArticleResp
+	FindLikeCommentResp      = blog.FindLikeCommentResp
+	FindLikeTalkResp         = blog.FindLikeTalkResp
 	FindTagArticleCountReq   = blog.FindTagArticleCountReq
 	FindTagByNameReq         = blog.FindTagByNameReq
 	FriendLink               = blog.FriendLink
@@ -66,6 +70,7 @@ type (
 	PhotoAlbum               = blog.PhotoAlbum
 	PhotoAlbumPageResp       = blog.PhotoAlbumPageResp
 	PhotoPageResp            = blog.PhotoPageResp
+	RegisterReq              = blog.RegisterReq
 	Remark                   = blog.Remark
 	RemarkPageResp           = blog.RemarkPageResp
 	ResetPasswordReq         = blog.ResetPasswordReq
@@ -89,11 +94,11 @@ type (
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
 	UploadRecordReq          = blog.UploadRecordReq
 	UploadRecordResp         = blog.UploadRecordResp
-	User                     = blog.User
+	UserDetails              = blog.UserDetails
 	UserEmailReq             = blog.UserEmailReq
+	UserIdReq                = blog.UserIdReq
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
-	UserReq                  = blog.UserReq
 	UserVisit                = blog.UserVisit
 	UserVisitPageRsp         = blog.UserVisitPageRsp
 
@@ -105,13 +110,13 @@ type (
 		// 查找用户列表
 		FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*UserPageResp, error)
 		// 获取用户接口权限
-		FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
+		FindUserApis(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 		// 获取用户菜单权限
-		FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
+		FindUserMenus(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*MenuPageResp, error)
 		// 获取用户角色信息
-		FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
+		FindUserRoles(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*RolePageResp, error)
 		// 获取用户信息
-		FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户信息
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户状态
@@ -150,25 +155,25 @@ func (m *defaultUserRpc) FindUserList(ctx context.Context, in *PageQuery, opts .
 }
 
 // 获取用户接口权限
-func (m *defaultUserRpc) FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
+func (m *defaultUserRpc) FindUserApis(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
 	return client.FindUserApis(ctx, in, opts...)
 }
 
 // 获取用户菜单权限
-func (m *defaultUserRpc) FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
+func (m *defaultUserRpc) FindUserMenus(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
 	return client.FindUserMenus(ctx, in, opts...)
 }
 
 // 获取用户角色信息
-func (m *defaultUserRpc) FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
+func (m *defaultUserRpc) FindUserRoles(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*RolePageResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
 	return client.FindUserRoles(ctx, in, opts...)
 }
 
 // 获取用户信息
-func (m *defaultUserRpc) FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (m *defaultUserRpc) FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
 	return client.FindUserInfo(ctx, in, opts...)
 }

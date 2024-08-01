@@ -3,7 +3,6 @@ package authrpclogic
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"gorm.io/gorm"
 
@@ -84,7 +83,6 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		username = info.Mobile
 	}
 
-	now := time.Now()
 	// 用户账号
 	userAccount := &model.UserAccount{
 		Username:  username,
@@ -96,8 +94,6 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		LoginType: platform,
 		IpAddress: "",
 		IpSource:  "",
-		LoginAt:   now,
-		LogoutAt:  time.Unix(0, 0),
 	}
 
 	// 绑定用户第三方信息

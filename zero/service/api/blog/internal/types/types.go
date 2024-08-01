@@ -43,7 +43,7 @@ type ArticleHome struct {
 	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
 	ArticleTitle   string   `json:"article_title,optional"`   // 标题
 	ArticleContent string   `json:"article_content,optional"` // 内容
-	Type           int64    `json:"type,optional"`            // 文章类型
+	ArticleType    int64    `json:"article_type,optional"`    // 文章类型
 	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
 	IsTop          int64    `json:"is_top,optional"`          // 是否置顶
 	Status         int64    `json:"status,optional"`          // 状态值 1 公开 2 私密 3 评论可见
@@ -75,6 +75,11 @@ type ArticleViewRankDTO struct {
 
 type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
+}
+
+type BindUserEmailReq struct {
+	Email      string `json:"email"`       // 邮箱
+	VerifyCode string `json:"verify_code"` // 验证码
 }
 
 type BlogHomeInfo struct {
@@ -118,20 +123,20 @@ type ChatSocketMsg struct {
 }
 
 type Comment struct {
-	Id               int64           `json:"id,optional"`                 // 评论id
-	TopicId          int64           `json:"topic_id,optional"`           // 主题id
-	ParentId         int64           `json:"parent_id,optional"`          // 父评论id
-	SessionId        int64           `json:"session_id,optional"`         // 会话id
-	UserId           int64           `json:"user_id,optional"`            // 用户id
-	ReplyUserId      int64           `json:"reply_user_id,optional"`      // 被回复用户id
-	CommentContent   string          `json:"comment_content,optional"`    // 评论内容
-	Type             int64           `json:"type,optional"`               // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt        int64           `json:"created_at,optional"`         // 评论时间
-	LikeCount        int64           `json:"like_count,optional"`         // 点赞数
-	User             CommentUserInfo `json:"user"`                        // 评论用户
-	ReplyUser        CommentUserInfo `json:"reply_user"`                  // 被回复评论用户
-	ReplyCount       int64           `json:"reply_count,optional"`        // 回复量
-	CommentReplyList []*CommentReply `json:"comment_reply_list,optional"` // 评论回复列表
+	Id               int64            `json:"id,optional"`                 // 评论id
+	TopicId          int64            `json:"topic_id,optional"`           // 主题id
+	ParentId         int64            `json:"parent_id,optional"`          // 父评论id
+	SessionId        int64            `json:"session_id,optional"`         // 会话id
+	UserId           int64            `json:"user_id,optional"`            // 用户id
+	ReplyUserId      int64            `json:"reply_user_id,optional"`      // 被回复用户id
+	CommentContent   string           `json:"comment_content,optional"`    // 评论内容
+	Type             int64            `json:"type,optional"`               // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt        int64            `json:"created_at,optional"`         // 评论时间
+	LikeCount        int64            `json:"like_count,optional"`         // 点赞数
+	User             *CommentUserInfo `json:"user"`                        // 评论用户
+	ReplyUser        *CommentUserInfo `json:"reply_user"`                  // 被回复评论用户
+	ReplyCount       int64            `json:"reply_count,optional"`        // 回复量
+	CommentReplyList []*CommentReply  `json:"comment_reply_list,optional"` // 评论回复列表
 }
 
 type CommentNewReq struct {
@@ -153,18 +158,18 @@ type CommentQueryReq struct {
 }
 
 type CommentReply struct {
-	Id             int64           `json:"id,optional"`              // 评论id
-	TopicId        int64           `json:"topic_id,optional"`        // 主题id
-	ParentId       int64           `json:"parent_id,optional"`       // 父评论id
-	SessionId      int64           `json:"session_id,optional"`      // 会话id
-	UserId         int64           `json:"user_id,optional"`         // 用户id
-	ReplyUserId    int64           `json:"reply_user_id,optional"`   // 被回复用户id
-	CommentContent string          `json:"comment_content,optional"` // 评论内容
-	Type           int64           `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt      int64           `json:"created_at,optional"`      // 评论时间
-	LikeCount      int64           `json:"like_count,optional"`      // 点赞数
-	User           CommentUserInfo `json:"user"`                     // 评论用户
-	ReplyUser      CommentUserInfo `json:"reply_user"`               // 被回复评论用户
+	Id             int64            `json:"id,optional"`              // 评论id
+	TopicId        int64            `json:"topic_id,optional"`        // 主题id
+	ParentId       int64            `json:"parent_id,optional"`       // 父评论id
+	SessionId      int64            `json:"session_id,optional"`      // 会话id
+	UserId         int64            `json:"user_id,optional"`         // 用户id
+	ReplyUserId    int64            `json:"reply_user_id,optional"`   // 被回复用户id
+	CommentContent string           `json:"comment_content,optional"` // 评论内容
+	Type           int64            `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt      int64            `json:"created_at,optional"`      // 评论时间
+	LikeCount      int64            `json:"like_count,optional"`      // 点赞数
+	User           *CommentUserInfo `json:"user"`                     // 评论用户
+	ReplyUser      *CommentUserInfo `json:"reply_user"`               // 被回复评论用户
 }
 
 type CommentUserInfo struct {
@@ -199,9 +204,9 @@ type IdsReq struct {
 }
 
 type LoginReq struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Code     string `json:"code,optional"`
+	Username   string `json:"username"`
+	Password   string `json:"password"`
+	VerifyCode string `json:"verify_code,optional"` // 验证码
 }
 
 type LoginResp struct {
@@ -286,6 +291,12 @@ type PingResp struct {
 	RpcStatus   []string `json:"rpc_status"`
 }
 
+type RegisterReq struct {
+	Username   string `json:"username"`
+	Password   string `json:"password"`
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type Remark struct {
 	Id             int64  `json:"id,optional"`              // 主键id
 	Nickname       string `json:"nickname,optional"`        // 昵称
@@ -300,9 +311,9 @@ type Remark struct {
 }
 
 type ResetPasswordReq struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Code     string `json:"code,optional"`
+	Username   string `json:"username"`
+	Password   string `json:"password"`
+	VerifyCode string `json:"verify_code"` // 验证码
 }
 
 type Response struct {
@@ -320,10 +331,6 @@ type RestHeader struct {
 	HeaderXUserId    string `header:"X-User-Id,optional"`
 	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
-}
-
-type SendBindEmailReq struct {
-	Email string `json:"email"` // 邮箱
 }
 
 type Tag struct {
@@ -373,11 +380,6 @@ type UpdateUserAvatarReq struct {
 	Avatar string `json:"avatar,optional"` // 头像
 }
 
-type UpdateUserEmailReq struct {
-	Email string `json:"email"` // 邮箱
-	Code  string `json:"code"`  // 验证码
-}
-
 type UpdateUserInfoReq struct {
 	Nickname string `json:"nickname,optional"` // 昵称
 	Avatar   string `json:"avatar,optional"`   // 头像
@@ -408,8 +410,6 @@ type UserEmailReq struct {
 }
 
 type UserInfoExt struct {
-	Email   string `json:"email,optional"`   // 用户邮箱
-	Phone   string `json:"phone,optional"`   // 用户手机号
 	Intro   string `json:"intro,optional"`   // 简介
 	Website string `json:"website,optional"` // 网站
 }
@@ -419,7 +419,15 @@ type UserInfoResp struct {
 	Username string `json:"username"`          // 用户名
 	Nickname string `json:"nickname,optional"` // 用户昵称
 	Avatar   string `json:"avatar,optional"`   // 用户头像
+	Email    string `json:"email,optional"`    // 用户邮箱
+	Phone    string `json:"phone,optional"`    // 用户手机号
 	UserInfoExt
+}
+
+type UserLikeResp struct {
+	ArticleLikeSet []int64 `json:"article_like_set"`
+	CommentLikeSet []int64 `json:"comment_like_set"`
+	TalkLikeSet    []int64 `json:"talk_like_set"`
 }
 
 type WebsiteConfig struct {

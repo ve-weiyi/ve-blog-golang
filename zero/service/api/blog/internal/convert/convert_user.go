@@ -13,6 +13,8 @@ func ConvertUserInfoTypes(in *blog.UserInfoResp) (out *types.UserInfoResp) {
 		Username:    in.Username,
 		Nickname:    in.Nickname,
 		Avatar:      in.Avatar,
+		Email:       in.Email,
+		Phone:       in.Phone,
 		UserInfoExt: types.UserInfoExt{},
 	}
 

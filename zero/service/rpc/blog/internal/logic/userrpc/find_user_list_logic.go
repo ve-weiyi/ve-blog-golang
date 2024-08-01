@@ -64,7 +64,7 @@ func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp
 		return nil, err
 	}
 
-	var list []*blog.User
+	var list []*blog.UserDetails
 	for _, item := range result {
 
 		var roles []*model.Role

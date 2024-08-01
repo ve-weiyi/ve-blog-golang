@@ -151,7 +151,7 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *dto.UserEm
 
 	// 验证code是否正确
 	key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
-	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: req.Username,
 		Code:     code,

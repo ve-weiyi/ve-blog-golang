@@ -29,7 +29,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
-	in := &blog.UserReq{
+	in := &blog.UserIdReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 

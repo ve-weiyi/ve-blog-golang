@@ -25,7 +25,7 @@ func NewFindUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 获取用户接口权限
-func (l *FindUserApisLogic) FindUserApis(in *blog.UserReq) (*blog.ApiPageResp, error) {
+func (l *FindUserApisLogic) FindUserApis(in *blog.UserIdReq) (*blog.ApiPageResp, error) {
 	uid := in.UserId
 
 	// 查用户
@@ -40,7 +40,7 @@ func (l *FindUserApisLogic) FindUserApis(in *blog.UserReq) (*blog.ApiPageResp, e
 		return nil, err
 	}
 
-	var ids []int64
+	ids := make([]int64, 0)
 	for _, v := range urs {
 		ids = append(ids, v.RoleId)
 	}

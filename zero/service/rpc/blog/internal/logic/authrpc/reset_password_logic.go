@@ -2,8 +2,10 @@ package authrpclogic
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -37,6 +39,12 @@ func (l *ResetPasswordLogic) ResetPassword(in *blog.ResetPasswordReq) (*blog.Emp
 	account, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
 		return nil, apierr.ErrorUserNotExist
+	}
+
+	// 验证code是否正确
+	key := fmt.Sprintf("%s:%s", constant.ResetPwd, in.Username)
+	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
+		return nil, apierr.ErrorCaptchaVerify
 	}
 
 	// 更新密码

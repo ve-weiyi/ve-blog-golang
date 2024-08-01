@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-// 发送绑定邮箱验证码
-func SendBindEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 获取用户点赞列表
+func GetUserLikeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.SendBindEmailReq
+		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := user.NewSendBindEmailLogic(r.Context(), svcCtx)
-		resp, err := l.SendBindEmail(&req)
+		l := user.NewGetUserLikeLogic(r.Context(), svcCtx)
+		resp, err := l.GetUserLike(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

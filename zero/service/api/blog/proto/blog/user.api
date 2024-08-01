@@ -4,8 +4,6 @@ import "base.api"
 
 type (
     UserInfoExt {
-        Email string `json:"email,optional"`         // 用户邮箱
-        Phone string `json:"phone,optional"`         // 用户手机号
         Intro string `json:"intro,optional"`         // 简介
         Website string `json:"website,optional"`     // 网站
     }
@@ -20,22 +18,22 @@ type (
         Avatar string `json:"avatar,optional"`     // 头像
     }
 
-    UpdateUserEmailReq {
-        Email string `json:"email"`                // 邮箱
-        Code string `json:"code"`                  // 验证码
-    }
-
     UserInfoResp {
         UserId int64 `json:"user_id,optional"`          // 用户id
         Username string `json:"username"`               // 用户名
         Nickname string `json:"nickname,optional"`      // 用户昵称
         Avatar string `json:"avatar,optional"`          // 用户头像
+        Email string `json:"email,optional"`         // 用户邮箱
+        Phone string `json:"phone,optional"`         // 用户手机号
         UserInfoExt
     }
 
-    SendBindEmailReq {
-        Email string `json:"email"`                // 邮箱
+    UserLikeResp{
+        ArticleLikeSet []int64 `json:"article_like_set"`
+        CommentLikeSet []int64 `json:"comment_like_set"`
+        TalkLikeSet []int64 `json:"talk_like_set"`
     }
+
 )
 
 @server(
@@ -45,23 +43,20 @@ type (
 )
 
 service blog-api {
-    @doc "获取用户信息"
-    @handler GetUserInfo
-    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
 
     @doc "修改用户信息"
     @handler UpdateUserInfo
     post /user/update_user_info (UpdateUserInfoReq) returns (EmptyResp)
 
-    @doc "修改用户信息"
+    @doc "修改用户头像"
     @handler UpdateUserAvatar
     post /user/update_user_avatar (UpdateUserAvatarReq) returns (EmptyResp)
 
-    @doc "修改用户邮箱"
-    @handler UpdateUserEmail
-    post /user/update_user_email (UpdateUserEmailReq) returns (EmptyResp)
+    @doc "获取用户信息"
+    @handler GetUserInfo
+    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
 
-    @doc "发送绑定邮箱验证码"
-    @handler SendBindEmail
-    post /user/send_bind_email (SendBindEmailReq) returns (EmptyResp)
+    @doc "获取用户点赞列表"
+    @handler GetUserLike
+    get /user/get_user_like (EmptyReq) returns (UserLikeResp)
 }

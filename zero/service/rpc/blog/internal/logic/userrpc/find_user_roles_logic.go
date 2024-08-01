@@ -25,7 +25,7 @@ func NewFindUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 // 获取用户角色信息
-func (l *FindUserRolesLogic) FindUserRoles(in *blog.UserReq) (*blog.RolePageResp, error) {
+func (l *FindUserRolesLogic) FindUserRoles(in *blog.UserIdReq) (*blog.RolePageResp, error) {
 	uid := in.UserId
 
 	// 查用户
@@ -40,7 +40,7 @@ func (l *FindUserRolesLogic) FindUserRoles(in *blog.UserReq) (*blog.RolePageResp
 		return nil, err
 	}
 
-	var ids []int64
+	ids := make([]int64, 0)
 	for _, v := range urs {
 		ids = append(ids, v.RoleId)
 	}

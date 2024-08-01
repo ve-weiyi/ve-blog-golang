@@ -30,7 +30,7 @@ func (s *ArticleRepository) FindArticleListByTagId(ctx context.Context, tagId in
 	}
 
 	// 获取文章id列表
-	var ids []int64
+	ids := make([]int64, 0)
 	for _, at := range ats {
 		ids = append(ids, at.ArticleId)
 	}

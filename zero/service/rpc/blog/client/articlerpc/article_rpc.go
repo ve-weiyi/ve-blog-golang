@@ -19,6 +19,7 @@ type (
 	Article                  = blog.Article
 	ArticlePageResp          = blog.ArticlePageResp
 	BatchResp                = blog.BatchResp
+	BindUserEmailReq         = blog.BindUserEmailReq
 	Category                 = blog.Category
 	CategoryPageResp         = blog.CategoryPageResp
 	ChatRecord               = blog.ChatRecord
@@ -34,6 +35,9 @@ type (
 	FindCategoryByNameReq    = blog.FindCategoryByNameReq
 	FindConfigReq            = blog.FindConfigReq
 	FindConfigResp           = blog.FindConfigResp
+	FindLikeArticleResp      = blog.FindLikeArticleResp
+	FindLikeCommentResp      = blog.FindLikeCommentResp
+	FindLikeTalkResp         = blog.FindLikeTalkResp
 	FindTagArticleCountReq   = blog.FindTagArticleCountReq
 	FindTagByNameReq         = blog.FindTagByNameReq
 	FriendLink               = blog.FriendLink
@@ -66,6 +70,7 @@ type (
 	PhotoAlbum               = blog.PhotoAlbum
 	PhotoAlbumPageResp       = blog.PhotoAlbumPageResp
 	PhotoPageResp            = blog.PhotoPageResp
+	RegisterReq              = blog.RegisterReq
 	Remark                   = blog.Remark
 	RemarkPageResp           = blog.RemarkPageResp
 	ResetPasswordReq         = blog.ResetPasswordReq
@@ -89,11 +94,11 @@ type (
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
 	UploadRecordReq          = blog.UploadRecordReq
 	UploadRecordResp         = blog.UploadRecordResp
-	User                     = blog.User
+	UserDetails              = blog.UserDetails
 	UserEmailReq             = blog.UserEmailReq
+	UserIdReq                = blog.UserIdReq
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
-	UserReq                  = blog.UserReq
 	UserVisit                = blog.UserVisit
 	UserVisitPageRsp         = blog.UserVisitPageRsp
 
@@ -116,6 +121,10 @@ type (
 		FindArticleByTag(ctx context.Context, in *FindArticleByTagReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
 		// 查询文章列表
 		FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
+		// 点赞文章
+		LikeArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 用户点赞的文章
+		FindUserLikeArticle(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeArticleResp, error)
 	}
 
 	defaultArticleRpc struct {
@@ -181,4 +190,16 @@ func (m *defaultArticleRpc) FindArticleByTag(ctx context.Context, in *FindArticl
 func (m *defaultArticleRpc) FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error) {
 	client := blog.NewArticleRpcClient(m.cli.Conn())
 	return client.FindArticleByCategory(ctx, in, opts...)
+}
+
+// 点赞文章
+func (m *defaultArticleRpc) LikeArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := blog.NewArticleRpcClient(m.cli.Conn())
+	return client.LikeArticle(ctx, in, opts...)
+}
+
+// 用户点赞的文章
+func (m *defaultArticleRpc) FindUserLikeArticle(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeArticleResp, error) {
+	client := blog.NewArticleRpcClient(m.cli.Conn())
+	return client.FindUserLikeArticle(ctx, in, opts...)
 }

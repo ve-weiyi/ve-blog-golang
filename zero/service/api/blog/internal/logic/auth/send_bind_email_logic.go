@@ -1,10 +1,11 @@
-package user
+package auth
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,15 @@ func NewSendBindEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Sen
 	}
 }
 
-func (l *SendBindEmailLogic) SendBindEmail(req *types.SendBindEmailReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *SendBindEmailLogic) SendBindEmail(req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
+	in := &blog.UserEmailReq{
+		Username: req.Username,
+	}
 
-	return
+	_, err = l.svcCtx.AuthRpc.SendBindEmail(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.EmptyResp{}, nil
 }

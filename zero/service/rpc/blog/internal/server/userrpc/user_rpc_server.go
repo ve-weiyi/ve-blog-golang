@@ -41,25 +41,25 @@ func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.PageQuery) (*
 }
 
 // 获取用户接口权限
-func (s *UserRpcServer) FindUserApis(ctx context.Context, in *blog.UserReq) (*blog.ApiPageResp, error) {
+func (s *UserRpcServer) FindUserApis(ctx context.Context, in *blog.UserIdReq) (*blog.ApiPageResp, error) {
 	l := userrpclogic.NewFindUserApisLogic(ctx, s.svcCtx)
 	return l.FindUserApis(in)
 }
 
 // 获取用户菜单权限
-func (s *UserRpcServer) FindUserMenus(ctx context.Context, in *blog.UserReq) (*blog.MenuPageResp, error) {
+func (s *UserRpcServer) FindUserMenus(ctx context.Context, in *blog.UserIdReq) (*blog.MenuPageResp, error) {
 	l := userrpclogic.NewFindUserMenusLogic(ctx, s.svcCtx)
 	return l.FindUserMenus(in)
 }
 
 // 获取用户角色信息
-func (s *UserRpcServer) FindUserRoles(ctx context.Context, in *blog.UserReq) (*blog.RolePageResp, error) {
+func (s *UserRpcServer) FindUserRoles(ctx context.Context, in *blog.UserIdReq) (*blog.RolePageResp, error) {
 	l := userrpclogic.NewFindUserRolesLogic(ctx, s.svcCtx)
 	return l.FindUserRoles(in)
 }
 
 // 获取用户信息
-func (s *UserRpcServer) FindUserInfo(ctx context.Context, in *blog.UserReq) (*blog.UserInfoResp, error) {
+func (s *UserRpcServer) FindUserInfo(ctx context.Context, in *blog.UserIdReq) (*blog.UserInfoResp, error) {
 	l := userrpclogic.NewFindUserInfoLogic(ctx, s.svcCtx)
 	return l.FindUserInfo(in)
 }

@@ -28,7 +28,7 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
-	in := &blog.UserReq{
+	in := &blog.UserIdReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 

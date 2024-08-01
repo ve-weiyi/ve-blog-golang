@@ -69,3 +69,9 @@ func (s *CommentRpcServer) LikeComment(ctx context.Context, in *blog.IdReq) (*bl
 	l := commentrpclogic.NewLikeCommentLogic(ctx, s.svcCtx)
 	return l.LikeComment(in)
 }
+
+// 用户点赞的评论
+func (s *CommentRpcServer) FindUserLikeComment(ctx context.Context, in *blog.UserIdReq) (*blog.FindLikeCommentResp, error) {
+	l := commentrpclogic.NewFindUserLikeCommentLogic(ctx, s.svcCtx)
+	return l.FindUserLikeComment(in)
+}

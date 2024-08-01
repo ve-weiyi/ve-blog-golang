@@ -19,6 +19,7 @@ type (
 	Article                  = blog.Article
 	ArticlePageResp          = blog.ArticlePageResp
 	BatchResp                = blog.BatchResp
+	BindUserEmailReq         = blog.BindUserEmailReq
 	Category                 = blog.Category
 	CategoryPageResp         = blog.CategoryPageResp
 	ChatRecord               = blog.ChatRecord
@@ -34,6 +35,9 @@ type (
 	FindCategoryByNameReq    = blog.FindCategoryByNameReq
 	FindConfigReq            = blog.FindConfigReq
 	FindConfigResp           = blog.FindConfigResp
+	FindLikeArticleResp      = blog.FindLikeArticleResp
+	FindLikeCommentResp      = blog.FindLikeCommentResp
+	FindLikeTalkResp         = blog.FindLikeTalkResp
 	FindTagArticleCountReq   = blog.FindTagArticleCountReq
 	FindTagByNameReq         = blog.FindTagByNameReq
 	FriendLink               = blog.FriendLink
@@ -66,6 +70,7 @@ type (
 	PhotoAlbum               = blog.PhotoAlbum
 	PhotoAlbumPageResp       = blog.PhotoAlbumPageResp
 	PhotoPageResp            = blog.PhotoPageResp
+	RegisterReq              = blog.RegisterReq
 	Remark                   = blog.Remark
 	RemarkPageResp           = blog.RemarkPageResp
 	ResetPasswordReq         = blog.ResetPasswordReq
@@ -89,11 +94,11 @@ type (
 	UpdateUserStatusReq      = blog.UpdateUserStatusReq
 	UploadRecordReq          = blog.UploadRecordReq
 	UploadRecordResp         = blog.UploadRecordResp
-	User                     = blog.User
+	UserDetails              = blog.UserDetails
 	UserEmailReq             = blog.UserEmailReq
+	UserIdReq                = blog.UserIdReq
 	UserInfoResp             = blog.UserInfoResp
 	UserPageResp             = blog.UserPageResp
-	UserReq                  = blog.UserReq
 	UserVisit                = blog.UserVisit
 	UserVisitPageRsp         = blog.UserVisitPageRsp
 
@@ -114,6 +119,8 @@ type (
 		FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 		// 点赞评论
 		LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 用户点赞的评论
+		FindUserLikeComment(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error)
 	}
 
 	defaultCommentRpc struct {
@@ -173,4 +180,10 @@ func (m *defaultCommentRpc) FindCommentCount(ctx context.Context, in *PageQuery,
 func (m *defaultCommentRpc) LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := blog.NewCommentRpcClient(m.cli.Conn())
 	return client.LikeComment(ctx, in, opts...)
+}
+
+// 用户点赞的评论
+func (m *defaultCommentRpc) FindUserLikeComment(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error) {
+	client := blog.NewCommentRpcClient(m.cli.Conn())
+	return client.FindUserLikeComment(ctx, in, opts...)
 }

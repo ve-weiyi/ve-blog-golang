@@ -41,7 +41,7 @@ func (s *AuthRpcServer) Logoff(ctx context.Context, in *blog.LogoffReq) (*blog.E
 }
 
 // 注册
-func (s *AuthRpcServer) Register(ctx context.Context, in *blog.LoginReq) (*blog.UserInfoResp, error) {
+func (s *AuthRpcServer) Register(ctx context.Context, in *blog.RegisterReq) (*blog.LoginResp, error) {
 	l := authrpclogic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
@@ -50,6 +50,12 @@ func (s *AuthRpcServer) Register(ctx context.Context, in *blog.LoginReq) (*blog.
 func (s *AuthRpcServer) ResetPassword(ctx context.Context, in *blog.ResetPasswordReq) (*blog.EmptyResp, error) {
 	l := authrpclogic.NewResetPasswordLogic(ctx, s.svcCtx)
 	return l.ResetPassword(in)
+}
+
+// 修改用户邮箱
+func (s *AuthRpcServer) BindUserEmail(ctx context.Context, in *blog.BindUserEmailReq) (*blog.EmptyResp, error) {
+	l := authrpclogic.NewBindUserEmailLogic(ctx, s.svcCtx)
+	return l.BindUserEmail(in)
 }
 
 // 发送注册邮件
@@ -62,6 +68,12 @@ func (s *AuthRpcServer) SendRegisterEmail(ctx context.Context, in *blog.UserEmai
 func (s *AuthRpcServer) SendResetPasswordEmail(ctx context.Context, in *blog.UserEmailReq) (*blog.EmptyResp, error) {
 	l := authrpclogic.NewSendResetPasswordEmailLogic(ctx, s.svcCtx)
 	return l.SendResetPasswordEmail(in)
+}
+
+// 发送绑定邮箱邮件
+func (s *AuthRpcServer) SendBindEmail(ctx context.Context, in *blog.UserEmailReq) (*blog.EmptyResp, error) {
+	l := authrpclogic.NewSendBindEmailLogic(ctx, s.svcCtx)
+	return l.SendBindEmail(in)
 }
 
 // 第三方登录

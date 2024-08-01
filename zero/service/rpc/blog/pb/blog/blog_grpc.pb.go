@@ -28,8 +28,10 @@ const (
 	AuthRpc_Logoff_FullMethodName                 = "/blog.AuthRpc/Logoff"
 	AuthRpc_Register_FullMethodName               = "/blog.AuthRpc/Register"
 	AuthRpc_ResetPassword_FullMethodName          = "/blog.AuthRpc/ResetPassword"
+	AuthRpc_BindUserEmail_FullMethodName          = "/blog.AuthRpc/BindUserEmail"
 	AuthRpc_SendRegisterEmail_FullMethodName      = "/blog.AuthRpc/SendRegisterEmail"
 	AuthRpc_SendResetPasswordEmail_FullMethodName = "/blog.AuthRpc/SendResetPasswordEmail"
+	AuthRpc_SendBindEmail_FullMethodName          = "/blog.AuthRpc/SendBindEmail"
 	AuthRpc_OauthLogin_FullMethodName             = "/blog.AuthRpc/OauthLogin"
 	AuthRpc_GetOauthAuthorizeUrl_FullMethodName   = "/blog.AuthRpc/GetOauthAuthorizeUrl"
 	AuthRpc_GetLogoutAt_FullMethodName            = "/blog.AuthRpc/GetLogoutAt"
@@ -46,13 +48,17 @@ type AuthRpcClient interface {
 	// 注销
 	Logoff(ctx context.Context, in *LogoffReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 注册
-	Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 重置密码
 	ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 修改用户邮箱
+	BindUserEmail(ctx context.Context, in *BindUserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 发送注册邮件
 	SendRegisterEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 发送重置密码邮件
 	SendResetPasswordEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 发送绑定邮箱邮件
+	SendBindEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 第三方登录
 	OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 获取第三方登录授权地址
@@ -99,9 +105,9 @@ func (c *authRpcClient) Logoff(ctx context.Context, in *LogoffReq, opts ...grpc.
 	return out, nil
 }
 
-func (c *authRpcClient) Register(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (c *authRpcClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserInfoResp)
+	out := new(LoginResp)
 	err := c.cc.Invoke(ctx, AuthRpc_Register_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -113,6 +119,16 @@ func (c *authRpcClient) ResetPassword(ctx context.Context, in *ResetPasswordReq,
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AuthRpc_ResetPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authRpcClient) BindUserEmail(ctx context.Context, in *BindUserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, AuthRpc_BindUserEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -133,6 +149,16 @@ func (c *authRpcClient) SendResetPasswordEmail(ctx context.Context, in *UserEmai
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AuthRpc_SendResetPasswordEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authRpcClient) SendBindEmail(ctx context.Context, in *UserEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, AuthRpc_SendBindEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -180,13 +206,17 @@ type AuthRpcServer interface {
 	// 注销
 	Logoff(context.Context, *LogoffReq) (*EmptyResp, error)
 	// 注册
-	Register(context.Context, *LoginReq) (*UserInfoResp, error)
+	Register(context.Context, *RegisterReq) (*LoginResp, error)
 	// 重置密码
 	ResetPassword(context.Context, *ResetPasswordReq) (*EmptyResp, error)
+	// 修改用户邮箱
+	BindUserEmail(context.Context, *BindUserEmailReq) (*EmptyResp, error)
 	// 发送注册邮件
 	SendRegisterEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
 	// 发送重置密码邮件
 	SendResetPasswordEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
+	// 发送绑定邮箱邮件
+	SendBindEmail(context.Context, *UserEmailReq) (*EmptyResp, error)
 	// 第三方登录
 	OauthLogin(context.Context, *OauthLoginReq) (*LoginResp, error)
 	// 获取第三方登录授权地址
@@ -209,17 +239,23 @@ func (UnimplementedAuthRpcServer) Logout(context.Context, *LogoutReq) (*LogoutRe
 func (UnimplementedAuthRpcServer) Logoff(context.Context, *LogoffReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logoff not implemented")
 }
-func (UnimplementedAuthRpcServer) Register(context.Context, *LoginReq) (*UserInfoResp, error) {
+func (UnimplementedAuthRpcServer) Register(context.Context, *RegisterReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
 func (UnimplementedAuthRpcServer) ResetPassword(context.Context, *ResetPasswordReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedAuthRpcServer) BindUserEmail(context.Context, *BindUserEmailReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindUserEmail not implemented")
 }
 func (UnimplementedAuthRpcServer) SendRegisterEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendRegisterEmail not implemented")
 }
 func (UnimplementedAuthRpcServer) SendResetPasswordEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendResetPasswordEmail not implemented")
+}
+func (UnimplementedAuthRpcServer) SendBindEmail(context.Context, *UserEmailReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendBindEmail not implemented")
 }
 func (UnimplementedAuthRpcServer) OauthLogin(context.Context, *OauthLoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OauthLogin not implemented")
@@ -298,7 +334,7 @@ func _AuthRpc_Logoff_Handler(srv interface{}, ctx context.Context, dec func(inte
 }
 
 func _AuthRpc_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginReq)
+	in := new(RegisterReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -310,7 +346,7 @@ func _AuthRpc_Register_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: AuthRpc_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthRpcServer).Register(ctx, req.(*LoginReq))
+		return srv.(AuthRpcServer).Register(ctx, req.(*RegisterReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -329,6 +365,24 @@ func _AuthRpc_ResetPassword_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthRpcServer).ResetPassword(ctx, req.(*ResetPasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthRpc_BindUserEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindUserEmailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthRpcServer).BindUserEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthRpc_BindUserEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthRpcServer).BindUserEmail(ctx, req.(*BindUserEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -365,6 +419,24 @@ func _AuthRpc_SendResetPasswordEmail_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthRpcServer).SendResetPasswordEmail(ctx, req.(*UserEmailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthRpc_SendBindEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserEmailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthRpcServer).SendBindEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthRpc_SendBindEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthRpcServer).SendBindEmail(ctx, req.(*UserEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -451,12 +523,20 @@ var AuthRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AuthRpc_ResetPassword_Handler,
 		},
 		{
+			MethodName: "BindUserEmail",
+			Handler:    _AuthRpc_BindUserEmail_Handler,
+		},
+		{
 			MethodName: "SendRegisterEmail",
 			Handler:    _AuthRpc_SendRegisterEmail_Handler,
 		},
 		{
 			MethodName: "SendResetPasswordEmail",
 			Handler:    _AuthRpc_SendResetPasswordEmail_Handler,
+		},
+		{
+			MethodName: "SendBindEmail",
+			Handler:    _AuthRpc_SendBindEmail_Handler,
 		},
 		{
 			MethodName: "OauthLogin",
@@ -1658,13 +1738,13 @@ type UserRpcClient interface {
 	// 查找用户列表
 	FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*UserPageResp, error)
 	// 获取用户接口权限
-	FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error)
+	FindUserApis(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*ApiPageResp, error)
 	// 获取用户菜单权限
-	FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error)
+	FindUserMenus(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*MenuPageResp, error)
 	// 获取用户角色信息
-	FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error)
+	FindUserRoles(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*RolePageResp, error)
 	// 获取用户信息
-	FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户状态
@@ -1711,7 +1791,7 @@ func (c *userRpcClient) FindUserList(ctx context.Context, in *PageQuery, opts ..
 	return out, nil
 }
 
-func (c *userRpcClient) FindUserApis(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
+func (c *userRpcClient) FindUserApis(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ApiPageResp)
 	err := c.cc.Invoke(ctx, UserRpc_FindUserApis_FullMethodName, in, out, cOpts...)
@@ -1721,7 +1801,7 @@ func (c *userRpcClient) FindUserApis(ctx context.Context, in *UserReq, opts ...g
 	return out, nil
 }
 
-func (c *userRpcClient) FindUserMenus(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
+func (c *userRpcClient) FindUserMenus(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MenuPageResp)
 	err := c.cc.Invoke(ctx, UserRpc_FindUserMenus_FullMethodName, in, out, cOpts...)
@@ -1731,7 +1811,7 @@ func (c *userRpcClient) FindUserMenus(ctx context.Context, in *UserReq, opts ...
 	return out, nil
 }
 
-func (c *userRpcClient) FindUserRoles(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*RolePageResp, error) {
+func (c *userRpcClient) FindUserRoles(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*RolePageResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RolePageResp)
 	err := c.cc.Invoke(ctx, UserRpc_FindUserRoles_FullMethodName, in, out, cOpts...)
@@ -1741,7 +1821,7 @@ func (c *userRpcClient) FindUserRoles(ctx context.Context, in *UserReq, opts ...
 	return out, nil
 }
 
-func (c *userRpcClient) FindUserInfo(ctx context.Context, in *UserReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+func (c *userRpcClient) FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UserInfoResp)
 	err := c.cc.Invoke(ctx, UserRpc_FindUserInfo_FullMethodName, in, out, cOpts...)
@@ -1792,13 +1872,13 @@ type UserRpcServer interface {
 	// 查找用户列表
 	FindUserList(context.Context, *PageQuery) (*UserPageResp, error)
 	// 获取用户接口权限
-	FindUserApis(context.Context, *UserReq) (*ApiPageResp, error)
+	FindUserApis(context.Context, *UserIdReq) (*ApiPageResp, error)
 	// 获取用户菜单权限
-	FindUserMenus(context.Context, *UserReq) (*MenuPageResp, error)
+	FindUserMenus(context.Context, *UserIdReq) (*MenuPageResp, error)
 	// 获取用户角色信息
-	FindUserRoles(context.Context, *UserReq) (*RolePageResp, error)
+	FindUserRoles(context.Context, *UserIdReq) (*RolePageResp, error)
 	// 获取用户信息
-	FindUserInfo(context.Context, *UserReq) (*UserInfoResp, error)
+	FindUserInfo(context.Context, *UserIdReq) (*UserInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*EmptyResp, error)
 	// 修改用户状态
@@ -1821,16 +1901,16 @@ func (UnimplementedUserRpcServer) DeleteUserLoginHistoryList(context.Context, *I
 func (UnimplementedUserRpcServer) FindUserList(context.Context, *PageQuery) (*UserPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserList not implemented")
 }
-func (UnimplementedUserRpcServer) FindUserApis(context.Context, *UserReq) (*ApiPageResp, error) {
+func (UnimplementedUserRpcServer) FindUserApis(context.Context, *UserIdReq) (*ApiPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserApis not implemented")
 }
-func (UnimplementedUserRpcServer) FindUserMenus(context.Context, *UserReq) (*MenuPageResp, error) {
+func (UnimplementedUserRpcServer) FindUserMenus(context.Context, *UserIdReq) (*MenuPageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserMenus not implemented")
 }
-func (UnimplementedUserRpcServer) FindUserRoles(context.Context, *UserReq) (*RolePageResp, error) {
+func (UnimplementedUserRpcServer) FindUserRoles(context.Context, *UserIdReq) (*RolePageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserRoles not implemented")
 }
-func (UnimplementedUserRpcServer) FindUserInfo(context.Context, *UserReq) (*UserInfoResp, error) {
+func (UnimplementedUserRpcServer) FindUserInfo(context.Context, *UserIdReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserInfo not implemented")
 }
 func (UnimplementedUserRpcServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*EmptyResp, error) {
@@ -1910,7 +1990,7 @@ func _UserRpc_FindUserList_Handler(srv interface{}, ctx context.Context, dec fun
 }
 
 func _UserRpc_FindUserApis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserReq)
+	in := new(UserIdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1922,13 +2002,13 @@ func _UserRpc_FindUserApis_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: UserRpc_FindUserApis_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).FindUserApis(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserApis(ctx, req.(*UserIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_FindUserMenus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserReq)
+	in := new(UserIdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1940,13 +2020,13 @@ func _UserRpc_FindUserMenus_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: UserRpc_FindUserMenus_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).FindUserMenus(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserMenus(ctx, req.(*UserIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_FindUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserReq)
+	in := new(UserIdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1958,13 +2038,13 @@ func _UserRpc_FindUserRoles_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: UserRpc_FindUserRoles_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).FindUserRoles(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserRoles(ctx, req.(*UserIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _UserRpc_FindUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserReq)
+	in := new(UserIdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1976,7 +2056,7 @@ func _UserRpc_FindUserInfo_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: UserRpc_FindUserInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserRpcServer).FindUserInfo(ctx, req.(*UserReq))
+		return srv.(UserRpcServer).FindUserInfo(ctx, req.(*UserIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2226,6 +2306,8 @@ const (
 	ArticleRpc_FindArticleCount_FullMethodName      = "/blog.ArticleRpc/FindArticleCount"
 	ArticleRpc_FindArticleByTag_FullMethodName      = "/blog.ArticleRpc/FindArticleByTag"
 	ArticleRpc_FindArticleByCategory_FullMethodName = "/blog.ArticleRpc/FindArticleByCategory"
+	ArticleRpc_LikeArticle_FullMethodName           = "/blog.ArticleRpc/LikeArticle"
+	ArticleRpc_FindUserLikeArticle_FullMethodName   = "/blog.ArticleRpc/FindUserLikeArticle"
 )
 
 // ArticleRpcClient is the client API for ArticleRpc service.
@@ -2252,6 +2334,10 @@ type ArticleRpcClient interface {
 	FindArticleByTag(ctx context.Context, in *FindArticleByTagReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
 	// 查询文章列表
 	FindArticleByCategory(ctx context.Context, in *FindArticleByCategoryReq, opts ...grpc.CallOption) (*ArticlePageResp, error)
+	// 点赞文章
+	LikeArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 用户点赞的文章
+	FindUserLikeArticle(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeArticleResp, error)
 }
 
 type articleRpcClient struct {
@@ -2352,6 +2438,26 @@ func (c *articleRpcClient) FindArticleByCategory(ctx context.Context, in *FindAr
 	return out, nil
 }
 
+func (c *articleRpcClient) LikeArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, ArticleRpc_LikeArticle_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) FindUserLikeArticle(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeArticleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FindLikeArticleResp)
+	err := c.cc.Invoke(ctx, ArticleRpc_FindUserLikeArticle_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArticleRpcServer is the server API for ArticleRpc service.
 // All implementations must embed UnimplementedArticleRpcServer
 // for forward compatibility
@@ -2376,6 +2482,10 @@ type ArticleRpcServer interface {
 	FindArticleByTag(context.Context, *FindArticleByTagReq) (*ArticlePageResp, error)
 	// 查询文章列表
 	FindArticleByCategory(context.Context, *FindArticleByCategoryReq) (*ArticlePageResp, error)
+	// 点赞文章
+	LikeArticle(context.Context, *IdReq) (*EmptyResp, error)
+	// 用户点赞的文章
+	FindUserLikeArticle(context.Context, *UserIdReq) (*FindLikeArticleResp, error)
 	mustEmbedUnimplementedArticleRpcServer()
 }
 
@@ -2409,6 +2519,12 @@ func (UnimplementedArticleRpcServer) FindArticleByTag(context.Context, *FindArti
 }
 func (UnimplementedArticleRpcServer) FindArticleByCategory(context.Context, *FindArticleByCategoryReq) (*ArticlePageResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindArticleByCategory not implemented")
+}
+func (UnimplementedArticleRpcServer) LikeArticle(context.Context, *IdReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LikeArticle not implemented")
+}
+func (UnimplementedArticleRpcServer) FindUserLikeArticle(context.Context, *UserIdReq) (*FindLikeArticleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserLikeArticle not implemented")
 }
 func (UnimplementedArticleRpcServer) mustEmbedUnimplementedArticleRpcServer() {}
 
@@ -2585,6 +2701,42 @@ func _ArticleRpc_FindArticleByCategory_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArticleRpc_LikeArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).LikeArticle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArticleRpc_LikeArticle_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).LikeArticle(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_FindUserLikeArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindUserLikeArticle(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArticleRpc_FindUserLikeArticle_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindUserLikeArticle(ctx, req.(*UserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArticleRpc_ServiceDesc is the grpc.ServiceDesc for ArticleRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2627,6 +2779,14 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindArticleByCategory",
 			Handler:    _ArticleRpc_FindArticleByCategory_Handler,
+		},
+		{
+			MethodName: "LikeArticle",
+			Handler:    _ArticleRpc_LikeArticle_Handler,
+		},
+		{
+			MethodName: "FindUserLikeArticle",
+			Handler:    _ArticleRpc_FindUserLikeArticle_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -3428,14 +3588,15 @@ var TagRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	CommentRpc_AddComment_FullMethodName        = "/blog.commentRpc/AddComment"
-	CommentRpc_UpdateComment_FullMethodName     = "/blog.commentRpc/UpdateComment"
-	CommentRpc_DeleteComment_FullMethodName     = "/blog.commentRpc/DeleteComment"
-	CommentRpc_DeleteCommentList_FullMethodName = "/blog.commentRpc/DeleteCommentList"
-	CommentRpc_FindComment_FullMethodName       = "/blog.commentRpc/FindComment"
-	CommentRpc_FindCommentList_FullMethodName   = "/blog.commentRpc/FindCommentList"
-	CommentRpc_FindCommentCount_FullMethodName  = "/blog.commentRpc/FindCommentCount"
-	CommentRpc_LikeComment_FullMethodName       = "/blog.commentRpc/LikeComment"
+	CommentRpc_AddComment_FullMethodName          = "/blog.CommentRpc/AddComment"
+	CommentRpc_UpdateComment_FullMethodName       = "/blog.CommentRpc/UpdateComment"
+	CommentRpc_DeleteComment_FullMethodName       = "/blog.CommentRpc/DeleteComment"
+	CommentRpc_DeleteCommentList_FullMethodName   = "/blog.CommentRpc/DeleteCommentList"
+	CommentRpc_FindComment_FullMethodName         = "/blog.CommentRpc/FindComment"
+	CommentRpc_FindCommentList_FullMethodName     = "/blog.CommentRpc/FindCommentList"
+	CommentRpc_FindCommentCount_FullMethodName    = "/blog.CommentRpc/FindCommentCount"
+	CommentRpc_LikeComment_FullMethodName         = "/blog.CommentRpc/LikeComment"
+	CommentRpc_FindUserLikeComment_FullMethodName = "/blog.CommentRpc/FindUserLikeComment"
 )
 
 // CommentRpcClient is the client API for CommentRpc service.
@@ -3458,6 +3619,8 @@ type CommentRpcClient interface {
 	FindCommentCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	// 点赞评论
 	LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 用户点赞的评论
+	FindUserLikeComment(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error)
 }
 
 type commentRpcClient struct {
@@ -3548,6 +3711,16 @@ func (c *commentRpcClient) LikeComment(ctx context.Context, in *IdReq, opts ...g
 	return out, nil
 }
 
+func (c *commentRpcClient) FindUserLikeComment(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FindLikeCommentResp)
+	err := c.cc.Invoke(ctx, CommentRpc_FindUserLikeComment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CommentRpcServer is the server API for CommentRpc service.
 // All implementations must embed UnimplementedCommentRpcServer
 // for forward compatibility
@@ -3568,6 +3741,8 @@ type CommentRpcServer interface {
 	FindCommentCount(context.Context, *PageQuery) (*CountResp, error)
 	// 点赞评论
 	LikeComment(context.Context, *IdReq) (*EmptyResp, error)
+	// 用户点赞的评论
+	FindUserLikeComment(context.Context, *UserIdReq) (*FindLikeCommentResp, error)
 	mustEmbedUnimplementedCommentRpcServer()
 }
 
@@ -3598,6 +3773,9 @@ func (UnimplementedCommentRpcServer) FindCommentCount(context.Context, *PageQuer
 }
 func (UnimplementedCommentRpcServer) LikeComment(context.Context, *IdReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LikeComment not implemented")
+}
+func (UnimplementedCommentRpcServer) FindUserLikeComment(context.Context, *UserIdReq) (*FindLikeCommentResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserLikeComment not implemented")
 }
 func (UnimplementedCommentRpcServer) mustEmbedUnimplementedCommentRpcServer() {}
 
@@ -3756,11 +3934,29 @@ func _CommentRpc_LikeComment_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentRpc_FindUserLikeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentRpcServer).FindUserLikeComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentRpc_FindUserLikeComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentRpcServer).FindUserLikeComment(ctx, req.(*UserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CommentRpc_ServiceDesc is the grpc.ServiceDesc for CommentRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var CommentRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.commentRpc",
+	ServiceName: "blog.CommentRpc",
 	HandlerType: (*CommentRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -3795,19 +3991,23 @@ var CommentRpc_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "LikeComment",
 			Handler:    _CommentRpc_LikeComment_Handler,
 		},
+		{
+			MethodName: "FindUserLikeComment",
+			Handler:    _CommentRpc_FindUserLikeComment_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "blog.proto",
 }
 
 const (
-	RemarkRpc_AddRemark_FullMethodName        = "/blog.remarkRpc/AddRemark"
-	RemarkRpc_UpdateRemark_FullMethodName     = "/blog.remarkRpc/UpdateRemark"
-	RemarkRpc_DeleteRemark_FullMethodName     = "/blog.remarkRpc/DeleteRemark"
-	RemarkRpc_DeleteRemarkList_FullMethodName = "/blog.remarkRpc/DeleteRemarkList"
-	RemarkRpc_FindRemark_FullMethodName       = "/blog.remarkRpc/FindRemark"
-	RemarkRpc_FindRemarkList_FullMethodName   = "/blog.remarkRpc/FindRemarkList"
-	RemarkRpc_FindRemarkCount_FullMethodName  = "/blog.remarkRpc/FindRemarkCount"
+	RemarkRpc_AddRemark_FullMethodName        = "/blog.RemarkRpc/AddRemark"
+	RemarkRpc_UpdateRemark_FullMethodName     = "/blog.RemarkRpc/UpdateRemark"
+	RemarkRpc_DeleteRemark_FullMethodName     = "/blog.RemarkRpc/DeleteRemark"
+	RemarkRpc_DeleteRemarkList_FullMethodName = "/blog.RemarkRpc/DeleteRemarkList"
+	RemarkRpc_FindRemark_FullMethodName       = "/blog.RemarkRpc/FindRemark"
+	RemarkRpc_FindRemarkList_FullMethodName   = "/blog.RemarkRpc/FindRemarkList"
+	RemarkRpc_FindRemarkCount_FullMethodName  = "/blog.RemarkRpc/FindRemarkCount"
 )
 
 // RemarkRpcClient is the client API for RemarkRpc service.
@@ -4097,7 +4297,7 @@ func _RemarkRpc_FindRemarkCount_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.remarkRpc",
+	ServiceName: "blog.RemarkRpc",
 	HandlerType: (*RemarkRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -4134,20 +4334,20 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	PhotoRpc_AddPhoto_FullMethodName             = "/blog.photoRpc/AddPhoto"
-	PhotoRpc_UpdatePhoto_FullMethodName          = "/blog.photoRpc/UpdatePhoto"
-	PhotoRpc_DeletePhoto_FullMethodName          = "/blog.photoRpc/DeletePhoto"
-	PhotoRpc_DeletePhotoList_FullMethodName      = "/blog.photoRpc/DeletePhotoList"
-	PhotoRpc_FindPhoto_FullMethodName            = "/blog.photoRpc/FindPhoto"
-	PhotoRpc_FindPhotoList_FullMethodName        = "/blog.photoRpc/FindPhotoList"
-	PhotoRpc_FindPhotoCount_FullMethodName       = "/blog.photoRpc/FindPhotoCount"
-	PhotoRpc_AddPhotoAlbum_FullMethodName        = "/blog.photoRpc/AddPhotoAlbum"
-	PhotoRpc_UpdatePhotoAlbum_FullMethodName     = "/blog.photoRpc/UpdatePhotoAlbum"
-	PhotoRpc_DeletePhotoAlbum_FullMethodName     = "/blog.photoRpc/DeletePhotoAlbum"
-	PhotoRpc_DeletePhotoAlbumList_FullMethodName = "/blog.photoRpc/DeletePhotoAlbumList"
-	PhotoRpc_FindPhotoAlbum_FullMethodName       = "/blog.photoRpc/FindPhotoAlbum"
-	PhotoRpc_FindPhotoAlbumList_FullMethodName   = "/blog.photoRpc/FindPhotoAlbumList"
-	PhotoRpc_FindPhotoAlbumCount_FullMethodName  = "/blog.photoRpc/FindPhotoAlbumCount"
+	PhotoRpc_AddPhoto_FullMethodName             = "/blog.PhotoRpc/AddPhoto"
+	PhotoRpc_UpdatePhoto_FullMethodName          = "/blog.PhotoRpc/UpdatePhoto"
+	PhotoRpc_DeletePhoto_FullMethodName          = "/blog.PhotoRpc/DeletePhoto"
+	PhotoRpc_DeletePhotoList_FullMethodName      = "/blog.PhotoRpc/DeletePhotoList"
+	PhotoRpc_FindPhoto_FullMethodName            = "/blog.PhotoRpc/FindPhoto"
+	PhotoRpc_FindPhotoList_FullMethodName        = "/blog.PhotoRpc/FindPhotoList"
+	PhotoRpc_FindPhotoCount_FullMethodName       = "/blog.PhotoRpc/FindPhotoCount"
+	PhotoRpc_AddPhotoAlbum_FullMethodName        = "/blog.PhotoRpc/AddPhotoAlbum"
+	PhotoRpc_UpdatePhotoAlbum_FullMethodName     = "/blog.PhotoRpc/UpdatePhotoAlbum"
+	PhotoRpc_DeletePhotoAlbum_FullMethodName     = "/blog.PhotoRpc/DeletePhotoAlbum"
+	PhotoRpc_DeletePhotoAlbumList_FullMethodName = "/blog.PhotoRpc/DeletePhotoAlbumList"
+	PhotoRpc_FindPhotoAlbum_FullMethodName       = "/blog.PhotoRpc/FindPhotoAlbum"
+	PhotoRpc_FindPhotoAlbumList_FullMethodName   = "/blog.PhotoRpc/FindPhotoAlbumList"
+	PhotoRpc_FindPhotoAlbumCount_FullMethodName  = "/blog.PhotoRpc/FindPhotoAlbumCount"
 )
 
 // PhotoRpcClient is the client API for PhotoRpc service.
@@ -4682,7 +4882,7 @@ func _PhotoRpc_FindPhotoAlbumCount_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.photoRpc",
+	ServiceName: "blog.PhotoRpc",
 	HandlerType: (*PhotoRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -4747,13 +4947,13 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	PageRpc_AddPage_FullMethodName        = "/blog.pageRpc/AddPage"
-	PageRpc_UpdatePage_FullMethodName     = "/blog.pageRpc/UpdatePage"
-	PageRpc_DeletePage_FullMethodName     = "/blog.pageRpc/DeletePage"
-	PageRpc_DeletePageList_FullMethodName = "/blog.pageRpc/DeletePageList"
-	PageRpc_FindPage_FullMethodName       = "/blog.pageRpc/FindPage"
-	PageRpc_FindPageList_FullMethodName   = "/blog.pageRpc/FindPageList"
-	PageRpc_FindPageCount_FullMethodName  = "/blog.pageRpc/FindPageCount"
+	PageRpc_AddPage_FullMethodName        = "/blog.PageRpc/AddPage"
+	PageRpc_UpdatePage_FullMethodName     = "/blog.PageRpc/UpdatePage"
+	PageRpc_DeletePage_FullMethodName     = "/blog.PageRpc/DeletePage"
+	PageRpc_DeletePageList_FullMethodName = "/blog.PageRpc/DeletePageList"
+	PageRpc_FindPage_FullMethodName       = "/blog.PageRpc/FindPage"
+	PageRpc_FindPageList_FullMethodName   = "/blog.PageRpc/FindPageList"
+	PageRpc_FindPageCount_FullMethodName  = "/blog.PageRpc/FindPageCount"
 )
 
 // PageRpcClient is the client API for PageRpc service.
@@ -5043,7 +5243,7 @@ func _PageRpc_FindPageCount_Handler(srv interface{}, ctx context.Context, dec fu
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PageRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.pageRpc",
+	ServiceName: "blog.PageRpc",
 	HandlerType: (*PageRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -5413,14 +5613,15 @@ var FriendLinkRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	TalkRpc_AddTalk_FullMethodName        = "/blog.talkRpc/AddTalk"
-	TalkRpc_UpdateTalk_FullMethodName     = "/blog.talkRpc/UpdateTalk"
-	TalkRpc_DeleteTalk_FullMethodName     = "/blog.talkRpc/DeleteTalk"
-	TalkRpc_DeleteTalkList_FullMethodName = "/blog.talkRpc/DeleteTalkList"
-	TalkRpc_FindTalk_FullMethodName       = "/blog.talkRpc/FindTalk"
-	TalkRpc_FindTalkList_FullMethodName   = "/blog.talkRpc/FindTalkList"
-	TalkRpc_FindTalkCount_FullMethodName  = "/blog.talkRpc/FindTalkCount"
-	TalkRpc_LikeTalk_FullMethodName       = "/blog.talkRpc/LikeTalk"
+	TalkRpc_AddTalk_FullMethodName          = "/blog.TalkRpc/AddTalk"
+	TalkRpc_UpdateTalk_FullMethodName       = "/blog.TalkRpc/UpdateTalk"
+	TalkRpc_DeleteTalk_FullMethodName       = "/blog.TalkRpc/DeleteTalk"
+	TalkRpc_DeleteTalkList_FullMethodName   = "/blog.TalkRpc/DeleteTalkList"
+	TalkRpc_FindTalk_FullMethodName         = "/blog.TalkRpc/FindTalk"
+	TalkRpc_FindTalkList_FullMethodName     = "/blog.TalkRpc/FindTalkList"
+	TalkRpc_FindTalkCount_FullMethodName    = "/blog.TalkRpc/FindTalkCount"
+	TalkRpc_LikeTalk_FullMethodName         = "/blog.TalkRpc/LikeTalk"
+	TalkRpc_FindUserLikeTalk_FullMethodName = "/blog.TalkRpc/FindUserLikeTalk"
 )
 
 // TalkRpcClient is the client API for TalkRpc service.
@@ -5443,6 +5644,8 @@ type TalkRpcClient interface {
 	FindTalkCount(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*CountResp, error)
 	// 点赞说说
 	LikeTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 用户点赞的说说
+	FindUserLikeTalk(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeTalkResp, error)
 }
 
 type talkRpcClient struct {
@@ -5533,6 +5736,16 @@ func (c *talkRpcClient) LikeTalk(ctx context.Context, in *IdReq, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *talkRpcClient) FindUserLikeTalk(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeTalkResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FindLikeTalkResp)
+	err := c.cc.Invoke(ctx, TalkRpc_FindUserLikeTalk_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TalkRpcServer is the server API for TalkRpc service.
 // All implementations must embed UnimplementedTalkRpcServer
 // for forward compatibility
@@ -5553,6 +5766,8 @@ type TalkRpcServer interface {
 	FindTalkCount(context.Context, *PageQuery) (*CountResp, error)
 	// 点赞说说
 	LikeTalk(context.Context, *IdReq) (*EmptyResp, error)
+	// 用户点赞的说说
+	FindUserLikeTalk(context.Context, *UserIdReq) (*FindLikeTalkResp, error)
 	mustEmbedUnimplementedTalkRpcServer()
 }
 
@@ -5583,6 +5798,9 @@ func (UnimplementedTalkRpcServer) FindTalkCount(context.Context, *PageQuery) (*C
 }
 func (UnimplementedTalkRpcServer) LikeTalk(context.Context, *IdReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LikeTalk not implemented")
+}
+func (UnimplementedTalkRpcServer) FindUserLikeTalk(context.Context, *UserIdReq) (*FindLikeTalkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserLikeTalk not implemented")
 }
 func (UnimplementedTalkRpcServer) mustEmbedUnimplementedTalkRpcServer() {}
 
@@ -5741,11 +5959,29 @@ func _TalkRpc_LikeTalk_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TalkRpc_FindUserLikeTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TalkRpcServer).FindUserLikeTalk(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TalkRpc_FindUserLikeTalk_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TalkRpcServer).FindUserLikeTalk(ctx, req.(*UserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TalkRpc_ServiceDesc is the grpc.ServiceDesc for TalkRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TalkRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.talkRpc",
+	ServiceName: "blog.TalkRpc",
 	HandlerType: (*TalkRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -5780,19 +6016,23 @@ var TalkRpc_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "LikeTalk",
 			Handler:    _TalkRpc_LikeTalk_Handler,
 		},
+		{
+			MethodName: "FindUserLikeTalk",
+			Handler:    _TalkRpc_FindUserLikeTalk_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "blog.proto",
 }
 
 const (
-	LogRpc_AddOperationLog_FullMethodName        = "/blog.logRpc/AddOperationLog"
-	LogRpc_UpdateOperationLog_FullMethodName     = "/blog.logRpc/UpdateOperationLog"
-	LogRpc_DeleteOperationLog_FullMethodName     = "/blog.logRpc/DeleteOperationLog"
-	LogRpc_DeleteOperationLogList_FullMethodName = "/blog.logRpc/DeleteOperationLogList"
-	LogRpc_FindOperationLog_FullMethodName       = "/blog.logRpc/FindOperationLog"
-	LogRpc_FindOperationLogList_FullMethodName   = "/blog.logRpc/FindOperationLogList"
-	LogRpc_FindOperationLogCount_FullMethodName  = "/blog.logRpc/FindOperationLogCount"
+	LogRpc_AddOperationLog_FullMethodName        = "/blog.LogRpc/AddOperationLog"
+	LogRpc_UpdateOperationLog_FullMethodName     = "/blog.LogRpc/UpdateOperationLog"
+	LogRpc_DeleteOperationLog_FullMethodName     = "/blog.LogRpc/DeleteOperationLog"
+	LogRpc_DeleteOperationLogList_FullMethodName = "/blog.LogRpc/DeleteOperationLogList"
+	LogRpc_FindOperationLog_FullMethodName       = "/blog.LogRpc/FindOperationLog"
+	LogRpc_FindOperationLogList_FullMethodName   = "/blog.LogRpc/FindOperationLogList"
+	LogRpc_FindOperationLogCount_FullMethodName  = "/blog.LogRpc/FindOperationLogCount"
 )
 
 // LogRpcClient is the client API for LogRpc service.
@@ -6082,7 +6322,7 @@ func _LogRpc_FindOperationLogCount_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var LogRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.logRpc",
+	ServiceName: "blog.LogRpc",
 	HandlerType: (*LogRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -6119,13 +6359,13 @@ var LogRpc_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ChatRpc_AddChatRecord_FullMethodName        = "/blog.chatRpc/AddChatRecord"
-	ChatRpc_UpdateChatRecord_FullMethodName     = "/blog.chatRpc/UpdateChatRecord"
-	ChatRpc_DeleteChatRecord_FullMethodName     = "/blog.chatRpc/DeleteChatRecord"
-	ChatRpc_DeleteChatRecordList_FullMethodName = "/blog.chatRpc/DeleteChatRecordList"
-	ChatRpc_FindChatRecord_FullMethodName       = "/blog.chatRpc/FindChatRecord"
-	ChatRpc_FindChatRecordList_FullMethodName   = "/blog.chatRpc/FindChatRecordList"
-	ChatRpc_FindChatRecordCount_FullMethodName  = "/blog.chatRpc/FindChatRecordCount"
+	ChatRpc_AddChatRecord_FullMethodName        = "/blog.ChatRpc/AddChatRecord"
+	ChatRpc_UpdateChatRecord_FullMethodName     = "/blog.ChatRpc/UpdateChatRecord"
+	ChatRpc_DeleteChatRecord_FullMethodName     = "/blog.ChatRpc/DeleteChatRecord"
+	ChatRpc_DeleteChatRecordList_FullMethodName = "/blog.ChatRpc/DeleteChatRecordList"
+	ChatRpc_FindChatRecord_FullMethodName       = "/blog.ChatRpc/FindChatRecord"
+	ChatRpc_FindChatRecordList_FullMethodName   = "/blog.ChatRpc/FindChatRecordList"
+	ChatRpc_FindChatRecordCount_FullMethodName  = "/blog.ChatRpc/FindChatRecordCount"
 )
 
 // ChatRpcClient is the client API for ChatRpc service.
@@ -6415,7 +6655,7 @@ func _ChatRpc_FindChatRecordCount_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ChatRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blog.chatRpc",
+	ServiceName: "blog.ChatRpc",
 	HandlerType: (*ChatRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

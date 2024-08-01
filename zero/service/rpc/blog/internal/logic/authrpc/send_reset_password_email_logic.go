@@ -44,8 +44,8 @@ func (l *SendResetPasswordEmailLogic) SendResetPasswordEmail(in *blog.UserEmailR
 	}
 
 	// 发送验证码邮件
-	key := fmt.Sprintf("%s:%s", constant.ForgetPassword, in.Username)
-	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	key := fmt.Sprintf("%s:%s", constant.ResetPwd, in.Username)
+	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: in.Username,
 		Code:     code,

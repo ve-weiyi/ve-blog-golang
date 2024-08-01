@@ -28,7 +28,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoReq) (resp *types.EmptyResp, err error) {
 	in := &blog.UpdateUserInfoReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Nickname: req.Nickname,

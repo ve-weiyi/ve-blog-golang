@@ -48,7 +48,7 @@ func (l *UserService) FindUserList(reqCtx *request.Context, page *dto.PageQuery)
 		return nil, 0, err
 	}
 
-	var ids []int64
+	ids := make([]int64, 0)
 	for _, ua := range userAccounts {
 		ids = append(ids, ua.Id)
 	}
@@ -190,8 +190,8 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *dto.UserE
 	}
 
 	// 获取code
-	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
-	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	key := cache.WrapCacheKey(constant.ResetPwd, req.Username)
+	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: req.Username,
 		Code:     code,
@@ -219,7 +219,7 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *dto.UserE
 
 func (l *UserService) ResetPassword(reqCtx *request.Context, req *dto.ResetPasswordReq) (resp interface{}, err error) {
 	// 验证code是否正确
-	key := cache.WrapCacheKey(constant.ForgetPassword, req.Username)
+	key := cache.WrapCacheKey(constant.ResetPwd, req.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
 		return nil, apierr.ErrorCaptchaVerify
 	}

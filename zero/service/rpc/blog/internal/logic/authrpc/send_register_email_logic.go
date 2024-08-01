@@ -45,7 +45,7 @@ func (l *SendRegisterEmailLogic) SendRegisterEmail(in *blog.UserEmailReq) (*blog
 
 	// 发送验证码邮件
 	key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
-	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: in.Username,
 		Code:     code,

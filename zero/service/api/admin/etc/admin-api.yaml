@@ -23,6 +23,13 @@ UploadConfig:
   bucket-name: veweiyi
   bucket-url: https://static.veweiyi.cn
   base-path: blog
+
+RedisConf:
+  db: 0
+  host: 127.0.0.1
+  port: "6379"
+  password: redis7914
+
 # 共同etcd配置
 #Etcd:
 #  Hosts:

@@ -16,6 +16,7 @@ func ConvertTalkPbToModel(in *blog.Talk) (out *model.Talk) {
 		Images:    in.Images,
 		IsTop:     in.IsTop,
 		Status:    in.Status,
+		LikeCount: in.LikeCount,
 		CreatedAt: time.Unix(in.CreatedAt, 0),
 		UpdatedAt: time.Unix(in.UpdatedAt, 0),
 	}
@@ -31,6 +32,7 @@ func ConvertTalkModelToPb(in *model.Talk) (out *blog.Talk) {
 		Images:    in.Images,
 		IsTop:     in.IsTop,
 		Status:    in.Status,
+		LikeCount: in.LikeCount,
 		CreatedAt: in.CreatedAt.Unix(),
 		UpdatedAt: in.UpdatedAt.Unix(),
 	}

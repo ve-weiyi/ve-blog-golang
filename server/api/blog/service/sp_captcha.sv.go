@@ -38,7 +38,7 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *dto.Capt
 
 	// 设置key
 	key := fmt.Sprintf("%s:%s", req.Service, req.Email)
-	code := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
+	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.NewEmailContent()
 
 	data.Title = fmt.Sprintf("重置密码邮件提醒")
@@ -49,7 +49,7 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *dto.Capt
 
 	var temp string
 	switch req.Service {
-	case constant.ForgetPassword:
+	case constant.ResetPwd:
 		temp = mail.TempForgetPassword
 	case constant.Register:
 		temp = mail.TempRegister

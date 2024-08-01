@@ -65,42 +65,22 @@ message CountResp {
 message LoginReq {
   string username = 1;
   string password = 2;
-  string code = 3;
+  string verify_code = 3;
+}
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+  string verify_code = 3;
 }
 
 message LoginResp {
-  int64 user_id = 1; // 用户id// 用户id
+  int64 user_id = 1; // 用户id
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
   string info = 5;// 用户信息
-  repeated RoleLabel roles = 6;// 角色列表
-}
-
-message RoleLabel {
-  int64 role_id = 1;
-  string role_name = 2;
-  string role_comment = 3;
-}
-
-message OauthLoginReq {
-  string platform = 1;// 平台
-  string code = 2;// 授权码
-  string state = 3;// 状态
-}
-
-message OauthLoginUrlResp {
-  string url = 1;// 授权地址
-}
-
-message ResetPasswordReq {
-  string username = 1;
-  string password = 2;
-  string code = 3;
-}
-
-message UserEmailReq {
-  string username = 1;
+  string email = 6;// 用户邮箱
 }
 
 message LogoutReq {
@@ -120,6 +100,32 @@ message  LogoutResp {
   int64 logout_at = 2;
 }
 
+message UserEmailReq {
+  string username = 1;
+}
+
+message ResetPasswordReq {
+  string username = 1;
+  string password = 2;
+  string verify_code = 3;
+}
+
+message BindUserEmailReq {
+  int64 user_id = 1;
+  string email = 2;
+  string verify_code = 3;
+}
+
+message OauthLoginReq {
+  string platform = 1;// 平台
+  string code = 2;// 授权码
+  string state = 3;// 状态
+}
+
+message OauthLoginUrlResp {
+  string url = 1;// 授权地址
+}
+
 service AuthRpc {
   // 登录
   rpc Login(LoginReq) returns(LoginResp);
@@ -128,13 +134,19 @@ service AuthRpc {
   // 注销
   rpc Logoff(LogoffReq) returns(EmptyResp);
   // 注册
-  rpc Register(LoginReq) returns(UserInfoResp);
+  rpc Register(RegisterReq) returns(LoginResp);
   // 重置密码
   rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
+  // 修改用户邮箱
+  rpc BindUserEmail(BindUserEmailReq) returns(EmptyResp);
+
   // 发送注册邮件
   rpc SendRegisterEmail(UserEmailReq) returns(EmptyResp);
   // 发送重置密码邮件
   rpc SendResetPasswordEmail(UserEmailReq) returns(EmptyResp);
+  // 发送绑定邮箱邮件
+  rpc SendBindEmail(UserEmailReq) returns(EmptyResp);
+
   // 第三方登录
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
   // 获取第三方登录授权地址
@@ -336,36 +348,44 @@ message UserInfoResp {
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
-  string info = 5;// 用户信息
-  int64 status = 6;
-  string login_type = 7;
-  string ip_address = 8;// ip host
-  string ip_source = 9;// ip 源
-  int64 created_at = 10;
-  int64 updated_at = 11;
-  int64 login_at = 12;
-  int64 logout_at = 13;
+  string email = 5;// 用户邮箱
+  string phone = 6;// 用户手机号
+  string info = 7;// 用户信息
+  int64 status = 8;
+  string login_type = 9;
+  string ip_address = 10;// ip host
+  string ip_source = 11;// ip 源
+  int64 created_at = 12;
+  int64 updated_at = 13;
 }
 
-message User {
+message UserDetails {
   int64 user_id = 1; // 用户id
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
-  string info = 5;// 用户信息
-  int64 status = 6;
-  string login_type = 7;
-  string ip_address = 8;// ip host
-  string ip_source = 9;// ip 源
-  int64 created_at = 10;
-  int64 updated_at = 11;
-  int64 login_at = 12;
-  int64 logout_at = 13;
-  repeated RoleLabel roles = 14;
+  string email = 5;// 用户邮箱
+  string phone = 6;// 用户手机号
+  string info = 7;// 用户信息
+  int64 status = 8;
+  string login_type = 9;
+  string ip_address = 10;// ip host
+  string ip_source = 11;// ip 源
+  int64 created_at = 12;
+  int64 updated_at = 13;
+  int64 login_at = 14;
+  int64 logout_at = 15;
+  repeated RoleLabel roles = 16;
+}
+
+message RoleLabel {
+  int64 role_id = 1;
+  string role_name = 2;
+  string role_comment = 3;
 }
 
 message UserPageResp{
-  repeated User list = 1;
+  repeated UserDetails list = 1;
   int64 total = 2;
 }
 
@@ -386,7 +406,7 @@ message UpdateUserRoleReq {
   repeated int64 role_ids = 2;
 }
 
-message UserReq {
+message UserIdReq {
   int64 user_id = 1; // 用户id
 }
 
@@ -398,13 +418,13 @@ service UserRpc {
   // 查找用户列表
   rpc FindUserList(PageQuery) returns(UserPageResp);
   // 获取用户接口权限
-  rpc FindUserApis(UserReq) returns(ApiPageResp);
+  rpc FindUserApis(UserIdReq) returns(ApiPageResp);
   // 获取用户菜单权限
-  rpc FindUserMenus(UserReq) returns(MenuPageResp);
+  rpc FindUserMenus(UserIdReq) returns(MenuPageResp);
   // 获取用户角色信息
-  rpc FindUserRoles(UserReq) returns(RolePageResp);
+  rpc FindUserRoles(UserIdReq) returns(RolePageResp);
   // 获取用户信息
-  rpc FindUserInfo(UserReq) returns(UserInfoResp);
+  rpc FindUserInfo(UserIdReq) returns(UserInfoResp);
   // 修改用户信息
   rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
   // 修改用户状态
@@ -441,13 +461,14 @@ message Article {
   string article_cover = 4;// 文章缩略图
   string article_title = 5;// 标题
   string article_content = 6;// 内容
-  int64 type = 7;// 文章类型 1原创 2转载 3翻译
+  int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
   string original_url = 8;// 原文链接
   int64 is_top = 9;// 是否置顶 0否 1是
   int64 is_delete = 10;// 是否删除  0否 1是
   int64 status = 11;// 状态值 1公开 2私密 3评论可见
   int64 created_at = 12;// 发表时间
   int64 updated_at = 13;// 更新时间
+  int64 like_count = 14;// 点赞数
 }
 
 message ArticlePageResp {
@@ -461,6 +482,10 @@ message FindArticleByTagReq{
 
 message FindArticleByCategoryReq{
   repeated int64 category_ids = 1;
+}
+
+message FindLikeArticleResp{
+  repeated int64 like_article_list = 1;
 }
 
 // article服务
@@ -483,6 +508,10 @@ service ArticleRpc {
   rpc FindArticleByTag(FindArticleByTagReq) returns(ArticlePageResp);
   // 查询文章列表
   rpc FindArticleByCategory(FindArticleByCategoryReq) returns(ArticlePageResp);
+  // 点赞文章
+  rpc LikeArticle(IdReq) returns(EmptyResp);
+  // 用户点赞的文章
+  rpc FindUserLikeArticle(UserIdReq) returns(FindLikeArticleResp);
 }
 
 message Category {
@@ -612,7 +641,11 @@ message CommentPageResp {
   repeated Comment list = 1;
 }
 
-service commentRpc {
+message FindLikeCommentResp{
+  repeated int64 like_comment_list = 1;
+}
+
+service CommentRpc {
   // 创建评论
   rpc AddComment(Comment) returns(Comment);
   // 更新评论
@@ -629,6 +662,8 @@ service commentRpc {
   rpc FindCommentCount(PageQuery) returns(CountResp);
   // 点赞评论
   rpc LikeComment(IdReq) returns(EmptyResp);
+  // 用户点赞的评论
+  rpc FindUserLikeComment(UserIdReq) returns(FindLikeCommentResp);
 }
 
 message Remark {
@@ -648,7 +683,7 @@ message RemarkPageResp {
   repeated Remark list = 1;
 }
 
-service remarkRpc {
+service RemarkRpc {
   // 创建留言
   rpc AddRemark(Remark) returns(Remark);
   // 更新留言
@@ -697,7 +732,7 @@ message PhotoAlbumPageResp {
   repeated PhotoAlbum list = 1;
 }
 
-service photoRpc {
+service PhotoRpc {
   // 创建照片
   rpc AddPhoto(Photo) returns(Photo);
   // 更新照片
@@ -745,7 +780,7 @@ message PagePageResp {
   repeated Page list = 1;
 }
 
-service pageRpc {
+service PageRpc {
   // 创建页面
   rpc AddPage(Page) returns(Page);
   // 更新页面
@@ -804,6 +839,7 @@ message Talk {
   int64 status = 6;// 状态 1.公开 2.私密
   int64 created_at = 7;// 创建时间
   int64 updated_at = 8;// 更新时间
+  int64 like_count = 9;// 点赞量
 }
 
 message TalkDetailsDTO {
@@ -824,8 +860,11 @@ message TalkDetailsDTO {
 message TalkPageResp {
   repeated Talk list = 1;
 }
+message FindLikeTalkResp{
+  repeated int64 like_talk_list = 1;
+}
 
-service talkRpc {
+service TalkRpc {
   // 创建说说
   rpc AddTalk(Talk) returns(Talk);
   // 更新说说
@@ -842,6 +881,8 @@ service talkRpc {
   rpc FindTalkCount(PageQuery) returns(CountResp);
   // 点赞说说
   rpc LikeTalk(IdReq) returns(EmptyResp);
+  // 用户点赞的说说
+  rpc FindUserLikeTalk(UserIdReq) returns(FindLikeTalkResp);
 }
 
 
@@ -869,7 +910,7 @@ message OperationLogPageResp {
   repeated OperationLog list = 1;
 }
 
-service logRpc {
+service LogRpc {
   // 创建操作记录
   rpc AddOperationLog(OperationLog) returns(OperationLog);
   // 更新操作记录
@@ -903,7 +944,7 @@ message ChatRecordPageResp {
   repeated ChatRecord list = 1;
 }
 
-service chatRpc {
+service ChatRpc {
   // 创建聊天记录
   rpc AddChatRecord(ChatRecord) returns(ChatRecord);
   // 更新聊天记录
