@@ -7,16 +7,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertTalkPb(in *types.Talk) (out *blogrpc.Talk) {
-	jsonconv.ObjectToObject(in, &out)
-
-	out.Images = jsonconv.ObjectToJson(in.ImgList)
-	return
-}
-
 func ConvertTalkTypes(in *blogrpc.Talk) (out *types.Talk) {
-	jsonconv.ObjectToObject(in, &out)
-
+	out = &types.Talk{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Content:   in.Content,
+		IsTop:     in.IsTop,
+		Status:    in.Status,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+		LikeCount: in.LikeCount,
+	}
 	jsonconv.JsonToObject(in.Images, &out.ImgList)
+
 	return
 }

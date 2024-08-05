@@ -3,31 +3,30 @@ package convert
 import (
 	"math/rand"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
 func ConvertHomeTagTypes(in *blogrpc.Tag) (out *types.TagDTO) {
-	jsonconv.ObjectToObject(in, &out)
-	return
+	return &types.TagDTO{
+		Id:      in.Id,
+		TagName: in.TagName,
+	}
 }
 
 func ConvertHomeCategoryTypes(in *blogrpc.Category) (out *types.CategoryDTO) {
-	jsonconv.ObjectToObject(in, &out)
-	return
-}
-
-func ConvertHomeArticleStaticsTypes(in *blogrpc.Article) (out *types.ArticleStatisticsDTO) {
-	jsonconv.ObjectToObject(in, &out)
-	return
+	return &types.CategoryDTO{
+		Id:           in.Id,
+		CategoryName: in.CategoryName,
+	}
 }
 
 func ConvertHomeArticleRankTypes(in *blogrpc.Article) (out *types.ArticleViewRankDTO) {
-	jsonconv.ObjectToObject(in, &out)
-
-	out.Count = rand.Int63n(100)
-	return
+	return &types.ArticleViewRankDTO{
+		Id:           in.Id,
+		ArticleTitle: in.ArticleTitle,
+		Count:        rand.Int63n(100),
+	}
 }
 
 func ConvertHomeViewTypes(in *blogrpc.UserVisit) (out *types.UniqueViewDTO) {

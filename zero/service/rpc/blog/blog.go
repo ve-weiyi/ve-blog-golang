@@ -10,6 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/config"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
 	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/apirpc"
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/articlerpc"
 	authrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/authrpc"
@@ -30,7 +31,6 @@ import (
 	uploadrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/uploadrpc"
 	userrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/userrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"

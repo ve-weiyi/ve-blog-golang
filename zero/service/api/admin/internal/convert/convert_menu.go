@@ -8,7 +8,20 @@ import (
 )
 
 func ConvertMenuTypes(in *blogrpc.Menu) (out *types.MenuDetails) {
-	jsonconv.ObjectToObject(in, &out)
+	out = &types.MenuDetails{
+		Id:        in.Id,
+		ParentId:  in.ParentId,
+		Title:     in.Title,
+		Type:      in.Type,
+		Path:      in.Path,
+		Name:      in.Name,
+		Component: in.Component,
+		Redirect:  in.Redirect,
+		Meta:      types.Meta{},
+		Children:  make([]*types.MenuDetails, 0),
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+	}
 
 	jsonconv.JsonToObject(in.Extra, &out.Meta)
 	return

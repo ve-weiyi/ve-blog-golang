@@ -8,15 +8,33 @@ import (
 )
 
 func ConvertTalkPb(in *types.TalkDetails) (out *blogrpc.Talk) {
-	jsonconv.ObjectToObject(in, &out)
+	out = &blogrpc.Talk{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Content:   in.Content,
+		Images:    jsonconv.ObjectToJson(in.ImgList),
+		IsTop:     in.IsTop,
+		Status:    in.Status,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+		LikeCount: in.LikeCount,
+	}
 
-	out.Images = jsonconv.ObjectToJson(in.ImgList)
 	return
 }
 
 func ConvertTalkTypes(in *blogrpc.Talk) (out *types.TalkDetails) {
-	jsonconv.ObjectToObject(in, &out)
-
+	out = &types.TalkDetails{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Content:   in.Content,
+		IsTop:     in.IsTop,
+		Status:    in.Status,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+		LikeCount: in.LikeCount,
+	}
 	jsonconv.JsonToObject(in.Images, &out.ImgList)
+
 	return
 }

@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
@@ -69,9 +68,14 @@ func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blogrpc.PageQuery
 }
 
 func ConvertCommentTypes(in *blogrpc.Comment) (out *types.CommentNewReq) {
-	jsonconv.ObjectToObject(in, &out)
-
-	return
+	return &types.CommentNewReq{
+		ParentId:       in.ParentId,
+		TopicId:        in.TopicId,
+		SessionId:      in.SessionId,
+		ReplyUserId:    in.ReplyUserId,
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+	}
 }
 
 func ConvertCommentBackTypes(in *blogrpc.Comment) (out *types.CommentBackDTO) {

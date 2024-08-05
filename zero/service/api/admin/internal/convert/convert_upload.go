@@ -5,10 +5,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
-func ConvertUploadPb(in *types.UploadFileReq) (out *blogrpc.UploadRecordReq) {
-	return
-}
-
 func ConvertUploadTypes(in *blogrpc.UploadRecordResp) (out *types.UploadFileResp) {
 
 	out = &types.UploadFileResp{
