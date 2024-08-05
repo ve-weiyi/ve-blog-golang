@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -37,17 +38,17 @@ func staticFileHandler(server *rest.Server) {
 			{
 				Method:  http.MethodGet,
 				Path:    "/index.html",
-				Handler: dirHandler("index.html", pattern),
+				Handler: DirHandler("index.html", pattern),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/",
-				Handler: dirHandler("/", pattern),
+				Handler: DirHandler("/", pattern),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/favicon.ico",
-				Handler: dirHandler("/favicon.ico", pattern),
+				Handler: DirHandler("/favicon.ico", pattern),
 			},
 		})
 	for _, f := range rd {
@@ -58,15 +59,32 @@ func staticFileHandler(server *rest.Server) {
 			rest.Route{
 				Method:  http.MethodGet,
 				Path:    path,
-				Handler: dirHandler("/assets/", dir),
+				Handler: DirHandler("/assets/", dir),
 			})
 	}
 
 }
 
-func dirHandler(patern, filedir string) http.HandlerFunc {
+func PrefixRoutes(prefix string, handler http.HandlerFunc) []rest.Route {
+	var rt []rest.Route
+	dirLevel := []string{":a", ":b", ":c", ":d", ":e", ":f"}
+	for i := 1; i < len(dirLevel); i++ {
+		path := prefix + strings.Join(dirLevel[:i], "/")
+		rt = append(rt,
+			rest.Route{
+				Method:  http.MethodGet,
+				Path:    path,
+				Handler: handler,
+			})
+	}
+	return rt
+}
+
+// 不能匹配多级目录
+// prefix 前缀会被删除，最后匹配到的路径会被传递给 http.FileServer 目录下
+func DirHandler(prefix, dir string) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		handler := http.StripPrefix(patern, http.FileServer(http.Dir(filedir)))
+		handler := http.StripPrefix(prefix, http.FileServer(http.Dir(dir)))
 		handler.ServeHTTP(w, req)
 	}
 }
