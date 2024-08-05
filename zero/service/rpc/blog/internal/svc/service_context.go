@@ -296,7 +296,6 @@ func SubscribeMessage(c config.Config) {
 func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
 	var om = make(map[string]oauth.Oauth)
 
-	log.Println("oauth config:", c)
 	for k, v := range c {
 		conf := &oauth.AuthConfig{
 			ClientId:     v.ClientId,

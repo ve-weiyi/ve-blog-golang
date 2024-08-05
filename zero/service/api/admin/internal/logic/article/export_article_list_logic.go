@@ -93,7 +93,7 @@ func (l *ExportArticleListLogic) exportArticle(a *types.ArticleBackDTO) (err err
 		Data: map[string]any{
 			"ArticleTitle":    a.ArticleTitle,
 			"ArticleCover":    a.ArticleCover,
-			"ArticleType":     a.Type,
+			"ArticleType":     a.ArticleType,
 			"ArticleCategory": a.CategoryName,
 			"ArticleTags":     a.TagNameList,
 			"ArticleContent":  a.ArticleContent,
