@@ -4,8 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -29,22 +28,22 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types.BlogHomeInfo, err error) {
-	ac, err := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blog.PageQuery{})
+	ac, err := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blogrpc.PageQuery{})
 	if err != nil {
 		return nil, err
 	}
 
-	cc, err := l.svcCtx.CategoryRpc.FindCategoryCount(l.ctx, &blog.PageQuery{})
+	cc, err := l.svcCtx.CategoryRpc.FindCategoryCount(l.ctx, &blogrpc.PageQuery{})
 	if err != nil {
 		return nil, err
 	}
 
-	tc, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, &blog.PageQuery{})
+	tc, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, &blogrpc.PageQuery{})
 	if err != nil {
 		return nil, err
 	}
 
-	in := &blog.FindConfigReq{
+	in := &blogrpc.FindConfigReq{
 		ConfigKey: "website_config",
 	}
 

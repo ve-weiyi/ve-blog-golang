@@ -7,8 +7,8 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/logic/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
 )
 
 type PageRpcServer struct {

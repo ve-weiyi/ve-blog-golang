@@ -3,7 +3,7 @@ package convert
 import (
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
 )
 
 func ParsePageQuery(in *blog.PageQuery) (page int, size int, sorts string, conditions string, params []interface{}) {

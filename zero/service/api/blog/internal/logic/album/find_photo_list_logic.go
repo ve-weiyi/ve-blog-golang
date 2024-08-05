@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
 type FindPhotoListLogic struct {
@@ -28,7 +28,7 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.PageResp, err error) {
-	in := &blog.PageQuery{
+	in := &blogrpc.PageQuery{
 		Conditions: fmt.Sprintf("album_id = %v", req.AlbumId),
 	}
 	out, err := l.svcCtx.PhotoRpc.FindPhotoList(l.ctx, in)

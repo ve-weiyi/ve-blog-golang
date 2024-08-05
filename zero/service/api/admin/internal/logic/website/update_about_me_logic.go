@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
 type UpdateAboutMeLogic struct {
@@ -27,7 +27,7 @@ func NewUpdateAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 }
 
 func (l *UpdateAboutMeLogic) UpdateAboutMe(req *types.AboutMe) (resp *types.EmptyResp, err error) {
-	in := blog.SaveConfigReq{
+	in := blogrpc.SaveConfigReq{
 		ConfigKey:   "about_me",
 		ConfigValue: jsonconv.ObjectToJson(req),
 	}

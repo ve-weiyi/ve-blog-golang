@@ -2,23 +2,23 @@ package convert
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-func ConvertCategoryPb(in *types.Category) (out *blog.Category) {
+func ConvertCategoryPb(in *types.Category) (out *blogrpc.Category) {
 	jsonconv.ObjectToObject(in, &out)
 	return
 }
 
-func ConvertCategoryTypes(in *blog.Category) (out *types.Category) {
+func ConvertCategoryTypes(in *blogrpc.Category) (out *types.Category) {
 	jsonconv.ObjectToObject(in, &out)
 
 	return
 }
 
-func ConvertCategoryDetailsTypes(in *blog.Category) (out *types.CategoryDetails) {
+func ConvertCategoryDetailsTypes(in *blogrpc.Category) (out *types.CategoryDetails) {
 	jsonconv.ObjectToObject(in, &out)
 	return
 }

@@ -5,13 +5,13 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertCommentPb(in *types.CommentNewReq) (out *blog.Comment) {
-	out = &blog.Comment{
+func ConvertCommentPb(in *types.CommentNewReq) (out *blogrpc.Comment) {
+	out = &blogrpc.Comment{
 		Id:             0,
 		ParentId:       in.ParentId,
 		TopicId:        in.TopicId,
@@ -28,7 +28,7 @@ func ConvertCommentPb(in *types.CommentNewReq) (out *blog.Comment) {
 	return
 }
 
-func ConvertCommentQueryPb(in *types.CommentQueryReq) (out *blog.PageQuery) {
+func ConvertCommentQueryPb(in *types.CommentQueryReq) (out *blogrpc.PageQuery) {
 	var page, pageSize int64
 	var sorts, conditions string
 	var args []string
@@ -57,7 +57,7 @@ func ConvertCommentQueryPb(in *types.CommentQueryReq) (out *blog.PageQuery) {
 		args = append(args, cast.ToString(in.Type))
 	}
 
-	out = &blog.PageQuery{
+	out = &blogrpc.PageQuery{
 		Page:       page,
 		PageSize:   pageSize,
 		Sorts:      sorts,
@@ -67,7 +67,7 @@ func ConvertCommentQueryPb(in *types.CommentQueryReq) (out *blog.PageQuery) {
 	return
 }
 
-func ConvertCommentTypes(in *blog.Comment) (out *types.Comment) {
+func ConvertCommentTypes(in *blogrpc.Comment) (out *types.Comment) {
 	out = &types.Comment{
 		Id:               in.Id,
 		TopicId:          in.TopicId,
@@ -104,7 +104,7 @@ func ConvertCommentTypes(in *blog.Comment) (out *types.Comment) {
 	return
 }
 
-func ConvertCommentReplyTypes(in *blog.Comment) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(in *blogrpc.Comment) (out *types.CommentReply) {
 	out = &types.CommentReply{
 		Id:             in.Id,
 		TopicId:        in.TopicId,

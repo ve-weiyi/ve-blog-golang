@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func NewExportArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *types.EmptyResp, err error) {
-	in := &blog.PageQuery{}
+	in := &blogrpc.PageQuery{}
 
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
 	if err != nil {
@@ -44,12 +44,12 @@ func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *typ
 	}
 
 	// 查询分类
-	categories, err := l.svcCtx.CategoryRpc.FindCategoryListByIds(l.ctx, &blog.IdsReq{Ids: cids})
+	categories, err := l.svcCtx.CategoryRpc.FindCategoryListByIds(l.ctx, &blogrpc.IdsReq{Ids: cids})
 	if err != nil {
 		return nil, err
 	}
 	// 查询标签
-	tms, err := l.svcCtx.TagRpc.FindTagMapByArticleIds(l.ctx, &blog.IdsReq{Ids: aids})
+	tms, err := l.svcCtx.TagRpc.FindTagMapByArticleIds(l.ctx, &blogrpc.IdsReq{Ids: aids})
 	if err != nil {
 		return nil, err
 	}

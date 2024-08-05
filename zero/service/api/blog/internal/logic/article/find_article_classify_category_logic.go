@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.Servic
 }
 
 func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyReq) (resp *types.PageResp, err error) {
-	cs, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blog.PageQuery{
+	cs, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blogrpc.PageQuery{
 		Page:       1,
 		PageSize:   1,
 		Sorts:      "id desc",
@@ -45,7 +45,7 @@ func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *type
 		ids = append(ids, v.Id)
 	}
 
-	as, err := l.svcCtx.ArticleRpc.FindArticleByCategory(l.ctx, &blog.FindArticleByCategoryReq{
+	as, err := l.svcCtx.ArticleRpc.FindArticleByCategory(l.ctx, &blogrpc.FindArticleByCategoryReq{
 		CategoryIds: ids,
 	})
 	if err != nil {

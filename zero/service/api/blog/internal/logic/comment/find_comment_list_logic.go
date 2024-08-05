@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -48,7 +48,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 	for _, v := range out.List {
 		m := convert.ConvertCommentTypes(v)
 		// 查询回复评论
-		reply, _ := l.svcCtx.CommentRpc.FindCommentList(l.ctx, &blog.PageQuery{
+		reply, _ := l.svcCtx.CommentRpc.FindCommentList(l.ctx, &blogrpc.PageQuery{
 			Page:       1,
 			PageSize:   3,
 			Sorts:      in.Sorts,
@@ -57,7 +57,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		})
 
 		// 查询回复评论数
-		replyCount, _ := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, &blog.PageQuery{
+		replyCount, _ := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, &blogrpc.PageQuery{
 			Conditions: "parent_id = ?",
 			Sorts:      in.Sorts,
 			Args:       []string{cast.ToString(v.Id)},
