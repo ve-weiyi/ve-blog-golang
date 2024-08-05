@@ -16,7 +16,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
 type WebSocketLogic struct {
@@ -50,7 +50,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 		}
 
 		uid := cast.ToInt64(r.Context().Value("userId"))
-		info, err := l.svcCtx.UserRpc.FindUserInfo(r.Context(), &blog.UserIdReq{UserId: uid})
+		info, err := l.svcCtx.UserRpc.FindUserInfo(r.Context(), &blogrpc.UserIdReq{UserId: uid})
 		if err != nil {
 			return nil, err
 		}
@@ -65,7 +65,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, err
 		}
 
-		chat := &blog.ChatRecord{
+		chat := &blogrpc.ChatRecord{
 			UserId:    uid,
 			Nickname:  info.Nickname,
 			Avatar:    info.Avatar,

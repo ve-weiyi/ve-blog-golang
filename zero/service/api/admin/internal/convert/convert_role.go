@@ -2,11 +2,11 @@ package convert
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
-func ConvertRolePb(in *types.Role) (out *blog.Role) {
-	out = &blog.Role{
+func ConvertRolePb(in *types.Role) (out *blogrpc.Role) {
+	out = &blogrpc.Role{
 		Id:          in.Id,
 		ParentId:    in.RolePid,
 		RoleDomain:  in.RoleDomain,
@@ -20,7 +20,7 @@ func ConvertRolePb(in *types.Role) (out *blog.Role) {
 	return
 }
 
-func ConvertRoleTypes(in *blog.Role) (out *types.Role) {
+func ConvertRoleTypes(in *blogrpc.Role) (out *types.Role) {
 	out = &types.Role{
 		Id:          in.Id,
 		RolePid:     in.ParentId,
@@ -35,7 +35,7 @@ func ConvertRoleTypes(in *blog.Role) (out *types.Role) {
 	return
 }
 
-func ConvertRoleDetailsTypes(in *blog.RoleDetails) (out *types.RoleDetails) {
+func ConvertRoleDetailsTypes(in *blogrpc.RoleDetails) (out *types.RoleDetails) {
 	out = &types.RoleDetails{
 		Id:          in.Id,
 		RolePid:     in.ParentId,

@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -42,7 +42,7 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *ty
 
 	var list []*types.CategoryDetails
 	for _, v := range out.List {
-		row, _ := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blog.PageQuery{
+		row, _ := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blogrpc.PageQuery{
 			Conditions: "category_id = ?",
 			Args:       []string{cast.ToString(v.Id)},
 		})

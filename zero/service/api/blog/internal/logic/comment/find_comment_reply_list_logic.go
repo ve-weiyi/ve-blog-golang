@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
 type FindCommentReplyListLogic struct {
@@ -47,7 +47,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 	for _, v := range out.List {
 		m := convert.ConvertCommentTypes(v)
 		// 查询回复评论
-		reply, _ := l.svcCtx.CommentRpc.FindCommentList(l.ctx, &blog.PageQuery{
+		reply, _ := l.svcCtx.CommentRpc.FindCommentList(l.ctx, &blogrpc.PageQuery{
 			Page:       1,
 			PageSize:   3,
 			Sorts:      in.Sorts,
@@ -56,7 +56,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 		})
 
 		// 查询回复评论数
-		replyCount, _ := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, &blog.PageQuery{
+		replyCount, _ := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, &blogrpc.PageQuery{
 			Conditions: "parent_id = ?",
 			Sorts:      in.Sorts,
 			Args:       []string{cast.ToString(v.Id)},

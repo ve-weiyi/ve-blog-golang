@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -40,7 +40,7 @@ func (l *FindTagListLogic) FindTagList(req *types.PageQuery) (resp *types.PageRe
 
 	var list []*types.TagDetails
 	for _, v := range out.List {
-		row, _ := l.svcCtx.TagRpc.FindTagArticleCount(l.ctx, &blog.FindTagArticleCountReq{
+		row, _ := l.svcCtx.TagRpc.FindTagArticleCount(l.ctx, &blogrpc.FindTagArticleCountReq{
 			TagId: v.Id,
 		})
 

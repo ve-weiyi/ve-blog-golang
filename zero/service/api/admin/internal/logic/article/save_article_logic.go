@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
@@ -28,15 +28,15 @@ func NewSaveArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveA
 }
 
 func (l *SaveArticleLogic) SaveArticle(req *types.ArticleNewReq) (resp *types.EmptyResp, err error) {
-	in := &blog.Article{}
+	in := &blogrpc.Article{}
 	jsonconv.ObjectToObject(req, &in)
 
-	c, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blog.PageQuery{
+	c, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blogrpc.PageQuery{
 		Conditions: "category_name = ?",
 		Args:       []string{req.CategoryName},
 	})
 
-	// t, err := l.svcCtx.TagRpc.FindTagList(l.ctx, &blog.PageQuery{
+	// t, err := l.svcCtx.TagRpc.FindTagList(l.ctx, &blogrpc.PageQuery{
 	//	Conditions: "tag_name = ?",
 	//	Args:       req.TagNameList,
 	// })

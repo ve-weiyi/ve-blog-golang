@@ -4,44 +4,44 @@ import (
 	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
-func EmptyReq() (out *blog.EmptyReq) {
-	out = &blog.EmptyReq{}
+func EmptyReq() (out *blogrpc.EmptyReq) {
+	out = &blogrpc.EmptyReq{}
 	return
 }
 
-func ConvertIdReq(in *types.IdReq) (out *blog.IdReq) {
-	out = &blog.IdReq{
+func ConvertIdReq(in *types.IdReq) (out *blogrpc.IdReq) {
+	out = &blogrpc.IdReq{
 		Id: in.Id,
 	}
 	return
 }
 
-func ConvertIdsReq(in *types.IdsReq) (out *blog.IdsReq) {
-	out = &blog.IdsReq{
+func ConvertIdsReq(in *types.IdsReq) (out *blogrpc.IdsReq) {
+	out = &blogrpc.IdsReq{
 		Ids: in.Ids,
 	}
 	return
 }
 
-func ConvertPageQuery(in *types.PageQuery) (out *blog.PageQuery) {
-	out = &blog.PageQuery{}
+func ConvertPageQuery(in *types.PageQuery) (out *blogrpc.PageQuery) {
+	out = &blogrpc.PageQuery{}
 	out.Page = in.Page
 	out.PageSize = in.PageSize
 	out.Sorts = OrderClause(in.Sorts)
 	out.Conditions, out.Args = ConditionClause(in.Conditions)
 
 	// for _, sort := range in.Sorts {
-	//	out.Sorts = append(out.Sorts, &blog.PageSort{
+	//	out.Sorts = append(out.Sorts, &blogrpc.PageSort{
 	//		Field: sort.Field,
 	//		Order: sort.Order,
 	//	})
 	// }
 	//
 	// for _, condition := range in.Conditions {
-	//	out.Conditions = append(out.Conditions, &blog.PageCondition{
+	//	out.Conditions = append(out.Conditions, &blogrpc.PageCondition{
 	//		Field:    condition.Field,
 	//		Operator: condition.Operator,
 	//		Value:    cast.ToString(condition.Value),

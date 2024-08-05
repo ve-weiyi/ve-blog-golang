@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -37,7 +37,7 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 	}
 
 	// 查询上一篇文章
-	last, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blog.PageQuery{
+	last, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blogrpc.PageQuery{
 		Page:       1,
 		PageSize:   1,
 		Sorts:      "id desc",
@@ -46,7 +46,7 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 	})
 
 	// 查询下一篇文章
-	next, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blog.PageQuery{
+	next, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blogrpc.PageQuery{
 		Page:       1,
 		PageSize:   1,
 		Sorts:      "id asc",
@@ -55,7 +55,7 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 	})
 
 	// 查询推荐文章
-	recommend, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blog.PageQuery{
+	recommend, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blogrpc.PageQuery{
 		Page:       1,
 		PageSize:   5,
 		Sorts:      "id desc",
@@ -64,7 +64,7 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 	})
 
 	// 查询最新文章
-	newest, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blog.PageQuery{
+	newest, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blogrpc.PageQuery{
 		Page:     1,
 		PageSize: 5,
 		Sorts:    "id desc",

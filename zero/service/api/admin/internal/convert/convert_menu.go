@@ -2,19 +2,32 @@ package convert
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-func ConvertMenuTypes(in *blog.Menu) (out *types.MenuDetails) {
-	jsonconv.ObjectToObject(in, &out)
+func ConvertMenuTypes(in *blogrpc.Menu) (out *types.MenuDetails) {
+	out = &types.MenuDetails{
+		Id:        in.Id,
+		ParentId:  in.ParentId,
+		Title:     in.Title,
+		Type:      in.Type,
+		Path:      in.Path,
+		Name:      in.Name,
+		Component: in.Component,
+		Redirect:  in.Redirect,
+		Meta:      types.Meta{},
+		Children:  make([]*types.MenuDetails, 0),
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+	}
 
 	jsonconv.JsonToObject(in.Extra, &out.Meta)
 	return
 }
 
-func ConvertMenuDetailsTypes(in *blog.MenuDetails) (out *types.MenuDetails) {
+func ConvertMenuDetailsTypes(in *blogrpc.MenuDetails) (out *types.MenuDetails) {
 	out = &types.MenuDetails{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
@@ -39,15 +52,15 @@ func ConvertMenuDetailsTypes(in *blog.MenuDetails) (out *types.MenuDetails) {
 	return
 }
 
-func ConvertMenuPb(in *types.MenuDetails) (out *blog.Menu) {
+func ConvertMenuPb(in *types.MenuDetails) (out *blogrpc.Menu) {
 	jsonconv.ObjectToObject(in, &out)
 
 	out.Extra = jsonconv.ObjectToJson(in.Meta)
 	return
 }
 
-func ConvertMenuDetailPb(in types.RouteConfigsTable) (out *blog.MenuDetails) {
-	out = &blog.MenuDetails{
+func ConvertMenuDetailPb(in types.RouteConfigsTable) (out *blogrpc.MenuDetails) {
+	out = &blogrpc.MenuDetails{
 		Id:        0,
 		ParentId:  0,
 		Title:     "",
@@ -59,7 +72,7 @@ func ConvertMenuDetailPb(in types.RouteConfigsTable) (out *blog.MenuDetails) {
 		Extra:     jsonconv.ObjectToJson(in.Meta),
 		CreatedAt: 0,
 		UpdatedAt: 0,
-		Children:  make([]*blog.MenuDetails, 0),
+		Children:  make([]*blogrpc.MenuDetails, 0),
 	}
 
 	for _, v := range in.Children {
@@ -69,13 +82,13 @@ func ConvertMenuDetailPb(in types.RouteConfigsTable) (out *blog.MenuDetails) {
 	return
 }
 
-func ConvertSyncMenuPb(in *types.SyncMenuReq) (out *blog.SyncMenuReq) {
-	list := make([]*blog.MenuDetails, 0)
+func ConvertSyncMenuPb(in *types.SyncMenuReq) (out *blogrpc.SyncMenuReq) {
+	list := make([]*blogrpc.MenuDetails, 0)
 	for _, m := range in.Menus {
 		list = append(list, ConvertMenuDetailPb(m))
 	}
 
-	out = &blog.SyncMenuReq{
+	out = &blogrpc.SyncMenuReq{
 		Menus: list,
 	}
 

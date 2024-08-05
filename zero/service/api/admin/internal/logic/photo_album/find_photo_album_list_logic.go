@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -43,7 +43,7 @@ func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(req *types.PageQuery) (resp
 	var list []*types.PhotoAlbum
 	for _, v := range out.List {
 		m := convert.ConvertPhotoAlbumTypes(v)
-		count, _ := l.svcCtx.PhotoRpc.FindPhotoCount(l.ctx, &blog.PageQuery{
+		count, _ := l.svcCtx.PhotoRpc.FindPhotoCount(l.ctx, &blogrpc.PageQuery{
 			Conditions: "album_id = ?",
 			Args:       []string{cast.ToString(v.Id)},
 		})

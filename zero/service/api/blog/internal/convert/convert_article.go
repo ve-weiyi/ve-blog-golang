@@ -1,12 +1,12 @@
 package convert
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertArticleHomeTypes(in *blog.Article) (out *types.ArticleHome) {
+func ConvertArticleHomeTypes(in *blogrpc.Article) (out *types.ArticleHome) {
 	out = &types.ArticleHome{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,
@@ -27,7 +27,7 @@ func ConvertArticleHomeTypes(in *blog.Article) (out *types.ArticleHome) {
 	return
 }
 
-func ConvertArticlePreviewTypes(in *blog.Article) (out *types.ArticlePreview) {
+func ConvertArticlePreviewTypes(in *blogrpc.Article) (out *types.ArticlePreview) {
 	out = &types.ArticlePreview{
 		Id:           in.Id,
 		ArticleCover: in.ArticleCover,

@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
 type LikeTalkLogic struct {
@@ -26,7 +26,7 @@ func NewLikeTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeTalk
 }
 
 func (l *LikeTalkLogic) LikeTalk(req *types.IdReq) (resp *types.EmptyResp, err error) {
-	in := &blog.IdReq{Id: req.Id}
+	in := &blogrpc.IdReq{Id: req.Id}
 
 	_, err = l.svcCtx.TalkRpc.LikeTalk(l.ctx, in)
 	if err != nil {

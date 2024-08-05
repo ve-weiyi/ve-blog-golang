@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -46,12 +46,12 @@ func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.PageQuery) (re
 	}
 
 	// 查询分类
-	categories, err := l.svcCtx.CategoryRpc.FindCategoryListByIds(l.ctx, &blog.IdsReq{Ids: cids})
+	categories, err := l.svcCtx.CategoryRpc.FindCategoryListByIds(l.ctx, &blogrpc.IdsReq{Ids: cids})
 	if err != nil {
 		return nil, err
 	}
 	// 查询标签
-	tms, err := l.svcCtx.TagRpc.FindTagMapByArticleIds(l.ctx, &blog.IdsReq{Ids: aids})
+	tms, err := l.svcCtx.TagRpc.FindTagMapByArticleIds(l.ctx, &blogrpc.IdsReq{Ids: aids})
 	if err != nil {
 		return nil, err
 	}

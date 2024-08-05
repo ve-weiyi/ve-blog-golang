@@ -3203,10 +3203,10 @@
           "type": "string",
           "description": " 内容"
         },
-        "type": {
+        "article_type": {
           "type": "integer",
           "format": "int64",
-          "description": " 文章类型"
+          "description": " 文章类型 1原创 2转载 3翻译"
         },
         "original_url": {
           "type": "string",
@@ -3291,7 +3291,7 @@
           "type": "string",
           "description": " 内容"
         },
-        "type": {
+        "article_type": {
           "type": "integer",
           "format": "int64",
           "description": " 文章类型 1原创 2转载 3翻译"

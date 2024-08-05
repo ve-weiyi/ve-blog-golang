@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -27,7 +27,7 @@ func NewOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(req *types.OauthLoginReq) (resp *types.OauthLoginUrlResp, err error) {
-	in := &blog.OauthLoginReq{
+	in := &blogrpc.OauthLoginReq{
 		Platform: req.Platform,
 		Code:     req.Code,
 		State:    req.State,

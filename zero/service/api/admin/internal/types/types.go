@@ -47,7 +47,7 @@ type ArticleBackDTO struct {
 	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
 	ArticleTitle   string   `json:"article_title,optional"`   // 标题
 	ArticleContent string   `json:"article_content,optional"` // 内容
-	Type           int64    `json:"type,optional"`            // 文章类型
+	ArticleType    int64    `json:"article_type,optional"`    // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
 	IsTop          int64    `json:"is_top,optional"`          // 是否置顶
 	IsDelete       int64    `json:"is_delete,optional"`       // 是否删除
@@ -67,7 +67,7 @@ type ArticleNewReq struct {
 	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
 	ArticleTitle   string   `json:"article_title,optional"`   // 标题
 	ArticleContent string   `json:"article_content,optional"` // 内容
-	Type           int64    `json:"type,optional"`            // 文章类型 1原创 2转载 3翻译
+	ArticleType    int64    `json:"article_type,optional"`    // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
 	IsTop          int64    `json:"is_top,optional"`          // 是否置顶 0否 1是
 	IsDelete       int64    `json:"is_delete,optional"`       // 是否删除  0否 1是

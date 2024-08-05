@@ -2,10 +2,10 @@ package convert
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
-func ConvertUploadTypes(in *blog.UploadRecordResp) (out *types.UploadFileResp) {
+func ConvertUploadTypes(in *blogrpc.UploadRecordResp) (out *types.UploadFileResp) {
 
 	out = &types.UploadFileResp{
 		Id:        in.Id,
