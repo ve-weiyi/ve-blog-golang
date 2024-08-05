@@ -9,9 +9,11 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/common/task"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/swagger"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -66,6 +68,8 @@ func main() {
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
+
+	swagger.RegisterHttpSwagHandler(server, "/api/v1/swagger/", files.GetRuntimeRoot()+"/docs/blog.json")
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)
