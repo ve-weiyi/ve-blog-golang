@@ -3,8 +3,9 @@ package talkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,13 +26,47 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 }
 
 // 创建说说
-func (l *AddTalkLogic) AddTalk(in *blog.Talk) (*blog.Talk, error) {
-	entity := convert.ConvertTalkPbToModel(in)
+func (l *AddTalkLogic) AddTalk(in *talkrpc.TalkNewReq) (*talkrpc.TalkDetails, error) {
+	entity := convertTalkIn(in)
 
 	_, err := l.svcCtx.TalkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTalkModelToPb(entity), nil
+	return convertTalkOut(entity), nil
+}
+
+func convertTalkIn(in *talkrpc.TalkNewReq) (out *model.Talk) {
+	out = &model.Talk{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Content:   in.Content,
+		Images:    jsonconv.ObjectToJson(in.ImgList),
+		IsTop:     in.IsTop,
+		Status:    in.Status,
+		LikeCount: 0,
+	}
+
+	return out
+}
+
+func convertTalkOut(in *model.Talk) (out *talkrpc.TalkDetails) {
+	var images []string
+	jsonconv.JsonToObject(in.Images, &images)
+
+	out = &talkrpc.TalkDetails{
+		Id:           in.Id,
+		UserId:       in.UserId,
+		Content:      in.Content,
+		ImgList:      images,
+		IsTop:        in.IsTop,
+		Status:       in.Status,
+		LikeCount:    in.LikeCount,
+		CommentCount: 0,
+		CreatedAt:    in.CreatedAt.Unix(),
+		UpdatedAt:    in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

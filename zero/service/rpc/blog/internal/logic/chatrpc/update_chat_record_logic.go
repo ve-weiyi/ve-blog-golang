@@ -3,8 +3,7 @@ package chatrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,13 +24,8 @@ func NewUpdateChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 更新聊天记录
-func (l *UpdateChatRecordLogic) UpdateChatRecord(in *blog.ChatRecord) (*blog.ChatRecord, error) {
-	entity := convert.ConvertChatRecordPbToModel(in)
+func (l *UpdateChatRecordLogic) UpdateChatRecord(in *chatrpc.ChatRecordNewReq) (*chatrpc.ChatRecordDetails, error) {
+	// todo: add your logic here and delete this line
 
-	_, err := l.svcCtx.ChatRecordModel.Update(l.ctx, entity)
-	if err != nil {
-		return nil, err
-	}
-
-	return convert.ConvertChatRecordModelToPb(entity), nil
+	return &chatrpc.ChatRecordDetails{}, nil
 }

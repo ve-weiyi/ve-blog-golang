@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -9,6 +10,9 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 )
 
+func Test_len(t *testing.T) {
+	fmt.Println(len("230f039bbd89dcb83974cac5041a1199d98ba9c1"))
+}
 func Test_VisitFile(t *testing.T) {
 
 	err := files.VisitFile("./api/blog/internal/logic", func(path string, f os.FileInfo, err error) error {

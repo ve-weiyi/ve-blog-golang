@@ -14,7 +14,7 @@ import (
 // 获取首页文章列表
 func FindArticleHomeListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PageQuery
+		var req types.ArticleHomeQueryReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

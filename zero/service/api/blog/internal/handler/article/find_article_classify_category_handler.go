@@ -14,7 +14,7 @@ import (
 // 通过分类获取文章列表
 func FindArticleClassifyCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ArticleClassifyReq
+		var req types.ArticleClassifyQueryReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

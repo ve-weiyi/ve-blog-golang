@@ -3,12 +3,12 @@ package website
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type UpdateAboutMeLogic struct {
@@ -27,12 +27,12 @@ func NewUpdateAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 }
 
 func (l *UpdateAboutMeLogic) UpdateAboutMe(req *types.AboutMe) (resp *types.EmptyResp, err error) {
-	in := blogrpc.SaveConfigReq{
+	in := &configrpc.SaveConfigReq{
 		ConfigKey:   "about_me",
 		ConfigValue: jsonconv.ObjectToJson(req),
 	}
 
-	_, err = l.svcCtx.ConfigRpc.SaveConfig(l.ctx, &in)
+	_, err = l.svcCtx.ConfigRpc.SaveConfig(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

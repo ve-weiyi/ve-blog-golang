@@ -3,7 +3,6 @@ package photo
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -25,13 +24,13 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 	}
 }
 
-func (l *UpdatePhotoLogic) UpdatePhoto(req *types.Photo) (resp *types.Photo, err error) {
-	in := convert.ConvertPhotoPb(req)
-
-	api, err := l.svcCtx.PhotoRpc.UpdatePhoto(l.ctx, in)
+func (l *UpdatePhotoLogic) UpdatePhoto(req *types.PhotoNewReq) (resp *types.PhotoBackDTO, err error) {
+	in := ConvertPhotoPb(req)
+	out, err := l.svcCtx.PhotoRpc.UpdatePhoto(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoTypes(api), nil
+	resp = ConvertPhotoTypes(out)
+	return resp, nil
 }

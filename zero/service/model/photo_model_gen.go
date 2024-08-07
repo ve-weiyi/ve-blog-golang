@@ -94,7 +94,7 @@ func (m *defaultPhotoModel) InsertBatch(ctx context.Context, in ...*Photo) (rows
 func (m *defaultPhotoModel) Update(ctx context.Context, in *Photo) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Save(&in)
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

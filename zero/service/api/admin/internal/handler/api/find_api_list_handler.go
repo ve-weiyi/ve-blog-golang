@@ -14,7 +14,7 @@ import (
 // 分页获取api路由列表
 func FindApiListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PageQuery
+		var req types.ApiQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

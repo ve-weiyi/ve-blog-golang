@@ -31,6 +31,7 @@ type (
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Tag, err error)
 		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Tag, err error)
 		// add extra method in here
+		FindOneByTagName(ctx context.Context, tag_name string) (out *Tag, err error)
 	}
 
 	// 表字段定义
@@ -90,7 +91,7 @@ func (m *defaultTagModel) InsertBatch(ctx context.Context, in ...*Tag) (rows int
 func (m *defaultTagModel) Update(ctx context.Context, in *Tag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Save(&in)
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -233,3 +234,13 @@ func (m *defaultTagModel) FindList(ctx context.Context, page int, size int, sort
 }
 
 // add extra method in here
+func (m *defaultTagModel) FindOneByTagName(ctx context.Context, tag_name string) (out *Tag, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	err = db.Where("`tag_name` = ?", tag_name).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

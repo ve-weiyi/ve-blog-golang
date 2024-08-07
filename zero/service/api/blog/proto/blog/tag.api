@@ -4,11 +4,16 @@ import "base.api"
 
 type (
     Tag {
-        Id int64 `json:"id,optional"`                      // 标签ID
-        TagName string `json:"tag_name,optional"`          // 标签名
-        ArticleCount int64 `json:"article_count,optional"` // 文章数量
-        CreatedAt int64 `json:"created_at,optional"`       // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`       // 更新时间
+        Id int64 `json:"id"`                      // 标签ID
+        TagName string `json:"tag_name"`          // 标签名
+        ArticleCount int64 `json:"article_count"` // 文章数量
+        CreatedAt int64 `json:"created_at"`       // 创建时间
+        UpdatedAt int64 `json:"updated_at"`       // 更新时间
+    }
+
+    TagQueryReq {
+        PageQuery
+        TagName string `json:"tag_name,optional"` // 标签名
     }
 )
 
@@ -21,5 +26,5 @@ type (
 service blog-api {
     @doc "分页获取标签列表"
     @handler FindTagList
-    post /tag/find_tag_list (PageQuery) returns (PageResp)
+    post /tag/find_tag_list (TagQueryReq) returns (PageResp)
 }

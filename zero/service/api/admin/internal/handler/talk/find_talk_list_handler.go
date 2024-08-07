@@ -14,7 +14,7 @@ import (
 // 分页获取说说列表
 func FindTalkListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PageQuery
+		var req types.TalkQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

@@ -14,7 +14,7 @@ import (
 // 获取首页推荐文章列表
 func FindArticleRecommendHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PageQuery
+		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

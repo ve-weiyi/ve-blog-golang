@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -18,7 +17,7 @@ type UpdateWebsiteConfigLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 更新配置
+// 更新网站配置
 func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateWebsiteConfigLogic {
 	return &UpdateWebsiteConfigLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,12 +27,12 @@ func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(req *types.WebsiteConfig) (resp *types.EmptyResp, err error) {
-	in := blogrpc.SaveConfigReq{
+	in := &configrpc.SaveConfigReq{
 		ConfigKey:   "website_config",
 		ConfigValue: jsonconv.ObjectToJson(req),
 	}
 
-	_, err = l.svcCtx.ConfigRpc.SaveConfig(l.ctx, &in)
+	_, err = l.svcCtx.ConfigRpc.SaveConfig(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

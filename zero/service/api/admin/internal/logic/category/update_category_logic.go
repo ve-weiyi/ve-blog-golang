@@ -3,7 +3,6 @@ package category
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -25,13 +24,13 @@ func NewUpdateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateCategoryLogic) UpdateCategory(req *types.Category) (resp *types.Category, err error) {
-	in := convert.ConvertCategoryPb(req)
-
-	api, err := l.svcCtx.CategoryRpc.UpdateCategory(l.ctx, in)
+func (l *UpdateCategoryLogic) UpdateCategory(req *types.CategoryNewReq) (resp *types.CategoryBackDTO, err error) {
+	in := ConvertCategoryPb(req)
+	out, err := l.svcCtx.ArticleRpc.UpdateCategory(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCategoryTypes(api), nil
+	resp = ConvertCategoryTypes(out)
+	return resp, nil
 }

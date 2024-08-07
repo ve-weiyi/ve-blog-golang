@@ -14,7 +14,7 @@ import (
 // 获取博客前台首页信息
 func GetBlogHomeInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.GetBlogHomeInfoReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

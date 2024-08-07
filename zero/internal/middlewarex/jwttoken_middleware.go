@@ -70,10 +70,6 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		//token验证成功,但用户在别处登录或退出登录
-		//if jwtService.IsBlacklist(token) {
-		//
-		//}
-
 		if j.IsBlacklist(claims) {
 			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("user already logout or login in other place"))
 			return
@@ -95,6 +91,7 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// 已退出登录
 func (j *JwtTokenMiddleware) IsBlacklist(claims jwt.MapClaims) bool {
 	uid := cast.ToInt64(claims["uid"])
 	loginAt := cast.ToInt64(claims[jtoken.JwtIssueAt])

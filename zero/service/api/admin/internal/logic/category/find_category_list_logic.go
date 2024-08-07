@@ -3,12 +3,9 @@ package category
 import (
 	"context"
 
-	"github.com/spf13/cast"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,34 +25,29 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, in)
+func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQuery) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindCategoryListReq{
+		Page:         req.Page,
+		PageSize:     req.PageSize,
+		Sorts:        req.Sorts,
+		CategoryName: req.CategoryName,
+	}
+
+	out, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.CategoryDetails
+	var list []*types.CategoryBackDTO
 	for _, v := range out.List {
-		row, _ := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blogrpc.PageQuery{
-			Conditions: "category_id = ?",
-			Args:       []string{cast.ToString(v.Id)},
-		})
-
-		m := convert.ConvertCategoryDetailsTypes(v)
-		m.ArticleCount = row.Count
+		m := ConvertCategoryTypes(v)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
 }

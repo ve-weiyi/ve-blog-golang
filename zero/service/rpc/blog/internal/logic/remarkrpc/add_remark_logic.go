@@ -3,8 +3,8 @@ package remarkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,13 +25,47 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 }
 
 // 创建留言
-func (l *AddRemarkLogic) AddRemark(in *blog.Remark) (*blog.Remark, error) {
-	entity := convert.ConvertRemarkPbToModel(in)
+func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
+	entity := convertRemarkIn(in)
 
 	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRemarkModelToPb(entity), nil
+	return convertRemarkOut(entity), nil
+}
+
+func convertRemarkIn(in *remarkrpc.RemarkNewReq) (out *model.Remark) {
+	out = &model.Remark{
+		Id:             in.Id,
+		Nickname:       in.Nickname,
+		Avatar:         in.Avatar,
+		MessageContent: in.MessageContent,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		Time:           in.Time,
+		IsReview:       in.IsReview,
+		//CreatedAt:      time.Time{},
+		//UpdatedAt:      time.Time{},
+	}
+
+	return out
+}
+
+func convertRemarkOut(in *model.Remark) (out *remarkrpc.RemarkDetails) {
+	out = &remarkrpc.RemarkDetails{
+		Id:             in.Id,
+		Nickname:       in.Nickname,
+		Avatar:         in.Avatar,
+		MessageContent: in.MessageContent,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		Time:           in.Time,
+		IsReview:       in.IsReview,
+		CreatedAt:      in.CreatedAt.Unix(),
+		UpdatedAt:      in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

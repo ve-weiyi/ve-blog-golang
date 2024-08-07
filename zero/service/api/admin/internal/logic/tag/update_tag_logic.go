@@ -3,7 +3,6 @@ package tag
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -25,13 +24,13 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 	}
 }
 
-func (l *UpdateTagLogic) UpdateTag(req *types.Tag) (resp *types.Tag, err error) {
-	in := convert.ConvertTagPb(req)
-
-	api, err := l.svcCtx.TagRpc.UpdateTag(l.ctx, in)
+func (l *UpdateTagLogic) UpdateTag(req *types.TagNewReq) (resp *types.TagBackDTO, err error) {
+	in := ConvertTagPb(req)
+	out, err := l.svcCtx.ArticleRpc.UpdateTag(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTagTypes(api), nil
+	resp = ConvertTagTypes(out)
+	return resp, nil
 }

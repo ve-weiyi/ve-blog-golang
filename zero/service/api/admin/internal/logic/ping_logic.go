@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
@@ -16,6 +15,7 @@ type PingLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// ping
 func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 	return &PingLogic{
 		Logger: logx.WithContext(ctx),
@@ -24,17 +24,8 @@ func NewPingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PingLogic {
 	}
 }
 
-var runtime = time.Now()
-
 func (l *PingLogic) Ping(req *types.PingReq) (resp *types.PingResp, err error) {
-	resp = &types.PingResp{
-		Env:         l.svcCtx.Config.Mode,
-		Name:        l.svcCtx.Config.Name,
-		Version:     "v1.0.0",
-		Runtime:     runtime.String(),
-		Description: "",
-		RpcStatus:   nil,
-	}
+	// todo: add your logic here and delete this line
 
 	return
 }

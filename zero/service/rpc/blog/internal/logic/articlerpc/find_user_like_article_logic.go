@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +27,7 @@ func NewFindUserLikeArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // 用户点赞的文章
-func (l *FindUserLikeArticleLogic) FindUserLikeArticle(in *blog.UserIdReq) (*blog.FindLikeArticleResp, error) {
+func (l *FindUserLikeArticleLogic) FindUserLikeArticle(in *articlerpc.UserIdReq) (*articlerpc.FindLikeArticleResp, error) {
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeArticleKey(uid)
 
@@ -41,7 +41,7 @@ func (l *FindUserLikeArticleLogic) FindUserLikeArticle(in *blog.UserIdReq) (*blo
 		ids = append(ids, cast.ToInt64(k))
 	}
 
-	return &blog.FindLikeArticleResp{
+	return &articlerpc.FindLikeArticleResp{
 		LikeArticleList: ids,
 	}, nil
 }

@@ -14,7 +14,7 @@ import (
 // 获取相册列表
 func FindAlbumListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PageQuery
+		var req types.AlbumQueryReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

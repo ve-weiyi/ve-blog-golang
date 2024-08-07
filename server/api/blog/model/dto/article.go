@@ -30,7 +30,7 @@ type ArticleDetailsDTOReq struct {
 	Type           int64     `json:"type"`            // 文章类型
 	OriginalUrl    string    `json:"original_url"`    // 原文链接
 	IsTop          int64     `json:"is_top"`          // 是否置顶
-	Status         int64     `json:"status"`          // 状态值 1 公开 2 私密 3 评论可见
+	Status         int64     `json:"status"`          // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CreatedAt      time.Time `json:"created_at"`      // 发表时间
 	UpdatedAt      time.Time `json:"updated_at"`      // 更新时间
 	CategoryName   string    `json:"category_name"`   // 文章分类名
@@ -62,7 +62,7 @@ type ArticleDTO struct {
 	OriginalUrl    string    `json:"original_url"`    // 原文链接
 	IsTop          int64     `json:"is_top"`          // 是否置顶
 	IsDelete       int64     `json:"is_delete"`       // 是否删除
-	Status         int64     `json:"status"`          // 状态值 1 公开 2 私密 3 评论可见
+	Status         int64     `json:"status"`          // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CreatedAt      time.Time `json:"created_at"`      // 发表时间
 	UpdatedAt      time.Time `json:"updated_at"`      // 更新时间
 }

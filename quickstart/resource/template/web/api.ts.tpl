@@ -1,9 +1,9 @@
 {{- range .ImportPkgPaths -}}
-{{.}}
+{{.}};
 {{ end -}}
 
 {{ if .ImportTypes -}}
-import { {{ Join .ImportTypes }} } from "./types"
+import { {{ Join .ImportTypes }} } from "./types";
 {{ end -}}
 
 {{ range .Routes }}
@@ -17,6 +17,6 @@ export function {{ .Handler }}(
     url: "{{.Path}}",
     method: "{{.Method}}",
     {{ if .Request }}data: data,{{ end }}
-  })
+  });
 }
 {{ end -}}

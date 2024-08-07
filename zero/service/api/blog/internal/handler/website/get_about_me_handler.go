@@ -14,7 +14,7 @@ import (
 // 获取关于我的信息
 func GetAboutMeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.GetAboutMeReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

@@ -3,11 +3,11 @@ package article
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 )
 
 type FindArticleArchivesLogic struct {
@@ -25,31 +25,28 @@ func NewFindArticleArchivesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	in.Sorts = "id desc"
-	in.Conditions = "status = ?"
-	in.Args = []string{"1"}
-	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
+func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchivesQueryReq) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindArticleListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    req.Sorts,
+	}
+	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.ArticlePreview
+	var list []*types.ArticleHome
+	// 转换数据
 	for _, v := range out.List {
-		m := convert.ConvertArticlePreviewTypes(v)
+		m := ConvertArticleHomeTypes(v)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = req.Page
 	resp.PageSize = req.PageSize
-	resp.Total = total.Count
+	resp.Total = out.Total
 	resp.List = list
 	return
 }

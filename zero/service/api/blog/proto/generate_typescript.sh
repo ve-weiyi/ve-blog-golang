@@ -1,1 +1,1 @@
-goctl api ts -api blogrpc.api -dir ../ts
+goctl api ts -api blog.api -dir ../ts

@@ -4,11 +4,9 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,8 +26,8 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 	}
 }
 
-func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, err error) {
-	in := &blogrpc.FindConfigReq{
+func (l *GetAboutMeLogic) GetAboutMe(req *types.GetAboutMeReq) (resp *types.GetAboutMeResp, err error) {
+	in := &configrpc.FindConfigReq{
 		ConfigKey: "about_me",
 	}
 
@@ -38,7 +36,7 @@ func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, 
 		return nil, err
 	}
 
-	resp = &types.AboutMe{}
+	resp = &types.GetAboutMeResp{}
 	jsonconv.JsonToObject(out.ConfigValue, &resp)
 	return resp, nil
 }

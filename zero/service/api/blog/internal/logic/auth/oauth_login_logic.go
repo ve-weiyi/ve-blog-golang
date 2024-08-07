@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -29,13 +29,13 @@ func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthL
 }
 
 func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.LoginResp, err error) {
-	in := authrpc.OauthLoginReq{
+	in := accountrpc.OauthLoginReq{
 		Platform: req.Platform,
 		Code:     req.Code,
 		State:    req.State,
 	}
 
-	out, err := l.svcCtx.AuthRpc.OauthLogin(l.ctx, &in)
+	out, err := l.svcCtx.AccountRpc.OauthLogin(l.ctx, &in)
 	if err != nil {
 		return
 	}

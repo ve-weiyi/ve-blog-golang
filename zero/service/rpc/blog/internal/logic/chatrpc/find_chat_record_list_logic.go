@@ -3,8 +3,7 @@ package chatrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,21 +23,9 @@ func NewFindChatRecordListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-// 分页获取聊天记录列表
-func (l *FindChatRecordListLogic) FindChatRecordList(in *blog.PageQuery) (*blog.ChatRecordPageResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+// 查询聊天记录列表
+func (l *FindChatRecordListLogic) FindChatRecordList(in *chatrpc.FindChatRecordListReq) (*chatrpc.FindChatRecordListResp, error) {
+	// todo: add your logic here and delete this line
 
-	result, err := l.svcCtx.ChatRecordModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*blog.ChatRecord
-	for _, v := range result {
-		list = append(list, convert.ConvertChatRecordModelToPb(v))
-	}
-
-	return &blog.ChatRecordPageResp{
-		List: list,
-	}, nil
+	return &chatrpc.FindChatRecordListResp{}, nil
 }
