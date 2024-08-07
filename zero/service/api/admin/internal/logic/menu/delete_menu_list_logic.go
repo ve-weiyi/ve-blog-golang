@@ -3,7 +3,6 @@ package menu
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -16,6 +15,7 @@ type DeleteMenuListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 批量删除菜单
 func NewDeleteMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteMenuListLogic {
 	return &DeleteMenuListLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,12 +25,7 @@ func NewDeleteMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 func (l *DeleteMenuListLogic) DeleteMenuList(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	in := convert.ConvertIdsReq(req)
+	// todo: add your logic here and delete this line
 
-	_, err = l.svcCtx.MenuRpc.DeleteMenuList(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	return &types.BatchResp{}, nil
+	return
 }

@@ -1,12 +1,11 @@
 package convert
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 )
 
-func ConvertPhotoTypes(in *blogrpc.Photo) (out *types.Photo) {
+func ConvertPhotoTypes(in *photorpc.PhotoNew) (out *types.Photo) {
 
 	return &types.Photo{
 		Id:       in.Id,
@@ -14,7 +13,7 @@ func ConvertPhotoTypes(in *blogrpc.Photo) (out *types.Photo) {
 	}
 }
 
-func ConvertPhotoAlbumTypes(in *blogrpc.PhotoAlbum) (out *types.Album) {
+func ConvertPhotoAlbumTypes(in *photorpc.AlbumDetails) (out *types.Album) {
 
 	return &types.Album{
 		Id:         in.Id,

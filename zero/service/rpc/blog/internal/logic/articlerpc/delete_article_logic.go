@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -23,13 +23,12 @@ func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 	}
 }
 
-func (l *DeleteArticleLogic) DeleteArticle(in *blog.IdReq) (*blog.BatchResp, error) {
-	rows, err := l.svcCtx.ArticleModel.Delete(l.ctx, in.Id)
+// 删除文章
+func (l *DeleteArticleLogic) DeleteArticle(in *articlerpc.IdsReq) (*articlerpc.BatchResp, error) {
+	_, err := l.svcCtx.ArticleModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.BatchResp{
-		SuccessCount: rows,
-	}, nil
+	return &articlerpc.BatchResp{}, nil
 }

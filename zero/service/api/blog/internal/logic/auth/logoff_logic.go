@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -29,11 +29,11 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 }
 
 func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
-	in := authrpc.LogoffReq{
+	in := accountrpc.LogoffReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
-	_, err = l.svcCtx.AuthRpc.Logoff(l.ctx, &in)
+	_, err = l.svcCtx.AccountRpc.Logoff(l.ctx, &in)
 	if err != nil {
 		return
 	}

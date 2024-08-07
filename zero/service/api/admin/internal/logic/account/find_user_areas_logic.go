@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,29 +26,18 @@ func NewFindUserAreasLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 func (l *FindUserAreasLogic) FindUserAreas(req *types.PageQuery) (resp *types.PageResp, err error) {
 
-	in := &blogrpc.PageQuery{}
+	in := &accountrpc.EmptyReq{}
 	// 查询用户数量
-	users, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
+	out, err := l.svcCtx.AccountRpc.FindUserRegionList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	// 分类
-	AreaMap := make(map[string]int64)
-	for _, item := range users.List {
-		key := item.IpSource
-		if _, ok := AreaMap[key]; ok {
-			AreaMap[key]++
-		} else {
-			AreaMap[key] = 1
-		}
-	}
-
 	var list []*types.UserArea
-	for k, v := range AreaMap {
+	for _, v := range out.List {
 		list = append(list, &types.UserArea{
-			Name:  k,
-			Value: v,
+			Name:  v.Region,
+			Value: v.Count,
 		})
 	}
 

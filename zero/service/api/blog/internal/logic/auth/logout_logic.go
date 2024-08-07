@@ -6,8 +6,9 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -33,11 +34,11 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	uid := l.ctx.Value("uid").(string)
 
-	in := &blogrpc.LogoutReq{
+	in := &accountrpc.LogoutReq{
 		UserId: cast.ToInt64(uid),
 	}
 
-	out, err := l.svcCtx.AuthRpc.Logout(l.ctx, in)
+	out, err := l.svcCtx.AccountRpc.Logout(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

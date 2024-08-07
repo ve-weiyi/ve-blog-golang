@@ -10,7 +10,7 @@ import (
 	auth "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/category"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/comment"
-	friend_link "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/friend_link"
+	friend "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/friend"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/menu"
 	operation_log "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/operation_log"
 	page "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/page"
@@ -46,9 +46,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					// 批量删除登录历史
-					Method:  http.MethodDelete,
-					Path:    "/user/delete_login_history_list",
-					Handler: account.DeleteUserLoginHistoryListHandler(serverCtx),
+					Method:  http.MethodPost,
+					Path:    "/user/batch_delete_user_login_history",
+					Handler: account.BatchDeleteUserLoginHistoryHandler(serverCtx),
 				},
 				{
 					// 查询在线用户列表
@@ -57,22 +57,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: account.FindOnlineUserListHandler(serverCtx),
 				},
 				{
-					// 获取用户分布地区
-					Method:  http.MethodPost,
-					Path:    "/user/find_user_areas",
-					Handler: account.FindUserAreasHandler(serverCtx),
-				},
-				{
 					// 查询用户列表
 					Method:  http.MethodPost,
 					Path:    "/user/find_user_list",
 					Handler: account.FindUserListHandler(serverCtx),
 				},
 				{
+					// 查询用户登录历史
+					Method:  http.MethodPost,
+					Path:    "/user/find_user_login_history_list",
+					Handler: account.FindUserLoginHistoryListHandler(serverCtx),
+				},
+				{
 					// 获取用户接口权限
 					Method:  http.MethodGet,
 					Path:    "/user/get_user_apis",
 					Handler: account.GetUserApisHandler(serverCtx),
+				},
+				{
+					// 获取用户分布地区
+					Method:  http.MethodPost,
+					Path:    "/user/get_user_area_analysis",
+					Handler: account.GetUserAreaAnalysisHandler(serverCtx),
 				},
 				{
 					// 获取用户信息
@@ -90,13 +96,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					// 获取用户角色
 					Method:  http.MethodGet,
 					Path:    "/user/get_user_roles",
-					Handler: account.GetUserRoleHandler(serverCtx),
-				},
-				{
-					// 查询用户登录历史
-					Method:  http.MethodPost,
-					Path:    "/user/login_history",
-					Handler: account.FindUserLoginHistoryListHandler(serverCtx),
+					Handler: account.GetUserRolesHandler(serverCtx),
 				},
 				{
 					// 修改用户信息
@@ -123,8 +123,35 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 分页获取api路由列表
+					Method:  http.MethodPost,
+					Path:    "/api/find_api_list",
+					Handler: api.FindApiListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
+				{
+					// 创建api路由
+					Method:  http.MethodPost,
+					Path:    "/api/add_api",
+					Handler: api.AddApiHandler(serverCtx),
+				},
+				{
+					// 批量删除api路由
+					Method:  http.MethodDelete,
+					Path:    "/api/batch_delete_api",
+					Handler: api.BatchDeleteApiHandler(serverCtx),
+				},
 				{
 					// 清空接口列表
 					Method:  http.MethodPost,
@@ -132,34 +159,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: api.CleanApiListHandler(serverCtx),
 				},
 				{
-					// 创建api路由
-					Method:  http.MethodPost,
-					Path:    "/api/create_api",
-					Handler: api.CreateApiHandler(serverCtx),
-				},
-				{
 					// 删除api路由
 					Method:  http.MethodDelete,
 					Path:    "/api/delete_api",
 					Handler: api.DeleteApiHandler(serverCtx),
-				},
-				{
-					// 批量删除api路由
-					Method:  http.MethodDelete,
-					Path:    "/api/delete_api_list",
-					Handler: api.DeleteApiListHandler(serverCtx),
-				},
-				{
-					// 查询api路由
-					Method:  http.MethodPost,
-					Path:    "/api/find_api",
-					Handler: api.FindApiHandler(serverCtx),
-				},
-				{
-					// 分页获取api路由列表
-					Method:  http.MethodPost,
-					Path:    "/api/find_api_list",
-					Handler: api.FindApiListHandler(serverCtx),
 				},
 				{
 					// 同步api列表
@@ -183,6 +186,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
+					// 添加文章
+					Method:  http.MethodPost,
+					Path:    "/admin/article/add_article",
+					Handler: article.AddArticleHandler(serverCtx),
+				},
+				{
 					// 删除文章
 					Method:  http.MethodPost,
 					Path:    "/admin/article/delete_article",
@@ -195,16 +204,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: article.ExportArticleListHandler(serverCtx),
 				},
 				{
-					// 查询文章
-					Method:  http.MethodPost,
-					Path:    "/admin/article/find_article",
-					Handler: article.FindArticleHandler(serverCtx),
-				},
-				{
 					// 查询文章列表
 					Method:  http.MethodPost,
 					Path:    "/admin/article/find_article_list",
 					Handler: article.FindArticleListHandler(serverCtx),
+				},
+				{
+					// 查询文章
+					Method:  http.MethodPost,
+					Path:    "/admin/article/get_article",
+					Handler: article.GetArticleHandler(serverCtx),
 				},
 				{
 					// 回收文章
@@ -213,16 +222,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: article.RecycleArticleHandler(serverCtx),
 				},
 				{
-					// 保存文章
-					Method:  http.MethodPost,
-					Path:    "/admin/article/save_article",
-					Handler: article.SaveArticleHandler(serverCtx),
-				},
-				{
 					// 置顶文章
 					Method:  http.MethodPost,
 					Path:    "/admin/article/top_article",
 					Handler: article.TopArticleHandler(serverCtx),
+				},
+				{
+					// 保存文章
+					Method:  http.MethodPost,
+					Path:    "/admin/article/update_article",
+					Handler: article.UpdateArticleHandler(serverCtx),
 				},
 			}...,
 		),
@@ -278,26 +287,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建文章分类
 					Method:  http.MethodPost,
-					Path:    "/category/create_category",
-					Handler: category.CreateCategoryHandler(serverCtx),
+					Path:    "/category/add_category",
+					Handler: category.AddCategoryHandler(serverCtx),
+				},
+				{
+					// 批量删除文章分类
+					Method:  http.MethodDelete,
+					Path:    "/category/batch_delete_category",
+					Handler: category.BatchDeleteCategoryHandler(serverCtx),
 				},
 				{
 					// 删除文章分类
 					Method:  http.MethodDelete,
 					Path:    "/category/delete_category",
 					Handler: category.DeleteCategoryHandler(serverCtx),
-				},
-				{
-					// 批量删除文章分类
-					Method:  http.MethodDelete,
-					Path:    "/category/delete_category_list",
-					Handler: category.DeleteCategoryListHandler(serverCtx),
-				},
-				{
-					// 查询文章分类
-					Method:  http.MethodPost,
-					Path:    "/category/find_category",
-					Handler: category.FindCategoryHandler(serverCtx),
 				},
 				{
 					// 更新文章分类
@@ -317,26 +320,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建评论
 					Method:  http.MethodPost,
-					Path:    "/comment/create_comment",
-					Handler: comment.CreateCommentHandler(serverCtx),
+					Path:    "/comment/add_comment",
+					Handler: comment.AddCommentHandler(serverCtx),
+				},
+				{
+					// 批量删除评论
+					Method:  http.MethodDelete,
+					Path:    "/comment/batch_delete_comment",
+					Handler: comment.BatchDeleteCommentHandler(serverCtx),
 				},
 				{
 					// 删除评论
 					Method:  http.MethodDelete,
 					Path:    "/comment/delete_comment",
 					Handler: comment.DeleteCommentHandler(serverCtx),
-				},
-				{
-					// 批量删除评论
-					Method:  http.MethodDelete,
-					Path:    "/comment/delete_comment_list",
-					Handler: comment.DeleteCommentListHandler(serverCtx),
-				},
-				{
-					// 查询评论
-					Method:  http.MethodPost,
-					Path:    "/comment/find_comment",
-					Handler: comment.FindCommentHandler(serverCtx),
 				},
 				{
 					// 查询评论列表(后台)
@@ -362,8 +359,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 分页获取友链列表
 					Method:  http.MethodPost,
-					Path:    "/friend_link/find_friend_link_list",
-					Handler: friend_link.FindFriendLinkListHandler(serverCtx),
+					Path:    "/friend/find_friend_list",
+					Handler: friend.FindFriendListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -377,32 +374,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建友链
 					Method:  http.MethodPost,
-					Path:    "/friend_link/create_friend_link",
-					Handler: friend_link.CreateFriendLinkHandler(serverCtx),
-				},
-				{
-					// 删除友链
-					Method:  http.MethodDelete,
-					Path:    "/friend_link/delete_friend_link",
-					Handler: friend_link.DeleteFriendLinkHandler(serverCtx),
+					Path:    "/friend/add_friend",
+					Handler: friend.AddFriendHandler(serverCtx),
 				},
 				{
 					// 批量删除友链
 					Method:  http.MethodDelete,
-					Path:    "/friend_link/delete_friend_link_list",
-					Handler: friend_link.DeleteFriendLinkListHandler(serverCtx),
+					Path:    "/friend/batch_delete_friend",
+					Handler: friend.BatchDeleteFriendHandler(serverCtx),
 				},
 				{
-					// 查询友链
-					Method:  http.MethodPost,
-					Path:    "/friend_link/find_friend_link",
-					Handler: friend_link.FindFriendLinkHandler(serverCtx),
+					// 删除友链
+					Method:  http.MethodDelete,
+					Path:    "/friend/delete_friend",
+					Handler: friend.DeleteFriendHandler(serverCtx),
 				},
 				{
 					// 更新友链
 					Method:  http.MethodPut,
-					Path:    "/friend_link/update_friend_link",
-					Handler: friend_link.UpdateFriendLinkHandler(serverCtx),
+					Path:    "/friend/update_friend",
+					Handler: friend.UpdateFriendHandler(serverCtx),
 				},
 			}...,
 		),
@@ -414,34 +405,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
+					// 创建菜单
+					Method:  http.MethodPost,
+					Path:    "/menu/add_menu",
+					Handler: menu.AddMenuHandler(serverCtx),
+				},
+				{
+					// 批量删除菜单
+					Method:  http.MethodDelete,
+					Path:    "/menu/batch_delete_menu",
+					Handler: menu.BatchDeleteMenuHandler(serverCtx),
+				},
+				{
 					// 清空菜单列表
 					Method:  http.MethodPost,
 					Path:    "/menu/clean_menu_list",
 					Handler: menu.CleanMenuListHandler(serverCtx),
 				},
 				{
-					// 创建菜单
-					Method:  http.MethodPost,
-					Path:    "/menu/create_menu",
-					Handler: menu.CreateMenuHandler(serverCtx),
-				},
-				{
 					// 删除菜单
 					Method:  http.MethodDelete,
 					Path:    "/menu/delete_menu",
 					Handler: menu.DeleteMenuHandler(serverCtx),
-				},
-				{
-					// 批量删除菜单
-					Method:  http.MethodDelete,
-					Path:    "/menu/delete_menu_list",
-					Handler: menu.DeleteMenuListHandler(serverCtx),
-				},
-				{
-					// 查询菜单
-					Method:  http.MethodPost,
-					Path:    "/menu/find_menu",
-					Handler: menu.FindMenuHandler(serverCtx),
 				},
 				{
 					// 分页获取菜单列表
@@ -471,10 +456,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
-					// 创建操作记录
-					Method:  http.MethodPost,
-					Path:    "/operation_log/create_operation_log",
-					Handler: operation_log.CreateOperationLogHandler(serverCtx),
+					// 批量删除操作记录
+					Method:  http.MethodDelete,
+					Path:    "/operation_log/batch_delete_operation_log",
+					Handler: operation_log.BatchDeleteOperationLogHandler(serverCtx),
 				},
 				{
 					// 删除操作记录
@@ -483,28 +468,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: operation_log.DeleteOperationLogHandler(serverCtx),
 				},
 				{
-					// 批量删除操作记录
-					Method:  http.MethodDelete,
-					Path:    "/operation_log/delete_operation_log_list",
-					Handler: operation_log.DeleteOperationLogListHandler(serverCtx),
-				},
-				{
-					// 查询操作记录
-					Method:  http.MethodPost,
-					Path:    "/operation_log/find_operation_log",
-					Handler: operation_log.FindOperationLogHandler(serverCtx),
-				},
-				{
 					// 分页获取操作记录列表
 					Method:  http.MethodPost,
 					Path:    "/operation_log/find_operation_log_list",
 					Handler: operation_log.FindOperationLogListHandler(serverCtx),
-				},
-				{
-					// 更新操作记录
-					Method:  http.MethodPut,
-					Path:    "/operation_log/update_operation_log",
-					Handler: operation_log.UpdateOperationLogHandler(serverCtx),
 				},
 			}...,
 		),
@@ -518,26 +485,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建页面
 					Method:  http.MethodPost,
-					Path:    "/page/create_page",
-					Handler: page.CreatePageHandler(serverCtx),
+					Path:    "/page/add_page",
+					Handler: page.AddPageHandler(serverCtx),
 				},
 				{
 					// 删除页面
 					Method:  http.MethodDelete,
 					Path:    "/page/delete_page",
 					Handler: page.DeletePageHandler(serverCtx),
-				},
-				{
-					// 批量删除页面
-					Method:  http.MethodDelete,
-					Path:    "/page/delete_page_list",
-					Handler: page.DeletePageListHandler(serverCtx),
-				},
-				{
-					// 查询页面
-					Method:  http.MethodPost,
-					Path:    "/page/find_page",
-					Handler: page.FindPageHandler(serverCtx),
 				},
 				{
 					// 分页获取页面列表
@@ -578,26 +533,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建照片
 					Method:  http.MethodPost,
-					Path:    "/photo/create_photo",
-					Handler: photo.CreatePhotoHandler(serverCtx),
+					Path:    "/photo/add_photo",
+					Handler: photo.AddPhotoHandler(serverCtx),
 				},
 				{
 					// 删除照片
 					Method:  http.MethodDelete,
 					Path:    "/photo/delete_photo",
 					Handler: photo.DeletePhotoHandler(serverCtx),
-				},
-				{
-					// 批量删除照片
-					Method:  http.MethodDelete,
-					Path:    "/photo/delete_photo_list",
-					Handler: photo.DeletePhotoListHandler(serverCtx),
-				},
-				{
-					// 查询照片
-					Method:  http.MethodPost,
-					Path:    "/photo/find_photo",
-					Handler: photo.FindPhotoHandler(serverCtx),
 				},
 				{
 					// 更新照片
@@ -632,8 +575,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建相册
 					Method:  http.MethodPost,
-					Path:    "/photo_album/create_photo_album",
-					Handler: photo_album.CreatePhotoAlbumHandler(serverCtx),
+					Path:    "/photo_album/add_photo_album",
+					Handler: photo_album.AddPhotoAlbumHandler(serverCtx),
 				},
 				{
 					// 删除相册
@@ -684,28 +627,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
-					// 创建留言
-					Method:  http.MethodPost,
-					Path:    "/remark/create_remark",
-					Handler: remark.CreateRemarkHandler(serverCtx),
+					// 批量删除留言
+					Method:  http.MethodDelete,
+					Path:    "/remark/batch_delete_remark",
+					Handler: remark.BatchDeleteRemarkHandler(serverCtx),
 				},
 				{
 					// 删除留言
 					Method:  http.MethodDelete,
 					Path:    "/remark/delete_remark",
 					Handler: remark.DeleteRemarkHandler(serverCtx),
-				},
-				{
-					// 批量删除留言
-					Method:  http.MethodDelete,
-					Path:    "/remark/delete_remark_list",
-					Handler: remark.DeleteRemarkListHandler(serverCtx),
-				},
-				{
-					// 查询留言
-					Method:  http.MethodPost,
-					Path:    "/remark/find_remark",
-					Handler: remark.FindRemarkHandler(serverCtx),
 				},
 				{
 					// 更新留言
@@ -725,26 +656,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建角色
 					Method:  http.MethodPost,
-					Path:    "/role/create_role",
-					Handler: role.CreateRoleHandler(serverCtx),
+					Path:    "/role/add_role",
+					Handler: role.AddRoleHandler(serverCtx),
+				},
+				{
+					// 批量删除角色
+					Method:  http.MethodPost,
+					Path:    "/role/batch_delete_role",
+					Handler: role.BatchDeleteRoleHandler(serverCtx),
 				},
 				{
 					// 删除角色
 					Method:  http.MethodDelete,
 					Path:    "/role/delete_role",
 					Handler: role.DeleteRoleHandler(serverCtx),
-				},
-				{
-					// 批量删除角色
-					Method:  http.MethodDelete,
-					Path:    "/role/delete_role_list",
-					Handler: role.DeleteRoleListHandler(serverCtx),
-				},
-				{
-					// 查询角色
-					Method:  http.MethodPost,
-					Path:    "/role/find_role",
-					Handler: role.FindRoleHandler(serverCtx),
 				},
 				{
 					// 分页获取角色列表
@@ -803,26 +728,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建标签
 					Method:  http.MethodPost,
-					Path:    "/tag/create_tag",
-					Handler: tag.CreateTagHandler(serverCtx),
+					Path:    "/tag/add_tag",
+					Handler: tag.AddTagHandler(serverCtx),
+				},
+				{
+					// 批量删除标签
+					Method:  http.MethodDelete,
+					Path:    "/tag/batch_delete_tag",
+					Handler: tag.BatchDeleteTagHandler(serverCtx),
 				},
 				{
 					// 删除标签
 					Method:  http.MethodDelete,
 					Path:    "/tag/delete_tag",
 					Handler: tag.DeleteTagHandler(serverCtx),
-				},
-				{
-					// 批量删除标签
-					Method:  http.MethodDelete,
-					Path:    "/tag/delete_tag_list",
-					Handler: tag.DeleteTagListHandler(serverCtx),
-				},
-				{
-					// 查询标签
-					Method:  http.MethodPost,
-					Path:    "/tag/find_tag",
-					Handler: tag.FindTagHandler(serverCtx),
 				},
 				{
 					// 更新标签
@@ -857,8 +776,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建说说
 					Method:  http.MethodPost,
-					Path:    "/talk/create_talk",
-					Handler: talk.CreateTalkHandler(serverCtx),
+					Path:    "/talk/add_talk",
+					Handler: talk.AddTalkHandler(serverCtx),
 				},
 				{
 					// 删除说说
@@ -867,16 +786,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: talk.DeleteTalkHandler(serverCtx),
 				},
 				{
-					// 批量删除说说
-					Method:  http.MethodDelete,
-					Path:    "/talk/delete_talk_list",
-					Handler: talk.DeleteTalkListHandler(serverCtx),
-				},
-				{
 					// 查询说说
 					Method:  http.MethodPost,
-					Path:    "/talk/find_talk",
-					Handler: talk.FindTalkHandler(serverCtx),
+					Path:    "/talk/get_talk",
+					Handler: talk.GetTalkHandler(serverCtx),
 				},
 				{
 					// 更新说说

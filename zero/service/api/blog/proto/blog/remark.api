@@ -15,6 +15,11 @@ type (
         CreatedAt int64 `json:"created_at,optional"`            // 发布时间
         UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
     }
+
+    RemarkQueryReq {
+        Page int64 `json:"page,optional"`
+        PageSize int64 `json:"page_size,optional"`
+    }
 )
 
 @server(
@@ -26,7 +31,7 @@ type (
 service blog-api {
     @doc "分页获取留言列表"
     @handler FindRemarkList
-    post /remark/find_remark_list (PageQuery) returns (PageResp)
+    post /remark/find_remark_list (RemarkQueryReq) returns (PageResp)
 }
 
 

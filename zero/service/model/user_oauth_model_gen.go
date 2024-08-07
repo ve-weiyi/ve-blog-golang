@@ -93,7 +93,7 @@ func (m *defaultUserOauthModel) InsertBatch(ctx context.Context, in ...*UserOaut
 func (m *defaultUserOauthModel) Update(ctx context.Context, in *UserOauth) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Save(&in)
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

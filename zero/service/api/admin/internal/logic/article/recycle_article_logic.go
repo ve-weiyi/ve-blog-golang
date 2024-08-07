@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,13 +26,12 @@ func NewRecycleArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Re
 }
 
 func (l *RecycleArticleLogic) RecycleArticle(req *types.ArticleRecycleReq) (resp *types.EmptyResp, err error) {
-	article, err := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blogrpc.IdReq{Id: req.Id})
-	if err != nil {
-		return nil, err
+	in := &articlerpc.RecycleArticleReq{
+		ArticleId: req.Id,
+		IsDelete:  req.IsDelete,
 	}
 
-	article.IsDelete = req.IsDelete
-	_, err = l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, article)
+	_, err = l.svcCtx.ArticleRpc.RecycleArticle(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -1576,7 +1576,8 @@
           "description": " 标签数量"
         },
         "views_count": {
-          "type": "string",
+          "type": "integer",
+          "format": "int64",
           "description": " 访问量"
         },
         "website_config": {

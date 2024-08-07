@@ -56,8 +56,10 @@ type (
         Menus []RouteConfigsTable `json:"menus,optional"`
     }
 
-    MenuPageQuery {
-
+    MenuQuery {
+        Page int64 `json:"page,optional"`                                       // 页码
+        PageSize int64 `json:"page_size,optional"`                              // 每页数量
+        Name string `json:"name,optional"`                      // 路由名字
     }
 )
 
@@ -69,8 +71,8 @@ type (
 
 service admin-api {
     @doc "创建菜单"
-    @handler CreateMenu
-    post /menu/create_menu (MenuDetails) returns (MenuDetails)
+    @handler AddMenu
+    post /menu/add_menu (MenuDetails) returns (MenuDetails)
 
     @doc "更新菜单"
     @handler UpdateMenu
@@ -81,16 +83,12 @@ service admin-api {
     delete /menu/delete_menu (IdReq) returns (BatchResp)
 
     @doc "批量删除菜单"
-    @handler DeleteMenuList
-    delete /menu/delete_menu_list (IdsReq) returns (BatchResp)
-
-    @doc "查询菜单"
-    @handler FindMenu
-    post /menu/find_menu (IdReq) returns (MenuDetails)
+    @handler BatchDeleteMenu
+    delete /menu/batch_delete_menu (IdsReq) returns (BatchResp)
 
     @doc "分页获取菜单列表"
     @handler FindMenuList
-    post /menu/find_menu_list (PageQuery) returns (PageResp)
+    post /menu/find_menu_list (MenuQuery) returns (PageResp)
 
     @doc "同步菜单列表"
     @handler SyncMenuList

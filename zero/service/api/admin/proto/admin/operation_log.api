@@ -21,6 +21,11 @@ type (
         CreatedAt int64 `json:"created_at,optional"`           // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`           // 更新时间
     }
+
+    OperationLogQuery{
+        Page int64 `json:"page,optional"`                                       // 页码
+        PageSize int64 `json:"page_size,optional"`                              // 每页数量
+    }
 )
 
 @server(
@@ -30,27 +35,16 @@ type (
 )
 
 service admin-api {
-    @doc "创建操作记录"
-    @handler CreateOperationLog
-    post /operation_log/create_operation_log (OperationLog) returns (OperationLog)
-
-    @doc "更新操作记录"
-    @handler UpdateOperationLog
-    put /operation_log/update_operation_log (OperationLog) returns (OperationLog)
-
     @doc "删除操作记录"
     @handler DeleteOperationLog
-    delete /operation_log/delete_operation_log (IdReq) returns (BatchResp)
+    delete /operation_log/delete_operation_log (IdsReq) returns (BatchResp)
 
     @doc "批量删除操作记录"
-    @handler DeleteOperationLogList
-    delete /operation_log/delete_operation_log_list (IdsReq) returns (BatchResp)
+    @handler BatchDeleteOperationLog
+    delete /operation_log/batch_delete_operation_log (IdsReq) returns (BatchResp)
 
-    @doc "查询操作记录"
-    @handler FindOperationLog
-    post /operation_log/find_operation_log (IdReq) returns (OperationLog)
 
     @doc "分页获取操作记录列表"
     @handler FindOperationLogList
-    post /operation_log/find_operation_log_list (PageQuery) returns (PageResp)
+    post /operation_log/find_operation_log_list (OperationLogQuery) returns (PageResp)
 }

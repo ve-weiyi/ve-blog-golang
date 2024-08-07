@@ -12,6 +12,11 @@ type (
         CreatedAt int64 `json:"created_at,optional"`      // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
     }
+
+    FriendQueryReq {
+                Page int64 `json:"page,optional"`
+                PageSize int64 `json:"page_size,optional"`
+    }
 )
 
 @server(
@@ -23,5 +28,5 @@ type (
 service blog-api {
     @doc "分页获取友链列表"
     @handler FindFriendList
-    post /friend_link/find_friend_list (PageQuery) returns (PageResp)
+    post /friend_link/find_friend_list (FriendQueryReq) returns (PageResp)
 }

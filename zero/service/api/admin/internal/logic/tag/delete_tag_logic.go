@@ -3,9 +3,9 @@ package tag
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,14 +26,14 @@ func NewDeleteTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteT
 }
 
 func (l *DeleteTagLogic) DeleteTag(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := convert.ConvertIdReq(req)
+	in := &articlerpc.IdsReq{
+		Ids: []int64{req.Id},
+	}
 
-	out, err := l.svcCtx.TagRpc.DeleteTag(l.ctx, in)
+	_, err = l.svcCtx.ArticleRpc.DeleteTag(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.BatchResp{
-		SuccessCount: out.SuccessCount,
-	}, nil
+	return
 }

@@ -22,8 +22,8 @@ type (
 
 service admin-api {
     @doc "创建页面"
-    @handler CreatePage
-    post /page/create_page (Page) returns (Page)
+    @handler AddPage
+    post /page/add_page (Page) returns (Page)
 
     @doc "更新页面"
     @handler UpdatePage
@@ -32,14 +32,6 @@ service admin-api {
     @doc "删除页面"
     @handler DeletePage
     delete /page/delete_page (IdReq) returns (BatchResp)
-
-    @doc "批量删除页面"
-    @handler DeletePageList
-    delete /page/delete_page_list (IdsReq) returns (BatchResp)
-
-    @doc "查询页面"
-    @handler FindPage
-    post /page/find_page (IdReq) returns (Page)
 
     @doc "分页获取页面列表"
     @handler FindPageList

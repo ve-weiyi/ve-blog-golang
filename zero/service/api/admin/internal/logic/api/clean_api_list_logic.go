@@ -15,6 +15,7 @@ type CleanApiListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 清空接口列表
 func NewCleanApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CleanApiListLogic {
 	return &CleanApiListLogic{
 		Logger: logx.WithContext(ctx),

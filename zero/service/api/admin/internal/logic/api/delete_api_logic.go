@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -16,6 +15,7 @@ type DeleteApiLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 删除api路由
 func NewDeleteApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteApiLogic {
 	return &DeleteApiLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,12 +25,7 @@ func NewDeleteApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteA
 }
 
 func (l *DeleteApiLogic) DeleteApi(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := convert.ConvertIdReq(req)
+	// todo: add your logic here and delete this line
 
-	_, err = l.svcCtx.ApiRpc.DeleteApi(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	return &types.BatchResp{}, nil
+	return
 }

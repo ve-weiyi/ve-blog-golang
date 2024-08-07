@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,14 +31,14 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *type
 	var info string
 	jsonconv.ObjectToJson(info)
 
-	in := &blogrpc.UpdateUserInfoReq{
+	in := &accountrpc.UpdateUserInfoReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
 		Info:     info,
 	}
 
-	_, err = l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.UpdateUserInfo(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

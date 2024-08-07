@@ -17,8 +17,13 @@ type (
     }
 
 
-    PhotoQuery {
+    PhotoQueryReq {
         AlbumId int64 `json:"album_id"` // 相册ID
+    }
+
+    AlbumQueryReq {
+        Page int32 `json:"page"` // 页码
+        PageSize int64 `json:"page_size,optional"`
     }
 )
 
@@ -35,9 +40,9 @@ service blog-api {
 
     @doc "获取相册列表"
     @handler FindAlbumList
-    post /album/find_album_list (PageQuery) returns (PageResp)
+    post /album/find_album_list (AlbumQueryReq) returns (PageResp)
 
     @doc "获取相册下的照片列表"
     @handler FindPhotoList
-    post /album/find_photo_list (PhotoQuery) returns (PageResp)
+    post /album/find_photo_list (PhotoQueryReq) returns (PageResp)
 }

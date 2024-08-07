@@ -3,7 +3,6 @@ package role
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -16,6 +15,7 @@ type FindRoleResourcesLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 获取角色资源列表
 func NewFindRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRoleResourcesLogic {
 	return &FindRoleResourcesLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,16 +25,7 @@ func NewFindRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *FindRoleResourcesLogic) FindRoleResources(req *types.IdReq) (resp *types.RoleResourcesResp, err error) {
-	in := convert.ConvertIdReq(req)
-	out, err := l.svcCtx.RoleRpc.FindRoleResources(l.ctx, in)
-	if err != nil {
-		return
-	}
-
-	resp = &types.RoleResourcesResp{}
-	resp.RoleId = out.RoleId
-	resp.ApiIds = out.ApiIds
-	resp.MenuIds = out.MenuIds
+	// todo: add your logic here and delete this line
 
 	return
 }

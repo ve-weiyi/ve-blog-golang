@@ -15,6 +15,11 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`    // 更新时间
         PhotoCount int64 `json:"photo_count,optional"`  // 照片数量
     }
+
+    PhotoAlbumQuery {
+        Page int64 `json:"page,optional"`                                       // 页码
+        PageSize int64 `json:"page_size,optional"`                              // 每页数量
+    }
 )
 
 @server(
@@ -26,7 +31,7 @@ type (
 service admin-api {
     @doc "分页获取相册列表"
     @handler FindPhotoAlbumList
-    post /photo_album/find_photo_album_list (PageQuery) returns (PageResp)
+    post /photo_album/find_photo_album_list (PhotoAlbumQuery) returns (PageResp)
 }
 
 @server(
@@ -37,8 +42,8 @@ service admin-api {
 
 service admin-api {
     @doc "创建相册"
-    @handler CreatePhotoAlbum
-    post /photo_album/create_photo_album (PhotoAlbum) returns (PhotoAlbum)
+    @handler AddPhotoAlbum
+    post /photo_album/add_photo_album (PhotoAlbum) returns (PhotoAlbum)
 
     @doc "更新相册"
     @handler UpdatePhotoAlbum

@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-func ConvertFriendLinkPb(in *types.FriendLink) (out *blogrpc.FriendLink) {
+func ConvertFriendLinkPb(in *types.Friend) (out *blogrpc.FriendLink) {
 	return &blogrpc.FriendLink{
 		Id:          in.Id,
 		LinkName:    in.LinkName,
@@ -18,9 +18,9 @@ func ConvertFriendLinkPb(in *types.FriendLink) (out *blogrpc.FriendLink) {
 	}
 }
 
-func ConvertFriendLinkTypes(in *blogrpc.FriendLink) (out *types.FriendLink) {
+func ConvertFriendLinkTypes(in *blogrpc.FriendLink) (out *types.Friend) {
 
-	return &types.FriendLink{
+	return &types.Friend{
 		Id:          in.Id,
 		LinkName:    in.LinkName,
 		LinkAvatar:  in.LinkAvatar,

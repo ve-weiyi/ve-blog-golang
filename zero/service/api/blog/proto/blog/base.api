@@ -22,29 +22,29 @@ type (
         Ids []int64 `json:"ids"`
     }
 
-    PageQuery {
-        Page int64 `json:"page,optional"`
-        PageSize int64 `json:"page_size,optional"`
-        Sorts []*PageSort `json:"sorts,optional"`
-        Conditions []*PageCondition `json:"conditions,optional"`
-    }
-
-    PageLimit {
-        Page int64 `json:"page,optional"`
-        PageSize int64 `json:"page_size,optional"`
-    }
-
-    PageSort {
-        Field string `json:"field,optional"`
-        Order string `json:"order,optional"` // asc | desc
-    }
-
-    PageCondition {
-        Field string `json:"field,optional"`            // 字段
-        Value string `json:"value,optional"`            // 值
-        Logic string `json:"logic,optional"`            // and | or
-        Operator string `json:"operator,optional"`      // = | >= | < | in | not in |....
-    }
+//    PageQueryReq {
+//        Page int64 `json:"page,optional"`
+//        PageSize int64 `json:"page_size,optional"`
+//        Sorts []*PageSort `json:"sorts,optional"`
+//        Conditions []*PageCondition `json:"conditions,optional"`
+//    }
+//
+//    PageLimit {
+//        Page int64 `json:"page,optional"`
+//        PageSize int64 `json:"page_size,optional"`
+//    }
+//
+//    PageSort {
+//        Field string `json:"field,optional"`
+//        Order string `json:"order,optional"` // asc | desc
+//    }
+//
+//    PageCondition {
+//        Field string `json:"field,optional"`            // 字段
+//        Value string `json:"value,optional"`            // 值
+//        Logic string `json:"logic,optional"`            // and | or
+//        Operator string `json:"operator,optional"`      // = | >= | < | in | not in |....
+//    }
 )
 type (
     EmptyResp {
@@ -55,10 +55,10 @@ type (
     }
 
     PageResp {
-        Page int64 `json:"page"`
-        PageSize int64 `json:"page_size"`
-        Total int64 `json:"total"`
-        List interface{} `json:"list"`
+        Page int64 `json:"page,omitempty"`
+        PageSize int64 `json:"page_size,omitempty"`
+        Total int64 `json:"total,omitempty"`
+        List interface{} `json:"list,omitempty"`
     }
 
     Response {

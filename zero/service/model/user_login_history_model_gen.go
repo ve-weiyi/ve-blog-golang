@@ -96,7 +96,7 @@ func (m *defaultUserLoginHistoryModel) InsertBatch(ctx context.Context, in ...*U
 func (m *defaultUserLoginHistoryModel) Update(ctx context.Context, in *UserLoginHistory) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Save(&in)
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

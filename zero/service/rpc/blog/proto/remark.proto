@@ -1,0 +1,84 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package remarkrpc;
+
+// 生成 golang 代码后的包名
+option go_package = "./remarkrpc";
+
+message EmptyReq {
+}
+
+message EmptyResp {
+}
+
+message IdReq {
+  int64 id = 1;
+}
+
+message IdsReq {
+  repeated int64 ids = 1;
+}
+
+message UserIdReq {
+  int64 user_id = 1;
+}
+
+message BatchResp {
+  int64 success_count = 1;
+}
+
+message CountResp {
+  int64 count = 1;
+}
+
+
+message RemarkNew {
+  int64 id = 1;// 主键id
+  string nickname = 2;// 昵称
+  string avatar = 3;// 头像
+  string message_content = 4;// 留言内容
+  string ip_address = 5;// 用户ip
+  string ip_source = 6;// 用户地址
+  int64 time = 7;// 弹幕速度
+  int64 is_review = 8;// 是否审核
+}
+
+message RemarkDetails {
+  int64 id = 1;// 主键id
+  string nickname = 2;// 昵称
+  string avatar = 3;// 头像
+  string message_content = 4;// 留言内容
+  string ip_address = 5;// 用户ip
+  string ip_source = 6;// 用户地址
+  int64 time = 7;// 弹幕速度
+  int64 is_review = 8;// 是否审核
+  int64 created_at = 9;// 发布时间
+  int64 updated_at = 10;// 更新时间
+}
+
+message FindRemarkListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+}
+
+message FindRemarkListResp {
+  repeated RemarkDetails list = 1;
+}
+
+service RemarkRpc {
+  // 创建留言
+  rpc AddRemark(RemarkNew) returns(RemarkDetails);
+  // 更新留言
+  rpc UpdateRemark(RemarkNew) returns(RemarkDetails);
+  // 删除留言
+  rpc DeleteRemark(IdReq) returns(BatchResp);
+  // 批量删除留言
+  rpc DeleteRemarkList(IdsReq) returns(BatchResp);
+  // 查询留言
+  rpc FindRemark(IdReq) returns(RemarkDetails);
+  // 查询留言列表
+  rpc FindRemarkList(FindRemarkListReq) returns(FindRemarkListResp);
+}

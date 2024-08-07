@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 )
 
 type LoginLogic struct {
@@ -28,13 +28,13 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 
-	in := authrpc.LoginReq{
+	in := accountrpc.LoginReq{
 		Username:   req.Username,
 		Password:   req.Password,
 		VerifyCode: req.Code,
 	}
 
-	out, err := l.svcCtx.AuthRpc.Login(l.ctx, &in)
+	out, err := l.svcCtx.AccountRpc.Login(l.ctx, &in)
 	if err != nil {
 		return
 	}
