@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type AIRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewAIRouter(svcCtx *svc.ServiceContext) *AIRouter {
+func NewAIRouter(svcCtx *svctx.ServiceContext) *AIRouter {
 	return &AIRouter{
 		svcCtx: svcCtx,
 	}

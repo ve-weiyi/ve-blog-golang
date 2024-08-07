@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type PhotoRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPhotoRouter(svcCtx *svc.ServiceContext) *PhotoRouter {
+func NewPhotoRouter(svcCtx *svctx.ServiceContext) *PhotoRouter {
 	return &PhotoRouter{
 		svcCtx: svcCtx,
 	}

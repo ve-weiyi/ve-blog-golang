@@ -12,7 +12,8 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志
@@ -58,7 +59,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 					)
 				}
 
-				c.AbortWithStatusJSON(http.StatusInternalServerError, apierr.ErrorInternalServerError)
+				c.AbortWithStatusJSON(http.StatusInternalServerError, apierr.NewApiError(codex.CodeInternalServerError, "系统错误"))
 				return
 			}
 		}()

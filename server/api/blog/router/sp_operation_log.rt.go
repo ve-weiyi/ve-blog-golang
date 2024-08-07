@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type OperationLogRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogRouter(svcCtx *svc.ServiceContext) *OperationLogRouter {
+func NewOperationLogRouter(svcCtx *svctx.ServiceContext) *OperationLogRouter {
 	return &OperationLogRouter{
 		svcCtx: svcCtx,
 	}

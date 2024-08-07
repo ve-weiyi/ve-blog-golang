@@ -1,16 +1,17 @@
 package service
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type CategoryService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewCategoryService(svcCtx *svc.ServiceContext) *CategoryService {
+func NewCategoryService(svcCtx *svctx.ServiceContext) *CategoryService {
 	return &CategoryService{
 		svcCtx: svcCtx,
 	}
@@ -42,11 +43,12 @@ func (l *CategoryService) DeleteCategoryList(reqCtx *request.Context, req *reque
 }
 
 // 分页获取Category记录
-func (l *CategoryService) FindCategoryList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Category, total int64, err error) {
+func (l *CategoryService) FindCategoryList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.Category, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = l.svcCtx.CategoryRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err = l.svcCtx.CategoryRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

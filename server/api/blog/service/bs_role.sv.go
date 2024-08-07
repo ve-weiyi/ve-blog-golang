@@ -1,16 +1,17 @@
 package service
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type RoleService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewRoleService(svcCtx *svc.ServiceContext) *RoleService {
+func NewRoleService(svcCtx *svctx.ServiceContext) *RoleService {
 	return &RoleService{
 		svcCtx: svcCtx,
 	}
@@ -42,11 +43,12 @@ func (l *RoleService) DeleteRoleList(reqCtx *request.Context, req *request.IdsRe
 }
 
 // 分页获取Role记录
-func (l *RoleService) FindRoleList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Role, total int64, err error) {
+func (l *RoleService) FindRoleList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.Role, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = l.svcCtx.RoleRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err = l.svcCtx.RoleRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}

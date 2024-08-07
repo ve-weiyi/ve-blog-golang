@@ -2,19 +2,20 @@ package service
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
 )
 
 type TalkService struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewTalkService(svcCtx *svc.ServiceContext) *TalkService {
+func NewTalkService(svcCtx *svctx.ServiceContext) *TalkService {
 	return &TalkService{
 		svcCtx: svcCtx,
 	}
@@ -29,7 +30,7 @@ func (l *TalkService) CreateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 // 更新Talk记录
 func (l *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
 	if talk.UserId != reqCtx.Uid {
-		return nil, apierr.ErrorUserNotPermission
+		return nil, apierr.NewApiError(codex.CodeUserNotPermission, "无操作权限")
 	}
 	return l.svcCtx.TalkRepository.Update(reqCtx, talk)
 }
@@ -50,11 +51,12 @@ func (l *TalkService) DeleteTalkList(reqCtx *request.Context, req *request.IdsRe
 }
 
 // 分页获取Talk记录
-func (l *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQuery) (list []*entity.Talk, total int64, err error) {
+func (l *TalkService) FindTalkList(reqCtx *request.Context, page *dto.PageQuery) (list []*entity.Talk, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
 
-	list, err = l.svcCtx.TalkRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	list, err = l.svcCtx.TalkRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -66,7 +68,7 @@ func (l *TalkService) FindTalkList(reqCtx *request.Context, page *request.PageQu
 }
 
 // 获取说说详情列表
-func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.TalkDetailsDTO, total int64, err error) {
+func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.TalkDetailsDTO, total int64, err error) {
 	talkList, total, err := l.FindTalkList(reqCtx, page)
 	if err != nil {
 		return nil, 0, err
@@ -83,7 +85,7 @@ func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 
 		var imgList []string
 		jsonconv.JsonToObject(talk.Images, &imgList)
-		data := &response.TalkDetailsDTO{
+		data := &dto.TalkDetailsDTO{
 			Id:           talk.Id,
 			UserId:       talk.UserId,
 			Nickname:     user.Nickname,
@@ -105,7 +107,7 @@ func (l *TalkService) FindTalkDetailsList(reqCtx *request.Context, page *request
 }
 
 // 获取说说详情
-func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.IdReq) (data *response.TalkDetailsDTO, err error) {
+func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.IdReq) (data *dto.TalkDetailsDTO, err error) {
 	// 查询api信息
 	talk, err := l.svcCtx.TalkRepository.First(reqCtx, "id = ?", req.Id)
 	if err != nil {
@@ -119,7 +121,7 @@ func (l *TalkService) FindTalkDetailsDTO(reqCtx *request.Context, req *request.I
 
 	var imgList []string
 	jsonconv.JsonToObject(talk.Images, &imgList)
-	data = &response.TalkDetailsDTO{
+	data = &dto.TalkDetailsDTO{
 		Id:        talk.Id,
 		UserId:    talk.UserId,
 		Nickname:  user.Nickname,

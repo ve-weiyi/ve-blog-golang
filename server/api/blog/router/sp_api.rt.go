@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type ApiRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewApiRouter(svcCtx *svc.ServiceContext) *ApiRouter {
+func NewApiRouter(svcCtx *svctx.ServiceContext) *ApiRouter {
 	return &ApiRouter{
 		svcCtx: svcCtx,
 	}
