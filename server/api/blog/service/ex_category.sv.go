@@ -1,15 +1,16 @@
 package service
 
 import (
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/request"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/response"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 )
 
 // 分页获取Category记录
-func (l *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *request.PageQuery) (list []*response.CategoryDetailsDTO, total int64, err error) {
+func (l *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page *dto.PageQuery) (list []*dto.CategoryDetailsDTO, total int64, err error) {
+	p, s := page.PageClause()
 	cond, args := page.ConditionClause()
 	order := page.OrderClause()
-	categories, err := l.svcCtx.CategoryRepository.FindList(reqCtx, page.Limit.Page, page.Limit.PageSize, order, cond, args...)
+	categories, err := l.svcCtx.CategoryRepository.FindList(reqCtx, p, s, order, cond, args...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -27,7 +28,7 @@ func (l *CategoryService) FindCategoryDetailsList(reqCtx *request.Context, page 
 			return nil, 0, err
 		}
 
-		out := &response.CategoryDetailsDTO{
+		out := &dto.CategoryDetailsDTO{
 			Id:           in.Id,
 			CategoryName: in.CategoryName,
 			ArticleCount: int64(len(articles)),

@@ -60,7 +60,7 @@ definitions:
         description: 原文链接
         type: string
       status:
-        description: 状态值 1公开 2私密 3评论可见
+        description: 状态值 1 公开 2 私密 3 草稿 4 已删除
         type: integer
       type:
         description: 文章类型 1原创 2转载 3翻译
@@ -629,7 +629,7 @@ definitions:
         description: 原文链接
         type: string
       status:
-        description: 状态值 1 公开 2 私密 3 评论可见
+        description: 状态值 1 公开 2 私密 3 草稿 4 已删除
         type: integer
       tag_name_list:
         description: 文章标签列表
@@ -1200,7 +1200,7 @@ definitions:
         description: 原文链接
         type: string
       status:
-        description: 状态值 1 公开 2 私密 3 评论可见
+        description: 状态值 1 公开 2 私密 3 草稿 4 已删除
         type: integer
       tag_name_list:
         description: 文章标签列表
@@ -1267,7 +1267,7 @@ definitions:
         description: 原文链接
         type: string
       status:
-        description: 状态值 1 公开 2 私密 3 评论可见
+        description: 状态值 1 公开 2 私密 3 草稿 4 已删除
         type: integer
       type:
         description: 文章类型
@@ -1336,7 +1336,7 @@ definitions:
           $ref: '#/definitions/response.ArticlePreviewDTO'
         type: array
       status:
-        description: 状态值 1 公开 2 私密 3 评论可见
+        description: 状态值 1 公开 2 私密 3 草稿 4 已删除
         type: integer
       type:
         description: 文章类型

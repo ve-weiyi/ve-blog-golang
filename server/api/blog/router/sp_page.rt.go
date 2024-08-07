@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type PageRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewPageRouter(svcCtx *svc.ServiceContext) *PageRouter {
+func NewPageRouter(svcCtx *svctx.ServiceContext) *PageRouter {
 	return &PageRouter{
 		svcCtx: svcCtx,
 	}

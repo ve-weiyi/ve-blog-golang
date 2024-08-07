@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/controller"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type WebsiteRouter struct {
-	svcCtx *svc.ServiceContext
+	svcCtx *svctx.ServiceContext
 }
 
-func NewWebsiteRouter(svcCtx *svc.ServiceContext) *WebsiteRouter {
+func NewWebsiteRouter(svcCtx *svctx.ServiceContext) *WebsiteRouter {
 	return &WebsiteRouter{
 		svcCtx: svcCtx,
 	}

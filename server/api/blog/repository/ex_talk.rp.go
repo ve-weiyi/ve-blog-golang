@@ -7,7 +7,7 @@ import (
 )
 
 // 点赞说说
-func (s *TalkRepository) LikeTalk(ctx context.Context, uid int, talkId int) (data interface{}, err error) {
+func (s *TalkRepository) LikeTalk(ctx context.Context, uid int64, talkId int64) (data interface{}, err error) {
 	// 用户点赞的评论列表
 	talkUserLikeKey := cache.WrapCacheKey(cache.TalkUserLike, uid)
 	// 当前评论的点赞量
@@ -30,7 +30,7 @@ func (s *TalkRepository) LikeTalk(ctx context.Context, uid int, talkId int) (dat
 }
 
 // 获取用户点赞记录
-func (s *TalkRepository) FindUserLikeTalk(ctx context.Context, uid int) (data []string, err error) {
+func (s *TalkRepository) FindUserLikeTalk(ctx context.Context, uid int64) (data []string, err error) {
 	// 用户点赞的评论列表
 	talkUserLikeKey := cache.WrapCacheKey(cache.TalkUserLike, uid)
 	return s.Cache.SMembers(ctx, talkUserLikeKey).Result()
