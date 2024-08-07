@@ -66,9 +66,9 @@ func (l *FindArticleListLogic) FindArticleList(req *types.PageQuery) (resp *type
 		}
 
 		var tags []string
-		ts := tms.TagMapList[v.Id].List
-		if ts != nil {
-			for _, t := range ts {
+		ts, ok := tms.TagMapList[v.Id]
+		if ok && ts.List != nil {
+			for _, t := range ts.List {
 				tags = append(tags, t.TagName)
 			}
 		}

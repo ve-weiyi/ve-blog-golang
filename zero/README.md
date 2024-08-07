@@ -14,7 +14,17 @@
 
 2. 安装protoc-gen-go (建议使用goctl安装即可)
 ```sh
+#   查看所有版本
+   go list -m -versions google.golang.org/grpc/cmd/protoc-gen-go-grpc
+   go list -m -versions google.golang.org/grpc/cmd/protoc
+   
    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+#   安装
+   go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+   go install google.golang.org/grpc/cmd/protoc@latest
+   
+#   查看已安装版本
+   protoc-gen-go-grpc --version
 ```
 
 ## 2. goctl 创建一个go-zero demo仓库

@@ -6,6 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
@@ -53,6 +54,7 @@ func (l *OauthLoginLogic) OauthLogin(in *blog.OauthLoginReq) (*blog.LoginResp, e
 	if info.OpenId == "" {
 		return nil, fmt.Errorf("open_id is empty")
 	}
+
 	// 查询用户是否存在
 	userOauth, err := l.svcCtx.UserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenId, in.Platform)
 	if userOauth == nil {
@@ -75,41 +77,43 @@ func (l *OauthLoginLogic) OauthLogin(in *blog.OauthLoginReq) (*blog.LoginResp, e
 	return onLogin(l.svcCtx, l.ctx, account)
 }
 
-func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (resp *model.UserOauth, err error) {
+func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.UserOauth, err error) {
 	// 用户未注册,先注册用户
-	pwd := crypto.BcryptHash(info.EnName)
 	username := info.Email
 	if username == "" {
 		username = info.Mobile
 	}
 
 	// 用户账号
-	userAccount := &model.UserAccount{
+	account := &model.UserAccount{
+		Id:        0,
 		Username:  username,
-		Password:  pwd,
+		Password:  crypto.BcryptHash(info.EnName),
 		Nickname:  info.NickName,
 		Avatar:    info.Avatar,
+		Email:     info.Email,
+		Phone:     info.Mobile,
 		Info:      "",
-		Status:    0,
+		Status:    constant.UserStatusNormal,
 		LoginType: platform,
 		IpAddress: "",
 		IpSource:  "",
 	}
 
-	// 绑定用户第三方信息
-	userOauth := &model.UserOauth{
-		OpenId:   info.OpenId,
-		Platform: platform,
-	}
-
 	/** 创建用户 **/
-	_, err = l.svcCtx.UserAccountModel.WithTransaction(tx).Insert(l.ctx, userAccount)
+	ua, err := onRegister(l.svcCtx, l.ctx, tx, account)
 	if err != nil {
 		return nil, err
 	}
 
+	// 绑定用户第三方信息
+	userOauth := &model.UserOauth{
+		UserId:   ua.Id,
+		OpenId:   info.OpenId,
+		Platform: platform,
+	}
+
 	/** 创建用户第三方信息 **/
-	userOauth.UserId = userAccount.Id
 	_, err = l.svcCtx.UserOauthModel.WithTransaction(tx).Insert(l.ctx, userOauth)
 	if err != nil {
 		return nil, err

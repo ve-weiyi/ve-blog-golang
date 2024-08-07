@@ -79,7 +79,7 @@ func Test_Api_Update(t *testing.T) {
 	data.Nickname = "test_nickname_save"
 	data.IpAddress = ""
 	data.ResponseStatus = 0
-	save, err := OperationLogModel.Save(ctx, data)
+	save, err := OperationLogModel.Update(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), save)
 
