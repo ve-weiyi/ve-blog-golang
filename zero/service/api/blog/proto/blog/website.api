@@ -7,7 +7,7 @@ type (
         ArticleCount int64 `json:"article_count,optional"`               // 文章数量
         CategoryCount int64 `json:"category_count,optional"`             // 分类数量
         TagCount int64 `json:"tag_count,optional"`                       // 标签数量
-        ViewsCount string `json:"views_count,optional"`                  // 访问量
+        ViewsCount int64 `json:"views_count,optional"`                   // 访问量
         WebsiteConfig WebsiteConfig `json:"website_config,optional"`     // 网站配置
         PageList []*PageDTO `json:"page_list,optional"`                  // 页面列表
     }

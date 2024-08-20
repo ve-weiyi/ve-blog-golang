@@ -26,7 +26,7 @@ func NewGetUserVisitListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 上传文件
 func (l *GetUserVisitListLogic) GetUserVisitList(in *blog.EmptyReq) (*blog.UserVisitPageRsp, error) {
-	result, err := l.svcCtx.UniqueViewModel.FindList(l.ctx, 1, 100, "id desc", "")
+	result, err := l.svcCtx.VisitHistoryModel.FindList(l.ctx, 1, 100, "id desc", "")
 	if err != nil {
 		return nil, err
 	}

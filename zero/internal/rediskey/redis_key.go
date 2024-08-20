@@ -31,3 +31,7 @@ func GetCommentLikeCountKey(cid string) string {
 func GetTalkLikeCountKey(cid string) string {
 	return fmt.Sprintf("talk:like:%v", cid)
 }
+
+func GetTotalVisitCountKey() string {
+	return "visit:count"
+}

@@ -59,7 +59,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types
 		ArticleCount:  ac.Count,
 		CategoryCount: cc.Count,
 		TagCount:      tc.Count,
-		ViewsCount:    "",
+		ViewsCount:    0,
 		WebsiteConfig: *config,
 		PageList:      make([]*types.PageDTO, 0),
 	}

@@ -58,14 +58,14 @@ type ServiceContext struct {
 	TagModel           model.TagModel
 	ArticleTagModel    model.ArticleTagModel
 
-	CommentModel    model.CommentModel
-	RemarkModel     model.RemarkModel
-	FriendLinkModel model.FriendLinkModel
-	TalkModel       model.TalkModel
-	PhotoModel      model.PhotoModel
-	PhotoAlbumModel model.PhotoAlbumModel
-	PageModel       model.PageModel
-	UniqueViewModel model.UniqueViewModel
+	CommentModel      model.CommentModel
+	RemarkModel       model.RemarkModel
+	FriendLinkModel   model.FriendLinkModel
+	TalkModel         model.TalkModel
+	PhotoModel        model.PhotoModel
+	PhotoAlbumModel   model.PhotoAlbumModel
+	PageModel         model.PageModel
+	VisitHistoryModel model.VisitHistoryModel
 
 	OperationLogModel model.OperationLogModel
 	ChatRecordModel   model.ChatRecordModel
@@ -120,14 +120,14 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TagModel:           model.NewTagModel(db, rds),
 		ArticleTagModel:    model.NewArticleTagModel(db, rds),
 
-		CommentModel:    model.NewCommentModel(db, rds),
-		RemarkModel:     model.NewRemarkModel(db, rds),
-		FriendLinkModel: model.NewFriendLinkModel(db, rds),
-		TalkModel:       model.NewTalkModel(db, rds),
-		PhotoModel:      model.NewPhotoModel(db, rds),
-		PhotoAlbumModel: model.NewPhotoAlbumModel(db, rds),
-		PageModel:       model.NewPageModel(db, rds),
-		UniqueViewModel: model.NewUniqueViewModel(db, rds),
+		CommentModel:      model.NewCommentModel(db, rds),
+		RemarkModel:       model.NewRemarkModel(db, rds),
+		FriendLinkModel:   model.NewFriendLinkModel(db, rds),
+		TalkModel:         model.NewTalkModel(db, rds),
+		PhotoModel:        model.NewPhotoModel(db, rds),
+		PhotoAlbumModel:   model.NewPhotoAlbumModel(db, rds),
+		PageModel:         model.NewPageModel(db, rds),
+		VisitHistoryModel: model.NewVisitHistoryModel(db, rds),
 
 		OperationLogModel: model.NewOperationLogModel(db, rds),
 		ChatRecordModel:   model.NewChatRecordModel(db, rds),
