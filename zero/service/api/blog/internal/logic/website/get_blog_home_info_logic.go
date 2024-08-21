@@ -28,17 +28,7 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types.BlogHomeInfo, err error) {
-	ac, err := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blogrpc.PageQuery{})
-	if err != nil {
-		return nil, err
-	}
-
-	cc, err := l.svcCtx.CategoryRpc.FindCategoryCount(l.ctx, &blogrpc.PageQuery{})
-	if err != nil {
-		return nil, err
-	}
-
-	tc, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, &blogrpc.PageQuery{})
+	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &blogrpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -56,9 +46,9 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types
 	jsonconv.JsonToObject(out.ConfigValue, &config)
 
 	resp = &types.BlogHomeInfo{
-		ArticleCount:  ac.Count,
-		CategoryCount: cc.Count,
-		TagCount:      tc.Count,
+		ArticleCount:  analysis.ArticleCount,
+		CategoryCount: analysis.CategoryCount,
+		TagCount:      analysis.TagCount,
 		ViewsCount:    0,
 		WebsiteConfig: *config,
 		PageList:      make([]*types.PageDTO, 0),

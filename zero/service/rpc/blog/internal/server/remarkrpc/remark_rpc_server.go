@@ -53,7 +53,7 @@ func (s *RemarkRpcServer) FindRemark(ctx context.Context, in *blog.IdReq) (*blog
 }
 
 // 查询留言列表
-func (s *RemarkRpcServer) FindRemarkList(ctx context.Context, in *blog.PageQuery) (*blog.RemarkPageResp, error) {
+func (s *RemarkRpcServer) FindRemarkList(ctx context.Context, in *blog.PageQuery) (*blog.FindRemarkListResp, error) {
 	l := remarkrpclogic.NewFindRemarkListLogic(ctx, s.svcCtx)
 	return l.FindRemarkList(in)
 }

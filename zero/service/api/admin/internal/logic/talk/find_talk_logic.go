@@ -6,6 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +27,9 @@ func NewFindTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTalk
 }
 
 func (l *FindTalkLogic) FindTalk(req *types.IdReq) (resp *types.TalkDetails, err error) {
-	in := convert.ConvertIdReq(req)
+	in := &blogrpc.IdReq{
+		Id: req.Id,
+	}
 
 	out, err := l.svcCtx.TalkRpc.FindTalk(l.ctx, in)
 	if err != nil {

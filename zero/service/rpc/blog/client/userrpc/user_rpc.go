@@ -13,116 +13,126 @@ import (
 )
 
 type (
-	Api                      = blog.Api
-	ApiDetails               = blog.ApiDetails
-	ApiPageResp              = blog.ApiPageResp
-	Article                  = blog.Article
-	ArticlePageResp          = blog.ArticlePageResp
-	BatchResp                = blog.BatchResp
-	BindUserEmailReq         = blog.BindUserEmailReq
-	Category                 = blog.Category
-	CategoryPageResp         = blog.CategoryPageResp
-	ChatRecord               = blog.ChatRecord
-	ChatRecordPageResp       = blog.ChatRecordPageResp
-	Comment                  = blog.Comment
-	CommentPageResp          = blog.CommentPageResp
-	CommentUserInfo          = blog.CommentUserInfo
-	CountResp                = blog.CountResp
-	EmptyReq                 = blog.EmptyReq
-	EmptyResp                = blog.EmptyResp
-	FindArticleByCategoryReq = blog.FindArticleByCategoryReq
-	FindArticleByTagReq      = blog.FindArticleByTagReq
-	FindCategoryByNameReq    = blog.FindCategoryByNameReq
-	FindConfigReq            = blog.FindConfigReq
-	FindConfigResp           = blog.FindConfigResp
-	FindLikeArticleResp      = blog.FindLikeArticleResp
-	FindLikeCommentResp      = blog.FindLikeCommentResp
-	FindLikeTalkResp         = blog.FindLikeTalkResp
-	FindTagArticleCountReq   = blog.FindTagArticleCountReq
-	FindTagByNameReq         = blog.FindTagByNameReq
-	FriendLink               = blog.FriendLink
-	FriendLinkPageResp       = blog.FriendLinkPageResp
-	GetLogoutAtReq           = blog.GetLogoutAtReq
-	IdReq                    = blog.IdReq
-	IdsReq                   = blog.IdsReq
-	LoginHistory             = blog.LoginHistory
-	LoginHistoryPageResp     = blog.LoginHistoryPageResp
-	LoginReq                 = blog.LoginReq
-	LoginResp                = blog.LoginResp
-	LogoffReq                = blog.LogoffReq
-	LogoutReq                = blog.LogoutReq
-	LogoutResp               = blog.LogoutResp
-	Menu                     = blog.Menu
-	MenuDetails              = blog.MenuDetails
-	MenuPageResp             = blog.MenuPageResp
-	OauthLoginReq            = blog.OauthLoginReq
-	OauthLoginUrlResp        = blog.OauthLoginUrlResp
-	OperationLog             = blog.OperationLog
-	OperationLogPageResp     = blog.OperationLogPageResp
-	Page                     = blog.Page
-	PageCondition            = blog.PageCondition
-	PageLimit                = blog.PageLimit
-	PagePageResp             = blog.PagePageResp
-	PageQuery                = blog.PageQuery
-	PageResp                 = blog.PageResp
-	PageSort                 = blog.PageSort
-	Photo                    = blog.Photo
-	PhotoAlbum               = blog.PhotoAlbum
-	PhotoAlbumPageResp       = blog.PhotoAlbumPageResp
-	PhotoPageResp            = blog.PhotoPageResp
-	RegisterReq              = blog.RegisterReq
-	Remark                   = blog.Remark
-	RemarkPageResp           = blog.RemarkPageResp
-	ResetPasswordReq         = blog.ResetPasswordReq
-	Role                     = blog.Role
-	RoleDetails              = blog.RoleDetails
-	RoleLabel                = blog.RoleLabel
-	RolePageResp             = blog.RolePageResp
-	RoleResourcesResp        = blog.RoleResourcesResp
-	SaveConfigReq            = blog.SaveConfigReq
-	SyncMenuReq              = blog.SyncMenuReq
-	Tag                      = blog.Tag
-	TagMapResp               = blog.TagMapResp
-	TagPageResp              = blog.TagPageResp
-	Talk                     = blog.Talk
-	TalkDetailsDTO           = blog.TalkDetailsDTO
-	TalkPageResp             = blog.TalkPageResp
-	UpdateRoleApisReq        = blog.UpdateRoleApisReq
-	UpdateRoleMenusReq       = blog.UpdateRoleMenusReq
-	UpdateUserInfoReq        = blog.UpdateUserInfoReq
-	UpdateUserRoleReq        = blog.UpdateUserRoleReq
-	UpdateUserStatusReq      = blog.UpdateUserStatusReq
-	UploadRecordReq          = blog.UploadRecordReq
-	UploadRecordResp         = blog.UploadRecordResp
-	UserDetails              = blog.UserDetails
-	UserEmailReq             = blog.UserEmailReq
-	UserIdReq                = blog.UserIdReq
-	UserInfoResp             = blog.UserInfoResp
-	UserPageResp             = blog.UserPageResp
-	UserVisit                = blog.UserVisit
-	UserVisitPageRsp         = blog.UserVisitPageRsp
+	AnalysisArticleResp       = blog.AnalysisArticleResp
+	Api                       = blog.Api
+	ApiDetails                = blog.ApiDetails
+	ArticleCategory           = blog.ArticleCategory
+	ArticleDetails            = blog.ArticleDetails
+	ArticleNew                = blog.ArticleNew
+	ArticleTag                = blog.ArticleTag
+	BatchResp                 = blog.BatchResp
+	BindUserEmailReq          = blog.BindUserEmailReq
+	CategoryDetails           = blog.CategoryDetails
+	CategoryNew               = blog.CategoryNew
+	ChatRecord                = blog.ChatRecord
+	Comment                   = blog.Comment
+	CommentUserInfo           = blog.CommentUserInfo
+	CountResp                 = blog.CountResp
+	EmptyReq                  = blog.EmptyReq
+	EmptyResp                 = blog.EmptyResp
+	FindApiListResp           = blog.FindApiListResp
+	FindArticleListReq        = blog.FindArticleListReq
+	FindArticleListResp       = blog.FindArticleListResp
+	FindArticlesByCategoryReq = blog.FindArticlesByCategoryReq
+	FindArticlesByTagReq      = blog.FindArticlesByTagReq
+	FindCategoryListReq       = blog.FindCategoryListReq
+	FindCategoryListResp      = blog.FindCategoryListResp
+	FindChatRecordListResp    = blog.FindChatRecordListResp
+	FindCommentListResp       = blog.FindCommentListResp
+	FindConfigReq             = blog.FindConfigReq
+	FindConfigResp            = blog.FindConfigResp
+	FindFriendLinkListResp    = blog.FindFriendLinkListResp
+	FindLikeArticleResp       = blog.FindLikeArticleResp
+	FindLikeCommentResp       = blog.FindLikeCommentResp
+	FindLikeTalkResp          = blog.FindLikeTalkResp
+	FindLoginHistoryListReq   = blog.FindLoginHistoryListReq
+	FindLoginHistoryListResp  = blog.FindLoginHistoryListResp
+	FindMenuListResp          = blog.FindMenuListResp
+	FindOperationLogListResp  = blog.FindOperationLogListResp
+	FindPageListResp          = blog.FindPageListResp
+	FindPhotoAlbumListResp    = blog.FindPhotoAlbumListResp
+	FindPhotoListResp         = blog.FindPhotoListResp
+	FindRemarkListResp        = blog.FindRemarkListResp
+	FindRoleListResp          = blog.FindRoleListResp
+	FindTagArticleCountReq    = blog.FindTagArticleCountReq
+	FindTagByNameReq          = blog.FindTagByNameReq
+	FindTagListReq            = blog.FindTagListReq
+	FindTagListResp           = blog.FindTagListResp
+	FindTalkListResp          = blog.FindTalkListResp
+	FindUserListReq           = blog.FindUserListReq
+	FindUserListResp          = blog.FindUserListResp
+	FindUserRegionListResp    = blog.FindUserRegionListResp
+	FriendLink                = blog.FriendLink
+	GetLogoutAtReq            = blog.GetLogoutAtReq
+	IdReq                     = blog.IdReq
+	IdsReq                    = blog.IdsReq
+	ListResp                  = blog.ListResp
+	LoginReq                  = blog.LoginReq
+	LoginResp                 = blog.LoginResp
+	LogoffReq                 = blog.LogoffReq
+	LogoutReq                 = blog.LogoutReq
+	LogoutResp                = blog.LogoutResp
+	Menu                      = blog.Menu
+	MenuDetails               = blog.MenuDetails
+	OauthLoginReq             = blog.OauthLoginReq
+	OauthLoginUrlResp         = blog.OauthLoginUrlResp
+	OperationLog              = blog.OperationLog
+	Page                      = blog.Page
+	PageCondition             = blog.PageCondition
+	PageLimit                 = blog.PageLimit
+	PageQuery                 = blog.PageQuery
+	PageSort                  = blog.PageSort
+	Photo                     = blog.Photo
+	PhotoAlbum                = blog.PhotoAlbum
+	RecycleArticleReq         = blog.RecycleArticleReq
+	RegisterReq               = blog.RegisterReq
+	Remark                    = blog.Remark
+	ResetPasswordReq          = blog.ResetPasswordReq
+	Role                      = blog.Role
+	RoleDetails               = blog.RoleDetails
+	RoleResourcesResp         = blog.RoleResourcesResp
+	SaveConfigReq             = blog.SaveConfigReq
+	SyncMenuReq               = blog.SyncMenuReq
+	TagDetails                = blog.TagDetails
+	TagMapResp                = blog.TagMapResp
+	TagNew                    = blog.TagNew
+	Talk                      = blog.Talk
+	TalkDetailsDTO            = blog.TalkDetailsDTO
+	TopArticleReq             = blog.TopArticleReq
+	UpdateRoleApisReq         = blog.UpdateRoleApisReq
+	UpdateRoleMenusReq        = blog.UpdateRoleMenusReq
+	UpdateUserInfoReq         = blog.UpdateUserInfoReq
+	UpdateUserRoleReq         = blog.UpdateUserRoleReq
+	UpdateUserStatusReq       = blog.UpdateUserStatusReq
+	UploadRecordReq           = blog.UploadRecordReq
+	UploadRecordResp          = blog.UploadRecordResp
+	UserDetails               = blog.UserDetails
+	UserEmailReq              = blog.UserEmailReq
+	UserIdReq                 = blog.UserIdReq
+	UserInfoResp              = blog.UserInfoResp
+	UserLoginHistory          = blog.UserLoginHistory
+	UserRegion                = blog.UserRegion
+	UserRoleLabel             = blog.UserRoleLabel
+	UserVisit                 = blog.UserVisit
+	UserVisitPageRsp          = blog.UserVisitPageRsp
 
 	UserRpc interface {
-		// 查询用户登录历史
-		FindUserLoginHistoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*LoginHistoryPageResp, error)
-		// 批量删除登录历史
-		DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 查找用户列表
-		FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*UserPageResp, error)
-		// 获取用户接口权限
-		FindUserApis(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*ApiPageResp, error)
-		// 获取用户菜单权限
-		FindUserMenus(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*MenuPageResp, error)
-		// 获取用户角色信息
-		FindUserRoles(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*RolePageResp, error)
-		// 获取用户信息
-		FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户信息
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户状态
 		UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
-		// 修改用户角色
-		UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 获取用户信息
+		FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		// 查找用户列表
+		FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
+		// 查找在线用户列表
+		FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
+		// 查询用户登录历史
+		FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error)
+		// 批量删除登录历史
+		DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		// 查询用户分布区域
+		FindUserRegionList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*FindUserRegionListResp, error)
 	}
 
 	defaultUserRpc struct {
@@ -134,48 +144,6 @@ func NewUserRpc(cli zrpc.Client) UserRpc {
 	return &defaultUserRpc{
 		cli: cli,
 	}
-}
-
-// 查询用户登录历史
-func (m *defaultUserRpc) FindUserLoginHistoryList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*LoginHistoryPageResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.FindUserLoginHistoryList(ctx, in, opts...)
-}
-
-// 批量删除登录历史
-func (m *defaultUserRpc) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.DeleteUserLoginHistoryList(ctx, in, opts...)
-}
-
-// 查找用户列表
-func (m *defaultUserRpc) FindUserList(ctx context.Context, in *PageQuery, opts ...grpc.CallOption) (*UserPageResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.FindUserList(ctx, in, opts...)
-}
-
-// 获取用户接口权限
-func (m *defaultUserRpc) FindUserApis(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*ApiPageResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.FindUserApis(ctx, in, opts...)
-}
-
-// 获取用户菜单权限
-func (m *defaultUserRpc) FindUserMenus(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*MenuPageResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.FindUserMenus(ctx, in, opts...)
-}
-
-// 获取用户角色信息
-func (m *defaultUserRpc) FindUserRoles(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*RolePageResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.FindUserRoles(ctx, in, opts...)
-}
-
-// 获取用户信息
-func (m *defaultUserRpc) FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
-	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.FindUserInfo(ctx, in, opts...)
 }
 
 // 修改用户信息
@@ -190,8 +158,38 @@ func (m *defaultUserRpc) UpdateUserStatus(ctx context.Context, in *UpdateUserSta
 	return client.UpdateUserStatus(ctx, in, opts...)
 }
 
-// 修改用户角色
-func (m *defaultUserRpc) UpdateUserRole(ctx context.Context, in *UpdateUserRoleReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+// 获取用户信息
+func (m *defaultUserRpc) FindUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := blog.NewUserRpcClient(m.cli.Conn())
-	return client.UpdateUserRole(ctx, in, opts...)
+	return client.FindUserInfo(ctx, in, opts...)
+}
+
+// 查找用户列表
+func (m *defaultUserRpc) FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error) {
+	client := blog.NewUserRpcClient(m.cli.Conn())
+	return client.FindUserList(ctx, in, opts...)
+}
+
+// 查找在线用户列表
+func (m *defaultUserRpc) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error) {
+	client := blog.NewUserRpcClient(m.cli.Conn())
+	return client.FindUserOnlineList(ctx, in, opts...)
+}
+
+// 查询用户登录历史
+func (m *defaultUserRpc) FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error) {
+	client := blog.NewUserRpcClient(m.cli.Conn())
+	return client.FindUserLoginHistoryList(ctx, in, opts...)
+}
+
+// 批量删除登录历史
+func (m *defaultUserRpc) DeleteUserLoginHistoryList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	client := blog.NewUserRpcClient(m.cli.Conn())
+	return client.DeleteUserLoginHistoryList(ctx, in, opts...)
+}
+
+// 查询用户分布区域
+func (m *defaultUserRpc) FindUserRegionList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*FindUserRegionListResp, error) {
+	client := blog.NewUserRpcClient(m.cli.Conn())
+	return client.FindUserRegionList(ctx, in, opts...)
 }

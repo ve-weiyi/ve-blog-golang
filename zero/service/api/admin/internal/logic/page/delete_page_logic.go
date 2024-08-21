@@ -3,9 +3,9 @@ package page
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +26,9 @@ func NewDeletePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeletePageLogic) DeletePage(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := convert.ConvertIdReq(req)
+	in := &blogrpc.IdReq{
+		Id: req.Id,
+	}
 
 	out, err := l.svcCtx.PageRpc.DeletePage(l.ctx, in)
 	if err != nil {

@@ -3,10 +3,9 @@ package tag
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,33 +25,39 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 	}
 }
 
-func (l *FindTagListLogic) FindTagList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.TagRpc.FindTagList(l.ctx, in)
+func (l *FindTagListLogic) FindTagList(req *types.FindTagListReq) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindTagListReq{
+		Query: &articlerpc.PageLimit{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+		},
+		TagName: req.TagName,
+	}
+
+	out, err := l.svcCtx.ArticleRpc.FindTagList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.TagDetails
-	for _, v := range out.List {
-		row, _ := l.svcCtx.TagRpc.FindTagArticleCount(l.ctx, &blogrpc.FindTagArticleCountReq{
-			TagId: v.Id,
-		})
-
-		m := convert.ConvertTagDetailsTypes(v)
-		m.ArticleCount = row.Count
-		list = append(list, m)
+	var list []*types.TagBackDTO
+	for _, item := range out.List {
+		list = append(list, ConvertTagTypes(item))
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.Total = out.Total
 	resp.List = list
-	return resp, nil
+	return
+}
+
+func ConvertTagTypes(in *articlerpc.TagDetails) (out *types.TagBackDTO) {
+	return &types.TagBackDTO{
+		Id:           in.Id,
+		TagName:      in.TagName,
+		ArticleCount: in.ArticleCount,
+		CreatedAt:    in.CreatedAt,
+		UpdatedAt:    in.UpdatedAt,
+	}
 }

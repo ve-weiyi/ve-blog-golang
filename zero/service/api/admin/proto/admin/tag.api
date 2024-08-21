@@ -3,20 +3,24 @@ syntax = "v1"
 import "base.api"
 
 type (
-
     Tag {
-        Id int64 `json:"id,optional"`                // id
-        TagName string `json:"tag_name,optional"`    // 标签名
-        CreatedAt int64 `json:"created_at,optional"` // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"` // 更新时间
+        Id int64 `json:"id,optional"`
+        TagName string `json:"tag_name"`    // 标签名
     }
 
-    TagDetails {
-        Id int64 `json:"id,optional"`                      // 标签ID
+    TagBackDTO {
+        Id int64 `json:"id"`                      // 标签ID
+        TagName string `json:"tag_name"`          // 标签名
+        ArticleCount int64 `json:"article_count"` // 文章数量
+        CreatedAt int64 `json:"created_at"`       // 创建时间
+        UpdatedAt int64 `json:"updated_at"`       // 更新时间
+    }
+
+
+    FindTagListReq {
+        Page int64 `json:"page,optional"`                            // 页码
+        PageSize int64 `json:"page_size,optional"`                   // 每页数量
         TagName string `json:"tag_name,optional"`          // 标签名
-        ArticleCount int64 `json:"article_count,optional"` // 文章数量
-        CreatedAt int64 `json:"created_at,optional"`       // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`       // 更新时间
     }
 )
 
@@ -29,7 +33,7 @@ type (
 service admin-api {
     @doc "分页获取标签列表"
     @handler FindTagList
-    post /tag/find_tag_list (PageQuery) returns (PageResp)
+    post /tag/find_tag_list (FindTagListReq) returns (PageResp)
 }
 
 @server(
@@ -39,23 +43,23 @@ service admin-api {
 )
 
 service admin-api {
+    @doc "查询标签"
+    @handler GetTag
+    post /tag/get_tag (IdReq) returns (TagBackDTO)
+
     @doc "创建标签"
-    @handler CreateTag
-    post /tag/create_tag (Tag) returns (Tag)
+    @handler AddTag
+    post /tag/add_tag (Tag) returns (TagBackDTO)
 
     @doc "更新标签"
     @handler UpdateTag
-    put /tag/update_tag (Tag) returns (Tag)
+    put /tag/update_tag (Tag) returns (TagBackDTO)
 
     @doc "删除标签"
     @handler DeleteTag
     delete /tag/delete_tag (IdReq) returns (BatchResp)
 
     @doc "批量删除标签"
-    @handler DeleteTagList
-    delete /tag/delete_tag_list (IdsReq) returns (BatchResp)
-
-    @doc "查询标签"
-    @handler FindTag
-    post /tag/find_tag (IdReq) returns (Tag)
+    @handler BatchDeleteTag
+    delete /tag/batch_delete_tag (IdsReq) returns (BatchResp)
 }

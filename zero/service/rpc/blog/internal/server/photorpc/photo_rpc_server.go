@@ -53,7 +53,7 @@ func (s *PhotoRpcServer) FindPhoto(ctx context.Context, in *blog.IdReq) (*blog.P
 }
 
 // 查询照片列表
-func (s *PhotoRpcServer) FindPhotoList(ctx context.Context, in *blog.PageQuery) (*blog.PhotoPageResp, error) {
+func (s *PhotoRpcServer) FindPhotoList(ctx context.Context, in *blog.PageQuery) (*blog.FindPhotoListResp, error) {
 	l := photorpclogic.NewFindPhotoListLogic(ctx, s.svcCtx)
 	return l.FindPhotoList(in)
 }
@@ -95,7 +95,7 @@ func (s *PhotoRpcServer) FindPhotoAlbum(ctx context.Context, in *blog.IdReq) (*b
 }
 
 // 查询相册列表
-func (s *PhotoRpcServer) FindPhotoAlbumList(ctx context.Context, in *blog.PageQuery) (*blog.PhotoAlbumPageResp, error) {
+func (s *PhotoRpcServer) FindPhotoAlbumList(ctx context.Context, in *blog.PageQuery) (*blog.FindPhotoAlbumListResp, error) {
 	l := photorpclogic.NewFindPhotoAlbumListLogic(ctx, s.svcCtx)
 	return l.FindPhotoAlbumList(in)
 }

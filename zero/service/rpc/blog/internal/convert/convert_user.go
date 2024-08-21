@@ -27,9 +27,9 @@ func ConvertUserInfoModelToPb(in *model.UserAccount) (out *blog.UserInfoResp) {
 }
 
 func ConvertUserDetailsModelToPb(a *model.UserAccount, roles []*model.Role) (out *blog.UserDetails) {
-	var list []*blog.RoleLabel
+	var list []*blog.UserRoleLabel
 	for _, role := range roles {
-		m := &blog.RoleLabel{
+		m := &blog.UserRoleLabel{
 			RoleId:      role.Id,
 			RoleName:    role.RoleName,
 			RoleComment: role.RoleComment,
@@ -60,8 +60,8 @@ func ConvertUserDetailsModelToPb(a *model.UserAccount, roles []*model.Role) (out
 	return out
 }
 
-func ConvertUserLoginHistoryModelToPb(in *model.UserLoginHistory) (out *blog.LoginHistory) {
-	out = &blog.LoginHistory{
+func ConvertUserLoginHistoryModelToPb(in *model.UserLoginHistory) (out *blog.UserLoginHistory) {
+	out = &blog.UserLoginHistory{
 		Id:        in.Id,
 		LoginType: in.LoginType,
 		Agent:     in.Agent,

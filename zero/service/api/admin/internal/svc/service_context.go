@@ -14,7 +14,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/categoryrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
@@ -25,7 +24,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/rolerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/tagrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/uploadrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/userrpc"
@@ -46,8 +44,6 @@ type ServiceContext struct {
 	BlogRpc blogrpc.BlogRpc
 
 	ArticleRpc    articlerpc.ArticleRpc
-	CategoryRpc   categoryrpc.CategoryRpc
-	TagRpc        tagrpc.TagRpc
 	RemarkRpc     remarkrpc.RemarkRpc
 	CommentRpc    commentrpc.CommentRpc
 	PhotoRpc      photorpc.PhotoRpc
@@ -90,8 +86,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.ConfigRpcConf, options...)),
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.ArticleRpcConf, options...)),
-		CategoryRpc:   categoryrpc.NewCategoryRpc(zrpc.MustNewClient(c.CategoryRpcConf, options...)),
-		TagRpc:        tagrpc.NewTagRpc(zrpc.MustNewClient(c.TagRpcConf, options...)),
 		FriendLinkRpc: friendlinkrpc.NewFriendLinkRpc(zrpc.MustNewClient(c.FriendLinkRpcConf, options...)),
 		RemarkRpc:     remarkrpc.NewRemarkRpc(zrpc.MustNewClient(c.RemarkRpcConf, options...)),
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.CommentRpcConf, options...)),

@@ -31,6 +31,7 @@ type (
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Category, err error)
 		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Category, err error)
 		// add extra method in here
+		FindOneByCategoryName(ctx context.Context, category_name string) (out *Category, err error)
 	}
 
 	// 表字段定义
@@ -233,3 +234,13 @@ func (m *defaultCategoryModel) FindList(ctx context.Context, page int, size int,
 }
 
 // add extra method in here
+func (m *defaultCategoryModel) FindOneByCategoryName(ctx context.Context, category_name string) (out *Category, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	err = db.Where("`category_name` = ?", category_name).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

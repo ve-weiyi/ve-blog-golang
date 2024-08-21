@@ -33,7 +33,7 @@ func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApi
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
-	out, err := l.svcCtx.UserRpc.FindUserApis(l.ctx, in)
+	out, err := l.svcCtx.RoleRpc.FindUserApis(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -25,7 +25,7 @@ func NewFindPhotoAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 // 分页获取相册列表
-func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(in *blog.PageQuery) (*blog.PhotoAlbumPageResp, error) {
+func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(in *blog.PageQuery) (*blog.FindPhotoAlbumListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.PhotoAlbumModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindPhotoAlbumListLogic) FindPhotoAlbumList(in *blog.PageQuery) (*blog.
 		list = append(list, convert.ConvertPhotoAlbumModelToPb(v))
 	}
 
-	return &blog.PhotoAlbumPageResp{
+	return &blog.FindPhotoAlbumListResp{
 		List: list,
 	}, nil
 }

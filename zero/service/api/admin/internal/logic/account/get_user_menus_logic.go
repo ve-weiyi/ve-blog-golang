@@ -32,7 +32,7 @@ func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserM
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
-	out, err := l.svcCtx.UserRpc.FindUserMenus(l.ctx, in)
+	out, err := l.svcCtx.RoleRpc.FindUserMenus(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

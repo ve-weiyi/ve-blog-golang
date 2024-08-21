@@ -94,7 +94,7 @@ created_at (R	createdAt
 updated_at	 (R	updatedAt,
 children
  (2.blog.ApiDetailsRchildren"I
-ApiPageResp
+FindApiListResp
 total (Rtotal$
 list (2.blog.ApiDetailsRlist"�
 Menu
@@ -571,7 +571,7 @@ OauthLogin.blog.OauthLoginReq.blog.LoginRespD
 
 DeleteApiList.blog.IdsReq.blog.BatchResp!
 FindApi.blog.IdReq	.blog.Api1
-FindApiList.blog.PageQuery.blog.ApiPageResp.
+FindApiList.blog.PageQuery.blog.FindApiListResp.
 SyncApiList.blog.EmptyReq.blog.BatchResp/
 CleanApiList.blog.EmptyReq.blog.BatchResp2�
 MenuRpc$
@@ -614,7 +614,7 @@ DeleteRole.blog.IdReq.blog.BatchResp/
 FindUserLoginHistoryList.blog.PageQuery.blog.LoginHistoryPageResp;
 DeleteUserLoginHistoryList.blog.IdsReq.blog.BatchResp/
 GetUserApis
-.blog.UserIdReq.blog.ApiPageResp1
+.blog.UserIdReq.blog.FindApiListResp1
 GetUserMenus
 .blog.UserIdReq.blog.MenuPageResp1
 GetUserRoles

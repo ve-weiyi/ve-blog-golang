@@ -3,7 +3,6 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -24,13 +23,13 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 	}
 }
 
-func (l *UpdateArticleLogic) UpdateArticle(in *blog.Article) (*blog.Article, error) {
-	entity := convert.ConvertArticlePbToModel(in)
-
+// 更新文章
+func (l *UpdateArticleLogic) UpdateArticle(in *blog.ArticleNew) (*blog.ArticleDetails, error) {
+	entity := convertArticleIn(in)
 	_, err := l.svcCtx.ArticleModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertArticleModelToPb(entity), nil
+	return &blog.ArticleDetails{}, nil
 }

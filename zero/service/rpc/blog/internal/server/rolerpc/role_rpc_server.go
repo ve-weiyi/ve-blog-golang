@@ -53,7 +53,7 @@ func (s *RoleRpcServer) FindRole(ctx context.Context, in *blog.IdReq) (*blog.Rol
 }
 
 // 查询角色列表
-func (s *RoleRpcServer) FindRoleList(ctx context.Context, in *blog.PageQuery) (*blog.RolePageResp, error) {
+func (s *RoleRpcServer) FindRoleList(ctx context.Context, in *blog.PageQuery) (*blog.FindRoleListResp, error) {
 	l := rolerpclogic.NewFindRoleListLogic(ctx, s.svcCtx)
 	return l.FindRoleList(in)
 }
@@ -74,4 +74,28 @@ func (s *RoleRpcServer) UpdateRoleMenus(ctx context.Context, in *blog.UpdateRole
 func (s *RoleRpcServer) UpdateRoleApis(ctx context.Context, in *blog.UpdateRoleApisReq) (*blog.EmptyResp, error) {
 	l := rolerpclogic.NewUpdateRoleApisLogic(ctx, s.svcCtx)
 	return l.UpdateRoleApis(in)
+}
+
+// 修改用户角色
+func (s *RoleRpcServer) UpdateUserRole(ctx context.Context, in *blog.UpdateUserRoleReq) (*blog.EmptyResp, error) {
+	l := rolerpclogic.NewUpdateUserRoleLogic(ctx, s.svcCtx)
+	return l.UpdateUserRole(in)
+}
+
+// 获取用户接口权限
+func (s *RoleRpcServer) FindUserApis(ctx context.Context, in *blog.UserIdReq) (*blog.FindApiListResp, error) {
+	l := rolerpclogic.NewFindUserApisLogic(ctx, s.svcCtx)
+	return l.FindUserApis(in)
+}
+
+// 获取用户菜单权限
+func (s *RoleRpcServer) FindUserMenus(ctx context.Context, in *blog.UserIdReq) (*blog.FindMenuListResp, error) {
+	l := rolerpclogic.NewFindUserMenusLogic(ctx, s.svcCtx)
+	return l.FindUserMenus(in)
+}
+
+// 获取用户角色信息
+func (s *RoleRpcServer) FindUserRoles(ctx context.Context, in *blog.UserIdReq) (*blog.FindRoleListResp, error) {
+	l := rolerpclogic.NewFindUserRolesLogic(ctx, s.svcCtx)
+	return l.FindUserRoles(in)
 }

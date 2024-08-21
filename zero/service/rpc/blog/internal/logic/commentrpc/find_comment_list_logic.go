@@ -25,7 +25,7 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 }
 
 // 分页获取评论列表
-func (l *FindCommentListLogic) FindCommentList(in *blog.PageQuery) (*blog.CommentPageResp, error) {
+func (l *FindCommentListLogic) FindCommentList(in *blog.PageQuery) (*blog.FindCommentListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.CommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -54,7 +54,7 @@ func (l *FindCommentListLogic) FindCommentList(in *blog.PageQuery) (*blog.Commen
 		list = append(list, m)
 	}
 
-	return &blog.CommentPageResp{
+	return &blog.FindCommentListResp{
 		List: list,
 	}, nil
 }

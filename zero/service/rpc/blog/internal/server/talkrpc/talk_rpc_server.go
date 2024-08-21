@@ -53,7 +53,7 @@ func (s *TalkRpcServer) FindTalk(ctx context.Context, in *blog.IdReq) (*blog.Tal
 }
 
 // 查询说说列表
-func (s *TalkRpcServer) FindTalkList(ctx context.Context, in *blog.PageQuery) (*blog.TalkPageResp, error) {
+func (s *TalkRpcServer) FindTalkList(ctx context.Context, in *blog.PageQuery) (*blog.FindTalkListResp, error) {
 	l := talkrpclogic.NewFindTalkListLogic(ctx, s.svcCtx)
 	return l.FindTalkList(in)
 }

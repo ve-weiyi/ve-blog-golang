@@ -7,21 +7,21 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 )
 
-func ConvertHomeTagTypes(in *blogrpc.Tag) (out *types.TagDTO) {
+func ConvertHomeTagTypes(in *blogrpc.TagDetails) (out *types.TagDTO) {
 	return &types.TagDTO{
 		Id:      in.Id,
 		TagName: in.TagName,
 	}
 }
 
-func ConvertHomeCategoryTypes(in *blogrpc.Category) (out *types.CategoryDTO) {
+func ConvertHomeCategoryTypes(in *blogrpc.CategoryDetails) (out *types.CategoryDTO) {
 	return &types.CategoryDTO{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
 	}
 }
 
-func ConvertHomeArticleRankTypes(in *blogrpc.Article) (out *types.ArticleViewRankDTO) {
+func ConvertHomeArticleRankTypes(in *blogrpc.ArticleDetails) (out *types.ArticleViewRankDTO) {
 	return &types.ArticleViewRankDTO{
 		Id:           in.Id,
 		ArticleTitle: in.ArticleTitle,

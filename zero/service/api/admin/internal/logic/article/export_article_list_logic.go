@@ -5,10 +5,9 @@ import (
 	"path"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,51 +28,23 @@ func NewExportArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *types.EmptyResp, err error) {
-	in := &blogrpc.PageQuery{}
+	in := &articlerpc.FindArticleListReq{}
 
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var aids []int64
-	var cids []int64
-	for _, v := range out.List {
-		aids = append(aids, v.Id)
-		cids = append(cids, v.CategoryId)
-	}
-
-	// 查询分类
-	categories, err := l.svcCtx.CategoryRpc.FindCategoryListByIds(l.ctx, &blogrpc.IdsReq{Ids: cids})
-	if err != nil {
-		return nil, err
-	}
-	// 查询标签
-	tms, err := l.svcCtx.TagRpc.FindTagMapByArticleIds(l.ctx, &blogrpc.IdsReq{Ids: aids})
-	if err != nil {
-		return nil, err
-	}
+	var list []*types.ArticleBackDTO
 	// 转换数据
 	for _, v := range out.List {
-		var category string
-		for _, c := range categories.List {
-			if v.CategoryId == c.Id {
-				category = c.CategoryName
-			}
-		}
+		m := ConvertArticleBackTypes(v)
+		list = append(list, m)
+	}
 
-		var tags []string
-		ts := tms.TagMapList[v.Id].List
-		if ts != nil {
-			for _, t := range ts {
-				tags = append(tags, t.TagName)
-			}
-		}
-
-		m := convert.ConvertArticleBackTypes(v)
-		m.CategoryName = category
-		m.TagNameList = tags
-		err = l.exportArticle(m)
+	// 转换数据
+	for _, v := range list {
+		err = l.exportArticle(v)
 		if err != nil {
 			return nil, err
 		}

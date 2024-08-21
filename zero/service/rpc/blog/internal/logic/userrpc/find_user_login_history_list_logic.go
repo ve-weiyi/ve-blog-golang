@@ -25,15 +25,18 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 }
 
 // 查询用户登录历史
-func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *blog.PageQuery) (*blog.LoginHistoryPageResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *blog.FindLoginHistoryListReq) (*blog.FindLoginHistoryListResp, error) {
+	page, size := int(in.Page), int(in.PageSize)
+	sorts := ""
+	conditions := "user_id = ?"
+	params := []interface{}{in.UserId}
 
 	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*blog.LoginHistory
+	var list []*blog.UserLoginHistory
 	for _, item := range result {
 		list = append(list, convert.ConvertUserLoginHistoryModelToPb(item))
 	}
@@ -43,7 +46,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *blog.PageQu
 		return nil, err
 	}
 
-	resp := &blog.LoginHistoryPageResp{}
+	resp := &blog.FindLoginHistoryListResp{}
 	resp.List = list
 	resp.Total = total
 	return resp, nil

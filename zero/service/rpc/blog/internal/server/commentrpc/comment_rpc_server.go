@@ -53,7 +53,7 @@ func (s *CommentRpcServer) FindComment(ctx context.Context, in *blog.IdReq) (*bl
 }
 
 // 查询评论列表
-func (s *CommentRpcServer) FindCommentList(ctx context.Context, in *blog.PageQuery) (*blog.CommentPageResp, error) {
+func (s *CommentRpcServer) FindCommentList(ctx context.Context, in *blog.PageQuery) (*blog.FindCommentListResp, error) {
 	l := commentrpclogic.NewFindCommentListLogic(ctx, s.svcCtx)
 	return l.FindCommentList(in)
 }

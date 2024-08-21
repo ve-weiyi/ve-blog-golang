@@ -16,6 +16,7 @@ type Config struct {
 	RoleRpcConf    zrpc.RpcClientConf
 	UserRpcConf    zrpc.RpcClientConf
 
+	BlogRpcConf     zrpc.RpcClientConf
 	ConfigRpcConf   zrpc.RpcClientConf
 	ArticleRpcConf  zrpc.RpcClientConf
 	CategoryRpcConf zrpc.RpcClientConf

@@ -6,6 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,9 @@ func NewFindApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindApiLo
 }
 
 func (l *FindApiLogic) FindApi(req *types.IdReq) (resp *types.Api, err error) {
-	in := convert.ConvertIdReq(req)
+	in := &blogrpc.IdReq{
+		Id: req.Id,
+	}
 
 	out, err := l.svcCtx.ApiRpc.FindApi(l.ctx, in)
 	if err != nil {

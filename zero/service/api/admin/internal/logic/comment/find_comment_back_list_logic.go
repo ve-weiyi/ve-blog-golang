@@ -48,7 +48,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.PageQuery) (re
 		}
 
 		if v.Type == 1 {
-			article, _ := l.svcCtx.ArticleRpc.FindArticle(l.ctx, &blogrpc.IdReq{Id: v.TopicId})
+			article, _ := l.svcCtx.ArticleRpc.GetArticle(l.ctx, &blogrpc.IdReq{Id: v.TopicId})
 			if article != nil {
 				m.TopicTitle = article.ArticleTitle
 			}

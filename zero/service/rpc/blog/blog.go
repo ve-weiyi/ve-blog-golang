@@ -15,7 +15,6 @@ import (
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/articlerpc"
 	authrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/authrpc"
 	blogrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/blogrpc"
-	categoryrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/categoryrpc"
 	chatrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/chatrpc"
 	commentrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/commentrpc"
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/configrpc"
@@ -26,7 +25,6 @@ import (
 	photorpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/photorpc"
 	remarkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/remarkrpc"
 	rolerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/rolerpc"
-	tagrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/tagrpc"
 	talkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/talkrpc"
 	uploadrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/uploadrpc"
 	userrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/userrpc"
@@ -94,8 +92,6 @@ func main() {
 		blog.RegisterUserRpcServer(grpcServer, userrpcServer.NewUserRpcServer(ctx))
 		blog.RegisterConfigRpcServer(grpcServer, configrpcServer.NewConfigRpcServer(ctx))
 		blog.RegisterArticleRpcServer(grpcServer, articlerpcServer.NewArticleRpcServer(ctx))
-		blog.RegisterCategoryRpcServer(grpcServer, categoryrpcServer.NewCategoryRpcServer(ctx))
-		blog.RegisterTagRpcServer(grpcServer, tagrpcServer.NewTagRpcServer(ctx))
 		blog.RegisterFriendLinkRpcServer(grpcServer, friendlinkrpcServer.NewFriendLinkRpcServer(ctx))
 		blog.RegisterRemarkRpcServer(grpcServer, remarkrpcServer.NewRemarkRpcServer(ctx))
 		blog.RegisterCommentRpcServer(grpcServer, commentrpcServer.NewCommentRpcServer(ctx))

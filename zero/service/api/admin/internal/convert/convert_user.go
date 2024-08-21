@@ -15,7 +15,7 @@ func ConvertUserDetailsTypes(in *blogrpc.UserDetails) (out *types.User) {
 	return out
 }
 
-func ConvertUserLoginHistoryTypes(in *blogrpc.LoginHistory) (out *types.LoginHistory) {
+func ConvertUserLoginHistoryTypes(in *blogrpc.UserLoginHistory) (out *types.UserLoginHistory) {
 	jsonconv.ObjectToObject(in, &out)
 	return out
 }

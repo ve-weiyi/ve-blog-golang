@@ -3,19 +3,23 @@ syntax = "v1"
 import "base.api"
 
 type (
-    Category {
-        Id int64 `json:"id,optional"`                       // id
-        CategoryName string `json:"category_name,optional"` // 分类名
-        CreatedAt int64 `json:"created_at,optional"`        // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
+    CategoryNew {
+        Id int64 `json:"id,optional"`
+        CategoryName string `json:"category_name"` // 分类名
     }
 
-    CategoryDetails {
-        Id int64 `json:"id,optional"`
+    CategoryBackDTO {
+        Id int64 `json:"id"`
+        CategoryName string `json:"category_name"` // 分类名
+        ArticleCount int64 `json:"article_count"`
+        CreatedAt int64 `json:"created_at"`        // 创建时间
+        UpdatedAt int64 `json:"updated_at"`        // 更新时间
+    }
+
+    FindCategoryListReq {
+        Page int64 `json:"page,optional"`                            // 页码
+        PageSize int64 `json:"page_size,optional"`                   // 每页数量
         CategoryName string `json:"category_name,optional"` // 分类名
-        ArticleCount int64 `json:"article_count,optional"`
-        CreatedAt int64 `json:"created_at,optional"`        // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`        // 更新时间
     }
 )
 
@@ -28,7 +32,7 @@ type (
 service admin-api {
     @doc "分页获取文章分类列表"
     @handler FindCategoryList
-    post /category/find_category_list (PageQuery) returns (PageResp)
+    post /category/find_category_list (FindCategoryListReq) returns (PageResp)
 }
 
 @server(
@@ -38,23 +42,23 @@ service admin-api {
 )
 
 service admin-api {
+    @doc "查询文章分类"
+    @handler GetCategory
+    post /category/get_category (IdReq) returns (CategoryBackDTO)
+
     @doc "创建文章分类"
-    @handler CreateCategory
-    post /category/create_category (Category) returns (Category)
+    @handler AddCategory
+    post /category/add_category (CategoryNew) returns (CategoryBackDTO)
 
     @doc "更新文章分类"
     @handler UpdateCategory
-    put /category/update_category (Category) returns (Category)
+    put /category/update_category (CategoryNew) returns (CategoryBackDTO)
 
     @doc "删除文章分类"
     @handler DeleteCategory
     delete /category/delete_category (IdReq) returns (BatchResp)
 
     @doc "批量删除文章分类"
-    @handler DeleteCategoryList
-    delete /category/delete_category_list (IdsReq) returns (BatchResp)
-
-    @doc "查询文章分类"
-    @handler FindCategory
-    post /category/find_category (IdReq) returns (Category)
+    @handler BatchDeleteCategory
+    delete /category/batch_delete_category (IdsReq) returns (BatchResp)
 }

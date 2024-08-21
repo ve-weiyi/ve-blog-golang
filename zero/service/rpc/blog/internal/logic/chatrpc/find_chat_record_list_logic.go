@@ -25,7 +25,7 @@ func NewFindChatRecordListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 // 分页获取聊天记录列表
-func (l *FindChatRecordListLogic) FindChatRecordList(in *blog.PageQuery) (*blog.ChatRecordPageResp, error) {
+func (l *FindChatRecordListLogic) FindChatRecordList(in *blog.PageQuery) (*blog.FindChatRecordListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.ChatRecordModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindChatRecordListLogic) FindChatRecordList(in *blog.PageQuery) (*blog.
 		list = append(list, convert.ConvertChatRecordModelToPb(v))
 	}
 
-	return &blog.ChatRecordPageResp{
+	return &blog.FindChatRecordListResp{
 		List: list,
 	}, nil
 }

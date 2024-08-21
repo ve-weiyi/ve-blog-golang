@@ -25,7 +25,7 @@ func NewFindFriendLinkListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 // 分页获取友链列表
-func (l *FindFriendLinkListLogic) FindFriendLinkList(in *blog.PageQuery) (*blog.FriendLinkPageResp, error) {
+func (l *FindFriendLinkListLogic) FindFriendLinkList(in *blog.PageQuery) (*blog.FindFriendLinkListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.FriendLinkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindFriendLinkListLogic) FindFriendLinkList(in *blog.PageQuery) (*blog.
 		list = append(list, convert.ConvertFriendLinkModelToPb(v))
 	}
 
-	return &blog.FriendLinkPageResp{
+	return &blog.FindFriendLinkListResp{
 		List: list,
 	}, nil
 }

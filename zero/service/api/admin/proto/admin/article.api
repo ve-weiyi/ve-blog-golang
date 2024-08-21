@@ -5,21 +5,17 @@ import "base.api"
 type (
     // 新建文章
     ArticleNewReq {
-        Id int64 `json:"id,optional"`                                          // id
-        UserId int64 `json:"user_id,optional"`                                 // 作者
-        CategoryId int64 `json:"category_id,optional"`                         // 文章分类
-        ArticleCover string `json:"article_cover,optional"`                    // 文章缩略图
-        ArticleTitle string `json:"article_title,optional"`                    // 标题
-        ArticleContent string `json:"article_content,optional"`                // 内容
-        ArticleType int64 `json:"article_type,optional"`                       // 文章类型 1原创 2转载 3翻译
-        OriginalUrl string `json:"original_url,optional"`                      // 原文链接
-        IsTop int64 `json:"is_top,optional"`                                   // 是否置顶 0否 1是
-        IsDelete int64 `json:"is_delete,optional"`                             // 是否删除  0否 1是
-        Status int64 `json:"status,optional"`                                  // 状态值 1公开 2私密 3评论可见
-        CreatedAt int64 `json:"created_at,optional"`                           // 发表时间
-        UpdatedAt int64 `json:"updated_at,optional"`                           // 更新时间
-        CategoryName string `json:"category_name,optional"`                    // 文章分类名
-        TagNameList []string `json:"tag_name_list,optional"`                   // 文章标签列表
+        Id int64 `json:"id,optional"`                                            // id
+        ArticleCover string `json:"article_cover,optional"`                      // 文章缩略图
+        ArticleTitle string `json:"article_title,optional"`                      // 标题
+        ArticleContent string `json:"article_content,optional"`                  // 内容
+        ArticleType int64 `json:"article_type,optional"`                         // 文章类型 1原创 2转载 3翻译
+        OriginalUrl string `json:"original_url,optional"`                        // 原文链接
+        Status int64 `json:"status,optional"`                                    // 状态值 1公开 2私密 3评论可见
+        CategoryId int64 `json:"category_id,optional"`                           // 文章分类
+        CategoryName string `json:"category_name,optional"`                      // 文章分类名
+        TagIds []int64 `json:"tag_ids,optional"`                                 // 文章标签
+        TagNameList []string `json:"tag_name_list,optional"`                     // 文章标签列表
     }
 
         // 后台文章
@@ -60,12 +56,16 @@ type (
 
 service admin-api {
     @doc "查询文章"
-    @handler FindArticle
-    post /admin/article/find_article (IdReq) returns (ArticleBackDTO)
+    @handler GetArticle
+    post /admin/article/get_article (IdReq) returns (ArticleBackDTO)
+
+    @doc "添加文章"
+    @handler AddArticle
+    post /admin/article/add_article (ArticleNewReq) returns (ArticleBackDTO)
 
     @doc "保存文章"
-    @handler SaveArticle
-    post /admin/article/save_article (ArticleNewReq) returns (EmptyResp)
+    @handler UpdateArticle
+    post /admin/article/update_article (ArticleNewReq) returns (ArticleBackDTO)
 
     @doc "删除文章"
     @handler DeleteArticle

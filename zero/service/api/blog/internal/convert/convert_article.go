@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
 
-func ConvertArticleHomeTypes(in *blogrpc.Article) (out *types.ArticleHome) {
+func ConvertArticleHomeTypes(in *blogrpc.ArticleDetails) (out *types.ArticleHome) {
 	out = &types.ArticleHome{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,
@@ -27,7 +27,7 @@ func ConvertArticleHomeTypes(in *blogrpc.Article) (out *types.ArticleHome) {
 	return
 }
 
-func ConvertArticlePreviewTypes(in *blogrpc.Article) (out *types.ArticlePreview) {
+func ConvertArticlePreviewTypes(in *blogrpc.ArticleDetails) (out *types.ArticlePreview) {
 	out = &types.ArticlePreview{
 		Id:           in.Id,
 		ArticleCover: in.ArticleCover,

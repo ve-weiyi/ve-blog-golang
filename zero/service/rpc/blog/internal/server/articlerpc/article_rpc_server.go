@@ -23,57 +23,63 @@ func NewArticleRpcServer(svcCtx *svc.ServiceContext) *ArticleRpcServer {
 }
 
 // 创建文章
-func (s *ArticleRpcServer) AddArticle(ctx context.Context, in *blog.Article) (*blog.Article, error) {
+func (s *ArticleRpcServer) AddArticle(ctx context.Context, in *blog.ArticleNew) (*blog.ArticleDetails, error) {
 	l := articlerpclogic.NewAddArticleLogic(ctx, s.svcCtx)
 	return l.AddArticle(in)
 }
 
 // 更新文章
-func (s *ArticleRpcServer) UpdateArticle(ctx context.Context, in *blog.Article) (*blog.Article, error) {
+func (s *ArticleRpcServer) UpdateArticle(ctx context.Context, in *blog.ArticleNew) (*blog.ArticleDetails, error) {
 	l := articlerpclogic.NewUpdateArticleLogic(ctx, s.svcCtx)
 	return l.UpdateArticle(in)
 }
 
+// 查询文章
+func (s *ArticleRpcServer) GetArticle(ctx context.Context, in *blog.IdReq) (*blog.ArticleDetails, error) {
+	l := articlerpclogic.NewGetArticleLogic(ctx, s.svcCtx)
+	return l.GetArticle(in)
+}
+
 // 删除文章
-func (s *ArticleRpcServer) DeleteArticle(ctx context.Context, in *blog.IdReq) (*blog.BatchResp, error) {
+func (s *ArticleRpcServer) DeleteArticle(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
 	l := articlerpclogic.NewDeleteArticleLogic(ctx, s.svcCtx)
 	return l.DeleteArticle(in)
 }
 
-// 批量删除文章
-func (s *ArticleRpcServer) DeleteArticleList(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
-	l := articlerpclogic.NewDeleteArticleListLogic(ctx, s.svcCtx)
-	return l.DeleteArticleList(in)
-}
-
-// 查询文章
-func (s *ArticleRpcServer) FindArticle(ctx context.Context, in *blog.IdReq) (*blog.Article, error) {
-	l := articlerpclogic.NewFindArticleLogic(ctx, s.svcCtx)
-	return l.FindArticle(in)
-}
-
-// 查询文章列表
-func (s *ArticleRpcServer) FindArticleList(ctx context.Context, in *blog.PageQuery) (*blog.ArticlePageResp, error) {
+// 查询文章数量
+func (s *ArticleRpcServer) FindArticleList(ctx context.Context, in *blog.FindArticleListReq) (*blog.FindArticleListResp, error) {
 	l := articlerpclogic.NewFindArticleListLogic(ctx, s.svcCtx)
 	return l.FindArticleList(in)
 }
 
-// 查询文章数量
-func (s *ArticleRpcServer) FindArticleCount(ctx context.Context, in *blog.PageQuery) (*blog.CountResp, error) {
-	l := articlerpclogic.NewFindArticleCountLogic(ctx, s.svcCtx)
-	return l.FindArticleCount(in)
+// 查询文章列表
+func (s *ArticleRpcServer) FindArticlePublicList(ctx context.Context, in *blog.FindArticleListReq) (*blog.FindArticleListResp, error) {
+	l := articlerpclogic.NewFindArticlePublicListLogic(ctx, s.svcCtx)
+	return l.FindArticlePublicList(in)
 }
 
 // 查询文章列表
-func (s *ArticleRpcServer) FindArticleByTag(ctx context.Context, in *blog.FindArticleByTagReq) (*blog.ArticlePageResp, error) {
-	l := articlerpclogic.NewFindArticleByTagLogic(ctx, s.svcCtx)
-	return l.FindArticleByTag(in)
+func (s *ArticleRpcServer) FindArticlesByTag(ctx context.Context, in *blog.FindArticlesByTagReq) (*blog.FindArticleListResp, error) {
+	l := articlerpclogic.NewFindArticlesByTagLogic(ctx, s.svcCtx)
+	return l.FindArticlesByTag(in)
 }
 
 // 查询文章列表
-func (s *ArticleRpcServer) FindArticleByCategory(ctx context.Context, in *blog.FindArticleByCategoryReq) (*blog.ArticlePageResp, error) {
-	l := articlerpclogic.NewFindArticleByCategoryLogic(ctx, s.svcCtx)
-	return l.FindArticleByCategory(in)
+func (s *ArticleRpcServer) FindArticlesByCategory(ctx context.Context, in *blog.FindArticlesByCategoryReq) (*blog.FindArticleListResp, error) {
+	l := articlerpclogic.NewFindArticlesByCategoryLogic(ctx, s.svcCtx)
+	return l.FindArticlesByCategory(in)
+}
+
+// 回收文章
+func (s *ArticleRpcServer) RecycleArticle(ctx context.Context, in *blog.RecycleArticleReq) (*blog.EmptyResp, error) {
+	l := articlerpclogic.NewRecycleArticleLogic(ctx, s.svcCtx)
+	return l.RecycleArticle(in)
+}
+
+// 置顶文章
+func (s *ArticleRpcServer) TopArticle(ctx context.Context, in *blog.TopArticleReq) (*blog.EmptyResp, error) {
+	l := articlerpclogic.NewTopArticleLogic(ctx, s.svcCtx)
+	return l.TopArticle(in)
 }
 
 // 点赞文章
@@ -86,4 +92,70 @@ func (s *ArticleRpcServer) LikeArticle(ctx context.Context, in *blog.IdReq) (*bl
 func (s *ArticleRpcServer) FindUserLikeArticle(ctx context.Context, in *blog.UserIdReq) (*blog.FindLikeArticleResp, error) {
 	l := articlerpclogic.NewFindUserLikeArticleLogic(ctx, s.svcCtx)
 	return l.FindUserLikeArticle(in)
+}
+
+// 查询文章数量
+func (s *ArticleRpcServer) AnalysisArticle(ctx context.Context, in *blog.EmptyReq) (*blog.AnalysisArticleResp, error) {
+	l := articlerpclogic.NewAnalysisArticleLogic(ctx, s.svcCtx)
+	return l.AnalysisArticle(in)
+}
+
+// 创建文章分类
+func (s *ArticleRpcServer) AddCategory(ctx context.Context, in *blog.CategoryNew) (*blog.CategoryDetails, error) {
+	l := articlerpclogic.NewAddCategoryLogic(ctx, s.svcCtx)
+	return l.AddCategory(in)
+}
+
+// 更新文章分类
+func (s *ArticleRpcServer) UpdateCategory(ctx context.Context, in *blog.CategoryNew) (*blog.CategoryDetails, error) {
+	l := articlerpclogic.NewUpdateCategoryLogic(ctx, s.svcCtx)
+	return l.UpdateCategory(in)
+}
+
+// 查询文章分类
+func (s *ArticleRpcServer) GetCategory(ctx context.Context, in *blog.IdReq) (*blog.CategoryDetails, error) {
+	l := articlerpclogic.NewGetCategoryLogic(ctx, s.svcCtx)
+	return l.GetCategory(in)
+}
+
+// 删除文章分类
+func (s *ArticleRpcServer) DeleteCategory(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
+	l := articlerpclogic.NewDeleteCategoryLogic(ctx, s.svcCtx)
+	return l.DeleteCategory(in)
+}
+
+// 查询文章分类数量
+func (s *ArticleRpcServer) FindCategoryList(ctx context.Context, in *blog.FindCategoryListReq) (*blog.FindCategoryListResp, error) {
+	l := articlerpclogic.NewFindCategoryListLogic(ctx, s.svcCtx)
+	return l.FindCategoryList(in)
+}
+
+// 创建标签
+func (s *ArticleRpcServer) AddTag(ctx context.Context, in *blog.TagNew) (*blog.TagDetails, error) {
+	l := articlerpclogic.NewAddTagLogic(ctx, s.svcCtx)
+	return l.AddTag(in)
+}
+
+// 更新标签
+func (s *ArticleRpcServer) UpdateTag(ctx context.Context, in *blog.TagNew) (*blog.TagDetails, error) {
+	l := articlerpclogic.NewUpdateTagLogic(ctx, s.svcCtx)
+	return l.UpdateTag(in)
+}
+
+// 查询标签
+func (s *ArticleRpcServer) GetTag(ctx context.Context, in *blog.IdReq) (*blog.TagDetails, error) {
+	l := articlerpclogic.NewGetTagLogic(ctx, s.svcCtx)
+	return l.GetTag(in)
+}
+
+// 删除标签
+func (s *ArticleRpcServer) DeleteTag(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
+	l := articlerpclogic.NewDeleteTagLogic(ctx, s.svcCtx)
+	return l.DeleteTag(in)
+}
+
+// 查询标签数量
+func (s *ArticleRpcServer) FindTagList(ctx context.Context, in *blog.FindTagListReq) (*blog.FindTagListResp, error) {
+	l := articlerpclogic.NewFindTagListLogic(ctx, s.svcCtx)
+	return l.FindTagList(in)
 }

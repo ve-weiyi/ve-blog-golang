@@ -27,7 +27,7 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 }
 
 // 分页获取接口列表
-func (l *FindApiListLogic) FindApiList(in *blog.PageQuery) (*blog.ApiPageResp, error) {
+func (l *FindApiListLogic) FindApiList(in *blog.PageQuery) (*blog.FindApiListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.ApiModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindApiListLogic) FindApiList(in *blog.PageQuery) (*blog.ApiPageResp, e
 	var root blog.ApiDetails
 	root.Children = appendApiChildren(&root, result)
 
-	out := &blog.ApiPageResp{}
+	out := &blog.FindApiListResp{}
 	out.List = root.Children
 
 	return out, nil

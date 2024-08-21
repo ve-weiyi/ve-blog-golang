@@ -22,48 +22,6 @@ func NewUserRpcServer(svcCtx *svc.ServiceContext) *UserRpcServer {
 	}
 }
 
-// 查询用户登录历史
-func (s *UserRpcServer) FindUserLoginHistoryList(ctx context.Context, in *blog.PageQuery) (*blog.LoginHistoryPageResp, error) {
-	l := userrpclogic.NewFindUserLoginHistoryListLogic(ctx, s.svcCtx)
-	return l.FindUserLoginHistoryList(in)
-}
-
-// 批量删除登录历史
-func (s *UserRpcServer) DeleteUserLoginHistoryList(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
-	l := userrpclogic.NewDeleteUserLoginHistoryListLogic(ctx, s.svcCtx)
-	return l.DeleteUserLoginHistoryList(in)
-}
-
-// 查找用户列表
-func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.PageQuery) (*blog.UserPageResp, error) {
-	l := userrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
-	return l.FindUserList(in)
-}
-
-// 获取用户接口权限
-func (s *UserRpcServer) FindUserApis(ctx context.Context, in *blog.UserIdReq) (*blog.ApiPageResp, error) {
-	l := userrpclogic.NewFindUserApisLogic(ctx, s.svcCtx)
-	return l.FindUserApis(in)
-}
-
-// 获取用户菜单权限
-func (s *UserRpcServer) FindUserMenus(ctx context.Context, in *blog.UserIdReq) (*blog.MenuPageResp, error) {
-	l := userrpclogic.NewFindUserMenusLogic(ctx, s.svcCtx)
-	return l.FindUserMenus(in)
-}
-
-// 获取用户角色信息
-func (s *UserRpcServer) FindUserRoles(ctx context.Context, in *blog.UserIdReq) (*blog.RolePageResp, error) {
-	l := userrpclogic.NewFindUserRolesLogic(ctx, s.svcCtx)
-	return l.FindUserRoles(in)
-}
-
-// 获取用户信息
-func (s *UserRpcServer) FindUserInfo(ctx context.Context, in *blog.UserIdReq) (*blog.UserInfoResp, error) {
-	l := userrpclogic.NewFindUserInfoLogic(ctx, s.svcCtx)
-	return l.FindUserInfo(in)
-}
-
 // 修改用户信息
 func (s *UserRpcServer) UpdateUserInfo(ctx context.Context, in *blog.UpdateUserInfoReq) (*blog.EmptyResp, error) {
 	l := userrpclogic.NewUpdateUserInfoLogic(ctx, s.svcCtx)
@@ -76,8 +34,38 @@ func (s *UserRpcServer) UpdateUserStatus(ctx context.Context, in *blog.UpdateUse
 	return l.UpdateUserStatus(in)
 }
 
-// 修改用户角色
-func (s *UserRpcServer) UpdateUserRole(ctx context.Context, in *blog.UpdateUserRoleReq) (*blog.EmptyResp, error) {
-	l := userrpclogic.NewUpdateUserRoleLogic(ctx, s.svcCtx)
-	return l.UpdateUserRole(in)
+// 获取用户信息
+func (s *UserRpcServer) FindUserInfo(ctx context.Context, in *blog.UserIdReq) (*blog.UserInfoResp, error) {
+	l := userrpclogic.NewFindUserInfoLogic(ctx, s.svcCtx)
+	return l.FindUserInfo(in)
+}
+
+// 查找用户列表
+func (s *UserRpcServer) FindUserList(ctx context.Context, in *blog.FindUserListReq) (*blog.FindUserListResp, error) {
+	l := userrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
+	return l.FindUserList(in)
+}
+
+// 查找在线用户列表
+func (s *UserRpcServer) FindUserOnlineList(ctx context.Context, in *blog.FindUserListReq) (*blog.FindUserListResp, error) {
+	l := userrpclogic.NewFindUserOnlineListLogic(ctx, s.svcCtx)
+	return l.FindUserOnlineList(in)
+}
+
+// 查询用户登录历史
+func (s *UserRpcServer) FindUserLoginHistoryList(ctx context.Context, in *blog.FindLoginHistoryListReq) (*blog.FindLoginHistoryListResp, error) {
+	l := userrpclogic.NewFindUserLoginHistoryListLogic(ctx, s.svcCtx)
+	return l.FindUserLoginHistoryList(in)
+}
+
+// 批量删除登录历史
+func (s *UserRpcServer) DeleteUserLoginHistoryList(ctx context.Context, in *blog.IdsReq) (*blog.BatchResp, error) {
+	l := userrpclogic.NewDeleteUserLoginHistoryListLogic(ctx, s.svcCtx)
+	return l.DeleteUserLoginHistoryList(in)
+}
+
+// 查询用户分布区域
+func (s *UserRpcServer) FindUserRegionList(ctx context.Context, in *blog.EmptyReq) (*blog.FindUserRegionListResp, error) {
+	l := userrpclogic.NewFindUserRegionListLogic(ctx, s.svcCtx)
+	return l.FindUserRegionList(in)
 }

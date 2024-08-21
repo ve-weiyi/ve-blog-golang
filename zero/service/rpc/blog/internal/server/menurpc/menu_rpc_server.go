@@ -53,7 +53,7 @@ func (s *MenuRpcServer) FindMenu(ctx context.Context, in *blog.IdReq) (*blog.Men
 }
 
 // 查询菜单列表
-func (s *MenuRpcServer) FindMenuList(ctx context.Context, in *blog.PageQuery) (*blog.MenuPageResp, error) {
+func (s *MenuRpcServer) FindMenuList(ctx context.Context, in *blog.PageQuery) (*blog.FindMenuListResp, error) {
 	l := menurpclogic.NewFindMenuListLogic(ctx, s.svcCtx)
 	return l.FindMenuList(in)
 }

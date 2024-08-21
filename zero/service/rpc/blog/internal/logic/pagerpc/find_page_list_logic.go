@@ -25,7 +25,7 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 分页获取页面列表
-func (l *FindPageListLogic) FindPageList(in *blog.PageQuery) (*blog.PagePageResp, error) {
+func (l *FindPageListLogic) FindPageList(in *blog.PageQuery) (*blog.FindPageListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.PageModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindPageListLogic) FindPageList(in *blog.PageQuery) (*blog.PagePageResp
 		list = append(list, convert.ConvertPageModelToPb(v))
 	}
 
-	return &blog.PagePageResp{
+	return &blog.FindPageListResp{
 		List: list,
 	}, nil
 }

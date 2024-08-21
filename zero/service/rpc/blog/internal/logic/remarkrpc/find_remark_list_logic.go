@@ -25,7 +25,7 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 // 分页获取留言列表
-func (l *FindRemarkListLogic) FindRemarkList(in *blog.PageQuery) (*blog.RemarkPageResp, error) {
+func (l *FindRemarkListLogic) FindRemarkList(in *blog.PageQuery) (*blog.FindRemarkListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.RemarkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindRemarkListLogic) FindRemarkList(in *blog.PageQuery) (*blog.RemarkPa
 		list = append(list, convert.ConvertRemarkModelToPb(v))
 	}
 
-	return &blog.RemarkPageResp{
+	return &blog.FindRemarkListResp{
 		List: list,
 	}, nil
 }

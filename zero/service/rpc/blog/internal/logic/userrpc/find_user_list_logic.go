@@ -27,8 +27,8 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 查找用户列表
-func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+func (l *FindUserListLogic) FindUserList(in *blog.FindUserListReq) (*blog.FindUserListResp, error) {
+	page, size, sorts, conditions, params := convertQuery(in)
 
 	result, err := l.svcCtx.UserAccountModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -81,9 +81,45 @@ func (l *FindUserListLogic) FindUserList(in *blog.PageQuery) (*blog.UserPageResp
 		list = append(list, convert.ConvertUserDetailsModelToPb(item, roles))
 	}
 
-	resp := &blog.UserPageResp{}
+	resp := &blog.FindUserListResp{}
 	resp.Total = total
 	resp.List = list
 
 	return resp, nil
+}
+
+func convertQuery(in *blog.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+
+	if in.Username != "" {
+		conditions += "username like ?"
+		params = append(params, "%"+in.Username+"%")
+	}
+
+	if in.Nickname != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "nickname like ?"
+		params = append(params, "%"+in.Nickname+"%")
+	}
+
+	if in.Email != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "email like ?"
+		params = append(params, "%"+in.Email+"%")
+	}
+
+	if in.Status != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "status = ?"
+		params = append(params, in.Status)
+	}
+
+	return page, size, sorts, conditions, params
 }

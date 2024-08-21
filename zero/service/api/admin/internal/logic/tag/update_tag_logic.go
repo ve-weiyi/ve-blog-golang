@@ -3,9 +3,9 @@ package tag
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,13 +25,16 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 	}
 }
 
-func (l *UpdateTagLogic) UpdateTag(req *types.Tag) (resp *types.Tag, err error) {
-	in := convert.ConvertTagPb(req)
+func (l *UpdateTagLogic) UpdateTag(req *types.Tag) (resp *types.TagBackDTO, err error) {
+	in := &articlerpc.TagNew{
+		Id:      req.Id,
+		TagName: req.TagName,
+	}
 
-	api, err := l.svcCtx.TagRpc.UpdateTag(l.ctx, in)
+	category, err := l.svcCtx.ArticleRpc.UpdateTag(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTagTypes(api), nil
+	return ConvertTagTypes(category), nil
 }

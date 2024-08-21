@@ -6,6 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +27,9 @@ func NewFindFriendLinkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindFriendLinkLogic) FindFriendLink(req *types.IdReq) (resp *types.FriendLink, err error) {
-	in := convert.ConvertIdReq(req)
+	in := &blogrpc.IdReq{
+		Id: req.Id,
+	}
 
 	out, err := l.svcCtx.FriendLinkRpc.FindFriendLink(l.ctx, in)
 	if err != nil {

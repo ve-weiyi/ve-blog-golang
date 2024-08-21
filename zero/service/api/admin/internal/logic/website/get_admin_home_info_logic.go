@@ -32,19 +32,19 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	in := &blogrpc.PageQuery{}
 
 	// 查询文章
-	articles, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
+	articles, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blogrpc.FindArticleListReq{})
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询分类
-	categories, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, in)
+	categories, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, &blogrpc.FindCategoryListReq{})
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询标签
-	tags, err := l.svcCtx.TagRpc.FindTagList(l.ctx, in)
+	tags, err := l.svcCtx.ArticleRpc.FindTagList(l.ctx, &blogrpc.FindTagListReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询用户数量
-	userCount, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
+	userCount, err := l.svcCtx.UserRpc.FindUserList(l.ctx, &blogrpc.FindUserListReq{})
 	if err != nil {
 		return nil, err
 	}

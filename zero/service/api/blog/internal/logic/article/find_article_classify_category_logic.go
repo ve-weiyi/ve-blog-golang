@@ -3,8 +3,6 @@ package article
 import (
 	"context"
 
-	"github.com/spf13/cast"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -29,39 +27,25 @@ func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.Servic
 }
 
 func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyReq) (resp *types.PageResp, err error) {
-	cs, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, &blogrpc.PageQuery{
-		Page:       1,
-		PageSize:   1,
-		Sorts:      "id desc",
-		Conditions: "category_name = ?",
-		Args:       []string{cast.ToString(req.ClassifyName)},
-	})
+	in := &blogrpc.FindArticlesByCategoryReq{
+		CategoryName: req.ClassifyName,
+	}
+	out, err := l.svcCtx.ArticleRpc.FindArticlesByCategory(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	ids := make([]int64, 0)
-	for _, v := range cs.List {
-		ids = append(ids, v.Id)
-	}
-
-	as, err := l.svcCtx.ArticleRpc.FindArticleByCategory(l.ctx, &blogrpc.FindArticleByCategoryReq{
-		CategoryIds: ids,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.ArticlePreview
-	for _, v := range as.List {
-		m := convert.ConvertArticlePreviewTypes(v)
+	var list []*types.ArticleHome
+	// 转换数据
+	for _, v := range out.List {
+		m := convert.ConvertArticleHomeTypes(v)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = req.Page
 	resp.PageSize = req.PageSize
-	resp.Total = int64(len(list))
+	resp.Total = out.Total
 	resp.List = list
 	return
 }

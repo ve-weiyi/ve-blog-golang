@@ -62,19 +62,15 @@ type ArticleBackDTO struct {
 
 type ArticleNewReq struct {
 	Id             int64    `json:"id,optional"`              // id
-	UserId         int64    `json:"user_id,optional"`         // 作者
-	CategoryId     int64    `json:"category_id,optional"`     // 文章分类
 	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
 	ArticleTitle   string   `json:"article_title,optional"`   // 标题
 	ArticleContent string   `json:"article_content,optional"` // 内容
 	ArticleType    int64    `json:"article_type,optional"`    // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
-	IsTop          int64    `json:"is_top,optional"`          // 是否置顶 0否 1是
-	IsDelete       int64    `json:"is_delete,optional"`       // 是否删除  0否 1是
 	Status         int64    `json:"status,optional"`          // 状态值 1公开 2私密 3评论可见
-	CreatedAt      int64    `json:"created_at,optional"`      // 发表时间
-	UpdatedAt      int64    `json:"updated_at,optional"`      // 更新时间
+	CategoryId     int64    `json:"category_id,optional"`     // 文章分类
 	CategoryName   string   `json:"category_name,optional"`   // 文章分类名
+	TagIds         []int64  `json:"tag_ids,optional"`         // 文章标签
 	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
 }
 
@@ -112,11 +108,12 @@ type BlogHomeInfo struct {
 	PageList      []*PageDTO    `json:"page_list,optional"`      // 页面列表
 }
 
-type Category struct {
-	Id           int64  `json:"id,optional"`            // id
-	CategoryName string `json:"category_name,optional"` // 分类名
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
+type CategoryBackDTO struct {
+	Id           int64  `json:"id"`
+	CategoryName string `json:"category_name"` // 分类名
+	ArticleCount int64  `json:"article_count"`
+	CreatedAt    int64  `json:"created_at"` // 创建时间
+	UpdatedAt    int64  `json:"updated_at"` // 更新时间
 }
 
 type CategoryDTO struct {
@@ -124,12 +121,9 @@ type CategoryDTO struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type CategoryDetails struct {
+type CategoryNew struct {
 	Id           int64  `json:"id,optional"`
-	CategoryName string `json:"category_name,optional"` // 分类名
-	ArticleCount int64  `json:"article_count,optional"`
-	CreatedAt    int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"` // 更新时间
+	CategoryName string `json:"category_name"` // 分类名
 }
 
 type CommentBackDTO struct {
@@ -214,6 +208,18 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
+type FindCategoryListReq struct {
+	Page         int64  `json:"page,optional"`          // 页码
+	PageSize     int64  `json:"page_size,optional"`     // 每页数量
+	CategoryName string `json:"category_name,optional"` // 分类名
+}
+
+type FindTagListReq struct {
+	Page     int64  `json:"page,optional"`      // 页码
+	PageSize int64  `json:"page_size,optional"` // 每页数量
+	TagName  string `json:"tag_name,optional"`  // 标签名
+}
+
 type FriendLink struct {
 	Id          int64  `json:"id,optional"`           // id
 	LinkName    string `json:"link_name,optional"`    // 链接名
@@ -230,15 +236,6 @@ type IdReq struct {
 
 type IdsReq struct {
 	Ids []int64 `json:"ids"`
-}
-
-type LoginHistory struct {
-	Id        int64  `json:"id,optional"`
-	LoginType string `json:"login_type,optional"` // 登录类型
-	Agent     string `json:"agent,optional"`      // 代理
-	IpAddress string `json:"ip_address,optional"` // ip host
-	IpSource  string `json:"ip_source,optional"`  // ip 源
-	LoginTime string `json:"login_time,optional"` // 创建时间
 }
 
 type LoginReq struct {
@@ -444,12 +441,6 @@ type RoleDetails struct {
 	ApiIdList   []int64 `json:"resource_id_list,optional"`
 }
 
-type RoleLabel struct {
-	RoleId      int64  `json:"role_id,optional"`
-	RoleName    string `json:"role_name,optional"`
-	RoleComment string `json:"role_comment,optional"`
-}
-
 type RoleResourcesResp struct {
 	RoleId  int64   `json:"role_id,optional"`
 	ApiIds  []int64 `json:"api_ids,optional"`
@@ -478,23 +469,21 @@ type SyncMenuReq struct {
 }
 
 type Tag struct {
-	Id        int64  `json:"id,optional"`         // id
-	TagName   string `json:"tag_name,optional"`   // 标签名
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+	Id      int64  `json:"id,optional"`
+	TagName string `json:"tag_name"` // 标签名
+}
+
+type TagBackDTO struct {
+	Id           int64  `json:"id"`            // 标签ID
+	TagName      string `json:"tag_name"`      // 标签名
+	ArticleCount int64  `json:"article_count"` // 文章数量
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
+	UpdatedAt    int64  `json:"updated_at"`    // 更新时间
 }
 
 type TagDTO struct {
 	Id      int64  `json:"id,optional"`       // 标签ID
 	TagName string `json:"tag_name,optional"` // 标签名
-}
-
-type TagDetails struct {
-	Id           int64  `json:"id,optional"`            // 标签ID
-	TagName      string `json:"tag_name,optional"`      // 标签名
-	ArticleCount int64  `json:"article_count,optional"` // 文章数量
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
 }
 
 type TalkDetails struct {
@@ -573,19 +562,19 @@ type UploadFileResp struct {
 }
 
 type User struct {
-	Id        int64        `json:"id,optional"`
-	Username  string       `json:"username"`
-	Nickname  string       `json:"nickname,optional"`
-	Avatar    string       `json:"avatar,optional"`
-	Status    int64        `json:"status,optional"`
-	LoginType string       `json:"login_type,optional"`
-	IpAddress string       `json:"ip_address,optional"` // ip host
-	IpSource  string       `json:"ip_source,optional"`  // ip 源
-	CreatedAt int64        `json:"created_at,optional"`
-	UpdatedAt int64        `json:"updated_at,optional"`
-	LoginAt   int64        `json:"login_at,optional"`
-	LogoutAt  int64        `json:"logout_at,optional"`
-	Roles     []*RoleLabel `json:"roles,optional"`
+	Id        int64            `json:"id,optional"`
+	Username  string           `json:"username"`
+	Nickname  string           `json:"nickname,optional"`
+	Avatar    string           `json:"avatar,optional"`
+	Status    int64            `json:"status,optional"`
+	LoginType string           `json:"login_type,optional"`
+	IpAddress string           `json:"ip_address,optional"` // ip host
+	IpSource  string           `json:"ip_source,optional"`  // ip 源
+	CreatedAt int64            `json:"created_at,optional"`
+	UpdatedAt int64            `json:"updated_at,optional"`
+	LoginAt   int64            `json:"login_at,optional"`
+	LogoutAt  int64            `json:"logout_at,optional"`
+	Roles     []*UserRoleLabel `json:"roles,optional"`
 	UserInfoExt
 }
 
@@ -630,6 +619,15 @@ type UserInfoResp struct {
 	Nickname string `json:"nickname,optional"` // 用户昵称
 	Avatar   string `json:"avatar,optional"`   // 用户头像
 	UserInfoExt
+}
+
+type UserLoginHistory struct {
+	Id        int64  `json:"id,optional"`
+	LoginType string `json:"login_type,optional"` // 登录类型
+	Agent     string `json:"agent,optional"`      // 代理
+	IpAddress string `json:"ip_address,optional"` // ip host
+	IpSource  string `json:"ip_source,optional"`  // ip 源
+	LoginTime string `json:"login_time,optional"` // 创建时间
 }
 
 type UserMenu struct {
@@ -679,6 +677,12 @@ type UserRole struct {
 	UpdatedAt      int64   `json:"updated_at,optional"`   // 更新时间
 	MenuIdList     []int64 `json:"menu_id_list,optional"`
 	ResourceIdList []int64 `json:"resource_id_list,optional"`
+}
+
+type UserRoleLabel struct {
+	RoleId      int64  `json:"role_id,optional"`
+	RoleName    string `json:"role_name,optional"`
+	RoleComment string `json:"role_comment,optional"`
 }
 
 type UserRolesResp struct {

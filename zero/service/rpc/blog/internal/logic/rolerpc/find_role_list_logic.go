@@ -27,7 +27,7 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 分页获取角色列表
-func (l *FindRoleListLogic) FindRoleList(in *blog.PageQuery) (*blog.RolePageResp, error) {
+func (l *FindRoleListLogic) FindRoleList(in *blog.PageQuery) (*blog.FindRoleListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.RoleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindRoleListLogic) FindRoleList(in *blog.PageQuery) (*blog.RolePageResp
 	var root blog.RoleDetails
 	root.Children = appendRoleChildren(&root, result)
 
-	out := &blog.RolePageResp{}
+	out := &blog.FindRoleListResp{}
 	out.Total = int64(len(root.Children))
 	out.List = root.Children
 

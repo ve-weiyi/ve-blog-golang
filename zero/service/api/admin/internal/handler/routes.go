@@ -183,6 +183,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
+					// 添加文章
+					Method:  http.MethodPost,
+					Path:    "/admin/article/add_article",
+					Handler: article.AddArticleHandler(serverCtx),
+				},
+				{
 					// 删除文章
 					Method:  http.MethodPost,
 					Path:    "/admin/article/delete_article",
@@ -195,16 +201,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: article.ExportArticleListHandler(serverCtx),
 				},
 				{
-					// 查询文章
-					Method:  http.MethodPost,
-					Path:    "/admin/article/find_article",
-					Handler: article.FindArticleHandler(serverCtx),
-				},
-				{
 					// 查询文章列表
 					Method:  http.MethodPost,
 					Path:    "/admin/article/find_article_list",
 					Handler: article.FindArticleListHandler(serverCtx),
+				},
+				{
+					// 查询文章
+					Method:  http.MethodPost,
+					Path:    "/admin/article/get_article",
+					Handler: article.GetArticleHandler(serverCtx),
 				},
 				{
 					// 回收文章
@@ -213,16 +219,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: article.RecycleArticleHandler(serverCtx),
 				},
 				{
-					// 保存文章
-					Method:  http.MethodPost,
-					Path:    "/admin/article/save_article",
-					Handler: article.SaveArticleHandler(serverCtx),
-				},
-				{
 					// 置顶文章
 					Method:  http.MethodPost,
 					Path:    "/admin/article/top_article",
 					Handler: article.TopArticleHandler(serverCtx),
+				},
+				{
+					// 保存文章
+					Method:  http.MethodPost,
+					Path:    "/admin/article/update_article",
+					Handler: article.UpdateArticleHandler(serverCtx),
 				},
 			}...,
 		),
@@ -278,8 +284,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建文章分类
 					Method:  http.MethodPost,
-					Path:    "/category/create_category",
-					Handler: category.CreateCategoryHandler(serverCtx),
+					Path:    "/category/add_category",
+					Handler: category.AddCategoryHandler(serverCtx),
+				},
+				{
+					// 批量删除文章分类
+					Method:  http.MethodDelete,
+					Path:    "/category/batch_delete_category",
+					Handler: category.BatchDeleteCategoryHandler(serverCtx),
 				},
 				{
 					// 删除文章分类
@@ -288,16 +300,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: category.DeleteCategoryHandler(serverCtx),
 				},
 				{
-					// 批量删除文章分类
-					Method:  http.MethodDelete,
-					Path:    "/category/delete_category_list",
-					Handler: category.DeleteCategoryListHandler(serverCtx),
-				},
-				{
 					// 查询文章分类
 					Method:  http.MethodPost,
-					Path:    "/category/find_category",
-					Handler: category.FindCategoryHandler(serverCtx),
+					Path:    "/category/get_category",
+					Handler: category.GetCategoryHandler(serverCtx),
 				},
 				{
 					// 更新文章分类
@@ -803,8 +809,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 创建标签
 					Method:  http.MethodPost,
-					Path:    "/tag/create_tag",
-					Handler: tag.CreateTagHandler(serverCtx),
+					Path:    "/tag/add_tag",
+					Handler: tag.AddTagHandler(serverCtx),
+				},
+				{
+					// 批量删除标签
+					Method:  http.MethodDelete,
+					Path:    "/tag/batch_delete_tag",
+					Handler: tag.BatchDeleteTagHandler(serverCtx),
 				},
 				{
 					// 删除标签
@@ -813,16 +825,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: tag.DeleteTagHandler(serverCtx),
 				},
 				{
-					// 批量删除标签
-					Method:  http.MethodDelete,
-					Path:    "/tag/delete_tag_list",
-					Handler: tag.DeleteTagListHandler(serverCtx),
-				},
-				{
 					// 查询标签
 					Method:  http.MethodPost,
-					Path:    "/tag/find_tag",
-					Handler: tag.FindTagHandler(serverCtx),
+					Path:    "/tag/get_tag",
+					Handler: tag.GetTagHandler(serverCtx),
 				},
 				{
 					// 更新标签

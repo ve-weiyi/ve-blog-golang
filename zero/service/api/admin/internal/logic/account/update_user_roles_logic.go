@@ -30,7 +30,7 @@ func (l *UpdateUserRolesLogic) UpdateUserRoles(req *types.UpdateUserRolesReq) (r
 		RoleIds: req.RoleIds,
 	}
 
-	_, err = l.svcCtx.UserRpc.UpdateUserRole(l.ctx, in)
+	_, err = l.svcCtx.RoleRpc.UpdateUserRole(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

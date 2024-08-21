@@ -27,7 +27,7 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 分页获取菜单列表
-func (l *FindMenuListLogic) FindMenuList(in *blog.PageQuery) (*blog.MenuPageResp, error) {
+func (l *FindMenuListLogic) FindMenuList(in *blog.PageQuery) (*blog.FindMenuListResp, error) {
 	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
 
 	result, err := l.svcCtx.MenuModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,7 +38,7 @@ func (l *FindMenuListLogic) FindMenuList(in *blog.PageQuery) (*blog.MenuPageResp
 	var root blog.MenuDetails
 	root.Children = appendMenuChildren(&root, result)
 
-	out := &blog.MenuPageResp{}
+	out := &blog.FindMenuListResp{}
 	out.List = root.Children
 
 	return out, nil

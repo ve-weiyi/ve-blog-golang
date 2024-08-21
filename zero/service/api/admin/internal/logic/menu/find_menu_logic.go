@@ -6,6 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,9 @@ func NewFindMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindMenu
 }
 
 func (l *FindMenuLogic) FindMenu(req *types.IdReq) (resp *types.MenuDetails, err error) {
-	in := convert.ConvertIdReq(req)
+	in := &blogrpc.IdReq{
+		Id: req.Id,
+	}
 
 	out, err := l.svcCtx.MenuRpc.FindMenu(l.ctx, in)
 	if err != nil {

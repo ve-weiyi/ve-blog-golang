@@ -21,11 +21,11 @@ type (
         UpdatedAt int64 `json:"updated_at,optional"`
         LoginAt int64 `json:"login_at,optional"`
         LogoutAt int64 `json:"logout_at,optional"`
-        Roles []*RoleLabel `json:"roles,optional"`
+        Roles []*UserRoleLabel `json:"roles,optional"`
         UserInfoExt
     }
 
-    RoleLabel {
+    UserRoleLabel {
         RoleId int64 `json:"role_id,optional"`
         RoleName string `json:"role_name,optional"`
         RoleComment string `json:"role_comment,optional"`
@@ -63,7 +63,7 @@ type (
         RoleIds []int64 `json:"role_ids,optional"`
     }
 
-    LoginHistory {
+    UserLoginHistory {
         Id int64 `json:"id,optional"`
         LoginType string `json:"login_type,optional"` // 登录类型
         Agent string `json:"agent,optional"`          // 代理

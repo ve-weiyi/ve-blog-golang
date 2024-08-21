@@ -21,6 +21,10 @@ message IdsReq {
   repeated int64 ids = 1;
 }
 
+message UserIdReq {
+  int64 user_id = 1;
+}
+
 message PageQuery {
   int64 page = 1;
   int64 page_size = 2;
@@ -46,7 +50,7 @@ message PageCondition {
   string operator = 4; // 操作符 = > < >= <= != like
 }
 
-message PageResp {
+message ListResp {
   int64 page = 1;
   int64 page_size = 2;
   int64 total = 3;
@@ -155,6 +159,127 @@ service AuthRpc {
   rpc GetLogoutAt(GetLogoutAtReq) returns(LogoutResp);
 }
 
+/************** user 用户相关 **************/
+
+message UserInfoResp {
+  int64 user_id = 1; // 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string email = 5;// 用户邮箱
+  string phone = 6;// 用户手机号
+  string info = 7;// 用户信息
+  int64 status = 8;
+  string login_type = 9;
+  string ip_address = 10;// ip host
+  string ip_source = 11;// ip 源
+  int64 created_at = 12;
+  int64 updated_at = 13;
+}
+
+message UserDetails {
+  int64 user_id = 1; // 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string email = 5;// 用户邮箱
+  string phone = 6;// 用户手机号
+  string info = 7;// 用户信息
+  int64 status = 8;
+  string login_type = 9;
+  string ip_address = 10;// ip host
+  string ip_source = 11;// ip 源
+  int64 created_at = 12;
+  int64 updated_at = 13;
+  int64 login_at = 14;
+  int64 logout_at = 15;
+  repeated UserRoleLabel roles = 16;
+}
+
+message UserRoleLabel{
+  int64 role_id = 1;
+  string role_name = 2;
+  string role_comment = 3;
+}
+
+message UserLoginHistory {
+  int64 id = 1;
+  string login_type = 2;// 登录类型
+  string agent = 3;// 代理
+  string ip_address = 4;// ip host
+  string ip_source = 5;// ip 源
+  string login_time = 6;// 创建时间
+}
+
+message UserRegion {
+  string region = 1;
+  int64 count = 2;
+}
+
+message UpdateUserInfoReq {
+  int64 user_id = 1; // 用户id
+  string nickname = 2;// 昵称
+  string avatar = 3; // 头像
+  string info = 4;// 用户信息
+}
+
+message UpdateUserStatusReq {
+  int64 user_id = 1; // 用户id
+  int64 status = 2;
+}
+
+message FindUserListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string username = 3;
+  string nickname = 4;
+  string email = 5;
+  string phone = 6;
+  int64 status = 7;
+}
+
+message FindUserListResp{
+  repeated UserDetails list = 1;
+  int64 total = 2;
+}
+
+message FindLoginHistoryListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  int64 user_id = 3; // 用户id
+}
+
+message FindLoginHistoryListResp {
+  int64 total = 1;
+  repeated UserLoginHistory list = 2;
+}
+
+message FindUserRegionListResp {
+  repeated UserRegion list = 1;
+}
+
+service UserRpc {
+  // 修改用户信息
+  rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
+  // 修改用户状态
+  rpc UpdateUserStatus(UpdateUserStatusReq) returns(EmptyResp);
+  // 获取用户信息
+  rpc FindUserInfo(UserIdReq) returns(UserInfoResp);
+
+  // 查找用户列表
+  rpc FindUserList(FindUserListReq) returns(FindUserListResp);
+  // 查找在线用户列表
+  rpc FindUserOnlineList(FindUserListReq) returns(FindUserListResp);
+
+  // 查询用户登录历史
+  rpc FindUserLoginHistoryList(FindLoginHistoryListReq) returns(FindLoginHistoryListResp);
+  // 批量删除登录历史
+  rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResp);
+
+  // 查询用户分布区域
+  rpc FindUserRegionList(EmptyReq) returns(FindUserRegionListResp);
+}
+
 /************** rbac 权限相关 **************/
 message Api {
   int64 id = 1;// 主键id
@@ -181,7 +306,7 @@ message ApiDetails {
   repeated ApiDetails children = 10;
 }
 
-message ApiPageResp {
+message FindApiListResp {
   repeated ApiDetails list = 1;
 }
 
@@ -197,7 +322,7 @@ service ApiRpc {
   // 查询接口
   rpc FindApi(IdReq) returns(Api);
   // 查询接口列表
-  rpc FindApiList(PageQuery) returns(ApiPageResp);
+  rpc FindApiList(PageQuery) returns(FindApiListResp);
   // 同步接口列表
   rpc SyncApiList(EmptyReq) returns(BatchResp);
   // 清空接口列表
@@ -233,7 +358,7 @@ message MenuDetails {
   repeated MenuDetails children = 12;
 }
 
-message MenuPageResp {
+message FindMenuListResp {
   repeated MenuDetails list = 1;
 }
 
@@ -253,7 +378,7 @@ service MenuRpc {
   // 查询菜单
   rpc FindMenu(IdReq) returns(Menu);
   // 查询菜单列表
-  rpc FindMenuList(PageQuery) returns(MenuPageResp);
+  rpc FindMenuList(PageQuery) returns(FindMenuListResp);
   // 同步菜单列表
   rpc SyncMenuList(SyncMenuReq) returns(BatchResp);
   // 清空菜单列表
@@ -285,7 +410,7 @@ message RoleDetails {
   repeated RoleDetails children = 10;
 }
 
-message RolePageResp {
+message FindRoleListResp {
   repeated RoleDetails list = 1;
   int64 total = 2;
 }
@@ -306,6 +431,11 @@ message UpdateRoleMenusReq {
   repeated int64 menu_ids = 2;
 }
 
+message UpdateUserRoleReq {
+  int64 user_id = 1; // 用户id
+  repeated int64 role_ids = 2;
+}
+
 service RoleRpc {
   // 创建角色
   rpc AddRole(Role) returns(Role);
@@ -318,143 +448,46 @@ service RoleRpc {
   // 查询角色
   rpc FindRole(IdReq) returns(Role);
   // 查询角色列表
-  rpc FindRoleList(PageQuery) returns(RolePageResp);
+  rpc FindRoleList(PageQuery) returns(FindRoleListResp);
+
   // 查询角色资源权限
   rpc FindRoleResources(IdReq) returns(RoleResourcesResp);
   // 更新角色菜单
   rpc UpdateRoleMenus(UpdateRoleMenusReq) returns(EmptyResp);
   // 更新角色资源
   rpc UpdateRoleApis(UpdateRoleApisReq) returns(EmptyResp);
-}
 
-/************** user 用户相关 **************/
-
-message LoginHistory {
-  int64 id = 1;
-  string login_type = 2;// 登录类型
-  string agent = 3;// 代理
-  string ip_address = 4;// ip host
-  string ip_source = 5;// ip 源
-  string login_time = 6;// 创建时间
-}
-
-message LoginHistoryPageResp {
-  int64 total = 1;
-  repeated LoginHistory list = 2;
-}
-
-message UserInfoResp {
-  int64 user_id = 1; // 用户id
-  string username = 2;// 用户名
-  string nickname = 3;// 用户昵称
-  string avatar = 4;// 用户头像
-  string email = 5;// 用户邮箱
-  string phone = 6;// 用户手机号
-  string info = 7;// 用户信息
-  int64 status = 8;
-  string login_type = 9;
-  string ip_address = 10;// ip host
-  string ip_source = 11;// ip 源
-  int64 created_at = 12;
-  int64 updated_at = 13;
-}
-
-message UserDetails {
-  int64 user_id = 1; // 用户id
-  string username = 2;// 用户名
-  string nickname = 3;// 用户昵称
-  string avatar = 4;// 用户头像
-  string email = 5;// 用户邮箱
-  string phone = 6;// 用户手机号
-  string info = 7;// 用户信息
-  int64 status = 8;
-  string login_type = 9;
-  string ip_address = 10;// ip host
-  string ip_source = 11;// ip 源
-  int64 created_at = 12;
-  int64 updated_at = 13;
-  int64 login_at = 14;
-  int64 logout_at = 15;
-  repeated RoleLabel roles = 16;
-}
-
-message RoleLabel {
-  int64 role_id = 1;
-  string role_name = 2;
-  string role_comment = 3;
-}
-
-message UserPageResp{
-  repeated UserDetails list = 1;
-  int64 total = 2;
-}
-
-message UpdateUserInfoReq {
-  int64 user_id = 1; // 用户id
-  string nickname = 2;// 昵称
-  string avatar = 3; // 头像
-  string info = 4;// 用户信息
-}
-
-message UpdateUserStatusReq {
-  int64 user_id = 1; // 用户id
-  int64 status = 2;
-}
-
-message UpdateUserRoleReq {
-  int64 user_id = 1; // 用户id
-  repeated int64 role_ids = 2;
-}
-
-message UserIdReq {
-  int64 user_id = 1; // 用户id
-}
-
-service UserRpc {
-  // 查询用户登录历史
-  rpc FindUserLoginHistoryList(PageQuery) returns(LoginHistoryPageResp);
-  // 批量删除登录历史
-  rpc DeleteUserLoginHistoryList(IdsReq) returns(BatchResp);
-  // 查找用户列表
-  rpc FindUserList(PageQuery) returns(UserPageResp);
-  // 获取用户接口权限
-  rpc FindUserApis(UserIdReq) returns(ApiPageResp);
-  // 获取用户菜单权限
-  rpc FindUserMenus(UserIdReq) returns(MenuPageResp);
-  // 获取用户角色信息
-  rpc FindUserRoles(UserIdReq) returns(RolePageResp);
-  // 获取用户信息
-  rpc FindUserInfo(UserIdReq) returns(UserInfoResp);
-  // 修改用户信息
-  rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
-  // 修改用户状态
-  rpc UpdateUserStatus(UpdateUserStatusReq) returns(EmptyResp);
   // 修改用户角色
   rpc UpdateUserRole(UpdateUserRoleReq) returns(EmptyResp);
-}
-
-/************** blog 博客相关 **************/
-message FindConfigReq {
-  string config_key = 1;
-}
-
-message FindConfigResp {
-  string config_value = 1;
-}
-
-message SaveConfigReq {
-  string config_key = 1;
-  string config_value = 2;
-}
-
-service ConfigRpc {
-  rpc SaveConfig(SaveConfigReq) returns(EmptyResp);
-
-  rpc FindConfig(FindConfigReq) returns(FindConfigResp);
+  // 获取用户接口权限
+  rpc FindUserApis(UserIdReq) returns(FindApiListResp);
+  // 获取用户菜单权限
+  rpc FindUserMenus(UserIdReq) returns(FindMenuListResp);
+  // 获取用户角色信息
+  rpc FindUserRoles(UserIdReq) returns(FindRoleListResp);
 }
 
 // article结构体
-message Article {
+message ArticleNew {
+  int64 id = 1;// id
+  int64 user_id = 2;// 作者
+  //  int64 category_id = 3;// 文章分类
+  string article_cover = 4;// 文章缩略图
+  string article_title = 5;// 标题
+  string article_content = 6;// 内容
+  int64 article_type = 7;// 文章类型 1原创 2转载 3翻译
+  string original_url = 8;// 原文链接
+  //  int64 is_top = 9;// 是否置顶 0否 1是
+  //  int64 is_delete = 10;// 是否删除  0否 1是
+  int64 status = 11;// 状态值 1公开 2私密 3评论可见
+  //  int64 created_at = 12;// 发表时间
+  //  int64 updated_at = 13;// 更新时间
+  //  int64 like_count = 14;// 点赞数
+  string category_name = 15;// 分类名
+  repeated string tag_name_list = 16; // 标签名
+}
+
+message ArticleDetails {
   int64 id = 1;// id
   int64 user_id = 2;// 作者
   int64 category_id = 3;// 文章分类
@@ -469,99 +502,103 @@ message Article {
   int64 created_at = 12;// 发表时间
   int64 updated_at = 13;// 更新时间
   int64 like_count = 14;// 点赞数
+  ArticleCategory category = 15; // 分类
+  repeated ArticleTag tag_list = 16; // 标签
 }
 
-message ArticlePageResp {
+message ArticleCategory {
+  int64 id = 1;// id
+  string category_name = 2;// 分类名
+}
+
+message ArticleTag{
+  int64 id = 1;// id
+  string tag_name = 2;// 标签名
+}
+
+message RecycleArticleReq{
+  int64 article_id = 1;
+  int64 is_delete = 2;// 是否删除  0否 1是
+}
+
+message TopArticleReq{
+  int64 article_id = 1;
+  int64 is_top = 2;// 是否置顶 0否 1是
+}
+
+message FindArticleListResp {
   int64 total = 1;
-  repeated Article list = 2;
+  repeated ArticleDetails list = 2;
 }
 
-message FindArticleByTagReq{
-  repeated int64 tag_ids = 1;
+message FindArticleListReq{
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+  string conditions = 4; // 条件
+  repeated string args = 5; // 参数
 }
 
-message FindArticleByCategoryReq{
-  repeated int64 category_ids = 1;
+message FindArticlesByTagReq{
+  string tag_name = 2;// 标签名
+}
+
+message FindArticlesByCategoryReq{
+  string category_name = 2;// 分类名
 }
 
 message FindLikeArticleResp{
   repeated int64 like_article_list = 1;
 }
 
-// article服务
-service ArticleRpc {
-  // 创建文章
-  rpc AddArticle(Article) returns(Article);
-  // 更新文章
-  rpc UpdateArticle(Article) returns(Article);
-  // 删除文章
-  rpc DeleteArticle(IdReq) returns(BatchResp);
-  // 批量删除文章
-  rpc DeleteArticleList(IdsReq) returns(BatchResp);
-  // 查询文章
-  rpc FindArticle(IdReq) returns(Article);
-  // 查询文章列表
-  rpc FindArticleList(PageQuery) returns(ArticlePageResp);
-  // 查询文章数量
-  rpc FindArticleCount(PageQuery) returns(CountResp);
-  // 查询文章列表
-  rpc FindArticleByTag(FindArticleByTagReq) returns(ArticlePageResp);
-  // 查询文章列表
-  rpc FindArticleByCategory(FindArticleByCategoryReq) returns(ArticlePageResp);
-  // 点赞文章
-  rpc LikeArticle(IdReq) returns(EmptyResp);
-  // 用户点赞的文章
-  rpc FindUserLikeArticle(UserIdReq) returns(FindLikeArticleResp);
+message CategoryNew{
+  int64 id = 1;// id
+  string category_name = 2;// 分类名
 }
 
-message Category {
+message CategoryDetails {
   int64 id = 1;// id
   string category_name = 2;// 分类名
   int64 created_at = 3;// 创建时间
   int64 updated_at = 4;// 更新时间
+  int64 article_count = 5;// 文章数量
 }
 
-message CategoryPageResp {
+message FindCategoryListReq{
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+  string category_name = 4;
+}
+
+message FindCategoryListResp {
   int64 total = 1;
-  repeated Category list = 2;
+  repeated CategoryDetails list = 2;
 }
 
-message FindCategoryByNameReq{
-  string category_name = 1;
+message TagNew {
+  int64 id = 1;// id
+  string tag_name = 2;// 标签名
 }
 
-// category服务
-service CategoryRpc {
-  // 创建文章分类
-  rpc AddCategory(Category) returns(Category);
-  // 更新文章分类
-  rpc UpdateCategory(Category) returns(Category);
-  // 删除文章分类
-  rpc DeleteCategory(IdReq) returns(BatchResp);
-  // 批量删除文章分类
-  rpc DeleteCategoryList(IdsReq) returns(BatchResp);
-  // 查询文章分类
-  rpc FindCategory(IdReq) returns(Category);
-  // 查询文章分类数量
-  rpc FindCategoryCount(PageQuery) returns(CountResp);
-  // 查询文章分类列表
-  rpc FindCategoryList(PageQuery) returns(CategoryPageResp);
-  // 查询文章分类列表(通过ids)
-  rpc FindCategoryListByIds(IdsReq) returns(CategoryPageResp);
-  // 查询文章分类
-  //  rpc FindCategoryByName(FindCategoryByNameReq) returns(Category);
-}
-
-message Tag {
+message TagDetails {
   int64 id = 1;// id
   string tag_name = 2;// 标签名
   int64 created_at = 3;// 创建时间
   int64 updated_at = 4;// 更新时间
+  int64 article_count = 5;// 文章数量
 }
 
-message TagPageResp {
+message FindTagListReq{
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+  string tag_name = 4;// 标签名
+}
+
+message FindTagListResp {
   int64 total = 1;
-  repeated Tag list = 2;
+  repeated TagDetails list = 2;
 }
 
 message FindTagArticleCountReq{
@@ -573,31 +610,78 @@ message FindTagByNameReq{
 }
 
 message TagMapResp{
-  map<int64, TagPageResp> tag_map_list = 1;
+  map<int64, FindTagListResp> tag_map_list = 1;
 }
 
-// tag服务
-service TagRpc {
-  // 创建标签
-  rpc AddTag(Tag) returns(Tag);
-  // 更新标签
-  rpc UpdateTag(Tag) returns(Tag);
-  // 删除标签
-  rpc DeleteTag(IdReq) returns(BatchResp);
-  // 批量删除标签
-  rpc DeleteTagList(IdsReq) returns(BatchResp);
-  // 查询标签
-  rpc FindTag(IdReq) returns(Tag);
-  // 查询标签列表
-  rpc FindTagList(PageQuery) returns(TagPageResp);
-  // 查询标签数量
-  rpc FindTagCount(PageQuery) returns(CountResp);
-  // 查询标签关联文章数量
-  rpc FindTagArticleCount(FindTagArticleCountReq) returns(CountResp);
-  // 查询文章标签列表(通过文章ids)
-  rpc FindTagMapByArticleIds(IdsReq) returns(TagMapResp);
+message AnalysisArticleResp{
+  int64 article_count = 1;
+  int64 category_count = 2;
+  int64 tag_count = 3;
+}
+
+// article服务
+service ArticleRpc {
+  // 创建文章
+  rpc AddArticle(ArticleNew) returns(ArticleDetails);
+  // 更新文章
+  rpc UpdateArticle(ArticleNew) returns(ArticleDetails);
+  // 查询文章
+  rpc GetArticle(IdReq) returns(ArticleDetails);
+  // 删除文章
+  rpc DeleteArticle(IdsReq) returns(BatchResp);
+  // 查询文章数量
+//  rpc CountArticle(FindArticleListReq) returns(CountResp);
+  // 查询文章列表
+  rpc FindArticleList(FindArticleListReq) returns(FindArticleListResp);
+  // 查询文章列表
+  rpc FindArticlePublicList(FindArticleListReq) returns(FindArticleListResp);
+  // 查询文章列表
+  rpc FindArticlesByTag(FindArticlesByTagReq) returns(FindArticleListResp);
+  // 查询文章列表
+  rpc FindArticlesByCategory(FindArticlesByCategoryReq) returns(FindArticleListResp);
+  // 回收文章
+  rpc RecycleArticle(RecycleArticleReq) returns(EmptyResp);
+  // 置顶文章
+  rpc TopArticle(TopArticleReq) returns(EmptyResp);
+  // 点赞文章
+  rpc LikeArticle(IdReq) returns(EmptyResp);
+  // 用户点赞的文章
+  rpc FindUserLikeArticle(UserIdReq) returns(FindLikeArticleResp);
+
+  // 查询文章数量
+  rpc AnalysisArticle(EmptyReq) returns(AnalysisArticleResp);
+
+  // 创建文章分类
+  rpc AddCategory(CategoryNew) returns(CategoryDetails);
+  // 更新文章分类
+  rpc UpdateCategory(CategoryNew) returns(CategoryDetails);
   // 查询文章分类
-  //  rpc FindTagByName(FindTagByNameReq) returns(Tag);
+  rpc GetCategory(IdReq) returns(CategoryDetails);
+  // 删除文章分类
+  rpc DeleteCategory(IdsReq) returns(BatchResp);
+  // 查询文章分类数量
+//  rpc CountCategory(FindCategoryListReq) returns(CountResp);
+  // 查询文章分类列表
+  rpc FindCategoryList(FindCategoryListReq) returns(FindCategoryListResp);
+  // 查询文章分类列表(通过ids)
+//  rpc FindCategoryListByIds(IdsReq) returns(FindCategoryListResp);
+
+  // 创建标签
+  rpc AddTag(TagNew) returns(TagDetails);
+  // 更新标签
+  rpc UpdateTag(TagNew) returns(TagDetails);
+  // 查询标签
+  rpc GetTag(IdReq) returns(TagDetails);
+  // 删除标签
+  rpc DeleteTag(IdsReq) returns(BatchResp);
+  // 查询标签数量
+//  rpc CountTag(FindTagListReq) returns(CountResp);
+  // 查询标签列表
+  rpc FindTagList(FindTagListReq) returns(FindTagListResp);
+  // 查询标签关联的文章数量
+//  rpc FindArticleCountInTag(FindTagArticleCountReq) returns(CountResp);
+  // 查询文章标签列表(通过文章ids)
+//  rpc FindTagMapByArticleIds(IdsReq) returns(TagMapResp);
 }
 
 /************** blog 消息管理 **************/
@@ -637,7 +721,7 @@ message CommentUserInfo {
 //  int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
 //}
 
-message CommentPageResp {
+message FindCommentListResp {
   repeated Comment list = 1;
 }
 
@@ -657,7 +741,7 @@ service CommentRpc {
   // 查询评论
   rpc FindComment(IdReq) returns(Comment);
   // 查询评论列表
-  rpc FindCommentList(PageQuery) returns(CommentPageResp);
+  rpc FindCommentList(PageQuery) returns(FindCommentListResp);
   // 查询评论数量
   rpc FindCommentCount(PageQuery) returns(CountResp);
   // 点赞评论
@@ -679,7 +763,7 @@ message Remark {
   int64 updated_at = 10;// 更新时间
 }
 
-message RemarkPageResp {
+message FindRemarkListResp {
   repeated Remark list = 1;
 }
 
@@ -695,7 +779,7 @@ service RemarkRpc {
   // 查询留言
   rpc FindRemark(IdReq) returns(Remark);
   // 查询留言列表
-  rpc FindRemarkList(PageQuery) returns(RemarkPageResp);
+  rpc FindRemarkList(PageQuery) returns(FindRemarkListResp);
   // 查询留言数量
   rpc FindRemarkCount(PageQuery) returns(CountResp);
 }
@@ -713,7 +797,7 @@ message Photo {
   int64 updated_at = 8;// 更新时间
 }
 
-message PhotoPageResp {
+message FindPhotoListResp {
   repeated Photo list = 1;
 }
 
@@ -728,7 +812,7 @@ message PhotoAlbum {
   int64 updated_at = 8;// 更新时间
 }
 
-message PhotoAlbumPageResp {
+message FindPhotoAlbumListResp {
   repeated PhotoAlbum list = 1;
 }
 
@@ -744,7 +828,7 @@ service PhotoRpc {
   // 查询照片
   rpc FindPhoto(IdReq) returns(Photo);
   // 查询照片列表
-  rpc FindPhotoList(PageQuery) returns(PhotoPageResp);
+  rpc FindPhotoList(PageQuery) returns(FindPhotoListResp);
   // 查询照片数量
   rpc FindPhotoCount(PageQuery) returns(CountResp);
 
@@ -759,7 +843,7 @@ service PhotoRpc {
   // 查询相册
   rpc FindPhotoAlbum(IdReq) returns(PhotoAlbum);
   // 查询相册列表
-  rpc FindPhotoAlbumList(PageQuery) returns(PhotoAlbumPageResp);
+  rpc FindPhotoAlbumList(PageQuery) returns(FindPhotoAlbumListResp);
   // 查询相册数量
   rpc FindPhotoAlbumCount(PageQuery) returns(CountResp);
 }
@@ -776,7 +860,7 @@ message Page {
 }
 
 
-message PagePageResp {
+message FindPageListResp {
   repeated Page list = 1;
 }
 
@@ -792,7 +876,7 @@ service PageRpc {
   // 查询页面
   rpc FindPage(IdReq) returns(Page);
   // 查询页面列表
-  rpc FindPageList(PageQuery) returns(PagePageResp);
+  rpc FindPageList(PageQuery) returns(FindPageListResp);
   // 查询页面数量
   rpc FindPageCount(PageQuery) returns(CountResp);
 }
@@ -808,7 +892,7 @@ message FriendLink {
   int64 updated_at = 7;// 更新时间
 }
 
-message FriendLinkPageResp {
+message FindFriendLinkListResp {
   repeated FriendLink list = 1;
 }
 
@@ -824,7 +908,7 @@ service FriendLinkRpc {
   // 查询友链
   rpc FindFriendLink(IdReq) returns(FriendLink);
   // 查询友链列表
-  rpc FindFriendLinkList(PageQuery) returns(FriendLinkPageResp);
+  rpc FindFriendLinkList(PageQuery) returns(FindFriendLinkListResp);
   // 查询友链数量
   rpc FindFriendLinkCount(PageQuery) returns(CountResp);
 }
@@ -857,7 +941,7 @@ message TalkDetailsDTO {
   int64 updated_at = 12;// 更新时间
 }
 
-message TalkPageResp {
+message FindTalkListResp {
   repeated Talk list = 1;
 }
 message FindLikeTalkResp{
@@ -876,7 +960,7 @@ service TalkRpc {
   // 查询说说
   rpc FindTalk(IdReq) returns(Talk);
   // 查询说说列表
-  rpc FindTalkList(PageQuery) returns(TalkPageResp);
+  rpc FindTalkList(PageQuery) returns(FindTalkListResp);
   // 查询说说数量
   rpc FindTalkCount(PageQuery) returns(CountResp);
   // 点赞说说
@@ -906,7 +990,7 @@ message OperationLog {
   int64 updated_at = 16;// 更新时间
 }
 
-message OperationLogPageResp {
+message FindOperationLogListResp {
   repeated OperationLog list = 1;
 }
 
@@ -922,7 +1006,7 @@ service LogRpc {
   // 查询操作记录
   rpc FindOperationLog(IdReq) returns(OperationLog);
   // 查询操作记录列表
-  rpc FindOperationLogList(PageQuery) returns(OperationLogPageResp);
+  rpc FindOperationLogList(PageQuery) returns(FindOperationLogListResp);
   // 查询操作记录数量
   rpc FindOperationLogCount(PageQuery) returns(CountResp);
 }
@@ -940,7 +1024,7 @@ message ChatRecord {
   int64 updated_at = 10;// 更新时间
 }
 
-message ChatRecordPageResp {
+message FindChatRecordListResp {
   repeated ChatRecord list = 1;
 }
 
@@ -956,7 +1040,7 @@ service ChatRpc {
   // 查询聊天记录
   rpc FindChatRecord(IdReq) returns(ChatRecord);
   // 查询聊天记录列表
-  rpc FindChatRecordList(PageQuery) returns(ChatRecordPageResp);
+  rpc FindChatRecordList(PageQuery) returns(FindChatRecordListResp);
   // 查询聊天记录数量
   rpc FindChatRecordCount(PageQuery) returns(CountResp);
 }
@@ -983,7 +1067,7 @@ message UploadRecordResp {
   int64 updated_at = 9;// 更新时间
 }
 
-service uploadRpc {
+service UploadRpc {
   // 上传文件
   rpc AddUploadRecord(UploadRecordReq) returns(UploadRecordResp);
 }
@@ -1000,4 +1084,24 @@ message UserVisitPageRsp{
 service BlogRpc {
   // 上传文件
   rpc GetUserVisitList(EmptyReq) returns(UserVisitPageRsp);
+}
+
+/************** blog 博客相关 **************/
+message FindConfigReq {
+  string config_key = 1;
+}
+
+message FindConfigResp {
+  string config_value = 1;
+}
+
+message SaveConfigReq {
+  string config_key = 1;
+  string config_value = 2;
+}
+
+service ConfigRpc {
+  rpc SaveConfig(SaveConfigReq) returns(EmptyResp);
+
+  rpc FindConfig(FindConfigReq) returns(FindConfigResp);
 }

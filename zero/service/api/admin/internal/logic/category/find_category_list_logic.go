@@ -3,14 +3,11 @@ package category
 import (
 	"context"
 
-	"github.com/spf13/cast"
+	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 )
 
 type FindCategoryListLogic struct {
@@ -28,34 +25,39 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.CategoryRpc.FindCategoryList(l.ctx, in)
+func (l *FindCategoryListLogic) FindCategoryList(req *types.FindCategoryListReq) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindCategoryListReq{
+		Query: &articlerpc.PageLimit{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+		},
+		CategoryName: req.CategoryName,
+	}
+
+	out, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.TagRpc.FindTagCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.CategoryDetails
-	for _, v := range out.List {
-		row, _ := l.svcCtx.ArticleRpc.FindArticleCount(l.ctx, &blogrpc.PageQuery{
-			Conditions: "category_id = ?",
-			Args:       []string{cast.ToString(v.Id)},
-		})
-
-		m := convert.ConvertCategoryDetailsTypes(v)
-		m.ArticleCount = row.Count
-		list = append(list, m)
+	var list []*types.CategoryBackDTO
+	for _, item := range out.List {
+		list = append(list, ConvertCategoryTypes(item))
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = in.Page
-	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.Total = out.Total
 	resp.List = list
-	return resp, nil
+	return
+}
+
+func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.CategoryBackDTO) {
+	return &types.CategoryBackDTO{
+		Id:           in.Id,
+		CategoryName: in.CategoryName,
+		ArticleCount: in.ArticleCount,
+		CreatedAt:    in.CreatedAt,
+		UpdatedAt:    in.UpdatedAt,
+	}
 }
