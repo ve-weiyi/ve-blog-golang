@@ -3,12 +3,11 @@ package article
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindArticleListLogic struct {
@@ -26,8 +25,12 @@ func NewFindArticleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FindArticleListLogic) FindArticleList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &articlerpc.FindArticleListReq{}
+func (l *FindArticleListLogic) FindArticleList(req *types.ArticleQuery) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindArticleListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    "id desc",
+	}
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
 	if err != nil {
 		return nil, err
@@ -48,7 +51,7 @@ func (l *FindArticleListLogic) FindArticleList(req *types.PageQuery) (resp *type
 	return
 }
 
-func ConvertArticleBackTypes(in *blogrpc.ArticleDetails) (out *types.ArticleBackDTO) {
+func ConvertArticleBackTypes(in *articlerpc.ArticleDetails) (out *types.ArticleBackDTO) {
 	var category string
 	if in.Category != nil {
 		category = in.Category.CategoryName

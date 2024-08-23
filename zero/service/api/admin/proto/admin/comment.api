@@ -77,13 +77,13 @@ type (
     }
 
 
-    CommentQueryReq {
+    CommentQuery {
         Page int64 `json:"page,optional"`                                       // 页码
         PageSize int64 `json:"page_size,optional"`                              // 每页数量
         TopicId int64 `json:"topic_id,optional"`                                // 主题id
         ParentId int64 `json:"parent_id,optional"`                              // 父评论id
         Type int64 `json:"type,optional"`                                       // 评论类型 1.文章 2.友链 3.说说
-        OrderBy string `json:"order_by,optional"`                               // 排序字段 create_at|like_count
+        OrderBy string `json:"order_by,optional"`                               // 排序字段 add_at|like_count
     }
 )
 
@@ -95,8 +95,8 @@ type (
 
 service admin-api {
     @doc "创建评论"
-    @handler CreateComment
-    post /comment/create_comment (CommentNewReq) returns (CommentNewReq)
+    @handler AddComment
+    post /comment/add_comment (CommentNewReq) returns (CommentNewReq)
 
     @doc "更新评论"
     @handler UpdateComment
@@ -107,14 +107,10 @@ service admin-api {
     delete /comment/delete_comment (IdReq) returns (EmptyResp)
 
     @doc "批量删除评论"
-    @handler DeleteCommentList
-    delete /comment/delete_comment_list (IdsReq) returns (BatchResp)
-
-    @doc "查询评论"
-    @handler FindComment
-    post /comment/find_comment (IdReq) returns (CommentBackDTO)
+    @handler BatchDeleteComment
+    delete /comment/batch_delete_comment (IdsReq) returns (EmptyResp)
 
     @doc "查询评论列表(后台)"
     @handler FindCommentBackList
-    post /comment/find_comment_back_list (PageQuery) returns (PageResp)
+    post /comment/find_comment_back_list (CommentQuery) returns (PageResp)
 }

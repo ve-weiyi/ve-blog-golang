@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,9 +26,9 @@ func NewFindUserAreasLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 func (l *FindUserAreasLogic) FindUserAreas(req *types.PageQuery) (resp *types.PageResp, err error) {
 
-	in := &blogrpc.EmptyReq{}
+	in := &accountrpc.EmptyReq{}
 	// 查询用户数量
-	out, err := l.svcCtx.UserRpc.FindUserRegionList(l.ctx, in)
+	out, err := l.svcCtx.AccountRpc.FindUserRegionList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

@@ -46,6 +46,15 @@ type (
         Id int64 `json:"id,optional"`        // 文章ID
         IsTop int64 `json:"is_top,optional"` // 是否置顶
     }
+
+        // 分页查询
+    ArticleQuery {
+        Page int64 `json:"page,optional"`                                      // 页码
+        PageSize int64 `json:"page_size,optional"`                             // 每页数量
+        ArticleTitle string `json:"article_title,optional"`                    // 标题
+        CategoryId int64 `json:"category_id,optional"`                         // 分类ID
+        TagId int64 `json:"tag_id,optional"`                                   // 标签ID
+    }
 )
 
 @server(
@@ -81,7 +90,7 @@ service admin-api {
 
     @doc "查询文章列表"
     @handler FindArticleList
-    post /admin/article/find_article_list (PageQuery) returns (PageResp)
+    post /admin/article/find_article_list (ArticleQuery) returns (PageResp)
 
     @doc "导出文章列表"
     @handler ExportArticleList

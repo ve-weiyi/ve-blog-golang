@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/global"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewFindArticlesByTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 // 查询文章列表
-func (l *FindArticlesByTagLogic) FindArticlesByTag(in *blog.FindArticlesByTagReq) (*blog.FindArticleListResp, error) {
+func (l *FindArticlesByTagLogic) FindArticlesByTag(in *articlerpc.FindArticlesByTagReq) (*articlerpc.FindArticleListResp, error) {
 	tag, err := l.svcCtx.TagModel.FindOneByTagName(l.ctx, in.TagName)
 	if err != nil {
 		return nil, err
@@ -36,13 +36,13 @@ func (l *FindArticlesByTagLogic) FindArticlesByTag(in *blog.FindArticlesByTagReq
 		return nil, err
 	}
 
-	var articleIds []int64
+	var articlerpcIds []int64
 	for _, v := range ats {
-		articleIds = append(articleIds, v.ArticleId)
+		articlerpcIds = append(articlerpcIds, v.ArticleId)
 	}
 
 	// 查询文章信息
-	records, err := l.svcCtx.ArticleModel.FindALL(l.ctx, "id in (?) and status = ?", articleIds, global.ArticleStatusPublic)
+	records, err := l.svcCtx.ArticleModel.FindALL(l.ctx, "id in (?) and status = ?", articlerpcIds, global.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
@@ -58,12 +58,12 @@ func (l *FindArticlesByTagLogic) FindArticlesByTag(in *blog.FindArticlesByTagReq
 		return nil, err
 	}
 
-	var list []*blog.ArticleDetails
+	var list []*articlerpc.ArticleDetails
 	for _, v := range records {
 		list = append(list, convertArticleOut(v, acm, atm))
 	}
 
-	return &blog.FindArticleListResp{
+	return &articlerpc.FindArticleListResp{
 		List: list,
 	}, nil
 }

@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,8 +24,8 @@ func NewGetCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCa
 }
 
 // 查询文章分类
-func (l *GetCategoryLogic) GetCategory(in *blog.IdReq) (*blog.CategoryDetails, error) {
+func (l *GetCategoryLogic) GetCategory(in *articlerpc.IdReq) (*articlerpc.CategoryDetails, error) {
 	// todo: add your logic here and delete this line
 
-	return &blog.CategoryDetails{}, nil
+	return &articlerpc.CategoryDetails{}, nil
 }

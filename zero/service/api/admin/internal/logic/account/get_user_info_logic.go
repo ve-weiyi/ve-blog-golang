@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,11 +28,11 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
-	in := &blogrpc.UserIdReq{
+	in := &accountrpc.UserIdReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
-	info, err := l.svcCtx.UserRpc.FindUserInfo(l.ctx, in)
+	info, err := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

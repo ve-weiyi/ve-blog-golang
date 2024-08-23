@@ -3,7 +3,7 @@ package photorpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,13 +24,13 @@ func NewDeletePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 }
 
 // 删除照片
-func (l *DeletePhotoLogic) DeletePhoto(in *blog.IdReq) (*blog.BatchResp, error) {
+func (l *DeletePhotoLogic) DeletePhoto(in *photorpc.IdReq) (*photorpc.BatchResp, error) {
 	rows, err := l.svcCtx.PhotoModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.BatchResp{
+	return &photorpc.BatchResp{
 		SuccessCount: rows,
 	}, nil
 }

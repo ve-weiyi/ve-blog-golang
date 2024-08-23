@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,12 +24,12 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 }
 
 // 更新标签
-func (l *UpdateTagLogic) UpdateTag(in *blog.TagNew) (*blog.TagDetails, error) {
+func (l *UpdateTagLogic) UpdateTag(in *articlerpc.TagNew) (*articlerpc.TagDetails, error) {
 	entity := convertTagIn(in)
 	_, err := l.svcCtx.TagModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.TagDetails{}, nil
+	return &articlerpc.TagDetails{}, nil
 }

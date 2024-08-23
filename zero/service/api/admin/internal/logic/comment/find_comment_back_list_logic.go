@@ -3,12 +3,13 @@ package comment
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 )
 
 type FindCommentBackListLogic struct {
@@ -41,14 +42,14 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.PageQuery) (re
 	var list []*types.CommentBackDTO
 	for _, v := range out.List {
 		m := convert.ConvertCommentBackTypes(v)
-		user, _ := l.svcCtx.UserRpc.FindUserInfo(l.ctx, &blogrpc.UserIdReq{UserId: v.UserId})
+		user, _ := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, &accountrpc.UserIdReq{UserId: v.UserId})
 		if user != nil {
 			m.Nickname = user.Nickname
 			m.Avatar = user.Avatar
 		}
 
 		if v.Type == 1 {
-			article, _ := l.svcCtx.ArticleRpc.GetArticle(l.ctx, &blogrpc.IdReq{Id: v.TopicId})
+			article, _ := l.svcCtx.ArticleRpc.GetArticle(l.ctx, &articlerpc.IdReq{Id: v.TopicId})
 			if article != nil {
 				m.TopicTitle = article.ArticleTitle
 			}

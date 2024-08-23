@@ -3,8 +3,7 @@ package talkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,11 +24,11 @@ func NewFindTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTalk
 }
 
 // 查询说说
-func (l *FindTalkLogic) FindTalk(in *blog.IdReq) (*blog.Talk, error) {
+func (l *FindTalkLogic) FindTalk(in *talkrpc.IdReq) (*talkrpc.TalkDetails, error) {
 	entity, err := l.svcCtx.TalkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTalkModelToPb(entity), nil
+	return ConvertTalkOut(entity), nil
 }

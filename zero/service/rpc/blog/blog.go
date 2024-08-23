@@ -6,34 +6,37 @@ import (
 	"log"
 
 	"github.com/zeromicro/go-zero/core/conf"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/config"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
-	apirpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/apirpc"
-	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/articlerpc"
-	authrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/authrpc"
-	blogrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/blogrpc"
-	chatrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/chatrpc"
-	commentrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/commentrpc"
-	configrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/configrpc"
-	friendlinkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/friendlinkrpc"
-	logrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/logrpc"
-	menurpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/menurpc"
-	pagerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/pagerpc"
-	photorpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/photorpc"
-	remarkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/remarkrpc"
-	rolerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/rolerpc"
-	talkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/talkrpc"
-	uploadrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/uploadrpc"
-	userrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/userrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
-
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/interceptorx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/config"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/configrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/permissionrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/syslogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/websiterpc"
+	accountrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/accountrpc"
+	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/articlerpc"
+	commentrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/commentrpc"
+	configrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/configrpc"
+	friendrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/friendrpc"
+	permissionrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/permissionrpc"
+	photorpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/photorpc"
+	remarkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/remarkrpc"
+	syslogrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/syslogrpc"
+	talkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/talkrpc"
+	websiterpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 )
 
 var (
@@ -85,23 +88,17 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		blog.RegisterAuthRpcServer(grpcServer, authrpcServer.NewAuthRpcServer(ctx))
-		blog.RegisterApiRpcServer(grpcServer, apirpcServer.NewApiRpcServer(ctx))
-		blog.RegisterMenuRpcServer(grpcServer, menurpcServer.NewMenuRpcServer(ctx))
-		blog.RegisterRoleRpcServer(grpcServer, rolerpcServer.NewRoleRpcServer(ctx))
-		blog.RegisterUserRpcServer(grpcServer, userrpcServer.NewUserRpcServer(ctx))
-		blog.RegisterConfigRpcServer(grpcServer, configrpcServer.NewConfigRpcServer(ctx))
-		blog.RegisterArticleRpcServer(grpcServer, articlerpcServer.NewArticleRpcServer(ctx))
-		blog.RegisterFriendLinkRpcServer(grpcServer, friendlinkrpcServer.NewFriendLinkRpcServer(ctx))
-		blog.RegisterRemarkRpcServer(grpcServer, remarkrpcServer.NewRemarkRpcServer(ctx))
-		blog.RegisterCommentRpcServer(grpcServer, commentrpcServer.NewCommentRpcServer(ctx))
-		blog.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
-		blog.RegisterPageRpcServer(grpcServer, pagerpcServer.NewPageRpcServer(ctx))
-		blog.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
-		blog.RegisterLogRpcServer(grpcServer, logrpcServer.NewLogRpcServer(ctx))
-		blog.RegisterChatRpcServer(grpcServer, chatrpcServer.NewChatRpcServer(ctx))
-		blog.RegisterUploadRpcServer(grpcServer, uploadrpcServer.NewUploadRpcServer(ctx))
-		blog.RegisterBlogRpcServer(grpcServer, blogrpcServer.NewBlogRpcServer(ctx))
+		accountrpc.RegisterAccountRpcServer(grpcServer, accountrpcServer.NewAccountRpcServer(ctx))
+		articlerpc.RegisterArticleRpcServer(grpcServer, articlerpcServer.NewArticleRpcServer(ctx))
+		permissionrpc.RegisterPermissionRpcServer(grpcServer, permissionrpcServer.NewPermissionRpcServer(ctx))
+		photorpc.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
+		syslogrpc.RegisterSyslogRpcServer(grpcServer, syslogrpcServer.NewSyslogRpcServer(ctx))
+		commentrpc.RegisterCommentRpcServer(grpcServer, commentrpcServer.NewCommentRpcServer(ctx))
+		remarkrpc.RegisterRemarkRpcServer(grpcServer, remarkrpcServer.NewRemarkRpcServer(ctx))
+		friendrpc.RegisterFriendRpcServer(grpcServer, friendrpcServer.NewFriendRpcServer(ctx))
+		talkrpc.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
+		websiterpc.RegisterWebsiteRpcServer(grpcServer, websiterpcServer.NewWebsiteRpcServer(ctx))
+		configrpc.RegisterConfigRpcServer(grpcServer, configrpcServer.NewConfigRpcServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

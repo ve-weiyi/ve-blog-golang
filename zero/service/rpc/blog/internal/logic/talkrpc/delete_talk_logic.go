@@ -3,7 +3,7 @@ package talkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,13 +24,13 @@ func NewDeleteTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 // 删除说说
-func (l *DeleteTalkLogic) DeleteTalk(in *blog.IdReq) (*blog.BatchResp, error) {
+func (l *DeleteTalkLogic) DeleteTalk(in *talkrpc.IdReq) (*talkrpc.BatchResp, error) {
 	rows, err := l.svcCtx.TalkModel.Delete(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.BatchResp{
+	return &talkrpc.BatchResp{
 		SuccessCount: rows,
 	}, nil
 }

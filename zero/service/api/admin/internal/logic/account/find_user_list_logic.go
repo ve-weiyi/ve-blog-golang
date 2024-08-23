@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,11 +26,11 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 func (l *FindUserListLogic) FindUserList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.FindUserListReq{
+	in := &accountrpc.FindUserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 	}
-	users, err := l.svcCtx.UserRpc.FindUserList(l.ctx, in)
+	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, in)
 	if err != nil {
 		return
 	}

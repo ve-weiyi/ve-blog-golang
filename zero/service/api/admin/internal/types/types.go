@@ -17,19 +17,7 @@ type AdminHomeInfo struct {
 	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_list,optional"`        // 每日用户访问量
 }
 
-type Api struct {
-	Id        int64  `json:"id,optional"`         // 主键id
-	Name      string `json:"name,optional"`       // api名称
-	Path      string `json:"path,optional"`       // api路径
-	Method    string `json:"method,optional"`     // api请求方法
-	ParentId  int64  `json:"parent_id,optional"`  // 分组id
-	Traceable int64  `json:"traceable,optional"`  // 是否追溯操作记录 0需要，1是
-	Status    int64  `json:"status,optional"`     // 状态 1开，2关
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
-type ApiDetails struct {
+type ApiBackDTO struct {
 	Id        int64         `json:"id,optional"`         // 主键id
 	Name      string        `json:"name,optional"`       // api名称
 	Path      string        `json:"path,optional"`       // api路径
@@ -39,7 +27,24 @@ type ApiDetails struct {
 	Status    int64         `json:"status,optional"`     // 状态 1开，2关
 	CreatedAt int64         `json:"created_at,optional"` // 创建时间
 	UpdatedAt int64         `json:"updated_at,optional"` // 更新时间
-	Children  []*ApiDetails `json:"children,optional"`
+	Children  []*ApiBackDTO `json:"children,optional"`
+}
+
+type ApiNew struct {
+	Id        int64  `json:"id,optional"`        // 主键id
+	Name      string `json:"name,optional"`      // api名称
+	Path      string `json:"path,optional"`      // api路径
+	Method    string `json:"method,optional"`    // api请求方法
+	ParentId  int64  `json:"parent_id,optional"` // 分组id
+	Traceable int64  `json:"traceable,optional"` // 是否追溯操作记录 0需要，1是
+	Status    int64  `json:"status,optional"`    // 状态 1开，2关
+}
+
+type ApiQuery struct {
+	Page     int64  `json:"page,optional"`      // 页码
+	PageSize int64  `json:"page_size,optional"` // 每页数量
+	Name     string `json:"name,optional"`      // api名称
+	Method   string `json:"method,optional"`    // api请求方法
 }
 
 type ArticleBackDTO struct {
@@ -72,6 +77,14 @@ type ArticleNewReq struct {
 	CategoryName   string   `json:"category_name,optional"`   // 文章分类名
 	TagIds         []int64  `json:"tag_ids,optional"`         // 文章标签
 	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
+}
+
+type ArticleQuery struct {
+	Page         int64  `json:"page,optional"`          // 页码
+	PageSize     int64  `json:"page_size,optional"`     // 每页数量
+	ArticleTitle string `json:"article_title,optional"` // 标题
+	CategoryId   int64  `json:"category_id,optional"`   // 分类ID
+	TagId        int64  `json:"tag_id,optional"`        // 标签ID
 }
 
 type ArticleRecycleReq struct {
@@ -126,6 +139,12 @@ type CategoryNew struct {
 	CategoryName string `json:"category_name"` // 分类名
 }
 
+type CategoryQuery struct {
+	Page         int64  `json:"page,optional"`          // 页码
+	PageSize     int64  `json:"page_size,optional"`     // 每页数量
+	CategoryName string `json:"category_name,optional"` // 分类名
+}
+
 type CommentBackDTO struct {
 	Id             int64  `json:"id,optional"`
 	Type           int64  `json:"type,optional"`
@@ -167,13 +186,13 @@ type CommentNewReq struct {
 	Type           int64  `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
 }
 
-type CommentQueryReq struct {
+type CommentQuery struct {
 	Page     int64  `json:"page,optional"`      // 页码
 	PageSize int64  `json:"page_size,optional"` // 每页数量
 	TopicId  int64  `json:"topic_id,optional"`  // 主题id
 	ParentId int64  `json:"parent_id,optional"` // 父评论id
 	Type     int64  `json:"type,optional"`      // 评论类型 1.文章 2.友链 3.说说
-	OrderBy  string `json:"order_by,optional"`  // 排序字段 create_at|like_count
+	OrderBy  string `json:"order_by,optional"`  // 排序字段 add_at|like_count
 }
 
 type CommentReply struct {
@@ -208,19 +227,7 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FindCategoryListReq struct {
-	Page         int64  `json:"page,optional"`          // 页码
-	PageSize     int64  `json:"page_size,optional"`     // 每页数量
-	CategoryName string `json:"category_name,optional"` // 分类名
-}
-
-type FindTagListReq struct {
-	Page     int64  `json:"page,optional"`      // 页码
-	PageSize int64  `json:"page_size,optional"` // 每页数量
-	TagName  string `json:"tag_name,optional"`  // 标签名
-}
-
-type FriendLink struct {
+type Friend struct {
 	Id          int64  `json:"id,optional"`           // id
 	LinkName    string `json:"link_name,optional"`    // 链接名
 	LinkAvatar  string `json:"link_avatar,optional"`  // 链接头像
@@ -228,6 +235,12 @@ type FriendLink struct {
 	LinkIntro   string `json:"link_intro,optional"`   // 链接介绍
 	CreatedAt   int64  `json:"created_at,optional"`   // 创建时间
 	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
+}
+
+type FriendQuery struct {
+	Page     int64  `json:"page,optional"`      // 页码
+	PageSize int64  `json:"page_size,optional"` // 每页数量
+	LinkName string `json:"link_name,optional"` // 链接名
 }
 
 type IdReq struct {
@@ -263,7 +276,10 @@ type MenuDetails struct {
 	UpdatedAt int64          `json:"updated_at,optional"` // 更新时间
 }
 
-type MenuPageQuery struct {
+type MenuQuery struct {
+	Page     int64  `json:"page,optional"`      // 页码
+	PageSize int64  `json:"page_size,optional"` // 每页数量
+	Name     string `json:"name,optional"`      // 路由名字
 }
 
 type Meta struct {
@@ -301,6 +317,11 @@ type OperationLog struct {
 	Cost           string `json:"cost,optional"`            // 耗时（ms）
 	CreatedAt      int64  `json:"created_at,optional"`      // 创建时间
 	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
+}
+
+type OperationLogQuery struct {
+	Page     int64 `json:"page,optional"`      // 页码
+	PageSize int64 `json:"page_size,optional"` // 每页数量
 }
 
 type Page struct {
@@ -373,6 +394,16 @@ type PhotoAlbum struct {
 	PhotoCount int64  `json:"photo_count,optional"` // 照片数量
 }
 
+type PhotoAlbumQuery struct {
+	Page     int64 `json:"page,optional"`      // 页码
+	PageSize int64 `json:"page_size,optional"` // 每页数量
+}
+
+type PhotoQuery struct {
+	Page     int64 `json:"page,optional"`      // 页码
+	PageSize int64 `json:"page_size,optional"` // 每页数量
+}
+
 type PingReq struct {
 }
 
@@ -396,6 +427,13 @@ type Remark struct {
 	IsReview       int64  `json:"is_review,optional"`       // 是否审核
 	CreatedAt      int64  `json:"created_at,optional"`      // 发布时间
 	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
+}
+
+type RemarkQuery struct {
+	Page     int64  `json:"page,optional"`      // 页码
+	PageSize int64  `json:"page_size,optional"` // 每页数量
+	Nickname string `json:"nickname,optional"`  // 昵称
+	IsReview int64  `json:"is_review,optional"` // 是否审核
 }
 
 type Response struct {
@@ -441,6 +479,13 @@ type RoleDetails struct {
 	ApiIdList   []int64 `json:"resource_id_list,optional"`
 }
 
+type RoleQuery struct {
+	Page      int64  `json:"page"`                // 页码
+	PageSize  int64  `json:"page_size"`           // 每页数量
+	RoleName  string `json:"role_name,optional"`  // 角色名
+	IsDisable int64  `json:"is_disable,optional"` // 是否禁用  0否 1是
+}
+
 type RoleResourcesResp struct {
 	RoleId  int64   `json:"role_id,optional"`
 	ApiIds  []int64 `json:"api_ids,optional"`
@@ -468,11 +513,6 @@ type SyncMenuReq struct {
 	Menus []RouteConfigsTable `json:"menus,optional"`
 }
 
-type Tag struct {
-	Id      int64  `json:"id,optional"`
-	TagName string `json:"tag_name"` // 标签名
-}
-
 type TagBackDTO struct {
 	Id           int64  `json:"id"`            // 标签ID
 	TagName      string `json:"tag_name"`      // 标签名
@@ -484,6 +524,17 @@ type TagBackDTO struct {
 type TagDTO struct {
 	Id      int64  `json:"id,optional"`       // 标签ID
 	TagName string `json:"tag_name,optional"` // 标签名
+}
+
+type TagNew struct {
+	Id      int64  `json:"id,optional"`
+	TagName string `json:"tag_name"` // 标签名
+}
+
+type TagQuery struct {
+	Page     int64  `json:"page,optional"`      // 页码
+	PageSize int64  `json:"page_size,optional"` // 每页数量
+	TagName  string `json:"tag_name,optional"`  // 标签名
 }
 
 type TalkDetails struct {
@@ -499,6 +550,22 @@ type TalkDetails struct {
 	CommentCount int64    `json:"comment_count,optional"` // 评论量
 	CreatedAt    int64    `json:"created_at,optional"`    // 创建时间
 	UpdatedAt    int64    `json:"updated_at,optional"`    // 更新时间
+}
+
+type TalkNew struct {
+	Id       int64    `json:"id,optional"`       // 说说ID
+	UserId   int64    `json:"user_id,optional"`  // 用户ID
+	Nickname string   `json:"nickname,optional"` // 用户昵称
+	Avatar   string   `json:"avatar,optional"`   // 用户头像
+	Content  string   `json:"content,optional"`  // 评论内容
+	ImgList  []string `json:"img_list,optional"` // 图片URL列表
+	IsTop    int64    `json:"is_top,optional"`   // 是否置顶
+	Status   int64    `json:"status,optional"`   // 状态 1.公开 2.私密
+}
+
+type TalkQuery struct {
+	Page     int64 `json:"page"`      // 页码
+	PageSize int64 `json:"page_size"` // 每页数量
 }
 
 type Token struct {
@@ -665,18 +732,17 @@ type UserMenusResp struct {
 	List []*UserMenu `json:"list,optional"`
 }
 
+type UserQuery struct {
+	Page     int64  `json:"page,optional"`
+	PageSize int64  `json:"page_size,optional"`
+	Nickname string `json:"nickname,optional"`
+}
+
 type UserRole struct {
-	Id             int64   `json:"id,optional"`           // 主键id
-	RolePId        int64   `json:"role_pid,optional"`     // 父角色id
-	RoleDomain     string  `json:"role_domain,optional"`  // 角色域
-	RoleName       string  `json:"role_name,optional"`    // 角色名
-	RoleComment    string  `json:"role_comment,optional"` // 角色备注
-	IsDisable      int64   `json:"is_disable,optional"`   // 是否禁用  0否 1是
-	IsDefault      int64   `json:"is_default,optional"`   // 是否默认角色 0否 1是
-	CreatedAt      int64   `json:"created_at,optional"`   // 创建时间
-	UpdatedAt      int64   `json:"updated_at,optional"`   // 更新时间
-	MenuIdList     []int64 `json:"menu_id_list,optional"`
-	ResourceIdList []int64 `json:"resource_id_list,optional"`
+	Id          int64  `json:"id,optional"`           // 主键id
+	RoleDomain  string `json:"role_domain,optional"`  // 角色域
+	RoleName    string `json:"role_name,optional"`    // 角色名
+	RoleComment string `json:"role_comment,optional"` // 角色备注
 }
 
 type UserRoleLabel struct {

@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -27,11 +27,11 @@ func NewSendRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *SendRegisterEmailLogic) SendRegisterEmail(req *types.UserEmailReq) (resp *types.EmptyResp, err error) {
-	in := &blogrpc.UserEmailReq{
+	in := &accountrpc.UserEmailReq{
 		Username: req.Username,
 	}
 
-	_, err = l.svcCtx.AuthRpc.SendRegisterEmail(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.SendRegisterEmail(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

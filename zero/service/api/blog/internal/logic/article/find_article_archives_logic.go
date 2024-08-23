@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 )
 
 type FindArticleArchivesLogic struct {
@@ -26,8 +26,8 @@ func NewFindArticleArchivesLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.FindArticleListReq{
+func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchivesQueryReq) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindArticleListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    "id desc",

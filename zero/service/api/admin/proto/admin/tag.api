@@ -3,7 +3,7 @@ syntax = "v1"
 import "base.api"
 
 type (
-    Tag {
+    TagNew {
         Id int64 `json:"id,optional"`
         TagName string `json:"tag_name"`    // 标签名
     }
@@ -17,7 +17,7 @@ type (
     }
 
 
-    FindTagListReq {
+    TagQuery {
         Page int64 `json:"page,optional"`                            // 页码
         PageSize int64 `json:"page_size,optional"`                   // 每页数量
         TagName string `json:"tag_name,optional"`          // 标签名
@@ -33,7 +33,7 @@ type (
 service admin-api {
     @doc "分页获取标签列表"
     @handler FindTagList
-    post /tag/find_tag_list (FindTagListReq) returns (PageResp)
+    post /tag/find_tag_list (TagQuery) returns (PageResp)
 }
 
 @server(
@@ -43,17 +43,13 @@ service admin-api {
 )
 
 service admin-api {
-    @doc "查询标签"
-    @handler GetTag
-    post /tag/get_tag (IdReq) returns (TagBackDTO)
-
     @doc "创建标签"
     @handler AddTag
-    post /tag/add_tag (Tag) returns (TagBackDTO)
+    post /tag/add_tag (TagNew) returns (TagBackDTO)
 
     @doc "更新标签"
     @handler UpdateTag
-    put /tag/update_tag (Tag) returns (TagBackDTO)
+    put /tag/update_tag (TagNew) returns (TagBackDTO)
 
     @doc "删除标签"
     @handler DeleteTag
@@ -62,4 +58,5 @@ service admin-api {
     @doc "批量删除标签"
     @handler BatchDeleteTag
     delete /tag/batch_delete_tag (IdsReq) returns (BatchResp)
+
 }

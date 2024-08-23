@@ -9,24 +9,16 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/apirpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/authrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/friendlinkrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/logrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/menurpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/rolerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/uploadrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/userrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
@@ -36,28 +28,18 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
-	AuthRpc authrpc.AuthRpc
-	ApiRpc  apirpc.ApiRpc
-	MenuRpc menurpc.MenuRpc
-	RoleRpc rolerpc.RoleRpc
-	UserRpc userrpc.UserRpc
-	BlogRpc blogrpc.BlogRpc
-
+	AccountRpc    accountrpc.AccountRpc
+	PermissionRpc permissionrpc.PermissionRpc
 	ArticleRpc    articlerpc.ArticleRpc
-	RemarkRpc     remarkrpc.RemarkRpc
-	CommentRpc    commentrpc.CommentRpc
+	MessageRpc    messagerpc.MessageRpc
 	PhotoRpc      photorpc.PhotoRpc
+	WebsiteRpc    websiterpc.WebsiteRpc
 	TalkRpc       talkrpc.TalkRpc
-	PageRpc       pagerpc.PageRpc
-	FriendLinkRpc friendlinkrpc.FriendLinkRpc
-
-	ConfigRpc configrpc.ConfigRpc
-	LogRpc    logrpc.LogRpc
-	ChatRpc   chatrpc.ChatRpc
-	UploadRpc uploadrpc.UploadRpc
+	FriendRpc     friendrpc.FriendRpc
 
 	Uploader upload.Uploader
 	Token    *jtoken.JwtInstance
+	Redis    *redis.Redis
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -75,30 +57,20 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:  c,
-		Token:   jwt,
-		AuthRpc: authrpc.NewAuthRpc(zrpc.MustNewClient(c.AccountRpcConf, options...)),
-		ApiRpc:  apirpc.NewApiRpc(zrpc.MustNewClient(c.ApiRpcConf, options...)),
-		MenuRpc: menurpc.NewMenuRpc(zrpc.MustNewClient(c.MenuRpcConf, options...)),
-		RoleRpc: rolerpc.NewRoleRpc(zrpc.MustNewClient(c.RoleRpcConf, options...)),
-		UserRpc: userrpc.NewUserRpc(zrpc.MustNewClient(c.UserRpcConf, options...)),
-		BlogRpc: blogrpc.NewBlogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-
-		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.ConfigRpcConf, options...)),
-		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.ArticleRpcConf, options...)),
-		FriendLinkRpc: friendlinkrpc.NewFriendLinkRpc(zrpc.MustNewClient(c.FriendLinkRpcConf, options...)),
-		RemarkRpc:     remarkrpc.NewRemarkRpc(zrpc.MustNewClient(c.RemarkRpcConf, options...)),
-		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.CommentRpcConf, options...)),
-		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.PhotoRpcConf, options...)),
-		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.TalkRpcConf, options...)),
-		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.PageRpcConf, options...)),
-
-		LogRpc:    logrpc.NewLogRpc(zrpc.MustNewClient(c.LogRpcConf, options...)),
-		ChatRpc:   chatrpc.NewChatRpc(zrpc.MustNewClient(c.ChatRpcConf, options...)),
-		UploadRpc: uploadrpc.NewUploadRpc(zrpc.MustNewClient(c.UploadRpcConf, options...)),
-		Uploader:  upload.NewQiniu(c.UploadConfig),
-		JwtToken:  middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
-		SignToken: middlewarex.NewSignTokenMiddleware().Handle,
+		Config:        c,
+		AccountRpc:    accountrpc.NewAccountRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		PermissionRpc: permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		Uploader:      upload.NewQiniu(c.UploadConfig),
+		Token:         jwt,
+		Redis:         rds,
+		JwtToken:      middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
+		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
 	}
 }
 
@@ -115,6 +87,6 @@ func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	client.SetexCtx(context.Background(), fmt.Sprintf("redis:%s", "pong"), time.Now().String(), -1)
+	client.SetexCtx(context.Background(), fmt.Sprintf("redis:admin:%s", "PONG"), time.Now().String(), -1)
 	return client, nil
 }

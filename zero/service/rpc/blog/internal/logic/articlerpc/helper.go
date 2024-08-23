@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 )
 
@@ -49,7 +49,7 @@ func findOrAddTag(ctx context.Context, svcCtx *svc.ServiceContext, name string) 
 	return tag.Id, nil
 }
 
-func convertArticleIn(in *blog.ArticleNew) (out *model.Article) {
+func convertArticleIn(in *articlerpc.ArticleNew) (out *model.Article) {
 	out = &model.Article{
 		Id:             in.Id,
 		UserId:         in.UserId,
@@ -68,7 +68,7 @@ func convertArticleIn(in *blog.ArticleNew) (out *model.Article) {
 	return out
 }
 
-func convertCategoryIn(in *blog.CategoryNew) (out *model.Category) {
+func convertCategoryIn(in *articlerpc.CategoryNew) (out *model.Category) {
 	out = &model.Category{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
@@ -77,7 +77,7 @@ func convertCategoryIn(in *blog.CategoryNew) (out *model.Category) {
 	return out
 }
 
-func convertTagIn(in *blog.TagNew) (out *model.Tag) {
+func convertTagIn(in *articlerpc.TagNew) (out *model.Tag) {
 	out = &model.Tag{
 		Id:      in.Id,
 		TagName: in.TagName,
@@ -86,8 +86,8 @@ func convertTagIn(in *blog.TagNew) (out *model.Tag) {
 	return out
 }
 
-func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm map[int64][]*model.Tag) (out *blog.ArticleDetails) {
-	out = &blog.ArticleDetails{
+func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm map[int64][]*model.Tag) (out *articlerpc.ArticleDetails) {
+	out = &articlerpc.ArticleDetails{
 		Id:             entity.Id,
 		UserId:         entity.UserId,
 		CategoryId:     entity.CategoryId,
@@ -107,16 +107,16 @@ func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm
 	}
 
 	if v, ok := acm[entity.CategoryId]; ok {
-		out.Category = &blog.ArticleCategory{
+		out.Category = &articlerpc.ArticleCategory{
 			Id:           v.Id,
 			CategoryName: v.CategoryName,
 		}
 	}
 
 	if v, ok := atm[entity.Id]; ok {
-		list := make([]*blog.ArticleTag, 0, len(v))
+		list := make([]*articlerpc.ArticleTag, 0, len(v))
 		for _, tag := range v {
-			list = append(list, &blog.ArticleTag{
+			list = append(list, &articlerpc.ArticleTag{
 				Id:      tag.Id,
 				TagName: tag.TagName,
 			})
@@ -127,8 +127,8 @@ func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm
 	return out
 }
 
-func convertCategoryOut(in *model.Category, acm map[int64]int) (out *blog.CategoryDetails) {
-	out = &blog.CategoryDetails{
+func convertCategoryOut(in *model.Category, acm map[int64]int) (out *articlerpc.CategoryDetails) {
+	out = &articlerpc.CategoryDetails{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
 		ArticleCount: 0,
@@ -143,8 +143,8 @@ func convertCategoryOut(in *model.Category, acm map[int64]int) (out *blog.Catego
 	return out
 }
 
-func convertTagOut(in *model.Tag, acm map[int64]int) (out *blog.TagDetails) {
-	out = &blog.TagDetails{
+func convertTagOut(in *model.Tag, acm map[int64]int) (out *articlerpc.TagDetails) {
+	out = &articlerpc.TagDetails{
 		Id:           in.Id,
 		TagName:      in.TagName,
 		ArticleCount: 0,
@@ -168,11 +168,11 @@ func findArticleCountGroupCategory(ctx context.Context, svcCtx *svc.ServiceConte
 	// 查询每个 category_id 的文章数量
 	var results []struct {
 		CategoryID   int64 `gorm:"column:category_id"`
-		ArticleCount int   `gorm:"column:article_count"`
+		ArticleCount int   `gorm:"column:articlerpc_count"`
 	}
 
 	err = svcCtx.Gorm.Model(&model.Article{}).
-		Select("category_id, COUNT(*) as article_count").
+		Select("category_id, COUNT(*) as articlerpc_count").
 		Where("category_id IN ?", ids).
 		Group("category_id").
 		Order("category_id").
@@ -197,11 +197,11 @@ func findArticleCountGroupTag(ctx context.Context, svcCtx *svc.ServiceContext, l
 	// 查询每个 tag_id 的文章数量
 	var results []struct {
 		TagID        int64 `gorm:"column:tag_id"`
-		ArticleCount int   `gorm:"column:article_count"`
+		ArticleCount int   `gorm:"column:articlerpc_count"`
 	}
 
 	err = svcCtx.Gorm.Model(&model.ArticleTag{}).
-		Select("tag_id, COUNT(*) as article_count").
+		Select("tag_id, COUNT(*) as articlerpc_count").
 		Where("tag_id IN ?", ids).
 		Group("tag_id").
 		Order("tag_id").
@@ -219,12 +219,12 @@ func findArticleCountGroupTag(ctx context.Context, svcCtx *svc.ServiceContext, l
 }
 
 func findCategoryGroupArticle(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Article) (acm map[int64]*model.Category, err error) {
-	var articleIds []int64
+	var articlerpcIds []int64
 	for _, v := range list {
-		articleIds = append(articleIds, v.Id)
+		articlerpcIds = append(articlerpcIds, v.Id)
 	}
 
-	records, err := svcCtx.CategoryModel.FindALL(ctx, "id IN ?", articleIds)
+	records, err := svcCtx.CategoryModel.FindALL(ctx, "id IN ?", articlerpcIds)
 	if err != nil {
 		return nil, err
 	}
@@ -237,12 +237,12 @@ func findCategoryGroupArticle(ctx context.Context, svcCtx *svc.ServiceContext, l
 	return acm, nil
 }
 func findTagGroupArticle(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Article) (atm map[int64][]*model.Tag, err error) {
-	var articleIds []int64
+	var articlerpcIds []int64
 	for _, v := range list {
-		articleIds = append(articleIds, v.Id)
+		articlerpcIds = append(articlerpcIds, v.Id)
 	}
 
-	ats, err := svcCtx.ArticleTagModel.FindALL(ctx, "article_id in (?)", articleIds)
+	ats, err := svcCtx.ArticleTagModel.FindALL(ctx, "articlerpc_id in (?)", articlerpcIds)
 	if err != nil {
 		return nil, err
 	}

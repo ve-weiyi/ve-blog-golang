@@ -16,7 +16,7 @@ type (
         UpdatedAt int64 `json:"updated_at"`        // 更新时间
     }
 
-    FindCategoryListReq {
+    CategoryQuery {
         Page int64 `json:"page,optional"`                            // 页码
         PageSize int64 `json:"page_size,optional"`                   // 每页数量
         CategoryName string `json:"category_name,optional"` // 分类名
@@ -32,7 +32,7 @@ type (
 service admin-api {
     @doc "分页获取文章分类列表"
     @handler FindCategoryList
-    post /category/find_category_list (FindCategoryListReq) returns (PageResp)
+    post /category/find_category_list (CategoryQuery) returns (PageResp)
 }
 
 @server(
@@ -42,10 +42,6 @@ service admin-api {
 )
 
 service admin-api {
-    @doc "查询文章分类"
-    @handler GetCategory
-    post /category/get_category (IdReq) returns (CategoryBackDTO)
-
     @doc "创建文章分类"
     @handler AddCategory
     post /category/add_category (CategoryNew) returns (CategoryBackDTO)

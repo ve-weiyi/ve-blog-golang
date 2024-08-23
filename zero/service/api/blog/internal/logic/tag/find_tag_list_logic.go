@@ -3,10 +3,9 @@ package tag
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +26,7 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 }
 
 func (l *FindTagListLogic) FindTagList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.FindTagListReq{
+	in := &articlerpc.FindTagListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 	}
@@ -50,7 +49,7 @@ func (l *FindTagListLogic) FindTagList(req *types.PageQuery) (resp *types.PageRe
 	return resp, nil
 }
 
-func ConvertTagTypes(in *blogrpc.TagDetails) (out *types.Tag) {
+func ConvertTagTypes(in *articlerpc.TagDetails) (out *types.Tag) {
 	return &types.Tag{
 		Id:           in.Id,
 		TagName:      in.TagName,

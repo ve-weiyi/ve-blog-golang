@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +27,7 @@ func NewFindUserLikeCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // 用户点赞的评论
-func (l *FindUserLikeCommentLogic) FindUserLikeComment(in *blog.UserIdReq) (*blog.FindLikeCommentResp, error) {
+func (l *FindUserLikeCommentLogic) FindUserLikeComment(in *commentrpc.UserIdReq) (*commentrpc.FindLikeCommentResp, error) {
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeCommentKey(uid)
 
@@ -41,7 +41,7 @@ func (l *FindUserLikeCommentLogic) FindUserLikeComment(in *blog.UserIdReq) (*blo
 		ids = append(ids, cast.ToInt64(k))
 	}
 
-	return &blog.FindLikeCommentResp{
+	return &commentrpc.FindLikeCommentResp{
 		LikeCommentList: ids,
 	}, nil
 }

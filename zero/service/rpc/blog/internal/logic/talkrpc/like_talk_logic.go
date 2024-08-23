@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -28,7 +28,7 @@ func NewLikeTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeTalk
 }
 
 // 点赞说说
-func (l *LikeTalkLogic) LikeTalk(in *blog.IdReq) (*blog.EmptyResp, error) {
+func (l *LikeTalkLogic) LikeTalk(in *talkrpc.IdReq) (*talkrpc.EmptyResp, error) {
 	uid, err := rpcutil.GetRPCUserId(l.ctx)
 	if err != nil {
 		return nil, err
@@ -72,5 +72,5 @@ func (l *LikeTalkLogic) LikeTalk(in *blog.IdReq) (*blog.EmptyResp, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &blog.EmptyResp{}, nil
+	return &talkrpc.EmptyResp{}, nil
 }

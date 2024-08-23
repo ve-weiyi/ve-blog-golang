@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,10 +26,8 @@ func NewFindArticleRecommendLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.FindArticleListReq{
-		Page:       req.Page,
-		PageSize:   req.PageSize,
+func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (resp *types.PageResp, err error) {
+	in := &articlerpc.FindArticleListReq{
 		Conditions: "is_top = ?",
 		Args:       []string{"1"},
 	}
@@ -46,8 +44,6 @@ func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.PageQuery) (
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
 	resp.Total = out.Total
 	resp.List = list
 	return

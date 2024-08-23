@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 }
 
 // 创建文章
-func (l *AddArticleLogic) AddArticle(in *blog.ArticleNew) (*blog.ArticleDetails, error) {
+func (l *AddArticleLogic) AddArticle(in *articlerpc.ArticleNew) (*articlerpc.ArticleDetails, error) {
 	entity := convertArticleIn(in)
 
 	// 插入文章分类
@@ -54,8 +54,8 @@ func (l *AddArticleLogic) AddArticle(in *blog.ArticleNew) (*blog.ArticleDetails,
 		}
 		ats = append(ats, at)
 	}
-	l.svcCtx.ArticleTagModel.DeleteBatch(l.ctx, "article_id = ?", entity.Id)
+	l.svcCtx.ArticleTagModel.DeleteBatch(l.ctx, "articlerpc_id = ?", entity.Id)
 	l.svcCtx.ArticleTagModel.InsertBatch(l.ctx, ats...)
 
-	return &blog.ArticleDetails{}, nil
+	return &articlerpc.ArticleDetails{}, nil
 }

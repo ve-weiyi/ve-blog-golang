@@ -3,11 +3,10 @@ package talk
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -43,7 +42,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.PageQuery) (resp *types.Page
 	for _, v := range out.List {
 
 		m := convert.ConvertTalkTypes(v)
-		user, _ := l.svcCtx.UserRpc.FindUserInfo(l.ctx, &blogrpc.UserIdReq{UserId: v.UserId})
+		user, _ := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, &accountrpc.UserIdReq{UserId: v.UserId})
 		if user != nil {
 			m.UserId = user.UserId
 			m.Nickname = user.Nickname

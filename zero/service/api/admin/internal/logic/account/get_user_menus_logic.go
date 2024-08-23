@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,11 +28,11 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
-	in := &blogrpc.UserIdReq{
+	in := &permissionrpc.UserIdReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
-	out, err := l.svcCtx.RoleRpc.FindUserMenus(l.ctx, in)
+	out, err := l.svcCtx.PermissionRpc.FindUserMenus(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

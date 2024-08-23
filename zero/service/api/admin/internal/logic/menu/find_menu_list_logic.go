@@ -3,7 +3,6 @@ package menu
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -16,6 +15,7 @@ type FindMenuListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 分页获取菜单列表
 func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindMenuListLogic {
 	return &FindMenuListLogic{
 		Logger: logx.WithContext(ctx),
@@ -24,22 +24,8 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindMenuListLogic) FindMenuList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.MenuRpc.FindMenuList(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
+func (l *FindMenuListLogic) FindMenuList(req *types.MenuQuery) (resp *types.PageResp, err error) {
+	// todo: add your logic here and delete this line
 
-	var list []*types.MenuDetails
-	for _, role := range out.List {
-		list = append(list, convert.ConvertMenuDetailsTypes(role))
-	}
-
-	resp = &types.PageResp{}
-	resp.Page = 1
-	resp.PageSize = int64(len(list))
-	resp.Total = int64(len(list))
-	resp.List = list
-	return resp, nil
+	return
 }

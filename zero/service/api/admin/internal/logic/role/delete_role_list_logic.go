@@ -3,11 +3,10 @@ package role
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type DeleteRoleListLogic struct {
@@ -16,6 +15,7 @@ type DeleteRoleListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 批量删除角色
 func NewDeleteRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteRoleListLogic {
 	return &DeleteRoleListLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,14 +25,7 @@ func NewDeleteRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 }
 
 func (l *DeleteRoleListLogic) DeleteRoleList(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	in := convert.ConvertIdsReq(req)
+	// todo: add your logic here and delete this line
 
-	out, err := l.svcCtx.RoleRpc.DeleteRoleList(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	return &types.BatchResp{
-		SuccessCount: out.SuccessCount,
-	}, nil
+	return
 }

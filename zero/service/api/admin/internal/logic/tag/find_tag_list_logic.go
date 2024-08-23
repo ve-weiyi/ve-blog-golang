@@ -25,13 +25,12 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 	}
 }
 
-func (l *FindTagListLogic) FindTagList(req *types.FindTagListReq) (resp *types.PageResp, err error) {
+func (l *FindTagListLogic) FindTagList(req *types.TagQuery) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindTagListReq{
-		Query: &articlerpc.PageLimit{
-			Page:     req.Page,
-			PageSize: req.PageSize,
-		},
-		TagName: req.TagName,
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    "id desc",
+		TagName:  req.TagName,
 	}
 
 	out, err := l.svcCtx.ArticleRpc.FindTagList(l.ctx, in)

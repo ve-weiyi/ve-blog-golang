@@ -3,7 +3,7 @@ package configrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -23,7 +23,8 @@ func NewSaveConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveCo
 	}
 }
 
-func (l *SaveConfigLogic) SaveConfig(in *blog.SaveConfigReq) (*blog.EmptyResp, error) {
+// 保存配置
+func (l *SaveConfigLogic) SaveConfig(in *configrpc.SaveConfigReq) (*configrpc.EmptyResp, error) {
 	// 查找
 	result, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
 	if err != nil {
@@ -37,5 +38,5 @@ func (l *SaveConfigLogic) SaveConfig(in *blog.SaveConfigReq) (*blog.EmptyResp, e
 		return nil, err
 	}
 
-	return &blog.EmptyResp{}, nil
+	return &configrpc.EmptyResp{}, nil
 }

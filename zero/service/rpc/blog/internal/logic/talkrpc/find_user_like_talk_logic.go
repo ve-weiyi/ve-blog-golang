@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +27,7 @@ func NewFindUserLikeTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 用户点赞的说说
-func (l *FindUserLikeTalkLogic) FindUserLikeTalk(in *blog.UserIdReq) (*blog.FindLikeTalkResp, error) {
+func (l *FindUserLikeTalkLogic) FindUserLikeTalk(in *talkrpc.UserIdReq) (*talkrpc.FindLikeTalkResp, error) {
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeTalkKey(uid)
 
@@ -41,7 +41,7 @@ func (l *FindUserLikeTalkLogic) FindUserLikeTalk(in *blog.UserIdReq) (*blog.Find
 		ids = append(ids, cast.ToInt64(k))
 	}
 
-	return &blog.FindLikeTalkResp{
+	return &talkrpc.FindLikeTalkResp{
 		LikeTalkList: ids,
 	}, nil
 }

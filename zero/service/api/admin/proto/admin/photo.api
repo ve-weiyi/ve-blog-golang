@@ -14,6 +14,11 @@ type (
         CreatedAt int64 `json:"created_at,optional"`  // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`  // 更新时间
     }
+
+    PhotoQuery {
+        Page int64 `json:"page,optional"`     // 页码
+        PageSize int64 `json:"page_size,optional"`                              // 每页数量
+    }
 )
 
 @server(
@@ -36,8 +41,8 @@ service admin-api {
 
 service admin-api {
     @doc "创建照片"
-    @handler CreatePhoto
-    post /photo/create_photo (Photo) returns (Photo)
+    @handler AddPhoto
+    post /photo/add_photo (Photo) returns (Photo)
 
     @doc "更新照片"
     @handler UpdatePhoto
@@ -45,13 +50,5 @@ service admin-api {
 
     @doc "删除照片"
     @handler DeletePhoto
-    delete /photo/delete_photo (IdReq) returns (BatchResp)
-
-    @doc "批量删除照片"
-    @handler DeletePhotoList
-    delete /photo/delete_photo_list (IdsReq) returns (BatchResp)
-
-    @doc "查询照片"
-    @handler FindPhoto
-    post /photo/find_photo (IdReq) returns (Photo)
+    delete /photo/delete_photo (IdsReq) returns (BatchResp)
 }

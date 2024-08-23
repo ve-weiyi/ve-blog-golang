@@ -4,7 +4,8 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -28,16 +29,16 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types.BlogHomeInfo, err error) {
-	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &blogrpc.EmptyReq{})
+	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
 
-	in := &blogrpc.FindConfigReq{
+	in := &websiterpc.FindConfigReq{
 		ConfigKey: "website_config",
 	}
 
-	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.FindConfig(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

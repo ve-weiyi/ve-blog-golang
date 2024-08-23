@@ -25,7 +25,7 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 	}
 }
 
-func (l *UpdateTagLogic) UpdateTag(req *types.Tag) (resp *types.TagBackDTO, err error) {
+func (l *UpdateTagLogic) UpdateTag(req *types.TagNew) (resp *types.TagBackDTO, err error) {
 	in := &articlerpc.TagNew{
 		Id:      req.Id,
 		TagName: req.TagName,

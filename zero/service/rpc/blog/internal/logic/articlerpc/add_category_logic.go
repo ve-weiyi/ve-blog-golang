@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,12 +24,12 @@ func NewAddCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCa
 }
 
 // 创建文章分类
-func (l *AddCategoryLogic) AddCategory(in *blog.CategoryNew) (*blog.CategoryDetails, error) {
+func (l *AddCategoryLogic) AddCategory(in *articlerpc.CategoryNew) (*articlerpc.CategoryDetails, error) {
 	entity := convertCategoryIn(in)
 	_, err := l.svcCtx.CategoryModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return &blog.CategoryDetails{}, nil
+	return &articlerpc.CategoryDetails{}, nil
 }

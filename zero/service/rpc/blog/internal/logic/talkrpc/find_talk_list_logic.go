@@ -3,8 +3,7 @@ package talkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,20 +24,30 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 分页获取说说列表
-func (l *FindTalkListLogic) FindTalkList(in *blog.PageQuery) (*blog.FindTalkListResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+func (l *FindTalkListLogic) FindTalkList(in *talkrpc.FindTalkListReq) (*talkrpc.FindTalkListResp, error) {
+	var (
+		page       int
+		size       int
+		sorts      string
+		conditions string
+		params     []interface{}
+	)
+
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = in.Sorts
 
 	result, err := l.svcCtx.TalkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*blog.Talk
+	var list []*talkrpc.TalkDetails
 	for _, v := range result {
-		list = append(list, convert.ConvertTalkModelToPb(v))
+		list = append(list, ConvertTalkOut(v))
 	}
 
-	return &blog.FindTalkListResp{
+	return &talkrpc.FindTalkListResp{
 		List: list,
 	}, nil
 }

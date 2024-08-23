@@ -25,12 +25,11 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindCategoryListLogic) FindCategoryList(req *types.FindCategoryListReq) (resp *types.PageResp, err error) {
+func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQuery) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindCategoryListReq{
-		Query: &articlerpc.PageLimit{
-			Page:     req.Page,
-			PageSize: req.PageSize,
-		},
+		Page:         req.Page,
+		PageSize:     req.PageSize,
+		Sorts:        "id desc",
 		CategoryName: req.CategoryName,
 	}
 

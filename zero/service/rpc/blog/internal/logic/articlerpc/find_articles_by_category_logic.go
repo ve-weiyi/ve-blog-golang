@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/global"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewFindArticlesByCategoryLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 // 查询文章列表
-func (l *FindArticlesByCategoryLogic) FindArticlesByCategory(in *blog.FindArticlesByCategoryReq) (*blog.FindArticleListResp, error) {
+func (l *FindArticlesByCategoryLogic) FindArticlesByCategory(in *articlerpc.FindArticlesByCategoryReq) (*articlerpc.FindArticleListResp, error) {
 	category, err := l.svcCtx.CategoryModel.FindOneByCategoryName(l.ctx, in.CategoryName)
 	if err != nil {
 		return nil, err
@@ -48,12 +48,12 @@ func (l *FindArticlesByCategoryLogic) FindArticlesByCategory(in *blog.FindArticl
 		return nil, err
 	}
 
-	var list []*blog.ArticleDetails
+	var list []*articlerpc.ArticleDetails
 	for _, v := range records {
 		list = append(list, convertArticleOut(v, acm, atm))
 	}
 
-	return &blog.FindArticleListResp{
+	return &articlerpc.FindArticleListResp{
 		List: list,
 	}, nil
 }

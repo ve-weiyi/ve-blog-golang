@@ -92,7 +92,7 @@ func (m *defaultPageModel) InsertBatch(ctx context.Context, in ...*Page) (rows i
 func (m *defaultPageModel) Update(ctx context.Context, in *Page) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Save(&in)
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

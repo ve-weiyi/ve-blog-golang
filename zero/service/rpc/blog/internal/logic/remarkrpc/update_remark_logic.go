@@ -3,8 +3,7 @@ package remarkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,13 +24,8 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新留言
-func (l *UpdateRemarkLogic) UpdateRemark(in *blog.Remark) (*blog.Remark, error) {
-	entity := convert.ConvertRemarkPbToModel(in)
+func (l *UpdateRemarkLogic) UpdateRemark(in *remarkrpc.RemarkNew) (*remarkrpc.RemarkDetails, error) {
+	// todo: add your logic here and delete this line
 
-	_, err := l.svcCtx.RemarkModel.Update(l.ctx, entity)
-	if err != nil {
-		return nil, err
-	}
-
-	return convert.ConvertRemarkModelToPb(entity), nil
+	return &remarkrpc.RemarkDetails{}, nil
 }

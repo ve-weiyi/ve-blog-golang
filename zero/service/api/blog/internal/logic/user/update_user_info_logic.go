@@ -5,10 +5,11 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,14 +30,14 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoReq) (resp *types.EmptyResp, err error) {
-	in := &blogrpc.UpdateUserInfoReq{
+	in := &accountrpc.UpdateUserInfoReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
 		Info:     jsonconv.ObjectToJson(req.UserInfoExt),
 	}
 
-	_, err = l.svcCtx.UserRpc.UpdateUserInfo(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.UpdateUserInfo(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

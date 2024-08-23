@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +24,7 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 查询文章分类数量
-func (l *FindCategoryListLogic) FindCategoryList(in *blog.FindCategoryListReq) (*blog.FindCategoryListResp, error) {
+func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryListReq) (*articlerpc.FindCategoryListResp, error) {
 	var (
 		page       int
 		size       int
@@ -56,12 +56,12 @@ func (l *FindCategoryListLogic) FindCategoryList(in *blog.FindCategoryListReq) (
 		return nil, err
 	}
 
-	var list []*blog.CategoryDetails
+	var list []*articlerpc.CategoryDetails
 	for _, v := range records {
 		list = append(list, convertCategoryOut(v, acm))
 	}
 
-	return &blog.FindCategoryListResp{
+	return &articlerpc.FindCategoryListResp{
 		List:  list,
 		Total: count,
 	}, nil

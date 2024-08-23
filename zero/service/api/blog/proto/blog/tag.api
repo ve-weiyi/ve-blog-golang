@@ -10,6 +10,10 @@ type (
         CreatedAt int64 `json:"created_at,optional"`       // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`       // 更新时间
     }
+
+    TagQueryReq {
+        TagName string `json:"tag_name,optional"` // 标签名
+    }
 )
 
 @server(
@@ -21,5 +25,5 @@ type (
 service blog-api {
     @doc "分页获取标签列表"
     @handler FindTagList
-    post /tag/find_tag_list (PageQuery) returns (PageResp)
+    post /tag/find_tag_list (TagQueryReq) returns (PageResp)
 }

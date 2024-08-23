@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +24,7 @@ func NewAnalysisArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 // 查询文章数量
-func (l *AnalysisArticleLogic) AnalysisArticle(in *blog.EmptyReq) (*blog.AnalysisArticleResp, error) {
+func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articlerpc.AnalysisArticleResp, error) {
 	ac, err := l.svcCtx.ArticleModel.FindCount(l.ctx, "")
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *blog.EmptyReq) (*blog.Analysi
 		return nil, err
 	}
 
-	out := &blog.AnalysisArticleResp{
+	out := &articlerpc.AnalysisArticleResp{
 		ArticleCount:  ac,
 		CategoryCount: cc,
 		TagCount:      tc,

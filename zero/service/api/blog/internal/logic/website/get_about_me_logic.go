@@ -4,8 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
@@ -29,11 +28,11 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 }
 
 func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, err error) {
-	in := &blogrpc.FindConfigReq{
+	in := &websiterpc.FindConfigReq{
 		ConfigKey: "about_me",
 	}
 
-	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.FindConfig(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

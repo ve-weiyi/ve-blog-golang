@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +24,7 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 }
 
 // 查询标签数量
-func (l *FindTagListLogic) FindTagList(in *blog.FindTagListReq) (*blog.FindTagListResp, error) {
+func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articlerpc.FindTagListResp, error) {
 	var (
 		page       int
 		size       int
@@ -57,12 +57,12 @@ func (l *FindTagListLogic) FindTagList(in *blog.FindTagListReq) (*blog.FindTagLi
 		return nil, err
 	}
 
-	var list []*blog.TagDetails
+	var list []*articlerpc.TagDetails
 	for _, v := range records {
 		list = append(list, convertTagOut(v, acm))
 	}
 
-	return &blog.FindTagListResp{
+	return &articlerpc.FindTagListResp{
 		List:  list,
 		Total: count,
 	}, nil

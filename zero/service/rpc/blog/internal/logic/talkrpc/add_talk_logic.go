@@ -3,8 +3,8 @@ package talkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,13 +25,42 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 }
 
 // 创建说说
-func (l *AddTalkLogic) AddTalk(in *blog.Talk) (*blog.Talk, error) {
-	entity := convert.ConvertTalkPbToModel(in)
+func (l *AddTalkLogic) AddTalk(in *talkrpc.TalkNew) (*talkrpc.TalkDetails, error) {
+	entity := ConvertTalkIn(in)
 
 	_, err := l.svcCtx.TalkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertTalkModelToPb(entity), nil
+	return ConvertTalkOut(entity), nil
+}
+
+func ConvertTalkIn(in *talkrpc.TalkNew) (out *model.Talk) {
+	out = &model.Talk{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Content:   in.Content,
+		Images:    in.Images,
+		IsTop:     in.IsTop,
+		Status:    in.Status,
+		LikeCount: 0,
+	}
+
+	return out
+}
+
+func ConvertTalkOut(in *model.Talk) (out *talkrpc.TalkDetails) {
+	out = &talkrpc.TalkDetails{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Content:   in.Content,
+		IsTop:     in.IsTop,
+		Status:    in.Status,
+		LikeCount: in.LikeCount,
+		CreatedAt: in.CreatedAt.Unix(),
+		UpdatedAt: in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

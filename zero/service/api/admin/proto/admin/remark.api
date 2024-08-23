@@ -15,6 +15,13 @@ type (
         CreatedAt int64 `json:"created_at,optional"`            // 发布时间
         UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
     }
+
+    RemarkQuery {
+        Page int64 `json:"page,optional"`     // 页码
+        PageSize int64 `json:"page_size,optional"`                   // 每页数量
+        Nickname string `json:"nickname,optional"`              // 昵称
+        IsReview int64 `json:"is_review,optional"`              // 是否审核
+    }
 )
 
 @server(
@@ -26,7 +33,7 @@ type (
 service admin-api {
     @doc "分页获取留言列表"
     @handler FindRemarkList
-    post /remark/find_remark_list (PageQuery) returns (PageResp)
+    post /remark/find_remark_list (RemarkQuery) returns (PageResp)
 }
 
 
@@ -37,23 +44,15 @@ service admin-api {
 )
 
 service admin-api {
-    @doc "创建留言"
-    @handler CreateRemark
-    post /remark/create_remark (Remark) returns (Remark)
-
     @doc "更新留言"
     @handler UpdateRemark
     put /remark/update_remark (Remark) returns (Remark)
 
     @doc "删除留言"
     @handler DeleteRemark
-    delete /remark/delete_remark (IdReq) returns (BatchResp)
+    delete /remark/delete_remark (IdsReq) returns (BatchResp)
 
     @doc "批量删除留言"
-    @handler DeleteRemarkList
-    delete /remark/delete_remark_list (IdsReq) returns (BatchResp)
-
-    @doc "查询留言"
-    @handler FindRemark
-    post /remark/find_remark (IdReq) returns (Remark)
+    @handler BatchDeleteRemark
+    delete /remark/batch_delete_remark (IdsReq) returns (BatchResp)
 }

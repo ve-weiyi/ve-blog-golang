@@ -4,23 +4,24 @@ import (
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-func ConvertUserDetailsTypes(in *blogrpc.UserDetails) (out *types.User) {
+func ConvertUserDetailsTypes(in *accountrpc.UserDetails) (out *types.User) {
 	jsonconv.ObjectToObject(in, &out)
 	out.Id = in.UserId
 	return out
 }
 
-func ConvertUserLoginHistoryTypes(in *blogrpc.UserLoginHistory) (out *types.UserLoginHistory) {
+func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory) (out *types.UserLoginHistory) {
 	jsonconv.ObjectToObject(in, &out)
 	return out
 }
 
-func ConvertUserMenuTypes(in *blogrpc.MenuDetails) (out *types.UserMenu) {
+func ConvertUserMenuTypes(in *permissionrpc.MenuDetails) (out *types.UserMenu) {
 	out = &types.UserMenu{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
@@ -47,7 +48,7 @@ func ConvertUserMenuTypes(in *blogrpc.MenuDetails) (out *types.UserMenu) {
 	return
 }
 
-func ConvertUserInfoTypes(in *blogrpc.UserInfoResp) (out *types.UserInfoResp) {
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) (out *types.UserInfoResp) {
 	out = &types.UserInfoResp{
 		UserId:      in.UserId,
 		Username:    in.Username,

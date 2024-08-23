@@ -15,6 +15,11 @@ type (
         CreatedAt int64 `json:"created_at,optional"`  // 创建时间
         UpdatedAt int64 `json:"updated_at,optional"`  // 更新时间
     }
+
+    ChatQueryReq {
+        Page int64 `json:"page,optional"`
+        PageSize int64 `json:"page_size,optional"`
+    }
 )
 
 @server(
@@ -26,5 +31,5 @@ type (
 service blog-api {
     @doc "查询聊天记录"
     @handler GetChatRecords
-    post /chat/records (PageQuery) returns (PageResp)
+    post /chat/records (ChatQueryReq) returns (PageResp)
 }

@@ -3,8 +3,7 @@ package photorpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,20 +24,30 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 }
 
 // 分页获取照片列表
-func (l *FindPhotoListLogic) FindPhotoList(in *blog.PageQuery) (*blog.FindPhotoListResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*photorpc.FindPhotoListResp, error) {
+	var (
+		page       int
+		size       int
+		sorts      string
+		conditions string
+		params     []interface{}
+	)
+
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = in.Sorts
 
 	result, err := l.svcCtx.PhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*blog.Photo
+	var list []*photorpc.PhotoDetails
 	for _, v := range result {
-		list = append(list, convert.ConvertPhotoModelToPb(v))
+		list = append(list, ConvertPhotoOut(v))
 	}
 
-	return &blog.FindPhotoListResp{
+	return &photorpc.FindPhotoListResp{
 		List: list,
 	}, nil
 }

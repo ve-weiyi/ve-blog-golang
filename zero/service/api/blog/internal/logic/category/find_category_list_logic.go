@@ -3,10 +3,9 @@ package category
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +26,7 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.FindCategoryListReq{
+	in := &articlerpc.FindCategoryListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 	}
@@ -50,7 +49,7 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *ty
 	return resp, nil
 }
 
-func ConvertCategoryTypes(in *blogrpc.CategoryDetails) (out *types.Category) {
+func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.Category) {
 	return &types.Category{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,

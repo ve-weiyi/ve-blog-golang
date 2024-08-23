@@ -28,7 +28,7 @@ func ConvertCommentPb(in *types.CommentNewReq) (out *blogrpc.Comment) {
 	return
 }
 
-func ConvertCommentQueryTypes(in *types.CommentQueryReq) (out *blogrpc.PageQuery) {
+func ConvertCommentQueryTypes(in *types.CommentQuery) (out *blogrpc.PageQuery) {
 	var page, pageSize int64
 	var sorts, conditions string
 	var args []string

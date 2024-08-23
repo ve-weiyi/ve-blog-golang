@@ -5,20 +5,20 @@ import (
 	"testing"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/tracex"
-	authrpclogic "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/logic/authrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	accountrpclogic "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/logic/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 )
 
 func TestTxRegister(t *testing.T) {
 	tsc := svc.NewTestServiceContext()
 	ctx := tracex.NewRandomTraceContext()
-	in := &blog.RegisterReq{
+	in := &accountrpc.RegisterReq{
 		Username: "791422175@qq.com",
 		Password: "791422171@qq.com",
 	}
 
-	register, err := authrpclogic.NewRegisterLogic(ctx, tsc).Register(in)
+	register, err := accountrpclogic.NewRegisterLogic(ctx, tsc).Register(in)
 	if err != nil {
 		log.Fatal(err)
 	}

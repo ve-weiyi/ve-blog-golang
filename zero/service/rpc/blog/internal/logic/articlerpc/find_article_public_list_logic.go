@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/global"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewFindArticlePublicListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 // 查询文章列表
-func (l *FindArticlePublicListLogic) FindArticlePublicList(in *blog.FindArticleListReq) (*blog.FindArticleListResp, error) {
+func (l *FindArticlePublicListLogic) FindArticlePublicList(in *articlerpc.FindArticleListReq) (*articlerpc.FindArticleListResp, error) {
 	var (
 		page       int
 		size       int
@@ -62,12 +62,12 @@ func (l *FindArticlePublicListLogic) FindArticlePublicList(in *blog.FindArticleL
 		return nil, err
 	}
 
-	var list []*blog.ArticleDetails
+	var list []*articlerpc.ArticleDetails
 	for _, v := range records {
 		list = append(list, convertArticleOut(v, acm, atm))
 	}
 
-	return &blog.FindArticleListResp{
+	return &articlerpc.FindArticleListResp{
 		List:  list,
 		Total: count,
 	}, nil

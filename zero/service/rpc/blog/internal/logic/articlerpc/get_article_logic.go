@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewGetArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetArt
 }
 
 // 查询文章
-func (l *GetArticleLogic) GetArticle(in *blog.IdReq) (*blog.ArticleDetails, error) {
+func (l *GetArticleLogic) GetArticle(in *articlerpc.IdReq) (*articlerpc.ArticleDetails, error) {
 	record, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

@@ -2,11 +2,13 @@ package website
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -32,19 +34,19 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	in := &blogrpc.PageQuery{}
 
 	// 查询文章
-	articles, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &blogrpc.FindArticleListReq{})
+	articles, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &articlerpc.FindArticleListReq{})
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询分类
-	categories, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, &blogrpc.FindCategoryListReq{})
+	categories, err := l.svcCtx.ArticleRpc.FindCategoryList(l.ctx, &articlerpc.FindCategoryListReq{})
 	if err != nil {
 		return nil, err
 	}
 
 	// 查询标签
-	tags, err := l.svcCtx.ArticleRpc.FindTagList(l.ctx, &blogrpc.FindTagListReq{})
+	tags, err := l.svcCtx.ArticleRpc.FindTagList(l.ctx, &articlerpc.FindTagListReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -56,12 +58,12 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询用户数量
-	userCount, err := l.svcCtx.UserRpc.FindUserList(l.ctx, &blogrpc.FindUserListReq{})
+	userCount, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{})
 	if err != nil {
 		return nil, err
 	}
 
-	views, err := l.svcCtx.BlogRpc.GetUserVisitList(l.ctx, &blogrpc.EmptyReq{})
+	views, err := l.svcCtx.WebsiteRpc.GetUserVisitList(l.ctx, &blogrpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -75,20 +77,33 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	mad := make(map[string]int64)
 
 	for _, v := range categories.List {
-		cs = append(cs, convert.ConvertHomeCategoryTypes(v))
+		cs = append(cs, &types.CategoryDTO{
+			Id:           v.Id,
+			CategoryName: v.CategoryName,
+		})
 	}
 
 	for _, v := range tags.List {
-		ts = append(ts, convert.ConvertHomeTagTypes(v))
+		ts = append(ts, &types.TagDTO{
+			Id:      v.Id,
+			TagName: v.TagName,
+		})
 	}
 
 	for _, v := range articles.List {
-		ars = append(ars, convert.ConvertHomeArticleRankTypes(v))
+		ars = append(ars, &types.ArticleViewRankDTO{
+			Id:           v.Id,
+			ArticleTitle: v.ArticleTitle,
+			Count:        rand.Int63n(100),
+		})
 		mad[time.Unix(v.CreatedAt, 0).Format(time.DateOnly)]++
 	}
 
 	for _, v := range views.List {
-		uvs = append(uvs, convert.ConvertHomeViewTypes(v))
+		uvs = append(uvs, &types.UniqueViewDTO{
+			Date:  v.Date,
+			Count: v.ViewCount,
+		})
 	}
 
 	for k, v := range mad {

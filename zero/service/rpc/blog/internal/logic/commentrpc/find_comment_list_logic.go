@@ -3,8 +3,7 @@ package commentrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,36 +24,46 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 }
 
 // 分页获取评论列表
-func (l *FindCommentListLogic) FindCommentList(in *blog.PageQuery) (*blog.FindCommentListResp, error) {
-	page, size, sorts, conditions, params := convert.ParsePageQuery(in)
+func (l *FindCommentListLogic) FindCommentList(in *commentrpc.FindCommentListReq) (*commentrpc.FindCommentListResp, error) {
+	var (
+		page       int
+		size       int
+		sorts      string
+		conditions string
+		params     []interface{}
+	)
+
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = in.Sorts
 
 	result, err := l.svcCtx.CommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*blog.Comment
+	var list []*commentrpc.CommentDetails
 	for _, v := range result {
-		m := convert.ConvertCommentModelToPb(v)
+		m := ConvertCommentOut(v)
 		// 用户信息
 		if v.UserId != 0 {
 			user, _ := l.svcCtx.UserAccountModel.FindOne(l.ctx, v.UserId)
 			if user != nil {
-				m.User = convert.ConvertCommentUserInfoToPb(user)
+				m.User = ConvertCommentUserInfoToPb(user)
 			}
 		}
 		// 回复用户信息
 		if v.ReplyUserId != 0 {
 			user, _ := l.svcCtx.UserAccountModel.FindOne(l.ctx, v.ReplyUserId)
 			if user != nil {
-				m.ReplyUser = convert.ConvertCommentUserInfoToPb(user)
+				m.ReplyUser = ConvertCommentUserInfoToPb(user)
 			}
 		}
 
 		list = append(list, m)
 	}
 
-	return &blog.FindCommentListResp{
+	return &commentrpc.FindCommentListResp{
 		List: list,
 	}, nil
 }

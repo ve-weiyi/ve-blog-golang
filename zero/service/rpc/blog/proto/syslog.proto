@@ -1,0 +1,100 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package syslogrpc;
+
+// 生成 golang 代码后的包名
+option go_package = "./syslogrpc";
+
+message EmptyReq {
+}
+
+message EmptyResp {
+}
+
+message IdReq {
+  int64 id = 1;
+}
+
+message IdsReq {
+  repeated int64 ids = 1;
+}
+
+message UserIdReq {
+  int64 user_id = 1;
+}
+
+
+message BatchResp {
+  int64 success_count = 1;
+}
+
+message CountResp {
+  int64 count = 1;
+}
+
+/************** blog 日志管理 **************/
+message OperationLog {
+  int64 id = 1;// 主键id
+  int64 user_id = 2;// 用户id
+  string nickname = 3;// 用户昵称
+  string ip_address = 4;// 操作ip
+  string ip_source = 5;// 操作地址
+  string opt_module = 6;// 操作模块
+  string opt_desc = 7;// 操作描述
+  string request_url = 8;// 请求地址
+  string request_method = 9;// 请求方式
+  string request_header = 10;// 请求头参数
+  string request_data = 11;// 请求参数
+  string response_data = 12;// 返回数据
+  int64 response_status = 13;// 响应状态码
+  string cost = 14;// 耗时（ms）
+  int64 created_at = 15;// 创建时间
+  int64 updated_at = 16;// 更新时间
+}
+
+message FindOperationLogListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+}
+
+message FindOperationLogListResp {
+  repeated OperationLog list = 1;
+}
+
+message UploadLogReq {
+  int64 id = 1;// id
+  int64 user_id = 2;// 用户id
+  string label = 3;// 标签
+  string file_name = 4;// 文件名称
+  int64 file_size = 5;// 文件大小
+  string file_md5 = 6;// 文件md5值
+  string file_url = 7;// 上传路径
+}
+
+message UploadLogResp {
+  int64 id = 1;// id
+  int64 user_id = 2;// 用户id
+  string label = 3;// 标签
+  string file_name = 4;// 文件名称
+  int64 file_size = 5;// 文件大小
+  string file_md5 = 6;// 文件md5值
+  string file_url = 7;// 上传路径
+  int64 created_at = 8;// 创建时间
+  int64 updated_at = 9;// 更新时间
+}
+
+service SyslogRpc {
+  // 创建操作记录
+  rpc AddOperationLog(OperationLog) returns(OperationLog);
+  // 批量删除操作记录
+  rpc DeleteOperationLogList(IdsReq) returns(BatchResp);
+  // 查询操作记录列表
+  rpc FindOperationLogList(FindOperationLogListReq) returns(FindOperationLogListResp);
+
+
+  // 上传文件
+  rpc AddUploadLog(UploadLogReq) returns(UploadLogResp);
+}

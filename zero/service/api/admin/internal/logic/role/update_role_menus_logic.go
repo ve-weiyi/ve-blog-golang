@@ -3,8 +3,6 @@ package role
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/rolerpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -17,6 +15,7 @@ type UpdateRoleMenusLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 更新角色菜单权限
 func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateRoleMenusLogic {
 	return &UpdateRoleMenusLogic{
 		Logger: logx.WithContext(ctx),
@@ -26,15 +25,7 @@ func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateRoleMenusLogic) UpdateRoleMenus(req *types.UpdateRoleMenusReq) (resp *types.EmptyResp, err error) {
-	in := rolerpc.UpdateRoleMenusReq{
-		RoleId:  req.RoleId,
-		MenuIds: req.MenuIds,
-	}
+	// todo: add your logic here and delete this line
 
-	_, err = l.svcCtx.RoleRpc.UpdateRoleMenus(l.ctx, &in)
-	if err != nil {
-		return nil, err
-	}
-
-	return &types.EmptyResp{}, nil
+	return
 }

@@ -24,7 +24,17 @@ type Album struct {
 	AlbumCover string `json:"album_cover"` // 相册封面
 }
 
-type ArticleClassifyReq struct {
+type AlbumQueryReq struct {
+	Page     int32 `json:"page"` // 页码
+	PageSize int64 `json:"page_size,optional"`
+}
+
+type ArticleArchivesQueryReq struct {
+	Page     int64 `json:"page,optional"`      // 页码
+	PageSize int64 `json:"page_size,optional"` // 每页数量
+}
+
+type ArticleClassifyQueryReq struct {
 	Page         int64  `json:"page,optional"`          // 页码
 	PageSize     int64  `json:"page_size,optional"`     // 每页数量
 	ClassifyName string `json:"classify_name,optional"` // 分类名
@@ -55,6 +65,11 @@ type ArticleHome struct {
 	ViewsCount     int64    `json:"views_count,optional"`     // 浏览量
 }
 
+type ArticleHomeQueryReq struct {
+	Page     int64 `json:"page,optional"`      // 页码
+	PageSize int64 `json:"page_size,optional"` // 每页数量
+}
+
 type ArticlePreview struct {
 	Id           int64  `json:"id,optional"`            // 文章ID
 	ArticleCover string `json:"article_cover,optional"` // 文章缩略图
@@ -71,6 +86,20 @@ type ArticleViewRankDTO struct {
 	Id           int64  `json:"id,optional"`            // 文章ID
 	ArticleTitle string `json:"article_title,optional"` // 文章标题
 	Count        int64  `json:"count,optional"`         // 数量
+}
+
+type Banner struct {
+	Id          int64  `json:"id,optional"`           // 页面id
+	BannerName  string `json:"banner_name,optional"`  // 页面名
+	BannerLabel string `json:"banner_label,optional"` // 页面标签
+	BannerCover string `json:"banner_cover,optional"` // 页面封面
+	CreatedAt   int64  `json:"created_at,optional"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
+}
+
+type BannerQueryReq struct {
+	Banner int32 `json:"banner,optional"` // 页码
+	Size   int32 `json:"size,optional"`   // 每页数量
 }
 
 type BatchResp struct {
@@ -102,6 +131,17 @@ type Category struct {
 type CategoryDTO struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name,optional"` // 分类名
+}
+
+type CategoryQueryReq struct {
+	Page         int64  `json:"page,optional"`          // 页码
+	PageSize     int64  `json:"page_size,optional"`     // 每页数量
+	CategoryName string `json:"category_name,optional"` // 分类名
+}
+
+type ChatQueryReq struct {
+	Page     int64 `json:"page,optional"`
+	PageSize int64 `json:"page_size,optional"`
 }
 
 type ChatRecord struct {
@@ -195,6 +235,11 @@ type Friend struct {
 	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
 }
 
+type FriendQueryReq struct {
+	Page     int64 `json:"page,optional"`
+	PageSize int64 `json:"page_size,optional"`
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
@@ -223,39 +268,11 @@ type OauthLoginUrlResp struct {
 	Url string `json:"url"` // 授权地址
 }
 
-type Page struct {
-	Id        int64  `json:"id,optional"`         // 页面id
-	PageName  string `json:"page_name,optional"`  // 页面名
-	PageLabel string `json:"page_label,optional"` // 页面标签
-	PageCover string `json:"page_cover,optional"` // 页面封面
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
-}
-
-type PageCondition struct {
-	Field    string `json:"field,optional"`    // 字段
-	Value    string `json:"value,optional"`    // 值
-	Logic    string `json:"logic,optional"`    // and | or
-	Operator string `json:"operator,optional"` // = | >= | < | in | not in |....
-}
-
 type PageDTO struct {
 	Id        int64  `json:"id,optional"`         // 页面ID
 	PageName  string `json:"page_name,optional"`  // 页面名称
 	PageLabel string `json:"page_label,optional"` // 页面标签
 	PageCover string `json:"page_cover,optional"` // 页面封面
-}
-
-type PageLimit struct {
-	Page     int64 `json:"page,optional"`
-	PageSize int64 `json:"page_size,optional"`
-}
-
-type PageQuery struct {
-	Page       int64            `json:"page,optional"`
-	PageSize   int64            `json:"page_size,optional"`
-	Sorts      []*PageSort      `json:"sorts,optional"`
-	Conditions []*PageCondition `json:"conditions,optional"`
 }
 
 type PageResp struct {
@@ -265,17 +282,12 @@ type PageResp struct {
 	List     interface{} `json:"list"`
 }
 
-type PageSort struct {
-	Field string `json:"field,optional"`
-	Order string `json:"order,optional"` // asc | desc
-}
-
 type Photo struct {
 	Id       int64  `json:"id"`        // 主键
 	PhotoUrl string `json:"photo_url"` // 照片地址
 }
 
-type PhotoQuery struct {
+type PhotoQueryReq struct {
 	AlbumId int64 `json:"album_id"` // 相册ID
 }
 
@@ -308,6 +320,11 @@ type Remark struct {
 	IsReview       int64  `json:"is_review,optional"`       // 是否审核
 	CreatedAt      int64  `json:"created_at,optional"`      // 发布时间
 	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
+}
+
+type RemarkQueryReq struct {
+	Page     int64 `json:"page,optional"`
+	PageSize int64 `json:"page_size,optional"`
 }
 
 type ResetPasswordReq struct {
@@ -346,6 +363,10 @@ type TagDTO struct {
 	TagName string `json:"tag_name,optional"` // 标签名
 }
 
+type TagQueryReq struct {
+	TagName string `json:"tag_name,optional"` // 标签名
+}
+
 type Talk struct {
 	Id           int64    `json:"id,optional"`            // 说说ID
 	UserId       int64    `json:"user_id,optional"`       // 用户ID
@@ -359,6 +380,11 @@ type Talk struct {
 	CommentCount int64    `json:"comment_count,optional"` // 评论量
 	CreatedAt    int64    `json:"created_at,optional"`    // 创建时间
 	UpdatedAt    int64    `json:"updated_at,optional"`    // 更新时间
+}
+
+type TalkQueryReq struct {
+	Page     int64 `json:"page,optional"`
+	PageSize int64 `json:"page_size,optional"`
 }
 
 type Token struct {

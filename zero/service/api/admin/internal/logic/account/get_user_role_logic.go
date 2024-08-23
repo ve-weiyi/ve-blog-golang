@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
@@ -29,11 +29,11 @@ func NewGetUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserRoleLogic) GetUserRole(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
-	in := &blogrpc.UserIdReq{
+	in := &permissionrpc.UserIdReq{
 		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
-	out, err := l.svcCtx.RoleRpc.FindUserRoles(l.ctx, in)
+	out, err := l.svcCtx.PermissionRpc.FindUserRoles(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

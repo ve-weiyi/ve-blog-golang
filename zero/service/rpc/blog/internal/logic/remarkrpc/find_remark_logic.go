@@ -3,8 +3,7 @@ package remarkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/convert"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,11 +24,8 @@ func NewFindRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindRe
 }
 
 // 查询留言
-func (l *FindRemarkLogic) FindRemark(in *blog.IdReq) (*blog.Remark, error) {
-	entity, err := l.svcCtx.RemarkModel.FindOne(l.ctx, in.Id)
-	if err != nil {
-		return nil, err
-	}
+func (l *FindRemarkLogic) FindRemark(in *remarkrpc.IdReq) (*remarkrpc.RemarkDetails, error) {
+	// todo: add your logic here and delete this line
 
-	return convert.ConvertRemarkModelToPb(entity), nil
+	return &remarkrpc.RemarkDetails{}, nil
 }

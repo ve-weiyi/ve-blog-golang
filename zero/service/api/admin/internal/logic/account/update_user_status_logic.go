@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,12 +25,12 @@ func NewUpdateUserStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *UpdateUserStatusLogic) UpdateUserStatus(req *types.UpdateUserStatusReq) (resp *types.EmptyResp, err error) {
-	in := &blogrpc.UpdateUserStatusReq{
+	in := &accountrpc.UpdateUserStatusReq{
 		UserId: req.UserId,
 		Status: req.Status,
 	}
 
-	_, err = l.svcCtx.UserRpc.UpdateUserStatus(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.UpdateUserStatus(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

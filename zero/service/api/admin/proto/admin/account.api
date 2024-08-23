@@ -3,11 +3,6 @@ syntax = "v1"
 import "base.api"
 
 type (
-    UserArea {
-        Name string `json:"name,optional"`
-        Value int64 `json:"value,optional"`
-    }
-
     User {
         Id int64 `json:"id,optional"`
         Username string `json:"username"`
@@ -46,10 +41,10 @@ type (
     }
 
     UserInfoResp {
-        UserId int64 `json:"user_id,optional"`       // 用户id
+        UserId int64 `json:"user_id,optional"`          // 用户id
         Username string `json:"username"`               // 用户名
-        Nickname string `json:"nickname,optional"`   // 用户昵称
-        Avatar string `json:"avatar,optional"`       // 用户头像
+        Nickname string `json:"nickname,optional"`      // 用户昵称
+        Avatar string `json:"avatar,optional"`          // 用户头像
         UserInfoExt
     }
 
@@ -118,16 +113,9 @@ type (
 
     UserRole {
         Id int64 `json:"id,optional"`                     // 主键id
-        RolePId int64 `json:"role_pid,optional"`          // 父角色id
         RoleDomain string `json:"role_domain,optional"`   // 角色域
         RoleName string `json:"role_name,optional"`       // 角色名
         RoleComment string `json:"role_comment,optional"` // 角色备注
-        IsDisable int64 `json:"is_disable,optional"`      // 是否禁用  0否 1是
-        IsDefault int64 `json:"is_default,optional"`      // 是否默认角色 0否 1是
-        CreatedAt int64 `json:"created_at,optional"`      // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
-        MenuIdList []int64 `json:"menu_id_list,optional"`
-        ResourceIdList []int64 `json:"resource_id_list,optional"`
     }
 
     UserApisResp {
@@ -141,6 +129,17 @@ type (
     UserRolesResp {
         List []*UserRole `json:"list,optional"`
     }
+
+    UserArea {
+        Name string `json:"name,optional"`
+        Value int64 `json:"value,optional"`
+    }
+
+    UserQuery {
+        Page int64 `json:"page,optional"`
+        PageSize int64 `json:"page_size,optional"`
+        Nickname string `json:"nickname,optional"`
+    }
 )
 
 @server(
@@ -150,40 +149,38 @@ type (
 )
 
 service admin-api {
-    @doc "获取用户分布地区"
-    @handler FindUserAreas
-    post /user/find_user_areas (PageQuery) returns (PageResp)
-
     @doc "查询用户列表"
     @handler FindUserList
-    post /user/find_user_list (PageQuery) returns (PageResp)
+    post /user/find_user_list (UserQuery) returns (PageResp)
 
     @doc "查询在线用户列表"
     @handler FindOnlineUserList
-    post /user/find_online_user_list (PageQuery) returns (PageResp)
+    post /user/find_online_user_list (UserQuery) returns (PageResp)
 
     @doc "查询用户登录历史"
     @handler FindUserLoginHistoryList
-    post /user/login_history (PageQuery) returns (PageResp)
+    post /user/find_user_login_history_list (UserQuery) returns (PageResp)
 
     @doc "批量删除登录历史"
-    @handler DeleteUserLoginHistoryList
-    delete /user/delete_login_history_list (IdsReq) returns (BatchResp)
+    @handler BatchDeleteUserLoginHistory
+    post /user/batch_delete_user_login_history (IdsReq) returns (EmptyResp)
+
 
     @doc "修改用户状态"
     @handler UpdateUserStatus
     post /user/update_user_status (UpdateUserStatusReq) returns (EmptyResp)
 
-    @doc "修改用户角色"
-    @handler UpdateUserRoles
-    post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
-
     @doc "修改用户信息"
     @handler UpdateUserInfo
     post /user/update_user_info (UserInfoReq) returns (EmptyResp)
 
+    @doc "修改用户角色"
+    @handler UpdateUserRoles
+    post /user/update_user_roles (UpdateUserRolesReq) returns (EmptyResp)
+
+
     @doc "获取用户角色"
-    @handler GetUserRole
+    @handler GetUserRoles
     get /user/get_user_roles (EmptyReq) returns (UserRolesResp)
 
     @doc "获取用户接口权限"
@@ -197,4 +194,9 @@ service admin-api {
     @doc "获取用户信息"
     @handler GetUserInfo
     get /user/get_user_info (EmptyReq) returns (UserInfoResp)
+
+
+    @doc "获取用户分布地区"
+    @handler GetUserAreaAnalysis
+    post /user/get_user_area_analysis (EmptyReq) returns (PageResp)
 }

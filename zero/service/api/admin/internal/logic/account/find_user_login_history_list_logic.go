@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,12 +26,12 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 }
 
 func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.FindLoginHistoryListReq{
+	in := &accountrpc.FindLoginHistoryListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		UserId:   l.ctx.Value("uid").(int64),
 	}
-	out, err := l.svcCtx.UserRpc.FindUserLoginHistoryList(l.ctx, in)
+	out, err := l.svcCtx.AccountRpc.FindUserLoginHistoryList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
