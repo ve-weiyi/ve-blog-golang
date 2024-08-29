@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,41 @@ func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhoto
 	}
 }
 
-func (l *AddPhotoLogic) AddPhoto(req *types.Photo) (resp *types.Photo, err error) {
-	// todo: add your logic here and delete this line
+func (l *AddPhotoLogic) AddPhoto(req *types.PhotoNewReq) (resp *types.PhotoBackDTO, err error) {
+	in := ConvertPhotoPb(req)
+	out, err := l.svcCtx.PhotoRpc.AddPhoto(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = ConvertPhotoTypes(out)
+	return resp, nil
+}
+
+func ConvertPhotoPb(in *types.PhotoNewReq) (out *photorpc.PhotoNewReq) {
+	out = &photorpc.PhotoNewReq{
+		Id:        in.Id,
+		AlbumId:   in.AlbumId,
+		PhotoName: in.PhotoName,
+		PhotoDesc: in.PhotoDesc,
+		PhotoSrc:  in.PhotoSrc,
+		IsDelete:  in.IsDelete,
+	}
+
+	return
+}
+
+func ConvertPhotoTypes(in *photorpc.PhotoDetails) (out *types.PhotoBackDTO) {
+	out = &types.PhotoBackDTO{
+		Id:        in.Id,
+		AlbumId:   in.AlbumId,
+		PhotoName: in.PhotoName,
+		PhotoDesc: in.PhotoDesc,
+		PhotoSrc:  in.PhotoSrc,
+		IsDelete:  in.IsDelete,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+	}
 
 	return
 }

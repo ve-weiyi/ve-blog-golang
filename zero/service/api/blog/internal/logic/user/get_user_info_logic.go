@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 
@@ -39,5 +39,21 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	return convert.ConvertUserInfoTypes(info), nil
+	return ConvertUserInfoTypes(info), nil
+}
+
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) (out *types.UserInfoResp) {
+	out = &types.UserInfoResp{
+		UserId:      in.UserId,
+		Username:    in.Username,
+		Nickname:    in.Nickname,
+		Avatar:      in.Avatar,
+		Email:       in.Email,
+		Phone:       in.Phone,
+		UserInfoExt: types.UserInfoExt{},
+	}
+
+	jsonconv.JsonToObject(in.Info, &out.UserInfoExt)
+
+	return out
 }

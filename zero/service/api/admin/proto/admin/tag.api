@@ -3,13 +3,13 @@ syntax = "v1"
 import "base.api"
 
 type (
-    TagNew {
+    TagNewReq {
         Id int64 `json:"id,optional"`
         TagName string `json:"tag_name"`    // 标签名
     }
 
     TagBackDTO {
-        Id int64 `json:"id"`                      // 标签ID
+        Id int64 `json:"id,optional"`                      // 标签ID
         TagName string `json:"tag_name"`          // 标签名
         ArticleCount int64 `json:"article_count"` // 文章数量
         CreatedAt int64 `json:"created_at"`       // 创建时间
@@ -18,8 +18,7 @@ type (
 
 
     TagQuery {
-        Page int64 `json:"page,optional"`                            // 页码
-        PageSize int64 `json:"page_size,optional"`                   // 每页数量
+        PageQuery
         TagName string `json:"tag_name,optional"`          // 标签名
     }
 )
@@ -45,11 +44,11 @@ service admin-api {
 service admin-api {
     @doc "创建标签"
     @handler AddTag
-    post /tag/add_tag (TagNew) returns (TagBackDTO)
+    post /tag/add_tag (TagNewReq) returns (TagBackDTO)
 
     @doc "更新标签"
     @handler UpdateTag
-    put /tag/update_tag (TagNew) returns (TagBackDTO)
+    put /tag/update_tag (TagNewReq) returns (TagBackDTO)
 
     @doc "删除标签"
     @handler DeleteTag

@@ -6,54 +6,55 @@ type (
     // 新建文章
     ArticleNewReq {
         Id int64 `json:"id,optional"`                                            // id
-        ArticleCover string `json:"article_cover,optional"`                      // 文章缩略图
-        ArticleTitle string `json:"article_title,optional"`                      // 标题
-        ArticleContent string `json:"article_content,optional"`                  // 内容
-        ArticleType int64 `json:"article_type,optional"`                         // 文章类型 1原创 2转载 3翻译
-        OriginalUrl string `json:"original_url,optional"`                        // 原文链接
-        Status int64 `json:"status,optional"`                                    // 状态值 1公开 2私密 3评论可见
-        CategoryId int64 `json:"category_id,optional"`                           // 文章分类
-        CategoryName string `json:"category_name,optional"`                      // 文章分类名
-        TagIds []int64 `json:"tag_ids,optional"`                                 // 文章标签
-        TagNameList []string `json:"tag_name_list,optional"`                     // 文章标签列表
+        ArticleCover string `json:"article_cover"`                               // 文章缩略图
+        ArticleTitle string `json:"article_title"`                               // 标题
+        ArticleContent string `json:"article_content"`                           // 内容
+        ArticleType int64 `json:"article_type"`                                  // 文章类型 1原创 2转载 3翻译
+        OriginalUrl string `json:"original_url"`                                 // 原文链接
+        Status int64 `json:"status"`                                             // 状态值 1 公开 2 私密 3 草稿 4 已删除
+//        CategoryId int64 `json:"category_id"`                                    // 文章分类
+        CategoryName string `json:"category_name"`                               // 文章分类名
+//        TagIds []int64 `json:"tag_ids"`                                          // 文章标签
+        TagNameList []string `json:"tag_name_list"`                              // 文章标签列表
     }
 
         // 后台文章
     ArticleBackDTO {
         Id int64 `json:"id,optional"`                                          // 文章ID
-        ArticleCover string `json:"article_cover,optional"`                    // 文章缩略图
-        ArticleTitle string `json:"article_title,optional"`                    // 标题
-        ArticleContent string `json:"article_content,optional"`                // 内容
-        ArticleType int64 `json:"article_type,optional"`                       // 文章类型 1原创 2转载 3翻译
-        OriginalUrl string `json:"original_url,optional"`                      // 原文链接
-        IsTop int64 `json:"is_top,optional"`                                   // 是否置顶
-        IsDelete int64 `json:"is_delete,optional"`                             // 是否删除
-        Status int64 `json:"status,optional"`                                  // 状态值 1 公开 2 私密 3 评论可见
-        CreatedAt int64 `json:"created_at,optional"`                           // 发表时间
-        UpdatedAt int64 `json:"updated_at,optional"`                           // 更新时间
-        CategoryName string `json:"category_name,optional"`                    // 文章分类名
-        TagNameList []string `json:"tag_name_list,optional"`                   // 文章标签列表
-        LikeCount int64 `json:"like_count,optional"`                           // 点赞量
-        ViewsCount int64 `json:"views_count,optional"`                         // 浏览量
+        ArticleCover string `json:"article_cover"`                             // 文章缩略图
+        ArticleTitle string `json:"article_title"`                             // 标题
+        ArticleContent string `json:"article_content"`                         // 内容
+        ArticleType int64 `json:"article_type"`                                // 文章类型 1原创 2转载 3翻译
+        OriginalUrl string `json:"original_url"`                               // 原文链接
+        IsTop int64 `json:"is_top"`                                            // 是否置顶
+        IsDelete int64 `json:"is_delete"`                                      // 是否删除
+        Status int64 `json:"status"`                                           // 状态值 1 公开 2 私密 3 草稿 4 已删除
+        CreatedAt int64 `json:"created_at"`                                    // 发表时间
+        UpdatedAt int64 `json:"updated_at"`                                    // 更新时间
+        CategoryName string `json:"category_name"`                             // 文章分类名
+        TagNameList []string `json:"tag_name_list"`                            // 文章标签列表
+        LikeCount int64 `json:"like_count"`                                    // 点赞量
+        ViewsCount int64 `json:"views_count"`                                  // 浏览量
     }
 
     ArticleRecycleReq {
         Id int64 `json:"id,optional"`              // 文章ID
-        IsDelete int64 `json:"is_delete,optional"` // 是否删除
+        IsDelete int64 `json:"is_delete"`          // 是否删除
     }
 
     ArticleTopReq {
         Id int64 `json:"id,optional"`        // 文章ID
-        IsTop int64 `json:"is_top,optional"` // 是否置顶
+        IsTop int64 `json:"is_top"`          // 是否置顶
     }
 
         // 分页查询
     ArticleQuery {
-        Page int64 `json:"page,optional"`                                      // 页码
-        PageSize int64 `json:"page_size,optional"`                             // 每页数量
-        ArticleTitle string `json:"article_title,optional"`                    // 标题
-        CategoryId int64 `json:"category_id,optional"`                         // 分类ID
-        TagId int64 `json:"tag_id,optional"`                                   // 标签ID
+        PageQuery
+        ArticleTitle string `json:"article_title,optional"`                      // 标题
+        ArticleType int64 `json:"article_type,optional"`                         // 文章类型 1原创 2转载 3翻译
+        Status int64 `json:"status,optional"`                                    // 状态值 1 公开 2 私密 3 草稿 4 已删除
+        CategoryName string `json:"category_name,optional"`                      // 文章分类名
+        TagName string `json:"tag_name,optional"`
     }
 )
 
@@ -78,7 +79,7 @@ service admin-api {
 
     @doc "删除文章"
     @handler DeleteArticle
-    post /admin/article/delete_article (IdReq) returns (EmptyResp)
+    post /admin/article/delete_article (IdReq) returns (BatchResp)
 
     @doc "回收文章"
     @handler RecycleArticle

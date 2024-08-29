@@ -6,10 +6,11 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 )
 
 type LoginLogic struct {
@@ -31,7 +32,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	in := accountrpc.LoginReq{
 		Username:   req.Username,
 		Password:   req.Password,
-		VerifyCode: req.Code,
+		VerifyCode: req.VerifyCode,
 	}
 
 	out, err := l.svcCtx.AccountRpc.Login(l.ctx, &in)

@@ -4,18 +4,17 @@ import "base.api"
 
 type (
     Friend {
-        Id int64 `json:"id,optional"`                     // id
-        LinkName string `json:"link_name,optional"`       // 链接名
-        LinkAvatar string `json:"link_avatar,optional"`   // 链接头像
-        LinkAddress string `json:"link_address,optional"` // 链接地址
-        LinkIntro string `json:"link_intro,optional"`     // 链接介绍
-        CreatedAt int64 `json:"created_at,optional"`      // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`      // 更新时间
+        Id int64 `json:"id"`                     // id
+        LinkName string `json:"link_name"`       // 链接名
+        LinkAvatar string `json:"link_avatar"`   // 链接头像
+        LinkAddress string `json:"link_address"` // 链接地址
+        LinkIntro string `json:"link_intro"`     // 链接介绍
+        CreatedAt int64 `json:"created_at"`      // 创建时间
+        UpdatedAt int64 `json:"updated_at"`      // 更新时间
     }
 
     FriendQueryReq {
-                Page int64 `json:"page,optional"`
-                PageSize int64 `json:"page_size,optional"`
+        PageQuery
     }
 )
 

@@ -2,6 +2,7 @@ package photorpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -35,7 +36,7 @@ func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*phot
 
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = in.Sorts
+	sorts = strings.Join(in.Sorts, ",")
 
 	result, err := l.svcCtx.PhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -44,7 +45,7 @@ func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*phot
 
 	var list []*photorpc.PhotoDetails
 	for _, v := range result {
-		list = append(list, ConvertPhotoOut(v))
+		list = append(list, convertPhotoOut(v))
 	}
 
 	return &photorpc.FindPhotoListResp{

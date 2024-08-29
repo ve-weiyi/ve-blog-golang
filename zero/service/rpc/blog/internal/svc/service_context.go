@@ -60,11 +60,11 @@ type ServiceContext struct {
 
 	CommentModel      model.CommentModel
 	RemarkModel       model.RemarkModel
-	FriendLinkModel   model.FriendLinkModel
+	FriendModel       model.FriendModel
 	TalkModel         model.TalkModel
 	PhotoModel        model.PhotoModel
-	PhotoAlbumModel   model.PhotoAlbumModel
-	PageModel         model.PageModel
+	AlbumModel        model.AlbumModel
+	BannerModel       model.BannerModel
 	VisitHistoryModel model.VisitHistoryModel
 
 	OperationLogModel model.OperationLogModel
@@ -122,11 +122,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		CommentModel:      model.NewCommentModel(db, rds),
 		RemarkModel:       model.NewRemarkModel(db, rds),
-		FriendLinkModel:   model.NewFriendLinkModel(db, rds),
+		FriendModel:       model.NewFriendModel(db, rds),
 		TalkModel:         model.NewTalkModel(db, rds),
 		PhotoModel:        model.NewPhotoModel(db, rds),
-		PhotoAlbumModel:   model.NewPhotoAlbumModel(db, rds),
-		PageModel:         model.NewPageModel(db, rds),
+		AlbumModel:        model.NewAlbumModel(db, rds),
+		BannerModel:       model.NewBannerModel(db, rds),
 		VisitHistoryModel: model.NewVisitHistoryModel(db, rds),
 
 		OperationLogModel: model.NewOperationLogModel(db, rds),

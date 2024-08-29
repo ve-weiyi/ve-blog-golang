@@ -23,13 +23,13 @@ func NewPermissionRpcServer(svcCtx *svc.ServiceContext) *PermissionRpcServer {
 }
 
 // 创建接口
-func (s *PermissionRpcServer) AddApi(ctx context.Context, in *permissionrpc.ApiNew) (*permissionrpc.ApiDetails, error) {
+func (s *PermissionRpcServer) AddApi(ctx context.Context, in *permissionrpc.ApiNewReq) (*permissionrpc.ApiDetails, error) {
 	l := permissionrpclogic.NewAddApiLogic(ctx, s.svcCtx)
 	return l.AddApi(in)
 }
 
 // 更新接口
-func (s *PermissionRpcServer) UpdateApi(ctx context.Context, in *permissionrpc.ApiNew) (*permissionrpc.ApiDetails, error) {
+func (s *PermissionRpcServer) UpdateApi(ctx context.Context, in *permissionrpc.ApiNewReq) (*permissionrpc.ApiDetails, error) {
 	l := permissionrpclogic.NewUpdateApiLogic(ctx, s.svcCtx)
 	return l.UpdateApi(in)
 }
@@ -59,13 +59,13 @@ func (s *PermissionRpcServer) CleanApiList(ctx context.Context, in *permissionrp
 }
 
 // 创建菜单
-func (s *PermissionRpcServer) AddMenu(ctx context.Context, in *permissionrpc.MenuNew) (*permissionrpc.MenuDetails, error) {
+func (s *PermissionRpcServer) AddMenu(ctx context.Context, in *permissionrpc.MenuNewReq) (*permissionrpc.MenuDetails, error) {
 	l := permissionrpclogic.NewAddMenuLogic(ctx, s.svcCtx)
 	return l.AddMenu(in)
 }
 
 // 更新菜单
-func (s *PermissionRpcServer) UpdateMenu(ctx context.Context, in *permissionrpc.MenuNew) (*permissionrpc.MenuDetails, error) {
+func (s *PermissionRpcServer) UpdateMenu(ctx context.Context, in *permissionrpc.MenuNewReq) (*permissionrpc.MenuDetails, error) {
 	l := permissionrpclogic.NewUpdateMenuLogic(ctx, s.svcCtx)
 	return l.UpdateMenu(in)
 }
@@ -95,13 +95,13 @@ func (s *PermissionRpcServer) CleanMenuList(ctx context.Context, in *permissionr
 }
 
 // 创建角色
-func (s *PermissionRpcServer) AddRole(ctx context.Context, in *permissionrpc.RoleNew) (*permissionrpc.RoleDetails, error) {
+func (s *PermissionRpcServer) AddRole(ctx context.Context, in *permissionrpc.RoleNewReq) (*permissionrpc.RoleDetails, error) {
 	l := permissionrpclogic.NewAddRoleLogic(ctx, s.svcCtx)
 	return l.AddRole(in)
 }
 
 // 更新角色
-func (s *PermissionRpcServer) UpdateRole(ctx context.Context, in *permissionrpc.RoleNew) (*permissionrpc.RoleDetails, error) {
+func (s *PermissionRpcServer) UpdateRole(ctx context.Context, in *permissionrpc.RoleNewReq) (*permissionrpc.RoleDetails, error) {
 	l := permissionrpclogic.NewUpdateRoleLogic(ctx, s.svcCtx)
 	return l.UpdateRole(in)
 }

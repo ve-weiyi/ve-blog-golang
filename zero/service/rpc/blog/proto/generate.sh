@@ -42,3 +42,8 @@ rm ../website.go
 goctl rpc protoc ./config.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 rm -f ../etc/config.yaml
 rm ../config.go
+
+
+goctl rpc protoc ./chat.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+rm -f ../etc/chat.yaml
+rm ../chat.go

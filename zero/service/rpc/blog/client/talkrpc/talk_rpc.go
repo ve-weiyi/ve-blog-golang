@@ -23,20 +23,18 @@ type (
 	IdReq            = talkrpc.IdReq
 	IdsReq           = talkrpc.IdsReq
 	TalkDetails      = talkrpc.TalkDetails
-	TalkNew          = talkrpc.TalkNew
+	TalkNewReq       = talkrpc.TalkNewReq
 	UserIdReq        = talkrpc.UserIdReq
 
 	TalkRpc interface {
 		// 创建说说
-		AddTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error)
+		AddTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error)
 		// 更新说说
-		UpdateTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error)
+		UpdateTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error)
 		// 删除说说
-		DeleteTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 批量删除说说
-		DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		DeleteTalk(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询说说
-		FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error)
+		GetTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error)
 		// 查询说说列表
 		FindTalkList(ctx context.Context, in *FindTalkListReq, opts ...grpc.CallOption) (*FindTalkListResp, error)
 		// 点赞说说
@@ -57,33 +55,27 @@ func NewTalkRpc(cli zrpc.Client) TalkRpc {
 }
 
 // 创建说说
-func (m *defaultTalkRpc) AddTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error) {
+func (m *defaultTalkRpc) AddTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error) {
 	client := talkrpc.NewTalkRpcClient(m.cli.Conn())
 	return client.AddTalk(ctx, in, opts...)
 }
 
 // 更新说说
-func (m *defaultTalkRpc) UpdateTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error) {
+func (m *defaultTalkRpc) UpdateTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error) {
 	client := talkrpc.NewTalkRpcClient(m.cli.Conn())
 	return client.UpdateTalk(ctx, in, opts...)
 }
 
 // 删除说说
-func (m *defaultTalkRpc) DeleteTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultTalkRpc) DeleteTalk(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := talkrpc.NewTalkRpcClient(m.cli.Conn())
 	return client.DeleteTalk(ctx, in, opts...)
 }
 
-// 批量删除说说
-func (m *defaultTalkRpc) DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := talkrpc.NewTalkRpcClient(m.cli.Conn())
-	return client.DeleteTalkList(ctx, in, opts...)
-}
-
 // 查询说说
-func (m *defaultTalkRpc) FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error) {
+func (m *defaultTalkRpc) GetTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error) {
 	client := talkrpc.NewTalkRpcClient(m.cli.Conn())
-	return client.FindTalk(ctx, in, opts...)
+	return client.GetTalk(ctx, in, opts...)
 }
 
 // 查询说说列表

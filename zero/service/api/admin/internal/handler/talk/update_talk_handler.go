@@ -14,7 +14,7 @@ import (
 // 更新说说
 func UpdateTalkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.TalkNew
+		var req types.TalkNewReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

@@ -3,7 +3,6 @@ package article
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
@@ -28,8 +27,7 @@ func NewFindArticleRecommendLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		Conditions: "is_top = ?",
-		Args:       []string{"1"},
+		IsTop: 1,
 	}
 	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {
@@ -39,7 +37,7 @@ func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (r
 	var list []*types.ArticleHome
 	// 转换数据
 	for _, v := range out.List {
-		m := convert.ConvertArticleHomeTypes(v)
+		m := ConvertArticleHomeTypes(v)
 		list = append(list, m)
 	}
 

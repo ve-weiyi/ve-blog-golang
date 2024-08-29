@@ -24,8 +24,13 @@ func NewUpdateFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 	}
 }
 
-func (l *UpdateFriendLogic) UpdateFriend(req *types.Friend) (resp *types.Friend, err error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateFriendLogic) UpdateFriend(req *types.FriendNewReq) (resp *types.FriendBackDTO, err error) {
+	in := ConvertFriendPb(req)
+	out, err := l.svcCtx.FriendRpc.UpdateFriend(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = ConvertFriendTypes(out)
+	return resp, nil
 }

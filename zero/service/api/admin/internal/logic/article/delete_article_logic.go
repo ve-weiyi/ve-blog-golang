@@ -16,7 +16,7 @@ type DeleteArticleLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 删除文章-物理删除
+// 删除文章
 func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteArticleLogic {
 	return &DeleteArticleLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,15 +25,18 @@ func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 	}
 }
 
-func (l *DeleteArticleLogic) DeleteArticle(req *types.IdReq) (resp *types.EmptyResp, err error) {
+func (l *DeleteArticleLogic) DeleteArticle(req *types.IdReq) (resp *types.BatchResp, err error) {
 	in := &articlerpc.IdsReq{
 		Ids: []int64{req.Id},
 	}
 
-	_, err = l.svcCtx.ArticleRpc.DeleteArticle(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.DeleteArticle(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.EmptyResp{}, nil
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

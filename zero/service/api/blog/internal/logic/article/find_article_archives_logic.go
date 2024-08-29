@@ -5,7 +5,6 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
@@ -30,7 +29,7 @@ func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchive
 	in := &articlerpc.FindArticleListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    "id desc",
+		Sorts:    req.Sorts,
 	}
 	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {
@@ -40,7 +39,7 @@ func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchive
 	var list []*types.ArticleHome
 	// 转换数据
 	for _, v := range out.List {
-		m := convert.ConvertArticleHomeTypes(v)
+		m := ConvertArticleHomeTypes(v)
 		list = append(list, m)
 	}
 

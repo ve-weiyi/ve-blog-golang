@@ -4,11 +4,10 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,25 +27,25 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 	}
 }
 
-func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.EmptyReq) (resp *types.BlogHomeInfo, err error) {
+func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (resp *types.GetBlogHomeInfoResp, err error) {
 	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
 
-	in := &websiterpc.FindConfigReq{
+	in := &configrpc.FindConfigReq{
 		ConfigKey: "website_config",
 	}
 
-	out, err := l.svcCtx.WebsiteRpc.FindConfig(l.ctx, in)
+	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	config := &types.WebsiteConfig{}
+	config := &types.WebsiteConfigDTO{}
 	jsonconv.JsonToObject(out.ConfigValue, &config)
 
-	resp = &types.BlogHomeInfo{
+	resp = &types.GetBlogHomeInfoResp{
 		ArticleCount:  analysis.ArticleCount,
 		CategoryCount: analysis.CategoryCount,
 		TagCount:      analysis.TagCount,

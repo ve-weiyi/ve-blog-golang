@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +26,8 @@ func NewDeleteTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeleteTalkLogic) DeleteTalk(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &blogrpc.IdReq{
-		Id: req.Id,
+	in := &talkrpc.IdsReq{
+		Ids: []int64{req.Id},
 	}
 
 	out, err := l.svcCtx.TalkRpc.DeleteTalk(l.ctx, in)
@@ -35,7 +35,8 @@ func (l *DeleteTalkLogic) DeleteTalk(req *types.IdReq) (resp *types.BatchResp, e
 		return nil, err
 	}
 
-	return &types.BatchResp{
+	resp = &types.BatchResp{
 		SuccessCount: out.SuccessCount,
-	}, nil
+	}
+	return resp, nil
 }

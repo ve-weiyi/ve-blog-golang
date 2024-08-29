@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/permissionrpc"
 )
 
-func ConvertRoleIn(in *permissionrpc.RoleNew) (out *model.Role) {
+func convertRoleIn(in *permissionrpc.RoleNewReq) (out *model.Role) {
 	out = &model.Role{
 		Id:          in.Id,
 		ParentId:    in.ParentId,
@@ -20,7 +20,7 @@ func ConvertRoleIn(in *permissionrpc.RoleNew) (out *model.Role) {
 	return out
 }
 
-func ConvertRoleOut(in *model.Role) (out *permissionrpc.RoleDetails) {
+func convertRoleOut(in *model.Role) (out *permissionrpc.RoleDetails) {
 	out = &permissionrpc.RoleDetails{
 		Id:          in.Id,
 		ParentId:    in.ParentId,

@@ -24,7 +24,7 @@ func NewAddTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTagLogi
 }
 
 // 创建标签
-func (l *AddTagLogic) AddTag(in *articlerpc.TagNew) (*articlerpc.TagDetails, error) {
+func (l *AddTagLogic) AddTag(in *articlerpc.TagNewReq) (*articlerpc.TagDetails, error) {
 	entity := convertTagIn(in)
 	_, err := l.svcCtx.TagModel.Insert(l.ctx, entity)
 	if err != nil {

@@ -24,8 +24,8 @@ func NewDeleteTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 // 删除说说
-func (l *DeleteTalkLogic) DeleteTalk(in *talkrpc.IdReq) (*talkrpc.BatchResp, error) {
-	rows, err := l.svcCtx.TalkModel.Delete(l.ctx, in.Id)
+func (l *DeleteTalkLogic) DeleteTalk(in *talkrpc.IdsReq) (*talkrpc.BatchResp, error) {
+	rows, err := l.svcCtx.TalkModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

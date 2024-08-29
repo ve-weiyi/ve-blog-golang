@@ -1,7 +1,5 @@
 syntax = "v1"
 
-import "base.api"
-
 type (
     UploadFileReq {
         Label string `form:"label,optional"`

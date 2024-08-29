@@ -3,13 +3,13 @@ syntax = "v1"
 import "base.api"
 
 type (
-    CategoryNew {
+    CategoryNewReq {
         Id int64 `json:"id,optional"`
         CategoryName string `json:"category_name"` // 分类名
     }
 
     CategoryBackDTO {
-        Id int64 `json:"id"`
+        Id int64 `json:"id,optional"`
         CategoryName string `json:"category_name"` // 分类名
         ArticleCount int64 `json:"article_count"`
         CreatedAt int64 `json:"created_at"`        // 创建时间
@@ -17,8 +17,7 @@ type (
     }
 
     CategoryQuery {
-        Page int64 `json:"page,optional"`                            // 页码
-        PageSize int64 `json:"page_size,optional"`                   // 每页数量
+        PageQuery
         CategoryName string `json:"category_name,optional"` // 分类名
     }
 )
@@ -44,11 +43,11 @@ service admin-api {
 service admin-api {
     @doc "创建文章分类"
     @handler AddCategory
-    post /category/add_category (CategoryNew) returns (CategoryBackDTO)
+    post /category/add_category (CategoryNewReq) returns (CategoryBackDTO)
 
     @doc "更新文章分类"
     @handler UpdateCategory
-    put /category/update_category (CategoryNew) returns (CategoryBackDTO)
+    put /category/update_category (CategoryNewReq) returns (CategoryBackDTO)
 
     @doc "删除文章分类"
     @handler DeleteCategory

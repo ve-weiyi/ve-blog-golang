@@ -24,7 +24,7 @@ func NewUpdateTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateT
 }
 
 // 更新标签
-func (l *UpdateTagLogic) UpdateTag(in *articlerpc.TagNew) (*articlerpc.TagDetails, error) {
+func (l *UpdateTagLogic) UpdateTag(in *articlerpc.TagNewReq) (*articlerpc.TagDetails, error) {
 	entity := convertTagIn(in)
 	_, err := l.svcCtx.TagModel.Update(l.ctx, entity)
 	if err != nil {

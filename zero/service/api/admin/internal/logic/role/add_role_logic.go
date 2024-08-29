@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,37 @@ func NewAddRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRoleLo
 	}
 }
 
-func (l *AddRoleLogic) AddRole(req *types.Role) (resp *types.Role, err error) {
-	// todo: add your logic here and delete this line
+func (l *AddRoleLogic) AddRole(req *types.RoleNewReq) (resp *types.RoleBackDTO, err error) {
+	in := &permissionrpc.RoleNewReq{
+		Id:          req.Id,
+		ParentId:    req.ParentId,
+		RoleDomain:  req.RoleDomain,
+		RoleName:    req.RoleName,
+		RoleComment: req.RoleComment,
+		IsDisable:   req.IsDisable,
+		IsDefault:   req.IsDefault,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.AddRole(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertRoleTypes(out), nil
+}
+
+func convertRoleTypes(req *permissionrpc.RoleDetails) *types.RoleBackDTO {
+	out := &types.RoleBackDTO{
+		Id:          req.Id,
+		ParentId:    req.ParentId,
+		RoleDomain:  req.RoleDomain,
+		RoleName:    req.RoleName,
+		RoleComment: req.RoleComment,
+		IsDisable:   req.IsDisable,
+		IsDefault:   req.IsDefault,
+		CreatedAt:   req.CreatedAt,
+		UpdatedAt:   req.UpdatedAt,
+	}
+
+	return out
 }

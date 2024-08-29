@@ -22,20 +22,18 @@ type (
 	IdReq              = remarkrpc.IdReq
 	IdsReq             = remarkrpc.IdsReq
 	RemarkDetails      = remarkrpc.RemarkDetails
-	RemarkNew          = remarkrpc.RemarkNew
+	RemarkNewReq       = remarkrpc.RemarkNewReq
 	UserIdReq          = remarkrpc.UserIdReq
 
 	RemarkRpc interface {
 		// 创建留言
-		AddRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error)
+		AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 更新留言
-		UpdateRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error)
+		UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 删除留言
-		DeleteRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 批量删除留言
-		DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		DeleteRemark(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询留言
-		FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
+		GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 查询留言列表
 		FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
 	}
@@ -52,33 +50,27 @@ func NewRemarkRpc(cli zrpc.Client) RemarkRpc {
 }
 
 // 创建留言
-func (m *defaultRemarkRpc) AddRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (m *defaultRemarkRpc) AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
 	return client.AddRemark(ctx, in, opts...)
 }
 
 // 更新留言
-func (m *defaultRemarkRpc) UpdateRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (m *defaultRemarkRpc) UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
 	return client.UpdateRemark(ctx, in, opts...)
 }
 
 // 删除留言
-func (m *defaultRemarkRpc) DeleteRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultRemarkRpc) DeleteRemark(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
 	return client.DeleteRemark(ctx, in, opts...)
 }
 
-// 批量删除留言
-func (m *defaultRemarkRpc) DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
-	return client.DeleteRemarkList(ctx, in, opts...)
-}
-
 // 查询留言
-func (m *defaultRemarkRpc) FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (m *defaultRemarkRpc) GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
-	return client.FindRemark(ctx, in, opts...)
+	return client.GetRemark(ctx, in, opts...)
 }
 
 // 查询留言列表

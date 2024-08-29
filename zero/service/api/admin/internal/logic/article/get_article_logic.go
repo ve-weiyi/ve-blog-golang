@@ -35,5 +35,6 @@ func (l *GetArticleLogic) GetArticle(req *types.IdReq) (resp *types.ArticleBackD
 		return nil, err
 	}
 
-	return ConvertArticleBackTypes(out), nil
+	resp = ConvertArticleTypes(out)
+	return resp, nil
 }

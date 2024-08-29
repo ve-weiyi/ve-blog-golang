@@ -24,13 +24,13 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 }
 
 // 更新照片
-func (l *UpdatePhotoLogic) UpdatePhoto(in *photorpc.PhotoNew) (*photorpc.PhotoDetails, error) {
-	entity := ConvertPhotoIn(in)
+func (l *UpdatePhotoLogic) UpdatePhoto(in *photorpc.PhotoNewReq) (*photorpc.PhotoDetails, error) {
+	entity := convertPhotoIn(in)
 
 	_, err := l.svcCtx.PhotoModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertPhotoOut(entity), nil
+	return convertPhotoOut(entity), nil
 }

@@ -6,21 +6,21 @@ type (
     LoginReq {
         Username string `json:"username"`
         Password string `json:"password"`
-        Code string `json:"code,optional"`
+        VerifyCode string `json:"verify_code"`     // 验证码
     }
 
     LoginResp {
-        Token *Token `json:"token,optional"`
+        Token *Token `json:"token"`
     }
 
     Token {
-        UserId int64 `json:"user_id,optional"`                      // 用户id
-        TokenType string `json:"token_type,optional"`               // token类型,Bearer
-        AccessToken string `json:"access_token,optional"`           // 访问token,过期时间较短。2h
-        ExpiresIn int64 `json:"expires_in,optional"`                // 访问token过期时间
-        RefreshToken string `json:"refresh_token,optional"`         // 刷新token,过期时间较长。30d
-        RefreshExpiresIn int64 `json:"refresh_expires_in,optional"` // 刷新token过期时间
-        Scope string `json:"scope,optional"`                        // 作用域
+        UserId int64 `json:"user_id"`                      // 用户id
+        TokenType string `json:"token_type"`               // token类型,Bearer
+        AccessToken string `json:"access_token"`           // 访问token,过期时间较短。2h
+        ExpiresIn int64 `json:"expires_in"`                // 访问token过期时间
+        RefreshToken string `json:"refresh_token"`         // 刷新token,过期时间较长。30d
+        RefreshExpiresIn int64 `json:"refresh_expires_in"` // 刷新token过期时间
+        Scope string `json:"scope"`                        // 作用域
     }
 )
 

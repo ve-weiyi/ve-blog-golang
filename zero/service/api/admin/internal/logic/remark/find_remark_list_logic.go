@@ -3,9 +3,9 @@ package remark
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,27 +25,28 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindRemarkListLogic) FindRemarkList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
+func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *types.PageResp, err error) {
+	in := &remarkrpc.FindRemarkListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    req.Sorts,
+	}
+
 	out, err := l.svcCtx.RemarkRpc.FindRemarkList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.RemarkRpc.FindRemarkCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.Remark
+	var list []*types.RemarkBackDTO
 	for _, v := range out.List {
-		list = append(list, convert.ConvertRemarkTypes(v))
+		m := ConvertRemarkTypes(v)
+		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
 }

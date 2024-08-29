@@ -55,7 +55,7 @@ func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permi
 func appendApiChildren(root *permissionrpc.ApiDetails, list []*model.Api) (leafs []*permissionrpc.ApiDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
-			leaf := ConvertApiOut(item)
+			leaf := convertApiOut(item)
 			leaf.Children = appendApiChildren(leaf, list)
 			leafs = append(leafs, leaf)
 		}

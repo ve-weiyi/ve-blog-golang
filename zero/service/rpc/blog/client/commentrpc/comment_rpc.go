@@ -13,33 +13,38 @@ import (
 )
 
 type (
-	BatchResp           = commentrpc.BatchResp
-	CommentDetails      = commentrpc.CommentDetails
-	CommentNew          = commentrpc.CommentNew
-	CommentUserInfo     = commentrpc.CommentUserInfo
-	CountResp           = commentrpc.CountResp
-	EmptyReq            = commentrpc.EmptyReq
-	EmptyResp           = commentrpc.EmptyResp
-	FindCommentListReq  = commentrpc.FindCommentListReq
-	FindCommentListResp = commentrpc.FindCommentListResp
-	FindLikeCommentResp = commentrpc.FindLikeCommentResp
-	IdReq               = commentrpc.IdReq
-	IdsReq              = commentrpc.IdsReq
-	UserIdReq           = commentrpc.UserIdReq
+	BatchResp                = commentrpc.BatchResp
+	CommentDetails           = commentrpc.CommentDetails
+	CommentNewReq            = commentrpc.CommentNewReq
+	CountResp                = commentrpc.CountResp
+	EmptyReq                 = commentrpc.EmptyReq
+	EmptyResp                = commentrpc.EmptyResp
+	FindCommentListReq       = commentrpc.FindCommentListReq
+	FindCommentListResp      = commentrpc.FindCommentListResp
+	FindCommentReplyListReq  = commentrpc.FindCommentReplyListReq
+	FindCommentReplyListResp = commentrpc.FindCommentReplyListResp
+	FindLikeCommentResp      = commentrpc.FindLikeCommentResp
+	IdReq                    = commentrpc.IdReq
+	IdsReq                   = commentrpc.IdsReq
+	UpdateCommentContentReq  = commentrpc.UpdateCommentContentReq
+	UpdateCommentReviewReq   = commentrpc.UpdateCommentReviewReq
+	UserIdReq                = commentrpc.UserIdReq
 
 	CommentRpc interface {
 		// 创建评论
-		AddComment(ctx context.Context, in *CommentNew, opts ...grpc.CallOption) (*CommentDetails, error)
-		// 更新评论
-		UpdateComment(ctx context.Context, in *CommentNew, opts ...grpc.CallOption) (*CommentDetails, error)
+		AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error)
 		// 删除评论
-		DeleteComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 批量删除评论
-		DeleteCommentList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		DeleteComment(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询评论
-		FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error)
+		GetComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error)
 		// 查询评论列表
 		FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error)
+		// 查询评论回复列表
+		FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
+		// 更新评论审核状态
+		UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*CommentDetails, error)
+		// 更新评论
+		UpdateCommentContent(ctx context.Context, in *UpdateCommentContentReq, opts ...grpc.CallOption) (*CommentDetails, error)
 		// 点赞评论
 		LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 用户点赞的评论
@@ -58,39 +63,45 @@ func NewCommentRpc(cli zrpc.Client) CommentRpc {
 }
 
 // 创建评论
-func (m *defaultCommentRpc) AddComment(ctx context.Context, in *CommentNew, opts ...grpc.CallOption) (*CommentDetails, error) {
+func (m *defaultCommentRpc) AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error) {
 	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
 	return client.AddComment(ctx, in, opts...)
 }
 
-// 更新评论
-func (m *defaultCommentRpc) UpdateComment(ctx context.Context, in *CommentNew, opts ...grpc.CallOption) (*CommentDetails, error) {
-	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
-	return client.UpdateComment(ctx, in, opts...)
-}
-
 // 删除评论
-func (m *defaultCommentRpc) DeleteComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultCommentRpc) DeleteComment(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
 	return client.DeleteComment(ctx, in, opts...)
 }
 
-// 批量删除评论
-func (m *defaultCommentRpc) DeleteCommentList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
-	return client.DeleteCommentList(ctx, in, opts...)
-}
-
 // 查询评论
-func (m *defaultCommentRpc) FindComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+func (m *defaultCommentRpc) GetComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error) {
 	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
-	return client.FindComment(ctx, in, opts...)
+	return client.GetComment(ctx, in, opts...)
 }
 
 // 查询评论列表
 func (m *defaultCommentRpc) FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error) {
 	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
 	return client.FindCommentList(ctx, in, opts...)
+}
+
+// 查询评论回复列表
+func (m *defaultCommentRpc) FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error) {
+	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
+	return client.FindCommentReplyList(ctx, in, opts...)
+}
+
+// 更新评论审核状态
+func (m *defaultCommentRpc) UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
+	return client.UpdateCommentReview(ctx, in, opts...)
+}
+
+// 更新评论
+func (m *defaultCommentRpc) UpdateCommentContent(ctx context.Context, in *UpdateCommentContentReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
+	return client.UpdateCommentContent(ctx, in, opts...)
 }
 
 // 点赞评论

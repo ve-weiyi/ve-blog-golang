@@ -19,6 +19,7 @@ type UpdateUserInfoLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 修改用户信息
 func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserInfoLogic {
 	return &UpdateUserInfoLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,14 +29,12 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
-	var info string
-	jsonconv.ObjectToJson(info)
 
 	in := &accountrpc.UpdateUserInfoReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
-		Info:     info,
+		Info:     jsonconv.ObjectToJson(req.UserInfoExt),
 	}
 
 	_, err = l.svcCtx.AccountRpc.UpdateUserInfo(l.ctx, in)

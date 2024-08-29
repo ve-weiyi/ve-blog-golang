@@ -2,6 +2,7 @@ package articlerpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -25,6 +26,7 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 查询文章分类数量
 func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryListReq) (*articlerpc.FindCategoryListResp, error) {
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 	var (
 		page       int
 		size       int
@@ -35,7 +37,7 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = in.Sorts
+	sorts = strings.Join(in.Sorts, ",")
 	if in.CategoryName != "" {
 		conditions += "category_name like ?"
 		params = append(params, "%"+in.CategoryName+"%")
@@ -51,7 +53,7 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 		return nil, err
 	}
 
-	acm, err := findArticleCountGroupCategory(l.ctx, l.svcCtx, records)
+	acm, err := helper.findArticleCountGroupCategory(records)
 	if err != nil {
 		return nil, err
 	}

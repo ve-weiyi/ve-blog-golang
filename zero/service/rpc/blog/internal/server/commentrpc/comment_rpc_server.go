@@ -23,39 +23,45 @@ func NewCommentRpcServer(svcCtx *svc.ServiceContext) *CommentRpcServer {
 }
 
 // 创建评论
-func (s *CommentRpcServer) AddComment(ctx context.Context, in *commentrpc.CommentNew) (*commentrpc.CommentDetails, error) {
+func (s *CommentRpcServer) AddComment(ctx context.Context, in *commentrpc.CommentNewReq) (*commentrpc.CommentDetails, error) {
 	l := commentrpclogic.NewAddCommentLogic(ctx, s.svcCtx)
 	return l.AddComment(in)
 }
 
-// 更新评论
-func (s *CommentRpcServer) UpdateComment(ctx context.Context, in *commentrpc.CommentNew) (*commentrpc.CommentDetails, error) {
-	l := commentrpclogic.NewUpdateCommentLogic(ctx, s.svcCtx)
-	return l.UpdateComment(in)
-}
-
 // 删除评论
-func (s *CommentRpcServer) DeleteComment(ctx context.Context, in *commentrpc.IdReq) (*commentrpc.BatchResp, error) {
+func (s *CommentRpcServer) DeleteComment(ctx context.Context, in *commentrpc.IdsReq) (*commentrpc.BatchResp, error) {
 	l := commentrpclogic.NewDeleteCommentLogic(ctx, s.svcCtx)
 	return l.DeleteComment(in)
 }
 
-// 批量删除评论
-func (s *CommentRpcServer) DeleteCommentList(ctx context.Context, in *commentrpc.IdsReq) (*commentrpc.BatchResp, error) {
-	l := commentrpclogic.NewDeleteCommentListLogic(ctx, s.svcCtx)
-	return l.DeleteCommentList(in)
-}
-
 // 查询评论
-func (s *CommentRpcServer) FindComment(ctx context.Context, in *commentrpc.IdReq) (*commentrpc.CommentDetails, error) {
-	l := commentrpclogic.NewFindCommentLogic(ctx, s.svcCtx)
-	return l.FindComment(in)
+func (s *CommentRpcServer) GetComment(ctx context.Context, in *commentrpc.IdReq) (*commentrpc.CommentDetails, error) {
+	l := commentrpclogic.NewGetCommentLogic(ctx, s.svcCtx)
+	return l.GetComment(in)
 }
 
 // 查询评论列表
 func (s *CommentRpcServer) FindCommentList(ctx context.Context, in *commentrpc.FindCommentListReq) (*commentrpc.FindCommentListResp, error) {
 	l := commentrpclogic.NewFindCommentListLogic(ctx, s.svcCtx)
 	return l.FindCommentList(in)
+}
+
+// 查询评论回复列表
+func (s *CommentRpcServer) FindCommentReplyList(ctx context.Context, in *commentrpc.FindCommentReplyListReq) (*commentrpc.FindCommentReplyListResp, error) {
+	l := commentrpclogic.NewFindCommentReplyListLogic(ctx, s.svcCtx)
+	return l.FindCommentReplyList(in)
+}
+
+// 更新评论审核状态
+func (s *CommentRpcServer) UpdateCommentReview(ctx context.Context, in *commentrpc.UpdateCommentReviewReq) (*commentrpc.CommentDetails, error) {
+	l := commentrpclogic.NewUpdateCommentReviewLogic(ctx, s.svcCtx)
+	return l.UpdateCommentReview(in)
+}
+
+// 更新评论
+func (s *CommentRpcServer) UpdateCommentContent(ctx context.Context, in *commentrpc.UpdateCommentContentReq) (*commentrpc.CommentDetails, error) {
+	l := commentrpclogic.NewUpdateCommentContentLogic(ctx, s.svcCtx)
+	return l.UpdateCommentContent(in)
 }
 
 // 点赞评论

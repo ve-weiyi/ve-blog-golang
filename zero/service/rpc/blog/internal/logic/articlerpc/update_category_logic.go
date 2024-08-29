@@ -24,7 +24,7 @@ func NewUpdateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 }
 
 // 更新文章分类
-func (l *UpdateCategoryLogic) UpdateCategory(in *articlerpc.CategoryNew) (*articlerpc.CategoryDetails, error) {
+func (l *UpdateCategoryLogic) UpdateCategory(in *articlerpc.CategoryNewReq) (*articlerpc.CategoryDetails, error) {
 	entity := convertCategoryIn(in)
 	_, err := l.svcCtx.CategoryModel.Update(l.ctx, entity)
 	if err != nil {

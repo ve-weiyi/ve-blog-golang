@@ -23,27 +23,21 @@ func NewFriendRpcServer(svcCtx *svc.ServiceContext) *FriendRpcServer {
 }
 
 // 创建友链
-func (s *FriendRpcServer) AddFriend(ctx context.Context, in *friendrpc.FriendNew) (*friendrpc.FriendDetails, error) {
+func (s *FriendRpcServer) AddFriend(ctx context.Context, in *friendrpc.FriendNewReq) (*friendrpc.FriendDetails, error) {
 	l := friendrpclogic.NewAddFriendLogic(ctx, s.svcCtx)
 	return l.AddFriend(in)
 }
 
 // 更新友链
-func (s *FriendRpcServer) UpdateFriend(ctx context.Context, in *friendrpc.FriendNew) (*friendrpc.FriendDetails, error) {
+func (s *FriendRpcServer) UpdateFriend(ctx context.Context, in *friendrpc.FriendNewReq) (*friendrpc.FriendDetails, error) {
 	l := friendrpclogic.NewUpdateFriendLogic(ctx, s.svcCtx)
 	return l.UpdateFriend(in)
 }
 
 // 删除友链
-func (s *FriendRpcServer) DeleteFriend(ctx context.Context, in *friendrpc.IdReq) (*friendrpc.BatchResp, error) {
+func (s *FriendRpcServer) DeleteFriend(ctx context.Context, in *friendrpc.IdsReq) (*friendrpc.BatchResp, error) {
 	l := friendrpclogic.NewDeleteFriendLogic(ctx, s.svcCtx)
 	return l.DeleteFriend(in)
-}
-
-// 批量删除友链
-func (s *FriendRpcServer) DeleteFriendList(ctx context.Context, in *friendrpc.IdsReq) (*friendrpc.BatchResp, error) {
-	l := friendrpclogic.NewDeleteFriendListLogic(ctx, s.svcCtx)
-	return l.DeleteFriendList(in)
 }
 
 // 查询友链列表

@@ -3,6 +3,7 @@ package accountrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -37,7 +38,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 
 	var list []*accountrpc.UserLoginHistory
 	for _, item := range result {
-		list = append(list, ConvertUserLoginHistoryOut(item))
+		list = append(list, convertUserLoginHistoryOut(item))
 	}
 
 	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
@@ -49,4 +50,17 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 	resp.List = list
 	resp.Total = total
 	return resp, nil
+}
+
+func convertUserLoginHistoryOut(in *model.UserLoginHistory) (out *accountrpc.UserLoginHistory) {
+	out = &accountrpc.UserLoginHistory{
+		Id:        in.Id,
+		LoginType: in.LoginType,
+		Agent:     in.Agent,
+		IpAddress: in.IpAddress,
+		IpSource:  in.IpSource,
+		LoginTime: in.CreatedAt.String(),
+	}
+
+	return out
 }

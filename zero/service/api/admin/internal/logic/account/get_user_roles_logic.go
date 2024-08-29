@@ -3,8 +3,12 @@ package account
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +29,19 @@ func NewGetUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 func (l *GetUserRolesLogic) GetUserRoles(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.UserIdReq{
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
+	}
 
+	out, err := l.svcCtx.PermissionRpc.FindUserRoles(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.UserRole
+	jsonconv.ObjectToObject(out.List, &list)
+
+	resp = &types.UserRolesResp{}
+	resp.List = list
 	return
 }

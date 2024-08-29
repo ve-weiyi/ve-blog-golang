@@ -2,6 +2,7 @@ package syslogrpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -35,7 +36,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = in.Sorts
+	sorts = strings.Join(in.Sorts, ",")
 
 	result, err := l.svcCtx.OperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -44,7 +45,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 
 	var list []*syslogrpc.OperationLog
 	for _, v := range result {
-		list = append(list, ConvertOperationLogOut(v))
+		list = append(list, convertOperationLogOut(v))
 	}
 
 	return &syslogrpc.FindOperationLogListResp{

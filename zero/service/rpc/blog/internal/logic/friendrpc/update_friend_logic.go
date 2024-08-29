@@ -24,8 +24,13 @@ func NewUpdateFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新友链
-func (l *UpdateFriendLogic) UpdateFriend(in *friendrpc.FriendNew) (*friendrpc.FriendDetails, error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateFriendLogic) UpdateFriend(in *friendrpc.FriendNewReq) (*friendrpc.FriendDetails, error) {
+	entity := convertFriendIn(in)
 
-	return &friendrpc.FriendDetails{}, nil
+	_, err := l.svcCtx.FriendModel.Update(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertFriendOut(entity), nil
 }

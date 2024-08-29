@@ -3,10 +3,9 @@ package album
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,10 +26,11 @@ func NewGetAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAlbum
 }
 
 func (l *GetAlbumLogic) GetAlbum(req *types.IdReq) (resp *types.Album, err error) {
-	album, err := l.svcCtx.PhotoRpc.FindPhotoAlbum(l.ctx, &blogrpc.IdReq{Id: req.Id})
+	in := &photorpc.IdReq{Id: req.Id}
+	album, err := l.svcCtx.PhotoRpc.GetAlbum(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoAlbumTypes(album), nil
+	return ConvertAlbumTypes(album), nil
 }

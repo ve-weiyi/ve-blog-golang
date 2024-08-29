@@ -3,6 +3,7 @@ package photorpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -24,8 +25,38 @@ func NewAddBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddBann
 }
 
 // 创建页面
-func (l *AddBannerLogic) AddBanner(in *photorpc.BannerNew) (*photorpc.BannerDetails, error) {
-	// todo: add your logic here and delete this line
+func (l *AddBannerLogic) AddBanner(in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
+	entity := convertBannerIn(in)
 
-	return &photorpc.BannerDetails{}, nil
+	_, err := l.svcCtx.BannerModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertBannerOut(entity), nil
+}
+
+func convertBannerIn(in *photorpc.BannerNewReq) (out *model.Banner) {
+	out = &model.Banner{
+		Id:          in.Id,
+		BannerName:  in.BannerName,
+		BannerLabel: in.BannerLabel,
+		BannerCover: in.BannerCover,
+	}
+
+	return out
+
+}
+
+func convertBannerOut(in *model.Banner) (out *photorpc.BannerDetails) {
+	out = &photorpc.BannerDetails{
+		Id:          in.Id,
+		BannerName:  in.BannerName,
+		BannerLabel: in.BannerLabel,
+		BannerCover: in.BannerCover,
+		CreatedAt:   in.CreatedAt.Unix(),
+		UpdatedAt:   in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

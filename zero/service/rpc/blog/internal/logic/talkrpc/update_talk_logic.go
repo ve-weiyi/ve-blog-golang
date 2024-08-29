@@ -24,13 +24,13 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 // 更新说说
-func (l *UpdateTalkLogic) UpdateTalk(in *talkrpc.TalkNew) (*talkrpc.TalkDetails, error) {
-	entity := ConvertTalkIn(in)
+func (l *UpdateTalkLogic) UpdateTalk(in *talkrpc.TalkNewReq) (*talkrpc.TalkDetails, error) {
+	entity := convertTalkIn(in)
 
 	_, err := l.svcCtx.TalkModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertTalkOut(entity), nil
+	return convertTalkOut(entity), nil
 }

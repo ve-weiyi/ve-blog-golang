@@ -23,12 +23,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RemarkRpc_AddRemark_FullMethodName        = "/remarkrpc.RemarkRpc/AddRemark"
-	RemarkRpc_UpdateRemark_FullMethodName     = "/remarkrpc.RemarkRpc/UpdateRemark"
-	RemarkRpc_DeleteRemark_FullMethodName     = "/remarkrpc.RemarkRpc/DeleteRemark"
-	RemarkRpc_DeleteRemarkList_FullMethodName = "/remarkrpc.RemarkRpc/DeleteRemarkList"
-	RemarkRpc_FindRemark_FullMethodName       = "/remarkrpc.RemarkRpc/FindRemark"
-	RemarkRpc_FindRemarkList_FullMethodName   = "/remarkrpc.RemarkRpc/FindRemarkList"
+	RemarkRpc_AddRemark_FullMethodName      = "/remarkrpc.RemarkRpc/AddRemark"
+	RemarkRpc_UpdateRemark_FullMethodName   = "/remarkrpc.RemarkRpc/UpdateRemark"
+	RemarkRpc_DeleteRemark_FullMethodName   = "/remarkrpc.RemarkRpc/DeleteRemark"
+	RemarkRpc_GetRemark_FullMethodName      = "/remarkrpc.RemarkRpc/GetRemark"
+	RemarkRpc_FindRemarkList_FullMethodName = "/remarkrpc.RemarkRpc/FindRemarkList"
 )
 
 // RemarkRpcClient is the client API for RemarkRpc service.
@@ -36,15 +35,13 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RemarkRpcClient interface {
 	// 创建留言
-	AddRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error)
+	AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 更新留言
-	UpdateRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error)
+	UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 删除留言
-	DeleteRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-	// 批量删除留言
-	DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	DeleteRemark(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询留言
-	FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
+	GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
 }
@@ -57,7 +54,7 @@ func NewRemarkRpcClient(cc grpc.ClientConnInterface) RemarkRpcClient {
 	return &remarkRpcClient{cc}
 }
 
-func (c *remarkRpcClient) AddRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (c *remarkRpcClient) AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	out := new(RemarkDetails)
 	err := c.cc.Invoke(ctx, RemarkRpc_AddRemark_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -66,7 +63,7 @@ func (c *remarkRpcClient) AddRemark(ctx context.Context, in *RemarkNew, opts ...
 	return out, nil
 }
 
-func (c *remarkRpcClient) UpdateRemark(ctx context.Context, in *RemarkNew, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (c *remarkRpcClient) UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	out := new(RemarkDetails)
 	err := c.cc.Invoke(ctx, RemarkRpc_UpdateRemark_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -75,7 +72,7 @@ func (c *remarkRpcClient) UpdateRemark(ctx context.Context, in *RemarkNew, opts 
 	return out, nil
 }
 
-func (c *remarkRpcClient) DeleteRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *remarkRpcClient) DeleteRemark(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, RemarkRpc_DeleteRemark_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -84,18 +81,9 @@ func (c *remarkRpcClient) DeleteRemark(ctx context.Context, in *IdReq, opts ...g
 	return out, nil
 }
 
-func (c *remarkRpcClient) DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, RemarkRpc_DeleteRemarkList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *remarkRpcClient) FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (c *remarkRpcClient) GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	out := new(RemarkDetails)
-	err := c.cc.Invoke(ctx, RemarkRpc_FindRemark_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, RemarkRpc_GetRemark_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,15 +104,13 @@ func (c *remarkRpcClient) FindRemarkList(ctx context.Context, in *FindRemarkList
 // for forward compatibility
 type RemarkRpcServer interface {
 	// 创建留言
-	AddRemark(context.Context, *RemarkNew) (*RemarkDetails, error)
+	AddRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error)
 	// 更新留言
-	UpdateRemark(context.Context, *RemarkNew) (*RemarkDetails, error)
+	UpdateRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error)
 	// 删除留言
-	DeleteRemark(context.Context, *IdReq) (*BatchResp, error)
-	// 批量删除留言
-	DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error)
+	DeleteRemark(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询留言
-	FindRemark(context.Context, *IdReq) (*RemarkDetails, error)
+	GetRemark(context.Context, *IdReq) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error)
 	mustEmbedUnimplementedRemarkRpcServer()
@@ -134,20 +120,17 @@ type RemarkRpcServer interface {
 type UnimplementedRemarkRpcServer struct {
 }
 
-func (UnimplementedRemarkRpcServer) AddRemark(context.Context, *RemarkNew) (*RemarkDetails, error) {
+func (UnimplementedRemarkRpcServer) AddRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddRemark not implemented")
 }
-func (UnimplementedRemarkRpcServer) UpdateRemark(context.Context, *RemarkNew) (*RemarkDetails, error) {
+func (UnimplementedRemarkRpcServer) UpdateRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRemark not implemented")
 }
-func (UnimplementedRemarkRpcServer) DeleteRemark(context.Context, *IdReq) (*BatchResp, error) {
+func (UnimplementedRemarkRpcServer) DeleteRemark(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRemark not implemented")
 }
-func (UnimplementedRemarkRpcServer) DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteRemarkList not implemented")
-}
-func (UnimplementedRemarkRpcServer) FindRemark(context.Context, *IdReq) (*RemarkDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindRemark not implemented")
+func (UnimplementedRemarkRpcServer) GetRemark(context.Context, *IdReq) (*RemarkDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRemark not implemented")
 }
 func (UnimplementedRemarkRpcServer) FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRemarkList not implemented")
@@ -166,7 +149,7 @@ func RegisterRemarkRpcServer(s grpc.ServiceRegistrar, srv RemarkRpcServer) {
 }
 
 func _RemarkRpc_AddRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemarkNew)
+	in := new(RemarkNewReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -178,13 +161,13 @@ func _RemarkRpc_AddRemark_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: RemarkRpc_AddRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).AddRemark(ctx, req.(*RemarkNew))
+		return srv.(RemarkRpcServer).AddRemark(ctx, req.(*RemarkNewReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _RemarkRpc_UpdateRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemarkNew)
+	in := new(RemarkNewReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -196,13 +179,13 @@ func _RemarkRpc_UpdateRemark_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: RemarkRpc_UpdateRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).UpdateRemark(ctx, req.(*RemarkNew))
+		return srv.(RemarkRpcServer).UpdateRemark(ctx, req.(*RemarkNewReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _RemarkRpc_DeleteRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
+	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -214,43 +197,25 @@ func _RemarkRpc_DeleteRemark_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: RemarkRpc_DeleteRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).DeleteRemark(ctx, req.(*IdReq))
+		return srv.(RemarkRpcServer).DeleteRemark(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RemarkRpc_DeleteRemarkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RemarkRpcServer).DeleteRemarkList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: RemarkRpc_DeleteRemarkList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).DeleteRemarkList(ctx, req.(*IdsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _RemarkRpc_FindRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RemarkRpc_GetRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RemarkRpcServer).FindRemark(ctx, in)
+		return srv.(RemarkRpcServer).GetRemark(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RemarkRpc_FindRemark_FullMethodName,
+		FullMethod: RemarkRpc_GetRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).FindRemark(ctx, req.(*IdReq))
+		return srv.(RemarkRpcServer).GetRemark(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -293,12 +258,8 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RemarkRpc_DeleteRemark_Handler,
 		},
 		{
-			MethodName: "DeleteRemarkList",
-			Handler:    _RemarkRpc_DeleteRemarkList_Handler,
-		},
-		{
-			MethodName: "FindRemark",
-			Handler:    _RemarkRpc_FindRemark_Handler,
+			MethodName: "GetRemark",
+			Handler:    _RemarkRpc_GetRemark_Handler,
 		},
 		{
 			MethodName: "FindRemarkList",

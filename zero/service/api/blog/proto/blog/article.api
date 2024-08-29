@@ -3,71 +3,53 @@ syntax = "v1"
 import "base.api"
 
 type (
-    //    Article {
-    //        Id int64 `json:"id,optional"`                           // id
-    //        UserId int64 `json:"user_id,optional"`                  // 作者
-    //        CategoryId int64 `json:"category_id,optional"`          // 文章分类
-    //        ArticleCover string `json:"article_cover,optional"`     // 文章缩略图
-    //        ArticleTitle string `json:"article_title,optional"`     // 标题
-    //        ArticleContent string `json:"article_content,optional"` // 内容
-    //        ArticleType int64 `json:"article_type,optional"`                       // 文章类型 1原创 2转载 3翻译
-    //        OriginalUrl string `json:"original_url,optional"`       // 原文链接
-    //        IsTop int64 `json:"is_top,optional"`                    // 是否置顶 0否 1是
-    //        IsDelete int64 `json:"is_delete,optional"`              // 是否删除  0否 1是
-    //        Status int64 `json:"status,optional"`                   // 状态值 1公开 2私密 3评论可见
-    //        CreatedAt int64 `json:"created_at,optional"`            // 发表时间
-    //        UpdatedAt int64 `json:"updated_at,optional"`            // 更新时间
-    //    }
 
     // 首页文章
     ArticleHome {
-        Id int64 `json:"id,optional"`                                                 // 文章ID
-        ArticleCover string `json:"article_cover,optional"`                           // 文章缩略图
-        ArticleTitle string `json:"article_title,optional"`                           // 标题
-        ArticleContent string `json:"article_content,optional"`                       // 内容
-        ArticleType int64 `json:"article_type,optional"`                              // 文章类型
-        OriginalUrl string `json:"original_url,optional"`                             // 原文链接
-        IsTop int64 `json:"is_top,optional"`                                          // 是否置顶
-        Status int64 `json:"status,optional"`                                         // 状态值 1 公开 2 私密 3 评论可见
-        CreatedAt int64 `json:"created_at,optional"`                                  // 发表时间
-        UpdatedAt int64 `json:"updated_at,optional"`                                  // 更新时间
-        CategoryName string `json:"category_name,optional"`                           // 文章分类名
-        TagNameList []string `json:"tag_name_list,optional"`                          // 文章标签列表
-        LikeCount int64 `json:"like_count,optional"`                                  // 点赞量
-        ViewsCount int64 `json:"views_count,optional"`                                // 浏览量
+        Id int64 `json:"id"`                                                 // 文章ID
+        ArticleCover string `json:"article_cover"`                           // 文章缩略图
+        ArticleTitle string `json:"article_title"`                           // 标题
+        ArticleContent string `json:"article_content"`                       // 内容
+        ArticleType int64 `json:"article_type"`                              // 文章类型
+        OriginalUrl string `json:"original_url"`                             // 原文链接
+        IsTop int64 `json:"is_top"`                                          // 是否置顶
+        Status int64 `json:"status"`                                         // 状态值 1 公开 2 私密 3 草稿 4 已删除
+        CreatedAt int64 `json:"created_at"`                                  // 发表时间
+        UpdatedAt int64 `json:"updated_at"`                                  // 更新时间
+        CategoryName string `json:"category_name"`                           // 文章分类名
+        TagNameList []string `json:"tag_name_list"`                          // 文章标签列表
+        LikeCount int64 `json:"like_count"`                                  // 点赞量
+        ViewsCount int64 `json:"views_count"`                                // 浏览量
     }
 
         // 文章预览
     ArticlePreview {
-        Id int64 `json:"id,optional"`                       // 文章ID
-        ArticleCover string `json:"article_cover,optional"` // 文章缩略图
-        ArticleTitle string `json:"article_title,optional"` // 标题
-        CreatedAt int64 `json:"created_at,optional"`        // 创建时间
+        Id int64 `json:"id"`                       // 文章ID
+        ArticleCover string `json:"article_cover"` // 文章缩略图
+        ArticleTitle string `json:"article_title"` // 标题
+        CreatedAt int64 `json:"created_at"`        // 创建时间
     }
 
         // 文章推荐详情
     ArticleDeatils {
         ArticleHome
-        LastArticle *ArticlePreview `json:"last_article,optional"`                      // 上一篇文章
-        NextArticle *ArticlePreview `json:"next_article,optional"`                      // 下一篇文章
-        RecommendArticleList []*ArticlePreview `json:"recommend_article_list,optional"` // 推荐文章列表
-        NewestArticleList []*ArticlePreview `json:"newest_article_list,optional"`       // 最新文章列表
+        LastArticle *ArticlePreview `json:"last_article"`                      // 上一篇文章
+        NextArticle *ArticlePreview `json:"next_article"`                      // 下一篇文章
+        RecommendArticleList []*ArticlePreview `json:"recommend_article_list"` // 推荐文章列表
+        NewestArticleList []*ArticlePreview `json:"newest_article_list"`       // 最新文章列表
     }
 
     ArticleClassifyQueryReq {
-        Page int64 `json:"page,optional"`                   // 页码
-        PageSize int64 `json:"page_size,optional"`          // 每页数量
+        PageQuery
         ClassifyName string `json:"classify_name,optional"` // 分类名
     }
 
     ArticleHomeQueryReq {
-        Page int64 `json:"page,optional"`                   // 页码
-        PageSize int64 `json:"page_size,optional"`          // 每页数量
+        PageQuery
     }
 
     ArticleArchivesQueryReq {
-        Page int64 `json:"page,optional"`                   // 页码
-        PageSize int64 `json:"page_size,optional"`          // 每页数量
+        PageQuery
     }
 )
 

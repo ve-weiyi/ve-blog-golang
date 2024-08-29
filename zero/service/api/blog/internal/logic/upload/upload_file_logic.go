@@ -8,7 +8,6 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
@@ -54,5 +53,22 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 		return nil, err
 	}
 
-	return convert.ConvertUploadTypes(out), nil
+	return ConvertUploadTypes(out), nil
+}
+
+func ConvertUploadTypes(req *syslogrpc.UploadLogResp) (out *types.UploadFileResp) {
+
+	out = &types.UploadFileResp{
+		Id:        req.Id,
+		UserId:    req.UserId,
+		Label:     req.Label,
+		FileName:  req.FileName,
+		FileSize:  req.FileSize,
+		FileMd5:   req.FileMd5,
+		FileUrl:   req.FileUrl,
+		CreatedAt: req.CreatedAt,
+		UpdatedAt: req.UpdatedAt,
+	}
+
+	return
 }

@@ -63,7 +63,7 @@ func (l *FindUserApisLogic) FindUserApis(in *permissionrpc.UserIdReq) (*permissi
 
 	var list []*permissionrpc.ApiDetails
 	for _, v := range apis {
-		list = append(list, ConvertApiOut(v))
+		list = append(list, convertApiOut(v))
 	}
 
 	out := &permissionrpc.FindApiListResp{}

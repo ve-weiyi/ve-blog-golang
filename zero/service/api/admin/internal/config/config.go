@@ -10,26 +10,7 @@ import (
 type Config struct {
 	rest.RestConf
 
-	BlogRpcConf    zrpc.RpcClientConf
-	AccountRpcConf zrpc.RpcClientConf
-	ApiRpcConf     zrpc.RpcClientConf
-	MenuRpcConf    zrpc.RpcClientConf
-	RoleRpcConf    zrpc.RpcClientConf
-	UserRpcConf    zrpc.RpcClientConf
-
-	ConfigRpcConf  zrpc.RpcClientConf
-	ArticleRpcConf zrpc.RpcClientConf
-
-	FriendLinkRpcConf zrpc.RpcClientConf
-	RemarkRpcConf     zrpc.RpcClientConf
-	CommentRpcConf    zrpc.RpcClientConf
-	PhotoRpcConf      zrpc.RpcClientConf
-	TalkRpcConf       zrpc.RpcClientConf
-	PageRpcConf       zrpc.RpcClientConf
-
-	LogRpcConf    zrpc.RpcClientConf
-	ChatRpcConf   zrpc.RpcClientConf
-	UploadRpcConf zrpc.RpcClientConf
+	BlogRpcConf zrpc.RpcClientConf
 
 	UploadConfig *upload.UploadConfig
 	RedisConf    RedisConf
