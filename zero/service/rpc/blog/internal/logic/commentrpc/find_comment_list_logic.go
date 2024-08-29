@@ -25,19 +25,14 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 // 分页获取评论列表
 func (l *FindCommentListLogic) FindCommentList(in *commentrpc.FindCommentListReq) (*commentrpc.FindCommentListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
-
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = in.Sorts
+	page, size, sorts, conditions, params := ConvertCommentQuery(in)
 
 	result, err := l.svcCtx.CommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	count, err := l.svcCtx.CommentModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,25 +40,38 @@ func (l *FindCommentListLogic) FindCommentList(in *commentrpc.FindCommentListReq
 	var list []*commentrpc.CommentDetails
 	for _, v := range result {
 		m := ConvertCommentOut(v)
-		// 用户信息
-		if v.UserId != 0 {
-			user, _ := l.svcCtx.UserAccountModel.FindOne(l.ctx, v.UserId)
-			if user != nil {
-				m.User = ConvertCommentUserInfoToPb(user)
-			}
-		}
-		// 回复用户信息
-		if v.ReplyUserId != 0 {
-			user, _ := l.svcCtx.UserAccountModel.FindOne(l.ctx, v.ReplyUserId)
-			if user != nil {
-				m.ReplyUser = ConvertCommentUserInfoToPb(user)
-			}
-		}
-
 		list = append(list, m)
 	}
 
 	return &commentrpc.FindCommentListResp{
-		List: list,
+		List:  list,
+		Total: count,
 	}, nil
+}
+
+func ConvertCommentQuery(in *commentrpc.FindCommentListReq) (page int, size int, sorts string, conditions string, params []any) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = "id desc"
+
+	if in.Type != 0 {
+		conditions += " type = ?"
+		params = append(params, in.Type)
+	}
+
+	if in.TopicId != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += " topic_id = ?"
+		params = append(params, in.TopicId)
+	}
+
+	if conditions != "" {
+		conditions += " and "
+	}
+	conditions += " parent_id = ?"
+	params = append(params, in.ParentId)
+
+	return
 }

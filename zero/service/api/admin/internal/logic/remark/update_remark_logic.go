@@ -3,7 +3,6 @@ package remark
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -26,12 +25,12 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 func (l *UpdateRemarkLogic) UpdateRemark(req *types.Remark) (resp *types.Remark, err error) {
-	in := convert.ConvertRemarkPb(req)
+	in := ConvertRemarkPb(req)
 
 	api, err := l.svcCtx.RemarkRpc.UpdateRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertRemarkTypes(api), nil
+	return ConvertRemarkTypes(api), nil
 }

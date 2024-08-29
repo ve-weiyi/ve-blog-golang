@@ -3,7 +3,6 @@ package account
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -37,7 +36,7 @@ func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.PageQuery) (resp
 
 	var list []*types.User
 	for _, user := range users.List {
-		u := convert.ConvertUserDetailsTypes(user)
+		u := ConvertUserDetailsTypes(user)
 		list = append(list, u)
 	}
 

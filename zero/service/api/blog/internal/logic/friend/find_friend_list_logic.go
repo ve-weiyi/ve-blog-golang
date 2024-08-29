@@ -3,9 +3,9 @@ package friend
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/friendrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,27 +25,38 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 	}
 }
 
-func (l *FindFriendListLogic) FindFriendList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.FriendLinkRpc.FindFriendLinkList(l.ctx, in)
-	if err != nil {
-		return nil, err
+func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *types.PageResp, err error) {
+	in := &friendrpc.FindFriendListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    "",
 	}
-
-	total, err := l.svcCtx.FriendLinkRpc.FindFriendLinkCount(l.ctx, in)
+	out, err := l.svcCtx.FriendRpc.FindFriendList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.Friend
 	for _, v := range out.List {
-		list = append(list, convert.ConvertFriendTypes(v))
+		list = append(list, ConvertFriendTypes(v))
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
+}
+
+func ConvertFriendTypes(req *friendrpc.FriendDetails) (out *types.Friend) {
+	return &types.Friend{
+		Id:          req.Id,
+		LinkName:    req.LinkName,
+		LinkAvatar:  req.LinkAvatar,
+		LinkAddress: req.LinkAddress,
+		LinkIntro:   req.LinkIntro,
+		CreatedAt:   req.CreatedAt,
+		UpdatedAt:   req.UpdatedAt,
+	}
 }

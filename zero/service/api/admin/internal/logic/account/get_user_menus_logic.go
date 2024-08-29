@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
@@ -39,7 +38,7 @@ func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserM
 
 	var list []*types.UserMenu
 	for _, v := range out.List {
-		list = append(list, convert.ConvertUserMenuTypes(v))
+		list = append(list, ConvertUserMenuTypes(v))
 	}
 
 	resp = &types.UserMenusResp{}

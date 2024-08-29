@@ -3,7 +3,6 @@ package operation_log
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -26,12 +25,12 @@ func NewUpdateOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *UpdateOperationLogLogic) UpdateOperationLog(req *types.OperationLog) (resp *types.OperationLog, err error) {
-	in := convert.ConvertOperationLogPb(req)
+	in := ConvertOperationLogPb(req)
 
 	api, err := l.svcCtx.LogRpc.UpdateOperationLog(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertOperationLogTypes(api), nil
+	return ConvertOperationLogTypes(api), nil
 }

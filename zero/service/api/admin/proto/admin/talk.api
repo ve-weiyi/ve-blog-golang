@@ -69,5 +69,5 @@ service admin-api {
 
     @doc "删除说说"
     @handler DeleteTalk
-    delete /talk/delete_talk (IdsReq) returns (BatchResp)
+    delete /talk/delete_talk (IdReq) returns (BatchResp)
 }

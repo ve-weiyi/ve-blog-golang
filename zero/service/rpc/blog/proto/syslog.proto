@@ -62,6 +62,7 @@ message FindOperationLogListReq {
 
 message FindOperationLogListResp {
   repeated OperationLog list = 1;
+  int64 total = 2;
 }
 
 message UploadLogReq {

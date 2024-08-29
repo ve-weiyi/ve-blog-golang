@@ -3,10 +3,10 @@ package photo_album
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,5 +36,5 @@ func (l *FindPhotoAlbumLogic) FindPhotoAlbum(req *types.IdReq) (resp *types.Phot
 		return nil, err
 	}
 
-	return convert.ConvertPhotoAlbumTypes(out), nil
+	return ConvertPhotoAlbumTypes(out), nil
 }

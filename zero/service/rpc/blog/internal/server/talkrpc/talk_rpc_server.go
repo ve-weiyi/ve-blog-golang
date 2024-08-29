@@ -47,9 +47,9 @@ func (s *TalkRpcServer) DeleteTalkList(ctx context.Context, in *talkrpc.IdsReq) 
 }
 
 // 查询说说
-func (s *TalkRpcServer) FindTalk(ctx context.Context, in *talkrpc.IdReq) (*talkrpc.TalkDetails, error) {
-	l := talkrpclogic.NewFindTalkLogic(ctx, s.svcCtx)
-	return l.FindTalk(in)
+func (s *TalkRpcServer) GetTalk(ctx context.Context, in *talkrpc.IdReq) (*talkrpc.TalkDetails, error) {
+	l := talkrpclogic.NewGetTalkLogic(ctx, s.svcCtx)
+	return l.GetTalk(in)
 }
 
 // 查询说说列表

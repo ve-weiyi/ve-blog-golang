@@ -3,14 +3,21 @@ package websocket
 import (
 	"context"
 	"fmt"
+	"net"
 	"net/http"
+	"strings"
+	"time"
 
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
 )
 
 type WebSocketLogic struct {
@@ -43,39 +50,39 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, fmt.Errorf("content is empty")
 		}
 
-		//uid := cast.ToInt64(r.Context().Value("userId"))
-		//info, err := l.svcCtx.AccountRpc.GetUserInfo(r.Context(), &accountrpc.UserIdReq{UserId: uid})
-		//if err != nil {
-		//	return nil, err
-		//}
-		//
-		//host, _, err := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr))
-		//if err != nil {
-		//	return nil, err
-		//}
-		//
-		//ip, err := ipx.GetIpInfoByBaidu(host)
-		//if err != nil {
-		//	return nil, err
-		//}
-		//
-		//chat := &blogrpc.ChatRecord{
-		//	UserId:    uid,
-		//	Nickname:  info.Nickname,
-		//	Avatar:    info.Avatar,
-		//	IpAddress: ip.Origip,
-		//	IpSource:  ip.Location,
-		//	Content:   cs.Content,
-		//	Type:      cs.Type,
-		//	CreatedAt: time.Now().Unix(),
-		//}
-		//
-		//out, err := l.svcCtx.ChatRpc.AddChatRecord(r.Context(), chat)
-		//if err != nil {
-		//	return nil, err
-		//}
+		uid := cast.ToInt64(r.Context().Value("userId"))
+		info, err := l.svcCtx.AccountRpc.GetUserInfo(r.Context(), &accountrpc.UserIdReq{UserId: uid})
+		if err != nil {
+			return nil, err
+		}
 
-		//return []byte(jsonconv.ObjectToJson(out)), nil
+		host, _, err := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr))
+		if err != nil {
+			return nil, err
+		}
+
+		ip, err := ipx.GetIpInfoByBaidu(host)
+		if err != nil {
+			return nil, err
+		}
+
+		chat := &chatrpc.ChatRecordNew{
+			UserId:    uid,
+			Nickname:  info.Nickname,
+			Avatar:    info.Avatar,
+			IpAddress: ip.Origip,
+			IpSource:  ip.Location,
+			Content:   cs.Content,
+			Type:      cs.Type,
+			CreatedAt: time.Now().Unix(),
+		}
+
+		out, err := l.svcCtx.ChatRpc.AddChatRecord(r.Context(), chat)
+		if err != nil {
+			return nil, err
+		}
+
+		return []byte(jsonconv.ObjectToJson(out)), nil
 		return nil, err
 	}
 

@@ -3,7 +3,6 @@ package page
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -26,12 +25,12 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdatePageLogic) UpdatePage(req *types.Page) (resp *types.Page, err error) {
-	in := convert.ConvertPagePb(req)
+	in := ConvertPagePb(req)
 
 	api, err := l.svcCtx.PageRpc.UpdatePage(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPageTypes(api), nil
+	return ConvertPageTypes(api), nil
 }

@@ -47,15 +47,21 @@ func (s *CommentRpcServer) DeleteCommentList(ctx context.Context, in *commentrpc
 }
 
 // 查询评论
-func (s *CommentRpcServer) FindComment(ctx context.Context, in *commentrpc.IdReq) (*commentrpc.CommentDetails, error) {
-	l := commentrpclogic.NewFindCommentLogic(ctx, s.svcCtx)
-	return l.FindComment(in)
+func (s *CommentRpcServer) GetComment(ctx context.Context, in *commentrpc.IdReq) (*commentrpc.CommentDetails, error) {
+	l := commentrpclogic.NewGetCommentLogic(ctx, s.svcCtx)
+	return l.GetComment(in)
 }
 
 // 查询评论列表
 func (s *CommentRpcServer) FindCommentList(ctx context.Context, in *commentrpc.FindCommentListReq) (*commentrpc.FindCommentListResp, error) {
 	l := commentrpclogic.NewFindCommentListLogic(ctx, s.svcCtx)
 	return l.FindCommentList(in)
+}
+
+// 查询评论回复列表
+func (s *CommentRpcServer) FindCommentReplyList(ctx context.Context, in *commentrpc.FindCommentReplyListReq) (*commentrpc.FindCommentReplyListResp, error) {
+	l := commentrpclogic.NewFindCommentReplyListLogic(ctx, s.svcCtx)
+	return l.FindCommentReplyList(in)
 }
 
 // 点赞评论

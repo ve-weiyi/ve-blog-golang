@@ -56,6 +56,7 @@ message FindFriendListReq {
 
 message FindFriendListResp {
   repeated FriendDetails list = 1;
+  int64 total = 2;
 }
 
 service FriendRpc {

@@ -242,7 +242,7 @@ func findTagGroupArticle(ctx context.Context, svcCtx *svc.ServiceContext, list [
 		articlerpcIds = append(articlerpcIds, v.Id)
 	}
 
-	ats, err := svcCtx.ArticleTagModel.FindALL(ctx, "articlerpc_id in (?)", articlerpcIds)
+	ats, err := svcCtx.ArticleTagModel.FindALL(ctx, "article_id in (?)", articlerpcIds)
 	if err != nil {
 		return nil, err
 	}

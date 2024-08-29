@@ -61,17 +61,17 @@ message CommentDetails {
   int64 created_at = 11;// 评论时间
   int64 updated_at = 12;// 更新时间
   int64 like_count = 13;// 点赞数
-  CommentUserInfo user = 14;
-  CommentUserInfo reply_user = 15;
+//  CommentUserInfo user = 14;
+//  CommentUserInfo reply_user = 15;
 }
 
-message CommentUserInfo {
-  int64 user_id = 1; // 用户id
-  string username = 2;// 用户名
-  string nickname = 3;// 用户昵称
-  string avatar = 4;// 用户头像
-  string info = 5;// 用户信息
-}
+//message CommentUserInfo {
+//  int64 user_id = 1; // 用户id
+//  string username = 2;// 用户名
+//  string nickname = 3;// 用户昵称
+//  string avatar = 4;// 用户头像
+//  string info = 5;// 用户信息
+//}
 
 message FindCommentListReq {
   int64 page = 1;
@@ -85,6 +85,22 @@ message FindCommentListReq {
 
 message FindCommentListResp {
   repeated CommentDetails list = 1;
+  int64 total = 2;
+}
+
+message FindCommentReplyListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  string sorts = 3; // 排序
+  int64 topic_id = 4;// 主题id
+  int64 parent_id = 5;// 父评论id
+  int64 session_id = 6; // 会话id
+  int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
+}
+
+message FindCommentReplyListResp {
+  repeated CommentDetails list = 1;
+  int64 total = 2;
 }
 
 message FindLikeCommentResp{
@@ -101,9 +117,12 @@ service CommentRpc {
   // 批量删除评论
   rpc DeleteCommentList(IdsReq) returns(BatchResp);
   // 查询评论
-  rpc FindComment(IdReq) returns(CommentDetails);
+  rpc GetComment(IdReq) returns(CommentDetails);
   // 查询评论列表
   rpc FindCommentList(FindCommentListReq) returns(FindCommentListResp);
+  // 查询评论回复列表
+  rpc FindCommentReplyList(FindCommentReplyListReq) returns(FindCommentReplyListResp);
+
   // 点赞评论
   rpc LikeComment(IdReq) returns(EmptyResp);
   // 用户点赞的评论

@@ -5,9 +5,9 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 )
 
 type FindAlbumListLogic struct {
@@ -25,28 +25,37 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 	}
 }
 
-func (l *FindAlbumListLogic) FindAlbumList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-	out, err := l.svcCtx.PhotoRpc.FindPhotoAlbumList(l.ctx, in)
-	if err != nil {
-		return nil, err
+func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *types.PageResp, err error) {
+	in := &photorpc.FindAlbumListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    "",
 	}
-
-	total, err := l.svcCtx.PhotoRpc.FindPhotoAlbumCount(l.ctx, in)
+	out, err := l.svcCtx.PhotoRpc.FindAlbumList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.Album
 	for _, v := range out.List {
-		m := convert.ConvertPhotoAlbumTypes(v)
+		m := ConvertAlbumTypes(v)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = 0
 	resp.List = list
 	return resp, nil
+}
+
+func ConvertAlbumTypes(req *photorpc.AlbumDetails) (out *types.Album) {
+
+	return &types.Album{
+		Id:         req.Id,
+		AlbumName:  req.AlbumName,
+		AlbumDesc:  req.AlbumDesc,
+		AlbumCover: req.AlbumCover,
+	}
 }

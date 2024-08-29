@@ -164,6 +164,7 @@ message FindUserListReq {
   string email = 5;
   string phone = 6;
   int64 status = 7;
+  repeated int64 user_ids = 8;
 }
 
 message FindUserListResp{

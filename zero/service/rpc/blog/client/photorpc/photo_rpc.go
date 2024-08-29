@@ -48,6 +48,8 @@ type (
 		AddAlbum(ctx context.Context, in *AlbumNew, opts ...grpc.CallOption) (*AlbumDetails, error)
 		// 更新相册
 		UpdateAlbum(ctx context.Context, in *AlbumNew, opts ...grpc.CallOption) (*AlbumDetails, error)
+		// 获取相册
+		GetAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*AlbumDetails, error)
 		// 删除相册
 		DeleteAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 批量删除相册
@@ -117,6 +119,12 @@ func (m *defaultPhotoRpc) AddAlbum(ctx context.Context, in *AlbumNew, opts ...gr
 func (m *defaultPhotoRpc) UpdateAlbum(ctx context.Context, in *AlbumNew, opts ...grpc.CallOption) (*AlbumDetails, error) {
 	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
 	return client.UpdateAlbum(ctx, in, opts...)
+}
+
+// 获取相册
+func (m *defaultPhotoRpc) GetAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*AlbumDetails, error) {
+	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
+	return client.GetAlbum(ctx, in, opts...)
 }
 
 // 删除相册

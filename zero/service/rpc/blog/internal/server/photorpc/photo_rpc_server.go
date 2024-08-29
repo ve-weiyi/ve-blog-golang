@@ -64,6 +64,12 @@ func (s *PhotoRpcServer) UpdateAlbum(ctx context.Context, in *photorpc.AlbumNew)
 	return l.UpdateAlbum(in)
 }
 
+// 获取相册
+func (s *PhotoRpcServer) GetAlbum(ctx context.Context, in *photorpc.IdReq) (*photorpc.AlbumDetails, error) {
+	l := photorpclogic.NewGetAlbumLogic(ctx, s.svcCtx)
+	return l.GetAlbum(in)
+}
+
 // 删除相册
 func (s *PhotoRpcServer) DeleteAlbum(ctx context.Context, in *photorpc.IdReq) (*photorpc.BatchResp, error) {
 	l := photorpclogic.NewDeleteAlbumLogic(ctx, s.svcCtx)

@@ -25,7 +25,7 @@ func NewFindCategoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *FindCategoryListLogic) FindCategoryList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindCategoryListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,

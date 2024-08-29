@@ -3,7 +3,6 @@ package account
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -38,7 +37,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.Page
 
 	var list []*types.UserLoginHistory
 	for _, role := range out.List {
-		list = append(list, convert.ConvertUserLoginHistoryTypes(role))
+		list = append(list, ConvertUserLoginHistoryTypes(role))
 	}
 
 	resp = &types.PageResp{}

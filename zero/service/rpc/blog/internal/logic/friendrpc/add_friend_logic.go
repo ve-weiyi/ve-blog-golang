@@ -3,6 +3,7 @@ package friendrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,40 @@ func NewAddFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFrie
 
 // 创建友链
 func (l *AddFriendLogic) AddFriend(in *friendrpc.FriendNew) (*friendrpc.FriendDetails, error) {
-	// todo: add your logic here and delete this line
+	entity := ConvertFriendIn(in)
 
-	return &friendrpc.FriendDetails{}, nil
+	_, err := l.svcCtx.FriendModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return ConvertFriendOut(entity), nil
+}
+
+func ConvertFriendIn(in *friendrpc.FriendNew) (out *model.Friend) {
+	out = &model.Friend{
+		Id:          in.Id,
+		LinkName:    in.LinkName,
+		LinkAvatar:  in.LinkAvatar,
+		LinkAddress: in.LinkAddress,
+		LinkIntro:   in.LinkIntro,
+		//CreatedAt:   time.Time{},
+		//UpdatedAt:   time.Time{},
+	}
+
+	return out
+}
+
+func ConvertFriendOut(in *model.Friend) (out *friendrpc.FriendDetails) {
+	out = &friendrpc.FriendDetails{
+		Id:          in.Id,
+		LinkName:    in.LinkName,
+		LinkAvatar:  in.LinkAvatar,
+		LinkAddress: in.LinkAddress,
+		LinkIntro:   in.LinkIntro,
+		CreatedAt:   in.CreatedAt.Unix(),
+		UpdatedAt:   in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

@@ -9,7 +9,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,8 +32,6 @@ func NewGetAdminHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *types.AdminHomeInfo, err error) {
 
-	in := &blogrpc.PageQuery{}
-
 	// 查询文章
 	articles, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, &articlerpc.FindArticleListReq{})
 	if err != nil {
@@ -52,7 +51,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询消息
-	msgCount, err := l.svcCtx.RemarkRpc.FindRemarkCount(l.ctx, in)
+	msgCount, err := l.svcCtx.RemarkRpc.FindRemarkList(l.ctx, &remarkrpc.FindRemarkListReq{PageSize: 1})
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +62,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 		return nil, err
 	}
 
-	views, err := l.svcCtx.WebsiteRpc.GetUserVisitList(l.ctx, &blogrpc.EmptyReq{})
+	views, err := l.svcCtx.WebsiteRpc.GetUserDailyVisit(l.ctx, &websiterpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +116,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 
 	resp = &types.AdminHomeInfo{
 		ViewsCount:            0,
-		MessageCount:          msgCount.Count,
+		MessageCount:          msgCount.Total,
 		UserCount:             userCount.Total,
 		ArticleCount:          int64(len(articles.List)),
 		CategoryList:          cs,

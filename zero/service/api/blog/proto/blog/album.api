@@ -22,7 +22,7 @@ type (
     }
 
     AlbumQueryReq {
-        Page int32 `json:"page"` // 页码
+        Page int64 `json:"page,optional"` // 页码
         PageSize int64 `json:"page_size,optional"`
     }
 )

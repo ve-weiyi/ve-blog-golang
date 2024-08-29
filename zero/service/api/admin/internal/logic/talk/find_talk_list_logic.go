@@ -5,10 +5,10 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 )
 
 type FindTalkListLogic struct {
@@ -26,16 +26,13 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindTalkListLogic) FindTalkList(req *types.TagQuery) (resp *types.PageResp, err error) {
-	in := convert.ConvertPageQuery(req)
-
-	in = &talkrpc.TalkListReq{}
-	out, err := l.svcCtx.TalkRpc.FindTalkList(l.ctx, in)
-	if err != nil {
-		return nil, err
+func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.PageResp, err error) {
+	in := &talkrpc.FindTalkListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
 	}
 
-	total, err := l.svcCtx.TalkRpc.FindTalkCount(l.ctx, in)
+	out, err := l.svcCtx.TalkRpc.FindTalkList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +40,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TagQuery) (resp *types.PageR
 	var list []*types.TalkDetails
 	for _, v := range out.List {
 
-		m := convert.ConvertTalkTypes(v)
+		m := ConvertTalkTypes(v)
 		user, _ := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, &accountrpc.UserIdReq{UserId: v.UserId})
 		if user != nil {
 			m.UserId = user.UserId
@@ -57,7 +54,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TagQuery) (resp *types.PageR
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
 }

@@ -47,9 +47,9 @@ func (s *RemarkRpcServer) DeleteRemarkList(ctx context.Context, in *remarkrpc.Id
 }
 
 // 查询留言
-func (s *RemarkRpcServer) FindRemark(ctx context.Context, in *remarkrpc.IdReq) (*remarkrpc.RemarkDetails, error) {
-	l := remarkrpclogic.NewFindRemarkLogic(ctx, s.svcCtx)
-	return l.FindRemark(in)
+func (s *RemarkRpcServer) GetRemark(ctx context.Context, in *remarkrpc.IdReq) (*remarkrpc.RemarkDetails, error) {
+	l := remarkrpclogic.NewGetRemarkLogic(ctx, s.svcCtx)
+	return l.GetRemark(in)
 }
 
 // 查询留言列表

@@ -30,6 +30,7 @@ const (
 	PhotoRpc_FindPhotoList_FullMethodName    = "/photorpc.PhotoRpc/FindPhotoList"
 	PhotoRpc_AddAlbum_FullMethodName         = "/photorpc.PhotoRpc/AddAlbum"
 	PhotoRpc_UpdateAlbum_FullMethodName      = "/photorpc.PhotoRpc/UpdateAlbum"
+	PhotoRpc_GetAlbum_FullMethodName         = "/photorpc.PhotoRpc/GetAlbum"
 	PhotoRpc_DeleteAlbum_FullMethodName      = "/photorpc.PhotoRpc/DeleteAlbum"
 	PhotoRpc_DeleteAlbumList_FullMethodName  = "/photorpc.PhotoRpc/DeleteAlbumList"
 	PhotoRpc_FindAlbumList_FullMethodName    = "/photorpc.PhotoRpc/FindAlbumList"
@@ -58,6 +59,8 @@ type PhotoRpcClient interface {
 	AddAlbum(ctx context.Context, in *AlbumNew, opts ...grpc.CallOption) (*AlbumDetails, error)
 	// 更新相册
 	UpdateAlbum(ctx context.Context, in *AlbumNew, opts ...grpc.CallOption) (*AlbumDetails, error)
+	// 获取相册
+	GetAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*AlbumDetails, error)
 	// 删除相册
 	DeleteAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 批量删除相册
@@ -141,6 +144,15 @@ func (c *photoRpcClient) AddAlbum(ctx context.Context, in *AlbumNew, opts ...grp
 func (c *photoRpcClient) UpdateAlbum(ctx context.Context, in *AlbumNew, opts ...grpc.CallOption) (*AlbumDetails, error) {
 	out := new(AlbumDetails)
 	err := c.cc.Invoke(ctx, PhotoRpc_UpdateAlbum_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *photoRpcClient) GetAlbum(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*AlbumDetails, error) {
+	out := new(AlbumDetails)
+	err := c.cc.Invoke(ctx, PhotoRpc_GetAlbum_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -237,6 +249,8 @@ type PhotoRpcServer interface {
 	AddAlbum(context.Context, *AlbumNew) (*AlbumDetails, error)
 	// 更新相册
 	UpdateAlbum(context.Context, *AlbumNew) (*AlbumDetails, error)
+	// 获取相册
+	GetAlbum(context.Context, *IdReq) (*AlbumDetails, error)
 	// 删除相册
 	DeleteAlbum(context.Context, *IdReq) (*BatchResp, error)
 	// 批量删除相册
@@ -280,6 +294,9 @@ func (UnimplementedPhotoRpcServer) AddAlbum(context.Context, *AlbumNew) (*AlbumD
 }
 func (UnimplementedPhotoRpcServer) UpdateAlbum(context.Context, *AlbumNew) (*AlbumDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAlbum not implemented")
+}
+func (UnimplementedPhotoRpcServer) GetAlbum(context.Context, *IdReq) (*AlbumDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAlbum not implemented")
 }
 func (UnimplementedPhotoRpcServer) DeleteAlbum(context.Context, *IdReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAlbum not implemented")
@@ -440,6 +457,24 @@ func _PhotoRpc_UpdateAlbum_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(PhotoRpcServer).UpdateAlbum(ctx, req.(*AlbumNew))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PhotoRpc_GetAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhotoRpcServer).GetAlbum(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PhotoRpc_GetAlbum_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhotoRpcServer).GetAlbum(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -622,6 +657,10 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAlbum",
 			Handler:    _PhotoRpc_UpdateAlbum_Handler,
+		},
+		{
+			MethodName: "GetAlbum",
+			Handler:    _PhotoRpc_GetAlbum_Handler,
 		},
 		{
 			MethodName: "DeleteAlbum",

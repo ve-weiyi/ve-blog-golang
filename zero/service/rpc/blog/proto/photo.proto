@@ -58,6 +58,7 @@ message FindPhotoListReq {
   int64 page = 1;
   int64 page_size = 2;
   string sorts = 3; // 排序
+  int64 album_id = 4;
 }
 
 message FindPhotoListResp {
@@ -98,16 +99,16 @@ message FindAlbumListResp {
 
 message BannerNew {
   int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
+  string banner_name = 2;// 页面名
+  string banner_label = 3;// 页面标签
+  string banner_cover = 4;// 页面封面
 }
 
 message BannerDetails {
   int64 id = 1;// 页面id
-  string page_name = 2;// 页面名
-  string page_label = 3;// 页面标签
-  string page_cover = 4;// 页面封面
+  string banner_name = 2;// 页面名
+  string banner_label = 3;// 页面标签
+  string banner_cover = 4;// 页面封面
   int64 created_at = 5;// 创建时间
   int64 updated_at = 6;// 更新时间
 }
@@ -120,6 +121,7 @@ message FindBannerListReq {
 
 message FindBannerListResp {
   repeated BannerDetails list = 1;
+  int64 total = 2;
 }
 
 service PhotoRpc {
@@ -139,6 +141,8 @@ service PhotoRpc {
   rpc AddAlbum(AlbumNew) returns(AlbumDetails);
   // 更新相册
   rpc UpdateAlbum(AlbumNew) returns(AlbumDetails);
+  // 获取相册
+  rpc GetAlbum(IdReq) returns(AlbumDetails);
   // 删除相册
   rpc DeleteAlbum(IdReq) returns(BatchResp);
   // 批量删除相册

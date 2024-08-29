@@ -25,7 +25,12 @@ func NewUpdateAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 
 // 更新相册
 func (l *UpdateAlbumLogic) UpdateAlbum(in *photorpc.AlbumNew) (*photorpc.AlbumDetails, error) {
-	// todo: add your logic here and delete this line
+	entity := ConvertAlbumIn(in)
 
-	return &photorpc.AlbumDetails{}, nil
+	_, err := l.svcCtx.AlbumModel.Update(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return ConvertAlbumOut(entity), nil
 }

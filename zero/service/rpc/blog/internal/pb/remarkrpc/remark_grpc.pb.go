@@ -27,7 +27,7 @@ const (
 	RemarkRpc_UpdateRemark_FullMethodName     = "/remarkrpc.RemarkRpc/UpdateRemark"
 	RemarkRpc_DeleteRemark_FullMethodName     = "/remarkrpc.RemarkRpc/DeleteRemark"
 	RemarkRpc_DeleteRemarkList_FullMethodName = "/remarkrpc.RemarkRpc/DeleteRemarkList"
-	RemarkRpc_FindRemark_FullMethodName       = "/remarkrpc.RemarkRpc/FindRemark"
+	RemarkRpc_GetRemark_FullMethodName        = "/remarkrpc.RemarkRpc/GetRemark"
 	RemarkRpc_FindRemarkList_FullMethodName   = "/remarkrpc.RemarkRpc/FindRemarkList"
 )
 
@@ -44,7 +44,7 @@ type RemarkRpcClient interface {
 	// 批量删除留言
 	DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询留言
-	FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
+	GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
 }
@@ -93,9 +93,9 @@ func (c *remarkRpcClient) DeleteRemarkList(ctx context.Context, in *IdsReq, opts
 	return out, nil
 }
 
-func (c *remarkRpcClient) FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (c *remarkRpcClient) GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	out := new(RemarkDetails)
-	err := c.cc.Invoke(ctx, RemarkRpc_FindRemark_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, RemarkRpc_GetRemark_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ type RemarkRpcServer interface {
 	// 批量删除留言
 	DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询留言
-	FindRemark(context.Context, *IdReq) (*RemarkDetails, error)
+	GetRemark(context.Context, *IdReq) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error)
 	mustEmbedUnimplementedRemarkRpcServer()
@@ -146,8 +146,8 @@ func (UnimplementedRemarkRpcServer) DeleteRemark(context.Context, *IdReq) (*Batc
 func (UnimplementedRemarkRpcServer) DeleteRemarkList(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRemarkList not implemented")
 }
-func (UnimplementedRemarkRpcServer) FindRemark(context.Context, *IdReq) (*RemarkDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindRemark not implemented")
+func (UnimplementedRemarkRpcServer) GetRemark(context.Context, *IdReq) (*RemarkDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRemark not implemented")
 }
 func (UnimplementedRemarkRpcServer) FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRemarkList not implemented")
@@ -237,20 +237,20 @@ func _RemarkRpc_DeleteRemarkList_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RemarkRpc_FindRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RemarkRpc_GetRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RemarkRpcServer).FindRemark(ctx, in)
+		return srv.(RemarkRpcServer).GetRemark(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RemarkRpc_FindRemark_FullMethodName,
+		FullMethod: RemarkRpc_GetRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).FindRemark(ctx, req.(*IdReq))
+		return srv.(RemarkRpcServer).GetRemark(ctx, req.(*IdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -297,8 +297,8 @@ var RemarkRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RemarkRpc_DeleteRemarkList_Handler,
 		},
 		{
-			MethodName: "FindRemark",
-			Handler:    _RemarkRpc_FindRemark_Handler,
+			MethodName: "GetRemark",
+			Handler:    _RemarkRpc_GetRemark_Handler,
 		},
 		{
 			MethodName: "FindRemarkList",

@@ -54,7 +54,7 @@ func (l *AddArticleLogic) AddArticle(in *articlerpc.ArticleNew) (*articlerpc.Art
 		}
 		ats = append(ats, at)
 	}
-	l.svcCtx.ArticleTagModel.DeleteBatch(l.ctx, "articlerpc_id = ?", entity.Id)
+	l.svcCtx.ArticleTagModel.DeleteBatch(l.ctx, "article_id = ?", entity.Id)
 	l.svcCtx.ArticleTagModel.InsertBatch(l.ctx, ats...)
 
 	return &articlerpc.ArticleDetails{}, nil

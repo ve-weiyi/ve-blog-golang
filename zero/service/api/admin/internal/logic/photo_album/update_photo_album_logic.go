@@ -3,7 +3,6 @@ package photo_album
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -26,12 +25,12 @@ func NewUpdatePhotoAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *UpdatePhotoAlbumLogic) UpdatePhotoAlbum(req *types.PhotoAlbum) (resp *types.PhotoAlbum, err error) {
-	in := convert.ConvertPhotoAlbumPb(req)
+	in := ConvertPhotoAlbumPb(req)
 
 	api, err := l.svcCtx.PhotoRpc.UpdatePhotoAlbum(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertPhotoAlbumTypes(api), nil
+	return ConvertPhotoAlbumTypes(api), nil
 }

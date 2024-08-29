@@ -25,7 +25,29 @@ func NewFindBannerListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询页面列表
 func (l *FindBannerListLogic) FindBannerList(in *photorpc.FindBannerListReq) (*photorpc.FindBannerListResp, error) {
-	// todo: add your logic here and delete this line
+	var (
+		page       int
+		size       int
+		sorts      string
+		conditions string
+		params     []interface{}
+	)
 
-	return &photorpc.FindBannerListResp{}, nil
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = in.Sorts
+
+	result, err := l.svcCtx.BannerModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*photorpc.BannerDetails
+	for _, v := range result {
+		list = append(list, ConvertBannerOut(v))
+	}
+
+	return &photorpc.FindBannerListResp{
+		List: list,
+	}, nil
 }

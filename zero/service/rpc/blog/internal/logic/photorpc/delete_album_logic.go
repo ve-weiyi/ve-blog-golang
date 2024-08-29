@@ -25,7 +25,12 @@ func NewDeleteAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 
 // 删除相册
 func (l *DeleteAlbumLogic) DeleteAlbum(in *photorpc.IdReq) (*photorpc.BatchResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.AlbumModel.Delete(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &photorpc.BatchResp{}, nil
+	return &photorpc.BatchResp{
+		SuccessCount: rows,
+	}, nil
 }

@@ -35,7 +35,7 @@ type (
 		// 批量删除留言
 		DeleteRemarkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询留言
-		FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
+		GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 查询留言列表
 		FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
 	}
@@ -76,9 +76,9 @@ func (m *defaultRemarkRpc) DeleteRemarkList(ctx context.Context, in *IdsReq, opt
 }
 
 // 查询留言
-func (m *defaultRemarkRpc) FindRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (m *defaultRemarkRpc) GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
-	return client.FindRemark(ctx, in, opts...)
+	return client.GetRemark(ctx, in, opts...)
 }
 
 // 查询留言列表

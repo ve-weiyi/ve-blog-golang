@@ -25,7 +25,12 @@ func NewUpdateBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 
 // 更新页面
 func (l *UpdateBannerLogic) UpdateBanner(in *photorpc.BannerNew) (*photorpc.BannerDetails, error) {
-	// todo: add your logic here and delete this line
+	entity := ConvertBannerIn(in)
 
-	return &photorpc.BannerDetails{}, nil
+	_, err := l.svcCtx.BannerModel.Update(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return ConvertBannerOut(entity), nil
 }

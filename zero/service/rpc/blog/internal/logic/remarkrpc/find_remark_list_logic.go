@@ -25,7 +25,29 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询留言列表
 func (l *FindRemarkListLogic) FindRemarkList(in *remarkrpc.FindRemarkListReq) (*remarkrpc.FindRemarkListResp, error) {
-	// todo: add your logic here and delete this line
+	var (
+		page       int
+		size       int
+		sorts      string
+		conditions string
+		params     []interface{}
+	)
 
-	return &remarkrpc.FindRemarkListResp{}, nil
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = in.Sorts
+
+	result, err := l.svcCtx.RemarkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*remarkrpc.RemarkDetails
+	for _, v := range result {
+		list = append(list, ConvertRemarkOut(v))
+	}
+
+	return &remarkrpc.FindRemarkListResp{
+		List: list,
+	}, nil
 }

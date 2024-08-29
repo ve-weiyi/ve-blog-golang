@@ -7,7 +7,6 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
@@ -73,22 +72,22 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 	})
 
 	resp = &types.ArticleDeatils{}
-	resp.ArticleHome = *convert.ConvertArticleHomeTypes(out)
+	resp.ArticleHome = *ConvertArticleHomeTypes(out)
 
 	for _, v := range last.List {
-		resp.LastArticle = convert.ConvertArticlePreviewTypes(v)
+		resp.LastArticle = ConvertArticlePreviewTypes(v)
 	}
 
 	for _, v := range next.List {
-		resp.NextArticle = convert.ConvertArticlePreviewTypes(v)
+		resp.NextArticle = ConvertArticlePreviewTypes(v)
 	}
 
 	for _, v := range recommend.List {
-		resp.RecommendArticleList = append(resp.RecommendArticleList, convert.ConvertArticlePreviewTypes(v))
+		resp.RecommendArticleList = append(resp.RecommendArticleList, ConvertArticlePreviewTypes(v))
 	}
 
 	for _, v := range newest.List {
-		resp.NewestArticleList = append(resp.NewestArticleList, convert.ConvertArticlePreviewTypes(v))
+		resp.NewestArticleList = append(resp.NewestArticleList, ConvertArticlePreviewTypes(v))
 	}
 
 	return

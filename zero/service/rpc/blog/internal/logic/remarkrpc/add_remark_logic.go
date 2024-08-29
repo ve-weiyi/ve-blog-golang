@@ -3,6 +3,7 @@ package remarkrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,46 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 
 // 创建留言
 func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNew) (*remarkrpc.RemarkDetails, error) {
-	// todo: add your logic here and delete this line
+	entity := ConvertRemarkIn(in)
 
-	return &remarkrpc.RemarkDetails{}, nil
+	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
+	}
+
+	return ConvertRemarkOut(entity), nil
+}
+
+func ConvertRemarkIn(in *remarkrpc.RemarkNew) (out *model.Remark) {
+	out = &model.Remark{
+		Id:             in.Id,
+		Nickname:       in.Nickname,
+		Avatar:         in.Avatar,
+		MessageContent: in.MessageContent,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		Time:           in.Time,
+		IsReview:       in.IsReview,
+		//CreatedAt:      time.Time{},
+		//UpdatedAt:      time.Time{},
+	}
+
+	return out
+}
+
+func ConvertRemarkOut(in *model.Remark) (out *remarkrpc.RemarkDetails) {
+	out = &remarkrpc.RemarkDetails{
+		Id:             in.Id,
+		Nickname:       in.Nickname,
+		Avatar:         in.Avatar,
+		MessageContent: in.MessageContent,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		Time:           in.Time,
+		IsReview:       in.IsReview,
+		CreatedAt:      in.CreatedAt.Unix(),
+		UpdatedAt:      in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

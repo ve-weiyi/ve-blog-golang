@@ -5,9 +5,9 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 )
 
 type FindCommentRecentListLogic struct {
@@ -26,27 +26,30 @@ func NewFindCommentRecentListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
-	in := convert.ConvertCommentQueryPb(req)
-	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
-	if err != nil {
-		return nil, err
+	in := &commentrpc.FindCommentListReq{
+		Page:      req.Page,
+		PageSize:  req.PageSize,
+		Sorts:     "",
+		TopicId:   req.TopicId,
+		ParentId:  req.ParentId,
+		SessionId: 0,
+		Type:      req.Type,
 	}
-
-	total, err := l.svcCtx.CommentRpc.FindCommentCount(l.ctx, in)
+	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.Comment
 	for _, v := range out.List {
-		m := convert.ConvertCommentTypes(v)
+		m := ConvertCommentTypes(v, nil)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
 }

@@ -12,6 +12,8 @@ type (
     }
 
     TagQueryReq {
+        Page int64 `json:"page,optional"`
+        PageSize int64 `json:"page_size,optional"`
         TagName string `json:"tag_name,optional"` // 标签名
     }
 )

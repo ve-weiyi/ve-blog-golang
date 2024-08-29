@@ -3,9 +3,9 @@ package remark
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,12 +26,40 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 }
 
 func (l *AddRemarkLogic) AddRemark(req *types.Remark) (resp *types.Remark, err error) {
-	in := convert.ConvertRemarkPb(req)
+	in := ConvertRemarkPb(req)
 	out, err := l.svcCtx.RemarkRpc.AddRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = convert.ConvertRemarkTypes(out)
+	resp = ConvertRemarkTypes(out)
 	return resp, nil
+}
+
+func ConvertRemarkPb(req *types.Remark) (out *remarkrpc.RemarkNew) {
+	return &remarkrpc.RemarkNew{
+		Id:             req.Id,
+		Nickname:       req.Nickname,
+		Avatar:         req.Avatar,
+		MessageContent: req.MessageContent,
+		IpAddress:      req.IpAddress,
+		IpSource:       req.IpSource,
+		Time:           req.Time,
+		IsReview:       req.IsReview,
+	}
+}
+
+func ConvertRemarkTypes(req *remarkrpc.RemarkDetails) (out *types.Remark) {
+	return &types.Remark{
+		Id:             req.Id,
+		Nickname:       req.Nickname,
+		Avatar:         req.Avatar,
+		MessageContent: req.MessageContent,
+		IpAddress:      req.IpAddress,
+		IpSource:       req.IpSource,
+		Time:           req.Time,
+		IsReview:       req.IsReview,
+		CreatedAt:      req.CreatedAt,
+		UpdatedAt:      req.UpdatedAt,
+	}
 }

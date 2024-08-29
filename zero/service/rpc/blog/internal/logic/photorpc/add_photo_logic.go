@@ -3,6 +3,7 @@ package photorpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -33,4 +34,32 @@ func (l *AddPhotoLogic) AddPhoto(in *photorpc.PhotoNew) (*photorpc.PhotoDetails,
 	}
 
 	return ConvertPhotoOut(entity), nil
+}
+
+func ConvertPhotoIn(in *photorpc.PhotoNew) (out *model.Photo) {
+	out = &model.Photo{
+		Id:        in.Id,
+		AlbumId:   in.AlbumId,
+		PhotoName: in.PhotoName,
+		PhotoDesc: in.PhotoDesc,
+		PhotoSrc:  in.PhotoSrc,
+		IsDelete:  in.IsDelete,
+	}
+
+	return out
+}
+
+func ConvertPhotoOut(in *model.Photo) (out *photorpc.PhotoDetails) {
+	out = &photorpc.PhotoDetails{
+		Id:        in.Id,
+		AlbumId:   in.AlbumId,
+		PhotoName: in.PhotoName,
+		PhotoDesc: in.PhotoDesc,
+		PhotoSrc:  in.PhotoSrc,
+		IsDelete:  in.IsDelete,
+		CreatedAt: in.CreatedAt.Unix(),
+		UpdatedAt: in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

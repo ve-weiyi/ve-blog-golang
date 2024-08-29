@@ -25,7 +25,29 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询友链列表
 func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*friendrpc.FindFriendListResp, error) {
-	// todo: add your logic here and delete this line
+	var (
+		page       int
+		size       int
+		sorts      string
+		conditions string
+		params     []interface{}
+	)
 
-	return &friendrpc.FindFriendListResp{}, nil
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = in.Sorts
+
+	result, err := l.svcCtx.FriendModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*friendrpc.FriendDetails
+	for _, v := range result {
+		list = append(list, ConvertFriendOut(v))
+	}
+
+	return &friendrpc.FindFriendListResp{
+		List: list,
+	}, nil
 }

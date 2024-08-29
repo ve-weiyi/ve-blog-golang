@@ -13,8 +13,8 @@ type (
     }
 
     BannerQueryReq {
-        Banner int32 `json:"banner,optional"` // 页码
-        Size int32 `json:"size,optional"` // 每页数量
+        Page int64 `json:"page,optional"`                   // 页码
+        PageSize int64 `json:"page_size,optional"`          // 每页数量
     }
 )
 

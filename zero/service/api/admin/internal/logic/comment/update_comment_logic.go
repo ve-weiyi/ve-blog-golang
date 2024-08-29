@@ -3,7 +3,6 @@ package comment
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -26,12 +25,12 @@ func NewUpdateCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 }
 
 func (l *UpdateCommentLogic) UpdateComment(req *types.CommentNewReq) (resp *types.CommentNewReq, err error) {
-	in := convert.ConvertCommentPb(req)
+	in := ConvertCommentPb(req)
 
 	api, err := l.svcCtx.CommentRpc.UpdateComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return convert.ConvertCommentTypes(api), nil
+	return ConvertCommentTypes(api), nil
 }

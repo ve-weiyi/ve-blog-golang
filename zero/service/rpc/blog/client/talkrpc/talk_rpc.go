@@ -36,7 +36,7 @@ type (
 		// 批量删除说说
 		DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询说说
-		FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error)
+		GetTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error)
 		// 查询说说列表
 		FindTalkList(ctx context.Context, in *FindTalkListReq, opts ...grpc.CallOption) (*FindTalkListResp, error)
 		// 点赞说说
@@ -81,9 +81,9 @@ func (m *defaultTalkRpc) DeleteTalkList(ctx context.Context, in *IdsReq, opts ..
 }
 
 // 查询说说
-func (m *defaultTalkRpc) FindTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error) {
+func (m *defaultTalkRpc) GetTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error) {
 	client := talkrpc.NewTalkRpcClient(m.cli.Conn())
-	return client.FindTalk(ctx, in, opts...)
+	return client.GetTalk(ctx, in, opts...)
 }
 
 // 查询说说列表

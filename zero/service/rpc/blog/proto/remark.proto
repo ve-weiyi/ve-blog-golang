@@ -66,6 +66,7 @@ message FindRemarkListReq {
 
 message FindRemarkListResp {
   repeated RemarkDetails list = 1;
+  int64 total = 2;
 }
 
 service RemarkRpc {
@@ -78,7 +79,7 @@ service RemarkRpc {
   // 批量删除留言
   rpc DeleteRemarkList(IdsReq) returns(BatchResp);
   // 查询留言
-  rpc FindRemark(IdReq) returns(RemarkDetails);
+  rpc GetRemark(IdReq) returns(RemarkDetails);
   // 查询留言列表
   rpc FindRemarkList(FindRemarkListReq) returns(FindRemarkListResp);
 }

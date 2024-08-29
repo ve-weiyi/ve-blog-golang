@@ -1,18 +1,19 @@
 syntax = "v1"
 
-import "base.api"
-
 type (
-    BlogHomeInfo {
-        ArticleCount int64 `json:"article_count,optional"`               // 文章数量
-        CategoryCount int64 `json:"category_count,optional"`             // 分类数量
-        TagCount int64 `json:"tag_count,optional"`                       // 标签数量
-        ViewsCount int64 `json:"views_count,optional"`                   // 访问量
-        WebsiteConfig WebsiteConfig `json:"website_config,optional"`     // 网站配置
-        PageList []*PageDTO `json:"page_list,optional"`                  // 页面列表
+    GetBlogHomeInfoReq {
     }
 
-    WebsiteConfig {
+    GetBlogHomeInfoResp {
+        ArticleCount int64 `json:"article_count,optional"`                  // 文章数量
+        CategoryCount int64 `json:"category_count,optional"`                // 分类数量
+        TagCount int64 `json:"tag_count,optional"`                          // 标签数量
+        ViewsCount int64 `json:"views_count,optional"`                      // 访问量
+        WebsiteConfig WebsiteConfigDTO `json:"website_config,optional"`     // 网站配置
+        PageList []*PageDTO `json:"page_list,optional"`                     // 页面列表
+    }
+
+    WebsiteConfigDTO {
         AdminUrl string `json:"admin_url,optional"`                    // 后台地址
         AlipayQrCode string `json:"alipay_qr_code,optional"`           // 支付宝二维码
         Gitee string `json:"gitee,optional"`                           // Gitee
@@ -46,45 +47,11 @@ type (
         PageCover string `json:"page_cover,optional"` // 页面封面
     }
 
-    AdminHomeInfo {
-        ViewsCount int64 `json:"views_count,optional"`                                          // 访问量
-        MessageCount int64 `json:"message_count,optional"`                                      // 留言量
-        UserCount int64 `json:"user_count,optional"`                                            // 用户量
-        ArticleCount int64 `json:"article_count,optional"`                                      // 文章量
-        CategoryList []*CategoryDTO `json:"category_list,optional"`                             // 分类列表
-        TagList []*TagDTO `json:"tag_list,optional"`                                            // 标签列表
-        ArticleViewRankList []*ArticleViewRankDTO `json:"article_view_rank_list,optional"`           // 文章浏览量排行
-        ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list,optional"` // 每日文章生产量
-        UniqueViewList []*UniqueViewDTO `json:"unique_view_list,optional"`                      // 每日用户访问量
+    GetAboutMeReq {
+
     }
 
-    CategoryDTO {
-        Id int64 `json:"id,optional"`
-        CategoryName string `json:"category_name,optional"` // 分类名
-    }
-
-    TagDTO {
-        Id int64 `json:"id,optional"`             // 标签ID
-        TagName string `json:"tag_name,optional"` // 标签名
-    }
-
-    ArticleViewRankDTO {
-        Id int64 `json:"id,optional"`                       // 文章ID
-        ArticleTitle string `json:"article_title,optional"` // 文章标题
-        Count int64 `json:"count,optional"`                 // 数量
-    }
-
-    ArticleStatisticsDTO {
-        Day string `json:"day,optional"`    // 日期
-        Count int64 `json:"count,optional"` // 数量
-    }
-
-    UniqueViewDTO {
-        Day string `json:"day,optional"`    // 日期
-        Count int64 `json:"count,optional"` // 数量
-    }
-
-    AboutMe {
+    GetAboutMeResp {
         Content string `json:"content,optional"`
     }
 )
@@ -97,9 +64,9 @@ type (
 service blog-api {
     @doc "获取博客前台首页信息"
     @handler GetBlogHomeInfo
-    get /blog (EmptyReq) returns (BlogHomeInfo)
+    get /blog (GetBlogHomeInfoReq) returns (GetBlogHomeInfoResp)
 
     @doc "获取关于我的信息"
     @handler GetAboutMe
-    get /blog/about_me (EmptyReq) returns (AboutMe)
+    get /blog/about_me (GetAboutMeReq) returns (GetAboutMeResp)
 }

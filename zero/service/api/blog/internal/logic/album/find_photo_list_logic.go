@@ -2,14 +2,12 @@ package album
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 )
 
 type FindPhotoListLogic struct {
@@ -27,30 +25,33 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 	}
 }
 
-func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.PageResp, err error) {
-	in := &blogrpc.PageQuery{
-		Conditions: fmt.Sprintf("album_id = %v", req.AlbumId),
+func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQueryReq) (resp *types.PageResp, err error) {
+	in := &photorpc.FindPhotoListReq{
+		AlbumId: req.AlbumId,
 	}
 	out, err := l.svcCtx.PhotoRpc.FindPhotoList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.PhotoRpc.FindPhotoCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
 	var list []*types.Photo
 	for _, v := range out.List {
-		m := convert.ConvertPhotoTypes(v)
+		m := ConvertPhotoTypes(v)
 		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = total.Count
+	resp.Total = 0
 	resp.List = list
 	return resp, nil
+}
+
+func ConvertPhotoTypes(req *photorpc.PhotoDetails) (out *types.Photo) {
+
+	return &types.Photo{
+		Id:       req.Id,
+		PhotoUrl: req.PhotoSrc,
+	}
 }

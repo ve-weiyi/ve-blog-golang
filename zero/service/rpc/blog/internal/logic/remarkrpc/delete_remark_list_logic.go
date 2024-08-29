@@ -25,7 +25,12 @@ func NewDeleteRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 批量删除留言
 func (l *DeleteRemarkListLogic) DeleteRemarkList(in *remarkrpc.IdsReq) (*remarkrpc.BatchResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.RemarkModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	if err != nil {
+		return nil, err
+	}
 
-	return &remarkrpc.BatchResp{}, nil
+	return &remarkrpc.BatchResp{
+		SuccessCount: rows,
+	}, nil
 }

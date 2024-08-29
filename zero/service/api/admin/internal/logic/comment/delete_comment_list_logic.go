@@ -3,7 +3,6 @@ package comment
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/convert"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -26,7 +25,7 @@ func NewDeleteCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *DeleteCommentListLogic) DeleteCommentList(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	in := convert.ConvertIdsReq(req)
+	in := ConvertIdsReq(req)
 
 	out, err := l.svcCtx.CommentRpc.DeleteCommentList(l.ctx, in)
 	if err != nil {

@@ -120,5 +120,13 @@ func convertQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts str
 		params = append(params, in.Status)
 	}
 
+	if len(in.UserIds) != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "id in (?)"
+		params = append(params, in.UserIds)
+	}
+
 	return page, size, sorts, conditions, params
 }

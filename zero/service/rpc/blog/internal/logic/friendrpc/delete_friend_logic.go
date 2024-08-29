@@ -25,7 +25,12 @@ func NewDeleteFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 
 // 删除友链
 func (l *DeleteFriendLogic) DeleteFriend(in *friendrpc.IdReq) (*friendrpc.BatchResp, error) {
-	// todo: add your logic here and delete this line
+	rows, err := l.svcCtx.FriendModel.Delete(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return &friendrpc.BatchResp{}, nil
+	return &friendrpc.BatchResp{
+		SuccessCount: rows,
+	}, nil
 }
