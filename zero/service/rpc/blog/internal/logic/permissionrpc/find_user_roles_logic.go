@@ -52,7 +52,7 @@ func (l *FindUserRolesLogic) FindUserRoles(in *permissionrpc.UserIdReq) (*permis
 
 	var list []*permissionrpc.RoleDetails
 	for _, v := range rs {
-		list = append(list, ConvertRoleOut(v))
+		list = append(list, convertRoleOut(v))
 	}
 
 	out := &permissionrpc.FindRoleListResp{}

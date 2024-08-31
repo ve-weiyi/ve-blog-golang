@@ -29,7 +29,7 @@ func (l *FindTagListLogic) FindTagList(req *types.TagQuery) (resp *types.PageRes
 	in := &articlerpc.FindTagListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    "id desc",
+		Sorts:    req.Sorts,
 		TagName:  req.TagName,
 	}
 
@@ -39,24 +39,15 @@ func (l *FindTagListLogic) FindTagList(req *types.TagQuery) (resp *types.PageRes
 	}
 
 	var list []*types.TagBackDTO
-	for _, item := range out.List {
-		list = append(list, ConvertTagTypes(item))
+	for _, v := range out.List {
+		m := ConvertTagTypes(v)
+		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
 	resp.Total = out.Total
 	resp.List = list
-	return
-}
-
-func ConvertTagTypes(in *articlerpc.TagDetails) (out *types.TagBackDTO) {
-	return &types.TagBackDTO{
-		Id:           in.Id,
-		TagName:      in.TagName,
-		ArticleCount: in.ArticleCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
-	}
+	return resp, nil
 }

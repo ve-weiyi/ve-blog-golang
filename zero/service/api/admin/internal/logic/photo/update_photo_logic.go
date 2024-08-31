@@ -24,13 +24,13 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 	}
 }
 
-func (l *UpdatePhotoLogic) UpdatePhoto(req *types.Photo) (resp *types.Photo, err error) {
+func (l *UpdatePhotoLogic) UpdatePhoto(req *types.PhotoNewReq) (resp *types.PhotoBackDTO, err error) {
 	in := ConvertPhotoPb(req)
-
-	api, err := l.svcCtx.PhotoRpc.UpdatePhoto(l.ctx, in)
+	out, err := l.svcCtx.PhotoRpc.UpdatePhoto(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertPhotoTypes(api), nil
+	resp = ConvertPhotoTypes(out)
+	return resp, nil
 }

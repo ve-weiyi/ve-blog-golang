@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/friendrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,28 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindFriendListLogic) FindFriendList(req *types.FriendQuery) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &friendrpc.FindFriendListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    req.Sorts,
+		LinkName: req.LinkName,
+	}
 
-	return
+	out, err := l.svcCtx.FriendRpc.FindFriendList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.FriendBackDTO
+	for _, v := range out.List {
+		m := ConvertFriendTypes(v)
+		list = append(list, m)
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
+	resp.Total = out.Total
+	resp.List = list
+	return resp, nil
 }

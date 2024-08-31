@@ -35,7 +35,6 @@ type (
 	ResetPasswordReq         = accountrpc.ResetPasswordReq
 	UpdateUserInfoReq        = accountrpc.UpdateUserInfoReq
 	UpdateUserStatusReq      = accountrpc.UpdateUserStatusReq
-	UserDetails              = accountrpc.UserDetails
 	UserEmailReq             = accountrpc.UserEmailReq
 	UserIdReq                = accountrpc.UserIdReq
 	UserInfoResp             = accountrpc.UserInfoResp

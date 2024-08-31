@@ -30,7 +30,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 	in := &commentrpc.FindCommentReplyListReq{
 		Page:      req.Page,
 		PageSize:  req.PageSize,
-		Sorts:     "",
+		Sorts:     req.Sorts,
 		TopicId:   req.TopicId,
 		ParentId:  req.ParentId,
 		SessionId: 0,
@@ -43,21 +43,21 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 		return nil, err
 	}
 
-	var userIds []int64
+	var uids []int64
 	for _, v := range out.List {
-		userIds = append(userIds, v.UserId)
-		userIds = append(userIds, v.ReplyUserId)
+		uids = append(uids, v.UserId)
+		uids = append(uids, v.ReplyUserId)
 	}
 
 	// 查询用户信息
 	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: userIds,
+		UserIds: uids,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserDetails)
+	usm := make(map[int64]*accountrpc.UserInfoResp)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}

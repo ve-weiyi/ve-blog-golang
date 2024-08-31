@@ -24,8 +24,13 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateMenuLogic) UpdateMenu(req *types.MenuDetails) (resp *types.MenuDetails, err error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateMenuLogic) UpdateMenu(req *types.MenuBackDTO) (resp *types.MenuBackDTO, err error) {
+	in := ConvertMenuPb(req)
+	out, err := l.svcCtx.PermissionRpc.UpdateMenu(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	resp = ConvertMenuTypes(out)
+	return resp, nil
 }

@@ -34,7 +34,7 @@ message CountResp {
 }
 
 /************** blog 相册管理 **************/
-message PhotoNew {
+message PhotoNewReq {
   int64 id = 1;// 主键
   int64 album_id = 2;// 相册id
   string photo_name = 3;// 照片名
@@ -57,15 +57,16 @@ message PhotoDetails {
 message FindPhotoListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
   int64 album_id = 4;
 }
 
 message FindPhotoListResp {
   repeated PhotoDetails list = 1;
+  int64 total = 2;
 }
 
-message AlbumNew {
+message AlbumNewReq {
   int64 id = 1;// 主键
   string album_name = 2;// 相册名
   string album_desc = 3;// 相册描述
@@ -85,19 +86,22 @@ message AlbumDetails {
   int64 status = 6;// 状态值 1公开 2私密
   int64 created_at = 7;// 创建时间
   int64 updated_at = 8;// 更新时间
+  int64 photo_count = 9;// 照片数量
 }
 
 message FindAlbumListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
+  string album_name = 4;// 相册名
 }
 
 message FindAlbumListResp {
   repeated AlbumDetails list = 1;
+  int64 total = 2;
 }
 
-message BannerNew {
+message BannerNewReq {
   int64 id = 1;// 页面id
   string banner_name = 2;// 页面名
   string banner_label = 3;// 页面标签
@@ -116,7 +120,7 @@ message BannerDetails {
 message FindBannerListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
 }
 
 message FindBannerListResp {
@@ -126,39 +130,33 @@ message FindBannerListResp {
 
 service PhotoRpc {
   // 创建照片
-  rpc AddPhoto(PhotoNew) returns(PhotoDetails);
+  rpc AddPhoto(PhotoNewReq) returns(PhotoDetails);
   // 更新照片
-  rpc UpdatePhoto(PhotoNew) returns(PhotoDetails);
+  rpc UpdatePhoto(PhotoNewReq) returns(PhotoDetails);
   // 删除照片
-  rpc DeletePhoto(IdReq) returns(BatchResp);
-  // 批量删除照片
-  rpc DeletePhotoList(IdsReq) returns(BatchResp);
+  rpc DeletePhoto(IdsReq) returns(BatchResp);
   // 查询照片列表
   rpc FindPhotoList(FindPhotoListReq) returns(FindPhotoListResp);
 
 
   // 创建相册
-  rpc AddAlbum(AlbumNew) returns(AlbumDetails);
+  rpc AddAlbum(AlbumNewReq) returns(AlbumDetails);
   // 更新相册
-  rpc UpdateAlbum(AlbumNew) returns(AlbumDetails);
+  rpc UpdateAlbum(AlbumNewReq) returns(AlbumDetails);
   // 获取相册
   rpc GetAlbum(IdReq) returns(AlbumDetails);
   // 删除相册
-  rpc DeleteAlbum(IdReq) returns(BatchResp);
-  // 批量删除相册
-  rpc DeleteAlbumList(IdsReq) returns(BatchResp);
+  rpc DeleteAlbum(IdsReq) returns(BatchResp);
   // 查询相册列表
   rpc FindAlbumList(FindAlbumListReq) returns(FindAlbumListResp);
 
 
   // 创建页面
-  rpc AddBanner(BannerNew) returns(BannerDetails);
+  rpc AddBanner(BannerNewReq) returns(BannerDetails);
   // 更新页面
-  rpc UpdateBanner(BannerNew) returns(BannerDetails);
+  rpc UpdateBanner(BannerNewReq) returns(BannerDetails);
   // 删除页面
-  rpc DeleteBanner(IdReq) returns(BatchResp);
-  // 批量删除页面
-  rpc DeleteBannerList(IdsReq) returns(BatchResp);
+  rpc DeleteBanner(IdsReq) returns(BatchResp);
   // 查询页面列表
   rpc FindBannerList(FindBannerListReq) returns(FindBannerListResp);
 }

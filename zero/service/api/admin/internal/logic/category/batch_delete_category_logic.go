@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,17 @@ func NewBatchDeleteCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *BatchDeleteCategoryLogic) BatchDeleteCategory(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &articlerpc.IdsReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.ArticleRpc.DeleteCategory(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

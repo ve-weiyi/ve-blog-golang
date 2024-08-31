@@ -24,13 +24,13 @@ func NewUpdateBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新页面
-func (l *UpdateBannerLogic) UpdateBanner(in *photorpc.BannerNew) (*photorpc.BannerDetails, error) {
-	entity := ConvertBannerIn(in)
+func (l *UpdateBannerLogic) UpdateBanner(in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
+	entity := convertBannerIn(in)
 
 	_, err := l.svcCtx.BannerModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertBannerOut(entity), nil
+	return convertBannerOut(entity), nil
 }

@@ -26,7 +26,6 @@ const (
 	TalkRpc_AddTalk_FullMethodName          = "/talkrpc.TalkRpc/AddTalk"
 	TalkRpc_UpdateTalk_FullMethodName       = "/talkrpc.TalkRpc/UpdateTalk"
 	TalkRpc_DeleteTalk_FullMethodName       = "/talkrpc.TalkRpc/DeleteTalk"
-	TalkRpc_DeleteTalkList_FullMethodName   = "/talkrpc.TalkRpc/DeleteTalkList"
 	TalkRpc_GetTalk_FullMethodName          = "/talkrpc.TalkRpc/GetTalk"
 	TalkRpc_FindTalkList_FullMethodName     = "/talkrpc.TalkRpc/FindTalkList"
 	TalkRpc_LikeTalk_FullMethodName         = "/talkrpc.TalkRpc/LikeTalk"
@@ -38,13 +37,11 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TalkRpcClient interface {
 	// 创建说说
-	AddTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error)
+	AddTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error)
 	// 更新说说
-	UpdateTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error)
+	UpdateTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error)
 	// 删除说说
-	DeleteTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-	// 批量删除说说
-	DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	DeleteTalk(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询说说
 	GetTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*TalkDetails, error)
 	// 查询说说列表
@@ -63,7 +60,7 @@ func NewTalkRpcClient(cc grpc.ClientConnInterface) TalkRpcClient {
 	return &talkRpcClient{cc}
 }
 
-func (c *talkRpcClient) AddTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error) {
+func (c *talkRpcClient) AddTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error) {
 	out := new(TalkDetails)
 	err := c.cc.Invoke(ctx, TalkRpc_AddTalk_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -72,7 +69,7 @@ func (c *talkRpcClient) AddTalk(ctx context.Context, in *TalkNew, opts ...grpc.C
 	return out, nil
 }
 
-func (c *talkRpcClient) UpdateTalk(ctx context.Context, in *TalkNew, opts ...grpc.CallOption) (*TalkDetails, error) {
+func (c *talkRpcClient) UpdateTalk(ctx context.Context, in *TalkNewReq, opts ...grpc.CallOption) (*TalkDetails, error) {
 	out := new(TalkDetails)
 	err := c.cc.Invoke(ctx, TalkRpc_UpdateTalk_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -81,18 +78,9 @@ func (c *talkRpcClient) UpdateTalk(ctx context.Context, in *TalkNew, opts ...grp
 	return out, nil
 }
 
-func (c *talkRpcClient) DeleteTalk(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *talkRpcClient) DeleteTalk(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, TalkRpc_DeleteTalk_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *talkRpcClient) DeleteTalkList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, TalkRpc_DeleteTalkList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -140,13 +128,11 @@ func (c *talkRpcClient) FindUserLikeTalk(ctx context.Context, in *UserIdReq, opt
 // for forward compatibility
 type TalkRpcServer interface {
 	// 创建说说
-	AddTalk(context.Context, *TalkNew) (*TalkDetails, error)
+	AddTalk(context.Context, *TalkNewReq) (*TalkDetails, error)
 	// 更新说说
-	UpdateTalk(context.Context, *TalkNew) (*TalkDetails, error)
+	UpdateTalk(context.Context, *TalkNewReq) (*TalkDetails, error)
 	// 删除说说
-	DeleteTalk(context.Context, *IdReq) (*BatchResp, error)
-	// 批量删除说说
-	DeleteTalkList(context.Context, *IdsReq) (*BatchResp, error)
+	DeleteTalk(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询说说
 	GetTalk(context.Context, *IdReq) (*TalkDetails, error)
 	// 查询说说列表
@@ -162,17 +148,14 @@ type TalkRpcServer interface {
 type UnimplementedTalkRpcServer struct {
 }
 
-func (UnimplementedTalkRpcServer) AddTalk(context.Context, *TalkNew) (*TalkDetails, error) {
+func (UnimplementedTalkRpcServer) AddTalk(context.Context, *TalkNewReq) (*TalkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddTalk not implemented")
 }
-func (UnimplementedTalkRpcServer) UpdateTalk(context.Context, *TalkNew) (*TalkDetails, error) {
+func (UnimplementedTalkRpcServer) UpdateTalk(context.Context, *TalkNewReq) (*TalkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTalk not implemented")
 }
-func (UnimplementedTalkRpcServer) DeleteTalk(context.Context, *IdReq) (*BatchResp, error) {
+func (UnimplementedTalkRpcServer) DeleteTalk(context.Context, *IdsReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTalk not implemented")
-}
-func (UnimplementedTalkRpcServer) DeleteTalkList(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTalkList not implemented")
 }
 func (UnimplementedTalkRpcServer) GetTalk(context.Context, *IdReq) (*TalkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTalk not implemented")
@@ -200,7 +183,7 @@ func RegisterTalkRpcServer(s grpc.ServiceRegistrar, srv TalkRpcServer) {
 }
 
 func _TalkRpc_AddTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TalkNew)
+	in := new(TalkNewReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -212,13 +195,13 @@ func _TalkRpc_AddTalk_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: TalkRpc_AddTalk_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TalkRpcServer).AddTalk(ctx, req.(*TalkNew))
+		return srv.(TalkRpcServer).AddTalk(ctx, req.(*TalkNewReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _TalkRpc_UpdateTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TalkNew)
+	in := new(TalkNewReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -230,13 +213,13 @@ func _TalkRpc_UpdateTalk_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: TalkRpc_UpdateTalk_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TalkRpcServer).UpdateTalk(ctx, req.(*TalkNew))
+		return srv.(TalkRpcServer).UpdateTalk(ctx, req.(*TalkNewReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _TalkRpc_DeleteTalk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
+	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -248,25 +231,7 @@ func _TalkRpc_DeleteTalk_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: TalkRpc_DeleteTalk_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TalkRpcServer).DeleteTalk(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _TalkRpc_DeleteTalkList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TalkRpcServer).DeleteTalkList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TalkRpc_DeleteTalkList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TalkRpcServer).DeleteTalkList(ctx, req.(*IdsReq))
+		return srv.(TalkRpcServer).DeleteTalk(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -361,10 +326,6 @@ var TalkRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteTalk",
 			Handler:    _TalkRpc_DeleteTalk_Handler,
-		},
-		{
-			MethodName: "DeleteTalkList",
-			Handler:    _TalkRpc_DeleteTalkList_Handler,
 		},
 		{
 			MethodName: "GetTalk",

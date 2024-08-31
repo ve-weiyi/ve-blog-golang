@@ -24,13 +24,13 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 }
 
 // 更新接口
-func (l *UpdateApiLogic) UpdateApi(in *permissionrpc.ApiNew) (*permissionrpc.ApiDetails, error) {
-	entity := ConvertApiIn(in)
+func (l *UpdateApiLogic) UpdateApi(in *permissionrpc.ApiNewReq) (*permissionrpc.ApiDetails, error) {
+	entity := convertApiIn(in)
 
 	_, err := l.svcCtx.ApiModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertApiOut(entity), nil
+	return convertApiOut(entity), nil
 }

@@ -28,19 +28,17 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 }
 
 func (l *AddCommentLogic) AddComment(req *types.CommentNewReq) (resp *types.Comment, err error) {
-	in := &commentrpc.CommentNew{
-		Id:             0,
+	in := &commentrpc.CommentNewReq{
 		ParentId:       req.ParentId,
 		TopicId:        req.TopicId,
 		SessionId:      req.SessionId,
-		UserId:         0,
+		UserId:         cast.ToInt64(l.ctx.Value("uid")),
 		ReplyUserId:    req.ReplyUserId,
 		CommentContent: req.CommentContent,
 		Type:           req.Type,
 		Status:         0,
 		IsReview:       0,
 	}
-	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
 	out, err := l.svcCtx.CommentRpc.AddComment(l.ctx, in)
 	if err != nil {
 		return nil, err

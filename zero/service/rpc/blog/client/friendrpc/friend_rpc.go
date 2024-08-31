@@ -19,20 +19,18 @@ type (
 	FindFriendListReq  = friendrpc.FindFriendListReq
 	FindFriendListResp = friendrpc.FindFriendListResp
 	FriendDetails      = friendrpc.FriendDetails
-	FriendNew          = friendrpc.FriendNew
+	FriendNewReq       = friendrpc.FriendNewReq
 	IdReq              = friendrpc.IdReq
 	IdsReq             = friendrpc.IdsReq
 	UserIdReq          = friendrpc.UserIdReq
 
 	FriendRpc interface {
 		// 创建友链
-		AddFriend(ctx context.Context, in *FriendNew, opts ...grpc.CallOption) (*FriendDetails, error)
+		AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
 		// 更新友链
-		UpdateFriend(ctx context.Context, in *FriendNew, opts ...grpc.CallOption) (*FriendDetails, error)
+		UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error)
 		// 删除友链
-		DeleteFriend(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 批量删除友链
-		DeleteFriendList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		DeleteFriend(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询友链列表
 		FindFriendList(ctx context.Context, in *FindFriendListReq, opts ...grpc.CallOption) (*FindFriendListResp, error)
 	}
@@ -49,27 +47,21 @@ func NewFriendRpc(cli zrpc.Client) FriendRpc {
 }
 
 // 创建友链
-func (m *defaultFriendRpc) AddFriend(ctx context.Context, in *FriendNew, opts ...grpc.CallOption) (*FriendDetails, error) {
+func (m *defaultFriendRpc) AddFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
 	client := friendrpc.NewFriendRpcClient(m.cli.Conn())
 	return client.AddFriend(ctx, in, opts...)
 }
 
 // 更新友链
-func (m *defaultFriendRpc) UpdateFriend(ctx context.Context, in *FriendNew, opts ...grpc.CallOption) (*FriendDetails, error) {
+func (m *defaultFriendRpc) UpdateFriend(ctx context.Context, in *FriendNewReq, opts ...grpc.CallOption) (*FriendDetails, error) {
 	client := friendrpc.NewFriendRpcClient(m.cli.Conn())
 	return client.UpdateFriend(ctx, in, opts...)
 }
 
 // 删除友链
-func (m *defaultFriendRpc) DeleteFriend(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultFriendRpc) DeleteFriend(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := friendrpc.NewFriendRpcClient(m.cli.Conn())
 	return client.DeleteFriend(ctx, in, opts...)
-}
-
-// 批量删除友链
-func (m *defaultFriendRpc) DeleteFriendList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := friendrpc.NewFriendRpcClient(m.cli.Conn())
-	return client.DeleteFriendList(ctx, in, opts...)
 }
 
 // 查询友链列表

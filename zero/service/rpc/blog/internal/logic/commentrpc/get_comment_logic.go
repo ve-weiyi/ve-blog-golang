@@ -30,5 +30,5 @@ func (l *GetCommentLogic) GetComment(in *commentrpc.IdReq) (*commentrpc.CommentD
 		return nil, err
 	}
 
-	return ConvertCommentOut(entity), nil
+	return convertCommentOut(entity), nil
 }

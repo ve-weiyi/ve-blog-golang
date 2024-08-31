@@ -16,6 +16,7 @@ type FindOnlineUserListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 查询在线用户列表
 func NewFindOnlineUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindOnlineUserListLogic {
 	return &FindOnlineUserListLogic{
 		Logger: logx.WithContext(ctx),
@@ -24,26 +25,28 @@ func NewFindOnlineUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.UserQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.FindUserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-	}
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, in)
-	if err != nil {
-		return
+		Nickname: req.Nickname,
 	}
 
-	var list []*types.User
-	for _, user := range users.List {
-		u := ConvertUserDetailsTypes(user)
-		list = append(list, u)
+	out, err := l.svcCtx.AccountRpc.FindUserOnlineList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.UserInfoResp
+	for _, v := range out.List {
+		m := ConvertUserTypes(v)
+		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = users.Total
+	resp.Total = out.Total
 	resp.List = list
-	return
+	return resp, nil
 }

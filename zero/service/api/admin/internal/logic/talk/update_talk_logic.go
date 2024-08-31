@@ -3,6 +3,8 @@ package talk
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 
@@ -24,13 +26,14 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateTalkLogic) UpdateTalk(req *types.TalkNew) (resp *types.TalkDetails, err error) {
+func (l *UpdateTalkLogic) UpdateTalk(req *types.TalkNewReq) (resp *types.TalkBackDTO, err error) {
 	in := ConvertTalkPb(req)
-
-	api, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)
+	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
+	out, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertTalkTypes(api), nil
+	resp = ConvertTalkTypes(out, nil)
+	return resp, nil
 }

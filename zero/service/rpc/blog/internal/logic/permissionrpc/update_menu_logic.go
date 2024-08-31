@@ -24,13 +24,13 @@ func NewUpdateMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 // 更新菜单
-func (l *UpdateMenuLogic) UpdateMenu(in *permissionrpc.MenuNew) (*permissionrpc.MenuDetails, error) {
-	entity := ConvertMenuIn(in)
+func (l *UpdateMenuLogic) UpdateMenu(in *permissionrpc.MenuNewReq) (*permissionrpc.MenuDetails, error) {
+	entity := convertMenuIn(in)
 
 	_, err := l.svcCtx.MenuModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertMenuOut(entity), nil
+	return convertMenuOut(entity), nil
 }

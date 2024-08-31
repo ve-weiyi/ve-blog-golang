@@ -29,7 +29,7 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 	in := &friendrpc.FindFriendListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    "",
+		Sorts:    req.Sorts,
 	}
 	out, err := l.svcCtx.FriendRpc.FindFriendList(l.ctx, in)
 	if err != nil {

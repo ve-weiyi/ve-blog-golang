@@ -25,7 +25,17 @@ func NewTopArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TopArt
 
 // 置顶文章
 func (l *TopArticleLogic) TopArticle(in *articlerpc.TopArticleReq) (*articlerpc.EmptyResp, error) {
-	// todo: add your logic here and delete this line
+
+	record, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.ArticleId)
+	if err != nil {
+		return nil, err
+	}
+
+	record.IsTop = in.IsTop
+	_, err = l.svcCtx.ArticleModel.Update(l.ctx, record)
+	if err != nil {
+		return nil, err
+	}
 
 	return &articlerpc.EmptyResp{}, nil
 }

@@ -66,7 +66,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, err
 		}
 
-		chat := &chatrpc.ChatRecordNew{
+		chat := &chatrpc.ChatRecordNewReq{
 			UserId:    uid,
 			Nickname:  info.Nickname,
 			Avatar:    info.Avatar,

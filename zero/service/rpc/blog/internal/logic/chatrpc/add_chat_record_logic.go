@@ -24,7 +24,7 @@ func NewAddChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Add
 }
 
 // 创建聊天记录
-func (l *AddChatRecordLogic) AddChatRecord(in *chatrpc.ChatRecordNew) (*chatrpc.ChatRecordDetails, error) {
+func (l *AddChatRecordLogic) AddChatRecord(in *chatrpc.ChatRecordNewReq) (*chatrpc.ChatRecordDetails, error) {
 	// todo: add your logic here and delete this line
 
 	return &chatrpc.ChatRecordDetails{}, nil

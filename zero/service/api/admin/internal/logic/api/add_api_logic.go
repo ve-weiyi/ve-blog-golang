@@ -25,9 +25,9 @@ func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogi
 	}
 }
 
-func (l *AddApiLogic) AddApi(req *types.ApiNew) (resp *types.ApiBackDTO, err error) {
-	in := &permissionrpc.ApiNew{
-		Id:        0,
+func (l *AddApiLogic) AddApi(req *types.ApiNewReq) (resp *types.ApiBackDTO, err error) {
+	in := &permissionrpc.ApiNewReq{
+		Id:        req.Id,
 		Name:      req.Name,
 		Path:      req.Path,
 		Method:    req.Method,
@@ -35,10 +35,35 @@ func (l *AddApiLogic) AddApi(req *types.ApiNew) (resp *types.ApiBackDTO, err err
 		Traceable: req.Traceable,
 		Status:    req.Status,
 	}
-	_, err = l.svcCtx.PermissionRpc.AddApi(l.ctx, in)
+
+	out, err := l.svcCtx.PermissionRpc.AddApi(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return
+	return convertApiTypes(out), nil
+}
+
+func convertApiTypes(req *permissionrpc.ApiDetails) *types.ApiBackDTO {
+
+	children := make([]*types.ApiBackDTO, 0)
+	for _, v := range req.Children {
+		m := convertApiTypes(v)
+		children = append(children, m)
+	}
+
+	out := &types.ApiBackDTO{
+		Id:        req.Id,
+		Name:      req.Name,
+		Path:      req.Path,
+		Method:    req.Method,
+		ParentId:  req.ParentId,
+		Traceable: req.Traceable,
+		Status:    req.Status,
+		CreatedAt: req.CreatedAt,
+		UpdatedAt: req.UpdatedAt,
+		Children:  children,
+	}
+
+	return out
 }

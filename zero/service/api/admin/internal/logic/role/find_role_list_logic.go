@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,7 +26,29 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 func (l *FindRoleListLogic) FindRoleList(req *types.RoleQuery) (resp *types.PageResp, err error) {
-	// todo: add your logic here and delete this line
+	in := &permissionrpc.FindRoleListReq{
+		Page:        req.Page,
+		PageSize:    req.PageSize,
+		RoleName:    req.RoleName,
+		RoleComment: "",
+		IsDisable:   req.IsDisable,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.FindRoleList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.RoleBackDTO
+	for _, v := range out.List {
+		m := convertRoleTypes(v)
+		list = append(list, m)
+	}
+
+	resp = &types.PageResp{}
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
+	resp.Total = int64(len(list))
+	resp.List = list
+	return resp, nil
 }

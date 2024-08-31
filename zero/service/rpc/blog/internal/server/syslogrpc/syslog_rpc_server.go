@@ -29,9 +29,9 @@ func (s *SyslogRpcServer) AddOperationLog(ctx context.Context, in *syslogrpc.Ope
 }
 
 // 批量删除操作记录
-func (s *SyslogRpcServer) DeleteOperationLogList(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
-	l := syslogrpclogic.NewDeleteOperationLogListLogic(ctx, s.svcCtx)
-	return l.DeleteOperationLogList(in)
+func (s *SyslogRpcServer) DeleteOperationLog(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
+	l := syslogrpclogic.NewDeleteOperationLogLogic(ctx, s.svcCtx)
+	return l.DeleteOperationLog(in)
 }
 
 // 查询操作记录列表

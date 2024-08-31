@@ -25,8 +25,8 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 // 删除评论
-func (l *DeleteCommentLogic) DeleteComment(in *commentrpc.IdReq) (*commentrpc.BatchResp, error) {
-	rows, err := l.svcCtx.CommentModel.Delete(l.ctx, in.Id)
+func (l *DeleteCommentLogic) DeleteComment(in *commentrpc.IdsReq) (*commentrpc.BatchResp, error) {
+	rows, err := l.svcCtx.CommentModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

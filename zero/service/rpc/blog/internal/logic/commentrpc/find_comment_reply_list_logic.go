@@ -26,7 +26,7 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 查询评论回复列表
 func (l *FindCommentReplyListLogic) FindCommentReplyList(in *commentrpc.FindCommentReplyListReq) (*commentrpc.FindCommentReplyListResp, error) {
-	page, size, sorts, conditions, params := ConvertCommentReplyQuery(in)
+	page, size, sorts, conditions, params := convertCommentReplyQuery(in)
 
 	result, err := l.svcCtx.CommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -60,7 +60,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *commentrpc.FindComm
 
 	var list []*commentrpc.CommentDetails
 	for _, v := range result {
-		m := ConvertCommentOut(v)
+		m := convertCommentOut(v)
 		list = append(list, m)
 	}
 
@@ -70,7 +70,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *commentrpc.FindComm
 	}, nil
 }
 
-func ConvertCommentReplyQuery(in *commentrpc.FindCommentReplyListReq) (page int, size int, sorts string, conditions string, params []any) {
+func convertCommentReplyQuery(in *commentrpc.FindCommentReplyListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = "id desc"

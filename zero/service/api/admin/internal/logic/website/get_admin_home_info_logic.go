@@ -2,14 +2,12 @@ package website
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -51,10 +49,10 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询消息
-	msgCount, err := l.svcCtx.RemarkRpc.FindRemarkList(l.ctx, &remarkrpc.FindRemarkListReq{PageSize: 1})
-	if err != nil {
-		return nil, err
-	}
+	//msgCount, err := l.svcCtx.RemarkRpc.FindRemarkCount(l.ctx, in)
+	//if err != nil {
+	//	return nil, err
+	//}
 
 	// 查询用户数量
 	userCount, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{})
@@ -76,33 +74,39 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	mad := make(map[string]int64)
 
 	for _, v := range categories.List {
-		cs = append(cs, &types.CategoryDTO{
+		m := &types.CategoryDTO{
 			Id:           v.Id,
 			CategoryName: v.CategoryName,
-		})
+		}
+
+		cs = append(cs, m)
 	}
 
 	for _, v := range tags.List {
-		ts = append(ts, &types.TagDTO{
+		m := &types.TagDTO{
 			Id:      v.Id,
 			TagName: v.TagName,
-		})
+		}
+		ts = append(ts, m)
 	}
 
 	for _, v := range articles.List {
-		ars = append(ars, &types.ArticleViewRankDTO{
+		m := &types.ArticleViewRankDTO{
 			Id:           v.Id,
 			ArticleTitle: v.ArticleTitle,
-			Count:        rand.Int63n(100),
-		})
+			Count:        v.LikeCount,
+		}
+		ars = append(ars, m)
 		mad[time.Unix(v.CreatedAt, 0).Format(time.DateOnly)]++
 	}
 
 	for _, v := range views.List {
-		uvs = append(uvs, &types.UniqueViewDTO{
+		m := &types.UniqueViewDTO{
 			Date:  v.Date,
 			Count: v.ViewCount,
-		})
+		}
+
+		uvs = append(uvs, m)
 	}
 
 	for k, v := range mad {
@@ -116,7 +120,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 
 	resp = &types.AdminHomeInfo{
 		ViewsCount:            0,
-		MessageCount:          msgCount.Total,
+		MessageCount:          0,
 		UserCount:             userCount.Total,
 		ArticleCount:          int64(len(articles.List)),
 		CategoryList:          cs,

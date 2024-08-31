@@ -23,13 +23,13 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateRoleLogic) UpdateRole(in *permissionrpc.RoleNew) (*permissionrpc.RoleDetails, error) {
-	entity := ConvertRoleIn(in)
+func (l *UpdateRoleLogic) UpdateRole(in *permissionrpc.RoleNewReq) (*permissionrpc.RoleDetails, error) {
+	entity := convertRoleIn(in)
 
 	_, err := l.svcCtx.RoleModel.Update(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertRoleOut(entity), nil
+	return convertRoleOut(entity), nil
 }

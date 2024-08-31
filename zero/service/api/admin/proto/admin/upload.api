@@ -9,7 +9,7 @@ type (
     }
 
     UploadFileResp {
-        Id int64 `json:"id"`               // id
+        Id int64 `json:"id,optional"`               // id
         UserId int64 `json:"user_id"`      // 用户id
         Label string `json:"label"`        // 标签
         FileName string `json:"file_name"` // 文件名称

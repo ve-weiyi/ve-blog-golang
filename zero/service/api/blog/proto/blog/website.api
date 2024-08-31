@@ -5,46 +5,46 @@ type (
     }
 
     GetBlogHomeInfoResp {
-        ArticleCount int64 `json:"article_count,optional"`                  // 文章数量
-        CategoryCount int64 `json:"category_count,optional"`                // 分类数量
-        TagCount int64 `json:"tag_count,optional"`                          // 标签数量
-        ViewsCount int64 `json:"views_count,optional"`                      // 访问量
-        WebsiteConfig WebsiteConfigDTO `json:"website_config,optional"`     // 网站配置
-        PageList []*PageDTO `json:"page_list,optional"`                     // 页面列表
+        ArticleCount int64 `json:"article_count"`                  // 文章数量
+        CategoryCount int64 `json:"category_count"`                // 分类数量
+        TagCount int64 `json:"tag_count"`                          // 标签数量
+        ViewsCount int64 `json:"views_count"`                      // 访问量
+        WebsiteConfig WebsiteConfigDTO `json:"website_config"`     // 网站配置
+        PageList []*PageDTO `json:"page_list"`                     // 页面列表
     }
 
     WebsiteConfigDTO {
-        AdminUrl string `json:"admin_url,optional"`                    // 后台地址
-        AlipayQrCode string `json:"alipay_qr_code,optional"`           // 支付宝二维码
-        Gitee string `json:"gitee,optional"`                           // Gitee
-        Github string `json:"github,optional"`                         // Github
-        IsChatRoom int64 `json:"is_chat_room,optional"`                // 是否开启聊天室
-        IsCommentReview int64 `json:"is_comment_review,optional"`      // 是否开启评论审核
-        IsEmailNotice int64 `json:"is_email_notice,optional"`          // 是否开启邮件通知
-        IsMessageReview int64 `json:"is_message_review,optional"`      // 是否开启留言审核
-        IsMusicPlayer int64 `json:"is_music_player,optional"`          // 是否开启音乐播放器
-        IsReward int64 `json:"is_reward,optional"`                     // 是否开启打赏
-        Qq string `json:"qq,optional"`                                 // QQ
-        SocialLoginList []string `json:"social_login_list,optional"`   // 社交登录列表
-        SocialUrlList []string `json:"social_url_list,optional"`       // 社交地址列表
-        TouristAvatar string `json:"tourist_avatar,optional"`          // 游客头像
-        UserAvatar string `json:"user_avatar,optional"`                // 用户头像
-        WebsiteAuthor string `json:"website_author,optional"`          // 网站作者
-        WebsiteAvatar string `json:"website_avatar,optional"`          // 网站头像
-        WebsiteCreateTime string `json:"website_create_time,optional"` // 网站创建时间
-        WebsiteIntro string `json:"website_intro,optional"`            // 网站介绍
-        WebsiteName string `json:"website_name,optional"`              // 网站名称
-        WebsiteNotice string `json:"website_notice,optional"`          // 网站公告
-        WebsiteRecordNo string `json:"website_record_no,optional"`     // 网站备案号
-        WebsocketUrl string `json:"websocket_url,optional"`            // websocket地址
-        WeixinQrCode string `json:"weixin_qr_code,optional"`           // 微信二维码
+        AdminUrl string `json:"admin_url"`                    // 后台地址
+        AlipayQrCode string `json:"alipay_qr_code"`           // 支付宝二维码
+        Gitee string `json:"gitee"`                           // Gitee
+        Github string `json:"github"`                         // Github
+        IsChatRoom int64 `json:"is_chat_room"`                // 是否开启聊天室
+        IsCommentReview int64 `json:"is_comment_review"`      // 是否开启评论审核
+        IsEmailNotice int64 `json:"is_email_notice"`          // 是否开启邮件通知
+        IsMessageReview int64 `json:"is_message_review"`      // 是否开启留言审核
+        IsMusicPlayer int64 `json:"is_music_player"`          // 是否开启音乐播放器
+        IsReward int64 `json:"is_reward"`                     // 是否开启打赏
+        Qq string `json:"qq"`                                 // QQ
+        SocialLoginList []string `json:"social_login_list"`   // 社交登录列表
+        SocialUrlList []string `json:"social_url_list"`       // 社交地址列表
+        TouristAvatar string `json:"tourist_avatar"`          // 游客头像
+        UserAvatar string `json:"user_avatar"`                // 用户头像
+        WebsiteAuthor string `json:"website_author"`          // 网站作者
+        WebsiteAvatar string `json:"website_avatar"`          // 网站头像
+        WebsiteCreateTime string `json:"website_create_time"` // 网站创建时间
+        WebsiteIntro string `json:"website_intro"`            // 网站介绍
+        WebsiteName string `json:"website_name"`              // 网站名称
+        WebsiteNotice string `json:"website_notice"`          // 网站公告
+        WebsiteRecordNo string `json:"website_record_no"`     // 网站备案号
+        WebsocketUrl string `json:"websocket_url"`            // websocket地址
+        WeixinQrCode string `json:"weixin_qr_code"`           // 微信二维码
     }
 
     PageDTO {
-        Id int64 `json:"id,optional"`                 // 页面ID
-        PageName string `json:"page_name,optional"`   // 页面名称
-        PageLabel string `json:"page_label,optional"` // 页面标签
-        PageCover string `json:"page_cover,optional"` // 页面封面
+        Id int64 `json:"id"`                 // 页面ID
+        PageName string `json:"page_name"`   // 页面名称
+        PageLabel string `json:"page_label"` // 页面标签
+        PageCover string `json:"page_cover"` // 页面封面
     }
 
     GetAboutMeReq {
@@ -52,7 +52,7 @@ type (
     }
 
     GetAboutMeResp {
-        Content string `json:"content,optional"`
+        Content string `json:"content"`
     }
 )
 

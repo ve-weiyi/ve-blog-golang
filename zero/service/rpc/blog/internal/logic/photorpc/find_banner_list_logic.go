@@ -2,6 +2,7 @@ package photorpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -35,7 +36,7 @@ func (l *FindBannerListLogic) FindBannerList(in *photorpc.FindBannerListReq) (*p
 
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = in.Sorts
+	sorts = strings.Join(in.Sorts, ",")
 
 	result, err := l.svcCtx.BannerModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -44,7 +45,7 @@ func (l *FindBannerListLogic) FindBannerList(in *photorpc.FindBannerListReq) (*p
 
 	var list []*photorpc.BannerDetails
 	for _, v := range result {
-		list = append(list, ConvertBannerOut(v))
+		list = append(list, convertBannerOut(v))
 	}
 
 	return &photorpc.FindBannerListResp{

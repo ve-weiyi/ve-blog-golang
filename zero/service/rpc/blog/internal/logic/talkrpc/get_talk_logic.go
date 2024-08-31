@@ -30,5 +30,5 @@ func (l *GetTalkLogic) GetTalk(in *talkrpc.IdReq) (*talkrpc.TalkDetails, error) 
 		return nil, err
 	}
 
-	return ConvertTalkOut(entity), nil
+	return convertTalkOut(entity), nil
 }

@@ -56,3 +56,20 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 
 	return ConvertUploadTypes(out), nil
 }
+
+func ConvertUploadTypes(in *syslogrpc.UploadLogResp) (out *types.UploadFileResp) {
+
+	out = &types.UploadFileResp{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		Label:     in.Label,
+		FileName:  in.FileName,
+		FileSize:  in.FileSize,
+		FileMd5:   in.FileMd5,
+		FileUrl:   in.FileUrl,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+	}
+
+	return
+}

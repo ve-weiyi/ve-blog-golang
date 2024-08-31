@@ -2,6 +2,7 @@ package remarkrpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -35,19 +36,25 @@ func (l *FindRemarkListLogic) FindRemarkList(in *remarkrpc.FindRemarkListReq) (*
 
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = in.Sorts
+	sorts = strings.Join(in.Sorts, ",")
 
 	result, err := l.svcCtx.RemarkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
+	count, err := l.svcCtx.RemarkModel.FindCount(l.ctx, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*remarkrpc.RemarkDetails
 	for _, v := range result {
-		list = append(list, ConvertRemarkOut(v))
+		list = append(list, convertRemarkOut(v))
 	}
 
 	return &remarkrpc.FindRemarkListResp{
-		List: list,
+		List:  list,
+		Total: count,
 	}, nil
 }

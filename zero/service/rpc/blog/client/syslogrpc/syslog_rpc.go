@@ -30,7 +30,7 @@ type (
 		// 创建操作记录
 		AddOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
 		// 批量删除操作记录
-		DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询操作记录列表
 		FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
 		// 上传文件
@@ -55,9 +55,9 @@ func (m *defaultSyslogRpc) AddOperationLog(ctx context.Context, in *OperationLog
 }
 
 // 批量删除操作记录
-func (m *defaultSyslogRpc) DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultSyslogRpc) DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
-	return client.DeleteOperationLogList(ctx, in, opts...)
+	return client.DeleteOperationLog(ctx, in, opts...)
 }
 
 // 查询操作记录列表

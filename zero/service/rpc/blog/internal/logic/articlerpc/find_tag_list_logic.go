@@ -2,6 +2,7 @@ package articlerpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -25,6 +26,7 @@ func NewFindTagListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindT
 
 // 查询标签数量
 func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articlerpc.FindTagListResp, error) {
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 	var (
 		page       int
 		size       int
@@ -35,7 +37,7 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = in.Sorts
+	sorts = strings.Join(in.Sorts, ",")
 
 	if in.TagName != "" {
 		conditions += "tag_name like ?"
@@ -52,7 +54,7 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 		return nil, err
 	}
 
-	acm, err := findArticleCountGroupTag(l.ctx, l.svcCtx, records)
+	acm, err := helper.findArticleCountGroupTag(records)
 	if err != nil {
 		return nil, err
 	}

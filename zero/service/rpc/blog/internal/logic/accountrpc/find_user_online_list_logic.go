@@ -31,26 +31,32 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	if conditions != "" {
 		conditions += " and "
 	}
-	conditions += "logout_at < ? and login_at < logout_at"
-	params = append(params, time.Now().Add(-time.Hour*24))
+	conditions += "login_at > logout_at and login_at > ?"
+	params = append(params, time.Now().Add(-time.Hour*24*7))
 
-	result, err := l.svcCtx.UserAccountModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	// 查找在线用户
+	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.UserAccountModel.FindCount(l.ctx, conditions, params...)
+	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var userIds []int64
+	var uids []int64
 	for _, item := range result {
-		userIds = append(userIds, item.Id)
+		uids = append(uids, item.UserId)
+	}
+
+	users, err := l.svcCtx.UserAccountModel.FindALL(l.ctx, "id in (?)", uids)
+	if err != nil {
+		return nil, err
 	}
 
 	// 查找用户角色
-	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in ?", userIds)
+	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
 	if err != nil {
 		return nil, err
 	}
@@ -63,13 +69,13 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	}
 
 	// 查找角色信息
-	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in ?", roleIds)
+	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in (?)", roleIds)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*accountrpc.UserDetails
-	for _, item := range result {
+	var list []*accountrpc.UserInfoResp
+	for _, item := range users {
 
 		var roles []*model.Role
 		ur, _ := ursMap[item.Id]
@@ -82,7 +88,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 			}
 		}
 
-		list = append(list, ConvertUserDetailsOut(item, roles))
+		list = append(list, convertUserInfoOut(item, roles))
 	}
 
 	resp := &accountrpc.FindUserListResp{}

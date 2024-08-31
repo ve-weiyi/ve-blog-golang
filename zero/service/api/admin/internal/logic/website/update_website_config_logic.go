@@ -17,7 +17,7 @@ type UpdateWebsiteConfigLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 更新配置
+// 更新网站配置
 func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateWebsiteConfigLogic {
 	return &UpdateWebsiteConfigLogic{
 		Logger: logx.WithContext(ctx),

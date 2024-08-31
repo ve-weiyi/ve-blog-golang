@@ -29,7 +29,7 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 	in := &photorpc.FindAlbumListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    "",
+		Sorts:    req.Sorts,
 	}
 	out, err := l.svcCtx.PhotoRpc.FindAlbumList(l.ctx, in)
 	if err != nil {
@@ -45,7 +45,7 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = 0
+	resp.Total = int64(len(list))
 	resp.List = list
 	return resp, nil
 }

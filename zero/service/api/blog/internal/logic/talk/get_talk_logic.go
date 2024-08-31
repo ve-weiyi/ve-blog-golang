@@ -35,5 +35,6 @@ func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.Talk, err error) {
 		return nil, err
 	}
 
-	return ConvertTalkTypes(out, nil), nil
+	resp = ConvertTalkTypes(out, nil)
+	return resp, nil
 }

@@ -34,7 +34,7 @@ message CountResp {
 }
 
 /************** blog 说说管理 **************/
-message TalkNew {
+message TalkNewReq {
   int64 id = 1;// 说说id
   int64 user_id = 2;// 用户id
   string content = 3;// 说说内容
@@ -59,7 +59,8 @@ message TalkDetails {
 message FindTalkListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
+  int64 status = 6;// 状态 1.公开 2.私密
 }
 
 message FindTalkListResp {
@@ -73,13 +74,11 @@ message FindLikeTalkResp{
 
 service TalkRpc {
   // 创建说说
-  rpc AddTalk(TalkNew) returns(TalkDetails);
+  rpc AddTalk(TalkNewReq) returns(TalkDetails);
   // 更新说说
-  rpc UpdateTalk(TalkNew) returns(TalkDetails);
+  rpc UpdateTalk(TalkNewReq) returns(TalkDetails);
   // 删除说说
-  rpc DeleteTalk(IdReq) returns(BatchResp);
-  // 批量删除说说
-  rpc DeleteTalkList(IdsReq) returns(BatchResp);
+  rpc DeleteTalk(IdsReq) returns(BatchResp);
   // 查询说说
   rpc GetTalk(IdReq) returns(TalkDetails);
   // 查询说说列表

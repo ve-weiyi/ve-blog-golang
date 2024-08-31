@@ -26,8 +26,8 @@ func NewDeleteTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeleteTalkLogic) DeleteTalk(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &talkrpc.IdReq{
-		Id: req.Id,
+	in := &talkrpc.IdsReq{
+		Ids: []int64{req.Id},
 	}
 
 	out, err := l.svcCtx.TalkRpc.DeleteTalk(l.ctx, in)
@@ -35,7 +35,8 @@ func (l *DeleteTalkLogic) DeleteTalk(req *types.IdReq) (resp *types.BatchResp, e
 		return nil, err
 	}
 
-	return &types.BatchResp{
+	resp = &types.BatchResp{
 		SuccessCount: out.SuccessCount,
-	}, nil
+	}
+	return resp, nil
 }

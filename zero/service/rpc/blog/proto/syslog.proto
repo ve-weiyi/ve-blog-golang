@@ -57,7 +57,7 @@ message OperationLog {
 message FindOperationLogListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
 }
 
 message FindOperationLogListResp {
@@ -91,7 +91,7 @@ service SyslogRpc {
   // 创建操作记录
   rpc AddOperationLog(OperationLog) returns(OperationLog);
   // 批量删除操作记录
-  rpc DeleteOperationLogList(IdsReq) returns(BatchResp);
+  rpc DeleteOperationLog(IdsReq) returns(BatchResp);
   // 查询操作记录列表
   rpc FindOperationLogList(FindOperationLogListReq) returns(FindOperationLogListResp);
 

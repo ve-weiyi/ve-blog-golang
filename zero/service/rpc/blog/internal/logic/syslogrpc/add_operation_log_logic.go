@@ -27,17 +27,17 @@ func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 
 // 创建操作记录
 func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLog) (*syslogrpc.OperationLog, error) {
-	entity := ConvertOperationLogIn(in)
+	entity := convertOperationLogIn(in)
 
 	_, err := l.svcCtx.OperationLogModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertOperationLogOut(entity), nil
+	return convertOperationLogOut(entity), nil
 }
 
-func ConvertOperationLogIn(in *syslogrpc.OperationLog) (out *model.OperationLog) {
+func convertOperationLogIn(in *syslogrpc.OperationLog) (out *model.OperationLog) {
 	out = &model.OperationLog{
 		Id:             in.Id,
 		UserId:         in.UserId,
@@ -60,7 +60,7 @@ func ConvertOperationLogIn(in *syslogrpc.OperationLog) (out *model.OperationLog)
 	return out
 }
 
-func ConvertOperationLogOut(in *model.OperationLog) (out *syslogrpc.OperationLog) {
+func convertOperationLogOut(in *model.OperationLog) (out *syslogrpc.OperationLog) {
 	out = &syslogrpc.OperationLog{
 		Id:             in.Id,
 		UserId:         in.UserId,

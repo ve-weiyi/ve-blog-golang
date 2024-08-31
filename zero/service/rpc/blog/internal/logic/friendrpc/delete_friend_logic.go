@@ -24,8 +24,8 @@ func NewDeleteFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 // 删除友链
-func (l *DeleteFriendLogic) DeleteFriend(in *friendrpc.IdReq) (*friendrpc.BatchResp, error) {
-	rows, err := l.svcCtx.FriendModel.Delete(l.ctx, in.Id)
+func (l *DeleteFriendLogic) DeleteFriend(in *friendrpc.IdsReq) (*friendrpc.BatchResp, error) {
+	rows, err := l.svcCtx.FriendModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

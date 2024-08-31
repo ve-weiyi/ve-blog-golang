@@ -37,7 +37,7 @@ func (s *TagRepository) FindArticleTagMap(ctx context.Context, articleIds []int6
 	var tags []*entity.Tag
 
 	// 查找所有文章关联的tag
-	err = db.Where("article_id in ?", articleIds).Find(&ats).Error
+	err = db.Where("article_id in (?)", articleIds).Find(&ats).Error
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func (s *TagRepository) InsertBatchTagNotExist(ctx context.Context, tagNames []s
 	db := s.DbEngin.WithContext(ctx)
 	var tags []*entity.Tag
 	// 查找所有文章关联的tag
-	err = db.Where("tag_name in ?", tagNames).Find(&tags).Error
+	err = db.Where("tag_name in (?)", tagNames).Find(&tags).Error
 	if err != nil {
 		return nil, err
 	}

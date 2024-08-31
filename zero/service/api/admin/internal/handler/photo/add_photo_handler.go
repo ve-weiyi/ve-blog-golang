@@ -14,7 +14,7 @@ import (
 // 创建照片
 func AddPhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Photo
+		var req types.PhotoNewReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

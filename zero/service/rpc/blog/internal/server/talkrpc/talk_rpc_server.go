@@ -23,27 +23,21 @@ func NewTalkRpcServer(svcCtx *svc.ServiceContext) *TalkRpcServer {
 }
 
 // 创建说说
-func (s *TalkRpcServer) AddTalk(ctx context.Context, in *talkrpc.TalkNew) (*talkrpc.TalkDetails, error) {
+func (s *TalkRpcServer) AddTalk(ctx context.Context, in *talkrpc.TalkNewReq) (*talkrpc.TalkDetails, error) {
 	l := talkrpclogic.NewAddTalkLogic(ctx, s.svcCtx)
 	return l.AddTalk(in)
 }
 
 // 更新说说
-func (s *TalkRpcServer) UpdateTalk(ctx context.Context, in *talkrpc.TalkNew) (*talkrpc.TalkDetails, error) {
+func (s *TalkRpcServer) UpdateTalk(ctx context.Context, in *talkrpc.TalkNewReq) (*talkrpc.TalkDetails, error) {
 	l := talkrpclogic.NewUpdateTalkLogic(ctx, s.svcCtx)
 	return l.UpdateTalk(in)
 }
 
 // 删除说说
-func (s *TalkRpcServer) DeleteTalk(ctx context.Context, in *talkrpc.IdReq) (*talkrpc.BatchResp, error) {
+func (s *TalkRpcServer) DeleteTalk(ctx context.Context, in *talkrpc.IdsReq) (*talkrpc.BatchResp, error) {
 	l := talkrpclogic.NewDeleteTalkLogic(ctx, s.svcCtx)
 	return l.DeleteTalk(in)
-}
-
-// 批量删除说说
-func (s *TalkRpcServer) DeleteTalkList(ctx context.Context, in *talkrpc.IdsReq) (*talkrpc.BatchResp, error) {
-	l := talkrpclogic.NewDeleteTalkListLogic(ctx, s.svcCtx)
-	return l.DeleteTalkList(in)
 }
 
 // 查询说说

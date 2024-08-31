@@ -30,10 +30,13 @@ func (l *DeleteCategoryLogic) DeleteCategory(req *types.IdReq) (resp *types.Batc
 		Ids: []int64{req.Id},
 	}
 
-	_, err = l.svcCtx.ArticleRpc.DeleteCategory(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.DeleteCategory(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

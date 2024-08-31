@@ -221,7 +221,7 @@ CREATE TABLE `article` (
   `original_url` varchar(255) NOT NULL DEFAULT '' COMMENT '原文链接',
   `is_top` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否置顶 0否 1是',
   `is_delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除  0否 1是',
-  `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态值 1公开 2私密 3评论可见',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态值 1 公开 2 私密 3 草稿 4 已删除',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发表时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE

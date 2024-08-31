@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/blogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,16 +26,17 @@ func NewDeleteOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *DeleteOperationLogLogic) DeleteOperationLog(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &blogrpc.IdReq{
-		Id: req.Id,
+	in := &syslogrpc.IdsReq{
+		Ids: []int64{req.Id},
 	}
 
-	out, err := l.svcCtx.LogRpc.DeleteOperationLog(l.ctx, in)
+	out, err := l.svcCtx.SyslogRpc.DeleteOperationLog(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.BatchResp{
+	resp = &types.BatchResp{
 		SuccessCount: out.SuccessCount,
-	}, nil
+	}
+	return resp, nil
 }

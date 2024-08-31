@@ -30,7 +30,7 @@ message BatchResp {
 }
 
 /************** blog 友链管理 **************/
-message FriendNew {
+message FriendNewReq {
   int64 id = 1;// id
   string link_name = 2;// 链接名
   string link_avatar = 3;// 链接头像
@@ -51,7 +51,8 @@ message FriendDetails {
 message FindFriendListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
+  string link_name = 4;// 链接名
 }
 
 message FindFriendListResp {
@@ -61,13 +62,11 @@ message FindFriendListResp {
 
 service FriendRpc {
   // 创建友链
-  rpc AddFriend(FriendNew) returns(FriendDetails);
+  rpc AddFriend(FriendNewReq) returns(FriendDetails);
   // 更新友链
-  rpc UpdateFriend(FriendNew) returns(FriendDetails);
+  rpc UpdateFriend(FriendNewReq) returns(FriendDetails);
   // 删除友链
-  rpc DeleteFriend(IdReq) returns(BatchResp);
-  // 批量删除友链
-  rpc DeleteFriendList(IdsReq) returns(BatchResp);
+  rpc DeleteFriend(IdsReq) returns(BatchResp);
   // 查询友链列表
   rpc FindFriendList(FindFriendListReq) returns(FindFriendListResp);
 }

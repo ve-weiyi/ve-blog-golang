@@ -26,10 +26,10 @@ func NewFindArticleClassifyCategoryLogic(ctx context.Context, svcCtx *svc.Servic
 }
 
 func (l *FindArticleClassifyCategoryLogic) FindArticleClassifyCategory(req *types.ArticleClassifyQueryReq) (resp *types.PageResp, err error) {
-	in := &articlerpc.FindArticlesByCategoryReq{
+	in := &articlerpc.FindArticleListReq{
 		CategoryName: req.ClassifyName,
 	}
-	out, err := l.svcCtx.ArticleRpc.FindArticlesByCategory(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

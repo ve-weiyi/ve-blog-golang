@@ -23,27 +23,21 @@ func NewPhotoRpcServer(svcCtx *svc.ServiceContext) *PhotoRpcServer {
 }
 
 // 创建照片
-func (s *PhotoRpcServer) AddPhoto(ctx context.Context, in *photorpc.PhotoNew) (*photorpc.PhotoDetails, error) {
+func (s *PhotoRpcServer) AddPhoto(ctx context.Context, in *photorpc.PhotoNewReq) (*photorpc.PhotoDetails, error) {
 	l := photorpclogic.NewAddPhotoLogic(ctx, s.svcCtx)
 	return l.AddPhoto(in)
 }
 
 // 更新照片
-func (s *PhotoRpcServer) UpdatePhoto(ctx context.Context, in *photorpc.PhotoNew) (*photorpc.PhotoDetails, error) {
+func (s *PhotoRpcServer) UpdatePhoto(ctx context.Context, in *photorpc.PhotoNewReq) (*photorpc.PhotoDetails, error) {
 	l := photorpclogic.NewUpdatePhotoLogic(ctx, s.svcCtx)
 	return l.UpdatePhoto(in)
 }
 
 // 删除照片
-func (s *PhotoRpcServer) DeletePhoto(ctx context.Context, in *photorpc.IdReq) (*photorpc.BatchResp, error) {
+func (s *PhotoRpcServer) DeletePhoto(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
 	l := photorpclogic.NewDeletePhotoLogic(ctx, s.svcCtx)
 	return l.DeletePhoto(in)
-}
-
-// 批量删除照片
-func (s *PhotoRpcServer) DeletePhotoList(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
-	l := photorpclogic.NewDeletePhotoListLogic(ctx, s.svcCtx)
-	return l.DeletePhotoList(in)
 }
 
 // 查询照片列表
@@ -53,13 +47,13 @@ func (s *PhotoRpcServer) FindPhotoList(ctx context.Context, in *photorpc.FindPho
 }
 
 // 创建相册
-func (s *PhotoRpcServer) AddAlbum(ctx context.Context, in *photorpc.AlbumNew) (*photorpc.AlbumDetails, error) {
+func (s *PhotoRpcServer) AddAlbum(ctx context.Context, in *photorpc.AlbumNewReq) (*photorpc.AlbumDetails, error) {
 	l := photorpclogic.NewAddAlbumLogic(ctx, s.svcCtx)
 	return l.AddAlbum(in)
 }
 
 // 更新相册
-func (s *PhotoRpcServer) UpdateAlbum(ctx context.Context, in *photorpc.AlbumNew) (*photorpc.AlbumDetails, error) {
+func (s *PhotoRpcServer) UpdateAlbum(ctx context.Context, in *photorpc.AlbumNewReq) (*photorpc.AlbumDetails, error) {
 	l := photorpclogic.NewUpdateAlbumLogic(ctx, s.svcCtx)
 	return l.UpdateAlbum(in)
 }
@@ -71,15 +65,9 @@ func (s *PhotoRpcServer) GetAlbum(ctx context.Context, in *photorpc.IdReq) (*pho
 }
 
 // 删除相册
-func (s *PhotoRpcServer) DeleteAlbum(ctx context.Context, in *photorpc.IdReq) (*photorpc.BatchResp, error) {
+func (s *PhotoRpcServer) DeleteAlbum(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
 	l := photorpclogic.NewDeleteAlbumLogic(ctx, s.svcCtx)
 	return l.DeleteAlbum(in)
-}
-
-// 批量删除相册
-func (s *PhotoRpcServer) DeleteAlbumList(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
-	l := photorpclogic.NewDeleteAlbumListLogic(ctx, s.svcCtx)
-	return l.DeleteAlbumList(in)
 }
 
 // 查询相册列表
@@ -89,27 +77,21 @@ func (s *PhotoRpcServer) FindAlbumList(ctx context.Context, in *photorpc.FindAlb
 }
 
 // 创建页面
-func (s *PhotoRpcServer) AddBanner(ctx context.Context, in *photorpc.BannerNew) (*photorpc.BannerDetails, error) {
+func (s *PhotoRpcServer) AddBanner(ctx context.Context, in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
 	l := photorpclogic.NewAddBannerLogic(ctx, s.svcCtx)
 	return l.AddBanner(in)
 }
 
 // 更新页面
-func (s *PhotoRpcServer) UpdateBanner(ctx context.Context, in *photorpc.BannerNew) (*photorpc.BannerDetails, error) {
+func (s *PhotoRpcServer) UpdateBanner(ctx context.Context, in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
 	l := photorpclogic.NewUpdateBannerLogic(ctx, s.svcCtx)
 	return l.UpdateBanner(in)
 }
 
 // 删除页面
-func (s *PhotoRpcServer) DeleteBanner(ctx context.Context, in *photorpc.IdReq) (*photorpc.BatchResp, error) {
+func (s *PhotoRpcServer) DeleteBanner(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
 	l := photorpclogic.NewDeleteBannerLogic(ctx, s.svcCtx)
 	return l.DeleteBanner(in)
-}
-
-// 批量删除页面
-func (s *PhotoRpcServer) DeleteBannerList(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
-	l := photorpclogic.NewDeleteBannerListLogic(ctx, s.svcCtx)
-	return l.DeleteBannerList(in)
 }
 
 // 查询页面列表

@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,18 @@ func NewBatchDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *BatchDeleteCommentLogic) BatchDeleteComment(req *types.IdsReq) (resp *types.EmptyResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *BatchDeleteCommentLogic) BatchDeleteComment(req *types.IdsReq) (resp *types.BatchResp, err error) {
+	in := &commentrpc.IdsReq{
+		Ids: req.Ids,
+	}
 
-	return
+	out, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

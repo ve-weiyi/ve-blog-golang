@@ -25,18 +25,18 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 }
 
 // 创建留言
-func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNew) (*remarkrpc.RemarkDetails, error) {
-	entity := ConvertRemarkIn(in)
+func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
+	entity := convertRemarkIn(in)
 
 	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertRemarkOut(entity), nil
+	return convertRemarkOut(entity), nil
 }
 
-func ConvertRemarkIn(in *remarkrpc.RemarkNew) (out *model.Remark) {
+func convertRemarkIn(in *remarkrpc.RemarkNewReq) (out *model.Remark) {
 	out = &model.Remark{
 		Id:             in.Id,
 		Nickname:       in.Nickname,
@@ -53,7 +53,7 @@ func ConvertRemarkIn(in *remarkrpc.RemarkNew) (out *model.Remark) {
 	return out
 }
 
-func ConvertRemarkOut(in *model.Remark) (out *remarkrpc.RemarkDetails) {
+func convertRemarkOut(in *model.Remark) (out *remarkrpc.RemarkDetails) {
 	out = &remarkrpc.RemarkDetails{
 		Id:             in.Id,
 		Nickname:       in.Nickname,

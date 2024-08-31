@@ -36,8 +36,8 @@ func (l *AddRemarkLogic) AddRemark(req *types.Remark) (resp *types.Remark, err e
 	return resp, nil
 }
 
-func ConvertRemarkPb(req *types.Remark) (out *remarkrpc.RemarkNew) {
-	return &remarkrpc.RemarkNew{
+func ConvertRemarkPb(req *types.Remark) (out *remarkrpc.RemarkNewReq) {
+	return &remarkrpc.RemarkNewReq{
 		Id:             req.Id,
 		Nickname:       req.Nickname,
 		Avatar:         req.Avatar,

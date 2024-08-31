@@ -29,7 +29,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQueryReq) (resp *t
 	in := &remarkrpc.FindRemarkListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    "",
+		Sorts:    req.Sorts,
 	}
 	out, err := l.svcCtx.RemarkRpc.FindRemarkList(l.ctx, in)
 	if err != nil {

@@ -17,7 +17,7 @@ type Article struct {
 	OriginalUrl    string    `gorm:"column:original_url" json:"original_url" `       // 原文链接
 	IsTop          int64     `gorm:"column:is_top" json:"is_top" `                   // 是否置顶 0否 1是
 	IsDelete       int64     `gorm:"column:is_delete" json:"is_delete" `             // 是否删除  0否 1是
-	Status         int64     `gorm:"column:status" json:"status" `                   // 状态值 1公开 2私密 3评论可见
+	Status         int64     `gorm:"column:status" json:"status" `                   // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CreatedAt      time.Time `gorm:"column:created_at" json:"created_at" `           // 发表时间
 	UpdatedAt      time.Time `gorm:"column:updated_at" json:"updated_at" `           // 更新时间
 }

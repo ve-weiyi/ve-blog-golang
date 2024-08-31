@@ -14,7 +14,7 @@ import (
 // 更新照片
 func UpdatePhotoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Photo
+		var req types.PhotoNewReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

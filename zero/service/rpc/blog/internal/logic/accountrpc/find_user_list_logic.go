@@ -39,13 +39,13 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 		return nil, err
 	}
 
-	var userIds []int64
+	var uids []int64
 	for _, item := range result {
-		userIds = append(userIds, item.Id)
+		uids = append(uids, item.Id)
 	}
 
 	// 查找用户角色
-	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in ?", userIds)
+	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
 	if err != nil {
 		return nil, err
 	}
@@ -58,12 +58,12 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	}
 
 	// 查找角色信息
-	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in ?", roleIds)
+	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in (?)", roleIds)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*accountrpc.UserDetails
+	var list []*accountrpc.UserInfoResp
 	for _, item := range result {
 
 		var roles []*model.Role
@@ -77,7 +77,7 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 			}
 		}
 
-		list = append(list, ConvertUserDetailsOut(item, roles))
+		list = append(list, convertUserInfoOut(item, roles))
 	}
 
 	resp := &accountrpc.FindUserListResp{}

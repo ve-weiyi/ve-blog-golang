@@ -30,5 +30,5 @@ func (l *GetRemarkLogic) GetRemark(in *remarkrpc.IdReq) (*remarkrpc.RemarkDetail
 		return nil, err
 	}
 
-	return ConvertRemarkOut(entity), nil
+	return convertRemarkOut(entity), nil
 }

@@ -26,10 +26,10 @@ func NewFindArticleClassifyTagLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 func (l *FindArticleClassifyTagLogic) FindArticleClassifyTag(req *types.ArticleClassifyQueryReq) (resp *types.PageResp, err error) {
-	in := &articlerpc.FindArticlesByTagReq{
+	in := &articlerpc.FindArticleListReq{
 		TagName: req.ClassifyName,
 	}
-	out, err := l.svcCtx.ArticleRpc.FindArticlesByTag(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

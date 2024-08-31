@@ -23,10 +23,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SyslogRpc_AddOperationLog_FullMethodName        = "/syslogrpc.SyslogRpc/AddOperationLog"
-	SyslogRpc_DeleteOperationLogList_FullMethodName = "/syslogrpc.SyslogRpc/DeleteOperationLogList"
-	SyslogRpc_FindOperationLogList_FullMethodName   = "/syslogrpc.SyslogRpc/FindOperationLogList"
-	SyslogRpc_AddUploadLog_FullMethodName           = "/syslogrpc.SyslogRpc/AddUploadLog"
+	SyslogRpc_AddOperationLog_FullMethodName      = "/syslogrpc.SyslogRpc/AddOperationLog"
+	SyslogRpc_DeleteOperationLog_FullMethodName   = "/syslogrpc.SyslogRpc/DeleteOperationLog"
+	SyslogRpc_FindOperationLogList_FullMethodName = "/syslogrpc.SyslogRpc/FindOperationLogList"
+	SyslogRpc_AddUploadLog_FullMethodName         = "/syslogrpc.SyslogRpc/AddUploadLog"
 )
 
 // SyslogRpcClient is the client API for SyslogRpc service.
@@ -36,7 +36,7 @@ type SyslogRpcClient interface {
 	// 创建操作记录
 	AddOperationLog(ctx context.Context, in *OperationLog, opts ...grpc.CallOption) (*OperationLog, error)
 	// 批量删除操作记录
-	DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询操作记录列表
 	FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
 	// 上传文件
@@ -60,9 +60,9 @@ func (c *syslogRpcClient) AddOperationLog(ctx context.Context, in *OperationLog,
 	return out, nil
 }
 
-func (c *syslogRpcClient) DeleteOperationLogList(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *syslogRpcClient) DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, SyslogRpc_DeleteOperationLogList_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, SyslogRpc_DeleteOperationLog_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ type SyslogRpcServer interface {
 	// 创建操作记录
 	AddOperationLog(context.Context, *OperationLog) (*OperationLog, error)
 	// 批量删除操作记录
-	DeleteOperationLogList(context.Context, *IdsReq) (*BatchResp, error)
+	DeleteOperationLog(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询操作记录列表
 	FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error)
 	// 上传文件
@@ -109,8 +109,8 @@ type UnimplementedSyslogRpcServer struct {
 func (UnimplementedSyslogRpcServer) AddOperationLog(context.Context, *OperationLog) (*OperationLog, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddOperationLog not implemented")
 }
-func (UnimplementedSyslogRpcServer) DeleteOperationLogList(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteOperationLogList not implemented")
+func (UnimplementedSyslogRpcServer) DeleteOperationLog(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOperationLog not implemented")
 }
 func (UnimplementedSyslogRpcServer) FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLogList not implemented")
@@ -149,20 +149,20 @@ func _SyslogRpc_AddOperationLog_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SyslogRpc_DeleteOperationLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SyslogRpc_DeleteOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SyslogRpcServer).DeleteOperationLogList(ctx, in)
+		return srv.(SyslogRpcServer).DeleteOperationLog(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SyslogRpc_DeleteOperationLogList_FullMethodName,
+		FullMethod: SyslogRpc_DeleteOperationLog_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SyslogRpcServer).DeleteOperationLogList(ctx, req.(*IdsReq))
+		return srv.(SyslogRpcServer).DeleteOperationLog(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -215,8 +215,8 @@ var SyslogRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SyslogRpc_AddOperationLog_Handler,
 		},
 		{
-			MethodName: "DeleteOperationLogList",
-			Handler:    _SyslogRpc_DeleteOperationLogList_Handler,
+			MethodName: "DeleteOperationLog",
+			Handler:    _SyslogRpc_DeleteOperationLog_Handler,
 		},
 		{
 			MethodName: "FindOperationLogList",

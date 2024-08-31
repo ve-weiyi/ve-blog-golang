@@ -25,7 +25,16 @@ func NewRecycleArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Re
 
 // 回收文章
 func (l *RecycleArticleLogic) RecycleArticle(in *articlerpc.RecycleArticleReq) (*articlerpc.EmptyResp, error) {
-	// todo: add your logic here and delete this line
+	record, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.ArticleId)
+	if err != nil {
+		return nil, err
+	}
+
+	record.IsDelete = in.IsDelete
+	_, err = l.svcCtx.ArticleModel.Update(l.ctx, record)
+	if err != nil {
+		return nil, err
+	}
 
 	return &articlerpc.EmptyResp{}, nil
 }

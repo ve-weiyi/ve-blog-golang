@@ -36,9 +36,8 @@ func (l *ExportArticleListLogic) ExportArticleList(req *types.IdsReq) (resp *typ
 	}
 
 	var list []*types.ArticleBackDTO
-	// 转换数据
 	for _, v := range out.List {
-		m := ConvertArticleBackTypes(v)
+		m := ConvertArticleTypes(v)
 		list = append(list, m)
 	}
 

@@ -3,11 +3,11 @@ package category
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindCategoryListLogic struct {
@@ -29,7 +29,7 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQuery) (resp
 	in := &articlerpc.FindCategoryListReq{
 		Page:         req.Page,
 		PageSize:     req.PageSize,
-		Sorts:        "id desc",
+		Sorts:        req.Sorts,
 		CategoryName: req.CategoryName,
 	}
 
@@ -39,24 +39,15 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQuery) (resp
 	}
 
 	var list []*types.CategoryBackDTO
-	for _, item := range out.List {
-		list = append(list, ConvertCategoryTypes(item))
+	for _, v := range out.List {
+		m := ConvertCategoryTypes(v)
+		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
-	resp.Page = req.Page
-	resp.PageSize = req.PageSize
+	resp.Page = in.Page
+	resp.PageSize = in.PageSize
 	resp.Total = out.Total
 	resp.List = list
-	return
-}
-
-func ConvertCategoryTypes(in *articlerpc.CategoryDetails) (out *types.CategoryBackDTO) {
-	return &types.CategoryBackDTO{
-		Id:           in.Id,
-		CategoryName: in.CategoryName,
-		ArticleCount: in.ArticleCount,
-		CreatedAt:    in.CreatedAt,
-		UpdatedAt:    in.UpdatedAt,
-	}
+	return resp, nil
 }

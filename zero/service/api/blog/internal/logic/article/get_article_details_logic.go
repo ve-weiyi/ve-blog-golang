@@ -3,8 +3,6 @@ package article
 import (
 	"context"
 
-	"github.com/spf13/cast"
-
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -38,55 +36,30 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 	}
 
 	// 查询上一篇文章
-	last, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, &articlerpc.FindArticleListReq{
-		Page:       1,
-		PageSize:   1,
-		Sorts:      "id desc",
-		Conditions: "id < ?",
-		Args:       []string{cast.ToString(out.Id)},
-	})
+	recommend, err := l.svcCtx.ArticleRpc.GetArticleRecommend(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	// 查询下一篇文章
-	next, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, &articlerpc.FindArticleListReq{
-		Page:       1,
-		PageSize:   1,
-		Sorts:      "id asc",
-		Conditions: "id > ?",
-		Args:       []string{cast.ToString(out.Id)},
-	})
+	resp = &types.ArticleDeatils{
+		ArticleHome:          types.ArticleHome{},
+		LastArticle:          nil,
+		NextArticle:          nil,
+		RecommendArticleList: nil,
+		NewestArticleList:    nil,
+	}
 
-	// 查询推荐文章
-	recommend, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, &articlerpc.FindArticleListReq{
-		Page:       1,
-		PageSize:   5,
-		Sorts:      "id desc",
-		Conditions: "category_id = ?",
-		Args:       []string{cast.ToString(out.CategoryId)},
-	})
-
-	// 查询最新文章
-	newest, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, &articlerpc.FindArticleListReq{
-		Page:     1,
-		PageSize: 5,
-		Sorts:    "id desc",
-	})
-
-	resp = &types.ArticleDeatils{}
 	resp.ArticleHome = *ConvertArticleHomeTypes(out)
 
-	for _, v := range last.List {
-		resp.LastArticle = ConvertArticlePreviewTypes(v)
-	}
+	resp.LastArticle = ConvertArticlePreviewTypes(recommend.Last)
 
-	for _, v := range next.List {
-		resp.NextArticle = ConvertArticlePreviewTypes(v)
-	}
+	resp.NextArticle = ConvertArticlePreviewTypes(recommend.Next)
 
-	for _, v := range recommend.List {
+	for _, v := range recommend.Recommend {
 		resp.RecommendArticleList = append(resp.RecommendArticleList, ConvertArticlePreviewTypes(v))
 	}
 
-	for _, v := range newest.List {
+	for _, v := range recommend.Newest {
 		resp.NewestArticleList = append(resp.NewestArticleList, ConvertArticlePreviewTypes(v))
 	}
 

@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,21 +25,22 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 	}
 }
 
-func (l *FindOperationLogListLogic) FindOperationLogList(req *types.PageQuery) (resp *types.PageResp, err error) {
-	in := ConvertPageQuery(req)
-	out, err := l.svcCtx.LogRpc.FindOperationLogList(l.ctx, in)
+func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLogQuery) (resp *types.PageResp, err error) {
+	in := &syslogrpc.FindOperationLogListReq{
+		Page:     req.Page,
+		PageSize: req.PageSize,
+		Sorts:    req.Sorts,
+	}
+
+	out, err := l.svcCtx.SyslogRpc.FindOperationLogList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.LogRpc.FindOperationLogCount(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*types.OperationLog
+	var list []*types.OperationLogBackDTO
 	for _, v := range out.List {
-		list = append(list, ConvertOperationLogTypes(v))
+		m := ConvertOperationLogTypes(v)
+		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
@@ -47,4 +49,26 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.PageQuery) (
 	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
+}
+
+func ConvertOperationLogTypes(in *syslogrpc.OperationLog) (out *types.OperationLogBackDTO) {
+
+	return &types.OperationLogBackDTO{
+		Id:             in.Id,
+		UserId:         in.UserId,
+		Nickname:       in.Nickname,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		OptModule:      in.OptModule,
+		OptDesc:        in.OptDesc,
+		RequestUrl:     in.RequestUrl,
+		RequestMethod:  in.RequestMethod,
+		RequestHeader:  in.RequestHeader,
+		RequestData:    in.RequestData,
+		ResponseData:   in.ResponseData,
+		ResponseStatus: in.ResponseStatus,
+		Cost:           in.Cost,
+		CreatedAt:      in.CreatedAt,
+		UpdatedAt:      in.UpdatedAt,
+	}
 }

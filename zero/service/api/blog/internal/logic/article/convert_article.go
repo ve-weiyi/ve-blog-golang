@@ -6,6 +6,9 @@ import (
 )
 
 func ConvertArticleHomeTypes(in *articlerpc.ArticleDetails) (out *types.ArticleHome) {
+	if in == nil {
+		return nil
+	}
 	out = &types.ArticleHome{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,
@@ -26,7 +29,11 @@ func ConvertArticleHomeTypes(in *articlerpc.ArticleDetails) (out *types.ArticleH
 	return
 }
 
-func ConvertArticlePreviewTypes(in *articlerpc.ArticleDetails) (out *types.ArticlePreview) {
+func ConvertArticlePreviewTypes(in *articlerpc.ArticlePreview) (out *types.ArticlePreview) {
+	if in == nil {
+		return nil
+	}
+
 	out = &types.ArticlePreview{
 		Id:           in.Id,
 		ArticleCover: in.ArticleCover,

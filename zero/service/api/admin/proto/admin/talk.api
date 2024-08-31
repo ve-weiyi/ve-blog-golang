@@ -4,35 +4,35 @@ import "base.api"
 
 
 type (
-    TalkNew {
+    TalkNewReq {
         Id int64 `json:"id,optional"`                      // 说说ID
-        UserId int64 `json:"user_id,optional"`             // 用户ID
-        Nickname string `json:"nickname,optional"`         // 用户昵称
-        Avatar string `json:"avatar,optional"`             // 用户头像
-        Content string `json:"content,optional"`           // 评论内容
-        ImgList []string `json:"img_list,optional"`        // 图片URL列表
-        IsTop int64 `json:"is_top,optional"`               // 是否置顶
-        Status int64 `json:"status,optional"`              // 状态 1.公开 2.私密
+        UserId int64 `json:"user_id"`             // 用户ID
+        Nickname string `json:"nickname"`         // 用户昵称
+        Avatar string `json:"avatar"`             // 用户头像
+        Content string `json:"content"`           // 评论内容
+        ImgList []string `json:"img_list"`        // 图片URL列表
+        IsTop int64 `json:"is_top"`               // 是否置顶
+        Status int64 `json:"status"`              // 状态 1.公开 2.私密
     }
 
-    TalkDetails {
+    TalkBackDTO {
         Id int64 `json:"id,optional"`                      // 说说ID
-        UserId int64 `json:"user_id,optional"`             // 用户ID
-        Nickname string `json:"nickname,optional"`         // 用户昵称
-        Avatar string `json:"avatar,optional"`             // 用户头像
-        Content string `json:"content,optional"`           // 评论内容
-        ImgList []string `json:"img_list,optional"`        // 图片URL列表
-        IsTop int64 `json:"is_top,optional"`               // 是否置顶
-        Status int64 `json:"status,optional"`              // 状态 1.公开 2.私密
-        LikeCount int64 `json:"like_count,optional"`       // 点赞量
-        CommentCount int64 `json:"comment_count,optional"` // 评论量
-        CreatedAt int64 `json:"created_at,optional"`       // 创建时间
-        UpdatedAt int64 `json:"updated_at,optional"`       // 更新时间
+        UserId int64 `json:"user_id"`             // 用户ID
+        Nickname string `json:"nickname"`         // 用户昵称
+        Avatar string `json:"avatar"`             // 用户头像
+        Content string `json:"content"`           // 评论内容
+        ImgList []string `json:"img_list"`        // 图片URL列表
+        IsTop int64 `json:"is_top"`               // 是否置顶
+        Status int64 `json:"status"`              // 状态 1.公开 2.私密
+        LikeCount int64 `json:"like_count"`       // 点赞量
+        CommentCount int64 `json:"comment_count"` // 评论量
+        CreatedAt int64 `json:"created_at"`       // 创建时间
+        UpdatedAt int64 `json:"updated_at"`       // 更新时间
     }
 
     TalkQuery {
-        Page int64 `json:"page"`                           // 页码
-        PageSize int64 `json:"page_size"`                   // 每页数量
+        PageQuery
+        Status int64 `json:"status,optional"`              // 状态 1.公开 2.私密
     }
 )
 
@@ -57,15 +57,15 @@ service admin-api {
 service admin-api {
     @doc "创建说说"
     @handler AddTalk
-    post /talk/add_talk (TalkNew) returns (TalkDetails)
+    post /talk/add_talk (TalkNewReq) returns (TalkBackDTO)
 
     @doc "更新说说"
     @handler UpdateTalk
-    put /talk/update_talk (TalkNew) returns (TalkDetails)
+    put /talk/update_talk (TalkNewReq) returns (TalkBackDTO)
 
     @doc "查询说说"
     @handler GetTalk
-    post /talk/get_talk (IdReq) returns (TalkDetails)
+    post /talk/get_talk (IdReq) returns (TalkBackDTO)
 
     @doc "删除说说"
     @handler DeleteTalk

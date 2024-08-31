@@ -93,7 +93,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ArticleNewReq"
+              "$ref": "#/definitions/ArticleNew"
             }
           }
         ],
@@ -284,7 +284,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ArticleNewReq"
+              "$ref": "#/definitions/ArticleNew"
             }
           }
         ],
@@ -351,6 +351,168 @@
         ],
         "tags": [
           "website"
+        ]
+      }
+    },
+    "/api/v1/album/add_album": {
+      "post": {
+        "summary": "创建相册",
+        "operationId": "AddAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AlbumBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AlbumNew"
+            }
+          }
+        ],
+        "tags": [
+          "album"
+        ]
+      }
+    },
+    "/api/v1/album/batch_delete_album": {
+      "delete": {
+        "summary": "批量删除相册",
+        "operationId": "BatchDeleteAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "album"
+        ]
+      }
+    },
+    "/api/v1/album/delete_album": {
+      "delete": {
+        "summary": "删除相册",
+        "operationId": "DeleteAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "album"
+        ]
+      }
+    },
+    "/api/v1/album/find_album_list": {
+      "post": {
+        "summary": "分页获取相册列表",
+        "operationId": "FindAlbumList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AlbumQuery"
+            }
+          }
+        ],
+        "tags": [
+          "album"
+        ]
+      }
+    },
+    "/api/v1/album/get_album": {
+      "post": {
+        "summary": "查询相册",
+        "operationId": "GetAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AlbumBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "album"
+        ]
+      }
+    },
+    "/api/v1/album/update_album": {
+      "put": {
+        "summary": "更新相册",
+        "operationId": "UpdateAlbum",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AlbumBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AlbumNew"
+            }
+          }
+        ],
+        "tags": [
+          "album"
         ]
       }
     },
@@ -543,6 +705,114 @@
         ]
       }
     },
+    "/api/v1/banner/add_banner": {
+      "post": {
+        "summary": "创建页面",
+        "operationId": "AddBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BannerBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BannerNew"
+            }
+          }
+        ],
+        "tags": [
+          "banner"
+        ]
+      }
+    },
+    "/api/v1/banner/delete_banner": {
+      "delete": {
+        "summary": "删除页面",
+        "operationId": "DeleteBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "banner"
+        ]
+      }
+    },
+    "/api/v1/banner/find_banner_list": {
+      "post": {
+        "summary": "分页获取页面列表",
+        "operationId": "FindBannerList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BannerQuery"
+            }
+          }
+        ],
+        "tags": [
+          "banner"
+        ]
+      }
+    },
+    "/api/v1/banner/update_banner": {
+      "put": {
+        "summary": "更新页面",
+        "operationId": "UpdateBanner",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BannerBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BannerNew"
+            }
+          }
+        ],
+        "tags": [
+          "banner"
+        ]
+      }
+    },
     "/api/v1/category/add_category": {
       "post": {
         "summary": "创建文章分类",
@@ -686,7 +956,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CommentNewReq"
+              "$ref": "#/definitions/CommentBackDTO"
             }
           }
         },
@@ -697,7 +967,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CommentNewReq"
+              "$ref": "#/definitions/CommentNew"
             }
           }
         ],
@@ -714,7 +984,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/EmptyResp"
+              "$ref": "#/definitions/BatchResp"
             }
           }
         },
@@ -795,7 +1065,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CommentNewReq"
+              "$ref": "#/definitions/CommentBackDTO"
             }
           }
         },
@@ -806,7 +1076,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CommentNewReq"
+              "$ref": "#/definitions/CommentNew"
             }
           }
         ],
@@ -823,7 +1093,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Friend"
+              "$ref": "#/definitions/FriendBackDTO"
             }
           }
         },
@@ -833,7 +1103,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Friend"
+              "$ref": "#/definitions/FriendNew"
             }
           }
         ],
@@ -931,7 +1201,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Friend"
+              "$ref": "#/definitions/FriendBackDTO"
             }
           }
         },
@@ -941,7 +1211,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Friend"
+              "$ref": "#/definitions/FriendNew"
             }
           }
         ],
@@ -1012,7 +1282,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/MenuDetails"
+              "$ref": "#/definitions/MenuBackDTO"
             }
           }
         },
@@ -1022,7 +1292,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MenuDetails"
+              "$ref": "#/definitions/MenuBackDTO"
             }
           }
         ],
@@ -1174,7 +1444,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/MenuDetails"
+              "$ref": "#/definitions/MenuBackDTO"
             }
           }
         },
@@ -1184,7 +1454,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MenuDetails"
+              "$ref": "#/definitions/MenuBackDTO"
             }
           }
         ],
@@ -1238,7 +1508,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdsReq"
+              "$ref": "#/definitions/IdReq"
             }
           }
         ],
@@ -1274,114 +1544,6 @@
         ]
       }
     },
-    "/api/v1/page/add_page": {
-      "post": {
-        "summary": "创建页面",
-        "operationId": "AddPage",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        ],
-        "tags": [
-          "page"
-        ]
-      }
-    },
-    "/api/v1/page/delete_page": {
-      "delete": {
-        "summary": "删除页面",
-        "operationId": "DeletePage",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "page"
-        ]
-      }
-    },
-    "/api/v1/page/find_page_list": {
-      "post": {
-        "summary": "分页获取页面列表",
-        "operationId": "FindPageList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PageQuery"
-            }
-          }
-        ],
-        "tags": [
-          "page"
-        ]
-      }
-    },
-    "/api/v1/page/update_page": {
-      "put": {
-        "summary": "更新页面",
-        "operationId": "UpdatePage",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        ],
-        "tags": [
-          "page"
-        ]
-      }
-    },
     "/api/v1/photo/add_photo": {
       "post": {
         "summary": "创建照片",
@@ -1390,7 +1552,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Photo"
+              "$ref": "#/definitions/PhotoBackDTO"
             }
           }
         },
@@ -1400,7 +1562,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Photo"
+              "$ref": "#/definitions/PhotoNew"
             }
           }
         ],
@@ -1427,7 +1589,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdsReq"
+              "$ref": "#/definitions/IdReq"
             }
           }
         ],
@@ -1471,7 +1633,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Photo"
+              "$ref": "#/definitions/PhotoBackDTO"
             }
           }
         },
@@ -1481,174 +1643,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Photo"
+              "$ref": "#/definitions/PhotoNew"
             }
           }
         ],
         "tags": [
           "photo"
-        ]
-      }
-    },
-    "/api/v1/photo_album/add_photo_album": {
-      "post": {
-        "summary": "创建相册",
-        "operationId": "AddPhotoAlbum",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PhotoAlbum"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PhotoAlbum"
-            }
-          }
-        ],
-        "tags": [
-          "photo_album"
-        ]
-      }
-    },
-    "/api/v1/photo_album/delete_photo_album": {
-      "delete": {
-        "summary": "删除相册",
-        "operationId": "DeletePhotoAlbum",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
-            }
-          }
-        ],
-        "tags": [
-          "photo_album"
-        ]
-      }
-    },
-    "/api/v1/photo_album/delete_photo_album_list": {
-      "delete": {
-        "summary": "批量删除相册",
-        "operationId": "DeletePhotoAlbumList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "photo_album"
-        ]
-      }
-    },
-    "/api/v1/photo_album/find_photo_album": {
-      "post": {
-        "summary": "查询相册",
-        "operationId": "FindPhotoAlbum",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PhotoAlbum"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
-            }
-          }
-        ],
-        "tags": [
-          "photo_album"
-        ]
-      }
-    },
-    "/api/v1/photo_album/find_photo_album_list": {
-      "post": {
-        "summary": "分页获取相册列表",
-        "operationId": "FindPhotoAlbumList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PhotoAlbumQuery"
-            }
-          }
-        ],
-        "tags": [
-          "photo_album"
-        ]
-      }
-    },
-    "/api/v1/photo_album/update_photo_album": {
-      "put": {
-        "summary": "更新相册",
-        "operationId": "UpdatePhotoAlbum",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PhotoAlbum"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PhotoAlbum"
-            }
-          }
-        ],
-        "tags": [
-          "photo_album"
         ]
       }
     },
@@ -1714,7 +1714,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdsReq"
+              "$ref": "#/definitions/IdReq"
             }
           }
         ],
@@ -1758,7 +1758,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Remark"
+              "$ref": "#/definitions/RemarkBackDTO"
             }
           }
         },
@@ -1768,7 +1768,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Remark"
+              "$ref": "#/definitions/RemarkNew"
             }
           }
         ],
@@ -1785,7 +1785,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Role"
+              "$ref": "#/definitions/RoleBackDTO"
             }
           }
         },
@@ -1796,7 +1796,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Role"
+              "$ref": "#/definitions/RoleNew"
             }
           }
         ],
@@ -1921,7 +1921,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/Role"
+              "$ref": "#/definitions/RoleBackDTO"
             }
           }
         },
@@ -1932,7 +1932,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Role"
+              "$ref": "#/definitions/RoleNew"
             }
           }
         ],
@@ -2138,7 +2138,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TalkDetails"
+              "$ref": "#/definitions/TalkBackDTO"
             }
           }
         },
@@ -2175,7 +2175,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/IdsReq"
+              "$ref": "#/definitions/IdReq"
             }
           }
         ],
@@ -2219,7 +2219,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TalkDetails"
+              "$ref": "#/definitions/TalkBackDTO"
             }
           }
         },
@@ -2246,7 +2246,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TalkDetails"
+              "$ref": "#/definitions/TalkBackDTO"
             }
           }
         },
@@ -2292,33 +2292,6 @@
         ],
         "consumes": [
           "multipart/form-data"
-        ]
-      }
-    },
-    "/api/v1/user/batch_delete_user_login_history": {
-      "post": {
-        "summary": "批量删除登录历史",
-        "operationId": "BatchDeleteUserLoginHistory",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/EmptyResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "account"
         ]
       }
     },
@@ -2651,6 +2624,103 @@
       },
       "title": "AdminHomeInfo"
     },
+    "AlbumBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "album_name": {
+          "type": "string",
+          "description": " 相册名"
+        },
+        "album_desc": {
+          "type": "string",
+          "description": " 相册描述"
+        },
+        "album_cover": {
+          "type": "string",
+          "description": " 相册封面"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1公开 2私密"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        },
+        "photo_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 照片数量"
+        }
+      },
+      "title": "AlbumBackDTO"
+    },
+    "AlbumNew": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "album_name": {
+          "type": "string",
+          "description": " 相册名"
+        },
+        "album_desc": {
+          "type": "string",
+          "description": " 相册描述"
+        },
+        "album_cover": {
+          "type": "string",
+          "description": " 相册封面"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态值 1公开 2私密"
+        }
+      },
+      "title": "AlbumNew"
+    },
+    "AlbumQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        }
+      },
+      "title": "AlbumQuery"
+    },
     "ApiBackDTO": {
       "type": "object",
       "properties": {
@@ -2809,7 +2879,7 @@
         "status": {
           "type": "integer",
           "format": "int64",
-          "description": " 状态值 1 公开 2 私密 3 评论可见"
+          "description": " 状态值 1 公开 2 私密 3 草稿 4 已删除"
         },
         "created_at": {
           "type": "integer",
@@ -2845,7 +2915,7 @@
       },
       "title": "ArticleBackDTO"
     },
-    "ArticleNewReq": {
+    "ArticleNew": {
       "type": "object",
       "properties": {
         "id": {
@@ -2877,7 +2947,7 @@
         "status": {
           "type": "integer",
           "format": "int64",
-          "description": " 状态值 1公开 2私密 3评论可见"
+          "description": " 状态值 1 公开 2 私密 3 草稿 4 已删除"
         },
         "category_id": {
           "type": "integer",
@@ -2904,7 +2974,7 @@
           "description": " 文章标签列表"
         }
       },
-      "title": "ArticleNewReq"
+      "title": "ArticleNew"
     },
     "ArticleQuery": {
       "type": "object",
@@ -3002,6 +3072,82 @@
         }
       },
       "title": "ArticleViewRankDTO"
+    },
+    "BannerBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页面id"
+        },
+        "banner_name": {
+          "type": "string",
+          "description": " 页面名"
+        },
+        "banner_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "banner_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "BannerBackDTO"
+    },
+    "BannerNew": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页面id"
+        },
+        "banner_name": {
+          "type": "string",
+          "description": " 页面名"
+        },
+        "banner_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "banner_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        }
+      },
+      "title": "BannerNew"
+    },
+    "BannerQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "banner_name": {
+          "type": "string",
+          "description": " 页面名"
+        }
+      },
+      "title": "BannerQuery"
     },
     "BatchResp": {
       "type": "object",
@@ -3265,7 +3411,7 @@
       },
       "title": "CommentDTO"
     },
-    "CommentNewReq": {
+    "CommentNew": {
       "type": "object",
       "properties": {
         "topic_id": {
@@ -3298,7 +3444,7 @@
           "description": " 评论类型 1.文章 2.友链 3.说说"
         }
       },
-      "title": "CommentNewReq"
+      "title": "CommentNew"
     },
     "CommentQuery": {
       "type": "object",
@@ -3441,7 +3587,7 @@
       "type": "object",
       "title": "EmptyResp"
     },
-    "Friend": {
+    "FriendBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3476,7 +3622,34 @@
           "description": " 更新时间"
         }
       },
-      "title": "Friend"
+      "title": "FriendBackDTO"
+    },
+    "FriendNew": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " id"
+        },
+        "link_name": {
+          "type": "string",
+          "description": " 链接名"
+        },
+        "link_avatar": {
+          "type": "string",
+          "description": " 链接头像"
+        },
+        "link_address": {
+          "type": "string",
+          "description": " 链接地址"
+        },
+        "link_intro": {
+          "type": "string",
+          "description": " 链接介绍"
+        }
+      },
+      "title": "FriendNew"
     },
     "FriendQuery": {
       "type": "object",
@@ -3536,14 +3709,15 @@
         "password": {
           "type": "string"
         },
-        "code": {
+        "verify_code": {
           "type": "string"
         }
       },
       "title": "LoginReq",
       "required": [
         "username",
-        "password"
+        "password",
+        "verify_code"
       ]
     },
     "LoginResp": {
@@ -3555,7 +3729,7 @@
       },
       "title": "LoginResp"
     },
-    "MenuDetails": {
+    "MenuBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3600,7 +3774,7 @@
         "children": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MenuDetails"
+            "$ref": "#/definitions/MenuBackDTO"
           }
         },
         "created_at": {
@@ -3614,7 +3788,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "MenuDetails"
+      "title": "MenuBackDTO"
     },
     "MenuQuery": {
       "type": "object",
@@ -3715,7 +3889,7 @@
       },
       "title": "Meta"
     },
-    "OperationLog": {
+    "OperationLogBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3788,7 +3962,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "OperationLog"
+      "title": "OperationLogBackDTO"
     },
     "OperationLogQuery": {
       "type": "object",
@@ -3805,39 +3979,6 @@
         }
       },
       "title": "OperationLogQuery"
-    },
-    "Page": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页面id"
-        },
-        "page_name": {
-          "type": "string",
-          "description": " 页面名"
-        },
-        "page_label": {
-          "type": "string",
-          "description": " 页面标签"
-        },
-        "page_cover": {
-          "type": "string",
-          "description": " 页面封面"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "Page"
     },
     "PageCondition": {
       "type": "object",
@@ -3964,7 +4105,7 @@
       },
       "title": "PageSort"
     },
-    "Photo": {
+    "PhotoBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4005,9 +4146,9 @@
           "description": " 更新时间"
         }
       },
-      "title": "Photo"
+      "title": "PhotoBackDTO"
     },
-    "PhotoAlbum": {
+    "PhotoNew": {
       "type": "object",
       "properties": {
         "id": {
@@ -4015,61 +4156,30 @@
           "format": "int64",
           "description": " 主键"
         },
-        "album_name": {
-          "type": "string",
-          "description": " 相册名"
+        "album_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 相册id"
         },
-        "album_desc": {
+        "photo_name": {
           "type": "string",
-          "description": " 相册描述"
+          "description": " 照片名"
         },
-        "album_cover": {
+        "photo_desc": {
           "type": "string",
-          "description": " 相册封面"
+          "description": " 照片描述"
+        },
+        "photo_src": {
+          "type": "string",
+          "description": " 照片地址"
         },
         "is_delete": {
           "type": "integer",
           "format": "int64",
           "description": " 是否删除"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 状态值 1公开 2私密"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        },
-        "photo_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 照片数量"
         }
       },
-      "title": "PhotoAlbum"
-    },
-    "PhotoAlbumQuery": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页码"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 每页数量"
-        }
-      },
-      "title": "PhotoAlbumQuery"
+      "title": "PhotoNew"
     },
     "PhotoQuery": {
       "type": "object",
@@ -4083,6 +4193,11 @@
           "type": "integer",
           "format": "int64",
           "description": " 每页数量"
+        },
+        "album_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 相册id"
         }
       },
       "title": "PhotoQuery"
@@ -4126,7 +4241,7 @@
         "rpc_status"
       ]
     },
-    "Remark": {
+    "RemarkBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4175,7 +4290,48 @@
           "description": " 更新时间"
         }
       },
-      "title": "Remark"
+      "title": "RemarkBackDTO"
+    },
+    "RemarkNew": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "message_content": {
+          "type": "string",
+          "description": " 留言内容"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " 用户ip"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " 用户地址"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 弹幕速度"
+        },
+        "is_review": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否审核"
+        }
+      },
+      "title": "RemarkNew"
     },
     "RemarkQuery": {
       "type": "object",
@@ -4231,55 +4387,7 @@
       "type": "object",
       "title": "RestHeader"
     },
-    "Role": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 主键id"
-        },
-        "role_pid": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 父角色id"
-        },
-        "role_domain": {
-          "type": "string",
-          "description": " 角色域"
-        },
-        "role_name": {
-          "type": "string",
-          "description": " 角色名"
-        },
-        "role_comment": {
-          "type": "string",
-          "description": " 角色备注"
-        },
-        "is_disable": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 是否禁用  0否 1是"
-        },
-        "is_default": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 是否默认角色 0否 1是"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "Role"
-    },
-    "RoleDetails": {
+    "RoleBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4339,7 +4447,45 @@
           }
         }
       },
-      "title": "RoleDetails"
+      "title": "RoleBackDTO"
+    },
+    "RoleNew": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "role_pid": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父角色id"
+        },
+        "role_domain": {
+          "type": "string",
+          "description": " 角色域"
+        },
+        "role_name": {
+          "type": "string",
+          "description": " 角色名"
+        },
+        "role_comment": {
+          "type": "string",
+          "description": " 角色备注"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用  0否 1是"
+        },
+        "is_default": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否默认角色 0否 1是"
+        }
+      },
+      "title": "RoleNew"
     },
     "RoleQuery": {
       "type": "object",
@@ -4557,7 +4703,7 @@
       },
       "title": "TagQuery"
     },
-    "TalkDetails": {
+    "TalkBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4620,7 +4766,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "TalkDetails"
+      "title": "TalkBackDTO"
     },
     "TalkNew": {
       "type": "object",

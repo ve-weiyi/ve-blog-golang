@@ -103,24 +103,6 @@ message UserInfoResp {
   string ip_source = 11;// ip 源
   int64 created_at = 12;
   int64 updated_at = 13;
-}
-
-message UserDetails {
-  int64 user_id = 1; // 用户id
-  string username = 2;// 用户名
-  string nickname = 3;// 用户昵称
-  string avatar = 4;// 用户头像
-  string email = 5;// 用户邮箱
-  string phone = 6;// 用户手机号
-  string info = 7;// 用户信息
-  int64 status = 8;
-  string login_type = 9;
-  string ip_address = 10;// ip host
-  string ip_source = 11;// ip 源
-  int64 created_at = 12;
-  int64 updated_at = 13;
-  int64 login_at = 14;
-  int64 logout_at = 15;
   repeated UserRoleLabel roles = 16;
 }
 
@@ -168,7 +150,7 @@ message FindUserListReq {
 }
 
 message FindUserListResp{
-  repeated UserDetails list = 1;
+  repeated UserInfoResp list = 1;
   int64 total = 2;
 }
 

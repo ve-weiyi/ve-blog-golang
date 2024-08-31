@@ -23,29 +23,12 @@ type (
     }
 
     PageQuery {
-        Page int64 `json:"page,optional"`
-        PageSize int64 `json:"page_size,optional"`
-        Sorts []*PageSort `json:"sorts,optional"`
-        Conditions []*PageCondition `json:"conditions,optional"`
-    }
-
-    PageLimit {
-        Page int64 `json:"page,optional"`
-        PageSize int64 `json:"page_size,optional"`
-    }
-
-    PageSort {
-        Field string `json:"field,optional"`
-        Order string `json:"order,optional"` // asc | desc
-    }
-
-    PageCondition {
-        Field string `json:"field,optional"`            // 字段
-        Value string `json:"value,optional"`            // 值
-        Logic string `json:"logic,optional"`            // and | or
-        Operator string `json:"operator,optional"`      // = | >= | < | in | not in |....
+        Page int64 `json:"page,optional"`         // 当前页码
+        PageSize int64 `json:"page_size,optional"`// 每页数量
+        Sorts []string `json:"sorts,optional"`    // 排序
     }
 )
+
 type (
     EmptyResp {
     }

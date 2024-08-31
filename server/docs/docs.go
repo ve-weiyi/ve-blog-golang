@@ -8820,7 +8820,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态值 1公开 2私密 3评论可见",
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
                     "type": "integer"
                 },
                 "type": {
@@ -9597,7 +9597,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态值 1 公开 2 私密 3 评论可见",
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
                     "type": "integer"
                 },
                 "tag_name_list": {
@@ -10407,7 +10407,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态值 1 公开 2 私密 3 评论可见",
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
                     "type": "integer"
                 },
                 "tag_name_list": {
@@ -10502,7 +10502,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态值 1 公开 2 私密 3 评论可见",
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
                     "type": "integer"
                 },
                 "type": {
@@ -10604,7 +10604,7 @@ const docTemplate = `{
                     }
                 },
                 "status": {
-                    "description": "状态值 1 公开 2 私密 3 评论可见",
+                    "description": "状态值 1 公开 2 私密 3 草稿 4 已删除",
                     "type": "integer"
                 },
                 "type": {

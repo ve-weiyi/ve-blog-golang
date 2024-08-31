@@ -3,9 +3,11 @@ package talk
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -26,23 +28,24 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 	}
 }
 
-func (l *AddTalkLogic) AddTalk(req *types.TalkNew) (resp *types.TalkDetails, err error) {
+func (l *AddTalkLogic) AddTalk(req *types.TalkNewReq) (resp *types.TalkBackDTO, err error) {
 	in := ConvertTalkPb(req)
-
-	out, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)
+	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
+	out, err := l.svcCtx.TalkRpc.AddTalk(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertTalkTypes(out), nil
+	resp = ConvertTalkTypes(out, nil)
+	return resp, nil
 }
 
-func ConvertTalkPb(in *types.TalkNew) (out *talkrpc.TalkNew) {
-	out = &talkrpc.TalkNew{
+func ConvertTalkPb(in *types.TalkNewReq) (out *talkrpc.TalkNewReq) {
+	out = &talkrpc.TalkNewReq{
 		Id:      in.Id,
 		UserId:  in.UserId,
 		Content: in.Content,
-		Images:  jsonconv.ObjectToJson(in.ImgList),
+		ImgList: in.ImgList,
 		IsTop:   in.IsTop,
 		Status:  in.Status,
 	}
@@ -50,20 +53,29 @@ func ConvertTalkPb(in *types.TalkNew) (out *talkrpc.TalkNew) {
 	return
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails) (out *types.TalkDetails) {
-	out = &types.TalkDetails{
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.TalkBackDTO) {
+	out = &types.TalkBackDTO{
 		Id:           in.Id,
 		UserId:       in.UserId,
-		Nickname:     in.Nickname,
-		Avatar:       in.Avatar,
+		Nickname:     "",
+		Avatar:       "",
 		Content:      in.Content,
 		ImgList:      in.ImgList,
 		IsTop:        in.IsTop,
 		Status:       in.Status,
 		LikeCount:    in.LikeCount,
-		CommentCount: 0,
+		CommentCount: in.CommentCount,
 		CreatedAt:    in.CreatedAt,
 		UpdatedAt:    in.UpdatedAt,
+	}
+
+	// 用户信息
+	if out.UserId != 0 {
+		user, ok := usm[out.UserId]
+		if ok && user != nil {
+			out.Nickname = user.Nickname
+			out.Avatar = user.Avatar
+		}
 	}
 
 	return

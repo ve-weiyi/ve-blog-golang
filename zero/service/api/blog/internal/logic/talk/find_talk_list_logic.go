@@ -36,20 +36,20 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 		return nil, err
 	}
 
-	var userIds []int64
+	var uids []int64
 	for _, v := range out.List {
-		userIds = append(userIds, v.UserId)
+		uids = append(uids, v.UserId)
 	}
 
 	// 查询用户信息
 	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: userIds,
+		UserIds: uids,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserDetails)
+	usm := make(map[int64]*accountrpc.UserInfoResp)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -68,7 +68,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	return resp, nil
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.UserDetails) (out *types.Talk) {
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.Talk) {
 	out = &types.Talk{
 		Id:           in.Id,
 		UserId:       in.UserId,

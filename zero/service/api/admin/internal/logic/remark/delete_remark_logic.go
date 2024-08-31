@@ -26,8 +26,8 @@ func NewDeleteRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 func (l *DeleteRemarkLogic) DeleteRemark(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &remarkrpc.IdReq{
-		Id: req.Id,
+	in := &remarkrpc.IdsReq{
+		Ids: []int64{req.Id},
 	}
 
 	out, err := l.svcCtx.RemarkRpc.DeleteRemark(l.ctx, in)
@@ -35,7 +35,8 @@ func (l *DeleteRemarkLogic) DeleteRemark(req *types.IdReq) (resp *types.BatchRes
 		return nil, err
 	}
 
-	return &types.BatchResp{
+	resp = &types.BatchResp{
 		SuccessCount: out.SuccessCount,
-	}, nil
+	}
+	return resp, nil
 }

@@ -43,7 +43,7 @@ func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQueryReq) (resp *type
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = 0
+	resp.Total = int64(len(list))
 	resp.List = list
 	return resp, nil
 }

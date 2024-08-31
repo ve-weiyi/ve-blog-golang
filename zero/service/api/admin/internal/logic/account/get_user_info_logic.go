@@ -18,6 +18,7 @@ type GetUserInfoLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 获取用户信息
 func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInfoLogic {
 	return &GetUserInfoLogic{
 		Logger: logx.WithContext(ctx),
@@ -36,5 +37,5 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	return ConvertUserInfoTypes(info), nil
+	return ConvertUserTypes(info), nil
 }

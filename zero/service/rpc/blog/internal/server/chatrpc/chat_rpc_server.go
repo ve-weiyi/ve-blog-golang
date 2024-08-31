@@ -23,27 +23,21 @@ func NewChatRpcServer(svcCtx *svc.ServiceContext) *ChatRpcServer {
 }
 
 // 创建聊天记录
-func (s *ChatRpcServer) AddChatRecord(ctx context.Context, in *chatrpc.ChatRecordNew) (*chatrpc.ChatRecordDetails, error) {
+func (s *ChatRpcServer) AddChatRecord(ctx context.Context, in *chatrpc.ChatRecordNewReq) (*chatrpc.ChatRecordDetails, error) {
 	l := chatrpclogic.NewAddChatRecordLogic(ctx, s.svcCtx)
 	return l.AddChatRecord(in)
 }
 
 // 更新聊天记录
-func (s *ChatRpcServer) UpdateChatRecord(ctx context.Context, in *chatrpc.ChatRecordNew) (*chatrpc.ChatRecordDetails, error) {
+func (s *ChatRpcServer) UpdateChatRecord(ctx context.Context, in *chatrpc.ChatRecordNewReq) (*chatrpc.ChatRecordDetails, error) {
 	l := chatrpclogic.NewUpdateChatRecordLogic(ctx, s.svcCtx)
 	return l.UpdateChatRecord(in)
 }
 
 // 删除聊天记录
-func (s *ChatRpcServer) DeleteChatRecord(ctx context.Context, in *chatrpc.IdReq) (*chatrpc.BatchResp, error) {
+func (s *ChatRpcServer) DeleteChatRecord(ctx context.Context, in *chatrpc.IdsReq) (*chatrpc.BatchResp, error) {
 	l := chatrpclogic.NewDeleteChatRecordLogic(ctx, s.svcCtx)
 	return l.DeleteChatRecord(in)
-}
-
-// 批量删除聊天记录
-func (s *ChatRpcServer) DeleteChatRecordList(ctx context.Context, in *chatrpc.IdsReq) (*chatrpc.BatchResp, error) {
-	l := chatrpclogic.NewDeleteChatRecordListLogic(ctx, s.svcCtx)
-	return l.DeleteChatRecordList(in)
 }
 
 // 查询聊天记录

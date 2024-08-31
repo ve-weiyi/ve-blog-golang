@@ -29,7 +29,7 @@ func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchive
 	in := &articlerpc.FindArticleListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    "id desc",
+		Sorts:    req.Sorts,
 	}
 	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {

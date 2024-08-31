@@ -25,24 +25,63 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 	}
 }
 
-func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.EmptyResp, err error) {
-	in := &articlerpc.ArticleNew{
-		Id:             0,
-		UserId:         l.ctx.Value("userId").(int64),
-		ArticleCover:   req.ArticleCover,
-		ArticleTitle:   req.ArticleTitle,
-		ArticleContent: req.ArticleContent,
-		ArticleType:    req.ArticleType,
-		OriginalUrl:    req.OriginalUrl,
-		Status:         req.Status,
-		CategoryName:   req.CategoryName,
-		TagNameList:    req.TagNameList,
-	}
-
-	_, err = l.svcCtx.ArticleRpc.AddArticle(l.ctx, in)
+func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.ArticleBackDTO, err error) {
+	in := ConvertArticlePb(req)
+	in.UserId = l.ctx.Value("userId").(int64)
+	out, err := l.svcCtx.ArticleRpc.AddArticle(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.EmptyResp{}, nil
+	resp = ConvertArticleTypes(out)
+	return resp, nil
+}
+
+func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {
+	out = &articlerpc.ArticleNewReq{
+		Id:             in.Id,
+		UserId:         0,
+		ArticleCover:   in.ArticleCover,
+		ArticleTitle:   in.ArticleTitle,
+		ArticleContent: in.ArticleContent,
+		ArticleType:    in.ArticleType,
+		OriginalUrl:    in.OriginalUrl,
+		Status:         in.Status,
+		CategoryName:   in.CategoryName,
+		TagNameList:    in.TagNameList,
+	}
+
+	return
+}
+
+func ConvertArticleTypes(in *articlerpc.ArticleDetails) (out *types.ArticleBackDTO) {
+	out = &types.ArticleBackDTO{
+		Id:             in.Id,
+		ArticleCover:   in.ArticleCover,
+		ArticleTitle:   in.ArticleTitle,
+		ArticleContent: in.ArticleContent,
+		ArticleType:    in.ArticleType,
+		OriginalUrl:    in.OriginalUrl,
+		IsTop:          in.IsTop,
+		IsDelete:       in.IsDelete,
+		Status:         in.Status,
+		CreatedAt:      in.CreatedAt,
+		UpdatedAt:      in.UpdatedAt,
+		CategoryName:   "",
+		TagNameList:    make([]string, 0),
+		LikeCount:      in.LikeCount,
+		ViewsCount:     in.ViewCount,
+	}
+
+	if in.Category != nil {
+		out.CategoryName = in.Category.CategoryName
+	}
+
+	if in.TagList != nil {
+		for _, tag := range in.TagList {
+			out.TagNameList = append(out.TagNameList, tag.TagName)
+		}
+	}
+
+	return
 }

@@ -26,18 +26,18 @@ func NewAddAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAlbum
 }
 
 // 创建相册
-func (l *AddAlbumLogic) AddAlbum(in *photorpc.AlbumNew) (*photorpc.AlbumDetails, error) {
-	entity := ConvertAlbumIn(in)
+func (l *AddAlbumLogic) AddAlbum(in *photorpc.AlbumNewReq) (*photorpc.AlbumDetails, error) {
+	entity := convertAlbumIn(in)
 
 	_, err := l.svcCtx.AlbumModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertAlbumOut(entity), nil
+	return convertAlbumOut(entity, nil), nil
 }
 
-func ConvertAlbumIn(in *photorpc.AlbumNew) (out *model.Album) {
+func convertAlbumIn(in *photorpc.AlbumNewReq) (out *model.Album) {
 	out = &model.Album{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
@@ -52,7 +52,12 @@ func ConvertAlbumIn(in *photorpc.AlbumNew) (out *model.Album) {
 	return out
 }
 
-func ConvertAlbumOut(in *model.Album) (out *photorpc.AlbumDetails) {
+func convertAlbumOut(in *model.Album, cm map[int64]int) (out *photorpc.AlbumDetails) {
+	var count int
+	if v, ok := cm[in.Id]; ok {
+		count = v
+	}
+
 	out = &photorpc.AlbumDetails{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
@@ -62,6 +67,7 @@ func ConvertAlbumOut(in *model.Album) (out *photorpc.AlbumDetails) {
 		Status:     in.Status,
 		CreatedAt:  in.CreatedAt.Unix(),
 		UpdatedAt:  in.UpdatedAt.Unix(),
+		PhotoCount: int64(count),
 	}
 
 	return out

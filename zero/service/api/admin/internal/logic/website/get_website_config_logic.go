@@ -17,7 +17,7 @@ type GetWebsiteConfigLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 获取网站前台配置
+// 获取网站配置
 func NewGetWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetWebsiteConfigLogic {
 	return &GetWebsiteConfigLogic{
 		Logger: logx.WithContext(ctx),

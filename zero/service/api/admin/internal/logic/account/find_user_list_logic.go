@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -16,6 +17,7 @@ type FindUserListLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 查询用户列表
 func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserListLogic {
 	return &FindUserListLogic{
 		Logger: logx.WithContext(ctx),
@@ -24,26 +26,63 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 	}
 }
 
-func (l *FindUserListLogic) FindUserList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindUserListLogic) FindUserList(req *types.UserQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.FindUserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-	}
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, in)
-	if err != nil {
-		return
+		Nickname: req.Nickname,
 	}
 
-	var list []*types.User
-	for _, user := range users.List {
-		u := ConvertUserDetailsTypes(user)
-		list = append(list, u)
+	out, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*types.UserInfoResp
+	for _, v := range out.List {
+		m := ConvertUserTypes(v)
+		list = append(list, m)
 	}
 
 	resp = &types.PageResp{}
 	resp.Page = in.Page
 	resp.PageSize = in.PageSize
-	resp.Total = users.Total
+	resp.Total = out.Total
 	resp.List = list
-	return
+	return resp, nil
+}
+
+func ConvertUserTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
+	roles := make([]*types.UserRoleLabel, 0)
+	for _, v := range in.Roles {
+		m := &types.UserRoleLabel{
+			RoleId:      v.RoleId,
+			RoleName:    v.RoleName,
+			RoleComment: v.RoleComment,
+		}
+
+		roles = append(roles, m)
+	}
+
+	var info types.UserInfoExt
+	jsonconv.JsonToObject(in.Info, &info)
+
+	out := &types.UserInfoResp{
+		UserId:      in.UserId,
+		Username:    in.Username,
+		Nickname:    in.Nickname,
+		Avatar:      in.Avatar,
+		Email:       in.Email,
+		Phone:       in.Phone,
+		Status:      in.Status,
+		LoginType:   in.LoginType,
+		IpAddress:   in.IpAddress,
+		IpSource:    in.IpSource,
+		CreatedAt:   in.CreatedAt,
+		UpdatedAt:   in.UpdatedAt,
+		Roles:       roles,
+		UserInfoExt: info,
+	}
+
+	return out
 }

@@ -60,15 +60,15 @@ func (l *CommentService) FindCommentList(reqCtx *request.Context, page *dto.Comm
 		return nil, 0, err
 	}
 
-	var userIds []int64
+	var uids []int64
 	var commentIds []int64
 	for _, item := range commentList {
-		userIds = append(userIds, item.UserId)
+		uids = append(uids, item.UserId)
 		commentIds = append(commentIds, item.Id)
 	}
 
 	// 查询用户
-	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
+	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", uids)
 
 	var userMap = make(map[int64]*entity.UserInformation)
 	for _, item := range users {
@@ -135,14 +135,14 @@ func (l *CommentService) FindCommentReplyList(reqCtx *request.Context, commentId
 	}
 
 	// 收集需要查询的用户id
-	var userIds []int64
+	var uids []int64
 	for _, item := range replyList {
-		userIds = append(userIds, item.UserId)
-		userIds = append(userIds, item.ReplyUserId)
+		uids = append(uids, item.UserId)
+		uids = append(uids, item.ReplyUserId)
 	}
 
 	// 查询用户
-	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
+	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", uids)
 
 	var userMap = make(map[int64]*entity.UserInformation)
 	for _, item := range users {
@@ -199,13 +199,13 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *dto.
 			return nil, 0, err
 		}
 
-		var userIds []int64
+		var uids []int64
 		for _, item := range accounts {
-			userIds = append(userIds, item.Id)
+			uids = append(uids, item.Id)
 		}
 		// 替换查询条件
 		cd.Field = "user_id"
-		cd.Value = userIds
+		cd.Value = uids
 		cd.Operator = "in"
 	}
 
@@ -224,16 +224,16 @@ func (l *CommentService) FindCommentBackList(reqCtx *request.Context, page *dto.
 	}
 
 	// 收集需要查询的用户id
-	var userIds []int64
+	var uids []int64
 	var articleIds []int64
 	for _, item := range commentList {
-		userIds = append(userIds, item.UserId)
-		userIds = append(userIds, item.ReplyUserId)
+		uids = append(uids, item.UserId)
+		uids = append(uids, item.ReplyUserId)
 		articleIds = append(articleIds, item.TopicId)
 	}
 
 	// 查询用户
-	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", userIds)
+	users, _ := l.svcCtx.UserInformationRepository.FindALL(reqCtx, "id in (?)", uids)
 	var userMap = make(map[int64]*entity.UserInformation)
 	for _, item := range users {
 		userMap[item.Id] = item

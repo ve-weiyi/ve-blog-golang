@@ -16,6 +16,7 @@ type UpdateUserRolesLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+// 修改用户角色
 func NewUpdateUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserRolesLogic {
 	return &UpdateUserRolesLogic{
 		Logger: logx.WithContext(ctx),

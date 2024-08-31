@@ -3,12 +3,12 @@ package talk
 import (
 	"context"
 
-	"github.com/zeromicro/go-zero/core/logx"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FindTalkListLogic struct {
@@ -30,6 +30,8 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 	in := &talkrpc.FindTalkListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
+		Sorts:    req.Sorts,
+		Status:   req.Status,
 	}
 
 	out, err := l.svcCtx.TalkRpc.FindTalkList(l.ctx, in)
@@ -37,17 +39,27 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var list []*types.TalkDetails
+	var uids []int64
 	for _, v := range out.List {
+		uids = append(uids, v.UserId)
+	}
 
-		m := ConvertTalkTypes(v)
-		user, _ := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, &accountrpc.UserIdReq{UserId: v.UserId})
-		if user != nil {
-			m.UserId = user.UserId
-			m.Nickname = user.Nickname
-			m.Avatar = user.Avatar
-		}
+	// 查询用户信息
+	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
+		UserIds: uids,
+	})
+	if err != nil {
+		return nil, err
+	}
 
+	usm := make(map[int64]*accountrpc.UserInfoResp)
+	for _, v := range users.List {
+		usm[v.UserId] = v
+	}
+
+	var list []*types.TalkBackDTO
+	for _, v := range out.List {
+		m := ConvertTalkTypes(v, usm)
 		list = append(list, m)
 	}
 

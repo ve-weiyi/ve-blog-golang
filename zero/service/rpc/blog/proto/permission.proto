@@ -33,7 +33,7 @@ message UserIdReq {
 }
 
 /************** rbac 权限相关 **************/
-message ApiNew {
+message ApiNewReq {
   int64 id = 1;// 主键id
   string name = 2;// api名称
   string path = 3;// api路径
@@ -60,7 +60,7 @@ message FindApiListResp {
   repeated ApiDetails list = 1;
 }
 
-message MenuNew {
+message MenuNewReq {
   int64 id = 1;// 主键
   int64 parent_id = 2;// 父id
   string title = 3;// 菜单标题
@@ -98,7 +98,7 @@ message SyncMenuReq {
 }
 
 
-message RoleNew {
+message RoleNewReq {
   int64 id = 1;// 主键id
   int64 parent_id = 2;// 父角色id
   string role_domain = 3;// 角色域
@@ -152,23 +152,30 @@ message UpdateUserRoleReq {
 message FindApiListReq {
   int64 page = 1;
   int64 page_size = 2;
+  string name = 5;// api名称
+  string path = 3;// api路径
+  string method = 4;// api请求方法
 }
 
 message FindMenuListReq {
   int64 page = 1;
   int64 page_size = 2;
+  string name = 6;// 路由名字
 }
 
 message FindRoleListReq {
   int64 page = 1;
   int64 page_size = 2;
+  string role_name = 4;// 角色名
+  string role_comment = 5;// 角色备注
+  int64 is_disable = 6;// 是否禁用  0否 1是
 }
 
 service PermissionRpc {
   // 创建接口
-  rpc AddApi(ApiNew) returns(ApiDetails);
+  rpc AddApi(ApiNewReq) returns(ApiDetails);
   // 更新接口
-  rpc UpdateApi(ApiNew) returns(ApiDetails);
+  rpc UpdateApi(ApiNewReq) returns(ApiDetails);
   // 删除接口
   rpc DeleteApi(IdsReq) returns(BatchResp);
   // 查询接口列表
@@ -180,9 +187,9 @@ service PermissionRpc {
 
 
   // 创建菜单
-  rpc AddMenu(MenuNew) returns(MenuDetails);
+  rpc AddMenu(MenuNewReq) returns(MenuDetails);
   // 更新菜单
-  rpc UpdateMenu(MenuNew) returns(MenuDetails);
+  rpc UpdateMenu(MenuNewReq) returns(MenuDetails);
   // 删除菜单
   rpc DeleteMenu(IdsReq) returns(BatchResp);
   // 查询菜单列表
@@ -194,9 +201,9 @@ service PermissionRpc {
 
 
   // 创建角色
-  rpc AddRole(RoleNew) returns(RoleDetails);
+  rpc AddRole(RoleNewReq) returns(RoleDetails);
   // 更新角色
-  rpc UpdateRole(RoleNew) returns(RoleDetails);
+  rpc UpdateRole(RoleNewReq) returns(RoleDetails);
   // 删除角色
   rpc DeleteRole(IdsReq) returns(BatchResp);
   // 查询角色列表

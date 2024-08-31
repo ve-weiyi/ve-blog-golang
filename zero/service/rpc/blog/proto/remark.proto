@@ -34,7 +34,7 @@ message CountResp {
 }
 
 
-message RemarkNew {
+message RemarkNewReq {
   int64 id = 1;// 主键id
   string nickname = 2;// 昵称
   string avatar = 3;// 头像
@@ -61,7 +61,9 @@ message RemarkDetails {
 message FindRemarkListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
+  string nickname = 4;// 昵称
+  int64 is_review = 8;// 是否审核
 }
 
 message FindRemarkListResp {
@@ -71,13 +73,11 @@ message FindRemarkListResp {
 
 service RemarkRpc {
   // 创建留言
-  rpc AddRemark(RemarkNew) returns(RemarkDetails);
+  rpc AddRemark(RemarkNewReq) returns(RemarkDetails);
   // 更新留言
-  rpc UpdateRemark(RemarkNew) returns(RemarkDetails);
+  rpc UpdateRemark(RemarkNewReq) returns(RemarkDetails);
   // 删除留言
-  rpc DeleteRemark(IdReq) returns(BatchResp);
-  // 批量删除留言
-  rpc DeleteRemarkList(IdsReq) returns(BatchResp);
+  rpc DeleteRemark(IdsReq) returns(BatchResp);
   // 查询留言
   rpc GetRemark(IdReq) returns(RemarkDetails);
   // 查询留言列表

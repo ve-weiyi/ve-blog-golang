@@ -26,19 +26,10 @@ func NewFindArticlePublicListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 
 // 查询文章列表
 func (l *FindArticlePublicListLogic) FindArticlePublicList(in *articlerpc.FindArticleListReq) (*articlerpc.FindArticleListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = in.Sorts
-	conditions = "status = ?"
-	params = append(params, global.ArticleStatusPublic)
+	in.Status = global.ArticleStatusPublic
+	page, size, sorts, conditions, params := helper.convertArticleQuery(in)
 
 	// 查询文章信息
 	records, err := l.svcCtx.ArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -51,13 +42,13 @@ func (l *FindArticlePublicListLogic) FindArticlePublicList(in *articlerpc.FindAr
 		return nil, err
 	}
 
-	acm, err := findCategoryGroupArticle(l.ctx, l.svcCtx, records)
+	acm, err := helper.findCategoryGroupArticle(records)
 	if err != nil {
 		return nil, err
 
 	}
 
-	atm, err := findTagGroupArticle(l.ctx, l.svcCtx, records)
+	atm, err := helper.findTagGroupArticle(records)
 	if err != nil {
 		return nil, err
 	}

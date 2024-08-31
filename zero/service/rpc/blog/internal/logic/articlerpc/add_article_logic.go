@@ -25,11 +25,13 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 }
 
 // 创建文章
-func (l *AddArticleLogic) AddArticle(in *articlerpc.ArticleNew) (*articlerpc.ArticleDetails, error) {
+func (l *AddArticleLogic) AddArticle(in *articlerpc.ArticleNewReq) (*articlerpc.ArticleDetails, error) {
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
+
 	entity := convertArticleIn(in)
 
 	// 插入文章分类
-	categoryId, err := findOrAddCategory(l.ctx, l.svcCtx, in.CategoryName)
+	categoryId, err := helper.findOrAddCategory(in.CategoryName)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +45,7 @@ func (l *AddArticleLogic) AddArticle(in *articlerpc.ArticleNew) (*articlerpc.Art
 	// 插入文章标签
 	var ats []*model.ArticleTag
 	for _, tagName := range in.TagNameList {
-		tagId, err := findOrAddTag(l.ctx, l.svcCtx, tagName)
+		tagId, err := helper.findOrAddTag(tagName)
 		if err != nil {
 			return nil, err
 		}

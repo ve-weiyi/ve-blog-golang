@@ -23,27 +23,21 @@ func NewRemarkRpcServer(svcCtx *svc.ServiceContext) *RemarkRpcServer {
 }
 
 // 创建留言
-func (s *RemarkRpcServer) AddRemark(ctx context.Context, in *remarkrpc.RemarkNew) (*remarkrpc.RemarkDetails, error) {
+func (s *RemarkRpcServer) AddRemark(ctx context.Context, in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
 	l := remarkrpclogic.NewAddRemarkLogic(ctx, s.svcCtx)
 	return l.AddRemark(in)
 }
 
 // 更新留言
-func (s *RemarkRpcServer) UpdateRemark(ctx context.Context, in *remarkrpc.RemarkNew) (*remarkrpc.RemarkDetails, error) {
+func (s *RemarkRpcServer) UpdateRemark(ctx context.Context, in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
 	l := remarkrpclogic.NewUpdateRemarkLogic(ctx, s.svcCtx)
 	return l.UpdateRemark(in)
 }
 
 // 删除留言
-func (s *RemarkRpcServer) DeleteRemark(ctx context.Context, in *remarkrpc.IdReq) (*remarkrpc.BatchResp, error) {
+func (s *RemarkRpcServer) DeleteRemark(ctx context.Context, in *remarkrpc.IdsReq) (*remarkrpc.BatchResp, error) {
 	l := remarkrpclogic.NewDeleteRemarkLogic(ctx, s.svcCtx)
 	return l.DeleteRemark(in)
-}
-
-// 批量删除留言
-func (s *RemarkRpcServer) DeleteRemarkList(ctx context.Context, in *remarkrpc.IdsReq) (*remarkrpc.BatchResp, error) {
-	l := remarkrpclogic.NewDeleteRemarkListLogic(ctx, s.svcCtx)
-	return l.DeleteRemarkList(in)
 }
 
 // 查询留言

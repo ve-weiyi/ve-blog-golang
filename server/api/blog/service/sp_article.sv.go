@@ -132,7 +132,7 @@ func (l *ArticleService) FindArticleList(reqCtx *request.Context, page *dto.Page
 	}
 
 	// 查询所有文章分类
-	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
+	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in (?)", categoryIds)
 	var cmp = make(map[int64]*entity.Category)
 	for _, item := range category {
 		cmp[item.Id] = item
@@ -324,7 +324,7 @@ func (l *ArticleService) FindArticleHomeList(reqCtx *request.Context, page *dto.
 	}
 
 	// 查询所有文章分类
-	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in ?", categoryIds)
+	category, _ := l.svcCtx.CategoryRepository.FindALL(reqCtx, "id in (?)", categoryIds)
 	var cmp = make(map[int64]*entity.Category)
 	for _, item := range category {
 		cmp[item.Id] = item

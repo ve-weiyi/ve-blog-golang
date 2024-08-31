@@ -34,8 +34,7 @@ message CountResp {
 }
 
 /************** blog 消息管理 **************/
-message CommentNew{
-  int64 id = 1;// 主键
+message CommentNewReq {
   int64 topic_id = 2;// 主题id
   int64 parent_id = 3;// 父评论id
   int64 session_id = 4; // 会话id
@@ -61,8 +60,8 @@ message CommentDetails {
   int64 created_at = 11;// 评论时间
   int64 updated_at = 12;// 更新时间
   int64 like_count = 13;// 点赞数
-//  CommentUserInfo user = 14;
-//  CommentUserInfo reply_user = 15;
+  //  CommentUserInfo user = 14;
+  //  CommentUserInfo reply_user = 15;
 }
 
 //message CommentUserInfo {
@@ -73,10 +72,28 @@ message CommentDetails {
 //  string info = 5;// 用户信息
 //}
 
+message UpdateCommentReviewReq{
+  int64 id = 1;// 主键
+  int64 is_review = 10;// 是否审核
+}
+
+message UpdateCommentContentReq {
+  int64 id = 1;// 主键
+  int64 topic_id = 2;// 主题id
+  int64 parent_id = 3;// 父评论id
+  int64 session_id = 4; // 会话id
+  int64 user_id = 5;// 评论用户id
+  int64 reply_user_id = 6; // 评论回复用户id
+  string comment_content = 7;// 评论内容
+  int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
+  int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
+  int64 is_review = 10;// 是否审核
+}
+
 message FindCommentListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
   int64 topic_id = 4;// 主题id
   int64 parent_id = 5;// 父评论id
   int64 session_id = 6; // 会话id
@@ -91,7 +108,7 @@ message FindCommentListResp {
 message FindCommentReplyListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string sorts = 3; // 排序
+  repeated string sorts = 3; // 排序
   int64 topic_id = 4;// 主题id
   int64 parent_id = 5;// 父评论id
   int64 session_id = 6; // 会话id
@@ -109,19 +126,19 @@ message FindLikeCommentResp{
 
 service CommentRpc {
   // 创建评论
-  rpc AddComment(CommentNew) returns(CommentDetails);
-  // 更新评论
-  rpc UpdateComment(CommentNew) returns(CommentDetails);
+  rpc AddComment(CommentNewReq) returns(CommentDetails);
   // 删除评论
-  rpc DeleteComment(IdReq) returns(BatchResp);
-  // 批量删除评论
-  rpc DeleteCommentList(IdsReq) returns(BatchResp);
+  rpc DeleteComment(IdsReq) returns(BatchResp);
   // 查询评论
   rpc GetComment(IdReq) returns(CommentDetails);
   // 查询评论列表
   rpc FindCommentList(FindCommentListReq) returns(FindCommentListResp);
   // 查询评论回复列表
   rpc FindCommentReplyList(FindCommentReplyListReq) returns(FindCommentReplyListResp);
+  // 更新评论审核状态
+  rpc UpdateCommentReview(UpdateCommentReviewReq) returns(CommentDetails);
+  // 更新评论
+  rpc UpdateCommentContent(UpdateCommentContentReq) returns(CommentDetails);
 
   // 点赞评论
   rpc LikeComment(IdReq) returns(EmptyResp);

@@ -9,70 +9,65 @@ type Album struct {
 }
 
 type AlbumQueryReq struct {
-	Page     int64 `json:"page,optional"` // 页码
-	PageSize int64 `json:"page_size,optional"`
+	PageQuery
 }
 
 type ArticleArchivesQueryReq struct {
-	Page     int64 `json:"page,optional"`      // 页码
-	PageSize int64 `json:"page_size,optional"` // 每页数量
+	PageQuery
 }
 
 type ArticleClassifyQueryReq struct {
-	Page         int64  `json:"page,optional"`          // 页码
-	PageSize     int64  `json:"page_size,optional"`     // 每页数量
+	PageQuery
 	ClassifyName string `json:"classify_name,optional"` // 分类名
 }
 
 type ArticleDeatils struct {
 	ArticleHome
-	LastArticle          *ArticlePreview   `json:"last_article,optional"`           // 上一篇文章
-	NextArticle          *ArticlePreview   `json:"next_article,optional"`           // 下一篇文章
-	RecommendArticleList []*ArticlePreview `json:"recommend_article_list,optional"` // 推荐文章列表
-	NewestArticleList    []*ArticlePreview `json:"newest_article_list,optional"`    // 最新文章列表
+	LastArticle          *ArticlePreview   `json:"last_article"`           // 上一篇文章
+	NextArticle          *ArticlePreview   `json:"next_article"`           // 下一篇文章
+	RecommendArticleList []*ArticlePreview `json:"recommend_article_list"` // 推荐文章列表
+	NewestArticleList    []*ArticlePreview `json:"newest_article_list"`    // 最新文章列表
 }
 
 type ArticleHome struct {
-	Id             int64    `json:"id,optional"`              // 文章ID
-	ArticleCover   string   `json:"article_cover,optional"`   // 文章缩略图
-	ArticleTitle   string   `json:"article_title,optional"`   // 标题
-	ArticleContent string   `json:"article_content,optional"` // 内容
-	ArticleType    int64    `json:"article_type,optional"`    // 文章类型
-	OriginalUrl    string   `json:"original_url,optional"`    // 原文链接
-	IsTop          int64    `json:"is_top,optional"`          // 是否置顶
-	Status         int64    `json:"status,optional"`          // 状态值 1 公开 2 私密 3 评论可见
-	CreatedAt      int64    `json:"created_at,optional"`      // 发表时间
-	UpdatedAt      int64    `json:"updated_at,optional"`      // 更新时间
-	CategoryName   string   `json:"category_name,optional"`   // 文章分类名
-	TagNameList    []string `json:"tag_name_list,optional"`   // 文章标签列表
-	LikeCount      int64    `json:"like_count,optional"`      // 点赞量
-	ViewsCount     int64    `json:"views_count,optional"`     // 浏览量
+	Id             int64    `json:"id"`              // 文章ID
+	ArticleCover   string   `json:"article_cover"`   // 文章缩略图
+	ArticleTitle   string   `json:"article_title"`   // 标题
+	ArticleContent string   `json:"article_content"` // 内容
+	ArticleType    int64    `json:"article_type"`    // 文章类型
+	OriginalUrl    string   `json:"original_url"`    // 原文链接
+	IsTop          int64    `json:"is_top"`          // 是否置顶
+	Status         int64    `json:"status"`          // 状态值 1 公开 2 私密 3 草稿 4 已删除
+	CreatedAt      int64    `json:"created_at"`      // 发表时间
+	UpdatedAt      int64    `json:"updated_at"`      // 更新时间
+	CategoryName   string   `json:"category_name"`   // 文章分类名
+	TagNameList    []string `json:"tag_name_list"`   // 文章标签列表
+	LikeCount      int64    `json:"like_count"`      // 点赞量
+	ViewsCount     int64    `json:"views_count"`     // 浏览量
 }
 
 type ArticleHomeQueryReq struct {
-	Page     int64 `json:"page,optional"`      // 页码
-	PageSize int64 `json:"page_size,optional"` // 每页数量
+	PageQuery
 }
 
 type ArticlePreview struct {
-	Id           int64  `json:"id,optional"`            // 文章ID
-	ArticleCover string `json:"article_cover,optional"` // 文章缩略图
-	ArticleTitle string `json:"article_title,optional"` // 标题
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
+	Id           int64  `json:"id"`            // 文章ID
+	ArticleCover string `json:"article_cover"` // 文章缩略图
+	ArticleTitle string `json:"article_title"` // 标题
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
 }
 
 type Banner struct {
-	Id          int64  `json:"id,optional"`           // 页面id
-	BannerName  string `json:"banner_name,optional"`  // 页面名
-	BannerLabel string `json:"banner_label,optional"` // 页面标签
-	BannerCover string `json:"banner_cover,optional"` // 页面封面
-	CreatedAt   int64  `json:"created_at,optional"`   // 创建时间
-	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
+	Id          int64  `json:"id"`           // 页面id
+	BannerName  string `json:"banner_name"`  // 页面名
+	BannerLabel string `json:"banner_label"` // 页面标签
+	BannerCover string `json:"banner_cover"` // 页面封面
+	CreatedAt   int64  `json:"created_at"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
 }
 
 type BannerQueryReq struct {
-	Page     int64 `json:"page,optional"`      // 页码
-	PageSize int64 `json:"page_size,optional"` // 每页数量
+	PageQuery
 }
 
 type BatchResp struct {
@@ -85,35 +80,33 @@ type BindUserEmailReq struct {
 }
 
 type Category struct {
-	Id           int64  `json:"id,optional"`
-	CategoryName string `json:"category_name,optional"` // 分类名
-	ArticleCount int64  `json:"article_count,optional"`
-	CreatedAt    int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"` // 更新时间
+	Id           int64  `json:"id"`
+	CategoryName string `json:"category_name"` // 分类名
+	ArticleCount int64  `json:"article_count"`
+	CreatedAt    int64  `json:"created_at"` // 创建时间
+	UpdatedAt    int64  `json:"updated_at"` // 更新时间
 }
 
 type CategoryQueryReq struct {
-	Page         int64  `json:"page,optional"`          // 页码
-	PageSize     int64  `json:"page_size,optional"`     // 每页数量
+	PageQuery
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
 type ChatQueryReq struct {
-	Page     int64 `json:"page,optional"`
-	PageSize int64 `json:"page_size,optional"`
+	PageQuery
 }
 
 type ChatRecord struct {
-	Id        int64  `json:"id,optional"`         // 主键
-	UserId    int64  `json:"user_id,optional"`    // 用户id
-	Nickname  string `json:"nickname,optional"`   // 昵称
-	Avatar    string `json:"avatar,optional"`     // 头像
-	Content   string `json:"content,optional"`    // 聊天内容
-	IpAddress string `json:"ip_address,optional"` // ip地址
-	IpSource  string `json:"ip_source,optional"`  // ip来源
-	Type      int64  `json:"type,optional"`       // 类型
-	CreatedAt int64  `json:"created_at,optional"` // 创建时间
-	UpdatedAt int64  `json:"updated_at,optional"` // 更新时间
+	Id        int64  `json:"id"`         // 主键
+	UserId    int64  `json:"user_id"`    // 用户id
+	Nickname  string `json:"nickname"`   // 昵称
+	Avatar    string `json:"avatar"`     // 头像
+	Content   string `json:"content"`    // 聊天内容
+	IpAddress string `json:"ip_address"` // ip地址
+	IpSource  string `json:"ip_source"`  // ip来源
+	Type      int64  `json:"type"`       // 类型
+	CreatedAt int64  `json:"created_at"` // 创建时间
+	UpdatedAt int64  `json:"updated_at"` // 更新时间
 }
 
 type ChatSocketMsg struct {
@@ -122,20 +115,20 @@ type ChatSocketMsg struct {
 }
 
 type Comment struct {
-	Id               int64            `json:"id,optional"`                 // 评论id
-	TopicId          int64            `json:"topic_id,optional"`           // 主题id
-	ParentId         int64            `json:"parent_id,optional"`          // 父评论id
-	SessionId        int64            `json:"session_id,optional"`         // 会话id
-	UserId           int64            `json:"user_id,optional"`            // 用户id
-	ReplyUserId      int64            `json:"reply_user_id,optional"`      // 被回复用户id
-	CommentContent   string           `json:"comment_content,optional"`    // 评论内容
-	Type             int64            `json:"type,optional"`               // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt        int64            `json:"created_at,optional"`         // 评论时间
-	LikeCount        int64            `json:"like_count,optional"`         // 点赞数
-	User             *CommentUserInfo `json:"user"`                        // 评论用户
-	ReplyUser        *CommentUserInfo `json:"reply_user"`                  // 被回复评论用户
-	ReplyCount       int64            `json:"reply_count,optional"`        // 回复量
-	CommentReplyList []*CommentReply  `json:"comment_reply_list,optional"` // 评论回复列表
+	Id               int64            `json:"id"`                 // 评论id
+	TopicId          int64            `json:"topic_id"`           // 主题id
+	ParentId         int64            `json:"parent_id"`          // 父评论id
+	SessionId        int64            `json:"session_id"`         // 会话id
+	UserId           int64            `json:"user_id"`            // 用户id
+	ReplyUserId      int64            `json:"reply_user_id"`      // 被回复用户id
+	CommentContent   string           `json:"comment_content"`    // 评论内容
+	Type             int64            `json:"type"`               // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt        int64            `json:"created_at"`         // 评论时间
+	LikeCount        int64            `json:"like_count"`         // 点赞数
+	User             *CommentUserInfo `json:"user"`               // 评论用户
+	ReplyUser        *CommentUserInfo `json:"reply_user"`         // 被回复评论用户
+	ReplyCount       int64            `json:"reply_count"`        // 回复量
+	CommentReplyList []*CommentReply  `json:"comment_reply_list"` // 评论回复列表
 }
 
 type CommentNewReq struct {
@@ -148,34 +141,32 @@ type CommentNewReq struct {
 }
 
 type CommentQueryReq struct {
-	Page     int64  `json:"page,optional"`      // 页码
-	PageSize int64  `json:"page_size,optional"` // 每页数量
-	TopicId  int64  `json:"topic_id,optional"`  // 主题id
-	ParentId int64  `json:"parent_id,optional"` // 父评论id
-	Type     int64  `json:"type,optional"`      // 评论类型 1.文章 2.友链 3.说说
-	OrderBy  string `json:"order_by,optional"`  // 排序字段 create_at|like_count
+	PageQuery
+	TopicId  int64 `json:"topic_id,optional"`  // 主题id
+	ParentId int64 `json:"parent_id,optional"` // 父评论id
+	Type     int64 `json:"type,optional"`      // 评论类型 1.文章 2.友链 3.说说
 }
 
 type CommentReply struct {
-	Id             int64            `json:"id,optional"`              // 评论id
-	TopicId        int64            `json:"topic_id,optional"`        // 主题id
-	ParentId       int64            `json:"parent_id,optional"`       // 父评论id
-	SessionId      int64            `json:"session_id,optional"`      // 会话id
-	UserId         int64            `json:"user_id,optional"`         // 用户id
-	ReplyUserId    int64            `json:"reply_user_id,optional"`   // 被回复用户id
-	CommentContent string           `json:"comment_content,optional"` // 评论内容
-	Type           int64            `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt      int64            `json:"created_at,optional"`      // 评论时间
-	LikeCount      int64            `json:"like_count,optional"`      // 点赞数
-	User           *CommentUserInfo `json:"user"`                     // 评论用户
-	ReplyUser      *CommentUserInfo `json:"reply_user"`               // 被回复评论用户
+	Id             int64            `json:"id"`              // 评论id
+	TopicId        int64            `json:"topic_id"`        // 主题id
+	ParentId       int64            `json:"parent_id"`       // 父评论id
+	SessionId      int64            `json:"session_id"`      // 会话id
+	UserId         int64            `json:"user_id"`         // 用户id
+	ReplyUserId    int64            `json:"reply_user_id"`   // 被回复用户id
+	CommentContent string           `json:"comment_content"` // 评论内容
+	Type           int64            `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt      int64            `json:"created_at"`      // 评论时间
+	LikeCount      int64            `json:"like_count"`      // 点赞数
+	User           *CommentUserInfo `json:"user"`            // 评论用户
+	ReplyUser      *CommentUserInfo `json:"reply_user"`      // 被回复评论用户
 }
 
 type CommentUserInfo struct {
-	Id       int64  `json:"id,optional"`
-	Nickname string `json:"nickname,optional"`
-	Avatar   string `json:"avatar,optional"`
-	Website  string `json:"website,optional"`
+	Id       int64  `json:"id"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Website  string `json:"website"`
 }
 
 type EmptyReq struct {
@@ -185,37 +176,36 @@ type EmptyResp struct {
 }
 
 type Friend struct {
-	Id          int64  `json:"id,optional"`           // id
-	LinkName    string `json:"link_name,optional"`    // 链接名
-	LinkAvatar  string `json:"link_avatar,optional"`  // 链接头像
-	LinkAddress string `json:"link_address,optional"` // 链接地址
-	LinkIntro   string `json:"link_intro,optional"`   // 链接介绍
-	CreatedAt   int64  `json:"created_at,optional"`   // 创建时间
-	UpdatedAt   int64  `json:"updated_at,optional"`   // 更新时间
+	Id          int64  `json:"id"`           // id
+	LinkName    string `json:"link_name"`    // 链接名
+	LinkAvatar  string `json:"link_avatar"`  // 链接头像
+	LinkAddress string `json:"link_address"` // 链接地址
+	LinkIntro   string `json:"link_intro"`   // 链接介绍
+	CreatedAt   int64  `json:"created_at"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
 }
 
 type FriendQueryReq struct {
-	Page     int64 `json:"page,optional"`
-	PageSize int64 `json:"page_size,optional"`
+	PageQuery
 }
 
 type GetAboutMeReq struct {
 }
 
 type GetAboutMeResp struct {
-	Content string `json:"content,optional"`
+	Content string `json:"content"`
 }
 
 type GetBlogHomeInfoReq struct {
 }
 
 type GetBlogHomeInfoResp struct {
-	ArticleCount  int64            `json:"article_count,optional"`  // 文章数量
-	CategoryCount int64            `json:"category_count,optional"` // 分类数量
-	TagCount      int64            `json:"tag_count,optional"`      // 标签数量
-	ViewsCount    int64            `json:"views_count,optional"`    // 访问量
-	WebsiteConfig WebsiteConfigDTO `json:"website_config,optional"` // 网站配置
-	PageList      []*PageDTO       `json:"page_list,optional"`      // 页面列表
+	ArticleCount  int64            `json:"article_count"`  // 文章数量
+	CategoryCount int64            `json:"category_count"` // 分类数量
+	TagCount      int64            `json:"tag_count"`      // 标签数量
+	ViewsCount    int64            `json:"views_count"`    // 访问量
+	WebsiteConfig WebsiteConfigDTO `json:"website_config"` // 网站配置
+	PageList      []*PageDTO       `json:"page_list"`      // 页面列表
 }
 
 type IdReq struct {
@@ -233,7 +223,7 @@ type LoginReq struct {
 }
 
 type LoginResp struct {
-	Token *Token `json:"token,optional"`
+	Token *Token `json:"token"`
 }
 
 type OauthLoginReq struct {
@@ -247,10 +237,16 @@ type OauthLoginUrlResp struct {
 }
 
 type PageDTO struct {
-	Id        int64  `json:"id,optional"`         // 页面ID
-	PageName  string `json:"page_name,optional"`  // 页面名称
-	PageLabel string `json:"page_label,optional"` // 页面标签
-	PageCover string `json:"page_cover,optional"` // 页面封面
+	Id        int64  `json:"id"`         // 页面ID
+	PageName  string `json:"page_name"`  // 页面名称
+	PageLabel string `json:"page_label"` // 页面标签
+	PageCover string `json:"page_cover"` // 页面封面
+}
+
+type PageQuery struct {
+	Page     int64    `json:"page,optional"`
+	PageSize int64    `json:"page_size,optional"`
+	Sorts    []string `json:"sorts,optional"`
 }
 
 type PageResp struct {
@@ -288,21 +284,20 @@ type RegisterReq struct {
 }
 
 type Remark struct {
-	Id             int64  `json:"id,optional"`              // 主键id
-	Nickname       string `json:"nickname,optional"`        // 昵称
-	Avatar         string `json:"avatar,optional"`          // 头像
-	MessageContent string `json:"message_content,optional"` // 留言内容
-	IpAddress      string `json:"ip_address,optional"`      // 用户ip
-	IpSource       string `json:"ip_source,optional"`       // 用户地址
-	Time           int64  `json:"time,optional"`            // 弹幕速度
-	IsReview       int64  `json:"is_review,optional"`       // 是否审核
-	CreatedAt      int64  `json:"created_at,optional"`      // 发布时间
-	UpdatedAt      int64  `json:"updated_at,optional"`      // 更新时间
+	Id             int64  `json:"id"`              // 主键id
+	Nickname       string `json:"nickname"`        // 昵称
+	Avatar         string `json:"avatar"`          // 头像
+	MessageContent string `json:"message_content"` // 留言内容
+	IpAddress      string `json:"ip_address"`      // 用户ip
+	IpSource       string `json:"ip_source"`       // 用户地址
+	Time           int64  `json:"time"`            // 弹幕速度
+	IsReview       int64  `json:"is_review"`       // 是否审核
+	CreatedAt      int64  `json:"created_at"`      // 发布时间
+	UpdatedAt      int64  `json:"updated_at"`      // 更新时间
 }
 
 type RemarkQueryReq struct {
-	Page     int64 `json:"page,optional"`
-	PageSize int64 `json:"page_size,optional"`
+	PageQuery
 }
 
 type ResetPasswordReq struct {
@@ -329,51 +324,49 @@ type RestHeader struct {
 }
 
 type Tag struct {
-	Id           int64  `json:"id,optional"`            // 标签ID
-	TagName      string `json:"tag_name,optional"`      // 标签名
-	ArticleCount int64  `json:"article_count,optional"` // 文章数量
-	CreatedAt    int64  `json:"created_at,optional"`    // 创建时间
-	UpdatedAt    int64  `json:"updated_at,optional"`    // 更新时间
+	Id           int64  `json:"id"`            // 标签ID
+	TagName      string `json:"tag_name"`      // 标签名
+	ArticleCount int64  `json:"article_count"` // 文章数量
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
+	UpdatedAt    int64  `json:"updated_at"`    // 更新时间
 }
 
 type TagQueryReq struct {
-	Page     int64  `json:"page,optional"`
-	PageSize int64  `json:"page_size,optional"`
-	TagName  string `json:"tag_name,optional"` // 标签名
+	PageQuery
+	TagName string `json:"tag_name,optional"` // 标签名
 }
 
 type Talk struct {
-	Id           int64    `json:"id,optional"`            // 说说ID
-	UserId       int64    `json:"user_id,optional"`       // 用户ID
-	Nickname     string   `json:"nickname,optional"`      // 用户昵称
-	Avatar       string   `json:"avatar,optional"`        // 用户头像
-	Content      string   `json:"content,optional"`       // 评论内容
-	ImgList      []string `json:"img_list,optional"`      // 图片URL列表
-	IsTop        int64    `json:"is_top,optional"`        // 是否置顶
-	Status       int64    `json:"status,optional"`        // 状态 1.公开 2.私密
-	LikeCount    int64    `json:"like_count,optional"`    // 点赞量
-	CommentCount int64    `json:"comment_count,optional"` // 评论量
-	CreatedAt    int64    `json:"created_at,optional"`    // 创建时间
-	UpdatedAt    int64    `json:"updated_at,optional"`    // 更新时间
+	Id           int64    `json:"id"`            // 说说ID
+	UserId       int64    `json:"user_id"`       // 用户ID
+	Nickname     string   `json:"nickname"`      // 用户昵称
+	Avatar       string   `json:"avatar"`        // 用户头像
+	Content      string   `json:"content"`       // 评论内容
+	ImgList      []string `json:"img_list"`      // 图片URL列表
+	IsTop        int64    `json:"is_top"`        // 是否置顶
+	Status       int64    `json:"status"`        // 状态 1.公开 2.私密
+	LikeCount    int64    `json:"like_count"`    // 点赞量
+	CommentCount int64    `json:"comment_count"` // 评论量
+	CreatedAt    int64    `json:"created_at"`    // 创建时间
+	UpdatedAt    int64    `json:"updated_at"`    // 更新时间
 }
 
 type TalkQueryReq struct {
-	Page     int64 `json:"page,optional"`
-	PageSize int64 `json:"page_size,optional"`
+	PageQuery
 }
 
 type Token struct {
-	UserId           int64  `json:"user_id,optional"`            // 用户id
-	TokenType        string `json:"token_type,optional"`         // token类型,Bearer
-	AccessToken      string `json:"access_token,optional"`       // 访问token,过期时间较短。2h
-	ExpiresIn        int64  `json:"expires_in,optional"`         // 访问token过期时间
-	RefreshToken     string `json:"refresh_token,optional"`      // 刷新token,过期时间较长。30d
-	RefreshExpiresIn int64  `json:"refresh_expires_in,optional"` // 刷新token过期时间
-	Scope            string `json:"scope,optional"`              // 作用域
+	UserId           int64  `json:"user_id"`            // 用户id
+	TokenType        string `json:"token_type"`         // token类型,Bearer
+	AccessToken      string `json:"access_token"`       // 访问token,过期时间较短。2h
+	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
+	RefreshToken     string `json:"refresh_token"`      // 刷新token,过期时间较长。30d
+	RefreshExpiresIn int64  `json:"refresh_expires_in"` // 刷新token过期时间
+	Scope            string `json:"scope"`              // 作用域
 }
 
 type UpdateUserAvatarReq struct {
-	Avatar string `json:"avatar,optional"` // 头像
+	Avatar string `json:"avatar"` // 头像
 }
 
 type UpdateUserInfoReq struct {
@@ -406,17 +399,17 @@ type UserEmailReq struct {
 }
 
 type UserInfoExt struct {
-	Intro   string `json:"intro,optional"`   // 简介
-	Website string `json:"website,optional"` // 网站
+	Intro   string `json:"intro"`   // 简介
+	Website string `json:"website"` // 网站
 }
 
 type UserInfoResp struct {
-	UserId   int64  `json:"user_id,optional"`  // 用户id
-	Username string `json:"username"`          // 用户名
-	Nickname string `json:"nickname,optional"` // 用户昵称
-	Avatar   string `json:"avatar,optional"`   // 用户头像
-	Email    string `json:"email,optional"`    // 用户邮箱
-	Phone    string `json:"phone,optional"`    // 用户手机号
+	UserId   int64  `json:"user_id"`  // 用户id
+	Username string `json:"username"` // 用户名
+	Nickname string `json:"nickname"` // 用户昵称
+	Avatar   string `json:"avatar"`   // 用户头像
+	Email    string `json:"email"`    // 用户邮箱
+	Phone    string `json:"phone"`    // 用户手机号
 	UserInfoExt
 }
 
@@ -427,28 +420,28 @@ type UserLikeResp struct {
 }
 
 type WebsiteConfigDTO struct {
-	AdminUrl          string   `json:"admin_url,optional"`           // 后台地址
-	AlipayQrCode      string   `json:"alipay_qr_code,optional"`      // 支付宝二维码
-	Gitee             string   `json:"gitee,optional"`               // Gitee
-	Github            string   `json:"github,optional"`              // Github
-	IsChatRoom        int64    `json:"is_chat_room,optional"`        // 是否开启聊天室
-	IsCommentReview   int64    `json:"is_comment_review,optional"`   // 是否开启评论审核
-	IsEmailNotice     int64    `json:"is_email_notice,optional"`     // 是否开启邮件通知
-	IsMessageReview   int64    `json:"is_message_review,optional"`   // 是否开启留言审核
-	IsMusicPlayer     int64    `json:"is_music_player,optional"`     // 是否开启音乐播放器
-	IsReward          int64    `json:"is_reward,optional"`           // 是否开启打赏
-	Qq                string   `json:"qq,optional"`                  // QQ
-	SocialLoginList   []string `json:"social_login_list,optional"`   // 社交登录列表
-	SocialUrlList     []string `json:"social_url_list,optional"`     // 社交地址列表
-	TouristAvatar     string   `json:"tourist_avatar,optional"`      // 游客头像
-	UserAvatar        string   `json:"user_avatar,optional"`         // 用户头像
-	WebsiteAuthor     string   `json:"website_author,optional"`      // 网站作者
-	WebsiteAvatar     string   `json:"website_avatar,optional"`      // 网站头像
-	WebsiteCreateTime string   `json:"website_create_time,optional"` // 网站创建时间
-	WebsiteIntro      string   `json:"website_intro,optional"`       // 网站介绍
-	WebsiteName       string   `json:"website_name,optional"`        // 网站名称
-	WebsiteNotice     string   `json:"website_notice,optional"`      // 网站公告
-	WebsiteRecordNo   string   `json:"website_record_no,optional"`   // 网站备案号
-	WebsocketUrl      string   `json:"websocket_url,optional"`       // websocket地址
-	WeixinQrCode      string   `json:"weixin_qr_code,optional"`      // 微信二维码
+	AdminUrl          string   `json:"admin_url"`           // 后台地址
+	AlipayQrCode      string   `json:"alipay_qr_code"`      // 支付宝二维码
+	Gitee             string   `json:"gitee"`               // Gitee
+	Github            string   `json:"github"`              // Github
+	IsChatRoom        int64    `json:"is_chat_room"`        // 是否开启聊天室
+	IsCommentReview   int64    `json:"is_comment_review"`   // 是否开启评论审核
+	IsEmailNotice     int64    `json:"is_email_notice"`     // 是否开启邮件通知
+	IsMessageReview   int64    `json:"is_message_review"`   // 是否开启留言审核
+	IsMusicPlayer     int64    `json:"is_music_player"`     // 是否开启音乐播放器
+	IsReward          int64    `json:"is_reward"`           // 是否开启打赏
+	Qq                string   `json:"qq"`                  // QQ
+	SocialLoginList   []string `json:"social_login_list"`   // 社交登录列表
+	SocialUrlList     []string `json:"social_url_list"`     // 社交地址列表
+	TouristAvatar     string   `json:"tourist_avatar"`      // 游客头像
+	UserAvatar        string   `json:"user_avatar"`         // 用户头像
+	WebsiteAuthor     string   `json:"website_author"`      // 网站作者
+	WebsiteAvatar     string   `json:"website_avatar"`      // 网站头像
+	WebsiteCreateTime string   `json:"website_create_time"` // 网站创建时间
+	WebsiteIntro      string   `json:"website_intro"`       // 网站介绍
+	WebsiteName       string   `json:"website_name"`        // 网站名称
+	WebsiteNotice     string   `json:"website_notice"`      // 网站公告
+	WebsiteRecordNo   string   `json:"website_record_no"`   // 网站备案号
+	WebsocketUrl      string   `json:"websocket_url"`       // websocket地址
+	WeixinQrCode      string   `json:"weixin_qr_code"`      // 微信二维码
 }

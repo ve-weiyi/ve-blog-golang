@@ -56,7 +56,7 @@ func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*pe
 func appendRoleChildren(root *permissionrpc.RoleDetails, list []*model.Role) (leafs []*permissionrpc.RoleDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
-			leaf := ConvertRoleOut(item)
+			leaf := convertRoleOut(item)
 			leaf.Children = appendRoleChildren(leaf, list)
 			leafs = append(leafs, leaf)
 		}

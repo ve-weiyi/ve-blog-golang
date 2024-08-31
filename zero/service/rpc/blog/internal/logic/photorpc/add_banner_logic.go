@@ -25,18 +25,18 @@ func NewAddBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddBann
 }
 
 // 创建页面
-func (l *AddBannerLogic) AddBanner(in *photorpc.BannerNew) (*photorpc.BannerDetails, error) {
-	entity := ConvertBannerIn(in)
+func (l *AddBannerLogic) AddBanner(in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
+	entity := convertBannerIn(in)
 
 	_, err := l.svcCtx.BannerModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertBannerOut(entity), nil
+	return convertBannerOut(entity), nil
 }
 
-func ConvertBannerIn(in *photorpc.BannerNew) (out *model.Banner) {
+func convertBannerIn(in *photorpc.BannerNewReq) (out *model.Banner) {
 	out = &model.Banner{
 		Id:          in.Id,
 		BannerName:  in.BannerName,
@@ -48,7 +48,7 @@ func ConvertBannerIn(in *photorpc.BannerNew) (out *model.Banner) {
 
 }
 
-func ConvertBannerOut(in *model.Banner) (out *photorpc.BannerDetails) {
+func convertBannerOut(in *model.Banner) (out *photorpc.BannerDetails) {
 	out = &photorpc.BannerDetails{
 		Id:          in.Id,
 		BannerName:  in.BannerName,

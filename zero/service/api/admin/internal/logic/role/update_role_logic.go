@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,21 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateRoleLogic) UpdateRole(req *types.Role) (resp *types.Role, err error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateRoleLogic) UpdateRole(req *types.RoleNewReq) (resp *types.RoleBackDTO, err error) {
+	in := &permissionrpc.RoleNewReq{
+		Id:          req.Id,
+		ParentId:    req.ParentId,
+		RoleDomain:  req.RoleDomain,
+		RoleName:    req.RoleName,
+		RoleComment: req.RoleComment,
+		IsDisable:   req.IsDisable,
+		IsDefault:   req.IsDefault,
+	}
 
-	return
+	out, err := l.svcCtx.PermissionRpc.UpdateRole(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertRoleTypes(out), nil
 }

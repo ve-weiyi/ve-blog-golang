@@ -27,8 +27,7 @@ func NewFindArticleRecommendLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		Conditions: "is_top = ?",
-		Args:       []string{"1"},
+		IsTop: 1,
 	}
 	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {

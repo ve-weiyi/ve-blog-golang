@@ -3,6 +3,7 @@ package photorpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -30,5 +31,10 @@ func (l *GetAlbumLogic) GetAlbum(in *photorpc.IdReq) (*photorpc.AlbumDetails, er
 		return nil, err
 	}
 
-	return ConvertAlbumOut(entity), nil
+	cm, err := findPhotoCountGroupAlbum(l.ctx, l.svcCtx, []*model.Album{entity})
+	if err != nil {
+		return nil, err
+	}
+
+	return convertAlbumOut(entity, cm), nil
 }

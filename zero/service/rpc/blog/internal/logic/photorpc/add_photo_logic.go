@@ -25,18 +25,18 @@ func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhoto
 }
 
 // 创建照片
-func (l *AddPhotoLogic) AddPhoto(in *photorpc.PhotoNew) (*photorpc.PhotoDetails, error) {
-	entity := ConvertPhotoIn(in)
+func (l *AddPhotoLogic) AddPhoto(in *photorpc.PhotoNewReq) (*photorpc.PhotoDetails, error) {
+	entity := convertPhotoIn(in)
 
 	_, err := l.svcCtx.PhotoModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertPhotoOut(entity), nil
+	return convertPhotoOut(entity), nil
 }
 
-func ConvertPhotoIn(in *photorpc.PhotoNew) (out *model.Photo) {
+func convertPhotoIn(in *photorpc.PhotoNewReq) (out *model.Photo) {
 	out = &model.Photo{
 		Id:        in.Id,
 		AlbumId:   in.AlbumId,
@@ -49,7 +49,7 @@ func ConvertPhotoIn(in *photorpc.PhotoNew) (out *model.Photo) {
 	return out
 }
 
-func ConvertPhotoOut(in *model.Photo) (out *photorpc.PhotoDetails) {
+func convertPhotoOut(in *model.Photo) (out *photorpc.PhotoDetails) {
 	out = &photorpc.PhotoDetails{
 		Id:        in.Id,
 		AlbumId:   in.AlbumId,

@@ -30,10 +30,13 @@ func (l *DeleteTagLogic) DeleteTag(req *types.IdReq) (resp *types.BatchResp, err
 		Ids: []int64{req.Id},
 	}
 
-	_, err = l.svcCtx.ArticleRpc.DeleteTag(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.DeleteTag(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
+	return resp, nil
 }

@@ -2,6 +2,7 @@ package friendrpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -25,17 +26,7 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 
 // 查询友链列表
 func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*friendrpc.FindFriendListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
-
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = in.Sorts
+	page, size, sorts, conditions, params := convertFriendQuery(in)
 
 	result, err := l.svcCtx.FriendModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -44,10 +35,27 @@ func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*
 
 	var list []*friendrpc.FriendDetails
 	for _, v := range result {
-		list = append(list, ConvertFriendOut(v))
+		list = append(list, convertFriendOut(v))
 	}
 
 	return &friendrpc.FindFriendListResp{
 		List: list,
 	}, nil
+}
+
+func convertFriendQuery(in *friendrpc.FindFriendListReq) (page int, size int, sorts string, conditions string, params []any) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = strings.Join(in.Sorts, ",")
+
+	if sorts == "" {
+		sorts = "id desc"
+	}
+
+	if in.LinkName != "" {
+		conditions += " link_name like ?"
+		params = append(params, "%"+in.LinkName+"%")
+	}
+
+	return
 }

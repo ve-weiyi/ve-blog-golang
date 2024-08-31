@@ -3,53 +3,26 @@ package articlerpclogic
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 )
 
-func findOrAddCategory(ctx context.Context, svcCtx *svc.ServiceContext, name string) (int64, error) {
-	if name == "" {
-		return 0, fmt.Errorf("category name is empty")
-	}
-
-	category, err := svcCtx.CategoryModel.FindOneByCategoryName(ctx, name)
-	if err != nil {
-		insert := &model.Category{
-			CategoryName: name,
-		}
-		_, err := svcCtx.CategoryModel.Insert(ctx, insert)
-		if err != nil {
-			return 0, err
-		}
-		return insert.Id, nil
-	}
-
-	return category.Id, nil
+type ArticleHelperLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
 }
 
-func findOrAddTag(ctx context.Context, svcCtx *svc.ServiceContext, name string) (int64, error) {
-	if name == "" {
-		return 0, fmt.Errorf("tag name is empty")
+func NewArticleHelperLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ArticleHelperLogic {
+	return &ArticleHelperLogic{
+		ctx:    ctx,
+		svcCtx: svcCtx,
 	}
-
-	tag, err := svcCtx.TagModel.FindOneByTagName(ctx, name)
-	if err != nil {
-		insert := &model.Tag{
-			TagName: name,
-		}
-		_, err := svcCtx.TagModel.Insert(ctx, insert)
-		if err != nil {
-			return 0, err
-		}
-		return insert.Id, nil
-	}
-
-	return tag.Id, nil
 }
 
-func convertArticleIn(in *articlerpc.ArticleNew) (out *model.Article) {
+func convertArticleIn(in *articlerpc.ArticleNewReq) (out *model.Article) {
 	out = &model.Article{
 		Id:             in.Id,
 		UserId:         in.UserId,
@@ -68,7 +41,7 @@ func convertArticleIn(in *articlerpc.ArticleNew) (out *model.Article) {
 	return out
 }
 
-func convertCategoryIn(in *articlerpc.CategoryNew) (out *model.Category) {
+func convertCategoryIn(in *articlerpc.CategoryNewReq) (out *model.Category) {
 	out = &model.Category{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
@@ -77,12 +50,22 @@ func convertCategoryIn(in *articlerpc.CategoryNew) (out *model.Category) {
 	return out
 }
 
-func convertTagIn(in *articlerpc.TagNew) (out *model.Tag) {
+func convertTagIn(in *articlerpc.TagNewReq) (out *model.Tag) {
 	out = &model.Tag{
 		Id:      in.Id,
 		TagName: in.TagName,
 	}
 
+	return out
+}
+
+func convertArticlePreviewOut(entity *model.Article) (out *articlerpc.ArticlePreview) {
+	out = &articlerpc.ArticlePreview{
+		Id:           entity.Id,
+		ArticleCover: entity.ArticleCover,
+		ArticleTitle: entity.ArticleTitle,
+		CreatedAt:    entity.CreatedAt.Unix(),
+	}
 	return out
 }
 
@@ -106,7 +89,7 @@ func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm
 		TagList:        nil,
 	}
 
-	if v, ok := acm[entity.CategoryId]; ok {
+	if v, ok := acm[entity.Id]; ok {
 		out.Category = &articlerpc.ArticleCategory{
 			Id:           v.Id,
 			CategoryName: v.CategoryName,
@@ -159,7 +142,47 @@ func convertTagOut(in *model.Tag, acm map[int64]int) (out *articlerpc.TagDetails
 	return out
 }
 
-func findArticleCountGroupCategory(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Category) (acm map[int64]int, err error) {
+func (l *ArticleHelperLogic) findOrAddCategory(name string) (int64, error) {
+	if name == "" {
+		return 0, fmt.Errorf("category name is empty")
+	}
+
+	category, err := l.svcCtx.CategoryModel.FindOneByCategoryName(l.ctx, name)
+	if err != nil {
+		insert := &model.Category{
+			CategoryName: name,
+		}
+		_, err := l.svcCtx.CategoryModel.Insert(l.ctx, insert)
+		if err != nil {
+			return 0, err
+		}
+		return insert.Id, nil
+	}
+
+	return category.Id, nil
+}
+
+func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
+	if name == "" {
+		return 0, fmt.Errorf("tag name is empty")
+	}
+
+	tag, err := l.svcCtx.TagModel.FindOneByTagName(l.ctx, name)
+	if err != nil {
+		insert := &model.Tag{
+			TagName: name,
+		}
+		_, err := l.svcCtx.TagModel.Insert(l.ctx, insert)
+		if err != nil {
+			return 0, err
+		}
+		return insert.Id, nil
+	}
+
+	return tag.Id, nil
+}
+
+func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.Category) (acm map[int64]int, err error) {
 	var ids []int64
 	for _, v := range list {
 		ids = append(ids, v.Id)
@@ -168,11 +191,11 @@ func findArticleCountGroupCategory(ctx context.Context, svcCtx *svc.ServiceConte
 	// 查询每个 category_id 的文章数量
 	var results []struct {
 		CategoryID   int64 `gorm:"column:category_id"`
-		ArticleCount int   `gorm:"column:articlerpc_count"`
+		ArticleCount int   `gorm:"column:article_count"`
 	}
 
-	err = svcCtx.Gorm.Model(&model.Article{}).
-		Select("category_id, COUNT(*) as articlerpc_count").
+	err = l.svcCtx.Gorm.Model(&model.Article{}).
+		Select("category_id, COUNT(*) as article_count").
 		Where("category_id IN ?", ids).
 		Group("category_id").
 		Order("category_id").
@@ -189,7 +212,7 @@ func findArticleCountGroupCategory(ctx context.Context, svcCtx *svc.ServiceConte
 	return acm, nil
 }
 
-func findArticleCountGroupTag(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Tag) (acm map[int64]int, err error) {
+func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.Tag) (acm map[int64]int, err error) {
 	var ids []int64
 	for _, v := range list {
 		ids = append(ids, v.Id)
@@ -197,11 +220,11 @@ func findArticleCountGroupTag(ctx context.Context, svcCtx *svc.ServiceContext, l
 	// 查询每个 tag_id 的文章数量
 	var results []struct {
 		TagID        int64 `gorm:"column:tag_id"`
-		ArticleCount int   `gorm:"column:articlerpc_count"`
+		ArticleCount int   `gorm:"column:article_count"`
 	}
 
-	err = svcCtx.Gorm.Model(&model.ArticleTag{}).
-		Select("tag_id, COUNT(*) as articlerpc_count").
+	err = l.svcCtx.Gorm.Model(&model.ArticleTag{}).
+		Select("tag_id, COUNT(*) as article_count").
 		Where("tag_id IN ?", ids).
 		Group("tag_id").
 		Order("tag_id").
@@ -218,59 +241,136 @@ func findArticleCountGroupTag(ctx context.Context, svcCtx *svc.ServiceContext, l
 	return acm, nil
 }
 
-func findCategoryGroupArticle(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Article) (acm map[int64]*model.Category, err error) {
-	var articlerpcIds []int64
+func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.Article) (acm map[int64]*model.Category, err error) {
+	var categoryIds []int64
 	for _, v := range list {
-		articlerpcIds = append(articlerpcIds, v.Id)
+		categoryIds = append(categoryIds, v.CategoryId)
 	}
 
-	records, err := svcCtx.CategoryModel.FindALL(ctx, "id IN ?", articlerpcIds)
+	cs, err := l.svcCtx.CategoryModel.FindALL(l.ctx, "id IN ?", categoryIds)
 	if err != nil {
 		return nil, err
 	}
 
 	acm = make(map[int64]*model.Category)
-	for _, result := range records {
-		acm[result.Id] = result
+	for _, v := range list {
+		for _, category := range cs {
+			if category.Id == v.CategoryId {
+				acm[v.Id] = category
+			}
+		}
 	}
 
 	return acm, nil
 }
-func findTagGroupArticle(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Article) (atm map[int64][]*model.Tag, err error) {
-	var articlerpcIds []int64
+
+func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.Article) (atm map[int64][]*model.Tag, err error) {
+	var articleIds []int64
 	for _, v := range list {
-		articlerpcIds = append(articlerpcIds, v.Id)
+		articleIds = append(articleIds, v.Id)
 	}
 
-	ats, err := svcCtx.ArticleTagModel.FindALL(ctx, "article_id in (?)", articlerpcIds)
+	ats, err := l.svcCtx.ArticleTagModel.FindALL(l.ctx, "article_id in (?)", articleIds)
 	if err != nil {
 		return nil, err
 	}
 
-	var tidm = make(map[int64][]int64)
-	var tids []int64
+	var tagIds []int64
 	for _, v := range ats {
-		tidm[v.ArticleId] = append(tidm[v.ArticleId], v.TagId)
-		tids = append(tids, v.TagId)
+		tagIds = append(tagIds, v.TagId)
 	}
 
-	ts, err := svcCtx.TagModel.FindALL(ctx, "id in ?", tids)
+	ts, err := l.svcCtx.TagModel.FindALL(l.ctx, "id in (?)", tagIds)
 	if err != nil {
 		return nil, err
 	}
 
 	atm = make(map[int64][]*model.Tag)
-	for k, v := range tidm {
-		var tags []*model.Tag
-		for _, vv := range v {
-			for _, tag := range ts {
-				if tag.Id == vv {
-					tags = append(tags, tag)
-				}
+	for _, v := range ats {
+		for _, tag := range ts {
+			if tag.Id == v.TagId {
+				atm[v.ArticleId] = append(atm[v.ArticleId], tag)
 			}
 		}
-		atm[k] = tags
 	}
 
 	return atm, nil
+}
+
+func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListReq) (page int, size int, sorts string, conditions string, params []any) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = strings.Join(in.Sorts, ",")
+
+	if sorts == "" {
+		sorts = "id desc"
+	}
+
+	if in.Status != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "status = ?"
+		params = append(params, in.Status)
+	}
+
+	if in.IsTop != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "is_top = ?"
+		params = append(params, in.IsTop)
+	}
+
+	if in.ArticleType != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "article_type = ?"
+		params = append(params, in.ArticleType)
+	}
+
+	if in.ArticleTitle != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "article_title like ?"
+		params = append(params, "%"+in.ArticleTitle+"%")
+	}
+
+	if in.CategoryName != "" {
+		category, err := l.svcCtx.CategoryModel.FindOneByCategoryName(l.ctx, in.CategoryName)
+		if err != nil {
+			return
+		}
+
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "category_id = ?"
+		params = append(params, category.Id)
+	}
+
+	if in.TagName != "" {
+		tag, err := l.svcCtx.TagModel.FindOneByTagName(l.ctx, in.TagName)
+		if err != nil {
+			return
+		}
+		ats, err := l.svcCtx.ArticleTagModel.FindALL(l.ctx, "tag_id = ?", tag.Id)
+		if err != nil {
+			return
+		}
+
+		var articleIds []int64
+		for _, v := range ats {
+			articleIds = append(articleIds, v.ArticleId)
+		}
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "id in (?)"
+		params = append(params, articleIds)
+	}
+
+	return page, size, sorts, conditions, params
 }

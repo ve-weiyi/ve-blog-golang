@@ -24,8 +24,8 @@ func NewDeletePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delet
 }
 
 // 删除照片
-func (l *DeletePhotoLogic) DeletePhoto(in *photorpc.IdReq) (*photorpc.BatchResp, error) {
-	rows, err := l.svcCtx.PhotoModel.Delete(l.ctx, in.Id)
+func (l *DeletePhotoLogic) DeletePhoto(in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
+	rows, err := l.svcCtx.PhotoModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

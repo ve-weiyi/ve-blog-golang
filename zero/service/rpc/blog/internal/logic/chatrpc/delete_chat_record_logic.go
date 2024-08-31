@@ -24,7 +24,7 @@ func NewDeleteChatRecordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 删除聊天记录
-func (l *DeleteChatRecordLogic) DeleteChatRecord(in *chatrpc.IdReq) (*chatrpc.BatchResp, error) {
+func (l *DeleteChatRecordLogic) DeleteChatRecord(in *chatrpc.IdsReq) (*chatrpc.BatchResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &chatrpc.BatchResp{}, nil
