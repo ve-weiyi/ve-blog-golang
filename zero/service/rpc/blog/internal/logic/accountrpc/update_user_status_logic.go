@@ -32,7 +32,7 @@ func (l *UpdateUserStatusLogic) UpdateUserStatus(in *accountrpc.UpdateUserStatus
 
 	ua.Status = in.Status
 
-	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, ua)
+	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, ua)
 	if err != nil {
 		return nil, err
 	}

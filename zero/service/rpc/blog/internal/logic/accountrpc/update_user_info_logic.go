@@ -34,7 +34,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *accountrpc.UpdateUserInfoReq) (
 	ui.Avatar = in.Avatar
 	ui.Info = in.Info
 
-	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, ui)
+	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, ui)
 	if err != nil {
 		return nil, err
 	}

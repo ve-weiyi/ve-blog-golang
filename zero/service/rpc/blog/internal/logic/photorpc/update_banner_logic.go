@@ -27,7 +27,7 @@ func NewUpdateBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 func (l *UpdateBannerLogic) UpdateBanner(in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
 	entity := convertBannerIn(in)
 
-	_, err := l.svcCtx.BannerModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.BannerModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

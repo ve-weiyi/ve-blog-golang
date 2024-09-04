@@ -18,8 +18,8 @@ type (
 		Insert(ctx context.Context, in *RoleApi) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*RoleApi) (rows int64, err error)
 		// 更新
+		Save(ctx context.Context, in *RoleApi) (rows int64, err error)
 		Update(ctx context.Context, in *RoleApi) (rows int64, err error)
-		UpdateNotEmpty(ctx context.Context, in *RoleApi) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
@@ -85,7 +85,7 @@ func (m *defaultRoleApiModel) InsertBatch(ctx context.Context, in ...*RoleApi) (
 }
 
 // 更新记录（不更新零值）
-func (m *defaultRoleApiModel) Update(ctx context.Context, in *RoleApi) (rows int64, err error) {
+func (m *defaultRoleApiModel) Save(ctx context.Context, in *RoleApi) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -97,7 +97,7 @@ func (m *defaultRoleApiModel) Update(ctx context.Context, in *RoleApi) (rows int
 }
 
 // 更新记录（更新零值）
-func (m *defaultRoleApiModel) UpdateNotEmpty(ctx context.Context, in *RoleApi) (rows int64, err error) {
+func (m *defaultRoleApiModel) Update(ctx context.Context, in *RoleApi) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
