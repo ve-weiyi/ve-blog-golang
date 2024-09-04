@@ -29,7 +29,7 @@ func (s *RemarkRpcServer) AddRemark(ctx context.Context, in *remarkrpc.RemarkNew
 }
 
 // 更新留言
-func (s *RemarkRpcServer) UpdateRemark(ctx context.Context, in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
+func (s *RemarkRpcServer) UpdateRemark(ctx context.Context, in *remarkrpc.RemarkUpdateReq) (*remarkrpc.RemarkDetails, error) {
 	l := remarkrpclogic.NewUpdateRemarkLogic(ctx, s.svcCtx)
 	return l.UpdateRemark(in)
 }
