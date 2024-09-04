@@ -15,6 +15,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
@@ -124,7 +125,7 @@ func OperationRecord(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
 		err = svcCtx.DbEngin.Create(&op).Error
 		if err != nil {
 			glog.Error(err)
-			c.JSON(http.StatusOK, apierr.ErrorInternalServerError.WrapMessage("日志记录错误"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeInternalServerError, "操作记录失败"))
 			c.Abort()
 			return
 		}

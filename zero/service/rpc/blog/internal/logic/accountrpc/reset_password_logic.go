@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
@@ -32,19 +33,19 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.ErrorInvalidParam
+		return nil, apierr.NewApiError(codex.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 验证用户是否存在
 	user, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	// 验证code是否正确
 	key := fmt.Sprintf("%s:%s", constant.ResetPwd, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
-		return nil, apierr.ErrorCaptchaVerify
+		return nil, apierr.NewApiError(codex.CodeCaptchaVerify, "验证码错误")
 	}
 
 	// 更新密码

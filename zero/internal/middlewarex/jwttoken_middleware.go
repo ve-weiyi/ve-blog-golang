@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
@@ -39,39 +40,39 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		//token为空或者uid为空
 		if token == "" || uid == "" {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("token or uid is empty"))
+			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token or uid is empty"))
 			return
 		}
 
 		// 解析token
 		tok, err := j.Token.ParseToken(token)
 		if err != nil {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage(err.Error()))
+			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, err.Error()))
 			return
 		}
 
 		// token不合法
 		if !tok.Valid {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("token is invalid"))
+			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token is invalid"))
 			return
 		}
 
 		// 获取claims
 		claims, ok := tok.Claims.(jwt.MapClaims)
 		if !ok {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("token claims is not jwt.MapClaims"))
+			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token claims is not jwt.MapClaims"))
 			return
 		}
 
 		// uid不一致
 		if uid != cast.ToString(claims["uid"]) {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("token cannot use by uid"))
+			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token cannot use by uid"))
 			return
 		}
 
 		//token验证成功,但用户在别处登录或退出登录
 		if j.IsBlacklist(claims) {
-			responsex.Response(r, w, nil, apierr.ErrorUnauthorized.WrapMessage("user already logout or login in other place"))
+			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "user already logout or login in other place"))
 			return
 		}
 
