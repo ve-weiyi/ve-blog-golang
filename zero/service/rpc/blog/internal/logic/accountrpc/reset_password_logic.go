@@ -51,7 +51,7 @@ func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*ac
 	// 更新密码
 	user.Password = crypto.BcryptHash(in.Password)
 
-	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, user)
+	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, user)
 	if err != nil {
 		return nil, err
 	}

@@ -41,7 +41,7 @@ func (l *LogoutLogic) Logout(in *accountrpc.LogoutReq) (*accountrpc.LogoutResp, 
 
 	find.LogoutAt = time.Now()
 	// 修改登出时间
-	_, err = l.svcCtx.UserLoginHistoryModel.Update(l.ctx, find)
+	_, err = l.svcCtx.UserLoginHistoryModel.Save(l.ctx, find)
 	if err != nil {
 		return nil, err
 	}

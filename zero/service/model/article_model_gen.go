@@ -19,8 +19,8 @@ type (
 		Insert(ctx context.Context, in *Article) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*Article) (rows int64, err error)
 		// 更新
+		Save(ctx context.Context, in *Article) (rows int64, err error)
 		Update(ctx context.Context, in *Article) (rows int64, err error)
-		UpdateNotEmpty(ctx context.Context, in *Article) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
@@ -45,7 +45,7 @@ type (
 		OriginalUrl    string    `json:"original_url" gorm:"column:original_url" `       // 原文链接
 		IsTop          int64     `json:"is_top" gorm:"column:is_top" `                   // 是否置顶 0否 1是
 		IsDelete       int64     `json:"is_delete" gorm:"column:is_delete" `             // 是否删除  0否 1是
-		Status         int64     `json:"status" gorm:"column:status" `                   // 状态值 1 公开 2 私密 3 草稿 4 已删除
+		Status         int64     `json:"status" gorm:"column:status" `                   // 状态值 1公开 2私密 3评论可见
 		LikeCount      int64     `json:"like_count" gorm:"column:like_count" `           // 点赞数
 		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 发表时间
 		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
@@ -97,7 +97,7 @@ func (m *defaultArticleModel) InsertBatch(ctx context.Context, in ...*Article) (
 }
 
 // 更新记录（不更新零值）
-func (m *defaultArticleModel) Update(ctx context.Context, in *Article) (rows int64, err error) {
+func (m *defaultArticleModel) Save(ctx context.Context, in *Article) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -109,7 +109,7 @@ func (m *defaultArticleModel) Update(ctx context.Context, in *Article) (rows int
 }
 
 // 更新记录（更新零值）
-func (m *defaultArticleModel) UpdateNotEmpty(ctx context.Context, in *Article) (rows int64, err error) {
+func (m *defaultArticleModel) Update(ctx context.Context, in *Article) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)

@@ -46,7 +46,7 @@ func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*artic
 	entity.Status = in.Status
 	entity.CategoryId = categoryId
 
-	_, err = l.svcCtx.ArticleModel.Update(l.ctx, entity)
+	_, err = l.svcCtx.ArticleModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

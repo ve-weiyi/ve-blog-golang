@@ -32,7 +32,7 @@ func (l *UpdateCommentContentLogic) UpdateCommentContent(in *commentrpc.UpdateCo
 
 	entity.CommentContent = in.CommentContent
 
-	_, err = l.svcCtx.CommentModel.Update(l.ctx, entity)
+	_, err = l.svcCtx.CommentModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

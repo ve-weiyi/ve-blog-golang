@@ -27,7 +27,7 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 func (l *UpdateRemarkLogic) UpdateRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
 	entity := convertRemarkIn(in)
 
-	_, err := l.svcCtx.RemarkModel.Update(l.ctx, entity)
+	_, err := l.svcCtx.RemarkModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

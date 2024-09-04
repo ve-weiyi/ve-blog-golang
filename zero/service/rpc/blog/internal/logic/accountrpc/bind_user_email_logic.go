@@ -51,7 +51,7 @@ func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUserEmailReq) (*ac
 	user.Username = in.Email
 	user.Email = in.Email
 
-	_, err = l.svcCtx.UserAccountModel.Update(l.ctx, user)
+	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, user)
 	if err != nil {
 		return nil, err
 	}

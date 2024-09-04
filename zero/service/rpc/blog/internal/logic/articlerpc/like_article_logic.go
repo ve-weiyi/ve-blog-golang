@@ -68,7 +68,7 @@ func (l *LikeArticleLogic) LikeArticle(in *articlerpc.IdReq) (*articlerpc.EmptyR
 		}
 	}
 
-	_, err = l.svcCtx.ArticleModel.Update(l.ctx, entity)
+	_, err = l.svcCtx.ArticleModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

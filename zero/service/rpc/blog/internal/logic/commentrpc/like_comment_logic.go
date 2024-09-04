@@ -69,7 +69,7 @@ func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyR
 		}
 	}
 
-	_, err = l.svcCtx.CommentModel.Update(l.ctx, entity)
+	_, err = l.svcCtx.CommentModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
