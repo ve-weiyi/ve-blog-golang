@@ -13,33 +13,35 @@ import (
 )
 
 type (
-	AnalysisArticleResp  = articlerpc.AnalysisArticleResp
-	ArticleCategory      = articlerpc.ArticleCategory
-	ArticleDetails       = articlerpc.ArticleDetails
-	ArticleNewReq        = articlerpc.ArticleNewReq
-	ArticlePreview       = articlerpc.ArticlePreview
-	ArticleRecommendResp = articlerpc.ArticleRecommendResp
-	ArticleTag           = articlerpc.ArticleTag
-	BatchResp            = articlerpc.BatchResp
-	CategoryDetails      = articlerpc.CategoryDetails
-	CategoryNewReq       = articlerpc.CategoryNewReq
-	CountResp            = articlerpc.CountResp
-	EmptyReq             = articlerpc.EmptyReq
-	EmptyResp            = articlerpc.EmptyResp
-	FindArticleListReq   = articlerpc.FindArticleListReq
-	FindArticleListResp  = articlerpc.FindArticleListResp
-	FindCategoryListReq  = articlerpc.FindCategoryListReq
-	FindCategoryListResp = articlerpc.FindCategoryListResp
-	FindLikeArticleResp  = articlerpc.FindLikeArticleResp
-	FindTagListReq       = articlerpc.FindTagListReq
-	FindTagListResp      = articlerpc.FindTagListResp
-	IdReq                = articlerpc.IdReq
-	IdsReq               = articlerpc.IdsReq
-	RecycleArticleReq    = articlerpc.RecycleArticleReq
-	TagDetails           = articlerpc.TagDetails
-	TagNewReq            = articlerpc.TagNewReq
-	TopArticleReq        = articlerpc.TopArticleReq
-	UserIdReq            = articlerpc.UserIdReq
+	AnalysisArticleResp        = articlerpc.AnalysisArticleResp
+	ArticleCategory            = articlerpc.ArticleCategory
+	ArticleDetails             = articlerpc.ArticleDetails
+	ArticleNewReq              = articlerpc.ArticleNewReq
+	ArticlePreview             = articlerpc.ArticlePreview
+	ArticleRecommendResp       = articlerpc.ArticleRecommendResp
+	ArticleTag                 = articlerpc.ArticleTag
+	BatchResp                  = articlerpc.BatchResp
+	CategoryDetails            = articlerpc.CategoryDetails
+	CategoryNewReq             = articlerpc.CategoryNewReq
+	CountResp                  = articlerpc.CountResp
+	EmptyReq                   = articlerpc.EmptyReq
+	EmptyResp                  = articlerpc.EmptyResp
+	FindArticleListReq         = articlerpc.FindArticleListReq
+	FindArticleListResp        = articlerpc.FindArticleListResp
+	FindArticlePreviewListReq  = articlerpc.FindArticlePreviewListReq
+	FindArticlePreviewListResp = articlerpc.FindArticlePreviewListResp
+	FindCategoryListReq        = articlerpc.FindCategoryListReq
+	FindCategoryListResp       = articlerpc.FindCategoryListResp
+	FindLikeArticleResp        = articlerpc.FindLikeArticleResp
+	FindTagListReq             = articlerpc.FindTagListReq
+	FindTagListResp            = articlerpc.FindTagListResp
+	IdReq                      = articlerpc.IdReq
+	IdsReq                     = articlerpc.IdsReq
+	RecycleArticleReq          = articlerpc.RecycleArticleReq
+	TagDetails                 = articlerpc.TagDetails
+	TagNewReq                  = articlerpc.TagNewReq
+	TopArticleReq              = articlerpc.TopArticleReq
+	UserIdReq                  = articlerpc.UserIdReq
 
 	ArticleRpc interface {
 		// 创建文章
@@ -52,6 +54,8 @@ type (
 		FindArticleList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
 		// 查询文章列表
 		FindArticlePublicList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
+		// 查询文章列表
+		FindArticlePreviewList(ctx context.Context, in *FindArticlePreviewListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error)
 		// 回收文章
 		RecycleArticle(ctx context.Context, in *RecycleArticleReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 置顶文章
@@ -127,6 +131,12 @@ func (m *defaultArticleRpc) FindArticleList(ctx context.Context, in *FindArticle
 func (m *defaultArticleRpc) FindArticlePublicList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.FindArticlePublicList(ctx, in, opts...)
+}
+
+// 查询文章列表
+func (m *defaultArticleRpc) FindArticlePreviewList(ctx context.Context, in *FindArticlePreviewListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.FindArticlePreviewList(ctx, in, opts...)
 }
 
 // 回收文章

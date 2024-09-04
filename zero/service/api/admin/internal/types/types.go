@@ -189,20 +189,15 @@ type CategoryQuery struct {
 }
 
 type CommentBackDTO struct {
-	Id             int64            `json:"id,optional"`              // 评论id
-	TopicId        int64            `json:"topic_id,optional"`        // 主题id
-	ParentId       int64            `json:"parent_id,optional"`       // 父评论id
-	SessionId      int64            `json:"session_id,optional"`      // 会话id
-	UserId         int64            `json:"user_id,optional"`         // 用户id
-	ReplyUserId    int64            `json:"reply_user_id,optional"`   // 被回复用户id
-	CommentContent string           `json:"comment_content,optional"` // 评论内容
-	Type           int64            `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt      int64            `json:"created_at,optional"`      // 评论时间
-	LikeCount      int64            `json:"like_count,optional"`      // 点赞数
-	User           *CommentUserInfo `json:"user"`                     // 评论用户
-	ReplyUser      *CommentUserInfo `json:"reply_user"`               // 被回复评论用户
-	ReplyCount     int64            `json:"reply_count,optional"`     // 回复量
-	TopicTitle     string           `json:"topic_title"`
+	Id             int64  `json:"id"`              // 评论ID
+	Type           int64  `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
+	TopicTitle     string `json:"topic_title"`     // 评论主题
+	Avatar         string `json:"avatar"`          // 用户头像
+	Nickname       string `json:"nickname"`        // 用户昵称
+	ToNickname     string `json:"to_nickname"`     // 被回复人昵称
+	CommentContent string `json:"comment_content"` // 评论内容
+	IsReview       int64  `json:"is_review"`       // 是否审核 0.未审核 1.已审核
+	CreatedAt      int64  `json:"created_at"`      // 创建时间
 }
 
 type CommentQuery struct {
@@ -215,13 +210,6 @@ type CommentQuery struct {
 type CommentReviewReq struct {
 	Id       int64 `json:"id,optional"`
 	IsReview int64 `json:"is_review,optional"`
-}
-
-type CommentUserInfo struct {
-	Id       int64  `json:"id,optional"`
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
-	Website  string `json:"website"`
 }
 
 type EmptyReq struct {

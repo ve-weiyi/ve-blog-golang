@@ -52,6 +52,12 @@ func (s *ArticleRpcServer) FindArticlePublicList(ctx context.Context, in *articl
 	return l.FindArticlePublicList(in)
 }
 
+// 查询文章列表
+func (s *ArticleRpcServer) FindArticlePreviewList(ctx context.Context, in *articlerpc.FindArticlePreviewListReq) (*articlerpc.FindArticlePreviewListResp, error) {
+	l := articlerpclogic.NewFindArticlePreviewListLogic(ctx, s.svcCtx)
+	return l.FindArticlePreviewList(in)
+}
+
 // 回收文章
 func (s *ArticleRpcServer) RecycleArticle(ctx context.Context, in *articlerpc.RecycleArticleReq) (*articlerpc.EmptyResp, error) {
 	l := articlerpclogic.NewRecycleArticleLogic(ctx, s.svcCtx)

@@ -6,6 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -42,9 +43,11 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	var uids []int64
+	var aids []int64
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 		uids = append(uids, v.ReplyUserId)
+		aids = append(aids, v.TopicId)
 	}
 
 	// 查询用户信息
@@ -60,10 +63,20 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 		usm[v.UserId] = v
 	}
 
+	// 查询文章信息
+	topics, err := l.svcCtx.ArticleRpc.FindArticlePreviewList(l.ctx, &articlerpc.FindArticlePreviewListReq{
+		Ids: aids,
+	})
+
+	tsm := make(map[int64]*articlerpc.ArticlePreview)
+	for _, v := range topics.List {
+		tsm[v.Id] = v
+	}
+
 	// 查找评论回复列表
 	var list []*types.CommentBackDTO
 	for _, v := range out.List {
-		m := ConvertCommentTypes(v, usm)
+		m := ConvertCommentTypes(v, usm, tsm)
 		list = append(list, m)
 	}
 
@@ -75,44 +88,42 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.CommentBackDTO) {
+func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.UserInfoResp, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
 	out = &types.CommentBackDTO{
 		Id:             in.Id,
-		TopicId:        in.TopicId,
-		ParentId:       in.ParentId,
-		SessionId:      in.SessionId,
-		UserId:         in.UserId,
-		ReplyUserId:    in.ReplyUserId,
-		CommentContent: in.CommentContent,
 		Type:           in.Type,
+		TopicTitle:     "",
+		Avatar:         "",
+		Nickname:       "",
+		ToNickname:     "",
+		CommentContent: in.CommentContent,
+		IsReview:       0,
 		CreatedAt:      in.CreatedAt,
-		LikeCount:      in.LikeCount,
-		ReplyCount:     0,
+	}
+
+	// 文章信息
+	if in.TopicId != 0 {
+		topic, ok := tsm[in.TopicId]
+		if ok && topic != nil {
+			out.TopicTitle = topic.ArticleTitle
+		}
 	}
 
 	// 用户信息
-	if out.UserId != 0 {
-		user, ok := usm[out.UserId]
+	if in.UserId != 0 {
+		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.User = ConvertCommentUserInfoToPb(user)
+			out.Nickname = user.Nickname
+			out.Avatar = user.Avatar
 		}
 	}
-	// 回复用户信息
-	if out.ReplyUserId != 0 {
-		user, ok := usm[out.ReplyUserId]
+
+	if in.ReplyUserId != 0 {
+		user, ok := usm[in.ReplyUserId]
 		if ok && user != nil {
-			out.ReplyUser = ConvertCommentUserInfoToPb(user)
+			out.ToNickname = user.Nickname
 		}
 	}
 
 	return
-}
-
-func ConvertCommentUserInfoToPb(in *accountrpc.UserInfoResp) (out *types.CommentUserInfo) {
-	return &types.CommentUserInfo{
-		Id:       in.UserId,
-		Nickname: in.Nickname,
-		Avatar:   in.Avatar,
-		Website:  in.Info,
-	}
 }
