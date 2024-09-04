@@ -14,7 +14,7 @@ import (
 // 创建留言
 func AddRemarkHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.Remark
+		var req types.RemarkNewReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

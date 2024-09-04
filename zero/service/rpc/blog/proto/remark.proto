@@ -35,13 +35,13 @@ message CountResp {
 
 
 message RemarkNewReq {
-  int64 id = 1;// 主键id
   string nickname = 2;// 昵称
   string avatar = 3;// 头像
   string message_content = 4;// 留言内容
-  string ip_address = 5;// 用户ip
-  string ip_source = 6;// 用户地址
-  int64 time = 7;// 弹幕速度
+}
+
+message RemarkUpdateReq {
+  int64 id = 1;// 主键id
   int64 is_review = 8;// 是否审核
 }
 
@@ -75,7 +75,7 @@ service RemarkRpc {
   // 创建留言
   rpc AddRemark(RemarkNewReq) returns(RemarkDetails);
   // 更新留言
-  rpc UpdateRemark(RemarkNewReq) returns(RemarkDetails);
+  rpc UpdateRemark(RemarkUpdateReq) returns(RemarkDetails);
   // 删除留言
   rpc DeleteRemark(IdsReq) returns(BatchResp);
   // 查询留言
