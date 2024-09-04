@@ -68,7 +68,7 @@ func (l *LikeTalkLogic) LikeTalk(in *talkrpc.IdReq) (*talkrpc.EmptyResp, error) 
 		}
 	}
 
-	_, err = l.svcCtx.TalkModel.Update(l.ctx, entity)
+	_, err = l.svcCtx.TalkModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -31,7 +32,7 @@ func (l *LogoffLogic) Logoff(in *accountrpc.LogoffReq) (*accountrpc.EmptyResp, e
 	// 验证用户是否存在
 	user, err := l.svcCtx.UserAccountModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {

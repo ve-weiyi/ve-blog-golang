@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
@@ -34,17 +35,17 @@ func (l *AuthService) Login(reqCtx *request.Context, req *dto.LoginReq) (resp *d
 	// 获取用户
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, "用户不存在")
 	}
 
 	// 验证密码是否正确
 	if !crypto.BcryptCheck(req.Password, account.Password) {
-		return nil, apierr.ErrorUserPasswordError
+		return nil, apierr.NewApiError(codex.CodeInvalidParam, "密码错误")
 	}
 
 	// 判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, apierr.ErrorUserDisabled
+		return nil, apierr.NewApiError(codex.CodeUserDisabled, "用户已被禁用")
 	}
 
 	// 生成token
@@ -99,14 +100,14 @@ func (l *AuthService) Register(reqCtx *request.Context, req *dto.LoginReq) (resp
 	if req.Code != "" {
 		key := fmt.Sprintf("%s:%s", constant.Register, req.Username)
 		if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
-			return nil, apierr.ErrorCaptchaVerify
+			return nil, apierr.NewApiError(codex.CodeCaptchaVerify, "验证码错误")
 		}
 	}
 
 	// 获取用户
 	exist, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if exist != nil {
-		return nil, apierr.ErrorUserAlreadyExist
+		return nil, apierr.NewApiError(codex.CodeUserAlreadyExist, "用户已存在")
 	}
 
 	account := &entity.UserAccount{
@@ -146,7 +147,7 @@ func (l *AuthService) SendRegisterEmail(reqCtx *request.Context, req *dto.UserEm
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account != nil {
-		return nil, apierr.ErrorUserAlreadyExist
+		return nil, apierr.NewApiError(codex.CodeUserAlreadyExist, "用户已存在")
 	}
 
 	// 验证code是否正确
@@ -274,11 +275,11 @@ func (l *AuthService) oauthLogin(reqCtx *request.Context, req *entity.UserOauth)
 	// 获取用户
 	account, err := l.svcCtx.UserAccountRepository.First(reqCtx, "id = ?", req.UserId)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, "用户不存在")
 	}
 	// 判断用户是否被禁用
 	if account.Status == constant.UserStatusDisabled {
-		return nil, apierr.ErrorUserDisabled
+		return nil, apierr.NewApiError(codex.CodeUserDisabled, "用户已被禁用")
 	}
 
 	history := &entity.UserLoginHistory{

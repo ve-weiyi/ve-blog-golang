@@ -186,7 +186,7 @@ func (l *UserService) SendForgetPwdEmail(reqCtx *request.Context, req *dto.UserE
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	// 获取code
@@ -221,13 +221,13 @@ func (l *UserService) ResetPassword(reqCtx *request.Context, req *dto.ResetPassw
 	// 验证code是否正确
 	key := cache.WrapCacheKey(constant.ResetPwd, req.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, req.Code) {
-		return nil, apierr.ErrorCaptchaVerify
+		return nil, apierr.NewApiError(codex.CodeCaptchaVerify, "验证码错误")
 	}
 
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Username)
 	if account == nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	// 更新密码

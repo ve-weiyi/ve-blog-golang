@@ -19,8 +19,8 @@ type (
 		Insert(ctx context.Context, in *Comment) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*Comment) (rows int64, err error)
 		// 更新
+		Save(ctx context.Context, in *Comment) (rows int64, err error)
 		Update(ctx context.Context, in *Comment) (rows int64, err error)
-		UpdateNotEmpty(ctx context.Context, in *Comment) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
@@ -96,7 +96,7 @@ func (m *defaultCommentModel) InsertBatch(ctx context.Context, in ...*Comment) (
 }
 
 // 更新记录（不更新零值）
-func (m *defaultCommentModel) Update(ctx context.Context, in *Comment) (rows int64, err error) {
+func (m *defaultCommentModel) Save(ctx context.Context, in *Comment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -108,7 +108,7 @@ func (m *defaultCommentModel) Update(ctx context.Context, in *Comment) (rows int
 }
 
 // 更新记录（更新零值）
-func (m *defaultCommentModel) UpdateNotEmpty(ctx context.Context, in *Comment) (rows int64, err error) {
+func (m *defaultCommentModel) Update(ctx context.Context, in *Comment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
