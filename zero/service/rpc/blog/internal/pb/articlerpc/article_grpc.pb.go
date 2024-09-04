@@ -23,28 +23,29 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ArticleRpc_AddArticle_FullMethodName            = "/articlerpc.ArticleRpc/AddArticle"
-	ArticleRpc_UpdateArticle_FullMethodName         = "/articlerpc.ArticleRpc/UpdateArticle"
-	ArticleRpc_DeleteArticle_FullMethodName         = "/articlerpc.ArticleRpc/DeleteArticle"
-	ArticleRpc_FindArticleList_FullMethodName       = "/articlerpc.ArticleRpc/FindArticleList"
-	ArticleRpc_FindArticlePublicList_FullMethodName = "/articlerpc.ArticleRpc/FindArticlePublicList"
-	ArticleRpc_RecycleArticle_FullMethodName        = "/articlerpc.ArticleRpc/RecycleArticle"
-	ArticleRpc_TopArticle_FullMethodName            = "/articlerpc.ArticleRpc/TopArticle"
-	ArticleRpc_GetArticle_FullMethodName            = "/articlerpc.ArticleRpc/GetArticle"
-	ArticleRpc_GetArticleRecommend_FullMethodName   = "/articlerpc.ArticleRpc/GetArticleRecommend"
-	ArticleRpc_LikeArticle_FullMethodName           = "/articlerpc.ArticleRpc/LikeArticle"
-	ArticleRpc_FindUserLikeArticle_FullMethodName   = "/articlerpc.ArticleRpc/FindUserLikeArticle"
-	ArticleRpc_AnalysisArticle_FullMethodName       = "/articlerpc.ArticleRpc/AnalysisArticle"
-	ArticleRpc_AddCategory_FullMethodName           = "/articlerpc.ArticleRpc/AddCategory"
-	ArticleRpc_UpdateCategory_FullMethodName        = "/articlerpc.ArticleRpc/UpdateCategory"
-	ArticleRpc_GetCategory_FullMethodName           = "/articlerpc.ArticleRpc/GetCategory"
-	ArticleRpc_DeleteCategory_FullMethodName        = "/articlerpc.ArticleRpc/DeleteCategory"
-	ArticleRpc_FindCategoryList_FullMethodName      = "/articlerpc.ArticleRpc/FindCategoryList"
-	ArticleRpc_AddTag_FullMethodName                = "/articlerpc.ArticleRpc/AddTag"
-	ArticleRpc_UpdateTag_FullMethodName             = "/articlerpc.ArticleRpc/UpdateTag"
-	ArticleRpc_GetTag_FullMethodName                = "/articlerpc.ArticleRpc/GetTag"
-	ArticleRpc_DeleteTag_FullMethodName             = "/articlerpc.ArticleRpc/DeleteTag"
-	ArticleRpc_FindTagList_FullMethodName           = "/articlerpc.ArticleRpc/FindTagList"
+	ArticleRpc_AddArticle_FullMethodName             = "/articlerpc.ArticleRpc/AddArticle"
+	ArticleRpc_UpdateArticle_FullMethodName          = "/articlerpc.ArticleRpc/UpdateArticle"
+	ArticleRpc_DeleteArticle_FullMethodName          = "/articlerpc.ArticleRpc/DeleteArticle"
+	ArticleRpc_FindArticleList_FullMethodName        = "/articlerpc.ArticleRpc/FindArticleList"
+	ArticleRpc_FindArticlePublicList_FullMethodName  = "/articlerpc.ArticleRpc/FindArticlePublicList"
+	ArticleRpc_FindArticlePreviewList_FullMethodName = "/articlerpc.ArticleRpc/FindArticlePreviewList"
+	ArticleRpc_RecycleArticle_FullMethodName         = "/articlerpc.ArticleRpc/RecycleArticle"
+	ArticleRpc_TopArticle_FullMethodName             = "/articlerpc.ArticleRpc/TopArticle"
+	ArticleRpc_GetArticle_FullMethodName             = "/articlerpc.ArticleRpc/GetArticle"
+	ArticleRpc_GetArticleRecommend_FullMethodName    = "/articlerpc.ArticleRpc/GetArticleRecommend"
+	ArticleRpc_LikeArticle_FullMethodName            = "/articlerpc.ArticleRpc/LikeArticle"
+	ArticleRpc_FindUserLikeArticle_FullMethodName    = "/articlerpc.ArticleRpc/FindUserLikeArticle"
+	ArticleRpc_AnalysisArticle_FullMethodName        = "/articlerpc.ArticleRpc/AnalysisArticle"
+	ArticleRpc_AddCategory_FullMethodName            = "/articlerpc.ArticleRpc/AddCategory"
+	ArticleRpc_UpdateCategory_FullMethodName         = "/articlerpc.ArticleRpc/UpdateCategory"
+	ArticleRpc_GetCategory_FullMethodName            = "/articlerpc.ArticleRpc/GetCategory"
+	ArticleRpc_DeleteCategory_FullMethodName         = "/articlerpc.ArticleRpc/DeleteCategory"
+	ArticleRpc_FindCategoryList_FullMethodName       = "/articlerpc.ArticleRpc/FindCategoryList"
+	ArticleRpc_AddTag_FullMethodName                 = "/articlerpc.ArticleRpc/AddTag"
+	ArticleRpc_UpdateTag_FullMethodName              = "/articlerpc.ArticleRpc/UpdateTag"
+	ArticleRpc_GetTag_FullMethodName                 = "/articlerpc.ArticleRpc/GetTag"
+	ArticleRpc_DeleteTag_FullMethodName              = "/articlerpc.ArticleRpc/DeleteTag"
+	ArticleRpc_FindTagList_FullMethodName            = "/articlerpc.ArticleRpc/FindTagList"
 )
 
 // ArticleRpcClient is the client API for ArticleRpc service.
@@ -61,6 +62,8 @@ type ArticleRpcClient interface {
 	FindArticleList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
 	// 查询文章列表
 	FindArticlePublicList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
+	// 查询文章列表
+	FindArticlePreviewList(ctx context.Context, in *FindArticlePreviewListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error)
 	// 回收文章
 	RecycleArticle(ctx context.Context, in *RecycleArticleReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 置顶文章
@@ -144,6 +147,15 @@ func (c *articleRpcClient) FindArticleList(ctx context.Context, in *FindArticleL
 func (c *articleRpcClient) FindArticlePublicList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error) {
 	out := new(FindArticleListResp)
 	err := c.cc.Invoke(ctx, ArticleRpc_FindArticlePublicList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleRpcClient) FindArticlePreviewList(ctx context.Context, in *FindArticlePreviewListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error) {
+	out := new(FindArticlePreviewListResp)
+	err := c.cc.Invoke(ctx, ArticleRpc_FindArticlePreviewList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -317,6 +329,8 @@ type ArticleRpcServer interface {
 	FindArticleList(context.Context, *FindArticleListReq) (*FindArticleListResp, error)
 	// 查询文章列表
 	FindArticlePublicList(context.Context, *FindArticleListReq) (*FindArticleListResp, error)
+	// 查询文章列表
+	FindArticlePreviewList(context.Context, *FindArticlePreviewListReq) (*FindArticlePreviewListResp, error)
 	// 回收文章
 	RecycleArticle(context.Context, *RecycleArticleReq) (*EmptyResp, error)
 	// 置顶文章
@@ -372,6 +386,9 @@ func (UnimplementedArticleRpcServer) FindArticleList(context.Context, *FindArtic
 }
 func (UnimplementedArticleRpcServer) FindArticlePublicList(context.Context, *FindArticleListReq) (*FindArticleListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindArticlePublicList not implemented")
+}
+func (UnimplementedArticleRpcServer) FindArticlePreviewList(context.Context, *FindArticlePreviewListReq) (*FindArticlePreviewListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindArticlePreviewList not implemented")
 }
 func (UnimplementedArticleRpcServer) RecycleArticle(context.Context, *RecycleArticleReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RecycleArticle not implemented")
@@ -523,6 +540,24 @@ func _ArticleRpc_FindArticlePublicList_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArticleRpcServer).FindArticlePublicList(ctx, req.(*FindArticleListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleRpc_FindArticlePreviewList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindArticlePreviewListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleRpcServer).FindArticlePreviewList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArticleRpc_FindArticlePreviewList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleRpcServer).FindArticlePreviewList(ctx, req.(*FindArticlePreviewListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -859,6 +894,10 @@ var ArticleRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindArticlePublicList",
 			Handler:    _ArticleRpc_FindArticlePublicList_Handler,
+		},
+		{
+			MethodName: "FindArticlePreviewList",
+			Handler:    _ArticleRpc_FindArticlePreviewList_Handler,
 		},
 		{
 			MethodName: "RecycleArticle",

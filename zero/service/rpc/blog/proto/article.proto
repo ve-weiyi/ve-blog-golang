@@ -126,6 +126,14 @@ message FindArticleListResp {
   repeated ArticleDetails list = 2;
 }
 
+message FindArticlePreviewListReq{
+  repeated int64 ids = 1;
+}
+
+message FindArticlePreviewListResp{
+  repeated ArticlePreview list = 1;
+}
+
 message FindLikeArticleResp{
   repeated int64 like_article_list = 1;
 }
@@ -198,6 +206,8 @@ service ArticleRpc {
   rpc FindArticleList(FindArticleListReq) returns(FindArticleListResp);
   // 查询文章列表
   rpc FindArticlePublicList(FindArticleListReq) returns(FindArticleListResp);
+  // 查询文章列表
+  rpc FindArticlePreviewList(FindArticlePreviewListReq) returns(FindArticlePreviewListResp);
   // 回收文章
   rpc RecycleArticle(RecycleArticleReq) returns(EmptyResp);
   // 置顶文章
