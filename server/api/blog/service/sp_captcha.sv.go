@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -28,12 +29,12 @@ func (l *CaptchaService) SendCaptchaEmail(reqCtx *request.Context, req *dto.Capt
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountRepository.LoadUserByUsername(reqCtx, req.Email)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	userinfo, err := l.svcCtx.UserAccountRepository.FindUserInfo(reqCtx, account.Id)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	// 设置key
@@ -93,7 +94,7 @@ func (l *CaptchaService) GetCaptchaImage(reqCtx *request.Context, req *dto.Captc
 
 func (l *CaptchaService) VerifyImageCaptcha(reqCtx *request.Context, req *dto.CaptchaVerifyReq) (resp interface{}, err error) {
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(req.Id, req.Code) {
-		return nil, apierr.ErrorCaptchaVerify
+		return nil, apierr.NewApiError(codex.CodeCaptchaVerify, "验证码错误")
 	}
 
 	return resp, nil

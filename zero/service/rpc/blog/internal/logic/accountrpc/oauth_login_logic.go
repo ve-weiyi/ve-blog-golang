@@ -6,6 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
@@ -69,12 +70,12 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	}
 
 	// 用户已经注册,查询用户信息
-	accountrpc, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", userOauth.UserId)
+	user, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", userOauth.UserId)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
-	return onLogin(l.svcCtx, l.ctx, accountrpc)
+	return onLogin(l.svcCtx, l.ctx, user)
 }
 
 func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.UserOauth, err error) {
@@ -85,7 +86,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	}
 
 	// 用户账号
-	accountrpc := &model.UserAccount{
+	user := &model.UserAccount{
 		Id:        0,
 		Username:  username,
 		Password:  crypto.BcryptHash(info.EnName),
@@ -101,7 +102,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	}
 
 	/** 创建用户 **/
-	ua, err := onRegister(l.svcCtx, l.ctx, tx, accountrpc)
+	ua, err := onRegister(l.svcCtx, l.ctx, tx, user)
 	if err != nil {
 		return nil, err
 	}
