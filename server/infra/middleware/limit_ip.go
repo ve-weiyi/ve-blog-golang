@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
@@ -22,7 +23,7 @@ func LimitIP(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
 
 		// 短时间内请求10次
 		if cast.ToInt(v) > 10 {
-			c.JSON(http.StatusOK, apierr.ErrorFrequentRequest)
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeTooManyRequests, "操作频繁,请在5分钟后再试"))
 			c.Abort()
 			return
 		}

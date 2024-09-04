@@ -6,6 +6,7 @@ import (
 
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
@@ -36,19 +37,19 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.ErrorInvalidParam
+		return nil, apierr.NewApiError(codex.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 获取用户
 	exist, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
 	if exist != nil {
-		return nil, apierr.ErrorUserAlreadyExist
+		return nil, apierr.NewApiError(codex.CodeUserAlreadyExist, "用户已存在")
 	}
 
 	// 验证code是否正确
 	key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
-		return nil, apierr.ErrorCaptchaVerify
+		return nil, apierr.NewApiError(codex.CodeCaptchaVerify, "验证码错误")
 	}
 
 	var ua *model.UserAccount
@@ -78,7 +79,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.UserAccount, err error) {
 	// 邮箱注册
-	accountrpc := &model.UserAccount{
+	user := &model.UserAccount{
 		Id:        0,
 		Username:  in.Username,
 		Password:  crypto.BcryptHash(in.Password),
@@ -93,12 +94,12 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 		IpSource:  "",
 	}
 
-	return onRegister(l.svcCtx, l.ctx, tx, accountrpc)
+	return onRegister(l.svcCtx, l.ctx, tx, user)
 }
 
-func onRegister(svcCtx *svc.ServiceContext, ctx context.Context, tx *gorm.DB, accountrpc *model.UserAccount) (out *model.UserAccount, err error) {
+func onRegister(svcCtx *svc.ServiceContext, ctx context.Context, tx *gorm.DB, user *model.UserAccount) (out *model.UserAccount, err error) {
 	/** 创建用户 **/
-	_, err = svcCtx.UserAccountModel.WithTransaction(tx).Insert(ctx, accountrpc)
+	_, err = svcCtx.UserAccountModel.WithTransaction(tx).Insert(ctx, user)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +113,7 @@ func onRegister(svcCtx *svc.ServiceContext, ctx context.Context, tx *gorm.DB, ac
 	var userRoles []*model.UserRole
 	for _, item := range roles {
 		userRoles = append(userRoles, &model.UserRole{
-			UserId: accountrpc.Id,
+			UserId: user.Id,
 			RoleId: item.Id,
 		})
 	}
@@ -123,5 +124,5 @@ func onRegister(svcCtx *svc.ServiceContext, ctx context.Context, tx *gorm.DB, ac
 		return nil, err
 	}
 
-	return accountrpc, nil
+	return user, nil
 }

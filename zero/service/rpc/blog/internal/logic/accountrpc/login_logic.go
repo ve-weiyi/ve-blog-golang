@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
@@ -36,27 +37,27 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.ErrorInvalidParam
+		return nil, apierr.NewApiError(codex.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 验证用户是否存在
-	accountrpc, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
+	account, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
-		return nil, apierr.ErrorUserNotExist
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	// 验证密码是否正确
-	if !crypto.BcryptCheck(in.Password, accountrpc.Password) {
-		return nil, apierr.ErrorUserPasswordError
+	if !crypto.BcryptCheck(in.Password, account.Password) {
+		return nil, apierr.NewApiError(codex.CodeUserPasswordError, err.Error())
 	}
 
-	return onLogin(l.svcCtx, l.ctx, accountrpc)
+	return onLogin(l.svcCtx, l.ctx, account)
 }
 
 func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.UserAccount) (resp *accountrpc.LoginResp, err error) {
 	// 判断用户是否被禁用
 	if user.Status == constant.UserStatusDisabled {
-		return nil, apierr.ErrorUserDisabled
+		return nil, apierr.NewApiError(codex.CodeUserDisabled, "用户已被禁用")
 	}
 
 	resp = &accountrpc.LoginResp{

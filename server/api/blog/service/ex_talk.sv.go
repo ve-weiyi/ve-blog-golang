@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
@@ -29,7 +30,7 @@ func (l *TalkService) CreateTalk(reqCtx *request.Context, talk *entity.Talk) (da
 // 更新Talk记录
 func (l *TalkService) UpdateTalk(reqCtx *request.Context, talk *entity.Talk) (data *entity.Talk, err error) {
 	if talk.UserId != reqCtx.Uid {
-		return nil, apierr.ErrorUserNotPermission
+		return nil, apierr.NewApiError(codex.CodeUserNotPermission, "无操作权限")
 	}
 	return l.svcCtx.TalkRepository.Update(reqCtx, talk)
 }
