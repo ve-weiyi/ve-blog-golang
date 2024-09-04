@@ -31,10 +31,11 @@ func (l *UpdateCommentReviewLogic) UpdateCommentReview(req *types.CommentReviewR
 		IsReview: req.IsReview,
 	}
 
-	_, err = l.svcCtx.CommentRpc.UpdateCommentReview(l.ctx, in)
+	out, err := l.svcCtx.CommentRpc.UpdateCommentReview(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.CommentBackDTO{}, nil
+	resp = ConvertCommentTypes(out, nil, nil)
+	return resp, nil
 }
