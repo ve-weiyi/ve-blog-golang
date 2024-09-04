@@ -31,7 +31,7 @@ func (l *RecycleArticleLogic) RecycleArticle(in *articlerpc.RecycleArticleReq) (
 	}
 
 	record.IsDelete = in.IsDelete
-	_, err = l.svcCtx.ArticleModel.Update(l.ctx, record)
+	_, err = l.svcCtx.ArticleModel.Save(l.ctx, record)
 	if err != nil {
 		return nil, err
 	}
