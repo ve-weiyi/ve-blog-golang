@@ -73,7 +73,7 @@ func main() {
 
 	handler.RegisterHandlers(server, ctx)
 	server.PrintRoutes()
-	log.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
+	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	fmt.Printf(`
 	默认接口文档地址:http://%s:%d/api/v1/swagger/doc.html
 `, c.Host, c.Port)

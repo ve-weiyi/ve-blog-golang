@@ -23,13 +23,14 @@ type (
 	IdsReq             = remarkrpc.IdsReq
 	RemarkDetails      = remarkrpc.RemarkDetails
 	RemarkNewReq       = remarkrpc.RemarkNewReq
+	RemarkUpdateReq    = remarkrpc.RemarkUpdateReq
 	UserIdReq          = remarkrpc.UserIdReq
 
 	RemarkRpc interface {
 		// 创建留言
 		AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 更新留言
-		UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
+		UpdateRemark(ctx context.Context, in *RemarkUpdateReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 删除留言
 		DeleteRemark(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询留言
@@ -56,7 +57,7 @@ func (m *defaultRemarkRpc) AddRemark(ctx context.Context, in *RemarkNewReq, opts
 }
 
 // 更新留言
-func (m *defaultRemarkRpc) UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (m *defaultRemarkRpc) UpdateRemark(ctx context.Context, in *RemarkUpdateReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	client := remarkrpc.NewRemarkRpcClient(m.cli.Conn())
 	return client.UpdateRemark(ctx, in, opts...)
 }

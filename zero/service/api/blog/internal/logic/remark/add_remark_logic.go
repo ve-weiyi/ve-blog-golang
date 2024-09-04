@@ -25,8 +25,9 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 	}
 }
 
-func (l *AddRemarkLogic) AddRemark(req *types.Remark) (resp *types.Remark, err error) {
+func (l *AddRemarkLogic) AddRemark(req *types.RemarkNewReq) (resp *types.Remark, err error) {
 	in := ConvertRemarkPb(req)
+
 	out, err := l.svcCtx.RemarkRpc.AddRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
@@ -36,16 +37,11 @@ func (l *AddRemarkLogic) AddRemark(req *types.Remark) (resp *types.Remark, err e
 	return resp, nil
 }
 
-func ConvertRemarkPb(req *types.Remark) (out *remarkrpc.RemarkNewReq) {
+func ConvertRemarkPb(req *types.RemarkNewReq) (out *remarkrpc.RemarkNewReq) {
 	return &remarkrpc.RemarkNewReq{
-		Id:             req.Id,
 		Nickname:       req.Nickname,
 		Avatar:         req.Avatar,
 		MessageContent: req.MessageContent,
-		IpAddress:      req.IpAddress,
-		IpSource:       req.IpSource,
-		Time:           req.Time,
-		IsReview:       req.IsReview,
 	}
 }
 
