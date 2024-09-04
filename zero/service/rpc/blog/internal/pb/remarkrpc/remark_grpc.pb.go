@@ -37,7 +37,7 @@ type RemarkRpcClient interface {
 	// 创建留言
 	AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 更新留言
-	UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
+	UpdateRemark(ctx context.Context, in *RemarkUpdateReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 删除留言
 	DeleteRemark(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询留言
@@ -63,7 +63,7 @@ func (c *remarkRpcClient) AddRemark(ctx context.Context, in *RemarkNewReq, opts 
 	return out, nil
 }
 
-func (c *remarkRpcClient) UpdateRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
+func (c *remarkRpcClient) UpdateRemark(ctx context.Context, in *RemarkUpdateReq, opts ...grpc.CallOption) (*RemarkDetails, error) {
 	out := new(RemarkDetails)
 	err := c.cc.Invoke(ctx, RemarkRpc_UpdateRemark_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -106,7 +106,7 @@ type RemarkRpcServer interface {
 	// 创建留言
 	AddRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error)
 	// 更新留言
-	UpdateRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error)
+	UpdateRemark(context.Context, *RemarkUpdateReq) (*RemarkDetails, error)
 	// 删除留言
 	DeleteRemark(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询留言
@@ -123,7 +123,7 @@ type UnimplementedRemarkRpcServer struct {
 func (UnimplementedRemarkRpcServer) AddRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddRemark not implemented")
 }
-func (UnimplementedRemarkRpcServer) UpdateRemark(context.Context, *RemarkNewReq) (*RemarkDetails, error) {
+func (UnimplementedRemarkRpcServer) UpdateRemark(context.Context, *RemarkUpdateReq) (*RemarkDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRemark not implemented")
 }
 func (UnimplementedRemarkRpcServer) DeleteRemark(context.Context, *IdsReq) (*BatchResp, error) {
@@ -167,7 +167,7 @@ func _RemarkRpc_AddRemark_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _RemarkRpc_UpdateRemark_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RemarkNewReq)
+	in := new(RemarkUpdateReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -179,7 +179,7 @@ func _RemarkRpc_UpdateRemark_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: RemarkRpc_UpdateRemark_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RemarkRpcServer).UpdateRemark(ctx, req.(*RemarkNewReq))
+		return srv.(RemarkRpcServer).UpdateRemark(ctx, req.(*RemarkUpdateReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

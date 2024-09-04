@@ -284,7 +284,7 @@ type RegisterReq struct {
 }
 
 type Remark struct {
-	Id             int64  `json:"id"`              // 主键id
+	Id             int64  `json:"id,optional"`     // 主键id
 	Nickname       string `json:"nickname"`        // 昵称
 	Avatar         string `json:"avatar"`          // 头像
 	MessageContent string `json:"message_content"` // 留言内容
@@ -294,6 +294,12 @@ type Remark struct {
 	IsReview       int64  `json:"is_review"`       // 是否审核
 	CreatedAt      int64  `json:"created_at"`      // 发布时间
 	UpdatedAt      int64  `json:"updated_at"`      // 更新时间
+}
+
+type RemarkNewReq struct {
+	Nickname       string `json:"nickname"`        // 昵称
+	Avatar         string `json:"avatar"`          // 头像
+	MessageContent string `json:"message_content"` // 留言内容
 }
 
 type RemarkQueryReq struct {

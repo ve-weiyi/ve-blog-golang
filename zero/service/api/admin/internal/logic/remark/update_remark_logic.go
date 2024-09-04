@@ -26,7 +26,10 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 func (l *UpdateRemarkLogic) UpdateRemark(req *types.RemarkNewReq) (resp *types.RemarkBackDTO, err error) {
-	in := ConvertRemarkPb(req)
+	in := &remarkrpc.RemarkUpdateReq{
+		Id:       req.Id,
+		IsReview: req.IsReview,
+	}
 	out, err := l.svcCtx.RemarkRpc.UpdateRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
@@ -34,21 +37,6 @@ func (l *UpdateRemarkLogic) UpdateRemark(req *types.RemarkNewReq) (resp *types.R
 
 	resp = ConvertRemarkTypes(out)
 	return resp, nil
-}
-
-func ConvertRemarkPb(in *types.RemarkNewReq) (out *remarkrpc.RemarkNewReq) {
-	out = &remarkrpc.RemarkNewReq{
-		Id:             in.Id,
-		Nickname:       in.Nickname,
-		Avatar:         in.Avatar,
-		MessageContent: in.MessageContent,
-		IpAddress:      in.IpAddress,
-		IpSource:       in.IpSource,
-		Time:           in.Time,
-		IsReview:       in.IsReview,
-	}
-
-	return
 }
 
 func ConvertRemarkTypes(in *remarkrpc.RemarkDetails) (out *types.RemarkBackDTO) {
