@@ -32,7 +32,7 @@ RUN pnpm run build
 FROM nginx:latest
 
 # 将 Vite 项目的 dist 目录复制到 Nginx 的默认静态文件目录
-COPY --from=0 /ve-admin-vite/admin /usr/share/nginx/html/admin
+COPY --from=0 /ve-admin-vite/admin /usr/share/nginx/html
 
 # 暴露容器的 80 端口
 EXPOSE 80
