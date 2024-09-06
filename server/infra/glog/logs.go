@@ -3,7 +3,7 @@ package glog
 import (
 	"encoding/json"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 )
 
 var defaultLogger *Glogger

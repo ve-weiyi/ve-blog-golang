@@ -3,7 +3,7 @@ package glog
 import (
 	"testing"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 )
 
 // 同时输出到控制台和文件测试

@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 )
 
 // 注销用户

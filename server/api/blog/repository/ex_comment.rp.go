@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/cache"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/cache"
 )
 
 // 点赞评论
