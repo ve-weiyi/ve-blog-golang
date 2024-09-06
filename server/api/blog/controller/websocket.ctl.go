@@ -1,19 +1,17 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 type WebsocketController struct {
@@ -38,10 +36,9 @@ func (s *WebsocketController) WebSocket(c *gin.Context) {
 
 	// 接收消息
 	receive := func(msg []byte) (tx []byte, err error) {
-		glog.Println(string(msg))
 
 		var chat entity.ChatRecord
-		err = jsonconv.JsonToObject(string(msg), &chat)
+		err = json.Unmarshal(msg, &chat)
 		if err != nil {
 			return nil, err
 		}
