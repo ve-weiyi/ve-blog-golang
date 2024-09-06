@@ -1,5 +1,5 @@
 Name: blog.rpc
-ListenOn: 0.0.0.0:9998
+ListenOn: 0.0.0.0:9999
 Mode: dev
 Timeout: 5000
 Health: true
