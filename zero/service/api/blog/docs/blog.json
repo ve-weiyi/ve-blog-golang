@@ -33,7 +33,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/AlbumQueryReq"
             }
           }
         ],
@@ -60,7 +60,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PhotoQuery"
+              "$ref": "#/definitions/PhotoQueryReq"
             }
           }
         ],
@@ -114,7 +114,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/ArticleArchivesQueryReq"
             }
           }
         ],
@@ -141,7 +141,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ArticleClassifyReq"
+              "$ref": "#/definitions/ArticleClassifyQueryReq"
             }
           }
         ],
@@ -168,7 +168,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ArticleClassifyReq"
+              "$ref": "#/definitions/ArticleClassifyQueryReq"
             }
           }
         ],
@@ -222,7 +222,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/ArticleHomeQueryReq"
             }
           }
         ],
@@ -249,7 +249,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/EmptyReq"
             }
           }
         ],
@@ -282,6 +282,33 @@
         ],
         "tags": [
           "article"
+        ]
+      }
+    },
+    "/api/v1/banner/find_banner_list": {
+      "post": {
+        "summary": "分页获取页面列表",
+        "operationId": "FindBannerList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BannerQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "banner"
         ]
       }
     },
@@ -320,7 +347,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/BlogHomeInfo"
+              "$ref": "#/definitions/GetBlogHomeInfoResp"
             }
           }
         },
@@ -337,7 +364,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/AboutMe"
+              "$ref": "#/definitions/GetAboutMeResp"
             }
           }
         },
@@ -364,7 +391,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/CategoryQueryReq"
             }
           }
         ],
@@ -391,7 +418,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/ChatQueryReq"
             }
           }
         ],
@@ -554,7 +581,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/FriendQueryReq"
             }
           }
         ],
@@ -704,33 +731,6 @@
         ]
       }
     },
-    "/api/v1/page/find_page_list": {
-      "post": {
-        "summary": "分页获取页面列表",
-        "operationId": "FindPageList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PageQuery"
-            }
-          }
-        ],
-        "tags": [
-          "page"
-        ]
-      }
-    },
     "/api/v1/ping": {
       "get": {
         "summary": "ping",
@@ -793,7 +793,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Remark"
+              "$ref": "#/definitions/RemarkNewReq"
             }
           }
         ],
@@ -820,7 +820,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/RemarkQueryReq"
             }
           }
         ],
@@ -901,7 +901,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/TagQueryReq"
             }
           }
         ],
@@ -928,7 +928,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/PageQuery"
+              "$ref": "#/definitions/TalkQueryReq"
             }
           }
         ],
@@ -1180,76 +1180,6 @@
     }
   },
   "definitions": {
-    "AboutMe": {
-      "type": "object",
-      "properties": {
-        "content": {
-          "type": "string"
-        }
-      },
-      "title": "AboutMe"
-    },
-    "AdminHomeInfo": {
-      "type": "object",
-      "properties": {
-        "views_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 访问量"
-        },
-        "message_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 留言量"
-        },
-        "user_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 用户量"
-        },
-        "article_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文章量"
-        },
-        "category_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CategoryDTO"
-          },
-          "description": " 分类列表"
-        },
-        "tag_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/TagDTO"
-          },
-          "description": " 标签列表"
-        },
-        "article_view_rank_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ArticleViewRankDTO"
-          },
-          "description": " 文章浏览量排行"
-        },
-        "article_statistics_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ArticleStatisticsDTO"
-          },
-          "description": " 每日文章生产量"
-        },
-        "unique_view_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/UniqueViewDTO"
-          },
-          "description": " 每日用户访问量"
-        }
-      },
-      "title": "AdminHomeInfo"
-    },
     "Album": {
       "type": "object",
       "properties": {
@@ -1279,25 +1209,69 @@
         "album_cover"
       ]
     },
-    "ArticleClassifyReq": {
+    "AlbumQueryReq": {
       "type": "object",
       "properties": {
         "page": {
           "type": "integer",
-          "format": "int64",
-          "description": " 页码"
+          "format": "int64"
         },
         "page_size": {
           "type": "integer",
-          "format": "int64",
-          "description": " 每页数量"
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "AlbumQueryReq"
+    },
+    "ArticleArchivesQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ArticleArchivesQueryReq"
+    },
+    "ArticleClassifyQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "classify_name": {
           "type": "string",
           "description": " 分类名"
         }
       },
-      "title": "ArticleClassifyReq"
+      "title": "ArticleClassifyQueryReq"
     },
     "ArticleDeatils": {
       "type": "object",
@@ -1392,7 +1366,13 @@
           "description": " 最新文章列表"
         }
       },
-      "title": "ArticleDeatils"
+      "title": "ArticleDeatils",
+      "required": [
+        "last_article",
+        "next_article",
+        "recommend_article_list",
+        "newest_article_list"
+      ]
     },
     "ArticleHome": {
       "type": "object",
@@ -1465,7 +1445,43 @@
           "description": " 浏览量"
         }
       },
-      "title": "ArticleHome"
+      "title": "ArticleHome",
+      "required": [
+        "id",
+        "article_cover",
+        "article_title",
+        "article_content",
+        "article_type",
+        "original_url",
+        "is_top",
+        "status",
+        "created_at",
+        "updated_at",
+        "category_name",
+        "tag_name_list",
+        "like_count",
+        "views_count"
+      ]
+    },
+    "ArticleHomeQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ArticleHomeQueryReq"
     },
     "ArticlePreview": {
       "type": "object",
@@ -1489,42 +1505,74 @@
           "description": " 创建时间"
         }
       },
-      "title": "ArticlePreview"
+      "title": "ArticlePreview",
+      "required": [
+        "id",
+        "article_cover",
+        "article_title",
+        "created_at"
+      ]
     },
-    "ArticleStatisticsDTO": {
-      "type": "object",
-      "properties": {
-        "day": {
-          "type": "string",
-          "description": " 日期"
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 数量"
-        }
-      },
-      "title": "ArticleStatisticsDTO"
-    },
-    "ArticleViewRankDTO": {
+    "Banner": {
       "type": "object",
       "properties": {
         "id": {
           "type": "integer",
           "format": "int64",
-          "description": " 文章ID"
+          "description": " 页面id"
         },
-        "article_title": {
+        "banner_name": {
           "type": "string",
-          "description": " 文章标题"
+          "description": " 页面名"
         },
-        "count": {
+        "banner_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "banner_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        },
+        "created_at": {
           "type": "integer",
           "format": "int64",
-          "description": " 数量"
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
         }
       },
-      "title": "ArticleViewRankDTO"
+      "title": "Banner",
+      "required": [
+        "id",
+        "banner_name",
+        "banner_label",
+        "banner_cover",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "BannerQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "BannerQueryReq"
     },
     "BatchResp": {
       "type": "object",
@@ -1557,43 +1605,6 @@
         "verify_code"
       ]
     },
-    "BlogHomeInfo": {
-      "type": "object",
-      "properties": {
-        "article_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文章数量"
-        },
-        "category_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 分类数量"
-        },
-        "tag_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 标签数量"
-        },
-        "views_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 访问量"
-        },
-        "website_config": {
-          "$ref": "#/definitions/WebsiteConfig",
-          "description": " 网站配置"
-        },
-        "page_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PageDTO"
-          },
-          "description": " 页面列表"
-        }
-      },
-      "title": "BlogHomeInfo"
-    },
     "Category": {
       "type": "object",
       "properties": {
@@ -1620,21 +1631,58 @@
           "description": " 更新时间"
         }
       },
-      "title": "Category"
+      "title": "Category",
+      "required": [
+        "id",
+        "category_name",
+        "article_count",
+        "created_at",
+        "updated_at"
+      ]
     },
-    "CategoryDTO": {
+    "CategoryQueryReq": {
       "type": "object",
       "properties": {
-        "id": {
+        "page": {
           "type": "integer",
           "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "category_name": {
           "type": "string",
           "description": " 分类名"
         }
       },
-      "title": "CategoryDTO"
+      "title": "CategoryQueryReq"
+    },
+    "ChatQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "ChatQueryReq"
     },
     "ChatRecord": {
       "type": "object",
@@ -1685,7 +1733,19 @@
           "description": " 更新时间"
         }
       },
-      "title": "ChatRecord"
+      "title": "ChatRecord",
+      "required": [
+        "id",
+        "user_id",
+        "nickname",
+        "avatar",
+        "content",
+        "ip_address",
+        "ip_source",
+        "type",
+        "created_at",
+        "updated_at"
+      ]
     },
     "ChatSocketMsg": {
       "type": "object",
@@ -1781,8 +1841,20 @@
       },
       "title": "Comment",
       "required": [
+        "id",
+        "topic_id",
+        "parent_id",
+        "session_id",
+        "user_id",
+        "reply_user_id",
+        "comment_content",
+        "type",
+        "created_at",
+        "like_count",
         "user",
-        "reply_user"
+        "reply_user",
+        "reply_count",
+        "comment_reply_list"
       ]
     },
     "CommentNewReq": {
@@ -1825,13 +1897,17 @@
       "properties": {
         "page": {
           "type": "integer",
-          "format": "int64",
-          "description": " 页码"
+          "format": "int64"
         },
         "page_size": {
           "type": "integer",
-          "format": "int64",
-          "description": " 每页数量"
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "topic_id": {
           "type": "integer",
@@ -1847,10 +1923,6 @@
           "type": "integer",
           "format": "int64",
           "description": " 评论类型 1.文章 2.友链 3.说说"
-        },
-        "order_by": {
-          "type": "string",
-          "description": " 排序字段 create_at|like_count"
         }
       },
       "title": "CommentQueryReq"
@@ -1918,6 +1990,16 @@
       },
       "title": "CommentReply",
       "required": [
+        "id",
+        "topic_id",
+        "parent_id",
+        "session_id",
+        "user_id",
+        "reply_user_id",
+        "comment_content",
+        "type",
+        "created_at",
+        "like_count",
         "user",
         "reply_user"
       ]
@@ -1939,7 +2021,13 @@
           "type": "string"
         }
       },
-      "title": "CommentUserInfo"
+      "title": "CommentUserInfo",
+      "required": [
+        "id",
+        "nickname",
+        "avatar",
+        "website"
+      ]
     },
     "EmptyReq": {
       "type": "object",
@@ -1984,7 +2072,101 @@
           "description": " 更新时间"
         }
       },
-      "title": "Friend"
+      "title": "Friend",
+      "required": [
+        "id",
+        "link_name",
+        "link_avatar",
+        "link_address",
+        "link_intro",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "FriendQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "FriendQueryReq"
+    },
+    "GetAboutMeReq": {
+      "type": "object",
+      "title": "GetAboutMeReq"
+    },
+    "GetAboutMeResp": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        }
+      },
+      "title": "GetAboutMeResp",
+      "required": [
+        "content"
+      ]
+    },
+    "GetBlogHomeInfoReq": {
+      "type": "object",
+      "title": "GetBlogHomeInfoReq"
+    },
+    "GetBlogHomeInfoResp": {
+      "type": "object",
+      "properties": {
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
+        },
+        "category_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分类数量"
+        },
+        "tag_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 标签数量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 访问量"
+        },
+        "website_config": {
+          "$ref": "#/definitions/WebsiteConfigDTO",
+          "description": " 网站配置"
+        },
+        "page_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PageDTO"
+          },
+          "description": " 页面列表"
+        }
+      },
+      "title": "GetBlogHomeInfoResp",
+      "required": [
+        "article_count",
+        "category_count",
+        "tag_count",
+        "views_count",
+        "website_config",
+        "page_list"
+      ]
     },
     "IdReq": {
       "type": "object",
@@ -2042,7 +2224,10 @@
           "$ref": "#/definitions/Token"
         }
       },
-      "title": "LoginResp"
+      "title": "LoginResp",
+      "required": [
+        "token"
+      ]
     },
     "OauthLoginReq": {
       "type": "object",
@@ -2078,61 +2263,6 @@
         "url"
       ]
     },
-    "Page": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页面id"
-        },
-        "page_name": {
-          "type": "string",
-          "description": " 页面名"
-        },
-        "page_label": {
-          "type": "string",
-          "description": " 页面标签"
-        },
-        "page_cover": {
-          "type": "string",
-          "description": " 页面封面"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "Page"
-    },
-    "PageCondition": {
-      "type": "object",
-      "properties": {
-        "field": {
-          "type": "string",
-          "description": " 字段"
-        },
-        "value": {
-          "type": "string",
-          "description": " 值"
-        },
-        "logic": {
-          "type": "string",
-          "description": " and | or"
-        },
-        "operator": {
-          "type": "string",
-          "description": " = | \u003e= | \u003c | in | not in |...."
-        }
-      },
-      "title": "PageCondition"
-    },
     "PageDTO": {
       "type": "object",
       "properties": {
@@ -2154,21 +2284,13 @@
           "description": " 页面封面"
         }
       },
-      "title": "PageDTO"
-    },
-    "PageLimit": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64"
-        }
-      },
-      "title": "PageLimit"
+      "title": "PageDTO",
+      "required": [
+        "id",
+        "page_name",
+        "page_label",
+        "page_cover"
+      ]
     },
     "PageQuery": {
       "type": "object",
@@ -2184,13 +2306,7 @@
         "sorts": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PageSort"
-          }
-        },
-        "conditions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PageCondition"
+            "type": "string"
           }
         }
       },
@@ -2215,26 +2331,7 @@
           "type": "object"
         }
       },
-      "title": "PageResp",
-      "required": [
-        "page",
-        "page_size",
-        "total",
-        "list"
-      ]
-    },
-    "PageSort": {
-      "type": "object",
-      "properties": {
-        "field": {
-          "type": "string"
-        },
-        "order": {
-          "type": "string",
-          "description": " asc | desc"
-        }
-      },
-      "title": "PageSort"
+      "title": "PageResp"
     },
     "Photo": {
       "type": "object",
@@ -2255,7 +2352,7 @@
         "photo_url"
       ]
     },
-    "PhotoQuery": {
+    "PhotoQueryReq": {
       "type": "object",
       "properties": {
         "album_id": {
@@ -2264,7 +2361,7 @@
           "description": " 相册ID"
         }
       },
-      "title": "PhotoQuery",
+      "title": "PhotoQueryReq",
       "required": [
         "album_id"
       ]
@@ -2378,7 +2475,61 @@
           "description": " 更新时间"
         }
       },
-      "title": "Remark"
+      "title": "Remark",
+      "required": [
+        "nickname",
+        "avatar",
+        "message_content",
+        "ip_address",
+        "ip_source",
+        "time",
+        "is_review",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "RemarkNewReq": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "message_content": {
+          "type": "string",
+          "description": " 留言内容"
+        }
+      },
+      "title": "RemarkNewReq",
+      "required": [
+        "nickname",
+        "avatar",
+        "message_content"
+      ]
+    },
+    "RemarkQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "RemarkQueryReq"
     },
     "ResetPasswordReq": {
       "type": "object",
@@ -2458,22 +2609,38 @@
           "description": " 更新时间"
         }
       },
-      "title": "Tag"
+      "title": "Tag",
+      "required": [
+        "id",
+        "tag_name",
+        "article_count",
+        "created_at",
+        "updated_at"
+      ]
     },
-    "TagDTO": {
+    "TagQueryReq": {
       "type": "object",
       "properties": {
-        "id": {
+        "page": {
           "type": "integer",
-          "format": "int64",
-          "description": " 标签ID"
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "tag_name": {
           "type": "string",
           "description": " 标签名"
         }
       },
-      "title": "TagDTO"
+      "title": "TagQueryReq"
     },
     "Talk": {
       "type": "object",
@@ -2538,7 +2705,41 @@
           "description": " 更新时间"
         }
       },
-      "title": "Talk"
+      "title": "Talk",
+      "required": [
+        "id",
+        "user_id",
+        "nickname",
+        "avatar",
+        "content",
+        "img_list",
+        "is_top",
+        "status",
+        "like_count",
+        "comment_count",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "TalkQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "TalkQueryReq"
     },
     "Token": {
       "type": "object",
@@ -2575,22 +2776,16 @@
           "description": " 作用域"
         }
       },
-      "title": "Token"
-    },
-    "UniqueViewDTO": {
-      "type": "object",
-      "properties": {
-        "day": {
-          "type": "string",
-          "description": " 日期"
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 数量"
-        }
-      },
-      "title": "UniqueViewDTO"
+      "title": "Token",
+      "required": [
+        "user_id",
+        "token_type",
+        "access_token",
+        "expires_in",
+        "refresh_token",
+        "refresh_expires_in",
+        "scope"
+      ]
     },
     "UpdateUserAvatarReq": {
       "type": "object",
@@ -2600,7 +2795,10 @@
           "description": " 头像"
         }
       },
-      "title": "UpdateUserAvatarReq"
+      "title": "UpdateUserAvatarReq",
+      "required": [
+        "avatar"
+      ]
     },
     "UpdateUserInfoReq": {
       "type": "object",
@@ -2728,7 +2926,11 @@
           "description": " 网站"
         }
       },
-      "title": "UserInfoExt"
+      "title": "UserInfoExt",
+      "required": [
+        "intro",
+        "website"
+      ]
     },
     "UserInfoResp": {
       "type": "object",
@@ -2769,7 +2971,12 @@
       },
       "title": "UserInfoResp",
       "required": [
-        "username"
+        "user_id",
+        "username",
+        "nickname",
+        "avatar",
+        "email",
+        "phone"
       ]
     },
     "UserLikeResp": {
@@ -2804,7 +3011,7 @@
         "talk_like_set"
       ]
     },
-    "WebsiteConfig": {
+    "WebsiteConfigDTO": {
       "type": "object",
       "properties": {
         "admin_url": {
@@ -2916,7 +3123,33 @@
           "description": " 微信二维码"
         }
       },
-      "title": "WebsiteConfig"
+      "title": "WebsiteConfigDTO",
+      "required": [
+        "admin_url",
+        "alipay_qr_code",
+        "gitee",
+        "github",
+        "is_chat_room",
+        "is_comment_review",
+        "is_email_notice",
+        "is_message_review",
+        "is_music_player",
+        "is_reward",
+        "qq",
+        "social_login_list",
+        "social_url_list",
+        "tourist_avatar",
+        "user_avatar",
+        "website_author",
+        "website_avatar",
+        "website_create_time",
+        "website_intro",
+        "website_name",
+        "website_notice",
+        "website_record_no",
+        "websocket_url",
+        "weixin_qr_code"
+      ]
     }
   },
   "securityDefinitions": {
