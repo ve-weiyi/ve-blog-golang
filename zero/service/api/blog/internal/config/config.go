@@ -9,11 +9,10 @@ import (
 
 type Config struct {
 	rest.RestConf
+	RedisConf    RedisConf
+	UploadConfig *upload.UploadConfig
 
 	BlogRpcConf zrpc.RpcClientConf
-
-	UploadConfig *upload.UploadConfig
-	RedisConf    RedisConf
 }
 
 // redis缓存配置
