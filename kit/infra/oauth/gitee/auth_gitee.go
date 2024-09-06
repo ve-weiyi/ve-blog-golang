@@ -1,15 +1,13 @@
 package gitee
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"strconv"
 
-	"github.com/goccy/go-json"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/httpx"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/httpx"
 )
 
 // Gitee授权登录
