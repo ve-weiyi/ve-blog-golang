@@ -13,7 +13,7 @@ DevServer:
 Log:
   Mode: console
   Encoding: plain
-  Path: runtime/log/api
+  Path: runtime/log/blog
 # 文件上传配置
 UploadConfig:
   zone: ZoneHuanan

@@ -14,13 +14,15 @@ import (
 	"golang.org/x/net/webdav"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/static"
 )
 
 func RegisterHttpSwagHandler(server *rest.Server, prefix, swaggerFile string) {
 	f, err := os.ReadFile(swaggerFile)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	server.AddRoute(rest.Route{
@@ -33,7 +35,6 @@ func RegisterHttpSwagHandler(server *rest.Server, prefix, swaggerFile string) {
 	})
 
 	server.AddRoutes(static.PrefixRoutes(prefix, func(w http.ResponseWriter, r *http.Request) {
-		log.Println("swagger--->", r.RequestURI)
 		httpSwagger.Handler(
 			httpSwagger.URL(fmt.Sprintf("%s%s", prefix, "docs/blog.json")), //The url pointing to API definition
 		).ServeHTTP(w, r)
@@ -44,7 +45,8 @@ func RegisterHttpSwagHandler(server *rest.Server, prefix, swaggerFile string) {
 func RegisterKnife4jSwagHandler(server *rest.Server, prefix, swaggerFile string) {
 	f, err := os.ReadFile(swaggerFile)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return
 	}
 
 	server.AddRoutes(static.PrefixRoutes(prefix, func(w http.ResponseWriter, r *http.Request) {
@@ -100,7 +102,6 @@ func Knife4jSwagHandler(prefix string) http.HandlerFunc {
 			path = path[:strings.Index(path, "?")]
 		}
 
-		log.Println("swagger--->", handler.Prefix, path)
 		switch filepath.Ext(path) {
 		case ".html":
 			r.Header.Set("Content-Type", "text/html; charset=utf-8")
