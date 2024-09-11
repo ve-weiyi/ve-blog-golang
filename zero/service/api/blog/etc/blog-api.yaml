@@ -1,6 +1,6 @@
 Name: blog-api
 Host: 0.0.0.0
-Port: 9999
+Port: 9090
 Timeout: 5000
 # 健康检查
 DevServer:
@@ -38,4 +38,4 @@ RedisConf:
 
 BlogRpcConf:
   Endpoints:
-    - 0.0.0.0:9998
+    - 0.0.0.0:9999

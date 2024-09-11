@@ -14,7 +14,7 @@ services:
     container_name: ve-blog-golang-rpc
     restart: always
     ports:
-      - "9998:9998"
+      - "9999:9999"
     volumes:
       - ./runtime/rpc:/app/rpc/blog/runtime
 
@@ -27,7 +27,7 @@ services:
     restart: always
     ports:
       - "6060:6060"
-      - "9999:9999"
+      - "9090:9090"
     volumes:
       - ./runtime/api:/app/api/blog/runtime
     depends_on:
@@ -41,8 +41,8 @@ services:
     container_name: ve-blog-golang-admin-api
     restart: always
     ports:
-      - "9090:9090"
-      - "10000:10000"
+      - "6061:6061"
+      - "9091:9091"
     volumes:
       - ./runtime/api:/app/api/admin/runtime
     depends_on:

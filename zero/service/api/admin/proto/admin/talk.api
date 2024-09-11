@@ -37,7 +37,7 @@ type (
 )
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: talk
     middleware: SignToken
 )
@@ -49,7 +49,7 @@ service admin-api {
 }
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: talk
     middleware: SignToken,JwtToken
 )

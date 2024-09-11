@@ -98,7 +98,7 @@ type Server {
 
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: website
     middleware: SignToken,JwtToken
 )

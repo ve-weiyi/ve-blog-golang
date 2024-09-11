@@ -63,7 +63,7 @@ type (
 )
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: menu
     middleware: SignToken,JwtToken
 )

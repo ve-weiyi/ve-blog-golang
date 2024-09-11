@@ -24,7 +24,7 @@ type (
 )
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: tag
     middleware: SignToken
 )
@@ -36,7 +36,7 @@ service admin-api {
 }
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: tag
     middleware: SignToken,JwtToken
 )

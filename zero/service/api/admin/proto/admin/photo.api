@@ -31,7 +31,7 @@ type (
 )
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: photo
     middleware: SignToken,JwtToken
 )
@@ -43,7 +43,7 @@ service admin-api {
 }
 
 @server(
-    prefix: /api/v1
+    prefix: /admin_api/v1
     group: photo
     middleware: SignToken,JwtToken
 )
