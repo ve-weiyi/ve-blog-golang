@@ -48,9 +48,9 @@ ve-blog 是一个前后端分离的博客系统，项目采用了前后端分离
 
 ### 预览页面
 
-![img.png](images/img.png)
+![img.png](assets/images/img.png)
 
-![img_1.png](images/img_1.png)
+![img_1.png](assets/images/img_1.png)
 
 ## todo
 

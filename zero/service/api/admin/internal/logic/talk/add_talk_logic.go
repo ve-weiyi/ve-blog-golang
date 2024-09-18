@@ -43,7 +43,7 @@ func (l *AddTalkLogic) AddTalk(req *types.TalkNewReq) (resp *types.TalkBackDTO, 
 func ConvertTalkPb(in *types.TalkNewReq) (out *talkrpc.TalkNewReq) {
 	out = &talkrpc.TalkNewReq{
 		Id:      in.Id,
-		UserId:  in.UserId,
+		UserId:  0,
 		Content: in.Content,
 		ImgList: in.ImgList,
 		IsTop:   in.IsTop,

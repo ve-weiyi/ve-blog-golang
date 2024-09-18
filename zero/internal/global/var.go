@@ -6,3 +6,9 @@ const (
 	ArticleStatusPrivate = 2
 	ArticleStatusComment = 3
 )
+
+const (
+	//1未删除 2已删除
+	ArticleIsDeleteNo  = 1
+	ArticleIsDeleteYes = 2
+)

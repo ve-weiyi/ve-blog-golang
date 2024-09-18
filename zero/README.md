@@ -90,6 +90,9 @@ go run service/api/blog/blog.go -f service/api/blog/etc/blog-api.yaml
 go run service/api/admin/admin.go -f service/api/admin/etc/admin-api.yaml
 ```
 
+
+
+
 ## 2.使用nacos配置启动
 
 ```sh
@@ -100,6 +103,9 @@ go run service/rpc/blog/blog.go
 go run service/api/blog/blog.go
 ```
 
+```sh
+go run service/api/admin/admin.go
+```
 ## 3.使用docker启动
 
 构造镜像
