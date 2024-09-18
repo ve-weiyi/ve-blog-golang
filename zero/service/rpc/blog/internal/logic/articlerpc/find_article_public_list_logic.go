@@ -29,6 +29,7 @@ func (l *FindArticlePublicListLogic) FindArticlePublicList(in *articlerpc.FindAr
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
 	in.Status = global.ArticleStatusPublic
+	in.IsDelete = global.ArticleIsDeleteNo
 	page, size, sorts, conditions, params := helper.convertArticleQuery(in)
 
 	// 查询文章信息

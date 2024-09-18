@@ -3,6 +3,8 @@ package article
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
@@ -27,7 +29,7 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 
 func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.ArticleBackDTO, err error) {
 	in := ConvertArticlePb(req)
-	in.UserId = l.ctx.Value("userId").(int64)
+	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
 	out, err := l.svcCtx.ArticleRpc.AddArticle(l.ctx, in)
 	if err != nil {
 		return nil, err

@@ -14,6 +14,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -50,7 +51,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, fmt.Errorf("content is empty")
 		}
 
-		uid := cast.ToInt64(r.Context().Value("userId"))
+		uid := cast.ToInt64(r.Context().Value("uid"))
 		info, err := l.svcCtx.AccountRpc.GetUserInfo(r.Context(), &accountrpc.UserIdReq{UserId: uid})
 		if err != nil {
 			return nil, err
