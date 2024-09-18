@@ -118,6 +118,7 @@ message FindArticleListReq{
   string category_name = 6;// 分类名
   string tag_name = 7;// 标签名
   int64 is_top = 9;// 是否置顶 0否 1是
+  int64 is_delete = 10;// 是否删除  0否 1是
   int64 status = 11;// 状态值 1公开 2私密 3草稿 4已删除
 }
 

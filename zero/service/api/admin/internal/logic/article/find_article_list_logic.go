@@ -32,9 +32,11 @@ func (l *FindArticleListLogic) FindArticleList(req *types.ArticleQuery) (resp *t
 		Sorts:        req.Sorts,
 		ArticleTitle: req.ArticleTitle,
 		ArticleType:  req.ArticleType,
-		Status:       req.Status,
 		CategoryName: req.CategoryName,
 		TagName:      req.TagName,
+		IsTop:        req.IsTop,
+		IsDelete:     req.IsDelete,
+		Status:       req.Status,
 	}
 
 	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
