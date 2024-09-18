@@ -322,6 +322,14 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 		params = append(params, in.IsTop)
 	}
 
+	if in.IsDelete != 0 {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "is_delete = ?"
+		params = append(params, in.IsDelete)
+	}
+
 	if in.ArticleType != 0 {
 		if conditions != "" {
 			conditions += " and "

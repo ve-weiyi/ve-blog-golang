@@ -100,6 +100,10 @@ go run service/rpc/blog/blog.go
 go run service/api/blog/blog.go
 ```
 
+
+```sh
+go run service/api/admin/admin.go
+```
 ## 3.使用docker启动
 
 构造镜像

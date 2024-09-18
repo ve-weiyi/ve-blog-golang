@@ -41,3 +41,43 @@ func Test_VisitFile(t *testing.T) {
 // delete
 // update
 // find
+
+func TestSort(t *testing.T) {
+	arr := []int{3, 1, 4, 5, 6, 3, 2}
+	quickSort(arr, 0, 6)
+
+	fmt.Println(arr)
+}
+
+func quickSort(arr []int, low, high int) {
+	if low < high {
+		pivot := part(arr, low, high)
+		quickSort(arr, low, pivot-1)
+		quickSort(arr, pivot+1, high)
+	}
+}
+
+// 分区函数：将数组划分为两部分，左边部分小于基准，右边部分大于基准
+func part(arr []int, low, high int) int {
+	pv := arr[low] // 选择第一个元素为基准
+	left, right := low, high
+
+	for left < right {
+		// 从右往左找第一个小于基准的元素
+		for left < right && arr[right] >= pv {
+			right--
+		}
+		// 从左往右找第一个大于基准的元素
+		for left < right && arr[left] <= pv {
+			left++
+		}
+		// 交换两个指针指向的元素
+		if left < right {
+			arr[left], arr[right] = arr[right], arr[left]
+		}
+	}
+
+	// 将基准元素放到正确的位置
+	arr[low], arr[left] = arr[left], arr[low]
+	return left
+}

@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/admin": {
+    "/admin_api/v1/admin": {
       "get": {
         "summary": "获取后台首页信息",
         "operationId": "GetAdminHomeInfo",
@@ -32,7 +32,7 @@
         ]
       }
     },
-    "/api/v1/admin/about_me": {
+    "/admin_api/v1/admin/about_me": {
       "get": {
         "summary": "获取关于我的信息",
         "operationId": "GetAboutMe",
@@ -74,7 +74,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/add_article": {
+    "/admin_api/v1/admin/article/add_article": {
       "post": {
         "summary": "添加文章",
         "operationId": "AddArticle",
@@ -102,7 +102,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/delete_article": {
+    "/admin_api/v1/admin/article/delete_article": {
       "post": {
         "summary": "删除文章",
         "operationId": "DeleteArticle",
@@ -129,7 +129,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/export_article_list": {
+    "/admin_api/v1/admin/article/export_article_list": {
       "post": {
         "summary": "导出文章列表",
         "operationId": "ExportArticleList",
@@ -156,7 +156,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/find_article_list": {
+    "/admin_api/v1/admin/article/find_article_list": {
       "post": {
         "summary": "查询文章列表",
         "operationId": "FindArticleList",
@@ -184,7 +184,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/get_article": {
+    "/admin_api/v1/admin/article/get_article": {
       "post": {
         "summary": "查询文章",
         "operationId": "GetArticle",
@@ -211,7 +211,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/recycle_article": {
+    "/admin_api/v1/admin/article/recycle_article": {
       "post": {
         "summary": "回收文章",
         "operationId": "RecycleArticle",
@@ -238,7 +238,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/top_article": {
+    "/admin_api/v1/admin/article/top_article": {
       "post": {
         "summary": "置顶文章",
         "operationId": "TopArticle",
@@ -265,7 +265,7 @@
         ]
       }
     },
-    "/api/v1/admin/article/update_article": {
+    "/admin_api/v1/admin/article/update_article": {
       "post": {
         "summary": "保存文章",
         "operationId": "UpdateArticle",
@@ -293,7 +293,7 @@
         ]
       }
     },
-    "/api/v1/admin/get_website_config": {
+    "/admin_api/v1/admin/get_website_config": {
       "get": {
         "summary": "获取网站配置",
         "operationId": "GetWebsiteConfig",
@@ -310,7 +310,7 @@
         ]
       }
     },
-    "/api/v1/admin/system_state": {
+    "/admin_api/v1/admin/system_state": {
       "get": {
         "summary": "获取服务器信息",
         "operationId": "GetSystemState",
@@ -327,7 +327,7 @@
         ]
       }
     },
-    "/api/v1/admin/update_website_config": {
+    "/admin_api/v1/admin/update_website_config": {
       "put": {
         "summary": "更新网站配置",
         "operationId": "UpdateWebsiteConfig",
@@ -354,7 +354,7 @@
         ]
       }
     },
-    "/api/v1/album/add_album": {
+    "/admin_api/v1/album/add_album": {
       "post": {
         "summary": "创建相册",
         "operationId": "AddAlbum",
@@ -381,7 +381,7 @@
         ]
       }
     },
-    "/api/v1/album/batch_delete_album": {
+    "/admin_api/v1/album/batch_delete_album": {
       "delete": {
         "summary": "批量删除相册",
         "operationId": "BatchDeleteAlbum",
@@ -408,7 +408,7 @@
         ]
       }
     },
-    "/api/v1/album/batch_delete_photo": {
+    "/admin_api/v1/album/batch_delete_photo": {
       "delete": {
         "summary": "批量删除照片",
         "operationId": "BatchDeletePhoto",
@@ -435,7 +435,7 @@
         ]
       }
     },
-    "/api/v1/album/delete_album": {
+    "/admin_api/v1/album/delete_album": {
       "delete": {
         "summary": "删除相册",
         "operationId": "DeleteAlbum",
@@ -462,7 +462,7 @@
         ]
       }
     },
-    "/api/v1/album/find_album_list": {
+    "/admin_api/v1/album/find_album_list": {
       "post": {
         "summary": "分页获取相册列表",
         "operationId": "FindAlbumList",
@@ -489,7 +489,7 @@
         ]
       }
     },
-    "/api/v1/album/get_album": {
+    "/admin_api/v1/album/get_album": {
       "post": {
         "summary": "查询相册",
         "operationId": "GetAlbum",
@@ -516,7 +516,7 @@
         ]
       }
     },
-    "/api/v1/album/update_album": {
+    "/admin_api/v1/album/update_album": {
       "put": {
         "summary": "更新相册",
         "operationId": "UpdateAlbum",
@@ -543,7 +543,7 @@
         ]
       }
     },
-    "/api/v1/api/add_api": {
+    "/admin_api/v1/api/add_api": {
       "post": {
         "summary": "创建api路由",
         "operationId": "AddApi",
@@ -570,7 +570,7 @@
         ]
       }
     },
-    "/api/v1/api/batch_delete_api": {
+    "/admin_api/v1/api/batch_delete_api": {
       "delete": {
         "summary": "批量删除api路由",
         "operationId": "BatchDeleteApi",
@@ -597,7 +597,7 @@
         ]
       }
     },
-    "/api/v1/api/clean_api_list": {
+    "/admin_api/v1/api/clean_api_list": {
       "post": {
         "summary": "清空接口列表",
         "operationId": "CleanApiList",
@@ -624,7 +624,7 @@
         ]
       }
     },
-    "/api/v1/api/delete_api": {
+    "/admin_api/v1/api/delete_api": {
       "delete": {
         "summary": "删除api路由",
         "operationId": "DeleteApi",
@@ -651,7 +651,7 @@
         ]
       }
     },
-    "/api/v1/api/find_api_list": {
+    "/admin_api/v1/api/find_api_list": {
       "post": {
         "summary": "分页获取api路由列表",
         "operationId": "FindApiList",
@@ -678,7 +678,7 @@
         ]
       }
     },
-    "/api/v1/api/sync_api_list": {
+    "/admin_api/v1/api/sync_api_list": {
       "post": {
         "summary": "同步api列表",
         "operationId": "SyncApiList",
@@ -705,7 +705,7 @@
         ]
       }
     },
-    "/api/v1/api/update_api": {
+    "/admin_api/v1/api/update_api": {
       "put": {
         "summary": "更新api路由",
         "operationId": "UpdateApi",
@@ -732,7 +732,7 @@
         ]
       }
     },
-    "/api/v1/banner/add_banner": {
+    "/admin_api/v1/banner/add_banner": {
       "post": {
         "summary": "创建页面",
         "operationId": "AddBanner",
@@ -759,7 +759,7 @@
         ]
       }
     },
-    "/api/v1/banner/delete_banner": {
+    "/admin_api/v1/banner/delete_banner": {
       "delete": {
         "summary": "删除页面",
         "operationId": "DeleteBanner",
@@ -786,7 +786,7 @@
         ]
       }
     },
-    "/api/v1/banner/find_banner_list": {
+    "/admin_api/v1/banner/find_banner_list": {
       "post": {
         "summary": "分页获取页面列表",
         "operationId": "FindBannerList",
@@ -813,7 +813,7 @@
         ]
       }
     },
-    "/api/v1/banner/update_banner": {
+    "/admin_api/v1/banner/update_banner": {
       "put": {
         "summary": "更新页面",
         "operationId": "UpdateBanner",
@@ -840,7 +840,7 @@
         ]
       }
     },
-    "/api/v1/category/add_category": {
+    "/admin_api/v1/category/add_category": {
       "post": {
         "summary": "创建文章分类",
         "operationId": "AddCategory",
@@ -867,7 +867,7 @@
         ]
       }
     },
-    "/api/v1/category/batch_delete_category": {
+    "/admin_api/v1/category/batch_delete_category": {
       "delete": {
         "summary": "批量删除文章分类",
         "operationId": "BatchDeleteCategory",
@@ -894,7 +894,7 @@
         ]
       }
     },
-    "/api/v1/category/delete_category": {
+    "/admin_api/v1/category/delete_category": {
       "delete": {
         "summary": "删除文章分类",
         "operationId": "DeleteCategory",
@@ -921,7 +921,7 @@
         ]
       }
     },
-    "/api/v1/category/find_category_list": {
+    "/admin_api/v1/category/find_category_list": {
       "post": {
         "summary": "分页获取文章分类列表",
         "operationId": "FindCategoryList",
@@ -948,7 +948,7 @@
         ]
       }
     },
-    "/api/v1/category/update_category": {
+    "/admin_api/v1/category/update_category": {
       "put": {
         "summary": "更新文章分类",
         "operationId": "UpdateCategory",
@@ -975,7 +975,7 @@
         ]
       }
     },
-    "/api/v1/comment/batch_delete_comment": {
+    "/admin_api/v1/comment/batch_delete_comment": {
       "delete": {
         "summary": "批量删除评论",
         "operationId": "BatchDeleteComment",
@@ -1002,7 +1002,7 @@
         ]
       }
     },
-    "/api/v1/comment/delete_comment": {
+    "/admin_api/v1/comment/delete_comment": {
       "delete": {
         "summary": "删除评论",
         "operationId": "DeleteComment",
@@ -1029,7 +1029,7 @@
         ]
       }
     },
-    "/api/v1/comment/find_comment_back_list": {
+    "/admin_api/v1/comment/find_comment_back_list": {
       "post": {
         "summary": "查询评论列表(后台)",
         "operationId": "FindCommentBackList",
@@ -1056,7 +1056,7 @@
         ]
       }
     },
-    "/api/v1/comment/update_comment_review": {
+    "/admin_api/v1/comment/update_comment_review": {
       "put": {
         "summary": "更新评论审核状态",
         "operationId": "UpdateCommentReview",
@@ -1084,7 +1084,7 @@
         ]
       }
     },
-    "/api/v1/friend/add_friend": {
+    "/admin_api/v1/friend/add_friend": {
       "post": {
         "summary": "创建友链",
         "operationId": "AddFriend",
@@ -1111,7 +1111,7 @@
         ]
       }
     },
-    "/api/v1/friend/batch_delete_friend": {
+    "/admin_api/v1/friend/batch_delete_friend": {
       "delete": {
         "summary": "批量删除友链",
         "operationId": "BatchDeleteFriend",
@@ -1138,7 +1138,7 @@
         ]
       }
     },
-    "/api/v1/friend/delete_friend": {
+    "/admin_api/v1/friend/delete_friend": {
       "delete": {
         "summary": "删除友链",
         "operationId": "DeleteFriend",
@@ -1165,7 +1165,7 @@
         ]
       }
     },
-    "/api/v1/friend/find_friend_list": {
+    "/admin_api/v1/friend/find_friend_list": {
       "post": {
         "summary": "分页获取友链列表",
         "operationId": "FindFriendList",
@@ -1192,7 +1192,7 @@
         ]
       }
     },
-    "/api/v1/friend/update_friend": {
+    "/admin_api/v1/friend/update_friend": {
       "put": {
         "summary": "更新友链",
         "operationId": "UpdateFriend",
@@ -1219,7 +1219,7 @@
         ]
       }
     },
-    "/api/v1/login": {
+    "/admin_api/v1/login": {
       "post": {
         "summary": "登录",
         "operationId": "Login",
@@ -1246,7 +1246,7 @@
         ]
       }
     },
-    "/api/v1/logout": {
+    "/admin_api/v1/logout": {
       "post": {
         "summary": "登出",
         "operationId": "Logout",
@@ -1273,7 +1273,7 @@
         ]
       }
     },
-    "/api/v1/menu/add_menu": {
+    "/admin_api/v1/menu/add_menu": {
       "post": {
         "summary": "创建菜单",
         "operationId": "AddMenu",
@@ -1300,7 +1300,7 @@
         ]
       }
     },
-    "/api/v1/menu/batch_delete_menu": {
+    "/admin_api/v1/menu/batch_delete_menu": {
       "delete": {
         "summary": "批量删除菜单",
         "operationId": "BatchDeleteMenu",
@@ -1327,7 +1327,7 @@
         ]
       }
     },
-    "/api/v1/menu/clean_menu_list": {
+    "/admin_api/v1/menu/clean_menu_list": {
       "post": {
         "summary": "清空菜单列表",
         "operationId": "CleanMenuList",
@@ -1354,7 +1354,7 @@
         ]
       }
     },
-    "/api/v1/menu/delete_menu": {
+    "/admin_api/v1/menu/delete_menu": {
       "delete": {
         "summary": "删除菜单",
         "operationId": "DeleteMenu",
@@ -1381,7 +1381,7 @@
         ]
       }
     },
-    "/api/v1/menu/find_menu_list": {
+    "/admin_api/v1/menu/find_menu_list": {
       "post": {
         "summary": "分页获取菜单列表",
         "operationId": "FindMenuList",
@@ -1408,7 +1408,7 @@
         ]
       }
     },
-    "/api/v1/menu/sync_menu_list": {
+    "/admin_api/v1/menu/sync_menu_list": {
       "post": {
         "summary": "同步菜单列表",
         "operationId": "SyncMenuList",
@@ -1435,7 +1435,7 @@
         ]
       }
     },
-    "/api/v1/menu/update_menu": {
+    "/admin_api/v1/menu/update_menu": {
       "put": {
         "summary": "更新菜单",
         "operationId": "UpdateMenu",
@@ -1462,7 +1462,7 @@
         ]
       }
     },
-    "/api/v1/operation_log/batch_delete_operation_log": {
+    "/admin_api/v1/operation_log/batch_delete_operation_log": {
       "delete": {
         "summary": "批量删除操作记录",
         "operationId": "BatchDeleteOperationLog",
@@ -1489,7 +1489,7 @@
         ]
       }
     },
-    "/api/v1/operation_log/delete_operation_log": {
+    "/admin_api/v1/operation_log/delete_operation_log": {
       "delete": {
         "summary": "删除操作记录",
         "operationId": "DeleteOperationLog",
@@ -1516,7 +1516,7 @@
         ]
       }
     },
-    "/api/v1/operation_log/find_operation_log_list": {
+    "/admin_api/v1/operation_log/find_operation_log_list": {
       "post": {
         "summary": "分页获取操作记录列表",
         "operationId": "FindOperationLogList",
@@ -1543,7 +1543,7 @@
         ]
       }
     },
-    "/api/v1/photo/add_photo": {
+    "/admin_api/v1/photo/add_photo": {
       "post": {
         "summary": "创建照片",
         "operationId": "AddPhoto",
@@ -1570,7 +1570,7 @@
         ]
       }
     },
-    "/api/v1/photo/delete_photo": {
+    "/admin_api/v1/photo/delete_photo": {
       "delete": {
         "summary": "删除照片",
         "operationId": "DeletePhoto",
@@ -1597,7 +1597,7 @@
         ]
       }
     },
-    "/api/v1/photo/find_photo_list": {
+    "/admin_api/v1/photo/find_photo_list": {
       "post": {
         "summary": "分页获取照片列表",
         "operationId": "FindPhotoList",
@@ -1624,7 +1624,7 @@
         ]
       }
     },
-    "/api/v1/photo/update_photo": {
+    "/admin_api/v1/photo/update_photo": {
       "put": {
         "summary": "更新照片",
         "operationId": "UpdatePhoto",
@@ -1651,7 +1651,7 @@
         ]
       }
     },
-    "/api/v1/ping": {
+    "/admin_api/v1/ping": {
       "get": {
         "summary": "ping",
         "operationId": "Ping",
@@ -1668,7 +1668,7 @@
         ]
       }
     },
-    "/api/v1/remark/batch_delete_remark": {
+    "/admin_api/v1/remark/batch_delete_remark": {
       "delete": {
         "summary": "批量删除留言",
         "operationId": "BatchDeleteRemark",
@@ -1695,7 +1695,7 @@
         ]
       }
     },
-    "/api/v1/remark/delete_remark": {
+    "/admin_api/v1/remark/delete_remark": {
       "delete": {
         "summary": "删除留言",
         "operationId": "DeleteRemark",
@@ -1722,7 +1722,7 @@
         ]
       }
     },
-    "/api/v1/remark/find_remark_list": {
+    "/admin_api/v1/remark/find_remark_list": {
       "post": {
         "summary": "分页获取留言列表",
         "operationId": "FindRemarkList",
@@ -1749,7 +1749,7 @@
         ]
       }
     },
-    "/api/v1/remark/update_remark": {
+    "/admin_api/v1/remark/update_remark": {
       "put": {
         "summary": "更新留言",
         "operationId": "UpdateRemark",
@@ -1776,7 +1776,7 @@
         ]
       }
     },
-    "/api/v1/role/add_role": {
+    "/admin_api/v1/role/add_role": {
       "post": {
         "summary": "创建角色",
         "operationId": "AddRole",
@@ -1804,7 +1804,7 @@
         ]
       }
     },
-    "/api/v1/role/batch_delete_role": {
+    "/admin_api/v1/role/batch_delete_role": {
       "post": {
         "summary": "批量删除角色",
         "operationId": "BatchDeleteRole",
@@ -1831,7 +1831,7 @@
         ]
       }
     },
-    "/api/v1/role/delete_role": {
+    "/admin_api/v1/role/delete_role": {
       "delete": {
         "summary": "删除角色",
         "operationId": "DeleteRole",
@@ -1858,7 +1858,7 @@
         ]
       }
     },
-    "/api/v1/role/find_role_list": {
+    "/admin_api/v1/role/find_role_list": {
       "post": {
         "summary": "分页获取角色列表",
         "operationId": "FindRoleList",
@@ -1885,7 +1885,7 @@
         ]
       }
     },
-    "/api/v1/role/find_role_resources": {
+    "/admin_api/v1/role/find_role_resources": {
       "post": {
         "summary": "获取角色资源列表",
         "operationId": "FindRoleResources",
@@ -1912,7 +1912,7 @@
         ]
       }
     },
-    "/api/v1/role/update_role": {
+    "/admin_api/v1/role/update_role": {
       "put": {
         "summary": "更新角色",
         "operationId": "UpdateRole",
@@ -1940,7 +1940,7 @@
         ]
       }
     },
-    "/api/v1/role/update_role_apis": {
+    "/admin_api/v1/role/update_role_apis": {
       "post": {
         "summary": "更新角色接口权限",
         "operationId": "UpdateRoleApis",
@@ -1967,7 +1967,7 @@
         ]
       }
     },
-    "/api/v1/role/update_role_menus": {
+    "/admin_api/v1/role/update_role_menus": {
       "post": {
         "summary": "更新角色菜单权限",
         "operationId": "UpdateRoleMenus",
@@ -1994,7 +1994,7 @@
         ]
       }
     },
-    "/api/v1/tag/add_tag": {
+    "/admin_api/v1/tag/add_tag": {
       "post": {
         "summary": "创建标签",
         "operationId": "AddTag",
@@ -2021,7 +2021,7 @@
         ]
       }
     },
-    "/api/v1/tag/batch_delete_tag": {
+    "/admin_api/v1/tag/batch_delete_tag": {
       "delete": {
         "summary": "批量删除标签",
         "operationId": "BatchDeleteTag",
@@ -2048,7 +2048,7 @@
         ]
       }
     },
-    "/api/v1/tag/delete_tag": {
+    "/admin_api/v1/tag/delete_tag": {
       "delete": {
         "summary": "删除标签",
         "operationId": "DeleteTag",
@@ -2075,7 +2075,7 @@
         ]
       }
     },
-    "/api/v1/tag/find_tag_list": {
+    "/admin_api/v1/tag/find_tag_list": {
       "post": {
         "summary": "分页获取标签列表",
         "operationId": "FindTagList",
@@ -2102,7 +2102,7 @@
         ]
       }
     },
-    "/api/v1/tag/update_tag": {
+    "/admin_api/v1/tag/update_tag": {
       "put": {
         "summary": "更新标签",
         "operationId": "UpdateTag",
@@ -2129,7 +2129,7 @@
         ]
       }
     },
-    "/api/v1/talk/add_talk": {
+    "/admin_api/v1/talk/add_talk": {
       "post": {
         "summary": "创建说说",
         "operationId": "AddTalk",
@@ -2156,7 +2156,7 @@
         ]
       }
     },
-    "/api/v1/talk/delete_talk": {
+    "/admin_api/v1/talk/delete_talk": {
       "delete": {
         "summary": "删除说说",
         "operationId": "DeleteTalk",
@@ -2183,7 +2183,7 @@
         ]
       }
     },
-    "/api/v1/talk/find_talk_list": {
+    "/admin_api/v1/talk/find_talk_list": {
       "post": {
         "summary": "分页获取说说列表",
         "operationId": "FindTalkList",
@@ -2210,7 +2210,7 @@
         ]
       }
     },
-    "/api/v1/talk/get_talk": {
+    "/admin_api/v1/talk/get_talk": {
       "post": {
         "summary": "查询说说",
         "operationId": "GetTalk",
@@ -2237,7 +2237,7 @@
         ]
       }
     },
-    "/api/v1/talk/update_talk": {
+    "/admin_api/v1/talk/update_talk": {
       "put": {
         "summary": "更新说说",
         "operationId": "UpdateTalk",
@@ -2264,7 +2264,7 @@
         ]
       }
     },
-    "/api/v1/upload/upload_file": {
+    "/admin_api/v1/upload/upload_file": {
       "post": {
         "summary": "上传文件",
         "operationId": "UploadFile",
@@ -2294,7 +2294,7 @@
         ]
       }
     },
-    "/api/v1/user/find_online_user_list": {
+    "/admin_api/v1/user/find_online_user_list": {
       "post": {
         "summary": "查询在线用户列表",
         "operationId": "FindOnlineUserList",
@@ -2321,7 +2321,7 @@
         ]
       }
     },
-    "/api/v1/user/find_user_list": {
+    "/admin_api/v1/user/find_user_list": {
       "post": {
         "summary": "查询用户列表",
         "operationId": "FindUserList",
@@ -2348,7 +2348,7 @@
         ]
       }
     },
-    "/api/v1/user/find_user_login_history_list": {
+    "/admin_api/v1/user/find_user_login_history_list": {
       "post": {
         "summary": "查询用户登录历史",
         "operationId": "FindUserLoginHistoryList",
@@ -2375,7 +2375,7 @@
         ]
       }
     },
-    "/api/v1/user/get_user_apis": {
+    "/admin_api/v1/user/get_user_apis": {
       "get": {
         "summary": "获取用户接口权限",
         "operationId": "GetUserApis",
@@ -2392,7 +2392,7 @@
         ]
       }
     },
-    "/api/v1/user/get_user_area_analysis": {
+    "/admin_api/v1/user/get_user_area_analysis": {
       "post": {
         "summary": "获取用户分布地区",
         "operationId": "GetUserAreaAnalysis",
@@ -2419,7 +2419,7 @@
         ]
       }
     },
-    "/api/v1/user/get_user_info": {
+    "/admin_api/v1/user/get_user_info": {
       "get": {
         "summary": "获取用户信息",
         "operationId": "GetUserInfo",
@@ -2436,7 +2436,7 @@
         ]
       }
     },
-    "/api/v1/user/get_user_menus": {
+    "/admin_api/v1/user/get_user_menus": {
       "get": {
         "summary": "获取用户菜单权限",
         "operationId": "GetUserMenus",
@@ -2453,7 +2453,7 @@
         ]
       }
     },
-    "/api/v1/user/get_user_roles": {
+    "/admin_api/v1/user/get_user_roles": {
       "get": {
         "summary": "获取用户角色",
         "operationId": "GetUserRoles",
@@ -2470,7 +2470,7 @@
         ]
       }
     },
-    "/api/v1/user/update_user_info": {
+    "/admin_api/v1/user/update_user_info": {
       "post": {
         "summary": "修改用户信息",
         "operationId": "UpdateUserInfo",
@@ -2497,7 +2497,7 @@
         ]
       }
     },
-    "/api/v1/user/update_user_roles": {
+    "/admin_api/v1/user/update_user_roles": {
       "post": {
         "summary": "修改用户角色",
         "operationId": "UpdateUserRoles",
@@ -2524,7 +2524,7 @@
         ]
       }
     },
-    "/api/v1/user/update_user_status": {
+    "/admin_api/v1/user/update_user_status": {
       "post": {
         "summary": "修改用户状态",
         "operationId": "UpdateUserStatus",

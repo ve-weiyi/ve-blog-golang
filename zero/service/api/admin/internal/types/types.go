@@ -90,21 +90,23 @@ type ArticleBackDTO struct {
 }
 
 type ArticleNewReq struct {
-	Id             int64    `json:"id,optional"`     // id
-	ArticleCover   string   `json:"article_cover"`   // 文章缩略图
-	ArticleTitle   string   `json:"article_title"`   // 标题
-	ArticleContent string   `json:"article_content"` // 内容
-	ArticleType    int64    `json:"article_type"`    // 文章类型 1原创 2转载 3翻译
-	OriginalUrl    string   `json:"original_url"`    // 原文链接
-	Status         int64    `json:"status"`          // 状态值 1 公开 2 私密 3 草稿 4 已删除
-	CategoryName   string   `json:"category_name"`   // 文章分类名
-	TagNameList    []string `json:"tag_name_list"`   // 文章标签列表
+	Id             int64    `json:"id,optional"`            // id
+	ArticleCover   string   `json:"article_cover"`          // 文章缩略图
+	ArticleTitle   string   `json:"article_title"`          // 标题
+	ArticleContent string   `json:"article_content"`        // 内容
+	ArticleType    int64    `json:"article_type"`           // 文章类型 1原创 2转载 3翻译
+	OriginalUrl    string   `json:"original_url"`           // 原文链接
+	Status         int64    `json:"status"`                 // 状态值 1 公开 2 私密 3 草稿 4 已删除
+	CategoryName   string   `json:"category_name,optional"` // 文章分类名
+	TagNameList    []string `json:"tag_name_list,optional"` // 文章标签列表
 }
 
 type ArticleQuery struct {
 	PageQuery
 	ArticleTitle string `json:"article_title,optional"` // 标题
 	ArticleType  int64  `json:"article_type,optional"`  // 文章类型 1原创 2转载 3翻译
+	IsTop        int64  `json:"is_top,optional"`        // 是否置顶
+	IsDelete     int64  `json:"is_delete,optional"`     // 是否删除
 	Status       int64  `json:"status,optional"`        // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName string `json:"category_name,optional"` // 文章分类名
 	TagName      string `json:"tag_name,optional"`
@@ -507,7 +509,7 @@ type TalkBackDTO struct {
 	UserId       int64    `json:"user_id"`       // 用户ID
 	Nickname     string   `json:"nickname"`      // 用户昵称
 	Avatar       string   `json:"avatar"`        // 用户头像
-	Content      string   `json:"content"`       // 评论内容
+	Content      string   `json:"content"`       // 说说内容
 	ImgList      []string `json:"img_list"`      // 图片URL列表
 	IsTop        int64    `json:"is_top"`        // 是否置顶
 	Status       int64    `json:"status"`        // 状态 1.公开 2.私密
@@ -518,14 +520,11 @@ type TalkBackDTO struct {
 }
 
 type TalkNewReq struct {
-	Id       int64    `json:"id,optional"` // 说说ID
-	UserId   int64    `json:"user_id"`     // 用户ID
-	Nickname string   `json:"nickname"`    // 用户昵称
-	Avatar   string   `json:"avatar"`      // 用户头像
-	Content  string   `json:"content"`     // 评论内容
-	ImgList  []string `json:"img_list"`    // 图片URL列表
-	IsTop    int64    `json:"is_top"`      // 是否置顶
-	Status   int64    `json:"status"`      // 状态 1.公开 2.私密
+	Id      int64    `json:"id,optional"` // 说说ID
+	Content string   `json:"content"`     // 说说内容
+	ImgList []string `json:"img_list"`    // 图片URL列表
+	IsTop   int64    `json:"is_top"`      // 是否置顶
+	Status  int64    `json:"status"`      // 状态 1.公开 2.私密
 }
 
 type TalkQuery struct {
