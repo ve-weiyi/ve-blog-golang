@@ -2,7 +2,6 @@ package articlerpclogic
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
@@ -144,7 +143,7 @@ func convertTagOut(in *model.Tag, acm map[int64]int) (out *articlerpc.TagDetails
 
 func (l *ArticleHelperLogic) findOrAddCategory(name string) (int64, error) {
 	if name == "" {
-		return 0, fmt.Errorf("category name is empty")
+		return 0, nil
 	}
 
 	category, err := l.svcCtx.CategoryModel.FindOneByCategoryName(l.ctx, name)
@@ -164,7 +163,7 @@ func (l *ArticleHelperLogic) findOrAddCategory(name string) (int64, error) {
 
 func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
 	if name == "" {
-		return 0, fmt.Errorf("tag name is empty")
+		return 0, nil
 	}
 
 	tag, err := l.svcCtx.TagModel.FindOneByTagName(l.ctx, name)

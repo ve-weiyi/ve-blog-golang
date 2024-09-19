@@ -4,19 +4,18 @@ import (
 	"context"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type LoginLogic struct {
@@ -43,12 +42,12 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 	// 验证用户是否存在
 	account, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
-		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
+		return nil, apierr.NewApiError(codex.CodeUserNotExist, "用户不存在")
 	}
 
 	// 验证密码是否正确
 	if !crypto.BcryptCheck(in.Password, account.Password) {
-		return nil, apierr.NewApiError(codex.CodeUserPasswordError, err.Error())
+		return nil, apierr.NewApiError(codex.CodeUserPasswordError, "密码不正确")
 	}
 
 	return onLogin(l.svcCtx, l.ctx, account)

@@ -3,8 +3,10 @@ package article
 import (
 	"context"
 	"path"
+	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
@@ -67,6 +69,7 @@ func (l *ExportArticleListLogic) exportArticle(a *types.ArticleBackDTO) (err err
 			"ArticleCategory": a.CategoryName,
 			"ArticleTags":     a.TagNameList,
 			"ArticleContent":  a.ArticleContent,
+			"CreateTime":      time.Unix(a.CreatedAt, 0).String(),
 		},
 	}
 
@@ -74,12 +77,13 @@ func (l *ExportArticleListLogic) exportArticle(a *types.ArticleBackDTO) (err err
 }
 
 const articleTemplate = `
-# {{.ArticleTitle}}
-文章封面: {{.ArticleCover}}
-文章类型: {{.ArticleType}}
-文章分类: {{.ArticleCategory}}
-文章标签: {{.ArticleTags}}
+# {{.ArticleTitle}}  
+文章封面: {{.ArticleCover}}   
+文章类型: {{.ArticleType}}   
+文章分类: {{.ArticleCategory}}   
+文章标签: {{.ArticleTags}}   
+创建时间: {{.CreateTime}}   
+
 文章内容:
 {{.ArticleContent}}
-
 `

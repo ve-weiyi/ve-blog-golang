@@ -42,42 +42,64 @@ func Test_VisitFile(t *testing.T) {
 // update
 // find
 
-func TestSort(t *testing.T) {
-	arr := []int{3, 1, 4, 5, 6, 3, 2}
-	quickSort(arr, 0, 6)
-
+func TestQS(t *testing.T) {
+	arr := []int{4, 2, 5, 1, 6, 5, 7, 5, 9, 0, 11}
+	sort(arr, 0, len(arr)-1)
 	fmt.Println(arr)
 }
 
-func quickSort(arr []int, low, high int) {
+func sort(arr []int, low, high int) {
 	if low < high {
-		pivot := part(arr, low, high)
-		quickSort(arr, low, pivot-1)
-		quickSort(arr, pivot+1, high)
+		mid := part2(arr, low, high)
+		sort(arr, low, mid-1)
+		sort(arr, mid+1, high)
 	}
 }
 
-// 分区函数：将数组划分为两部分，左边部分小于基准，右边部分大于基准
+// 寻找基准:左右指针法
 func part(arr []int, low, high int) int {
-	pv := arr[low] // 选择第一个元素为基准
-	left, right := low, high
+	pv := arr[low]
+	left := low
+	right := high
 
 	for left < right {
-		// 从右往左找第一个小于基准的元素
+		// 右边找小
 		for left < right && arr[right] >= pv {
 			right--
 		}
-		// 从左往右找第一个大于基准的元素
+
+		// 左边找大
 		for left < right && arr[left] <= pv {
 			left++
 		}
-		// 交换两个指针指向的元素
+
+		// 交换位置
 		if left < right {
 			arr[left], arr[right] = arr[right], arr[left]
 		}
 	}
 
-	// 将基准元素放到正确的位置
+	//交换结果与哨兵位置
 	arr[low], arr[left] = arr[left], arr[low]
+
 	return left
+}
+
+// 寻找基准:前后指针法。前指针找小，后指针交换
+func part2(arr []int, low, high int) int {
+	pv := arr[low]
+	l := low
+	for r := low + 1; r <= high; r++ {
+		// 前指针找小
+		if pv > arr[r] {
+			l++
+			// 交换与后指针的位置
+			arr[r], arr[l] = arr[l], arr[r]
+		}
+
+	}
+
+	arr[l], arr[low] = arr[low], arr[l]
+
+	return l
 }

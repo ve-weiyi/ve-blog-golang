@@ -35,7 +35,7 @@ func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err er
 	uid := l.ctx.Value("uid").(string)
 
 	in := &accountrpc.LogoutReq{
-		UserId: cast.ToInt64(uid),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.AccountRpc.Logout(l.ctx, in)
