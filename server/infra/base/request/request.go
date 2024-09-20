@@ -10,7 +10,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
@@ -25,15 +24,6 @@ type Context struct {
 
 func (s *Context) GetContext() context.Context {
 	return s.Context
-}
-
-func (s *Context) GetIpSource() string {
-	api, err := ipx.GetIpInfoByApi(s.IpAddress)
-	if err != nil {
-		return ""
-	}
-
-	return api.City
 }
 
 // 获取请求上下文

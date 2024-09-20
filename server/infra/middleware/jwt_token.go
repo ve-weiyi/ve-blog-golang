@@ -13,13 +13,12 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
-	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 // JwtToken jwt中间件
-func JwtToken(svcCtx *svctx.ServiceContext) gin.HandlerFunc {
+func JwtToken(tk *jtoken.JwtInstance) gin.HandlerFunc {
 
-	parser := svcCtx.Token
+	parser := tk
 
 	return func(c *gin.Context) {
 		var token string
