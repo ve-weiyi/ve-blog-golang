@@ -43,12 +43,18 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 		return nil, err
 	}
 
+	count, err := l.svcCtx.OperationLogModel.FindCount(l.ctx, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*syslogrpc.OperationLog
 	for _, v := range result {
 		list = append(list, convertOperationLogOut(v))
 	}
 
 	return &syslogrpc.FindOperationLogListResp{
-		List: list,
+		List:  list,
+		Total: count,
 	}, nil
 }
