@@ -27,7 +27,7 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 func (l *UpdateApiLogic) UpdateApi(in *permissionrpc.ApiNewReq) (*permissionrpc.ApiDetails, error) {
 	entity := convertApiIn(in)
 
-	_, err := l.svcCtx.ApiModel.Save(l.ctx, entity)
+	_, err := l.svcCtx.TApiModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

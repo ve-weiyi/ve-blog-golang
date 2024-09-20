@@ -29,7 +29,7 @@ func NewAddAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAlbum
 func (l *AddAlbumLogic) AddAlbum(in *photorpc.AlbumNewReq) (*photorpc.AlbumDetails, error) {
 	entity := convertAlbumIn(in)
 
-	_, err := l.svcCtx.AlbumModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TAlbumModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -37,8 +37,8 @@ func (l *AddAlbumLogic) AddAlbum(in *photorpc.AlbumNewReq) (*photorpc.AlbumDetai
 	return convertAlbumOut(entity, nil), nil
 }
 
-func convertAlbumIn(in *photorpc.AlbumNewReq) (out *model.Album) {
-	out = &model.Album{
+func convertAlbumIn(in *photorpc.AlbumNewReq) (out *model.TAlbum) {
+	out = &model.TAlbum{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
 		AlbumDesc:  in.AlbumDesc,
@@ -52,7 +52,7 @@ func convertAlbumIn(in *photorpc.AlbumNewReq) (out *model.Album) {
 	return out
 }
 
-func convertAlbumOut(in *model.Album, cm map[int64]int) (out *photorpc.AlbumDetails) {
+func convertAlbumOut(in *model.TAlbum, cm map[int64]int) (out *photorpc.AlbumDetails) {
 	var count int
 	if v, ok := cm[in.Id]; ok {
 		count = v

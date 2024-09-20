@@ -25,7 +25,7 @@ func NewCleanApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Clea
 
 // 清空接口列表
 func (l *CleanApiListLogic) CleanApiList(in *permissionrpc.EmptyReq) (*permissionrpc.BatchResp, error) {
-	row, err := l.svcCtx.RoleModel.DeleteBatch(l.ctx, "1 = 1")
+	row, err := l.svcCtx.TRoleModel.DeleteBatch(l.ctx, "1 = 1")
 	if err != nil {
 		return nil, err
 	}

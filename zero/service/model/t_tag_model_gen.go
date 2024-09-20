@@ -8,64 +8,63 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ VisitHistoryModel = (*defaultVisitHistoryModel)(nil)
+var _ TTagModel = (*defaultTTagModel)(nil)
 
 type (
 	// 接口定义
-	VisitHistoryModel interface {
+	TTagModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out VisitHistoryModel)
+		WithTransaction(tx *gorm.DB) (out TTagModel)
 		// 插入
-		Insert(ctx context.Context, in *VisitHistory) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*VisitHistory) (rows int64, err error)
+		Insert(ctx context.Context, in *TTag) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TTag) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *VisitHistory) (rows int64, err error)
-		Update(ctx context.Context, in *VisitHistory) (rows int64, err error)
+		Save(ctx context.Context, in *TTag) (rows int64, err error)
+		Update(ctx context.Context, in *TTag) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *VisitHistory, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *VisitHistory, err error)
+		FindOne(ctx context.Context, id int64) (out *TTag, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TTag, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*VisitHistory, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*VisitHistory, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TTag, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TTag, err error)
 		// add extra method in here
-		FindOneByDate(ctx context.Context, date string) (out *VisitHistory, err error)
+		FindOneByTagName(ctx context.Context, tag_name string) (out *TTag, err error)
 	}
 
 	// 表字段定义
-	VisitHistory struct {
-		Id         int64     `json:"id" gorm:"column:id" `                   // id
-		Date       string    `json:"date" gorm:"column:date" `               // 日期
-		ViewsCount int64     `json:"views_count" gorm:"column:views_count" ` // 访问量
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+	TTag struct {
+		Id        int64     `json:"id" gorm:"column:id" `                 // id
+		TagName   string    `json:"tag_name" gorm:"column:tag_name" `     // 标签名
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
 	}
 
 	// 接口实现
-	defaultVisitHistoryModel struct {
+	defaultTTagModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewVisitHistoryModel(db *gorm.DB, cache *redis.Client) VisitHistoryModel {
-	return &defaultVisitHistoryModel{
+func NewTTagModel(db *gorm.DB, cache *redis.Client) TTagModel {
+	return &defaultTTagModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`visit_history`",
+		table:      "`t_tag`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultVisitHistoryModel) WithTransaction(tx *gorm.DB) (out VisitHistoryModel) {
-	return NewVisitHistoryModel(tx, m.CacheEngin)
+func (m *defaultTTagModel) WithTransaction(tx *gorm.DB) (out TTagModel) {
+	return NewTTagModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultVisitHistoryModel) Insert(ctx context.Context, in *VisitHistory) (rows int64, err error) {
+func (m *defaultTTagModel) Insert(ctx context.Context, in *TTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -77,7 +76,7 @@ func (m *defaultVisitHistoryModel) Insert(ctx context.Context, in *VisitHistory)
 }
 
 // 插入记录
-func (m *defaultVisitHistoryModel) InsertBatch(ctx context.Context, in ...*VisitHistory) (rows int64, err error) {
+func (m *defaultTTagModel) InsertBatch(ctx context.Context, in ...*TTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -89,7 +88,7 @@ func (m *defaultVisitHistoryModel) InsertBatch(ctx context.Context, in ...*Visit
 }
 
 // 更新记录（不更新零值）
-func (m *defaultVisitHistoryModel) Save(ctx context.Context, in *VisitHistory) (rows int64, err error) {
+func (m *defaultTTagModel) Save(ctx context.Context, in *TTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -101,7 +100,7 @@ func (m *defaultVisitHistoryModel) Save(ctx context.Context, in *VisitHistory) (
 }
 
 // 更新记录（更新零值）
-func (m *defaultVisitHistoryModel) Update(ctx context.Context, in *VisitHistory) (rows int64, err error) {
+func (m *defaultTTagModel) Update(ctx context.Context, in *TTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -113,12 +112,12 @@ func (m *defaultVisitHistoryModel) Update(ctx context.Context, in *VisitHistory)
 }
 
 // 删除记录
-func (m *defaultVisitHistoryModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTTagModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&VisitHistory{})
+	result := db.Delete(&TTag{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -127,7 +126,7 @@ func (m *defaultVisitHistoryModel) Delete(ctx context.Context, id int64) (rows i
 }
 
 // 查询记录
-func (m *defaultVisitHistoryModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTTagModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -135,7 +134,7 @@ func (m *defaultVisitHistoryModel) DeleteBatch(ctx context.Context, conditions s
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&VisitHistory{})
+	result := db.Delete(&TTag{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -144,7 +143,7 @@ func (m *defaultVisitHistoryModel) DeleteBatch(ctx context.Context, conditions s
 }
 
 // 查询记录
-func (m *defaultVisitHistoryModel) FindOne(ctx context.Context, id int64) (out *VisitHistory, err error) {
+func (m *defaultTTagModel) FindOne(ctx context.Context, id int64) (out *TTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -156,7 +155,7 @@ func (m *defaultVisitHistoryModel) FindOne(ctx context.Context, id int64) (out *
 }
 
 // 查询记录
-func (m *defaultVisitHistoryModel) First(ctx context.Context, conditions string, args ...interface{}) (out *VisitHistory, err error) {
+func (m *defaultTTagModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -172,7 +171,7 @@ func (m *defaultVisitHistoryModel) First(ctx context.Context, conditions string,
 }
 
 // 查询总数
-func (m *defaultVisitHistoryModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTTagModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -180,7 +179,7 @@ func (m *defaultVisitHistoryModel) FindCount(ctx context.Context, conditions str
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&VisitHistory{}).Count(&count).Error
+	err = db.Model(&TTag{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -188,7 +187,7 @@ func (m *defaultVisitHistoryModel) FindCount(ctx context.Context, conditions str
 }
 
 // 查询列表
-func (m *defaultVisitHistoryModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*VisitHistory, err error) {
+func (m *defaultTTagModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -204,7 +203,7 @@ func (m *defaultVisitHistoryModel) FindALL(ctx context.Context, conditions strin
 }
 
 // 分页查询记录
-func (m *defaultVisitHistoryModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*VisitHistory, err error) {
+func (m *defaultTTagModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TTag, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -235,10 +234,10 @@ func (m *defaultVisitHistoryModel) FindList(ctx context.Context, page int, size 
 }
 
 // add extra method in here
-func (m *defaultVisitHistoryModel) FindOneByDate(ctx context.Context, date string) (out *VisitHistory, err error) {
+func (m *defaultTTagModel) FindOneByTagName(ctx context.Context, tag_name string) (out *TTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`date` = ?", date).First(&out).Error
+	err = db.Where("`tag_name` = ?", tag_name).First(&out).Error
 	if err != nil {
 		return nil, err
 	}

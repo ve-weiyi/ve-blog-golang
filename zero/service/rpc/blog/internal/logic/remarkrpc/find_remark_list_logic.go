@@ -38,12 +38,12 @@ func (l *FindRemarkListLogic) FindRemarkList(in *remarkrpc.FindRemarkListReq) (*
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
 
-	result, err := l.svcCtx.RemarkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TRemarkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.RemarkModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TRemarkModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

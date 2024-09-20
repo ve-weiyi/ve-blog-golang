@@ -28,14 +28,14 @@ func NewUpdateRoleApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 // 更新角色资源
 func (l *UpdateRoleApisLogic) UpdateRoleApis(in *permissionrpc.UpdateRoleApisReq) (*permissionrpc.EmptyResp, error) {
 	// 删除
-	_, err := l.svcCtx.RoleApiModel.DeleteBatch(l.ctx, "role_id in (?)", in.RoleId)
+	_, err := l.svcCtx.TRoleApiModel.DeleteBatch(l.ctx, "role_id in (?)", in.RoleId)
 	if err != nil {
 		return nil, err
 	}
 
-	var roleApis []*model.RoleApi
+	var roleApis []*model.TRoleApi
 	for _, apiId := range in.ApiIds {
-		m := &model.RoleApi{
+		m := &model.TRoleApi{
 			RoleId: in.RoleId,
 			ApiId:  apiId,
 		}
@@ -44,7 +44,7 @@ func (l *UpdateRoleApisLogic) UpdateRoleApis(in *permissionrpc.UpdateRoleApisReq
 	}
 
 	// 添加
-	_, err = l.svcCtx.RoleApiModel.InsertBatch(l.ctx, roleApis...)
+	_, err = l.svcCtx.TRoleApiModel.InsertBatch(l.ctx, roleApis...)
 	if err != nil {
 		return nil, err
 	}

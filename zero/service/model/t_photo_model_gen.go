@@ -8,63 +8,66 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ CategoryModel = (*defaultCategoryModel)(nil)
+var _ TPhotoModel = (*defaultTPhotoModel)(nil)
 
 type (
 	// 接口定义
-	CategoryModel interface {
+	TPhotoModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out CategoryModel)
+		WithTransaction(tx *gorm.DB) (out TPhotoModel)
 		// 插入
-		Insert(ctx context.Context, in *Category) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Category) (rows int64, err error)
+		Insert(ctx context.Context, in *TPhoto) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TPhoto) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Category) (rows int64, err error)
-		Update(ctx context.Context, in *Category) (rows int64, err error)
+		Save(ctx context.Context, in *TPhoto) (rows int64, err error)
+		Update(ctx context.Context, in *TPhoto) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Category, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Category, err error)
+		FindOne(ctx context.Context, id int64) (out *TPhoto, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TPhoto, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Category, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Category, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TPhoto, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TPhoto, err error)
 		// add extra method in here
-		FindOneByCategoryName(ctx context.Context, category_name string) (out *Category, err error)
 	}
 
 	// 表字段定义
-	Category struct {
-		Id           int64     `json:"id" gorm:"column:id" `                       // id
-		CategoryName string    `json:"category_name" gorm:"column:category_name" ` // 分类名
-		CreatedAt    time.Time `json:"created_at" gorm:"column:created_at" `       // 创建时间
-		UpdatedAt    time.Time `json:"updated_at" gorm:"column:updated_at" `       // 更新时间
+	TPhoto struct {
+		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
+		AlbumId   int64     `json:"album_id" gorm:"column:album_id" `     // 相册id
+		PhotoName string    `json:"photo_name" gorm:"column:photo_name" ` // 照片名
+		PhotoDesc string    `json:"photo_desc" gorm:"column:photo_desc" ` // 照片描述
+		PhotoSrc  string    `json:"photo_src" gorm:"column:photo_src" `   // 照片地址
+		IsDelete  int64     `json:"is_delete" gorm:"column:is_delete" `   // 是否删除
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
 	}
 
 	// 接口实现
-	defaultCategoryModel struct {
+	defaultTPhotoModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewCategoryModel(db *gorm.DB, cache *redis.Client) CategoryModel {
-	return &defaultCategoryModel{
+func NewTPhotoModel(db *gorm.DB, cache *redis.Client) TPhotoModel {
+	return &defaultTPhotoModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`category`",
+		table:      "`t_photo`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultCategoryModel) WithTransaction(tx *gorm.DB) (out CategoryModel) {
-	return NewCategoryModel(tx, m.CacheEngin)
+func (m *defaultTPhotoModel) WithTransaction(tx *gorm.DB) (out TPhotoModel) {
+	return NewTPhotoModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultCategoryModel) Insert(ctx context.Context, in *Category) (rows int64, err error) {
+func (m *defaultTPhotoModel) Insert(ctx context.Context, in *TPhoto) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -76,7 +79,7 @@ func (m *defaultCategoryModel) Insert(ctx context.Context, in *Category) (rows i
 }
 
 // 插入记录
-func (m *defaultCategoryModel) InsertBatch(ctx context.Context, in ...*Category) (rows int64, err error) {
+func (m *defaultTPhotoModel) InsertBatch(ctx context.Context, in ...*TPhoto) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -88,7 +91,7 @@ func (m *defaultCategoryModel) InsertBatch(ctx context.Context, in ...*Category)
 }
 
 // 更新记录（不更新零值）
-func (m *defaultCategoryModel) Save(ctx context.Context, in *Category) (rows int64, err error) {
+func (m *defaultTPhotoModel) Save(ctx context.Context, in *TPhoto) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -100,7 +103,7 @@ func (m *defaultCategoryModel) Save(ctx context.Context, in *Category) (rows int
 }
 
 // 更新记录（更新零值）
-func (m *defaultCategoryModel) Update(ctx context.Context, in *Category) (rows int64, err error) {
+func (m *defaultTPhotoModel) Update(ctx context.Context, in *TPhoto) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -112,12 +115,12 @@ func (m *defaultCategoryModel) Update(ctx context.Context, in *Category) (rows i
 }
 
 // 删除记录
-func (m *defaultCategoryModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTPhotoModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Category{})
+	result := db.Delete(&TPhoto{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -126,7 +129,7 @@ func (m *defaultCategoryModel) Delete(ctx context.Context, id int64) (rows int64
 }
 
 // 查询记录
-func (m *defaultCategoryModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTPhotoModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -134,7 +137,7 @@ func (m *defaultCategoryModel) DeleteBatch(ctx context.Context, conditions strin
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Category{})
+	result := db.Delete(&TPhoto{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -143,7 +146,7 @@ func (m *defaultCategoryModel) DeleteBatch(ctx context.Context, conditions strin
 }
 
 // 查询记录
-func (m *defaultCategoryModel) FindOne(ctx context.Context, id int64) (out *Category, err error) {
+func (m *defaultTPhotoModel) FindOne(ctx context.Context, id int64) (out *TPhoto, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -155,7 +158,7 @@ func (m *defaultCategoryModel) FindOne(ctx context.Context, id int64) (out *Cate
 }
 
 // 查询记录
-func (m *defaultCategoryModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Category, err error) {
+func (m *defaultTPhotoModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TPhoto, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -171,7 +174,7 @@ func (m *defaultCategoryModel) First(ctx context.Context, conditions string, arg
 }
 
 // 查询总数
-func (m *defaultCategoryModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTPhotoModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -179,7 +182,7 @@ func (m *defaultCategoryModel) FindCount(ctx context.Context, conditions string,
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Category{}).Count(&count).Error
+	err = db.Model(&TPhoto{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -187,7 +190,7 @@ func (m *defaultCategoryModel) FindCount(ctx context.Context, conditions string,
 }
 
 // 查询列表
-func (m *defaultCategoryModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Category, err error) {
+func (m *defaultTPhotoModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TPhoto, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -203,7 +206,7 @@ func (m *defaultCategoryModel) FindALL(ctx context.Context, conditions string, a
 }
 
 // 分页查询记录
-func (m *defaultCategoryModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Category, err error) {
+func (m *defaultTPhotoModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TPhoto, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -234,13 +237,3 @@ func (m *defaultCategoryModel) FindList(ctx context.Context, page int, size int,
 }
 
 // add extra method in here
-func (m *defaultCategoryModel) FindOneByCategoryName(ctx context.Context, category_name string) (out *Category, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	err = db.Where("`category_name` = ?", category_name).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

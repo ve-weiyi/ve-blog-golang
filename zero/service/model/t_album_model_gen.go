@@ -8,68 +8,66 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ RemarkModel = (*defaultRemarkModel)(nil)
+var _ TAlbumModel = (*defaultTAlbumModel)(nil)
 
 type (
 	// 接口定义
-	RemarkModel interface {
+	TAlbumModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out RemarkModel)
+		WithTransaction(tx *gorm.DB) (out TAlbumModel)
 		// 插入
-		Insert(ctx context.Context, in *Remark) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Remark) (rows int64, err error)
+		Insert(ctx context.Context, in *TAlbum) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TAlbum) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Remark) (rows int64, err error)
-		Update(ctx context.Context, in *Remark) (rows int64, err error)
+		Save(ctx context.Context, in *TAlbum) (rows int64, err error)
+		Update(ctx context.Context, in *TAlbum) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Remark, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Remark, err error)
+		FindOne(ctx context.Context, id int64) (out *TAlbum, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TAlbum, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Remark, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Remark, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TAlbum, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TAlbum, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	Remark struct {
-		Id             int64     `json:"id" gorm:"column:id" `                           // 主键id
-		Nickname       string    `json:"nickname" gorm:"column:nickname" `               // 昵称
-		Avatar         string    `json:"avatar" gorm:"column:avatar" `                   // 头像
-		MessageContent string    `json:"message_content" gorm:"column:message_content" ` // 留言内容
-		IpAddress      string    `json:"ip_address" gorm:"column:ip_address" `           // 用户ip
-		IpSource       string    `json:"ip_source" gorm:"column:ip_source" `             // 用户地址
-		Time           int64     `json:"time" gorm:"column:time" `                       // 弹幕速度
-		IsReview       int64     `json:"is_review" gorm:"column:is_review" `             // 是否审核
-		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 发布时间
-		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
+	TAlbum struct {
+		Id         int64     `json:"id" gorm:"column:id" `                   // 主键
+		AlbumName  string    `json:"album_name" gorm:"column:album_name" `   // 相册名
+		AlbumDesc  string    `json:"album_desc" gorm:"column:album_desc" `   // 相册描述
+		AlbumCover string    `json:"album_cover" gorm:"column:album_cover" ` // 相册封面
+		IsDelete   int64     `json:"is_delete" gorm:"column:is_delete" `     // 是否删除
+		Status     int64     `json:"status" gorm:"column:status" `           // 状态值 1公开 2私密
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
 	}
 
 	// 接口实现
-	defaultRemarkModel struct {
+	defaultTAlbumModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewRemarkModel(db *gorm.DB, cache *redis.Client) RemarkModel {
-	return &defaultRemarkModel{
+func NewTAlbumModel(db *gorm.DB, cache *redis.Client) TAlbumModel {
+	return &defaultTAlbumModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`remark`",
+		table:      "`t_album`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultRemarkModel) WithTransaction(tx *gorm.DB) (out RemarkModel) {
-	return NewRemarkModel(tx, m.CacheEngin)
+func (m *defaultTAlbumModel) WithTransaction(tx *gorm.DB) (out TAlbumModel) {
+	return NewTAlbumModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultRemarkModel) Insert(ctx context.Context, in *Remark) (rows int64, err error) {
+func (m *defaultTAlbumModel) Insert(ctx context.Context, in *TAlbum) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -81,7 +79,7 @@ func (m *defaultRemarkModel) Insert(ctx context.Context, in *Remark) (rows int64
 }
 
 // 插入记录
-func (m *defaultRemarkModel) InsertBatch(ctx context.Context, in ...*Remark) (rows int64, err error) {
+func (m *defaultTAlbumModel) InsertBatch(ctx context.Context, in ...*TAlbum) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -93,7 +91,7 @@ func (m *defaultRemarkModel) InsertBatch(ctx context.Context, in ...*Remark) (ro
 }
 
 // 更新记录（不更新零值）
-func (m *defaultRemarkModel) Save(ctx context.Context, in *Remark) (rows int64, err error) {
+func (m *defaultTAlbumModel) Save(ctx context.Context, in *TAlbum) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -105,7 +103,7 @@ func (m *defaultRemarkModel) Save(ctx context.Context, in *Remark) (rows int64, 
 }
 
 // 更新记录（更新零值）
-func (m *defaultRemarkModel) Update(ctx context.Context, in *Remark) (rows int64, err error) {
+func (m *defaultTAlbumModel) Update(ctx context.Context, in *TAlbum) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -117,12 +115,12 @@ func (m *defaultRemarkModel) Update(ctx context.Context, in *Remark) (rows int64
 }
 
 // 删除记录
-func (m *defaultRemarkModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTAlbumModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Remark{})
+	result := db.Delete(&TAlbum{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -131,7 +129,7 @@ func (m *defaultRemarkModel) Delete(ctx context.Context, id int64) (rows int64, 
 }
 
 // 查询记录
-func (m *defaultRemarkModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTAlbumModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -139,7 +137,7 @@ func (m *defaultRemarkModel) DeleteBatch(ctx context.Context, conditions string,
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Remark{})
+	result := db.Delete(&TAlbum{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -148,7 +146,7 @@ func (m *defaultRemarkModel) DeleteBatch(ctx context.Context, conditions string,
 }
 
 // 查询记录
-func (m *defaultRemarkModel) FindOne(ctx context.Context, id int64) (out *Remark, err error) {
+func (m *defaultTAlbumModel) FindOne(ctx context.Context, id int64) (out *TAlbum, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -160,7 +158,7 @@ func (m *defaultRemarkModel) FindOne(ctx context.Context, id int64) (out *Remark
 }
 
 // 查询记录
-func (m *defaultRemarkModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Remark, err error) {
+func (m *defaultTAlbumModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TAlbum, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -176,7 +174,7 @@ func (m *defaultRemarkModel) First(ctx context.Context, conditions string, args 
 }
 
 // 查询总数
-func (m *defaultRemarkModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTAlbumModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -184,7 +182,7 @@ func (m *defaultRemarkModel) FindCount(ctx context.Context, conditions string, a
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Remark{}).Count(&count).Error
+	err = db.Model(&TAlbum{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -192,7 +190,7 @@ func (m *defaultRemarkModel) FindCount(ctx context.Context, conditions string, a
 }
 
 // 查询列表
-func (m *defaultRemarkModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Remark, err error) {
+func (m *defaultTAlbumModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TAlbum, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -208,7 +206,7 @@ func (m *defaultRemarkModel) FindALL(ctx context.Context, conditions string, arg
 }
 
 // 分页查询记录
-func (m *defaultRemarkModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Remark, err error) {
+func (m *defaultTAlbumModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TAlbum, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

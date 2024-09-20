@@ -8,33 +8,33 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ ChatMessageModel = (*defaultChatMessageModel)(nil)
+var _ TChatMessageModel = (*defaultTChatMessageModel)(nil)
 
 type (
 	// 接口定义
-	ChatMessageModel interface {
+	TChatMessageModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out ChatMessageModel)
+		WithTransaction(tx *gorm.DB) (out TChatMessageModel)
 		// 插入
-		Insert(ctx context.Context, in *ChatMessage) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*ChatMessage) (rows int64, err error)
+		Insert(ctx context.Context, in *TChatMessage) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TChatMessage) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *ChatMessage) (rows int64, err error)
-		Update(ctx context.Context, in *ChatMessage) (rows int64, err error)
+		Save(ctx context.Context, in *TChatMessage) (rows int64, err error)
+		Update(ctx context.Context, in *TChatMessage) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *ChatMessage, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *ChatMessage, err error)
+		FindOne(ctx context.Context, id int64) (out *TChatMessage, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TChatMessage, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*ChatMessage, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*ChatMessage, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TChatMessage, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TChatMessage, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	ChatMessage struct {
+	TChatMessage struct {
 		Id         int64     `json:"id" gorm:"column:id" `                     // 主键
 		ChatId     string    `json:"chat_id" gorm:"column:chat_id" `           // 聊天id
 		UserId     int64     `json:"user_id" gorm:"column:user_id" `           // 用户id
@@ -49,28 +49,28 @@ type (
 	}
 
 	// 接口实现
-	defaultChatMessageModel struct {
+	defaultTChatMessageModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewChatMessageModel(db *gorm.DB, cache *redis.Client) ChatMessageModel {
-	return &defaultChatMessageModel{
+func NewTChatMessageModel(db *gorm.DB, cache *redis.Client) TChatMessageModel {
+	return &defaultTChatMessageModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`chat_message`",
+		table:      "`t_chat_message`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultChatMessageModel) WithTransaction(tx *gorm.DB) (out ChatMessageModel) {
-	return NewChatMessageModel(tx, m.CacheEngin)
+func (m *defaultTChatMessageModel) WithTransaction(tx *gorm.DB) (out TChatMessageModel) {
+	return NewTChatMessageModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultChatMessageModel) Insert(ctx context.Context, in *ChatMessage) (rows int64, err error) {
+func (m *defaultTChatMessageModel) Insert(ctx context.Context, in *TChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -82,7 +82,7 @@ func (m *defaultChatMessageModel) Insert(ctx context.Context, in *ChatMessage) (
 }
 
 // 插入记录
-func (m *defaultChatMessageModel) InsertBatch(ctx context.Context, in ...*ChatMessage) (rows int64, err error) {
+func (m *defaultTChatMessageModel) InsertBatch(ctx context.Context, in ...*TChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -94,7 +94,7 @@ func (m *defaultChatMessageModel) InsertBatch(ctx context.Context, in ...*ChatMe
 }
 
 // 更新记录（不更新零值）
-func (m *defaultChatMessageModel) Save(ctx context.Context, in *ChatMessage) (rows int64, err error) {
+func (m *defaultTChatMessageModel) Save(ctx context.Context, in *TChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -106,7 +106,7 @@ func (m *defaultChatMessageModel) Save(ctx context.Context, in *ChatMessage) (ro
 }
 
 // 更新记录（更新零值）
-func (m *defaultChatMessageModel) Update(ctx context.Context, in *ChatMessage) (rows int64, err error) {
+func (m *defaultTChatMessageModel) Update(ctx context.Context, in *TChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -118,12 +118,12 @@ func (m *defaultChatMessageModel) Update(ctx context.Context, in *ChatMessage) (
 }
 
 // 删除记录
-func (m *defaultChatMessageModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTChatMessageModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&ChatMessage{})
+	result := db.Delete(&TChatMessage{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -132,7 +132,7 @@ func (m *defaultChatMessageModel) Delete(ctx context.Context, id int64) (rows in
 }
 
 // 查询记录
-func (m *defaultChatMessageModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTChatMessageModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -140,7 +140,7 @@ func (m *defaultChatMessageModel) DeleteBatch(ctx context.Context, conditions st
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&ChatMessage{})
+	result := db.Delete(&TChatMessage{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -149,7 +149,7 @@ func (m *defaultChatMessageModel) DeleteBatch(ctx context.Context, conditions st
 }
 
 // 查询记录
-func (m *defaultChatMessageModel) FindOne(ctx context.Context, id int64) (out *ChatMessage, err error) {
+func (m *defaultTChatMessageModel) FindOne(ctx context.Context, id int64) (out *TChatMessage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -161,7 +161,7 @@ func (m *defaultChatMessageModel) FindOne(ctx context.Context, id int64) (out *C
 }
 
 // 查询记录
-func (m *defaultChatMessageModel) First(ctx context.Context, conditions string, args ...interface{}) (out *ChatMessage, err error) {
+func (m *defaultTChatMessageModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TChatMessage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -177,7 +177,7 @@ func (m *defaultChatMessageModel) First(ctx context.Context, conditions string, 
 }
 
 // 查询总数
-func (m *defaultChatMessageModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTChatMessageModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -185,7 +185,7 @@ func (m *defaultChatMessageModel) FindCount(ctx context.Context, conditions stri
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&ChatMessage{}).Count(&count).Error
+	err = db.Model(&TChatMessage{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -193,7 +193,7 @@ func (m *defaultChatMessageModel) FindCount(ctx context.Context, conditions stri
 }
 
 // 查询列表
-func (m *defaultChatMessageModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*ChatMessage, err error) {
+func (m *defaultTChatMessageModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TChatMessage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -209,7 +209,7 @@ func (m *defaultChatMessageModel) FindALL(ctx context.Context, conditions string
 }
 
 // 分页查询记录
-func (m *defaultChatMessageModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*ChatMessage, err error) {
+func (m *defaultTChatMessageModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TChatMessage, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

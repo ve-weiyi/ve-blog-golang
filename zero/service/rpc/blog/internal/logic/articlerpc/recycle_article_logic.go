@@ -25,13 +25,13 @@ func NewRecycleArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Re
 
 // 回收文章
 func (l *RecycleArticleLogic) RecycleArticle(in *articlerpc.RecycleArticleReq) (*articlerpc.EmptyResp, error) {
-	record, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.ArticleId)
+	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.ArticleId)
 	if err != nil {
 		return nil, err
 	}
 
 	record.IsDelete = in.IsDelete
-	_, err = l.svcCtx.ArticleModel.Save(l.ctx, record)
+	_, err = l.svcCtx.TArticleModel.Save(l.ctx, record)
 	if err != nil {
 		return nil, err
 	}

@@ -21,8 +21,8 @@ func NewArticleHelperLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Art
 	}
 }
 
-func convertArticleIn(in *articlerpc.ArticleNewReq) (out *model.Article) {
-	out = &model.Article{
+func convertArticleIn(in *articlerpc.ArticleNewReq) (out *model.TArticle) {
+	out = &model.TArticle{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		CategoryId:     0,
@@ -40,8 +40,8 @@ func convertArticleIn(in *articlerpc.ArticleNewReq) (out *model.Article) {
 	return out
 }
 
-func convertCategoryIn(in *articlerpc.CategoryNewReq) (out *model.Category) {
-	out = &model.Category{
+func convertCategoryIn(in *articlerpc.CategoryNewReq) (out *model.TCategory) {
+	out = &model.TCategory{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
 	}
@@ -49,8 +49,8 @@ func convertCategoryIn(in *articlerpc.CategoryNewReq) (out *model.Category) {
 	return out
 }
 
-func convertTagIn(in *articlerpc.TagNewReq) (out *model.Tag) {
-	out = &model.Tag{
+func convertTagIn(in *articlerpc.TagNewReq) (out *model.TTag) {
+	out = &model.TTag{
 		Id:      in.Id,
 		TagName: in.TagName,
 	}
@@ -58,7 +58,7 @@ func convertTagIn(in *articlerpc.TagNewReq) (out *model.Tag) {
 	return out
 }
 
-func convertArticlePreviewOut(entity *model.Article) (out *articlerpc.ArticlePreview) {
+func convertArticlePreviewOut(entity *model.TArticle) (out *articlerpc.ArticlePreview) {
 	out = &articlerpc.ArticlePreview{
 		Id:           entity.Id,
 		ArticleCover: entity.ArticleCover,
@@ -68,7 +68,7 @@ func convertArticlePreviewOut(entity *model.Article) (out *articlerpc.ArticlePre
 	return out
 }
 
-func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm map[int64][]*model.Tag) (out *articlerpc.ArticleDetails) {
+func convertArticleOut(entity *model.TArticle, acm map[int64]*model.TCategory, atm map[int64][]*model.TTag) (out *articlerpc.ArticleDetails) {
 	out = &articlerpc.ArticleDetails{
 		Id:             entity.Id,
 		UserId:         entity.UserId,
@@ -109,7 +109,7 @@ func convertArticleOut(entity *model.Article, acm map[int64]*model.Category, atm
 	return out
 }
 
-func convertCategoryOut(in *model.Category, acm map[int64]int) (out *articlerpc.CategoryDetails) {
+func convertCategoryOut(in *model.TCategory, acm map[int64]int) (out *articlerpc.CategoryDetails) {
 	out = &articlerpc.CategoryDetails{
 		Id:           in.Id,
 		CategoryName: in.CategoryName,
@@ -125,7 +125,7 @@ func convertCategoryOut(in *model.Category, acm map[int64]int) (out *articlerpc.
 	return out
 }
 
-func convertTagOut(in *model.Tag, acm map[int64]int) (out *articlerpc.TagDetails) {
+func convertTagOut(in *model.TTag, acm map[int64]int) (out *articlerpc.TagDetails) {
 	out = &articlerpc.TagDetails{
 		Id:           in.Id,
 		TagName:      in.TagName,
@@ -146,12 +146,12 @@ func (l *ArticleHelperLogic) findOrAddCategory(name string) (int64, error) {
 		return 0, nil
 	}
 
-	category, err := l.svcCtx.CategoryModel.FindOneByCategoryName(l.ctx, name)
+	category, err := l.svcCtx.TCategoryModel.FindOneByCategoryName(l.ctx, name)
 	if err != nil {
-		insert := &model.Category{
+		insert := &model.TCategory{
 			CategoryName: name,
 		}
-		_, err := l.svcCtx.CategoryModel.Insert(l.ctx, insert)
+		_, err := l.svcCtx.TCategoryModel.Insert(l.ctx, insert)
 		if err != nil {
 			return 0, err
 		}
@@ -166,12 +166,12 @@ func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
 		return 0, nil
 	}
 
-	tag, err := l.svcCtx.TagModel.FindOneByTagName(l.ctx, name)
+	tag, err := l.svcCtx.TTagModel.FindOneByTagName(l.ctx, name)
 	if err != nil {
-		insert := &model.Tag{
+		insert := &model.TTag{
 			TagName: name,
 		}
-		_, err := l.svcCtx.TagModel.Insert(l.ctx, insert)
+		_, err := l.svcCtx.TTagModel.Insert(l.ctx, insert)
 		if err != nil {
 			return 0, err
 		}
@@ -181,7 +181,7 @@ func (l *ArticleHelperLogic) findOrAddTag(name string) (int64, error) {
 	return tag.Id, nil
 }
 
-func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.Category) (acm map[int64]int, err error) {
+func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.TCategory) (acm map[int64]int, err error) {
 	var ids []int64
 	for _, v := range list {
 		ids = append(ids, v.Id)
@@ -193,7 +193,7 @@ func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.Categor
 		ArticleCount int   `gorm:"column:article_count"`
 	}
 
-	err = l.svcCtx.Gorm.Model(&model.Article{}).
+	err = l.svcCtx.Gorm.Model(&model.TArticle{}).
 		Select("category_id, COUNT(*) as article_count").
 		Where("category_id IN ?", ids).
 		Group("category_id").
@@ -211,7 +211,7 @@ func (l *ArticleHelperLogic) findArticleCountGroupCategory(list []*model.Categor
 	return acm, nil
 }
 
-func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.Tag) (acm map[int64]int, err error) {
+func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.TTag) (acm map[int64]int, err error) {
 	var ids []int64
 	for _, v := range list {
 		ids = append(ids, v.Id)
@@ -222,7 +222,7 @@ func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.Tag) (acm ma
 		ArticleCount int   `gorm:"column:article_count"`
 	}
 
-	err = l.svcCtx.Gorm.Model(&model.ArticleTag{}).
+	err = l.svcCtx.Gorm.Model(&model.TArticleTag{}).
 		Select("tag_id, COUNT(*) as article_count").
 		Where("tag_id IN ?", ids).
 		Group("tag_id").
@@ -240,18 +240,18 @@ func (l *ArticleHelperLogic) findArticleCountGroupTag(list []*model.Tag) (acm ma
 	return acm, nil
 }
 
-func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.Article) (acm map[int64]*model.Category, err error) {
+func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.TArticle) (acm map[int64]*model.TCategory, err error) {
 	var categoryIds []int64
 	for _, v := range list {
 		categoryIds = append(categoryIds, v.CategoryId)
 	}
 
-	cs, err := l.svcCtx.CategoryModel.FindALL(l.ctx, "id IN ?", categoryIds)
+	cs, err := l.svcCtx.TCategoryModel.FindALL(l.ctx, "id IN ?", categoryIds)
 	if err != nil {
 		return nil, err
 	}
 
-	acm = make(map[int64]*model.Category)
+	acm = make(map[int64]*model.TCategory)
 	for _, v := range list {
 		for _, category := range cs {
 			if category.Id == v.CategoryId {
@@ -263,13 +263,13 @@ func (l *ArticleHelperLogic) findCategoryGroupArticle(list []*model.Article) (ac
 	return acm, nil
 }
 
-func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.Article) (atm map[int64][]*model.Tag, err error) {
+func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.TArticle) (atm map[int64][]*model.TTag, err error) {
 	var articleIds []int64
 	for _, v := range list {
 		articleIds = append(articleIds, v.Id)
 	}
 
-	ats, err := l.svcCtx.ArticleTagModel.FindALL(l.ctx, "article_id in (?)", articleIds)
+	ats, err := l.svcCtx.TArticleTagModel.FindALL(l.ctx, "article_id in (?)", articleIds)
 	if err != nil {
 		return nil, err
 	}
@@ -279,12 +279,12 @@ func (l *ArticleHelperLogic) findTagGroupArticle(list []*model.Article) (atm map
 		tagIds = append(tagIds, v.TagId)
 	}
 
-	ts, err := l.svcCtx.TagModel.FindALL(l.ctx, "id in (?)", tagIds)
+	ts, err := l.svcCtx.TTagModel.FindALL(l.ctx, "id in (?)", tagIds)
 	if err != nil {
 		return nil, err
 	}
 
-	atm = make(map[int64][]*model.Tag)
+	atm = make(map[int64][]*model.TTag)
 	for _, v := range ats {
 		for _, tag := range ts {
 			if tag.Id == v.TagId {
@@ -346,7 +346,7 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	}
 
 	if in.CategoryName != "" {
-		category, err := l.svcCtx.CategoryModel.FindOneByCategoryName(l.ctx, in.CategoryName)
+		category, err := l.svcCtx.TCategoryModel.FindOneByCategoryName(l.ctx, in.CategoryName)
 		if err != nil {
 			return
 		}
@@ -359,11 +359,11 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	}
 
 	if in.TagName != "" {
-		tag, err := l.svcCtx.TagModel.FindOneByTagName(l.ctx, in.TagName)
+		tag, err := l.svcCtx.TTagModel.FindOneByTagName(l.ctx, in.TagName)
 		if err != nil {
 			return
 		}
-		ats, err := l.svcCtx.ArticleTagModel.FindALL(l.ctx, "tag_id = ?", tag.Id)
+		ats, err := l.svcCtx.TArticleTagModel.FindALL(l.ctx, "tag_id = ?", tag.Id)
 		if err != nil {
 			return
 		}

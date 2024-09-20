@@ -26,7 +26,7 @@ func NewAddCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCa
 // 创建文章分类
 func (l *AddCategoryLogic) AddCategory(in *articlerpc.CategoryNewReq) (*articlerpc.CategoryDetails, error) {
 	entity := convertCategoryIn(in)
-	_, err := l.svcCtx.CategoryModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TCategoryModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

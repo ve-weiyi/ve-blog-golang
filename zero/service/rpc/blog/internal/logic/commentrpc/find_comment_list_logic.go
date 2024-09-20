@@ -27,12 +27,12 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 func (l *FindCommentListLogic) FindCommentList(in *commentrpc.FindCommentListReq) (*commentrpc.FindCommentListResp, error) {
 	page, size, sorts, conditions, params := convertCommentQuery(in)
 
-	result, err := l.svcCtx.CommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TCommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.CommentModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TCommentModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

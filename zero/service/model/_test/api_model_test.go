@@ -12,6 +12,7 @@ import (
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 )
 
@@ -37,10 +38,10 @@ func init() {
 
 func Test_Api_Update(t *testing.T) {
 
-	OperationLogModel := model.NewOperationLogModel(db, nil)
+	OperationLogModel := model.NewTOperationLogModel(db, nil)
 	ctx := context.Background()
 
-	data := &model.OperationLog{
+	data := &model.TOperationLog{
 		UserId:         0,
 		Nickname:       "test_nickname",
 		IpAddress:      "test_ip_address",

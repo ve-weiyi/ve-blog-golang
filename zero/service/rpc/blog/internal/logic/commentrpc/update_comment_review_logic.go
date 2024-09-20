@@ -25,14 +25,14 @@ func NewUpdateCommentReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // 更新评论审核状态
 func (l *UpdateCommentReviewLogic) UpdateCommentReview(in *commentrpc.UpdateCommentReviewReq) (*commentrpc.CommentDetails, error) {
-	entity, err := l.svcCtx.CommentModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	entity.IsReview = in.IsReview
 
-	_, err = l.svcCtx.CommentModel.Save(l.ctx, entity)
+	_, err = l.svcCtx.TCommentModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

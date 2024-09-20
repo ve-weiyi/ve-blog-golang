@@ -25,7 +25,7 @@ func NewDeleteOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 批量删除操作记录
 func (l *DeleteOperationLogLogic) DeleteOperationLog(in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
-	rows, err := l.svcCtx.OperationLogModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.TOperationLogModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

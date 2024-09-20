@@ -9,6 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -37,7 +38,7 @@ func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*ac
 	}
 
 	// 验证用户是否存在
-	user, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
+	user, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
@@ -51,7 +52,7 @@ func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*ac
 	// 更新密码
 	user.Password = crypto.BcryptHash(in.Password)
 
-	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, user)
+	_, err = l.svcCtx.TUserModel.Save(l.ctx, user)
 	if err != nil {
 		return nil, err
 	}

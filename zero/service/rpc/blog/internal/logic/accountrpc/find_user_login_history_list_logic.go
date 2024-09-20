@@ -31,7 +31,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 	conditions := "user_id = ?"
 	params := []interface{}{in.UserId}
 
-	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 		list = append(list, convertUserLoginHistoryOut(item))
 	}
 
-	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
+	total, err := l.svcCtx.TUserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 	return resp, nil
 }
 
-func convertUserLoginHistoryOut(in *model.UserLoginHistory) (out *accountrpc.UserLoginHistory) {
+func convertUserLoginHistoryOut(in *model.TUserLoginHistory) (out *accountrpc.UserLoginHistory) {
 	out = &accountrpc.UserLoginHistory{
 		Id:        in.Id,
 		LoginType: in.LoginType,

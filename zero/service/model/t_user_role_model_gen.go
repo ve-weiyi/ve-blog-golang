@@ -7,61 +7,61 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ RoleMenuModel = (*defaultRoleMenuModel)(nil)
+var _ TUserRoleModel = (*defaultTUserRoleModel)(nil)
 
 type (
 	// 接口定义
-	RoleMenuModel interface {
+	TUserRoleModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out RoleMenuModel)
+		WithTransaction(tx *gorm.DB) (out TUserRoleModel)
 		// 插入
-		Insert(ctx context.Context, in *RoleMenu) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*RoleMenu) (rows int64, err error)
+		Insert(ctx context.Context, in *TUserRole) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TUserRole) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *RoleMenu) (rows int64, err error)
-		Update(ctx context.Context, in *RoleMenu) (rows int64, err error)
+		Save(ctx context.Context, in *TUserRole) (rows int64, err error)
+		Update(ctx context.Context, in *TUserRole) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *RoleMenu, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *RoleMenu, err error)
+		FindOne(ctx context.Context, id int64) (out *TUserRole, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TUserRole, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*RoleMenu, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*RoleMenu, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TUserRole, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserRole, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	RoleMenu struct {
+	TUserRole struct {
 		Id     int64 `json:"id" gorm:"column:id" `           // 主键id
+		UserId int64 `json:"user_id" gorm:"column:user_id" ` // 用户id
 		RoleId int64 `json:"role_id" gorm:"column:role_id" ` // 角色id
-		MenuId int64 `json:"menu_id" gorm:"column:menu_id" ` // 菜单id
 	}
 
 	// 接口实现
-	defaultRoleMenuModel struct {
+	defaultTUserRoleModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewRoleMenuModel(db *gorm.DB, cache *redis.Client) RoleMenuModel {
-	return &defaultRoleMenuModel{
+func NewTUserRoleModel(db *gorm.DB, cache *redis.Client) TUserRoleModel {
+	return &defaultTUserRoleModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`role_menu`",
+		table:      "`t_user_role`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultRoleMenuModel) WithTransaction(tx *gorm.DB) (out RoleMenuModel) {
-	return NewRoleMenuModel(tx, m.CacheEngin)
+func (m *defaultTUserRoleModel) WithTransaction(tx *gorm.DB) (out TUserRoleModel) {
+	return NewTUserRoleModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultRoleMenuModel) Insert(ctx context.Context, in *RoleMenu) (rows int64, err error) {
+func (m *defaultTUserRoleModel) Insert(ctx context.Context, in *TUserRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -73,7 +73,7 @@ func (m *defaultRoleMenuModel) Insert(ctx context.Context, in *RoleMenu) (rows i
 }
 
 // 插入记录
-func (m *defaultRoleMenuModel) InsertBatch(ctx context.Context, in ...*RoleMenu) (rows int64, err error) {
+func (m *defaultTUserRoleModel) InsertBatch(ctx context.Context, in ...*TUserRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -85,7 +85,7 @@ func (m *defaultRoleMenuModel) InsertBatch(ctx context.Context, in ...*RoleMenu)
 }
 
 // 更新记录（不更新零值）
-func (m *defaultRoleMenuModel) Save(ctx context.Context, in *RoleMenu) (rows int64, err error) {
+func (m *defaultTUserRoleModel) Save(ctx context.Context, in *TUserRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -97,7 +97,7 @@ func (m *defaultRoleMenuModel) Save(ctx context.Context, in *RoleMenu) (rows int
 }
 
 // 更新记录（更新零值）
-func (m *defaultRoleMenuModel) Update(ctx context.Context, in *RoleMenu) (rows int64, err error) {
+func (m *defaultTUserRoleModel) Update(ctx context.Context, in *TUserRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -109,12 +109,12 @@ func (m *defaultRoleMenuModel) Update(ctx context.Context, in *RoleMenu) (rows i
 }
 
 // 删除记录
-func (m *defaultRoleMenuModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTUserRoleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&RoleMenu{})
+	result := db.Delete(&TUserRole{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -123,7 +123,7 @@ func (m *defaultRoleMenuModel) Delete(ctx context.Context, id int64) (rows int64
 }
 
 // 查询记录
-func (m *defaultRoleMenuModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTUserRoleModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -131,7 +131,7 @@ func (m *defaultRoleMenuModel) DeleteBatch(ctx context.Context, conditions strin
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&RoleMenu{})
+	result := db.Delete(&TUserRole{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -140,7 +140,7 @@ func (m *defaultRoleMenuModel) DeleteBatch(ctx context.Context, conditions strin
 }
 
 // 查询记录
-func (m *defaultRoleMenuModel) FindOne(ctx context.Context, id int64) (out *RoleMenu, err error) {
+func (m *defaultTUserRoleModel) FindOne(ctx context.Context, id int64) (out *TUserRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -152,7 +152,7 @@ func (m *defaultRoleMenuModel) FindOne(ctx context.Context, id int64) (out *Role
 }
 
 // 查询记录
-func (m *defaultRoleMenuModel) First(ctx context.Context, conditions string, args ...interface{}) (out *RoleMenu, err error) {
+func (m *defaultTUserRoleModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TUserRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -168,7 +168,7 @@ func (m *defaultRoleMenuModel) First(ctx context.Context, conditions string, arg
 }
 
 // 查询总数
-func (m *defaultRoleMenuModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTUserRoleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -176,7 +176,7 @@ func (m *defaultRoleMenuModel) FindCount(ctx context.Context, conditions string,
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&RoleMenu{}).Count(&count).Error
+	err = db.Model(&TUserRole{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -184,7 +184,7 @@ func (m *defaultRoleMenuModel) FindCount(ctx context.Context, conditions string,
 }
 
 // 查询列表
-func (m *defaultRoleMenuModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*RoleMenu, err error) {
+func (m *defaultTUserRoleModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TUserRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -200,7 +200,7 @@ func (m *defaultRoleMenuModel) FindALL(ctx context.Context, conditions string, a
 }
 
 // 分页查询记录
-func (m *defaultRoleMenuModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*RoleMenu, err error) {
+func (m *defaultTUserRoleModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserRole, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

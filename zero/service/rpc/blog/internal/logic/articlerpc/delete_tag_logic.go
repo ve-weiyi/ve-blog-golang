@@ -25,7 +25,7 @@ func NewDeleteTagLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteT
 
 // 删除标签
 func (l *DeleteTagLogic) DeleteTag(in *articlerpc.IdsReq) (*articlerpc.BatchResp, error) {
-	_, err := l.svcCtx.TagModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	_, err := l.svcCtx.TTagModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

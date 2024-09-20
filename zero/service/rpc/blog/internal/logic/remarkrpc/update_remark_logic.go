@@ -25,13 +25,13 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 
 // 更新留言
 func (l *UpdateRemarkLogic) UpdateRemark(in *remarkrpc.RemarkUpdateReq) (*remarkrpc.RemarkDetails, error) {
-	entity, err := l.svcCtx.RemarkModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TRemarkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	entity.IsReview = in.IsReview
-	_, err = l.svcCtx.RemarkModel.Save(l.ctx, entity)
+	_, err = l.svcCtx.TRemarkModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

@@ -25,7 +25,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 修改用户信息
 func (l *UpdateUserInfoLogic) UpdateUserInfo(in *accountrpc.UpdateUserInfoReq) (*accountrpc.EmptyResp, error) {
-	ui, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", in.UserId)
+	ui, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", in.UserId)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(in *accountrpc.UpdateUserInfoReq) (
 	ui.Avatar = in.Avatar
 	ui.Info = in.Info
 
-	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, ui)
+	_, err = l.svcCtx.TUserModel.Save(l.ctx, ui)
 	if err != nil {
 		return nil, err
 	}

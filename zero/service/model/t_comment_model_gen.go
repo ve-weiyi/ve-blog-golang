@@ -8,33 +8,33 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ CommentModel = (*defaultCommentModel)(nil)
+var _ TCommentModel = (*defaultTCommentModel)(nil)
 
 type (
 	// 接口定义
-	CommentModel interface {
+	TCommentModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out CommentModel)
+		WithTransaction(tx *gorm.DB) (out TCommentModel)
 		// 插入
-		Insert(ctx context.Context, in *Comment) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Comment) (rows int64, err error)
+		Insert(ctx context.Context, in *TComment) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TComment) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Comment) (rows int64, err error)
-		Update(ctx context.Context, in *Comment) (rows int64, err error)
+		Save(ctx context.Context, in *TComment) (rows int64, err error)
+		Update(ctx context.Context, in *TComment) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Comment, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Comment, err error)
+		FindOne(ctx context.Context, id int64) (out *TComment, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TComment, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Comment, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Comment, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TComment, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TComment, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	Comment struct {
+	TComment struct {
 		Id             int64     `json:"id" gorm:"column:id" `                           // 主键
 		TopicId        int64     `json:"topic_id" gorm:"column:topic_id" `               // 主题id
 		ParentId       int64     `json:"parent_id" gorm:"column:parent_id" `             // 父评论id
@@ -51,28 +51,28 @@ type (
 	}
 
 	// 接口实现
-	defaultCommentModel struct {
+	defaultTCommentModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewCommentModel(db *gorm.DB, cache *redis.Client) CommentModel {
-	return &defaultCommentModel{
+func NewTCommentModel(db *gorm.DB, cache *redis.Client) TCommentModel {
+	return &defaultTCommentModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`comment`",
+		table:      "`t_comment`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultCommentModel) WithTransaction(tx *gorm.DB) (out CommentModel) {
-	return NewCommentModel(tx, m.CacheEngin)
+func (m *defaultTCommentModel) WithTransaction(tx *gorm.DB) (out TCommentModel) {
+	return NewTCommentModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultCommentModel) Insert(ctx context.Context, in *Comment) (rows int64, err error) {
+func (m *defaultTCommentModel) Insert(ctx context.Context, in *TComment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -84,7 +84,7 @@ func (m *defaultCommentModel) Insert(ctx context.Context, in *Comment) (rows int
 }
 
 // 插入记录
-func (m *defaultCommentModel) InsertBatch(ctx context.Context, in ...*Comment) (rows int64, err error) {
+func (m *defaultTCommentModel) InsertBatch(ctx context.Context, in ...*TComment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -96,7 +96,7 @@ func (m *defaultCommentModel) InsertBatch(ctx context.Context, in ...*Comment) (
 }
 
 // 更新记录（不更新零值）
-func (m *defaultCommentModel) Save(ctx context.Context, in *Comment) (rows int64, err error) {
+func (m *defaultTCommentModel) Save(ctx context.Context, in *TComment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -108,7 +108,7 @@ func (m *defaultCommentModel) Save(ctx context.Context, in *Comment) (rows int64
 }
 
 // 更新记录（更新零值）
-func (m *defaultCommentModel) Update(ctx context.Context, in *Comment) (rows int64, err error) {
+func (m *defaultTCommentModel) Update(ctx context.Context, in *TComment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -120,12 +120,12 @@ func (m *defaultCommentModel) Update(ctx context.Context, in *Comment) (rows int
 }
 
 // 删除记录
-func (m *defaultCommentModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTCommentModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Comment{})
+	result := db.Delete(&TComment{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -134,7 +134,7 @@ func (m *defaultCommentModel) Delete(ctx context.Context, id int64) (rows int64,
 }
 
 // 查询记录
-func (m *defaultCommentModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTCommentModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -142,7 +142,7 @@ func (m *defaultCommentModel) DeleteBatch(ctx context.Context, conditions string
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Comment{})
+	result := db.Delete(&TComment{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -151,7 +151,7 @@ func (m *defaultCommentModel) DeleteBatch(ctx context.Context, conditions string
 }
 
 // 查询记录
-func (m *defaultCommentModel) FindOne(ctx context.Context, id int64) (out *Comment, err error) {
+func (m *defaultTCommentModel) FindOne(ctx context.Context, id int64) (out *TComment, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -163,7 +163,7 @@ func (m *defaultCommentModel) FindOne(ctx context.Context, id int64) (out *Comme
 }
 
 // 查询记录
-func (m *defaultCommentModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Comment, err error) {
+func (m *defaultTCommentModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TComment, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -179,7 +179,7 @@ func (m *defaultCommentModel) First(ctx context.Context, conditions string, args
 }
 
 // 查询总数
-func (m *defaultCommentModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTCommentModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -187,7 +187,7 @@ func (m *defaultCommentModel) FindCount(ctx context.Context, conditions string, 
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Comment{}).Count(&count).Error
+	err = db.Model(&TComment{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -195,7 +195,7 @@ func (m *defaultCommentModel) FindCount(ctx context.Context, conditions string, 
 }
 
 // 查询列表
-func (m *defaultCommentModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Comment, err error) {
+func (m *defaultTCommentModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TComment, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -211,7 +211,7 @@ func (m *defaultCommentModel) FindALL(ctx context.Context, conditions string, ar
 }
 
 // 分页查询记录
-func (m *defaultCommentModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Comment, err error) {
+func (m *defaultTCommentModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TComment, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

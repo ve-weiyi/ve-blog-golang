@@ -2,71 +2,66 @@ package model
 
 import (
 	"context"
-	"time"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
-var _ ChatSessionModel = (*defaultChatSessionModel)(nil)
+var _ TArticleTagModel = (*defaultTArticleTagModel)(nil)
 
 type (
 	// 接口定义
-	ChatSessionModel interface {
+	TArticleTagModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out ChatSessionModel)
+		WithTransaction(tx *gorm.DB) (out TArticleTagModel)
 		// 插入
-		Insert(ctx context.Context, in *ChatSession) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*ChatSession) (rows int64, err error)
+		Insert(ctx context.Context, in *TArticleTag) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TArticleTag) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *ChatSession) (rows int64, err error)
-		Update(ctx context.Context, in *ChatSession) (rows int64, err error)
+		Save(ctx context.Context, in *TArticleTag) (rows int64, err error)
+		Update(ctx context.Context, in *TArticleTag) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *ChatSession, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *ChatSession, err error)
+		FindOne(ctx context.Context, id int64) (out *TArticleTag, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TArticleTag, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*ChatSession, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*ChatSession, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TArticleTag, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TArticleTag, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	ChatSession struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
-		ChatId    string    `json:"chat_id" gorm:"column:chat_id" `       // 聊天id
-		ChatTitle string    `json:"chat_title" gorm:"column:chat_title" ` // 标题
-		Type      string    `json:"type" gorm:"column:type" `             // 类型
-		Status    int64     `json:"status" gorm:"column:status" `         // 0正常 1删除
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+	TArticleTag struct {
+		Id        int64 `json:"id" gorm:"column:id" `                 // id
+		ArticleId int64 `json:"article_id" gorm:"column:article_id" ` // 文章id
+		TagId     int64 `json:"tag_id" gorm:"column:tag_id" `         // 标签id
 	}
 
 	// 接口实现
-	defaultChatSessionModel struct {
+	defaultTArticleTagModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewChatSessionModel(db *gorm.DB, cache *redis.Client) ChatSessionModel {
-	return &defaultChatSessionModel{
+func NewTArticleTagModel(db *gorm.DB, cache *redis.Client) TArticleTagModel {
+	return &defaultTArticleTagModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`chat_session`",
+		table:      "`t_article_tag`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultChatSessionModel) WithTransaction(tx *gorm.DB) (out ChatSessionModel) {
-	return NewChatSessionModel(tx, m.CacheEngin)
+func (m *defaultTArticleTagModel) WithTransaction(tx *gorm.DB) (out TArticleTagModel) {
+	return NewTArticleTagModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultChatSessionModel) Insert(ctx context.Context, in *ChatSession) (rows int64, err error) {
+func (m *defaultTArticleTagModel) Insert(ctx context.Context, in *TArticleTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -78,7 +73,7 @@ func (m *defaultChatSessionModel) Insert(ctx context.Context, in *ChatSession) (
 }
 
 // 插入记录
-func (m *defaultChatSessionModel) InsertBatch(ctx context.Context, in ...*ChatSession) (rows int64, err error) {
+func (m *defaultTArticleTagModel) InsertBatch(ctx context.Context, in ...*TArticleTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -90,7 +85,7 @@ func (m *defaultChatSessionModel) InsertBatch(ctx context.Context, in ...*ChatSe
 }
 
 // 更新记录（不更新零值）
-func (m *defaultChatSessionModel) Save(ctx context.Context, in *ChatSession) (rows int64, err error) {
+func (m *defaultTArticleTagModel) Save(ctx context.Context, in *TArticleTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -102,7 +97,7 @@ func (m *defaultChatSessionModel) Save(ctx context.Context, in *ChatSession) (ro
 }
 
 // 更新记录（更新零值）
-func (m *defaultChatSessionModel) Update(ctx context.Context, in *ChatSession) (rows int64, err error) {
+func (m *defaultTArticleTagModel) Update(ctx context.Context, in *TArticleTag) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -114,12 +109,12 @@ func (m *defaultChatSessionModel) Update(ctx context.Context, in *ChatSession) (
 }
 
 // 删除记录
-func (m *defaultChatSessionModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTArticleTagModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&ChatSession{})
+	result := db.Delete(&TArticleTag{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -128,7 +123,7 @@ func (m *defaultChatSessionModel) Delete(ctx context.Context, id int64) (rows in
 }
 
 // 查询记录
-func (m *defaultChatSessionModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTArticleTagModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -136,7 +131,7 @@ func (m *defaultChatSessionModel) DeleteBatch(ctx context.Context, conditions st
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&ChatSession{})
+	result := db.Delete(&TArticleTag{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -145,7 +140,7 @@ func (m *defaultChatSessionModel) DeleteBatch(ctx context.Context, conditions st
 }
 
 // 查询记录
-func (m *defaultChatSessionModel) FindOne(ctx context.Context, id int64) (out *ChatSession, err error) {
+func (m *defaultTArticleTagModel) FindOne(ctx context.Context, id int64) (out *TArticleTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -157,7 +152,7 @@ func (m *defaultChatSessionModel) FindOne(ctx context.Context, id int64) (out *C
 }
 
 // 查询记录
-func (m *defaultChatSessionModel) First(ctx context.Context, conditions string, args ...interface{}) (out *ChatSession, err error) {
+func (m *defaultTArticleTagModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TArticleTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -173,7 +168,7 @@ func (m *defaultChatSessionModel) First(ctx context.Context, conditions string, 
 }
 
 // 查询总数
-func (m *defaultChatSessionModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTArticleTagModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -181,7 +176,7 @@ func (m *defaultChatSessionModel) FindCount(ctx context.Context, conditions stri
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&ChatSession{}).Count(&count).Error
+	err = db.Model(&TArticleTag{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -189,7 +184,7 @@ func (m *defaultChatSessionModel) FindCount(ctx context.Context, conditions stri
 }
 
 // 查询列表
-func (m *defaultChatSessionModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*ChatSession, err error) {
+func (m *defaultTArticleTagModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TArticleTag, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -205,7 +200,7 @@ func (m *defaultChatSessionModel) FindALL(ctx context.Context, conditions string
 }
 
 // 分页查询记录
-func (m *defaultChatSessionModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*ChatSession, err error) {
+func (m *defaultTArticleTagModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TArticleTag, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

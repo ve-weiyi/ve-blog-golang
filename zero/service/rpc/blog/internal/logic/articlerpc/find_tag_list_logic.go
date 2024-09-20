@@ -44,12 +44,12 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 		params = append(params, "%"+in.TagName+"%")
 	}
 
-	records, err := l.svcCtx.TagModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, err := l.svcCtx.TTagModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.TagModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TTagModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

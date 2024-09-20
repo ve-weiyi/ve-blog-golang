@@ -27,7 +27,7 @@ func NewAddMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddMenuLo
 func (l *AddMenuLogic) AddMenu(in *permissionrpc.MenuNewReq) (*permissionrpc.MenuDetails, error) {
 	entity := convertMenuIn(in)
 
-	_, err := l.svcCtx.MenuModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TMenuModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

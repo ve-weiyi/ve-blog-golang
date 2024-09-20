@@ -29,12 +29,12 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserListResp, error) {
 	page, size, sorts, conditions, params := convertQuery(in)
 
-	result, err := l.svcCtx.UserAccountModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TUserModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.UserAccountModel.FindCount(l.ctx, conditions, params...)
+	total, err := l.svcCtx.TUserModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	}
 
 	// 查找用户角色
-	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
+	urList, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	}
 
 	// 查找角色信息
-	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in (?)", roleIds)
+	rList, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "id in (?)", roleIds)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	var list []*accountrpc.UserInfoResp
 	for _, item := range result {
 
-		var roles []*model.Role
+		var roles []*model.TRole
 		ur, _ := ursMap[item.Id]
 		for _, rid := range ur {
 			for _, r := range rList {

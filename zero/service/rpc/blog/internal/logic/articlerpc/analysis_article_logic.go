@@ -25,17 +25,17 @@ func NewAnalysisArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 
 // 查询文章数量
 func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articlerpc.AnalysisArticleResp, error) {
-	ac, err := l.svcCtx.ArticleModel.FindCount(l.ctx, "")
+	ac, err := l.svcCtx.TArticleModel.FindCount(l.ctx, "")
 	if err != nil {
 		return nil, err
 	}
 
-	cc, err := l.svcCtx.CategoryModel.FindCount(l.ctx, "")
+	cc, err := l.svcCtx.TCategoryModel.FindCount(l.ctx, "")
 	if err != nil {
 		return nil, err
 	}
 
-	tc, err := l.svcCtx.TagModel.FindCount(l.ctx, "")
+	tc, err := l.svcCtx.TTagModel.FindCount(l.ctx, "")
 	if err != nil {
 		return nil, err
 	}

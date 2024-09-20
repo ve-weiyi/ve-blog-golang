@@ -27,7 +27,7 @@ func NewAddRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRoleLo
 func (l *AddRoleLogic) AddRole(in *permissionrpc.RoleNewReq) (*permissionrpc.RoleDetails, error) {
 	entity := convertRoleIn(in)
 
-	_, err := l.svcCtx.RoleModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TRoleModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

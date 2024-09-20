@@ -33,12 +33,12 @@ func (l *FindArticlePublicListLogic) FindArticlePublicList(in *articlerpc.FindAr
 	page, size, sorts, conditions, params := helper.convertArticleQuery(in)
 
 	// 查询文章信息
-	records, err := l.svcCtx.ArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, err := l.svcCtx.TArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.ArticleModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TArticleModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

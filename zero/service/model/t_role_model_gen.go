@@ -8,64 +8,67 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ BannerModel = (*defaultBannerModel)(nil)
+var _ TRoleModel = (*defaultTRoleModel)(nil)
 
 type (
 	// 接口定义
-	BannerModel interface {
+	TRoleModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out BannerModel)
+		WithTransaction(tx *gorm.DB) (out TRoleModel)
 		// 插入
-		Insert(ctx context.Context, in *Banner) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Banner) (rows int64, err error)
+		Insert(ctx context.Context, in *TRole) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TRole) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Banner) (rows int64, err error)
-		Update(ctx context.Context, in *Banner) (rows int64, err error)
+		Save(ctx context.Context, in *TRole) (rows int64, err error)
+		Update(ctx context.Context, in *TRole) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Banner, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Banner, err error)
+		FindOne(ctx context.Context, id int64) (out *TRole, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TRole, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Banner, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Banner, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TRole, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRole, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	Banner struct {
-		Id          int64     `json:"id" gorm:"column:id" `                     // 页面id
-		BannerName  string    `json:"banner_name" gorm:"column:banner_name" `   // 页面名
-		BannerLabel string    `json:"banner_label" gorm:"column:banner_label" ` // 页面标签
-		BannerCover string    `json:"banner_cover" gorm:"column:banner_cover" ` // 页面封面
+	TRole struct {
+		Id          int64     `json:"id" gorm:"column:id" `                     // 主键id
+		ParentId    int64     `json:"parent_id" gorm:"column:parent_id" `       // 父角色id
+		RoleDomain  string    `json:"role_domain" gorm:"column:role_domain" `   // 角色域
+		RoleName    string    `json:"role_name" gorm:"column:role_name" `       // 角色名
+		RoleComment string    `json:"role_comment" gorm:"column:role_comment" ` // 角色备注
+		IsDisable   int64     `json:"is_disable" gorm:"column:is_disable" `     // 是否禁用  0否 1是
+		IsDefault   int64     `json:"is_default" gorm:"column:is_default" `     // 是否默认角色 0否 1是
 		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
 		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
 	}
 
 	// 接口实现
-	defaultBannerModel struct {
+	defaultTRoleModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewBannerModel(db *gorm.DB, cache *redis.Client) BannerModel {
-	return &defaultBannerModel{
+func NewTRoleModel(db *gorm.DB, cache *redis.Client) TRoleModel {
+	return &defaultTRoleModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`banner`",
+		table:      "`t_role`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultBannerModel) WithTransaction(tx *gorm.DB) (out BannerModel) {
-	return NewBannerModel(tx, m.CacheEngin)
+func (m *defaultTRoleModel) WithTransaction(tx *gorm.DB) (out TRoleModel) {
+	return NewTRoleModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultBannerModel) Insert(ctx context.Context, in *Banner) (rows int64, err error) {
+func (m *defaultTRoleModel) Insert(ctx context.Context, in *TRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -77,7 +80,7 @@ func (m *defaultBannerModel) Insert(ctx context.Context, in *Banner) (rows int64
 }
 
 // 插入记录
-func (m *defaultBannerModel) InsertBatch(ctx context.Context, in ...*Banner) (rows int64, err error) {
+func (m *defaultTRoleModel) InsertBatch(ctx context.Context, in ...*TRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -89,7 +92,7 @@ func (m *defaultBannerModel) InsertBatch(ctx context.Context, in ...*Banner) (ro
 }
 
 // 更新记录（不更新零值）
-func (m *defaultBannerModel) Save(ctx context.Context, in *Banner) (rows int64, err error) {
+func (m *defaultTRoleModel) Save(ctx context.Context, in *TRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -101,7 +104,7 @@ func (m *defaultBannerModel) Save(ctx context.Context, in *Banner) (rows int64, 
 }
 
 // 更新记录（更新零值）
-func (m *defaultBannerModel) Update(ctx context.Context, in *Banner) (rows int64, err error) {
+func (m *defaultTRoleModel) Update(ctx context.Context, in *TRole) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -113,12 +116,12 @@ func (m *defaultBannerModel) Update(ctx context.Context, in *Banner) (rows int64
 }
 
 // 删除记录
-func (m *defaultBannerModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTRoleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Banner{})
+	result := db.Delete(&TRole{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -127,7 +130,7 @@ func (m *defaultBannerModel) Delete(ctx context.Context, id int64) (rows int64, 
 }
 
 // 查询记录
-func (m *defaultBannerModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTRoleModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -135,7 +138,7 @@ func (m *defaultBannerModel) DeleteBatch(ctx context.Context, conditions string,
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Banner{})
+	result := db.Delete(&TRole{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -144,7 +147,7 @@ func (m *defaultBannerModel) DeleteBatch(ctx context.Context, conditions string,
 }
 
 // 查询记录
-func (m *defaultBannerModel) FindOne(ctx context.Context, id int64) (out *Banner, err error) {
+func (m *defaultTRoleModel) FindOne(ctx context.Context, id int64) (out *TRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -156,7 +159,7 @@ func (m *defaultBannerModel) FindOne(ctx context.Context, id int64) (out *Banner
 }
 
 // 查询记录
-func (m *defaultBannerModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Banner, err error) {
+func (m *defaultTRoleModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -172,7 +175,7 @@ func (m *defaultBannerModel) First(ctx context.Context, conditions string, args 
 }
 
 // 查询总数
-func (m *defaultBannerModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTRoleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -180,7 +183,7 @@ func (m *defaultBannerModel) FindCount(ctx context.Context, conditions string, a
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Banner{}).Count(&count).Error
+	err = db.Model(&TRole{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -188,7 +191,7 @@ func (m *defaultBannerModel) FindCount(ctx context.Context, conditions string, a
 }
 
 // 查询列表
-func (m *defaultBannerModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Banner, err error) {
+func (m *defaultTRoleModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -204,7 +207,7 @@ func (m *defaultBannerModel) FindALL(ctx context.Context, conditions string, arg
 }
 
 // 分页查询记录
-func (m *defaultBannerModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Banner, err error) {
+func (m *defaultTRoleModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRole, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

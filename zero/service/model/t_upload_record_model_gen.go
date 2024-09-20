@@ -8,64 +8,67 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ WebsiteConfigModel = (*defaultWebsiteConfigModel)(nil)
+var _ TUploadRecordModel = (*defaultTUploadRecordModel)(nil)
 
 type (
 	// 接口定义
-	WebsiteConfigModel interface {
+	TUploadRecordModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out WebsiteConfigModel)
+		WithTransaction(tx *gorm.DB) (out TUploadRecordModel)
 		// 插入
-		Insert(ctx context.Context, in *WebsiteConfig) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*WebsiteConfig) (rows int64, err error)
+		Insert(ctx context.Context, in *TUploadRecord) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TUploadRecord) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *WebsiteConfig) (rows int64, err error)
-		Update(ctx context.Context, in *WebsiteConfig) (rows int64, err error)
+		Save(ctx context.Context, in *TUploadRecord) (rows int64, err error)
+		Update(ctx context.Context, in *TUploadRecord) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *WebsiteConfig, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *WebsiteConfig, err error)
+		FindOne(ctx context.Context, id int64) (out *TUploadRecord, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TUploadRecord, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*WebsiteConfig, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*WebsiteConfig, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TUploadRecord, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUploadRecord, err error)
 		// add extra method in here
-		FindOneByKey(ctx context.Context, key string) (out *WebsiteConfig, err error)
 	}
 
 	// 表字段定义
-	WebsiteConfig struct {
+	TUploadRecord struct {
 		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		Key       string    `json:"key" gorm:"column:key" `               // 关键词
-		Config    string    `json:"config" gorm:"column:config" `         // 配置信息
+		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
+		Label     string    `json:"label" gorm:"column:label" `           // 标签
+		FileName  string    `json:"file_name" gorm:"column:file_name" `   // 文件名称
+		FileSize  int64     `json:"file_size" gorm:"column:file_size" `   // 文件大小
+		FileMd5   string    `json:"file_md5" gorm:"column:file_md5" `     // 文件md5值
+		FileUrl   string    `json:"file_url" gorm:"column:file_url" `     // 上传路径
 		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
 		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
 	}
 
 	// 接口实现
-	defaultWebsiteConfigModel struct {
+	defaultTUploadRecordModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewWebsiteConfigModel(db *gorm.DB, cache *redis.Client) WebsiteConfigModel {
-	return &defaultWebsiteConfigModel{
+func NewTUploadRecordModel(db *gorm.DB, cache *redis.Client) TUploadRecordModel {
+	return &defaultTUploadRecordModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`website_config`",
+		table:      "`t_upload_record`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultWebsiteConfigModel) WithTransaction(tx *gorm.DB) (out WebsiteConfigModel) {
-	return NewWebsiteConfigModel(tx, m.CacheEngin)
+func (m *defaultTUploadRecordModel) WithTransaction(tx *gorm.DB) (out TUploadRecordModel) {
+	return NewTUploadRecordModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultWebsiteConfigModel) Insert(ctx context.Context, in *WebsiteConfig) (rows int64, err error) {
+func (m *defaultTUploadRecordModel) Insert(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -77,7 +80,7 @@ func (m *defaultWebsiteConfigModel) Insert(ctx context.Context, in *WebsiteConfi
 }
 
 // 插入记录
-func (m *defaultWebsiteConfigModel) InsertBatch(ctx context.Context, in ...*WebsiteConfig) (rows int64, err error) {
+func (m *defaultTUploadRecordModel) InsertBatch(ctx context.Context, in ...*TUploadRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -89,7 +92,7 @@ func (m *defaultWebsiteConfigModel) InsertBatch(ctx context.Context, in ...*Webs
 }
 
 // 更新记录（不更新零值）
-func (m *defaultWebsiteConfigModel) Save(ctx context.Context, in *WebsiteConfig) (rows int64, err error) {
+func (m *defaultTUploadRecordModel) Save(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -101,7 +104,7 @@ func (m *defaultWebsiteConfigModel) Save(ctx context.Context, in *WebsiteConfig)
 }
 
 // 更新记录（更新零值）
-func (m *defaultWebsiteConfigModel) Update(ctx context.Context, in *WebsiteConfig) (rows int64, err error) {
+func (m *defaultTUploadRecordModel) Update(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -113,12 +116,12 @@ func (m *defaultWebsiteConfigModel) Update(ctx context.Context, in *WebsiteConfi
 }
 
 // 删除记录
-func (m *defaultWebsiteConfigModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTUploadRecordModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&WebsiteConfig{})
+	result := db.Delete(&TUploadRecord{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -127,7 +130,7 @@ func (m *defaultWebsiteConfigModel) Delete(ctx context.Context, id int64) (rows 
 }
 
 // 查询记录
-func (m *defaultWebsiteConfigModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTUploadRecordModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -135,7 +138,7 @@ func (m *defaultWebsiteConfigModel) DeleteBatch(ctx context.Context, conditions 
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&WebsiteConfig{})
+	result := db.Delete(&TUploadRecord{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -144,7 +147,7 @@ func (m *defaultWebsiteConfigModel) DeleteBatch(ctx context.Context, conditions 
 }
 
 // 查询记录
-func (m *defaultWebsiteConfigModel) FindOne(ctx context.Context, id int64) (out *WebsiteConfig, err error) {
+func (m *defaultTUploadRecordModel) FindOne(ctx context.Context, id int64) (out *TUploadRecord, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -156,7 +159,7 @@ func (m *defaultWebsiteConfigModel) FindOne(ctx context.Context, id int64) (out 
 }
 
 // 查询记录
-func (m *defaultWebsiteConfigModel) First(ctx context.Context, conditions string, args ...interface{}) (out *WebsiteConfig, err error) {
+func (m *defaultTUploadRecordModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TUploadRecord, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -172,7 +175,7 @@ func (m *defaultWebsiteConfigModel) First(ctx context.Context, conditions string
 }
 
 // 查询总数
-func (m *defaultWebsiteConfigModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTUploadRecordModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -180,7 +183,7 @@ func (m *defaultWebsiteConfigModel) FindCount(ctx context.Context, conditions st
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&WebsiteConfig{}).Count(&count).Error
+	err = db.Model(&TUploadRecord{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -188,7 +191,7 @@ func (m *defaultWebsiteConfigModel) FindCount(ctx context.Context, conditions st
 }
 
 // 查询列表
-func (m *defaultWebsiteConfigModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*WebsiteConfig, err error) {
+func (m *defaultTUploadRecordModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TUploadRecord, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -204,7 +207,7 @@ func (m *defaultWebsiteConfigModel) FindALL(ctx context.Context, conditions stri
 }
 
 // 分页查询记录
-func (m *defaultWebsiteConfigModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*WebsiteConfig, err error) {
+func (m *defaultTUploadRecordModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUploadRecord, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -235,13 +238,3 @@ func (m *defaultWebsiteConfigModel) FindList(ctx context.Context, page int, size
 }
 
 // add extra method in here
-func (m *defaultWebsiteConfigModel) FindOneByKey(ctx context.Context, key string) (out *WebsiteConfig, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	err = db.Where("`key` = ?", key).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}

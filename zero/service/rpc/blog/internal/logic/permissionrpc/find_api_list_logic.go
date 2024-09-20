@@ -38,7 +38,7 @@ func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permi
 	page = int(in.Page)
 	size = int(in.PageSize)
 
-	result, err := l.svcCtx.ApiModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TApiModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permi
 	return out, nil
 }
 
-func appendApiChildren(root *permissionrpc.ApiDetails, list []*model.Api) (leafs []*permissionrpc.ApiDetails) {
+func appendApiChildren(root *permissionrpc.ApiDetails, list []*model.TApi) (leafs []*permissionrpc.ApiDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertApiOut(item)

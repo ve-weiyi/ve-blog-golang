@@ -38,7 +38,7 @@ func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*phot
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
 
-	result, err := l.svcCtx.PhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TPhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

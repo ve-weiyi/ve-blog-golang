@@ -25,14 +25,14 @@ func NewUpdateUserStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 修改用户状态
 func (l *UpdateUserStatusLogic) UpdateUserStatus(in *accountrpc.UpdateUserStatusReq) (*accountrpc.EmptyResp, error) {
-	ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", in.UserId)
+	ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", in.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	ua.Status = in.Status
 
-	_, err = l.svcCtx.UserAccountModel.Save(l.ctx, ua)
+	_, err = l.svcCtx.TUserModel.Save(l.ctx, ua)
 	if err != nil {
 		return nil, err
 	}

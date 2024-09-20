@@ -26,7 +26,7 @@ func NewGetUserDailyVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 // 用户日浏览量
 func (l *GetUserDailyVisitLogic) GetUserDailyVisit(in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
-	result, err := l.svcCtx.VisitHistoryModel.FindList(l.ctx, 1, 100, "id desc", "")
+	result, err := l.svcCtx.TVisitHistoryModel.FindList(l.ctx, 1, 100, "id desc", "")
 	if err != nil {
 		return nil, err
 	}

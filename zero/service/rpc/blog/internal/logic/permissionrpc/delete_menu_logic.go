@@ -25,7 +25,7 @@ func NewDeleteMenuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 
 // 删除菜单
 func (l *DeleteMenuLogic) DeleteMenu(in *permissionrpc.IdsReq) (*permissionrpc.BatchResp, error) {
-	rows, err := l.svcCtx.MenuModel.DeleteBatch(l.ctx, "id in (?) or parent_id in (?) ", in.Ids)
+	rows, err := l.svcCtx.TMenuModel.DeleteBatch(l.ctx, "id in (?) or parent_id in (?) ", in.Ids)
 	if err != nil {
 		return nil, err
 	}

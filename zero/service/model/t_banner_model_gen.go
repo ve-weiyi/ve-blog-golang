@@ -8,68 +8,64 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ ChatRecordModel = (*defaultChatRecordModel)(nil)
+var _ TBannerModel = (*defaultTBannerModel)(nil)
 
 type (
 	// 接口定义
-	ChatRecordModel interface {
+	TBannerModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out ChatRecordModel)
+		WithTransaction(tx *gorm.DB) (out TBannerModel)
 		// 插入
-		Insert(ctx context.Context, in *ChatRecord) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*ChatRecord) (rows int64, err error)
+		Insert(ctx context.Context, in *TBanner) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TBanner) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *ChatRecord) (rows int64, err error)
-		Update(ctx context.Context, in *ChatRecord) (rows int64, err error)
+		Save(ctx context.Context, in *TBanner) (rows int64, err error)
+		Update(ctx context.Context, in *TBanner) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *ChatRecord, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *ChatRecord, err error)
+		FindOne(ctx context.Context, id int64) (out *TBanner, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TBanner, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*ChatRecord, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*ChatRecord, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TBanner, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TBanner, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	ChatRecord struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
-		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
-		Nickname  string    `json:"nickname" gorm:"column:nickname" `     // 昵称
-		Avatar    string    `json:"avatar" gorm:"column:avatar" `         // 头像
-		Content   string    `json:"content" gorm:"column:content" `       // 聊天内容
-		IpAddress string    `json:"ip_address" gorm:"column:ip_address" ` // ip地址
-		IpSource  string    `json:"ip_source" gorm:"column:ip_source" `   // ip来源
-		Type      int64     `json:"type" gorm:"column:type" `             // 类型
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+	TBanner struct {
+		Id          int64     `json:"id" gorm:"column:id" `                     // 页面id
+		BannerName  string    `json:"banner_name" gorm:"column:banner_name" `   // 页面名
+		BannerLabel string    `json:"banner_label" gorm:"column:banner_label" ` // 页面标签
+		BannerCover string    `json:"banner_cover" gorm:"column:banner_cover" ` // 页面封面
+		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
+		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
 	}
 
 	// 接口实现
-	defaultChatRecordModel struct {
+	defaultTBannerModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewChatRecordModel(db *gorm.DB, cache *redis.Client) ChatRecordModel {
-	return &defaultChatRecordModel{
+func NewTBannerModel(db *gorm.DB, cache *redis.Client) TBannerModel {
+	return &defaultTBannerModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`chat_record`",
+		table:      "`t_banner`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultChatRecordModel) WithTransaction(tx *gorm.DB) (out ChatRecordModel) {
-	return NewChatRecordModel(tx, m.CacheEngin)
+func (m *defaultTBannerModel) WithTransaction(tx *gorm.DB) (out TBannerModel) {
+	return NewTBannerModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultChatRecordModel) Insert(ctx context.Context, in *ChatRecord) (rows int64, err error) {
+func (m *defaultTBannerModel) Insert(ctx context.Context, in *TBanner) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -81,7 +77,7 @@ func (m *defaultChatRecordModel) Insert(ctx context.Context, in *ChatRecord) (ro
 }
 
 // 插入记录
-func (m *defaultChatRecordModel) InsertBatch(ctx context.Context, in ...*ChatRecord) (rows int64, err error) {
+func (m *defaultTBannerModel) InsertBatch(ctx context.Context, in ...*TBanner) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -93,7 +89,7 @@ func (m *defaultChatRecordModel) InsertBatch(ctx context.Context, in ...*ChatRec
 }
 
 // 更新记录（不更新零值）
-func (m *defaultChatRecordModel) Save(ctx context.Context, in *ChatRecord) (rows int64, err error) {
+func (m *defaultTBannerModel) Save(ctx context.Context, in *TBanner) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -105,7 +101,7 @@ func (m *defaultChatRecordModel) Save(ctx context.Context, in *ChatRecord) (rows
 }
 
 // 更新记录（更新零值）
-func (m *defaultChatRecordModel) Update(ctx context.Context, in *ChatRecord) (rows int64, err error) {
+func (m *defaultTBannerModel) Update(ctx context.Context, in *TBanner) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -117,12 +113,12 @@ func (m *defaultChatRecordModel) Update(ctx context.Context, in *ChatRecord) (ro
 }
 
 // 删除记录
-func (m *defaultChatRecordModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTBannerModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&ChatRecord{})
+	result := db.Delete(&TBanner{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -131,7 +127,7 @@ func (m *defaultChatRecordModel) Delete(ctx context.Context, id int64) (rows int
 }
 
 // 查询记录
-func (m *defaultChatRecordModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTBannerModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -139,7 +135,7 @@ func (m *defaultChatRecordModel) DeleteBatch(ctx context.Context, conditions str
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&ChatRecord{})
+	result := db.Delete(&TBanner{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -148,7 +144,7 @@ func (m *defaultChatRecordModel) DeleteBatch(ctx context.Context, conditions str
 }
 
 // 查询记录
-func (m *defaultChatRecordModel) FindOne(ctx context.Context, id int64) (out *ChatRecord, err error) {
+func (m *defaultTBannerModel) FindOne(ctx context.Context, id int64) (out *TBanner, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -160,7 +156,7 @@ func (m *defaultChatRecordModel) FindOne(ctx context.Context, id int64) (out *Ch
 }
 
 // 查询记录
-func (m *defaultChatRecordModel) First(ctx context.Context, conditions string, args ...interface{}) (out *ChatRecord, err error) {
+func (m *defaultTBannerModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TBanner, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -176,7 +172,7 @@ func (m *defaultChatRecordModel) First(ctx context.Context, conditions string, a
 }
 
 // 查询总数
-func (m *defaultChatRecordModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTBannerModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -184,7 +180,7 @@ func (m *defaultChatRecordModel) FindCount(ctx context.Context, conditions strin
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&ChatRecord{}).Count(&count).Error
+	err = db.Model(&TBanner{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -192,7 +188,7 @@ func (m *defaultChatRecordModel) FindCount(ctx context.Context, conditions strin
 }
 
 // 查询列表
-func (m *defaultChatRecordModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*ChatRecord, err error) {
+func (m *defaultTBannerModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TBanner, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -208,7 +204,7 @@ func (m *defaultChatRecordModel) FindALL(ctx context.Context, conditions string,
 }
 
 // 分页查询记录
-func (m *defaultChatRecordModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*ChatRecord, err error) {
+func (m *defaultTBannerModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TBanner, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

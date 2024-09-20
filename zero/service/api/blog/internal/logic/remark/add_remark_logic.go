@@ -3,6 +3,8 @@ package remark
 import (
 	"context"
 
+	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
@@ -26,7 +28,10 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 }
 
 func (l *AddRemarkLogic) AddRemark(req *types.RemarkNewReq) (resp *types.Remark, err error) {
-	in := ConvertRemarkPb(req)
+	in := &remarkrpc.RemarkNewReq{
+		UserId:         cast.ToInt64(l.ctx.Value("uid")),
+		MessageContent: req.MessageContent,
+	}
 
 	out, err := l.svcCtx.RemarkRpc.AddRemark(l.ctx, in)
 	if err != nil {
@@ -37,19 +42,11 @@ func (l *AddRemarkLogic) AddRemark(req *types.RemarkNewReq) (resp *types.Remark,
 	return resp, nil
 }
 
-func ConvertRemarkPb(req *types.RemarkNewReq) (out *remarkrpc.RemarkNewReq) {
-	return &remarkrpc.RemarkNewReq{
-		Nickname:       req.Nickname,
-		Avatar:         req.Avatar,
-		MessageContent: req.MessageContent,
-	}
-}
-
 func ConvertRemarkTypes(req *remarkrpc.RemarkDetails) (out *types.Remark) {
 	return &types.Remark{
 		Id:             req.Id,
-		Nickname:       req.Nickname,
-		Avatar:         req.Avatar,
+		Nickname:       "",
+		Avatar:         "",
 		MessageContent: req.MessageContent,
 		IpAddress:      req.IpAddress,
 		IpSource:       req.IpSource,

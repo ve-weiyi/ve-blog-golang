@@ -35,12 +35,12 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	params = append(params, time.Now().Add(-time.Hour*24*7))
 
 	// 查找在线用户
-	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
+	total, err := l.svcCtx.TUserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,13 +50,13 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 		uids = append(uids, item.UserId)
 	}
 
-	users, err := l.svcCtx.UserAccountModel.FindALL(l.ctx, "id in (?)", uids)
+	users, err := l.svcCtx.TUserModel.FindALL(l.ctx, "id in (?)", uids)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查找用户角色
-	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
+	urList, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	}
 
 	// 查找角色信息
-	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in (?)", roleIds)
+	rList, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "id in (?)", roleIds)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	var list []*accountrpc.UserInfoResp
 	for _, item := range users {
 
-		var roles []*model.Role
+		var roles []*model.TRole
 		ur, _ := ursMap[item.Id]
 		for _, rid := range ur {
 			for _, r := range rList {

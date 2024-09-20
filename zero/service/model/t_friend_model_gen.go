@@ -2,66 +2,71 @@ package model
 
 import (
 	"context"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
-var _ UserRoleModel = (*defaultUserRoleModel)(nil)
+var _ TFriendModel = (*defaultTFriendModel)(nil)
 
 type (
 	// 接口定义
-	UserRoleModel interface {
+	TFriendModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out UserRoleModel)
+		WithTransaction(tx *gorm.DB) (out TFriendModel)
 		// 插入
-		Insert(ctx context.Context, in *UserRole) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*UserRole) (rows int64, err error)
+		Insert(ctx context.Context, in *TFriend) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TFriend) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *UserRole) (rows int64, err error)
-		Update(ctx context.Context, in *UserRole) (rows int64, err error)
+		Save(ctx context.Context, in *TFriend) (rows int64, err error)
+		Update(ctx context.Context, in *TFriend) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *UserRole, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *UserRole, err error)
+		FindOne(ctx context.Context, id int64) (out *TFriend, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TFriend, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*UserRole, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*UserRole, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TFriend, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TFriend, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	UserRole struct {
-		Id     int64 `json:"id" gorm:"column:id" `           // 主键id
-		UserId int64 `json:"user_id" gorm:"column:user_id" ` // 用户id
-		RoleId int64 `json:"role_id" gorm:"column:role_id" ` // 角色id
+	TFriend struct {
+		Id          int64     `json:"id" gorm:"column:id" `                     // id
+		LinkName    string    `json:"link_name" gorm:"column:link_name" `       // 链接名
+		LinkAvatar  string    `json:"link_avatar" gorm:"column:link_avatar" `   // 链接头像
+		LinkAddress string    `json:"link_address" gorm:"column:link_address" ` // 链接地址
+		LinkIntro   string    `json:"link_intro" gorm:"column:link_intro" `     // 链接介绍
+		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
+		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
 	}
 
 	// 接口实现
-	defaultUserRoleModel struct {
+	defaultTFriendModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewUserRoleModel(db *gorm.DB, cache *redis.Client) UserRoleModel {
-	return &defaultUserRoleModel{
+func NewTFriendModel(db *gorm.DB, cache *redis.Client) TFriendModel {
+	return &defaultTFriendModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`user_role`",
+		table:      "`t_friend`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultUserRoleModel) WithTransaction(tx *gorm.DB) (out UserRoleModel) {
-	return NewUserRoleModel(tx, m.CacheEngin)
+func (m *defaultTFriendModel) WithTransaction(tx *gorm.DB) (out TFriendModel) {
+	return NewTFriendModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultUserRoleModel) Insert(ctx context.Context, in *UserRole) (rows int64, err error) {
+func (m *defaultTFriendModel) Insert(ctx context.Context, in *TFriend) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -73,7 +78,7 @@ func (m *defaultUserRoleModel) Insert(ctx context.Context, in *UserRole) (rows i
 }
 
 // 插入记录
-func (m *defaultUserRoleModel) InsertBatch(ctx context.Context, in ...*UserRole) (rows int64, err error) {
+func (m *defaultTFriendModel) InsertBatch(ctx context.Context, in ...*TFriend) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -85,7 +90,7 @@ func (m *defaultUserRoleModel) InsertBatch(ctx context.Context, in ...*UserRole)
 }
 
 // 更新记录（不更新零值）
-func (m *defaultUserRoleModel) Save(ctx context.Context, in *UserRole) (rows int64, err error) {
+func (m *defaultTFriendModel) Save(ctx context.Context, in *TFriend) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -97,7 +102,7 @@ func (m *defaultUserRoleModel) Save(ctx context.Context, in *UserRole) (rows int
 }
 
 // 更新记录（更新零值）
-func (m *defaultUserRoleModel) Update(ctx context.Context, in *UserRole) (rows int64, err error) {
+func (m *defaultTFriendModel) Update(ctx context.Context, in *TFriend) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -109,12 +114,12 @@ func (m *defaultUserRoleModel) Update(ctx context.Context, in *UserRole) (rows i
 }
 
 // 删除记录
-func (m *defaultUserRoleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTFriendModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&UserRole{})
+	result := db.Delete(&TFriend{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -123,7 +128,7 @@ func (m *defaultUserRoleModel) Delete(ctx context.Context, id int64) (rows int64
 }
 
 // 查询记录
-func (m *defaultUserRoleModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTFriendModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -131,7 +136,7 @@ func (m *defaultUserRoleModel) DeleteBatch(ctx context.Context, conditions strin
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&UserRole{})
+	result := db.Delete(&TFriend{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -140,7 +145,7 @@ func (m *defaultUserRoleModel) DeleteBatch(ctx context.Context, conditions strin
 }
 
 // 查询记录
-func (m *defaultUserRoleModel) FindOne(ctx context.Context, id int64) (out *UserRole, err error) {
+func (m *defaultTFriendModel) FindOne(ctx context.Context, id int64) (out *TFriend, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -152,7 +157,7 @@ func (m *defaultUserRoleModel) FindOne(ctx context.Context, id int64) (out *User
 }
 
 // 查询记录
-func (m *defaultUserRoleModel) First(ctx context.Context, conditions string, args ...interface{}) (out *UserRole, err error) {
+func (m *defaultTFriendModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TFriend, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -168,7 +173,7 @@ func (m *defaultUserRoleModel) First(ctx context.Context, conditions string, arg
 }
 
 // 查询总数
-func (m *defaultUserRoleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTFriendModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -176,7 +181,7 @@ func (m *defaultUserRoleModel) FindCount(ctx context.Context, conditions string,
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&UserRole{}).Count(&count).Error
+	err = db.Model(&TFriend{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -184,7 +189,7 @@ func (m *defaultUserRoleModel) FindCount(ctx context.Context, conditions string,
 }
 
 // 查询列表
-func (m *defaultUserRoleModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*UserRole, err error) {
+func (m *defaultTFriendModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TFriend, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -200,7 +205,7 @@ func (m *defaultUserRoleModel) FindALL(ctx context.Context, conditions string, a
 }
 
 // 分页查询记录
-func (m *defaultUserRoleModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*UserRole, err error) {
+func (m *defaultTFriendModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TFriend, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

@@ -8,68 +8,71 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ ApiModel = (*defaultApiModel)(nil)
+var _ TMenuModel = (*defaultTMenuModel)(nil)
 
 type (
 	// 接口定义
-	ApiModel interface {
+	TMenuModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out ApiModel)
+		WithTransaction(tx *gorm.DB) (out TMenuModel)
 		// 插入
-		Insert(ctx context.Context, in *Api) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Api) (rows int64, err error)
+		Insert(ctx context.Context, in *TMenu) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TMenu) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Api) (rows int64, err error)
-		Update(ctx context.Context, in *Api) (rows int64, err error)
+		Save(ctx context.Context, in *TMenu) (rows int64, err error)
+		Update(ctx context.Context, in *TMenu) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Api, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Api, err error)
+		FindOne(ctx context.Context, id int64) (out *TMenu, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TMenu, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Api, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Api, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TMenu, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TMenu, err error)
 		// add extra method in here
-		FindOneByPathMethodName(ctx context.Context, path string, method string, name string) (out *Api, err error)
+		FindOneByPath(ctx context.Context, path string) (out *TMenu, err error)
 	}
 
 	// 表字段定义
-	Api struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // 主键id
-		ParentId  int64     `json:"parent_id" gorm:"column:parent_id" `   // 分组id
-		Name      string    `json:"name" gorm:"column:name" `             // api名称
-		Path      string    `json:"path" gorm:"column:path" `             // api路径
-		Method    string    `json:"method" gorm:"column:method" `         // api请求方法
-		Traceable int64     `json:"traceable" gorm:"column:traceable" `   // 是否追溯操作记录 0需要，1是
-		Status    int64     `json:"status" gorm:"column:status" `         // 状态 1开，2关
+	TMenu struct {
+		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
+		ParentId  int64     `json:"parent_id" gorm:"column:parent_id" `   // 父id
+		Title     string    `json:"title" gorm:"column:title" `           // 菜单标题
+		Path      string    `json:"path" gorm:"column:path" `             // 路由路径
+		Name      string    `json:"name" gorm:"column:name" `             // 路由名称
+		Component string    `json:"component" gorm:"column:component" `   // 路由组件
+		Redirect  string    `json:"redirect" gorm:"column:redirect" `     // 路由重定向
+		Type      int64     `json:"type" gorm:"column:type" `             // 菜单类型
+		Rank      int64     `json:"rank" gorm:"column:rank" `             // 排序
+		Extra     string    `json:"extra" gorm:"column:extra" `           // 菜单元数据
 		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
 		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
 	}
 
 	// 接口实现
-	defaultApiModel struct {
+	defaultTMenuModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewApiModel(db *gorm.DB, cache *redis.Client) ApiModel {
-	return &defaultApiModel{
+func NewTMenuModel(db *gorm.DB, cache *redis.Client) TMenuModel {
+	return &defaultTMenuModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`api`",
+		table:      "`t_menu`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultApiModel) WithTransaction(tx *gorm.DB) (out ApiModel) {
-	return NewApiModel(tx, m.CacheEngin)
+func (m *defaultTMenuModel) WithTransaction(tx *gorm.DB) (out TMenuModel) {
+	return NewTMenuModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultApiModel) Insert(ctx context.Context, in *Api) (rows int64, err error) {
+func (m *defaultTMenuModel) Insert(ctx context.Context, in *TMenu) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -81,7 +84,7 @@ func (m *defaultApiModel) Insert(ctx context.Context, in *Api) (rows int64, err 
 }
 
 // 插入记录
-func (m *defaultApiModel) InsertBatch(ctx context.Context, in ...*Api) (rows int64, err error) {
+func (m *defaultTMenuModel) InsertBatch(ctx context.Context, in ...*TMenu) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -93,7 +96,7 @@ func (m *defaultApiModel) InsertBatch(ctx context.Context, in ...*Api) (rows int
 }
 
 // 更新记录（不更新零值）
-func (m *defaultApiModel) Save(ctx context.Context, in *Api) (rows int64, err error) {
+func (m *defaultTMenuModel) Save(ctx context.Context, in *TMenu) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -105,7 +108,7 @@ func (m *defaultApiModel) Save(ctx context.Context, in *Api) (rows int64, err er
 }
 
 // 更新记录（更新零值）
-func (m *defaultApiModel) Update(ctx context.Context, in *Api) (rows int64, err error) {
+func (m *defaultTMenuModel) Update(ctx context.Context, in *TMenu) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -117,12 +120,12 @@ func (m *defaultApiModel) Update(ctx context.Context, in *Api) (rows int64, err 
 }
 
 // 删除记录
-func (m *defaultApiModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTMenuModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Api{})
+	result := db.Delete(&TMenu{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -131,7 +134,7 @@ func (m *defaultApiModel) Delete(ctx context.Context, id int64) (rows int64, err
 }
 
 // 查询记录
-func (m *defaultApiModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTMenuModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -139,7 +142,7 @@ func (m *defaultApiModel) DeleteBatch(ctx context.Context, conditions string, ar
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Api{})
+	result := db.Delete(&TMenu{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -148,7 +151,7 @@ func (m *defaultApiModel) DeleteBatch(ctx context.Context, conditions string, ar
 }
 
 // 查询记录
-func (m *defaultApiModel) FindOne(ctx context.Context, id int64) (out *Api, err error) {
+func (m *defaultTMenuModel) FindOne(ctx context.Context, id int64) (out *TMenu, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -160,7 +163,7 @@ func (m *defaultApiModel) FindOne(ctx context.Context, id int64) (out *Api, err 
 }
 
 // 查询记录
-func (m *defaultApiModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Api, err error) {
+func (m *defaultTMenuModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TMenu, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -176,7 +179,7 @@ func (m *defaultApiModel) First(ctx context.Context, conditions string, args ...
 }
 
 // 查询总数
-func (m *defaultApiModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTMenuModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -184,7 +187,7 @@ func (m *defaultApiModel) FindCount(ctx context.Context, conditions string, args
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Api{}).Count(&count).Error
+	err = db.Model(&TMenu{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -192,7 +195,7 @@ func (m *defaultApiModel) FindCount(ctx context.Context, conditions string, args
 }
 
 // 查询列表
-func (m *defaultApiModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Api, err error) {
+func (m *defaultTMenuModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TMenu, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -208,7 +211,7 @@ func (m *defaultApiModel) FindALL(ctx context.Context, conditions string, args .
 }
 
 // 分页查询记录
-func (m *defaultApiModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Api, err error) {
+func (m *defaultTMenuModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TMenu, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -239,10 +242,10 @@ func (m *defaultApiModel) FindList(ctx context.Context, page int, size int, sort
 }
 
 // add extra method in here
-func (m *defaultApiModel) FindOneByPathMethodName(ctx context.Context, path string, method string, name string) (out *Api, err error) {
+func (m *defaultTMenuModel) FindOneByPath(ctx context.Context, path string) (out *TMenu, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	err = db.Where("`path` = ? and `method` = ? and `name` = ?", path, method, name).First(&out).Error
+	err = db.Where("`path` = ?", path).First(&out).Error
 	if err != nil {
 		return nil, err
 	}

@@ -8,33 +8,33 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ ArticleModel = (*defaultArticleModel)(nil)
+var _ TArticleModel = (*defaultTArticleModel)(nil)
 
 type (
 	// 接口定义
-	ArticleModel interface {
+	TArticleModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out ArticleModel)
+		WithTransaction(tx *gorm.DB) (out TArticleModel)
 		// 插入
-		Insert(ctx context.Context, in *Article) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Article) (rows int64, err error)
+		Insert(ctx context.Context, in *TArticle) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TArticle) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Article) (rows int64, err error)
-		Update(ctx context.Context, in *Article) (rows int64, err error)
+		Save(ctx context.Context, in *TArticle) (rows int64, err error)
+		Update(ctx context.Context, in *TArticle) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Article, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Article, err error)
+		FindOne(ctx context.Context, id int64) (out *TArticle, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TArticle, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Article, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Article, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TArticle, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TArticle, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	Article struct {
+	TArticle struct {
 		Id             int64     `json:"id" gorm:"column:id" `                           // id
 		UserId         int64     `json:"user_id" gorm:"column:user_id" `                 // 作者
 		CategoryId     int64     `json:"category_id" gorm:"column:category_id" `         // 文章分类
@@ -52,28 +52,28 @@ type (
 	}
 
 	// 接口实现
-	defaultArticleModel struct {
+	defaultTArticleModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewArticleModel(db *gorm.DB, cache *redis.Client) ArticleModel {
-	return &defaultArticleModel{
+func NewTArticleModel(db *gorm.DB, cache *redis.Client) TArticleModel {
+	return &defaultTArticleModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`article`",
+		table:      "`t_article`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultArticleModel) WithTransaction(tx *gorm.DB) (out ArticleModel) {
-	return NewArticleModel(tx, m.CacheEngin)
+func (m *defaultTArticleModel) WithTransaction(tx *gorm.DB) (out TArticleModel) {
+	return NewTArticleModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultArticleModel) Insert(ctx context.Context, in *Article) (rows int64, err error) {
+func (m *defaultTArticleModel) Insert(ctx context.Context, in *TArticle) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -85,7 +85,7 @@ func (m *defaultArticleModel) Insert(ctx context.Context, in *Article) (rows int
 }
 
 // 插入记录
-func (m *defaultArticleModel) InsertBatch(ctx context.Context, in ...*Article) (rows int64, err error) {
+func (m *defaultTArticleModel) InsertBatch(ctx context.Context, in ...*TArticle) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -97,7 +97,7 @@ func (m *defaultArticleModel) InsertBatch(ctx context.Context, in ...*Article) (
 }
 
 // 更新记录（不更新零值）
-func (m *defaultArticleModel) Save(ctx context.Context, in *Article) (rows int64, err error) {
+func (m *defaultTArticleModel) Save(ctx context.Context, in *TArticle) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -109,7 +109,7 @@ func (m *defaultArticleModel) Save(ctx context.Context, in *Article) (rows int64
 }
 
 // 更新记录（更新零值）
-func (m *defaultArticleModel) Update(ctx context.Context, in *Article) (rows int64, err error) {
+func (m *defaultTArticleModel) Update(ctx context.Context, in *TArticle) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -121,12 +121,12 @@ func (m *defaultArticleModel) Update(ctx context.Context, in *Article) (rows int
 }
 
 // 删除记录
-func (m *defaultArticleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTArticleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Article{})
+	result := db.Delete(&TArticle{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -135,7 +135,7 @@ func (m *defaultArticleModel) Delete(ctx context.Context, id int64) (rows int64,
 }
 
 // 查询记录
-func (m *defaultArticleModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTArticleModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -143,7 +143,7 @@ func (m *defaultArticleModel) DeleteBatch(ctx context.Context, conditions string
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Article{})
+	result := db.Delete(&TArticle{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -152,7 +152,7 @@ func (m *defaultArticleModel) DeleteBatch(ctx context.Context, conditions string
 }
 
 // 查询记录
-func (m *defaultArticleModel) FindOne(ctx context.Context, id int64) (out *Article, err error) {
+func (m *defaultTArticleModel) FindOne(ctx context.Context, id int64) (out *TArticle, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -164,7 +164,7 @@ func (m *defaultArticleModel) FindOne(ctx context.Context, id int64) (out *Artic
 }
 
 // 查询记录
-func (m *defaultArticleModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Article, err error) {
+func (m *defaultTArticleModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TArticle, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -180,7 +180,7 @@ func (m *defaultArticleModel) First(ctx context.Context, conditions string, args
 }
 
 // 查询总数
-func (m *defaultArticleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTArticleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -188,7 +188,7 @@ func (m *defaultArticleModel) FindCount(ctx context.Context, conditions string, 
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Article{}).Count(&count).Error
+	err = db.Model(&TArticle{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -196,7 +196,7 @@ func (m *defaultArticleModel) FindCount(ctx context.Context, conditions string, 
 }
 
 // 查询列表
-func (m *defaultArticleModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Article, err error) {
+func (m *defaultTArticleModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TArticle, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -212,7 +212,7 @@ func (m *defaultArticleModel) FindALL(ctx context.Context, conditions string, ar
 }
 
 // 分页查询记录
-func (m *defaultArticleModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Article, err error) {
+func (m *defaultTArticleModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TArticle, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

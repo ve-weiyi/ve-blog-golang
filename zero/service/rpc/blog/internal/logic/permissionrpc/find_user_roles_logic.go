@@ -28,13 +28,13 @@ func (l *FindUserRolesLogic) FindUserRoles(in *permissionrpc.UserIdReq) (*permis
 	uid := in.UserId
 
 	// 查用户
-	// ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	// ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", uid)
 	// if err != nil {
 	//	return nil, err
 	// }
 
 	// 查用户角色
-	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
+	urs, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (l *FindUserRolesLogic) FindUserRoles(in *permissionrpc.UserIdReq) (*permis
 	}
 
 	// 查角色
-	rs, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in (?)", ids)
+	rs, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "id in (?)", ids)
 	if err != nil {
 		return nil, err
 	}

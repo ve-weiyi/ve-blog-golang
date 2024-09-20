@@ -28,7 +28,7 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 func (l *AddCommentLogic) AddComment(in *commentrpc.CommentNewReq) (*commentrpc.CommentDetails, error) {
 	entity := convertCommentIn(in)
 
-	_, err := l.svcCtx.CommentModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TCommentModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +36,8 @@ func (l *AddCommentLogic) AddComment(in *commentrpc.CommentNewReq) (*commentrpc.
 	return convertCommentOut(entity), nil
 }
 
-func convertCommentIn(in *commentrpc.CommentNewReq) (out *model.Comment) {
-	out = &model.Comment{
+func convertCommentIn(in *commentrpc.CommentNewReq) (out *model.TComment) {
+	out = &model.TComment{
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,
 		SessionId:      in.SessionId,
@@ -54,7 +54,7 @@ func convertCommentIn(in *commentrpc.CommentNewReq) (out *model.Comment) {
 	return out
 }
 
-func convertCommentOut(in *model.Comment) (out *commentrpc.CommentDetails) {
+func convertCommentOut(in *model.TComment) (out *commentrpc.CommentDetails) {
 	out = &commentrpc.CommentDetails{
 		Id:             in.Id,
 		TopicId:        in.TopicId,

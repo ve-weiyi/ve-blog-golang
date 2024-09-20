@@ -25,7 +25,7 @@ func NewDeleteArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 
 // 删除文章
 func (l *DeleteArticleLogic) DeleteArticle(in *articlerpc.IdsReq) (*articlerpc.BatchResp, error) {
-	_, err := l.svcCtx.ArticleModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	_, err := l.svcCtx.TArticleModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

@@ -35,8 +35,7 @@ message CountResp {
 
 
 message RemarkNewReq {
-  string nickname = 2;// 昵称
-  string avatar = 3;// 头像
+  int64 user_id = 2;// 用户id
   string message_content = 4;// 留言内容
 }
 
@@ -47,8 +46,7 @@ message RemarkUpdateReq {
 
 message RemarkDetails {
   int64 id = 1;// 主键id
-  string nickname = 2;// 昵称
-  string avatar = 3;// 头像
+  int64 user_id = 2;// 用户id
   string message_content = 4;// 留言内容
   string ip_address = 5;// 用户ip
   string ip_source = 6;// 用户地址

@@ -38,7 +38,7 @@ func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*pe
 	page = int(in.Page)
 	size = int(in.PageSize)
 
-	result, err := l.svcCtx.MenuModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TMenuModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*pe
 	return out, nil
 }
 
-func appendMenuChildren(root *permissionrpc.MenuDetails, list []*model.Menu) (leafs []*permissionrpc.MenuDetails) {
+func appendMenuChildren(root *permissionrpc.MenuDetails, list []*model.TMenu) (leafs []*permissionrpc.MenuDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertMenuOut(item)

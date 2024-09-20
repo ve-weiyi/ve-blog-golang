@@ -6,8 +6,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/permissionrpc"
 )
 
-func convertMenuIn(in *permissionrpc.MenuNewReq) (out *model.Menu) {
-	out = &model.Menu{
+func convertMenuIn(in *permissionrpc.MenuNewReq) (out *model.TMenu) {
+	out = &model.TMenu{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
 		Title:     in.Name,
@@ -22,7 +22,7 @@ func convertMenuIn(in *permissionrpc.MenuNewReq) (out *model.Menu) {
 	return out
 }
 
-func convertMenuOut(in *model.Menu) (out *permissionrpc.MenuDetails) {
+func convertMenuOut(in *model.TMenu) (out *permissionrpc.MenuDetails) {
 	out = &permissionrpc.MenuDetails{
 		Id:        in.Id,
 		ParentId:  in.ParentId,

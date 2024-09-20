@@ -15,7 +15,7 @@ import (
 )
 
 var sqlFile = flag.String("f", "test.sql", "the sql file")
-var tplFile = flag.String("t", "model.tpl", "the template file")
+var tplFile = flag.String("t", "model.Ttpl", "the template file")
 var outPath = flag.String("o", "./", "the output path")
 
 func main() {

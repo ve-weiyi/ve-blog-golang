@@ -3,7 +3,6 @@ package commentrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -28,34 +27,14 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 func (l *FindCommentReplyListLogic) FindCommentReplyList(in *commentrpc.FindCommentReplyListReq) (*commentrpc.FindCommentReplyListResp, error) {
 	page, size, sorts, conditions, params := convertCommentReplyQuery(in)
 
-	result, err := l.svcCtx.CommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TCommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.CommentModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TCommentModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
-	}
-
-	var uids []int64
-	for _, v := range result {
-		if v.UserId != 0 {
-			uids = append(uids, v.UserId)
-		}
-		if v.ReplyUserId != 0 {
-			uids = append(uids, v.ReplyUserId)
-		}
-	}
-
-	users, err := l.svcCtx.UserAccountModel.FindALL(l.ctx, "id in (?)", uids)
-	if err != nil {
-		return nil, err
-	}
-
-	userMap := make(map[int64]*model.UserAccount)
-	for _, v := range users {
-		userMap[v.Id] = v
 	}
 
 	var list []*commentrpc.CommentDetails

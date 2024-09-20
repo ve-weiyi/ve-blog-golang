@@ -28,7 +28,7 @@ func NewAddBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddBann
 func (l *AddBannerLogic) AddBanner(in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
 	entity := convertBannerIn(in)
 
-	_, err := l.svcCtx.BannerModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TBannerModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +36,8 @@ func (l *AddBannerLogic) AddBanner(in *photorpc.BannerNewReq) (*photorpc.BannerD
 	return convertBannerOut(entity), nil
 }
 
-func convertBannerIn(in *photorpc.BannerNewReq) (out *model.Banner) {
-	out = &model.Banner{
+func convertBannerIn(in *photorpc.BannerNewReq) (out *model.TBanner) {
+	out = &model.TBanner{
 		Id:          in.Id,
 		BannerName:  in.BannerName,
 		BannerLabel: in.BannerLabel,
@@ -48,7 +48,7 @@ func convertBannerIn(in *photorpc.BannerNewReq) (out *model.Banner) {
 
 }
 
-func convertBannerOut(in *model.Banner) (out *photorpc.BannerDetails) {
+func convertBannerOut(in *model.TBanner) (out *photorpc.BannerDetails) {
 	out = &photorpc.BannerDetails{
 		Id:          in.Id,
 		BannerName:  in.BannerName,

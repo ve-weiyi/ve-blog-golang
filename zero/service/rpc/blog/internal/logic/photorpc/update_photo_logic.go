@@ -27,7 +27,7 @@ func NewUpdatePhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 func (l *UpdatePhotoLogic) UpdatePhoto(in *photorpc.PhotoNewReq) (*photorpc.PhotoDetails, error) {
 	entity := convertPhotoIn(in)
 
-	_, err := l.svcCtx.PhotoModel.Save(l.ctx, entity)
+	_, err := l.svcCtx.TPhotoModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

@@ -6,8 +6,8 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/permissionrpc"
 )
 
-func convertApiIn(in *permissionrpc.ApiNewReq) (out *model.Api) {
-	out = &model.Api{
+func convertApiIn(in *permissionrpc.ApiNewReq) (out *model.TApi) {
+	out = &model.TApi{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
 		Name:      in.Name,
@@ -20,7 +20,7 @@ func convertApiIn(in *permissionrpc.ApiNewReq) (out *model.Api) {
 	return out
 }
 
-func convertApiOut(in *model.Api) (out *permissionrpc.ApiDetails) {
+func convertApiOut(in *model.TApi) (out *permissionrpc.ApiDetails) {
 	out = &permissionrpc.ApiDetails{
 		Id:        in.Id,
 		ParentId:  in.ParentId,

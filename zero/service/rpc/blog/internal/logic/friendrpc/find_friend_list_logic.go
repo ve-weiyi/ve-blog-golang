@@ -28,7 +28,7 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*friendrpc.FindFriendListResp, error) {
 	page, size, sorts, conditions, params := convertFriendQuery(in)
 
-	result, err := l.svcCtx.FriendModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TFriendModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

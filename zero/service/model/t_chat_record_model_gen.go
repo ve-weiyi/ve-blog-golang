@@ -8,68 +8,68 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ UserLoginHistoryModel = (*defaultUserLoginHistoryModel)(nil)
+var _ TChatRecordModel = (*defaultTChatRecordModel)(nil)
 
 type (
 	// 接口定义
-	UserLoginHistoryModel interface {
+	TChatRecordModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out UserLoginHistoryModel)
+		WithTransaction(tx *gorm.DB) (out TChatRecordModel)
 		// 插入
-		Insert(ctx context.Context, in *UserLoginHistory) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*UserLoginHistory) (rows int64, err error)
+		Insert(ctx context.Context, in *TChatRecord) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TChatRecord) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *UserLoginHistory) (rows int64, err error)
-		Update(ctx context.Context, in *UserLoginHistory) (rows int64, err error)
+		Save(ctx context.Context, in *TChatRecord) (rows int64, err error)
+		Update(ctx context.Context, in *TChatRecord) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *UserLoginHistory, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *UserLoginHistory, err error)
+		FindOne(ctx context.Context, id int64) (out *TChatRecord, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TChatRecord, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*UserLoginHistory, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*UserLoginHistory, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TChatRecord, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TChatRecord, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	UserLoginHistory struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
+	TChatRecord struct {
+		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
 		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
-		LoginType string    `json:"login_type" gorm:"column:login_type" ` // 登录类型
-		Agent     string    `json:"agent" gorm:"column:agent" `           // 代理
-		IpAddress string    `json:"ip_address" gorm:"column:ip_address" ` // ip host
-		IpSource  string    `json:"ip_source" gorm:"column:ip_source" `   // ip 源
-		LoginAt   time.Time `json:"login_at" gorm:"column:login_at" `     // 登录时间
-		LogoutAt  time.Time `json:"logout_at" gorm:"column:logout_at" `   // 登出时间
+		Nickname  string    `json:"nickname" gorm:"column:nickname" `     // 昵称
+		Avatar    string    `json:"avatar" gorm:"column:avatar" `         // 头像
+		Content   string    `json:"content" gorm:"column:content" `       // 聊天内容
+		IpAddress string    `json:"ip_address" gorm:"column:ip_address" ` // ip地址
+		IpSource  string    `json:"ip_source" gorm:"column:ip_source" `   // ip来源
+		Type      int64     `json:"type" gorm:"column:type" `             // 类型
 		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
 		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
 	}
 
 	// 接口实现
-	defaultUserLoginHistoryModel struct {
+	defaultTChatRecordModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewUserLoginHistoryModel(db *gorm.DB, cache *redis.Client) UserLoginHistoryModel {
-	return &defaultUserLoginHistoryModel{
+func NewTChatRecordModel(db *gorm.DB, cache *redis.Client) TChatRecordModel {
+	return &defaultTChatRecordModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`user_login_history`",
+		table:      "`t_chat_record`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultUserLoginHistoryModel) WithTransaction(tx *gorm.DB) (out UserLoginHistoryModel) {
-	return NewUserLoginHistoryModel(tx, m.CacheEngin)
+func (m *defaultTChatRecordModel) WithTransaction(tx *gorm.DB) (out TChatRecordModel) {
+	return NewTChatRecordModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultUserLoginHistoryModel) Insert(ctx context.Context, in *UserLoginHistory) (rows int64, err error) {
+func (m *defaultTChatRecordModel) Insert(ctx context.Context, in *TChatRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -81,7 +81,7 @@ func (m *defaultUserLoginHistoryModel) Insert(ctx context.Context, in *UserLogin
 }
 
 // 插入记录
-func (m *defaultUserLoginHistoryModel) InsertBatch(ctx context.Context, in ...*UserLoginHistory) (rows int64, err error) {
+func (m *defaultTChatRecordModel) InsertBatch(ctx context.Context, in ...*TChatRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -93,7 +93,7 @@ func (m *defaultUserLoginHistoryModel) InsertBatch(ctx context.Context, in ...*U
 }
 
 // 更新记录（不更新零值）
-func (m *defaultUserLoginHistoryModel) Save(ctx context.Context, in *UserLoginHistory) (rows int64, err error) {
+func (m *defaultTChatRecordModel) Save(ctx context.Context, in *TChatRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -105,7 +105,7 @@ func (m *defaultUserLoginHistoryModel) Save(ctx context.Context, in *UserLoginHi
 }
 
 // 更新记录（更新零值）
-func (m *defaultUserLoginHistoryModel) Update(ctx context.Context, in *UserLoginHistory) (rows int64, err error) {
+func (m *defaultTChatRecordModel) Update(ctx context.Context, in *TChatRecord) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -117,12 +117,12 @@ func (m *defaultUserLoginHistoryModel) Update(ctx context.Context, in *UserLogin
 }
 
 // 删除记录
-func (m *defaultUserLoginHistoryModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTChatRecordModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&UserLoginHistory{})
+	result := db.Delete(&TChatRecord{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -131,7 +131,7 @@ func (m *defaultUserLoginHistoryModel) Delete(ctx context.Context, id int64) (ro
 }
 
 // 查询记录
-func (m *defaultUserLoginHistoryModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTChatRecordModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -139,7 +139,7 @@ func (m *defaultUserLoginHistoryModel) DeleteBatch(ctx context.Context, conditio
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&UserLoginHistory{})
+	result := db.Delete(&TChatRecord{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -148,7 +148,7 @@ func (m *defaultUserLoginHistoryModel) DeleteBatch(ctx context.Context, conditio
 }
 
 // 查询记录
-func (m *defaultUserLoginHistoryModel) FindOne(ctx context.Context, id int64) (out *UserLoginHistory, err error) {
+func (m *defaultTChatRecordModel) FindOne(ctx context.Context, id int64) (out *TChatRecord, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -160,7 +160,7 @@ func (m *defaultUserLoginHistoryModel) FindOne(ctx context.Context, id int64) (o
 }
 
 // 查询记录
-func (m *defaultUserLoginHistoryModel) First(ctx context.Context, conditions string, args ...interface{}) (out *UserLoginHistory, err error) {
+func (m *defaultTChatRecordModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TChatRecord, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -176,7 +176,7 @@ func (m *defaultUserLoginHistoryModel) First(ctx context.Context, conditions str
 }
 
 // 查询总数
-func (m *defaultUserLoginHistoryModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTChatRecordModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -184,7 +184,7 @@ func (m *defaultUserLoginHistoryModel) FindCount(ctx context.Context, conditions
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&UserLoginHistory{}).Count(&count).Error
+	err = db.Model(&TChatRecord{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -192,7 +192,7 @@ func (m *defaultUserLoginHistoryModel) FindCount(ctx context.Context, conditions
 }
 
 // 查询列表
-func (m *defaultUserLoginHistoryModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*UserLoginHistory, err error) {
+func (m *defaultTChatRecordModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TChatRecord, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -208,7 +208,7 @@ func (m *defaultUserLoginHistoryModel) FindALL(ctx context.Context, conditions s
 }
 
 // 分页查询记录
-func (m *defaultUserLoginHistoryModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*UserLoginHistory, err error) {
+func (m *defaultTChatRecordModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TChatRecord, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

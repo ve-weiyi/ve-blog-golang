@@ -40,7 +40,7 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 	}
 
 	// 验证用户是否存在
-	account, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
+	account, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, "用户不存在")
 	}
@@ -53,7 +53,7 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 	return onLogin(l.svcCtx, l.ctx, account)
 }
 
-func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.UserAccount) (resp *accountrpc.LoginResp, err error) {
+func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.TUser) (resp *accountrpc.LoginResp, err error) {
 	// 判断用户是否被禁用
 	if user.Status == constant.UserStatusDisabled {
 		return nil, apierr.NewApiError(codex.CodeUserDisabled, "用户已被禁用")
@@ -71,7 +71,7 @@ func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.UserAc
 	ip, _ := rpcutil.GetRPCClientIP(ctx)
 	is, _ := ipx.GetIpInfoByBaidu(ip)
 	// 登录记录
-	history := &model.UserLoginHistory{
+	history := &model.TUserLoginHistory{
 		UserId:    user.Id,
 		LoginType: constant.LoginTypeOauth,
 		IpAddress: ip,
@@ -82,7 +82,7 @@ func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.UserAc
 	}
 
 	// 保存此次登录记录
-	_, err = svcCtx.UserLoginHistoryModel.Insert(ctx, history)
+	_, err = svcCtx.TUserLoginHistoryModel.Insert(ctx, history)
 	if err != nil {
 		return nil, err
 	}

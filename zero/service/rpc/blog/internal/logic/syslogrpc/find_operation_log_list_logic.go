@@ -38,12 +38,12 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
 
-	result, err := l.svcCtx.OperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TOperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.OperationLogModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TOperationLogModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

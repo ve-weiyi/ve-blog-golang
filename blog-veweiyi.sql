@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for album
 -- ----------------------------
-DROP TABLE IF EXISTS `album`;
-CREATE TABLE `album` (
+DROP TABLE IF EXISTS `t_album`;
+CREATE TABLE `t_album` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `album_name` varchar(32) NOT NULL DEFAULT '' COMMENT '相册名',
   `album_desc` varchar(64) NOT NULL DEFAULT '' COMMENT '相册描述',
@@ -42,8 +42,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for api
 -- ----------------------------
-DROP TABLE IF EXISTS `api`;
-CREATE TABLE `api` (
+DROP TABLE IF EXISTS `t_api`;
+CREATE TABLE `t_api` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '分组id',
   `name` varchar(128) NOT NULL DEFAULT '' COMMENT 'api名称',
@@ -66,8 +66,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for article
 -- ----------------------------
-DROP TABLE IF EXISTS `article`;
-CREATE TABLE `article` (
+DROP TABLE IF EXISTS `t_article`;
+CREATE TABLE `t_article` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '作者',
   `category_id` int NOT NULL DEFAULT '0' COMMENT '文章分类',
@@ -89,14 +89,14 @@ CREATE TABLE `article` (
 -- Records of article
 -- ----------------------------
 BEGIN;
-INSERT INTO `article` (`id`, `user_id`, `category_id`, `article_cover`, `article_title`, `article_content`, `article_type`, `original_url`, `is_top`, `is_delete`, `status`, `like_count`, `created_at`, `updated_at`) VALUES (1, 1, 1, 'https://static.veweiyi.cn/blog/1/article/qinglong-20240920155237.jpg', '2024-09-20', '恭喜你成功运行博客！', 1, '', 0, 0, 1, 0, '2024-09-20 15:53:03', '2024-09-20 15:53:03');
+INSERT INTO `t_article` (`id`, `user_id`, `category_id`, `article_cover`, `article_title`, `article_content`, `article_type`, `original_url`, `is_top`, `is_delete`, `status`, `like_count`, `created_at`, `updated_at`) VALUES (1, 1, 1, 'https://static.veweiyi.cn/blog/1/article/qinglong-20240920155237.jpg', '2024-09-20', '恭喜你成功运行博客！', 1, '', 0, 0, 1, 0, '2024-09-20 15:53:03', '2024-09-20 15:53:03');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for article_tag
 -- ----------------------------
-DROP TABLE IF EXISTS `article_tag`;
-CREATE TABLE `article_tag` (
+DROP TABLE IF EXISTS `t_article_tag`;
+CREATE TABLE `t_article_tag` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `article_id` int NOT NULL DEFAULT '0' COMMENT '文章id',
   `tag_id` int NOT NULL DEFAULT '0' COMMENT '标签id',
@@ -109,14 +109,14 @@ CREATE TABLE `article_tag` (
 -- Records of article_tag
 -- ----------------------------
 BEGIN;
-INSERT INTO `article_tag` (`id`, `article_id`, `tag_id`) VALUES (1, 1, 1);
+INSERT INTO `t_article_tag` (`id`, `article_id`, `tag_id`) VALUES (1, 1, 1);
 COMMIT;
 
 -- ----------------------------
 -- Table structure for banner
 -- ----------------------------
-DROP TABLE IF EXISTS `banner`;
-CREATE TABLE `banner` (
+DROP TABLE IF EXISTS `t_banner`;
+CREATE TABLE `t_banner` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '页面id',
   `banner_name` varchar(32) NOT NULL DEFAULT '' COMMENT '页面名',
   `banner_label` varchar(32) NOT NULL DEFAULT '' COMMENT '页面标签',
@@ -135,8 +135,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for category
 -- ----------------------------
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category` (
+DROP TABLE IF EXISTS `t_category`;
+CREATE TABLE `t_category` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `category_name` varchar(32) NOT NULL DEFAULT '' COMMENT '分类名',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -149,14 +149,14 @@ CREATE TABLE `category` (
 -- Records of category
 -- ----------------------------
 BEGIN;
-INSERT INTO `category` (`id`, `category_name`, `created_at`, `updated_at`) VALUES (1, '测试标签', '2024-09-20 15:53:03', '2024-09-20 15:53:03');
+INSERT INTO `t_category` (`id`, `category_name`, `created_at`, `updated_at`) VALUES (1, '测试标签', '2024-09-20 15:53:03', '2024-09-20 15:53:03');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for chat_message
 -- ----------------------------
-DROP TABLE IF EXISTS `chat_message`;
-CREATE TABLE `chat_message` (
+DROP TABLE IF EXISTS `t_chat_message`;
+CREATE TABLE `t_chat_message` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `chat_id` varchar(128) NOT NULL DEFAULT '' COMMENT '聊天id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
@@ -180,8 +180,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for chat_record
 -- ----------------------------
-DROP TABLE IF EXISTS `chat_record`;
-CREATE TABLE `chat_record` (
+DROP TABLE IF EXISTS `t_chat_record`;
+CREATE TABLE `t_chat_record` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `nickname` varchar(64) NOT NULL DEFAULT '' COMMENT '昵称',
@@ -204,8 +204,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for chat_session
 -- ----------------------------
-DROP TABLE IF EXISTS `chat_session`;
-CREATE TABLE `chat_session` (
+DROP TABLE IF EXISTS `t_chat_session`;
+CREATE TABLE `t_chat_session` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `chat_id` varchar(128) NOT NULL DEFAULT '' COMMENT '聊天id',
   `chat_title` varchar(128) NOT NULL DEFAULT '' COMMENT '标题',
@@ -225,8 +225,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for comment
 -- ----------------------------
-DROP TABLE IF EXISTS `comment`;
-CREATE TABLE `comment` (
+DROP TABLE IF EXISTS `t_comment`;
+CREATE TABLE `t_comment` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `topic_id` int NOT NULL DEFAULT '0' COMMENT '主题id',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父评论id',
@@ -254,8 +254,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for friend
 -- ----------------------------
-DROP TABLE IF EXISTS `friend`;
-CREATE TABLE `friend` (
+DROP TABLE IF EXISTS `t_friend`;
+CREATE TABLE `t_friend` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `link_name` varchar(32) NOT NULL DEFAULT '' COMMENT '链接名',
   `link_avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '链接头像',
@@ -276,8 +276,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for menu
 -- ----------------------------
-DROP TABLE IF EXISTS `menu`;
-CREATE TABLE `menu` (
+DROP TABLE IF EXISTS `t_menu`;
+CREATE TABLE `t_menu` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父id',
   `title` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单标题',
@@ -303,8 +303,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for operation_log
 -- ----------------------------
-DROP TABLE IF EXISTS `operation_log`;
-CREATE TABLE `operation_log` (
+DROP TABLE IF EXISTS `t_operation_log`;
+CREATE TABLE `t_operation_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `nickname` varchar(64) DEFAULT '' COMMENT '用户昵称',
@@ -333,8 +333,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for photo
 -- ----------------------------
-DROP TABLE IF EXISTS `photo`;
-CREATE TABLE `photo` (
+DROP TABLE IF EXISTS `t_photo`;
+CREATE TABLE `t_photo` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `album_id` int NOT NULL DEFAULT '0' COMMENT '相册id',
   `photo_name` varchar(32) NOT NULL DEFAULT '' COMMENT '照片名',
@@ -355,8 +355,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for remark
 -- ----------------------------
-DROP TABLE IF EXISTS `remark`;
-CREATE TABLE `remark` (
+DROP TABLE IF EXISTS `t_remark`;
+CREATE TABLE `t_remark` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `message_content` varchar(255) NOT NULL DEFAULT '' COMMENT '留言内容',
@@ -377,8 +377,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE `role` (
+DROP TABLE IF EXISTS `t_role`;
+CREATE TABLE `t_role` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父角色id',
   `role_domain` varchar(64) NOT NULL DEFAULT '0' COMMENT '角色域',
@@ -400,8 +400,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for role_api
 -- ----------------------------
-DROP TABLE IF EXISTS `role_api`;
-CREATE TABLE `role_api` (
+DROP TABLE IF EXISTS `t_role_api`;
+CREATE TABLE `t_role_api` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
   `api_id` int NOT NULL DEFAULT '0' COMMENT '接口id',
@@ -417,8 +417,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for role_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `role_menu`;
-CREATE TABLE `role_menu` (
+DROP TABLE IF EXISTS `t_role_menu`;
+CREATE TABLE `t_role_menu` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
   `menu_id` int NOT NULL DEFAULT '0' COMMENT '菜单id',
@@ -434,8 +434,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tag
 -- ----------------------------
-DROP TABLE IF EXISTS `tag`;
-CREATE TABLE `tag` (
+DROP TABLE IF EXISTS `t_tag`;
+CREATE TABLE `t_tag` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `tag_name` varchar(32) NOT NULL DEFAULT '' COMMENT '标签名',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -448,14 +448,14 @@ CREATE TABLE `tag` (
 -- Records of tag
 -- ----------------------------
 BEGIN;
-INSERT INTO `tag` (`id`, `tag_name`, `created_at`, `updated_at`) VALUES (1, '测试分类', '2024-09-20 15:53:03', '2024-09-20 15:53:03');
+INSERT INTO `t_tag` (`id`, `tag_name`, `created_at`, `updated_at`) VALUES (1, '测试分类', '2024-09-20 15:53:03', '2024-09-20 15:53:03');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for talk
 -- ----------------------------
-DROP TABLE IF EXISTS `talk`;
-CREATE TABLE `talk` (
+DROP TABLE IF EXISTS `t_talk`;
+CREATE TABLE `t_talk` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '说说id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `content` varchar(2048) NOT NULL DEFAULT '' COMMENT '说说内容',
@@ -477,8 +477,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for upload_record
 -- ----------------------------
-DROP TABLE IF EXISTS `upload_record`;
-CREATE TABLE `upload_record` (
+DROP TABLE IF EXISTS `t_upload_record`;
+CREATE TABLE `t_upload_record` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `label` varchar(128) NOT NULL DEFAULT '' COMMENT '标签',
@@ -496,14 +496,14 @@ CREATE TABLE `upload_record` (
 -- Records of upload_record
 -- ----------------------------
 BEGIN;
-INSERT INTO `upload_record` (`id`, `user_id`, `label`, `file_name`, `file_size`, `file_md5`, `file_url`, `created_at`, `updated_at`) VALUES (1, 1, 'article', 'qinglong.jpg', 195293, '40dc6ddf12acd53fcc27722f4ca3b7f4', 'https://static.veweiyi.cn/blog/1/article/qinglong-20240920155237.jpg', '2024-09-20 15:52:39', '2024-09-20 15:52:39');
+INSERT INTO `t_upload_record` (`id`, `user_id`, `label`, `file_name`, `file_size`, `file_md5`, `file_url`, `created_at`, `updated_at`) VALUES (1, 1, 'article', 'qinglong.jpg', 195293, '40dc6ddf12acd53fcc27722f4ca3b7f4', 'https://static.veweiyi.cn/blog/1/article/qinglong-20240920155237.jpg', '2024-09-20 15:52:39', '2024-09-20 15:52:39');
 COMMIT;
 
 -- ----------------------------
--- Table structure for user_account
+-- Table structure for user
 -- ----------------------------
-DROP TABLE IF EXISTS `user_account`;
-CREATE TABLE `user_account` (
+DROP TABLE IF EXISTS `t_user`;
+CREATE TABLE `t_user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
   `password` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '用户密码',
@@ -523,17 +523,17 @@ CREATE TABLE `user_account` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录信息';
 
 -- ----------------------------
--- Records of user_account
+-- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_account` (`id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`, `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`) VALUES (1, 'admin@qq.com', '$2a$10$ZINovpDg.FxFQRj6nhKDLOH55k19RDViybnVVn5EGuKQAcqChRs1e', '管理员', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'admin@qq.com', '', '{\"intro\":\"23\",\"website\":\"3\"}', 0, 'email', '127.0.0.1', '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2024-09-03 11:00:21');
+INSERT INTO `t_user` (`id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`, `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`) VALUES (1, 'admin@qq.com', '$2a$10$ZINovpDg.FxFQRj6nhKDLOH55k19RDViybnVVn5EGuKQAcqChRs1e', '管理员', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'admin@qq.com', '', '{\"intro\":\"23\",\"website\":\"3\"}', 0, 'email', '127.0.0.1', '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2024-09-03 11:00:21');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for user_login_history
 -- ----------------------------
-DROP TABLE IF EXISTS `user_login_history`;
-CREATE TABLE `user_login_history` (
+DROP TABLE IF EXISTS `t_user_login_history`;
+CREATE TABLE `t_user_login_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `login_type` varchar(64) NOT NULL DEFAULT '' COMMENT '登录类型',
@@ -552,14 +552,14 @@ CREATE TABLE `user_login_history` (
 -- Records of user_login_history
 -- ----------------------------
 BEGIN;
-INSERT INTO `user_login_history` (`id`, `user_id`, `login_type`, `agent`, `ip_address`, `ip_source`, `login_at`, `logout_at`, `created_at`, `updated_at`) VALUES (1, 1, 'oauth', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-09-20 15:50:50', '1970-01-01 08:00:00', '2024-09-20 15:50:50', '2024-09-20 15:50:50');
+INSERT INTO `t_user_login_history` (`id`, `user_id`, `login_type`, `agent`, `ip_address`, `ip_source`, `login_at`, `logout_at`, `created_at`, `updated_at`) VALUES (1, 1, 'oauth', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', '127.0.0.1', '本机地址', '2024-09-20 15:50:50', '1970-01-01 08:00:00', '2024-09-20 15:50:50', '2024-09-20 15:50:50');
 COMMIT;
 
 -- ----------------------------
 -- Table structure for user_oauth
 -- ----------------------------
-DROP TABLE IF EXISTS `user_oauth`;
-CREATE TABLE `user_oauth` (
+DROP TABLE IF EXISTS `t_user_oauth`;
+CREATE TABLE `t_user_oauth` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `open_id` varchar(128) NOT NULL DEFAULT '' COMMENT '开发平台id，标识唯一用户',
@@ -580,8 +580,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
-DROP TABLE IF EXISTS `user_role`;
-CREATE TABLE `user_role` (
+DROP TABLE IF EXISTS `t_user_role`;
+CREATE TABLE `t_user_role` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` int NOT NULL DEFAULT '0' COMMENT '用户id',
   `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
@@ -597,8 +597,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for visit_history
 -- ----------------------------
-DROP TABLE IF EXISTS `visit_history`;
-CREATE TABLE `visit_history` (
+DROP TABLE IF EXISTS `t_visit_history`;
+CREATE TABLE `t_visit_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `date` varchar(10) NOT NULL DEFAULT '' COMMENT '日期',
   `views_count` int NOT NULL DEFAULT '0' COMMENT '访问量',
@@ -617,8 +617,8 @@ COMMIT;
 -- ----------------------------
 -- Table structure for website_config
 -- ----------------------------
-DROP TABLE IF EXISTS `website_config`;
-CREATE TABLE `website_config` (
+DROP TABLE IF EXISTS `t_website_config`;
+CREATE TABLE `t_website_config` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `key` varchar(32) NOT NULL DEFAULT '' COMMENT '关键词',
   `config` varchar(2048) NOT NULL DEFAULT '' COMMENT '配置信息',

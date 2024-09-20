@@ -8,63 +8,66 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ TagModel = (*defaultTagModel)(nil)
+var _ TRemarkModel = (*defaultTRemarkModel)(nil)
 
 type (
 	// 接口定义
-	TagModel interface {
+	TRemarkModel interface {
 		// 切换事务操作
-		WithTransaction(tx *gorm.DB) (out TagModel)
+		WithTransaction(tx *gorm.DB) (out TRemarkModel)
 		// 插入
-		Insert(ctx context.Context, in *Tag) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*Tag) (rows int64, err error)
+		Insert(ctx context.Context, in *TRemark) (rows int64, err error)
+		InsertBatch(ctx context.Context, in ...*TRemark) (rows int64, err error)
 		// 更新
-		Save(ctx context.Context, in *Tag) (rows int64, err error)
-		Update(ctx context.Context, in *Tag) (rows int64, err error)
+		Save(ctx context.Context, in *TRemark) (rows int64, err error)
+		Update(ctx context.Context, in *TRemark) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *Tag, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *Tag, err error)
+		FindOne(ctx context.Context, id int64) (out *TRemark, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TRemark, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*Tag, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Tag, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TRemark, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRemark, err error)
 		// add extra method in here
-		FindOneByTagName(ctx context.Context, tag_name string) (out *Tag, err error)
 	}
 
 	// 表字段定义
-	Tag struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		TagName   string    `json:"tag_name" gorm:"column:tag_name" `     // 标签名
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+	TRemark struct {
+		Id             int64     `json:"id" gorm:"column:id" `                           // 主键id
+		UserId         int64     `json:"user_id" gorm:"column:user_id" `                 // 用户id
+		MessageContent string    `json:"message_content" gorm:"column:message_content" ` // 留言内容
+		IpAddress      string    `json:"ip_address" gorm:"column:ip_address" `           // 用户ip
+		IpSource       string    `json:"ip_source" gorm:"column:ip_source" `             // 用户地址
+		IsReview       int64     `json:"is_review" gorm:"column:is_review" `             // 是否审核
+		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 发布时间
+		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
 	}
 
 	// 接口实现
-	defaultTagModel struct {
+	defaultTRemarkModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewTagModel(db *gorm.DB, cache *redis.Client) TagModel {
-	return &defaultTagModel{
+func NewTRemarkModel(db *gorm.DB, cache *redis.Client) TRemarkModel {
+	return &defaultTRemarkModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`tag`",
+		table:      "`t_remark`",
 	}
 }
 
 // 切换事务操作
-func (m *defaultTagModel) WithTransaction(tx *gorm.DB) (out TagModel) {
-	return NewTagModel(tx, m.CacheEngin)
+func (m *defaultTRemarkModel) WithTransaction(tx *gorm.DB) (out TRemarkModel) {
+	return NewTRemarkModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultTagModel) Insert(ctx context.Context, in *Tag) (rows int64, err error) {
+func (m *defaultTRemarkModel) Insert(ctx context.Context, in *TRemark) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -76,7 +79,7 @@ func (m *defaultTagModel) Insert(ctx context.Context, in *Tag) (rows int64, err 
 }
 
 // 插入记录
-func (m *defaultTagModel) InsertBatch(ctx context.Context, in ...*Tag) (rows int64, err error) {
+func (m *defaultTRemarkModel) InsertBatch(ctx context.Context, in ...*TRemark) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -88,7 +91,7 @@ func (m *defaultTagModel) InsertBatch(ctx context.Context, in ...*Tag) (rows int
 }
 
 // 更新记录（不更新零值）
-func (m *defaultTagModel) Save(ctx context.Context, in *Tag) (rows int64, err error) {
+func (m *defaultTRemarkModel) Save(ctx context.Context, in *TRemark) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -100,7 +103,7 @@ func (m *defaultTagModel) Save(ctx context.Context, in *Tag) (rows int64, err er
 }
 
 // 更新记录（更新零值）
-func (m *defaultTagModel) Update(ctx context.Context, in *Tag) (rows int64, err error) {
+func (m *defaultTRemarkModel) Update(ctx context.Context, in *TRemark) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -112,12 +115,12 @@ func (m *defaultTagModel) Update(ctx context.Context, in *Tag) (rows int64, err 
 }
 
 // 删除记录
-func (m *defaultTagModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTRemarkModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&Tag{})
+	result := db.Delete(&TRemark{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -126,7 +129,7 @@ func (m *defaultTagModel) Delete(ctx context.Context, id int64) (rows int64, err
 }
 
 // 查询记录
-func (m *defaultTagModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTRemarkModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -134,7 +137,7 @@ func (m *defaultTagModel) DeleteBatch(ctx context.Context, conditions string, ar
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&Tag{})
+	result := db.Delete(&TRemark{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -143,7 +146,7 @@ func (m *defaultTagModel) DeleteBatch(ctx context.Context, conditions string, ar
 }
 
 // 查询记录
-func (m *defaultTagModel) FindOne(ctx context.Context, id int64) (out *Tag, err error) {
+func (m *defaultTRemarkModel) FindOne(ctx context.Context, id int64) (out *TRemark, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -155,7 +158,7 @@ func (m *defaultTagModel) FindOne(ctx context.Context, id int64) (out *Tag, err 
 }
 
 // 查询记录
-func (m *defaultTagModel) First(ctx context.Context, conditions string, args ...interface{}) (out *Tag, err error) {
+func (m *defaultTRemarkModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TRemark, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -171,7 +174,7 @@ func (m *defaultTagModel) First(ctx context.Context, conditions string, args ...
 }
 
 // 查询总数
-func (m *defaultTagModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTRemarkModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -179,7 +182,7 @@ func (m *defaultTagModel) FindCount(ctx context.Context, conditions string, args
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&Tag{}).Count(&count).Error
+	err = db.Model(&TRemark{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -187,7 +190,7 @@ func (m *defaultTagModel) FindCount(ctx context.Context, conditions string, args
 }
 
 // 查询列表
-func (m *defaultTagModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*Tag, err error) {
+func (m *defaultTRemarkModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TRemark, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -203,7 +206,7 @@ func (m *defaultTagModel) FindALL(ctx context.Context, conditions string, args .
 }
 
 // 分页查询记录
-func (m *defaultTagModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*Tag, err error) {
+func (m *defaultTRemarkModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRemark, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -234,13 +237,3 @@ func (m *defaultTagModel) FindList(ctx context.Context, page int, size int, sort
 }
 
 // add extra method in here
-func (m *defaultTagModel) FindOneByTagName(ctx context.Context, tag_name string) (out *Tag, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	err = db.Where("`tag_name` = ?", tag_name).First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return out, nil
-}
