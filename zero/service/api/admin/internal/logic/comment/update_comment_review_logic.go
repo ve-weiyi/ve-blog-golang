@@ -25,9 +25,9 @@ func NewUpdateCommentReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext
 	}
 }
 
-func (l *UpdateCommentReviewLogic) UpdateCommentReview(req *types.CommentReviewReq) (resp *types.CommentBackDTO, err error) {
+func (l *UpdateCommentReviewLogic) UpdateCommentReview(req *types.CommentReviewReq) (resp *types.BatchResp, err error) {
 	in := &commentrpc.UpdateCommentReviewReq{
-		Id:       req.Id,
+		Ids:      req.Ids,
 		IsReview: req.IsReview,
 	}
 
@@ -36,6 +36,8 @@ func (l *UpdateCommentReviewLogic) UpdateCommentReview(req *types.CommentReviewR
 		return nil, err
 	}
 
-	resp = ConvertCommentTypes(out, nil, nil)
+	resp = &types.BatchResp{
+		SuccessCount: out.SuccessCount,
+	}
 	return resp, nil
 }

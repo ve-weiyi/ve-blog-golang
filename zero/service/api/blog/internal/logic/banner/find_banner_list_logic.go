@@ -35,7 +35,7 @@ func (l *FindBannerListLogic) FindBannerList(req *types.BannerQueryReq) (resp *t
 		return nil, err
 	}
 
-	var list []*types.Banner
+	list := make([]*types.Banner, 0)
 	for _, v := range out.List {
 		list = append(list, ConvertBannerTypes(v))
 	}

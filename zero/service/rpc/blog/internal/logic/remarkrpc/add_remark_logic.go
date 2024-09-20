@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
@@ -31,20 +32,18 @@ func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.Remar
 	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
 	is, _ := ipx.GetIpInfoByBaidu(ip)
 
-	entity := &model.Remark{
+	entity := &model.TRemark{
 		Id:             0,
-		Nickname:       in.Nickname,
-		Avatar:         in.Avatar,
+		UserId:         in.UserId,
 		MessageContent: in.MessageContent,
 		IpAddress:      ip,
 		IpSource:       is.Location,
-		Time:           0,
 		IsReview:       1,
 		//CreatedAt:      time.Time{},
 		//UpdatedAt:      time.Time{},
 	}
 
-	_, err := l.svcCtx.RemarkModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TRemarkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -52,15 +51,13 @@ func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.Remar
 	return convertRemarkOut(entity), nil
 }
 
-func convertRemarkOut(in *model.Remark) (out *remarkrpc.RemarkDetails) {
+func convertRemarkOut(in *model.TRemark) (out *remarkrpc.RemarkDetails) {
 	out = &remarkrpc.RemarkDetails{
 		Id:             in.Id,
-		Nickname:       in.Nickname,
-		Avatar:         in.Avatar,
+		UserId:         in.UserId,
 		MessageContent: in.MessageContent,
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
-		Time:           in.Time,
 		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt.Unix(),
 		UpdatedAt:      in.UpdatedAt.Unix(),

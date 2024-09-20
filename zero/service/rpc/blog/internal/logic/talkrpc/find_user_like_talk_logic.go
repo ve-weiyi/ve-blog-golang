@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -31,7 +31,7 @@ func (l *FindUserLikeTalkLogic) FindUserLikeTalk(in *talkrpc.UserIdReq) (*talkrp
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeTalkKey(uid)
 
-	result, err := l.svcCtx.Redis.HGetAll(l.ctx, likeKey).Result()
+	result, err := l.svcCtx.Redis.SMembers(l.ctx, likeKey).Result()
 	if err != nil {
 		return nil, err
 	}

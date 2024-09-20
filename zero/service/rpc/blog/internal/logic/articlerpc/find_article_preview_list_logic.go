@@ -26,7 +26,7 @@ func NewFindArticlePreviewListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 // 查询文章列表
 func (l *FindArticlePreviewListLogic) FindArticlePreviewList(in *articlerpc.FindArticlePreviewListReq) (*articlerpc.FindArticlePreviewListResp, error) {
 	// 查询文章信息
-	records, err := l.svcCtx.ArticleModel.FindALL(l.ctx, "id in (?)", in.Ids)
+	records, err := l.svcCtx.TArticleModel.FindALL(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

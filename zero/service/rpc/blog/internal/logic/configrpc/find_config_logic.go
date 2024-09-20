@@ -25,7 +25,7 @@ func NewFindConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCo
 
 // 查询配置
 func (l *FindConfigLogic) FindConfig(in *configrpc.FindConfigReq) (*configrpc.FindConfigResp, error) {
-	entity, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
+	entity, err := l.svcCtx.TWebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
 	if err != nil {
 		return nil, err
 	}

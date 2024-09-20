@@ -26,7 +26,7 @@ func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogi
 // 创建接口
 func (l *AddApiLogic) AddApi(in *permissionrpc.ApiNewReq) (*permissionrpc.ApiDetails, error) {
 	entity := convertApiIn(in)
-	_, err := l.svcCtx.ApiModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TApiModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

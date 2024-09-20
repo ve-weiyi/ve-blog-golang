@@ -19,6 +19,7 @@ type (
 	EmptyResp                = accountrpc.EmptyResp
 	FindLoginHistoryListReq  = accountrpc.FindLoginHistoryListReq
 	FindLoginHistoryListResp = accountrpc.FindLoginHistoryListResp
+	FindUserInfoListResp     = accountrpc.FindUserInfoListResp
 	FindUserListReq          = accountrpc.FindUserListReq
 	FindUserListResp         = accountrpc.FindUserListResp
 	GetUserAreasAnalysisResp = accountrpc.GetUserAreasAnalysisResp
@@ -35,6 +36,7 @@ type (
 	ResetPasswordReq         = accountrpc.ResetPasswordReq
 	UpdateUserInfoReq        = accountrpc.UpdateUserInfoReq
 	UpdateUserStatusReq      = accountrpc.UpdateUserStatusReq
+	User                     = accountrpc.User
 	UserEmailReq             = accountrpc.UserEmailReq
 	UserIdReq                = accountrpc.UserIdReq
 	UserInfoResp             = accountrpc.UserInfoResp
@@ -74,7 +76,9 @@ type (
 		// 查找用户列表
 		FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
 		// 查找在线用户列表
-		FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
+		FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
+		// 查找用户信息列表
+		FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 		// 查询用户登录历史
 		FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error)
 		// 查询用户分布区域
@@ -183,9 +187,15 @@ func (m *defaultAccountRpc) FindUserList(ctx context.Context, in *FindUserListRe
 }
 
 // 查找在线用户列表
-func (m *defaultAccountRpc) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error) {
+func (m *defaultAccountRpc) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.FindUserOnlineList(ctx, in, opts...)
+}
+
+// 查找用户信息列表
+func (m *defaultAccountRpc) FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.FindUserInfoList(ctx, in, opts...)
 }
 
 // 查询用户登录历史

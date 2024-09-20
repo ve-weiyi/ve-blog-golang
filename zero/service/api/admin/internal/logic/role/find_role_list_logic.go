@@ -27,11 +27,11 @@ func NewFindRoleListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 func (l *FindRoleListLogic) FindRoleList(req *types.RoleQuery) (resp *types.PageResp, err error) {
 	in := &permissionrpc.FindRoleListReq{
-		Page:        req.Page,
-		PageSize:    req.PageSize,
-		RoleName:    req.RoleName,
-		RoleComment: "",
-		IsDisable:   req.IsDisable,
+		Page:      req.Page,
+		PageSize:  req.PageSize,
+		RoleName:  req.RoleName,
+		RoleLabel: req.RoleLabel,
+		IsDisable: req.IsDisable,
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindRoleList(l.ctx, in)

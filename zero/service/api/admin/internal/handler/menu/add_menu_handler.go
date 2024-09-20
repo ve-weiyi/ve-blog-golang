@@ -14,7 +14,7 @@ import (
 // 创建菜单
 func AddMenuHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.MenuBackDTO
+		var req types.MenuNewReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

@@ -26,29 +26,36 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 分页获取操作记录列表
 func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOperationLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
+	page, size, sorts, conditions, params := convertOperationLogQuery(in)
 
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
-
-	result, err := l.svcCtx.OperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TOperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*syslogrpc.OperationLog
+	count, err := l.svcCtx.TOperationLogModel.FindCount(l.ctx, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*syslogrpc.OperationLogDetails
 	for _, v := range result {
 		list = append(list, convertOperationLogOut(v))
 	}
 
 	return &syslogrpc.FindOperationLogListResp{
-		List: list,
+		List:  list,
+		Total: count,
 	}, nil
+}
+
+func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, size int, sorts string, conditions string, params []any) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
+
+	return
 }
