@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -35,22 +36,31 @@ func (l *UpdateRemarkLogic) UpdateRemark(req *types.RemarkNewReq) (resp *types.R
 		return nil, err
 	}
 
-	resp = ConvertRemarkTypes(out)
+	resp = ConvertRemarkTypes(out, nil)
 	return resp, nil
 }
 
-func ConvertRemarkTypes(in *remarkrpc.RemarkDetails) (out *types.RemarkBackDTO) {
+func ConvertRemarkTypes(in *remarkrpc.RemarkDetails, usm map[int64]*accountrpc.User) (out *types.RemarkBackDTO) {
 	out = &types.RemarkBackDTO{
 		Id:             in.Id,
-		Nickname:       in.Nickname,
-		Avatar:         in.Avatar,
+		Nickname:       "",
+		Avatar:         "",
 		MessageContent: in.MessageContent,
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
-		Time:           in.Time,
+		Time:           0,
 		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt,
 		UpdatedAt:      in.UpdatedAt,
+	}
+
+	// 用户信息
+	if in.UserId != 0 {
+		user, ok := usm[in.UserId]
+		if ok && user != nil {
+			out.Nickname = user.Nickname
+			out.Avatar = user.Avatar
+		}
 	}
 
 	return

@@ -28,10 +28,12 @@ type (
 	IdReq              = permissionrpc.IdReq
 	IdsReq             = permissionrpc.IdsReq
 	MenuDetails        = permissionrpc.MenuDetails
+	MenuMeta           = permissionrpc.MenuMeta
 	MenuNewReq         = permissionrpc.MenuNewReq
 	RoleDetails        = permissionrpc.RoleDetails
 	RoleNewReq         = permissionrpc.RoleNewReq
 	RoleResourcesResp  = permissionrpc.RoleResourcesResp
+	SyncApiReq         = permissionrpc.SyncApiReq
 	SyncMenuReq        = permissionrpc.SyncMenuReq
 	UpdateRoleApisReq  = permissionrpc.UpdateRoleApisReq
 	UpdateRoleMenusReq = permissionrpc.UpdateRoleMenusReq
@@ -48,7 +50,7 @@ type (
 		// 查询接口列表
 		FindApiList(ctx context.Context, in *FindApiListReq, opts ...grpc.CallOption) (*FindApiListResp, error)
 		// 同步接口列表
-		SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
+		SyncApiList(ctx context.Context, in *SyncApiReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 清空接口列表
 		CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 创建菜单
@@ -123,7 +125,7 @@ func (m *defaultPermissionRpc) FindApiList(ctx context.Context, in *FindApiListR
 }
 
 // 同步接口列表
-func (m *defaultPermissionRpc) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultPermissionRpc) SyncApiList(ctx context.Context, in *SyncApiReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := permissionrpc.NewPermissionRpcClient(m.cli.Conn())
 	return client.SyncApiList(ctx, in, opts...)
 }

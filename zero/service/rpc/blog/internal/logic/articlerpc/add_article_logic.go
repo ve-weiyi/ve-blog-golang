@@ -37,27 +37,27 @@ func (l *AddArticleLogic) AddArticle(in *articlerpc.ArticleNewReq) (*articlerpc.
 	}
 
 	entity.CategoryId = categoryId
-	_, err = l.svcCtx.ArticleModel.Insert(l.ctx, entity)
+	_, err = l.svcCtx.TArticleModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
 	// 插入文章标签
-	var ats []*model.ArticleTag
+	var ats []*model.TArticleTag
 	for _, tagName := range in.TagNameList {
 		tagId, err := helper.findOrAddTag(tagName)
 		if err != nil {
 			return nil, err
 		}
 
-		at := &model.ArticleTag{
+		at := &model.TArticleTag{
 			ArticleId: entity.Id,
 			TagId:     tagId,
 		}
 		ats = append(ats, at)
 	}
-	l.svcCtx.ArticleTagModel.DeleteBatch(l.ctx, "article_id = ?", entity.Id)
-	l.svcCtx.ArticleTagModel.InsertBatch(l.ctx, ats...)
+	l.svcCtx.TArticleTagModel.DeleteBatch(l.ctx, "article_id = ?", entity.Id)
+	l.svcCtx.TArticleTagModel.InsertBatch(l.ctx, ats...)
 
 	return &articlerpc.ArticleDetails{}, nil
 }

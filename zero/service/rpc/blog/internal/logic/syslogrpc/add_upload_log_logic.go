@@ -27,7 +27,7 @@ func NewAddUploadLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddU
 // 上传文件
 func (l *AddUploadLogLogic) AddUploadLog(in *syslogrpc.UploadLogReq) (*syslogrpc.UploadLogResp, error) {
 	entity := convertUploadIn(in)
-	_, err := l.svcCtx.UploadRecordModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TUploadRecordModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -35,8 +35,8 @@ func (l *AddUploadLogLogic) AddUploadLog(in *syslogrpc.UploadLogReq) (*syslogrpc
 	return convertUploadOut(entity), nil
 }
 
-func convertUploadIn(in *syslogrpc.UploadLogReq) (out *model.UploadRecord) {
-	out = &model.UploadRecord{
+func convertUploadIn(in *syslogrpc.UploadLogReq) (out *model.TUploadRecord) {
+	out = &model.TUploadRecord{
 		Id:       in.Id,
 		UserId:   in.UserId,
 		Label:    in.Label,
@@ -51,7 +51,7 @@ func convertUploadIn(in *syslogrpc.UploadLogReq) (out *model.UploadRecord) {
 	return out
 }
 
-func convertUploadOut(in *model.UploadRecord) (out *syslogrpc.UploadLogResp) {
+func convertUploadOut(in *model.TUploadRecord) (out *syslogrpc.UploadLogResp) {
 	out = &syslogrpc.UploadLogResp{
 		Id:        in.Id,
 		UserId:    in.UserId,

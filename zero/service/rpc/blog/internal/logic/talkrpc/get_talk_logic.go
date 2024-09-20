@@ -25,7 +25,7 @@ func NewGetTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTalkLo
 
 // 查询说说
 func (l *GetTalkLogic) GetTalk(in *talkrpc.IdReq) (*talkrpc.TalkDetails, error) {
-	entity, err := l.svcCtx.TalkModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TTalkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

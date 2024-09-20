@@ -52,7 +52,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserInfoResp)
+	usm := make(map[int64]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}

@@ -25,14 +25,14 @@ func NewUpdateCommentContentLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 更新评论
 func (l *UpdateCommentContentLogic) UpdateCommentContent(in *commentrpc.UpdateCommentContentReq) (*commentrpc.CommentDetails, error) {
-	entity, err := l.svcCtx.CommentModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
 	entity.CommentContent = in.CommentContent
 
-	_, err = l.svcCtx.CommentModel.Save(l.ctx, entity)
+	_, err = l.svcCtx.TCommentModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

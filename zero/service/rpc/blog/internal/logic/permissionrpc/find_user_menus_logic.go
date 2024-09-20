@@ -28,13 +28,13 @@ func (l *FindUserMenusLogic) FindUserMenus(in *permissionrpc.UserIdReq) (*permis
 	uid := in.UserId
 
 	// 查用户
-	// ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	// ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", uid)
 	// if err != nil {
 	//	return nil, err
 	// }
 
 	// 查用户角色
-	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
+	urs, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (l *FindUserMenusLogic) FindUserMenus(in *permissionrpc.UserIdReq) (*permis
 	}
 
 	// 查角色拥有的菜单
-	rs, err := l.svcCtx.RoleMenuModel.FindALL(l.ctx, "role_id in (?)", ids)
+	rs, err := l.svcCtx.TRoleMenuModel.FindALL(l.ctx, "role_id in (?)", ids)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (l *FindUserMenusLogic) FindUserMenus(in *permissionrpc.UserIdReq) (*permis
 	}
 
 	// 查菜单信息
-	list, err := l.svcCtx.MenuModel.FindALL(l.ctx, "id in (?)", mids)
+	list, err := l.svcCtx.TMenuModel.FindALL(l.ctx, "id in (?)", mids)
 	if err != nil {
 		return nil, err
 	}

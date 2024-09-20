@@ -7,6 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -30,7 +31,7 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 // 注销
 func (l *LogoffLogic) Logoff(in *accountrpc.LogoffReq) (*accountrpc.EmptyResp, error) {
 	// 验证用户是否存在
-	user, err := l.svcCtx.UserAccountModel.FindOne(l.ctx, in.UserId)
+	user, err := l.svcCtx.TUserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
@@ -52,13 +53,13 @@ func (l *LogoffLogic) Logoff(in *accountrpc.LogoffReq) (*accountrpc.EmptyResp, e
 
 func (l *LogoffLogic) logoff(ctx context.Context, tx *gorm.DB, uid int64) (*accountrpc.EmptyResp, error) {
 	// 删除用户账号
-	_, err := l.svcCtx.UserAccountModel.WithTransaction(tx).Delete(ctx, uid)
+	_, err := l.svcCtx.TUserModel.WithTransaction(tx).Delete(ctx, uid)
 	if err != nil {
 		return nil, err
 	}
 
 	// 删除用户角色
-	_, err = l.svcCtx.UserRoleModel.WithTransaction(tx).DeleteBatch(ctx, "user_id = ?", uid)
+	_, err = l.svcCtx.TUserRoleModel.WithTransaction(tx).DeleteBatch(ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}

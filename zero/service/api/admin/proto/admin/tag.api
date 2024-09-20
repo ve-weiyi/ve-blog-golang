@@ -38,7 +38,7 @@ service admin-api {
 @server(
     prefix: /admin_api/v1
     group: tag
-    middleware: SignToken,JwtToken
+    middleware: SignToken,JwtToken,Operation
 )
 
 service admin-api {

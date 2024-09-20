@@ -29,7 +29,7 @@ func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLog) (*syslogrpc.OperationLog, error) {
 	entity := convertOperationLogIn(in)
 
-	_, err := l.svcCtx.OperationLogModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TOperationLogModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -37,8 +37,8 @@ func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLog) (*sys
 	return convertOperationLogOut(entity), nil
 }
 
-func convertOperationLogIn(in *syslogrpc.OperationLog) (out *model.OperationLog) {
-	out = &model.OperationLog{
+func convertOperationLogIn(in *syslogrpc.OperationLog) (out *model.TOperationLog) {
+	out = &model.TOperationLog{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		Nickname:       in.Nickname,
@@ -60,7 +60,7 @@ func convertOperationLogIn(in *syslogrpc.OperationLog) (out *model.OperationLog)
 	return out
 }
 
-func convertOperationLogOut(in *model.OperationLog) (out *syslogrpc.OperationLog) {
+func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLog) {
 	out = &syslogrpc.OperationLog{
 		Id:             in.Id,
 		UserId:         in.UserId,

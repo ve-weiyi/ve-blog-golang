@@ -11,6 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -39,7 +40,7 @@ func (l *SendResetPasswordEmailLogic) SendResetPasswordEmail(in *accountrpc.User
 	}
 
 	// 验证用户是否存在
-	user, err := l.svcCtx.UserAccountModel.FindOneByUsername(l.ctx, in.Username)
+	user, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if user != nil {
 		return nil, apierr.NewApiError(codex.CodeUserAlreadyExist, "用户已存在")
 	}

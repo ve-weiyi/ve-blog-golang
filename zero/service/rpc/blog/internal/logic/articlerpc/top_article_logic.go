@@ -26,13 +26,13 @@ func NewTopArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TopArt
 // 置顶文章
 func (l *TopArticleLogic) TopArticle(in *articlerpc.TopArticleReq) (*articlerpc.EmptyResp, error) {
 
-	record, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.ArticleId)
+	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.ArticleId)
 	if err != nil {
 		return nil, err
 	}
 
 	record.IsTop = in.IsTop
-	_, err = l.svcCtx.ArticleModel.Save(l.ctx, record)
+	_, err = l.svcCtx.TArticleModel.Save(l.ctx, record)
 	if err != nil {
 		return nil, err
 	}

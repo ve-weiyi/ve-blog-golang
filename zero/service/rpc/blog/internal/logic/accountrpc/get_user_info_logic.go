@@ -28,13 +28,13 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.UserInfoResp, error) {
 	uid := in.UserId
 
-	ui, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	ui, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", uid)
 	if err != nil {
 		return nil, err
 	}
 
 	// 查找用户角色
-	urList, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id in (?)", uid)
+	urList, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id in (?)", uid)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.Us
 	}
 
 	// 查找角色信息
-	rList, err := l.svcCtx.RoleModel.FindALL(l.ctx, "id in (?)", roleIds)
+	rList, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "id in (?)", roleIds)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.Us
 	return convertUserInfoOut(ui, rList), nil
 }
 
-func convertUserInfoOut(in *model.UserAccount, roles []*model.Role) (out *accountrpc.UserInfoResp) {
+func convertUserInfoOut(in *model.TUser, roles []*model.TRole) (out *accountrpc.UserInfoResp) {
 	var list []*accountrpc.UserRoleLabel
 	for _, role := range roles {
 		m := &accountrpc.UserRoleLabel{

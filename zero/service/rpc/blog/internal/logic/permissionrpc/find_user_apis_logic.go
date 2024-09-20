@@ -28,13 +28,13 @@ func (l *FindUserApisLogic) FindUserApis(in *permissionrpc.UserIdReq) (*permissi
 	uid := in.UserId
 
 	// 查用户
-	// ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", uid)
+	// ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", uid)
 	// if err != nil {
 	//	return nil, err
 	// }
 
 	// 查用户角色
-	urs, err := l.svcCtx.UserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
+	urs, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (l *FindUserApisLogic) FindUserApis(in *permissionrpc.UserIdReq) (*permissi
 	}
 
 	// 查角色拥有的接口
-	rs, err := l.svcCtx.RoleApiModel.FindALL(l.ctx, "id in (?)", ids)
+	rs, err := l.svcCtx.TRoleApiModel.FindALL(l.ctx, "id in (?)", ids)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (l *FindUserApisLogic) FindUserApis(in *permissionrpc.UserIdReq) (*permissi
 	}
 
 	// 查接口信息
-	apis, err := l.svcCtx.ApiModel.FindALL(l.ctx, "id in (?)", apiIds)
+	apis, err := l.svcCtx.TApiModel.FindALL(l.ctx, "id in (?)", apiIds)
 	if err != nil {
 		return nil, err
 	}

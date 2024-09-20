@@ -5,6 +5,30 @@ type AboutMe struct {
 	Content string `json:"content"`
 }
 
+type AccountArea struct {
+	Name  string `json:"name"`
+	Value int64  `json:"value"`
+}
+
+type AccountLoginHistory struct {
+	Id        int64  `json:"id,optional"`
+	Username  string `json:"username"`   // 用户名
+	Nickname  string `json:"nickname"`   // 用户昵称
+	Avatar    string `json:"avatar"`     // 用户头像
+	LoginType string `json:"login_type"` // 登录类型
+	Agent     string `json:"agent"`      // 代理
+	IpAddress string `json:"ip_address"` // ip host
+	IpSource  string `json:"ip_source"`  // ip 源
+	LoginAt   int64  `json:"login_at"`   // 登录时间
+	LogoutAt  int64  `json:"logout_out"` // 登出时间
+}
+
+type AccountQuery struct {
+	PageQuery
+	Username string `json:"username,optional"`
+	Nickname string `json:"nickname,optional"`
+}
+
 type AdminHomeInfo struct {
 	ViewsCount            int64                   `json:"views_count"`             // 访问量
 	MessageCount          int64                   `json:"message_count"`           // 留言量
@@ -40,34 +64,36 @@ type AlbumNewReq struct {
 
 type AlbumQuery struct {
 	PageQuery
+	AlbumName string `json:"album_name,optional"` // 相册名
 }
 
 type ApiBackDTO struct {
-	Id        int64         `json:"id,optional"` // 主键id
-	Name      string        `json:"name"`        // api名称
-	Path      string        `json:"path"`        // api路径
-	Method    string        `json:"method"`      // api请求方法
-	ParentId  int64         `json:"parent_id"`   // 分组id
-	Traceable int64         `json:"traceable"`   // 是否追溯操作记录 0需要，1是
-	Status    int64         `json:"status"`      // 状态 1开，2关
-	CreatedAt int64         `json:"created_at"`  // 创建时间
-	UpdatedAt int64         `json:"updated_at"`  // 更新时间
+	Id        int64         `json:"id,optional"`         // 主键id
+	ParentId  int64         `json:"parent_id"`           // 分组id
+	Name      string        `json:"name"`                // api名称
+	Path      string        `json:"path"`                // api路径
+	Method    string        `json:"method"`              // api请求方法
+	Traceable int64         `json:"traceable"`           // 是否追溯操作记录 0需要，1是
+	IsDisable int64         `json:"is_disable,optional"` // 是否禁用 0否 1是
+	CreatedAt int64         `json:"created_at"`          // 创建时间
+	UpdatedAt int64         `json:"updated_at"`          // 更新时间
 	Children  []*ApiBackDTO `json:"children"`
 }
 
 type ApiNewReq struct {
-	Id        int64  `json:"id,optional"` // 主键id
-	Name      string `json:"name"`        // api名称
-	Path      string `json:"path"`        // api路径
-	Method    string `json:"method"`      // api请求方法
-	ParentId  int64  `json:"parent_id"`   // 分组id
-	Traceable int64  `json:"traceable"`   // 是否追溯操作记录 0需要，1是
-	Status    int64  `json:"status"`      // 状态 1开，2关
+	Id        int64  `json:"id,optional"`         // 主键id
+	ParentId  int64  `json:"parent_id"`           // 分组id
+	Name      string `json:"name"`                // api名称
+	Path      string `json:"path"`                // api路径
+	Method    string `json:"method"`              // api请求方法
+	Traceable int64  `json:"traceable"`           // 是否追溯操作记录 0需要，1是
+	IsDisable int64  `json:"is_disable,optional"` // 是否禁用 0否 1是
 }
 
 type ApiQuery struct {
 	PageQuery
 	Name   string `json:"name,optional"`   // api名称
+	Path   string `json:"path,optional"`   // api路径
 	Method string `json:"method,optional"` // api请求方法
 }
 
@@ -262,41 +288,51 @@ type LoginResp struct {
 }
 
 type MenuBackDTO struct {
-	Id        int64          `json:"id,optional"` // 主键
-	ParentId  int64          `json:"parent_id"`   // 父id
-	Title     string         `json:"title"`       // 菜单标题
-	Type      int64          `json:"type"`        // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-	Path      string         `json:"path"`        // 路由地址
-	Name      string         `json:"name"`        // 路由名字
-	Component string         `json:"component"`   // Layout组件
-	Redirect  string         `json:"redirect"`    // 路由重定向
-	Meta      Meta           `json:"meta"`        // meta配置
-	Children  []*MenuBackDTO `json:"children"`
+	Id        int64  `json:"id,optional"`        // 主键
+	ParentId  int64  `json:"parent_id,optional"` // 父id
+	Path      string `json:"path,optional"`      // 路由地址
+	Name      string `json:"name,optional"`      // 路由名字
+	Component string `json:"component,optional"` // Layout组件
+	Redirect  string `json:"redirect,optional"`  // 路由重定向
+	MenuMeta
+	Children  []*MenuBackDTO `json:"children,optional"`
 	CreatedAt int64          `json:"created_at"` // 创建时间
 	UpdatedAt int64          `json:"updated_at"` // 更新时间
 }
 
-type MenuQuery struct {
-	PageQuery
-	Name string `json:"name,optional"` // 路由名字
+type MenuMeta struct {
+	Type       int64             `json:"type,optional"`        // 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）
+	Title      string            `json:"title,optional"`       // 菜单标题
+	Icon       string            `json:"icon,optional"`        // 菜单图标
+	Rank       int64             `json:"rank,optional"`        // 排序
+	Perm       string            `json:"perm,optional"`        // 权限标识
+	Params     []*MenuMetaParams `json:"params,optional"`      // 参数
+	KeepAlive  int64             `json:"keep_alive,optional"`  // 是否缓存
+	AlwaysShow int64             `json:"always_show,optional"` // 是否一直显示菜单
+	IsHidden   int64             `json:"is_hidden,optional"`   // 是否隐藏
+	IsDisable  int64             `json:"is_disable,optional"`  // 是否禁用
 }
 
-type Meta struct {
-	Title        string     `json:"title"`         // 菜单名称
-	Icon         string     `json:"icon"`          // 菜单图标
-	ShowLink     bool       `json:"show_link"`     // 是否在菜单中显示
-	Rank         int64      `json:"rank"`          // 菜单升序排序
-	ExtraIcon    string     `json:"extra_icon"`    // 菜单名称右侧的额外图标
-	ShowParent   bool       `json:"show_parent"`   // 是否显示父级菜单
-	Roles        []string   `json:"roles"`         // 页面级别权限设置
-	Auths        []string   `json:"auths"`         // 按钮级别权限设置
-	KeepAlive    bool       `json:"keep_alive"`    // 路由组件缓存
-	FrameSrc     string     `json:"frame_src"`     // 内嵌的iframe链接
-	FrameLoading bool       `json:"frame_loading"` // iframe页是否开启首次加载动画
-	Transition   Transition `json:"transition"`    // 页面加载动画
-	HiddenTag    bool       `json:"hidden_tag"`    // 是否不添加信息到标签页
-	DynamicLevel int64      `json:"dynamic_level"` // 动态路由可打开的最大数量
-	ActivePath   string     `json:"active_path"`   // 将某个菜单激活
+type MenuMetaParams struct {
+	Key   string `json:"key,optional"`
+	Value string `json:"value,optional"`
+}
+
+type MenuNewReq struct {
+	Id        int64  `json:"id,optional"`        // 主键
+	ParentId  int64  `json:"parent_id,optional"` // 父id
+	Path      string `json:"path,optional"`      // 路由地址
+	Name      string `json:"name,optional"`      // 路由名字
+	Component string `json:"component,optional"` // Layout组件
+	Redirect  string `json:"redirect,optional"`  // 路由重定向
+	MenuMeta
+	Children []*MenuNewReq `json:"children,optional"`
+}
+
+type MenuQuery struct {
+	PageQuery
+	Name  string `json:"name,optional"`  // 路由名字
+	Title string `json:"title,optional"` // 菜单标题
 }
 
 type OperationLogBackDTO struct {
@@ -393,14 +429,8 @@ type RemarkBackDTO struct {
 }
 
 type RemarkNewReq struct {
-	Id             int64  `json:"id,optional"`     // 主键id
-	Nickname       string `json:"nickname"`        // 昵称
-	Avatar         string `json:"avatar"`          // 头像
-	MessageContent string `json:"message_content"` // 留言内容
-	IpAddress      string `json:"ip_address"`      // 用户ip
-	IpSource       string `json:"ip_source"`       // 用户地址
-	Time           int64  `json:"time"`            // 弹幕速度
-	IsReview       int64  `json:"is_review"`       // 是否审核
+	Id       int64 `json:"id,optional"` // 主键id
+	IsReview int64 `json:"is_review"`   // 是否审核
 }
 
 type RemarkQuery struct {
@@ -460,16 +490,6 @@ type RoleResourcesResp struct {
 	MenuIds []int64 `json:"menu_ids"`
 }
 
-type RouteConfigsTable struct {
-	Type      int64               `json:"type"`      // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
-	Path      string              `json:"path"`      // 路由地址
-	Name      string              `json:"name"`      // 路由名字
-	Component string              `json:"component"` // Layout组件
-	Redirect  string              `json:"redirect"`  // 路由重定向
-	Meta      Meta                `json:"meta"`      // meta配置
-	Children  []RouteConfigsTable `json:"children"`  // 子路由配置项
-}
-
 type Server struct {
 	Os   interface{} `json:"os"`
 	Cpu  interface{} `json:"cpu"`
@@ -477,8 +497,12 @@ type Server struct {
 	Disk interface{} `json:"disk"`
 }
 
+type SyncApiReq struct {
+	ApiFilePath string `json:"api_file_path"` // api文件路径
+}
+
 type SyncMenuReq struct {
-	Menus []RouteConfigsTable `json:"menus"`
+	Menus []*MenuNewReq `json:"menus"`
 }
 
 type TagBackDTO struct {
@@ -542,15 +566,19 @@ type Token struct {
 	Scope            string `json:"scope"`              // 作用域
 }
 
-type Transition struct {
-	Name            string `json:"name"`             // 当前路由动画效果
-	EnterTransition string `json:"enter_transition"` // 进场动画
-	LeaveTransition string `json:"leave_transition"` // 离场动画
-}
-
 type UniqueViewDTO struct {
 	Date  string `json:"date"`  // 日期
 	Count int64  `json:"count"` // 数量
+}
+
+type UpdateAccountRolesReq struct {
+	UserId  int64   `json:"user_id"`
+	RoleIds []int64 `json:"role_ids"`
+}
+
+type UpdateAccountStatusReq struct {
+	UserId int64 `json:"user_id"`
+	Status int64 `json:"status"` // 状态: -1删除 0正常 1禁用
 }
 
 type UpdateRoleApisReq struct {
@@ -561,16 +589,6 @@ type UpdateRoleApisReq struct {
 type UpdateRoleMenusReq struct {
 	RoleId  int64   `json:"role_id"`
 	MenuIds []int64 `json:"menu_ids"`
-}
-
-type UpdateUserRolesReq struct {
-	UserId  int64   `json:"user_id"`
-	RoleIds []int64 `json:"role_ids"`
-}
-
-type UpdateUserStatusReq struct {
-	UserId int64 `json:"user_id"`
-	Status int64 `json:"status"` // 状态: -1删除 0正常 1禁用
 }
 
 type UploadFileReq struct {
@@ -594,12 +612,10 @@ type UploadFileResp struct {
 
 type UserApi struct {
 	Id        int64      `json:"id,optional"` // 主键id
+	ParentId  int64      `json:"parent_id"`   // 父id
 	Name      string     `json:"name"`        // api名称
 	Path      string     `json:"path"`        // api路径
 	Method    string     `json:"method"`      // api请求方法
-	ParentId  int64      `json:"parent_id"`   // 分组id
-	Traceable int64      `json:"traceable"`   // 是否追溯操作记录 0需要，1是
-	Status    int64      `json:"status"`      // 状态 1开，2关
 	CreatedAt int64      `json:"created_at"`  // 创建时间
 	UpdatedAt int64      `json:"updated_at"`  // 更新时间
 	Children  []*UserApi `json:"children"`
@@ -607,11 +623,6 @@ type UserApi struct {
 
 type UserApisResp struct {
 	List []*UserApi `json:"list"`
-}
-
-type UserArea struct {
-	Name  string `json:"name"`
-	Value int64  `json:"value"`
 }
 
 type UserInfoExt struct {
@@ -626,19 +637,20 @@ type UserInfoReq struct {
 }
 
 type UserInfoResp struct {
-	UserId    int64            `json:"user_id"` // 用户id
-	Username  string           `json:"username"`
-	Nickname  string           `json:"nickname"`
-	Avatar    string           `json:"avatar"`
-	Email     string           `json:"email"` // 用户邮箱
-	Phone     string           `json:"phone"` // 用户手机号
-	Status    int64            `json:"status"`
-	LoginType string           `json:"login_type"`
+	UserId    int64            `json:"user_id"`    // 用户id
+	Username  string           `json:"username"`   // 用户名
+	Nickname  string           `json:"nickname"`   // 用户昵称
+	Avatar    string           `json:"avatar"`     // 用户头像
+	Email     string           `json:"email"`      // 用户邮箱
+	Phone     string           `json:"phone"`      // 用户手机号
+	Status    int64            `json:"status"`     // 状态
+	LoginType string           `json:"login_type"` // 登录方式
 	IpAddress string           `json:"ip_address"` // ip host
 	IpSource  string           `json:"ip_source"`  // ip 源
 	CreatedAt int64            `json:"created_at"`
 	UpdatedAt int64            `json:"updated_at"`
 	Roles     []*UserRoleLabel `json:"roles"`
+	Perms     []*UserApi       `json:"perms"`
 	UserInfoExt
 }
 
@@ -648,51 +660,44 @@ type UserLoginHistory struct {
 	Agent     string `json:"agent"`      // 代理
 	IpAddress string `json:"ip_address"` // ip host
 	IpSource  string `json:"ip_source"`  // ip 源
-	LoginTime string `json:"login_time"` // 创建时间
+	LoginAt   int64  `json:"login_at"`   // 登录时间
+	LogoutAt  int64  `json:"login_out"`  // 登出时间
+}
+
+type UserLoginHistoryQuery struct {
+	PageQuery
 }
 
 type UserMenu struct {
 	Id        int64        `json:"id,optional"` // 主键
 	ParentId  int64        `json:"parent_id"`   // 父id
-	Title     string       `json:"title"`       // 菜单标题
-	Type      int64        `json:"type"`        // 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）
 	Path      string       `json:"path"`        // 路由地址
 	Name      string       `json:"name"`        // 路由名字
 	Component string       `json:"component"`   // Layout组件
 	Redirect  string       `json:"redirect"`    // 路由重定向
 	Meta      UserMenuMeta `json:"meta"`        // meta配置
-	Children  []*UserMenu  `json:"children"`
+	Children  []*UserMenu  `json:"children,optional"`
+	CreatedAt int64        `json:"created_at"` // 创建时间
+	UpdatedAt int64        `json:"updated_at"` // 更新时间
 }
 
 type UserMenuMeta struct {
-	Title        string      `json:"title"`         // 菜单名称
-	Icon         string      `json:"icon"`          // 菜单图标
-	ShowLink     bool        `json:"show_link"`     // 是否在菜单中显示
-	Rank         int64       `json:"rank"`          // 菜单升序排序
-	ExtraIcon    string      `json:"extra_icon"`    // 菜单名称右侧的额外图标
-	ShowParent   bool        `json:"show_parent"`   // 是否显示父级菜单
-	Roles        []string    `json:"roles"`         // 页面级别权限设置
-	Auths        []string    `json:"auths"`         // 按钮级别权限设置
-	KeepAlive    bool        `json:"keep_alive"`    // 路由组件缓存
-	FrameSrc     string      `json:"frame_src"`     // 内嵌的iframe链接
-	FrameLoading bool        `json:"frame_loading"` // iframe页是否开启首次加载动画
-	Transition   interface{} `json:"transition"`    // 页面加载动画
-	HiddenTag    bool        `json:"hidden_tag"`    // 是否不添加信息到标签页
-	DynamicLevel int64       `json:"dynamic_level"` // 动态路由可打开的最大数量
-	ActivePath   string      `json:"active_path"`   // 将某个菜单激活
+	Title      string `json:"title,optional"`
+	Icon       string `json:"icon,optional"`
+	Hidden     bool   `json:"hidden,optional"`
+	AlwaysShow bool   `json:"alwaysShow,optional"`
+	Affix      bool   `json:"affix,optional"`
+	KeepAlive  bool   `json:"keepAlive,optional"`
+	Breadcrumb bool   `json:"breadcrumb,optional"`
 }
 
 type UserMenusResp struct {
 	List []*UserMenu `json:"list"`
 }
 
-type UserQuery struct {
-	PageQuery
-	Nickname string `json:"nickname,optional"`
-}
-
 type UserRole struct {
 	Id          int64  `json:"id,optional"`  // 主键id
+	ParentId    int64  `json:"parent_id"`    // 父id
 	RoleDomain  string `json:"role_domain"`  // 角色域
 	RoleName    string `json:"role_name"`    // 角色名
 	RoleComment string `json:"role_comment"` // 角色备注

@@ -27,20 +27,20 @@ func NewUpdateUserRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 修改用户角色
 func (l *UpdateUserRoleLogic) UpdateUserRole(in *permissionrpc.UpdateUserRoleReq) (*permissionrpc.EmptyResp, error) {
-	ua, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", in.UserId)
+	ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", in.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	// 删除用户角色
-	_, err = l.svcCtx.UserRoleModel.DeleteBatch(l.ctx, "user_id = ?", ua.Id)
+	_, err = l.svcCtx.TUserRoleModel.DeleteBatch(l.ctx, "user_id = ?", ua.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	var userRoles []*model.UserRole
+	var userRoles []*model.TUserRole
 	for _, roleId := range in.RoleIds {
-		m := &model.UserRole{
+		m := &model.TUserRole{
 			UserId: in.UserId,
 			RoleId: roleId,
 		}
@@ -48,7 +48,7 @@ func (l *UpdateUserRoleLogic) UpdateUserRole(in *permissionrpc.UpdateUserRoleReq
 	}
 
 	// 添加用户角色
-	_, err = l.svcCtx.UserRoleModel.InsertBatch(l.ctx, userRoles...)
+	_, err = l.svcCtx.TUserRoleModel.InsertBatch(l.ctx, userRoles...)
 	if err != nil {
 		return nil, err
 	}

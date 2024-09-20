@@ -25,7 +25,7 @@ func NewDeleteCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *De
 
 // 删除文章分类
 func (l *DeleteCategoryLogic) DeleteCategory(in *articlerpc.IdsReq) (*articlerpc.BatchResp, error) {
-	_, err := l.svcCtx.CategoryModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	_, err := l.svcCtx.TCategoryModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

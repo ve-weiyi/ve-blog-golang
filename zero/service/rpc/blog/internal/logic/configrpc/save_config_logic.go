@@ -26,14 +26,14 @@ func NewSaveConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveCo
 // 保存配置
 func (l *SaveConfigLogic) SaveConfig(in *configrpc.SaveConfigReq) (*configrpc.EmptyResp, error) {
 	// 查找
-	result, err := l.svcCtx.WebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
+	result, err := l.svcCtx.TWebsiteConfigModel.FindOneByKey(l.ctx, in.ConfigKey)
 	if err != nil {
 		return nil, err
 	}
 
 	// 修改
 	result.Config = in.ConfigValue
-	_, err = l.svcCtx.WebsiteConfigModel.Save(l.ctx, result)
+	_, err = l.svcCtx.TWebsiteConfigModel.Save(l.ctx, result)
 	if err != nil {
 		return nil, err
 	}

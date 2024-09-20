@@ -30,7 +30,7 @@ func (l *FindApiListLogic) FindApiList(req *types.ApiQuery) (resp *types.PageRes
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Name:     req.Name,
-		Path:     "",
+		Path:     req.Path,
 		Method:   req.Method,
 	}
 

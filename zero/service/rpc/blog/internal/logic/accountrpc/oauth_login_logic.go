@@ -8,11 +8,13 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -57,7 +59,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	}
 
 	// 查询用户是否存在
-	userOauth, err := l.svcCtx.UserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenId, in.Platform)
+	userOauth, err := l.svcCtx.TUserOauthModel.FindOneByOpenIdPlatform(l.ctx, info.OpenId, in.Platform)
 	if userOauth == nil {
 		// 用户未注册,先注册用户
 		err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {
@@ -70,7 +72,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	}
 
 	// 用户已经注册,查询用户信息
-	user, err := l.svcCtx.UserAccountModel.First(l.ctx, "id = ?", userOauth.UserId)
+	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", userOauth.UserId)
 	if err != nil {
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
@@ -78,7 +80,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	return onLogin(l.svcCtx, l.ctx, user)
 }
 
-func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.UserOauth, err error) {
+func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
 	username := info.Email
 	if username == "" {
@@ -86,7 +88,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	}
 
 	// 用户账号
-	user := &model.UserAccount{
+	user := &model.TUser{
 		Id:        0,
 		Username:  username,
 		Password:  crypto.BcryptHash(info.EnName),
@@ -108,14 +110,14 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	}
 
 	// 绑定用户第三方信息
-	userOauth := &model.UserOauth{
+	userOauth := &model.TUserOauth{
 		UserId:   ua.Id,
 		OpenId:   info.OpenId,
 		Platform: platform,
 	}
 
 	/** 创建用户第三方信息 **/
-	_, err = l.svcCtx.UserOauthModel.WithTransaction(tx).Insert(l.ctx, userOauth)
+	_, err = l.svcCtx.TUserOauthModel.WithTransaction(tx).Insert(l.ctx, userOauth)
 	if err != nil {
 		return nil, err
 	}

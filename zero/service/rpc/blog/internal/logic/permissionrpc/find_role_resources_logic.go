@@ -26,12 +26,12 @@ func NewFindRoleResourcesLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 // 查询角色
 func (l *FindRoleResourcesLogic) FindRoleResources(in *permissionrpc.IdReq) (*permissionrpc.RoleResourcesResp, error) {
 	logx.Errorf("in: %v", in)
-	ras, err := l.svcCtx.RoleApiModel.FindALL(l.ctx, "role_id = ?", in.Id)
+	ras, err := l.svcCtx.TRoleApiModel.FindALL(l.ctx, "role_id = ?", in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	rms, err := l.svcCtx.RoleMenuModel.FindALL(l.ctx, "role_id = ?", in.Id)
+	rms, err := l.svcCtx.TRoleMenuModel.FindALL(l.ctx, "role_id = ?", in.Id)
 	if err != nil {
 		return nil, err
 	}

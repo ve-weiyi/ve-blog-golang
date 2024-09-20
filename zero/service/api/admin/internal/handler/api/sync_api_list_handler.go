@@ -14,7 +14,7 @@ import (
 // 同步api列表
 func SyncApiListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.SyncApiReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

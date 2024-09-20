@@ -2,6 +2,9 @@ package api
 
 import (
 	"context"
+	"strings"
+
+	"github.com/zeromicro/go-zero/tools/goctl/api/parser"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
@@ -25,8 +28,47 @@ func NewSyncApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SyncA
 	}
 }
 
-func (l *SyncApiListLogic) SyncApiList(req *types.EmptyReq) (resp *types.BatchResp, err error) {
-	in := &permissionrpc.EmptyReq{}
+func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.BatchResp, err error) {
+	sp, err := parser.Parse(req.ApiFilePath)
+	if err != nil {
+		return nil, err
+	}
+
+	var list []*permissionrpc.ApiNewReq
+	for _, g := range sp.Service.Groups {
+		var prefix = g.Annotation.Properties["prefix"]
+		var group = g.Annotation.Properties["group"]
+
+		var children []*permissionrpc.ApiNewReq
+		for _, r := range g.Routes {
+			child := &permissionrpc.ApiNewReq{
+				Id:        0,
+				ParentId:  0,
+				Path:      prefix + r.Path,
+				Name:      strings.Trim(r.AtDoc.Text, `"`),
+				Method:    strings.ToUpper(r.Method),
+				Traceable: 0,
+				IsDisable: 0,
+				Children:  nil,
+			}
+			children = append(children, child)
+		}
+		root := &permissionrpc.ApiNewReq{
+			Id:        0,
+			ParentId:  0,
+			Path:      group,
+			Name:      group,
+			Method:    "NULL",
+			Traceable: 0,
+			IsDisable: 0,
+			Children:  children,
+		}
+		list = append(list, root)
+	}
+
+	in := &permissionrpc.SyncApiReq{
+		Apis: list,
+	}
 
 	out, err := l.svcCtx.PermissionRpc.SyncApiList(l.ctx, in)
 	if err != nil {

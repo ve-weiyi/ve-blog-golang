@@ -17,6 +17,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
@@ -28,6 +29,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/config"
 )
@@ -41,35 +43,35 @@ type ServiceContext struct {
 	EmailMQ       *rabbitmq.RabbitmqConn
 	Oauth         map[string]oauth.Oauth
 
-	UserAccountModel      model.UserAccountModel
-	UserOauthModel        model.UserOauthModel
-	UserLoginHistoryModel model.UserLoginHistoryModel
-	RoleModel             model.RoleModel
-	ApiModel              model.ApiModel
-	MenuModel             model.MenuModel
-	UserRoleModel         model.UserRoleModel
-	RoleApiModel          model.RoleApiModel
-	RoleMenuModel         model.RoleMenuModel
+	TUserModel             model.TUserModel
+	TUserOauthModel        model.TUserOauthModel
+	TUserLoginHistoryModel model.TUserLoginHistoryModel
+	TRoleModel             model.TRoleModel
+	TApiModel              model.TApiModel
+	TMenuModel             model.TMenuModel
+	TUserRoleModel         model.TUserRoleModel
+	TRoleApiModel          model.TRoleApiModel
+	TRoleMenuModel         model.TRoleMenuModel
 
 	// blog models
-	WebsiteConfigModel model.WebsiteConfigModel
-	ArticleModel       model.ArticleModel
-	CategoryModel      model.CategoryModel
-	TagModel           model.TagModel
-	ArticleTagModel    model.ArticleTagModel
+	TWebsiteConfigModel model.TWebsiteConfigModel
+	TArticleModel       model.TArticleModel
+	TCategoryModel      model.TCategoryModel
+	TTagModel           model.TTagModel
+	TArticleTagModel    model.TArticleTagModel
 
-	CommentModel      model.CommentModel
-	RemarkModel       model.RemarkModel
-	FriendModel       model.FriendModel
-	TalkModel         model.TalkModel
-	PhotoModel        model.PhotoModel
-	AlbumModel        model.AlbumModel
-	BannerModel       model.BannerModel
-	VisitHistoryModel model.VisitHistoryModel
+	TCommentModel      model.TCommentModel
+	TRemarkModel       model.TRemarkModel
+	TFriendModel       model.TFriendModel
+	TTalkModel         model.TTalkModel
+	TPhotoModel        model.TPhotoModel
+	TAlbumModel        model.TAlbumModel
+	TBannerModel       model.TBannerModel
+	TVisitHistoryModel model.TVisitHistoryModel
 
-	OperationLogModel model.OperationLogModel
-	ChatRecordModel   model.ChatRecordModel
-	UploadRecordModel model.UploadRecordModel
+	TOperationLogModel model.TOperationLogModel
+	TChatRecordModel   model.TChatRecordModel
+	TUploadRecordModel model.TUploadRecordModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -96,42 +98,42 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:                c,
-		Gorm:                  db,
-		Redis:                 rds,
-		LocalCache:            cache,
-		CaptchaHolder:         captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
-		EmailMQ:               mq,
-		Oauth:                 InitOauth(c.OauthConfList),
-		UserAccountModel:      model.NewUserAccountModel(db, rds),
-		UserOauthModel:        model.NewUserOauthModel(db, rds),
-		UserLoginHistoryModel: model.NewUserLoginHistoryModel(db, rds),
-		RoleModel:             model.NewRoleModel(db, rds),
-		ApiModel:              model.NewApiModel(db, rds),
-		MenuModel:             model.NewMenuModel(db, rds),
-		UserRoleModel:         model.NewUserRoleModel(db, rds),
-		RoleApiModel:          model.NewRoleApiModel(db, rds),
-		RoleMenuModel:         model.NewRoleMenuModel(db, rds),
+		Config:                 c,
+		Gorm:                   db,
+		Redis:                  rds,
+		LocalCache:             cache,
+		CaptchaHolder:          captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
+		EmailMQ:                mq,
+		Oauth:                  InitOauth(c.OauthConfList),
+		TUserModel:             model.NewTUserModel(db, rds),
+		TUserOauthModel:        model.NewTUserOauthModel(db, rds),
+		TUserLoginHistoryModel: model.NewTUserLoginHistoryModel(db, rds),
+		TRoleModel:             model.NewTRoleModel(db, rds),
+		TApiModel:              model.NewTApiModel(db, rds),
+		TMenuModel:             model.NewTMenuModel(db, rds),
+		TUserRoleModel:         model.NewTUserRoleModel(db, rds),
+		TRoleApiModel:          model.NewTRoleApiModel(db, rds),
+		TRoleMenuModel:         model.NewTRoleMenuModel(db, rds),
 
 		// blog models
-		WebsiteConfigModel: model.NewWebsiteConfigModel(db, rds),
-		ArticleModel:       model.NewArticleModel(db, rds),
-		CategoryModel:      model.NewCategoryModel(db, rds),
-		TagModel:           model.NewTagModel(db, rds),
-		ArticleTagModel:    model.NewArticleTagModel(db, rds),
+		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db, rds),
+		TArticleModel:       model.NewTArticleModel(db, rds),
+		TCategoryModel:      model.NewTCategoryModel(db, rds),
+		TTagModel:           model.NewTTagModel(db, rds),
+		TArticleTagModel:    model.NewTArticleTagModel(db, rds),
 
-		CommentModel:      model.NewCommentModel(db, rds),
-		RemarkModel:       model.NewRemarkModel(db, rds),
-		FriendModel:       model.NewFriendModel(db, rds),
-		TalkModel:         model.NewTalkModel(db, rds),
-		PhotoModel:        model.NewPhotoModel(db, rds),
-		AlbumModel:        model.NewAlbumModel(db, rds),
-		BannerModel:       model.NewBannerModel(db, rds),
-		VisitHistoryModel: model.NewVisitHistoryModel(db, rds),
+		TCommentModel:      model.NewTCommentModel(db, rds),
+		TRemarkModel:       model.NewTRemarkModel(db, rds),
+		TFriendModel:       model.NewTFriendModel(db, rds),
+		TTalkModel:         model.NewTTalkModel(db, rds),
+		TPhotoModel:        model.NewTPhotoModel(db, rds),
+		TAlbumModel:        model.NewTAlbumModel(db, rds),
+		TBannerModel:       model.NewTBannerModel(db, rds),
+		TVisitHistoryModel: model.NewTVisitHistoryModel(db, rds),
 
-		OperationLogModel: model.NewOperationLogModel(db, rds),
-		ChatRecordModel:   model.NewChatRecordModel(db, rds),
-		UploadRecordModel: model.NewUploadRecordModel(db, rds),
+		TOperationLogModel: model.NewTOperationLogModel(db, rds),
+		TChatRecordModel:   model.NewTChatRecordModel(db, rds),
+		TUploadRecordModel: model.NewTUploadRecordModel(db, rds),
 	}
 }
 

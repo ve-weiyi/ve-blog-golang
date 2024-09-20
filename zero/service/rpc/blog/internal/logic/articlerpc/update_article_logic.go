@@ -28,7 +28,7 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*articlerpc.ArticleDetails, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	entity, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -46,27 +46,27 @@ func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*artic
 	entity.Status = in.Status
 	entity.CategoryId = categoryId
 
-	_, err = l.svcCtx.ArticleModel.Save(l.ctx, entity)
+	_, err = l.svcCtx.TArticleModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
 	// 插入文章标签
-	var ats []*model.ArticleTag
+	var ats []*model.TArticleTag
 	for _, tagName := range in.TagNameList {
 		tagId, err := helper.findOrAddTag(tagName)
 		if err != nil {
 			return nil, err
 		}
 
-		at := &model.ArticleTag{
+		at := &model.TArticleTag{
 			ArticleId: entity.Id,
 			TagId:     tagId,
 		}
 		ats = append(ats, at)
 	}
-	l.svcCtx.ArticleTagModel.DeleteBatch(l.ctx, "article_id = ?", entity.Id)
-	l.svcCtx.ArticleTagModel.InsertBatch(l.ctx, ats...)
+	l.svcCtx.TArticleTagModel.DeleteBatch(l.ctx, "article_id = ?", entity.Id)
+	l.svcCtx.TArticleTagModel.InsertBatch(l.ctx, ats...)
 
 	return &articlerpc.ArticleDetails{}, nil
 }
