@@ -36,7 +36,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQueryReq) (resp *t
 		return nil, err
 	}
 
-	var list []*types.Remark
+	list := make([]*types.Remark, 0)
 	for _, v := range out.List {
 		list = append(list, ConvertRemarkTypes(v))
 	}

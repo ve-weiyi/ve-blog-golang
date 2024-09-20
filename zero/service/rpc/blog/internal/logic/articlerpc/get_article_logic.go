@@ -27,18 +27,18 @@ func NewGetArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetArt
 // 查询文章
 func (l *GetArticleLogic) GetArticle(in *articlerpc.IdReq) (*articlerpc.ArticleDetails, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
-	record, err := l.svcCtx.ArticleModel.FindOne(l.ctx, in.Id)
+	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	acm, err := helper.findCategoryGroupArticle([]*model.Article{record})
+	acm, err := helper.findCategoryGroupArticle([]*model.TArticle{record})
 	if err != nil {
 		return nil, err
 
 	}
 
-	atm, err := helper.findTagGroupArticle([]*model.Article{record})
+	atm, err := helper.findTagGroupArticle([]*model.TArticle{record})
 	if err != nil {
 		return nil, err
 	}

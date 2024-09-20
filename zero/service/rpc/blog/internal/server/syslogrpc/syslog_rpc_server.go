@@ -23,7 +23,7 @@ func NewSyslogRpcServer(svcCtx *svc.ServiceContext) *SyslogRpcServer {
 }
 
 // 创建操作记录
-func (s *SyslogRpcServer) AddOperationLog(ctx context.Context, in *syslogrpc.OperationLog) (*syslogrpc.OperationLog, error) {
+func (s *SyslogRpcServer) AddOperationLog(ctx context.Context, in *syslogrpc.OperationLogNewReq) (*syslogrpc.OperationLogDetails, error) {
 	l := syslogrpclogic.NewAddOperationLogLogic(ctx, s.svcCtx)
 	return l.AddOperationLog(in)
 }
@@ -41,7 +41,13 @@ func (s *SyslogRpcServer) FindOperationLogList(ctx context.Context, in *syslogrp
 }
 
 // 上传文件
-func (s *SyslogRpcServer) AddUploadLog(ctx context.Context, in *syslogrpc.UploadLogReq) (*syslogrpc.UploadLogResp, error) {
+func (s *SyslogRpcServer) AddUploadLog(ctx context.Context, in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetails, error) {
 	l := syslogrpclogic.NewAddUploadLogLogic(ctx, s.svcCtx)
 	return l.AddUploadLog(in)
+}
+
+// 查询文件列表
+func (s *SyslogRpcServer) FindUploadLogList(ctx context.Context, in *syslogrpc.FindUploadLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
+	l := syslogrpclogic.NewFindUploadLogListLogic(ctx, s.svcCtx)
+	return l.FindUploadLogList(in)
 }

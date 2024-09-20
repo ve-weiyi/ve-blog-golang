@@ -27,9 +27,10 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQuery) (resp *types.PageResp, err error) {
 	in := &photorpc.FindAlbumListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
+		Page:      req.Page,
+		PageSize:  req.PageSize,
+		Sorts:     req.Sorts,
+		AlbumName: req.AlbumName,
 	}
 
 	out, err := l.svcCtx.PhotoRpc.FindAlbumList(l.ctx, in)

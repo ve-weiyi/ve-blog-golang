@@ -28,7 +28,7 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindTalkListLogic) FindTalkList(in *talkrpc.FindTalkListReq) (*talkrpc.FindTalkListResp, error) {
 	page, size, sorts, conditions, params := convertTalkQuery(in)
 
-	result, err := l.svcCtx.TalkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TTalkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,6 @@ func convertTalkQuery(in *talkrpc.FindTalkListReq) (page int, size int, sorts st
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
-
 	if sorts == "" {
 		sorts = "id desc"
 	}

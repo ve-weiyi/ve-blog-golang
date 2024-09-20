@@ -3,7 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/global"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -28,17 +28,17 @@ func NewFindArticlePublicListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 func (l *FindArticlePublicListLogic) FindArticlePublicList(in *articlerpc.FindArticleListReq) (*articlerpc.FindArticleListResp, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	in.Status = global.ArticleStatusPublic
-	in.IsDelete = global.ArticleIsDeleteNo
+	in.Status = model.ArticleStatusPublic
+	in.IsDelete = model.ArticleIsDeleteNo
 	page, size, sorts, conditions, params := helper.convertArticleQuery(in)
 
 	// 查询文章信息
-	records, err := l.svcCtx.ArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, err := l.svcCtx.TArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.ArticleModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TArticleModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

@@ -55,12 +55,12 @@ func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQue
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserInfoResp)
+	usm := make(map[int64]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
 
-	var list []*types.Comment
+	list := make([]*types.Comment, 0)
 	for _, v := range out.List {
 		m := ConvertCommentTypes(v, usm)
 		list = append(list, m)

@@ -36,7 +36,7 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 		return nil, err
 	}
 
-	var list []*types.Friend
+	list := make([]*types.Friend, 0)
 	for _, v := range out.List {
 		list = append(list, ConvertFriendTypes(v))
 	}

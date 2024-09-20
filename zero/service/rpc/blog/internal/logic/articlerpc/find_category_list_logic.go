@@ -38,17 +38,20 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
 	if in.CategoryName != "" {
 		conditions += "category_name like ?"
 		params = append(params, "%"+in.CategoryName+"%")
 	}
 
-	records, err := l.svcCtx.CategoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, err := l.svcCtx.TCategoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	count, err := l.svcCtx.CategoryModel.FindCount(l.ctx, conditions, params...)
+	count, err := l.svcCtx.TCategoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}

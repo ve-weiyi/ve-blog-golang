@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -35,7 +35,7 @@ func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyR
 	}
 	id := cast.ToString(in.Id)
 
-	entity, err := l.svcCtx.CommentModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -44,11 +44,11 @@ func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyR
 	likeKey := rediskey.GetUserLikeCommentKey(uid)
 	countKey := rediskey.GetCommentLikeCountKey(id)
 
-	ok, _ := l.svcCtx.Redis.HExists(l.ctx, likeKey, id).Result()
+	ok, _ := l.svcCtx.Redis.SIsMember(l.ctx, likeKey, id).Result()
 	if ok {
 		// -1
 		entity.LikeCount--
-		err = l.svcCtx.Redis.HDel(l.ctx, likeKey, id, "1").Err()
+		err = l.svcCtx.Redis.SRem(l.ctx, likeKey, id).Err()
 		if err != nil {
 			return nil, err
 		}
@@ -59,7 +59,7 @@ func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyR
 	} else {
 		// +1
 		entity.LikeCount++
-		err = l.svcCtx.Redis.HSet(l.ctx, likeKey, id, "1").Err()
+		err = l.svcCtx.Redis.SAdd(l.ctx, likeKey, id).Err()
 		if err != nil {
 			return nil, err
 		}
@@ -69,7 +69,7 @@ func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyR
 		}
 	}
 
-	_, err = l.svcCtx.CommentModel.Save(l.ctx, entity)
+	_, err = l.svcCtx.TCommentModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
