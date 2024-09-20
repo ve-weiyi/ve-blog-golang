@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -29,7 +30,7 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 func (l *AddTalkLogic) AddTalk(in *talkrpc.TalkNewReq) (*talkrpc.TalkDetails, error) {
 	entity := convertTalkIn(in)
 
-	_, err := l.svcCtx.TalkModel.Insert(l.ctx, entity)
+	_, err := l.svcCtx.TTalkModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
@@ -37,8 +38,8 @@ func (l *AddTalkLogic) AddTalk(in *talkrpc.TalkNewReq) (*talkrpc.TalkDetails, er
 	return convertTalkOut(entity), nil
 }
 
-func convertTalkIn(in *talkrpc.TalkNewReq) (out *model.Talk) {
-	out = &model.Talk{
+func convertTalkIn(in *talkrpc.TalkNewReq) (out *model.TTalk) {
+	out = &model.TTalk{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		Content:   in.Content,
@@ -51,7 +52,7 @@ func convertTalkIn(in *talkrpc.TalkNewReq) (out *model.Talk) {
 	return out
 }
 
-func convertTalkOut(in *model.Talk) (out *talkrpc.TalkDetails) {
+func convertTalkOut(in *model.TTalk) (out *talkrpc.TalkDetails) {
 	var images []string
 	jsonconv.JsonToObject(in.Images, &images)
 

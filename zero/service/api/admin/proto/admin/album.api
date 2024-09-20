@@ -27,6 +27,7 @@ type (
 
     AlbumQuery {
         PageQuery
+        AlbumName string `json:"album_name,optional"` // 相册名
     }
 )
 
@@ -45,7 +46,7 @@ service admin-api {
 @server(
     prefix: /admin_api/v1
     group: album
-    middleware: SignToken,JwtToken
+    middleware: SignToken,JwtToken,Operation
 )
 
 service admin-api {

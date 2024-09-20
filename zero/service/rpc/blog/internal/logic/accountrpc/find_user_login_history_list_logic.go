@@ -2,6 +2,7 @@ package accountrpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
@@ -26,12 +27,9 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 
 // 查询用户登录历史
 func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.FindLoginHistoryListReq) (*accountrpc.FindLoginHistoryListResp, error) {
-	page, size := int(in.Page), int(in.PageSize)
-	sorts := ""
-	conditions := "user_id = ?"
-	params := []interface{}{in.UserId}
+	page, size, sorts, conditions, params := convertUserLoginHistoryQuery(in)
 
-	result, err := l.svcCtx.UserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +39,7 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 		list = append(list, convertUserLoginHistoryOut(item))
 	}
 
-	total, err := l.svcCtx.UserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
+	total, err := l.svcCtx.TUserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -52,14 +50,31 @@ func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.
 	return resp, nil
 }
 
-func convertUserLoginHistoryOut(in *model.UserLoginHistory) (out *accountrpc.UserLoginHistory) {
+func convertUserLoginHistoryQuery(in *accountrpc.FindLoginHistoryListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
+	if in.UserId != 0 {
+		conditions += "user_id = ?"
+		params = append(params, in.UserId)
+	}
+
+	return page, size, sorts, conditions, params
+}
+
+func convertUserLoginHistoryOut(in *model.TUserLoginHistory) (out *accountrpc.UserLoginHistory) {
 	out = &accountrpc.UserLoginHistory{
 		Id:        in.Id,
+		UserId:    in.UserId,
 		LoginType: in.LoginType,
 		Agent:     in.Agent,
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
-		LoginTime: in.CreatedAt.String(),
+		LoginAt:   in.LoginAt.Unix(),
+		LogoutAt:  in.LogoutAt.Unix(),
 	}
 
 	return out

@@ -38,7 +38,7 @@ func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*pe
 	page = int(in.Page)
 	size = int(in.PageSize)
 
-	result, err := l.svcCtx.RoleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TRoleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (l *FindRoleListLogic) FindRoleList(in *permissionrpc.FindRoleListReq) (*pe
 	return out, nil
 }
 
-func appendRoleChildren(root *permissionrpc.RoleDetails, list []*model.Role) (leafs []*permissionrpc.RoleDetails) {
+func appendRoleChildren(root *permissionrpc.RoleDetails, list []*model.TRole) (leafs []*permissionrpc.RoleDetails) {
 	for _, item := range list {
 		if item.ParentId == root.Id {
 			leaf := convertRoleOut(item)

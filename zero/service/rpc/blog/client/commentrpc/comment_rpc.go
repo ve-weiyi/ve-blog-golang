@@ -13,22 +13,24 @@ import (
 )
 
 type (
-	BatchResp                = commentrpc.BatchResp
-	CommentDetails           = commentrpc.CommentDetails
-	CommentNewReq            = commentrpc.CommentNewReq
-	CountResp                = commentrpc.CountResp
-	EmptyReq                 = commentrpc.EmptyReq
-	EmptyResp                = commentrpc.EmptyResp
-	FindCommentListReq       = commentrpc.FindCommentListReq
-	FindCommentListResp      = commentrpc.FindCommentListResp
-	FindCommentReplyListReq  = commentrpc.FindCommentReplyListReq
-	FindCommentReplyListResp = commentrpc.FindCommentReplyListResp
-	FindLikeCommentResp      = commentrpc.FindLikeCommentResp
-	IdReq                    = commentrpc.IdReq
-	IdsReq                   = commentrpc.IdsReq
-	UpdateCommentContentReq  = commentrpc.UpdateCommentContentReq
-	UpdateCommentReviewReq   = commentrpc.UpdateCommentReviewReq
-	UserIdReq                = commentrpc.UserIdReq
+	BatchResp                  = commentrpc.BatchResp
+	CommentDetails             = commentrpc.CommentDetails
+	CommentNewReq              = commentrpc.CommentNewReq
+	CountResp                  = commentrpc.CountResp
+	EmptyReq                   = commentrpc.EmptyReq
+	EmptyResp                  = commentrpc.EmptyResp
+	FindCommentListReq         = commentrpc.FindCommentListReq
+	FindCommentListResp        = commentrpc.FindCommentListResp
+	FindCommentReplyListReq    = commentrpc.FindCommentReplyListReq
+	FindCommentReplyListResp   = commentrpc.FindCommentReplyListResp
+	FindLikeCommentResp        = commentrpc.FindLikeCommentResp
+	FindTopicCommentCountsReq  = commentrpc.FindTopicCommentCountsReq
+	FindTopicCommentCountsResp = commentrpc.FindTopicCommentCountsResp
+	IdReq                      = commentrpc.IdReq
+	IdsReq                     = commentrpc.IdsReq
+	UpdateCommentContentReq    = commentrpc.UpdateCommentContentReq
+	UpdateCommentReviewReq     = commentrpc.UpdateCommentReviewReq
+	UserIdReq                  = commentrpc.UserIdReq
 
 	CommentRpc interface {
 		// 创建评论
@@ -41,8 +43,10 @@ type (
 		FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error)
 		// 查询评论回复列表
 		FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
+		// 查询评论回复数量
+		FindTopicCommentCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindTopicCommentCountsResp, error)
 		// 更新评论审核状态
-		UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*CommentDetails, error)
+		UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 更新评论
 		UpdateCommentContent(ctx context.Context, in *UpdateCommentContentReq, opts ...grpc.CallOption) (*CommentDetails, error)
 		// 点赞评论
@@ -92,8 +96,14 @@ func (m *defaultCommentRpc) FindCommentReplyList(ctx context.Context, in *FindCo
 	return client.FindCommentReplyList(ctx, in, opts...)
 }
 
+// 查询评论回复数量
+func (m *defaultCommentRpc) FindTopicCommentCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindTopicCommentCountsResp, error) {
+	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
+	return client.FindTopicCommentCounts(ctx, in, opts...)
+}
+
 // 更新评论审核状态
-func (m *defaultCommentRpc) UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+func (m *defaultCommentRpc) UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := commentrpc.NewCommentRpcClient(m.cli.Conn())
 	return client.UpdateCommentReview(ctx, in, opts...)
 }

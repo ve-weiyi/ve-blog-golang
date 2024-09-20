@@ -61,7 +61,7 @@ type PermissionRpcClient interface {
 	// 查询接口列表
 	FindApiList(ctx context.Context, in *FindApiListReq, opts ...grpc.CallOption) (*FindApiListResp, error)
 	// 同步接口列表
-	SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
+	SyncApiList(ctx context.Context, in *SyncApiReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 清空接口列表
 	CleanApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 创建菜单
@@ -144,7 +144,7 @@ func (c *permissionRpcClient) FindApiList(ctx context.Context, in *FindApiListRe
 	return out, nil
 }
 
-func (c *permissionRpcClient) SyncApiList(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *permissionRpcClient) SyncApiList(ctx context.Context, in *SyncApiReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
 	err := c.cc.Invoke(ctx, PermissionRpc_SyncApiList_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -328,7 +328,7 @@ type PermissionRpcServer interface {
 	// 查询接口列表
 	FindApiList(context.Context, *FindApiListReq) (*FindApiListResp, error)
 	// 同步接口列表
-	SyncApiList(context.Context, *EmptyReq) (*BatchResp, error)
+	SyncApiList(context.Context, *SyncApiReq) (*BatchResp, error)
 	// 清空接口列表
 	CleanApiList(context.Context, *EmptyReq) (*BatchResp, error)
 	// 创建菜单
@@ -384,7 +384,7 @@ func (UnimplementedPermissionRpcServer) DeleteApi(context.Context, *IdsReq) (*Ba
 func (UnimplementedPermissionRpcServer) FindApiList(context.Context, *FindApiListReq) (*FindApiListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindApiList not implemented")
 }
-func (UnimplementedPermissionRpcServer) SyncApiList(context.Context, *EmptyReq) (*BatchResp, error) {
+func (UnimplementedPermissionRpcServer) SyncApiList(context.Context, *SyncApiReq) (*BatchResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncApiList not implemented")
 }
 func (UnimplementedPermissionRpcServer) CleanApiList(context.Context, *EmptyReq) (*BatchResp, error) {
@@ -527,7 +527,7 @@ func _PermissionRpc_FindApiList_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _PermissionRpc_SyncApiList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
+	in := new(SyncApiReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -539,7 +539,7 @@ func _PermissionRpc_SyncApiList_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: PermissionRpc_SyncApiList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PermissionRpcServer).SyncApiList(ctx, req.(*EmptyReq))
+		return srv.(PermissionRpcServer).SyncApiList(ctx, req.(*SyncApiReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

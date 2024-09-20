@@ -57,13 +57,13 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserInfoResp)
+	usm := make(map[int64]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
 
 	// 查找评论回复列表
-	var list []*types.CommentReply
+	list := make([]*types.CommentReply, 0)
 	for _, v := range out.List {
 		m := ConvertCommentReplyTypes(v, usm)
 		list = append(list, m)

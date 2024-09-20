@@ -45,8 +45,8 @@ func TestLogger(t *testing.T) {
 	state, err := trace.ParseTraceState("key1=value1,key2=value2")
 	assert.Equal(t, nil, err)
 	sc := trace.NewSpanContext(trace.SpanContextConfig{
-		TraceId:    traceId,
-		SpanId:     spanId,
+		TraceID:    traceId,
+		SpanID:     spanId,
 		TraceState: state,
 		Remote:     true,
 	})

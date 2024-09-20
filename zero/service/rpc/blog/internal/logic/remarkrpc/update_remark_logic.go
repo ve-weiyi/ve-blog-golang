@@ -3,7 +3,6 @@ package remarkrpclogic
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
@@ -26,14 +25,13 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 
 // 更新留言
 func (l *UpdateRemarkLogic) UpdateRemark(in *remarkrpc.RemarkUpdateReq) (*remarkrpc.RemarkDetails, error) {
-	entity := &model.Remark{
-		Id:       in.Id,
-		IsReview: in.IsReview,
-		//CreatedAt:      time.Time{},
-		//UpdatedAt:      time.Time{},
+	entity, err := l.svcCtx.TRemarkModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
 	}
 
-	_, err := l.svcCtx.RemarkModel.Update(l.ctx, entity)
+	entity.IsReview = in.IsReview
+	_, err = l.svcCtx.TRemarkModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}

@@ -29,7 +29,7 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 func (l *FindAlbumListLogic) FindAlbumList(in *photorpc.FindAlbumListReq) (*photorpc.FindAlbumListResp, error) {
 	page, size, sorts, conditions, params := convertAlbumQuery(in)
 
-	result, err := l.svcCtx.AlbumModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TAlbumModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,6 @@ func convertAlbumQuery(in *photorpc.FindAlbumListReq) (page int, size int, sorts
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
-
 	if sorts == "" {
 		sorts = "id desc"
 	}
@@ -66,7 +65,7 @@ func convertAlbumQuery(in *photorpc.FindAlbumListReq) (page int, size int, sorts
 	return
 }
 
-func findPhotoCountGroupAlbum(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.Album) (acm map[int64]int, err error) {
+func findPhotoCountGroupAlbum(ctx context.Context, svcCtx *svc.ServiceContext, list []*model.TAlbum) (acm map[int64]int, err error) {
 	var ids []int64
 	for _, v := range list {
 		ids = append(ids, v.Id)
@@ -78,7 +77,7 @@ func findPhotoCountGroupAlbum(ctx context.Context, svcCtx *svc.ServiceContext, l
 		PhotoCount int   `gorm:"column:photo_count"`
 	}
 
-	err = svcCtx.Gorm.Model(&model.Photo{}).
+	err = svcCtx.Gorm.Model(&model.TPhoto{}).
 		Select("album_id, COUNT(*) as photo_count").
 		Where("album_id IN ?", ids).
 		Group("album_id").

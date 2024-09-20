@@ -35,7 +35,7 @@ func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.ArticleHomeQue
 		return nil, err
 	}
 
-	var list []*types.ArticleHome
+	list := make([]*types.ArticleHome, 0)
 	// 转换数据
 	for _, v := range out.List {
 		m := ConvertArticleHomeTypes(v)
