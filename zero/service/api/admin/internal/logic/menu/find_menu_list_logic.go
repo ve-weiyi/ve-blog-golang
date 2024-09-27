@@ -30,6 +30,7 @@ func (l *FindMenuListLogic) FindMenuList(req *types.MenuQuery) (resp *types.Page
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Name:     req.Name,
+		Title:    req.Title,
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindMenuList(l.ctx, in)

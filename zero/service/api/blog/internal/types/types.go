@@ -290,7 +290,6 @@ type Remark struct {
 	MessageContent string `json:"message_content"` // 留言内容
 	IpAddress      string `json:"ip_address"`      // 用户ip
 	IpSource       string `json:"ip_source"`       // 用户地址
-	Time           int64  `json:"time"`            // 弹幕速度
 	IsReview       int64  `json:"is_review"`       // 是否审核
 	CreatedAt      int64  `json:"created_at"`      // 发布时间
 	UpdatedAt      int64  `json:"updated_at"`      // 更新时间

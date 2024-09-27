@@ -2,7 +2,6 @@ package accountrpclogic
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
@@ -11,48 +10,37 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindUserOnlineListLogic struct {
+type FindUserInfoListLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindUserOnlineListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserOnlineListLogic {
-	return &FindUserOnlineListLogic{
+func NewFindUserInfoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserInfoListLogic {
+	return &FindUserInfoListLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 查找在线用户列表
-func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
+// 查找用户信息列表
+func (l *FindUserInfoListLogic) FindUserInfoList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
 	page, size, sorts, conditions, params := convertQuery(in)
-	if conditions != "" {
-		conditions += " and "
-	}
-	conditions += "login_at > logout_at and login_at > ?"
-	params = append(params, time.Now().Add(-time.Hour*24*7))
 
-	// 查找在线用户
-	result, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	result, err := l.svcCtx.TUserModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	total, err := l.svcCtx.TUserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
+	total, err := l.svcCtx.TUserModel.FindCount(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var uids []int64
 	for _, item := range result {
-		uids = append(uids, item.UserId)
-	}
-
-	users, err := l.svcCtx.TUserModel.FindALL(l.ctx, "id in (?)", uids)
-	if err != nil {
-		return nil, err
+		uids = append(uids, item.Id)
 	}
 
 	// 查找用户角色
@@ -75,7 +63,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	}
 
 	var list []*accountrpc.UserInfoResp
-	for _, item := range users {
+	for _, item := range result {
 
 		var roles []*model.TRole
 		ur, _ := ursMap[item.Id]

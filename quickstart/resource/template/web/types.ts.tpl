@@ -2,7 +2,7 @@
 {{ .Comment }}
 export interface {{ .Name }} {{ if .Extends }}extends {{Join .Extends}} {{ end }}{
   {{- range .Fields }}
-  {{ .Name }}?: {{ .Type }}; {{ .Comment }}
+  {{ .Name }}{{ if .Nullable }}?{{ end }}: {{ .Type }}; {{ .Comment }}
   {{- end }}
 }
 {{ end -}}

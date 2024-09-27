@@ -240,9 +240,10 @@ type TsType struct {
 }
 
 type TsTypeField struct {
-	Name    string
-	Type    string
-	Comment string
+	Name     string
+	Type     string
+	Comment  string
+	Nullable bool
 }
 
 func convertTypeTs(st aspec.Type) TsType {
@@ -258,9 +259,10 @@ func convertTypeTs(st aspec.Type) TsType {
 				ex = append(ex, v.Type.Name())
 			} else {
 				m := TsTypeField{
-					Comment: v.Comment,
-					Name:    jsonconv.Case2Snake(v.Name),
-					Type:    convertx.ConvertGoTypeToTsType(v.Type.Name()),
+					Comment:  v.Comment,
+					Name:     jsonconv.Case2Snake(v.Name),
+					Type:     convertx.ConvertGoTypeToTsType(v.Type.Name()),
+					Nullable: strings.HasPrefix(v.Type.Name(), "*") || strings.Contains(v.Tag, "optional"),
 				}
 				tfs = append(tfs, m)
 			}

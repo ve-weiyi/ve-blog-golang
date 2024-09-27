@@ -25,7 +25,7 @@ func NewDeleteRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 
 // 删除角色
 func (l *DeleteRoleLogic) DeleteRole(in *permissionrpc.IdsReq) (*permissionrpc.BatchResp, error) {
-	rows, err := l.svcCtx.TRoleModel.DeleteBatch(l.ctx, "id in (?) or parent_id in (?) ", in.Ids)
+	rows, err := l.svcCtx.TRoleModel.DeleteBatch(l.ctx, "id in (?) or parent_id in (?) ", in.Ids, in.Ids)
 	if err != nil {
 		return nil, err
 	}

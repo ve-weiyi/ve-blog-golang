@@ -89,6 +89,22 @@ message OauthLoginUrlResp {
   string url = 1;// 授权地址
 }
 
+message User {
+  int64 user_id = 1; // 用户id
+  string username = 2;// 用户名
+  string nickname = 3;// 用户昵称
+  string avatar = 4;// 用户头像
+  string email = 5;// 用户邮箱
+  string phone = 6;// 用户手机号
+  string info = 7;// 用户信息
+  int64 status = 8;
+  string login_type = 9;
+  string ip_address = 10;// ip host
+  string ip_source = 11;// ip 源
+  int64 created_at = 12;
+  int64 updated_at = 13;
+}
+
 message UserInfoResp {
   int64 user_id = 1; // 用户id
   string username = 2;// 用户名
@@ -114,11 +130,13 @@ message UserRoleLabel{
 
 message UserLoginHistory {
   int64 id = 1;
-  string login_type = 2;// 登录类型
-  string agent = 3;// 代理
-  string ip_address = 4;// ip host
-  string ip_source = 5;// ip 源
-  string login_time = 6;// 创建时间
+  int64 user_id = 2; // 用户id
+  string login_type = 3;// 登录类型
+  string agent = 4;// 代理
+  string ip_address = 5;// ip host
+  string ip_source = 6;// ip 源
+  int64 login_at = 7;// 登录时间
+  int64 logout_at = 8;// 登出时间
 }
 
 message UserRegion {
@@ -141,7 +159,8 @@ message UpdateUserStatusReq {
 message FindUserListReq {
   int64 page = 1;
   int64 page_size = 2;
-  string username = 3;
+  repeated string sorts = 3; // 排序
+  string username = 13;
   string nickname = 4;
   string email = 5;
   string phone = 6;
@@ -150,6 +169,11 @@ message FindUserListReq {
 }
 
 message FindUserListResp{
+  repeated User list = 1;
+  int64 total = 2;
+}
+
+message FindUserInfoListResp{
   repeated UserInfoResp list = 1;
   int64 total = 2;
 }
@@ -157,7 +181,8 @@ message FindUserListResp{
 message FindLoginHistoryListReq {
   int64 page = 1;
   int64 page_size = 2;
-  int64 user_id = 3; // 用户id
+  repeated string sorts = 3; // 排序
+  int64 user_id = 4; // 用户id
 }
 
 message FindLoginHistoryListResp {
@@ -208,7 +233,9 @@ service AccountRpc {
   // 查找用户列表
   rpc FindUserList(FindUserListReq) returns(FindUserListResp);
   // 查找在线用户列表
-  rpc FindUserOnlineList(FindUserListReq) returns(FindUserListResp);
+  rpc FindUserOnlineList(FindUserListReq) returns(FindUserInfoListResp);
+  // 查找用户信息列表
+  rpc FindUserInfoList(FindUserListReq) returns(FindUserInfoListResp);
   // 查询用户登录历史
   rpc FindUserLoginHistoryList(FindLoginHistoryListReq) returns(FindLoginHistoryListResp);
 

@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateUserRolesLogic struct {
+type UpdateAccountRolesLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 修改用户角色
-func NewUpdateUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserRolesLogic {
-	return &UpdateUserRolesLogic{
+func NewUpdateAccountRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateAccountRolesLogic {
+	return &UpdateAccountRolesLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UpdateUserRolesLogic) UpdateUserRoles(req *types.UpdateUserRolesReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateAccountRolesLogic) UpdateAccountRoles(req *types.UpdateAccountRolesReq) (resp *types.EmptyResp, err error) {
 	in := &permissionrpc.UpdateUserRoleReq{
 		UserId:  req.UserId,
 		RoleIds: req.RoleIds,

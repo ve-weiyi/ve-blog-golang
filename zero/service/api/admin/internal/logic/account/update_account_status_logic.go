@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateUserStatusLogic struct {
+type UpdateAccountStatusLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 修改用户状态
-func NewUpdateUserStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserStatusLogic {
-	return &UpdateUserStatusLogic{
+func NewUpdateAccountStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateAccountStatusLogic {
+	return &UpdateAccountStatusLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UpdateUserStatusLogic) UpdateUserStatus(req *types.UpdateUserStatusReq) (resp *types.EmptyResp, err error) {
+func (l *UpdateAccountStatusLogic) UpdateAccountStatus(req *types.UpdateAccountStatusReq) (resp *types.EmptyResp, err error) {
 	in := &accountrpc.UpdateUserStatusReq{
 		UserId: req.UserId,
 		Status: req.Status,

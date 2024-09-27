@@ -36,18 +36,25 @@ type (
 
 	// 表字段定义
 	TMenu struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
-		ParentId  int64     `json:"parent_id" gorm:"column:parent_id" `   // 父id
-		Title     string    `json:"title" gorm:"column:title" `           // 菜单标题
-		Path      string    `json:"path" gorm:"column:path" `             // 路由路径
-		Name      string    `json:"name" gorm:"column:name" `             // 路由名称
-		Component string    `json:"component" gorm:"column:component" `   // 路由组件
-		Redirect  string    `json:"redirect" gorm:"column:redirect" `     // 路由重定向
-		Type      int64     `json:"type" gorm:"column:type" `             // 菜单类型
-		Rank      int64     `json:"rank" gorm:"column:rank" `             // 排序
-		Extra     string    `json:"extra" gorm:"column:extra" `           // 菜单元数据
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id         int64     `json:"id" gorm:"column:id" `                   // 主键
+		ParentId   int64     `json:"parent_id" gorm:"column:parent_id" `     // 父id
+		Path       string    `json:"path" gorm:"column:path" `               // 路由路径
+		Name       string    `json:"name" gorm:"column:name" `               // 路由名称
+		Component  string    `json:"component" gorm:"column:component" `     // 路由组件
+		Redirect   string    `json:"redirect" gorm:"column:redirect" `       // 路由重定向
+		Type       int64     `json:"type" gorm:"column:type" `               // 菜单类型
+		Title      string    `json:"title" gorm:"column:title" `             // 菜单标题
+		Icon       string    `json:"icon" gorm:"column:icon" `               // 菜单图标
+		Rank       int64     `json:"rank" gorm:"column:rank" `               // 排序
+		Perm       string    `json:"perm" gorm:"column:perm" `               // 权限标识
+		Params     string    `json:"params" gorm:"column:params" `           // 路由参数
+		KeepAlive  int64     `json:"keep_alive" gorm:"column:keep_alive" `   // 是否缓存
+		AlwaysShow int64     `json:"always_show" gorm:"column:always_show" ` // 是否一直显示菜单
+		IsHidden   int64     `json:"is_hidden" gorm:"column:is_hidden" `     // 是否隐藏
+		IsDisable  int64     `json:"is_disable" gorm:"column:is_disable" `   // 是否禁用
+		Extra      string    `json:"extra" gorm:"column:extra" `             // 菜单元数据
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
 	}
 
 	// 接口实现

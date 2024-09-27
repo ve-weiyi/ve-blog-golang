@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 修改用户信息
-func UpdateUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 获取用户分布地区
+func FindAccountAreaAnalysisHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UserInfoReq
+		var req types.AccountQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewUpdateUserInfoLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateUserInfo(&req)
+		l := account.NewFindAccountAreaAnalysisLogic(r.Context(), svcCtx)
+		resp, err := l.FindAccountAreaAnalysis(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

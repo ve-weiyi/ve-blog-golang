@@ -113,9 +113,15 @@ func (s *AccountRpcServer) FindUserList(ctx context.Context, in *accountrpc.Find
 }
 
 // 查找在线用户列表
-func (s *AccountRpcServer) FindUserOnlineList(ctx context.Context, in *accountrpc.FindUserListReq) (*accountrpc.FindUserListResp, error) {
+func (s *AccountRpcServer) FindUserOnlineList(ctx context.Context, in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
 	l := accountrpclogic.NewFindUserOnlineListLogic(ctx, s.svcCtx)
 	return l.FindUserOnlineList(in)
+}
+
+// 查找用户信息列表
+func (s *AccountRpcServer) FindUserInfoList(ctx context.Context, in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
+	l := accountrpclogic.NewFindUserInfoListLogic(ctx, s.svcCtx)
+	return l.FindUserInfoList(in)
 }
 
 // 查询用户登录历史

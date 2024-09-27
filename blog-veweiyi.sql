@@ -280,13 +280,17 @@ DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父id',
-  `title` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单标题',
   `path` varchar(64) NOT NULL DEFAULT '' COMMENT '路由路径',
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '路由名称',
   `component` varchar(256) NOT NULL DEFAULT '' COMMENT '路由组件',
   `redirect` varchar(256) NOT NULL DEFAULT '' COMMENT '路由重定向',
   `type` tinyint NOT NULL DEFAULT '0' COMMENT '菜单类型',
+  `title` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单标题',
+  `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单图标',
   `rank` int NOT NULL DEFAULT '0' COMMENT '排序',
+  `perms` varchar(64) NOT NULL DEFAULT '' COMMENT '权限标识',
+  `is_hidden` tinyint NOT NULL DEFAULT '0' COMMENT '是否隐藏',
+  `is_disable` tinyint NOT NULL DEFAULT '0' COMMENT '是否禁用',
   `extra` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '菜单元数据',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -395,6 +399,7 @@ CREATE TABLE `t_role` (
 -- Records of role
 -- ----------------------------
 BEGIN;
+INSERT INTO `t_role` (`id`, `parent_id`, `role_domain`, `role_name`, `role_comment`, `is_disable`, `is_default`, `created_at`, `updated_at`) VALUES (1, 0, 'blog', 'super-admin', '超级管理员', 0, 1, '2023-05-30 20:53:04', '2024-07-16 16:26:58');
 COMMIT;
 
 -- ----------------------------
@@ -545,7 +550,7 @@ CREATE TABLE `t_user_login_history` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `uk_uuid` (`user_id`) USING BTREE
+  KEY `idx_uuid` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
 
 -- ----------------------------
@@ -592,6 +597,7 @@ CREATE TABLE `t_user_role` (
 -- Records of user_role
 -- ----------------------------
 BEGIN;
+INSERT INTO `t_user_role` (`id`, `user_id`, `role_id`) VALUES (1, 1, 1);
 COMMIT;
 
 -- ----------------------------

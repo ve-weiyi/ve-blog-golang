@@ -53,7 +53,6 @@ func convertAlbumQuery(in *photorpc.FindAlbumListReq) (page int, size int, sorts
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
-
 	if sorts == "" {
 		sorts = "id desc"
 	}

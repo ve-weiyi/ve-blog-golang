@@ -1,6 +1,8 @@
 package permissionrpclogic
 
 import (
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/permissionrpc"
@@ -8,33 +10,52 @@ import (
 
 func convertMenuIn(in *permissionrpc.MenuNewReq) (out *model.TMenu) {
 	out = &model.TMenu{
-		Id:        in.Id,
-		ParentId:  in.ParentId,
-		Title:     in.Name,
-		Path:      in.Path,
-		Name:      in.Name,
-		Component: in.Component,
-		Redirect:  in.Redirect,
-		Type:      in.Type,
-		Extra:     in.Extra,
+		Id:         in.Id,
+		ParentId:   in.ParentId,
+		Path:       in.Path,
+		Name:       in.Name,
+		Component:  in.Component,
+		Redirect:   in.Redirect,
+		Type:       in.Meta.Type,
+		Title:      in.Meta.Title,
+		Icon:       in.Meta.Icon,
+		Rank:       in.Meta.Rank,
+		Perm:       in.Meta.Perm,
+		Params:     in.Meta.Params,
+		KeepAlive:  in.Meta.KeepAlive,
+		AlwaysShow: in.Meta.AlwaysShow,
+		IsHidden:   in.Meta.IsHidden,
+		IsDisable:  in.Meta.IsDisable,
+		Extra:      jsonconv.ObjectToJson(in.Meta),
 	}
 
 	return out
 }
 
 func convertMenuOut(in *model.TMenu) (out *permissionrpc.MenuDetails) {
+
 	out = &permissionrpc.MenuDetails{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
-		Title:     in.Name,
 		Path:      in.Path,
 		Name:      in.Name,
 		Component: in.Component,
 		Redirect:  in.Redirect,
-		Type:      in.Type,
-		Extra:     in.Extra,
 		CreatedAt: in.CreatedAt.Unix(),
 		UpdatedAt: in.UpdatedAt.Unix(),
+		Children:  nil,
+		Meta: &permissionrpc.MenuMeta{
+			Type:       in.Type,
+			Title:      in.Title,
+			Icon:       in.Icon,
+			Rank:       in.Rank,
+			Perm:       in.Perm,
+			Params:     in.Params,
+			KeepAlive:  in.KeepAlive,
+			AlwaysShow: in.AlwaysShow,
+			IsHidden:   in.IsHidden,
+			IsDisable:  in.IsDisable,
+		},
 	}
 	return out
 }

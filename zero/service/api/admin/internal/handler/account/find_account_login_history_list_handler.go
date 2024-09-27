@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 获取用户分布地区
-func GetUserAreaAnalysisHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 查询用户登录历史
+func FindAccountLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.AccountQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewGetUserAreaAnalysisLogic(r.Context(), svcCtx)
-		resp, err := l.GetUserAreaAnalysis(&req)
+		l := account.NewFindAccountLoginHistoryListLogic(r.Context(), svcCtx)
+		resp, err := l.FindAccountLoginHistoryList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

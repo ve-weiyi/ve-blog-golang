@@ -57,7 +57,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserInfoResp)
+	usm := make(map[int64]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -92,7 +92,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.Comment) {
+func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.User) (out *types.Comment) {
 	out = &types.Comment{
 		Id:               in.Id,
 		TopicId:          in.TopicId,
@@ -126,7 +126,7 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 	return
 }
 
-func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[int64]*accountrpc.User) (out *types.CommentReply) {
 	out = &types.CommentReply{
 		Id:             req.Id,
 		TopicId:        req.TopicId,
@@ -158,7 +158,7 @@ func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[int64]*acc
 	return
 }
 
-func ConvertCommentUserInfoToPb(in *accountrpc.UserInfoResp) (out *types.CommentUserInfo) {
+func ConvertCommentUserInfoToPb(in *accountrpc.User) (out *types.CommentUserInfo) {
 	return &types.CommentUserInfo{
 		Id:       in.UserId,
 		Nickname: in.Nickname,

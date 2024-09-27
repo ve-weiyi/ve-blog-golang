@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 查询用户登录历史
-func FindUserLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 修改用户状态
+func UpdateAccountStatusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UserQuery
+		var req types.UpdateAccountStatusReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewFindUserLoginHistoryListLogic(r.Context(), svcCtx)
-		resp, err := l.FindUserLoginHistoryList(&req)
+		l := account.NewUpdateAccountStatusLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateAccountStatus(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

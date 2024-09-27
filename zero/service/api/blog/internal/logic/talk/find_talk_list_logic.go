@@ -49,7 +49,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserInfoResp)
+	usm := make(map[int64]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -68,7 +68,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	return resp, nil
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.Talk) {
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User) (out *types.Talk) {
 	out = &types.Talk{
 		Id:           in.Id,
 		UserId:       in.UserId,

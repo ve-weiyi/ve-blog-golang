@@ -1,9 +1,10 @@
-package account
+package user
 
 import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
@@ -37,5 +38,40 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	return ConvertUserTypes(info), nil
+	return ConvertUserInfoTypes(info), nil
+}
+
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
+	roles := make([]*types.UserRoleLabel, 0)
+	for _, v := range in.Roles {
+		m := &types.UserRoleLabel{
+			RoleId:      v.RoleId,
+			RoleName:    v.RoleName,
+			RoleComment: v.RoleComment,
+		}
+
+		roles = append(roles, m)
+	}
+
+	var info types.UserInfoExt
+	jsonconv.JsonToObject(in.Info, &info)
+
+	out := &types.UserInfoResp{
+		UserId:      in.UserId,
+		Username:    in.Username,
+		Nickname:    in.Nickname,
+		Avatar:      in.Avatar,
+		Email:       in.Email,
+		Phone:       in.Phone,
+		Status:      in.Status,
+		LoginType:   in.LoginType,
+		IpAddress:   in.IpAddress,
+		IpSource:    in.IpSource,
+		CreatedAt:   in.CreatedAt,
+		UpdatedAt:   in.UpdatedAt,
+		Roles:       roles,
+		UserInfoExt: info,
+	}
+
+	return out
 }

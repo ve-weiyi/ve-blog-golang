@@ -15,6 +15,168 @@
     "application/json"
   ],
   "paths": {
+    "/admin_api/v1/account/find_account_area_analysis": {
+      "post": {
+        "summary": "获取用户分布地区",
+        "operationId": "FindAccountAreaAnalysis",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/admin_api/v1/account/find_account_list": {
+      "post": {
+        "summary": "查询用户列表",
+        "operationId": "FindAccountList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/admin_api/v1/account/find_account_login_history_list": {
+      "post": {
+        "summary": "查询用户登录历史",
+        "operationId": "FindAccountLoginHistoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/admin_api/v1/account/find_account_online_list": {
+      "post": {
+        "summary": "查询在线用户列表",
+        "operationId": "FindAccountOnlineList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountQuery"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/admin_api/v1/account/update_account_roles": {
+      "post": {
+        "summary": "修改用户角色",
+        "operationId": "UpdateAccountRoles",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateAccountRolesReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
+    "/admin_api/v1/account/update_account_status": {
+      "post": {
+        "summary": "修改用户状态",
+        "operationId": "UpdateAccountStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateAccountStatusReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
     "/admin_api/v1/admin": {
       "get": {
         "summary": "获取后台首页信息",
@@ -696,7 +858,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/EmptyReq"
+              "$ref": "#/definitions/SyncApiReq"
             }
           }
         ],
@@ -1291,7 +1453,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MenuBackDTO"
+              "$ref": "#/definitions/MenuNewReq"
             }
           }
         ],
@@ -1453,7 +1615,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MenuBackDTO"
+              "$ref": "#/definitions/MenuNewReq"
             }
           }
         ],
@@ -2294,87 +2456,6 @@
         ]
       }
     },
-    "/admin_api/v1/user/find_online_user_list": {
-      "post": {
-        "summary": "查询在线用户列表",
-        "operationId": "FindOnlineUserList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserQuery"
-            }
-          }
-        ],
-        "tags": [
-          "account"
-        ]
-      }
-    },
-    "/admin_api/v1/user/find_user_list": {
-      "post": {
-        "summary": "查询用户列表",
-        "operationId": "FindUserList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserQuery"
-            }
-          }
-        ],
-        "tags": [
-          "account"
-        ]
-      }
-    },
-    "/admin_api/v1/user/find_user_login_history_list": {
-      "post": {
-        "summary": "查询用户登录历史",
-        "operationId": "FindUserLoginHistoryList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserQuery"
-            }
-          }
-        ],
-        "tags": [
-          "account"
-        ]
-      }
-    },
     "/admin_api/v1/user/get_user_apis": {
       "get": {
         "summary": "获取用户接口权限",
@@ -2388,34 +2469,7 @@
           }
         },
         "tags": [
-          "account"
-        ]
-      }
-    },
-    "/admin_api/v1/user/get_user_area_analysis": {
-      "post": {
-        "summary": "获取用户分布地区",
-        "operationId": "GetUserAreaAnalysis",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/EmptyReq"
-            }
-          }
-        ],
-        "tags": [
-          "account"
+          "user"
         ]
       }
     },
@@ -2432,7 +2486,34 @@
           }
         },
         "tags": [
-          "account"
+          "user"
+        ]
+      }
+    },
+    "/admin_api/v1/user/get_user_login_history_list": {
+      "post": {
+        "summary": "查询用户登录历史",
+        "operationId": "GetUserLoginHistoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLoginHistoryQuery"
+            }
+          }
+        ],
+        "tags": [
+          "user"
         ]
       }
     },
@@ -2449,7 +2530,7 @@
           }
         },
         "tags": [
-          "account"
+          "user"
         ]
       }
     },
@@ -2466,7 +2547,7 @@
           }
         },
         "tags": [
-          "account"
+          "user"
         ]
       }
     },
@@ -2493,61 +2574,7 @@
           }
         ],
         "tags": [
-          "account"
-        ]
-      }
-    },
-    "/admin_api/v1/user/update_user_roles": {
-      "post": {
-        "summary": "修改用户角色",
-        "operationId": "UpdateUserRoles",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/EmptyResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateUserRolesReq"
-            }
-          }
-        ],
-        "tags": [
-          "account"
-        ]
-      }
-    },
-    "/admin_api/v1/user/update_user_status": {
-      "post": {
-        "summary": "修改用户状态",
-        "operationId": "UpdateUserStatus",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/EmptyResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateUserStatusReq"
-            }
-          }
-        ],
-        "tags": [
-          "account"
+          "user"
         ]
       }
     }
@@ -2564,6 +2591,111 @@
       "required": [
         "content"
       ]
+    },
+    "AccountArea": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AccountArea",
+      "required": [
+        "name",
+        "value"
+      ]
+    },
+    "AccountLoginHistory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string",
+          "description": " 用户名"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "login_type": {
+          "type": "string",
+          "description": " 登录类型"
+        },
+        "agent": {
+          "type": "string",
+          "description": " 代理"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " ip host"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip 源"
+        },
+        "login_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 登录时间"
+        },
+        "logout_out": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 登出时间"
+        }
+      },
+      "title": "AccountLoginHistory",
+      "required": [
+        "username",
+        "nickname",
+        "avatar",
+        "login_type",
+        "agent",
+        "ip_address",
+        "ip_source",
+        "login_at",
+        "logout_out"
+      ]
+    },
+    "AccountQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当前页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 排序"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        }
+      },
+      "title": "AccountQuery"
     },
     "AdminHomeInfo": {
       "type": "object",
@@ -2754,6 +2886,10 @@
             "type": "string"
           },
           "description": " 排序"
+        },
+        "album_name": {
+          "type": "string",
+          "description": " 相册名"
         }
       },
       "title": "AlbumQuery"
@@ -2765,6 +2901,11 @@
           "type": "integer",
           "format": "int64",
           "description": " 主键id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
         },
         "name": {
           "type": "string",
@@ -2778,20 +2919,15 @@
           "type": "string",
           "description": " api请求方法"
         },
-        "parent_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 分组id"
-        },
         "traceable": {
           "type": "integer",
           "format": "int64",
           "description": " 是否追溯操作记录 0需要，1是"
         },
-        "status": {
+        "is_disable": {
           "type": "integer",
           "format": "int64",
-          "description": " 状态 1开，2关"
+          "description": " 是否禁用 0否 1是"
         },
         "created_at": {
           "type": "integer",
@@ -2812,12 +2948,11 @@
       },
       "title": "ApiBackDTO",
       "required": [
+        "parent_id",
         "name",
         "path",
         "method",
-        "parent_id",
         "traceable",
-        "status",
         "created_at",
         "updated_at",
         "children"
@@ -2831,6 +2966,11 @@
           "format": "int64",
           "description": " 主键id"
         },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 分组id"
+        },
         "name": {
           "type": "string",
           "description": " api名称"
@@ -2843,30 +2983,24 @@
           "type": "string",
           "description": " api请求方法"
         },
-        "parent_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 分组id"
-        },
         "traceable": {
           "type": "integer",
           "format": "int64",
           "description": " 是否追溯操作记录 0需要，1是"
         },
-        "status": {
+        "is_disable": {
           "type": "integer",
           "format": "int64",
-          "description": " 状态 1开，2关"
+          "description": " 是否禁用 0否 1是"
         }
       },
       "title": "ApiNewReq",
       "required": [
+        "parent_id",
         "name",
         "path",
         "method",
-        "parent_id",
-        "traceable",
-        "status"
+        "traceable"
       ]
     },
     "ApiQuery": {
@@ -2892,6 +3026,10 @@
         "name": {
           "type": "string",
           "description": " api名称"
+        },
+        "path": {
+          "type": "string",
+          "description": " api路径"
         },
         "method": {
           "type": "string",
@@ -3047,9 +3185,7 @@
         "article_content",
         "article_type",
         "original_url",
-        "status",
-        "category_name",
-        "tag_name_list"
+        "status"
       ]
     },
     "ArticleQuery": {
@@ -3080,6 +3216,16 @@
           "type": "integer",
           "format": "int64",
           "description": " 文章类型 1原创 2转载 3翻译"
+        },
+        "is_top": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否置顶"
+        },
+        "is_delete": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否删除"
         },
         "status": {
           "type": "integer",
@@ -3719,15 +3865,6 @@
           "format": "int64",
           "description": " 父id"
         },
-        "title": {
-          "type": "string",
-          "description": " 菜单标题"
-        },
-        "type": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）"
-        },
         "path": {
           "type": "string",
           "description": " 路由地址"
@@ -3744,9 +3881,54 @@
           "type": "string",
           "description": " 路由重定向"
         },
-        "meta": {
-          "$ref": "#/definitions/Meta",
-          "description": " meta配置"
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）"
+        },
+        "title": {
+          "type": "string",
+          "description": " 菜单标题"
+        },
+        "icon": {
+          "type": "string",
+          "description": " 菜单图标"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 排序"
+        },
+        "perm": {
+          "type": "string",
+          "description": " 权限标识"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuMetaParams"
+          },
+          "description": " 参数"
+        },
+        "keep_alive": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否缓存"
+        },
+        "always_show": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否一直显示菜单"
+        },
+        "is_hidden": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否隐藏"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用"
         },
         "children": {
           "type": "array",
@@ -3767,18 +3949,163 @@
       },
       "title": "MenuBackDTO",
       "required": [
-        "parent_id",
-        "title",
-        "type",
-        "path",
-        "name",
-        "component",
-        "redirect",
-        "meta",
-        "children",
         "created_at",
         "updated_at"
       ]
+    },
+    "MenuMeta": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）"
+        },
+        "title": {
+          "type": "string",
+          "description": " 菜单标题"
+        },
+        "icon": {
+          "type": "string",
+          "description": " 菜单图标"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 排序"
+        },
+        "perm": {
+          "type": "string",
+          "description": " 权限标识"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuMetaParams"
+          },
+          "description": " 参数"
+        },
+        "keep_alive": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否缓存"
+        },
+        "always_show": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否一直显示菜单"
+        },
+        "is_hidden": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否隐藏"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用"
+        }
+      },
+      "title": "MenuMeta"
+    },
+    "MenuMetaParams": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": "MenuMetaParams"
+    },
+    "MenuNewReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父id"
+        },
+        "path": {
+          "type": "string",
+          "description": " 路由地址"
+        },
+        "name": {
+          "type": "string",
+          "description": " 路由名字"
+        },
+        "component": {
+          "type": "string",
+          "description": " Layout组件"
+        },
+        "redirect": {
+          "type": "string",
+          "description": " 路由重定向"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）"
+        },
+        "title": {
+          "type": "string",
+          "description": " 菜单标题"
+        },
+        "icon": {
+          "type": "string",
+          "description": " 菜单图标"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 排序"
+        },
+        "perm": {
+          "type": "string",
+          "description": " 权限标识"
+        },
+        "params": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuMetaParams"
+          },
+          "description": " 参数"
+        },
+        "keep_alive": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否缓存"
+        },
+        "always_show": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否一直显示菜单"
+        },
+        "is_hidden": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否隐藏"
+        },
+        "is_disable": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否禁用"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuNewReq"
+          }
+        }
+      },
+      "title": "MenuNewReq"
     },
     "MenuQuery": {
       "type": "object",
@@ -3803,105 +4130,13 @@
         "name": {
           "type": "string",
           "description": " 路由名字"
+        },
+        "title": {
+          "type": "string",
+          "description": " 菜单标题"
         }
       },
       "title": "MenuQuery"
-    },
-    "Meta": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": " 菜单名称"
-        },
-        "icon": {
-          "type": "string",
-          "description": " 菜单图标"
-        },
-        "show_link": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": " 是否在菜单中显示"
-        },
-        "rank": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 菜单升序排序"
-        },
-        "extra_icon": {
-          "type": "string",
-          "description": " 菜单名称右侧的额外图标"
-        },
-        "show_parent": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": " 是否显示父级菜单"
-        },
-        "roles": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 页面级别权限设置"
-        },
-        "auths": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 按钮级别权限设置"
-        },
-        "keep_alive": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": " 路由组件缓存"
-        },
-        "frame_src": {
-          "type": "string",
-          "description": " 内嵌的iframe链接"
-        },
-        "frame_loading": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": " iframe页是否开启首次加载动画"
-        },
-        "transition": {
-          "$ref": "#/definitions/Transition",
-          "description": " 页面加载动画"
-        },
-        "hidden_tag": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": " 是否不添加信息到标签页"
-        },
-        "dynamic_level": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 动态路由可打开的最大数量"
-        },
-        "active_path": {
-          "type": "string",
-          "description": " 将某个菜单激活"
-        }
-      },
-      "title": "Meta",
-      "required": [
-        "title",
-        "icon",
-        "show_link",
-        "rank",
-        "extra_icon",
-        "show_parent",
-        "roles",
-        "auths",
-        "keep_alive",
-        "frame_src",
-        "frame_loading",
-        "transition",
-        "hidden_tag",
-        "dynamic_level",
-        "active_path"
-      ]
     },
     "OperationLogBackDTO": {
       "type": "object",
@@ -4325,31 +4560,6 @@
           "format": "int64",
           "description": " 主键id"
         },
-        "nickname": {
-          "type": "string",
-          "description": " 昵称"
-        },
-        "avatar": {
-          "type": "string",
-          "description": " 头像"
-        },
-        "message_content": {
-          "type": "string",
-          "description": " 留言内容"
-        },
-        "ip_address": {
-          "type": "string",
-          "description": " 用户ip"
-        },
-        "ip_source": {
-          "type": "string",
-          "description": " 用户地址"
-        },
-        "time": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 弹幕速度"
-        },
         "is_review": {
           "type": "integer",
           "format": "int64",
@@ -4358,12 +4568,6 @@
       },
       "title": "RemarkNewReq",
       "required": [
-        "nickname",
-        "avatar",
-        "message_content",
-        "ip_address",
-        "ip_source",
-        "time",
         "is_review"
       ]
     },
@@ -4593,53 +4797,6 @@
         "menu_ids"
       ]
     },
-    "RouteConfigsTable": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）"
-        },
-        "path": {
-          "type": "string",
-          "description": " 路由地址"
-        },
-        "name": {
-          "type": "string",
-          "description": " 路由名字"
-        },
-        "component": {
-          "type": "string",
-          "description": " Layout组件"
-        },
-        "redirect": {
-          "type": "string",
-          "description": " 路由重定向"
-        },
-        "meta": {
-          "$ref": "#/definitions/Meta",
-          "description": " meta配置"
-        },
-        "children": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RouteConfigsTable"
-          },
-          "description": " 子路由配置项"
-        }
-      },
-      "title": "RouteConfigsTable",
-      "required": [
-        "type",
-        "path",
-        "name",
-        "component",
-        "redirect",
-        "meta",
-        "children"
-      ]
-    },
     "Server": {
       "type": "object",
       "properties": {
@@ -4664,13 +4821,26 @@
         "disk"
       ]
     },
+    "SyncApiReq": {
+      "type": "object",
+      "properties": {
+        "api_file_path": {
+          "type": "string",
+          "description": " api文件路径"
+        }
+      },
+      "title": "SyncApiReq",
+      "required": [
+        "api_file_path"
+      ]
+    },
     "SyncMenuReq": {
       "type": "object",
       "properties": {
         "menus": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/RouteConfigsTable"
+            "$ref": "#/definitions/MenuNewReq"
           }
         }
       },
@@ -4800,7 +4970,7 @@
         },
         "content": {
           "type": "string",
-          "description": " 评论内容"
+          "description": " 说说内容"
         },
         "img_list": {
           "type": "array",
@@ -4863,22 +5033,9 @@
           "format": "int64",
           "description": " 说说ID"
         },
-        "user_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 用户ID"
-        },
-        "nickname": {
-          "type": "string",
-          "description": " 用户昵称"
-        },
-        "avatar": {
-          "type": "string",
-          "description": " 用户头像"
-        },
         "content": {
           "type": "string",
-          "description": " 评论内容"
+          "description": " 说说内容"
         },
         "img_list": {
           "type": "array",
@@ -4900,9 +5057,6 @@
       },
       "title": "TalkNewReq",
       "required": [
-        "user_id",
-        "nickname",
-        "avatar",
         "content",
         "img_list",
         "is_top",
@@ -4983,29 +5137,6 @@
         "scope"
       ]
     },
-    "Transition": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": " 当前路由动画效果"
-        },
-        "enter_transition": {
-          "type": "string",
-          "description": " 进场动画"
-        },
-        "leave_transition": {
-          "type": "string",
-          "description": " 离场动画"
-        }
-      },
-      "title": "Transition",
-      "required": [
-        "name",
-        "enter_transition",
-        "leave_transition"
-      ]
-    },
     "UniqueViewDTO": {
       "type": "object",
       "properties": {
@@ -5023,6 +5154,46 @@
       "required": [
         "date",
         "count"
+      ]
+    },
+    "UpdateAccountRolesReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UpdateAccountRolesReq",
+      "required": [
+        "user_id",
+        "role_ids"
+      ]
+    },
+    "UpdateAccountStatusReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态: -1删除 0正常 1禁用"
+        }
+      },
+      "title": "UpdateAccountStatusReq",
+      "required": [
+        "user_id",
+        "status"
       ]
     },
     "UpdateRoleApisReq": {
@@ -5065,46 +5236,6 @@
       "required": [
         "role_id",
         "menu_ids"
-      ]
-    },
-    "UpdateUserRolesReq": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "title": "UpdateUserRolesReq",
-      "required": [
-        "user_id",
-        "role_ids"
-      ]
-    },
-    "UpdateUserStatusReq": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 状态: -1删除 0正常 1禁用"
-        }
-      },
-      "title": "UpdateUserStatusReq",
-      "required": [
-        "user_id",
-        "status"
       ]
     },
     "UploadFileReq": {
@@ -5194,6 +5325,11 @@
           "format": "int64",
           "description": " 主键id"
         },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父id"
+        },
         "name": {
           "type": "string",
           "description": " api名称"
@@ -5205,21 +5341,6 @@
         "method": {
           "type": "string",
           "description": " api请求方法"
-        },
-        "parent_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 分组id"
-        },
-        "traceable": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 是否追溯操作记录 0需要，1是"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 状态 1开，2关"
         },
         "created_at": {
           "type": "integer",
@@ -5240,12 +5361,10 @@
       },
       "title": "UserApi",
       "required": [
+        "parent_id",
         "name",
         "path",
         "method",
-        "parent_id",
-        "traceable",
-        "status",
         "created_at",
         "updated_at",
         "children"
@@ -5264,23 +5383,6 @@
       "title": "UserApisResp",
       "required": [
         "list"
-      ]
-    },
-    "UserArea": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "integer",
-          "format": "int64"
-        }
-      },
-      "title": "UserArea",
-      "required": [
-        "name",
-        "value"
       ]
     },
     "UserInfoExt": {
@@ -5336,13 +5438,16 @@
           "description": " 用户id"
         },
         "username": {
-          "type": "string"
+          "type": "string",
+          "description": " 用户名"
         },
         "nickname": {
-          "type": "string"
+          "type": "string",
+          "description": " 用户昵称"
         },
         "avatar": {
-          "type": "string"
+          "type": "string",
+          "description": " 用户头像"
         },
         "email": {
           "type": "string",
@@ -5354,10 +5459,12 @@
         },
         "status": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "description": " 状态"
         },
         "login_type": {
-          "type": "string"
+          "type": "string",
+          "description": " 登录方式"
         },
         "ip_address": {
           "type": "string",
@@ -5379,6 +5486,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/UserRoleLabel"
+          }
+        },
+        "perms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserApi"
           }
         },
         "intro": {
@@ -5404,7 +5517,8 @@
         "ip_source",
         "created_at",
         "updated_at",
-        "roles"
+        "roles",
+        "perms"
       ]
     },
     "UserLoginHistory": {
@@ -5430,9 +5544,15 @@
           "type": "string",
           "description": " ip 源"
         },
-        "login_time": {
-          "type": "string",
-          "description": " 创建时间"
+        "login_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 登录时间"
+        },
+        "login_out": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 登出时间"
         }
       },
       "title": "UserLoginHistory",
@@ -5441,8 +5561,32 @@
         "agent",
         "ip_address",
         "ip_source",
-        "login_time"
+        "login_at",
+        "login_out"
       ]
+    },
+    "UserLoginHistoryQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当前页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 排序"
+        }
+      },
+      "title": "UserLoginHistoryQuery"
     },
     "UserMenu": {
       "type": "object",
@@ -5456,15 +5600,6 @@
           "type": "integer",
           "format": "int64",
           "description": " 父id"
-        },
-        "title": {
-          "type": "string",
-          "description": " 菜单标题"
-        },
-        "type": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 菜单类型（0代表菜单、1代表iframe、2代表外链、3代表按钮）"
         },
         "path": {
           "type": "string",
@@ -5491,116 +5626,61 @@
           "items": {
             "$ref": "#/definitions/UserMenu"
           }
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
         }
       },
       "title": "UserMenu",
       "required": [
         "parent_id",
-        "title",
-        "type",
         "path",
         "name",
         "component",
         "redirect",
         "meta",
-        "children"
+        "created_at",
+        "updated_at"
       ]
     },
     "UserMenuMeta": {
       "type": "object",
       "properties": {
         "title": {
-          "type": "string",
-          "description": " 菜单名称"
+          "type": "string"
         },
         "icon": {
-          "type": "string",
-          "description": " 菜单图标"
+          "type": "string"
         },
-        "show_link": {
+        "hidden": {
           "type": "boolean",
-          "format": "boolean",
-          "description": " 是否在菜单中显示"
+          "format": "boolean"
         },
-        "rank": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 菜单升序排序"
-        },
-        "extra_icon": {
-          "type": "string",
-          "description": " 菜单名称右侧的额外图标"
-        },
-        "show_parent": {
+        "alwaysShow": {
           "type": "boolean",
-          "format": "boolean",
-          "description": " 是否显示父级菜单"
+          "format": "boolean"
         },
-        "roles": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 页面级别权限设置"
-        },
-        "auths": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 按钮级别权限设置"
-        },
-        "keep_alive": {
+        "affix": {
           "type": "boolean",
-          "format": "boolean",
-          "description": " 路由组件缓存"
+          "format": "boolean"
         },
-        "frame_src": {
-          "type": "string",
-          "description": " 内嵌的iframe链接"
-        },
-        "frame_loading": {
+        "keepAlive": {
           "type": "boolean",
-          "format": "boolean",
-          "description": " iframe页是否开启首次加载动画"
+          "format": "boolean"
         },
-        "transition": {
-          "type": "object",
-          "description": " 页面加载动画"
-        },
-        "hidden_tag": {
+        "breadcrumb": {
           "type": "boolean",
-          "format": "boolean",
-          "description": " 是否不添加信息到标签页"
-        },
-        "dynamic_level": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 动态路由可打开的最大数量"
-        },
-        "active_path": {
-          "type": "string",
-          "description": " 将某个菜单激活"
+          "format": "boolean"
         }
       },
-      "title": "UserMenuMeta",
-      "required": [
-        "title",
-        "icon",
-        "show_link",
-        "rank",
-        "extra_icon",
-        "show_parent",
-        "roles",
-        "auths",
-        "keep_alive",
-        "frame_src",
-        "frame_loading",
-        "transition",
-        "hidden_tag",
-        "dynamic_level",
-        "active_path"
-      ]
+      "title": "UserMenuMeta"
     },
     "UserMenusResp": {
       "type": "object",
@@ -5617,32 +5697,6 @@
         "list"
       ]
     },
-    "UserQuery": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 当前页码"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 每页数量"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 排序"
-        },
-        "nickname": {
-          "type": "string"
-        }
-      },
-      "title": "UserQuery"
-    },
     "UserRole": {
       "type": "object",
       "properties": {
@@ -5650,6 +5704,11 @@
           "type": "integer",
           "format": "int64",
           "description": " 主键id"
+        },
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 父id"
         },
         "role_domain": {
           "type": "string",
@@ -5666,6 +5725,7 @@
       },
       "title": "UserRole",
       "required": [
+        "parent_id",
         "role_domain",
         "role_name",
         "role_comment"

@@ -2,6 +2,7 @@ package accountrpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -39,45 +40,9 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 		return nil, err
 	}
 
-	var uids []int64
+	var list []*accountrpc.User
 	for _, item := range result {
-		uids = append(uids, item.Id)
-	}
-
-	// 查找用户角色
-	urList, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id in (?)", uids)
-	if err != nil {
-		return nil, err
-	}
-
-	var ursMap = make(map[int64][]int64)
-	var roleIds []int64
-	for _, item := range urList {
-		roleIds = append(roleIds, item.RoleId)
-		ursMap[item.UserId] = append(ursMap[item.UserId], item.RoleId)
-	}
-
-	// 查找角色信息
-	rList, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "id in (?)", roleIds)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*accountrpc.UserInfoResp
-	for _, item := range result {
-
-		var roles []*model.TRole
-		ur, _ := ursMap[item.Id]
-		for _, rid := range ur {
-			for _, r := range rList {
-				if r.Id == rid {
-					roles = append(roles, r)
-					break
-				}
-			}
-		}
-
-		list = append(list, convertUserInfoOut(item, roles))
+		list = append(list, convertUserOut(item))
 	}
 
 	resp := &accountrpc.FindUserListResp{}
@@ -90,6 +55,10 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 func convertQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
 	page = int(in.Page)
 	size = int(in.PageSize)
+	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
 
 	if in.Username != "" {
 		conditions += "username like ?"
@@ -129,4 +98,25 @@ func convertQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts str
 	}
 
 	return page, size, sorts, conditions, params
+}
+
+func convertUserOut(in *model.TUser) (out *accountrpc.User) {
+
+	out = &accountrpc.User{
+		UserId:    in.Id,
+		Username:  in.Username,
+		Nickname:  in.Nickname,
+		Avatar:    in.Avatar,
+		Email:     in.Email,
+		Phone:     in.Phone,
+		Info:      in.Info,
+		Status:    in.Status,
+		LoginType: in.LoginType,
+		IpAddress: in.IpAddress,
+		IpSource:  in.IpSource,
+		CreatedAt: in.CreatedAt.Unix(),
+		UpdatedAt: in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

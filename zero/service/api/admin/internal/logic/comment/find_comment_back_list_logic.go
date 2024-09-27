@@ -58,7 +58,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.UserInfoResp)
+	usm := make(map[int64]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -88,7 +88,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.UserInfoResp, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
+func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
 	out = &types.CommentBackDTO{
 		Id:             in.Id,
 		Type:           in.Type,

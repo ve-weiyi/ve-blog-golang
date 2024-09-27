@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 获取用户角色
-func GetUserRolesHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 查询用户列表
+func FindAccountListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.AccountQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewGetUserRolesLogic(r.Context(), svcCtx)
-		resp, err := l.GetUserRoles(&req)
+		l := account.NewFindAccountListLogic(r.Context(), svcCtx)
+		resp, err := l.FindAccountList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

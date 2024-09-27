@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 获取用户菜单权限
-func GetUserMenusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 查询在线用户列表
+func FindAccountOnlineListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.AccountQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewGetUserMenusLogic(r.Context(), svcCtx)
-		resp, err := l.GetUserMenus(&req)
+		l := account.NewFindAccountOnlineListLogic(r.Context(), svcCtx)
+		resp, err := l.FindAccountOnlineList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

@@ -2,6 +2,7 @@ syntax = "v1"
 
 import "admin/account.api"
 import "admin/auth.api"
+import "admin/user.api"
 import "admin/api.api"
 import "admin/menu.api"
 import "admin/role.api"

@@ -28,26 +28,38 @@ func NewFindMenuListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 // 分页获取菜单列表
 func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*permissionrpc.FindMenuListResp, error) {
 	var (
-		page       int
-		size       int
-		sorts      string
 		conditions string
 		params     []interface{}
 	)
 
-	page = int(in.Page)
-	size = int(in.PageSize)
+	if in.Name != "" {
+		conditions += "name like ?"
+		params = append(params, "%"+in.Name+"%")
+	}
 
-	result, err := l.svcCtx.TMenuModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	if in.Title != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "title like ?"
+		params = append(params, "%"+in.Title+"%")
+	}
+
+	result, err := l.svcCtx.TMenuModel.FindALL(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var root permissionrpc.MenuDetails
-	root.Children = appendMenuChildren(&root, result)
-
 	out := &permissionrpc.FindMenuListResp{}
-	out.List = root.Children
+	if conditions == "" {
+		var root permissionrpc.MenuDetails
+		root.Children = appendMenuChildren(&root, result)
+		out.List = root.Children
+	} else {
+		for _, item := range result {
+			out.List = append(out.List, convertMenuOut(item))
+		}
+	}
 
 	return out, nil
 }

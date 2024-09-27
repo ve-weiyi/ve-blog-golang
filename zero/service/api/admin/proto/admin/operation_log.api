@@ -30,7 +30,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: operation_log
-    middleware: SignToken,JwtToken
+    middleware: SignToken,JwtToken,Operation
 )
 
 service admin-api {

@@ -35,7 +35,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: comment
-    middleware: SignToken,JwtToken
+    middleware: SignToken,JwtToken,Operation
 )
 
 service admin-api {

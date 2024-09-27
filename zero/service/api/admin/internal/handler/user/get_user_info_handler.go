@@ -1,4 +1,4 @@
-package account
+package user
 
 import (
 	"net/http"
@@ -6,22 +6,22 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/logic/account"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/logic/user"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 查询在线用户列表
-func FindOnlineUserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 获取用户信息
+func GetUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UserQuery
+		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewFindOnlineUserListLogic(r.Context(), svcCtx)
-		resp, err := l.FindOnlineUserList(&req)
+		l := user.NewGetUserInfoLogic(r.Context(), svcCtx)
+		resp, err := l.GetUserInfo(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

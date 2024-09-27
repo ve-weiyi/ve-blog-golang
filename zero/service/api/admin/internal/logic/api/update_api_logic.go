@@ -28,12 +28,13 @@ func NewUpdateApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateA
 func (l *UpdateApiLogic) UpdateApi(req *types.ApiNewReq) (resp *types.ApiBackDTO, err error) {
 	in := &permissionrpc.ApiNewReq{
 		Id:        req.Id,
-		Name:      req.Name,
-		Path:      req.Path,
-		Method:    req.Method,
 		ParentId:  req.ParentId,
+		Path:      req.Path,
+		Name:      req.Name,
+		Method:    req.Method,
 		Traceable: req.Traceable,
-		Status:    req.Status,
+		IsDisable: req.IsDisable,
+		Children:  nil,
 	}
 
 	out, err := l.svcCtx.PermissionRpc.UpdateApi(l.ctx, in)

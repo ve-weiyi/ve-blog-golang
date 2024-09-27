@@ -28,26 +28,46 @@ func NewFindApiListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindA
 // 分页获取接口列表
 func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permissionrpc.FindApiListResp, error) {
 	var (
-		page       int
-		size       int
-		sorts      string
 		conditions string
 		params     []interface{}
 	)
 
-	page = int(in.Page)
-	size = int(in.PageSize)
+	if in.Name != "" {
+		conditions += "name like ?"
+		params = append(params, "%"+in.Name+"%")
+	}
 
-	result, err := l.svcCtx.TApiModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	if in.Path != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "path like ?"
+		params = append(params, "%"+in.Path+"%")
+	}
+
+	if in.Method != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += "method like ?"
+		params = append(params, "%"+in.Method+"%")
+	}
+
+	result, err := l.svcCtx.TApiModel.FindALL(l.ctx, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	var root permissionrpc.ApiDetails
-	root.Children = appendApiChildren(&root, result)
-
 	out := &permissionrpc.FindApiListResp{}
-	out.List = root.Children
+	if conditions == "" {
+		var root permissionrpc.ApiDetails
+		root.Children = appendApiChildren(&root, result)
+		out.List = root.Children
+	} else {
+		for _, item := range result {
+			out.List = append(out.List, convertApiOut(item))
+		}
+	}
 
 	return out, nil
 }

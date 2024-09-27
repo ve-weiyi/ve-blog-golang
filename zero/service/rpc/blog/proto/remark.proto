@@ -50,7 +50,6 @@ message RemarkDetails {
   string message_content = 4;// 留言内容
   string ip_address = 5;// 用户ip
   string ip_source = 6;// 用户地址
-  int64 time = 7;// 弹幕速度
   int64 is_review = 8;// 是否审核
   int64 created_at = 9;// 发布时间
   int64 updated_at = 10;// 更新时间

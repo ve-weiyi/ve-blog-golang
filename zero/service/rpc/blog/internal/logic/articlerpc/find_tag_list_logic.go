@@ -38,6 +38,9 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
 
 	if in.TagName != "" {
 		conditions += "tag_name like ?"

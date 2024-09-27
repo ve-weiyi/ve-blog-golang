@@ -47,7 +47,6 @@ func convertTalkQuery(in *talkrpc.FindTalkListReq) (page int, size int, sorts st
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
-
 	if sorts == "" {
 		sorts = "id desc"
 	}

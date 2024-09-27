@@ -1,4 +1,4 @@
-package account
+package user
 
 import (
 	"context"
@@ -12,22 +12,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindUserLoginHistoryListLogic struct {
+type GetUserLoginHistoryListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 查询用户登录历史
-func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserLoginHistoryListLogic {
-	return &FindUserLoginHistoryListLogic{
+func NewGetUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLoginHistoryListLogic {
+	return &GetUserLoginHistoryListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(req *types.UserQuery) (resp *types.PageResp, err error) {
+func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLoginHistoryQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.FindLoginHistoryListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
@@ -60,6 +60,7 @@ func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory) *types.UserLo
 		Agent:     in.Agent,
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
-		LoginTime: in.LoginTime,
+		LoginAt:   in.LoginAt,
+		LogoutAt:  in.LogoutAt,
 	}
 }

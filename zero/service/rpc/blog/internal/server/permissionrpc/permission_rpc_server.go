@@ -47,7 +47,7 @@ func (s *PermissionRpcServer) FindApiList(ctx context.Context, in *permissionrpc
 }
 
 // 同步接口列表
-func (s *PermissionRpcServer) SyncApiList(ctx context.Context, in *permissionrpc.EmptyReq) (*permissionrpc.BatchResp, error) {
+func (s *PermissionRpcServer) SyncApiList(ctx context.Context, in *permissionrpc.SyncApiReq) (*permissionrpc.BatchResp, error) {
 	l := permissionrpclogic.NewSyncApiListLogic(ctx, s.svcCtx)
 	return l.SyncApiList(in)
 }

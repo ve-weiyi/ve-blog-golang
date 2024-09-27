@@ -53,7 +53,7 @@ func ConvertTalkPb(in *types.TalkNewReq) (out *talkrpc.TalkNewReq) {
 	return
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.TalkBackDTO) {
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User) (out *types.TalkBackDTO) {
 	out = &types.TalkBackDTO{
 		Id:           in.Id,
 		UserId:       in.UserId,

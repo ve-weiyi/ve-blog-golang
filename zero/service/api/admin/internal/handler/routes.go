@@ -21,6 +21,7 @@ import (
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/talk"
 	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/upload"
+	user "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/user"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 
@@ -42,73 +43,43 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
-					// 查询在线用户列表
+					// 获取用户分布地区
 					Method:  http.MethodPost,
-					Path:    "/user/find_online_user_list",
-					Handler: account.FindOnlineUserListHandler(serverCtx),
+					Path:    "/account/find_account_area_analysis",
+					Handler: account.FindAccountAreaAnalysisHandler(serverCtx),
 				},
 				{
 					// 查询用户列表
 					Method:  http.MethodPost,
-					Path:    "/user/find_user_list",
-					Handler: account.FindUserListHandler(serverCtx),
+					Path:    "/account/find_account_list",
+					Handler: account.FindAccountListHandler(serverCtx),
 				},
 				{
 					// 查询用户登录历史
 					Method:  http.MethodPost,
-					Path:    "/user/find_user_login_history_list",
-					Handler: account.FindUserLoginHistoryListHandler(serverCtx),
+					Path:    "/account/find_account_login_history_list",
+					Handler: account.FindAccountLoginHistoryListHandler(serverCtx),
 				},
 				{
-					// 获取用户接口权限
-					Method:  http.MethodGet,
-					Path:    "/user/get_user_apis",
-					Handler: account.GetUserApisHandler(serverCtx),
-				},
-				{
-					// 获取用户分布地区
+					// 查询在线用户列表
 					Method:  http.MethodPost,
-					Path:    "/user/get_user_area_analysis",
-					Handler: account.GetUserAreaAnalysisHandler(serverCtx),
-				},
-				{
-					// 获取用户信息
-					Method:  http.MethodGet,
-					Path:    "/user/get_user_info",
-					Handler: account.GetUserInfoHandler(serverCtx),
-				},
-				{
-					// 获取用户菜单权限
-					Method:  http.MethodGet,
-					Path:    "/user/get_user_menus",
-					Handler: account.GetUserMenusHandler(serverCtx),
-				},
-				{
-					// 获取用户角色
-					Method:  http.MethodGet,
-					Path:    "/user/get_user_roles",
-					Handler: account.GetUserRolesHandler(serverCtx),
-				},
-				{
-					// 修改用户信息
-					Method:  http.MethodPost,
-					Path:    "/user/update_user_info",
-					Handler: account.UpdateUserInfoHandler(serverCtx),
+					Path:    "/account/find_account_online_list",
+					Handler: account.FindAccountOnlineListHandler(serverCtx),
 				},
 				{
 					// 修改用户角色
 					Method:  http.MethodPost,
-					Path:    "/user/update_user_roles",
-					Handler: account.UpdateUserRolesHandler(serverCtx),
+					Path:    "/account/update_account_roles",
+					Handler: account.UpdateAccountRolesHandler(serverCtx),
 				},
 				{
 					// 修改用户状态
 					Method:  http.MethodPost,
-					Path:    "/user/update_user_status",
-					Handler: account.UpdateUserStatusHandler(serverCtx),
+					Path:    "/account/update_account_status",
+					Handler: account.UpdateAccountStatusHandler(serverCtx),
 				},
 			}...,
 		),
@@ -132,7 +103,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建相册
@@ -186,7 +157,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建api路由
@@ -231,7 +202,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 添加文章
@@ -315,7 +286,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建页面
@@ -363,7 +334,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建文章分类
@@ -396,7 +367,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 批量删除评论
@@ -444,7 +415,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建友链
@@ -477,7 +448,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建菜单
@@ -528,7 +499,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 批量删除操作记录
@@ -555,7 +526,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 分页获取照片列表
@@ -570,7 +541,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 批量删除照片
@@ -618,7 +589,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 批量删除留言
@@ -645,7 +616,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建角色
@@ -717,7 +688,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建标签
@@ -765,7 +736,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 创建说说
@@ -813,7 +784,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
+			[]rest.Route{
+				{
+					// 获取用户接口权限
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_apis",
+					Handler: user.GetUserApisHandler(serverCtx),
+				},
+				{
+					// 获取用户信息
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_info",
+					Handler: user.GetUserInfoHandler(serverCtx),
+				},
+				{
+					// 查询用户登录历史
+					Method:  http.MethodPost,
+					Path:    "/user/get_user_login_history_list",
+					Handler: user.GetUserLoginHistoryListHandler(serverCtx),
+				},
+				{
+					// 获取用户菜单权限
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_menus",
+					Handler: user.GetUserMenusHandler(serverCtx),
+				},
+				{
+					// 获取用户角色
+					Method:  http.MethodGet,
+					Path:    "/user/get_user_roles",
+					Handler: user.GetUserRolesHandler(serverCtx),
+				},
+				{
+					// 修改用户信息
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_info",
+					Handler: user.UpdateUserInfoHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin_api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
 			[]rest.Route{
 				{
 					// 获取后台首页信息

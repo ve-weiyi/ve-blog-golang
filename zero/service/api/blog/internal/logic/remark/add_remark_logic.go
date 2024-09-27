@@ -50,7 +50,6 @@ func ConvertRemarkTypes(req *remarkrpc.RemarkDetails) (out *types.Remark) {
 		MessageContent: req.MessageContent,
 		IpAddress:      req.IpAddress,
 		IpSource:       req.IpSource,
-		Time:           req.Time,
 		IsReview:       req.IsReview,
 		CreatedAt:      req.CreatedAt,
 		UpdatedAt:      req.UpdatedAt,

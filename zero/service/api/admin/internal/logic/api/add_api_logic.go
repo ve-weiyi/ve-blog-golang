@@ -28,12 +28,13 @@ func NewAddApiLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddApiLogi
 func (l *AddApiLogic) AddApi(req *types.ApiNewReq) (resp *types.ApiBackDTO, err error) {
 	in := &permissionrpc.ApiNewReq{
 		Id:        req.Id,
-		Name:      req.Name,
-		Path:      req.Path,
-		Method:    req.Method,
 		ParentId:  req.ParentId,
+		Path:      req.Path,
+		Name:      req.Name,
+		Method:    req.Method,
 		Traceable: req.Traceable,
-		Status:    req.Status,
+		IsDisable: req.IsDisable,
+		Children:  nil,
 	}
 
 	out, err := l.svcCtx.PermissionRpc.AddApi(l.ctx, in)
@@ -54,12 +55,12 @@ func convertApiTypes(req *permissionrpc.ApiDetails) *types.ApiBackDTO {
 
 	out := &types.ApiBackDTO{
 		Id:        req.Id,
+		ParentId:  req.ParentId,
 		Name:      req.Name,
 		Path:      req.Path,
 		Method:    req.Method,
-		ParentId:  req.ParentId,
 		Traceable: req.Traceable,
-		Status:    req.Status,
+		IsDisable: req.IsDisable,
 		CreatedAt: req.CreatedAt,
 		UpdatedAt: req.UpdatedAt,
 		Children:  children,

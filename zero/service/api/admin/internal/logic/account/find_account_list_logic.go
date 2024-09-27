@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -11,36 +12,41 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindUserListLogic struct {
+type FindAccountListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 查询用户列表
-func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUserListLogic {
-	return &FindUserListLogic{
+func NewFindAccountListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAccountListLogic {
+	return &FindAccountListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindUserListLogic) FindUserList(req *types.UserQuery) (resp *types.PageResp, err error) {
+func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.FindUserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
+		Username: req.Username,
 		Nickname: req.Nickname,
+		Email:    "",
+		Phone:    "",
+		Status:   0,
+		UserIds:  nil,
 	}
 
-	out, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, in)
+	out, err := l.svcCtx.AccountRpc.FindUserInfoList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*types.UserInfoResp
 	for _, v := range out.List {
-		m := ConvertUserTypes(v)
+		m := ConvertUserInfoTypes(v)
 		list = append(list, m)
 	}
 
@@ -52,7 +58,7 @@ func (l *FindUserListLogic) FindUserList(req *types.UserQuery) (resp *types.Page
 	return resp, nil
 }
 
-func ConvertUserTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 	roles := make([]*types.UserRoleLabel, 0)
 	for _, v := range in.Roles {
 		m := &types.UserRoleLabel{

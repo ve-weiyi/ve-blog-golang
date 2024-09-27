@@ -1,12 +1,10 @@
-package account
+package user
 
 import (
 	"context"
-	"strings"
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
@@ -50,27 +48,32 @@ func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserM
 }
 
 func ConvertUserMenuTypes(in *permissionrpc.MenuDetails) (out *types.UserMenu) {
+	var children []*types.UserMenu
+	if in.Children != nil {
+		for _, v := range in.Children {
+			children = append(children, ConvertUserMenuTypes(v))
+		}
+	}
+
 	out = &types.UserMenu{
 		Id:        in.Id,
 		ParentId:  in.ParentId,
-		Title:     in.Title,
-		Type:      in.Type,
 		Path:      in.Path,
 		Name:      in.Name,
 		Component: in.Component,
 		Redirect:  in.Redirect,
-		Meta:      types.UserMenuMeta{},
-		Children:  make([]*types.UserMenu, 0),
-	}
-
-	jsonconv.JsonToObject(in.Extra, &out.Meta)
-	if !strings.Contains(in.Path, ":") {
-		out.Meta.ShowLink = true
-		out.Meta.ShowParent = true
-	}
-
-	for _, v := range in.Children {
-		out.Children = append(out.Children, ConvertUserMenuTypes(v))
+		Meta: types.UserMenuMeta{
+			Title:      in.Meta.Title,
+			Icon:       in.Meta.Icon,
+			Hidden:     in.Meta.IsHidden == 1,
+			AlwaysShow: in.Meta.AlwaysShow == 1,
+			Affix:      false,
+			KeepAlive:  false,
+			Breadcrumb: false,
+		},
+		Children:  children,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
 	}
 
 	return

@@ -300,7 +300,6 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
-
 	if sorts == "" {
 		sorts = "id desc"
 	}

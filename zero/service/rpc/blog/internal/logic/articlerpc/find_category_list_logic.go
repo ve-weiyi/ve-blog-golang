@@ -38,6 +38,9 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
 	if in.CategoryName != "" {
 		conditions += "category_name like ?"
 		params = append(params, "%"+in.CategoryName+"%")

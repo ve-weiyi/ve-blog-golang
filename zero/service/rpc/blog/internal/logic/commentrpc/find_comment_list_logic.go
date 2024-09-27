@@ -2,6 +2,7 @@ package commentrpclogic
 
 import (
 	"context"
+	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
@@ -52,7 +53,10 @@ func (l *FindCommentListLogic) FindCommentList(in *commentrpc.FindCommentListReq
 func convertCommentQuery(in *commentrpc.FindCommentListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(in.Page)
 	size = int(in.PageSize)
-	sorts = "id desc"
+	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
 
 	if in.Type != 0 {
 		conditions += " type = ?"

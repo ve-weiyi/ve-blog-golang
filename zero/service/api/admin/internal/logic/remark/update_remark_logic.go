@@ -40,7 +40,7 @@ func (l *UpdateRemarkLogic) UpdateRemark(req *types.RemarkNewReq) (resp *types.R
 	return resp, nil
 }
 
-func ConvertRemarkTypes(in *remarkrpc.RemarkDetails, usm map[int64]*accountrpc.UserInfoResp) (out *types.RemarkBackDTO) {
+func ConvertRemarkTypes(in *remarkrpc.RemarkDetails, usm map[int64]*accountrpc.User) (out *types.RemarkBackDTO) {
 	out = &types.RemarkBackDTO{
 		Id:             in.Id,
 		Nickname:       "",
@@ -48,7 +48,7 @@ func ConvertRemarkTypes(in *remarkrpc.RemarkDetails, usm map[int64]*accountrpc.U
 		MessageContent: in.MessageContent,
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
-		Time:           in.Time,
+		Time:           0,
 		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt,
 		UpdatedAt:      in.UpdatedAt,

@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindOnlineUserListLogic struct {
+type FindAccountOnlineListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 查询在线用户列表
-func NewFindOnlineUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindOnlineUserListLogic {
-	return &FindOnlineUserListLogic{
+func NewFindAccountOnlineListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAccountOnlineListLogic {
+	return &FindAccountOnlineListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.UserQuery) (resp *types.PageResp, err error) {
+func (l *FindAccountOnlineListLogic) FindAccountOnlineList(req *types.AccountQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.FindUserListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
@@ -39,7 +39,7 @@ func (l *FindOnlineUserListLogic) FindOnlineUserList(req *types.UserQuery) (resp
 
 	var list []*types.UserInfoResp
 	for _, v := range out.List {
-		m := ConvertUserTypes(v)
+		m := ConvertUserInfoTypes(v)
 		list = append(list, m)
 	}
 

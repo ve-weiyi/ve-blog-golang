@@ -73,7 +73,7 @@ func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.TUser)
 	// 登录记录
 	history := &model.TUserLoginHistory{
 		UserId:    user.Id,
-		LoginType: constant.LoginTypeOauth,
+		LoginType: user.LoginType,
 		IpAddress: ip,
 		IpSource:  is.Location,
 		Agent:     agent,
