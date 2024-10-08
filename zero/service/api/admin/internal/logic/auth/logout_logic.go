@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -41,7 +41,7 @@ func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return nil, err
 	}
 
-	redisKey := rediskey.GetUserLogoutKey(uid)
+	redisKey := middlewarex.GetUserLogoutKey(cast.ToInt64(uid))
 	_ = l.svcCtx.Redis.SetexCtx(l.ctx, redisKey, fmt.Sprintf("%d", out.LogoutAt), 7*24*60*60)
 
 	return &types.EmptyResp{}, nil

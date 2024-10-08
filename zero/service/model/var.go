@@ -1,4 +1,4 @@
-package global
+package model
 
 const (
 	//1公开 2私密 3评论可见

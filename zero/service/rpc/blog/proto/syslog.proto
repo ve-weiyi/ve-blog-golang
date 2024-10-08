@@ -35,7 +35,23 @@ message CountResp {
 }
 
 /************** blog 日志管理 **************/
-message OperationLog {
+message OperationLogNewReq {
+  int64 user_id = 2;// 用户id
+  string nickname = 3;// 用户昵称
+  string ip_address = 4;// 操作ip
+  string ip_source = 5;// 操作地址
+  string opt_module = 6;// 操作模块
+  string opt_desc = 7;// 操作描述
+  string request_url = 8;// 请求地址
+  string request_method = 9;// 请求方式
+  string request_header = 10;// 请求头参数
+  string request_data = 11;// 请求参数
+  string response_data = 12;// 返回数据
+  int64 response_status = 13;// 响应状态码
+  string cost = 14;// 耗时（ms）
+}
+
+message OperationLogDetails {
   int64 id = 1;// 主键id
   int64 user_id = 2;// 用户id
   string nickname = 3;// 用户昵称
@@ -61,12 +77,11 @@ message FindOperationLogListReq {
 }
 
 message FindOperationLogListResp {
-  repeated OperationLog list = 1;
+  repeated OperationLogDetails list = 1;
   int64 total = 2;
 }
 
-message UploadLogReq {
-  int64 id = 1;// id
+message UploadLogNewReq {
   int64 user_id = 2;// 用户id
   string label = 3;// 标签
   string file_name = 4;// 文件名称
@@ -75,7 +90,7 @@ message UploadLogReq {
   string file_url = 7;// 上传路径
 }
 
-message UploadLogResp {
+message UploadLogDetails {
   int64 id = 1;// id
   int64 user_id = 2;// 用户id
   string label = 3;// 标签
@@ -87,9 +102,15 @@ message UploadLogResp {
   int64 updated_at = 9;// 更新时间
 }
 
+message FindUploadLogListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  repeated string sorts = 3; // 排序
+}
+
 service SyslogRpc {
   // 创建操作记录
-  rpc AddOperationLog(OperationLog) returns(OperationLog);
+  rpc AddOperationLog(OperationLogNewReq) returns(OperationLogDetails);
   // 批量删除操作记录
   rpc DeleteOperationLog(IdsReq) returns(BatchResp);
   // 查询操作记录列表
@@ -97,5 +118,7 @@ service SyslogRpc {
 
 
   // 上传文件
-  rpc AddUploadLog(UploadLogReq) returns(UploadLogResp);
+  rpc AddUploadLog(UploadLogNewReq) returns(UploadLogDetails);
+  // 查询文件列表
+  rpc FindUploadLogList(FindUploadLogListReq) returns(FindOperationLogListResp);
 }

@@ -77,7 +77,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
-	return onLogin(l.svcCtx, l.ctx, user)
+	return onLogin(l.ctx, l.svcCtx, user)
 }
 
 func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
@@ -104,7 +104,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	}
 
 	/** 创建用户 **/
-	ua, err := onRegister(l.svcCtx, l.ctx, tx, user)
+	ua, err := onRegister(l.ctx, l.svcCtx, tx, user)
 	if err != nil {
 		return nil, err
 	}

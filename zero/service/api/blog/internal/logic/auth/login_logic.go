@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -9,6 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
@@ -40,7 +42,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		return
 	}
 
-	tk, err := l.createToken(out.UserId, out.Username, "")
+	tk, err := createToken(l.ctx, l.svcCtx, out)
 	if err != nil {
 		return
 	}
@@ -52,28 +54,31 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	return
 }
 
-func (l *LoginLogic) createToken(uid int64, username string, loginType string) (token *types.Token, err error) {
+func createToken(ctx context.Context, svcCtx *svc.ServiceContext, login *accountrpc.LoginResp) (token *types.Token, err error) {
 	now := time.Now().Unix()
 	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
 	refreshExpiresIn := time.Now().Add(30 * 24 * time.Hour).Unix()
 	issuer := "blog"
+	uid := login.UserId
+	var roles []string
+	for _, role := range login.Roles {
+		roles = append(roles, role.RoleName)
+	}
 
-	accessToken, err := l.svcCtx.Token.CreateToken(
+	accessToken, err := svcCtx.Token.CreateToken(
 		jtoken.WithExpiresAt(expiresIn),
 		jtoken.WithIssuedAt(now),
 		jtoken.WithIssuer(issuer),
 		jtoken.WithClaimExt("uid", uid),
-		jtoken.WithClaimExt("username", username),
-		jtoken.WithClaimExt("login_type", loginType),
+		jtoken.WithClaimExt("roles", strings.Join(roles, ",")),
 	)
 
-	refreshToken, err := l.svcCtx.Token.CreateToken(
+	refreshToken, err := svcCtx.Token.CreateToken(
 		jtoken.WithExpiresAt(refreshExpiresIn),
 		jtoken.WithIssuedAt(now),
 		jtoken.WithIssuer(issuer),
 		jtoken.WithClaimExt("uid", uid),
-		jtoken.WithClaimExt("username", username),
-		jtoken.WithClaimExt("login_type", loginType),
+		jtoken.WithClaimExt("roles", strings.Join(roles, ",")),
 	)
 
 	token = &types.Token{

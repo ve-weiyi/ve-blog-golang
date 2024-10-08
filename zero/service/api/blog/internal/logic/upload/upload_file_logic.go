@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
@@ -39,7 +40,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 	if err != nil {
 		return nil, err
 	}
-	in := &syslogrpc.UploadLogReq{
+	in := &syslogrpc.UploadLogNewReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Label:    label,
 		FileName: h.Filename,
@@ -56,7 +57,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 	return ConvertUploadTypes(out), nil
 }
 
-func ConvertUploadTypes(req *syslogrpc.UploadLogResp) (out *types.UploadFileResp) {
+func ConvertUploadTypes(req *syslogrpc.UploadLogDetails) (out *types.UploadFileResp) {
 
 	out = &types.UploadFileResp{
 		Id:        req.Id,

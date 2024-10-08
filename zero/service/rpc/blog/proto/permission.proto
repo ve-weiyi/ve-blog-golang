@@ -113,8 +113,8 @@ message SyncApiReq {
 message RoleNewReq {
   int64 id = 1;// 主键id
   int64 parent_id = 2;// 父角色id
-  string role_domain = 3;// 角色域
-  string role_name = 4;// 角色名
+  string role_name = 3;// 角色名
+  string role_label = 4;// 角色标签
   string role_comment = 5;// 角色备注
   int64 is_disable = 6;// 是否禁用  0否 1是
   int64 is_default = 7;// 是否默认角色 0否 1是
@@ -125,8 +125,8 @@ message RoleNewReq {
 message RoleDetails {
   int64 id = 1;// 主键id
   int64 parent_id = 2;// 父角色id
-  string role_domain = 3;// 角色域
-  string role_name = 4;// 角色名
+  string role_name = 3;// 角色名
+  string role_label = 4;// 角色标签
   string role_comment = 5;// 角色备注
   int64 is_disable = 6;// 是否禁用  0否 1是
   int64 is_default = 7;// 是否默认角色 0否 1是
@@ -183,7 +183,7 @@ message FindRoleListReq {
   int64 page_size = 2;
   repeated string sorts = 3; // 排序
   string role_name = 4;// 角色名
-  string role_comment = 5;// 角色备注
+  string role_label = 5;// 角色标签
   int64 is_disable = 6;// 是否禁用  0否 1是
 }
 

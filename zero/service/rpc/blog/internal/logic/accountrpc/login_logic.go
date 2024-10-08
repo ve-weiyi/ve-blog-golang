@@ -50,26 +50,49 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 		return nil, apierr.NewApiError(codex.CodeUserPasswordError, "密码不正确")
 	}
 
-	return onLogin(l.svcCtx, l.ctx, account)
+	return onLogin(l.ctx, l.svcCtx, account)
 }
 
-func onLogin(svcCtx *svc.ServiceContext, ctx context.Context, user *model.TUser) (resp *accountrpc.LoginResp, err error) {
+func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser) (resp *accountrpc.LoginResp, err error) {
 	// 判断用户是否被禁用
 	if user.Status == constant.UserStatusDisabled {
 		return nil, apierr.NewApiError(codex.CodeUserDisabled, "用户已被禁用")
 	}
 
-	resp = &accountrpc.LoginResp{
-		UserId:   user.Id,
-		Username: user.Username,
-		Nickname: user.Nickname,
-		Avatar:   user.Avatar,
-		Info:     user.Info,
-	}
-
 	agent, _ := rpcutil.GetRPCUserAgent(ctx)
 	ip, _ := rpcutil.GetRPCClientIP(ctx)
 	is, _ := ipx.GetIpInfoByBaidu(ip)
+	// 查找用户角色
+	rList, err := getUserRoles(ctx, svcCtx, user.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	var roles []*accountrpc.UserRoleLabel
+	for _, role := range rList {
+		m := &accountrpc.UserRoleLabel{
+			RoleId:      role.Id,
+			RoleName:    role.RoleName,
+			RoleComment: role.RoleComment,
+		}
+
+		roles = append(roles, m)
+	}
+
+	resp = &accountrpc.LoginResp{
+		UserId:    user.Id,
+		Username:  user.Username,
+		Nickname:  user.Nickname,
+		Avatar:    user.Avatar,
+		Email:     user.Email,
+		Phone:     user.Phone,
+		Info:      user.Info,
+		LoginType: user.LoginType,
+		IpAddress: ip,
+		IpSource:  is.Location,
+		Roles:     roles,
+	}
+
 	// 登录记录
 	history := &model.TUserLoginHistory{
 		UserId:    user.Id,

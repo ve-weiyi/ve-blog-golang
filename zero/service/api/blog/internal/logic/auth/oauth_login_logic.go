@@ -2,11 +2,9 @@ package auth
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 
@@ -40,7 +38,7 @@ func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.Logi
 		return
 	}
 
-	tk, err := l.createToken(out.UserId, out.Username, req.Platform)
+	tk, err := createToken(l.ctx, l.svcCtx, out)
 	if err != nil {
 		return
 	}
@@ -49,41 +47,4 @@ func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.Logi
 		Token: tk,
 	}
 	return
-}
-
-func (l *OauthLoginLogic) createToken(uid int64, username string, loginType string) (token *types.Token, err error) {
-	now := time.Now().Unix()
-	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
-	refreshExpiresIn := time.Now().Add(30 * 24 * time.Hour).Unix()
-	issuer := "blog"
-
-	accessToken, err := l.svcCtx.Token.CreateToken(
-		jtoken.WithExpiresAt(expiresIn),
-		jtoken.WithIssuedAt(now),
-		jtoken.WithIssuer(issuer),
-		jtoken.WithClaimExt("uid", uid),
-		jtoken.WithClaimExt("username", username),
-		jtoken.WithClaimExt("login_type", loginType),
-	)
-
-	refreshToken, err := l.svcCtx.Token.CreateToken(
-		jtoken.WithExpiresAt(refreshExpiresIn),
-		jtoken.WithIssuedAt(now),
-		jtoken.WithIssuer(issuer),
-		jtoken.WithClaimExt("uid", uid),
-		jtoken.WithClaimExt("username", username),
-		jtoken.WithClaimExt("login_type", loginType),
-	)
-
-	token = &types.Token{
-		UserId:           uid,
-		TokenType:        "Bearer",
-		AccessToken:      accessToken,
-		ExpiresIn:        expiresIn,
-		RefreshToken:     refreshToken,
-		RefreshExpiresIn: refreshExpiresIn,
-	}
-
-	// 生成token
-	return token, nil
 }

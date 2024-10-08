@@ -51,7 +51,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 	return resp, nil
 }
 
-func ConvertOperationLogTypes(in *syslogrpc.OperationLog) (out *types.OperationLogBackDTO) {
+func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails) (out *types.OperationLogBackDTO) {
 
 	return &types.OperationLogBackDTO{
 		Id:             in.Id,

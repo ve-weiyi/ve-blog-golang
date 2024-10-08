@@ -13,6 +13,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rbacx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
@@ -44,12 +45,14 @@ type ServiceContext struct {
 	WebsiteRpc    websiterpc.WebsiteRpc
 	ConfigRpc     configrpc.ConfigRpc
 
-	Uploader upload.Uploader
-	Token    *jtoken.JwtInstance
-	Redis    *redis.Redis
+	Uploader   upload.Uploader
+	Token      *jtoken.JwtInstance
+	Redis      *redis.Redis
+	RbacHolder *rbacx.RbacHolder
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
+	Operation rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -62,6 +65,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	if err != nil {
 		panic(err)
 	}
+
+	rh := rbacx.NewRbacHolder(permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)))
+	go rh.LoadPolicy()
 
 	return &ServiceContext{
 		Config:        c,
@@ -80,8 +86,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Uploader:      upload.NewQiniu(c.UploadConfig),
 		Token:         jwt,
 		Redis:         rds,
+		RbacHolder:    rh,
 		JwtToken:      middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
 		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
+		Operation: middlewarex.NewOperationMiddleware(
+			rh,
+			syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		).Handle,
 	}
 }
 

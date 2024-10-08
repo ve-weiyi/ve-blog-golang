@@ -96,10 +96,10 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 		IpSource:  "",
 	}
 
-	return onRegister(l.svcCtx, l.ctx, tx, user)
+	return onRegister(l.ctx, l.svcCtx, tx, user)
 }
 
-func onRegister(svcCtx *svc.ServiceContext, ctx context.Context, tx *gorm.DB, user *model.TUser) (out *model.TUser, err error) {
+func onRegister(ctx context.Context, svcCtx *svc.ServiceContext, tx *gorm.DB, user *model.TUser) (out *model.TUser, err error) {
 	/** 创建用户 **/
 	_, err = svcCtx.TUserModel.WithTransaction(tx).Insert(ctx, user)
 	if err != nil {

@@ -2,19 +2,18 @@ package middlewarex
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/spf13/cast"
-	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/redis"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
+	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
 )
 
@@ -72,7 +71,7 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		//token验证成功,但用户在别处登录或退出登录
-		if j.IsBlacklist(claims) {
+		if j.IsLogout(claims) {
 			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "user already logout or login in other place"))
 			return
 		}
@@ -88,17 +87,17 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		logx.Infof("JwtMiddleware uid=%s, token=%s", uid, token)
+		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	}
 }
 
 // 已退出登录
-func (j *JwtTokenMiddleware) IsBlacklist(claims jwt.MapClaims) bool {
+func (j *JwtTokenMiddleware) IsLogout(claims jwt.MapClaims) bool {
 	uid := cast.ToInt64(claims["uid"])
 	loginAt := cast.ToInt64(claims[jtoken.JwtIssueAt])
 
-	redisKey := rediskey.GetUserLogoutKey(cast.ToString(uid))
+	redisKey := GetUserLogoutKey(uid)
 
 	at, err := j.Redis.Get(redisKey)
 	if err != nil {
@@ -106,12 +105,14 @@ func (j *JwtTokenMiddleware) IsBlacklist(claims jwt.MapClaims) bool {
 	}
 
 	logoutAt := cast.ToInt64(at)
-
-	logx.Infof("loginAt=%d, at.LogoutAt=%d", loginAt, logoutAt)
-
 	if loginAt < logoutAt {
+		logx.Infof("loginAt=%d, at.LogoutAt=%d", loginAt, logoutAt)
 		return true
 	}
 
 	return false
+}
+
+func GetUserLogoutKey(uid int64) string {
+	return fmt.Sprintf("user:logout:%d", uid)
 }

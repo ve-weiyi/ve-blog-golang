@@ -41,13 +41,22 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 
 		var children []*permissionrpc.ApiNewReq
 		for _, r := range g.Routes {
+			var traceable int64
+			if !strings.Contains(strings.ToUpper(r.Method), "GET") {
+				if strings.Contains(r.Path, "find") {
+					traceable = 0
+				} else {
+					traceable = 1
+				}
+			}
+
 			child := &permissionrpc.ApiNewReq{
 				Id:        0,
 				ParentId:  0,
 				Path:      prefix + r.Path,
 				Name:      strings.Trim(r.AtDoc.Text, `"`),
 				Method:    strings.ToUpper(r.Method),
-				Traceable: 0,
+				Traceable: traceable,
 				IsDisable: 0,
 				Children:  nil,
 			}
@@ -58,7 +67,7 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 			ParentId:  0,
 			Path:      group,
 			Name:      group,
-			Method:    "NULL",
+			Method:    "",
 			Traceable: 0,
 			IsDisable: 0,
 			Children:  children,
@@ -71,6 +80,11 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 	}
 
 	out, err := l.svcCtx.PermissionRpc.SyncApiList(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	err = l.svcCtx.RbacHolder.LoadPolicy()
 	if err != nil {
 		return nil, err
 	}

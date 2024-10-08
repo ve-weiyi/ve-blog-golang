@@ -41,6 +41,7 @@ type (
 		IpAddress      string    `json:"ip_address" gorm:"column:ip_address" `           // 操作ip
 		IpSource       string    `json:"ip_source" gorm:"column:ip_source" `             // 操作地址
 		OptModule      string    `json:"opt_module" gorm:"column:opt_module" `           // 操作模块
+		OptHandler     string    `json:"opt_handler" gorm:"column:opt_handler" `         // 操作方法
 		OptDesc        string    `json:"opt_desc" gorm:"column:opt_desc" `               // 操作描述
 		RequestUrl     string    `json:"request_url" gorm:"column:request_url" `         // 请求地址
 		RequestMethod  string    `json:"request_method" gorm:"column:request_method" `   // 请求方式

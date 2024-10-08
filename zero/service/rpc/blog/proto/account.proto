@@ -46,8 +46,14 @@ message LoginResp {
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
-  string info = 5;// 用户信息
-  string email = 6;// 用户邮箱
+  string email = 5;// 用户邮箱
+  string phone = 6;// 用户手机号
+  string info = 7;// 用户信息
+
+  string login_type = 9;
+  string ip_address = 10;// ip host
+  string ip_source = 11;// ip 源
+  repeated UserRoleLabel roles = 16;
 }
 
 message LogoutReq {
@@ -220,7 +226,7 @@ service AccountRpc {
   // 获取第三方登录授权地址
   rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
   // 获取用户登录时间
-//  rpc GetLogoutAt(UserIdReq) returns(LogoutResp);
+  //  rpc GetLogoutAt(UserIdReq) returns(LogoutResp);
 
 
   // 获取用户信息

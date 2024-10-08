@@ -87,8 +87,8 @@ type (
     UserRole {
         Id int64 `json:"id,optional"`                     // 主键id
         ParentId int64 `json:"parent_id"`                 // 父id
-        RoleDomain string `json:"role_domain"`            // 角色域
         RoleName string `json:"role_name"`                // 角色名
+        RoleLabel string `json:"role_label"`              // 角色标签
         RoleComment string `json:"role_comment"`          // 角色备注
     }
 

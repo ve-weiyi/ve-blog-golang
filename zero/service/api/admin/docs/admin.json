@@ -4645,13 +4645,13 @@
           "format": "int64",
           "description": " 父角色id"
         },
-        "role_domain": {
-          "type": "string",
-          "description": " 角色域"
-        },
         "role_name": {
           "type": "string",
           "description": " 角色名"
+        },
+        "role_label": {
+          "type": "string",
+          "description": " 角色标签"
         },
         "role_comment": {
           "type": "string",
@@ -4681,8 +4681,8 @@
       "title": "RoleBackDTO",
       "required": [
         "parent_id",
-        "role_domain",
         "role_name",
+        "role_label",
         "role_comment",
         "is_disable",
         "is_default",
@@ -4703,13 +4703,13 @@
           "format": "int64",
           "description": " 父角色id"
         },
-        "role_domain": {
-          "type": "string",
-          "description": " 角色域"
-        },
         "role_name": {
           "type": "string",
           "description": " 角色名"
+        },
+        "role_label": {
+          "type": "string",
+          "description": " 角色标签"
         },
         "role_comment": {
           "type": "string",
@@ -4729,8 +4729,8 @@
       "title": "RoleNewReq",
       "required": [
         "parent_id",
-        "role_domain",
         "role_name",
+        "role_label",
         "role_comment",
         "is_disable",
         "is_default"
@@ -4759,6 +4759,10 @@
         "role_name": {
           "type": "string",
           "description": " 角色名"
+        },
+        "role_label": {
+          "type": "string",
+          "description": " 角色标签"
         },
         "is_disable": {
           "type": "integer",
@@ -5710,13 +5714,13 @@
           "format": "int64",
           "description": " 父id"
         },
-        "role_domain": {
-          "type": "string",
-          "description": " 角色域"
-        },
         "role_name": {
           "type": "string",
           "description": " 角色名"
+        },
+        "role_label": {
+          "type": "string",
+          "description": " 角色标签"
         },
         "role_comment": {
           "type": "string",
@@ -5726,8 +5730,8 @@
       "title": "UserRole",
       "required": [
         "parent_id",
-        "role_domain",
         "role_name",
+        "role_label",
         "role_comment"
       ]
     },
