@@ -2,7 +2,6 @@ package syslogrpclogic
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/syslogrpc"
@@ -26,7 +25,7 @@ func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 // 创建操作记录
-func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLog) (*syslogrpc.OperationLog, error) {
+func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLogNewReq) (*syslogrpc.OperationLogDetails, error) {
 	entity := convertOperationLogIn(in)
 
 	_, err := l.svcCtx.TOperationLogModel.Insert(l.ctx, entity)
@@ -37,14 +36,14 @@ func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLog) (*sys
 	return convertOperationLogOut(entity), nil
 }
 
-func convertOperationLogIn(in *syslogrpc.OperationLog) (out *model.TOperationLog) {
+func convertOperationLogIn(in *syslogrpc.OperationLogNewReq) (out *model.TOperationLog) {
 	out = &model.TOperationLog{
-		Id:             in.Id,
+		Id:             0,
 		UserId:         in.UserId,
 		Nickname:       in.Nickname,
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
-		OptModule:      in.OptDesc,
+		OptModule:      in.OptModule,
 		OptDesc:        in.OptDesc,
 		RequestUrl:     in.RequestUrl,
 		RequestMethod:  in.RequestMethod,
@@ -53,21 +52,21 @@ func convertOperationLogIn(in *syslogrpc.OperationLog) (out *model.TOperationLog
 		ResponseData:   in.ResponseData,
 		ResponseStatus: in.ResponseStatus,
 		Cost:           in.Cost,
-		CreatedAt:      time.Unix(in.CreatedAt, 0),
-		UpdatedAt:      time.Unix(in.UpdatedAt, 0),
+		//CreatedAt:      time.Unix(in.CreatedAt, 0),
+		//UpdatedAt:      time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out
 }
 
-func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLog) {
-	out = &syslogrpc.OperationLog{
+func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetails) {
+	out = &syslogrpc.OperationLogDetails{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		Nickname:       in.Nickname,
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
-		OptModule:      in.OptDesc,
+		OptModule:      in.OptModule,
 		OptDesc:        in.OptDesc,
 		RequestUrl:     in.RequestUrl,
 		RequestMethod:  in.RequestMethod,

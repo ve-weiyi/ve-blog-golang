@@ -10,23 +10,23 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindOperationLogListLogic struct {
+type FindUploadLogListLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindOperationLogListLogic {
-	return &FindOperationLogListLogic{
+func NewFindUploadLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindUploadLogListLogic {
+	return &FindUploadLogListLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 分页获取操作记录列表
-func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOperationLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
-	page, size, sorts, conditions, params := convertOperationLogQuery(in)
+// 查询文件列表
+func (l *FindUploadLogListLogic) FindUploadLogList(in *syslogrpc.FindUploadLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
+	page, size, sorts, conditions, params := convertUploadLogQuery(in)
 
 	result, err := l.svcCtx.TOperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -49,7 +49,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOpera
 	}, nil
 }
 
-func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, size int, sorts string, conditions string, params []any) {
+func convertUploadLogQuery(in *syslogrpc.FindUploadLogListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")

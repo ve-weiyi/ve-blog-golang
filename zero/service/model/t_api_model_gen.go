@@ -13,17 +13,18 @@ var _ TApiModel = (*defaultTApiModel)(nil)
 type (
 	// 接口定义
 	TApiModel interface {
-		// 切换事务操作
+		TableName() string
+		// 在事务中操作
 		WithTransaction(tx *gorm.DB) (out TApiModel)
 		// 插入
 		Insert(ctx context.Context, in *TApi) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*TApi) (rows int64, err error)
-		// 更新
-		Save(ctx context.Context, in *TApi) (rows int64, err error)
-		Update(ctx context.Context, in *TApi) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		// 更新
+		Update(ctx context.Context, in *TApi) (rows int64, err error)
+		Save(ctx context.Context, in *TApi) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TApi, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *TApi, err error)
@@ -63,7 +64,11 @@ func NewTApiModel(db *gorm.DB, cache *redis.Client) TApiModel {
 	}
 }
 
-// 切换事务操作
+func (m *defaultTApiModel) TableName() string {
+	return m.table
+}
+
+// 在事务中操作
 func (m *defaultTApiModel) WithTransaction(tx *gorm.DB) (out TApiModel) {
 	return NewTApiModel(tx, m.CacheEngin)
 }
@@ -92,30 +97,6 @@ func (m *defaultTApiModel) InsertBatch(ctx context.Context, in ...*TApi) (rows i
 	return result.RowsAffected, err
 }
 
-// 更新记录（不更新零值）
-func (m *defaultTApiModel) Save(ctx context.Context, in *TApi) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Omit("created_at").Save(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
-// 更新记录（更新零值）
-func (m *defaultTApiModel) Update(ctx context.Context, in *TApi) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Updates(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
 // 删除记录
 func (m *defaultTApiModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -130,7 +111,7 @@ func (m *defaultTApiModel) Delete(ctx context.Context, id int64) (rows int64, er
 	return result.RowsAffected, err
 }
 
-// 查询记录
+// 删除记录
 func (m *defaultTApiModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -140,6 +121,30 @@ func (m *defaultTApiModel) DeleteBatch(ctx context.Context, conditions string, a
 	}
 
 	result := db.Delete(&TApi{})
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 保存记录（更新零值）
+func (m *defaultTApiModel) Save(ctx context.Context, in *TApi) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Omit("created_at").Save(&in)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 更新记录（不更新零值）
+func (m *defaultTApiModel) Update(ctx context.Context, in *TApi) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

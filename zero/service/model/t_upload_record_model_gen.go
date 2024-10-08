@@ -13,17 +13,18 @@ var _ TUploadRecordModel = (*defaultTUploadRecordModel)(nil)
 type (
 	// 接口定义
 	TUploadRecordModel interface {
-		// 切换事务操作
+		TableName() string
+		// 在事务中操作
 		WithTransaction(tx *gorm.DB) (out TUploadRecordModel)
 		// 插入
 		Insert(ctx context.Context, in *TUploadRecord) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*TUploadRecord) (rows int64, err error)
-		// 更新
-		Save(ctx context.Context, in *TUploadRecord) (rows int64, err error)
-		Update(ctx context.Context, in *TUploadRecord) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		// 更新
+		Update(ctx context.Context, in *TUploadRecord) (rows int64, err error)
+		Save(ctx context.Context, in *TUploadRecord) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TUploadRecord, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *TUploadRecord, err error)
@@ -62,7 +63,11 @@ func NewTUploadRecordModel(db *gorm.DB, cache *redis.Client) TUploadRecordModel 
 	}
 }
 
-// 切换事务操作
+func (m *defaultTUploadRecordModel) TableName() string {
+	return m.table
+}
+
+// 在事务中操作
 func (m *defaultTUploadRecordModel) WithTransaction(tx *gorm.DB) (out TUploadRecordModel) {
 	return NewTUploadRecordModel(tx, m.CacheEngin)
 }
@@ -91,30 +96,6 @@ func (m *defaultTUploadRecordModel) InsertBatch(ctx context.Context, in ...*TUpl
 	return result.RowsAffected, err
 }
 
-// 更新记录（不更新零值）
-func (m *defaultTUploadRecordModel) Save(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Omit("created_at").Save(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
-// 更新记录（更新零值）
-func (m *defaultTUploadRecordModel) Update(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Updates(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
 // 删除记录
 func (m *defaultTUploadRecordModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -129,7 +110,7 @@ func (m *defaultTUploadRecordModel) Delete(ctx context.Context, id int64) (rows 
 	return result.RowsAffected, err
 }
 
-// 查询记录
+// 删除记录
 func (m *defaultTUploadRecordModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -139,6 +120,30 @@ func (m *defaultTUploadRecordModel) DeleteBatch(ctx context.Context, conditions 
 	}
 
 	result := db.Delete(&TUploadRecord{})
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 保存记录（更新零值）
+func (m *defaultTUploadRecordModel) Save(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Omit("created_at").Save(&in)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 更新记录（不更新零值）
+func (m *defaultTUploadRecordModel) Update(ctx context.Context, in *TUploadRecord) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

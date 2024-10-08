@@ -4,10 +4,6 @@ import (
 	"fmt"
 )
 
-func GetUserLogoutKey(uid string) string {
-	return fmt.Sprintf("user:logout:%s", uid)
-}
-
 func GetUserLikeArticleKey(uid string) string {
 	return fmt.Sprintf("user:like:article:%s", uid)
 }

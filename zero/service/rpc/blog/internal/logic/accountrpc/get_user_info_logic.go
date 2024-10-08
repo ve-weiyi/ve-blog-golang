@@ -34,7 +34,17 @@ func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.Us
 	}
 
 	// 查找用户角色
-	urList, err := l.svcCtx.TUserRoleModel.FindALL(l.ctx, "user_id in (?)", uid)
+	rList, err := getUserRoles(l.ctx, l.svcCtx, uid)
+	if err != nil {
+		return nil, err
+	}
+
+	return convertUserInfoOut(ui, rList), nil
+}
+
+func getUserRoles(ctx context.Context, svcCtx *svc.ServiceContext, uid int64) (list []*model.TRole, err error) {
+	// 查找用户角色
+	urList, err := svcCtx.TUserRoleModel.FindALL(ctx, "user_id in (?)", uid)
 	if err != nil {
 		return nil, err
 	}
@@ -47,12 +57,12 @@ func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.Us
 	}
 
 	// 查找角色信息
-	rList, err := l.svcCtx.TRoleModel.FindALL(l.ctx, "id in (?)", roleIds)
+	rList, err := svcCtx.TRoleModel.FindALL(ctx, "id in (?)", roleIds)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertUserInfoOut(ui, rList), nil
+	return rList, nil
 }
 
 func convertUserInfoOut(in *model.TUser, roles []*model.TRole) (out *accountrpc.UserInfoResp) {
