@@ -13,17 +13,18 @@ var _ TVisitHistoryModel = (*defaultTVisitHistoryModel)(nil)
 type (
 	// 接口定义
 	TVisitHistoryModel interface {
-		// 切换事务操作
+		TableName() string
+		// 在事务中操作
 		WithTransaction(tx *gorm.DB) (out TVisitHistoryModel)
 		// 插入
 		Insert(ctx context.Context, in *TVisitHistory) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*TVisitHistory) (rows int64, err error)
-		// 更新
-		Save(ctx context.Context, in *TVisitHistory) (rows int64, err error)
-		Update(ctx context.Context, in *TVisitHistory) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		// 更新
+		Update(ctx context.Context, in *TVisitHistory) (rows int64, err error)
+		Save(ctx context.Context, in *TVisitHistory) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TVisitHistory, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *TVisitHistory, err error)
@@ -59,7 +60,11 @@ func NewTVisitHistoryModel(db *gorm.DB, cache *redis.Client) TVisitHistoryModel 
 	}
 }
 
-// 切换事务操作
+func (m *defaultTVisitHistoryModel) TableName() string {
+	return m.table
+}
+
+// 在事务中操作
 func (m *defaultTVisitHistoryModel) WithTransaction(tx *gorm.DB) (out TVisitHistoryModel) {
 	return NewTVisitHistoryModel(tx, m.CacheEngin)
 }
@@ -88,30 +93,6 @@ func (m *defaultTVisitHistoryModel) InsertBatch(ctx context.Context, in ...*TVis
 	return result.RowsAffected, err
 }
 
-// 更新记录（不更新零值）
-func (m *defaultTVisitHistoryModel) Save(ctx context.Context, in *TVisitHistory) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Omit("created_at").Save(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
-// 更新记录（更新零值）
-func (m *defaultTVisitHistoryModel) Update(ctx context.Context, in *TVisitHistory) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Updates(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
 // 删除记录
 func (m *defaultTVisitHistoryModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -126,7 +107,7 @@ func (m *defaultTVisitHistoryModel) Delete(ctx context.Context, id int64) (rows 
 	return result.RowsAffected, err
 }
 
-// 查询记录
+// 删除记录
 func (m *defaultTVisitHistoryModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -136,6 +117,30 @@ func (m *defaultTVisitHistoryModel) DeleteBatch(ctx context.Context, conditions 
 	}
 
 	result := db.Delete(&TVisitHistory{})
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 保存记录（更新零值）
+func (m *defaultTVisitHistoryModel) Save(ctx context.Context, in *TVisitHistory) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Omit("created_at").Save(&in)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 更新记录（不更新零值）
+func (m *defaultTVisitHistoryModel) Update(ctx context.Context, in *TVisitHistory) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

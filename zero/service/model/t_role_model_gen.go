@@ -13,17 +13,18 @@ var _ TRoleModel = (*defaultTRoleModel)(nil)
 type (
 	// 接口定义
 	TRoleModel interface {
-		// 切换事务操作
+		TableName() string
+		// 在事务中操作
 		WithTransaction(tx *gorm.DB) (out TRoleModel)
 		// 插入
 		Insert(ctx context.Context, in *TRole) (rows int64, err error)
 		InsertBatch(ctx context.Context, in ...*TRole) (rows int64, err error)
-		// 更新
-		Save(ctx context.Context, in *TRole) (rows int64, err error)
-		Update(ctx context.Context, in *TRole) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		// 更新
+		Update(ctx context.Context, in *TRole) (rows int64, err error)
+		Save(ctx context.Context, in *TRole) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TRole, err error)
 		First(ctx context.Context, conditions string, args ...interface{}) (out *TRole, err error)
@@ -62,7 +63,11 @@ func NewTRoleModel(db *gorm.DB, cache *redis.Client) TRoleModel {
 	}
 }
 
-// 切换事务操作
+func (m *defaultTRoleModel) TableName() string {
+	return m.table
+}
+
+// 在事务中操作
 func (m *defaultTRoleModel) WithTransaction(tx *gorm.DB) (out TRoleModel) {
 	return NewTRoleModel(tx, m.CacheEngin)
 }
@@ -91,30 +96,6 @@ func (m *defaultTRoleModel) InsertBatch(ctx context.Context, in ...*TRole) (rows
 	return result.RowsAffected, err
 }
 
-// 更新记录（不更新零值）
-func (m *defaultTRoleModel) Save(ctx context.Context, in *TRole) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Omit("created_at").Save(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
-// 更新记录（更新零值）
-func (m *defaultTRoleModel) Update(ctx context.Context, in *TRole) (rows int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	result := db.Updates(&in)
-	if result.Error != nil {
-		return 0, result.Error
-	}
-
-	return result.RowsAffected, err
-}
-
 // 删除记录
 func (m *defaultTRoleModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -129,7 +110,7 @@ func (m *defaultTRoleModel) Delete(ctx context.Context, id int64) (rows int64, e
 	return result.RowsAffected, err
 }
 
-// 查询记录
+// 删除记录
 func (m *defaultTRoleModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -139,6 +120,30 @@ func (m *defaultTRoleModel) DeleteBatch(ctx context.Context, conditions string, 
 	}
 
 	result := db.Delete(&TRole{})
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 保存记录（更新零值）
+func (m *defaultTRoleModel) Save(ctx context.Context, in *TRole) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Omit("created_at").Save(&in)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 更新记录（不更新零值）
+func (m *defaultTRoleModel) Update(ctx context.Context, in *TRole) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}
