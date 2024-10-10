@@ -31,7 +31,7 @@ func (l *FindUserLikeTalkLogic) FindUserLikeTalk(in *talkrpc.UserIdReq) (*talkrp
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeTalkKey(uid)
 
-	result, err := l.svcCtx.Redis.HGetAll(l.ctx, likeKey).Result()
+	result, err := l.svcCtx.Redis.SMembers(l.ctx, likeKey).Result()
 	if err != nil {
 		return nil, err
 	}

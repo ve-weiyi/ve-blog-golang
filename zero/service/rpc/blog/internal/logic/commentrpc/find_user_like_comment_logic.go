@@ -31,7 +31,7 @@ func (l *FindUserLikeCommentLogic) FindUserLikeComment(in *commentrpc.UserIdReq)
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeCommentKey(uid)
 
-	result, err := l.svcCtx.Redis.HGetAll(l.ctx, likeKey).Result()
+	result, err := l.svcCtx.Redis.SMembers(l.ctx, likeKey).Result()
 	if err != nil {
 		return nil, err
 	}

@@ -43,11 +43,11 @@ func (l *LikeTalkLogic) LikeTalk(in *talkrpc.IdReq) (*talkrpc.EmptyResp, error) 
 	likeKey := rediskey.GetUserLikeTalkKey(uid)
 	countKey := rediskey.GetTalkLikeCountKey(id)
 
-	ok, _ := l.svcCtx.Redis.HExists(l.ctx, likeKey, id).Result()
+	ok, _ := l.svcCtx.Redis.SIsMember(l.ctx, likeKey, id).Result()
 	if ok {
 		// -1
 		entity.LikeCount--
-		err = l.svcCtx.Redis.HDel(l.ctx, likeKey, id, "1").Err()
+		err = l.svcCtx.Redis.SRem(l.ctx, likeKey, id).Err()
 		if err != nil {
 			return nil, err
 		}
@@ -58,7 +58,7 @@ func (l *LikeTalkLogic) LikeTalk(in *talkrpc.IdReq) (*talkrpc.EmptyResp, error) 
 	} else {
 		// +1
 		entity.LikeCount++
-		err = l.svcCtx.Redis.HSet(l.ctx, likeKey, id, "1").Err()
+		err = l.svcCtx.Redis.SAdd(l.ctx, likeKey, id).Err()
 		if err != nil {
 			return nil, err
 		}

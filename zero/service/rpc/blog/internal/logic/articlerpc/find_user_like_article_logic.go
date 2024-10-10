@@ -31,7 +31,7 @@ func (l *FindUserLikeArticleLogic) FindUserLikeArticle(in *articlerpc.UserIdReq)
 	uid := cast.ToString(in.UserId)
 	likeKey := rediskey.GetUserLikeArticleKey(uid)
 
-	result, err := l.svcCtx.Redis.HGetAll(l.ctx, likeKey).Result()
+	result, err := l.svcCtx.Redis.SMembers(l.ctx, likeKey).Result()
 	if err != nil {
 		return nil, err
 	}
