@@ -53,7 +53,7 @@ type Transition struct {
 // RouteChildrenConfigsTable 对应TypeScript中的RouteChildrenConfigsTable接口
 //type RouteChildrenConfigsTable struct {
 //	Path      string                      `json:"path"`                // 子路由地址
-//	Name      string                      `json:"name,omitempty"`      // 路由名字
+//	Group      string                      `json:"name,omitempty"`      // 路由名字
 //	Redirect  string                      `json:"redirect,omitempty"`  // 路由重定向
 //	Component interface{}                 `json:"component,omitempty"` // 按需加载组件
 //	Meta      CustomizeRouteMeta          `json:"meta,omitempty"`      // meta配置

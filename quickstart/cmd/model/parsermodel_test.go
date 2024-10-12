@@ -1,4 +1,4 @@
-package cmd
+package model
 
 import (
 	"testing"
@@ -6,17 +6,17 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	model2 "github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/model"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/model/helper"
 )
 
 func Test_ParseTableFormDsn(t *testing.T) {
 	const dsn = "root:mysql7914@(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
-	fromDsn, err := model2.ParseTableFromDsn(dsn)
+	fromDsn, err := helper.ParseTableFromDsn(dsn)
 	t.Log(err)
 	// t.Log(jsonconv.ObjectToJsonIndent(fromDsn))
 
 	const sql = "test.sql"
-	fromSql, err := model2.ParseTableFromSql(sql)
+	fromSql, err := helper.ParseTableFromSql(sql)
 	t.Log(err)
 	// t.Log(jsonconv.ObjectToJsonIndent(fromSql))
 
@@ -25,7 +25,7 @@ func Test_ParseTableFormDsn(t *testing.T) {
 
 func Test_ParseTableFromSql(t *testing.T) {
 	const sql = "test.sql"
-	fromSql, err := model2.ParseTableFromSql(sql)
+	fromSql, err := helper.ParseTableFromSql(sql)
 	t.Log(err)
 	t.Log(jsonconv.ObjectToJsonIndent(fromSql))
 }

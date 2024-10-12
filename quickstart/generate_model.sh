@@ -10,6 +10,12 @@
 #-o='/Users/weiyi/Github/ve-blog-golang/zero/service/model'  \
 #-s='root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
 
+#go run main.go model dsn \
+#-t=./resource/go-zero/template/model.tpl \
+#-n='%v_model.go' \
+#-o='/Users/weiyi/Github/ve-blog-golang/server/model'  \
+#-s='root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
+
 # ddl(Data Definition Language)生成model文件
 go run main.go model ddl \
 -t=./resource/gin/template/model.tpl \

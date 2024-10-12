@@ -3,6 +3,7 @@ package svctx
 import (
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/orca-zhang/ecache"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -13,8 +14,10 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/repository"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/rbac"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
@@ -23,16 +26,19 @@ import (
 type ServiceContext struct {
 	Config *config.Config
 
-	DbEngin        *gorm.DB
-	RedisEngin     *redis.Client
-	LocalCache     *ecache.Cache
-	Token          *jtoken.JwtInstance
-	Oauth          map[string]oauth.Oauth
-	CaptchaHolder  *captcha.CaptchaHolder
-	AIChatGPT      *chatgpt.AIChatGPT
-	EmailPublisher rabbitmq.MessagePublisher
-	Uploader       upload.Uploader
-	RbacHolder     rbac.RbacHolder //RBAC角色访问控制器
+	DbEngin             *gorm.DB
+	RedisEngin          *redis.Client
+	LocalCache          *ecache.Cache
+	Token               *jtoken.JwtInstance
+	Oauth               map[string]oauth.Oauth
+	CaptchaHolder       *captcha.CaptchaHolder
+	AIChatGPT           *chatgpt.AIChatGPT
+	EmailPublisher      rabbitmq.MessagePublisher
+	Uploader            upload.Uploader
+	RbacHolder          rbac.RbacHolder //RBAC角色访问控制器
+	MiddlewareSignToken gin.HandlerFunc
+	MiddlewareJwtToken  gin.HandlerFunc
+	MiddlewareOperation gin.HandlerFunc
 
 	ApiRepository              *repository.ApiRepository              //api路由
 	ArticleRepository          *repository.ArticleRepository          //文章
@@ -95,18 +101,23 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 		chatgpt.WithModel(c.ChatGPT.Model),
 	)
 
+	tk := jtoken.NewJWTInstance([]byte(c.JWT.SigningKey))
+
 	return &ServiceContext{
-		Config:         c,
-		DbEngin:        db,
-		RedisEngin:     rdb,
-		LocalCache:     cache,
-		Token:          jtoken.NewJWTInstance([]byte(c.JWT.SigningKey)),
-		Oauth:          initialize.InitOauth(c.Oauth),
-		CaptchaHolder:  ch,
-		AIChatGPT:      gpt,
-		EmailPublisher: mq,
-		Uploader:       up,
-		RbacHolder:     rbac.NewPermissionHolder(db),
+		Config:              c,
+		DbEngin:             db,
+		RedisEngin:          rdb,
+		LocalCache:          cache,
+		Token:               tk,
+		Oauth:               initialize.InitOauth(c.Oauth),
+		CaptchaHolder:       ch,
+		AIChatGPT:           gpt,
+		EmailPublisher:      mq,
+		Uploader:            up,
+		RbacHolder:          rbac.NewPermissionHolder(db),
+		MiddlewareSignToken: middleware.SignToken(),
+		MiddlewareJwtToken:  middleware.JwtToken(tk),
+		MiddlewareOperation: middleware.GinLogger(),
 
 		ApiRepository:              repository.NewApiRepository(db, rdb),
 		ArticleRepository:          repository.NewArticleRepository(db, rdb),

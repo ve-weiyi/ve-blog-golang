@@ -38,7 +38,7 @@ type (
 	// 表字段定义
 	{{.UpperStartCamelName}} struct {
 	{{range .Fields}}
-        {{.Name}} {{.Type}} `{{.Tags}}` {{if .Comment}}// {{.Comment}}{{end}}
+        {{.Group}} {{.Type}} `{{.Tags}}` {{if .Comment}}// {{.Comment}}{{end}}
 	{{- end}}
 	}
 

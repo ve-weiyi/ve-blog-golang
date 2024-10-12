@@ -207,49 +207,49 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 添加文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/add_article",
+					Path:    "/article/add_article",
 					Handler: article.AddArticleHandler(serverCtx),
 				},
 				{
 					// 删除文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/delete_article",
+					Path:    "/article/delete_article",
 					Handler: article.DeleteArticleHandler(serverCtx),
 				},
 				{
 					// 导出文章列表
 					Method:  http.MethodPost,
-					Path:    "/admin/article/export_article_list",
+					Path:    "/article/export_article_list",
 					Handler: article.ExportArticleListHandler(serverCtx),
 				},
 				{
 					// 查询文章列表
 					Method:  http.MethodPost,
-					Path:    "/admin/article/find_article_list",
+					Path:    "/article/find_article_list",
 					Handler: article.FindArticleListHandler(serverCtx),
 				},
 				{
 					// 查询文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/get_article",
+					Path:    "/article/get_article",
 					Handler: article.GetArticleHandler(serverCtx),
 				},
 				{
 					// 回收文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/recycle_article",
+					Path:    "/article/recycle_article",
 					Handler: article.RecycleArticleHandler(serverCtx),
 				},
 				{
 					// 置顶文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/top_article",
+					Path:    "/article/top_article",
 					Handler: article.TopArticleHandler(serverCtx),
 				},
 				{
 					// 保存文章
 					Method:  http.MethodPost,
-					Path:    "/admin/article/update_article",
+					Path:    "/article/update_article",
 					Handler: article.UpdateArticleHandler(serverCtx),
 				},
 			}...,

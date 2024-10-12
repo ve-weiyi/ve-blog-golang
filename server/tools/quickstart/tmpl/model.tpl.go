@@ -18,7 +18,7 @@ type {{.UpperStartCamelName}} struct {
 	{{.ColumnComment}}
     */
 	{{end -}}
-    {{.Name}} {{.Type}} ` + "`{{.Tags}}` " +
+    {{.Group}} {{.Type}} ` + "`{{.Tags}}` " +
 	"{{if not .MultilineComment}}{{if .ColumnComment}}// {{.ColumnComment}}{{end}}{{end}}" +
 	`{{end}}
 }
