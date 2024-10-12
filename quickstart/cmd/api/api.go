@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,10 +13,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package main
+package api
 
-import "github.com/ve-weiyi/ve-blog-golang/quickstart/cmd"
+import (
+	"github.com/spf13/cobra"
+)
 
-func main() {
-	cmd.Execute()
+func NewRootCmd() *cobra.Command {
+	var rootCmd = &cobra.Command{
+		Use: "api",
+		Run: func(cmd *cobra.Command, args []string) {
+			_ = cmd.Help()
+			return
+		},
+	}
+
+	rootCmd.AddCommand(routerCmd)
+	rootCmd.AddCommand(serviceCmd)
+	rootCmd.AddCommand(controllerCmd)
+	rootCmd.AddCommand(dtoCmd)
+	return rootCmd
 }

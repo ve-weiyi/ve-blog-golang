@@ -1,4 +1,4 @@
-package dbdriver
+package dbutil
 
 // 数据库信息
 type Db struct {

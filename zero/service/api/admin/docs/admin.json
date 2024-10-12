@@ -236,225 +236,6 @@
         ]
       }
     },
-    "/admin_api/v1/admin/article/add_article": {
-      "post": {
-        "summary": "添加文章",
-        "operationId": "AddArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/ArticleBackDTO"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " 新建文章",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ArticleNewReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/delete_article": {
-      "post": {
-        "summary": "删除文章",
-        "operationId": "DeleteArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/export_article_list": {
-      "post": {
-        "summary": "导出文章列表",
-        "operationId": "ExportArticleList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/EmptyResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/find_article_list": {
-      "post": {
-        "summary": "查询文章列表",
-        "operationId": "FindArticleList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " 分页查询",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ArticleQuery"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/get_article": {
-      "post": {
-        "summary": "查询文章",
-        "operationId": "GetArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/ArticleBackDTO"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/recycle_article": {
-      "post": {
-        "summary": "回收文章",
-        "operationId": "RecycleArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/EmptyResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ArticleRecycleReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/top_article": {
-      "post": {
-        "summary": "置顶文章",
-        "operationId": "TopArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/EmptyResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ArticleTopReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
-    "/admin_api/v1/admin/article/update_article": {
-      "post": {
-        "summary": "保存文章",
-        "operationId": "UpdateArticle",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/ArticleBackDTO"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " 新建文章",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ArticleNewReq"
-            }
-          }
-        ],
-        "tags": [
-          "article"
-        ]
-      }
-    },
     "/admin_api/v1/admin/get_website_config": {
       "get": {
         "summary": "获取网站配置",
@@ -891,6 +672,225 @@
         ],
         "tags": [
           "api"
+        ]
+      }
+    },
+    "/admin_api/v1/article/add_article": {
+      "post": {
+        "summary": "添加文章",
+        "operationId": "AddArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 新建文章",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/delete_article": {
+      "post": {
+        "summary": "删除文章",
+        "operationId": "DeleteArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/export_article_list": {
+      "post": {
+        "summary": "导出文章列表",
+        "operationId": "ExportArticleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/find_article_list": {
+      "post": {
+        "summary": "查询文章列表",
+        "operationId": "FindArticleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 分页查询",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleQuery"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/get_article": {
+      "post": {
+        "summary": "查询文章",
+        "operationId": "GetArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/recycle_article": {
+      "post": {
+        "summary": "回收文章",
+        "operationId": "RecycleArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleRecycleReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/top_article": {
+      "post": {
+        "summary": "置顶文章",
+        "operationId": "TopArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleTopReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/admin_api/v1/article/update_article": {
+      "post": {
+        "summary": "保存文章",
+        "operationId": "UpdateArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ArticleBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 新建文章",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ArticleNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "article"
         ]
       }
     },

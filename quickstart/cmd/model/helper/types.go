@@ -1,4 +1,4 @@
-package model
+package helper
 
 type (
 	// Table describes a mysql table

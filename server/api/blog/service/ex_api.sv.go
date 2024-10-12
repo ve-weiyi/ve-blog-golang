@@ -46,7 +46,7 @@ func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 	//	parent, _ := l.svcCtx.ApiRepository.First(reqCtx, "name = ? and parent_id = ?", api.Tag, 0)
 	//	if parent == nil {
 	//		parent = &entity.Api{
-	//			Name: api.Tag,
+	//			Group: api.Tag,
 	//		}
 	//		_, err = l.svcCtx.ApiRepository.Create(reqCtx, parent)
 	//		if err != nil {
@@ -64,7 +64,7 @@ func (l *ApiService) SyncApiList(reqCtx *request.Context, req interface{}) (data
 	//
 	//	// 插入数据
 	//	model := &entity.Api{
-	//		Name:      api.Summary,
+	//		Group:      api.Summary,
 	//		Path:      api.Router,
 	//		Method:    strings.ToUpper(api.Method),
 	//		ParentId:  parent.Id,

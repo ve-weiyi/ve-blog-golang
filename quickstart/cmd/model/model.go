@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewModelCmd() *cobra.Command {
+func NewRootCmd() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "model",
 		Short: "从sql文件生成go代码",

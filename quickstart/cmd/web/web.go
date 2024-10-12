@@ -19,7 +19,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewWebCmd() *cobra.Command {
+func NewRootCmd() *cobra.Command {
 	var rootCmd = &cobra.Command{
 		Use: "web",
 		Run: func(cmd *cobra.Command, args []string) {

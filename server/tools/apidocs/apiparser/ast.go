@@ -221,9 +221,9 @@ func (s *AstParser) ParseModelDoc(filepath string) []*ModelDeclare {
 								// 继承
 								extend := getFieldsFormNode(field)
 								//if !strings.Contains(extend.Type, ".") {
-								//	extend.Type = fmt.Sprintf("%v.%v", file.Name.Name, extend.Type)
+								//	extend.Type = fmt.Sprintf("%v.%v", file.Group.Group, extend.Type)
 								//}
-								//fmt.Println("getFieldsFormNode", extend.Name, extend.Type, extend.Comment)
+								//fmt.Println("getFieldsFormNode", extend.Group, extend.Type, extend.Comment)
 								extendFields = append(extendFields, extend)
 							}
 						}

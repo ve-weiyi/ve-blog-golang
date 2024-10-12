@@ -2,6 +2,11 @@ package aspec
 
 // RoutePrefixKey is the prefix keyword for the routes.
 const RoutePrefixKey = "prefix"
+const (
+	GroupAnnotationKeyPrefix     = "prefix"
+	GroupAnnotationKeyGroup      = "group"
+	GroupAnnotationKeyMiddleware = "middleware"
+)
 
 type (
 	// Doc describes document

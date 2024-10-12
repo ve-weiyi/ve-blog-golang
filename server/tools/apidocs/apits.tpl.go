@@ -12,7 +12,7 @@ export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
     url: ` + "`{{.Route}}`" + `,
     method: "{{ .Method }}",
     {{- if .Body }}
-    data: {{ .Body.Name }},
+    data: {{ .Body.Group }},
     {{- end }}
   })
 }
@@ -21,9 +21,9 @@ export function {{ .FunctionName }}(` + ParamsTpl + `): Promise<{{.Response}}> {
 
 const ModelTypeScript = `
 {{- range . -}}
-export interface {{ .Name }} {{ if .Extends }}extends {{ joinArray .Extends }} {{ end }}{
+export interface {{ .Group }} {{ if .Extends }}extends {{ joinArray .Extends }} {{ end }}{
   {{- range .Fields }}
-  {{ .Name }}?: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
+  {{ .Group }}?: {{ .Type }}{{ if .Comment }} // {{ .Comment }}{{ end }}
   {{- end }}
 }
 
@@ -33,12 +33,12 @@ const ParamsTpl = `{{- .Request -}}`
 
 const PathTpl = `{{- if .Path -}}
   {{- range .Path -}}
-  {{ .Name }}?: {{ .Type }}
+  {{ .Group }}?: {{ .Type }}
   {{- end -}}
 {{- end -}}`
 
 const BodyTpl = `{{- if .Body -}}
-  {{ .Body.Name }}?: {{ .Body.Type }}
+  {{ .Body.Group }}?: {{ .Body.Type }}
 {{- end -}}`
 
 const ModelImportTpl = `{{ if .ImportModelTypes }}import { {{ joinArray .ImportModelTypes }} } from "./types"{{ end }}`

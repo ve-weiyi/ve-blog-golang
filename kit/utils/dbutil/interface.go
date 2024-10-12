@@ -1,4 +1,4 @@
-package dbdriver
+package dbutil
 
 type DBDriver interface {
 	GetSchemas() (data []Db, err error)

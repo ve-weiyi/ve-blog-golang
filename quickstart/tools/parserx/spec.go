@@ -55,12 +55,12 @@ func getGroupsFromSpec(sp *spec.ApiSpec) []aspec.Group {
 	var gps []aspec.Group
 	for _, g := range sp.Service.Groups {
 		var rts []aspec.Route
-		var base = g.Annotation.Properties["prefix"]
+		//var base = g.Annotation.Properties["prefix"]
 		for _, r := range g.Routes {
 
 			rt := aspec.Route{
 				Method:         r.Method,
-				Path:           base + r.Path,
+				Path:           r.Path,
 				PathType:       nil,
 				HeaderType:     nil,
 				FormType:       nil,

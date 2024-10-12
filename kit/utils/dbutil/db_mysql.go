@@ -1,4 +1,4 @@
-package dbdriver
+package dbutil
 
 import (
 	"gorm.io/gorm"
