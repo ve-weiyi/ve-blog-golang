@@ -69,33 +69,33 @@ type (
 service admin-api {
     @doc "查询文章"
     @handler GetArticle
-    post /admin/article/get_article (IdReq) returns (ArticleBackDTO)
+    post /article/get_article (IdReq) returns (ArticleBackDTO)
 
     @doc "添加文章"
     @handler AddArticle
-    post /admin/article/add_article (ArticleNewReq) returns (ArticleBackDTO)
+    post /article/add_article (ArticleNewReq) returns (ArticleBackDTO)
 
     @doc "保存文章"
     @handler UpdateArticle
-    post /admin/article/update_article (ArticleNewReq) returns (ArticleBackDTO)
+    post /article/update_article (ArticleNewReq) returns (ArticleBackDTO)
 
     @doc "删除文章"
     @handler DeleteArticle
-    post /admin/article/delete_article (IdReq) returns (BatchResp)
+    post /article/delete_article (IdReq) returns (BatchResp)
 
     @doc "回收文章"
     @handler RecycleArticle
-    post /admin/article/recycle_article (ArticleRecycleReq) returns (EmptyResp)
+    post /article/recycle_article (ArticleRecycleReq) returns (EmptyResp)
 
     @doc "置顶文章"
     @handler TopArticle
-    post /admin/article/top_article (ArticleTopReq) returns (EmptyResp)
+    post /article/top_article (ArticleTopReq) returns (EmptyResp)
 
     @doc "查询文章列表"
     @handler FindArticleList
-    post /admin/article/find_article_list (ArticleQuery) returns (PageResp)
+    post /article/find_article_list (ArticleQuery) returns (PageResp)
 
     @doc "导出文章列表"
     @handler ExportArticleList
-    post /admin/article/export_article_list (IdsReq) returns (EmptyResp)
+    post /article/export_article_list (IdsReq) returns (EmptyResp)
 }

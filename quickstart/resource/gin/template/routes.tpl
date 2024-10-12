@@ -1,22 +1,15 @@
 package {{ .Package }}
 
 import (
-{{- range .Imports }}
-    {{ . }}
-{{- end }}
+	{{- range .Imports}}
+    {{.}}
+    {{- end}}
 )
 
 // register your handlers here
-func RegisterHandlers(r *gin.RouterGroup, serverCtx *svc.ServiceContext) {
+func RegisterHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
     {{- range .Groups}}
-    // {{.Name}}
-    {
-        handler := controller.New{{Case2Camel .Name}}Controller(serverCtx)
-        {{- range .Routes}}
-            // {{.Doc}}
-            r.{{.Method}}("{{.Path}}", handler.{{.Handler}})
-        {{- end}}
-    }
+    router.New{{.}}Router(svCtx).Register(r)
     {{- end}}
 }
 

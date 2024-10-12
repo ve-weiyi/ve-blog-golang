@@ -10,6 +10,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/tools/invent"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/quickstart/cmd/model/helper"
 )
 
 type modelConfig struct {
@@ -19,7 +20,7 @@ type modelConfig struct {
 	NameAs  string
 }
 
-func generateModel(tables []*Table, conf modelConfig) error {
+func generateModel(tables []*helper.Table, conf modelConfig) error {
 	t := files.ToAbs(conf.TplFile)
 	o := conf.OutPath
 	n := conf.NameAs
@@ -97,7 +98,7 @@ func generateModel(tables []*Table, conf modelConfig) error {
 	return nil
 }
 
-func convertTableToData(table *Table) any {
+func convertTableToData(table *helper.Table) any {
 
 	var fs []*field.Field
 	for _, e := range table.Fields {
@@ -125,7 +126,7 @@ func convertTableToData(table *Table) any {
 	return data
 }
 
-func convertField(e *Field) *field.Field {
+func convertField(e *helper.Field) *field.Field {
 
 	return &field.Field{
 		Name:    jsonconv.Case2Camel(e.Name),
