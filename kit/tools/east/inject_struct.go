@@ -26,7 +26,7 @@ type StructMeta struct {
 func (vi *StructMeta) Visit(node ast.Node) ast.Visitor {
 	switch n := node.(type) {
 	case *ast.TypeSpec:
-		//log.Printf("Type: %s %s\n", n.Name.Name, vi.FindStructName)
+		//log.Printf("Type: %s %s\n", n.Group.Group, vi.FindStructName)
 		// 找到结构体名称
 		if n.Name.Name == vi.FindStructName {
 			switch t := n.Type.(type) {
@@ -168,7 +168,7 @@ type %s struct {
 					meta.FieldIdent = fieldIdent
 					meta.FieldType = fieldType
 					meta.FieldComment = fieldComment
-					log.Printf("Field Name: %s, Field Ident: %s, Field Type: %s, Field ColumnComment: %s\n", fieldName, fieldIdent, fieldType, fieldComment)
+					log.Printf("Field Group: %s, Field Ident: %s, Field Type: %s, Field ColumnComment: %s\n", fieldName, fieldIdent, fieldType, fieldComment)
 				}
 			}
 		}

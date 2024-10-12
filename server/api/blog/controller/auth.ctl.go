@@ -3,7 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/dto"
+	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/dto"
 	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/service"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/request"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/base/response"
@@ -21,261 +21,46 @@ func NewAuthController(svcCtx *svctx.ServiceContext) *AuthController {
 }
 
 // @Tags		Auth
-// @Summary		登录
-// @Accept		application/json
+// @Summary		"登录"
+// @accept		application/json
 // @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.LoginReq			true	"请求body"
-// @Success		200		{object}	response.Response{data=dto.LoginResp}	"返回信息"
-// @Router		/login [post]
+// @Param		data	body		dto.LoginReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.LoginResp}	"返回信息"
+// @Router		/api/v1/login [POST]
 func (s *AuthController) Login(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-
-	var user dto.LoginReq
-	err = request.ShouldBind(c, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewAuthService(s.svcCtx).Login(reqCtx, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		登出
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
-// @Router		/logout [post]
-func (s *AuthController) Logout(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewAuthService(s.svcCtx).Logout(reqCtx, nil)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		注销
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
-// @Router		/logoff [post]
-func (s *AuthController) Logoff(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewAuthService(s.svcCtx).Logoff(reqCtx, nil)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		注册
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.LoginReq			true	"请求body"
-// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
-// @Router		/register [post]
-func (s *AuthController) Register(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	var user dto.LoginReq
-	err = request.ShouldBind(c, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewAuthService(s.svcCtx).Register(reqCtx, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		发送注册邮件
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.UserEmailReq		true	"请求body"
-// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
-// @Router		/register/email [post]
-func (s *AuthController) SendRegisterEmail(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	var req dto.UserEmailReq
+	var req dto.LoginReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).SendRegisterEmail(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Login(reqCtx, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-
 	response.ResponseOk(c, data)
 }
 
 // @Tags		Auth
-// @Summary		发送忘记密码邮件
-// @Accept		application/json
+// @Summary		"第三方登录授权地址"
+// @accept		application/json
 // @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.UserEmailReq		true	"请求参数"
-// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
-// @Router		/forget/email [post]
-func (s *AuthController) SendForgetEmail(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	var user dto.UserEmailReq
-	err = request.ShouldBind(c, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewUserService(s.svcCtx).SendForgetPwdEmail(reqCtx, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		重置密码
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string						false	"token"
-// @Param		uid		header		string						false	"uid"
-// @Param		data	body		request.ResetPasswordReq	true	"请求参数"
-// @Success		200		{object}	response.Response{data=dto.EmptyResp}	"返回信息"
-// @Router		/forget/reset_password [post]
-func (s *AuthController) ResetPassword(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	var user dto.ResetPasswordReq
-	err = request.ShouldBind(c, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewUserService(s.svcCtx).ResetPassword(reqCtx, &user)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		第三方登录
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string											false	"token"
-// @Param		uid		header		string											false	"uid"
-// @Param		data	body		request.OauthLoginReq							true	"请求body"
-// @Success		200		{object}	response.Response{data=dto.LoginResp}	"返回信息"
-// @Router		/oauth/login [post]
-func (s *AuthController) OauthLogin(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	var req dto.OauthLoginReq
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewAuthService(s.svcCtx).OauthLogin(reqCtx, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	response.ResponseOk(c, data)
-}
-
-// @Tags		Auth
-// @Summary		获取授权地址
-// @Accept		application/json
-// @Produce		application/json
-// @Param		token	header		string											false	"token"
-// @Param		uid		header		string											false	"uid"
-// @Param		data	body		request.OauthLoginReq							true	"请求body"
-// @Success		200		{object}	response.Response{data=dto.OauthLoginUrl}	"返回信息"
-// @Router		/oauth/authorize_url [post]
+// @Param		data	body		dto.OauthLoginReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.OauthLoginUrlResp}	"返回信息"
+// @Router		/api/v1/oauth_authorize_url [POST]
 func (s *AuthController) OauthAuthorizeUrl(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-
 	var req dto.OauthLoginReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
@@ -288,6 +73,257 @@ func (s *AuthController) OauthAuthorizeUrl(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
+	response.ResponseOk(c, data)
+}
 
+// @Tags		Auth
+// @Summary		"第三方登录"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.OauthLoginReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.LoginResp}	"返回信息"
+// @Router		/api/v1/oauth_login [POST]
+func (s *AuthController) OauthLogin(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.OauthLoginReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).OauthLogin(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"注册"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.RegisterReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/register [POST]
+func (s *AuthController) Register(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.RegisterReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).Register(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"发送注册账号邮件"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.UserEmailReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/send_register_email [POST]
+func (s *AuthController) SendRegisterEmail(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.UserEmailReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).SendRegisterEmail(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"重置密码"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.ResetPasswordReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/user/reset_password [POST]
+func (s *AuthController) ResetPassword(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.ResetPasswordReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).ResetPassword(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"发送重置密码邮件"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.UserEmailReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/user/send_reset_email [POST]
+func (s *AuthController) SendResetEmail(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.UserEmailReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).SendResetEmail(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"绑定邮箱"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.BindUserEmailReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/bind_user_email [POST]
+func (s *AuthController) BindUserEmail(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.BindUserEmailReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).BindUserEmail(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"注销"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.EmptyReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/logoff [POST]
+func (s *AuthController) Logoff(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.EmptyReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).Logoff(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"登出"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.EmptyReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/logout [POST]
+func (s *AuthController) Logout(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.EmptyReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).Logout(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Auth
+// @Summary		"发送绑定邮箱验证码"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.UserEmailReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
+// @Router		/api/v1/send_bind_email [POST]
+func (s *AuthController) SendBindEmail(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req dto.UserEmailReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewAuthService(s.svcCtx).SendBindEmail(reqCtx, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
 	response.ResponseOk(c, data)
 }
