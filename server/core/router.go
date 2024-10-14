@@ -20,14 +20,7 @@ import (
 func RegisterRouters(engine *gin.Engine, svCtx *svctx.ServiceContext) {
 	r := engine.Group("")
 
-	staticRouter := r.Group(svCtx.Config.System.RouterPrefix)
-	// 放行后端静态资源目录，为用户头像和文件提供静态地址
-	staticRouter.StaticFS(svCtx.Config.System.RuntimePath, http.Dir(svCtx.Config.System.RuntimePath))
-
-	// Generate Swagger JSON file
-	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%d", svCtx.Config.System.Port)
-	docs.SwaggerInfo.Version = svCtx.Config.System.Version
-	staticRouter.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	RegisterStaticHandlers(r, svCtx)
 
 	// r.Use(middleware.LoadTls())  // 如果需要使用https 请打开此中间件 然后前往 core/server.go 将启动模式 更变为 r.RunTLS("端口","你的cre/pem文件","你的key文件")
 	// r.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
@@ -47,4 +40,15 @@ func RegisterRouters(engine *gin.Engine, svCtx *svctx.ServiceContext) {
 
 	admin.RegisterHandlers(r, svCtx)
 	blog.RegisterHandlers(r, svCtx)
+}
+
+func RegisterStaticHandlers(r *gin.RouterGroup, svCtx *svctx.ServiceContext) {
+	staticRouter := r.Group(svCtx.Config.System.RouterPrefix)
+	// 放行后端静态资源目录，为用户头像和文件提供静态地址
+	staticRouter.StaticFS(svCtx.Config.System.RuntimePath, http.Dir(svCtx.Config.System.RuntimePath))
+
+	// Generate Swagger JSON file
+	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%d", svCtx.Config.System.Port)
+	docs.SwaggerInfo.Version = svCtx.Config.System.Version
+	staticRouter.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

@@ -9,20 +9,20 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/quickstart/tools/parserx/aspec"
 )
 
-type Route struct {
-	Doc      string // 用户接口
-	Handler  string // UserHandler
-	Method   string // POST、GET、PUT、DELETE
-	Path     string // /api/v1/user
-	Request  string
-	Response string
-}
-
 type GroupRoute struct {
 	Name       string // account
 	Prefix     string
 	Middleware []string
 	Routes     []Route
+}
+
+type Route struct {
+	Doc      string // 用户接口
+	Handler  string // UserHandler
+	Path     string // /api/v1/user
+	Method   string // POST、GET、PUT、DELETE
+	Request  string
+	Response string
 }
 
 type GroupType struct {
@@ -72,7 +72,7 @@ func ConvertRouteGroups(sp *aspec.ApiSpec) (out map[string][]GroupRoute) {
 
 		var name = v.Annotation.Properties["group"]
 		if name == "" {
-			name = "base"
+			name = "common"
 		}
 
 		var prefix = v.Annotation.Properties["prefix"]
@@ -115,7 +115,7 @@ func ConvertTypeGroups(sp *spec.ApiSpec) (out []GroupType) {
 		for _, r := range v.Routes {
 			group := v.Annotation.Properties["group"]
 			if group == "" {
-				group = "base"
+				group = "common"
 			}
 			if r.RequestType != nil {
 				if mt[r.RequestType.Name()] != nil {
