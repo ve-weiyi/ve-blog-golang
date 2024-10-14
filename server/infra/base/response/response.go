@@ -12,7 +12,8 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 type EmptyResp struct {
@@ -70,27 +71,27 @@ func ResponseError(c *gin.Context, err error) {
 		return
 
 	case *json.UnmarshalTypeError:
-		Response(c, apierr.ErrorInternalServerError.Code, "json解析错误", e.Error())
+		Response(c, codex.CodeInternalServerError, "json解析错误", e.Error())
 		return
 
 	case *mysql.MySQLError:
 		switch e.Number {
 		case 1062:
-			Response(c, apierr.ErrorSqlQueryError.Code, "数据已存在", e.Error())
+			Response(c, codex.CodeSqlQueryError, "数据已存在", e.Error())
 			return
 		default:
-			Response(c, apierr.ErrorSqlQueryError.Code, "数据库错误", SqlErrorI18n(e))
+			Response(c, codex.CodeSqlQueryError, "数据库错误", SqlErrorI18n(e))
 			return
 		}
 	}
 
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		Response(c, apierr.ErrorSqlQueryError.Code, "数据不存在", err.Error())
+		Response(c, codex.CodeSqlQueryError, "数据不存在", err.Error())
 		return
 	}
 
-	Response(c, apierr.ErrorInternalServerError.Code, apierr.ErrorInternalServerError.Error(), err.Error())
+	Response(c, codex.CodeInternalServerError, "服务器错误", err.Error())
 }
 
 func ResponseStream(c *gin.Context, data string) {

@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -18,7 +17,7 @@ type GetWebsiteConfigLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 获取网站前台配置
+// 获取网站配置
 func NewGetWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetWebsiteConfigLogic {
 	return &GetWebsiteConfigLogic{
 		Logger: logx.WithContext(ctx),
@@ -28,7 +27,7 @@ func NewGetWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetWebsiteConfigLogic) GetWebsiteConfig(req *types.EmptyReq) (resp *types.WebsiteConfig, err error) {
-	in := &blog.FindConfigReq{
+	in := &configrpc.FindConfigReq{
 		ConfigKey: "website_config",
 	}
 

@@ -4,10 +4,9 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/api/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/blog/rpc/pb/blog"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +27,7 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 }
 
 func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, err error) {
-	in := &blog.FindConfigReq{
+	in := &configrpc.FindConfigReq{
 		ConfigKey: "about_me",
 	}
 

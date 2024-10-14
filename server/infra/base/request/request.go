@@ -8,10 +8,11 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -72,7 +73,7 @@ func ShouldBindJSON(c *gin.Context, req interface{}) error {
 	//}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		return apierr.ErrorInvalidParam.WrapMessage(err.Error())
+		return apierr.NewApiError(codex.CodeInvalidParam, err.Error())
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -81,7 +82,7 @@ func ShouldBindJSON(c *gin.Context, req interface{}) error {
 	}
 
 	if err := isValid.IsValid(); err != nil {
-		return apierr.ErrorInvalidParam.WrapMessage(err.Error())
+		return apierr.NewApiError(codex.CodeInvalidParam, err.Error())
 	}
 
 	return nil
@@ -109,7 +110,7 @@ func BindJSONIgnoreCase(c *gin.Context, req interface{}) (err error) {
 func ShouldBindQuery(c *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := c.ShouldBind(req); err != nil {
-		return apierr.ErrorInvalidParam.WrapMessage(err.Error())
+		return apierr.NewApiError(codex.CodeInvalidParam, err.Error())
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {

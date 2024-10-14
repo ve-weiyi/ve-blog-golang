@@ -37,3 +37,4 @@ default.etcd
 blog-rpc.yaml
 test.sql
 test.api
+test.json
