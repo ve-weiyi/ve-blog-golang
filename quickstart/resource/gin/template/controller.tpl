@@ -26,8 +26,14 @@ func New{{.Group}}Controller(svcCtx *svctx.ServiceContext) *{{.Group}}Controller
 
 // @Tags		{{$.Group}}
 // @Summary		"{{.Doc}}"
+// @accept		application/json
+// @Produce		application/json
+    {{- if .Request }}
 // @Param		data	body		dto.{{.Request}}		true	"请求参数"
+    {{- end }}
+    {{- if .Response }}
 // @Success		200		{object}	response.Body{data=dto.{{.Response}}}	"返回信息"
+    {{- end }}
 // @Router		{{$prefix}}{{.Path}} [{{.Method}}]
 func (s *{{$.Group}}Controller) {{.Handler}}(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
