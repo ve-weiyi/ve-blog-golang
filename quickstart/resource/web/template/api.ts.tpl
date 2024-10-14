@@ -1,12 +1,10 @@
 {{- range .ImportPkgPaths -}}
-{{.}};
+{{.}}
 {{ end -}}
 
-{{ if .ImportTypes -}}
-import { {{ Join .ImportTypes }} } from "./types";
-{{ end -}}
-
-{{ range .Routes }}
+{{- range .GroupRoutes}}
+{{- $prefix := .Prefix}}
+{{- range .Routes}}
 /** {{ .Summery }} */
 export function {{ .Handler }}(
 
@@ -14,9 +12,10 @@ export function {{ .Handler }}(
 
 ): Promise<IApiResponse<{{.Response}}>> {
   return request({
-    url: "{{.Path}}",
+    url: "{{$prefix}}{{.Path}}",
     method: "{{.Method}}",
     {{ if .Request }}data: data,{{ end }}
   });
 }
+{{ end -}}
 {{ end -}}
