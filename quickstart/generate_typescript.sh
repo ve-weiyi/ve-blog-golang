@@ -2,7 +2,7 @@
 # 生成api.ts
 go run main.go web typescript \
 -n='%v.ts' \
--t='./resource/template/web' \
+-t='./resource/web/template' \
 -o='./runtime/blog/api'  \
 -m='api' \
 -i='IApiResponse' \
@@ -11,7 +11,7 @@ go run main.go web typescript \
 # 生成api.ts
 go run main.go web typescript \
 -n='%v.ts' \
--t='./resource/template/web' \
+-t='./resource/web/template' \
 -o='./runtime/admin/api'  \
 -m='api' \
 -i='IApiResponse' \
