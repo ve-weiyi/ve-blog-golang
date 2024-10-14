@@ -33,7 +33,7 @@ func (vi *FuncMeta) Visit(node dst.Node) dst.Visitor {
 	switch fn := node.(type) {
 	case *dst.FuncDecl:
 		if fn.Name.Name == vi.FuncName {
-			//log.Printf("Func: %s %s\n", fn.Name.Name, vi.FuncName)
+			//log.Printf("Func: %s %s\n", fn.Group.Group, vi.FuncName)
 			for _, v := range fn.Body.List {
 				switch stmt := v.(type) {
 				case *dst.AssignStmt: //赋值表达式
@@ -114,7 +114,7 @@ func (vi *FuncMeta) Visit(node dst.Node) dst.Visitor {
 								continue
 							}
 							name1 := ret.(*dst.UnaryExpr).X.(*dst.CompositeLit).Type.(*dst.Ident).Name
-							//name2 := insertStmt.(*dst.ReturnStmt).Results[0].(*dst.UnaryExpr).X.(*dst.CompositeLit).Type.(*dst.Ident).Name
+							//name2 := insertStmt.(*dst.ReturnStmt).Results[0].(*dst.UnaryExpr).X.(*dst.CompositeLit).Type.(*dst.Ident).Group
 							if name1 == vi.IdentNames[i] {
 								kv := ret.(*dst.UnaryExpr).X.(*dst.CompositeLit).Elts
 								addKv := insertStmt.(*dst.ReturnStmt).Results[0].(*dst.UnaryExpr).X.(*dst.CompositeLit).Elts

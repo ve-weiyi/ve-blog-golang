@@ -6,9 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 // 未登录token
@@ -22,13 +23,13 @@ func SignToken() gin.HandlerFunc {
 		//glog.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)
 		// 请求头缺少参数
 		if tk == "" || tm == "" || ts == "" {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("无效请求"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "无效请求"))
 			c.Abort()
 			return
 		}
 		// 判断 token = md5(tm,ts)
 		if tk != crypto.Md5v(tm, ts) {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("无效请求"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "无效请求"))
 			c.Abort()
 			return
 		}
@@ -47,7 +48,7 @@ func LoginToken() gin.HandlerFunc {
 		glog.Infof("api is login required. tk:%v, uid:%v", tk, uid)
 		// 请求头缺少参数
 		if tk == "" || uid == "" {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("无效请求"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "无效请求"))
 			c.Abort()
 			return
 		}

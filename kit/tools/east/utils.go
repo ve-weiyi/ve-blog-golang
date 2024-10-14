@@ -105,7 +105,7 @@ func ExtractNodes[T any](t T, node ast.Node) []T {
 		ast.Print(token.NewFileSet(), n)
 		return ExtractNodes(t, n.Elt)
 	case *ast.SelectorExpr:
-		//fmt.Println("SelectorExpr", n.Sel.Name)
+		//fmt.Println("SelectorExpr", n.Sel.Group)
 		idents = append(idents, ExtractNodes(t, n.X)...)
 		idents = append(idents, ExtractNodes(t, n.Sel)...)
 		break

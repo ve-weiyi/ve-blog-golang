@@ -9,16 +9,17 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 // JwtToken jwt中间件
-func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+func JwtToken(tk *jtoken.JwtInstance) gin.HandlerFunc {
 
-	parser := svcCtx.Token
+	parser := tk
 
 	return func(c *gin.Context) {
 		var token string
@@ -27,12 +28,12 @@ func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		token = c.Request.Header.Get(constant.HeaderToken)
 		uid = c.Request.Header.Get(constant.HeaderUid)
 
-		//token为空或者uid为空
+		// token为空或者uid为空
 		if token == "" || uid == "" {
 			// 有错误，直接返回给前端错误，前端直接报错500
-			//c.AbortWithStatus(http.StatusInternalServerError)
+			// c.AbortWithStatus(http.StatusInternalServerError)
 			// 该方式前端不报错
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized)
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "token or uid is empty"))
 			c.Abort()
 			return
 		}
@@ -40,14 +41,14 @@ func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		// 解析token
 		tok, err := parser.ParseToken(token)
 		if err != nil {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage(err.Error()))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, err.Error()))
 			c.Abort()
 			return
 		}
 
 		// token不合法
 		if !tok.Valid {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("token is invalid"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "token is invalid"))
 			c.Abort()
 			return
 		}
@@ -55,22 +56,22 @@ func JwtToken(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		// 获取claims
 		claims, ok := tok.Claims.(jwt.MapClaims)
 		if !ok {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("token claims is not jwt.MapClaims"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "token claims is not jwt.MapClaims"))
 			c.Abort()
 			return
 		}
 
 		// uid不一致
 		if uid != cast.ToString(claims["uid"]) {
-			c.JSON(http.StatusOK, apierr.ErrorUnauthorized.WrapMessage("token uid is not equal"))
+			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeUserNotPermission, "token uid is not equal"))
 			c.Abort()
 			return
 		}
 
-		//token验证成功,但用户在别处登录或退出登录
-		//if jwtService.IsBlacklist(token) {
+		// token验证成功,但用户在别处登录或退出登录
+		// if jwtService.IsBlacklist(token) {
 		//
-		//}
+		// }
 
 		glog.Infof("user login-->%v", claims)
 

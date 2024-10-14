@@ -1,6 +1,7 @@
 package constant
 
 const (
-	ForgetPassword = "forget_password"
-	Register       = "register"
+	ResetPwd  = "reset_pwd"
+	Register  = "register"
+	BindEmail = "bind_email"
 )

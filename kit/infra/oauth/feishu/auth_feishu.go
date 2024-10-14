@@ -1,28 +1,26 @@
 package feishu
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
-	"github.com/goccy/go-json"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/httpx"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/httpx"
 )
 
 // Feishu授权登录
 type AuthFeishu struct {
 	Config *oauth.AuthConfig
 
-	Name string //第三方名称
+	Name string // 第三方名称
 
-	AuthorizeUrl         string //授权登录URL
-	AppAccessTokenUrl    string //获得应用访问令牌URL
-	TenantAccessTokenUrl string //获取租户授权凭证URL
-	UserAccessTokenUrl   string //获得用户授权凭证URL
-	RefreshTokenUrl      string //刷新令牌URL
-	UserInfoUrl          string //获取用户信息URL
+	AuthorizeUrl         string // 授权登录URL
+	AppAccessTokenUrl    string // 获得应用访问令牌URL
+	TenantAccessTokenUrl string // 获取租户授权凭证URL
+	UserAccessTokenUrl   string // 获得用户授权凭证URL
+	RefreshTokenUrl      string // 刷新令牌URL
+	UserInfoUrl          string // 获取用户信息URL
 }
 
 func NewAuthFeishu(conf *oauth.AuthConfig) *AuthFeishu {
@@ -43,12 +41,12 @@ func (a *AuthFeishu) GetName() string {
 }
 
 // 获取登录地址（获取授权码code）
-func (a *AuthFeishu) GetRedirectUrl(state string) string {
+func (a *AuthFeishu) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
 		httpx.WithParam("app_id", a.Config.ClientId),
 		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		//httpx.WithParam("scope", "contact:user.base:readonly"),
+		// httpx.WithParam("scope", "contact:user.base:readonly"),
 		httpx.WithParam("state", state),
 	).EncodeURL(a.AuthorizeUrl)
 	return url

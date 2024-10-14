@@ -15,8 +15,6 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-
-	"github.com/ve-weiyi/ve-blog-golang/server/api/blog/model/entity"
 )
 
 // migrateCmd represents the migrate command
@@ -155,60 +153,4 @@ func (s *MigrateCmd) MigrateDatabase(db *gorm.DB) {
 
 // 重置数据库
 func (s *MigrateCmd) ResetDatabase(db *gorm.DB) {
-	var err error
-	// ****重置登录历史表****
-	err = ClearTable(db, entity.TableNameUserLoginHistory)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// ****重置角色菜单表****
-	err = ClearTable(db, entity.TableNameRoleMenu)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// ****重置角色接口表****
-	err = ClearTable(db, entity.TableNameRoleApi)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// ****重置菜单表****
-	err = ClearTable(db, entity.TableNameMenu)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// ****重置接口表****
-	err = ClearTable(db, entity.TableNameApi)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// ****重置操作记录表****
-	err = ClearTable(db, entity.TableNameOperationLog)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// ****重置上传记录表****
-	err = ClearTable(db, entity.TableNameUploadRecord)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func ClearTable(db *gorm.DB, tableName string) (err error) {
-	// 清空表的数据
-	err = db.Exec(fmt.Sprintf("DELETE FROM `%v`", tableName)).Error
-	if err != nil {
-		return err
-	}
-	// 重置 AUTO_INCREMENT 值为 1
-	err = db.Exec(fmt.Sprintf("ALTER TABLE `%v` AUTO_INCREMENT = 1", tableName)).Error
-	if err != nil {
-		return err
-	}
-	return nil
 }

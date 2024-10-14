@@ -1,0 +1,34 @@
+syntax = "v1"
+
+import "base.api"
+
+type (
+    ChatRecord {
+        Id int64 `json:"id"`                 // 主键
+        UserId int64 `json:"user_id"`        // 用户id
+        Nickname string `json:"nickname"`    // 昵称
+        Avatar string `json:"avatar"`        // 头像
+        Content string `json:"content"`      // 聊天内容
+        IpAddress string `json:"ip_address"` // ip地址
+        IpSource string `json:"ip_source"`   // ip来源
+        Type int64 `json:"type"`             // 类型
+        CreatedAt int64 `json:"created_at"`  // 创建时间
+        UpdatedAt int64 `json:"updated_at"`  // 更新时间
+    }
+
+    ChatQueryReq {
+        PageQuery
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: chat
+    middleware: SignToken
+)
+
+service blog-api {
+    @doc "查询聊天记录"
+    @handler GetChatRecords
+    post /chat/records (ChatQueryReq) returns (PageResp)
+}

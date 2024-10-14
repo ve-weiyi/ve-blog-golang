@@ -64,7 +64,7 @@ func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 		NameSpaceId: "dev",
 		Group:       "veweiyi.cn",
 		DataId:      "ve-blog-golang",
-		RuntimeDir:  "runtime/nacos",
+		RuntimeDir:  "runtime/log/nacos",
 		LogLevel:    "warn",
 		Timeout:     5000,
 	}

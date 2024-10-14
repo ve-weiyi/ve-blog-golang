@@ -35,7 +35,7 @@ func (a *AuthWb) GetName() string {
 }
 
 // 获取登录地址
-func (a *AuthWb) GetRedirectUrl(state string) string {
+func (a *AuthWb) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
 		httpx.WithParam("response_type", "code"),

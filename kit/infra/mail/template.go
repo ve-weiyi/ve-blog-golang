@@ -159,3 +159,7 @@ const TempForgetPassword = `
 const TempRegister = `
 您好{{.Username}}，欢迎注册我的博客平台。您的验证码为 {{.Code}}，有效期15分钟！
 `
+
+const TempBind = `
+您好{{.Username}}，您的账号正在尝试修改绑定邮箱。您的验证码为 {{.Code}}，有效期15分钟！
+`

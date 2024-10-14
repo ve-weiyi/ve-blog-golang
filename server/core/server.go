@@ -7,13 +7,10 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
-	"github.com/ve-weiyi/ve-blog-golang/server/docs"
-	"github.com/ve-weiyi/ve-blog-golang/server/svc"
+	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
 type server interface {
@@ -28,20 +25,10 @@ func RunWindowsServer(c *config.Config) {
 	SetLog(c.Zap)
 
 	// 设置ReleaseMode则不会打印路由注册日志
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	engine := gin.Default()
-
-	r := engine.Group(c.System.RouterPrefix)
-
-	// 放行后端静态资源目录，为用户头像和文件提供静态地址
-	r.StaticFS(c.System.RuntimePath, http.Dir(c.System.RuntimePath))
-
-	// Generate Swagger JSON file
-	docs.SwaggerInfo.Version = c.System.Version
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	ctx := svc.NewServiceContext(c)
-	RegisterRouters(r, ctx)
+	ctx := svctx.NewServiceContext(c)
+	RegisterRouters(engine, ctx)
 
 	glog.Info("register router success")
 

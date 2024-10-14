@@ -10,6 +10,11 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
+func hexToBytes(hexStr string) []byte {
+	bs, _ := hex.DecodeString(hexStr)
+	return bs
+}
+
 // 对于使用 AES（Advanced Encryption Standard）算法的 CBC 模式，密钥的长度可以是 128 比特（16 字节）、192 比特（24 字节）或 256 比特（32 字节）。
 func Test_AES(t *testing.T) {
 	var plaintext []byte // 加密的密钥
@@ -26,7 +31,7 @@ func Test_AES(t *testing.T) {
 
 	log.Println("秘钥", string(key))
 	log.Println("秘钥([]byte)", key)
-	log.Println("秘钥(hex)", hex.EncodeToString(key))
+	log.Println("秘钥(hex)", hex.EncodeToString(key)) // 88403ab936164b48ed66b14fcd864061
 	log.Println("秘钥(base64)", base64.StdEncoding.EncodeToString(key))
 	log.Println("原文：", string(plaintext))
 	log.Println("------------------ CBC模式 --------------------")
@@ -48,11 +53,11 @@ func TestAesCFBImpl_AESEncrypt(t *testing.T) {
 
 	plaintext = []byte("791422171@qq.comasdsda")
 	key, _ = hex.DecodeString("313233343536372e313233343536372e313233343536372e313233343536372e")
-	//key = []byte("1234567.1234567.1234567.1234567.")
+	// key = []byte("1234567.1234567.1234567.1234567.")
 	copy(iv, key[:aes.BlockSize])
 
-	//iv := slices.Clone(key[:aes.BlockSize])
-	//iv := key[:aes.BlockSize] //会导致key被改变
+	// iv := slices.Clone(key[:aes.BlockSize])
+	// iv := key[:aes.BlockSize] //会导致key被改变
 	crypt := crypto.AesCBC
 
 	log.Println("秘钥", key)
@@ -71,12 +76,12 @@ func TestAesCFBImpl_AESEncrypt(t *testing.T) {
 }
 
 func TestAesCFBImpl_AESDecrypt(t *testing.T) {
-	ciphertext := `ZjbAUn1Zy2+1hOa62fW4Z7zrDEqaGRptajqapB1hl2neTykHhqPTb3sMATM10h0nQ2jAH5NRbOW8uFb3NFu7wpxV8mXuCHtS+3UH0Ec3/Pw=`
-	key, _ := hex.DecodeString("6636C0527D59CB6FB584E6BAD9F5B867BA24CB5006973D97D451ECD27C3C9E30")
+	data := `yD8cbvnB8b4xjNm/h+BUNr+rztZvnZALS+UXPDEQpEs=`
+	key, _ := hex.DecodeString("88403ab936164b48ed66b14fcd864061")
 
-	ie, _ := base64.StdEncoding.DecodeString(ciphertext)
+	ie, _ := base64.StdEncoding.DecodeString(data)
 	encrypted := ie[aes.BlockSize:]
-	iv := key[:aes.BlockSize] // 初始化向量
+	iv := ie[:aes.BlockSize] // 初始化向量
 
 	log.Println("秘钥(hex)", hex.EncodeToString(key))
 	log.Println("iv(hex)", hex.EncodeToString(iv))

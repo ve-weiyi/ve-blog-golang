@@ -13,3 +13,17 @@ func IsEmailValid(email string) bool {
 	// 匹配邮箱地址
 	return reg.MatchString(email)
 }
+
+// 使用正则表达式验证手机号的格式
+func IsPhoneValid(photo string) bool {
+	pattern := `^1[3456789]\d{9}$`
+	reg := regexp.MustCompile(pattern)
+	return reg.MatchString(photo)
+}
+
+// 全数字
+func IsDigitValid(digit string) bool {
+	pattern := `^\d+$`
+	reg := regexp.MustCompile(pattern)
+	return reg.MatchString(digit)
+}
