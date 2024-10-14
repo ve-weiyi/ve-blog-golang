@@ -40,8 +40,8 @@ func init() {
 // @contact.email				support@swagger.io
 // @license.name				Apache 2.0
 // @license.url					https://www.apache.org/licenses/LICENSE-2.0.html
-// @host						localhost:9999
-// @BasePath					/api/v1
+// @host						localhost:9090
+// @BasePath
 // @securityDefinitions.basic	BasicAuth
 // @securityDefinitions.apikey	ApiKeyAuth
 // @in							header
