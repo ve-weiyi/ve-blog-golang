@@ -59,7 +59,7 @@ func (l *LogoffLogic) logoff(ctx context.Context, tx *gorm.DB, uid int64) (*acco
 	}
 
 	// 删除用户角色
-	_, err = l.svcCtx.TUserRoleModel.WithTransaction(tx).DeleteBatch(ctx, "user_id = ?", uid)
+	_, err = l.svcCtx.TUserRoleModel.WithTransaction(tx).Deletes(ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}

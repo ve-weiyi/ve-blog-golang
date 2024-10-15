@@ -28,7 +28,7 @@ func NewUpdateRoleMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 // 更新角色菜单
 func (l *UpdateRoleMenusLogic) UpdateRoleMenus(in *permissionrpc.UpdateRoleMenusReq) (*permissionrpc.EmptyResp, error) {
 	// 删除角色菜单
-	_, err := l.svcCtx.TRoleMenuModel.DeleteBatch(l.ctx, "role_id in (?)", in.RoleId)
+	_, err := l.svcCtx.TRoleMenuModel.Deletes(l.ctx, "role_id in (?)", in.RoleId)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (l *UpdateRoleMenusLogic) UpdateRoleMenus(in *permissionrpc.UpdateRoleMenus
 	}
 
 	// 添加角色菜单
-	_, err = l.svcCtx.TRoleMenuModel.InsertBatch(l.ctx, roleMenus...)
+	_, err = l.svcCtx.TRoleMenuModel.Inserts(l.ctx, roleMenus...)
 	if err != nil {
 		return nil, err
 	}

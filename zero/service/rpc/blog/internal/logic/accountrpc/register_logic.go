@@ -121,7 +121,7 @@ func onRegister(ctx context.Context, svcCtx *svc.ServiceContext, tx *gorm.DB, us
 	}
 
 	/** 创建用户角色 **/
-	_, err = svcCtx.TUserRoleModel.WithTransaction(tx).InsertBatch(ctx, userRoles...)
+	_, err = svcCtx.TUserRoleModel.WithTransaction(tx).Inserts(ctx, userRoles...)
 	if err != nil {
 		return nil, err
 	}

@@ -34,7 +34,7 @@ func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (r
 		return nil, err
 	}
 
-	var list []*types.ArticleHome
+	list := make([]*types.ArticleHome, 0)
 	// 转换数据
 	for _, v := range out.List {
 		m := ConvertArticleHomeTypes(v)

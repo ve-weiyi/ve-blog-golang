@@ -73,8 +73,8 @@ message CommentDetails {
 //}
 
 message UpdateCommentReviewReq{
-  int64 id = 1;// 主键
-  int64 is_review = 10;// 是否审核
+  repeated int64 ids = 1;// 主键
+  int64 is_review = 2;// 是否审核
 }
 
 message UpdateCommentContentReq {
@@ -124,6 +124,14 @@ message FindLikeCommentResp{
   repeated int64 like_comment_list = 1;
 }
 
+message FindTopicCommentCountsReq{
+  repeated int64 topic_ids = 1;
+}
+
+message FindTopicCommentCountsResp{
+  map<int64, int64> topic_comment_counts = 1;
+}
+
 service CommentRpc {
   // 创建评论
   rpc AddComment(CommentNewReq) returns(CommentDetails);
@@ -135,8 +143,11 @@ service CommentRpc {
   rpc FindCommentList(FindCommentListReq) returns(FindCommentListResp);
   // 查询评论回复列表
   rpc FindCommentReplyList(FindCommentReplyListReq) returns(FindCommentReplyListResp);
+  // 查询评论回复数量
+  rpc FindTopicCommentCounts(IdsReq) returns(FindTopicCommentCountsResp);
+
   // 更新评论审核状态
-  rpc UpdateCommentReview(UpdateCommentReviewReq) returns(CommentDetails);
+  rpc UpdateCommentReview(UpdateCommentReviewReq) returns(BatchResp);
   // 更新评论
   rpc UpdateCommentContent(UpdateCommentContentReq) returns(CommentDetails);
 

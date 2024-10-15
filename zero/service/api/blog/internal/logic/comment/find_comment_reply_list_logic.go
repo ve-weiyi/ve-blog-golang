@@ -63,7 +63,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 	}
 
 	// 查找评论回复列表
-	var list []*types.CommentReply
+	list := make([]*types.CommentReply, 0)
 	for _, v := range out.List {
 		m := ConvertCommentReplyTypes(v, usm)
 		list = append(list, m)

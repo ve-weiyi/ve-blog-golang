@@ -18,12 +18,14 @@ type (
 		WithTransaction(tx *gorm.DB) (out TChatMessageModel)
 		// 插入
 		Insert(ctx context.Context, in *TChatMessage) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*TChatMessage) (rows int64, err error)
+		Inserts(ctx context.Context, in ...*TChatMessage) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
-		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 更新
 		Update(ctx context.Context, in *TChatMessage) (rows int64, err error)
+		Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
+		// 保存
 		Save(ctx context.Context, in *TChatMessage) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TChatMessage, err error)
@@ -86,8 +88,8 @@ func (m *defaultTChatMessageModel) Insert(ctx context.Context, in *TChatMessage)
 	return result.RowsAffected, err
 }
 
-// 插入记录
-func (m *defaultTChatMessageModel) InsertBatch(ctx context.Context, in ...*TChatMessage) (rows int64, err error) {
+// 插入记录（批量操作）
+func (m *defaultTChatMessageModel) Inserts(ctx context.Context, in ...*TChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -112,8 +114,8 @@ func (m *defaultTChatMessageModel) Delete(ctx context.Context, id int64) (rows i
 	return result.RowsAffected, err
 }
 
-// 删除记录
-func (m *defaultTChatMessageModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+// 删除记录（批量操作）
+func (m *defaultTChatMessageModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -129,11 +131,11 @@ func (m *defaultTChatMessageModel) DeleteBatch(ctx context.Context, conditions s
 	return result.RowsAffected, err
 }
 
-// 保存记录（更新零值）
-func (m *defaultTChatMessageModel) Save(ctx context.Context, in *TChatMessage) (rows int64, err error) {
+// 更新记录（不更新零值）
+func (m *defaultTChatMessageModel) Update(ctx context.Context, in *TChatMessage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Omit("created_at").Save(&in)
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -141,11 +143,23 @@ func (m *defaultTChatMessageModel) Save(ctx context.Context, in *TChatMessage) (
 	return result.RowsAffected, err
 }
 
-// 更新记录（不更新零值）
-func (m *defaultTChatMessageModel) Update(ctx context.Context, in *TChatMessage) (rows int64, err error) {
+// 更新记录（批量操作）
+func (m *defaultTChatMessageModel) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Updates(&in)
+	result := db.Where(conditions, args...).Updates(columns)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 保存记录（更新零值）
+func (m *defaultTChatMessageModel) Save(ctx context.Context, in *TChatMessage) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

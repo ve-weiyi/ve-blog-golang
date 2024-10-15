@@ -236,8 +236,8 @@ type CommentQuery struct {
 }
 
 type CommentReviewReq struct {
-	Id       int64 `json:"id,optional"`
-	IsReview int64 `json:"is_review,optional"`
+	Ids      []int64 `json:"ids,optional"`
+	IsReview int64   `json:"is_review,optional"`
 }
 
 type EmptyReq struct {

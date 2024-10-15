@@ -18,12 +18,14 @@ type (
 		WithTransaction(tx *gorm.DB) (out TCommentModel)
 		// 插入
 		Insert(ctx context.Context, in *TComment) (rows int64, err error)
-		InsertBatch(ctx context.Context, in ...*TComment) (rows int64, err error)
+		Inserts(ctx context.Context, in ...*TComment) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
-		DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
+		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 更新
 		Update(ctx context.Context, in *TComment) (rows int64, err error)
+		Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
+		// 保存
 		Save(ctx context.Context, in *TComment) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TComment, err error)
@@ -46,7 +48,7 @@ type (
 		LikeCount      int64     `json:"like_count" gorm:"column:like_count" `           // 评论点赞数量
 		Type           int64     `json:"type" gorm:"column:type" `                       // 评论类型 1.文章 2.友链 3.说说
 		Status         int64     `json:"status" gorm:"column:status" `                   // 状态 0.正常 1.已编辑 2.已删除
-		IsReview       int64     `json:"is_review" gorm:"column:is_review" `             // 是否审核
+		IsReview       int64     `json:"is_review" gorm:"column:is_review" `             // 是否审核通过
 		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 创建时间
 		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
 	}
@@ -88,8 +90,8 @@ func (m *defaultTCommentModel) Insert(ctx context.Context, in *TComment) (rows i
 	return result.RowsAffected, err
 }
 
-// 插入记录
-func (m *defaultTCommentModel) InsertBatch(ctx context.Context, in ...*TComment) (rows int64, err error) {
+// 插入记录（批量操作）
+func (m *defaultTCommentModel) Inserts(ctx context.Context, in ...*TComment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -114,8 +116,8 @@ func (m *defaultTCommentModel) Delete(ctx context.Context, id int64) (rows int64
 	return result.RowsAffected, err
 }
 
-// 删除记录
-func (m *defaultTCommentModel) DeleteBatch(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+// 删除记录（批量操作）
+func (m *defaultTCommentModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -131,11 +133,11 @@ func (m *defaultTCommentModel) DeleteBatch(ctx context.Context, conditions strin
 	return result.RowsAffected, err
 }
 
-// 保存记录（更新零值）
-func (m *defaultTCommentModel) Save(ctx context.Context, in *TComment) (rows int64, err error) {
+// 更新记录（不更新零值）
+func (m *defaultTCommentModel) Update(ctx context.Context, in *TComment) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Omit("created_at").Save(&in)
+	result := db.Updates(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -143,11 +145,23 @@ func (m *defaultTCommentModel) Save(ctx context.Context, in *TComment) (rows int
 	return result.RowsAffected, err
 }
 
-// 更新记录（不更新零值）
-func (m *defaultTCommentModel) Update(ctx context.Context, in *TComment) (rows int64, err error) {
+// 更新记录（批量操作）
+func (m *defaultTCommentModel) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
-	result := db.Updates(&in)
+	result := db.Where(conditions, args...).Updates(columns)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return result.RowsAffected, err
+}
+
+// 保存记录（更新零值）
+func (m *defaultTCommentModel) Save(ctx context.Context, in *TComment) (rows int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	result := db.Omit("created_at").Save(&in)
 	if result.Error != nil {
 		return 0, result.Error
 	}

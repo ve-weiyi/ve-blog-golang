@@ -35,7 +35,7 @@ func (l *GetChatRecordsLogic) GetChatRecords(req *types.ChatQueryReq) (resp *typ
 		return nil, err
 	}
 
-	var list []*types.ChatRecord
+	list := make([]*types.ChatRecord, 0)
 	for _, v := range out.List {
 		list = append(list, ConvertChatRecordTypes(v))
 	}

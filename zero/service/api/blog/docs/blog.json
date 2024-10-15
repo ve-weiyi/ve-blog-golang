@@ -2454,11 +2454,6 @@
           "type": "string",
           "description": " 用户地址"
         },
-        "time": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 弹幕速度"
-        },
         "is_review": {
           "type": "integer",
           "format": "int64",
@@ -2482,7 +2477,6 @@
         "message_content",
         "ip_address",
         "ip_source",
-        "time",
         "is_review",
         "created_at",
         "updated_at"

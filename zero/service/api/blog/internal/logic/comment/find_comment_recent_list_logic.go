@@ -60,7 +60,7 @@ func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQue
 		usm[v.UserId] = v
 	}
 
-	var list []*types.Comment
+	list := make([]*types.Comment, 0)
 	for _, v := range out.List {
 		m := ConvertCommentTypes(v, usm)
 		list = append(list, m)

@@ -52,8 +52,14 @@ func (s *CommentRpcServer) FindCommentReplyList(ctx context.Context, in *comment
 	return l.FindCommentReplyList(in)
 }
 
+// 查询评论回复数量
+func (s *CommentRpcServer) FindTopicCommentCounts(ctx context.Context, in *commentrpc.IdsReq) (*commentrpc.FindTopicCommentCountsResp, error) {
+	l := commentrpclogic.NewFindTopicCommentCountsLogic(ctx, s.svcCtx)
+	return l.FindTopicCommentCounts(in)
+}
+
 // 更新评论审核状态
-func (s *CommentRpcServer) UpdateCommentReview(ctx context.Context, in *commentrpc.UpdateCommentReviewReq) (*commentrpc.CommentDetails, error) {
+func (s *CommentRpcServer) UpdateCommentReview(ctx context.Context, in *commentrpc.UpdateCommentReviewReq) (*commentrpc.BatchResp, error) {
 	l := commentrpclogic.NewUpdateCommentReviewLogic(ctx, s.svcCtx)
 	return l.UpdateCommentReview(in)
 }
