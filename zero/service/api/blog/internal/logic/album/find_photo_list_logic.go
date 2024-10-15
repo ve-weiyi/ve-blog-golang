@@ -34,7 +34,7 @@ func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQueryReq) (resp *type
 		return nil, err
 	}
 
-	var list []*types.Photo
+	list := make([]*types.Photo, 0)
 	for _, v := range out.List {
 		m := ConvertPhotoTypes(v)
 		list = append(list, m)

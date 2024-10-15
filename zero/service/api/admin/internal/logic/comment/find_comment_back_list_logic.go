@@ -97,7 +97,7 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 		Nickname:       "",
 		ToNickname:     "",
 		CommentContent: in.CommentContent,
-		IsReview:       0,
+		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt,
 	}
 

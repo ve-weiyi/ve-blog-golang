@@ -1226,7 +1226,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CommentBackDTO"
+              "$ref": "#/definitions/BatchResp"
             }
           }
         },
@@ -3666,9 +3666,12 @@
     "CommentReviewReq": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
         },
         "is_review": {
           "type": "integer",

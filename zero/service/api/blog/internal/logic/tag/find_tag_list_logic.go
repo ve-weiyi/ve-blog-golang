@@ -35,7 +35,7 @@ func (l *FindTagListLogic) FindTagList(req *types.TagQueryReq) (resp *types.Page
 		return nil, err
 	}
 
-	var list []*types.Tag
+	list := make([]*types.Tag, 0)
 	for _, v := range out.List {
 		m := ConvertTagTypes(v)
 		list = append(list, m)

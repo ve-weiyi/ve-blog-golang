@@ -33,7 +33,7 @@ func (l *UpdateUserRoleLogic) UpdateUserRole(in *permissionrpc.UpdateUserRoleReq
 	}
 
 	// 删除用户角色
-	_, err = l.svcCtx.TUserRoleModel.DeleteBatch(l.ctx, "user_id = ?", ua.Id)
+	_, err = l.svcCtx.TUserRoleModel.Deletes(l.ctx, "user_id = ?", ua.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (l *UpdateUserRoleLogic) UpdateUserRole(in *permissionrpc.UpdateUserRoleReq
 	}
 
 	// 添加用户角色
-	_, err = l.svcCtx.TUserRoleModel.InsertBatch(l.ctx, userRoles...)
+	_, err = l.svcCtx.TUserRoleModel.Inserts(l.ctx, userRoles...)
 	if err != nil {
 		return nil, err
 	}

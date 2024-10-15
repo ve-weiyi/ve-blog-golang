@@ -20,7 +20,7 @@ type (
 
         // 创建评论
     CommentReviewReq {
-        Id int64 `json:"id,optional"`
+        Ids []int64 `json:"ids,optional"`
         IsReview int64 `json:"is_review,optional"`
     }
 
@@ -41,7 +41,7 @@ type (
 service admin-api {
     @doc "更新评论审核状态"
     @handler UpdateCommentReview
-    put /comment/update_comment_review (CommentReviewReq) returns (CommentBackDTO)
+    put /comment/update_comment_review (CommentReviewReq) returns (BatchResp)
 
     @doc "删除评论"
     @handler DeleteComment

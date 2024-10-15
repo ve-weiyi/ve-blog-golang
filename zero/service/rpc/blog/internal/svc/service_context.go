@@ -144,7 +144,7 @@ func ConnectGorm(c config.MysqlConf, l logx.LogConf) (*gorm.DB, error) {
 	if l.Mode == "console" && l.Encoding == "plain" {
 		// 跟随gorm的日志输出格式
 		lg = logger.New(
-			gormlogger.NewGormWriter(),
+			gormlogger.NewGormWriter(gormlogger.AddSkip(1)),
 			logger.Config{
 				SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
 				LogLevel:                  logger.Info,

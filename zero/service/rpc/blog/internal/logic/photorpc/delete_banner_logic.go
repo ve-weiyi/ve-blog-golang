@@ -25,7 +25,7 @@ func NewDeleteBannerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 
 // 删除页面
 func (l *DeleteBannerLogic) DeleteBanner(in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
-	rows, err := l.svcCtx.TBannerModel.DeleteBatch(l.ctx, "id in (?)", in.Ids)
+	rows, err := l.svcCtx.TBannerModel.Deletes(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

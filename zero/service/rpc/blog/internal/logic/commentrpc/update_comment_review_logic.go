@@ -24,18 +24,15 @@ func NewUpdateCommentReviewLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // 更新评论审核状态
-func (l *UpdateCommentReviewLogic) UpdateCommentReview(in *commentrpc.UpdateCommentReviewReq) (*commentrpc.CommentDetails, error) {
-	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
+func (l *UpdateCommentReviewLogic) UpdateCommentReview(in *commentrpc.UpdateCommentReviewReq) (*commentrpc.BatchResp, error) {
+	rows, err := l.svcCtx.TCommentModel.Updates(l.ctx, map[string]interface{}{
+		"is_review": in.IsReview,
+	}, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	entity.IsReview = in.IsReview
-
-	_, err = l.svcCtx.TCommentModel.Save(l.ctx, entity)
-	if err != nil {
-		return nil, err
-	}
-
-	return convertCommentOut(entity), nil
+	return &commentrpc.BatchResp{
+		SuccessCount: rows,
+	}, nil
 }
