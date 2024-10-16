@@ -24,6 +24,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/websiterpc"
@@ -36,6 +37,7 @@ import (
 	permissionrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/permissionrpc"
 	photorpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/photorpc"
 	remarkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/remarkrpc"
+	resourcerpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/resourcerpc"
 	syslogrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/syslogrpc"
 	talkrpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/talkrpc"
 	websiterpcServer "github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/server/websiterpc"
@@ -103,6 +105,7 @@ func main() {
 		talkrpc.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
 		websiterpc.RegisterWebsiteRpcServer(grpcServer, websiterpcServer.NewWebsiteRpcServer(ctx))
 		configrpc.RegisterConfigRpcServer(grpcServer, configrpcServer.NewConfigRpcServer(ctx))
+		resourcerpc.RegisterResourceRpcServer(grpcServer, resourcerpcServer.NewResourceRpcServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

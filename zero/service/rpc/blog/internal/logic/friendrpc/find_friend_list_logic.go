@@ -33,13 +33,19 @@ func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*
 		return nil, err
 	}
 
+	count, err := l.svcCtx.TFriendModel.FindCount(l.ctx, conditions, params...)
+	if err != nil {
+		return nil, err
+	}
+
 	var list []*friendrpc.FriendDetails
 	for _, v := range result {
 		list = append(list, convertFriendOut(v))
 	}
 
 	return &friendrpc.FindFriendListResp{
-		List: list,
+		List:  list,
+		Total: count,
 	}, nil
 }
 

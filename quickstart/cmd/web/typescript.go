@@ -87,11 +87,11 @@ func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {
 		for _, g := range v {
 			for _, r := range g.Routes {
 				if r.Request != "" {
-					name := r.Request
+					name := strings.Trim(r.Request, "[]")
 					mt[name] = name
 				}
 				if r.Response != "" {
-					name := r.Response
+					name := strings.Trim(r.Response, "[]")
 					mt[name] = name
 				}
 			}
