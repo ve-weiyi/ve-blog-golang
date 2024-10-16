@@ -11,7 +11,7 @@ import (
 )
 
 func Test_len(t *testing.T) {
-	fmt.Println(len("230f039bbd89dcb83974cac5041a1199d98ba9c1"))
+	fmt.Println(len("AK7A510DTEST1002"))
 }
 func Test_VisitFile(t *testing.T) {
 

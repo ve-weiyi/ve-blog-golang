@@ -72,6 +72,9 @@ type ServiceContext struct {
 	TOperationLogModel model.TOperationLogModel
 	TChatRecordModel   model.TChatRecordModel
 	TUploadRecordModel model.TUploadRecordModel
+
+	TFileFolderModel model.TFileFolderModel
+	TFileUploadModel model.TFileUploadModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -134,6 +137,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TOperationLogModel: model.NewTOperationLogModel(db, rds),
 		TChatRecordModel:   model.NewTChatRecordModel(db, rds),
 		TUploadRecordModel: model.NewTUploadRecordModel(db, rds),
+
+		TFileFolderModel: model.NewTFileFolderModel(db, rds),
+		TFileUploadModel: model.NewTFileUploadModel(db, rds),
 	}
 }
 

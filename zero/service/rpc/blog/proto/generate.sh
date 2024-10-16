@@ -11,9 +11,9 @@
 #rm -f ../etc/article.yaml
 #rm ../article.go
 
-goctl rpc protoc ./comment.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/comment.yaml
-rm ../comment.go
+#goctl rpc protoc ./comment.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+#rm -f ../etc/comment.yaml
+#rm ../comment.go
 #
 #goctl rpc protoc ./remark.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 #rm -f ../etc/remark.yaml
@@ -47,3 +47,7 @@ rm ../comment.go
 #goctl rpc protoc ./chat.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 #rm -f ../etc/chat.yaml
 #rm ../chat.go
+
+goctl rpc protoc ./resource.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+rm -f ../etc/resource.yaml
+rm ../resource.go

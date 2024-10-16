@@ -18,7 +18,7 @@ import "admin/photo.api"
 import "admin/album.api"
 import "admin/talk.api"
 import "admin/comment.api"
-import "admin/upload.api"
+import "admin/file.api"
 
 type (
 	PingReq  {}

@@ -60,11 +60,11 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 			req := "any"
 			resp := "any"
 			if r.RequestType != nil {
-				req = r.RequestType.Name()
+				req = convertx.ConvertGoTypeToTsType(r.RequestType.Name())
 			}
 
 			if r.ResponseType != nil {
-				resp = r.ResponseType.Name()
+				resp = convertx.ConvertGoTypeToTsType(r.ResponseType.Name())
 			}
 
 			rt := TsApiRoute{
