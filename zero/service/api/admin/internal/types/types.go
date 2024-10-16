@@ -246,6 +246,47 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
+type FileFolderBackDTO struct {
+	Id         int64  `json:"id,optional"` // 文件目录ID
+	UserId     int64  `json:"user_id"`     // 用户id
+	FilePath   string `json:"file_path"`   // 文件路径
+	FolderName string `json:"folder_name"` // 文件夹名称
+	FolderDesc string `json:"folder_desc"` // 文件夹描述
+	CreatedAt  int64  `json:"created_at"`  // 创建时间
+	UpdatedAt  int64  `json:"updated_at"`  // 更新时间
+}
+
+type FileFolderNewReq struct {
+	Id         int64  `json:"id,optional"` // 文件目录ID
+	FilePath   string `json:"file_path"`   // 文件路径
+	FolderName string `json:"folder_name"` // 文件夹名称
+	FolderDesc string `json:"folder_desc"` // 文件夹描述
+}
+
+type FileFolderQuery struct {
+	PageQuery
+	FilePath string `json:"file_path,optional"` // 文件路径
+}
+
+type FileUploadBackDTO struct {
+	Id        int64  `json:"id,optional"` // 文件目录ID
+	UserId    int64  `json:"user_id"`     // 用户id
+	FilePath  string `json:"file_path"`   // 文件路径
+	FileName  string `json:"file_name"`   // 文件名称
+	FileType  string `json:"file_type"`   // 文件类型
+	FileSize  int64  `json:"file_size"`   // 文件大小
+	FileMd5   string `json:"file_md5"`    // 文件md5值
+	FileUrl   string `json:"file_url"`    // 上传路径
+	CreatedAt int64  `json:"created_at"`  // 创建时间
+	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+}
+
+type FileUploadQuery struct {
+	PageQuery
+	FilePath string `json:"file_path,optional"` // 文件路径
+	FileType string `json:"file_type,optional"` // 文件类型
+}
+
 type FriendBackDTO struct {
 	Id          int64  `json:"id,optional"`  // id
 	LinkName    string `json:"link_name"`    // 链接名
@@ -333,6 +374,11 @@ type MenuQuery struct {
 	PageQuery
 	Name  string `json:"name,optional"`  // 路由名字
 	Title string `json:"title,optional"` // 菜单标题
+}
+
+type MultiUploadFileReq struct {
+	Files    []interface{} `form:"files,optional"`     // 文件列表
+	FilePath string        `json:"file_path,optional"` // 文件路径
 }
 
 type OperationLogBackDTO struct {
@@ -593,22 +639,8 @@ type UpdateRoleMenusReq struct {
 }
 
 type UploadFileReq struct {
-	Label    string      `form:"label,optional"`
 	File     interface{} `form:"file,optional"`      // 文件
-	FileSize int64       `form:"file_size,optional"` // 文件大小
-	FileMd5  string      `form:"file_md5,optional"`  // 文件md5值
-}
-
-type UploadFileResp struct {
-	Id        int64  `json:"id,optional"` // id
-	UserId    int64  `json:"user_id"`     // 用户id
-	Label     string `json:"label"`       // 标签
-	FileName  string `json:"file_name"`   // 文件名称
-	FileSize  int64  `json:"file_size"`   // 文件大小
-	FileMd5   string `json:"file_md5"`    // 文件md5值
-	FileUrl   string `json:"file_url"`    // 上传路径
-	CreatedAt int64  `json:"created_at"`  // 创建时间
-	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+	FilePath string      `json:"file_path,optional"` // 文件路径
 }
 
 type UserApi struct {
