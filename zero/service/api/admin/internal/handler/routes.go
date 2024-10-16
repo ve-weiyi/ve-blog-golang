@@ -12,6 +12,7 @@ import (
 	banner "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/banner"
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/category"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/comment"
+	file "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/friend"
 	menu "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/menu"
 	operation_log "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/operation_log"
@@ -20,7 +21,6 @@ import (
 	role "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/role"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/talk"
-	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/upload"
 	user "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/user"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/handler/website"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
@@ -403,6 +403,72 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
+					// 分页获取文件上传列表
+					Method:  http.MethodPost,
+					Path:    "/file/find_file_list",
+					Handler: file.FindFileUploadListHandler(serverCtx),
+				},
+				{
+					// 分页获取文件目录列表
+					Method:  http.MethodPost,
+					Path:    "/file/find_folder_list",
+					Handler: file.FindFileFolderListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin_api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
+			[]rest.Route{
+				{
+					// 创建文件目录
+					Method:  http.MethodPost,
+					Path:    "/file/add_file_folder",
+					Handler: file.AddFileFolderHandler(serverCtx),
+				},
+				{
+					// 删除文件上传
+					Method:  http.MethodDelete,
+					Path:    "/file/deletes_file",
+					Handler: file.DeletesFileUploadHandler(serverCtx),
+				},
+				{
+					// 删除文件目录
+					Method:  http.MethodDelete,
+					Path:    "/file/deletes_file_folder",
+					Handler: file.DeletesFileFolderHandler(serverCtx),
+				},
+				{
+					// 上传文件列表
+					Method:  http.MethodPost,
+					Path:    "/file/multi_upload_file",
+					Handler: file.MultiUploadFileHandler(serverCtx),
+				},
+				{
+					// 更新文件目录
+					Method:  http.MethodPut,
+					Path:    "/file/update_file_folder",
+					Handler: file.UpdateFileFolderHandler(serverCtx),
+				},
+				{
+					// 上传文件
+					Method:  http.MethodPost,
+					Path:    "/file/upload_file",
+					Handler: file.UploadFileHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin_api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
 					// 分页获取友链列表
 					Method:  http.MethodPost,
 					Path:    "/friend/find_friend_list",
@@ -761,21 +827,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/talk/update_talk",
 					Handler: talk.UpdateTalkHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
-			[]rest.Route{
-				{
-					// 上传文件
-					Method:  http.MethodPost,
-					Path:    "/upload/upload_file",
-					Handler: upload.UploadFileHandler(serverCtx),
 				},
 			}...,
 		),

@@ -24,6 +24,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
@@ -44,6 +45,7 @@ type ServiceContext struct {
 	SyslogRpc     syslogrpc.SyslogRpc
 	WebsiteRpc    websiterpc.WebsiteRpc
 	ConfigRpc     configrpc.ConfigRpc
+	ResourceRpc   resourcerpc.ResourceRpc
 
 	Uploader   upload.Uploader
 	Token      *jtoken.JwtInstance
@@ -83,6 +85,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		SyslogRpc:     syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		Uploader:      upload.NewQiniu(c.UploadConfig),
 		Token:         jwt,
 		Redis:         rds,
