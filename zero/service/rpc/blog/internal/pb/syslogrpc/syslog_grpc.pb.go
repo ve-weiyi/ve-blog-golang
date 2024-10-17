@@ -26,8 +26,6 @@ const (
 	SyslogRpc_AddOperationLog_FullMethodName      = "/syslogrpc.SyslogRpc/AddOperationLog"
 	SyslogRpc_DeleteOperationLog_FullMethodName   = "/syslogrpc.SyslogRpc/DeleteOperationLog"
 	SyslogRpc_FindOperationLogList_FullMethodName = "/syslogrpc.SyslogRpc/FindOperationLogList"
-	SyslogRpc_AddUploadLog_FullMethodName         = "/syslogrpc.SyslogRpc/AddUploadLog"
-	SyslogRpc_FindUploadLogList_FullMethodName    = "/syslogrpc.SyslogRpc/FindUploadLogList"
 )
 
 // SyslogRpcClient is the client API for SyslogRpc service.
@@ -40,10 +38,6 @@ type SyslogRpcClient interface {
 	DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询操作记录列表
 	FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
-	// 上传文件
-	AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error)
-	// 查询文件列表
-	FindUploadLogList(ctx context.Context, in *FindUploadLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
 }
 
 type syslogRpcClient struct {
@@ -81,24 +75,6 @@ func (c *syslogRpcClient) FindOperationLogList(ctx context.Context, in *FindOper
 	return out, nil
 }
 
-func (c *syslogRpcClient) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error) {
-	out := new(UploadLogDetails)
-	err := c.cc.Invoke(ctx, SyslogRpc_AddUploadLog_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *syslogRpcClient) FindUploadLogList(ctx context.Context, in *FindUploadLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error) {
-	out := new(FindOperationLogListResp)
-	err := c.cc.Invoke(ctx, SyslogRpc_FindUploadLogList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // SyslogRpcServer is the server API for SyslogRpc service.
 // All implementations must embed UnimplementedSyslogRpcServer
 // for forward compatibility
@@ -109,10 +85,6 @@ type SyslogRpcServer interface {
 	DeleteOperationLog(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询操作记录列表
 	FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error)
-	// 上传文件
-	AddUploadLog(context.Context, *UploadLogNewReq) (*UploadLogDetails, error)
-	// 查询文件列表
-	FindUploadLogList(context.Context, *FindUploadLogListReq) (*FindOperationLogListResp, error)
 	mustEmbedUnimplementedSyslogRpcServer()
 }
 
@@ -128,12 +100,6 @@ func (UnimplementedSyslogRpcServer) DeleteOperationLog(context.Context, *IdsReq)
 }
 func (UnimplementedSyslogRpcServer) FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLogList not implemented")
-}
-func (UnimplementedSyslogRpcServer) AddUploadLog(context.Context, *UploadLogNewReq) (*UploadLogDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddUploadLog not implemented")
-}
-func (UnimplementedSyslogRpcServer) FindUploadLogList(context.Context, *FindUploadLogListReq) (*FindOperationLogListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindUploadLogList not implemented")
 }
 func (UnimplementedSyslogRpcServer) mustEmbedUnimplementedSyslogRpcServer() {}
 
@@ -202,42 +168,6 @@ func _SyslogRpc_FindOperationLogList_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SyslogRpc_AddUploadLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadLogNewReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SyslogRpcServer).AddUploadLog(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SyslogRpc_AddUploadLog_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SyslogRpcServer).AddUploadLog(ctx, req.(*UploadLogNewReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SyslogRpc_FindUploadLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindUploadLogListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SyslogRpcServer).FindUploadLogList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SyslogRpc_FindUploadLogList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SyslogRpcServer).FindUploadLogList(ctx, req.(*FindUploadLogListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // SyslogRpc_ServiceDesc is the grpc.ServiceDesc for SyslogRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -256,14 +186,6 @@ var SyslogRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindOperationLogList",
 			Handler:    _SyslogRpc_FindOperationLogList_Handler,
-		},
-		{
-			MethodName: "AddUploadLog",
-			Handler:    _SyslogRpc_AddUploadLog_Handler,
-		},
-		{
-			MethodName: "FindUploadLogList",
-			Handler:    _SyslogRpc_FindUploadLogList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

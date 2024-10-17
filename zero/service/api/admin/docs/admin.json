@@ -1254,7 +1254,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/FileFolderBackDTO"
+              "$ref": "#/definitions/FileBackDTO"
             }
           }
         },
@@ -1275,35 +1275,8 @@
     },
     "/admin_api/v1/file/deletes_file": {
       "delete": {
-        "summary": "删除文件上传",
-        "operationId": "DeletesFileUpload",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "file"
-        ]
-      }
-    },
-    "/admin_api/v1/file/deletes_file_folder": {
-      "delete": {
-        "summary": "删除文件目录",
-        "operationId": "DeletesFileFolder",
+        "summary": "删除文件列表",
+        "operationId": "DeletesFile",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1329,8 +1302,8 @@
     },
     "/admin_api/v1/file/find_file_list": {
       "post": {
-        "summary": "分页获取文件上传列表",
-        "operationId": "FindFileUploadList",
+        "summary": "分页获取文件列表",
+        "operationId": "FindFileList",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1345,34 +1318,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/FileUploadQuery"
-            }
-          }
-        ],
-        "tags": [
-          "file"
-        ]
-      }
-    },
-    "/admin_api/v1/file/find_folder_list": {
-      "post": {
-        "summary": "分页获取文件目录列表",
-        "operationId": "FindFileFolderList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FileFolderQuery"
+              "$ref": "#/definitions/FileQuery"
             }
           }
         ],
@@ -1391,7 +1337,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/*FileUploadBackDTO"
+                "$ref": "#/definitions/*FileBackDTO"
               }
             }
           }
@@ -1414,33 +1360,6 @@
         ]
       }
     },
-    "/admin_api/v1/file/update_file_folder": {
-      "put": {
-        "summary": "更新文件目录",
-        "operationId": "UpdateFileFolder",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/FileFolderBackDTO"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FileFolderNewReq"
-            }
-          }
-        ],
-        "tags": [
-          "file"
-        ]
-      }
-    },
     "/admin_api/v1/file/upload_file": {
       "post": {
         "summary": "上传文件",
@@ -1449,7 +1368,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/FileUploadBackDTO"
+              "$ref": "#/definitions/FileBackDTO"
             }
           }
         },
@@ -3883,108 +3802,7 @@
       "type": "object",
       "title": "EmptyResp"
     },
-    "FileFolderBackDTO": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文件目录ID"
-        },
-        "user_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 用户id"
-        },
-        "file_path": {
-          "type": "string",
-          "description": " 文件路径"
-        },
-        "folder_name": {
-          "type": "string",
-          "description": " 文件夹名称"
-        },
-        "folder_desc": {
-          "type": "string",
-          "description": " 文件夹描述"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "FileFolderBackDTO",
-      "required": [
-        "user_id",
-        "file_path",
-        "folder_name",
-        "folder_desc",
-        "created_at",
-        "updated_at"
-      ]
-    },
-    "FileFolderNewReq": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文件目录ID"
-        },
-        "file_path": {
-          "type": "string",
-          "description": " 文件路径"
-        },
-        "folder_name": {
-          "type": "string",
-          "description": " 文件夹名称"
-        },
-        "folder_desc": {
-          "type": "string",
-          "description": " 文件夹描述"
-        }
-      },
-      "title": "FileFolderNewReq",
-      "required": [
-        "file_path",
-        "folder_name",
-        "folder_desc"
-      ]
-    },
-    "FileFolderQuery": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 当前页码"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 每页数量"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 排序"
-        },
-        "file_path": {
-          "type": "string",
-          "description": " 文件路径"
-        }
-      },
-      "title": "FileFolderQuery"
-    },
-    "FileUploadBackDTO": {
+    "FileBackDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4033,7 +3851,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "FileUploadBackDTO",
+      "title": "FileBackDTO",
       "required": [
         "user_id",
         "file_path",
@@ -4046,7 +3864,25 @@
         "updated_at"
       ]
     },
-    "FileUploadQuery": {
+    "FileFolderNewReq": {
+      "type": "object",
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "file_name": {
+          "type": "string",
+          "description": " 文件名称"
+        }
+      },
+      "title": "FileFolderNewReq",
+      "required": [
+        "file_path",
+        "file_name"
+      ]
+    },
+    "FileQuery": {
       "type": "object",
       "properties": {
         "page": {
@@ -4075,7 +3911,7 @@
           "description": " 文件类型"
         }
       },
-      "title": "FileUploadQuery"
+      "title": "FileQuery"
     },
     "FriendBackDTO": {
       "type": "object",
