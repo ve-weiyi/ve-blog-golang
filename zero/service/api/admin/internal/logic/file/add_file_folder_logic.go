@@ -7,6 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,15 +27,23 @@ func NewAddFileFolderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Add
 	}
 }
 
-func (l *AddFileFolderLogic) AddFileFolder(req *types.FileFolderNewReq) (resp *types.FileFolderBackDTO, err error) {
-	in := ConvertFileFolderPb(req)
-	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
+func (l *AddFileFolderLogic) AddFileFolder(req *types.FileFolderNewReq) (resp *types.FileBackDTO, err error) {
+	in := &resourcerpc.FileUploadNewReq{
+		Id:       0,
+		UserId:   cast.ToInt64(l.ctx.Value("uid")),
+		FilePath: req.FilePath,
+		FileName: req.FileName,
+		FileType: "",
+		FileSize: 0,
+		FileMd5:  "",
+		FileUrl:  "",
+	}
 
-	out, err := l.svcCtx.ResourceRpc.AddFileFolder(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.AddFileUpload(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = ConvertFileFolderTypes(out)
+	resp = ConvertFileUploadTypes(out)
 	return resp, nil
 }
