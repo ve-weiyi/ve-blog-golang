@@ -246,29 +246,7 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FileFolderBackDTO struct {
-	Id         int64  `json:"id,optional"` // 文件目录ID
-	UserId     int64  `json:"user_id"`     // 用户id
-	FilePath   string `json:"file_path"`   // 文件路径
-	FolderName string `json:"folder_name"` // 文件夹名称
-	FolderDesc string `json:"folder_desc"` // 文件夹描述
-	CreatedAt  int64  `json:"created_at"`  // 创建时间
-	UpdatedAt  int64  `json:"updated_at"`  // 更新时间
-}
-
-type FileFolderNewReq struct {
-	Id         int64  `json:"id,optional"` // 文件目录ID
-	FilePath   string `json:"file_path"`   // 文件路径
-	FolderName string `json:"folder_name"` // 文件夹名称
-	FolderDesc string `json:"folder_desc"` // 文件夹描述
-}
-
-type FileFolderQuery struct {
-	PageQuery
-	FilePath string `json:"file_path,optional"` // 文件路径
-}
-
-type FileUploadBackDTO struct {
+type FileBackDTO struct {
 	Id        int64  `json:"id,optional"` // 文件目录ID
 	UserId    int64  `json:"user_id"`     // 用户id
 	FilePath  string `json:"file_path"`   // 文件路径
@@ -281,7 +259,12 @@ type FileUploadBackDTO struct {
 	UpdatedAt int64  `json:"updated_at"`  // 更新时间
 }
 
-type FileUploadQuery struct {
+type FileFolderNewReq struct {
+	FilePath string `json:"file_path"` // 文件路径
+	FileName string `json:"file_name"` // 文件名称
+}
+
+type FileQuery struct {
 	PageQuery
 	FilePath string `json:"file_path,optional"` // 文件路径
 	FileType string `json:"file_type,optional"` // 文件类型
@@ -378,7 +361,7 @@ type MenuQuery struct {
 
 type MultiUploadFileReq struct {
 	Files    []interface{} `form:"files,optional"`     // 文件列表
-	FilePath string        `json:"file_path,optional"` // 文件路径
+	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
 type OperationLogBackDTO struct {
@@ -640,7 +623,7 @@ type UpdateRoleMenusReq struct {
 
 type UploadFileReq struct {
 	File     interface{} `form:"file,optional"`      // 文件
-	FilePath string      `json:"file_path,optional"` // 文件路径
+	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
 type UserApi struct {

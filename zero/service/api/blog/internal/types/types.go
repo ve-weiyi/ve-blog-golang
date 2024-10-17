@@ -48,6 +48,7 @@ type ArticleHome struct {
 
 type ArticleHomeQueryReq struct {
 	PageQuery
+	ArticleTitle string `json:"article_title,optional"` // 标题
 }
 
 type ArticlePreview struct {
@@ -175,6 +176,19 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
+type FileBackDTO struct {
+	Id        int64  `json:"id,optional"` // 文件目录ID
+	UserId    int64  `json:"user_id"`     // 用户id
+	FilePath  string `json:"file_path"`   // 文件路径
+	FileName  string `json:"file_name"`   // 文件名称
+	FileType  string `json:"file_type"`   // 文件类型
+	FileSize  int64  `json:"file_size"`   // 文件大小
+	FileMd5   string `json:"file_md5"`    // 文件md5值
+	FileUrl   string `json:"file_url"`    // 上传路径
+	CreatedAt int64  `json:"created_at"`  // 创建时间
+	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+}
+
 type Friend struct {
 	Id          int64  `json:"id"`           // id
 	LinkName    string `json:"link_name"`    // 链接名
@@ -224,6 +238,11 @@ type LoginReq struct {
 
 type LoginResp struct {
 	Token *Token `json:"token"`
+}
+
+type MultiUploadFileReq struct {
+	Files    []interface{} `form:"files,optional"`     // 文件列表
+	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
 type OauthLoginReq struct {
@@ -381,22 +400,8 @@ type UpdateUserInfoReq struct {
 }
 
 type UploadFileReq struct {
-	Label    string      `form:"label,optional"`
 	File     interface{} `form:"file,optional"`      // 文件
-	FileSize int64       `form:"file_size,optional"` // 文件大小
-	FileMd5  string      `form:"file_md5,optional"`  // 文件md5值
-}
-
-type UploadFileResp struct {
-	Id        int64  `json:"id"`         // id
-	UserId    int64  `json:"user_id"`    // 用户id
-	Label     string `json:"label"`      // 标签
-	FileName  string `json:"file_name"`  // 文件名称
-	FileSize  int64  `json:"file_size"`  // 文件大小
-	FileMd5   string `json:"file_md5"`   // 文件md5值
-	FileUrl   string `json:"file_url"`   // 上传路径
-	CreatedAt int64  `json:"created_at"` // 创建时间
-	UpdatedAt int64  `json:"updated_at"` // 更新时间
+	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
 type UserEmailReq struct {

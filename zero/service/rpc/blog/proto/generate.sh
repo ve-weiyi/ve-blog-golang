@@ -27,9 +27,9 @@
 #rm -f ../etc/photo.yaml
 #rm ../photo.go
 #
-#goctl rpc protoc ./syslog.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/syslog.yaml
-#rm ../syslog.go
+goctl rpc protoc ./syslog.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+rm -f ../etc/syslog.yaml
+rm ../syslog.go
 #
 #goctl rpc protoc ./talk.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 #rm -f ../etc/talk.yaml
@@ -48,6 +48,6 @@
 #rm -f ../etc/chat.yaml
 #rm ../chat.go
 
-goctl rpc protoc ./resource.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/resource.yaml
-rm ../resource.go
+#goctl rpc protoc ./resource.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+#rm -f ../etc/resource.yaml
+#rm ../resource.go

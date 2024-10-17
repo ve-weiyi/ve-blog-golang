@@ -46,6 +46,7 @@ type (
 
     ArticleHomeQueryReq {
         PageQuery
+        ArticleTitle string `json:"article_title,optional"`                           // 标题
     }
 
     ArticleArchivesQueryReq {

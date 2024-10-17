@@ -11,11 +11,11 @@ import (
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/category"
 	chat "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/comment"
+	file "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/friend"
 	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/talk"
-	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/upload"
 	user "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/user"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/website"
 	websocket "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/websocket"
@@ -303,6 +303,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
+					// 上传文件列表
+					Method:  http.MethodPost,
+					Path:    "/file/multi_upload_file",
+					Handler: file.MultiUploadFileHandler(serverCtx),
+				},
+				{
+					// 上传文件
+					Method:  http.MethodPost,
+					Path:    "/file/upload_file",
+					Handler: file.UploadFileHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
 					// 分页获取友链列表
 					Method:  http.MethodPost,
 					Path:    "/friend_link/find_friend_list",
@@ -379,21 +400,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/talk/like_talk",
 					Handler: talk.LikeTalkHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
-			[]rest.Route{
-				{
-					// 上传文件
-					Method:  http.MethodPost,
-					Path:    "/upload/upload_file",
-					Handler: upload.UploadFileHandler(serverCtx),
 				},
 			}...,
 		),

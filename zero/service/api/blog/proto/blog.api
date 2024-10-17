@@ -13,7 +13,7 @@ import "blog/comment.api"
 import "blog/banner.api"
 import "blog/remark.api"
 import "blog/chat.api"
-import "blog/upload.api"
+import "blog/file.api"
 import "blog/websocket.api"
 
 type (

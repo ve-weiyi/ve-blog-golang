@@ -1,4 +1,4 @@
-package upload
+package file
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/logic/upload"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/logic/file"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 )
@@ -20,7 +20,7 @@ func UploadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := upload.NewUploadFileLogic(r.Context(), svcCtx)
+		l := file.NewUploadFileLogic(r.Context(), svcCtx)
 		resp, err := l.UploadFile(&req, r)
 		responsex.Response(r, w, resp, err)
 	}

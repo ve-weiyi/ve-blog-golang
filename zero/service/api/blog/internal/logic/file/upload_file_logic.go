@@ -1,17 +1,16 @@
-package upload
+package file
 
 import (
 	"context"
 	"net/http"
-	"path"
+	"path/filepath"
 
 	"github.com/spf13/cast"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/resourcerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,44 +30,45 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 	}
 }
 
-func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) (resp *types.UploadFileResp, err error) {
+func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) (resp *types.FileBackDTO, err error) {
 	f, h, _ := r.FormFile("file")
 	defer f.Close()
 
-	label := req.Label
-	up, err := l.svcCtx.Uploader.UploadFile(path.Join(cast.ToString(l.ctx.Value("uid")), label), h)
+	up, err := l.svcCtx.Uploader.UploadFile(req.FilePath, h)
 	if err != nil {
 		return nil, err
 	}
-	in := &syslogrpc.UploadLogNewReq{
+
+	in := &resourcerpc.FileUploadNewReq{
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
-		Label:    label,
+		FilePath: req.FilePath,
 		FileName: h.Filename,
+		FileType: filepath.Ext(h.Filename),
 		FileSize: h.Size,
 		FileMd5:  crypto.Md5v(h.Filename, ""),
 		FileUrl:  up,
 	}
 
-	out, err := l.svcCtx.SyslogRpc.AddUploadLog(l.ctx, in)
+	out, err := l.svcCtx.ResourceRpc.AddFileUpload(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return ConvertUploadTypes(out), nil
+	return ConvertFileUploadTypes(out), nil
 }
 
-func ConvertUploadTypes(req *syslogrpc.UploadLogDetails) (out *types.UploadFileResp) {
-
-	out = &types.UploadFileResp{
-		Id:        req.Id,
-		UserId:    req.UserId,
-		Label:     req.Label,
-		FileName:  req.FileName,
-		FileSize:  req.FileSize,
-		FileMd5:   req.FileMd5,
-		FileUrl:   req.FileUrl,
-		CreatedAt: req.CreatedAt,
-		UpdatedAt: req.UpdatedAt,
+func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails) (out *types.FileBackDTO) {
+	out = &types.FileBackDTO{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		FilePath:  in.FilePath,
+		FileName:  in.FileName,
+		FileType:  in.FileType,
+		FileSize:  in.FileSize,
+		FileMd5:   in.FileMd5,
+		FileUrl:   in.FileUrl,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
 	}
 
 	return

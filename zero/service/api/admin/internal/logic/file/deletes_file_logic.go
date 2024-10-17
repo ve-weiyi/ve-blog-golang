@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeletesFileUploadLogic struct {
+type DeletesFileLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 删除文件上传
-func NewDeletesFileUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesFileUploadLogic {
-	return &DeletesFileUploadLogic{
+// 删除文件列表
+func NewDeletesFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesFileLogic {
+	return &DeletesFileLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeletesFileUploadLogic) DeletesFileUpload(req *types.IdsReq) (resp *types.BatchResp, err error) {
+func (l *DeletesFileLogic) DeletesFile(req *types.IdsReq) (resp *types.BatchResp, err error) {
 
 	in := &resourcerpc.IdsReq{
 		Ids: req.Ids,

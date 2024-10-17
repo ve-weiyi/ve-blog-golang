@@ -27,8 +27,10 @@ func NewFindArticleHomeListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.ArticleHomeQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Page:         req.Page,
+		PageSize:     req.PageSize,
+		Sorts:        req.Sorts,
+		ArticleTitle: req.ArticleTitle,
 	}
 	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {

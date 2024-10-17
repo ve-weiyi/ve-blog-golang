@@ -563,6 +563,69 @@
         ]
       }
     },
+    "/api/v1/file/multi_upload_file": {
+      "post": {
+        "summary": "上传文件列表",
+        "operationId": "MultiUploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/*FileBackDTO"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiUploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/file/upload_file": {
+      "post": {
+        "summary": "上传文件",
+        "operationId": "UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
     "/api/v1/friend_link/find_friend_list": {
       "post": {
         "summary": "分页获取友链列表",
@@ -988,36 +1051,6 @@
         ],
         "tags": [
           "talk"
-        ]
-      }
-    },
-    "/api/v1/upload/upload_file": {
-      "post": {
-        "summary": "上传文件",
-        "operationId": "UploadFile",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/UploadFileResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UploadFileReq"
-            }
-          }
-        ],
-        "tags": [
-          "upload"
-        ],
-        "consumes": [
-          "multipart/form-data"
         ]
       }
     },
@@ -1479,6 +1512,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
         }
       },
       "title": "ArticleHomeQueryReq"
@@ -2037,6 +2074,68 @@
       "type": "object",
       "title": "EmptyResp"
     },
+    "FileBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件目录ID"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户id"
+        },
+        "file_path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "file_name": {
+          "type": "string",
+          "description": " 文件名称"
+        },
+        "file_type": {
+          "type": "string",
+          "description": " 文件类型"
+        },
+        "file_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件大小"
+        },
+        "file_md5": {
+          "type": "string",
+          "description": " 文件md5值"
+        },
+        "file_url": {
+          "type": "string",
+          "description": " 上传路径"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "FileBackDTO",
+      "required": [
+        "user_id",
+        "file_path",
+        "file_name",
+        "file_type",
+        "file_size",
+        "file_md5",
+        "file_url",
+        "created_at",
+        "updated_at"
+      ]
+    },
     "Friend": {
       "type": "object",
       "properties": {
@@ -2228,6 +2327,23 @@
       "required": [
         "token"
       ]
+    },
+    "MultiUploadFileReq": {
+      "type": "object",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": " 文件列表"
+        },
+        "file_path": {
+          "type": "string",
+          "description": " 文件路径"
+        }
+      },
+      "title": "MultiUploadFileReq"
     },
     "OauthLoginReq": {
       "type": "object",
@@ -2819,82 +2935,16 @@
     "UploadFileReq": {
       "type": "object",
       "properties": {
-        "label": {
-          "type": "string"
-        },
         "file": {
           "type": "object",
           "description": " 文件"
         },
-        "file_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文件大小"
-        },
-        "file_md5": {
+        "file_path": {
           "type": "string",
-          "description": " 文件md5值"
+          "description": " 文件路径"
         }
       },
       "title": "UploadFileReq"
-    },
-    "UploadFileResp": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " id"
-        },
-        "user_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 用户id"
-        },
-        "label": {
-          "type": "string",
-          "description": " 标签"
-        },
-        "file_name": {
-          "type": "string",
-          "description": " 文件名称"
-        },
-        "file_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文件大小"
-        },
-        "file_md5": {
-          "type": "string",
-          "description": " 文件md5值"
-        },
-        "file_url": {
-          "type": "string",
-          "description": " 上传路径"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "UploadFileResp",
-      "required": [
-        "id",
-        "user_id",
-        "label",
-        "file_name",
-        "file_size",
-        "file_md5",
-        "file_url",
-        "created_at",
-        "updated_at"
-      ]
     },
     "UserEmailReq": {
       "type": "object",
