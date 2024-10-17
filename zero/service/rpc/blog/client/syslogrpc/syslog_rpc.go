@@ -19,13 +19,10 @@ type (
 	EmptyResp                = syslogrpc.EmptyResp
 	FindOperationLogListReq  = syslogrpc.FindOperationLogListReq
 	FindOperationLogListResp = syslogrpc.FindOperationLogListResp
-	FindUploadLogListReq     = syslogrpc.FindUploadLogListReq
 	IdReq                    = syslogrpc.IdReq
 	IdsReq                   = syslogrpc.IdsReq
 	OperationLogDetails      = syslogrpc.OperationLogDetails
 	OperationLogNewReq       = syslogrpc.OperationLogNewReq
-	UploadLogDetails         = syslogrpc.UploadLogDetails
-	UploadLogNewReq          = syslogrpc.UploadLogNewReq
 	UserIdReq                = syslogrpc.UserIdReq
 
 	SyslogRpc interface {
@@ -35,10 +32,6 @@ type (
 		DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询操作记录列表
 		FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
-		// 上传文件
-		AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error)
-		// 查询文件列表
-		FindUploadLogList(ctx context.Context, in *FindUploadLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
 	}
 
 	defaultSyslogRpc struct {
@@ -68,16 +61,4 @@ func (m *defaultSyslogRpc) DeleteOperationLog(ctx context.Context, in *IdsReq, o
 func (m *defaultSyslogRpc) FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error) {
 	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
 	return client.FindOperationLogList(ctx, in, opts...)
-}
-
-// 上传文件
-func (m *defaultSyslogRpc) AddUploadLog(ctx context.Context, in *UploadLogNewReq, opts ...grpc.CallOption) (*UploadLogDetails, error) {
-	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
-	return client.AddUploadLog(ctx, in, opts...)
-}
-
-// 查询文件列表
-func (m *defaultSyslogRpc) FindUploadLogList(ctx context.Context, in *FindUploadLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error) {
-	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
-	return client.FindUploadLogList(ctx, in, opts...)
 }
