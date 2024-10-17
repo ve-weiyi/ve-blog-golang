@@ -403,16 +403,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
-					// 分页获取文件上传列表
+					// 分页获取文件列表
 					Method:  http.MethodPost,
 					Path:    "/file/find_file_list",
-					Handler: file.FindFileUploadListHandler(serverCtx),
-				},
-				{
-					// 分页获取文件目录列表
-					Method:  http.MethodPost,
-					Path:    "/file/find_folder_list",
-					Handler: file.FindFileFolderListHandler(serverCtx),
+					Handler: file.FindFileListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -430,28 +424,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: file.AddFileFolderHandler(serverCtx),
 				},
 				{
-					// 删除文件上传
+					// 删除文件列表
 					Method:  http.MethodDelete,
 					Path:    "/file/deletes_file",
-					Handler: file.DeletesFileUploadHandler(serverCtx),
-				},
-				{
-					// 删除文件目录
-					Method:  http.MethodDelete,
-					Path:    "/file/deletes_file_folder",
-					Handler: file.DeletesFileFolderHandler(serverCtx),
+					Handler: file.DeletesFileHandler(serverCtx),
 				},
 				{
 					// 上传文件列表
 					Method:  http.MethodPost,
 					Path:    "/file/multi_upload_file",
 					Handler: file.MultiUploadFileHandler(serverCtx),
-				},
-				{
-					// 更新文件目录
-					Method:  http.MethodPut,
-					Path:    "/file/update_file_folder",
-					Handler: file.UpdateFileFolderHandler(serverCtx),
 				},
 				{
 					// 上传文件

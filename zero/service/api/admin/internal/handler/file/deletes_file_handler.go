@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 )
 
-// 更新文件目录
-func UpdateFileFolderHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 删除文件列表
+func DeletesFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.FileFolderNewReq
+		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := file.NewUpdateFileFolderLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateFileFolder(&req)
+		l := file.NewDeletesFileLogic(r.Context(), svcCtx)
+		resp, err := l.DeletesFile(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

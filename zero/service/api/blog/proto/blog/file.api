@@ -3,18 +3,6 @@ syntax = "v1"
 import "base.api"
 
 type (
-    FileFolderNewReq {
-        FilePath string `json:"file_path"`        // 文件路径
-        FileName string `json:"file_name"`        // 文件名称
-    }
-
-
-    FileQuery {
-        PageQuery
-        FilePath string `json:"file_path,optional"`        // 文件路径
-        FileType string `json:"file_type,optional"`        // 文件类型
-    }
-
     UploadFileReq {
         File interface{} `form:"file,optional"`   // 文件
         FilePath string `form:"file_path,optional"`        // 文件路径
@@ -40,32 +28,12 @@ type (
 )
 
 @server(
-    prefix: /admin_api/v1
+    prefix: /api/v1
     group: file
     middleware: SignToken
 )
 
-service admin-api {
-    @doc "分页获取文件列表"
-    @handler FindFileList
-    post /file/find_file_list (FileQuery) returns (PageResp)
-}
-
-@server(
-    prefix: /admin_api/v1
-    group: file
-    middleware: SignToken,JwtToken,Operation
-)
-
-service admin-api {
-    @doc "创建文件目录"
-    @handler AddFileFolder
-    post /file/add_file_folder (FileFolderNewReq) returns (FileBackDTO)
-
-    @doc "删除文件列表"
-    @handler DeletesFile
-    delete /file/deletes_file (IdsReq) returns (BatchResp)
-
+service blog-api {
 
     @doc "上传文件"
     @handler UploadFile
@@ -74,5 +42,4 @@ service admin-api {
     @doc "上传文件列表"
     @handler MultiUploadFile
     post /file/multi_upload_file (MultiUploadFileReq) returns ([]*FileBackDTO)
-
 }

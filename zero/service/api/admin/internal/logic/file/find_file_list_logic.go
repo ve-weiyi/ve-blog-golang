@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindFileUploadListLogic struct {
+type FindFileListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 分页获取文件上传列表
-func NewFindFileUploadListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindFileUploadListLogic {
-	return &FindFileUploadListLogic{
+// 分页获取文件列表
+func NewFindFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindFileListLogic {
+	return &FindFileListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindFileUploadListLogic) FindFileUploadList(req *types.FileUploadQuery) (resp *types.PageResp, err error) {
+func (l *FindFileListLogic) FindFileList(req *types.FileQuery) (resp *types.PageResp, err error) {
 	in := &resourcerpc.FindFileUploadListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
@@ -39,7 +39,7 @@ func (l *FindFileUploadListLogic) FindFileUploadList(req *types.FileUploadQuery)
 		return nil, err
 	}
 
-	var list []*types.FileUploadBackDTO
+	var list []*types.FileBackDTO
 	for _, v := range out.List {
 		m := ConvertFileUploadTypes(v)
 		list = append(list, m)
@@ -51,4 +51,21 @@ func (l *FindFileUploadListLogic) FindFileUploadList(req *types.FileUploadQuery)
 	resp.Total = out.Total
 	resp.List = list
 	return resp, nil
+}
+
+func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails) (out *types.FileBackDTO) {
+	out = &types.FileBackDTO{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		FilePath:  in.FilePath,
+		FileName:  in.FileName,
+		FileType:  in.FileType,
+		FileSize:  in.FileSize,
+		FileMd5:   in.FileMd5,
+		FileUrl:   in.FileUrl,
+		CreatedAt: in.CreatedAt,
+		UpdatedAt: in.UpdatedAt,
+	}
+
+	return
 }

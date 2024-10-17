@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -99,8 +100,15 @@ func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {
 
 		var ims []string
 		for kk, _ := range mt {
+			if kk == "any" {
+				continue
+			}
 			ims = append(ims, kk)
 		}
+
+		sort.Slice(ims, func(i, j int) bool {
+			return ims[i] < ims[j]
+		})
 
 		meta := invent.TemplateMeta{
 			Key:            "",
