@@ -25,11 +25,12 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 	}
 }
 
-func (l *FindPhotoListLogic) FindPhotoList(req *types.PageQuery) (resp *types.PageResp, err error) {
+func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.PageResp, err error) {
 	in := &photorpc.FindPhotoListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
+		AlbumId:  req.AlbumId,
 	}
 
 	out, err := l.svcCtx.PhotoRpc.FindPhotoList(l.ctx, in)

@@ -48,7 +48,7 @@ func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserM
 }
 
 func ConvertUserMenuTypes(in *permissionrpc.MenuDetails) (out *types.UserMenu) {
-	var children []*types.UserMenu
+	children := make([]*types.UserMenu, 0)
 	if in.Children != nil {
 		for _, v := range in.Children {
 			children = append(children, ConvertUserMenuTypes(v))

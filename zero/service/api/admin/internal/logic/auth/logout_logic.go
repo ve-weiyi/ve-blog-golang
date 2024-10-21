@@ -30,10 +30,8 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
-	uid := l.ctx.Value("uid").(string)
-
 	in := &accountrpc.LogoutReq{
-		UserId: cast.ToInt64(uid),
+		UserId: cast.ToInt64(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.AccountRpc.Logout(l.ctx, in)
@@ -41,7 +39,7 @@ func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return nil, err
 	}
 
-	redisKey := middlewarex.GetUserLogoutKey(cast.ToInt64(uid))
+	redisKey := middlewarex.GetUserLogoutKey(cast.ToInt64(l.ctx.Value("uid")))
 	_ = l.svcCtx.Redis.SetexCtx(l.ctx, redisKey, fmt.Sprintf("%d", out.LogoutAt), 7*24*60*60)
 
 	return &types.EmptyResp{}, nil

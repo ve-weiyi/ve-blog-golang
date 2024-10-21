@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/dbutil"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -47,6 +48,19 @@ func init() {
 		panic(fmt.Errorf("cannot establish db connection: %w", err))
 	}
 	log.Println("mysql connection done")
+}
+
+func Test_ClearTable(t *testing.T) {
+	// 清空表
+	//db.Exec("truncate table t_operation_log")
+
+	//dbutil.CleanTable(db, "t_menu")
+	//dbutil.CleanTable(db, "t_role_menu")
+
+	dbutil.CleanTable(db, "t_api")
+	dbutil.CleanTable(db, "t_role_api")
+
+	//dbutil.CleanTable(db, "t_user_role")
 }
 
 func Test_TOperationLog(t *testing.T) {
