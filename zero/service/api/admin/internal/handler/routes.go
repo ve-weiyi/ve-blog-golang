@@ -444,6 +444,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			}...,
 		),
 		rest.WithPrefix("/admin_api/v1"),
+		rest.WithMaxBytes(10485760),
 	)
 
 	server.AddRoutes(

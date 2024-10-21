@@ -39,7 +39,7 @@ type (
 service admin-api {
     @doc "分页获取照片列表"
     @handler FindPhotoList
-    post /photo/find_photo_list (PageQuery) returns (PageResp)
+    post /photo/find_photo_list (PhotoQuery) returns (PageResp)
 }
 
 @server(
