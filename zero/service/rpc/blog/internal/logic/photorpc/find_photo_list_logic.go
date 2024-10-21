@@ -26,17 +26,7 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 
 // 分页获取照片列表
 func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*photorpc.FindPhotoListResp, error) {
-	var (
-		page       int
-		size       int
-		sorts      string
-		conditions string
-		params     []interface{}
-	)
-
-	page = int(in.Page)
-	size = int(in.PageSize)
-	sorts = strings.Join(in.Sorts, ",")
+	page, size, sorts, conditions, params := convertPhotoQuery(in)
 
 	result, err := l.svcCtx.TPhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -51,4 +41,20 @@ func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*phot
 	return &photorpc.FindPhotoListResp{
 		List: list,
 	}, nil
+}
+
+func convertPhotoQuery(in *photorpc.FindPhotoListReq) (page int, size int, sorts string, conditions string, params []any) {
+	page = int(in.Page)
+	size = int(in.PageSize)
+	sorts = strings.Join(in.Sorts, ",")
+	if sorts == "" {
+		sorts = "id desc"
+	}
+
+	if in.AlbumId != 0 {
+		conditions += " album_id = ?"
+		params = append(params, in.AlbumId)
+	}
+
+	return
 }
