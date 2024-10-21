@@ -43,6 +43,7 @@ func ConvertAlbumPb(in *types.AlbumNewReq) (out *photorpc.AlbumNewReq) {
 		AlbumDesc:  in.AlbumDesc,
 		AlbumCover: in.AlbumCover,
 		IsDelete:   in.IsDelete,
+		Status:     in.Status,
 	}
 
 	return
