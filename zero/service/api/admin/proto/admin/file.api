@@ -55,6 +55,7 @@ service admin-api {
     prefix: /admin_api/v1
     group: file
     middleware: SignToken,JwtToken,Operation
+    maxBytes:   10485760
 )
 
 service admin-api {

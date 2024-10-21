@@ -2,7 +2,6 @@ package photorpclogic
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/photorpc"
@@ -45,8 +44,6 @@ func convertAlbumIn(in *photorpc.AlbumNewReq) (out *model.TAlbum) {
 		AlbumCover: in.AlbumCover,
 		IsDelete:   in.IsDelete,
 		Status:     in.Status,
-		CreatedAt:  time.Unix(in.CreatedAt, 0),
-		UpdatedAt:  time.Unix(in.UpdatedAt, 0),
 	}
 
 	return out
