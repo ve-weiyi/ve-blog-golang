@@ -8,13 +8,13 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/dbutil"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/dbx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
@@ -57,8 +57,8 @@ func Test_ClearTable(t *testing.T) {
 	//dbutil.CleanTable(db, "t_menu")
 	//dbutil.CleanTable(db, "t_role_menu")
 
-	dbutil.CleanTable(db, "t_api")
-	dbutil.CleanTable(db, "t_role_api")
+	dbx.CleanTable(db, "t_api")
+	dbx.CleanTable(db, "t_role_api")
 
 	//dbutil.CleanTable(db, "t_user_role")
 }
@@ -91,7 +91,7 @@ func Test_TOperationLog(t *testing.T) {
 	insert, err := OperationLogModel.Insert(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), insert)
-	t.Log(jsonconv.ObjectToJsonIndent(data))
+	t.Log(jsonconv.AnyToJsonIndent(data))
 
 	data.Nickname = "test_nickname_update"
 	data.IpAddress = ""
@@ -102,7 +102,7 @@ func Test_TOperationLog(t *testing.T) {
 
 	one, err := OperationLogModel.FindOne(ctx, data.Id)
 	assert.Equal(t, nil, err)
-	t.Log(jsonconv.ObjectToJsonIndent(one))
+	t.Log(jsonconv.AnyToJsonIndent(one))
 
 	data.Nickname = "test_nickname_save"
 	data.IpAddress = ""
@@ -113,5 +113,5 @@ func Test_TOperationLog(t *testing.T) {
 
 	first, err := OperationLogModel.First(ctx, "id = ?", data.Id)
 	assert.Equal(t, nil, err)
-	t.Log(jsonconv.ObjectToJsonIndent(first))
+	t.Log(jsonconv.AnyToJsonIndent(first))
 }

@@ -1,4 +1,4 @@
-package dbutil
+package dbx
 
 // 数据库信息
 type Db struct {

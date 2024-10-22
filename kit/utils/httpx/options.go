@@ -1,7 +1,10 @@
 package httpx
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
+	"net/url"
 )
 
 // WithHeader 设置请求头
@@ -18,36 +21,36 @@ func WithParam(key string, value string) Option {
 	}
 }
 
-// WithBodyObject 设置请求体
-func WithBodyObject(obj interface{}) Option {
+// WithBodyJson 设置请求体
+func WithBodyJson(obj interface{}) Option {
 	return func(c *Client) {
 		data, err := json.Marshal(obj)
 		if err != nil {
 			return
 		}
 
+		c.headers["Content-Type"] = "application/json"
 		c.body = data
 	}
 }
 
-func structToMap(obj interface{}) (map[string]interface{}, error) {
-	var result map[string]interface{}
-	data, err := json.Marshal(obj)
-	if err != nil {
-		return nil, err
+// WithBodyForm 设置请求体
+func WithBodyForm(obj map[string]string) Option {
+	return func(c *Client) {
+		data := url.Values{}
+		for key, value := range obj {
+			data.Set(key, value)
+		}
+
+		c.headers["Content-Type"] = "application/x-www-form-urlencoded"
+		c.body = []byte(data.Encode())
 	}
-	err = json.Unmarshal(data, &result)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
 }
 
-func jsonToMap(data []byte) (map[string]interface{}, error) {
-	var result map[string]interface{}
-	err := json.Unmarshal(data, &result)
-	if err != nil {
-		return nil, err
+// WithBasicAuth 设置请求体
+func WithBasicAuth(username string, password string) Option {
+	auth := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", username, password)))
+	return func(c *Client) {
+		c.headers["Authorization"] = fmt.Sprintf("Basic %s", auth)
 	}
-	return result, nil
 }

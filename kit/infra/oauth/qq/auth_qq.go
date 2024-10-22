@@ -39,11 +39,16 @@ func (a *AuthQq) GetName() string {
 func (a *AuthQq) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
-		httpx.WithParam("response_type", "code"),
-		httpx.WithParam("client_id", a.Config.ClientId),
-		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		httpx.WithParam("state", state)).
-		EncodeURL(a.AuthorizeUrl)
+		"GET",
+		a.AuthorizeUrl,
+		httpx.WithParams(map[string]string{
+			"client_id":    a.Config.ClientId,
+			"redirect_uri": a.Config.RedirectUri,
+			//"scope": "contact:user.base:readonly",
+			"state":         state,
+			"response_type": "code",
+		}),
+	).EncodeURL()
 
 	return url
 }
@@ -80,14 +85,16 @@ func (a *AuthQq) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error
 func (a *AuthQq) GetAccessToken(code string) (resp *TokenResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("grant_type", "authorization_code"),
-		httpx.WithParam("code", code),
-		httpx.WithParam("client_id", a.Config.ClientId),
-		httpx.WithParam("client_secret", a.Config.ClientSecret),
-		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		httpx.WithParam("fmt", "json"), // 由于历史原因，加上这个参数则返回json格式数据
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.AccessTokenUrl),
+		"GET",
+		a.AccessTokenUrl,
+		httpx.WithParams(map[string]string{
+			"client_id":     a.Config.ClientId,
+			"client_secret": a.Config.ClientSecret,
+			"redirect_uri":  a.Config.RedirectUri,
+			"code":          code,
+			"grant_type":    "authorization_code",
+			"fmt":           "json", // 由于历史原因，加上这个参数则返回json格式数据
+		}),
 	).DoRequest()
 
 	if err != nil {
@@ -108,13 +115,15 @@ func (a *AuthQq) GetAccessToken(code string) (resp *TokenResult, err error) {
 func (a *AuthQq) RefreshToken(refreshToken string) (resp *RefreshResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("grant_type", "refresh_token"),
-		httpx.WithParam("client_id", a.Config.ClientId),
-		httpx.WithParam("client_secret", a.Config.ClientSecret),
-		httpx.WithParam("refresh_token", refreshToken),
-		httpx.WithParam("fmt", "json"),
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.RefreshTokenUrl),
+		"GET",
+		a.RefreshTokenUrl,
+		httpx.WithParams(map[string]string{
+			"client_id":     a.Config.ClientId,
+			"client_secret": a.Config.ClientSecret,
+			"grant_type":    "refresh_token",
+			"refresh_token": refreshToken,
+			"fmt":           "json",
+		}),
 	).DoRequest()
 	if err != nil {
 		return nil, err
@@ -135,10 +144,12 @@ func (a *AuthQq) RefreshToken(refreshToken string) (resp *RefreshResult, err err
 func (a *AuthQq) GetOpenid(accessToken string) (resp *OpenResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("access_token", accessToken),
-		httpx.WithParam("fmt", "json"),
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.OpenidUrl),
+		"GET",
+		a.OpenidUrl,
+		httpx.WithParams(map[string]string{
+			"access_token": accessToken,
+			"fmt":          "json",
+		}),
 	).DoRequest()
 	if err != nil {
 		return nil, err
@@ -158,11 +169,13 @@ func (a *AuthQq) GetOpenid(accessToken string) (resp *OpenResult, err error) {
 func (a *AuthQq) GetUserInfo(accessToken string, openId string) (resp *UserResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("openid", openId),
-		httpx.WithParam("access_token", accessToken),
-		httpx.WithParam("oauth_consumer_key", a.Config.ClientId),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(a.UserInfoUrl),
+		"POST",
+		a.UserInfoUrl,
+		httpx.WithParams(map[string]string{
+			"openid":             openId,
+			"access_token":       accessToken,
+			"oauth_consumer_key": a.Config.ClientId,
+		}),
 	).DoRequest()
 
 	if err != nil {

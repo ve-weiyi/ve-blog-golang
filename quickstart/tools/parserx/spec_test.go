@@ -13,7 +13,7 @@ func Test_NewApiParser(t *testing.T) {
 	sp, err := parser.Parse("/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/blog.api")
 	assert.Equal(t, nil, err)
 
-	t.Log(jsonconv.ObjectToJsonIndent(sp))
+	t.Log(jsonconv.AnyToJsonIndent(sp))
 }
 
 func Test_NewSpecParser(t *testing.T) {
@@ -21,10 +21,10 @@ func Test_NewSpecParser(t *testing.T) {
 	spa, err := NewSpecParser().ParseApi("../../testdata/test.api")
 	assert.Equal(t, nil, err)
 
-	t.Log(jsonconv.ObjectToJsonIndent(spa.Service))
+	t.Log(jsonconv.AnyToJsonIndent(spa.Service))
 
 	//swa, err := NewSwaggerParser().ParseApi("../testdata/test.json")
 	//assert.Equal(t, nil, err)
 	//
-	//t.Log(jsonconv.ObjectToJsonIndent(swa.Service))
+	//t.Log(jsonconv.AnyToJsonIndent(swa.Service))
 }

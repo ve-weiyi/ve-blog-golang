@@ -45,7 +45,7 @@ func RunTypescriptCmd(cmd *cobra.Command, args []string) {
 }
 
 func RunTypescript(conf *CmdVar) {
-	log.Println("typescript called", jsonconv.ObjectToJsonIndent(conf))
+	log.Println("typescript called", jsonconv.AnyToJsonIndent(conf))
 	var err error
 	var sp *aspec.ApiSpec
 	switch conf.VarStringMode {

@@ -1,4 +1,4 @@
-package copyutil
+package copyx
 
 import (
 	"bytes"

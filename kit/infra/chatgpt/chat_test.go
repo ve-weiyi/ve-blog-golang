@@ -16,7 +16,7 @@ func NewGPT() *AIChatGPT {
 
 func TestChat(t *testing.T) {
 	var req []*ChatMessage
-	jsonconv.JsonToObject(`[
+	jsonconv.JsonToAny(`[
     {
         "role": "user",
         "content": "你好"
@@ -34,7 +34,7 @@ func TestChat(t *testing.T) {
 	gpt := NewGPT()
 	res, err := gpt.Chat(req)
 	t.Log(err)
-	t.Log(jsonconv.ObjectToJsonIndent(res))
+	t.Log(jsonconv.AnyToJsonIndent(res))
 }
 
 func TestCosRole(t *testing.T) {
