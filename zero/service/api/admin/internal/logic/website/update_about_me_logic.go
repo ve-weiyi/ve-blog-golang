@@ -29,7 +29,7 @@ func NewUpdateAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 func (l *UpdateAboutMeLogic) UpdateAboutMe(req *types.AboutMe) (resp *types.EmptyResp, err error) {
 	in := &configrpc.SaveConfigReq{
 		ConfigKey:   "about_me",
-		ConfigValue: jsonconv.ObjectToJson(req),
+		ConfigValue: jsonconv.AnyToJsonNE(req),
 	}
 
 	_, err = l.svcCtx.ConfigRpc.SaveConfig(l.ctx, in)

@@ -54,7 +54,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) (out *types.UserInfoResp)
 		UserInfoExt: types.UserInfoExt{},
 	}
 
-	jsonconv.JsonToObject(in.Info, &out.UserInfoExt)
+	jsonconv.JsonToAny(in.Info, &out.UserInfoExt)
 
 	return out
 }

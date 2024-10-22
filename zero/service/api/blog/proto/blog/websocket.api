@@ -15,5 +15,5 @@ type (
 service blog-api {
     @doc "WebSocket消息"
     @handler WebSocket
-    get /ws () returns ()
+    get /websocket () returns ()
 }

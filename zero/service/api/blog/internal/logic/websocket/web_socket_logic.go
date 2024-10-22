@@ -2,6 +2,7 @@ package websocket
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
@@ -42,7 +43,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 		logx.Info(string(msg))
 
 		var cs types.ChatSocketMsg
-		err = jsonconv.JsonToObject(string(msg), &cs)
+		err = json.Unmarshal(msg, &cs)
 		if err != nil {
 			return nil, err
 		}
@@ -83,7 +84,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, err
 		}
 
-		return []byte(jsonconv.ObjectToJson(out)), nil
+		return []byte(jsonconv.AnyToJsonNE(out)), nil
 		return nil, err
 	}
 

@@ -26,7 +26,7 @@ func convertMenuIn(in *permissionrpc.MenuNewReq) (out *model.TMenu) {
 		AlwaysShow: in.Meta.AlwaysShow,
 		IsHidden:   in.Meta.IsHidden,
 		IsDisable:  in.Meta.IsDisable,
-		Extra:      jsonconv.ObjectToJson(in.Meta),
+		Extra:      jsonconv.AnyToJsonNE(in.Meta),
 	}
 
 	return out

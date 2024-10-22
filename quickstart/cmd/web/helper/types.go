@@ -69,7 +69,7 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 
 			rt := TsApiRoute{
 				Summery:  doc,
-				Handler:  jsonconv.Lcfirst(r.Handler) + "Api",
+				Handler:  jsonconv.FirstLower(r.Handler) + "Api",
 				Path:     r.Path,
 				Method:   strings.ToUpper(r.Method),
 				Request:  req,

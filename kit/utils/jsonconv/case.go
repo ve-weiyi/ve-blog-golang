@@ -149,31 +149,3 @@ func Case2Camel(xx_y_y string) string {
 
 	return string(XxYY[:])
 }
-
-/**
- * 下划线转驼峰
- * @description xx_yy to XxYx  xx_y_y to XxYY  XxYY to XxYY
- * @date 2023/2/15
- * @param xx_y_y
- * @return xxYY
- **/
-func Case2CamelLowerStart(xx_y_y string) string {
-	str := Case2Camel(xx_y_y)
-	return strings.ToLower(str[:1]) + str[1:]
-}
-
-// 首字母大写
-func Ucfirst(str string) string {
-	for i, v := range str {
-		return string(unicode.ToUpper(v)) + str[i+1:]
-	}
-	return ""
-}
-
-// 首字母小写
-func Lcfirst(str string) string {
-	for i, v := range str {
-		return string(unicode.ToLower(v)) + str[i+1:]
-	}
-	return ""
-}

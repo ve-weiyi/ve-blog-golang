@@ -11,26 +11,25 @@ import (
 
 // ClientBuilder 用于构建 HTTP 客户端。
 type ClientBuilder struct {
-	httpClient *http.Client  // 底层HTTP客户端
-	timeout    time.Duration // 请求超时时间
-
 	method string // 请求方法
 	url    string // 请求URL
 
+	timeout time.Duration     // 请求超时时间
 	headers map[string]string // 请求头部
 	params  map[string]string // 请求参数
 	body    []byte            // 请求体
 }
 
 // NewClientBuilder 创建一个具有默认设置的新 ClientBuilder。
-func NewClientBuilder() *ClientBuilder {
+func NewClientBuilder(method, url string) *ClientBuilder {
 	client := &ClientBuilder{
-		httpClient: &http.Client{},
-		timeout:    30 * time.Second, // 默认超时时间
-		method:     http.MethodGet,
-		url:        "",
-		headers:    make(map[string]string),
-		params:     make(map[string]string),
+		method: method,
+		url:    url,
+
+		timeout: 30 * time.Second, // 默认超时时间
+		headers: make(map[string]string),
+		params:  make(map[string]string),
+		body:    make([]byte, 0),
 	}
 
 	return client
@@ -54,21 +53,9 @@ func (c *ClientBuilder) WithParams(params map[string]string) *ClientBuilder {
 	return c
 }
 
-// WithBodyObject 设置 HTTP 请求的正文。
+// WithBodyJson 设置 HTTP 请求的正文。
 func (c *ClientBuilder) WithBody(body []byte) *ClientBuilder {
 	c.body = body
-	return c
-}
-
-// WithMethod 设置 HTTP 请求的方法。
-func (c *ClientBuilder) WithMethod(method string) *ClientBuilder {
-	c.method = method
-	return c
-}
-
-// WithURL 设置 HTTP 请求的 URL。
-func (c *ClientBuilder) WithURL(url string) *ClientBuilder {
-	c.url = url
 	return c
 }
 
@@ -83,6 +70,7 @@ func (c *ClientBuilder) Build() *http.Client {
 
 // DoRequest 执行一个 HTTP 请求。
 func (c *ClientBuilder) DoRequest() (respBody []byte, err error) {
+	// 解析URL
 	uv, err := url.ParseRequestURI(c.url)
 	if err != nil {
 		return nil, err
@@ -106,11 +94,14 @@ func (c *ClientBuilder) DoRequest() (respBody []byte, err error) {
 	}
 	req.URL.RawQuery = query.Encode()
 
+	// 底层HTTP客户端
+	httpClient := &http.Client{}
+
 	// 设置超时时间
-	c.httpClient.Timeout = c.timeout
+	httpClient.Timeout = c.timeout
 
 	// 执行请求
-	resp, err := c.httpClient.Do(req)
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

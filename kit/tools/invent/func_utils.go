@@ -7,9 +7,8 @@ import (
 )
 
 var StdMapUtils = map[string]any{
-	"Case2Camel":           jsonconv.Case2Camel,
-	"Case2Snake":           jsonconv.Case2Snake,
-	"Case2CamelLowerStart": jsonconv.Case2CamelLowerStart,
-	"ToUpper":              strings.ToUpper,
-	"ToLower":              strings.ToLower,
+	"Case2Camel": jsonconv.Case2Camel,
+	"Case2Snake": jsonconv.Case2Snake,
+	"ToUpper":    strings.ToUpper,
+	"ToLower":    strings.ToLower,
 }

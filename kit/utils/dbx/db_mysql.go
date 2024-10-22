@@ -1,4 +1,4 @@
-package dbutil
+package dbx
 
 import (
 	"gorm.io/gorm"
