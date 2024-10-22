@@ -34,7 +34,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoReq) (resp
 		UserId:   cast.ToInt64(l.ctx.Value("uid")),
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
-		Info:     jsonconv.ObjectToJson(req.UserInfoExt),
+		Info:     jsonconv.AnyToJsonNE(req.UserInfoExt),
 	}
 
 	_, err = l.svcCtx.AccountRpc.UpdateUserInfo(l.ctx, in)

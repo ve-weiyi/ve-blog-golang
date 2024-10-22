@@ -72,7 +72,7 @@ func (r underscoreJSONRender) Render(w http.ResponseWriter) error {
 	data := r.JSON.Data
 
 	// 转换 JSON 数据中的字段名为下划线格式
-	convertedJSON := jsonconv.ObjectToJsonSnake(data)
+	convertedJSON := jsonconv.AnyToJsonSnake(data)
 	// 将转换后的 JSON 数据写入响应
 	_, err := w.Write([]byte(convertedJSON))
 	return err
@@ -89,7 +89,7 @@ func (r camelJSONRender) Render(w http.ResponseWriter) error {
 	data := r.JSON.Data
 
 	// 转换 JSON 数据中的字段名为首字母小写的驼峰格式
-	convertedJSON := jsonconv.ObjectToJsonCamel(data)
+	convertedJSON := jsonconv.AnyToJsonCamel(data)
 	// 将转换后的 JSON 数据写入响应
 	_, err := w.Write([]byte(convertedJSON))
 	return err

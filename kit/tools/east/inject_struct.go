@@ -176,5 +176,5 @@ type %s struct {
 	})
 
 	log.Println("GetCode", meta.ToInjectCode())
-	log.Println("NewStructMete", jsonconv.ObjectToJsonIndent(meta))
+	log.Println("NewStructMete", jsonconv.AnyToJsonIndent(meta))
 }

@@ -1,4 +1,4 @@
-package dbutil
+package dbx
 
 import (
 	"fmt"

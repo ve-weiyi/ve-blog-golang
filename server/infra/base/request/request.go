@@ -97,7 +97,7 @@ func BindJSONIgnoreCase(c *gin.Context, req interface{}) (err error) {
 		return err
 	}
 	//如果obj已经是指针，则此处不需要指针
-	js := jsonconv.ObjectToJsonSnake(tmp)
+	js := jsonconv.AnyToJsonSnake(tmp)
 	err = json.Unmarshal([]byte(js), req)
 	//Log.Logger(js)
 	//Log.JsonIndent(req)
