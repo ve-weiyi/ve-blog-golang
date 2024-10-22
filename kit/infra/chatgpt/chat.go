@@ -50,11 +50,13 @@ func (s *AIChatGPT) Chat(req []*ChatMessage) (resp *ChatResponse, err error) {
 	fmt.Println("content", content)
 
 	res, err := httpx.NewClient(
-		httpx.WithHeader("Content-Type", "application/json"),
-		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
-		httpx.WithBodyObject(content),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(s.ApiHost+ChatUrl),
+		"POST",
+		s.ApiHost+ChatUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", s.ApiKey),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
+		httpx.WithBodyJson(content),
 	).DoRequest()
 	if err != nil {
 		return nil, err
@@ -79,11 +81,13 @@ func (s *AIChatGPT) ImageGeneration(prompt string) (resp any, err error) {
 	}
 
 	res, err := httpx.NewClient(
-		httpx.WithHeader("Content-Type", "application/json"),
-		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
-		httpx.WithBodyObject(req),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(s.ApiHost+ImageUrl),
+		"POST",
+		s.ApiHost+ImageUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", s.ApiKey),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
+		httpx.WithBodyJson(req),
 	).DoRequest()
 	if err != nil {
 		return nil, err
@@ -114,11 +118,13 @@ func (s *AIChatGPT) CosRole(act string) (resp *ChatResponse, err error) {
 	}
 
 	res, err := httpx.NewClient(
-		httpx.WithHeader("Content-Type", "application/json"),
-		httpx.WithHeader("Authorization", "Bearer "+s.ApiKey),
-		httpx.WithBodyObject(content),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(s.ApiHost+ChatUrl),
+		"POST",
+		s.ApiHost+ChatUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", s.ApiKey),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
+		httpx.WithBodyJson(content),
 	).DoRequest()
 	if err != nil {
 		return nil, err
