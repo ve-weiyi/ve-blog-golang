@@ -41,12 +41,16 @@ func (a *AuthGithub) GetName() string {
 func (a *AuthGithub) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
-		httpx.WithParam("client_id", a.Config.ClientId),
-		httpx.WithParam("client_secret", a.Config.ClientSecret),
-		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		// httpx.WithParam("scope", "contact:user.base:readonly"),
-		httpx.WithParam("state", state),
-	).EncodeURL(a.AuthorizeUrl)
+		"GET",
+		a.AuthorizeUrl,
+		httpx.WithParams(map[string]string{
+			"client_id":     a.Config.ClientId,
+			"client_secret": a.Config.ClientSecret,
+			"redirect_uri":  a.Config.RedirectUri,
+			//"scope": "contact:user.base:readonly",
+			"state": state,
+		}),
+	).EncodeURL()
 	return url
 }
 
@@ -81,17 +85,19 @@ func (a *AuthGithub) GetUserOpenInfo(code string) (resp *oauth.UserResult, err e
 func (a *AuthGithub) GetAccessToken(code string) (resp *Token, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", code)),
-		httpx.WithHeader("Content-Type", "application/json; charset=utf-8"),
-		httpx.WithHeader("Accept", "application/json"),
+		"POST",
+		a.AccessTokenUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", code),
+			"Content-Type":  "application/json; charset=utf-8",
+			"Accept":        "application/json",
+		}),
 		httpx.WithParams(map[string]string{
 			"client_id":     a.Config.ClientId,
 			"client_secret": a.Config.ClientSecret,
 			"code":          code,
 			"redirect_uri":  a.Config.RedirectUri,
 		}),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(a.AccessTokenUrl),
 	).DoRequest()
 
 	if err != nil {
@@ -111,9 +117,12 @@ func (a *AuthGithub) GetAccessToken(code string) (resp *Token, err error) {
 func (a *AuthGithub) GetUserInfo(accessToken string) (resp *Userinfo, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)),
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.UserInfoUrl),
+		"GET",
+		a.UserInfoUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", accessToken),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
 	).DoRequest()
 
 	if err != nil {

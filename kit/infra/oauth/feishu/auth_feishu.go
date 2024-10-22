@@ -44,11 +44,15 @@ func (a *AuthFeishu) GetName() string {
 func (a *AuthFeishu) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
-		httpx.WithParam("app_id", a.Config.ClientId),
-		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		// httpx.WithParam("scope", "contact:user.base:readonly"),
-		httpx.WithParam("state", state),
-	).EncodeURL(a.AuthorizeUrl)
+		"GET",
+		a.AuthorizeUrl,
+		httpx.WithParams(map[string]string{
+			"app_id":       a.Config.ClientId,
+			"redirect_uri": a.Config.RedirectUri,
+			"scope":        "contact:user.base:readonly",
+			"state":        state,
+		}),
+	).EncodeURL()
 	return url
 }
 
@@ -83,10 +87,12 @@ func (a *AuthFeishu) GetUserOpenInfo(code string) (resp *oauth.UserResult, err e
 func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("app_id", a.Config.ClientId),
-		httpx.WithParam("app_secret", a.Config.ClientSecret),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(a.AppAccessTokenUrl),
+		"POST",
+		a.AppAccessTokenUrl,
+		httpx.WithParams(map[string]string{
+			"app_id":     a.Config.ClientId,
+			"app_secret": a.Config.ClientSecret,
+		}),
 	).DoRequest()
 
 	if err != nil {
@@ -111,10 +117,12 @@ func (a *AuthFeishu) GetAppAccessToken() (resp *AppTokenResp, err error) {
 func (a *AuthFeishu) GetTenantAccessToken() (resp *TenantTokenResp, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("app_id", a.Config.ClientId),
-		httpx.WithParam("app_secret", a.Config.ClientSecret),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(a.TenantAccessTokenUrl),
+		"POST",
+		a.TenantAccessTokenUrl,
+		httpx.WithParams(map[string]string{
+			"app_id":     a.Config.ClientId,
+			"app_secret": a.Config.ClientSecret,
+		}),
 	).DoRequest()
 
 	if err != nil {
@@ -143,14 +151,16 @@ func (a *AuthFeishu) GetUserAccessToken(code string) (resp *UserAccessTokenResp,
 	}
 
 	body, err := httpx.NewClient(
-		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", tt.AppAccessToken)),
-		httpx.WithHeader("Content-Type", "application/json; charset=utf-8"),
-		httpx.WithBodyObject(map[string]any{
+		"POST",
+		a.UserAccessTokenUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", tt.AppAccessToken),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
+		httpx.WithBodyJson(map[string]any{
 			"grant_type": "authorization_code",
 			"code":       code,
 		}),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(a.UserAccessTokenUrl),
 	).DoRequest()
 
 	if err != nil {
@@ -179,14 +189,16 @@ func (a *AuthFeishu) RefreshAccessToken(refreshToken string) (resp *UserAccessTo
 	}
 
 	body, err := httpx.NewClient(
-		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", tt.AppAccessToken)),
-		httpx.WithHeader("Content-Type", "application/json; charset=utf-8"),
-		httpx.WithBodyObject(map[string]interface{}{
+		"POST",
+		a.RefreshTokenUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", tt.AppAccessToken),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
+		httpx.WithBodyJson(map[string]interface{}{
 			"grant_type":    "refresh_token",
 			"refresh_token": refreshToken,
 		}),
-		httpx.WithMethod("POST"),
-		httpx.WithURL(a.RefreshTokenUrl),
 	).DoRequest()
 
 	if err != nil {
@@ -210,9 +222,12 @@ func (a *AuthFeishu) RefreshAccessToken(refreshToken string) (resp *UserAccessTo
 func (a *AuthFeishu) GetUserInfo(accessToken string) (resp *UserInfoResp, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)),
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.UserInfoUrl),
+		"GET",
+		a.UserInfoUrl,
+		httpx.WithHeaders(map[string]string{
+			"Authorization": fmt.Sprintf("Bearer %s", accessToken),
+			"Content-Type":  "application/json; charset=utf-8",
+		}),
 	).DoRequest()
 
 	if err != nil {

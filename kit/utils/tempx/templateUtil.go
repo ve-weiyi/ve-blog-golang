@@ -1,4 +1,4 @@
-package temputil
+package tempx
 
 import (
 	"bytes"
