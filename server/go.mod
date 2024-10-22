@@ -20,10 +20,9 @@ require (
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
 	github.com/unrolled/secure v1.14.0
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20240906113209-59c322049f13
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241022082911-69ab434cd481
 	go.uber.org/zap v1.27.0
 	gorm.io/driver/mysql v1.5.7
-	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.11
 )
 
@@ -49,7 +48,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
-	github.com/dave/dst v0.27.3 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/elastic/go-sysinfo v1.0.2 // indirect
 	github.com/elastic/go-windows v1.0.0 // indirect
@@ -111,7 +109,6 @@ require (
 	golang.org/x/crypto v0.27.0 // indirect
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	golang.org/x/image v0.14.0 // indirect
-	golang.org/x/mod v0.20.0 // indirect
 	golang.org/x/net v0.28.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.25.0 // indirect

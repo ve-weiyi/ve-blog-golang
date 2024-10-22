@@ -12,7 +12,7 @@ require (
 	github.com/spf13/cast v1.7.0
 	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/http-swagger v1.3.4
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241015075913-191b6fc3f848
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241022082911-69ab434cd481
 	github.com/zeromicro/go-zero v1.7.2
 	github.com/zeromicro/go-zero/tools/goctl v1.7.2
 	go.opentelemetry.io/otel/sdk v1.29.0

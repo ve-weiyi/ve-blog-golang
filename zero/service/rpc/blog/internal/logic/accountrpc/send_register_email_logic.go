@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/temputil"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/accountrpc"
@@ -54,7 +54,7 @@ func (l *SendRegisterEmailLogic) SendRegisterEmail(in *accountrpc.UserEmailReq) 
 	}
 
 	// 组装邮件内容
-	content, err := temputil.TempParseString(mail.TempRegister, data)
+	content, err := tempx.TempParseString(mail.TempRegister, data)
 	if err != nil {
 		return nil, err
 	}
