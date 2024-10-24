@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/config"
@@ -37,8 +37,7 @@ type ServiceContext struct {
 	PermissionRpc permissionrpc.PermissionRpc
 	ArticleRpc    articlerpc.ArticleRpc
 	CommentRpc    commentrpc.CommentRpc
-	ChatRpc       chatrpc.ChatRpc
-	RemarkRpc     remarkrpc.RemarkRpc
+	MessageRpc    messagerpc.MessageRpc
 	PhotoRpc      photorpc.PhotoRpc
 	TalkRpc       talkrpc.TalkRpc
 	FriendRpc     friendrpc.FriendRpc
@@ -47,9 +46,9 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	ResourceRpc   resourcerpc.ResourceRpc
 
-	Uploader upload.Uploader
-	Token    *jtoken.JwtInstance
-	Redis    *redis.Redis
+	Redis       *redis.Redis
+	TokenHolder *tokenx.JwtTokenHolder
+	Uploader    upload.Uploader
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -59,12 +58,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	var options []zrpc.ClientOption
 	options = append(options)
 
-	jwt := jtoken.NewJWTInstance([]byte(c.Name))
-
 	rds, err := ConnectRedis(c.RedisConf)
 	if err != nil {
 		panic(err)
 	}
+
+	th := tokenx.NewJwtTokenHolder(c.Name, c.Name, rds)
 
 	return &ServiceContext{
 		Config:        c,
@@ -72,8 +71,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PermissionRpc: permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		ChatRpc:       chatrpc.NewChatRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		RemarkRpc:     remarkrpc.NewRemarkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
@@ -82,9 +80,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		Uploader:      upload.NewQiniu(c.UploadConfig),
-		Token:         jwt,
 		Redis:         rds,
-		JwtToken:      middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
+		TokenHolder:   th,
+		JwtToken:      middlewarex.NewJwtTokenMiddleware(th).Handle,
 		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
 	}
 }

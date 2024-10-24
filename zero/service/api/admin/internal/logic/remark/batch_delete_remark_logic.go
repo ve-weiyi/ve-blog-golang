@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,11 +26,11 @@ func NewBatchDeleteRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *BatchDeleteRemarkLogic) BatchDeleteRemark(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	in := &remarkrpc.IdsReq{
+	in := &messagerpc.IdsReq{
 		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.RemarkRpc.DeleteRemark(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.DeletesRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

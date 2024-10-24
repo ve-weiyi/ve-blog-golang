@@ -1,13 +1,14 @@
-package remarkrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -28,7 +29,7 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 }
 
 // 创建留言
-func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.RemarkDetails, error) {
+func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.RemarkDetails, error) {
 	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
 	is, _ := ipx.GetIpInfoByBaidu(ip)
 
@@ -51,8 +52,8 @@ func (l *AddRemarkLogic) AddRemark(in *remarkrpc.RemarkNewReq) (*remarkrpc.Remar
 	return convertRemarkOut(entity), nil
 }
 
-func convertRemarkOut(in *model.TRemark) (out *remarkrpc.RemarkDetails) {
-	out = &remarkrpc.RemarkDetails{
+func convertRemarkOut(in *model.TRemark) (out *messagerpc.RemarkDetails) {
+	out = &messagerpc.RemarkDetails{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		MessageContent: in.MessageContent,
