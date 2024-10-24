@@ -7,11 +7,11 @@ import (
 	"net"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -42,22 +42,31 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 	receive := func(msg []byte) (tx []byte, err error) {
 		logx.Info(string(msg))
 
-		var cs types.ChatSocketMsg
-		err = json.Unmarshal(msg, &cs)
+		var req types.ChatSocketMsg
+		err = json.Unmarshal(msg, &req)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("msg content must be :%v", jsonconv.AnyToJsonNE(req))
 		}
 
-		if cs.Content == "" {
+		if req.Content == "" {
 			return nil, fmt.Errorf("content is empty")
 		}
 
-		uid := cast.ToInt64(r.Context().Value("uid"))
-		info, err := l.svcCtx.AccountRpc.GetUserInfo(r.Context(), &accountrpc.UserIdReq{UserId: uid})
-		if err != nil {
-			return nil, err
-		}
+		token := cast.ToString(r.Context().Value(constant.HeaderAuthorization))
+		uid := cast.ToString(r.Context().Value(constant.HeaderUid))
+		device := cast.ToString(r.Context().Value(constant.HeaderTerminal))
+		// 如果有uid,则需要校验用户是否登录
+		if token != "" || uid != "" {
+			_, err = l.svcCtx.TokenHolder.VerifyToken(r.Context(), token, cast.ToString(uid))
+			if err != nil {
+				return nil, err
+			}
 
+			_, err := l.svcCtx.AccountRpc.GetUserInfo(r.Context(), &accountrpc.UserIdReq{UserId: cast.ToInt64(uid)})
+			if err != nil {
+				return nil, err
+			}
+		}
 		host, _, err := net.SplitHostPort(strings.TrimSpace(r.RemoteAddr))
 		if err != nil {
 			return nil, err
@@ -68,27 +77,39 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, err
 		}
 
-		chat := &chatrpc.ChatRecordNewReq{
-			UserId:    uid,
-			Nickname:  info.Nickname,
-			Avatar:    info.Avatar,
-			IpAddress: ip.Origip,
-			IpSource:  ip.Location,
-			Content:   cs.Content,
-			Type:      cs.Type,
-			CreatedAt: time.Now().Unix(),
+		chat := &chatrpc.ChatMessageNewReq{
+			Id:          0,
+			UserId:      cast.ToString(uid),
+			DeviceId:    device,
+			ChatId:      "",
+			ReplyMsgId:  "",
+			ReplyUsers:  "",
+			IpAddress:   ip.Location,
+			IpSource:    ip.Origip,
+			ChatContent: req.Content,
+			Type:        req.Type,
 		}
 
-		out, err := l.svcCtx.ChatRpc.AddChatRecord(r.Context(), chat)
+		out, err := l.svcCtx.ChatRpc.AddChatMessage(r.Context(), chat)
 		if err != nil {
 			return nil, err
 		}
 
-		return []byte(jsonconv.AnyToJsonNE(out)), nil
-		return nil, err
+		var resp types.ChatSocketMsgResp
+		resp = types.ChatSocketMsgResp{
+			Type:    out.Type,
+			Content: out.ChatContent,
+			Time:    out.CreatedAt,
+		}
+
+		return []byte(jsonconv.AnyToJsonNE(resp)), nil
 	}
 
 	ws.HandleWebSocket(w, r, receive)
 
 	return nil
 }
+
+const (
+	ChatTypeWebsocket = 1
+)

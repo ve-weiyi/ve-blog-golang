@@ -70,7 +70,7 @@ type ServiceContext struct {
 	TVisitHistoryModel model.TVisitHistoryModel
 
 	TOperationLogModel model.TOperationLogModel
-	TChatRecordModel   model.TChatRecordModel
+	TChatMessageModel  model.TChatMessageModel
 
 	TFileFolderModel model.TFileFolderModel
 	TFileUploadModel model.TFileUploadModel
@@ -134,7 +134,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TVisitHistoryModel: model.NewTVisitHistoryModel(db, rds),
 
 		TOperationLogModel: model.NewTOperationLogModel(db, rds),
-		TChatRecordModel:   model.NewTChatRecordModel(db, rds),
+		TChatMessageModel:  model.NewTChatMessageModel(db, rds),
 
 		TFileFolderModel: model.NewTFileFolderModel(db, rds),
 		TFileUploadModel: model.NewTFileUploadModel(db, rds),

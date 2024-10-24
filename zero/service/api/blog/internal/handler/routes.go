@@ -242,8 +242,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 查询聊天记录
 					Method:  http.MethodPost,
-					Path:    "/chat/records",
-					Handler: chat.GetChatRecordsHandler(serverCtx),
+					Path:    "/chat/messages",
+					Handler: chat.GetChatMessagesHandler(serverCtx),
 				},
 			}...,
 		),
