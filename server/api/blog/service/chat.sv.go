@@ -17,7 +17,7 @@ func NewChatService(svcCtx *svctx.ServiceContext) *ChatService {
 }
 
 // 查询聊天记录
-func (s *ChatService) GetChatRecords(reqCtx *request.Context, in *dto.ChatQueryReq) (out *dto.PageResp, err error) {
+func (s *ChatService) GetChatMessages(reqCtx *request.Context, in *dto.ChatMessageQueryReq) (out *dto.PageResp, err error) {
 	// todo
 
 	return

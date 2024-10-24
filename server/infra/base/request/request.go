@@ -10,7 +10,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
@@ -26,15 +25,6 @@ type Context struct {
 
 func (s *Context) GetContext() context.Context {
 	return s.Context
-}
-
-func (s *Context) GetIpSource() string {
-	ip := s.IpAddress
-	location, err := ipx.GetIpInfoByBaidu(ip)
-	if err != nil {
-		return "未知ip"
-	}
-	return location.Location
 }
 
 // 获取请求上下文
@@ -97,7 +87,7 @@ func BindJSONIgnoreCase(c *gin.Context, req interface{}) (err error) {
 		return err
 	}
 	//如果obj已经是指针，则此处不需要指针
-	js := jsonconv.ObjectToJsonSnake(tmp)
+	js := jsonconv.AnyToJsonSnake(tmp)
 	err = json.Unmarshal([]byte(js), req)
 	//Log.Logger(js)
 	//Log.JsonIndent(req)

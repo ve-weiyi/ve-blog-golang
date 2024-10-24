@@ -29,7 +29,7 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 
 func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
 	in := &permissionrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindUserMenus(l.ctx, in)

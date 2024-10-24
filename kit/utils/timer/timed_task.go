@@ -6,6 +6,7 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
+// 使用说明 https://pkg.go.dev/github.com/robfig/cron
 type Timer interface {
 	AddTaskByFunc(taskName string, spec string, task func(), option ...cron.Option) (cron.EntryID, error)
 	AddTaskByJob(taskName string, spec string, job interface{ Run() }, option ...cron.Option) (cron.EntryID, error)

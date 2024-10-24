@@ -10,12 +10,13 @@ import (
 	"time"
 
 	"github.com/spf13/cast"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rbacx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
@@ -60,7 +61,8 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		next.ServeHTTP(rec, r)
 
 		if pl != nil && pl.Traceable() {
-			ip, err := ipx.GetIpInfoByBaidu(r.RemoteAddr)
+			ip := r.RemoteAddr
+			is, err := ipx.GetIpSourceByBaidu(ip)
 			if err != nil {
 				logx.Errorf("OperationMiddleware Handle GetIpInfoByBaidu err: %v", err)
 			}
@@ -71,7 +73,7 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			if strings.Contains(contentType, "multipart/form-data") {
 				// 如果请求为 multipart/form-data 格式，解析并保存请求参数
 				form := r.MultipartForm
-				req = jsonconv.ObjectToJson(form)
+				req = jsonconv.AnyToJsonNE(form)
 			} else {
 				// 否则，读取请求体，并保存为 JSON 或字符串
 				body, _ := io.ReadAll(r.Body)
@@ -85,11 +87,11 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			maxLen := 1000
 			// 数据太长时，需要截取
 			if len(req) > maxLen {
-				req = jsonconv.ObjectToJsonIndent(&req)
+				req = jsonconv.AnyToJsonIndent(&req)
 				req = req[:maxLen]
 			}
 			if len(resp) > maxLen {
-				resp = jsonconv.ObjectToJsonIndent(&resp)
+				resp = jsonconv.AnyToJsonIndent(&resp)
 				resp = resp[:maxLen]
 			}
 
@@ -113,15 +115,15 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			cost := time.Since(start)
 
 			op := &syslogrpc.OperationLogNewReq{
-				UserId:         cast.ToInt64(r.Header[constant.HeaderUid]),
+				UserId:         cast.ToString(r.Header[constant.HeaderUid]),
 				Nickname:       "",
-				IpAddress:      ip.Origip,
-				IpSource:       ip.Location,
+				IpAddress:      ip,
+				IpSource:       is,
 				OptModule:      pl.Module(),
 				OptDesc:        pl.Desc(),
 				RequestUrl:     r.URL.Path,
 				RequestMethod:  r.Method,
-				RequestHeader:  jsonconv.ObjectToJson(header),
+				RequestHeader:  jsonconv.AnyToJsonNE(header),
 				RequestData:    req,
 				ResponseData:   resp,
 				ResponseStatus: int64(rec.statusCode),

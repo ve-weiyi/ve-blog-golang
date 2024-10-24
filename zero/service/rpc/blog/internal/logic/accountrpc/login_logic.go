@@ -4,13 +4,14 @@ import (
 	"context"
 	"time"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
-	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
@@ -61,9 +62,9 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 
 	agent, _ := rpcutil.GetRPCUserAgent(ctx)
 	ip, _ := rpcutil.GetRPCClientIP(ctx)
-	is, _ := ipx.GetIpInfoByBaidu(ip)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
 	// 查找用户角色
-	rList, err := getUserRoles(ctx, svcCtx, user.Id)
+	rList, err := getUserRoles(ctx, svcCtx, user.UserId)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +81,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 	}
 
 	resp = &accountrpc.LoginResp{
-		UserId:    user.Id,
+		UserId:    user.UserId,
 		Username:  user.Username,
 		Nickname:  user.Nickname,
 		Avatar:    user.Avatar,
@@ -89,16 +90,16 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 		Info:      user.Info,
 		LoginType: user.LoginType,
 		IpAddress: ip,
-		IpSource:  is.Location,
+		IpSource:  is,
 		Roles:     roles,
 	}
 
 	// 登录记录
 	history := &model.TUserLoginHistory{
-		UserId:    user.Id,
+		UserId:    user.UserId,
 		LoginType: user.LoginType,
 		IpAddress: ip,
-		IpSource:  is.Location,
+		IpSource:  is,
 		Agent:     agent,
 		LoginAt:   time.Now(),
 		LogoutAt:  time.Unix(0, 0),

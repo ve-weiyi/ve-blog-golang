@@ -117,7 +117,7 @@ func convertTableToData(table *helper.Table) any {
 	data := map[string]any{
 		"TableName":           table.Name,
 		"UpperStartCamelName": jsonconv.Case2Camel(table.Name),
-		"LowerStartCamelName": jsonconv.Case2CamelLowerStart(table.Name),
+		"LowerStartCamelName": jsonconv.FirstLower(jsonconv.Case2Camel(table.Name)),
 		"SnakeName":           jsonconv.Case2Snake(table.Name),
 		"Fields":              fs,
 		"UniqueFields":        ufs,

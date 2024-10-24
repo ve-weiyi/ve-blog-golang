@@ -37,6 +37,6 @@ func (l *GetAboutMeLogic) GetAboutMe(req *types.GetAboutMeReq) (resp *types.GetA
 	}
 
 	resp = &types.GetAboutMeResp{}
-	jsonconv.JsonToObject(out.ConfigValue, &resp)
+	jsonconv.JsonToAny(out.ConfigValue, &resp)
 	return resp, nil
 }

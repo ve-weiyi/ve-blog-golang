@@ -32,21 +32,21 @@ func NewGetUserLikeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserLikeLogic) GetUserLike(req *types.EmptyReq) (resp *types.UserLikeResp, err error) {
 
 	articles, err := l.svcCtx.ArticleRpc.FindUserLikeArticle(l.ctx, &articlerpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	comments, err := l.svcCtx.CommentRpc.FindUserLikeComment(l.ctx, &commentrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	talks, err := l.svcCtx.TalkRpc.FindUserLikeTalk(l.ctx, &talkrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	})
 	if err != nil {
 		return nil, err

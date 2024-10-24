@@ -5,7 +5,7 @@ import "base.api"
 type (
     OperationLogBackDTO {
         Id int64 `json:"id,optional"`                          // 主键id
-        UserId int64 `json:"user_id"`                 // 用户id
+        UserId string `json:"user_id"`                 // 用户id
         Nickname string `json:"nickname"`             // 用户昵称
         IpAddress string `json:"ip_address"`          // 操作ip
         IpSource string `json:"ip_source"`            // 操作地址

@@ -20,7 +20,7 @@ var (
 	clients = make(map[*websocket.Conn]bool)
 )
 
-type Receive func(msg []byte) (tx []byte, err error)
+type Receive func(msg []byte) (err error)
 
 func HandleWebSocket(w http.ResponseWriter, r *http.Request, receive Receive) {
 	conn, err := upgrader.Upgrade(w, r, nil)
@@ -41,29 +41,16 @@ func HandleWebSocket(w http.ResponseWriter, r *http.Request, receive Receive) {
 			break
 		}
 
-		tx, err := receive(msg)
+		err = receive(msg)
 		if err != nil {
 			log.Println("Failed to handle message:", err)
 			_ = conn.WriteMessage(websocket.TextMessage, []byte(err.Error()))
 			continue
 		}
-
-		if tx == nil {
-			continue
-		}
-
-		// 将消息广播给所有连接的客户端
-		for client := range clients {
-			err := client.WriteMessage(websocket.TextMessage, tx)
-			if err != nil {
-				log.Println("Failed to send message:", err)
-				client.Close()
-				delete(clients, client)
-			}
-		}
 	}
 }
 
+// 将消息广播给所有连接的客户端
 func Broadcast(msg []byte) {
 	for client := range clients {
 		err := client.WriteMessage(websocket.TextMessage, msg)

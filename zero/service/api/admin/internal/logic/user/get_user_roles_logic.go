@@ -5,8 +5,6 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
@@ -31,7 +29,7 @@ func NewGetUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 
 func (l *GetUserRolesLogic) GetUserRoles(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
 	in := &permissionrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindUserRoles(l.ctx, in)
@@ -40,9 +38,23 @@ func (l *GetUserRolesLogic) GetUserRoles(req *types.EmptyReq) (resp *types.UserR
 	}
 
 	var list []*types.UserRole
-	jsonconv.ObjectToObject(out.List, &list)
+	for _, v := range out.List {
+		list = append(list, convertUserRole(v))
+	}
 
 	resp = &types.UserRolesResp{}
 	resp.List = list
 	return
+}
+
+func convertUserRole(in *permissionrpc.RoleDetails) (out *types.UserRole) {
+	out = &types.UserRole{
+		Id:          in.Id,
+		ParentId:    in.ParentId,
+		RoleName:    in.RoleName,
+		RoleLabel:   in.RoleLabel,
+		RoleComment: in.RoleComment,
+	}
+
+	return out
 }

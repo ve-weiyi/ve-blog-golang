@@ -4,7 +4,7 @@ import "base.api"
 
 type (
     UserInfoResp {
-        UserId int64 `json:"user_id"`               // 用户id
+        UserId string `json:"user_id"`               // 用户id
         Username string `json:"username"`           // 用户名
         Nickname string `json:"nickname"`           // 用户昵称
         Avatar string `json:"avatar"`               // 用户头像

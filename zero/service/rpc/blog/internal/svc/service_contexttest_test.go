@@ -3,6 +3,8 @@ package svc
 import (
 	"log"
 	"testing"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 )
 
 func Test_Captcha(t *testing.T) {
@@ -18,4 +20,24 @@ func Test_Captcha(t *testing.T) {
 		t.Log("verify success")
 	}
 
+}
+
+func TestInitEmailDeliver(t *testing.T) {
+	sv := NewTestServiceContext()
+
+	msg := &mail.EmailMessage{
+		To:      []string{"791422171@qq.com"},
+		Subject: "测试邮件标题",
+		Content: "测试邮件内容",
+		Type:    0,
+	}
+
+	err := sv.EmailDeliver.DeliveryEmail(msg)
+	if err != nil {
+		t.Errorf("send email error: %v", err)
+	}
+
+	t.Log("send email success")
+
+	select {}
 }

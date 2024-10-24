@@ -28,13 +28,13 @@ func NewFindCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
 	in := &commentrpc.FindCommentListReq{
-		Page:      req.Page,
-		PageSize:  req.PageSize,
-		Sorts:     req.Sorts,
-		TopicId:   req.TopicId,
-		ParentId:  req.ParentId,
-		SessionId: 0,
-		Type:      req.Type,
+		Page:       req.Page,
+		PageSize:   req.PageSize,
+		Sorts:      req.Sorts,
+		TopicId:    req.TopicId,
+		ParentId:   req.ParentId,
+		ReplyMsgId: 0,
+		Type:       req.Type,
 	}
 
 	// 查找评论列表
@@ -43,7 +43,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 		uids = append(uids, v.ReplyUserId)
@@ -57,7 +57,7 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -68,13 +68,13 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 		m := ConvertCommentTypes(v, usm)
 		// 查询回复评论
 		reply, _ := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, &commentrpc.FindCommentReplyListReq{
-			Page:      1,
-			PageSize:  3,
-			Sorts:     in.Sorts,
-			TopicId:   req.TopicId,
-			ParentId:  v.Id,
-			SessionId: 0,
-			Type:      req.Type,
+			Page:       1,
+			PageSize:   3,
+			Sorts:      in.Sorts,
+			TopicId:    req.TopicId,
+			ParentId:   v.Id,
+			ReplyMsgId: 0,
+			Type:       req.Type,
 		})
 
 		for _, r := range reply.List {
@@ -92,12 +92,12 @@ func (l *FindCommentListLogic) FindCommentList(req *types.CommentQueryReq) (resp
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.User) (out *types.Comment) {
+func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[string]*accountrpc.User) (out *types.Comment) {
 	out = &types.Comment{
 		Id:               in.Id,
 		TopicId:          in.TopicId,
 		ParentId:         in.ParentId,
-		SessionId:        in.SessionId,
+		ReplyMsgId:       in.ReplyMsgId,
 		UserId:           in.UserId,
 		ReplyUserId:      in.ReplyUserId,
 		CommentContent:   in.CommentContent,
@@ -109,14 +109,14 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 	}
 
 	// 用户信息
-	if out.UserId != 0 {
+	if out.UserId != "" {
 		user, ok := usm[out.UserId]
 		if ok && user != nil {
 			out.User = ConvertCommentUserInfoToPb(user)
 		}
 	}
 	// 回复用户信息
-	if out.ReplyUserId != 0 {
+	if out.ReplyUserId != "" {
 		user, ok := usm[out.ReplyUserId]
 		if ok && user != nil {
 			out.ReplyUser = ConvertCommentUserInfoToPb(user)
@@ -126,12 +126,12 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 	return
 }
 
-func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[int64]*accountrpc.User) (out *types.CommentReply) {
+func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[string]*accountrpc.User) (out *types.CommentReply) {
 	out = &types.CommentReply{
 		Id:             req.Id,
 		TopicId:        req.TopicId,
 		ParentId:       req.ParentId,
-		SessionId:      req.SessionId,
+		ReplyMsgId:     req.ReplyMsgId,
 		UserId:         req.UserId,
 		ReplyUserId:    req.ReplyUserId,
 		CommentContent: req.CommentContent,
@@ -141,14 +141,14 @@ func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[int64]*acc
 	}
 
 	// 用户信息
-	if out.UserId != 0 {
+	if out.UserId != "" {
 		user, ok := usm[out.UserId]
 		if ok && user != nil {
 			out.User = ConvertCommentUserInfoToPb(user)
 		}
 	}
 	// 回复用户信息
-	if out.ReplyUserId != 0 {
+	if out.ReplyUserId != "" {
 		user, ok := usm[out.ReplyUserId]
 		if ok && user != nil {
 			out.ReplyUser = ConvertCommentUserInfoToPb(user)
@@ -160,7 +160,7 @@ func ConvertCommentReplyTypes(req *commentrpc.CommentDetails, usm map[int64]*acc
 
 func ConvertCommentUserInfoToPb(in *accountrpc.User) (out *types.CommentUserInfo) {
 	return &types.CommentUserInfo{
-		Id:       in.UserId,
+		UserId:   in.UserId,
 		Nickname: in.Nickname,
 		Avatar:   in.Avatar,
 		Website:  in.Info,
