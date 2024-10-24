@@ -9,8 +9,8 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/tokenx"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rbacx"
@@ -47,10 +47,10 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	ResourceRpc   resourcerpc.ResourceRpc
 
-	Uploader   upload.Uploader
-	Token      *jtoken.JwtInstance
-	Redis      *redis.Redis
-	RbacHolder *rbacx.RbacHolder
+	Redis       *redis.Redis
+	TokenHolder *tokenx.JwtTokenHolder
+	RbacHolder  *rbacx.RbacHolder
+	Uploader    upload.Uploader
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -61,12 +61,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	var options []zrpc.ClientOption
 	options = append(options)
 
-	jwt := jtoken.NewJWTInstance([]byte(c.Name))
-
 	rds, err := ConnectRedis(c.RedisConf)
 	if err != nil {
 		panic(err)
 	}
+
+	th := tokenx.NewJwtTokenHolder(c.Name, c.Name, rds)
 
 	rh := rbacx.NewRbacHolder(permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)))
 	go rh.LoadPolicy()
@@ -87,10 +87,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		Uploader:      upload.NewQiniu(c.UploadConfig),
-		Token:         jwt,
+		TokenHolder:   th,
 		Redis:         rds,
 		RbacHolder:    rh,
-		JwtToken:      middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
+		JwtToken:      middlewarex.NewJwtTokenMiddleware(th).Handle,
 		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
 		Operation: middlewarex.NewOperationMiddleware(
 			rh,

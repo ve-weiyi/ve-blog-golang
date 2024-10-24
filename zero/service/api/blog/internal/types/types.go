@@ -93,11 +93,7 @@ type CategoryQueryReq struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type ChatQueryReq struct {
-	PageQuery
-}
-
-type ChatRecord struct {
+type ChatMessage struct {
 	Id        int64  `json:"id"`         // 主键
 	UserId    int64  `json:"user_id"`    // 用户id
 	Nickname  string `json:"nickname"`   // 昵称
@@ -110,9 +106,25 @@ type ChatRecord struct {
 	UpdatedAt int64  `json:"updated_at"` // 更新时间
 }
 
+type ChatMessageQueryReq struct {
+	After   int64  `json:"after,optional"`   // 起始时间
+	Before  int64  `json:"before,optional"`  // 结束时间
+	Limit   int64  `json:"limit,optional"`   // 限制数量
+	UserId  string `json:"user_id,optional"` // 用户id
+	ChatId  string `json:"chat_id,optional"` // 聊天室id
+	Keyword string `json:"keyword,optional"` // 关键字
+	Type    int64  `json:"type,optional"`    // 类型
+}
+
 type ChatSocketMsg struct {
 	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
 	Content string `json:"content"` // 消息内容
+}
+
+type ChatSocketMsgResp struct {
+	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Content string `json:"content"` // 消息内容
+	Time    int64  `json:"time"`    // 消息时间
 }
 
 type Comment struct {

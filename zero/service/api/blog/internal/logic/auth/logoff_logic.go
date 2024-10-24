@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"time"
 
 	"github.com/spf13/cast"
 
@@ -38,5 +39,6 @@ func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return
 	}
 
+	l.svcCtx.TokenHolder.SetLogout(l.ctx, cast.ToInt64(l.ctx.Value("uid")), time.Now().Unix())
 	return &types.EmptyResp{}, nil
 }

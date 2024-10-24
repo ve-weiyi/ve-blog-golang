@@ -3,7 +3,7 @@ syntax = "v1"
 import "base.api"
 
 type (
-    ChatRecord {
+    ChatMessage {
         Id int64 `json:"id"`                 // 主键
         UserId int64 `json:"user_id"`        // 用户id
         Nickname string `json:"nickname"`    // 昵称
@@ -16,8 +16,14 @@ type (
         UpdatedAt int64 `json:"updated_at"`  // 更新时间
     }
 
-    ChatQueryReq {
-        PageQuery
+    ChatMessageQueryReq {
+        After int64 `json:"after,optional"`                       // 起始时间
+        Before int64 `json:"before,optional"`                     // 结束时间
+        Limit int64 `json:"limit,optional"`                       // 限制数量
+        UserId string `json:"user_id,optional"`          // 用户id
+        ChatId string `json:"chat_id,optional"`          // 聊天室id
+        Keyword string `json:"keyword,optional"`         // 关键字
+        Type int64 `json:"type,optional"`                // 类型
     }
 )
 
@@ -29,6 +35,6 @@ type (
 
 service blog-api {
     @doc "查询聊天记录"
-    @handler GetChatRecords
-    post /chat/records (ChatQueryReq) returns (PageResp)
+    @handler GetChatMessages
+    post /chat/messages (ChatMessageQueryReq) returns (PageResp)
 }

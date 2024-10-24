@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
+	"github.com/ve-weiyi/ve-blog-golang/zero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
@@ -24,7 +25,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/websiterpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/config"
@@ -47,9 +47,9 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	ResourceRpc   resourcerpc.ResourceRpc
 
-	Uploader upload.Uploader
-	Token    *jtoken.JwtInstance
-	Redis    *redis.Redis
+	Redis       *redis.Redis
+	TokenHolder *tokenx.JwtTokenHolder
+	Uploader    upload.Uploader
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -59,12 +59,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	var options []zrpc.ClientOption
 	options = append(options)
 
-	jwt := jtoken.NewJWTInstance([]byte(c.Name))
-
 	rds, err := ConnectRedis(c.RedisConf)
 	if err != nil {
 		panic(err)
 	}
+
+	th := tokenx.NewJwtTokenHolder(c.Name, c.Name, rds)
 
 	return &ServiceContext{
 		Config:        c,
@@ -82,9 +82,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		Uploader:      upload.NewQiniu(c.UploadConfig),
-		Token:         jwt,
 		Redis:         rds,
-		JwtToken:      middlewarex.NewJwtTokenMiddleware(jwt, rds).Handle,
+		TokenHolder:   th,
+		JwtToken:      middlewarex.NewJwtTokenMiddleware(th).Handle,
 		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
 	}
 }

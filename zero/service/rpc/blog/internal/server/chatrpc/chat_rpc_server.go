@@ -23,31 +23,25 @@ func NewChatRpcServer(svcCtx *svc.ServiceContext) *ChatRpcServer {
 }
 
 // 创建聊天记录
-func (s *ChatRpcServer) AddChatRecord(ctx context.Context, in *chatrpc.ChatRecordNewReq) (*chatrpc.ChatRecordDetails, error) {
-	l := chatrpclogic.NewAddChatRecordLogic(ctx, s.svcCtx)
-	return l.AddChatRecord(in)
+func (s *ChatRpcServer) AddChatMessage(ctx context.Context, in *chatrpc.ChatMessageNewReq) (*chatrpc.ChatMessageDetails, error) {
+	l := chatrpclogic.NewAddChatMessageLogic(ctx, s.svcCtx)
+	return l.AddChatMessage(in)
 }
 
 // 更新聊天记录
-func (s *ChatRpcServer) UpdateChatRecord(ctx context.Context, in *chatrpc.ChatRecordNewReq) (*chatrpc.ChatRecordDetails, error) {
-	l := chatrpclogic.NewUpdateChatRecordLogic(ctx, s.svcCtx)
-	return l.UpdateChatRecord(in)
+func (s *ChatRpcServer) UpdateChatMessage(ctx context.Context, in *chatrpc.ChatMessageNewReq) (*chatrpc.ChatMessageDetails, error) {
+	l := chatrpclogic.NewUpdateChatMessageLogic(ctx, s.svcCtx)
+	return l.UpdateChatMessage(in)
 }
 
 // 删除聊天记录
-func (s *ChatRpcServer) DeleteChatRecord(ctx context.Context, in *chatrpc.IdsReq) (*chatrpc.BatchResp, error) {
-	l := chatrpclogic.NewDeleteChatRecordLogic(ctx, s.svcCtx)
-	return l.DeleteChatRecord(in)
-}
-
-// 查询聊天记录
-func (s *ChatRpcServer) GetChatRecord(ctx context.Context, in *chatrpc.IdReq) (*chatrpc.ChatRecordDetails, error) {
-	l := chatrpclogic.NewGetChatRecordLogic(ctx, s.svcCtx)
-	return l.GetChatRecord(in)
+func (s *ChatRpcServer) DeletesChatMessage(ctx context.Context, in *chatrpc.IdsReq) (*chatrpc.BatchResp, error) {
+	l := chatrpclogic.NewDeletesChatMessageLogic(ctx, s.svcCtx)
+	return l.DeletesChatMessage(in)
 }
 
 // 查询聊天记录列表
-func (s *ChatRpcServer) FindChatRecordList(ctx context.Context, in *chatrpc.FindChatRecordListReq) (*chatrpc.FindChatRecordListResp, error) {
-	l := chatrpclogic.NewFindChatRecordListLogic(ctx, s.svcCtx)
-	return l.FindChatRecordList(in)
+func (s *ChatRpcServer) FindChatMessageList(ctx context.Context, in *chatrpc.FindChatMessageListReq) (*chatrpc.FindChatMessageListResp, error) {
+	l := chatrpclogic.NewFindChatMessageListLogic(ctx, s.svcCtx)
+	return l.FindChatMessageList(in)
 }
