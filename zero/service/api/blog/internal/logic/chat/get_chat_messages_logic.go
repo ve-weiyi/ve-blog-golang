@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +28,7 @@ func NewGetChatMessagesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetChatMessagesLogic) GetChatMessages(req *types.ChatMessageQueryReq) (resp *types.PageResp, err error) {
-	in := &chatrpc.FindChatMessageListReq{
+	in := &messagerpc.FindChatMessageListReq{
 		After:       req.After,
 		Before:      req.Before,
 		Limit:       req.Limit,
@@ -37,7 +37,7 @@ func (l *GetChatMessagesLogic) GetChatMessages(req *types.ChatMessageQueryReq) (
 		ChatContent: req.Keyword,
 		Type:        req.Type,
 	}
-	out, err := l.svcCtx.ChatRpc.FindChatMessageList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindChatMessageList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (l *GetChatMessagesLogic) GetChatMessages(req *types.ChatMessageQueryReq) (
 	return resp, nil
 }
 
-func ConvertChatMessageTypes(in *chatrpc.ChatMessageDetails) *types.ChatMessage {
+func ConvertChatMessageTypes(in *messagerpc.ChatMessageDetails) *types.ChatMessage {
 	return &types.ChatMessage{
 		Id:        in.Id,
 		UserId:    cast.ToInt64(in.UserId),

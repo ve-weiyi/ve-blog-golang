@@ -12,18 +12,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/tokenx"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/rbacx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/photorpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
@@ -37,8 +37,7 @@ type ServiceContext struct {
 	PermissionRpc permissionrpc.PermissionRpc
 	ArticleRpc    articlerpc.ArticleRpc
 	CommentRpc    commentrpc.CommentRpc
-	ChatRpc       chatrpc.ChatRpc
-	RemarkRpc     remarkrpc.RemarkRpc
+	MessageRpc    messagerpc.MessageRpc
 	PhotoRpc      photorpc.PhotoRpc
 	TalkRpc       talkrpc.TalkRpc
 	FriendRpc     friendrpc.FriendRpc
@@ -77,8 +76,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PermissionRpc: permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		ChatRpc:       chatrpc.NewChatRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		RemarkRpc:     remarkrpc.NewRemarkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),

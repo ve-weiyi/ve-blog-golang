@@ -1,9 +1,10 @@
-package chatrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/chatrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +25,7 @@ func NewUpdateChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 // 更新聊天记录
-func (l *UpdateChatMessageLogic) UpdateChatMessage(in *chatrpc.ChatMessageNewReq) (*chatrpc.ChatMessageDetails, error) {
+func (l *UpdateChatMessageLogic) UpdateChatMessage(in *messagerpc.ChatMessageNewReq) (*messagerpc.ChatMessageDetails, error) {
 	entity := convertChatMessageIn(in)
 
 	_, err := l.svcCtx.TChatMessageModel.Save(l.ctx, entity)

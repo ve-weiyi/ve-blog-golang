@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,12 +26,12 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQueryReq) (resp *types.PageResp, err error) {
-	in := &remarkrpc.FindRemarkListReq{
+	in := &messagerpc.FindRemarkListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
 	}
-	out, err := l.svcCtx.RemarkRpc.FindRemarkList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindRemarkList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
