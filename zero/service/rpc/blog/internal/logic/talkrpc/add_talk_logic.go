@@ -43,7 +43,7 @@ func convertTalkIn(in *talkrpc.TalkNewReq) (out *model.TTalk) {
 		Id:        in.Id,
 		UserId:    in.UserId,
 		Content:   in.Content,
-		Images:    jsonconv.ObjectToJson(in.ImgList),
+		Images:    jsonconv.AnyToJsonNE(in.ImgList),
 		IsTop:     in.IsTop,
 		Status:    in.Status,
 		LikeCount: 0,
@@ -54,7 +54,7 @@ func convertTalkIn(in *talkrpc.TalkNewReq) (out *model.TTalk) {
 
 func convertTalkOut(in *model.TTalk) (out *talkrpc.TalkDetails) {
 	var images []string
-	jsonconv.JsonToObject(in.Images, &images)
+	jsonconv.JsonToAny(in.Images, &images)
 
 	out = &talkrpc.TalkDetails{
 		Id:           in.Id,

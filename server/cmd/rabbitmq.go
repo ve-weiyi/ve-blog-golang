@@ -63,7 +63,7 @@ func (s *RabbitmqCmd) RunRabbitmq(cmd *cobra.Command, args []string) {
 		panic(err)
 	}
 
-	log.Println("rabbitmq服务启动成功", jsonconv.ObjectToJsonIndent(c))
+	log.Println("rabbitmq服务启动成功", jsonconv.AnyToJsonIndent(c))
 	log.Println("rabbitmq服务启动成功")
 
 	initialize.SubscribeMessage(c)

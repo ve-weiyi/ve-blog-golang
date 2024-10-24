@@ -91,7 +91,7 @@ func Test_TOperationLog(t *testing.T) {
 	insert, err := OperationLogModel.Insert(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), insert)
-	t.Log(jsonconv.ObjectToJsonIndent(data))
+	t.Log(jsonconv.AnyToJsonIndent(data))
 
 	data.Nickname = "test_nickname_update"
 	data.IpAddress = ""
@@ -102,7 +102,7 @@ func Test_TOperationLog(t *testing.T) {
 
 	one, err := OperationLogModel.FindOne(ctx, data.Id)
 	assert.Equal(t, nil, err)
-	t.Log(jsonconv.ObjectToJsonIndent(one))
+	t.Log(jsonconv.AnyToJsonIndent(one))
 
 	data.Nickname = "test_nickname_save"
 	data.IpAddress = ""
@@ -113,5 +113,5 @@ func Test_TOperationLog(t *testing.T) {
 
 	first, err := OperationLogModel.First(ctx, "id = ?", data.Id)
 	assert.Equal(t, nil, err)
-	t.Log(jsonconv.ObjectToJsonIndent(first))
+	t.Log(jsonconv.AnyToJsonIndent(first))
 }

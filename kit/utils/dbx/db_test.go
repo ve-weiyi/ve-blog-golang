@@ -42,21 +42,21 @@ func TestDBService(t *testing.T) {
 	//	log.Println("-->", err)
 	//	return
 	//}
-	//log.Println("dbList-->", jsonconv.ObjectToJsonIndent(dbList))
+	//log.Println("dbList-->", jsonconv.AnyToJsonIndent(dbList))
 	//
 	//tabelList, err := driver.GetTables("blog-veweiyi")
 	//if err != nil {
 	//	log.Println("-->", err)
 	//	return
 	//}
-	//log.Println("tabelList-->", jsonconv.ObjectToJsonIndent(tabelList))
+	//log.Println("tabelList-->", jsonconv.AnyToJsonIndent(tabelList))
 
 	columnList, err := driver.GetTableColumns("blog-veweiyi", "user_account")
 	if err != nil {
 		log.Println("-->", err)
 		return
 	}
-	log.Println("columnList-->", db.Migrator().CurrentDatabase(), jsonconv.ObjectToJsonIndent(columnList))
+	log.Println("columnList-->", db.Migrator().CurrentDatabase(), jsonconv.AnyToJsonIndent(columnList))
 }
 
 func TestMigrator(t *testing.T) {
@@ -73,7 +73,7 @@ func TestMigrator(t *testing.T) {
 		if err != nil {
 			log.Println("-->", err)
 		}
-		log.Println("table-->", jsonconv.ObjectToJsonIndent(tableType))
+		log.Println("table-->", jsonconv.AnyToJsonIndent(tableType))
 
 		//columns, err := db.Migrator().ColumnTypes(table)
 		//if err != nil {
@@ -85,7 +85,7 @@ func TestMigrator(t *testing.T) {
 		//if err != nil {
 		//	log.Println("-->", err)
 		//}
-		//log.Println("indexes-->", jsonconv.ObjectToJsonIndent(indexes))
+		//log.Println("indexes-->", jsonconv.AnyToJsonIndent(indexes))
 	}
 
 }

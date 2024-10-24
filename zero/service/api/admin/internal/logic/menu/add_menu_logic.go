@@ -60,7 +60,7 @@ func ConvertMenuPb(in *types.MenuNewReq) (out *permissionrpc.MenuNewReq) {
 			Icon:       in.Icon,
 			Rank:       in.Rank,
 			Perm:       in.Perm,
-			Params:     jsonconv.ObjectToJson(in.Params),
+			Params:     jsonconv.AnyToJsonNE(in.Params),
 			KeepAlive:  in.KeepAlive,
 			AlwaysShow: in.AlwaysShow,
 			IsHidden:   in.IsHidden,
@@ -80,7 +80,7 @@ func ConvertMenuTypes(in *permissionrpc.MenuDetails) (out *types.MenuBackDTO) {
 	}
 
 	var params []*types.MenuMetaParams
-	jsonconv.JsonToObject(in.Meta.Params, &params)
+	jsonconv.JsonToAny(in.Meta.Params, &params)
 
 	out = &types.MenuBackDTO{
 		Id:        in.Id,

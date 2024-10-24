@@ -2,7 +2,7 @@ module github.com/ve-weiyi/ve-blog-golang/server
 
 go 1.22
 
-//replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
+replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
 
 require (
 	github.com/gin-gonic/gin v1.10.0

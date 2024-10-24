@@ -50,7 +50,7 @@ func (vi *ImportMeta) Visit(node ast.Node) ast.Visitor {
 				//log.Println("ImportPackage end", vi.ImportPackage, vi.hasImported)
 				//ast.Println(token.NewFileSet(), node)
 			}
-			//log.Println("--", jsonconv.ObjectToJsonIndent(genDecl.Specs))
+			//log.Println("--", jsonconv.AnyToJsonIndent(genDecl.Specs))
 		} else {
 
 		}
@@ -107,5 +107,5 @@ func NewImportMete(importCode string) {
 		}
 		return true
 	})
-	log.Println("NewImportMete", jsonconv.ObjectToJsonIndent(meta))
+	log.Println("NewImportMete", jsonconv.AnyToJsonIndent(meta))
 }

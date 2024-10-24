@@ -1196,7 +1196,7 @@
         ]
       }
     },
-    "/api/v1/ws": {
+    "/api/v1/websocket": {
       "get": {
         "summary": "WebSocket消息",
         "operationId": "WebSocket",
