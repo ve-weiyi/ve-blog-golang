@@ -1,9 +1,10 @@
-package chatrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/chatrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +25,7 @@ func NewFindChatMessageListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // 查询聊天记录列表
-func (l *FindChatMessageListLogic) FindChatMessageList(in *chatrpc.FindChatMessageListReq) (*chatrpc.FindChatMessageListResp, error) {
+func (l *FindChatMessageListLogic) FindChatMessageList(in *messagerpc.FindChatMessageListReq) (*messagerpc.FindChatMessageListResp, error) {
 	page, size, sorts, conditions, params := convertChatQuery(in)
 
 	result, err := l.svcCtx.TChatMessageModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -37,18 +38,18 @@ func (l *FindChatMessageListLogic) FindChatMessageList(in *chatrpc.FindChatMessa
 		return nil, err
 	}
 
-	var list []*chatrpc.ChatMessageDetails
+	var list []*messagerpc.ChatMessageDetails
 	for _, v := range result {
 		list = append(list, convertChatMessageOut(v))
 	}
 
-	return &chatrpc.FindChatMessageListResp{
+	return &messagerpc.FindChatMessageListResp{
 		List:  list,
 		Total: count,
 	}, nil
 }
 
-func convertChatQuery(in *chatrpc.FindChatMessageListReq) (page int, size int, sorts string, conditions string, params []any) {
+func convertChatQuery(in *messagerpc.FindChatMessageListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(1)
 	size = int(in.Limit)
 	sorts = "created_at desc"

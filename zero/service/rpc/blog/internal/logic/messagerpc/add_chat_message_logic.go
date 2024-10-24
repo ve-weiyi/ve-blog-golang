@@ -1,10 +1,11 @@
-package chatrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/chatrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +26,7 @@ func NewAddChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ad
 }
 
 // 创建聊天记录
-func (l *AddChatMessageLogic) AddChatMessage(in *chatrpc.ChatMessageNewReq) (*chatrpc.ChatMessageDetails, error) {
+func (l *AddChatMessageLogic) AddChatMessage(in *messagerpc.ChatMessageNewReq) (*messagerpc.ChatMessageDetails, error) {
 	entity := convertChatMessageIn(in)
 
 	_, err := l.svcCtx.TChatMessageModel.Insert(l.ctx, entity)
@@ -36,7 +37,7 @@ func (l *AddChatMessageLogic) AddChatMessage(in *chatrpc.ChatMessageNewReq) (*ch
 	return convertChatMessageOut(entity), nil
 }
 
-func convertChatMessageIn(in *chatrpc.ChatMessageNewReq) (out *model.TChatMessage) {
+func convertChatMessageIn(in *messagerpc.ChatMessageNewReq) (out *model.TChatMessage) {
 	out = &model.TChatMessage{
 		Id:          in.Id,
 		UserId:      in.UserId,
@@ -54,8 +55,8 @@ func convertChatMessageIn(in *chatrpc.ChatMessageNewReq) (out *model.TChatMessag
 	return out
 }
 
-func convertChatMessageOut(in *model.TChatMessage) (out *chatrpc.ChatMessageDetails) {
-	out = &chatrpc.ChatMessageDetails{
+func convertChatMessageOut(in *model.TChatMessage) (out *messagerpc.ChatMessageDetails) {
+	out = &messagerpc.ChatMessageDetails{
 		Id:          in.Id,
 		ChatId:      in.ChatId,
 		DeviceId:    in.DeviceId,

@@ -1,9 +1,10 @@
-package remarkrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +25,7 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新留言
-func (l *UpdateRemarkLogic) UpdateRemark(in *remarkrpc.RemarkUpdateReq) (*remarkrpc.RemarkDetails, error) {
+func (l *UpdateRemarkLogic) UpdateRemark(in *messagerpc.RemarkUpdateReq) (*messagerpc.RemarkDetails, error) {
 	entity, err := l.svcCtx.TRemarkModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

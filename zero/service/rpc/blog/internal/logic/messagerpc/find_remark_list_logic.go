@@ -1,10 +1,11 @@
-package remarkrpclogic
+package messagerpclogic
 
 import (
 	"context"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +26,7 @@ func NewFindRemarkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 // 查询留言列表
-func (l *FindRemarkListLogic) FindRemarkList(in *remarkrpc.FindRemarkListReq) (*remarkrpc.FindRemarkListResp, error) {
+func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (*messagerpc.FindRemarkListResp, error) {
 	var (
 		page       int
 		size       int
@@ -48,12 +49,12 @@ func (l *FindRemarkListLogic) FindRemarkList(in *remarkrpc.FindRemarkListReq) (*
 		return nil, err
 	}
 
-	var list []*remarkrpc.RemarkDetails
+	var list []*messagerpc.RemarkDetails
 	for _, v := range result {
 		list = append(list, convertRemarkOut(v))
 	}
 
-	return &remarkrpc.FindRemarkListResp{
+	return &messagerpc.FindRemarkListResp{
 		List:  list,
 		Total: count,
 	}, nil
