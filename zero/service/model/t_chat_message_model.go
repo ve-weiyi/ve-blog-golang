@@ -38,17 +38,19 @@ type (
 
 	// 表字段定义
 	TChatMessage struct {
-		Id         int64     `json:"id" gorm:"column:id" `                     // 主键
-		ChatId     string    `json:"chat_id" gorm:"column:chat_id" `           // 聊天id
-		UserId     int64     `json:"user_id" gorm:"column:user_id" `           // 用户id
-		ReplyMsgId int64     `json:"reply_msg_id" gorm:"column:reply_msg_id" ` // 回复消息id
-		Content    string    `json:"content" gorm:"column:content" `           // 聊天内容
-		IpAddress  string    `json:"ip_address" gorm:"column:ip_address" `     // ip地址
-		IpSource   string    `json:"ip_source" gorm:"column:ip_source" `       // ip来源
-		Type       int64     `json:"type" gorm:"column:type" `                 // 类型
-		Status     int64     `json:"status" gorm:"column:status" `             // 0正常 1撤回 2已编辑
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
+		Id          int64     `json:"id" gorm:"column:id" `                     // 主键
+		UserId      string    `json:"user_id" gorm:"column:user_id" `           // 用户id
+		ChatId      string    `json:"chat_id" gorm:"column:chat_id" `           // 聊天id
+		DeviceId    string    `json:"device_id" gorm:"column:device_id" `       // 设备id
+		ReplyMsgId  string    `json:"reply_msg_id" gorm:"column:reply_msg_id" ` // 回复消息id
+		ReplyUsers  string    `json:"reply_users" gorm:"column:reply_users" `   // 回复用户列表
+		IpAddress   string    `json:"ip_address" gorm:"column:ip_address" `     // ip地址
+		IpSource    string    `json:"ip_source" gorm:"column:ip_source" `       // ip来源
+		ChatContent string    `json:"chat_content" gorm:"column:chat_content" ` // 聊天内容
+		Type        int64     `json:"type" gorm:"column:type" `                 // 类型 1.chatgpt 2.聊天室
+		Status      int64     `json:"status" gorm:"column:status" `             // 0正常 1编辑 2撤回 3删除
+		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
+		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
 	}
 
 	// 接口实现

@@ -16,11 +16,11 @@ const (
 )
 
 type JwtInstance struct {
-	SecretKey []byte
+	secret []byte
 }
 
-func NewJWTInstance(SecretKey []byte) *JwtInstance {
-	return &JwtInstance{SecretKey}
+func NewJWTInstance(secret []byte) *JwtInstance {
+	return &JwtInstance{secret}
 }
 
 // GenerateJWT 生成JWT
@@ -35,7 +35,7 @@ func (that JwtInstance) CreateToken(options ...Option) (string, error) {
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// 设置签名并获取token字符串
-	token, err := jwtToken.SignedString(that.SecretKey)
+	token, err := jwtToken.SignedString(that.secret)
 	if err != nil {
 		return "", err
 	}
@@ -46,7 +46,7 @@ func (that JwtInstance) CreateToken(options ...Option) (string, error) {
 func (that JwtInstance) ParseToken(tokenString string) (*jwt.Token, error) {
 	// 解析JWT字符串
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return that.SecretKey, nil
+		return that.secret, nil
 	})
 
 	if err != nil {

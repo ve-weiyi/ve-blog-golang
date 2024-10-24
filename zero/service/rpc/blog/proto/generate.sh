@@ -23,9 +23,9 @@
 #rm -f ../etc/friend.yaml
 #rm ../friend.go
 #
-goctl rpc protoc ./photo.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/photo.yaml
-rm ../photo.go
+#goctl rpc protoc ./photo.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+#rm -f ../etc/photo.yaml
+#rm ../photo.go
 #
 #goctl rpc protoc ./syslog.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 #rm -f ../etc/syslog.yaml
@@ -44,9 +44,9 @@ rm ../photo.go
 #rm ../config.go
 #
 #
-#goctl rpc protoc ./chat.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/chat.yaml
-#rm ../chat.go
+goctl rpc protoc ./chat.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+rm -f ../etc/chat.yaml
+rm ../chat.go
 
 #goctl rpc protoc ./resource.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 #rm -f ../etc/resource.yaml

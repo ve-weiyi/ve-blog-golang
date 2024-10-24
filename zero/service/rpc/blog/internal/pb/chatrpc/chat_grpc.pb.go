@@ -23,11 +23,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ChatRpc_AddChatRecord_FullMethodName      = "/chatrpc.ChatRpc/AddChatRecord"
-	ChatRpc_UpdateChatRecord_FullMethodName   = "/chatrpc.ChatRpc/UpdateChatRecord"
-	ChatRpc_DeleteChatRecord_FullMethodName   = "/chatrpc.ChatRpc/DeleteChatRecord"
-	ChatRpc_GetChatRecord_FullMethodName      = "/chatrpc.ChatRpc/GetChatRecord"
-	ChatRpc_FindChatRecordList_FullMethodName = "/chatrpc.ChatRpc/FindChatRecordList"
+	ChatRpc_AddChatMessage_FullMethodName      = "/chatrpc.ChatRpc/AddChatMessage"
+	ChatRpc_UpdateChatMessage_FullMethodName   = "/chatrpc.ChatRpc/UpdateChatMessage"
+	ChatRpc_DeletesChatMessage_FullMethodName  = "/chatrpc.ChatRpc/DeletesChatMessage"
+	ChatRpc_FindChatMessageList_FullMethodName = "/chatrpc.ChatRpc/FindChatMessageList"
 )
 
 // ChatRpcClient is the client API for ChatRpc service.
@@ -35,15 +34,13 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatRpcClient interface {
 	// 创建聊天记录
-	AddChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error)
+	AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
 	// 更新聊天记录
-	UpdateChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error)
+	UpdateChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
 	// 删除聊天记录
-	DeleteChatRecord(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-	// 查询聊天记录
-	GetChatRecord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatRecordDetails, error)
+	DeletesChatMessage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询聊天记录列表
-	FindChatRecordList(ctx context.Context, in *FindChatRecordListReq, opts ...grpc.CallOption) (*FindChatRecordListResp, error)
+	FindChatMessageList(ctx context.Context, in *FindChatMessageListReq, opts ...grpc.CallOption) (*FindChatMessageListResp, error)
 }
 
 type chatRpcClient struct {
@@ -54,45 +51,36 @@ func NewChatRpcClient(cc grpc.ClientConnInterface) ChatRpcClient {
 	return &chatRpcClient{cc}
 }
 
-func (c *chatRpcClient) AddChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error) {
-	out := new(ChatRecordDetails)
-	err := c.cc.Invoke(ctx, ChatRpc_AddChatRecord_FullMethodName, in, out, opts...)
+func (c *chatRpcClient) AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
+	out := new(ChatMessageDetails)
+	err := c.cc.Invoke(ctx, ChatRpc_AddChatMessage_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *chatRpcClient) UpdateChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error) {
-	out := new(ChatRecordDetails)
-	err := c.cc.Invoke(ctx, ChatRpc_UpdateChatRecord_FullMethodName, in, out, opts...)
+func (c *chatRpcClient) UpdateChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
+	out := new(ChatMessageDetails)
+	err := c.cc.Invoke(ctx, ChatRpc_UpdateChatMessage_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *chatRpcClient) DeleteChatRecord(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *chatRpcClient) DeletesChatMessage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, ChatRpc_DeleteChatRecord_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ChatRpc_DeletesChatMessage_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *chatRpcClient) GetChatRecord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatRecordDetails, error) {
-	out := new(ChatRecordDetails)
-	err := c.cc.Invoke(ctx, ChatRpc_GetChatRecord_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *chatRpcClient) FindChatRecordList(ctx context.Context, in *FindChatRecordListReq, opts ...grpc.CallOption) (*FindChatRecordListResp, error) {
-	out := new(FindChatRecordListResp)
-	err := c.cc.Invoke(ctx, ChatRpc_FindChatRecordList_FullMethodName, in, out, opts...)
+func (c *chatRpcClient) FindChatMessageList(ctx context.Context, in *FindChatMessageListReq, opts ...grpc.CallOption) (*FindChatMessageListResp, error) {
+	out := new(FindChatMessageListResp)
+	err := c.cc.Invoke(ctx, ChatRpc_FindChatMessageList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,15 +92,13 @@ func (c *chatRpcClient) FindChatRecordList(ctx context.Context, in *FindChatReco
 // for forward compatibility
 type ChatRpcServer interface {
 	// 创建聊天记录
-	AddChatRecord(context.Context, *ChatRecordNewReq) (*ChatRecordDetails, error)
+	AddChatMessage(context.Context, *ChatMessageNewReq) (*ChatMessageDetails, error)
 	// 更新聊天记录
-	UpdateChatRecord(context.Context, *ChatRecordNewReq) (*ChatRecordDetails, error)
+	UpdateChatMessage(context.Context, *ChatMessageNewReq) (*ChatMessageDetails, error)
 	// 删除聊天记录
-	DeleteChatRecord(context.Context, *IdsReq) (*BatchResp, error)
-	// 查询聊天记录
-	GetChatRecord(context.Context, *IdReq) (*ChatRecordDetails, error)
+	DeletesChatMessage(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询聊天记录列表
-	FindChatRecordList(context.Context, *FindChatRecordListReq) (*FindChatRecordListResp, error)
+	FindChatMessageList(context.Context, *FindChatMessageListReq) (*FindChatMessageListResp, error)
 	mustEmbedUnimplementedChatRpcServer()
 }
 
@@ -120,20 +106,17 @@ type ChatRpcServer interface {
 type UnimplementedChatRpcServer struct {
 }
 
-func (UnimplementedChatRpcServer) AddChatRecord(context.Context, *ChatRecordNewReq) (*ChatRecordDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddChatRecord not implemented")
+func (UnimplementedChatRpcServer) AddChatMessage(context.Context, *ChatMessageNewReq) (*ChatMessageDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddChatMessage not implemented")
 }
-func (UnimplementedChatRpcServer) UpdateChatRecord(context.Context, *ChatRecordNewReq) (*ChatRecordDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateChatRecord not implemented")
+func (UnimplementedChatRpcServer) UpdateChatMessage(context.Context, *ChatMessageNewReq) (*ChatMessageDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateChatMessage not implemented")
 }
-func (UnimplementedChatRpcServer) DeleteChatRecord(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteChatRecord not implemented")
+func (UnimplementedChatRpcServer) DeletesChatMessage(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletesChatMessage not implemented")
 }
-func (UnimplementedChatRpcServer) GetChatRecord(context.Context, *IdReq) (*ChatRecordDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetChatRecord not implemented")
-}
-func (UnimplementedChatRpcServer) FindChatRecordList(context.Context, *FindChatRecordListReq) (*FindChatRecordListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindChatRecordList not implemented")
+func (UnimplementedChatRpcServer) FindChatMessageList(context.Context, *FindChatMessageListReq) (*FindChatMessageListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindChatMessageList not implemented")
 }
 func (UnimplementedChatRpcServer) mustEmbedUnimplementedChatRpcServer() {}
 
@@ -148,92 +131,74 @@ func RegisterChatRpcServer(s grpc.ServiceRegistrar, srv ChatRpcServer) {
 	s.RegisterService(&ChatRpc_ServiceDesc, srv)
 }
 
-func _ChatRpc_AddChatRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChatRecordNewReq)
+func _ChatRpc_AddChatMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChatMessageNewReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatRpcServer).AddChatRecord(ctx, in)
+		return srv.(ChatRpcServer).AddChatMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChatRpc_AddChatRecord_FullMethodName,
+		FullMethod: ChatRpc_AddChatMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatRpcServer).AddChatRecord(ctx, req.(*ChatRecordNewReq))
+		return srv.(ChatRpcServer).AddChatMessage(ctx, req.(*ChatMessageNewReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChatRpc_UpdateChatRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChatRecordNewReq)
+func _ChatRpc_UpdateChatMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChatMessageNewReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatRpcServer).UpdateChatRecord(ctx, in)
+		return srv.(ChatRpcServer).UpdateChatMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChatRpc_UpdateChatRecord_FullMethodName,
+		FullMethod: ChatRpc_UpdateChatMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatRpcServer).UpdateChatRecord(ctx, req.(*ChatRecordNewReq))
+		return srv.(ChatRpcServer).UpdateChatMessage(ctx, req.(*ChatMessageNewReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChatRpc_DeleteChatRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ChatRpc_DeletesChatMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatRpcServer).DeleteChatRecord(ctx, in)
+		return srv.(ChatRpcServer).DeletesChatMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChatRpc_DeleteChatRecord_FullMethodName,
+		FullMethod: ChatRpc_DeletesChatMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatRpcServer).DeleteChatRecord(ctx, req.(*IdsReq))
+		return srv.(ChatRpcServer).DeletesChatMessage(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ChatRpc_GetChatRecord_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdReq)
+func _ChatRpc_FindChatMessageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindChatMessageListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChatRpcServer).GetChatRecord(ctx, in)
+		return srv.(ChatRpcServer).FindChatMessageList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChatRpc_GetChatRecord_FullMethodName,
+		FullMethod: ChatRpc_FindChatMessageList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatRpcServer).GetChatRecord(ctx, req.(*IdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ChatRpc_FindChatRecordList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindChatRecordListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ChatRpcServer).FindChatRecordList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ChatRpc_FindChatRecordList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatRpcServer).FindChatRecordList(ctx, req.(*FindChatRecordListReq))
+		return srv.(ChatRpcServer).FindChatMessageList(ctx, req.(*FindChatMessageListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -246,24 +211,20 @@ var ChatRpc_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ChatRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AddChatRecord",
-			Handler:    _ChatRpc_AddChatRecord_Handler,
+			MethodName: "AddChatMessage",
+			Handler:    _ChatRpc_AddChatMessage_Handler,
 		},
 		{
-			MethodName: "UpdateChatRecord",
-			Handler:    _ChatRpc_UpdateChatRecord_Handler,
+			MethodName: "UpdateChatMessage",
+			Handler:    _ChatRpc_UpdateChatMessage_Handler,
 		},
 		{
-			MethodName: "DeleteChatRecord",
-			Handler:    _ChatRpc_DeleteChatRecord_Handler,
+			MethodName: "DeletesChatMessage",
+			Handler:    _ChatRpc_DeletesChatMessage_Handler,
 		},
 		{
-			MethodName: "GetChatRecord",
-			Handler:    _ChatRpc_GetChatRecord_Handler,
-		},
-		{
-			MethodName: "FindChatRecordList",
-			Handler:    _ChatRpc_FindChatRecordList_Handler,
+			MethodName: "FindChatMessageList",
+			Handler:    _ChatRpc_FindChatMessageList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

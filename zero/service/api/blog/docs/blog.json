@@ -400,10 +400,10 @@
         ]
       }
     },
-    "/api/v1/chat/records": {
+    "/api/v1/chat/messages": {
       "post": {
         "summary": "查询聊天记录",
-        "operationId": "GetChatRecords",
+        "operationId": "GetChatMessages",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -418,7 +418,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ChatQueryReq"
+              "$ref": "#/definitions/ChatMessageQueryReq"
             }
           }
         ],
@@ -1701,27 +1701,7 @@
       },
       "title": "CategoryQueryReq"
     },
-    "ChatQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "ChatQueryReq"
-    },
-    "ChatRecord": {
+    "ChatMessage": {
       "type": "object",
       "properties": {
         "id": {
@@ -1770,7 +1750,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "ChatRecord",
+      "title": "ChatMessage",
       "required": [
         "id",
         "user_id",
@@ -1783,6 +1763,44 @@
         "created_at",
         "updated_at"
       ]
+    },
+    "ChatMessageQueryReq": {
+      "type": "object",
+      "properties": {
+        "after": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 起始时间"
+        },
+        "before": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 限制数量"
+        },
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "chat_id": {
+          "type": "string",
+          "description": " 聊天室id"
+        },
+        "keyword": {
+          "type": "string",
+          "description": " 关键字"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 类型"
+        }
+      },
+      "title": "ChatMessageQueryReq"
     },
     "ChatSocketMsg": {
       "type": "object",
@@ -1801,6 +1819,31 @@
       "required": [
         "type",
         "content"
+      ]
+    },
+    "ChatSocketMsgResp": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
+        },
+        "content": {
+          "type": "string",
+          "description": " 消息内容"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息时间"
+        }
+      },
+      "title": "ChatSocketMsgResp",
+      "required": [
+        "type",
+        "content",
+        "time"
       ]
     },
     "Comment": {

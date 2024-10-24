@@ -13,27 +13,25 @@ import (
 )
 
 type (
-	BatchResp              = chatrpc.BatchResp
-	ChatRecordDetails      = chatrpc.ChatRecordDetails
-	ChatRecordNewReq       = chatrpc.ChatRecordNewReq
-	EmptyReq               = chatrpc.EmptyReq
-	EmptyResp              = chatrpc.EmptyResp
-	FindChatRecordListReq  = chatrpc.FindChatRecordListReq
-	FindChatRecordListResp = chatrpc.FindChatRecordListResp
-	IdReq                  = chatrpc.IdReq
-	IdsReq                 = chatrpc.IdsReq
+	BatchResp               = chatrpc.BatchResp
+	ChatMessageDetails      = chatrpc.ChatMessageDetails
+	ChatMessageNewReq       = chatrpc.ChatMessageNewReq
+	EmptyReq                = chatrpc.EmptyReq
+	EmptyResp               = chatrpc.EmptyResp
+	FindChatMessageListReq  = chatrpc.FindChatMessageListReq
+	FindChatMessageListResp = chatrpc.FindChatMessageListResp
+	IdReq                   = chatrpc.IdReq
+	IdsReq                  = chatrpc.IdsReq
 
 	ChatRpc interface {
 		// 创建聊天记录
-		AddChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error)
+		AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
 		// 更新聊天记录
-		UpdateChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error)
+		UpdateChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
 		// 删除聊天记录
-		DeleteChatRecord(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 查询聊天记录
-		GetChatRecord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatRecordDetails, error)
+		DeletesChatMessage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询聊天记录列表
-		FindChatRecordList(ctx context.Context, in *FindChatRecordListReq, opts ...grpc.CallOption) (*FindChatRecordListResp, error)
+		FindChatMessageList(ctx context.Context, in *FindChatMessageListReq, opts ...grpc.CallOption) (*FindChatMessageListResp, error)
 	}
 
 	defaultChatRpc struct {
@@ -48,31 +46,25 @@ func NewChatRpc(cli zrpc.Client) ChatRpc {
 }
 
 // 创建聊天记录
-func (m *defaultChatRpc) AddChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error) {
+func (m *defaultChatRpc) AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
 	client := chatrpc.NewChatRpcClient(m.cli.Conn())
-	return client.AddChatRecord(ctx, in, opts...)
+	return client.AddChatMessage(ctx, in, opts...)
 }
 
 // 更新聊天记录
-func (m *defaultChatRpc) UpdateChatRecord(ctx context.Context, in *ChatRecordNewReq, opts ...grpc.CallOption) (*ChatRecordDetails, error) {
+func (m *defaultChatRpc) UpdateChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
 	client := chatrpc.NewChatRpcClient(m.cli.Conn())
-	return client.UpdateChatRecord(ctx, in, opts...)
+	return client.UpdateChatMessage(ctx, in, opts...)
 }
 
 // 删除聊天记录
-func (m *defaultChatRpc) DeleteChatRecord(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultChatRpc) DeletesChatMessage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := chatrpc.NewChatRpcClient(m.cli.Conn())
-	return client.DeleteChatRecord(ctx, in, opts...)
-}
-
-// 查询聊天记录
-func (m *defaultChatRpc) GetChatRecord(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatRecordDetails, error) {
-	client := chatrpc.NewChatRpcClient(m.cli.Conn())
-	return client.GetChatRecord(ctx, in, opts...)
+	return client.DeletesChatMessage(ctx, in, opts...)
 }
 
 // 查询聊天记录列表
-func (m *defaultChatRpc) FindChatRecordList(ctx context.Context, in *FindChatRecordListReq, opts ...grpc.CallOption) (*FindChatRecordListResp, error) {
+func (m *defaultChatRpc) FindChatMessageList(ctx context.Context, in *FindChatMessageListReq, opts ...grpc.CallOption) (*FindChatMessageListResp, error) {
 	client := chatrpc.NewChatRpcClient(m.cli.Conn())
-	return client.FindChatRecordList(ctx, in, opts...)
+	return client.FindChatMessageList(ctx, in, opts...)
 }
