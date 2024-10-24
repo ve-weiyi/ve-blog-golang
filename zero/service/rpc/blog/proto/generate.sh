@@ -1,53 +1,24 @@
-#
-#goctl rpc protoc ./account.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/account.yaml
-#rm ../account.go
-#
-#goctl rpc protoc ./permission.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/permission.yaml
-#rm ../permission.go
-#
-#goctl rpc protoc ./article.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/article.yaml
-#rm ../article.go
+#!/bin/bash
 
-#goctl rpc protoc ./comment.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/comment.yaml
-#rm ../comment.go
-#
+PROTO_DIR="."                 # Proto 文件所在目录
+OUTPUT_DIR="../internal/pb"   # 生成代码的输出目录
+ETC_DIR="../etc"              # YAML 配置文件目录
+
+shopt -s nullglob             # 当没有匹配的文件时，* 不再保留
+
+for file in "$PROTO_DIR"/*.proto; do
+  if [ -f "$file" ]; then
+    # 生成代码
+    goctl rpc protoc "$file" --go_out="$OUTPUT_DIR" --go-grpc_out="$OUTPUT_DIR" --zrpc_out=../ -m --style go_zero
+
+    # 删除 YAML 配置文件
+    rm -f "$ETC_DIR/$(basename "$file" .proto).yaml"
+
+    # 删除生成的 Go 文件
+    rm -f "../$(basename "$file" .proto).go"
+  fi
+done
+
 #goctl rpc protoc ./remark.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
 #rm -f ../etc/remark.yaml
 #rm ../remark.go
-#
-#goctl rpc protoc ./friend.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/friend.yaml
-#rm ../friend.go
-#
-#goctl rpc protoc ./photo.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/photo.yaml
-#rm ../photo.go
-#
-#goctl rpc protoc ./syslog.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/syslog.yaml
-#rm ../syslog.go
-#
-#goctl rpc protoc ./talk.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/talk.yaml
-#rm ../talk.go
-#
-#goctl rpc protoc ./website.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/website.yaml
-#rm ../website.go
-#
-#goctl rpc protoc ./config.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/config.yaml
-#rm ../config.go
-#
-#
-goctl rpc protoc ./chat.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/chat.yaml
-rm ../chat.go
-
-#goctl rpc protoc ./resource.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/resource.yaml
-#rm ../resource.go

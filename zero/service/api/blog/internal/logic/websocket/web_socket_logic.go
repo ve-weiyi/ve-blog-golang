@@ -19,7 +19,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/chatrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
 )
 
 type WebSocketLogic struct {
@@ -77,7 +77,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			return nil, err
 		}
 
-		chat := &chatrpc.ChatMessageNewReq{
+		chat := &messagerpc.ChatMessageNewReq{
 			Id:          0,
 			UserId:      cast.ToString(uid),
 			DeviceId:    device,
@@ -90,7 +90,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 			Type:        req.Type,
 		}
 
-		out, err := l.svcCtx.ChatRpc.AddChatMessage(r.Context(), chat)
+		out, err := l.svcCtx.MessageRpc.AddChatMessage(r.Context(), chat)
 		if err != nil {
 			return nil, err
 		}
