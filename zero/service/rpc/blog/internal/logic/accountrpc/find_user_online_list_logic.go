@@ -45,7 +45,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	for _, item := range result {
 		uids = append(uids, item.UserId)
 	}
@@ -61,7 +61,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 		return nil, err
 	}
 
-	var ursMap = make(map[int64][]int64)
+	var ursMap = make(map[string][]int64)
 	var roleIds []int64
 	for _, item := range urList {
 		roleIds = append(roleIds, item.RoleId)
@@ -78,7 +78,7 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	for _, item := range users {
 
 		var roles []*model.TRole
-		ur, _ := ursMap[item.Id]
+		ur, _ := ursMap[item.UserId]
 		for _, rid := range ur {
 			for _, r := range rList {
 				if r.Id == rid {

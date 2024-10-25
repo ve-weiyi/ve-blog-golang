@@ -30,7 +30,7 @@ func NewWebSocketManager() *WebSocketManager {
 }
 
 // 开始处理 WebSocket 连接
-func (m *WebSocketManager) HandleWebSocket(w http.ResponseWriter, r *http.Request, name string) *websocket.Conn {
+func (m *WebSocketManager) RegisterWebSocket(w http.ResponseWriter, r *http.Request, name string) *websocket.Conn {
 	conn, err := m.Upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("Failed to upgrade connection:", err)
@@ -44,7 +44,7 @@ func (m *WebSocketManager) HandleWebSocket(w http.ResponseWriter, r *http.Reques
 }
 
 // 处理接收到的消息
-func (m *WebSocketManager) StartReceive(name string, receive Receive) {
+func (m *WebSocketManager) OnReceiveMsg(name string, receive Receive) {
 	conn, ok := m.connections[name]
 	if !ok {
 		return
@@ -83,7 +83,7 @@ func (m *WebSocketManager) StartReceive(name string, receive Receive) {
 }
 
 // 给指定的客户端发送消息
-func (m *WebSocketManager) SendToClient(name string, msg []byte) {
+func (m *WebSocketManager) SendMsgToClient(name string, msg []byte) {
 	conn, ok := m.connections[name]
 	if !ok {
 		return
@@ -98,7 +98,7 @@ func (m *WebSocketManager) SendToClient(name string, msg []byte) {
 }
 
 // 广播消息
-func (m *WebSocketManager) Broadcast(msg []byte) {
+func (m *WebSocketManager) BroadcastMsg(msg []byte) {
 	for _, conn := range m.connections {
 		err := conn.WriteMessage(websocket.TextMessage, msg)
 		log.Println("Failed to send message:", err)

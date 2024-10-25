@@ -103,7 +103,7 @@ func convertQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts str
 func convertUserOut(in *model.TUser) (out *accountrpc.User) {
 
 	out = &accountrpc.User{
-		UserId:    in.Id,
+		UserId:    in.UserId,
 		Username:  in.Username,
 		Nickname:  in.Nickname,
 		Avatar:    in.Avatar,

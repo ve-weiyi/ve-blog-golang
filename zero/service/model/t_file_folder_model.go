@@ -40,7 +40,7 @@ type (
 	// 表字段定义
 	TFileFolder struct {
 		Id         int64     `json:"id" gorm:"column:id" `                   // id
-		UserId     int64     `json:"user_id" gorm:"column:user_id" `         // 用户id
+		UserId     string    `json:"user_id" gorm:"column:user_id" `         // 用户id
 		FilePath   string    `json:"file_path" gorm:"column:file_path" `     // 文件路径
 		FolderName string    `json:"folder_name" gorm:"column:folder_name" ` // 文件夹名称
 		FolderDesc string    `json:"folder_desc" gorm:"column:folder_desc" ` // 文件夹描述

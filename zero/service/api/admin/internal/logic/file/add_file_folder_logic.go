@@ -30,7 +30,7 @@ func NewAddFileFolderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Add
 func (l *AddFileFolderLogic) AddFileFolder(req *types.FileFolderNewReq) (resp *types.FileBackDTO, err error) {
 	in := &resourcerpc.FileUploadNewReq{
 		Id:       0,
-		UserId:   cast.ToInt64(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value("uid")),
 		FilePath: req.FilePath,
 		FileName: req.FileName,
 		FileType: "",

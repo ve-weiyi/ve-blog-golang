@@ -14,7 +14,7 @@ type (
 
     TalkBackDTO {
         Id int64 `json:"id,optional"`                      // 说说ID
-        UserId int64 `json:"user_id"`                      // 用户ID
+        UserId string `json:"user_id"`                      // 用户ID
         Nickname string `json:"nickname"`                  // 用户昵称
         Avatar string `json:"avatar"`                      // 用户头像
         Content string `json:"content"`                    // 说说内容

@@ -30,7 +30,7 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 
 func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	in := &accountrpc.LogoutReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.AccountRpc.Logout(l.ctx, in)
@@ -38,7 +38,7 @@ func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return nil, err
 	}
 
-	l.svcCtx.TokenHolder.SetLogout(l.ctx, cast.ToInt64(l.ctx.Value("uid")), out.LogoutAt)
+	l.svcCtx.TokenHolder.SetLogout(l.ctx, cast.ToString(l.ctx.Value("uid")), out.LogoutAt)
 
 	return &types.EmptyResp{}, nil
 }

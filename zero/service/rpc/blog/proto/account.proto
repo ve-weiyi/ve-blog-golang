@@ -26,7 +26,7 @@ message BatchResp {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 /************** auth 登录相关 **************/
 message LoginReq {
@@ -42,7 +42,7 @@ message RegisterReq {
 }
 
 message LoginResp {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
@@ -57,15 +57,15 @@ message LoginResp {
 }
 
 message LogoutReq {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
 }
 
 message LogoffReq {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
 }
 
 message LogoutResp {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   int64 logout_at = 2;
 }
 
@@ -80,7 +80,7 @@ message ResetPasswordReq {
 }
 
 message BindUserEmailReq {
-  int64 user_id = 1;
+  string user_id = 1;
   string email = 2;
   string verify_code = 3;
 }
@@ -96,7 +96,7 @@ message OauthLoginUrlResp {
 }
 
 message User {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
@@ -112,7 +112,7 @@ message User {
 }
 
 message UserInfoResp {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   string username = 2;// 用户名
   string nickname = 3;// 用户昵称
   string avatar = 4;// 用户头像
@@ -136,7 +136,7 @@ message UserRoleLabel{
 
 message UserLoginHistory {
   int64 id = 1;
-  int64 user_id = 2; // 用户id
+  string user_id = 2; // 用户id
   string login_type = 3;// 登录类型
   string agent = 4;// 代理
   string ip_address = 5;// ip host
@@ -151,14 +151,14 @@ message UserRegion {
 }
 
 message UpdateUserInfoReq {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   string nickname = 2;// 昵称
   string avatar = 3; // 头像
   string info = 4;// 用户信息
 }
 
 message UpdateUserStatusReq {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   int64 status = 2;
 }
 
@@ -171,7 +171,7 @@ message FindUserListReq {
   string email = 5;
   string phone = 6;
   int64 status = 7;
-  repeated int64 user_ids = 8;
+  repeated string user_ids = 8;
 }
 
 message FindUserListResp{
@@ -188,7 +188,7 @@ message FindLoginHistoryListReq {
   int64 page = 1;
   int64 page_size = 2;
   repeated string sorts = 3; // 排序
-  int64 user_id = 4; // 用户id
+  string user_id = 4; // 用户id
 }
 
 message FindLoginHistoryListResp {

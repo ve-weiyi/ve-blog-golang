@@ -22,7 +22,7 @@ message IdsReq {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 message BatchResp {
@@ -36,7 +36,7 @@ message CountResp {
 /************** blog 说说管理 **************/
 message TalkNewReq {
   int64 id = 1;// 说说id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
   int64 is_top = 5;// 是否置顶
@@ -45,7 +45,7 @@ message TalkNewReq {
 
 message TalkDetails {
   int64 id = 1;// 说说id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string content = 3;// 说说内容
   repeated string img_list = 4;// 图片URL列表
   int64 is_top = 5;// 是否置顶
