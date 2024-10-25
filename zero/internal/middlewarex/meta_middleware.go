@@ -46,7 +46,8 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		r.Referer()
+		ctx = context.WithValue(ctx, constant.HeaderRemoteAddr, r.RemoteAddr)
+		ctx = context.WithValue(ctx, constant.HeaderUserAgent, r.UserAgent())
 
 		md.Set(constant.HeaderRPCUserAgent, r.UserAgent())
 		md.Set(constant.HeaderRPCReferer, r.Referer())

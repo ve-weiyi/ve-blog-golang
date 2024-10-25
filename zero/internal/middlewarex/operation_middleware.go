@@ -61,7 +61,8 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		next.ServeHTTP(rec, r)
 
 		if pl != nil && pl.Traceable() {
-			ip, err := ipx.GetIpInfoByBaidu(r.RemoteAddr)
+			ip := r.RemoteAddr
+			is, err := ipx.GetIpSourceByBaidu(ip)
 			if err != nil {
 				logx.Errorf("OperationMiddleware Handle GetIpInfoByBaidu err: %v", err)
 			}
@@ -116,8 +117,8 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			op := &syslogrpc.OperationLogNewReq{
 				UserId:         cast.ToString(r.Header[constant.HeaderUid]),
 				Nickname:       "",
-				IpAddress:      ip.Origip,
-				IpSource:       ip.Location,
+				IpAddress:      ip,
+				IpSource:       is,
 				OptModule:      pl.Module(),
 				OptDesc:        pl.Desc(),
 				RequestUrl:     r.URL.Path,
