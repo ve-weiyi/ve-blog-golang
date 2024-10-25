@@ -3,8 +3,6 @@ package chat
 import (
 	"context"
 
-	"github.com/spf13/cast"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
@@ -33,7 +31,7 @@ func (l *GetChatMessagesLogic) GetChatMessages(req *types.ChatMessageQueryReq) (
 		Before:      req.Before,
 		Limit:       req.Limit,
 		UserId:      req.UserId,
-		ChatId:      req.ChatId,
+		TopicId:     req.TopicId,
 		ChatContent: req.Keyword,
 		Type:        req.Type,
 	}
@@ -56,7 +54,7 @@ func (l *GetChatMessagesLogic) GetChatMessages(req *types.ChatMessageQueryReq) (
 func ConvertChatMessageTypes(in *messagerpc.ChatMessageDetails) *types.ChatMessage {
 	return &types.ChatMessage{
 		Id:        in.Id,
-		UserId:    cast.ToInt64(in.UserId),
+		UserId:    in.UserId,
 		Content:   in.ChatContent,
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,

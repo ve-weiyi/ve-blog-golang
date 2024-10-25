@@ -28,13 +28,13 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
 	in := &commentrpc.FindCommentReplyListReq{
-		Page:      req.Page,
-		PageSize:  req.PageSize,
-		Sorts:     req.Sorts,
-		TopicId:   req.TopicId,
-		ParentId:  req.ParentId,
-		SessionId: 0,
-		Type:      req.Type,
+		Page:       req.Page,
+		PageSize:   req.PageSize,
+		Sorts:      req.Sorts,
+		TopicId:    req.TopicId,
+		ParentId:   req.ParentId,
+		ReplyMsgId: 0,
+		Type:       req.Type,
 	}
 
 	// 查找评论列表
@@ -43,7 +43,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 		uids = append(uids, v.ReplyUserId)
@@ -57,7 +57,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}

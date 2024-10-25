@@ -27,7 +27,7 @@ type (
 
     FileBackDTO {
         Id int64 `json:"id,optional"`             // 文件目录ID
-        UserId int64 `json:"user_id"`             // 用户id
+        UserId string `json:"user_id"`             // 用户id
         FilePath string `json:"file_path"`        // 文件路径
         FileName string `json:"file_name"`        // 文件名称
         FileType string `json:"file_type"`        // 文件类型

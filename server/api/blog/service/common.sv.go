@@ -6,18 +6,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
-type ChatService struct {
+type CommonService struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewChatService(svcCtx *svctx.ServiceContext) *ChatService {
-	return &ChatService{
+func NewCommonService(svcCtx *svctx.ServiceContext) *CommonService {
+	return &CommonService{
 		svcCtx: svcCtx,
 	}
 }
 
-// 查询聊天记录
-func (s *ChatService) GetChatMessages(reqCtx *request.Context, in *dto.ChatMessageQueryReq) (out *dto.PageResp, err error) {
+// ping
+func (s *CommonService) Ping(reqCtx *request.Context, in *dto.PingReq) (out *dto.PingResp, err error) {
 	// todo
 
 	return

@@ -33,7 +33,7 @@ func (l *UpdateUserRoleLogic) UpdateUserRole(in *permissionrpc.UpdateUserRoleReq
 	}
 
 	// 删除用户角色
-	_, err = l.svcCtx.TUserRoleModel.Deletes(l.ctx, "user_id = ?", ua.Id)
+	_, err = l.svcCtx.TUserRoleModel.Deletes(l.ctx, "user_id = ?", ua.UserId)
 	if err != nil {
 		return nil, err
 	}

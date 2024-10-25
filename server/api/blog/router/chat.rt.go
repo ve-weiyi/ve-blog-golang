@@ -26,6 +26,6 @@ func (s *ChatRouter) Register(r *gin.RouterGroup) {
 
 		handler := controller.NewChatController(s.svcCtx)
 		// 查询聊天记录
-		group.POST("/chat/records", handler.GetChatRecords)
+		group.POST("/chat/messages", handler.GetChatMessages)
 	}
 }

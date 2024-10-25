@@ -28,7 +28,7 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdateTalkLogic) UpdateTalk(req *types.TalkNewReq) (resp *types.TalkBackDTO, err error) {
 	in := ConvertTalkPb(req)
-	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
+	in.UserId = cast.ToString(l.ctx.Value("uid"))
 	out, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)
 	if err != nil {
 		return nil, err

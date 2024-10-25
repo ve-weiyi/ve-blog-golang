@@ -31,7 +31,7 @@ func NewBindUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bin
 func (l *BindUserEmailLogic) BindUserEmail(req *types.BindUserEmailReq) (resp *types.EmptyResp, err error) {
 
 	in := &accountrpc.BindUserEmailReq{
-		UserId:     cast.ToInt64(l.ctx.Value("uid")),
+		UserId:     cast.ToString(l.ctx.Value("uid")),
 		Email:      req.Email,
 		VerifyCode: req.VerifyCode,
 	}

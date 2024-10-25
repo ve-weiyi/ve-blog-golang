@@ -10,37 +10,37 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
-type ChatController struct {
+type CommonController struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewChatController(svcCtx *svctx.ServiceContext) *ChatController {
-	return &ChatController{
+func NewCommonController(svcCtx *svctx.ServiceContext) *CommonController {
+	return &CommonController{
 		svcCtx: svcCtx,
 	}
 }
 
-// @Tags		Chat
-// @Summary		"查询聊天记录"
+// @Tags		Common
+// @Summary		"ping"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.ChatMessageQueryReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/chat/messages [POST]
-func (s *ChatController) GetChatMessages(c *gin.Context) {
+// @Param		data	body		dto.PingReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.PingResp}	"返回信息"
+// @Router		/api/v1/ping [GET]
+func (s *CommonController) Ping(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ChatMessageQueryReq
+	var req dto.PingReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewChatService(s.svcCtx).GetChatMessages(reqCtx, &req)
+	data, err := service.NewCommonService(s.svcCtx).Ping(reqCtx, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

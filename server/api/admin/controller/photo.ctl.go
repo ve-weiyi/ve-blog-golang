@@ -24,7 +24,7 @@ func NewPhotoController(svcCtx *svctx.ServiceContext) *PhotoController {
 // @Summary		"分页获取照片列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.PageQuery		true	"请求参数"
+// @Param		data	body		dto.PhotoQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
 // @Router		/admin_api/v1/photo/find_photo_list [POST]
 func (s *PhotoController) FindPhotoList(c *gin.Context) {
@@ -33,7 +33,7 @@ func (s *PhotoController) FindPhotoList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.PageQuery
+	var req dto.PhotoQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)

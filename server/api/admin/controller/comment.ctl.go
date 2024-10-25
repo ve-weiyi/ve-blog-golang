@@ -109,7 +109,7 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.CommentReviewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.CommentBackDTO}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
 // @Router		/admin_api/v1/comment/update_comment_review [PUT]
 func (s *CommentController) UpdateCommentReview(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)

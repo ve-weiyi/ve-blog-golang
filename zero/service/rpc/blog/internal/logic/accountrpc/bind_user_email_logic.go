@@ -37,7 +37,7 @@ func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUserEmailReq) (*ac
 	}
 
 	// 验证用户是否存在
-	user, err := l.svcCtx.TUserModel.FindOne(l.ctx, in.UserId)
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
 	if err != nil {
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}

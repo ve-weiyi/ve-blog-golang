@@ -17,7 +17,7 @@ func NewPhotoService(svcCtx *svctx.ServiceContext) *PhotoService {
 }
 
 // 分页获取照片列表
-func (s *PhotoService) FindPhotoList(reqCtx *request.Context, in *dto.PageQuery) (out *dto.PageResp, err error) {
+func (s *PhotoService) FindPhotoList(reqCtx *request.Context, in *dto.PhotoQuery) (out *dto.PageResp, err error) {
 	// todo
 
 	return

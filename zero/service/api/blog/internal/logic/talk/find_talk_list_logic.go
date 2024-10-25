@@ -38,7 +38,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	}
 
 	var tids []int64
-	var uids []int64
+	var uids []string
 	for _, v := range out.List {
 		tids = append(tids, v.Id)
 		uids = append(uids, v.UserId)
@@ -52,7 +52,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -79,7 +79,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	return resp, nil
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User, csm map[int64]int64) (out *types.Talk) {
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*accountrpc.User, csm map[int64]int64) (out *types.Talk) {
 	out = &types.Talk{
 		Id:           in.Id,
 		UserId:       in.UserId,
@@ -94,7 +94,7 @@ func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User, c
 	}
 
 	// 用户信息
-	if out.UserId != 0 {
+	if out.UserId != "" {
 		user, ok := usm[out.UserId]
 		if ok && user != nil {
 			out.Nickname = user.Nickname
