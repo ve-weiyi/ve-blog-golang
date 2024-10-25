@@ -117,14 +117,15 @@ type ChatMessageQueryReq struct {
 }
 
 type ChatSocketMsg struct {
-	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Content string `json:"content"` // 消息内容
+	Type      int64  `json:"type"`      // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Data      string `json:"data"`      // 消息内容
+	Timestamp int64  `json:"timestamp"` // 消息时间
 }
 
 type ChatSocketMsgResp struct {
-	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Content string `json:"content"` // 消息内容
-	Time    int64  `json:"time"`    // 消息时间
+	Type      int64  `json:"type"`      // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Data      string `json:"data"`      // 消息内容
+	Timestamp int64  `json:"timestamp"` // 消息时间
 }
 
 type Comment struct {
