@@ -7407,7 +7407,7 @@ const docTemplate = `{
                     "description": "被回复用户id",
                     "type": "integer"
                 },
-                "session_id": {
+                "reply_msg_id": {
                     "description": "会话id",
                     "type": "integer"
                 },
@@ -7489,7 +7489,7 @@ const docTemplate = `{
                     "description": "回复用户id",
                     "type": "integer"
                 },
-                "session_id": {
+                "reply_msg_id": {
                     "description": "会话id",
                     "type": "integer"
                 },
@@ -7598,7 +7598,7 @@ const docTemplate = `{
                     "description": "被回复用户id",
                     "type": "integer"
                 },
-                "session_id": {
+                "reply_msg_id": {
                     "description": "会话id",
                     "type": "integer"
                 },

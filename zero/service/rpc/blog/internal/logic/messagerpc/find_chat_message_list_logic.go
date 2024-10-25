@@ -70,12 +70,12 @@ func convertChatQuery(in *messagerpc.FindChatMessageListReq) (page int, size int
 		params = append(params, in.Before)
 	}
 
-	if in.ChatId != "" {
+	if in.TopicId != "" {
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions = "chat_id = ?"
-		params = append(params, in.ChatId)
+		conditions = "topic_id = ?"
+		params = append(params, in.TopicId)
 	}
 
 	if in.UserId != "" {
@@ -86,7 +86,7 @@ func convertChatQuery(in *messagerpc.FindChatMessageListReq) (page int, size int
 		params = append(params, in.UserId)
 	}
 
-	if in.Type != 0 {
+	if in.Type != "" {
 		if conditions != "" {
 			conditions += " and "
 		}

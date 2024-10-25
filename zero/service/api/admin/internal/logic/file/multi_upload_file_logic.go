@@ -41,7 +41,7 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 		}
 
 		in := &resourcerpc.FileUploadNewReq{
-			UserId:   cast.ToInt64(l.ctx.Value("uid")),
+			UserId:   cast.ToString(l.ctx.Value("uid")),
 			FilePath: req.FilePath,
 			FileName: h.Filename,
 			FileType: filepath.Ext(h.Filename),

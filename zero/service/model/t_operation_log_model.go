@@ -39,7 +39,7 @@ type (
 	// 表字段定义
 	TOperationLog struct {
 		Id             int64     `json:"id" gorm:"column:id" `                           // 主键id
-		UserId         int64     `json:"user_id" gorm:"column:user_id" `                 // 用户id
+		UserId         string    `json:"user_id" gorm:"column:user_id" `                 // 用户id
 		Nickname       string    `json:"nickname" gorm:"column:nickname" `               // 用户昵称
 		IpAddress      string    `json:"ip_address" gorm:"column:ip_address" `           // 操作ip
 		IpSource       string    `json:"ip_source" gorm:"column:ip_source" `             // 操作地址

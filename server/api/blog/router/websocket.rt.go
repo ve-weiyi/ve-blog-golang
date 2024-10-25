@@ -25,6 +25,6 @@ func (s *WebsocketRouter) Register(r *gin.RouterGroup) {
 
 		handler := controller.NewWebsocketController(s.svcCtx)
 		// WebSocket消息
-		group.GET("/ws", handler.WebSocket)
+		group.GET("/websocket", handler.WebSocket)
 	}
 }

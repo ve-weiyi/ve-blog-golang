@@ -39,7 +39,7 @@ type (
 	// 表字段定义
 	TFileUpload struct {
 		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
+		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
 		FilePath  string    `json:"file_path" gorm:"column:file_path" `   // 文件路径
 		FileName  string    `json:"file_name" gorm:"column:file_name" `   // 文件名称
 		FileType  string    `json:"file_type" gorm:"column:file_type" `   // 文件类型

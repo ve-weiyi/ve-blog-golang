@@ -38,7 +38,7 @@ func (s *CommentService) FindCommentBackList(reqCtx *request.Context, in *dto.Co
 }
 
 // 更新评论审核状态
-func (s *CommentService) UpdateCommentReview(reqCtx *request.Context, in *dto.CommentReviewReq) (out *dto.CommentBackDTO, err error) {
+func (s *CommentService) UpdateCommentReview(reqCtx *request.Context, in *dto.CommentReviewReq) (out *dto.BatchResp, err error) {
 	// todo
 
 	return

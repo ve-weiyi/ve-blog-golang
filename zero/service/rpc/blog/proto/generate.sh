@@ -18,7 +18,7 @@ for file in "$PROTO_DIR"/*.proto; do
     rm -f "../$(basename "$file" .proto).go"
   fi
 done
-
-#goctl rpc protoc ./remark.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-#rm -f ../etc/remark.yaml
-#rm ../remark.go
+#
+#goctl rpc protoc ./message.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+#rm -f ../etc/message.yaml
+#rm ../message.go

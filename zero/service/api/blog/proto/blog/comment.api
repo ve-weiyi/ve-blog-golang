@@ -8,14 +8,14 @@ type (
     CommentNewReq {
         TopicId int64 `json:"topic_id,optional"`                 // 主题id
         ParentId int64 `json:"parent_id,optional"`               // 父评论id
-        SessionId int64 `json:"session_id,optional"`             // 会话id
-        ReplyUserId int64 `json:"reply_user_id,optional"`        // 回复用户id
+        ReplyMsgId int64 `json:"reply_msg_id,optional"`             // 会话id
+        ReplyUserId string `json:"reply_user_id,optional"`        // 回复用户id
         CommentContent string `json:"comment_content,optional"`  // 评论内容
         Type int64 `json:"type,optional"`                        // 评论类型 1.文章 2.友链 3.说说
     }
 
     CommentUserInfo {
-        Id int64 `json:"id"`
+        UserId string `json:"user_id"`
         Nickname string `json:"nickname"`
         Avatar string `json:"avatar"`
         Website string `json:"website"`
@@ -26,9 +26,9 @@ type (
         Id int64 `json:"id"`                                                    // 评论id
         TopicId int64 `json:"topic_id"`                                         // 主题id
         ParentId int64 `json:"parent_id"`                                       // 父评论id
-        SessionId int64 `json:"session_id"`                                     // 会话id
-        UserId int64 `json:"user_id"`                                           // 用户id
-        ReplyUserId int64 `json:"reply_user_id"`                                // 被回复用户id
+        ReplyMsgId int64 `json:"reply_msg_id"`                                     // 会话id
+        UserId string `json:"user_id"`                                           // 用户id
+        ReplyUserId string `json:"reply_user_id"`                                // 被回复用户id
         CommentContent string `json:"comment_content"`                          // 评论内容
         Type int64 `json:"type"`                                                // 评论类型 1.文章 2.友链 3.说说
         CreatedAt int64 `json:"created_at"`                                     // 评论时间
@@ -43,9 +43,9 @@ type (
         Id int64 `json:"id"`                                                    // 评论id
         TopicId int64 `json:"topic_id"`                                         // 主题id
         ParentId int64 `json:"parent_id"`                                       // 父评论id
-        SessionId int64 `json:"session_id"`                                     // 会话id
-        UserId int64 `json:"user_id"`                                           // 用户id
-        ReplyUserId int64 `json:"reply_user_id"`                                // 被回复用户id
+        ReplyMsgId int64 `json:"reply_msg_id"`                                     // 会话id
+        UserId string `json:"user_id"`                                           // 用户id
+        ReplyUserId string `json:"reply_user_id"`                                // 被回复用户id
         CommentContent string `json:"comment_content"`                          // 评论内容
         Type int64 `json:"type"`                                                // 评论类型 1.文章 2.友链 3.说说
         CreatedAt int64 `json:"created_at"`                                     // 评论时间

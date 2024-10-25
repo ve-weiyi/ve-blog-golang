@@ -31,13 +31,13 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 // 注销
 func (l *LogoffLogic) Logoff(in *accountrpc.LogoffReq) (*accountrpc.EmptyResp, error) {
 	// 验证用户是否存在
-	user, err := l.svcCtx.TUserModel.FindOne(l.ctx, in.UserId)
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
 	if err != nil {
 		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
 	}
 
 	err = l.svcCtx.Gorm.Transaction(func(tx *gorm.DB) error {
-		_, err = l.logoff(l.ctx, tx, user.Id)
+		_, err = l.logoff(l.ctx, tx, user.UserId)
 		if err != nil {
 			return err
 		}
@@ -51,9 +51,9 @@ func (l *LogoffLogic) Logoff(in *accountrpc.LogoffReq) (*accountrpc.EmptyResp, e
 	return &accountrpc.EmptyResp{}, nil
 }
 
-func (l *LogoffLogic) logoff(ctx context.Context, tx *gorm.DB, uid int64) (*accountrpc.EmptyResp, error) {
+func (l *LogoffLogic) logoff(ctx context.Context, tx *gorm.DB, uid string) (*accountrpc.EmptyResp, error) {
 	// 删除用户账号
-	_, err := l.svcCtx.TUserModel.WithTransaction(tx).Delete(ctx, uid)
+	_, err := l.svcCtx.TUserModel.WithTransaction(tx).Deletes(ctx, "user_id = ?", uid)
 	if err != nil {
 		return nil, err
 	}

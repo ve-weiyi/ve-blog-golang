@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
@@ -89,7 +90,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 
 	// 用户账号
 	user := &model.TUser{
-		Id:        0,
+		UserId:    uuid.NewString(),
 		Username:  username,
 		Password:  crypto.BcryptHash(info.EnName),
 		Nickname:  info.NickName,
@@ -111,7 +112,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 
 	// 绑定用户第三方信息
 	userOauth := &model.TUserOauth{
-		UserId:   ua.Id,
+		UserId:   ua.UserId,
 		OpenId:   info.OpenId,
 		Platform: platform,
 	}

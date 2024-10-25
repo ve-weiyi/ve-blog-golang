@@ -64,7 +64,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 	ip, _ := rpcutil.GetRPCClientIP(ctx)
 	is, _ := ipx.GetIpInfoByBaidu(ip)
 	// 查找用户角色
-	rList, err := getUserRoles(ctx, svcCtx, user.Id)
+	rList, err := getUserRoles(ctx, svcCtx, user.UserId)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 	}
 
 	resp = &accountrpc.LoginResp{
-		UserId:    user.Id,
+		UserId:    user.UserId,
 		Username:  user.Username,
 		Nickname:  user.Nickname,
 		Avatar:    user.Avatar,
@@ -96,7 +96,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 
 	// 登录记录
 	history := &model.TUserLoginHistory{
-		UserId:    user.Id,
+		UserId:    user.UserId,
 		LoginType: user.LoginType,
 		IpAddress: ip,
 		IpSource:  is.Location,

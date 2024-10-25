@@ -9,6 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
@@ -46,9 +47,10 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	ResourceRpc   resourcerpc.ResourceRpc
 
-	Redis       *redis.Redis
-	TokenHolder *tokenx.JwtTokenHolder
-	Uploader    upload.Uploader
+	Redis            *redis.Redis
+	TokenHolder      *tokenx.JwtTokenHolder
+	Uploader         upload.Uploader
+	WebsocketManager *ws.WebSocketManager
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -79,11 +81,14 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		Uploader:      upload.NewQiniu(c.UploadConfig),
-		Redis:         rds,
-		TokenHolder:   th,
-		JwtToken:      middlewarex.NewJwtTokenMiddleware(th).Handle,
-		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
+
+		Uploader:         upload.NewQiniu(c.UploadConfig),
+		Redis:            rds,
+		TokenHolder:      th,
+		WebsocketManager: ws.NewWebSocketManager(),
+
+		JwtToken:  middlewarex.NewJwtTokenMiddleware(th).Handle,
+		SignToken: middlewarex.NewSignTokenMiddleware().Handle,
 	}
 }
 
