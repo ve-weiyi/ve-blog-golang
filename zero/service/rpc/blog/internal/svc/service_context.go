@@ -2,7 +2,6 @@ package svc
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -40,7 +39,7 @@ type ServiceContext struct {
 	Redis         *redis.Client
 	LocalCache    *collection.Cache
 	CaptchaHolder *captcha.CaptchaHolder
-	EmailMQ       *rabbitmq.RabbitmqConn
+	EmailDeliver  *mail.MqEmailDeliver
 	Oauth         map[string]oauth.Oauth
 
 	TUserModel             model.TUserModel
@@ -87,12 +86,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 
-	mq, err := ConnectRabbitMq(c.RabbitMQConf)
+	deliver, err := InitEmailDeliver(c)
 	if err != nil {
 		panic(err)
 	}
-
-	go SubscribeMessage(c)
 
 	cache, err := collection.NewCache(60 * time.Minute)
 	if err != nil {
@@ -105,7 +102,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:                  rds,
 		LocalCache:             cache,
 		CaptchaHolder:          captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
-		EmailMQ:                mq,
+		EmailDeliver:           deliver,
 		Oauth:                  InitOauth(c.OauthConfList),
 		TUserModel:             model.NewTUserModel(db, rds),
 		TUserOauthModel:        model.NewTUserOauthModel(db, rds),
@@ -245,13 +242,38 @@ func ConnectRabbitMq(c config.RabbitMQConf) (*rabbitmq.RabbitmqConn, error) {
 	return mq, nil
 }
 
-// 订阅消息
-func SubscribeMessage(c config.Config) {
-	r := c.RabbitMQConf
+func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
+	e := c.EmailConf
+	emailSender := mail.NewEmailDeliver(
+		mail.WithHost(e.Host),
+		mail.WithPort(e.Port),
+		mail.WithUsername(e.Username),
+		mail.WithPassword(e.Password),
+		mail.WithNickname(e.Nickname),
+		mail.WithDeliver(e.Deliver),
+		mail.WithIsSSL(e.IsSSL),
+	)
 
+	r := c.RabbitMQConf
 	url := fmt.Sprintf("amqp://%s:%s@%s:%s/", r.Username, r.Password, r.Host, r.Port)
-	// 消息订阅者需要声明交换机和队列
+	// 消息发布者只需要声明交换机
 	mq := rabbitmq.NewRabbitmqConn(url,
+		rabbitmq.Exchange(rabbitmq.ExchangeOptions{
+			Name:    constant.EmailExchange,
+			Type:    rabbitmq.ExchangeTypeFanout,
+			Durable: true,
+		}),
+		rabbitmq.DisableAutoAck(),
+		rabbitmq.Requeue(),
+	)
+
+	err := mq.Connect(nil)
+	if err != nil {
+		log.Fatal("rabbitmq 初始化失败!", err)
+	}
+
+	// 消息订阅者需要声明交换机和队列
+	sb := rabbitmq.NewRabbitmqConn(url,
 		rabbitmq.Queue(rabbitmq.QueueOptions{
 			Name:    constant.EmailQueue,
 			Durable: true,
@@ -264,39 +286,16 @@ func SubscribeMessage(c config.Config) {
 		}),
 		rabbitmq.Key("email"),
 	)
-	err := mq.Connect(nil)
+	err = sb.Connect(nil)
 	if err != nil {
 		log.Fatal("rabbitmq 初始化失败!", err)
 	}
 
-	e := c.EmailConf
-	emailSender := mail.NewEmailSender(
-		mail.WithHost(e.Host),
-		mail.WithPort(e.Port),
-		mail.WithUsername(e.Username),
-		mail.WithPassword(e.Password),
-		mail.WithNickname(e.Nickname),
-		mail.WithDeliver(e.Deliver),
-		mail.WithIsSSL(e.IsSSL),
-	)
+	deliver := mail.NewMqEmailDeliver(emailSender, sb, sb)
 
-	// 订阅消息队列，发送邮件
-	err = mq.SubscribeMessage(func(message []byte) (err error) {
-		var msg mail.EmailMessage
-		err = json.Unmarshal(message, &msg)
-		if err != nil {
-			return err
-		}
-
-		err = emailSender.SendEmailMessage(msg)
-		if err != nil {
-			log.Println("邮件发送失败!", err)
-		}
-		return err
-	})
-	if err != nil {
-		log.Fatal("订阅消息失败!", err)
-	}
+	// 订阅消息
+	go deliver.SubscribeEmail()
+	return deliver, nil
 }
 
 func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {

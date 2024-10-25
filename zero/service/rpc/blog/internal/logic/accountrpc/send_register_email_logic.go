@@ -8,7 +8,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 
@@ -66,7 +65,7 @@ func (l *SendRegisterEmailLogic) SendRegisterEmail(in *accountrpc.UserEmailReq) 
 		Type:    0,
 	}
 	// 发送邮件
-	err = l.svcCtx.EmailMQ.PublishMessage([]byte(jsonconv.AnyToJsonNE(msg)))
+	err = l.svcCtx.EmailDeliver.DeliveryEmail(msg)
 	if err != nil {
 		return nil, err
 	}
