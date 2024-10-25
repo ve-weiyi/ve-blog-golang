@@ -39,7 +39,7 @@ type (
 	// 表字段定义
 	TTalk struct {
 		Id        int64     `json:"id" gorm:"column:id" `                 // 说说id
-		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
+		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
 		Content   string    `json:"content" gorm:"column:content" `       // 说说内容
 		Images    string    `json:"images" gorm:"column:images" `         // 图片
 		IsTop     int64     `json:"is_top" gorm:"column:is_top" `         // 是否置顶

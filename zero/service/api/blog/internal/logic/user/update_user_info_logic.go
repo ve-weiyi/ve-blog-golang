@@ -31,7 +31,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UpdateUserInfoReq) (resp *types.EmptyResp, err error) {
 	in := &accountrpc.UpdateUserInfoReq{
-		UserId:   cast.ToInt64(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value("uid")),
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
 		Info:     jsonconv.AnyToJsonNE(req.UserInfoExt),

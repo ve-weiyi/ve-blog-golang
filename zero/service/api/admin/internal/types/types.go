@@ -248,7 +248,7 @@ type EmptyResp struct {
 
 type FileBackDTO struct {
 	Id        int64  `json:"id,optional"` // 文件目录ID
-	UserId    int64  `json:"user_id"`     // 用户id
+	UserId    string `json:"user_id"`     // 用户id
 	FilePath  string `json:"file_path"`   // 文件路径
 	FileName  string `json:"file_name"`   // 文件名称
 	FileType  string `json:"file_type"`   // 文件类型
@@ -366,7 +366,7 @@ type MultiUploadFileReq struct {
 
 type OperationLogBackDTO struct {
 	Id             int64  `json:"id,optional"`     // 主键id
-	UserId         int64  `json:"user_id"`         // 用户id
+	UserId         string `json:"user_id"`         // 用户id
 	Nickname       string `json:"nickname"`        // 用户昵称
 	IpAddress      string `json:"ip_address"`      // 操作ip
 	IpSource       string `json:"ip_source"`       // 操作地址
@@ -560,7 +560,7 @@ type TagQuery struct {
 
 type TalkBackDTO struct {
 	Id           int64    `json:"id,optional"`   // 说说ID
-	UserId       int64    `json:"user_id"`       // 用户ID
+	UserId       string   `json:"user_id"`       // 用户ID
 	Nickname     string   `json:"nickname"`      // 用户昵称
 	Avatar       string   `json:"avatar"`        // 用户头像
 	Content      string   `json:"content"`       // 说说内容
@@ -587,7 +587,7 @@ type TalkQuery struct {
 }
 
 type Token struct {
-	UserId           int64  `json:"user_id"`            // 用户id
+	UserId           string `json:"user_id"`            // 用户id
 	TokenType        string `json:"token_type"`         // token类型,Bearer
 	AccessToken      string `json:"access_token"`       // 访问token,过期时间较短。2h
 	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
@@ -602,13 +602,13 @@ type UniqueViewDTO struct {
 }
 
 type UpdateAccountRolesReq struct {
-	UserId  int64   `json:"user_id"`
+	UserId  string  `json:"user_id"`
 	RoleIds []int64 `json:"role_ids"`
 }
 
 type UpdateAccountStatusReq struct {
-	UserId int64 `json:"user_id"`
-	Status int64 `json:"status"` // 状态: -1删除 0正常 1禁用
+	UserId string `json:"user_id"`
+	Status int64  `json:"status"` // 状态: -1删除 0正常 1禁用
 }
 
 type UpdateRoleApisReq struct {
@@ -653,7 +653,7 @@ type UserInfoReq struct {
 }
 
 type UserInfoResp struct {
-	UserId    int64            `json:"user_id"`    // 用户id
+	UserId    string           `json:"user_id"`    // 用户id
 	Username  string           `json:"username"`   // 用户名
 	Nickname  string           `json:"nickname"`   // 用户昵称
 	Avatar    string           `json:"avatar"`     // 用户头像

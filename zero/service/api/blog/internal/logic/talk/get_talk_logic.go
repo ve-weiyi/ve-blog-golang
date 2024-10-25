@@ -39,13 +39,13 @@ func (l *GetTalkLogic) GetTalk(req *types.IdReq) (resp *types.Talk, err error) {
 
 	// 查询用户信息
 	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: []int64{out.Id},
+		UserIds: []string{out.UserId},
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}

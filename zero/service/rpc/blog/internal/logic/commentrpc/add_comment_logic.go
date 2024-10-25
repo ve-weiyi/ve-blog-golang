@@ -40,7 +40,7 @@ func convertCommentIn(in *commentrpc.CommentNewReq) (out *model.TComment) {
 	out = &model.TComment{
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,
-		SessionId:      in.SessionId,
+		ReplyMsgId:     in.ReplyMsgId,
 		UserId:         in.UserId,
 		ReplyUserId:    in.ReplyUserId,
 		CommentContent: in.CommentContent,
@@ -59,7 +59,7 @@ func convertCommentOut(in *model.TComment) (out *commentrpc.CommentDetails) {
 		Id:             in.Id,
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,
-		SessionId:      in.SessionId,
+		ReplyMsgId:     in.ReplyMsgId,
 		UserId:         in.UserId,
 		ReplyUserId:    in.ReplyUserId,
 		CommentContent: in.CommentContent,

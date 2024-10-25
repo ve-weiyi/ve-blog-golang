@@ -29,7 +29,7 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 
 func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.ArticleBackDTO, err error) {
 	in := ConvertArticlePb(req)
-	in.UserId = cast.ToInt64(l.ctx.Value("uid"))
+	in.UserId = cast.ToString(l.ctx.Value("uid"))
 	out, err := l.svcCtx.ArticleRpc.AddArticle(l.ctx, in)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.Arti
 func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {
 	out = &articlerpc.ArticleNewReq{
 		Id:             in.Id,
-		UserId:         0,
+		UserId:         "",
 		ArticleCover:   in.ArticleCover,
 		ArticleTitle:   in.ArticleTitle,
 		ArticleContent: in.ArticleContent,

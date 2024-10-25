@@ -235,14 +235,38 @@ type CommentQuery struct {
 }
 
 type CommentReviewReq struct {
-	Id       int64 `json:"id,optional"`
-	IsReview int64 `json:"is_review,optional"`
+	Ids      []int64 `json:"ids,optional"`
+	IsReview int64   `json:"is_review,optional"`
 }
 
 type EmptyReq struct {
 }
 
 type EmptyResp struct {
+}
+
+type FileBackDTO struct {
+	Id        int64  `json:"id,optional"` // 文件目录ID
+	UserId    string `json:"user_id"`     // 用户id
+	FilePath  string `json:"file_path"`   // 文件路径
+	FileName  string `json:"file_name"`   // 文件名称
+	FileType  string `json:"file_type"`   // 文件类型
+	FileSize  int64  `json:"file_size"`   // 文件大小
+	FileMd5   string `json:"file_md5"`    // 文件md5值
+	FileUrl   string `json:"file_url"`    // 上传路径
+	CreatedAt int64  `json:"created_at"`  // 创建时间
+	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+}
+
+type FileFolderNewReq struct {
+	FilePath string `json:"file_path"` // 文件路径
+	FileName string `json:"file_name"` // 文件名称
+}
+
+type FileQuery struct {
+	PageQuery
+	FilePath string `json:"file_path,optional"` // 文件路径
+	FileType string `json:"file_type,optional"` // 文件类型
 }
 
 type FriendBackDTO struct {
@@ -334,9 +358,14 @@ type MenuQuery struct {
 	Title string `json:"title,optional"` // 菜单标题
 }
 
+type MultiUploadFileReq struct {
+	Files    []interface{} `form:"files,optional"`     // 文件列表
+	FilePath string        `form:"file_path,optional"` // 文件路径
+}
+
 type OperationLogBackDTO struct {
 	Id             int64  `json:"id,optional"`     // 主键id
-	UserId         int64  `json:"user_id"`         // 用户id
+	UserId         string `json:"user_id"`         // 用户id
 	Nickname       string `json:"nickname"`        // 用户昵称
 	IpAddress      string `json:"ip_address"`      // 操作ip
 	IpSource       string `json:"ip_source"`       // 操作地址
@@ -530,7 +559,7 @@ type TagQuery struct {
 
 type TalkBackDTO struct {
 	Id           int64    `json:"id,optional"`   // 说说ID
-	UserId       int64    `json:"user_id"`       // 用户ID
+	UserId       string   `json:"user_id"`       // 用户ID
 	Nickname     string   `json:"nickname"`      // 用户昵称
 	Avatar       string   `json:"avatar"`        // 用户头像
 	Content      string   `json:"content"`       // 说说内容
@@ -557,7 +586,7 @@ type TalkQuery struct {
 }
 
 type Token struct {
-	UserId           int64  `json:"user_id"`            // 用户id
+	UserId           string `json:"user_id"`            // 用户id
 	TokenType        string `json:"token_type"`         // token类型,Bearer
 	AccessToken      string `json:"access_token"`       // 访问token,过期时间较短。2h
 	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
@@ -572,13 +601,13 @@ type UniqueViewDTO struct {
 }
 
 type UpdateAccountRolesReq struct {
-	UserId  int64   `json:"user_id"`
+	UserId  string  `json:"user_id"`
 	RoleIds []int64 `json:"role_ids"`
 }
 
 type UpdateAccountStatusReq struct {
-	UserId int64 `json:"user_id"`
-	Status int64 `json:"status"` // 状态: -1删除 0正常 1禁用
+	UserId string `json:"user_id"`
+	Status int64  `json:"status"` // 状态: -1删除 0正常 1禁用
 }
 
 type UpdateRoleApisReq struct {
@@ -592,22 +621,8 @@ type UpdateRoleMenusReq struct {
 }
 
 type UploadFileReq struct {
-	Label    string      `form:"label,optional"`
 	File     interface{} `form:"file,optional"`      // 文件
-	FileSize int64       `form:"file_size,optional"` // 文件大小
-	FileMd5  string      `form:"file_md5,optional"`  // 文件md5值
-}
-
-type UploadFileResp struct {
-	Id        int64  `json:"id,optional"` // id
-	UserId    int64  `json:"user_id"`     // 用户id
-	Label     string `json:"label"`       // 标签
-	FileName  string `json:"file_name"`   // 文件名称
-	FileSize  int64  `json:"file_size"`   // 文件大小
-	FileMd5   string `json:"file_md5"`    // 文件md5值
-	FileUrl   string `json:"file_url"`    // 上传路径
-	CreatedAt int64  `json:"created_at"`  // 创建时间
-	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
 type UserApi struct {
@@ -637,7 +652,7 @@ type UserInfoReq struct {
 }
 
 type UserInfoResp struct {
-	UserId    int64            `json:"user_id"`    // 用户id
+	UserId    string           `json:"user_id"`    // 用户id
 	Username  string           `json:"username"`   // 用户名
 	Nickname  string           `json:"nickname"`   // 用户昵称
 	Avatar    string           `json:"avatar"`     // 用户头像

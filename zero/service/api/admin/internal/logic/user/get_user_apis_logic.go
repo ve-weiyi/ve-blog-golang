@@ -29,7 +29,7 @@ func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApisResp, err error) {
 	in := &permissionrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindUserApis(l.ctx, in)

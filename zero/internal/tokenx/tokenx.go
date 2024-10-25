@@ -78,7 +78,7 @@ func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid stri
 	}
 
 	//token验证成功,但用户在别处登录或退出登录
-	if j.IsLogout(ctx, cast.ToInt64(claims[constant.HeaderUid]), cast.ToInt64(claims[jtoken.JwtIssueAt])) {
+	if j.IsLogout(ctx, cast.ToString(claims[constant.HeaderUid]), cast.ToInt64(claims[jtoken.JwtIssueAt])) {
 		return nil, fmt.Errorf("user already logout or login in other place")
 	}
 
@@ -86,13 +86,13 @@ func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid stri
 }
 
 // 设置退出登录
-func (j *JwtTokenHolder) SetLogout(ctx context.Context, uid int64, loginOut int64) error {
+func (j *JwtTokenHolder) SetLogout(ctx context.Context, uid string, loginOut int64) error {
 	redisKey := GetUserLogoutKey(uid)
 	return j.cache.SetexCtx(ctx, redisKey, fmt.Sprintf("%d", loginOut), 7*24*60*60)
 }
 
 // 已退出登录
-func (j *JwtTokenHolder) IsLogout(ctx context.Context, uid int64, loginAt int64) bool {
+func (j *JwtTokenHolder) IsLogout(ctx context.Context, uid string, loginAt int64) bool {
 	redisKey := GetUserLogoutKey(uid)
 	at, err := j.cache.GetCtx(ctx, redisKey)
 	if err != nil {
@@ -108,6 +108,6 @@ func (j *JwtTokenHolder) IsLogout(ctx context.Context, uid int64, loginAt int64)
 	return false
 }
 
-func GetUserLogoutKey(uid int64) string {
+func GetUserLogoutKey(uid string) string {
 	return fmt.Sprintf("user:logout:%d", uid)
 }

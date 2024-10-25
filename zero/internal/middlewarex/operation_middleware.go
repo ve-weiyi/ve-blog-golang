@@ -114,7 +114,7 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			cost := time.Since(start)
 
 			op := &syslogrpc.OperationLogNewReq{
-				UserId:         cast.ToInt64(r.Header[constant.HeaderUid]),
+				UserId:         cast.ToString(r.Header[constant.HeaderUid]),
 				Nickname:       "",
 				IpAddress:      ip.Origip,
 				IpSource:       ip.Location,

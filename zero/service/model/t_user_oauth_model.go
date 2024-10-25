@@ -40,7 +40,7 @@ type (
 	// 表字段定义
 	TUserOauth struct {
 		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
+		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
 		OpenId    string    `json:"open_id" gorm:"column:open_id" `       // 开发平台id，标识唯一用户
 		Platform  string    `json:"platform" gorm:"column:platform" `     // 平台:手机号、邮箱、微信、飞书
 		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间

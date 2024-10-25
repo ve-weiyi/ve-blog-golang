@@ -1710,8 +1710,7 @@
           "description": " 主键"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "nickname": {
@@ -1735,8 +1734,7 @@
           "description": " ip来源"
         },
         "type": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 类型"
         },
         "created_at": {
@@ -1786,7 +1784,7 @@
           "type": "string",
           "description": " 用户id"
         },
-        "chat_id": {
+        "topic_id": {
           "type": "string",
           "description": " 聊天室id"
         },
@@ -1795,8 +1793,7 @@
           "description": " 关键字"
         },
         "type": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 类型"
         }
       },
@@ -1870,19 +1867,17 @@
           "format": "int64",
           "description": " 父评论id"
         },
-        "session_id": {
+        "reply_msg_id": {
           "type": "integer",
           "format": "int64",
           "description": " 会话id"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "reply_user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 被回复用户id"
         },
         "comment_content": {
@@ -1930,7 +1925,7 @@
         "id",
         "topic_id",
         "parent_id",
-        "session_id",
+        "reply_msg_id",
         "user_id",
         "reply_user_id",
         "comment_content",
@@ -1956,14 +1951,13 @@
           "format": "int64",
           "description": " 父评论id"
         },
-        "session_id": {
+        "reply_msg_id": {
           "type": "integer",
           "format": "int64",
           "description": " 会话id"
         },
         "reply_user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 回复用户id"
         },
         "comment_content": {
@@ -2031,19 +2025,17 @@
           "format": "int64",
           "description": " 父评论id"
         },
-        "session_id": {
+        "reply_msg_id": {
           "type": "integer",
           "format": "int64",
           "description": " 会话id"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "reply_user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 被回复用户id"
         },
         "comment_content": {
@@ -2079,7 +2071,7 @@
         "id",
         "topic_id",
         "parent_id",
-        "session_id",
+        "reply_msg_id",
         "user_id",
         "reply_user_id",
         "comment_content",
@@ -2093,9 +2085,8 @@
     "CommentUserInfo": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+        "user_id": {
+          "type": "string"
         },
         "nickname": {
           "type": "string"
@@ -2109,7 +2100,7 @@
       },
       "title": "CommentUserInfo",
       "required": [
-        "id",
+        "user_id",
         "nickname",
         "avatar",
         "website"
@@ -2132,8 +2123,7 @@
           "description": " 文件目录ID"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "file_path": {
@@ -2810,8 +2800,7 @@
           "description": " 说说ID"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户ID"
         },
         "nickname": {
@@ -2904,8 +2893,7 @@
       "type": "object",
       "properties": {
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "token_type": {
@@ -3029,8 +3017,7 @@
       "type": "object",
       "properties": {
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "username": {

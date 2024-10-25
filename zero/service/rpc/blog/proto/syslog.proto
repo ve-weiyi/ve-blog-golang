@@ -22,7 +22,7 @@ message IdsReq {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 
@@ -36,7 +36,7 @@ message CountResp {
 
 /************** blog 日志管理 **************/
 message OperationLogNewReq {
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string nickname = 3;// 用户昵称
   string ip_address = 4;// 操作ip
   string ip_source = 5;// 操作地址
@@ -53,7 +53,7 @@ message OperationLogNewReq {
 
 message OperationLogDetails {
   int64 id = 1;// 主键id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string nickname = 3;// 用户昵称
   string ip_address = 4;// 操作ip
   string ip_source = 5;// 操作地址

@@ -29,7 +29,7 @@ func NewGetUserRolesLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 
 func (l *GetUserRolesLogic) GetUserRoles(req *types.EmptyReq) (resp *types.UserRolesResp, err error) {
 	in := &permissionrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindUserRoles(l.ctx, in)

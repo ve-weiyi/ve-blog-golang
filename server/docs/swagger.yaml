@@ -687,7 +687,7 @@ definitions:
       reply_user_id:
         description: 被回复用户id
         type: integer
-      session_id:
+      reply_msg_id:
         description: 会话id
         type: integer
       topic_id:
@@ -745,7 +745,7 @@ definitions:
       reply_user_id:
         description: 回复用户id
         type: integer
-      session_id:
+      reply_msg_id:
         description: 会话id
         type: integer
       topic_id:
@@ -821,7 +821,7 @@ definitions:
       reply_user_id:
         description: 被回复用户id
         type: integer
-      session_id:
+      reply_msg_id:
         description: 会话id
         type: integer
       topic_id:

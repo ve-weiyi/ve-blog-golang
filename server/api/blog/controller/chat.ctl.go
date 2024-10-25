@@ -24,23 +24,23 @@ func NewChatController(svcCtx *svctx.ServiceContext) *ChatController {
 // @Summary		"查询聊天记录"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.ChatQueryReq		true	"请求参数"
+// @Param		data	body		dto.ChatMessageQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/chat/records [POST]
-func (s *ChatController) GetChatRecords(c *gin.Context) {
+// @Router		/api/v1/chat/messages [POST]
+func (s *ChatController) GetChatMessages(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ChatQueryReq
+	var req dto.ChatMessageQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewChatService(s.svcCtx).GetChatRecords(reqCtx, &req)
+	data, err := service.NewChatService(s.svcCtx).GetChatMessages(reqCtx, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

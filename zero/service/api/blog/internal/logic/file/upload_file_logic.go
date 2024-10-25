@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -40,7 +41,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 	}
 
 	in := &resourcerpc.FileUploadNewReq{
-		UserId:   cast.ToInt64(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value("uid")),
 		FilePath: req.FilePath,
 		FileName: h.Filename,
 		FileType: filepath.Ext(h.Filename),

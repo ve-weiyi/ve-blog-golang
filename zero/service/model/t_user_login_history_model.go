@@ -39,7 +39,7 @@ type (
 	// 表字段定义
 	TUserLoginHistory struct {
 		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    int64     `json:"user_id" gorm:"column:user_id" `       // 用户id
+		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
 		LoginType string    `json:"login_type" gorm:"column:login_type" ` // 登录类型
 		Agent     string    `json:"agent" gorm:"column:agent" `           // 代理
 		IpAddress string    `json:"ip_address" gorm:"column:ip_address" ` // ip host

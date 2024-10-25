@@ -34,12 +34,14 @@ type (
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TUser, err error)
 		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUser, err error)
 		// add extra method in here
+		FindOneByUserId(ctx context.Context, user_id string) (out *TUser, err error)
 		FindOneByUsername(ctx context.Context, username string) (out *TUser, err error)
 	}
 
 	// 表字段定义
 	TUser struct {
 		Id        int64     `json:"id" gorm:"column:id" `                 // id
+		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
 		Username  string    `json:"username" gorm:"column:username" `     // 用户名
 		Password  string    `json:"password" gorm:"column:password" `     // 用户密码
 		Nickname  string    `json:"nickname" gorm:"column:nickname" `     // 用户昵称
@@ -263,6 +265,16 @@ func (m *defaultTUserModel) FindList(ctx context.Context, page int, size int, so
 }
 
 // add extra method in here
+func (m *defaultTUserModel) FindOneByUserId(ctx context.Context, user_id string) (out *TUser, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	err = db.Where("`user_id` = ?", user_id).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
 func (m *defaultTUserModel) FindOneByUsername(ctx context.Context, username string) (out *TUser, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

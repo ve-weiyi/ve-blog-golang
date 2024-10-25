@@ -39,7 +39,7 @@ type (
 	// 表字段定义
 	TArticle struct {
 		Id             int64     `json:"id" gorm:"column:id" `                           // id
-		UserId         int64     `json:"user_id" gorm:"column:user_id" `                 // 作者
+		UserId         string    `json:"user_id" gorm:"column:user_id" `                 // 作者
 		CategoryId     int64     `json:"category_id" gorm:"column:category_id" `         // 文章分类
 		ArticleCover   string    `json:"article_cover" gorm:"column:article_cover" `     // 文章缩略图
 		ArticleTitle   string    `json:"article_title" gorm:"column:article_title" `     // 标题

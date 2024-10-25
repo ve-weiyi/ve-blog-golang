@@ -27,7 +27,7 @@ message BatchResp {
 
 /************** blog 留言 **************/
 message RemarkNewReq {
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string message_content = 4;// 留言内容
 }
 
@@ -38,7 +38,7 @@ message RemarkUpdateReq {
 
 message RemarkDetails {
   int64 id = 1;// 主键id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string message_content = 4;// 留言内容
   string ip_address = 5;// 用户ip
   string ip_source = 6;// 用户地址
@@ -66,27 +66,27 @@ message ChatMessageNewReq {
   int64 id = 1;// 主键
   string user_id = 2;// 用户id
   string device_id = 3;// 设备id
-  string chat_id = 4;// 聊天id
+  string topic_id = 4;// 聊天id
   string reply_msg_id = 5;// 回复消息id
-  string reply_users = 6;// 回复用户列表
+  string reply_user_id = 6;// 回复用户列表
   string ip_address = 7;// ip地址
   string ip_source = 8;// ip来源
   string chat_content = 9;// 聊天内容
-  int64 type = 10;// 类型
+  string type = 10;// 类型
 }
 
 message ChatMessageDetails {
   int64 id = 1;// 主键
   string user_id = 2;// 用户id
   string device_id = 3;// 设备id
-  string chat_id = 4;// 聊天id
+  string topic_id = 4;// 聊天id
   string reply_msg_id = 5;// 回复消息id
-  string reply_users = 6;// 回复用户列表
-  string ip_address = 7;// ip地址
-  string ip_source = 8;// ip来源
-  string chat_content = 9;// 聊天内容
-  int64 type = 10;// 类型
-  int64 status = 11;// 状态 0:正常 1:编辑 2：删除
+  string reply_user_id = 6;// 回复用户列表
+  string chat_content = 7;// 聊天内容
+  string ip_address = 8;// ip地址 127.0.0.1
+  string ip_source = 9;// ip来源
+  string type = 10;// 类型
+  int64 status = 11;// 状态:0正常 1编辑 2撤回 3删除
   int64 created_at = 12;// 创建时间
   int64 updated_at = 13;// 更新时间
 }
@@ -96,9 +96,9 @@ message FindChatMessageListReq {
   int64 before = 102;
   int64 limit = 103;
   string user_id = 2;// 用户id
-  string chat_id = 3;// 聊天id
+  string topic_id = 3;// 聊天id
   string chat_content = 8;// 聊天内容
-  int64 type = 9;// 类型
+  string type = 9;// 类型
 }
 
 message FindChatMessageListResp {

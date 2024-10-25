@@ -22,7 +22,7 @@ message IdsReq {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 message BatchResp {
@@ -32,7 +32,7 @@ message BatchResp {
 /************** blog 资源管理 **************/
 message FileFolderNewReq {
   int64 id = 1;// id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string file_path = 3;// 路径
   string folder_name = 4;// 文件夹名称
   string folder_desc = 5;// 文件夹描述
@@ -40,7 +40,7 @@ message FileFolderNewReq {
 
 message FileFolderDetails {
   int64 id = 1;// id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string file_path = 3;// 路径
   string folder_name = 4;// 文件夹名称
   string folder_desc = 5;// 文件夹描述
@@ -62,7 +62,7 @@ message FindFileFolderListResp {
 
 message FileUploadNewReq {
   int64 id = 1;// id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string file_path = 3;// 文件路径
   string file_name = 4;// 文件名称
   string file_type = 5;// 文件类型
@@ -73,7 +73,7 @@ message FileUploadNewReq {
 
 message FileUploadDetails {
   int64 id = 1;// id
-  int64 user_id = 2;// 用户id
+  string user_id = 2;// 用户id
   string file_path = 3;// 文件路径
   string file_name = 4;// 文件名称
   string file_type = 5;// 文件类型

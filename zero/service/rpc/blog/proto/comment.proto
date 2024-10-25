@@ -22,7 +22,7 @@ message IdsReq {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 message BatchResp {
@@ -35,11 +35,11 @@ message CountResp {
 
 /************** blog 消息管理 **************/
 message CommentNewReq {
-  int64 topic_id = 2;// 主题id
-  int64 parent_id = 3;// 父评论id
-  int64 session_id = 4; // 会话id
-  int64 user_id = 5;// 评论用户id
-  int64 reply_user_id = 6; // 评论回复用户id
+  string user_id = 2;// 评论用户id
+  int64 topic_id = 3;// 主题id
+  int64 parent_id = 4;// 父评论id
+  int64 reply_msg_id = 5; // 会话id
+  string reply_user_id = 6; // 评论回复用户id
   string comment_content = 7;// 评论内容
   int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
   int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
@@ -48,11 +48,11 @@ message CommentNewReq {
 
 message CommentDetails {
   int64 id = 1;// 主键
-  int64 topic_id = 2;// 主题id
-  int64 parent_id = 3;// 父评论id
-  int64 session_id = 4; // 会话id
-  int64 user_id = 5;// 评论用户id
-  int64 reply_user_id = 6; // 评论回复用户id
+  string user_id = 2;// 评论用户id
+  int64 topic_id = 3;// 主题id
+  int64 parent_id = 4;// 父评论id
+  int64 reply_msg_id = 5; // 会话id
+  string reply_user_id = 6; // 评论回复用户id
   string comment_content = 7;// 评论内容
   int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
   int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
@@ -60,12 +60,14 @@ message CommentDetails {
   int64 created_at = 11;// 评论时间
   int64 updated_at = 12;// 更新时间
   int64 like_count = 13;// 点赞数
+  string ip_address = 14;// ip地址 127.0.0.1
+  string ip_source = 15;// ip来源
   //  CommentUserInfo user = 14;
   //  CommentUserInfo reply_user = 15;
 }
 
 //message CommentUserInfo {
-//  int64 user_id = 1; // 用户id
+//  string user_id = 1; // 用户id
 //  string username = 2;// 用户名
 //  string nickname = 3;// 用户昵称
 //  string avatar = 4;// 用户头像
@@ -79,11 +81,11 @@ message UpdateCommentReviewReq{
 
 message UpdateCommentContentReq {
   int64 id = 1;// 主键
-  int64 topic_id = 2;// 主题id
-  int64 parent_id = 3;// 父评论id
-  int64 session_id = 4; // 会话id
-  int64 user_id = 5;// 评论用户id
-  int64 reply_user_id = 6; // 评论回复用户id
+  string user_id = 2;// 评论用户id
+  int64 topic_id = 3;// 主题id
+  int64 parent_id = 4;// 父评论id
+  int64 reply_msg_id = 5; // 会话id
+  string reply_user_id = 6; // 评论回复用户id
   string comment_content = 7;// 评论内容
   int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
   int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
@@ -96,7 +98,7 @@ message FindCommentListReq {
   repeated string sorts = 3; // 排序
   int64 topic_id = 4;// 主题id
   int64 parent_id = 5;// 父评论id
-  int64 session_id = 6; // 会话id
+  int64 reply_msg_id = 6; // 会话id
   int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
 }
 
@@ -111,7 +113,7 @@ message FindCommentReplyListReq {
   repeated string sorts = 3; // 排序
   int64 topic_id = 4;// 主题id
   int64 parent_id = 5;// 父评论id
-  int64 session_id = 6; // 会话id
+  int64 reply_msg_id = 6; // 会话id
   int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
 }
 

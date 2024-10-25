@@ -28,20 +28,20 @@ func NewFindCommentRecentListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 
 func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
 	in := &commentrpc.FindCommentListReq{
-		Page:      req.Page,
-		PageSize:  req.PageSize,
-		Sorts:     req.Sorts,
-		TopicId:   req.TopicId,
-		ParentId:  req.ParentId,
-		SessionId: 0,
-		Type:      req.Type,
+		Page:       req.Page,
+		PageSize:   req.PageSize,
+		Sorts:      req.Sorts,
+		TopicId:    req.TopicId,
+		ParentId:   req.ParentId,
+		ReplyMsgId: 0,
+		Type:       req.Type,
 	}
 	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 		uids = append(uids, v.ReplyUserId)
@@ -55,7 +55,7 @@ func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQue
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
