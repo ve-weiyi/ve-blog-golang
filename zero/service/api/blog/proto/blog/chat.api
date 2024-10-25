@@ -8,7 +8,7 @@ type (
         UserId string `json:"user_id"`        // 用户id
         Nickname string `json:"nickname"`     // 昵称
         Avatar string `json:"avatar"`         // 头像
-        Content string `json:"content"`       // 聊天内容
+        ChatContent string `json:"chatContent"` // 消息内容
         IpAddress string `json:"ip_address"`  // ip地址
         IpSource string `json:"ip_source"`    // ip来源
         Type string `json:"type"`             // 类型

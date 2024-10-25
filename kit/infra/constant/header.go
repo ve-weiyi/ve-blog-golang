@@ -33,30 +33,44 @@ const (
 
 // 自定义的HTTP请求头部字段
 const (
-	HeaderAppName  = "app-name"
-	HeaderTimezone = "timezone"
-	HeaderCountry  = "country"
-	HeaderLanguage = "language"
+	// 通用请求头部
+	HeaderRemoteAddr = "remote-addr"
+	HeaderUserAgent  = "user-agent"
 
-	HeaderXRequestId = "x-request-id"
-
-	HeaderAuthorization = "authorization"
-	HeaderUid           = "uid"
-
-	HeaderToken     = "token"
-	HeaderTerminal  = "terminal"
+	// 自定义请求头部
+	HeaderAppName   = "app-name"
+	HeaderTimezone  = "timezone"
+	HeaderCountry   = "country"
+	HeaderLanguage  = "language"
 	HeaderTimestamp = "timestamp"
+	HeaderTerminal  = "terminal"
+	HeaderUid       = "uid"
+
+	// 用户auth认证信息
+	HeaderAuthorization = "authorization"
+
+	// 用户token认证信息
+	HeaderToken = "token"
+
+	// 防重放限制 sign=md5(id+ts+secret)
+	HeaderXRequestId   = "x-request-id"
+	HeaderXRequestTs   = "x-request-ts"
+	HeaderXRequestSign = "x-request-sign"
 )
 
 var HeaderFields = []string{
-	HeaderXRequestId,
+	HeaderAppName,
 	HeaderTimezone,
-	HeaderTimestamp,
 	HeaderCountry,
 	HeaderLanguage,
-	HeaderAppName,
+	HeaderTimestamp,
+	HeaderTerminal,
+	HeaderUid,
+
 	HeaderAuthorization,
 	HeaderToken,
-	HeaderUid,
-	HeaderTerminal,
+
+	HeaderXRequestId,
+	HeaderXRequestTs,
+	HeaderXRequestSign,
 }

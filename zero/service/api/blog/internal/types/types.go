@@ -94,16 +94,16 @@ type CategoryQueryReq struct {
 }
 
 type ChatMessage struct {
-	Id        int64  `json:"id"`         // 主键
-	UserId    string `json:"user_id"`    // 用户id
-	Nickname  string `json:"nickname"`   // 昵称
-	Avatar    string `json:"avatar"`     // 头像
-	Content   string `json:"content"`    // 聊天内容
-	IpAddress string `json:"ip_address"` // ip地址
-	IpSource  string `json:"ip_source"`  // ip来源
-	Type      string `json:"type"`       // 类型
-	CreatedAt int64  `json:"created_at"` // 创建时间
-	UpdatedAt int64  `json:"updated_at"` // 更新时间
+	Id          int64  `json:"id"`          // 主键
+	UserId      string `json:"user_id"`     // 用户id
+	Nickname    string `json:"nickname"`    // 昵称
+	Avatar      string `json:"avatar"`      // 头像
+	ChatContent string `json:"chatContent"` // 消息内容
+	IpAddress   string `json:"ip_address"`  // ip地址
+	IpSource    string `json:"ip_source"`   // ip来源
+	Type        string `json:"type"`        // 类型
+	CreatedAt   int64  `json:"created_at"`  // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`  // 更新时间
 }
 
 type ChatMessageQueryReq struct {
@@ -116,16 +116,23 @@ type ChatMessageQueryReq struct {
 	Type    string `json:"type,optional"`     // 类型
 }
 
-type ChatSocketMsg struct {
-	Type      int64  `json:"type"`      // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Data      string `json:"data"`      // 消息内容
-	Timestamp int64  `json:"timestamp"` // 消息时间
+type ChatMsgReq struct {
+	Type        string `json:"type"`         // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	ChatContent string `json:"chat_content"` // 消息内容
 }
 
-type ChatSocketMsgResp struct {
-	Type      int64  `json:"type"`      // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Data      string `json:"data"`      // 消息内容
-	Timestamp int64  `json:"timestamp"` // 消息时间
+type ChatMsgResp struct {
+	Id          int64  `json:"id"`           // 主键
+	UserId      string `json:"user_id"`      // 用户id
+	DeviceId    string `json:"device_id"`    // 设备id
+	Nickname    string `json:"nickname"`     // 昵称
+	Avatar      string `json:"avatar"`       // 头像
+	ChatContent string `json:"chat_content"` // 消息内容
+	IpAddress   string `json:"ip_address"`   // ip地址
+	IpSource    string `json:"ip_source"`    // ip来源
+	Type        string `json:"type"`         // 类型
+	CreatedAt   int64  `json:"created_at"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
 }
 
 type Comment struct {
@@ -440,6 +447,14 @@ type UserLikeResp struct {
 	ArticleLikeSet []int64 `json:"article_like_set"`
 	CommentLikeSet []int64 `json:"comment_like_set"`
 	TalkLikeSet    []int64 `json:"talk_like_set"`
+}
+
+type WebSocketMsg struct {
+	ClientId  string `json:"client_id,optional"` // 客户端id
+	ClientIp  string `json:"client_ip,optional"` // 客户端ip
+	Timestamp int64  `json:"timestamp,optional"` // 时间戳
+	Cmd       int64  `json:"cmd"`                // 消息命令
+	Data      string `json:"data"`               // 消息内容
 }
 
 type WebsiteConfigDTO struct {
