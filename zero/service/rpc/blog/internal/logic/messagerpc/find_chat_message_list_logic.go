@@ -2,6 +2,7 @@ package messagerpclogic
 
 import (
 	"context"
+	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/pb/messagerpc"
 
@@ -52,14 +53,13 @@ func (l *FindChatMessageListLogic) FindChatMessageList(in *messagerpc.FindChatMe
 func convertChatQuery(in *messagerpc.FindChatMessageListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(1)
 	size = int(in.Limit)
-	sorts = "created_at desc"
 
 	if in.After != 0 {
 		if conditions != "" {
 			conditions += " and "
 		}
 		conditions = "created_at >= ?"
-		params = append(params, in.After)
+		params = append(params, time.Unix(in.After, 0))
 	}
 
 	if in.Before != 0 {
@@ -67,7 +67,7 @@ func convertChatQuery(in *messagerpc.FindChatMessageListReq) (page int, size int
 			conditions += " and "
 		}
 		conditions = "created_at <= ?"
-		params = append(params, in.Before)
+		params = append(params, time.Unix(in.Before, 0))
 	}
 
 	if in.TopicId != "" {

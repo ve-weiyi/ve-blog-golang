@@ -53,13 +53,13 @@ func (l *GetChatMessagesLogic) GetChatMessages(req *types.ChatMessageQueryReq) (
 
 func ConvertChatMessageTypes(in *messagerpc.ChatMessageDetails) *types.ChatMessage {
 	return &types.ChatMessage{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		Content:   in.ChatContent,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		Type:      in.Type,
-		CreatedAt: in.CreatedAt,
-		UpdatedAt: in.UpdatedAt,
+		Id:          in.Id,
+		UserId:      in.UserId,
+		ChatContent: in.ChatContent,
+		IpAddress:   in.IpAddress,
+		IpSource:    in.IpSource,
+		Type:        in.Type,
+		CreatedAt:   in.CreatedAt,
+		UpdatedAt:   in.UpdatedAt,
 	}
 }

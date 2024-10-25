@@ -1721,9 +1721,9 @@
           "type": "string",
           "description": " 头像"
         },
-        "content": {
+        "chatContent": {
           "type": "string",
-          "description": " 聊天内容"
+          "description": " 消息内容"
         },
         "ip_address": {
           "type": "string",
@@ -1754,7 +1754,7 @@
         "user_id",
         "nickname",
         "avatar",
-        "content",
+        "chatContent",
         "ip_address",
         "ip_source",
         "type",
@@ -1799,54 +1799,88 @@
       },
       "title": "ChatMessageQueryReq"
     },
-    "ChatSocketMsg": {
+    "ChatMsgReq": {
       "type": "object",
       "properties": {
         "type": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
         },
-        "data": {
+        "chat_content": {
           "type": "string",
           "description": " 消息内容"
-        },
-        "timestamp": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 消息时间"
         }
       },
-      "title": "ChatSocketMsg",
+      "title": "ChatMsgReq",
       "required": [
         "type",
-        "data",
-        "timestamp"
+        "chat_content"
       ]
     },
-    "ChatSocketMsgResp": {
+    "ChatMsgResp": {
       "type": "object",
       "properties": {
-        "type": {
+        "id": {
           "type": "integer",
           "format": "int64",
-          "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
+          "description": " 主键"
         },
-        "data": {
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "device_id": {
+          "type": "string",
+          "description": " 设备id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "chat_content": {
           "type": "string",
           "description": " 消息内容"
         },
-        "timestamp": {
+        "ip_address": {
+          "type": "string",
+          "description": " ip地址"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip来源"
+        },
+        "type": {
+          "type": "string",
+          "description": " 类型"
+        },
+        "created_at": {
           "type": "integer",
           "format": "int64",
-          "description": " 消息时间"
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
         }
       },
-      "title": "ChatSocketMsgResp",
+      "title": "ChatMsgResp",
       "required": [
+        "id",
+        "user_id",
+        "device_id",
+        "nickname",
+        "avatar",
+        "chat_content",
+        "ip_address",
+        "ip_source",
         "type",
-        "data",
-        "timestamp"
+        "created_at",
+        "updated_at"
       ]
     },
     "Comment": {
@@ -3089,6 +3123,38 @@
         "article_like_set",
         "comment_like_set",
         "talk_like_set"
+      ]
+    },
+    "WebSocketMsg": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": " 客户端id"
+        },
+        "client_ip": {
+          "type": "string",
+          "description": " 客户端ip"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 时间戳"
+        },
+        "cmd": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息命令"
+        },
+        "data": {
+          "type": "string",
+          "description": " 消息内容"
+        }
+      },
+      "title": "WebSocketMsg",
+      "required": [
+        "cmd",
+        "data"
       ]
     },
     "WebsiteConfigDTO": {

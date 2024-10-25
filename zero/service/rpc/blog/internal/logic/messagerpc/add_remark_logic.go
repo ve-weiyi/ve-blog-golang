@@ -31,14 +31,14 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 // 创建留言
 func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.RemarkDetails, error) {
 	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
-	is, _ := ipx.GetIpInfoByBaidu(ip)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	entity := &model.TRemark{
 		Id:             0,
 		UserId:         in.UserId,
 		MessageContent: in.MessageContent,
 		IpAddress:      ip,
-		IpSource:       is.Location,
+		IpSource:       is,
 		IsReview:       1,
 		//CreatedAt:      time.Time{},
 		//UpdatedAt:      time.Time{},
