@@ -62,7 +62,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 
 	agent, _ := rpcutil.GetRPCUserAgent(ctx)
 	ip, _ := rpcutil.GetRPCClientIP(ctx)
-	is, _ := ipx.GetIpInfoByBaidu(ip)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
 	// 查找用户角色
 	rList, err := getUserRoles(ctx, svcCtx, user.UserId)
 	if err != nil {
@@ -90,7 +90,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 		Info:      user.Info,
 		LoginType: user.LoginType,
 		IpAddress: ip,
-		IpSource:  is.Location,
+		IpSource:  is,
 		Roles:     roles,
 	}
 
@@ -99,7 +99,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 		UserId:    user.UserId,
 		LoginType: user.LoginType,
 		IpAddress: ip,
-		IpSource:  is.Location,
+		IpSource:  is,
 		Agent:     agent,
 		LoginAt:   time.Now(),
 		LogoutAt:  time.Unix(0, 0),
