@@ -8,14 +8,7 @@ import (
 	"github.com/jordan-wright/email"
 )
 
-type EmailMessage struct {
-	To      []string `json:"to"`      // 目标邮箱号
-	Subject string   `json:"subject"` // 主题
-	Content string   `json:"content"` // 内容
-	Type    int      `json:"type"`    // 0:普通邮件 1:需要抄送
-}
-
-type EmailSender struct {
+type EmailDeliver struct {
 	Host     string   // 服务器地址
 	Port     int      // 端口
 	Username string   // 发件人
@@ -25,8 +18,8 @@ type EmailSender struct {
 	IsSSL    bool     // 是否使用 SSL/TLS
 }
 
-func NewEmailSender(opts ...Option) *EmailSender {
-	sender := &EmailSender{}
+func NewEmailDeliver(opts ...Option) *EmailDeliver {
+	sender := &EmailDeliver{}
 
 	for _, opt := range opts {
 		opt(sender)
@@ -35,7 +28,7 @@ func NewEmailSender(opts ...Option) *EmailSender {
 	return sender
 }
 
-func (s *EmailSender) SendEmailMessage(message EmailMessage) error {
+func (s *EmailDeliver) DeliveryEmail(message *EmailMessage) error {
 	return s.send(message.To, message.Subject, message.Content, message.Type == 1)
 }
 
@@ -52,7 +45,7 @@ func (s *EmailSender) SendEmailMessage(message EmailMessage) error {
 // Headers: 邮件的附加头部信息，使用 textproto.MIMEHeader 类型存储。
 // Attachments: 邮件的附件列表，每个附件是一个 Attachment 结构体的实例。
 // ReadReceipt: 邮件的回执邮箱地址，表示邮件阅读回执的接收地址。可以是多个地址。
-func (s *EmailSender) send(to []string, subject string, body string, cc bool) (err error) {
+func (s *EmailDeliver) send(to []string, subject string, body string, cc bool) (err error) {
 	host := s.Host
 	port := s.Port
 	ssl := s.IsSSL

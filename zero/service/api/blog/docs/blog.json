@@ -1810,15 +1810,21 @@
           "format": "int64",
           "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
         },
-        "content": {
+        "data": {
           "type": "string",
           "description": " 消息内容"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息时间"
         }
       },
       "title": "ChatSocketMsg",
       "required": [
         "type",
-        "content"
+        "data",
+        "timestamp"
       ]
     },
     "ChatSocketMsgResp": {
@@ -1829,11 +1835,11 @@
           "format": "int64",
           "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
         },
-        "content": {
+        "data": {
           "type": "string",
           "description": " 消息内容"
         },
-        "time": {
+        "timestamp": {
           "type": "integer",
           "format": "int64",
           "description": " 消息时间"
@@ -1842,8 +1848,8 @@
       "title": "ChatSocketMsgResp",
       "required": [
         "type",
-        "content",
-        "time"
+        "data",
+        "timestamp"
       ]
     },
     "Comment": {

@@ -59,7 +59,7 @@ func SubscribeMessage(c config.Config) {
 	}
 
 	e := c.Email
-	emailSender := mail.NewEmailSender(
+	emailSender := mail.NewEmailDeliver(
 		mail.WithHost(e.Host),
 		mail.WithPort(e.Port),
 		mail.WithUsername(e.Username),
@@ -77,7 +77,7 @@ func SubscribeMessage(c config.Config) {
 			return err
 		}
 
-		err = emailSender.SendEmailMessage(msg)
+		err = emailSender.DeliveryEmail(msg)
 		if err != nil {
 			log.Println("邮件发送失败!", err)
 		}
