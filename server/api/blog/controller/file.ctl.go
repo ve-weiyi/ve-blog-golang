@@ -25,7 +25,7 @@ func NewFileController(svcCtx *svctx.ServiceContext) *FileController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.[]*FileBackDTO}	"返回信息"
+// @Success		200		{object}	response.Body{data=[]dto.FileBackDTO}	"返回信息"
 // @Router		/api/v1/file/multi_upload_file [POST]
 func (s *FileController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
@@ -33,14 +33,14 @@ func (s *FileController) MultiUploadFile(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.MultiUploadFileReq
+	var req *dto.MultiUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).MultiUploadFile(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).MultiUploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *FileController) UploadFile(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UploadFileReq
+	var req *dto.UploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).UploadFile(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).UploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

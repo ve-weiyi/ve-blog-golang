@@ -33,14 +33,14 @@ func (s *BannerController) AddBanner(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.BannerNewReq
+	var req *dto.BannerNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).AddBanner(reqCtx, &req)
+	data, err := service.NewBannerService(s.svcCtx).AddBanner(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *BannerController) DeleteBanner(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).DeleteBanner(reqCtx, &req)
+	data, err := service.NewBannerService(s.svcCtx).DeleteBanner(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *BannerController) FindBannerList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.BannerQuery
+	var req *dto.BannerQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).FindBannerList(reqCtx, &req)
+	data, err := service.NewBannerService(s.svcCtx).FindBannerList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *BannerController) UpdateBanner(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.BannerNewReq
+	var req *dto.BannerNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).UpdateBanner(reqCtx, &req)
+	data, err := service.NewBannerService(s.svcCtx).UpdateBanner(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

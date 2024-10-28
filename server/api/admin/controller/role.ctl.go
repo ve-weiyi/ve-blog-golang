@@ -33,14 +33,14 @@ func (s *RoleController) AddRole(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RoleNewReq
+	var req *dto.RoleNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).AddRole(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).AddRole(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *RoleController) BatchDeleteRole(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).BatchDeleteRole(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).BatchDeleteRole(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *RoleController) DeleteRole(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).DeleteRole(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).DeleteRole(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *RoleController) FindRoleList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RoleQuery
+	var req *dto.RoleQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).FindRoleList(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).FindRoleList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *RoleController) FindRoleResources(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).FindRoleResources(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).FindRoleResources(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *RoleController) UpdateRole(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RoleNewReq
+	var req *dto.RoleNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).UpdateRole(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).UpdateRole(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -201,14 +201,14 @@ func (s *RoleController) UpdateRoleApis(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UpdateRoleApisReq
+	var req *dto.UpdateRoleApisReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).UpdateRoleApis(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).UpdateRoleApis(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -229,14 +229,14 @@ func (s *RoleController) UpdateRoleMenus(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UpdateRoleMenusReq
+	var req *dto.UpdateRoleMenusReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRoleService(s.svcCtx).UpdateRoleMenus(reqCtx, &req)
+	data, err := service.NewRoleService(s.svcCtx).UpdateRoleMenus(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

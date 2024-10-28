@@ -33,14 +33,14 @@ func (s *FileController) FindFileList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.FileQuery
+	var req *dto.FileQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).FindFileList(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).FindFileList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *FileController) AddFileFolder(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.FileFolderNewReq
+	var req *dto.FileFolderNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).AddFileFolder(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).AddFileFolder(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *FileController) DeletesFile(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).DeletesFile(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).DeletesFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -109,7 +109,7 @@ func (s *FileController) DeletesFile(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.[]*FileBackDTO}	"返回信息"
+// @Success		200		{object}	response.Body{data=[]dto.FileBackDTO}	"返回信息"
 // @Router		/admin_api/v1/file/multi_upload_file [POST]
 func (s *FileController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
@@ -117,14 +117,14 @@ func (s *FileController) MultiUploadFile(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.MultiUploadFileReq
+	var req *dto.MultiUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).MultiUploadFile(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).MultiUploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *FileController) UploadFile(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UploadFileReq
+	var req *dto.UploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFileService(s.svcCtx).UploadFile(reqCtx, &req)
+	data, err := service.NewFileService(s.svcCtx).UploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

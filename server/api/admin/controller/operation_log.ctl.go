@@ -33,14 +33,14 @@ func (s *OperationLogController) BatchDeleteOperationLog(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewOperationLogService(s.svcCtx).BatchDeleteOperationLog(reqCtx, &req)
+	data, err := service.NewOperationLogService(s.svcCtx).BatchDeleteOperationLog(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *OperationLogController) DeleteOperationLog(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewOperationLogService(s.svcCtx).DeleteOperationLog(reqCtx, &req)
+	data, err := service.NewOperationLogService(s.svcCtx).DeleteOperationLog(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *OperationLogController) FindOperationLogList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.OperationLogQuery
+	var req *dto.OperationLogQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewOperationLogService(s.svcCtx).FindOperationLogList(reqCtx, &req)
+	data, err := service.NewOperationLogService(s.svcCtx).FindOperationLogList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

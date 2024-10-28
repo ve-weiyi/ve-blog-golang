@@ -33,14 +33,14 @@ func (s *FriendController) FindFriendList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.FriendQuery
+	var req *dto.FriendQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, &req)
+	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *FriendController) AddFriend(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.FriendNewReq
+	var req *dto.FriendNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).AddFriend(reqCtx, &req)
+	data, err := service.NewFriendService(s.svcCtx).AddFriend(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).BatchDeleteFriend(reqCtx, &req)
+	data, err := service.NewFriendService(s.svcCtx).BatchDeleteFriend(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *FriendController) DeleteFriend(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).DeleteFriend(reqCtx, &req)
+	data, err := service.NewFriendService(s.svcCtx).DeleteFriend(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *FriendController) UpdateFriend(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.FriendNewReq
+	var req *dto.FriendNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).UpdateFriend(reqCtx, &req)
+	data, err := service.NewFriendService(s.svcCtx).UpdateFriend(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

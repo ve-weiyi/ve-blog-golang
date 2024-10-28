@@ -33,14 +33,14 @@ func (s *TagController) FindTagList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TagQueryReq
+	var req *dto.TagQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).FindTagList(reqCtx, &req)
+	data, err := service.NewTagService(s.svcCtx).FindTagList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
