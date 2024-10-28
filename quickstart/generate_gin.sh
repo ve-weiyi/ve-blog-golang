@@ -14,7 +14,7 @@ go run main.go api service \
 -o='../server/api/blog'  \
 -n='%s.sv.go'
 
- api生成controller文件
+# api生成controller文件
 go run main.go api controller \
 -f='../zero/service/api/blog/proto/blog.api' \
 -t='./resource/gin/template' \
@@ -48,7 +48,7 @@ go run main.go api service \
 -o='../server/api/admin'  \
 -n='%s.sv.go'
 
- api生成controller文件
+# api生成controller文件
 go run main.go api controller \
 -f='../zero/service/api/admin/proto/admin.api' \
 -t='./resource/gin/template' \

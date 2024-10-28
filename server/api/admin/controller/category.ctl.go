@@ -33,14 +33,14 @@ func (s *CategoryController) FindCategoryList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CategoryQuery
+	var req *dto.CategoryQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).FindCategoryList(reqCtx, &req)
+	data, err := service.NewCategoryService(s.svcCtx).FindCategoryList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *CategoryController) AddCategory(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CategoryNewReq
+	var req *dto.CategoryNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).AddCategory(reqCtx, &req)
+	data, err := service.NewCategoryService(s.svcCtx).AddCategory(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *CategoryController) BatchDeleteCategory(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).BatchDeleteCategory(reqCtx, &req)
+	data, err := service.NewCategoryService(s.svcCtx).BatchDeleteCategory(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *CategoryController) DeleteCategory(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).DeleteCategory(reqCtx, &req)
+	data, err := service.NewCategoryService(s.svcCtx).DeleteCategory(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *CategoryController) UpdateCategory(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CategoryNewReq
+	var req *dto.CategoryNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).UpdateCategory(reqCtx, &req)
+	data, err := service.NewCategoryService(s.svcCtx).UpdateCategory(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

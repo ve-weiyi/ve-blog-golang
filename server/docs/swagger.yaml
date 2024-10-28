@@ -379,6 +379,9 @@ definitions:
     type: object
   dto.ArticleHomeQueryReq:
     properties:
+      article_title:
+        description: 标题
+        type: string
       page:
         type: integer
       page_size:
@@ -644,16 +647,29 @@ definitions:
           type: string
         type: array
     type: object
-  dto.ChatQueryReq:
+  dto.ChatMessageQueryReq:
     properties:
-      page:
+      after:
+        description: 起始时间
         type: integer
-      page_size:
+      before:
+        description: 结束时间
         type: integer
-      sorts:
-        items:
-          type: string
-        type: array
+      keyword:
+        description: 关键字
+        type: string
+      limit:
+        description: 限制数量
+        type: integer
+      topic_id:
+        description: 聊天室id
+        type: string
+      type:
+        description: 类型
+        type: string
+      user_id:
+        description: 用户id
+        type: string
     type: object
   dto.Comment:
     properties:
@@ -680,16 +696,16 @@ definitions:
       reply_count:
         description: 回复量
         type: integer
+      reply_msg_id:
+        description: 会话id
+        type: integer
       reply_user:
         allOf:
         - $ref: '#/definitions/dto.CommentUserInfo'
         description: 被回复评论用户
       reply_user_id:
         description: 被回复用户id
-        type: integer
-      reply_msg_id:
-        description: 会话id
-        type: integer
+        type: string
       topic_id:
         description: 主题id
         type: integer
@@ -702,37 +718,7 @@ definitions:
         description: 评论用户
       user_id:
         description: 用户id
-        type: integer
-    type: object
-  dto.CommentBackDTO:
-    properties:
-      avatar:
-        description: 用户头像
         type: string
-      comment_content:
-        description: 评论内容
-        type: string
-      created_at:
-        description: 创建时间
-        type: integer
-      id:
-        description: 评论ID
-        type: integer
-      is_review:
-        description: 是否审核 0.未审核 1.已审核
-        type: integer
-      nickname:
-        description: 用户昵称
-        type: string
-      to_nickname:
-        description: 被回复人昵称
-        type: string
-      topic_title:
-        description: 评论主题
-        type: string
-      type:
-        description: 评论类型 1.文章 2.友链 3.说说
-        type: integer
     type: object
   dto.CommentNewReq:
     properties:
@@ -742,12 +728,12 @@ definitions:
       parent_id:
         description: 父评论id
         type: integer
-      reply_user_id:
-        description: 回复用户id
-        type: integer
       reply_msg_id:
         description: 会话id
         type: integer
+      reply_user_id:
+        description: 回复用户id
+        type: string
       topic_id:
         description: 主题id
         type: integer
@@ -814,16 +800,16 @@ definitions:
       parent_id:
         description: 父评论id
         type: integer
+      reply_msg_id:
+        description: 会话id
+        type: integer
       reply_user:
         allOf:
         - $ref: '#/definitions/dto.CommentUserInfo'
         description: 被回复评论用户
       reply_user_id:
         description: 被回复用户id
-        type: integer
-      reply_msg_id:
-        description: 会话id
-        type: integer
+        type: string
       topic_id:
         description: 主题id
         type: integer
@@ -836,12 +822,14 @@ definitions:
         description: 评论用户
       user_id:
         description: 用户id
-        type: integer
+        type: string
     type: object
   dto.CommentReviewReq:
     properties:
-      id:
-        type: integer
+      ids:
+        items:
+          type: integer
+        type: array
       is_review:
         type: integer
     type: object
@@ -849,12 +837,41 @@ definitions:
     properties:
       avatar:
         type: string
-      id:
-        type: integer
       nickname:
+        type: string
+      user_id:
         type: string
       website:
         type: string
+    type: object
+  dto.FileFolderNewReq:
+    properties:
+      file_name:
+        description: 文件名称
+        type: string
+      file_path:
+        description: 文件路径
+        type: string
+    type: object
+  dto.FileQuery:
+    properties:
+      file_path:
+        description: 文件路径
+        type: string
+      file_type:
+        description: 文件类型
+        type: string
+      page:
+        description: 当前页码
+        type: integer
+      page_size:
+        description: 每页数量
+        type: integer
+      sorts:
+        description: 排序
+        items:
+          type: string
+        type: array
     type: object
   dto.FriendBackDTO:
     properties:
@@ -1185,6 +1202,23 @@ definitions:
       photo_src:
         description: 照片地址
         type: string
+    type: object
+  dto.PhotoQuery:
+    properties:
+      album_id:
+        description: 相册id
+        type: integer
+      page:
+        description: 当前页码
+        type: integer
+      page_size:
+        description: 每页数量
+        type: integer
+      sorts:
+        description: 排序
+        items:
+          type: string
+        type: array
     type: object
   dto.PhotoQueryReq:
     properties:
@@ -1521,7 +1555,7 @@ definitions:
         type: integer
       user_id:
         description: 用户ID
-        type: integer
+        type: string
     type: object
   dto.TalkBackDTO:
     properties:
@@ -1562,7 +1596,7 @@ definitions:
         type: integer
       user_id:
         description: 用户ID
-        type: integer
+        type: string
     type: object
   dto.TalkNewReq:
     properties:
@@ -1628,7 +1662,7 @@ definitions:
           type: integer
         type: array
       user_id:
-        type: integer
+        type: string
     type: object
   dto.UpdateAccountStatusReq:
     properties:
@@ -1636,7 +1670,7 @@ definitions:
         description: '状态: -1删除 0正常 1禁用'
         type: integer
       user_id:
-        type: integer
+        type: string
     type: object
   dto.UpdateRoleApisReq:
     properties:
@@ -2021,6 +2055,39 @@ definitions:
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.EmptyResp:
     type: object
+  github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.FileBackDTO:
+    properties:
+      created_at:
+        description: 创建时间
+        type: integer
+      file_md5:
+        description: 文件md5值
+        type: string
+      file_name:
+        description: 文件名称
+        type: string
+      file_path:
+        description: 文件路径
+        type: string
+      file_size:
+        description: 文件大小
+        type: integer
+      file_type:
+        description: 文件类型
+        type: string
+      file_url:
+        description: 上传路径
+        type: string
+      id:
+        description: 文件目录ID
+        type: integer
+      updated_at:
+        description: 更新时间
+        type: integer
+      user_id:
+        description: 用户id
+        type: string
+    type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.IdReq:
     properties:
       id:
@@ -2048,18 +2115,14 @@ definitions:
       token:
         $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.Token'
     type: object
-  github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.PageQuery:
+  github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.MultiUploadFileReq:
     properties:
-      page:
-        description: 当前页码
-        type: integer
-      page_size:
-        description: 每页数量
-        type: integer
-      sorts:
-        description: 排序
-        items:
-          type: string
+      file_path:
+        description: 文件路径
+        type: string
+      files:
+        description: 文件列表
+        items: {}
         type: array
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.PageResp:
@@ -2122,50 +2185,15 @@ definitions:
         type: string
       user_id:
         description: 用户id
-        type: integer
+        type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.UploadFileReq:
     properties:
       file:
         description: 文件
-      file_md5:
-        description: 文件md5值
+      file_path:
+        description: 文件路径
         type: string
-      file_size:
-        description: 文件大小
-        type: integer
-      label:
-        type: string
-    type: object
-  github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.UploadFileResp:
-    properties:
-      created_at:
-        description: 创建时间
-        type: integer
-      file_md5:
-        description: 文件md5值
-        type: string
-      file_name:
-        description: 文件名称
-        type: string
-      file_size:
-        description: 文件大小
-        type: integer
-      file_url:
-        description: 上传路径
-        type: string
-      id:
-        description: id
-        type: integer
-      label:
-        description: 标签
-        type: string
-      updated_at:
-        description: 更新时间
-        type: integer
-      user_id:
-        description: 用户id
-        type: integer
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.UserInfoResp:
     properties:
@@ -2210,7 +2238,7 @@ definitions:
         type: integer
       user_id:
         description: 用户id
-        type: integer
+        type: string
       username:
         description: 用户名
         type: string
@@ -2221,6 +2249,39 @@ definitions:
   github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.EmptyReq:
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.EmptyResp:
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.FileBackDTO:
+    properties:
+      created_at:
+        description: 创建时间
+        type: integer
+      file_md5:
+        description: 文件md5值
+        type: string
+      file_name:
+        description: 文件名称
+        type: string
+      file_path:
+        description: 文件路径
+        type: string
+      file_size:
+        description: 文件大小
+        type: integer
+      file_type:
+        description: 文件类型
+        type: string
+      file_url:
+        description: 上传路径
+        type: string
+      id:
+        description: 文件目录ID
+        type: integer
+      updated_at:
+        description: 更新时间
+        type: integer
+      user_id:
+        description: 用户id
+        type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.IdReq:
     properties:
@@ -2241,6 +2302,16 @@ definitions:
     properties:
       token:
         $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.Token'
+    type: object
+  github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.MultiUploadFileReq:
+    properties:
+      file_path:
+        description: 文件路径
+        type: string
+      files:
+        description: 文件列表
+        items: {}
+        type: array
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.PageDTO:
     properties:
@@ -2320,50 +2391,15 @@ definitions:
         type: string
       user_id:
         description: 用户id
-        type: integer
+        type: string
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.UploadFileReq:
     properties:
       file:
         description: 文件
-      file_md5:
-        description: 文件md5值
+      file_path:
+        description: 文件路径
         type: string
-      file_size:
-        description: 文件大小
-        type: integer
-      label:
-        type: string
-    type: object
-  github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.UploadFileResp:
-    properties:
-      created_at:
-        description: 创建时间
-        type: integer
-      file_md5:
-        description: 文件md5值
-        type: string
-      file_name:
-        description: 文件名称
-        type: string
-      file_size:
-        description: 文件大小
-        type: integer
-      file_url:
-        description: 上传路径
-        type: string
-      id:
-        description: id
-        type: integer
-      label:
-        description: 标签
-        type: string
-      updated_at:
-        description: 更新时间
-        type: integer
-      user_id:
-        description: 用户id
-        type: integer
     type: object
   github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.UserInfoResp:
     properties:
@@ -2384,7 +2420,7 @@ definitions:
         type: string
       user_id:
         description: 用户id
-        type: integer
+        type: string
       username:
         description: 用户名
         type: string
@@ -3633,11 +3669,143 @@ paths:
             - $ref: '#/definitions/response.Body'
             - properties:
                 data:
-                  $ref: '#/definitions/dto.CommentBackDTO'
+                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.BatchResp'
               type: object
       summary: '"更新评论审核状态"'
       tags:
       - Comment
+  /admin_api/v1/file/add_file_folder:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FileFolderNewReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.FileBackDTO'
+              type: object
+      summary: '"创建文件目录"'
+      tags:
+      - File
+  /admin_api/v1/file/deletes_file:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.IdsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.BatchResp'
+              type: object
+      summary: '"删除文件列表"'
+      tags:
+      - File
+  /admin_api/v1/file/find_file_list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FileQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.PageResp'
+              type: object
+      summary: '"分页获取文件列表"'
+      tags:
+      - File
+  /admin_api/v1/file/multi_upload_file:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.MultiUploadFileReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.FileBackDTO'
+                  type: array
+              type: object
+      summary: '"上传文件列表"'
+      tags:
+      - File
+  /admin_api/v1/file/upload_file:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.UploadFileReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.FileBackDTO'
+              type: object
+      summary: '"上传文件"'
+      tags:
+      - File
   /admin_api/v1/friend/add_friend:
     post:
       consumes:
@@ -4142,7 +4310,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.PageQuery'
+          $ref: '#/definitions/dto.PhotoQuery'
       produces:
       - application/json
       responses:
@@ -4209,7 +4377,7 @@ paths:
               type: object
       summary: '"ping"'
       tags:
-      - Base
+      - Common
   /admin_api/v1/remark/batch_delete_remark:
     delete:
       consumes:
@@ -4782,32 +4950,6 @@ paths:
       summary: '"更新说说"'
       tags:
       - Talk
-  /admin_api/v1/upload/upload_file:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.UploadFileReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Body'
-            - properties:
-                data:
-                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_admin_dto.UploadFileResp'
-              type: object
-      summary: '"上传文件"'
-      tags:
-      - Upload
   /admin_api/v1/user/get_user_apis:
     get:
       consumes:
@@ -5354,7 +5496,7 @@ paths:
       summary: '"分页获取文章分类列表"'
       tags:
       - Category
-  /api/v1/chat/records:
+  /api/v1/chat/messages:
     post:
       consumes:
       - application/json
@@ -5364,7 +5506,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/dto.ChatQueryReq'
+          $ref: '#/definitions/dto.ChatMessageQueryReq'
       produces:
       - application/json
       responses:
@@ -5510,6 +5652,60 @@ paths:
       summary: '"点赞评论"'
       tags:
       - Comment
+  /api/v1/file/multi_upload_file:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.MultiUploadFileReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.FileBackDTO'
+                  type: array
+              type: object
+      summary: '"上传文件列表"'
+      tags:
+      - File
+  /api/v1/file/upload_file:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.UploadFileReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Body'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.FileBackDTO'
+              type: object
+      summary: '"上传文件"'
+      tags:
+      - File
   /api/v1/friend_link/find_friend_list:
     post:
       consumes:
@@ -5691,7 +5887,7 @@ paths:
               type: object
       summary: '"ping"'
       tags:
-      - Base
+      - Common
   /api/v1/register:
     post:
       consumes:
@@ -5926,32 +6122,6 @@ paths:
       summary: '"点赞说说"'
       tags:
       - Talk
-  /api/v1/upload/upload_file:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: 请求参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.UploadFileReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 返回信息
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Body'
-            - properties:
-                data:
-                  $ref: '#/definitions/github_com_ve-weiyi_ve-blog-golang_server_api_blog_dto.UploadFileResp'
-              type: object
-      summary: '"上传文件"'
-      tags:
-      - Upload
   /api/v1/user/get_user_info:
     get:
       consumes:
@@ -6108,7 +6278,7 @@ paths:
       summary: '"修改用户信息"'
       tags:
       - User
-  /api/v1/ws:
+  /api/v1/websocket:
     get:
       consumes:
       - application/json

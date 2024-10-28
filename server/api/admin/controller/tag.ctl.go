@@ -33,14 +33,14 @@ func (s *TagController) FindTagList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TagQuery
+	var req *dto.TagQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).FindTagList(reqCtx, &req)
+	data, err := service.NewTagService(s.svcCtx).FindTagList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *TagController) AddTag(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TagNewReq
+	var req *dto.TagNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).AddTag(reqCtx, &req)
+	data, err := service.NewTagService(s.svcCtx).AddTag(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *TagController) BatchDeleteTag(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).BatchDeleteTag(reqCtx, &req)
+	data, err := service.NewTagService(s.svcCtx).BatchDeleteTag(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *TagController) DeleteTag(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).DeleteTag(reqCtx, &req)
+	data, err := service.NewTagService(s.svcCtx).DeleteTag(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *TagController) UpdateTag(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TagNewReq
+	var req *dto.TagNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTagService(s.svcCtx).UpdateTag(reqCtx, &req)
+	data, err := service.NewTagService(s.svcCtx).UpdateTag(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

@@ -29,10 +29,10 @@ func New{{.Group}}Controller(svcCtx *svctx.ServiceContext) *{{.Group}}Controller
 // @accept		application/json
 // @Produce		application/json
     {{- if .Request }}
-// @Param		data	body		dto.{{.Request}}		true	"请求参数"
+// @Param		data	body		{{commentTypes .Request}}		true	"请求参数"
     {{- end }}
     {{- if .Response }}
-// @Success		200		{object}	response.Body{data=dto.{{.Response}}}	"返回信息"
+// @Success		200		{object}	response.Body{data={{commentTypes .Response}}}	"返回信息"
     {{- end }}
 // @Router		{{$prefix}}{{.Path}} [{{.Method}}]
 func (s *{{$.Group}}Controller) {{.Handler}}(c *gin.Context) {
@@ -43,14 +43,14 @@ func (s *{{$.Group}}Controller) {{.Handler}}(c *gin.Context) {
 	}
 
 	{{- if .Request }}
-	var req dto.{{.Request}}
+	var req {{pkgTypes .Request}}
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-    data, err := service.New{{$.Group}}Service(s.svcCtx).{{.Handler}}(reqCtx, &req)
+    data, err := service.New{{$.Group}}Service(s.svcCtx).{{.Handler}}(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

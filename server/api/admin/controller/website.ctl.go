@@ -33,14 +33,14 @@ func (s *WebsiteController) GetAdminHomeInfo(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).GetAdminHomeInfo(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).GetAdminHomeInfo(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).GetAboutMe(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).GetAboutMe(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *WebsiteController) UpdateAboutMe(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AboutMe
+	var req *dto.AboutMe
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).UpdateAboutMe(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).UpdateAboutMe(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *WebsiteController) GetWebsiteConfig(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).GetWebsiteConfig(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).GetWebsiteConfig(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *WebsiteController) GetSystemState(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).GetSystemState(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).GetSystemState(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *WebsiteController) UpdateWebsiteConfig(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.WebsiteConfig
+	var req *dto.WebsiteConfig
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).UpdateWebsiteConfig(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).UpdateWebsiteConfig(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

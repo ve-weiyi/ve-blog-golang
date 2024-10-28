@@ -625,9 +625,6 @@ type UploadFileReq struct {
 	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
-type UploadFileResp struct {
-}
-
 type UserApi struct {
 	Id        int64      `json:"id,optional"` // 主键id
 	ParentId  int64      `json:"parent_id"`   // 父id
