@@ -33,14 +33,14 @@ func (s *CommentController) FindCommentList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CommentQueryReq
+	var req *dto.CommentQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).FindCommentList(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).FindCommentList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *CommentController) FindCommentRecentList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CommentQueryReq
+	var req *dto.CommentQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).FindCommentRecentList(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).FindCommentRecentList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CommentQueryReq
+	var req *dto.CommentQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).FindCommentReplyList(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).FindCommentReplyList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *CommentController) AddComment(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CommentNewReq
+	var req *dto.CommentNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).AddComment(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).AddComment(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *CommentController) LikeComment(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).LikeComment(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).LikeComment(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

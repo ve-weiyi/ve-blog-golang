@@ -33,14 +33,14 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserInfo(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserInfo(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *UserController) GetUserLike(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserLike(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserLike(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *UserController) UpdateUserAvatar(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UpdateUserAvatarReq
+	var req *dto.UpdateUserAvatarReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).UpdateUserAvatar(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).UpdateUserAvatar(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UpdateUserInfoReq
+	var req *dto.UpdateUserInfoReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).UpdateUserInfo(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).UpdateUserInfo(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

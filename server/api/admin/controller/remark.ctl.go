@@ -33,14 +33,14 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RemarkQuery
+	var req *dto.RemarkQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).FindRemarkList(reqCtx, &req)
+	data, err := service.NewRemarkService(s.svcCtx).FindRemarkList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *RemarkController) BatchDeleteRemark(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).BatchDeleteRemark(reqCtx, &req)
+	data, err := service.NewRemarkService(s.svcCtx).BatchDeleteRemark(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *RemarkController) DeleteRemark(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).DeleteRemark(reqCtx, &req)
+	data, err := service.NewRemarkService(s.svcCtx).DeleteRemark(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *RemarkController) UpdateRemark(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RemarkNewReq
+	var req *dto.RemarkNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).UpdateRemark(reqCtx, &req)
+	data, err := service.NewRemarkService(s.svcCtx).UpdateRemark(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

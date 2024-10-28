@@ -10,37 +10,37 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
-type RemarkController struct {
+type FileController struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewRemarkController(svcCtx *svctx.ServiceContext) *RemarkController {
-	return &RemarkController{
+func NewFileController(svcCtx *svctx.ServiceContext) *FileController {
+	return &FileController{
 		svcCtx: svcCtx,
 	}
 }
 
-// @Tags		Remark
-// @Summary		"分页获取留言列表"
+// @Tags		File
+// @Summary		"上传文件列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.RemarkQueryReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/remark/find_remark_list [POST]
-func (s *RemarkController) FindRemarkList(c *gin.Context) {
+// @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=[]dto.FileBackDTO}	"返回信息"
+// @Router		/api/v1/file/multi_upload_file [POST]
+func (s *FileController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.RemarkQueryReq
+	var req *dto.MultiUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).FindRemarkList(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).MultiUploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -48,27 +48,27 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Remark
-// @Summary		"创建留言"
+// @Tags		File
+// @Summary		"上传文件"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.RemarkNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.Remark}	"返回信息"
-// @Router		/api/v1/remark/add_remark [POST]
-func (s *RemarkController) AddRemark(c *gin.Context) {
+// @Param		data	body		dto.UploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.FileBackDTO}	"返回信息"
+// @Router		/api/v1/file/upload_file [POST]
+func (s *FileController) UploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.RemarkNewReq
+	var req *dto.UploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).AddRemark(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).UploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

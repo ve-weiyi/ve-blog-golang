@@ -33,14 +33,14 @@ func (s *ChatController) GetChatMessages(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ChatMessageQueryReq
+	var req *dto.ChatMessageQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewChatService(s.svcCtx).GetChatMessages(reqCtx, &req)
+	data, err := service.NewChatService(s.svcCtx).GetChatMessages(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
