@@ -2,7 +2,7 @@ module github.com/ve-weiyi/ve-blog-golang/server
 
 go 1.22
 
-replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
+//replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
 
 require (
 	github.com/gin-gonic/gin v1.10.0
@@ -20,7 +20,7 @@ require (
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.3
 	github.com/unrolled/secure v1.14.0
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241022082911-69ab434cd481
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241028071213-03831fd1e79d
 	go.uber.org/zap v1.27.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.11
