@@ -75,7 +75,6 @@ func generateDto(cv *CmdVar) error {
 				"Name":    jsonconv.Case2Camel(v.Group),
 				"Types":   val,
 			},
-			FunMap: invent.StdMapUtils,
 		}
 
 		metas = append(metas, meta)

@@ -33,14 +33,14 @@ func (s *ArticleController) FindArticleArchives(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleArchivesQueryReq
+	var req *dto.ArticleArchivesQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).FindArticleArchives(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).FindArticleArchives(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *ArticleController) FindArticleClassifyCategory(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleClassifyQueryReq
+	var req *dto.ArticleClassifyQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).FindArticleClassifyCategory(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).FindArticleClassifyCategory(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *ArticleController) FindArticleClassifyTag(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleClassifyQueryReq
+	var req *dto.ArticleClassifyQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).FindArticleClassifyTag(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).FindArticleClassifyTag(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *ArticleController) GetArticleDetails(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).GetArticleDetails(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).GetArticleDetails(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *ArticleController) FindArticleHomeList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleHomeQueryReq
+	var req *dto.ArticleHomeQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).FindArticleHomeList(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).FindArticleHomeList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *ArticleController) FindArticleRecommend(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).FindArticleRecommend(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).FindArticleRecommend(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -201,14 +201,14 @@ func (s *ArticleController) LikeArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).LikeArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).LikeArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

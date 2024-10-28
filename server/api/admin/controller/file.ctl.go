@@ -10,37 +10,37 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/server/svctx"
 )
 
-type FriendController struct {
+type FileController struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewFriendController(svcCtx *svctx.ServiceContext) *FriendController {
-	return &FriendController{
+func NewFileController(svcCtx *svctx.ServiceContext) *FileController {
+	return &FileController{
 		svcCtx: svcCtx,
 	}
 }
 
-// @Tags		Friend
-// @Summary		"分页获取友链列表"
+// @Tags		File
+// @Summary		"分页获取文件列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.FriendQuery		true	"请求参数"
+// @Param		data	body		dto.FileQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/friend/find_friend_list [POST]
-func (s *FriendController) FindFriendList(c *gin.Context) {
+// @Router		/admin_api/v1/file/find_file_list [POST]
+func (s *FileController) FindFileList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.FriendQuery
+	var req *dto.FileQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).FindFileList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -48,27 +48,27 @@ func (s *FriendController) FindFriendList(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Friend
-// @Summary		"创建友链"
+// @Tags		File
+// @Summary		"创建文件目录"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.FriendNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FriendBackDTO}	"返回信息"
-// @Router		/admin_api/v1/friend/add_friend [POST]
-func (s *FriendController) AddFriend(c *gin.Context) {
+// @Param		data	body		dto.FileFolderNewReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.FileBackDTO}	"返回信息"
+// @Router		/admin_api/v1/file/add_file_folder [POST]
+func (s *FileController) AddFileFolder(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.FriendNewReq
+	var req *dto.FileFolderNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).AddFriend(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).AddFileFolder(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -76,14 +76,14 @@ func (s *FriendController) AddFriend(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Friend
-// @Summary		"批量删除友链"
+// @Tags		File
+// @Summary		"删除文件列表"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/friend/batch_delete_friend [DELETE]
-func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
+// @Router		/admin_api/v1/file/deletes_file [DELETE]
+func (s *FileController) DeletesFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -96,7 +96,7 @@ func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).BatchDeleteFriend(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).DeletesFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -104,27 +104,27 @@ func (s *FriendController) BatchDeleteFriend(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Friend
-// @Summary		"删除友链"
+// @Tags		File
+// @Summary		"上传文件列表"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/friend/delete_friend [DELETE]
-func (s *FriendController) DeleteFriend(c *gin.Context) {
+// @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=[]dto.FileBackDTO}	"返回信息"
+// @Router		/admin_api/v1/file/multi_upload_file [POST]
+func (s *FileController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.IdReq
+	var req *dto.MultiUploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).DeleteFriend(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).MultiUploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -132,27 +132,27 @@ func (s *FriendController) DeleteFriend(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		Friend
-// @Summary		"更新友链"
+// @Tags		File
+// @Summary		"上传文件"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.FriendNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FriendBackDTO}	"返回信息"
-// @Router		/admin_api/v1/friend/update_friend [PUT]
-func (s *FriendController) UpdateFriend(c *gin.Context) {
+// @Param		data	body		dto.UploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.FileBackDTO}	"返回信息"
+// @Router		/admin_api/v1/file/upload_file [POST]
+func (s *FileController) UploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.FriendNewReq
+	var req *dto.UploadFileReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).UpdateFriend(reqCtx, req)
+	data, err := service.NewFileService(s.svcCtx).UploadFile(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

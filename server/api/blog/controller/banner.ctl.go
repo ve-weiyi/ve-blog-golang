@@ -33,14 +33,14 @@ func (s *BannerController) FindBannerList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.BannerQueryReq
+	var req *dto.BannerQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewBannerService(s.svcCtx).FindBannerList(reqCtx, &req)
+	data, err := service.NewBannerService(s.svcCtx).FindBannerList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

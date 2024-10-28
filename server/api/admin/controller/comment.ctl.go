@@ -33,14 +33,14 @@ func (s *CommentController) BatchDeleteComment(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).BatchDeleteComment(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).BatchDeleteComment(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *CommentController) DeleteComment(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).DeleteComment(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).DeleteComment(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *CommentController) FindCommentBackList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CommentQuery
+	var req *dto.CommentQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).FindCommentBackList(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).FindCommentBackList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *CommentController) UpdateCommentReview(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CommentReviewReq
+	var req *dto.CommentReviewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommentService(s.svcCtx).UpdateCommentReview(reqCtx, &req)
+	data, err := service.NewCommentService(s.svcCtx).UpdateCommentReview(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
