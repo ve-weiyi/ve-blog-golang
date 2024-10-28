@@ -31,7 +31,7 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLo
 	in := &accountrpc.FindLoginHistoryListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		UserId:   cast.ToInt64(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.AccountRpc.FindUserLoginHistoryList(l.ctx, in)

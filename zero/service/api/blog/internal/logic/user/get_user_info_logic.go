@@ -32,7 +32,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
 	in := &accountrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	info, err := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, in)
@@ -54,7 +54,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) (out *types.UserInfoResp)
 		UserInfoExt: types.UserInfoExt{},
 	}
 
-	jsonconv.JsonToObject(in.Info, &out.UserInfoExt)
+	jsonconv.JsonToAny(in.Info, &out.UserInfoExt)
 
 	return out
 }

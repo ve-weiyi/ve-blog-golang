@@ -49,7 +49,7 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	}
 
 	// 查询消息
-	//msgCount, err := l.svcCtx.RemarkRpc.FindRemarkCount(l.ctx, in)
+	//msgCount, err := l.svcCtx.MessageRpc.FindRemarkCount(l.ctx, in)
 	//if err != nil {
 	//	return nil, err
 	//}

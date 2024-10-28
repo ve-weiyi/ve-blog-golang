@@ -71,7 +71,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 	}
 
 	var info types.UserInfoExt
-	jsonconv.JsonToObject(in.Info, &info)
+	jsonconv.JsonToAny(in.Info, &info)
 
 	out := &types.UserInfoResp{
 		UserId:      in.UserId,

@@ -42,14 +42,14 @@ func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.Us
 	return convertUserInfoOut(ui, rList), nil
 }
 
-func getUserRoles(ctx context.Context, svcCtx *svc.ServiceContext, uid int64) (list []*model.TRole, err error) {
+func getUserRoles(ctx context.Context, svcCtx *svc.ServiceContext, uid string) (list []*model.TRole, err error) {
 	// 查找用户角色
 	urList, err := svcCtx.TUserRoleModel.FindALL(ctx, "user_id in (?)", uid)
 	if err != nil {
 		return nil, err
 	}
 
-	var ursMap = make(map[int64][]int64)
+	var ursMap = make(map[string][]int64)
 	var roleIds []int64
 	for _, item := range urList {
 		roleIds = append(roleIds, item.RoleId)
@@ -78,7 +78,7 @@ func convertUserInfoOut(in *model.TUser, roles []*model.TRole) (out *accountrpc.
 	}
 
 	out = &accountrpc.UserInfoResp{
-		UserId:    in.Id,
+		UserId:    in.UserId,
 		Username:  in.Username,
 		Nickname:  in.Nickname,
 		Avatar:    in.Avatar,

@@ -2,11 +2,9 @@ package auth
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
@@ -30,10 +28,8 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 }
 
 func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
-	uid := l.ctx.Value("uid").(string)
-
 	in := &accountrpc.LogoutReq{
-		UserId: cast.ToInt64(uid),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.AccountRpc.Logout(l.ctx, in)
@@ -41,8 +37,7 @@ func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return nil, err
 	}
 
-	redisKey := middlewarex.GetUserLogoutKey(cast.ToInt64(uid))
-	_ = l.svcCtx.Redis.SetexCtx(l.ctx, redisKey, fmt.Sprintf("%d", out.LogoutAt), 7*24*60*60)
+	l.svcCtx.TokenHolder.SetLogout(l.ctx, cast.ToString(l.ctx.Value("uid")), out.LogoutAt)
 
 	return &types.EmptyResp{}, nil
 }

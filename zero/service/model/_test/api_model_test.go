@@ -5,12 +5,16 @@ import (
 	"fmt"
 	"log"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/dbx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
@@ -29,6 +33,16 @@ func init() {
 			// 使用单数表名，启用该选项，此时，`User` 的表名应该是 `user`
 			SingularTable: true,
 		},
+		Logger: logger.New(
+			gormlogger.NewGormWriter(gormlogger.AddSkip(1)),
+			logger.Config{
+				SlowThreshold:             500 * time.Millisecond, // 慢 SQL 阈值，超过会提前结束
+				LogLevel:                  logger.Info,
+				IgnoreRecordNotFoundError: false, // 忽略ErrRecordNotFound（记录未找到）错误
+				Colorful:                  true,  // 彩色打印
+				ParameterizedQueries:      false, // 使用参数化查询 (true时，会将参数值替换为?)
+			},
+		),
 	})
 	if err != nil {
 		panic(fmt.Errorf("cannot establish db connection: %w", err))
@@ -36,7 +50,20 @@ func init() {
 	log.Println("mysql connection done")
 }
 
-func Test_Api_Update(t *testing.T) {
+func Test_ClearTable(t *testing.T) {
+	// 清空表
+	//db.Exec("truncate table t_operation_log")
+
+	//dbutil.CleanTable(db, "t_menu")
+	//dbutil.CleanTable(db, "t_role_menu")
+
+	dbx.CleanTable(db, "t_api")
+	dbx.CleanTable(db, "t_role_api")
+
+	//dbutil.CleanTable(db, "t_user_role")
+}
+
+func Test_TOperationLog(t *testing.T) {
 
 	OperationLogModel := model.NewTOperationLogModel(db, nil)
 	ctx := context.Background()
@@ -57,14 +84,14 @@ func Test_Api_Update(t *testing.T) {
 		Cost:           "",
 	}
 
-	batch, err := OperationLogModel.DeleteBatch(ctx, "1=1")
+	batch, err := OperationLogModel.Deletes(ctx, "1=1")
 	assert.Equal(t, nil, err)
 	t.Log(batch)
 
 	insert, err := OperationLogModel.Insert(ctx, data)
 	assert.Equal(t, nil, err)
 	assert.Equal(t, int64(1), insert)
-	t.Log(jsonconv.ObjectToJsonIndent(data))
+	t.Log(jsonconv.AnyToJsonIndent(data))
 
 	data.Nickname = "test_nickname_update"
 	data.IpAddress = ""
@@ -75,7 +102,7 @@ func Test_Api_Update(t *testing.T) {
 
 	one, err := OperationLogModel.FindOne(ctx, data.Id)
 	assert.Equal(t, nil, err)
-	t.Log(jsonconv.ObjectToJsonIndent(one))
+	t.Log(jsonconv.AnyToJsonIndent(one))
 
 	data.Nickname = "test_nickname_save"
 	data.IpAddress = ""
@@ -86,5 +113,5 @@ func Test_Api_Update(t *testing.T) {
 
 	first, err := OperationLogModel.First(ctx, "id = ?", data.Id)
 	assert.Equal(t, nil, err)
-	t.Log(jsonconv.ObjectToJsonIndent(first))
+	t.Log(jsonconv.AnyToJsonIndent(first))
 }

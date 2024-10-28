@@ -43,7 +43,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 	}
 
 	config := &types.WebsiteConfigDTO{}
-	jsonconv.JsonToObject(out.ConfigValue, &config)
+	jsonconv.JsonToAny(out.ConfigValue, &config)
 
 	resp = &types.GetBlogHomeInfoResp{
 		ArticleCount:  analysis.ArticleCount,

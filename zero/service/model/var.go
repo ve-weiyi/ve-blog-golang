@@ -8,7 +8,13 @@ const (
 )
 
 const (
-	//1未删除 2已删除
-	ArticleIsDeleteNo  = 1
-	ArticleIsDeleteYes = 2
+	//0未删除 1已删除
+	ArticleIsDeleteUnused = -1
+	ArticleIsDeleteNo     = 0
+	ArticleIsDeleteYes    = 1
+
+	//0未置顶 1置顶
+	ArticleIsTopUnused = -1
+	ArticleIsTopNo     = 0
+	ArticleIsTopYes    = 1
 )

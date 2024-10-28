@@ -36,7 +36,7 @@ func (l *FindAccountLoginHistoryListLogic) FindAccountLoginHistoryList(req *type
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 	}
@@ -48,7 +48,7 @@ func (l *FindAccountLoginHistoryListLogic) FindAccountLoginHistoryList(req *type
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -67,7 +67,7 @@ func (l *FindAccountLoginHistoryListLogic) FindAccountLoginHistoryList(req *type
 	return resp, nil
 }
 
-func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory, usm map[int64]*accountrpc.User) (out *types.AccountLoginHistory) {
+func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory, usm map[string]*accountrpc.User) (out *types.AccountLoginHistory) {
 	out = &types.AccountLoginHistory{
 		Id:        in.Id,
 		LoginType: in.LoginType,
@@ -79,7 +79,7 @@ func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory, usm map[int64
 	}
 
 	// 用户信息
-	if in.UserId != 0 {
+	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
 			out.Username = user.Username

@@ -39,7 +39,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 	}
@@ -52,7 +52,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}

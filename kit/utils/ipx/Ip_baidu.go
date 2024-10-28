@@ -36,12 +36,6 @@ type BaiduLocation struct {
 
 // GetIpSource 获取ip对应的城市地区
 func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
-	if strings.HasPrefix(ip, "localhost") || strings.HasPrefix(ip, "127.0.0.1") {
-		return &BaiduLocation{
-			Location: "本机地址",
-			Origip:   ip,
-		}, nil
-	}
 
 	resp, err := http.Get(fmt.Sprintf("http://opendata.baidu.com/api.php?query=" + ip + "&co=&resource_id=6006&oe=utf8"))
 	if err != nil {
@@ -64,4 +58,16 @@ func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
 	} else {
 		return nil, fmt.Errorf("ip query fail,no data ip:%v", ip)
 	}
+}
+
+func GetIpSourceByBaidu(ip string) (string, error) {
+	if strings.HasPrefix(ip, "localhost") || strings.HasPrefix(ip, "127.0.0.1") {
+		return "本机地址", nil
+	}
+
+	info, err := GetIpInfoByBaidu(ip)
+	if err != nil {
+		return "", err
+	}
+	return info.Location, nil
 }

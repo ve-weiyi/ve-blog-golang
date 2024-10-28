@@ -6,7 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/remarkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,11 +27,11 @@ func NewUpdateRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 func (l *UpdateRemarkLogic) UpdateRemark(req *types.RemarkNewReq) (resp *types.RemarkBackDTO, err error) {
-	in := &remarkrpc.RemarkUpdateReq{
+	in := &messagerpc.RemarkUpdateReq{
 		Id:       req.Id,
 		IsReview: req.IsReview,
 	}
-	out, err := l.svcCtx.RemarkRpc.UpdateRemark(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.UpdateRemark(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (l *UpdateRemarkLogic) UpdateRemark(req *types.RemarkNewReq) (resp *types.R
 	return resp, nil
 }
 
-func ConvertRemarkTypes(in *remarkrpc.RemarkDetails, usm map[int64]*accountrpc.User) (out *types.RemarkBackDTO) {
+func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc.User) (out *types.RemarkBackDTO) {
 	out = &types.RemarkBackDTO{
 		Id:             in.Id,
 		Nickname:       "",
@@ -55,7 +55,7 @@ func ConvertRemarkTypes(in *remarkrpc.RemarkDetails, usm map[int64]*accountrpc.U
 	}
 
 	// 用户信息
-	if in.UserId != 0 {
+	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
 			out.Nickname = user.Nickname

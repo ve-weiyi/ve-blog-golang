@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
@@ -63,13 +64,13 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 		return nil, err
 	}
 
-	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", ua.Id)
+	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", ua.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	resp := &accountrpc.LoginResp{
-		UserId:   user.Id,
+		UserId:   user.UserId,
 		Username: user.Username,
 		Nickname: user.Nickname,
 		Avatar:   user.Avatar,
@@ -82,7 +83,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.TUser, err error) {
 	// 邮箱注册
 	user := &model.TUser{
-		Id:        0,
+		UserId:    uuid.NewString(),
 		Username:  in.Username,
 		Password:  crypto.BcryptHash(in.Password),
 		Nickname:  in.Username,
@@ -115,13 +116,13 @@ func onRegister(ctx context.Context, svcCtx *svc.ServiceContext, tx *gorm.DB, us
 	var userRoles []*model.TUserRole
 	for _, item := range roles {
 		userRoles = append(userRoles, &model.TUserRole{
-			UserId: user.Id,
+			UserId: user.UserId,
 			RoleId: item.Id,
 		})
 	}
 
 	/** 创建用户角色 **/
-	_, err = svcCtx.TUserRoleModel.WithTransaction(tx).InsertBatch(ctx, userRoles...)
+	_, err = svcCtx.TUserRoleModel.WithTransaction(tx).Inserts(ctx, userRoles...)
 	if err != nil {
 		return nil, err
 	}

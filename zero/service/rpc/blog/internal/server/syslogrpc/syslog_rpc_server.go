@@ -39,15 +39,3 @@ func (s *SyslogRpcServer) FindOperationLogList(ctx context.Context, in *syslogrp
 	l := syslogrpclogic.NewFindOperationLogListLogic(ctx, s.svcCtx)
 	return l.FindOperationLogList(in)
 }
-
-// 上传文件
-func (s *SyslogRpcServer) AddUploadLog(ctx context.Context, in *syslogrpc.UploadLogNewReq) (*syslogrpc.UploadLogDetails, error) {
-	l := syslogrpclogic.NewAddUploadLogLogic(ctx, s.svcCtx)
-	return l.AddUploadLog(in)
-}
-
-// 查询文件列表
-func (s *SyslogRpcServer) FindUploadLogList(ctx context.Context, in *syslogrpc.FindUploadLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
-	l := syslogrpclogic.NewFindUploadLogListLogic(ctx, s.svcCtx)
-	return l.FindUploadLogList(in)
-}

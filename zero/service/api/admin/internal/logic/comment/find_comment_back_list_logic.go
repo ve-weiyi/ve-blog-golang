@@ -29,11 +29,11 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) (resp *types.PageResp, err error) {
 	in := &commentrpc.FindCommentListReq{
-		Page:      req.Page,
-		PageSize:  req.PageSize,
-		Sorts:     req.Sorts,
-		SessionId: 0,
-		Type:      req.Type,
+		Page:       req.Page,
+		PageSize:   req.PageSize,
+		Sorts:      req.Sorts,
+		ReplyMsgId: 0,
+		Type:       req.Type,
 	}
 
 	// 查找评论列表
@@ -42,7 +42,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 		return nil, err
 	}
 
-	var uids []int64
+	var uids []string
 	var aids []int64
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
@@ -58,7 +58,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
@@ -88,7 +88,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
+func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[string]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
 	out = &types.CommentBackDTO{
 		Id:             in.Id,
 		Type:           in.Type,
@@ -97,7 +97,7 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 		Nickname:       "",
 		ToNickname:     "",
 		CommentContent: in.CommentContent,
-		IsReview:       0,
+		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt,
 	}
 
@@ -110,7 +110,7 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 	}
 
 	// 用户信息
-	if in.UserId != 0 {
+	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
 			out.Nickname = user.Nickname
@@ -118,7 +118,7 @@ func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[int64]*accountrp
 		}
 	}
 
-	if in.ReplyUserId != 0 {
+	if in.ReplyUserId != "" {
 		user, ok := usm[in.ReplyUserId]
 		if ok && user != nil {
 			out.ToNickname = user.Nickname

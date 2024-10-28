@@ -57,7 +57,7 @@ func convertUserLoginHistoryQuery(in *accountrpc.FindLoginHistoryListReq) (page 
 	if sorts == "" {
 		sorts = "id desc"
 	}
-	if in.UserId != 0 {
+	if in.UserId != "" {
 		conditions += "user_id = ?"
 		params = append(params, in.UserId)
 	}

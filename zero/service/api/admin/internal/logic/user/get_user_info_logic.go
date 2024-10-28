@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
@@ -30,7 +31,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
 	in := &accountrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	info, err := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, in)
@@ -54,7 +55,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 	}
 
 	var info types.UserInfoExt
-	jsonconv.JsonToObject(in.Info, &info)
+	jsonconv.JsonToAny(in.Info, &info)
 
 	out := &types.UserInfoResp{
 		UserId:      in.UserId,

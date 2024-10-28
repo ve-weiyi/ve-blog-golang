@@ -27,15 +27,17 @@ func NewFindArticleHomeListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *FindArticleHomeListLogic) FindArticleHomeList(req *types.ArticleHomeQueryReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
+		Page:         req.Page,
+		PageSize:     req.PageSize,
+		Sorts:        req.Sorts,
+		ArticleTitle: req.ArticleTitle,
 	}
 	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*types.ArticleHome
+	list := make([]*types.ArticleHome, 0)
 	// 转换数据
 	for _, v := range out.List {
 		m := ConvertArticleHomeTypes(v)

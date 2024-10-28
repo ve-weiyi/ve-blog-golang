@@ -5,8 +5,6 @@ import (
 
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/permissionrpc"
@@ -31,7 +29,7 @@ func NewGetUserApisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApisResp, err error) {
 	in := &permissionrpc.UserIdReq{
-		UserId: cast.ToInt64(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindUserApis(l.ctx, in)
@@ -40,9 +38,33 @@ func (l *GetUserApisLogic) GetUserApis(req *types.EmptyReq) (resp *types.UserApi
 	}
 
 	var list []*types.UserApi
-	jsonconv.ObjectToObject(out.List, &list)
+	for _, v := range out.List {
+		m := convertUserApi(v)
+		list = append(list, m)
+	}
 
 	resp = &types.UserApisResp{}
 	resp.List = list
 	return
+}
+
+func convertUserApi(req *permissionrpc.ApiDetails) (out *types.UserApi) {
+	children := make([]*types.UserApi, 0)
+	for _, v := range req.Children {
+		m := convertUserApi(v)
+		children = append(children, m)
+	}
+
+	out = &types.UserApi{
+		Id:        req.Id,
+		ParentId:  req.ParentId,
+		Name:      req.Name,
+		Path:      req.Path,
+		Method:    req.Method,
+		CreatedAt: req.CreatedAt,
+		UpdatedAt: req.UpdatedAt,
+		Children:  children,
+	}
+
+	return out
 }

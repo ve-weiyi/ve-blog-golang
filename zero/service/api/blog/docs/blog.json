@@ -400,10 +400,10 @@
         ]
       }
     },
-    "/api/v1/chat/records": {
+    "/api/v1/chat/messages": {
       "post": {
         "summary": "查询聊天记录",
-        "operationId": "GetChatRecords",
+        "operationId": "GetChatMessages",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -418,7 +418,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ChatQueryReq"
+              "$ref": "#/definitions/ChatMessageQueryReq"
             }
           }
         ],
@@ -560,6 +560,69 @@
         ],
         "tags": [
           "comment"
+        ]
+      }
+    },
+    "/api/v1/file/multi_upload_file": {
+      "post": {
+        "summary": "上传文件列表",
+        "operationId": "MultiUploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/*FileBackDTO"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiUploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/file/upload_file": {
+      "post": {
+        "summary": "上传文件",
+        "operationId": "UploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadFileReq"
+            }
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
         ]
       }
     },
@@ -991,36 +1054,6 @@
         ]
       }
     },
-    "/api/v1/upload/upload_file": {
-      "post": {
-        "summary": "上传文件",
-        "operationId": "UploadFile",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/UploadFileResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UploadFileReq"
-            }
-          }
-        ],
-        "tags": [
-          "upload"
-        ],
-        "consumes": [
-          "multipart/form-data"
-        ]
-      }
-    },
     "/api/v1/user/get_user_info": {
       "get": {
         "summary": "获取用户信息",
@@ -1163,7 +1196,7 @@
         ]
       }
     },
-    "/api/v1/ws": {
+    "/api/v1/websocket": {
       "get": {
         "summary": "WebSocket消息",
         "operationId": "WebSocket",
@@ -1479,6 +1512,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "article_title": {
+          "type": "string",
+          "description": " 标题"
         }
       },
       "title": "ArticleHomeQueryReq"
@@ -1664,27 +1701,7 @@
       },
       "title": "CategoryQueryReq"
     },
-    "ChatQueryReq": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "ChatQueryReq"
-    },
-    "ChatRecord": {
+    "ChatMessage": {
       "type": "object",
       "properties": {
         "id": {
@@ -1693,8 +1710,7 @@
           "description": " 主键"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "nickname": {
@@ -1705,9 +1721,9 @@
           "type": "string",
           "description": " 头像"
         },
-        "content": {
+        "chatContent": {
           "type": "string",
-          "description": " 聊天内容"
+          "description": " 消息内容"
         },
         "ip_address": {
           "type": "string",
@@ -1718,8 +1734,7 @@
           "description": " ip来源"
         },
         "type": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 类型"
         },
         "created_at": {
@@ -1733,13 +1748,13 @@
           "description": " 更新时间"
         }
       },
-      "title": "ChatRecord",
+      "title": "ChatMessage",
       "required": [
         "id",
         "user_id",
         "nickname",
         "avatar",
-        "content",
+        "chatContent",
         "ip_address",
         "ip_source",
         "type",
@@ -1747,23 +1762,125 @@
         "updated_at"
       ]
     },
-    "ChatSocketMsg": {
+    "ChatMessageQueryReq": {
+      "type": "object",
+      "properties": {
+        "after": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 起始时间"
+        },
+        "before": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 限制数量"
+        },
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "topic_id": {
+          "type": "string",
+          "description": " 聊天室id"
+        },
+        "keyword": {
+          "type": "string",
+          "description": " 关键字"
+        },
+        "type": {
+          "type": "string",
+          "description": " 类型"
+        }
+      },
+      "title": "ChatMessageQueryReq"
+    },
+    "ChatMsgReq": {
       "type": "object",
       "properties": {
         "type": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
         },
-        "content": {
+        "chat_content": {
           "type": "string",
           "description": " 消息内容"
         }
       },
-      "title": "ChatSocketMsg",
+      "title": "ChatMsgReq",
       "required": [
         "type",
-        "content"
+        "chat_content"
+      ]
+    },
+    "ChatMsgResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键"
+        },
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "device_id": {
+          "type": "string",
+          "description": " 设备id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "chat_content": {
+          "type": "string",
+          "description": " 消息内容"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " ip地址"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip来源"
+        },
+        "type": {
+          "type": "string",
+          "description": " 类型"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "ChatMsgResp",
+      "required": [
+        "id",
+        "user_id",
+        "device_id",
+        "nickname",
+        "avatar",
+        "chat_content",
+        "ip_address",
+        "ip_source",
+        "type",
+        "created_at",
+        "updated_at"
       ]
     },
     "Comment": {
@@ -1784,19 +1901,17 @@
           "format": "int64",
           "description": " 父评论id"
         },
-        "session_id": {
+        "reply_msg_id": {
           "type": "integer",
           "format": "int64",
           "description": " 会话id"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "reply_user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 被回复用户id"
         },
         "comment_content": {
@@ -1844,7 +1959,7 @@
         "id",
         "topic_id",
         "parent_id",
-        "session_id",
+        "reply_msg_id",
         "user_id",
         "reply_user_id",
         "comment_content",
@@ -1870,14 +1985,13 @@
           "format": "int64",
           "description": " 父评论id"
         },
-        "session_id": {
+        "reply_msg_id": {
           "type": "integer",
           "format": "int64",
           "description": " 会话id"
         },
         "reply_user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 回复用户id"
         },
         "comment_content": {
@@ -1945,19 +2059,17 @@
           "format": "int64",
           "description": " 父评论id"
         },
-        "session_id": {
+        "reply_msg_id": {
           "type": "integer",
           "format": "int64",
           "description": " 会话id"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "reply_user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 被回复用户id"
         },
         "comment_content": {
@@ -1993,7 +2105,7 @@
         "id",
         "topic_id",
         "parent_id",
-        "session_id",
+        "reply_msg_id",
         "user_id",
         "reply_user_id",
         "comment_content",
@@ -2007,9 +2119,8 @@
     "CommentUserInfo": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
+        "user_id": {
+          "type": "string"
         },
         "nickname": {
           "type": "string"
@@ -2023,7 +2134,7 @@
       },
       "title": "CommentUserInfo",
       "required": [
-        "id",
+        "user_id",
         "nickname",
         "avatar",
         "website"
@@ -2036,6 +2147,67 @@
     "EmptyResp": {
       "type": "object",
       "title": "EmptyResp"
+    },
+    "FileBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件目录ID"
+        },
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "file_path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "file_name": {
+          "type": "string",
+          "description": " 文件名称"
+        },
+        "file_type": {
+          "type": "string",
+          "description": " 文件类型"
+        },
+        "file_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件大小"
+        },
+        "file_md5": {
+          "type": "string",
+          "description": " 文件md5值"
+        },
+        "file_url": {
+          "type": "string",
+          "description": " 上传路径"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "FileBackDTO",
+      "required": [
+        "user_id",
+        "file_path",
+        "file_name",
+        "file_type",
+        "file_size",
+        "file_md5",
+        "file_url",
+        "created_at",
+        "updated_at"
+      ]
     },
     "Friend": {
       "type": "object",
@@ -2228,6 +2400,23 @@
       "required": [
         "token"
       ]
+    },
+    "MultiUploadFileReq": {
+      "type": "object",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": " 文件列表"
+        },
+        "file_path": {
+          "type": "string",
+          "description": " 文件路径"
+        }
+      },
+      "title": "MultiUploadFileReq"
     },
     "OauthLoginReq": {
       "type": "object",
@@ -2454,11 +2643,6 @@
           "type": "string",
           "description": " 用户地址"
         },
-        "time": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 弹幕速度"
-        },
         "is_review": {
           "type": "integer",
           "format": "int64",
@@ -2482,7 +2666,6 @@
         "message_content",
         "ip_address",
         "ip_source",
-        "time",
         "is_review",
         "created_at",
         "updated_at"
@@ -2651,8 +2834,7 @@
           "description": " 说说ID"
         },
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户ID"
         },
         "nickname": {
@@ -2745,8 +2927,7 @@
       "type": "object",
       "properties": {
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "token_type": {
@@ -2825,82 +3006,16 @@
     "UploadFileReq": {
       "type": "object",
       "properties": {
-        "label": {
-          "type": "string"
-        },
         "file": {
           "type": "object",
           "description": " 文件"
         },
-        "file_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文件大小"
-        },
-        "file_md5": {
+        "file_path": {
           "type": "string",
-          "description": " 文件md5值"
+          "description": " 文件路径"
         }
       },
       "title": "UploadFileReq"
-    },
-    "UploadFileResp": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " id"
-        },
-        "user_id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 用户id"
-        },
-        "label": {
-          "type": "string",
-          "description": " 标签"
-        },
-        "file_name": {
-          "type": "string",
-          "description": " 文件名称"
-        },
-        "file_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文件大小"
-        },
-        "file_md5": {
-          "type": "string",
-          "description": " 文件md5值"
-        },
-        "file_url": {
-          "type": "string",
-          "description": " 上传路径"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "UploadFileResp",
-      "required": [
-        "id",
-        "user_id",
-        "label",
-        "file_name",
-        "file_size",
-        "file_md5",
-        "file_url",
-        "created_at",
-        "updated_at"
-      ]
     },
     "UserEmailReq": {
       "type": "object",
@@ -2936,8 +3051,7 @@
       "type": "object",
       "properties": {
         "user_id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 用户id"
         },
         "username": {
@@ -3009,6 +3123,38 @@
         "article_like_set",
         "comment_like_set",
         "talk_like_set"
+      ]
+    },
+    "WebSocketMsg": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": " 客户端id"
+        },
+        "client_ip": {
+          "type": "string",
+          "description": " 客户端ip"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 时间戳"
+        },
+        "cmd": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息命令"
+        },
+        "data": {
+          "type": "string",
+          "description": " 消息内容"
+        }
+      },
+      "title": "WebSocketMsg",
+      "required": [
+        "cmd",
+        "data"
       ]
     },
     "WebsiteConfigDTO": {

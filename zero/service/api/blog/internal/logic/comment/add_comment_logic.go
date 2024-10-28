@@ -31,8 +31,8 @@ func (l *AddCommentLogic) AddComment(req *types.CommentNewReq) (resp *types.Comm
 	in := &commentrpc.CommentNewReq{
 		ParentId:       req.ParentId,
 		TopicId:        req.TopicId,
-		SessionId:      req.SessionId,
-		UserId:         cast.ToInt64(l.ctx.Value("uid")),
+		ReplyMsgId:     req.ReplyMsgId,
+		UserId:         cast.ToString(l.ctx.Value("uid")),
 		ReplyUserId:    req.ReplyUserId,
 		CommentContent: req.CommentContent,
 		Type:           req.Type,

@@ -30,7 +30,7 @@ message CountResp {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 /************** article 相关 **************/
@@ -38,7 +38,7 @@ message UserIdReq {
 // article结构体
 message ArticleNewReq {
   int64 id = 1;// id
-  int64 user_id = 2;// 作者
+  string user_id = 2;// 作者
   //  int64 category_id = 3;// 文章分类
   string article_cover = 4;// 文章缩略图
   string article_title = 5;// 标题
@@ -57,7 +57,7 @@ message ArticleNewReq {
 
 message ArticleDetails {
   int64 id = 1;// id
-  int64 user_id = 2;// 作者
+  string user_id = 2;// 作者
   int64 category_id = 3;// 文章分类
   string article_cover = 4;// 文章缩略图
   string article_title = 5;// 标题

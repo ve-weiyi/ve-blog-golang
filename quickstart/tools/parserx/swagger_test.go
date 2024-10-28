@@ -15,7 +15,7 @@ func Test_NewSwaggerParser(t *testing.T) {
 	api, err := NewSwaggerParser().ParseApi("./_testdata/test.json")
 	assert.Equal(t, nil, err)
 
-	t.Log(jsonconv.ObjectToJsonIndent(api.Types))
+	t.Log(jsonconv.AnyToJsonIndent(api.Types))
 }
 
 func Test_Load(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_Load(t *testing.T) {
 
 	sp := doc.Spec()
 
-	t.Log(jsonconv.ObjectToJsonIndent(sp))
+	t.Log(jsonconv.AnyToJsonIndent(sp))
 }
 
 func Test_ParseAst(t *testing.T) {
@@ -39,5 +39,5 @@ func Test_ParseAst(t *testing.T) {
 	p.ParseAPIMultiSearchDir([]string{"/Users/weiyi/Github/ve-blog-golang/server/api/blog/controller"}, "/Users/weiyi/Github/ve-blog-golang/server/main.go", 2)
 
 	swagger := p.GetSwagger()
-	fmt.Printf("Spec loaded: %v\n", jsonconv.ObjectToJsonIndent(swagger))
+	fmt.Printf("Spec loaded: %v\n", jsonconv.AnyToJsonIndent(swagger))
 }

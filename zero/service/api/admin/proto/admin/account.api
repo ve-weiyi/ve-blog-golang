@@ -4,12 +4,12 @@ import "base.api"
 
 type (
     UpdateAccountStatusReq {
-        UserId int64 `json:"user_id"`
+        UserId string `json:"user_id"`
         Status int64 `json:"status"`               // 状态: -1删除 0正常 1禁用
     }
 
     UpdateAccountRolesReq {
-        UserId int64 `json:"user_id"`
+        UserId string `json:"user_id"`
         RoleIds []int64 `json:"role_ids"`
     }
 

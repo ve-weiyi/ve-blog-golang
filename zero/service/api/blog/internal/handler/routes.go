@@ -11,11 +11,11 @@ import (
 	category "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/category"
 	chat "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/comment"
+	file "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/friend"
 	remark "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/talk"
-	upload "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/upload"
 	user "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/user"
 	website "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/website"
 	websocket "github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler/websocket"
@@ -242,8 +242,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 查询聊天记录
 					Method:  http.MethodPost,
-					Path:    "/chat/records",
-					Handler: chat.GetChatRecordsHandler(serverCtx),
+					Path:    "/chat/messages",
+					Handler: chat.GetChatMessagesHandler(serverCtx),
 				},
 			}...,
 		),
@@ -292,6 +292,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/comment/like_comment",
 					Handler: comment.LikeCommentHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 上传文件列表
+					Method:  http.MethodPost,
+					Path:    "/file/multi_upload_file",
+					Handler: file.MultiUploadFileHandler(serverCtx),
+				},
+				{
+					// 上传文件
+					Method:  http.MethodPost,
+					Path:    "/file/upload_file",
+					Handler: file.UploadFileHandler(serverCtx),
 				},
 			}...,
 		),
@@ -387,21 +408,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
-			[]rest.Route{
-				{
-					// 上传文件
-					Method:  http.MethodPost,
-					Path:    "/upload/upload_file",
-					Handler: upload.UploadFileHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
 			[]rest.Route{
 				{
@@ -459,7 +465,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				// WebSocket消息
 				Method:  http.MethodGet,
-				Path:    "/ws",
+				Path:    "/websocket",
 				Handler: websocket.WebSocketHandler(serverCtx),
 			},
 		},

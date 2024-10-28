@@ -35,7 +35,7 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQueryReq) (r
 		return nil, err
 	}
 
-	var list []*types.Category
+	list := make([]*types.Category, 0)
 	for _, v := range out.List {
 		m := ConvertCategoryTypes(v)
 		list = append(list, m)

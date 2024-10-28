@@ -2,30 +2,29 @@ package middlewarex
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/spf13/cast"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
-	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/redis"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/responsex"
 )
 
-type JwtTokenMiddleware struct {
-	Token *jtoken.JwtInstance
-	Redis *redis.Redis
+type TokenVerifier interface {
+	VerifyToken(ctx context.Context, token string, uid string) (jwt.MapClaims, error)
 }
 
-func NewJwtTokenMiddleware(tk *jtoken.JwtInstance, rds *redis.Redis) *JwtTokenMiddleware {
+type JwtTokenMiddleware struct {
+	verifier TokenVerifier
+}
+
+func NewJwtTokenMiddleware(verifier TokenVerifier) *JwtTokenMiddleware {
 	return &JwtTokenMiddleware{
-		Token: tk,
-		Redis: rds,
+		verifier: verifier,
 	}
 }
 
@@ -38,41 +37,9 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		token = r.Header.Get(constant.HeaderAuthorization)
 		uid = r.Header.Get(constant.HeaderUid)
 
-		//token为空或者uid为空
-		if token == "" || uid == "" {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token or uid is empty"))
-			return
-		}
-
-		// 解析token
-		tok, err := j.Token.ParseToken(token)
+		claims, err := j.verifier.VerifyToken(r.Context(), token, uid)
 		if err != nil {
 			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, err.Error()))
-			return
-		}
-
-		// token不合法
-		if !tok.Valid {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token is invalid"))
-			return
-		}
-
-		// 获取claims
-		claims, ok := tok.Claims.(jwt.MapClaims)
-		if !ok {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token claims is not jwt.MapClaims"))
-			return
-		}
-
-		// uid不一致
-		if uid != cast.ToString(claims["uid"]) {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "token cannot use by uid"))
-			return
-		}
-
-		//token验证成功,但用户在别处登录或退出登录
-		if j.IsLogout(claims) {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, "user already logout or login in other place"))
 			return
 		}
 
@@ -90,29 +57,4 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	}
-}
-
-// 已退出登录
-func (j *JwtTokenMiddleware) IsLogout(claims jwt.MapClaims) bool {
-	uid := cast.ToInt64(claims["uid"])
-	loginAt := cast.ToInt64(claims[jtoken.JwtIssueAt])
-
-	redisKey := GetUserLogoutKey(uid)
-
-	at, err := j.Redis.Get(redisKey)
-	if err != nil {
-		return false
-	}
-
-	logoutAt := cast.ToInt64(at)
-	if loginAt < logoutAt {
-		logx.Infof("loginAt=%d, at.LogoutAt=%d", loginAt, logoutAt)
-		return true
-	}
-
-	return false
-}
-
-func GetUserLogoutKey(uid int64) string {
-	return fmt.Sprintf("user:logout:%d", uid)
 }

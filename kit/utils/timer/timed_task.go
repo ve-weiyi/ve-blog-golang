@@ -6,9 +6,10 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
+// 使用说明 https://pkg.go.dev/github.com/robfig/cron
 type Timer interface {
-	AddTaskByFunc(taskName string, spec string, task func(), option ...cron.Option) (cron.EntryId, error)
-	AddTaskByJob(taskName string, spec string, job interface{ Run() }, option ...cron.Option) (cron.EntryId, error)
+	AddTaskByFunc(taskName string, spec string, task func(), option ...cron.Option) (cron.EntryID, error)
+	AddTaskByJob(taskName string, spec string, job interface{ Run() }, option ...cron.Option) (cron.EntryID, error)
 	FindCron(taskName string) (*cron.Cron, bool)
 	StartTask(taskName string)
 	StopTask(taskName string)
@@ -24,7 +25,7 @@ type timer struct {
 }
 
 // AddTaskByFunc 通过函数的方法添加任务
-func (t *timer) AddTaskByFunc(taskName string, spec string, task func(), option ...cron.Option) (cron.EntryId, error) {
+func (t *timer) AddTaskByFunc(taskName string, spec string, task func(), option ...cron.Option) (cron.EntryID, error) {
 	t.Lock()
 	defer t.Unlock()
 	if _, ok := t.taskList[taskName]; !ok {
@@ -36,7 +37,7 @@ func (t *timer) AddTaskByFunc(taskName string, spec string, task func(), option 
 }
 
 // AddTaskByJob 通过接口的方法添加任务
-func (t *timer) AddTaskByJob(taskName string, spec string, job interface{ Run() }, option ...cron.Option) (cron.EntryId, error) {
+func (t *timer) AddTaskByJob(taskName string, spec string, job interface{ Run() }, option ...cron.Option) (cron.EntryID, error) {
 	t.Lock()
 	defer t.Unlock()
 	if _, ok := t.taskList[taskName]; !ok {

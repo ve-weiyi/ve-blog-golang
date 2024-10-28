@@ -22,7 +22,7 @@ message IdsReq {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 message BatchResp {
@@ -73,8 +73,6 @@ message AlbumNewReq {
   string album_cover = 4;// 相册封面
   int64 is_delete = 5;// 是否删除
   int64 status = 6;// 状态值 1公开 2私密
-  int64 created_at = 7;// 创建时间
-  int64 updated_at = 8;// 更新时间
 }
 
 message AlbumDetails {

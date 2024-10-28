@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"testing"
 
@@ -11,7 +12,7 @@ import (
 )
 
 func Test_len(t *testing.T) {
-	fmt.Println(len("230f039bbd89dcb83974cac5041a1199d98ba9c1"))
+	fmt.Println(len("AK7A510DTEST1002"))
 }
 func Test_VisitFile(t *testing.T) {
 
@@ -102,4 +103,42 @@ func part2(arr []int, low, high int) int {
 	arr[l], arr[low] = arr[low], arr[l]
 
 	return l
+}
+
+func TestMerge(t *testing.T) {
+	nums1 := []int{1, 0}
+	m := 1
+	nums2 := []int{2}
+	n := 1
+	merge(nums1, m, nums2, n)
+}
+
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	if n == 0 {
+		fmt.Println(nums1)
+		return
+	}
+
+	if m == 0 {
+		copy(nums1, nums2)
+		fmt.Println(nums1)
+		return
+	}
+
+	i := 0
+	l := 0
+	for i+l < m+n {
+		a := nums1[i+l]
+		b := nums2[l]
+
+		if a <= b && a != 0 {
+			// 加入a
+			i++
+		} else {
+			// 加入b
+			nums1 = slices.Insert(nums1, i+l, b)[0 : m+n]
+			l++
+		}
+	}
+	fmt.Println(nums1)
 }

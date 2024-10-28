@@ -36,7 +36,7 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQueryReq) (resp *type
 		return nil, err
 	}
 
-	var list []*types.Album
+	list := make([]*types.Album, 0)
 	for _, v := range out.List {
 		m := ConvertAlbumTypes(v)
 		list = append(list, m)

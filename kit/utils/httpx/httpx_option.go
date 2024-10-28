@@ -11,14 +11,13 @@ import (
 
 // Client 表示HTTP客户端。
 type Client struct {
-	httpClient *http.Client  // 底层HTTP客户端
-	timeout    time.Duration // 请求超时时间
+	timeout time.Duration // 请求超时时间
 
 	method string // 请求方法
 	url    string // 请求URL
 
 	headers map[string]string // 请求头部
-	params  map[string]string // 请求参数
+	params  map[string]string // 请求路径上的查询参数
 	body    []byte            // 请求体
 }
 
@@ -26,14 +25,15 @@ type Client struct {
 type Option func(*Client)
 
 // NewClient 使用默认设置创建一个新的HTTP客户端。
-func NewClient(options ...Option) *Client {
+func NewClient(method, url string, options ...Option) *Client {
 	client := &Client{
-		httpClient: &http.Client{},
-		timeout:    30 * time.Second, // 默认超时时间
-		method:     http.MethodGet,
-		url:        "",
-		headers:    make(map[string]string),
-		params:     make(map[string]string),
+		method: method,
+		url:    url,
+
+		timeout: 30 * time.Second, // 默认超时时间
+		headers: make(map[string]string),
+		params:  make(map[string]string),
+		body:    make([]byte, 0),
 	}
 
 	// 应用选项
@@ -69,20 +69,6 @@ func WithParams(params map[string]string) Option {
 	}
 }
 
-// WithMethod 设置HTTP请求的方法。
-func WithMethod(method string) Option {
-	return func(c *Client) {
-		c.method = method
-	}
-}
-
-// WithURL 设置HTTP请求的URL。
-func WithURL(url string) Option {
-	return func(c *Client) {
-		c.url = url
-	}
-}
-
 // WithBody 设置HTTP请求的请求体。
 func WithBody(body []byte) Option {
 	return func(c *Client) {
@@ -92,6 +78,7 @@ func WithBody(body []byte) Option {
 
 // DoRequest 执行一个HTTP请求。
 func (c *Client) DoRequest() (respBody []byte, err error) {
+	// 解析URL
 	uv, err := url.ParseRequestURI(c.url)
 	if err != nil {
 		return nil, err
@@ -115,11 +102,14 @@ func (c *Client) DoRequest() (respBody []byte, err error) {
 	}
 	req.URL.RawQuery = query.Encode()
 
+	// 底层HTTP客户端
+	httpClient := &http.Client{}
+
 	// 设置超时时间
-	c.httpClient.Timeout = c.timeout
+	httpClient.Timeout = c.timeout
 
 	// 执行请求
-	resp, err := c.httpClient.Do(req)
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -139,10 +129,10 @@ func (c *Client) DoRequest() (respBody []byte, err error) {
 }
 
 // EncodeURL 编码URL。
-func (c *Client) EncodeURL(rawURL string) string {
-	req, err := http.NewRequest(http.MethodGet, rawURL, nil)
+func (c *Client) EncodeURL() string {
+	req, err := http.NewRequest(c.method, c.url, nil)
 	if err != nil {
-		return rawURL
+		return c.url
 	}
 
 	// 设置查询参数
@@ -156,7 +146,7 @@ func (c *Client) EncodeURL(rawURL string) string {
 }
 
 // 输出 curl
-func (c *Client) CURL() (string, error) {
+func (c *Client) CURL() string {
 	var curl string
 	curl = fmt.Sprintf("curl --location --request %s '%s'", c.method, c.url)
 
@@ -170,5 +160,5 @@ func (c *Client) CURL() (string, error) {
 		curl += fmt.Sprintf("--data-raw '%s'", string(c.body))
 	}
 
-	return curl, nil
+	return curl
 }

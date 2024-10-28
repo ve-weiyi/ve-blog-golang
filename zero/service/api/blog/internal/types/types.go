@@ -48,6 +48,7 @@ type ArticleHome struct {
 
 type ArticleHomeQueryReq struct {
 	PageQuery
+	ArticleTitle string `json:"article_title,optional"` // 标题
 }
 
 type ArticlePreview struct {
@@ -92,35 +93,55 @@ type CategoryQueryReq struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type ChatQueryReq struct {
-	PageQuery
+type ChatMessage struct {
+	Id          int64  `json:"id"`          // 主键
+	UserId      string `json:"user_id"`     // 用户id
+	Nickname    string `json:"nickname"`    // 昵称
+	Avatar      string `json:"avatar"`      // 头像
+	ChatContent string `json:"chatContent"` // 消息内容
+	IpAddress   string `json:"ip_address"`  // ip地址
+	IpSource    string `json:"ip_source"`   // ip来源
+	Type        string `json:"type"`        // 类型
+	CreatedAt   int64  `json:"created_at"`  // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`  // 更新时间
 }
 
-type ChatRecord struct {
-	Id        int64  `json:"id"`         // 主键
-	UserId    int64  `json:"user_id"`    // 用户id
-	Nickname  string `json:"nickname"`   // 昵称
-	Avatar    string `json:"avatar"`     // 头像
-	Content   string `json:"content"`    // 聊天内容
-	IpAddress string `json:"ip_address"` // ip地址
-	IpSource  string `json:"ip_source"`  // ip来源
-	Type      int64  `json:"type"`       // 类型
-	CreatedAt int64  `json:"created_at"` // 创建时间
-	UpdatedAt int64  `json:"updated_at"` // 更新时间
+type ChatMessageQueryReq struct {
+	After   int64  `json:"after,optional"`    // 起始时间
+	Before  int64  `json:"before,optional"`   // 结束时间
+	Limit   int64  `json:"limit,optional"`    // 限制数量
+	UserId  string `json:"user_id,optional"`  // 用户id
+	TopicId string `json:"topic_id,optional"` // 聊天室id
+	Keyword string `json:"keyword,optional"`  // 关键字
+	Type    string `json:"type,optional"`     // 类型
 }
 
-type ChatSocketMsg struct {
-	Type    int64  `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	Content string `json:"content"` // 消息内容
+type ChatMsgReq struct {
+	Type        string `json:"type"`         // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	ChatContent string `json:"chat_content"` // 消息内容
+}
+
+type ChatMsgResp struct {
+	Id          int64  `json:"id"`           // 主键
+	UserId      string `json:"user_id"`      // 用户id
+	DeviceId    string `json:"device_id"`    // 设备id
+	Nickname    string `json:"nickname"`     // 昵称
+	Avatar      string `json:"avatar"`       // 头像
+	ChatContent string `json:"chat_content"` // 消息内容
+	IpAddress   string `json:"ip_address"`   // ip地址
+	IpSource    string `json:"ip_source"`    // ip来源
+	Type        string `json:"type"`         // 类型
+	CreatedAt   int64  `json:"created_at"`   // 创建时间
+	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
 }
 
 type Comment struct {
 	Id               int64            `json:"id"`                 // 评论id
 	TopicId          int64            `json:"topic_id"`           // 主题id
 	ParentId         int64            `json:"parent_id"`          // 父评论id
-	SessionId        int64            `json:"session_id"`         // 会话id
-	UserId           int64            `json:"user_id"`            // 用户id
-	ReplyUserId      int64            `json:"reply_user_id"`      // 被回复用户id
+	ReplyMsgId       int64            `json:"reply_msg_id"`       // 会话id
+	UserId           string           `json:"user_id"`            // 用户id
+	ReplyUserId      string           `json:"reply_user_id"`      // 被回复用户id
 	CommentContent   string           `json:"comment_content"`    // 评论内容
 	Type             int64            `json:"type"`               // 评论类型 1.文章 2.友链 3.说说
 	CreatedAt        int64            `json:"created_at"`         // 评论时间
@@ -134,8 +155,8 @@ type Comment struct {
 type CommentNewReq struct {
 	TopicId        int64  `json:"topic_id,optional"`        // 主题id
 	ParentId       int64  `json:"parent_id,optional"`       // 父评论id
-	SessionId      int64  `json:"session_id,optional"`      // 会话id
-	ReplyUserId    int64  `json:"reply_user_id,optional"`   // 回复用户id
+	ReplyMsgId     int64  `json:"reply_msg_id,optional"`    // 会话id
+	ReplyUserId    string `json:"reply_user_id,optional"`   // 回复用户id
 	CommentContent string `json:"comment_content,optional"` // 评论内容
 	Type           int64  `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
 }
@@ -151,9 +172,9 @@ type CommentReply struct {
 	Id             int64            `json:"id"`              // 评论id
 	TopicId        int64            `json:"topic_id"`        // 主题id
 	ParentId       int64            `json:"parent_id"`       // 父评论id
-	SessionId      int64            `json:"session_id"`      // 会话id
-	UserId         int64            `json:"user_id"`         // 用户id
-	ReplyUserId    int64            `json:"reply_user_id"`   // 被回复用户id
+	ReplyMsgId     int64            `json:"reply_msg_id"`    // 会话id
+	UserId         string           `json:"user_id"`         // 用户id
+	ReplyUserId    string           `json:"reply_user_id"`   // 被回复用户id
 	CommentContent string           `json:"comment_content"` // 评论内容
 	Type           int64            `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
 	CreatedAt      int64            `json:"created_at"`      // 评论时间
@@ -163,7 +184,7 @@ type CommentReply struct {
 }
 
 type CommentUserInfo struct {
-	Id       int64  `json:"id"`
+	UserId   string `json:"user_id"`
 	Nickname string `json:"nickname"`
 	Avatar   string `json:"avatar"`
 	Website  string `json:"website"`
@@ -173,6 +194,19 @@ type EmptyReq struct {
 }
 
 type EmptyResp struct {
+}
+
+type FileBackDTO struct {
+	Id        int64  `json:"id,optional"` // 文件目录ID
+	UserId    string `json:"user_id"`     // 用户id
+	FilePath  string `json:"file_path"`   // 文件路径
+	FileName  string `json:"file_name"`   // 文件名称
+	FileType  string `json:"file_type"`   // 文件类型
+	FileSize  int64  `json:"file_size"`   // 文件大小
+	FileMd5   string `json:"file_md5"`    // 文件md5值
+	FileUrl   string `json:"file_url"`    // 上传路径
+	CreatedAt int64  `json:"created_at"`  // 创建时间
+	UpdatedAt int64  `json:"updated_at"`  // 更新时间
 }
 
 type Friend struct {
@@ -224,6 +258,11 @@ type LoginReq struct {
 
 type LoginResp struct {
 	Token *Token `json:"token"`
+}
+
+type MultiUploadFileReq struct {
+	Files    []interface{} `form:"files,optional"`     // 文件列表
+	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
 type OauthLoginReq struct {
@@ -343,7 +382,7 @@ type TagQueryReq struct {
 
 type Talk struct {
 	Id           int64    `json:"id"`            // 说说ID
-	UserId       int64    `json:"user_id"`       // 用户ID
+	UserId       string   `json:"user_id"`       // 用户ID
 	Nickname     string   `json:"nickname"`      // 用户昵称
 	Avatar       string   `json:"avatar"`        // 用户头像
 	Content      string   `json:"content"`       // 评论内容
@@ -361,7 +400,7 @@ type TalkQueryReq struct {
 }
 
 type Token struct {
-	UserId           int64  `json:"user_id"`            // 用户id
+	UserId           string `json:"user_id"`            // 用户id
 	TokenType        string `json:"token_type"`         // token类型,Bearer
 	AccessToken      string `json:"access_token"`       // 访问token,过期时间较短。2h
 	ExpiresIn        int64  `json:"expires_in"`         // 访问token过期时间
@@ -381,22 +420,8 @@ type UpdateUserInfoReq struct {
 }
 
 type UploadFileReq struct {
-	Label    string      `form:"label,optional"`
 	File     interface{} `form:"file,optional"`      // 文件
-	FileSize int64       `form:"file_size,optional"` // 文件大小
-	FileMd5  string      `form:"file_md5,optional"`  // 文件md5值
-}
-
-type UploadFileResp struct {
-	Id        int64  `json:"id"`         // id
-	UserId    int64  `json:"user_id"`    // 用户id
-	Label     string `json:"label"`      // 标签
-	FileName  string `json:"file_name"`  // 文件名称
-	FileSize  int64  `json:"file_size"`  // 文件大小
-	FileMd5   string `json:"file_md5"`   // 文件md5值
-	FileUrl   string `json:"file_url"`   // 上传路径
-	CreatedAt int64  `json:"created_at"` // 创建时间
-	UpdatedAt int64  `json:"updated_at"` // 更新时间
+	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
 type UserEmailReq struct {
@@ -409,7 +434,7 @@ type UserInfoExt struct {
 }
 
 type UserInfoResp struct {
-	UserId   int64  `json:"user_id"`  // 用户id
+	UserId   string `json:"user_id"`  // 用户id
 	Username string `json:"username"` // 用户名
 	Nickname string `json:"nickname"` // 用户昵称
 	Avatar   string `json:"avatar"`   // 用户头像
@@ -422,6 +447,14 @@ type UserLikeResp struct {
 	ArticleLikeSet []int64 `json:"article_like_set"`
 	CommentLikeSet []int64 `json:"comment_like_set"`
 	TalkLikeSet    []int64 `json:"talk_like_set"`
+}
+
+type WebSocketMsg struct {
+	ClientId  string `json:"client_id,optional"` // 客户端id
+	ClientIp  string `json:"client_ip,optional"` // 客户端ip
+	Timestamp int64  `json:"timestamp,optional"` // 时间戳
+	Cmd       int64  `json:"cmd"`                // 消息命令
+	Data      string `json:"data"`               // 消息内容
 }
 
 type WebsiteConfigDTO struct {

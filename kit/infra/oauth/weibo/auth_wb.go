@@ -38,11 +38,15 @@ func (a *AuthWb) GetName() string {
 func (a *AuthWb) GetAuthorizeUrl(state string) string {
 
 	url := httpx.NewClient(
-		httpx.WithParam("response_type", "code"),
-		httpx.WithParam("client_id", a.Config.ClientId),
-		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		httpx.WithParam("state", state),
-	).EncodeURL(a.AuthorizeUrl)
+		"GET",
+		a.AuthorizeUrl,
+		httpx.WithParams(map[string]string{
+			"client_id":     a.Config.ClientId,
+			"redirect_uri":  a.Config.RedirectUri,
+			"state":         state,
+			"response_type": "code",
+		}),
+	).EncodeURL()
 
 	return url
 }
@@ -73,13 +77,15 @@ func (a *AuthWb) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error
 func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("grant_type", "authorization_code"),
-		httpx.WithParam("code", code),
-		httpx.WithParam("client_id", a.Config.ClientId),
-		httpx.WithParam("client_secret", a.Config.ClientSecret),
-		httpx.WithParam("redirect_uri", a.Config.RedirectUri),
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.AccessTokenUrl),
+		"GET",
+		a.AccessTokenUrl,
+		httpx.WithParams(map[string]string{
+			"client_id":     a.Config.ClientId,
+			"client_secret": a.Config.ClientSecret,
+			"redirect_uri":  a.Config.RedirectUri,
+			"code":          code,
+			"grant_type":    "authorization_code",
+		}),
 	).DoRequest()
 
 	if err != nil {
@@ -100,10 +106,12 @@ func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 func (a *AuthWb) GetUserInfo(accessToken string, openId string) (resp *UserResult, err error) {
 
 	body, err := httpx.NewClient(
-		httpx.WithParam("uid", openId),
-		httpx.WithParam("access_token", accessToken),
-		httpx.WithMethod("GET"),
-		httpx.WithURL(a.UserInfoUrl),
+		"GET",
+		a.UserInfoUrl,
+		httpx.WithParams(map[string]string{
+			"uid":          openId,
+			"access_token": accessToken,
+		}),
 	).DoRequest()
 	if err != nil {
 		return nil, err

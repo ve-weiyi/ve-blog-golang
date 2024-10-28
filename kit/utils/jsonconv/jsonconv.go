@@ -1,124 +1,178 @@
 package jsonconv
 
 import (
+	"encoding/json"
 	"fmt"
+	"reflect"
 	"strings"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
-/*
-*
-ConfigDefault(默认API行为)、
-ConfigCompatibleWithStandardLibrary(支持标准库的行为，比如encoding/jjson)、
-ConfigFast(通过忽略float类型数据的精度保证最高效的性能)
-*/
-var jjson jsoniter.API
-
-func init() {
-	//- `IndentionStep`：设置 JSON 缩进的空格数，默认为 0，表示不缩进。
-	//- `MarshalFloatWith6Digits`：设置是否将浮点数序列化为 6 位小数，默认为 false。
-	//- `EscapeHTML`：设置是否将 HTML 字符转义，默认为 true。
-	//- `SortMapKeys`：设置是否按照键名排序序列化 map，默认为 false。
-	//- `UseNumber`：设置是否将数字解码为 `json.Number` 类型，默认为 false。
-	//- `DisallowUnknownFields`：设置是否在解码时禁止未知字段，默认为 false。
-	//- `TagKey`：设置结构体 tag 的键名，默认为 `json`。
-	//- `OnlyTaggedField`：设置是否只序列化带有 tag 的结构体字段，默认为 false。
-	//- `ValidateJsonRawMessage`：设置是否验证 `json.RawMessage` 类型的字段，默认为 false。
-	//- `ObjectFieldMustBeSimpleString`：设置是否要求对象类型的字段必须是简单字符串，默认为 false。
-	//- `CaseSensitive`：设置是否大小写敏感，默认为 true。
-	jjson = jsoniter.Config{
-		CaseSensitive: false,
-	}.Froze()
-}
-
 // 默认json
-func ObjectToObject(data any, obj any) (err error) {
-	bytes, err := jjson.Marshal(data)
+func AnyToAny(data any, obj any) (err error) {
+	jb, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println("json convert fail:", err)
 		return err
 	}
 
-	err = jjson.Unmarshal(bytes, obj)
+	err = json.Unmarshal(jb, obj)
 	if err != nil {
-		fmt.Println("json convert fail:", err)
 		return err
 	}
 
 	return nil
 }
 
-// 调用 JsonToObject(jsonStr , &obj)
-func JsonToObject(jsonStr string, obj any) error {
-	if jsonStr == "" {
+func AnyToAnyNE[T any](data any) (out *T) {
+	jb, err := json.Marshal(data)
+	if err != nil {
+		fmt.Println("AnyToAny:json convert fail:", err)
 		return nil
 	}
-	err := jjson.Unmarshal([]byte(jsonStr), obj)
+
+	err = json.Unmarshal(jb, &out)
 	if err != nil {
-		fmt.Println("json convert fail:", err)
-		return err
+		fmt.Println("AnyToAny:json convert fail:", err)
+		return nil
 	}
 
-	return nil
+	return out
 }
 
-// 默认json
-func ObjectToJson(data any) string {
-	bytes, err := jjson.Marshal(data)
+func AnyToJson(data any) (string, error) {
+	jb, err := json.Marshal(data)
 	if err != nil {
+		return "", err
+	}
+
+	return string(jb), nil
+
+}
+
+func AnyToJsonNE(data any) string {
+	jb, err := json.Marshal(data)
+	if err != nil {
+		fmt.Println("AnyToJsonNE:json convert fail:", err)
 		return ""
 	}
 
-	return string(bytes)
+	return string(jb)
 }
 
 // 转换行结构json
-func ObjectToJsonIndent(data any) string {
-	bytes, err := jjson.MarshalIndent(data, "", " ")
+func AnyToJsonIndent(data any) string {
+	jb, err := json.MarshalIndent(data, "", " ")
 	if err != nil {
+		fmt.Println("AnyToJsonIndent:json convert fail:", err)
 		return ""
 	}
-	if string(bytes) == "{}" {
+	if string(jb) == "{}" {
 		return fmt.Sprintf("%+v", data)
 	}
-	return string(bytes)
+	return string(jb)
 }
 
-// 转下划线json
-func ObjectToJsonSnake(data any) string {
-	bytes, err := jjson.Marshal(JsonSnakeCase{Value: data})
+// 调用 JsonToAny(jsonStr , &obj)
+func JsonToAny(js string, obj any) error {
+	if js == "" {
+		return nil
+	}
+	err := json.Unmarshal([]byte(js), obj)
 	if err != nil {
-		return ""
+		return err
 	}
 
-	return string(bytes)
+	return nil
 }
 
-// 转下划线json
-func ObjectToJsonSnakeIdent(data any) string {
-	bytes, err := jjson.MarshalIndent(JsonSnakeCase{Value: data}, "", " ")
+// 不支持根据返回值类型推断
+func JsonToAnyNE[T any](js string) (out T) {
+	if js == "" {
+		return out
+	}
+	err := json.Unmarshal([]byte(js), &out)
 	if err != nil {
-		return ""
+		fmt.Println("JsonToAny:json convert fail:", err)
+		return out
 	}
 
-	return string(bytes)
+	return out
 }
 
-// 转首字母驼峰json
-func ObjectToJsonCamel(data any) string {
-	bytes, err := jjson.Marshal(JsonCamelCase{Value: data})
-	if err != nil {
-		return ""
+// json解析忽略大小写
+func JsonToAnyIgnoreCase(data string, obj interface{}) error {
+	// 使用反射将匿名结构体中的字段值赋值给obj对象
+	v := reflect.ValueOf(obj)
+	t := v.Elem().Type()
+	if v.Kind() != reflect.Ptr || v.Elem().Kind() != reflect.Struct {
+		panic("SetCamelCaseJsonTag only accepts a pointer to a struct")
 	}
 
-	return string(bytes)
+	toLowLetters := func(key string) string {
+		return strings.ToLower(ExtractLetters(key))
+	}
+
+	tmp := make(map[string]interface{})
+	// 解析JSON数据到匿名结构体中
+	if err := json.Unmarshal([]byte(data), &tmp); err != nil {
+		return err
+	}
+
+	lmp := make(map[string]interface{})
+	for key, value := range tmp {
+		lmp[toLowLetters(key)] = value
+	}
+
+	for i := 0; i < v.Elem().NumField(); i++ {
+		//目标字段名
+		fieldName := t.Field(i).Name
+		fieldType := v.Elem().Field(i)
+
+		value, ok := lmp[toLowLetters(fieldName)]
+		if ok {
+			setFieldValue(fieldType, value)
+			continue
+		}
+
+	}
+	return nil
 }
 
-func SprintPrivateValue(data any) string {
-	str := fmt.Sprintf("%+v", data)
-	str = strings.ReplaceAll(str, " ", "\n ")
-	str = strings.ReplaceAll(str, "{", "\n{\n ")
-	str = strings.ReplaceAll(str, "}", "\n}")
-	return str
+func setFieldValue(fieldType reflect.Value, value interface{}) {
+	jsonValue := reflect.ValueOf(value)
+	//log.Println("--", fieldType.Kind(), jsonValue.Kind())
+
+	switch fieldType.Kind() {
+	//case reflect.String:
+	//	fieldType.SetString(jsonValue.String())
+	//case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+	//	fieldType.SetInt(int64(jsonValue.Float()))
+	//case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+	//	fieldType.SetUint(jsonValue.Uint())
+	//case reflect.Float32, reflect.Float64:
+	//	fieldType.SetFloat(jsonValue.Float())
+	//case reflect.Bool:
+	//	fieldType.SetBool(jsonValue.Bool())
+	case reflect.Slice:
+		// 创建一个新的切片
+		slice := reflect.MakeSlice(fieldType.Type(), 0, 0)
+
+		// 迭代JSON数组中的每个元素
+		for i := 0; i < jsonValue.Len(); i++ {
+			// 获取JSON数组中的每个元素
+			elementValue := jsonValue.Index(i).Interface()
+
+			// 创建一个新的切片元素并设置其值
+			newElement := reflect.New(fieldType.Type().Elem()).Elem()
+			setFieldValue(newElement, elementValue)
+
+			// 将新的切片元素添加到切片中
+			slice = reflect.Append(slice, newElement)
+		}
+
+		// 将切片设置为字段的值
+		fieldType.Set(slice)
+
+	default:
+		fieldType.Set(jsonValue.Convert(fieldType.Type()))
+	}
 }

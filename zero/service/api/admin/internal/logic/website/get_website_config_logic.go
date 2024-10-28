@@ -37,6 +37,6 @@ func (l *GetWebsiteConfigLogic) GetWebsiteConfig(req *types.EmptyReq) (resp *typ
 	}
 
 	resp = &types.WebsiteConfig{}
-	jsonconv.JsonToObject(out.ConfigValue, &resp)
+	jsonconv.JsonToAny(out.ConfigValue, &resp)
 	return resp, nil
 }

@@ -31,7 +31,7 @@ func TestCode(t *testing.T) {
 		body = map[string]interface{}{"code": 0, "msg": err.Error()}
 	}
 
-	log.Println(jsonconv.ObjectToJsonIndent(body))
+	log.Println(jsonconv.AnyToJsonIndent(body))
 
 }
 

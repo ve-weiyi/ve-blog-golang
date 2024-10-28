@@ -7,12 +7,12 @@ import (
 )
 
 func Test_Typescript(t *testing.T) {
-	f := &typescriptFlags{
-		VarStringMode:     "api",
-		VarStringFilePath: "/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/admin.api",
-		VarStringTplPath:  resource.GetTemplateRoot() + "/web",
-		VarStringOutPath:  "./runtime/api",
-		VarStringNameAs:   "",
+	f := &CmdVar{
+		VarStringMode:    "api",
+		VarStringApiFile: "/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/admin.api",
+		VarStringTplPath: resource.GetTemplateRoot() + "/web",
+		VarStringOutPath: "./runtime/api",
+		VarStringNameAs:  "",
 	}
 	RunTypescript(f)
 }

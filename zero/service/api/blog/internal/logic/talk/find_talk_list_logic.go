@@ -6,6 +6,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/client/talkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -36,8 +37,10 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 		return nil, err
 	}
 
-	var uids []int64
+	var tids []int64
+	var uids []string
 	for _, v := range out.List {
+		tids = append(tids, v.Id)
 		uids = append(uids, v.UserId)
 	}
 
@@ -49,14 +52,22 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 		return nil, err
 	}
 
-	usm := make(map[int64]*accountrpc.User)
+	usm := make(map[string]*accountrpc.User)
 	for _, v := range users.List {
 		usm[v.UserId] = v
 	}
 
-	var list []*types.Talk
+	// 查询评论量
+	counts, err := l.svcCtx.CommentRpc.FindTopicCommentCounts(l.ctx, &commentrpc.IdsReq{
+		Ids: tids,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	list := make([]*types.Talk, 0)
 	for _, v := range out.List {
-		m := ConvertTalkTypes(v, usm)
+		m := ConvertTalkTypes(v, usm, counts.TopicCommentCounts)
 		list = append(list, m)
 	}
 
@@ -68,7 +79,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQueryReq) (resp *types.P
 	return resp, nil
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User) (out *types.Talk) {
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*accountrpc.User, csm map[int64]int64) (out *types.Talk) {
 	out = &types.Talk{
 		Id:           in.Id,
 		UserId:       in.UserId,
@@ -83,7 +94,7 @@ func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User) (
 	}
 
 	// 用户信息
-	if out.UserId != 0 {
+	if out.UserId != "" {
 		user, ok := usm[out.UserId]
 		if ok && user != nil {
 			out.Nickname = user.Nickname
@@ -91,5 +102,10 @@ func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[int64]*accountrpc.User) (
 		}
 	}
 
+	// 评论量
+	count, ok := csm[out.Id]
+	if ok {
+		out.CommentCount = count
+	}
 	return
 }

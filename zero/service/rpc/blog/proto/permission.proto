@@ -29,7 +29,7 @@ message CountResp {
 }
 
 message UserIdReq {
-  int64 user_id = 1;
+  string user_id = 1;
 }
 
 /************** rbac 权限相关 **************/
@@ -157,7 +157,7 @@ message UpdateRoleMenusReq {
 }
 
 message UpdateUserRoleReq {
-  int64 user_id = 1; // 用户id
+  string user_id = 1; // 用户id
   repeated int64 role_ids = 2;
 }
 

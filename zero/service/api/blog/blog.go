@@ -10,6 +10,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/common/task"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/swagger"
@@ -82,5 +83,7 @@ func main() {
 	fmt.Printf(`
 	默认接口文档地址:http://%s:%d/api/v1/swagger/index.html
 `, c.Host, c.Port)
+
+	task.Run(ctx)
 	server.Start()
 }
