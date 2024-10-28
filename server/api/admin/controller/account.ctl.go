@@ -33,14 +33,14 @@ func (s *AccountController) FindAccountAreaAnalysis(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AccountQuery
+	var req *dto.AccountQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAccountService(s.svcCtx).FindAccountAreaAnalysis(reqCtx, &req)
+	data, err := service.NewAccountService(s.svcCtx).FindAccountAreaAnalysis(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *AccountController) FindAccountList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AccountQuery
+	var req *dto.AccountQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAccountService(s.svcCtx).FindAccountList(reqCtx, &req)
+	data, err := service.NewAccountService(s.svcCtx).FindAccountList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *AccountController) FindAccountLoginHistoryList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AccountQuery
+	var req *dto.AccountQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAccountService(s.svcCtx).FindAccountLoginHistoryList(reqCtx, &req)
+	data, err := service.NewAccountService(s.svcCtx).FindAccountLoginHistoryList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *AccountController) FindAccountOnlineList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AccountQuery
+	var req *dto.AccountQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAccountService(s.svcCtx).FindAccountOnlineList(reqCtx, &req)
+	data, err := service.NewAccountService(s.svcCtx).FindAccountOnlineList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *AccountController) UpdateAccountRoles(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UpdateAccountRolesReq
+	var req *dto.UpdateAccountRolesReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAccountService(s.svcCtx).UpdateAccountRoles(reqCtx, &req)
+	data, err := service.NewAccountService(s.svcCtx).UpdateAccountRoles(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *AccountController) UpdateAccountStatus(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UpdateAccountStatusReq
+	var req *dto.UpdateAccountStatusReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAccountService(s.svcCtx).UpdateAccountStatus(reqCtx, &req)
+	data, err := service.NewAccountService(s.svcCtx).UpdateAccountStatus(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

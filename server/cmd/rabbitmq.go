@@ -12,6 +12,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
+
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
 	"github.com/ve-weiyi/ve-blog-golang/server/initialize"
 )
@@ -42,7 +43,7 @@ func (s *RabbitmqCmd) init() {
 }
 
 func (s *RabbitmqCmd) RunRabbitmq(cmd *cobra.Command, args []string) {
-	var c config.Config
+	var c *config.Config
 	// 初始化Viper
 	v := viper.New()
 	v.SetConfigFile(s.filepath)
@@ -66,5 +67,10 @@ func (s *RabbitmqCmd) RunRabbitmq(cmd *cobra.Command, args []string) {
 	log.Println("rabbitmq服务启动成功", jsonconv.AnyToJsonIndent(c))
 	log.Println("rabbitmq服务启动成功")
 
-	initialize.SubscribeMessage(c)
+	em, err := initialize.ConnectRabbitMq(c)
+	if err != nil {
+		panic(err)
+	}
+
+	go em.SubscribeEmail()
 }

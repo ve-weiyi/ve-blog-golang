@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 	"path"
+	"regexp"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
@@ -73,7 +75,21 @@ func generateServices(cv *CmdVar) error {
 				"Group":       jsonconv.Case2Camel(k),
 				"GroupRoutes": v,
 			},
-			FunMap: invent.StdMapUtils,
+			FunMap: map[string]any{
+				"pkgTypes": func(input string) string {
+					// 使用正则表达式匹配单词
+					re := regexp.MustCompile(`\w+`)
+
+					// 替换每个单词，前面添加 'dto.'
+					result := re.ReplaceAllString(input, "dto.$0")
+
+					if strings.HasPrefix(result, "[]") {
+						return result
+					}
+
+					return fmt.Sprintf("*%v", result)
+				},
+			},
 		}
 
 		metas = append(metas, m)

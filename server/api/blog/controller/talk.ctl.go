@@ -33,14 +33,14 @@ func (s *TalkController) FindTalkList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TalkQueryReq
+	var req *dto.TalkQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).FindTalkList(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).FindTalkList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *TalkController) GetTalk(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).GetTalk(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).GetTalk(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *TalkController) LikeTalk(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).LikeTalk(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).LikeTalk(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

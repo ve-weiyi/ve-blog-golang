@@ -33,14 +33,14 @@ func (s *FriendController) FindFriendList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.FriendQueryReq
+	var req *dto.FriendQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, &req)
+	data, err := service.NewFriendService(s.svcCtx).FindFriendList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

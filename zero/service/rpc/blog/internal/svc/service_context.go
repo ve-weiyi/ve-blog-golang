@@ -91,6 +91,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 
+	// 订阅消息
+	go deliver.SubscribeEmail()
+
 	cache, err := collection.NewCache(60 * time.Minute)
 	if err != nil {
 		panic(err)
@@ -220,28 +223,6 @@ func ConnectRedis(c config.RedisConf) (*redis.Client, error) {
 	return client, nil
 }
 
-func ConnectRabbitMq(c config.RabbitMQConf) (*rabbitmq.RabbitmqConn, error) {
-	url := fmt.Sprintf("amqp://%s:%s@%s:%s/", c.Username, c.Password, c.Host, c.Port)
-
-	// 消息发布者只需要声明交换机
-	mq := rabbitmq.NewRabbitmqConn(url,
-		rabbitmq.Exchange(rabbitmq.ExchangeOptions{
-			Name:    constant.EmailExchange,
-			Type:    rabbitmq.ExchangeTypeFanout,
-			Durable: true,
-		}),
-		rabbitmq.DisableAutoAck(),
-		rabbitmq.Requeue(),
-	)
-
-	err := mq.Connect(nil)
-	if err != nil {
-		return nil, fmt.Errorf("rabbitmq 初始化失败: %v", err)
-	}
-
-	return mq, nil
-}
-
 func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 	e := c.EmailConf
 	emailSender := mail.NewEmailDeliver(
@@ -293,8 +274,6 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 
 	deliver := mail.NewMqEmailDeliver(emailSender, sb, sb)
 
-	// 订阅消息
-	go deliver.SubscribeEmail()
 	return deliver, nil
 }
 

@@ -6,13 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/orca-zhang/ecache"
 	"github.com/redis/go-redis/v9"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/chatgpt"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
 
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
@@ -31,7 +31,7 @@ type ServiceContext struct {
 	Oauth               map[string]oauth.Oauth
 	CaptchaHolder       *captcha.CaptchaHolder
 	AIChatGPT           *chatgpt.AIChatGPT
-	EmailPublisher      rabbitmq.MessagePublisher
+	EmailDeliver        *mail.MqEmailDeliver
 	Uploader            upload.Uploader
 	MiddlewareSignToken gin.HandlerFunc
 	MiddlewareJwtToken  gin.HandlerFunc
@@ -49,15 +49,17 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 		panic(err)
 	}
 
-	mq, err := initialize.ConnectRabbitMq(c.RabbitMQ)
-	if err != nil {
-		panic(err)
-	}
-
 	up, err := initialize.Upload(c.Upload)
 	if err != nil {
 		panic(err)
 	}
+
+	em, err := initialize.ConnectRabbitMq(c)
+	if err != nil {
+		panic(err)
+	}
+
+	go em.SubscribeEmail()
 
 	cache := ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
 
@@ -80,7 +82,7 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 		Oauth:               initialize.InitOauth(c.Oauth),
 		CaptchaHolder:       ch,
 		AIChatGPT:           gpt,
-		EmailPublisher:      mq,
+		EmailDeliver:        em,
 		Uploader:            up,
 		MiddlewareSignToken: middleware.SignToken(),
 		MiddlewareJwtToken:  middleware.JwtToken(tk),

@@ -33,14 +33,14 @@ func (s *TalkController) FindTalkList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TalkQuery
+	var req *dto.TalkQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).FindTalkList(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).FindTalkList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *TalkController) AddTalk(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TalkNewReq
+	var req *dto.TalkNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).AddTalk(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).AddTalk(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *TalkController) DeleteTalk(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).DeleteTalk(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).DeleteTalk(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *TalkController) GetTalk(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).GetTalk(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).GetTalk(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *TalkController) UpdateTalk(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.TalkNewReq
+	var req *dto.TalkNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewTalkService(s.svcCtx).UpdateTalk(reqCtx, &req)
+	data, err := service.NewTalkService(s.svcCtx).UpdateTalk(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

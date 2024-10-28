@@ -33,14 +33,14 @@ func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.GetBlogHomeInfoReq
+	var req *dto.GetBlogHomeInfoReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).GetBlogHomeInfo(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).GetBlogHomeInfo(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.GetAboutMeReq
+	var req *dto.GetAboutMeReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewWebsiteService(s.svcCtx).GetAboutMe(reqCtx, &req)
+	data, err := service.NewWebsiteService(s.svcCtx).GetAboutMe(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

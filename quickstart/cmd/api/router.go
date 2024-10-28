@@ -8,6 +8,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"sort"
 
 	"github.com/spf13/cobra"
 	"github.com/zeromicro/go-zero/tools/goctl/pkg/golang"
@@ -78,7 +79,6 @@ func generateRouters(cv *CmdVar) error {
 				"Group":       jsonconv.Case2Camel(k),
 				"GroupRoutes": v,
 			},
-			FunMap: invent.StdMapUtils,
 		}
 
 		metas = append(metas, m)
@@ -116,6 +116,10 @@ func generateRoutes(cv *CmdVar) error {
 	for k, _ := range groups {
 		gps = append(gps, jsonconv.Case2Camel(k))
 	}
+
+	sort.Slice(gps, func(i, j int) bool {
+		return gps[i] < gps[j]
+	})
 
 	m := invent.TemplateMeta{
 		Mode:           invent.ModeCreateOrReplace,

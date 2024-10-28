@@ -33,14 +33,14 @@ func (s *UserController) GetUserApis(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserApis(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserApis(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *UserController) GetUserInfo(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserInfo(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserInfo(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *UserController) GetUserLoginHistoryList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UserLoginHistoryQuery
+	var req *dto.UserLoginHistoryQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserLoginHistoryList(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserLoginHistoryList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *UserController) GetUserMenus(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserMenus(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserMenus(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *UserController) GetUserRoles(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).GetUserRoles(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).GetUserRoles(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *UserController) UpdateUserInfo(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UserInfoReq
+	var req *dto.UserInfoReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewUserService(s.svcCtx).UpdateUserInfo(reqCtx, &req)
+	data, err := service.NewUserService(s.svcCtx).UpdateUserInfo(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

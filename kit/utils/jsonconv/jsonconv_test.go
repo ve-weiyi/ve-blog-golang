@@ -1,6 +1,7 @@
 package jsonconv
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 	"testing"
@@ -10,6 +11,22 @@ type Person struct {
 	FirstName string `json:"first_Name"`
 	LastName  string
 	Age       int
+}
+
+func TestJson(t *testing.T) {
+	data := `{
+			"first_Name": "John",
+			"LastName": "Doe",
+			"Age": 30
+		}`
+	var p *Person
+	err := json.Unmarshal([]byte(data), &p)
+	if err != nil {
+		t.Errorf("json.Unmarshal() error = %v", err)
+	}
+	fmt.Println("---", data)
+	fmt.Println("---", AnyToJsonIndent(p))
+
 }
 
 func TestJsonToAnyIgnoreCase(t *testing.T) {

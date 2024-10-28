@@ -33,14 +33,14 @@ func (s *AuthController) Login(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.LoginReq
+	var req *dto.LoginReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).Login(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Login(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *AuthController) Logout(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).Logout(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Logout(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

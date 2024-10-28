@@ -33,14 +33,14 @@ func (s *ApiController) FindApiList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ApiQuery
+	var req *dto.ApiQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).FindApiList(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).FindApiList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *ApiController) AddApi(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ApiNewReq
+	var req *dto.ApiNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).AddApi(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).AddApi(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *ApiController) BatchDeleteApi(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).BatchDeleteApi(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).BatchDeleteApi(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *ApiController) CleanApiList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).CleanApiList(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).CleanApiList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *ApiController) DeleteApi(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).DeleteApi(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).DeleteApi(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *ApiController) SyncApiList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.SyncApiReq
+	var req *dto.SyncApiReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).SyncApiList(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).SyncApiList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -201,14 +201,14 @@ func (s *ApiController) UpdateApi(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ApiNewReq
+	var req *dto.ApiNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewApiService(s.svcCtx).UpdateApi(reqCtx, &req)
+	data, err := service.NewApiService(s.svcCtx).UpdateApi(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
