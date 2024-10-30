@@ -62,7 +62,7 @@ func (l *SendBindEmailLogic) SendBindEmail(in *accountrpc.UserEmailReq) (*accoun
 		To:      []string{in.Username},
 		Subject: "绑定邮件提醒",
 		Content: content,
-		Type:    0,
+		CC:      false,
 	}
 	// 发送邮件
 	err = l.svcCtx.EmailDeliver.DeliveryEmail(msg)

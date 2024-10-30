@@ -3,13 +3,13 @@ package glog
 import (
 	"encoding/json"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
 )
 
 var defaultLogger *Glogger
 
 func init() {
-	defaultLogger = NewGlogger(0, zaplog.NewConsoleConfig())
+	defaultLogger = NewGlogger(1, zaplog.NewConsoleConfig())
 }
 
 func Init(skit int, cfg zaplog.ZapConfig) {

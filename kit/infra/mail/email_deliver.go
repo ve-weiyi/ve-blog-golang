@@ -1,11 +1,7 @@
 package mail
 
 import (
-	"crypto/tls"
-	"fmt"
-	"net/smtp"
-
-	"github.com/jordan-wright/email"
+	"gopkg.in/gomail.v2"
 )
 
 type EmailDeliver struct {
@@ -15,7 +11,6 @@ type EmailDeliver struct {
 	Password string   // 密钥
 	Nickname string   // 发件人昵称
 	Deliver  []string // 抄送邮箱:多个以英文逗号分隔
-	IsSSL    bool     // 是否使用 SSL/TLS
 }
 
 func NewEmailDeliver(opts ...Option) *EmailDeliver {
@@ -29,7 +24,7 @@ func NewEmailDeliver(opts ...Option) *EmailDeliver {
 }
 
 func (s *EmailDeliver) DeliveryEmail(message *EmailMessage) error {
-	return s.send(message.To, message.Subject, message.Content, message.Type == 1)
+	return s.send(message.To, message.Subject, message.Content, message.CC)
 }
 
 // 发送邮件
@@ -48,31 +43,21 @@ func (s *EmailDeliver) DeliveryEmail(message *EmailMessage) error {
 func (s *EmailDeliver) send(to []string, subject string, body string, cc bool) (err error) {
 	host := s.Host
 	port := s.Port
-	ssl := s.IsSSL
 	username := s.Username
 	password := s.Password
 	nickname := s.Nickname
 	deliver := s.Deliver
 
-	auth := smtp.PlainAuth("", username, password, host)
-	e := email.NewEmail()
-	if nickname != "" {
-		e.From = fmt.Sprintf("%s <%s>", nickname, username)
-	} else {
-		e.From = username
-	}
-	e.To = to
-	// 抄送
+	m := gomail.NewMessage()
+	m.SetAddressHeader("From", username, nickname)
+	m.SetHeader("To", to...)
+	m.SetHeader("ReplyTo", username)
 	if cc {
-		e.Cc = deliver
+		m.SetHeader("Cc", deliver...)
 	}
-	e.Subject = subject
-	e.HTML = []byte(body)
-	hostAddr := fmt.Sprintf("%s:%d", host, port)
-	if ssl {
-		err = e.SendWithTLS(hostAddr, auth, &tls.Config{ServerName: host})
-	} else {
-		err = e.Send(hostAddr, auth)
-	}
-	return err
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", body)
+
+	d := gomail.NewDialer(host, port, username, password)
+	return d.DialAndSend(m)
 }

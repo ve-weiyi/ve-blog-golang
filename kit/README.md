@@ -15,7 +15,7 @@
 - [oauth](infra/oauth)    
  第三方登录工具
 
-- [rabbitmq](infra/rabbitmq)  
+- [rabbitmq](infra/mq/rabbitmq)  
 消息队列，配合邮件服务给用户发送验证码
 
 - [upload](infra/upload)  
