@@ -11,7 +11,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -92,9 +91,9 @@ func BindJSONIgnoreCase(c *gin.Context, req interface{}) (err error) {
 	//Log.Logger(js)
 	//Log.JsonIndent(req)
 	if err != nil {
-		glog.Error(err)
+		return err
 	}
-	return err
+	return nil
 }
 
 func ShouldBindQuery(c *gin.Context, req interface{}) error {

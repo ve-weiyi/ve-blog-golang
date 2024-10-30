@@ -57,7 +57,7 @@ func (m *WebSocketManager) CloseClient(name string) error {
 // 广播消息
 func (m *WebSocketManager) BroadcastMsg(msg []byte) error {
 	for _, conn := range m.connections {
-		err := conn.PublishMessage(msg)
+		err := conn.PublishMessage(nil, msg)
 		if err != nil {
 			m.CloseClient(conn.Name)
 		}
