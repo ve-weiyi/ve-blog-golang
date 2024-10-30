@@ -49,7 +49,6 @@ to quickly create a Cobra application.`,
 	rootCmd.Version = fmt.Sprintf("%s %s/%s", "v1.0.0", runtime.GOOS, runtime.GOARCH)
 	rootCmd.AddCommand(NewApiCmd().cmd)
 	rootCmd.AddCommand(NewMigrateCmd().cmd)
-	rootCmd.AddCommand(NewRabbitmqCmd().cmd)
 
 	root := &RootCmd{
 		cmd: rootCmd,

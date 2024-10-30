@@ -62,7 +62,7 @@ func (l *SendRegisterEmailLogic) SendRegisterEmail(in *accountrpc.UserEmailReq) 
 		To:      []string{in.Username},
 		Subject: "注册邮件提醒",
 		Content: content,
-		Type:    0,
+		CC:      false,
 	}
 	// 发送邮件
 	err = l.svcCtx.EmailDeliver.DeliveryEmail(msg)

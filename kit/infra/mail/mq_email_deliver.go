@@ -38,7 +38,7 @@ func (m *MqEmailDeliver) DeliveryEmail(msg *EmailMessage) error {
 	return nil
 }
 
-func (m *MqEmailDeliver) SubscribeEmail() error {
+func (m *MqEmailDeliver) SubscribeEmail() {
 	mq := m.Subscriber
 	deliver := m.Deliver
 
@@ -60,6 +60,6 @@ func (m *MqEmailDeliver) SubscribeEmail() error {
 	}
 
 	// 订阅消息队列，发送邮件
-	err := mq.SubscribeMessage(handler)
-	return err
+	mq.SubscribeMessage(handler)
+	return
 }

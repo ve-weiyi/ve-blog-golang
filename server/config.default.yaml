@@ -3,8 +3,6 @@ system:
   version: 1.0.0
   env: develop
   port: 9999
-  router-prefix: "api/v1"
-  use-multipoint: false
   runtime-path: runtime/
 
 # jwt token configuration

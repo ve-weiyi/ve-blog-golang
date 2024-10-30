@@ -14,22 +14,20 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
-
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/rpc/blog/internal/config"
 )
 
@@ -38,8 +36,8 @@ type ServiceContext struct {
 	Gorm          *gorm.DB
 	Redis         *redis.Client
 	LocalCache    *collection.Cache
-	CaptchaHolder *captcha.CaptchaHolder
 	EmailDeliver  *mail.MqEmailDeliver
+	CaptchaHolder *captcha.CaptchaHolder
 	Oauth         map[string]oauth.Oauth
 
 	TUserModel             model.TUserModel
@@ -86,15 +84,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 
-	deliver, err := InitEmailDeliver(c)
+	cache, err := collection.NewCache(60 * time.Minute)
 	if err != nil {
 		panic(err)
 	}
 
-	// 订阅消息
-	go deliver.SubscribeEmail()
-
-	cache, err := collection.NewCache(60 * time.Minute)
+	deliver, err := InitEmailDeliver(c)
 	if err != nil {
 		panic(err)
 	}
@@ -104,8 +99,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Gorm:                   db,
 		Redis:                  rds,
 		LocalCache:             cache,
-		CaptchaHolder:          captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 		EmailDeliver:           deliver,
+		CaptchaHolder:          captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 		Oauth:                  InitOauth(c.OauthConfList),
 		TUserModel:             model.NewTUserModel(db, rds),
 		TUserOauthModel:        model.NewTUserOauthModel(db, rds),
@@ -232,47 +227,52 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 		mail.WithPassword(e.Password),
 		mail.WithNickname(e.Nickname),
 		mail.WithDeliver(e.Deliver),
-		mail.WithIsSSL(e.IsSSL),
 	)
 
 	r := c.RabbitMQConf
 	url := fmt.Sprintf("amqp://%s:%s@%s:%s/", r.Username, r.Password, r.Host, r.Port)
-	// 消息发布者只需要声明交换机
-	mq := rabbitmq.NewRabbitmqConn(url,
-		rabbitmq.Exchange(rabbitmq.ExchangeOptions{
-			Name:    constant.EmailExchange,
-			Type:    rabbitmq.ExchangeTypeFanout,
-			Durable: true,
-		}),
-		rabbitmq.DisableAutoAck(),
-		rabbitmq.Requeue(),
-	)
-
-	err := mq.Connect(nil)
+	// 创建连接
+	conn, err := rabbitmq.NewRabbitmqConn(url, nil)
 	if err != nil {
 		log.Fatal("rabbitmq 初始化失败!", err)
 	}
 
-	// 消息订阅者需要声明交换机和队列
-	sb := rabbitmq.NewRabbitmqConn(url,
-		rabbitmq.Queue(rabbitmq.QueueOptions{
-			Name:    constant.EmailQueue,
-			Durable: true,
-			Args:    nil,
-		}),
-		rabbitmq.Exchange(rabbitmq.ExchangeOptions{
-			Name:    constant.EmailExchange,
-			Type:    rabbitmq.ExchangeTypeFanout,
-			Durable: true,
-		}),
-		rabbitmq.Key("email"),
-	)
-	err = sb.Connect(nil)
-	if err != nil {
-		log.Fatal("rabbitmq 初始化失败!", err)
+	queue := &rabbitmq.QueueOptions{
+		Name:    constant.EmailQueue,
+		Durable: true, // 是否持久化
 	}
 
-	deliver := mail.NewMqEmailDeliver(emailSender, sb, sb)
+	exchange := &rabbitmq.ExchangeOptions{
+		Name:    constant.EmailExchange,
+		Kind:    rabbitmq.ExchangeTypeFanout,
+		Durable: true, // 是否持久化
+	}
+
+	binding := &rabbitmq.BindingOptions{
+		RoutingKey: "",
+	}
+
+	err = conn.Declare(queue, exchange, binding)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// pub/sub模式 消息发布者只需要声明交换机
+	pb := rabbitmq.NewPublisher(conn,
+		rabbitmq.WithPublisherExchange(exchange.Name),
+		rabbitmq.WithPublisherMandatory(true),
+	)
+
+	// pub/sub模式 消息订阅者需要声明交换机和队列
+	sb := rabbitmq.NewConsumer(
+		conn,
+		rabbitmq.WithConsumerQueue(queue.Name),
+		rabbitmq.WithConsumerAutoAck(true),
+	)
+
+	deliver := mail.NewMqEmailDeliver(emailSender, pb, sb)
+	// 订阅消息
+	go deliver.SubscribeEmail()
 
 	return deliver, nil
 }

@@ -12,8 +12,20 @@ import (
 )
 
 func Test_len(t *testing.T) {
-	fmt.Println(len("AK7A510DTEST1002"))
+	tx := "哈哈zz"
+	fmt.Println(len(tx))
+	fmt.Println(maskNickName(tx))
+
 }
+
+func maskNickName(nickName string) string {
+	if len(nickName) <= 3 {
+		return nickName
+	}
+
+	return nickName[:3] + "***"
+}
+
 func Test_VisitFile(t *testing.T) {
 
 	err := files.VisitFile("./api/blog/internal/logic", func(path string, f os.FileInfo, err error) error {

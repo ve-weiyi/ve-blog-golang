@@ -8,7 +8,7 @@ import (
 )
 
 // 连接信息
-const MQURL = "amqp://guest:guest@localhost:5672/"
+const MQURL = "amqp://veweiyi:rabbitmq7914@localhost:5672"
 
 // rabbitMQ结构体
 type RabbitMQ struct {

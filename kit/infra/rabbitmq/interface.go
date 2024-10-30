@@ -7,5 +7,5 @@ type MessagePublisher interface {
 
 type MessageSubscriber interface {
 	// 接收消息
-	SubscribeMessage(handler func(message []byte) error) error
+	SubscribeMessage(handler func(message []byte) error)
 }
