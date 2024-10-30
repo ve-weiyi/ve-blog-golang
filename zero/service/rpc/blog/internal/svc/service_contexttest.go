@@ -50,7 +50,6 @@ func NewTestConfig() config.Config {
 			Password: "",
 			Nickname: "",
 			Deliver:  nil,
-			IsSSL:    false,
 		},
 		OauthConfList: nil,
 	}

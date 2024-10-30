@@ -47,7 +47,6 @@ type EmailConf struct {
 	Password string   `json:"password"` // 密钥
 	Nickname string   `json:"nickname"` // 发件人昵称
 	Deliver  []string `json:"deliver"`  // 抄送邮箱:多个以英文逗号分隔
-	IsSSL    bool     `json:"is_ssl"`   // 是否使用 SSL/TLS
 }
 
 // oauth配置
