@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/gorilla/websocket"
@@ -20,7 +21,7 @@ func NewWebSocketClient(name string, conn *websocket.Conn) *WebSocketClient {
 }
 
 // 发送消息
-func (c *WebSocketClient) PublishMessage(msg []byte) error {
+func (c *WebSocketClient) PublishMessage(ctx context.Context, msg []byte) error {
 	return c.conn.WriteMessage(websocket.TextMessage, msg)
 }
 
