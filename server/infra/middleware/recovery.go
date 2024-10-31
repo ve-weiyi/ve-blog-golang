@@ -13,7 +13,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 )
 
 // GinRecovery recover掉项目可能出现的panic，并使用zap记录相关日志

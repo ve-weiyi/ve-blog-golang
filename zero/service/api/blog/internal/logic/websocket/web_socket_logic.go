@@ -71,7 +71,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 	// 发送历史记录
 	historyMsg := l.newSocketMsg(HISTORY_RECORD, history)
 
-	err = client.PublishMessage([]byte(jsonconv.AnyToJsonNE(historyMsg)))
+	err = client.PublishMessage(nil, []byte(jsonconv.AnyToJsonNE(historyMsg)))
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 
 			heartMsg := l.newSocketMsg(HEART_BEAT, nil)
 
-			return client.PublishMessage([]byte(jsonconv.AnyToJsonNE(heartMsg)))
+			return client.PublishMessage(nil, []byte(jsonconv.AnyToJsonNE(heartMsg)))
 
 		case SEND_MESSAGE:
 			// 发送消息

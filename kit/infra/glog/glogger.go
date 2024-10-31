@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
 )
 
 // go使用zap + lumberjack重构项目的日志系统 https://blog.csdn.net/weixin_52000204/article/details/126651319

@@ -1,4 +1,4 @@
-package rabbitmq
+package rabbitmqx
 
 // ExchangeType 交换机类型
 type ExchangeType string

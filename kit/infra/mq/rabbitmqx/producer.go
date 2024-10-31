@@ -1,20 +1,18 @@
-package rabbitmq
+package rabbitmqx
 
 import (
+	"context"
 	"log"
-	"sync"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-type Publisher struct {
+type RabbitmqProducer struct {
 	conn *RabbitmqConn
 	opts PublisherOptions
-
-	mu sync.Mutex
 }
 
-func NewPublisher(conn *RabbitmqConn, opts ...PublisherOption) *Publisher {
+func NewRabbitmqProducer(conn *RabbitmqConn, opts ...PublisherOption) *RabbitmqProducer {
 	opt := PublisherOptions{
 		Exchange:   "",
 		RoutingKey: "",
@@ -26,16 +24,16 @@ func NewPublisher(conn *RabbitmqConn, opts ...PublisherOption) *Publisher {
 		o(&opt)
 	}
 
-	return &Publisher{
+	return &RabbitmqProducer{
 		conn: conn,
 		opts: opt,
 	}
 }
 
-func (r *Publisher) PublishMessage(message []byte) error {
+func (r *RabbitmqProducer) PublishMessage(ctx context.Context, msg []byte) error {
 	err := r.conn.Publish(amqp.Publishing{
 		ContentType: "text/plain",
-		Body:        message,
+		Body:        msg,
 	}, r.opts)
 
 	if err != nil {

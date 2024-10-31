@@ -1,19 +1,21 @@
 package mail
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq"
 )
 
 type MqEmailDeliver struct {
 	Deliver *EmailDeliver
 
-	Publisher  rabbitmq.MessagePublisher
-	Subscriber rabbitmq.MessageSubscriber
+	Publisher  mq.MessagePublisher
+	Subscriber mq.MessageSubscriber
 }
 
-func NewMqEmailDeliver(deliver *EmailDeliver, pb rabbitmq.MessagePublisher, sb rabbitmq.MessageSubscriber) *MqEmailDeliver {
+func NewMqEmailDeliver(deliver *EmailDeliver, pb mq.MessagePublisher, sb mq.MessageSubscriber) *MqEmailDeliver {
 	return &MqEmailDeliver{
 		Deliver:    deliver,
 		Publisher:  pb,
@@ -22,7 +24,10 @@ func NewMqEmailDeliver(deliver *EmailDeliver, pb rabbitmq.MessagePublisher, sb r
 }
 
 func (m *MqEmailDeliver) DeliveryEmail(msg *EmailMessage) error {
-	mq := m.Publisher
+	ms := m.Publisher
+	if ms == nil {
+		return fmt.Errorf("mq publisher is nil")
+	}
 
 	// 序列化消息
 	jb, err := json.Marshal(msg)
@@ -31,7 +36,7 @@ func (m *MqEmailDeliver) DeliveryEmail(msg *EmailMessage) error {
 	}
 
 	// 发送邮件
-	err = mq.PublishMessage(jb)
+	err = ms.PublishMessage(nil, jb)
 	if err != nil {
 		return err
 	}
@@ -39,10 +44,15 @@ func (m *MqEmailDeliver) DeliveryEmail(msg *EmailMessage) error {
 }
 
 func (m *MqEmailDeliver) SubscribeEmail() {
-	mq := m.Subscriber
+	ms := m.Subscriber
 	deliver := m.Deliver
 
-	handler := func(message []byte) (err error) {
+	if ms == nil {
+		return
+	}
+
+	// 消息处理函数
+	handler := func(ctx context.Context, message []byte) (err error) {
 		var msg EmailMessage
 		// 反序列化消息
 		err = json.Unmarshal(message, &msg)
@@ -60,6 +70,6 @@ func (m *MqEmailDeliver) SubscribeEmail() {
 	}
 
 	// 订阅消息队列，发送邮件
-	mq.SubscribeMessage(handler)
+	ms.SubscribeMessage(handler)
 	return
 }

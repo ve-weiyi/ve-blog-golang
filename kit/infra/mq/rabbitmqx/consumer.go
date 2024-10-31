@@ -1,18 +1,20 @@
-package rabbitmq
+package rabbitmqx
 
 import (
+	"context"
 	"log"
-	"sync"
+
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 )
 
-type Consumer struct {
+type RabbitmqConsumer struct {
+	glog.Logger
+
 	conn *RabbitmqConn
 	opts ConsumerOptions
-
-	mu sync.Mutex
 }
 
-func NewConsumer(conn *RabbitmqConn, opts ...ConsumerOption) *Consumer {
+func NewRabbitmqConsumer(conn *RabbitmqConn, opts ...ConsumerOption) *RabbitmqConsumer {
 	opt := ConsumerOptions{
 		Queue:     "",
 		Name:      "",
@@ -27,17 +29,18 @@ func NewConsumer(conn *RabbitmqConn, opts ...ConsumerOption) *Consumer {
 		o(&opt)
 	}
 
-	return &Consumer{
-		conn: conn,
-		opts: opt,
+	return &RabbitmqConsumer{
+		Logger: glog.Default(),
+		conn:   conn,
+		opts:   opt,
 	}
 }
 
-func (r *Consumer) SubscribeMessage(handler func(message []byte) error) {
+func (r *RabbitmqConsumer) SubscribeMessage(handler func(ctx context.Context, message []byte) error) {
 	//接收消息
 	msgs, err := r.conn.Consume(r.opts)
 	if err != nil {
-		log.Printf("Error: rabbitmq consume: %v", err)
+		log.Printf("RabbitmqConsumer rabbitmq consume error: %v", err)
 		return
 	}
 
@@ -46,9 +49,9 @@ func (r *Consumer) SubscribeMessage(handler func(message []byte) error) {
 	go func() {
 		for msg := range msgs {
 			// 处理消息
-			err = handler(msg.Body)
+			err = handler(context.Background(), msg.Body)
 			if err != nil {
-				log.Printf("Warning: rabbitmq subscribe handle error: %v", err)
+				log.Printf("RabbitmqConsumer rabbitmq subscribe handle error: %v", err)
 
 				// 消费失败，根据配置决定是否重入队列
 				if err = msg.Nack(false, true); err != nil {
@@ -64,16 +67,16 @@ func (r *Consumer) SubscribeMessage(handler func(message []byte) error) {
 
 			// 消费成功时确认消息
 			if err = msg.Ack(false); err != nil {
-				log.Printf("Warning: rabbitmq ack msg error: %v", err)
+				log.Printf("RabbitmqConsumer rabbitmq ack msg error: %v", err)
 				// 这里可以决定是否重新处理消息或报警
 				continue
 			}
 
-			log.Printf("rabbitmq handler message success: %s", msg.MessageId)
+			log.Printf("RabbitmqConsumer handler message success: %s", msg.MessageId)
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf("RabbitmqConsumer [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 
 	return

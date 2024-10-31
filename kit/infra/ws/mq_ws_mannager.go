@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq"
 )
 
 type MqWebsocketManager struct {
@@ -18,8 +18,8 @@ type MqWebsocketManager struct {
 	mu          sync.Mutex // 保护clients
 
 	// 消息发布者和订阅者
-	Publisher  rabbitmq.MessagePublisher
-	Subscriber rabbitmq.MessageSubscriber
+	Publisher  mq.MessagePublisher
+	Subscriber mq.MessageSubscriber
 }
 
 // WebSocket 处理函数
@@ -54,7 +54,7 @@ func (m *MqWebsocketManager) wsHandler(w http.ResponseWriter, r *http.Request) {
 
 // 将消息发布到RabbitMQ
 func (m *MqWebsocketManager) publishToRabbitMQ(message []byte) {
-	err := m.Publisher.PublishMessage(message)
+	err := m.Publisher.PublishMessage(nil, message)
 
 	if err != nil {
 		log.Println("Failed to publish message:", err)

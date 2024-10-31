@@ -1,13 +1,14 @@
 package RabbitMQ
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"strconv"
 	"testing"
 	"time"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
 )
 
 // 模拟一个topic模式：聊天室
@@ -25,7 +26,7 @@ const TopicAllUserOnline = "blog.chat.room_id.*.online"
 const TopicAllUserMsg = "blog.chat.room_id.*.msg"
 
 func Test_Topic_Publish(t *testing.T) {
-	conn, err := rabbitmq.NewRabbitmqConn(
+	conn, err := rabbitmqx.NewRabbitmqConn(
 		"amqp://veweiyi:rabbitmq7914@localhost:5672",
 		nil,
 	)
@@ -34,9 +35,9 @@ func Test_Topic_Publish(t *testing.T) {
 	}
 	defer conn.Close()
 
-	exchange := &rabbitmq.ExchangeOptions{
+	exchange := &rabbitmqx.ExchangeOptions{
 		Name:    ExchangeChat,
-		Kind:    rabbitmq.ExchangeTypeTopic,
+		Kind:    rabbitmqx.ExchangeTypeTopic,
 		Durable: true, // 是否持久化
 	}
 
@@ -46,25 +47,25 @@ func Test_Topic_Publish(t *testing.T) {
 	}
 
 	//  topic 模式只需要声明交换机和Topic
-	mq1 := rabbitmq.NewPublisher(conn,
-		rabbitmq.WithPublisherExchange(exchange.Name),
-		rabbitmq.WithPublisherRoutingKey(TopicUserOnline),
-		rabbitmq.WithPublisherMandatory(true),
+	mq1 := rabbitmqx.NewRabbitmqProducer(conn,
+		rabbitmqx.WithPublisherExchange(exchange.Name),
+		rabbitmqx.WithPublisherRoutingKey(TopicUserOnline),
+		rabbitmqx.WithPublisherMandatory(true),
 	)
 
-	mq2 := rabbitmq.NewPublisher(conn,
-		rabbitmq.WithPublisherExchange(exchange.Name),
-		rabbitmq.WithPublisherRoutingKey(TopicUserMsg),
-		rabbitmq.WithPublisherMandatory(true),
+	mq2 := rabbitmqx.NewRabbitmqProducer(conn,
+		rabbitmqx.WithPublisherExchange(exchange.Name),
+		rabbitmqx.WithPublisherRoutingKey(TopicUserMsg),
+		rabbitmqx.WithPublisherMandatory(true),
 	)
 
 	for i := 0; i <= 100; i++ {
 		fmt.Println(i)
-		err = mq1.PublishMessage([]byte("user online: " + strconv.Itoa(i)))
+		err = mq1.PublishMessage(nil, []byte("user online: "+strconv.Itoa(i)))
 		if err != nil {
 			log.Fatal(err)
 		}
-		err = mq2.PublishMessage([]byte("user msg: " + strconv.Itoa(i)))
+		err = mq2.PublishMessage(nil, []byte("user msg: "+strconv.Itoa(i)))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -73,7 +74,7 @@ func Test_Topic_Publish(t *testing.T) {
 }
 
 func Test_Topic_Subscribe1(t *testing.T) {
-	conn, err := rabbitmq.NewRabbitmqConn(
+	conn, err := rabbitmqx.NewRabbitmqConn(
 		"amqp://veweiyi:rabbitmq7914@localhost:5672",
 		nil,
 	)
@@ -82,17 +83,17 @@ func Test_Topic_Subscribe1(t *testing.T) {
 	}
 	defer conn.Close()
 
-	queue := &rabbitmq.QueueOptions{
+	queue := &rabbitmqx.QueueOptions{
 		Name: TopicUserOnline, //不填是随机队列名称
 	}
 
-	exchange := &rabbitmq.ExchangeOptions{
+	exchange := &rabbitmqx.ExchangeOptions{
 		Name:    ExchangeChat,
-		Kind:    rabbitmq.ExchangeTypeTopic,
+		Kind:    rabbitmqx.ExchangeTypeTopic,
 		Durable: true, // 是否持久化
 	}
 
-	binding := &rabbitmq.BindingOptions{
+	binding := &rabbitmqx.BindingOptions{
 		RoutingKey: TopicAllUserOnline,
 	}
 
@@ -101,12 +102,12 @@ func Test_Topic_Subscribe1(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	mq := rabbitmq.NewConsumer(conn,
-		rabbitmq.WithConsumerQueue(queue.Name),
-		rabbitmq.WithConsumerAutoAck(true),
+	mq := rabbitmqx.NewRabbitmqConsumer(conn,
+		rabbitmqx.WithConsumerQueue(queue.Name),
+		rabbitmqx.WithConsumerAutoAck(true),
 	)
 
-	mq.SubscribeMessage(func(msg []byte) error {
+	mq.SubscribeMessage(func(ctx context.Context, msg []byte) error {
 		log.Printf("receive message: %s", string(msg))
 		return nil
 	})
@@ -118,7 +119,7 @@ func Test_Topic_Subscribe1(t *testing.T) {
 }
 
 func Test_Topic_Subscribe2(t *testing.T) {
-	conn, err := rabbitmq.NewRabbitmqConn(
+	conn, err := rabbitmqx.NewRabbitmqConn(
 		"amqp://veweiyi:rabbitmq7914@localhost:5672",
 		nil,
 	)
@@ -127,18 +128,18 @@ func Test_Topic_Subscribe2(t *testing.T) {
 	}
 	defer conn.Close()
 
-	queue := &rabbitmq.QueueOptions{
+	queue := &rabbitmqx.QueueOptions{
 		Name:    TopicUserMsg, //不填是随机队列名称
 		Durable: true,         // 是否持久化
 	}
 
-	exchange := &rabbitmq.ExchangeOptions{
+	exchange := &rabbitmqx.ExchangeOptions{
 		Name:    ExchangeChat,
-		Kind:    rabbitmq.ExchangeTypeTopic,
+		Kind:    rabbitmqx.ExchangeTypeTopic,
 		Durable: true, // 是否持久化
 	}
 
-	binding := &rabbitmq.BindingOptions{
+	binding := &rabbitmqx.BindingOptions{
 		RoutingKey: TopicAllUserMsg,
 	}
 
@@ -147,12 +148,12 @@ func Test_Topic_Subscribe2(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	mq := rabbitmq.NewConsumer(conn,
-		rabbitmq.WithConsumerQueue(queue.Name),
-		rabbitmq.WithConsumerAutoAck(true),
+	mq := rabbitmqx.NewRabbitmqConsumer(conn,
+		rabbitmqx.WithConsumerQueue(queue.Name),
+		rabbitmqx.WithConsumerAutoAck(true),
 	)
 
-	mq.SubscribeMessage(func(msg []byte) error {
+	mq.SubscribeMessage(func(ctx context.Context, msg []byte) error {
 		log.Printf("receive message: %s", string(msg))
 		return nil
 	})

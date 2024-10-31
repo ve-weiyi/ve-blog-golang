@@ -18,13 +18,13 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/rabbitmq"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/model"
@@ -232,23 +232,23 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 	r := c.RabbitMQConf
 	url := fmt.Sprintf("amqp://%s:%s@%s:%s/", r.Username, r.Password, r.Host, r.Port)
 	// 创建连接
-	conn, err := rabbitmq.NewRabbitmqConn(url, nil)
+	conn, err := rabbitmqx.NewRabbitmqConn(url, nil)
 	if err != nil {
 		log.Fatal("rabbitmq 初始化失败!", err)
 	}
 
-	queue := &rabbitmq.QueueOptions{
+	queue := &rabbitmqx.QueueOptions{
 		Name:    constant.EmailQueue,
 		Durable: true, // 是否持久化
 	}
 
-	exchange := &rabbitmq.ExchangeOptions{
+	exchange := &rabbitmqx.ExchangeOptions{
 		Name:    constant.EmailExchange,
-		Kind:    rabbitmq.ExchangeTypeFanout,
+		Kind:    rabbitmqx.ExchangeTypeFanout,
 		Durable: true, // 是否持久化
 	}
 
-	binding := &rabbitmq.BindingOptions{
+	binding := &rabbitmqx.BindingOptions{
 		RoutingKey: "",
 	}
 
@@ -258,16 +258,16 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 	}
 
 	// pub/sub模式 消息发布者只需要声明交换机
-	pb := rabbitmq.NewPublisher(conn,
-		rabbitmq.WithPublisherExchange(exchange.Name),
-		rabbitmq.WithPublisherMandatory(true),
+	pb := rabbitmqx.NewRabbitmqProducer(conn,
+		rabbitmqx.WithPublisherExchange(exchange.Name),
+		rabbitmqx.WithPublisherMandatory(true),
 	)
 
 	// pub/sub模式 消息订阅者需要声明交换机和队列
-	sb := rabbitmq.NewConsumer(
+	sb := rabbitmqx.NewRabbitmqConsumer(
 		conn,
-		rabbitmq.WithConsumerQueue(queue.Name),
-		rabbitmq.WithConsumerAutoAck(true),
+		rabbitmqx.WithConsumerQueue(queue.Name),
+		rabbitmqx.WithConsumerAutoAck(true),
 	)
 
 	deliver := mail.NewMqEmailDeliver(emailSender, pb, sb)
