@@ -68,7 +68,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 
-	swagger.RegisterKnife4jSwagHandler(server, "/api/v1/swagger/", files.GetRuntimeRoot()+"/docs/admin.json")
+	swagger.RegisterKnife4jSwagHandler(server, "/admin_api/v1/swagger/", files.GetRuntimeRoot()+"/docs/admin.json")
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)

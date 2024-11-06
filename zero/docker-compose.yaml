@@ -6,24 +6,25 @@ version: "3"
 #  redis:
 
 services:
-  ve-blog-golang-rpc:
+
+  blog-rpc:
     build:
       context: ./
       dockerfile: Dockerfile-rpc
-    image: ve-blog-golang-rpc:latest  # 设置新的镜像名称和标签
-    container_name: ve-blog-golang-rpc
+    image: blog-rpc:latest  # 设置新的镜像名称和标签
+    container_name: blog-rpc
     restart: always
     ports:
       - "9999:9999"
     volumes:
       - ./runtime/rpc:/app/rpc/blog/runtime
 
-  ve-blog-golang-blog-api:
+  blog-api:
     build:
       context: ./
       dockerfile: Dockerfile-blog-api
-    image: ve-blog-golang-blog-api:latest  # 设置新的镜像名称和标签
-    container_name: ve-blog-golang-blog-api
+    image: blog-api:latest  # 设置新的镜像名称和标签
+    container_name: blog-api
     restart: always
     ports:
       - "6060:6060"
@@ -31,14 +32,14 @@ services:
     volumes:
       - ./runtime/api:/app/api/blog/runtime
     depends_on:
-      - ve-blog-golang-rpc
+      - blog-rpc
 
-  ve-blog-golang-admin-api:
+  admin-api:
     build:
       context: ./
       dockerfile: Dockerfile-admin-api
-    image: ve-blog-golang-admin-api:latest  # 设置新的镜像名称和标签
-    container_name: ve-blog-golang-admin-api
+    image: admin-api:latest  # 设置新的镜像名称和标签
+    container_name: admin-api
     restart: always
     ports:
       - "6061:6061"
@@ -46,7 +47,7 @@ services:
     volumes:
       - ./runtime/api:/app/api/admin/runtime
     depends_on:
-      - ve-blog-golang-rpc
+      - blog-rpc
 #docker network create blog-network
 #networks:
 #  blog-network:

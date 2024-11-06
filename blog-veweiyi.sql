@@ -11,7 +11,7 @@
  Target Server Version : 80034 (8.0.34)
  File Encoding         : 65001
 
- Date: 25/10/2024 15:03:55
+ Date: 06/11/2024 17:53:34
 */
 
 SET NAMES utf8mb4;
@@ -237,7 +237,7 @@ CREATE TABLE `t_chat_message` (
   `device_id` varchar(64) NOT NULL DEFAULT '' COMMENT '设备id',
   `topic_id` varchar(255) NOT NULL DEFAULT '' COMMENT '主题id,表示一个群会话',
   `reply_msg_id` varchar(255) NOT NULL DEFAULT '' COMMENT '回复消息id，at消息',
-  `reply_user_id` varchar(255)  NOT NULL DEFAULT '' COMMENT '回复用户列表,at用户列表',
+  `reply_user_id` varchar(255) NOT NULL DEFAULT '' COMMENT '回复用户列表,at用户列表',
   `chat_content` varchar(4096) NOT NULL DEFAULT '' COMMENT '聊天内容',
   `ip_address` varchar(64) NOT NULL DEFAULT '' COMMENT '用户ip 127.0.0.1',
   `ip_source` varchar(128) NOT NULL DEFAULT '' COMMENT '用户地址 广东省深圳市',
@@ -247,12 +247,17 @@ CREATE TABLE `t_chat_message` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_uid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='聊天消息';
+) ENGINE=InnoDB AUTO_INCREMENT=237 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='聊天消息';
 
 -- ----------------------------
 -- Records of t_chat_message
 -- ----------------------------
 BEGIN;
+INSERT INTO `t_chat_message` (`id`, `user_id`, `device_id`, `topic_id`, `reply_msg_id`, `reply_user_id`, `chat_content`, `ip_address`, `ip_source`, `type`, `status`, `created_at`, `updated_at`) VALUES (232, '', '', '', '', '', '1', '127.0.0.1:61730', '本机地址', '', 0, '2024-10-28 15:12:57', '2024-10-28 15:12:57');
+INSERT INTO `t_chat_message` (`id`, `user_id`, `device_id`, `topic_id`, `reply_msg_id`, `reply_user_id`, `chat_content`, `ip_address`, `ip_source`, `type`, `status`, `created_at`, `updated_at`) VALUES (233, '', '', '', '', '', 'zz', '127.0.0.1:61730', '本机地址', '', 0, '2024-10-28 15:13:00', '2024-10-28 15:13:00');
+INSERT INTO `t_chat_message` (`id`, `user_id`, `device_id`, `topic_id`, `reply_msg_id`, `reply_user_id`, `chat_content`, `ip_address`, `ip_source`, `type`, `status`, `created_at`, `updated_at`) VALUES (234, '1', 'dev', '', '', '', 'hh', '127.0.0.1:61803', '本机地址', '', 0, '2024-10-28 15:13:11', '2024-10-28 15:13:11');
+INSERT INTO `t_chat_message` (`id`, `user_id`, `device_id`, `topic_id`, `reply_msg_id`, `reply_user_id`, `chat_content`, `ip_address`, `ip_source`, `type`, `status`, `created_at`, `updated_at`) VALUES (235, '', '', '', '', '', 'jj', '127.0.0.1:49391', '本机地址', '', 0, '2024-10-28 15:41:18', '2024-10-28 15:41:18');
+INSERT INTO `t_chat_message` (`id`, `user_id`, `device_id`, `topic_id`, `reply_msg_id`, `reply_user_id`, `chat_content`, `ip_address`, `ip_source`, `type`, `status`, `created_at`, `updated_at`) VALUES (236, '', '', '', '', '', 'hh', '127.0.0.1:50899', '本机地址', '', 0, '2024-10-28 15:45:20', '2024-10-28 15:45:20');
 COMMIT;
 
 -- ----------------------------
@@ -265,8 +270,8 @@ CREATE TABLE `t_comment` (
   `topic_id` int NOT NULL DEFAULT '0' COMMENT '主题id',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父评论id',
   `reply_msg_id` int NOT NULL DEFAULT '0' COMMENT '回复评论id',
-  `reply_user_id` varchar(255)  NOT NULL COMMENT '评论回复用户id',
-  `comment_content` text  NOT NULL COMMENT '评论内容',
+  `reply_user_id` varchar(255) NOT NULL COMMENT '评论回复用户id',
+  `comment_content` text NOT NULL COMMENT '评论内容',
   `ip_address` varchar(64) NOT NULL COMMENT 'ip地址 127.0.01',
   `ip_source` varchar(64) NOT NULL COMMENT 'ip来源 广东省',
   `type` tinyint NOT NULL DEFAULT '0' COMMENT '评论类型 1.文章 2.友链 3.说说',
@@ -636,7 +641,7 @@ CREATE TABLE `t_menu` (
   `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单图标',
   `rank` int NOT NULL DEFAULT '0' COMMENT '排序',
   `perm` varchar(64) NOT NULL DEFAULT '' COMMENT '权限标识',
-  `params` varchar(256)  NOT NULL DEFAULT '' COMMENT '路由参数',
+  `params` varchar(256) NOT NULL DEFAULT '' COMMENT '路由参数',
   `keep_alive` tinyint NOT NULL DEFAULT '0' COMMENT '是否缓存',
   `always_show` tinyint NOT NULL DEFAULT '0' COMMENT '是否一直显示菜单',
   `is_hidden` tinyint NOT NULL DEFAULT '0' COMMENT '是否隐藏',
@@ -700,7 +705,7 @@ CREATE TABLE `t_operation_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `user_id` varchar(64) NOT NULL DEFAULT '' COMMENT '用户id',
   `nickname` varchar(64) DEFAULT '' COMMENT '用户昵称',
-  `ip_address` varchar(255)  DEFAULT '' COMMENT '操作ip',
+  `ip_address` varchar(255) DEFAULT '' COMMENT '操作ip',
   `ip_source` varchar(255) DEFAULT '' COMMENT '操作地址',
   `opt_module` varchar(32) DEFAULT '' COMMENT '操作模块',
   `opt_handler` varchar(32) DEFAULT '' COMMENT '操作方法',
@@ -798,7 +803,7 @@ CREATE TABLE `t_role` (
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父角色id',
   `role_name` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名',
   `role_label` varchar(64) NOT NULL DEFAULT '' COMMENT '角色标签',
-  `role_comment` varchar(64)  NOT NULL DEFAULT '' COMMENT '角色备注',
+  `role_comment` varchar(64) NOT NULL DEFAULT '' COMMENT '角色备注',
   `is_disable` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用  0否 1是',
   `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否默认角色 0否 1是',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -970,14 +975,14 @@ CREATE TABLE `t_user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` varchar(64) NOT NULL COMMENT '用户id',
   `username` varchar(64) NOT NULL DEFAULT '' COMMENT '用户名',
-  `password` varchar(128)  NOT NULL DEFAULT '' COMMENT '用户密码',
+  `password` varchar(128) NOT NULL DEFAULT '' COMMENT '用户密码',
   `nickname` varchar(64) NOT NULL COMMENT '用户昵称',
   `avatar` varchar(255) NOT NULL COMMENT '用户头像',
   `email` varchar(64) NOT NULL DEFAULT '' COMMENT '邮箱',
   `phone` varchar(64) DEFAULT '' COMMENT '手机号',
   `info` varchar(1024) NOT NULL COMMENT '用户信息',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态: -1删除 0正常 1禁用',
-  `login_type` varchar(64)  NOT NULL DEFAULT '' COMMENT '注册方式',
+  `login_type` varchar(64) NOT NULL DEFAULT '' COMMENT '注册方式',
   `ip_address` varchar(255) NOT NULL DEFAULT '' COMMENT '注册ip',
   `ip_source` varchar(255) NOT NULL DEFAULT '' COMMENT '注册ip 源',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

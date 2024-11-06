@@ -41,6 +41,7 @@ services:
       - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=2
       # Common
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_HEAP_OPTS=-Xms512m -Xmx512m
     volumes:
       - kafka_0_data:/bitnami/kafka
     networks:
@@ -72,6 +73,7 @@ services:
       - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=2
       # Common
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_HEAP_OPTS=-Xms512m -Xmx512m
     volumes:
       - kafka_1_data:/bitnami/kafka
     networks:
@@ -103,6 +105,7 @@ services:
       - KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=2
       # Common
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_HEAP_OPTS=-Xms512m -Xmx512m
     volumes:
       - kafka_2_data:/bitnami/kafka
     networks:
