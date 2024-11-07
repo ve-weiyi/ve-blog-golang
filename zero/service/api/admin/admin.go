@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"flag"
 	"fmt"
 	"log"
@@ -9,7 +10,6 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/swagger"
@@ -29,6 +29,9 @@ var (
 )
 
 var configFile = flag.String("f", "", "the config file")
+
+//go:embed docs/admin.json
+var docs []byte
 
 func main() {
 	flag.Parse()
@@ -68,7 +71,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 
-	swagger.RegisterKnife4jSwagHandler(server, "/admin_api/v1/swagger/", files.GetRuntimeRoot()+"/docs/admin.json")
+	swagger.RegisterKnife4jSwagHandler(server, "/admin_api/v1/swagger/", docs)
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)

@@ -1,11 +1,8 @@
 package swagger
 
 import (
-	_ "embed"
 	"fmt"
-	"log"
 	"net/http"
-	"os"
 
 	httpSwagger "github.com/swaggo/http-swagger"
 	"github.com/zeromicro/go-zero/rest"
@@ -15,36 +12,25 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/static"
 )
 
-func RegisterHttpSwagHandler(server *rest.Server, prefix, swaggerFile string) {
-	f, err := os.ReadFile(swaggerFile)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
+func RegisterHttpSwagHandler(server *rest.Server, prefix string, docs []byte) {
 	server.AddRoute(rest.Route{
 		Method: http.MethodGet,
-		Path:   fmt.Sprintf("%s%s", prefix, "docs/blog.json"),
+		Path:   fmt.Sprintf("%s%s", prefix, "docs.json"),
 		Handler: func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
-			w.Write(f)
+			w.Write(docs)
 		},
 	})
 
 	server.AddRoutes(static.PrefixRoutes(prefix, func(w http.ResponseWriter, r *http.Request) {
 		httpSwagger.Handler(
-			httpSwagger.URL(fmt.Sprintf("%s%s", prefix, "docs/blog.json")), //The url pointing to API definition
+			httpSwagger.URL(fmt.Sprintf("%s%s", prefix, "docs.json")), //The url pointing to API definition
 		).ServeHTTP(w, r)
 	}))
 }
 
 // prefix: "/api/v1/swagger/"
-func RegisterKnife4jSwagHandler(server *rest.Server, prefix, swaggerFile string) {
-	f, err := os.ReadFile(swaggerFile)
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
+func RegisterKnife4jSwagHandler(server *rest.Server, prefix string, docs []byte) {
 
 	server.AddRoute(rest.Route{
 		Method: http.MethodGet,
@@ -67,7 +53,7 @@ func RegisterKnife4jSwagHandler(server *rest.Server, prefix, swaggerFile string)
 		Path:   fmt.Sprintf("%s%s", prefix, "v2/api-docs"),
 		Handler: func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
-			w.Write(f)
+			w.Write(docs)
 		},
 	})
 

@@ -2,7 +2,7 @@ module github.com/ve-weiyi/ve-blog-golang/zero
 
 go 1.22
 
-replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
+//replace github.com/ve-weiyi/ve-blog-golang/kit => ../kit
 
 require (
 	github.com/go-sql-driver/mysql v1.8.1
@@ -14,12 +14,11 @@ require (
 	github.com/spf13/cast v1.7.0
 	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/http-swagger v1.3.4
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241104091013-3dba9e1c206e
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241107080413-a4da1290b3f4
 	github.com/zeromicro/go-zero v1.7.2
 	github.com/zeromicro/go-zero/tools/goctl v1.7.2
 	go.opentelemetry.io/otel/sdk v1.29.0
 	go.opentelemetry.io/otel/trace v1.29.0
-	golang.org/x/net v0.30.0
 	google.golang.org/grpc v1.66.0
 	google.golang.org/protobuf v1.35.1
 	gorm.io/driver/mysql v1.5.7
@@ -126,6 +125,7 @@ require (
 	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/image v0.14.0 // indirect
 	golang.org/x/mod v0.20.0 // indirect
+	golang.org/x/net v0.30.0 // indirect
 	golang.org/x/oauth2 v0.21.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
