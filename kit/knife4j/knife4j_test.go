@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestDir(t *testing.T) {
+func Test_Knife4j(t *testing.T) {
 	f := []byte(` 
 { 
   "swagger": "2.0",
@@ -54,7 +54,7 @@ func TestDir(t *testing.T) {
 	})))
 
 	// 启动 HTTP 服务器
-	log.Println("WebDAV 服务器启动于 http://localhost:9091")
+	log.Println("接口文档地址:http://localhost:8080/api/v1/swagger/doc.html")
 	if err := http.ListenAndServe(":9091", nil); err != nil {
 		log.Fatalf("服务器启动失败: %v", err)
 	}
