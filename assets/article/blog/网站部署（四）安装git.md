@@ -15,3 +15,10 @@ git -v
 ```sh
 git clone https://github.com/ve-weiyi/ve-blog-golang.git
 ```
+
+### 切换分支
+
+```sh
+cd ve-blog-golang
+git checkout origin/feature/blog
+```
