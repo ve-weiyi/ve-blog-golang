@@ -33,14 +33,14 @@ func (s *MenuController) AddMenu(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.MenuNewReq
+	var req *dto.MenuNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).AddMenu(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).AddMenu(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *MenuController) BatchDeleteMenu(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).BatchDeleteMenu(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).BatchDeleteMenu(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *MenuController) CleanMenuList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).CleanMenuList(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).CleanMenuList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).DeleteMenu(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).DeleteMenu(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *MenuController) FindMenuList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.MenuQuery
+	var req *dto.MenuQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).FindMenuList(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).FindMenuList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.SyncMenuReq
+	var req *dto.SyncMenuReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).SyncMenuList(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).SyncMenuList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -201,14 +201,14 @@ func (s *MenuController) UpdateMenu(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.MenuNewReq
+	var req *dto.MenuNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewMenuService(s.svcCtx).UpdateMenu(reqCtx, &req)
+	data, err := service.NewMenuService(s.svcCtx).UpdateMenu(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

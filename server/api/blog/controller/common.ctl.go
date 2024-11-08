@@ -33,14 +33,14 @@ func (s *CommonController) Ping(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.PingReq
+	var req *dto.PingReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCommonService(s.svcCtx).Ping(reqCtx, &req)
+	data, err := service.NewCommonService(s.svcCtx).Ping(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

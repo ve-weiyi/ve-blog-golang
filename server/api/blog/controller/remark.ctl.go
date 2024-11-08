@@ -33,14 +33,14 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RemarkQueryReq
+	var req *dto.RemarkQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).FindRemarkList(reqCtx, &req)
+	data, err := service.NewRemarkService(s.svcCtx).FindRemarkList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *RemarkController) AddRemark(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RemarkNewReq
+	var req *dto.RemarkNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewRemarkService(s.svcCtx).AddRemark(reqCtx, &req)
+	data, err := service.NewRemarkService(s.svcCtx).AddRemark(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

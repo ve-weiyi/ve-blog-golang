@@ -33,14 +33,14 @@ func (s *AlbumController) FindAlbumList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AlbumQuery
+	var req *dto.AlbumQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).FindAlbumList(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).FindAlbumList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *AlbumController) AddAlbum(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AlbumNewReq
+	var req *dto.AlbumNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).AddAlbum(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).AddAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *AlbumController) BatchDeleteAlbum(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).BatchDeleteAlbum(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).BatchDeleteAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *AlbumController) DeleteAlbum(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).DeleteAlbum(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).DeleteAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *AlbumController) GetAlbum(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).GetAlbum(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).GetAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *AlbumController) UpdateAlbum(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AlbumNewReq
+	var req *dto.AlbumNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).UpdateAlbum(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).UpdateAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

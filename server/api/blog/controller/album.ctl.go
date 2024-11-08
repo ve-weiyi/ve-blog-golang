@@ -33,14 +33,14 @@ func (s *AlbumController) FindAlbumList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.AlbumQueryReq
+	var req *dto.AlbumQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).FindAlbumList(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).FindAlbumList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *AlbumController) FindPhotoList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.PhotoQueryReq
+	var req *dto.PhotoQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).FindPhotoList(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).FindPhotoList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *AlbumController) GetAlbum(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAlbumService(s.svcCtx).GetAlbum(reqCtx, &req)
+	data, err := service.NewAlbumService(s.svcCtx).GetAlbum(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

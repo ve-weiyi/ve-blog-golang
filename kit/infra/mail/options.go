@@ -37,9 +37,3 @@ func WithDeliver(deliver []string) Option {
 		o.Deliver = deliver
 	}
 }
-
-func WithIsSSL(isSSL bool) Option {
-	return func(o *EmailDeliver) {
-		o.IsSSL = isSSL
-	}
-}

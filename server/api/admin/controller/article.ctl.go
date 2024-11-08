@@ -33,14 +33,14 @@ func (s *ArticleController) AddArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleNewReq
+	var req *dto.ArticleNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).AddArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).AddArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *ArticleController) DeleteArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).DeleteArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).DeleteArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *ArticleController) ExportArticleList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).ExportArticleList(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).ExportArticleList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *ArticleController) FindArticleList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleQuery
+	var req *dto.ArticleQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).FindArticleList(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).FindArticleList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *ArticleController) GetArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).GetArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).GetArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *ArticleController) RecycleArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleRecycleReq
+	var req *dto.ArticleRecycleReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).RecycleArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).RecycleArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -201,14 +201,14 @@ func (s *ArticleController) TopArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleTopReq
+	var req *dto.ArticleTopReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).TopArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).TopArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -229,14 +229,14 @@ func (s *ArticleController) UpdateArticle(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ArticleNewReq
+	var req *dto.ArticleNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewArticleService(s.svcCtx).UpdateArticle(reqCtx, &req)
+	data, err := service.NewArticleService(s.svcCtx).UpdateArticle(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

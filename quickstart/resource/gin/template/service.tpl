@@ -8,12 +8,12 @@ import (
     {{- end}}
 )
 
-type {{Case2Camel .Group}}Service struct {
+type {{.Group}}Service struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func New{{Case2Camel .Group}}Service(svcCtx *svctx.ServiceContext) *{{Case2Camel .Group}}Service {
-	return &{{Case2Camel .Group}}Service{
+func New{{.Group}}Service(svcCtx *svctx.ServiceContext) *{{.Group}}Service {
+	return &{{.Group}}Service{
 		svcCtx: svcCtx,
 	}
 }
@@ -22,13 +22,13 @@ func New{{Case2Camel .Group}}Service(svcCtx *svctx.ServiceContext) *{{Case2Camel
 {{- range .Routes}}
 // {{.Doc}}
 {{- if .Request }}
-func (s *{{Case2Camel $.Group}}Service) {{.Handler}}(reqCtx *request.Context, in *dto.{{.Request}}) (out *dto.{{.Response}}, err error) {
+func (s *{{$.Group}}Service) {{.Handler}}(reqCtx *request.Context, in {{pkgTypes .Request}}) (out {{pkgTypes .Response}}, err error) {
     // todo
 
     return
 }
 {{- else }}
-func (s *{{Case2Camel $.Group}}Service) {{.Handler}}(reqCtx *request.Context) (err error) {
+func (s *{{$.Group}}Service) {{.Handler}}(reqCtx *request.Context) (err error) {
     // todo
 
     return

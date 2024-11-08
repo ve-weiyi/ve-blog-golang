@@ -33,14 +33,14 @@ func (s *CategoryController) FindCategoryList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.CategoryQueryReq
+	var req *dto.CategoryQueryReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewCategoryService(s.svcCtx).FindCategoryList(reqCtx, &req)
+	data, err := service.NewCategoryService(s.svcCtx).FindCategoryList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

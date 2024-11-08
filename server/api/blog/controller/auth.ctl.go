@@ -33,14 +33,14 @@ func (s *AuthController) Login(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.LoginReq
+	var req *dto.LoginReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).Login(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Login(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *AuthController) OauthAuthorizeUrl(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.OauthLoginReq
+	var req *dto.OauthLoginReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).OauthAuthorizeUrl(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).OauthAuthorizeUrl(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *AuthController) OauthLogin(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.OauthLoginReq
+	var req *dto.OauthLoginReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).OauthLogin(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).OauthLogin(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *AuthController) Register(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.RegisterReq
+	var req *dto.RegisterReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).Register(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Register(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *AuthController) SendRegisterEmail(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UserEmailReq
+	var req *dto.UserEmailReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).SendRegisterEmail(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).SendRegisterEmail(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -173,14 +173,14 @@ func (s *AuthController) ResetPassword(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.ResetPasswordReq
+	var req *dto.ResetPasswordReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).ResetPassword(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).ResetPassword(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -201,14 +201,14 @@ func (s *AuthController) SendResetEmail(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UserEmailReq
+	var req *dto.UserEmailReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).SendResetEmail(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).SendResetEmail(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -229,14 +229,14 @@ func (s *AuthController) BindUserEmail(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.BindUserEmailReq
+	var req *dto.BindUserEmailReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).BindUserEmail(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).BindUserEmail(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -257,14 +257,14 @@ func (s *AuthController) Logoff(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).Logoff(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Logoff(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -285,14 +285,14 @@ func (s *AuthController) Logout(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.EmptyReq
+	var req *dto.EmptyReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).Logout(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).Logout(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -313,14 +313,14 @@ func (s *AuthController) SendBindEmail(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.UserEmailReq
+	var req *dto.UserEmailReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewAuthService(s.svcCtx).SendBindEmail(reqCtx, &req)
+	data, err := service.NewAuthService(s.svcCtx).SendBindEmail(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

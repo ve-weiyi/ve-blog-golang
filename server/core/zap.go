@@ -3,10 +3,10 @@ package core
 import (
 	"log"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 	"github.com/ve-weiyi/ve-blog-golang/server/config"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/server/infra/glog/zaplog"
 )
 
 // 初始化日志组件 zap

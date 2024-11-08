@@ -1,19 +1,18 @@
 package main
 
 import (
+	_ "embed"
 	"flag"
 	"fmt"
 	"log"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
-	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/common/task"
-
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/zero/internal/swagger"
+	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/common/task"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/handler"
 	"github.com/ve-weiyi/ve-blog-golang/zero/service/api/blog/internal/svc"
@@ -30,6 +29,9 @@ var (
 )
 
 var configFile = flag.String("f", "", "the config file")
+
+//go:embed docs/blog.json
+var docs []byte
 
 func main() {
 	flag.Parse()
@@ -69,7 +71,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 
-	swagger.RegisterHttpSwagHandler(server, "/api/v1/swagger/", files.GetRuntimeRoot()+"/docs/blog.json")
+	swagger.RegisterHttpSwagHandler(server, "/api/v1/swagger/", docs)
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)

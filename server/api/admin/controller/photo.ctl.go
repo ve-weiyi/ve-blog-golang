@@ -33,14 +33,14 @@ func (s *PhotoController) FindPhotoList(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.PhotoQuery
+	var req *dto.PhotoQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewPhotoService(s.svcCtx).FindPhotoList(reqCtx, &req)
+	data, err := service.NewPhotoService(s.svcCtx).FindPhotoList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -61,14 +61,14 @@ func (s *PhotoController) BatchDeletePhoto(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdsReq
+	var req *dto.IdsReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewPhotoService(s.svcCtx).BatchDeletePhoto(reqCtx, &req)
+	data, err := service.NewPhotoService(s.svcCtx).BatchDeletePhoto(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -89,14 +89,14 @@ func (s *PhotoController) AddPhoto(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.PhotoNewReq
+	var req *dto.PhotoNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewPhotoService(s.svcCtx).AddPhoto(reqCtx, &req)
+	data, err := service.NewPhotoService(s.svcCtx).AddPhoto(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -117,14 +117,14 @@ func (s *PhotoController) DeletePhoto(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.IdReq
+	var req *dto.IdReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewPhotoService(s.svcCtx).DeletePhoto(reqCtx, &req)
+	data, err := service.NewPhotoService(s.svcCtx).DeletePhoto(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -145,14 +145,14 @@ func (s *PhotoController) UpdatePhoto(c *gin.Context) {
 		response.ResponseError(c, err)
 		return
 	}
-	var req dto.PhotoNewReq
+	var req *dto.PhotoNewReq
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewPhotoService(s.svcCtx).UpdatePhoto(reqCtx, &req)
+	data, err := service.NewPhotoService(s.svcCtx).UpdatePhoto(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
