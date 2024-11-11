@@ -96,31 +96,33 @@ Dockerfile 是用于构建 Docker 镜像的文本文件。它包含了一系列�
 ```bash
 FROM golang:alpine AS builder
 
-WORKDIR /go/src/github.com/ve-weiyi/ve-blog-golang/zero
+LABEL stage=gobuilder
+
+ENV CGO_ENABLED 0
+ENV GOPROXY https://goproxy.cn,direct
+
+RUN apk update --no-cache && apk add --no-cache tzdata
+
+WORKDIR /build
+
 COPY . .
+RUN go mod tidy
+RUN go build -o /app/rpc/blog/blog service/rpc/blog/blog.go
 
-RUN go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
-    && go env -w CGO_ENABLED=0 \
-    && go env \
-    && go mod tidy
 
-COPY service/rpc/blog/etc /app/etc
-RUN go build -ldflags="-s -w" -o /app/blog service/rpc/blog/blog.go
+FROM scratch
 
-FROM alpine:latest
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
+ENV TZ Asia/Shanghai
 
-#维护者信息
-LABEL maintainer="791422171@qq.com"
+WORKDIR /app/rpc/blog
+COPY --from=builder /app/rpc/blog/blog /app/rpc/blog/blog
 
-WORKDIR /app
-COPY --from=0 /app/blog /app/blog
-COPY --from=0 /app/etc /app/etc
-
-EXPOSE 8888
+CMD ["./blog"]
 
 # 启动命令，只能有一条命令。
-ENTRYPOINT ./blog -f etc/blog.yaml
+#ENTRYPOINT ./blog -f etc/blog.yaml
 
 # 如果有多条命令，可以使用 ENTRYPOINT ["./entrypoint.sh"]
 ```

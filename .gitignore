@@ -34,6 +34,7 @@ server/config.yaml
 test
 runtime
 default.etcd
+config.yaml
 blog-rpc.yaml
 test.sql
 test.api
