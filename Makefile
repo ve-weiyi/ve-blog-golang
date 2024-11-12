@@ -1,11 +1,11 @@
 build-server:
-	go run server/main.go
+	go run gin/main.go
 
 build-blog-rpc:
-	go run zero/service/rpc/blog/blog.go
+	go run gozero/service/rpc/blog/blog.go
 
 build-blog-api:
-	go run zero/service/api/blog/blog.go
+	go run gozero/service/api/blog/blog.go
 
 build-admin-api:
-	go run zero/service/api/admin/admin.go
+	go run gozero/service/api/admin/admin.go
