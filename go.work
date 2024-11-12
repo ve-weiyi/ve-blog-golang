@@ -1,0 +1,13 @@
+go 1.22
+
+use (
+	./gin
+	./gozero
+	./kit
+	./quickstart
+)
+
+// go work init
+// go work sync
+
+//replace github.com/ve-weiyi/ve-blog-golang/kit => ./kit

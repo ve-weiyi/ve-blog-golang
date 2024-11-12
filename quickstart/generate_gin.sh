@@ -10,7 +10,7 @@ go run main.go api dto \
 go run main.go api service \
 -f='../zero/service/api/blog/proto/blog.api' \
 -t='./resource/gin/template' \
--c='github.com/ve-weiyi/ve-blog-golang/server/svctx'  \
+-c='github.com/ve-weiyi/ve-blog-golang/gin/svctx'  \
 -o='../server/api/blog'  \
 -n='%s.sv.go'
 
@@ -18,7 +18,7 @@ go run main.go api service \
 go run main.go api controller \
 -f='../zero/service/api/blog/proto/blog.api' \
 -t='./resource/gin/template' \
--c='github.com/ve-weiyi/ve-blog-golang/server/svctx'  \
+-c='github.com/ve-weiyi/ve-blog-golang/gin/svctx'  \
 -o='../server/api/blog'  \
 -n='%s.ctl.go'
 
@@ -26,7 +26,7 @@ go run main.go api controller \
 go run main.go api router \
 -f='../zero/service/api/blog/proto/blog.api' \
 -t='./resource/gin/template' \
--c='github.com/ve-weiyi/ve-blog-golang/server/svctx'  \
+-c='github.com/ve-weiyi/ve-blog-golang/gin/svctx'  \
 -o='../server/api/blog'  \
 -n='%s.rt.go'
 
@@ -44,7 +44,7 @@ go run main.go api dto \
 go run main.go api service \
 -f='../zero/service/api/admin/proto/admin.api' \
 -t='./resource/gin/template' \
--c='github.com/ve-weiyi/ve-blog-golang/server/svctx'  \
+-c='github.com/ve-weiyi/ve-blog-golang/gin/svctx'  \
 -o='../server/api/admin'  \
 -n='%s.sv.go'
 
@@ -52,7 +52,7 @@ go run main.go api service \
 go run main.go api controller \
 -f='../zero/service/api/admin/proto/admin.api' \
 -t='./resource/gin/template' \
--c='github.com/ve-weiyi/ve-blog-golang/server/svctx'  \
+-c='github.com/ve-weiyi/ve-blog-golang/gin/svctx'  \
 -o='../server/api/admin'  \
 -n='%s.ctl.go'
 
@@ -60,6 +60,6 @@ go run main.go api controller \
 go run main.go api router \
 -f='../zero/service/api/admin/proto/admin.api' \
 -t='./resource/gin/template' \
--c='github.com/ve-weiyi/ve-blog-golang/server/svctx'  \
+-c='github.com/ve-weiyi/ve-blog-golang/gin/svctx'  \
 -o='../server/api/admin'  \
 -n='%s.rt.go'
