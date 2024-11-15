@@ -1,8 +1,6 @@
 package core
 
 import (
-	"log"
-
 	"github.com/ve-weiyi/ve-blog-golang/gin/config"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog/zaplog"
@@ -13,7 +11,7 @@ import (
 func SetLog(c config.Zap) {
 	err := files.MkDir(c.CacheDir)
 	if err != nil {
-		log.Println(err)
+		panic(err)
 	}
 
 	var cfg zaplog.ZapConfig
