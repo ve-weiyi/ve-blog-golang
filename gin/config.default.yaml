@@ -1,8 +1,8 @@
 # system configuration
 system:
+  port: 9092
+  env: dev
   version: 1.0.0
-  env: develop
-  port: 9999
   runtime-path: runtime/
 
 # jwt token configuration

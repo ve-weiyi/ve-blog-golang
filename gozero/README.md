@@ -15,14 +15,18 @@
     
 ## 2.启动项目
 
-etcd模式下，需要先启动etcd服务，然后启动rpc服务和api服务。
+准备工作：
+1. 确认已经安装好golang环境。
 
-启动etcd（可选,使用直连rpc模式时不需要）
+2. 确保运行了 mysql、redis、rabbitmq 等服务。在[data](../deploy/docker-compose/data)目录下输入命令`docker-compose up -d`快速启动这些服务。
+
+3. 修改配置文件。在[etc](service/rpc/blog/etc)目录下
+
+4. 确认启动etcd（可选,使用直连rpc模式时不需要）
 
 ```sh
 etcd
 ```
-
 
 ### 使用nacos配置启动
 该模式可用于生产模式

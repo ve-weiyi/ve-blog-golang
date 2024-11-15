@@ -4,14 +4,9 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"log"
-	"os"
-	"strings"
 
-	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 
 	"github.com/ve-weiyi/ve-blog-golang/gin/config"
 	"github.com/ve-weiyi/ve-blog-golang/gin/core"
@@ -71,55 +66,20 @@ func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 }
 
 func (s *ApiCmd) RunApi(cmd *cobra.Command, args []string) {
-	var c config.Config
-	var content string
+	var c *config.Config
 
 	switch s.configMode {
 	case "file":
 		log.Println("读取配置文件..使用文件路径")
-
-		text, err := os.ReadFile(s.filepath)
-		if err != nil {
-			panic(err)
-		}
-
-		content = string(text)
+		c = core.Viper(s.filepath)
 
 	case "nacos":
 		log.Println("读取配置文件...使用nacos")
-		// 初始化Nacos
-		nc := nacos.New(s.nacosCfg)
-
-		// 读取配置文件
-		text, err := nc.GetConfig()
-		if err != nil {
-			panic("nacos config read failed " + err.Error())
-		}
-
-		content = text
+		c = core.Nacos(s.nacosCfg)
 	default:
 		panic("config mode not support,please use cmd 'go run main.go api --c=file --f=./config.yaml'")
 	}
 
-	// 初始化Viper
-	v := viper.New()
-	v.SetConfigType("yaml")
-
-	// 读取配置文件
-	err := v.ReadConfig(strings.NewReader(content))
-	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %s \n", err))
-	}
-	// 修改解析的tag（默认是mapstructure）
-	withJsonTag := func(c *mapstructure.DecoderConfig) {
-		c.TagName = "json"
-	}
-	// 解析配置文件
-	if err = v.Unmarshal(&c, withJsonTag); err != nil {
-		panic(err)
-	}
-	// 暂时不开启监听配置文件变化
-
 	// 初始化配置文件
-	core.RunWindowsServer(&c)
+	core.RunWindowsServer(c)
 }
