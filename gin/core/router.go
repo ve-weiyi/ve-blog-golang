@@ -9,10 +9,10 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	"github.com/ve-weiyi/ve-blog-golang/gin/api/admin"
-	"github.com/ve-weiyi/ve-blog-golang/gin/api/blog"
 	"github.com/ve-weiyi/ve-blog-golang/gin/docs"
 	"github.com/ve-weiyi/ve-blog-golang/gin/infra/middleware"
+	"github.com/ve-weiyi/ve-blog-golang/gin/service/admin"
+	"github.com/ve-weiyi/ve-blog-golang/gin/service/blog"
 	"github.com/ve-weiyi/ve-blog-golang/gin/svctx"
 )
 

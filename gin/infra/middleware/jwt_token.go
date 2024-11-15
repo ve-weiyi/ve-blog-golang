@@ -5,18 +5,18 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 )
 
 // JwtToken jwt中间件
-func JwtToken(tk *jtoken.JwtInstance) gin.HandlerFunc {
+func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 
 	parser := tk
 
@@ -78,7 +78,7 @@ func JwtToken(tk *jtoken.JwtInstance) gin.HandlerFunc {
 		ctx := c.Request.Context()
 		for k, v := range claims {
 			switch k {
-			case jtoken.JwtAudience, jtoken.JwtExpire, jtoken.JwtId, jtoken.JwtIssueAt, jtoken.JwtIssuer, jtoken.JwtNotBefore, jtoken.JwtSubject:
+			case jwtx.JwtAudience, jwtx.JwtExpire, jwtx.JwtId, jwtx.JwtIssueAt, jwtx.JwtIssuer, jwtx.JwtNotBefore, jwtx.JwtSubject:
 				// ignore the standard claims
 			default:
 				ctx = context.WithValue(ctx, k, v)
