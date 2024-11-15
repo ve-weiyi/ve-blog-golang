@@ -5,20 +5,15 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type OauthLoginLogic struct {
@@ -97,7 +92,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		Email:     info.Email,
 		Phone:     info.Mobile,
 		Info:      "",
-		Status:    constant.UserStatusNormal,
+		Status:    model.UserStatusNormal,
 		LoginType: platform,
 		IpAddress: "",
 		IpSource:  "",

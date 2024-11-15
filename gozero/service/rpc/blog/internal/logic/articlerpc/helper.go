@@ -31,8 +31,8 @@ func convertArticleIn(in *articlerpc.ArticleNewReq) (out *model.TArticle) {
 		ArticleContent: in.ArticleContent,
 		ArticleType:    in.ArticleType,
 		OriginalUrl:    in.OriginalUrl,
-		IsTop:          0,
-		IsDelete:       0,
+		IsTop:          model.ArticleIsTopNo,
+		IsDelete:       model.ArticleIsDeleteNo,
 		Status:         in.Status,
 		LikeCount:      0,
 	}

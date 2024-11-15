@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
