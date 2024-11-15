@@ -5,19 +5,16 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
 
 type RegisterLogic struct {
@@ -89,8 +86,8 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 		Email:     in.Username,
 		Phone:     "",
 		Info:      "",
-		Status:    constant.UserStatusNormal,
-		LoginType: constant.LoginTypeEmail,
+		Status:    model.UserStatusNormal,
+		LoginType: model.LoginTypeEmail,
 		IpAddress: "",
 		IpSource:  "",
 	}
