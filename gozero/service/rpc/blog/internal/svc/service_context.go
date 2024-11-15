@@ -14,8 +14,8 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
