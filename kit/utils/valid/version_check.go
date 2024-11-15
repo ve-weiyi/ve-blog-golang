@@ -1,4 +1,4 @@
-package utils
+package valid
 
 import (
 	"regexp"
