@@ -25,7 +25,7 @@ func NewUpdateUserStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 修改用户状态
 func (l *UpdateUserStatusLogic) UpdateUserStatus(in *accountrpc.UpdateUserStatusReq) (*accountrpc.EmptyResp, error) {
-	ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", in.UserId)
+	ua, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
 	if err != nil {
 		return nil, err
 	}

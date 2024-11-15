@@ -17,7 +17,7 @@ func TestDocs(t *testing.T) {
 func genSwagJson() error {
 	var host, basePath, schemes string
 
-	filename := "/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/blog.api"
+	filename := "/Users/weiyi/Github/ve-blog-golang/gozero/service/api/blog/proto/blog.api"
 	sp, err := parser.Parse(filename)
 	if err != nil {
 		fmt.Println(err)

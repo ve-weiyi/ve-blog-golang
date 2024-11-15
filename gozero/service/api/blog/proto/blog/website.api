@@ -45,6 +45,7 @@ type (
         PageName string `json:"page_name"`   // 页面名称
         PageLabel string `json:"page_label"` // 页面标签
         PageCover string `json:"page_cover"` // 页面封面
+        IsCarousel int64 `json:"is_carousel,optional"`              // 是否轮播
     }
 
     GetAboutMeReq {

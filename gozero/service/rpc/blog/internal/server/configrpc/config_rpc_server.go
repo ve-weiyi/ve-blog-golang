@@ -23,7 +23,7 @@ func NewConfigRpcServer(svcCtx *svc.ServiceContext) *ConfigRpcServer {
 }
 
 // 保存配置
-func (s *ConfigRpcServer) SaveConfig(ctx context.Context, in *configrpc.SaveConfigReq) (*configrpc.EmptyResp, error) {
+func (s *ConfigRpcServer) SaveConfig(ctx context.Context, in *configrpc.SaveConfigReq) (*configrpc.SaveConfigResp, error) {
 	l := configrpclogic.NewSaveConfigLogic(ctx, s.svcCtx)
 	return l.SaveConfig(in)
 }

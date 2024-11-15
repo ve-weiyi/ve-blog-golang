@@ -11,7 +11,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gin/config"
 	"github.com/ve-weiyi/ve-blog-golang/gin/infra/middleware"
 	"github.com/ve-weiyi/ve-blog-golang/gin/initialize"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 )
 
 // 注册需要用到的gorm、redis、model
@@ -21,7 +21,7 @@ type ServiceContext struct {
 	DbEngin    *gorm.DB
 	RedisEngin *redis.Client
 	LocalCache *ecache.Cache
-	Token      *jtoken.JwtInstance
+	Token      *jwtx.JwtInstance
 
 	MiddlewareSignToken gin.HandlerFunc
 	MiddlewareJwtToken  gin.HandlerFunc
@@ -41,7 +41,7 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 
 	cache := ecache.NewLRUCache(16, 200, 10*time.Second).LRU2(1024)
 
-	tk := jtoken.NewJWTInstance([]byte(c.JWT.SigningKey))
+	tk := jwtx.NewJWTInstance([]byte(c.JWT.SigningKey))
 
 	return &ServiceContext{
 		Config:              c,
