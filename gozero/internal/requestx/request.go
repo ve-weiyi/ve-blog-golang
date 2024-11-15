@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 )
 
 // 请求上下文,一般存放请求头参数
@@ -24,8 +24,8 @@ func (s *Context) GetContext() context.Context {
 func ParseRequestContext(r *http.Request) *Context {
 	reqCtx := &Context{
 		Context:   r.Context(),
-		Token:     r.Header.Get(constant.HeaderToken),
-		Uid:       r.Header.Get(constant.HeaderUid),
+		Token:     r.Header.Get(headerconst.HeaderToken),
+		Uid:       r.Header.Get(headerconst.HeaderUid),
 		IpAddress: r.RemoteAddr,
 		UserAgent: r.UserAgent(),
 	}
