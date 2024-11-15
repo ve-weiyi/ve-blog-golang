@@ -12,9 +12,8 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -41,13 +40,13 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		pl := m.holder.GetPolicy(r.URL.Path, r.Method)
 		logx.Infof("OperationMiddleware Handle path: %v,pl: %v", r.URL.Path, pl)
 		if pl != nil && pl.Disable() {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotExist, "资源已禁用"))
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotExist, "资源已禁用"))
 			return
 		}
 
 		roles := r.Context().Value("roles")
 		if pl != nil && !pl.HasPermission(strings.Split(cast.ToString(roles), ",")) {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotExist, "无权限访问"))
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotExist, "无权限访问"))
 			return
 		}
 
@@ -103,7 +102,7 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 					}
 
 					keyLowercase := strings.ToLower(k)
-					for _, key := range constant.HeaderFields {
+					for _, key := range headerconst.HeaderFields {
 						if key == keyLowercase {
 							header[key] = v
 						}
@@ -115,7 +114,7 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			cost := time.Since(start)
 
 			op := &syslogrpc.OperationLogNewReq{
-				UserId:         cast.ToString(r.Header[constant.HeaderUid]),
+				UserId:         cast.ToString(r.Header[headerconst.HeaderUid]),
 				Nickname:       "",
 				IpAddress:      ip,
 				IpSource:       is,

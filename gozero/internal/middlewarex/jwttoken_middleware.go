@@ -8,9 +8,8 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 )
 
@@ -34,12 +33,12 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		var token string
 		var uid string
 
-		token = r.Header.Get(constant.HeaderAuthorization)
-		uid = r.Header.Get(constant.HeaderUid)
+		token = r.Header.Get(headerconst.HeaderAuthorization)
+		uid = r.Header.Get(headerconst.HeaderUid)
 
 		claims, err := j.verifier.VerifyToken(r.Context(), token, uid)
 		if err != nil {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, err.Error()))
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, err.Error()))
 			return
 		}
 

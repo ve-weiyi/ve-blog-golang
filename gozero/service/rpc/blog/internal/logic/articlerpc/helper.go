@@ -312,7 +312,7 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 		params = append(params, in.Status)
 	}
 
-	if in.IsTop >= 0 {
+	if in.IsTop != 0 {
 		if conditions != "" {
 			conditions += " and "
 		}
@@ -320,7 +320,7 @@ func (l *ArticleHelperLogic) convertArticleQuery(in *articlerpc.FindArticleListR
 		params = append(params, in.IsTop)
 	}
 
-	if in.IsDelete >= 0 {
+	if in.IsDelete != 0 {
 		if conditions != "" {
 			conditions += " and "
 		}

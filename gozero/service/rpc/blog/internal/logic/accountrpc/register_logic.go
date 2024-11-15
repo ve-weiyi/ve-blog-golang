@@ -7,11 +7,9 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
@@ -40,19 +38,19 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.NewApiError(codex.CodeInvalidParam, "邮箱格式不正确")
+		return nil, apierr.NewApiError(apierr.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 获取用户
 	exist, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if exist != nil {
-		return nil, apierr.NewApiError(codex.CodeUserAlreadyExist, "用户已存在")
+		return nil, apierr.NewApiError(apierr.CodeUserAlreadyExist, "用户已存在")
 	}
 
 	// 验证code是否正确
 	key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
-		return nil, apierr.NewApiError(codex.CodeCaptchaVerify, "验证码错误")
+		return nil, apierr.NewApiError(apierr.CodeCaptchaVerify, "验证码错误")
 	}
 
 	var ua *model.TUser

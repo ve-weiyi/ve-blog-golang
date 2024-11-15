@@ -10,7 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 )
 
@@ -73,12 +73,12 @@ func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid stri
 	}
 
 	// uid不一致
-	if uid != cast.ToString(claims[constant.HeaderUid]) {
+	if uid != cast.ToString(claims[headerconst.HeaderUid]) {
 		return nil, fmt.Errorf("token cannot use by uid")
 	}
 
 	//token验证成功,但用户在别处登录或退出登录
-	if j.IsLogout(ctx, cast.ToString(claims[constant.HeaderUid]), cast.ToInt64(claims[jwtx.JwtIssueAt])) {
+	if j.IsLogout(ctx, cast.ToString(claims[headerconst.HeaderUid]), cast.ToInt64(claims[jwtx.JwtIssueAt])) {
 		return nil, fmt.Errorf("user already logout or login in other place")
 	}
 

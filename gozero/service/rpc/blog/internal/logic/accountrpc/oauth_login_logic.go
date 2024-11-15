@@ -7,12 +7,11 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 
@@ -75,7 +74,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	// 用户已经注册,查询用户信息
 	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", userOauth.UserId)
 	if err != nil {
-		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
+		return nil, apierr.NewApiError(apierr.CodeUserNotExist, err.Error())
 	}
 
 	return onLogin(l.ctx, l.svcCtx, user)

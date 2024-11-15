@@ -1,4 +1,4 @@
-package codex
+package apierr
 
 // 错误码定义规则
 const (

@@ -8,8 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 )
 
 // 限频
@@ -21,7 +20,7 @@ func Limit(rdb *redis.Client) gin.HandlerFunc {
 
 		// 短时间内请求10次
 		if rateLimiter(rdb, ctx, key) {
-			c.JSON(http.StatusOK, apierr.NewApiError(codex.CodeTooManyRequests, "操作频繁,请在5分钟后再试"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeTooManyRequests, "操作频繁,请在5分钟后再试"))
 			c.Abort()
 			return
 		}
