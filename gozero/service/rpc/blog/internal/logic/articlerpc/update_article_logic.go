@@ -68,5 +68,5 @@ func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*artic
 	l.svcCtx.TArticleTagModel.Deletes(l.ctx, "article_id = ?", entity.Id)
 	l.svcCtx.TArticleTagModel.Inserts(l.ctx, ats...)
 
-	return &articlerpc.ArticleDetails{}, nil
+	return convertArticleOut(entity, nil, nil), nil
 }
