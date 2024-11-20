@@ -12,7 +12,7 @@ import (
 )
 
 func Test_len(t *testing.T) {
-	tx := "哈哈zz"
+	tx := "AFY59W1E46400039"
 	fmt.Println(len(tx))
 	fmt.Println(maskNickName(tx))
 

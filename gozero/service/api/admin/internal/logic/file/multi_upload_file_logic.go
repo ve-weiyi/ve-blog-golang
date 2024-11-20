@@ -7,6 +7,7 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
@@ -35,7 +36,7 @@ func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r 
 	// 获取文件切片
 	files := r.MultipartForm.File["files"]
 	for _, h := range files {
-		up, err := l.svcCtx.Uploader.UploadFile(req.FilePath, h)
+		up, err := l.svcCtx.Uploader.UploadHttpFile(h, req.FilePath, oss.FileNameFromHeader(h))
 		if err != nil {
 			return nil, err
 		}
