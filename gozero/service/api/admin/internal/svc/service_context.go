@@ -10,7 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 
@@ -49,7 +49,7 @@ type ServiceContext struct {
 	Redis       *redis.Redis
 	TokenHolder *tokenx.JwtTokenHolder
 	RbacHolder  *rbacx.RbacHolder
-	Uploader    upload.Uploader
+	Uploader    oss.OSS
 
 	JwtToken  rest.Middleware
 	SignToken rest.Middleware
@@ -84,7 +84,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		Uploader:      upload.NewQiniu(c.UploadConfig),
+		Uploader:      oss.NewQiniu(c.UploadConfig),
 		TokenHolder:   th,
 		Redis:         rds,
 		RbacHolder:    rh,
