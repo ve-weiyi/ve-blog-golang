@@ -18,7 +18,7 @@
 - [rabbitmq](infra/mq/rabbitmq)  
 消息队列，配合邮件服务给用户发送验证码
 
-- [upload](infra/upload)  
+- [upload](infra/oss)  
 文件上传
 
 ## 实用工具

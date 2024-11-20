@@ -26,7 +26,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/config"
 )
@@ -49,7 +49,7 @@ type ServiceContext struct {
 
 	Redis            *redis.Redis
 	TokenHolder      *tokenx.JwtTokenHolder
-	Uploader         upload.Uploader
+	Uploader         oss.OSS
 	WebsocketManager *ws.WebSocketManager
 
 	JwtToken  rest.Middleware
@@ -82,7 +82,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 
-		Uploader:         upload.NewQiniu(c.UploadConfig),
+		Uploader:         oss.NewQiniu(c.UploadConfig),
 		Redis:            rds,
 		TokenHolder:      th,
 		WebsocketManager: ws.NewWebSocketManager(),
