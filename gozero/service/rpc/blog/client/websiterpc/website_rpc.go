@@ -13,11 +13,14 @@ import (
 )
 
 type (
+	BatchResp         = websiterpc.BatchResp
+	CountResp         = websiterpc.CountResp
 	EmptyReq          = websiterpc.EmptyReq
 	EmptyResp         = websiterpc.EmptyResp
 	IdReq             = websiterpc.IdReq
 	IdsReq            = websiterpc.IdsReq
 	UserDailyVisitRsp = websiterpc.UserDailyVisitRsp
+	UserIdReq         = websiterpc.UserIdReq
 	UserVisit         = websiterpc.UserVisit
 
 	WebsiteRpc interface {

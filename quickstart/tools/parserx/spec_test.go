@@ -10,7 +10,7 @@ import (
 )
 
 func Test_NewApiParser(t *testing.T) {
-	sp, err := parser.Parse("/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/blog.api")
+	sp, err := parser.Parse("/Users/weiyi/Github/ve-blog-golang/gozero/service/api/blog/proto/blog.api")
 	assert.Equal(t, nil, err)
 
 	t.Log(jsonconv.AnyToJsonIndent(sp))

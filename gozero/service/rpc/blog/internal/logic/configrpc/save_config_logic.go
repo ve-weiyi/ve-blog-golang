@@ -25,7 +25,7 @@ func NewSaveConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveCo
 }
 
 // 保存配置
-func (l *SaveConfigLogic) SaveConfig(in *configrpc.SaveConfigReq) (*configrpc.EmptyResp, error) {
+func (l *SaveConfigLogic) SaveConfig(in *configrpc.SaveConfigReq) (*configrpc.SaveConfigResp, error) {
 	// 修改
 	entity := &model.TWebsiteConfig{
 		Id:     0,
@@ -44,5 +44,5 @@ func (l *SaveConfigLogic) SaveConfig(in *configrpc.SaveConfigReq) (*configrpc.Em
 		return nil, err
 	}
 
-	return &configrpc.EmptyResp{}, nil
+	return &configrpc.SaveConfigResp{}, nil
 }

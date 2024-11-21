@@ -19,8 +19,6 @@ func (s *Aliyun) UploadHttpFile(file *multipart.FileHeader, prefix string, filen
 	dir := path.Join(s.cfg.BasePath, prefix)
 	// 本地文件路径
 	localPath := path.Join(dir, filename)
-	// 访问文件路径
-	accessPath := s.cfg.BucketUrl + "/" + localPath
 
 	// 读取本地文件
 	f, err := file.Open()
@@ -37,7 +35,7 @@ func (s *Aliyun) UploadHttpFile(file *multipart.FileHeader, prefix string, filen
 		return "", fmt.Errorf("Aliyun.UploadHttpFile formUploader.Put() Failed, err:" + err.Error())
 	}
 
-	return accessPath, nil
+	return s.cfg.BucketUrl + "/" + localPath, nil
 }
 
 func (s *Aliyun) UploadLocalFile(filepath string, prefix string, filename string) (url string, err error) {
@@ -45,8 +43,6 @@ func (s *Aliyun) UploadLocalFile(filepath string, prefix string, filename string
 	dir := path.Join(s.cfg.BasePath, prefix)
 	// 本地文件路径
 	localPath := path.Join(dir, filename)
-	// 访问文件路径
-	accessPath := s.cfg.BucketUrl + "/" + localPath
 
 	// 读取本地文件
 	f, err := os.Open(filepath)
@@ -63,7 +59,7 @@ func (s *Aliyun) UploadLocalFile(filepath string, prefix string, filename string
 		return "", fmt.Errorf("Aliyun.UploadHttpFile formUploader.Put() Failed, err:" + err.Error())
 	}
 
-	return accessPath, nil
+	return s.cfg.BucketUrl + "/" + localPath, nil
 }
 
 func (s *Aliyun) DeleteFile(key string) (err error) {
@@ -78,7 +74,7 @@ func (s *Aliyun) DeleteFile(key string) (err error) {
 	return nil
 }
 
-func (s *Aliyun) ListFiles(prefix string, limit int) (keys []string, err error) {
+func (s *Aliyun) ListFiles(prefix string, limit int) (urls []string, err error) {
 	bucket := s.bucket
 
 	result, err := bucket.ListObjectsV2(oss.Prefix(path.Join(s.cfg.BasePath, prefix)), oss.MaxKeys(limit))
@@ -87,10 +83,10 @@ func (s *Aliyun) ListFiles(prefix string, limit int) (keys []string, err error) 
 	}
 
 	for _, entry := range result.Objects {
-		keys = append(keys, entry.Key)
+		urls = append(urls, s.cfg.BucketUrl+"/"+entry.Key)
 	}
 
-	return keys, nil
+	return urls, nil
 }
 
 func NewAliyunOSS(cfg *Config) *Aliyun {

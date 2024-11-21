@@ -159,27 +159,6 @@ type ArticleViewRankDTO struct {
 	Count        int64  `json:"count"`         // 数量
 }
 
-type BannerBackDTO struct {
-	Id          int64  `json:"id,optional"`  // 页面id
-	BannerName  string `json:"banner_name"`  // 页面名
-	BannerLabel string `json:"banner_label"` // 页面标签
-	BannerCover string `json:"banner_cover"` // 页面封面
-	CreatedAt   int64  `json:"created_at"`   // 创建时间
-	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
-}
-
-type BannerNewReq struct {
-	Id          int64  `json:"id,optional"`  // 页面id
-	BannerName  string `json:"banner_name"`  // 页面名
-	BannerLabel string `json:"banner_label"` // 页面标签
-	BannerCover string `json:"banner_cover"` // 页面封面
-}
-
-type BannerQuery struct {
-	PageQuery
-	BannerName string `json:"banner_name,optional"` // 页面名
-}
-
 type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
 }
@@ -301,6 +280,15 @@ type IdsReq struct {
 	Ids []int64 `json:"ids"`
 }
 
+type ListUploadFileReq struct {
+	FilePath string `json:"file_path,optional"` // 文件路径
+	Limit    int64  `json:"limit,optional"`     // 限制
+}
+
+type ListUploadFileResp struct {
+	Urls []string `json:"urls"` // 文件路径
+}
+
 type LoginReq struct {
 	Username   string `json:"username"`
 	Password   string `json:"password"`
@@ -387,6 +375,17 @@ type OperationLogQuery struct {
 	PageQuery
 }
 
+type PageBackDTO struct {
+	Id             int64    `json:"id,optional"`     // 页面id
+	PageName       string   `json:"page_name"`       // 页面名
+	PageLabel      string   `json:"page_label"`      // 页面标签
+	PageCover      string   `json:"page_cover"`      // 页面封面
+	IsCarousel     int64    `json:"is_carousel"`     // 是否轮播
+	CarouselCovers []string `json:"carousel_covers"` // 轮播封面
+	CreatedAt      int64    `json:"created_at"`      // 创建时间
+	UpdatedAt      int64    `json:"updated_at"`      // 更新时间
+}
+
 type PageDTO struct {
 	Id        int64  `json:"id,optional"` // 页面ID
 	PageName  string `json:"page_name"`   // 页面名称
@@ -394,10 +393,24 @@ type PageDTO struct {
 	PageCover string `json:"page_cover"`  // 页面封面
 }
 
+type PageNewReq struct {
+	Id             int64    `json:"id,optional"`              // 页面id
+	PageName       string   `json:"page_name"`                // 页面名
+	PageLabel      string   `json:"page_label"`               // 页面标签
+	PageCover      string   `json:"page_cover"`               // 页面封面
+	IsCarousel     int64    `json:"is_carousel,optional"`     // 是否轮播
+	CarouselCovers []string `json:"carousel_covers,optional"` // 轮播封面
+}
+
 type PageQuery struct {
 	Page     int64    `json:"page,optional"`      // 当前页码
 	PageSize int64    `json:"page_size,optional"` // 每页数量
 	Sorts    []string `json:"sorts,optional"`     // 排序
+}
+
+type PageQueryReq struct {
+	PageQuery
+	PageName string `json:"page_name,optional"` // 页面名
 }
 
 type PageResp struct {

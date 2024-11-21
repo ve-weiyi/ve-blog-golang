@@ -19,8 +19,6 @@ func (s *Local) UploadHttpFile(file *multipart.FileHeader, prefix string, filena
 	dir := path.Join(s.cfg.BasePath, prefix)
 	// 本地文件路径
 	localPath := path.Join(dir, filename)
-	// 访问文件路径
-	accessPath := s.cfg.BucketUrl + "/" + localPath
 
 	// 尝试创建上传目录
 	err = os.MkdirAll(dir, os.ModePerm)
@@ -48,7 +46,7 @@ func (s *Local) UploadHttpFile(file *multipart.FileHeader, prefix string, filena
 		return "", fmt.Errorf("Local.UploadHttpFile io.Copy() Filed, err:" + copyErr.Error())
 	}
 
-	return accessPath, nil
+	return s.cfg.BucketUrl + "/" + localPath, nil
 }
 
 func (s *Local) UploadLocalFile(filepath string, prefix string, filename string) (url string, err error) {
@@ -56,8 +54,6 @@ func (s *Local) UploadLocalFile(filepath string, prefix string, filename string)
 	dir := path.Join(s.cfg.BasePath, prefix)
 	// 本地文件路径
 	localPath := path.Join(dir, filename)
-	// 访问文件路径
-	accessPath := s.cfg.BucketUrl + "/" + localPath
 
 	// 尝试创建上传目录
 	err = os.MkdirAll(dir, os.ModePerm)
@@ -85,7 +81,7 @@ func (s *Local) UploadLocalFile(filepath string, prefix string, filename string)
 		return "", fmt.Errorf("Local.UploadHttpFile io.Copy() Filed, err:" + copyErr.Error())
 	}
 
-	return accessPath, nil
+	return s.cfg.BucketUrl + "/" + localPath, nil
 }
 
 func (s *Local) DeleteFile(key string) error {
@@ -98,7 +94,7 @@ func (s *Local) DeleteFile(key string) error {
 	return nil
 }
 
-func (s *Local) ListFiles(prefix string, limit int) (keys []string, err error) {
+func (s *Local) ListFiles(prefix string, limit int) (urls []string, err error) {
 	// 获取指定目录下的所有文件
 	var keysList []string
 
@@ -126,8 +122,12 @@ func (s *Local) ListFiles(prefix string, limit int) (keys []string, err error) {
 		return nil, err // 如果是其他错误，返回
 	}
 
+	for _, key := range keysList {
+		urls = append(urls, s.cfg.BucketUrl+"/"+key)
+	}
+
 	// 返回符合条件的文件列表
-	return keysList, nil
+	return urls, nil
 }
 
 func NewLocal(cfg *Config) *Local {

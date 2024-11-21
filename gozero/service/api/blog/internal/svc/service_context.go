@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
@@ -39,6 +40,7 @@ type ServiceContext struct {
 	ArticleRpc    articlerpc.ArticleRpc
 	CommentRpc    commentrpc.CommentRpc
 	MessageRpc    messagerpc.MessageRpc
+	PageRpc       pagerpc.PageRpc
 	PhotoRpc      photorpc.PhotoRpc
 	TalkRpc       talkrpc.TalkRpc
 	FriendRpc     friendrpc.FriendRpc
@@ -74,6 +76,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),

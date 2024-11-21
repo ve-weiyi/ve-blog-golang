@@ -28,7 +28,7 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserInfoLogic) GetUserInfo(in *accountrpc.UserIdReq) (*accountrpc.UserInfoResp, error) {
 	uid := in.UserId
 
-	ui, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", uid)
+	ui, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, uid)
 	if err != nil {
 		return nil, err
 	}

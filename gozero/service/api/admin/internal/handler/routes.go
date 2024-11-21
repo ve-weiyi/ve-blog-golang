@@ -9,13 +9,13 @@ import (
 	api "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/api"
 	article "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/auth"
-	banner "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/banner"
 	category "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/category"
 	comment "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/comment"
 	file "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/friend"
 	menu "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/menu"
 	operation_log "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/operation_log"
+	page "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/page"
 	photo "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/photo"
 	remark "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/remark"
 	role "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler/role"
@@ -286,39 +286,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
-			[]rest.Route{
-				{
-					// 创建页面
-					Method:  http.MethodPost,
-					Path:    "/banner/add_banner",
-					Handler: banner.AddBannerHandler(serverCtx),
-				},
-				{
-					// 删除页面
-					Method:  http.MethodDelete,
-					Path:    "/banner/delete_banner",
-					Handler: banner.DeleteBannerHandler(serverCtx),
-				},
-				{
-					// 分页获取页面列表
-					Method:  http.MethodPost,
-					Path:    "/banner/find_banner_list",
-					Handler: banner.FindBannerListHandler(serverCtx),
-				},
-				{
-					// 更新页面
-					Method:  http.MethodPut,
-					Path:    "/banner/update_banner",
-					Handler: banner.UpdateBannerHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
@@ -428,6 +395,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/file/deletes_file",
 					Handler: file.DeletesFileHandler(serverCtx),
+				},
+				{
+					// 获取文件列表
+					Method:  http.MethodPost,
+					Path:    "/file/list_upload_file",
+					Handler: file.ListUploadFileHandler(serverCtx),
 				},
 				{
 					// 上传文件列表
@@ -567,6 +540,39 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/operation_log/find_operation_log_list",
 					Handler: operation_log.FindOperationLogListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin_api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken, serverCtx.Operation},
+			[]rest.Route{
+				{
+					// 创建页面
+					Method:  http.MethodPost,
+					Path:    "/page/add_page",
+					Handler: page.AddPageHandler(serverCtx),
+				},
+				{
+					// 删除页面
+					Method:  http.MethodDelete,
+					Path:    "/page/delete_page",
+					Handler: page.DeletePageHandler(serverCtx),
+				},
+				{
+					// 分页获取页面列表
+					Method:  http.MethodPost,
+					Path:    "/page/find_page_list",
+					Handler: page.FindPageListHandler(serverCtx),
+				},
+				{
+					// 更新页面
+					Method:  http.MethodPut,
+					Path:    "/page/update_page",
+					Handler: page.UpdatePageHandler(serverCtx),
 				},
 			}...,
 		),

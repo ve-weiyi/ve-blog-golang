@@ -9,7 +9,7 @@ import (
 func Test_Typescript(t *testing.T) {
 	f := &CmdVar{
 		VarStringMode:    "api",
-		VarStringApiFile: "/Users/weiyi/Github/ve-blog-golang/zero/service/api/blog/proto/admin.api",
+		VarStringApiFile: "/Users/weiyi/Github/ve-blog-golang/gozero/service/api/blog/proto/admin.api",
 		VarStringTplPath: resource.GetTemplateRoot() + "/web",
 		VarStringOutPath: "./runtime/api",
 		VarStringNameAs:  "",

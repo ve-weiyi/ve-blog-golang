@@ -59,7 +59,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 		return nil, err
 	}
 
-	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", ua.UserId)
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, ua.UserId)
 	if err != nil {
 		return nil, err
 	}

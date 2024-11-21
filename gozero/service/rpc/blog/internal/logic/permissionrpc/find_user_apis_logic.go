@@ -28,7 +28,7 @@ func (l *FindUserApisLogic) FindUserApis(in *permissionrpc.UserIdReq) (*permissi
 	uid := in.UserId
 
 	// 查用户
-	// ua, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", uid)
+	// ua, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, uid)
 	// if err != nil {
 	//	return nil, err
 	// }

@@ -67,7 +67,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	}
 
 	// 用户已经注册,查询用户信息
-	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", userOauth.UserId)
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, userOauth.UserId)
 	if err != nil {
 		return nil, apierr.NewApiError(apierr.CodeUserNotExist, err.Error())
 	}
@@ -77,14 +77,13 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 
 func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
-	username := info.Email
-	if username == "" {
-		username = info.Mobile
-	}
+	uid := uuid.NewString()
+	// 使用第三方注册时，username需要唯一, 用户不能使用username登录，所以使用uuid生成。
+	username := uid
 
 	// 用户账号
 	user := &model.TUser{
-		UserId:    uuid.NewString(),
+		UserId:    uid,
 		Username:  username,
 		Password:  crypto.BcryptHash(info.EnName),
 		Nickname:  info.NickName,
