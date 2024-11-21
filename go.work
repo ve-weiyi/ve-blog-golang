@@ -12,4 +12,4 @@ use (
 
 //replace github.com/ve-weiyi/ve-blog-golang/kit => ./kit
 
-//replace github.com/ve-weiyi/ve-blog-golang/kit => github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241121014300-59f8c36efd64
+//replace github.com/ve-weiyi/ve-blog-golang/kit => github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241121072124-7a5c5af34aca
