@@ -75,27 +75,3 @@ func (s *PhotoRpcServer) FindAlbumList(ctx context.Context, in *photorpc.FindAlb
 	l := photorpclogic.NewFindAlbumListLogic(ctx, s.svcCtx)
 	return l.FindAlbumList(in)
 }
-
-// 创建页面
-func (s *PhotoRpcServer) AddBanner(ctx context.Context, in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
-	l := photorpclogic.NewAddBannerLogic(ctx, s.svcCtx)
-	return l.AddBanner(in)
-}
-
-// 更新页面
-func (s *PhotoRpcServer) UpdateBanner(ctx context.Context, in *photorpc.BannerNewReq) (*photorpc.BannerDetails, error) {
-	l := photorpclogic.NewUpdateBannerLogic(ctx, s.svcCtx)
-	return l.UpdateBanner(in)
-}
-
-// 删除页面
-func (s *PhotoRpcServer) DeleteBanner(ctx context.Context, in *photorpc.IdsReq) (*photorpc.BatchResp, error) {
-	l := photorpclogic.NewDeleteBannerLogic(ctx, s.svcCtx)
-	return l.DeleteBanner(in)
-}
-
-// 查询页面列表
-func (s *PhotoRpcServer) FindBannerList(ctx context.Context, in *photorpc.FindBannerListReq) (*photorpc.FindBannerListResp, error) {
-	l := photorpclogic.NewFindBannerListLogic(ctx, s.svcCtx)
-	return l.FindBannerList(in)
-}

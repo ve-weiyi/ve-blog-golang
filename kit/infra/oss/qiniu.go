@@ -22,8 +22,6 @@ func (s *Qiniu) UploadHttpFile(file *multipart.FileHeader, prefix string, filena
 	dir := path.Join(s.cfg.BasePath, prefix)
 	// 本地文件路径
 	localPath := path.Join(dir, filename)
-	// 访问文件路径
-	accessPath := s.cfg.BucketUrl + "/" + localPath
 
 	// 读取本地文件
 	f, err := file.Open()
@@ -44,7 +42,7 @@ func (s *Qiniu) UploadHttpFile(file *multipart.FileHeader, prefix string, filena
 	if putErr != nil {
 		return "", fmt.Errorf("Qiniu.UploadHttpFile formUploader.Put() Filed, err:" + putErr.Error())
 	}
-	return accessPath, nil
+	return s.cfg.BucketUrl + "/" + localPath, nil
 }
 
 func (s *Qiniu) UploadLocalFile(filepath string, prefix string, filename string) (url string, err error) {
@@ -52,8 +50,6 @@ func (s *Qiniu) UploadLocalFile(filepath string, prefix string, filename string)
 	dir := path.Join(s.cfg.BasePath, prefix)
 	// 本地文件路径
 	localPath := path.Join(dir, filename)
-	// 访问文件路径
-	accessPath := s.cfg.BucketUrl + "/" + localPath
 
 	// 读取本地文件
 	f, err := os.Open(filepath)
@@ -80,7 +76,7 @@ func (s *Qiniu) UploadLocalFile(filepath string, prefix string, filename string)
 	if putErr != nil {
 		return "", fmt.Errorf("Qiniu.UploadHttpFile formUploader.Put() Filed, err:" + putErr.Error())
 	}
-	return accessPath, nil
+	return s.cfg.BucketUrl + "/" + localPath, nil
 }
 
 func (s *Qiniu) DeleteFile(key string) error {
@@ -92,7 +88,7 @@ func (s *Qiniu) DeleteFile(key string) error {
 	return nil
 }
 
-func (s *Qiniu) ListFiles(prefix string, limit int) (keys []string, err error) {
+func (s *Qiniu) ListFiles(prefix string, limit int) (urls []string, err error) {
 	mac := qbox.NewMac(s.cfg.AccessKeyId, s.cfg.AccessKeySecret)
 	bucketManager := storage.NewBucketManager(mac, s.storageConfig)
 
@@ -102,10 +98,10 @@ func (s *Qiniu) ListFiles(prefix string, limit int) (keys []string, err error) {
 	}
 
 	for _, entry := range result {
-		keys = append(keys, entry.Key)
+		urls = append(urls, s.cfg.BucketUrl+"/"+entry.Key)
 	}
 
-	return keys, nil
+	return urls, nil
 }
 
 func NewQiniu(conf *Config) *Qiniu {

@@ -1,4 +1,4 @@
-package banner
+package page
 
 import (
 	"net/http"
@@ -6,13 +6,13 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/logic/banner"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/logic/page"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
 )
 
 // 删除页面
-func DeleteBannerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func DeletePageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IdReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -20,8 +20,8 @@ func DeleteBannerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := banner.NewDeleteBannerLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteBanner(&req)
+		l := page.NewDeletePageLogic(r.Context(), svcCtx)
+		resp, err := l.DeletePage(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

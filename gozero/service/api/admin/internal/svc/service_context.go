@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
@@ -39,6 +40,7 @@ type ServiceContext struct {
 	CommentRpc    commentrpc.CommentRpc
 	MessageRpc    messagerpc.MessageRpc
 	PhotoRpc      photorpc.PhotoRpc
+	PageRpc       pagerpc.PageRpc
 	TalkRpc       talkrpc.TalkRpc
 	FriendRpc     friendrpc.FriendRpc
 	SyslogRpc     syslogrpc.SyslogRpc
@@ -78,6 +80,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		SyslogRpc:     syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),

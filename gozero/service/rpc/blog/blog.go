@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/nacos"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/interceptorx"
@@ -33,6 +34,7 @@ import (
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/configrpc"
 	friendrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/friendrpc"
 	messagerpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/messagerpc"
+	pegerpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/pagerpc"
 	permissionrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/permissionrpc"
 	photorpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/photorpc"
 	resourcerpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/resourcerpc"
@@ -98,6 +100,7 @@ func main() {
 		syslogrpc.RegisterSyslogRpcServer(grpcServer, syslogrpcServer.NewSyslogRpcServer(ctx))
 		commentrpc.RegisterCommentRpcServer(grpcServer, commentrpcServer.NewCommentRpcServer(ctx))
 		messagerpc.RegisterMessageRpcServer(grpcServer, messagerpcServer.NewMessageRpcServer(ctx))
+		pagerpc.RegisterPageRpcServer(grpcServer, pegerpcServer.NewPageRpcServer(ctx))
 		friendrpc.RegisterFriendRpcServer(grpcServer, friendrpcServer.NewFriendRpcServer(ctx))
 		talkrpc.RegisterTalkRpcServer(grpcServer, talkrpcServer.NewTalkRpcServer(ctx))
 		websiterpc.RegisterWebsiteRpcServer(grpcServer, websiterpcServer.NewWebsiteRpcServer(ctx))

@@ -8,71 +8,73 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ TBannerModel = (*defaultTBannerModel)(nil)
+var _ TPageModel = (*defaultTPageModel)(nil)
 
 type (
 	// 接口定义
-	TBannerModel interface {
+	TPageModel interface {
 		TableName() string
 		// 在事务中操作
-		WithTransaction(tx *gorm.DB) (out TBannerModel)
+		WithTransaction(tx *gorm.DB) (out TPageModel)
 		// 插入
-		Insert(ctx context.Context, in *TBanner) (rows int64, err error)
-		Inserts(ctx context.Context, in ...*TBanner) (rows int64, err error)
+		Insert(ctx context.Context, in *TPage) (rows int64, err error)
+		Inserts(ctx context.Context, in ...*TPage) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 更新
-		Update(ctx context.Context, in *TBanner) (rows int64, err error)
+		Update(ctx context.Context, in *TPage) (rows int64, err error)
 		Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
 		// 保存
-		Save(ctx context.Context, in *TBanner) (rows int64, err error)
+		Save(ctx context.Context, in *TPage) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *TBanner, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *TBanner, err error)
+		FindOne(ctx context.Context, id int64) (out *TPage, err error)
+		First(ctx context.Context, conditions string, args ...interface{}) (out *TPage, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TBanner, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TBanner, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TPage, err error)
+		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TPage, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	TBanner struct {
-		Id          int64     `json:"id" gorm:"column:id" `                     // 页面id
-		BannerName  string    `json:"banner_name" gorm:"column:banner_name" `   // 页面名
-		BannerLabel string    `json:"banner_label" gorm:"column:banner_label" ` // 页面标签
-		BannerCover string    `json:"banner_cover" gorm:"column:banner_cover" ` // 页面封面
-		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
-		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
+	TPage struct {
+		Id             int64     `json:"id" gorm:"column:id" `                           // 页面id
+		PageName       string    `json:"page_name" gorm:"column:page_name" `             // 页面名
+		PageLabel      string    `json:"page_label" gorm:"column:page_label" `           // 页面标签
+		PageCover      string    `json:"page_cover" gorm:"column:page_cover" `           // 页面封面
+		IsCarousel     int64     `json:"is_carousel" gorm:"column:is_carousel" `         // 是否轮播
+		CarouselCovers string    `json:"carousel_covers" gorm:"column:carousel_covers" ` // 轮播图片列表
+		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 创建时间
+		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
 	}
 
 	// 接口实现
-	defaultTBannerModel struct {
+	defaultTPageModel struct {
 		DbEngin    *gorm.DB
 		CacheEngin *redis.Client
 		table      string
 	}
 )
 
-func NewTBannerModel(db *gorm.DB, cache *redis.Client) TBannerModel {
-	return &defaultTBannerModel{
+func NewTPageModel(db *gorm.DB, cache *redis.Client) TPageModel {
+	return &defaultTPageModel{
 		DbEngin:    db,
 		CacheEngin: cache,
-		table:      "`t_banner`",
+		table:      "`t_page`",
 	}
 }
 
-func (m *defaultTBannerModel) TableName() string {
+func (m *defaultTPageModel) TableName() string {
 	return m.table
 }
 
 // 在事务中操作
-func (m *defaultTBannerModel) WithTransaction(tx *gorm.DB) (out TBannerModel) {
-	return NewTBannerModel(tx, m.CacheEngin)
+func (m *defaultTPageModel) WithTransaction(tx *gorm.DB) (out TPageModel) {
+	return NewTPageModel(tx, m.CacheEngin)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultTBannerModel) Insert(ctx context.Context, in *TBanner) (rows int64, err error) {
+func (m *defaultTPageModel) Insert(ctx context.Context, in *TPage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -84,7 +86,7 @@ func (m *defaultTBannerModel) Insert(ctx context.Context, in *TBanner) (rows int
 }
 
 // 插入记录（批量操作）
-func (m *defaultTBannerModel) Inserts(ctx context.Context, in ...*TBanner) (rows int64, err error) {
+func (m *defaultTPageModel) Inserts(ctx context.Context, in ...*TPage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -96,12 +98,12 @@ func (m *defaultTBannerModel) Inserts(ctx context.Context, in ...*TBanner) (rows
 }
 
 // 删除记录
-func (m *defaultTBannerModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTPageModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&TBanner{})
+	result := db.Delete(&TPage{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -110,7 +112,7 @@ func (m *defaultTBannerModel) Delete(ctx context.Context, id int64) (rows int64,
 }
 
 // 删除记录（批量操作）
-func (m *defaultTBannerModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTPageModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -118,7 +120,7 @@ func (m *defaultTBannerModel) Deletes(ctx context.Context, conditions string, ar
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&TBanner{})
+	result := db.Delete(&TPage{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -127,7 +129,7 @@ func (m *defaultTBannerModel) Deletes(ctx context.Context, conditions string, ar
 }
 
 // 更新记录（不更新零值）
-func (m *defaultTBannerModel) Update(ctx context.Context, in *TBanner) (rows int64, err error) {
+func (m *defaultTPageModel) Update(ctx context.Context, in *TPage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -139,7 +141,7 @@ func (m *defaultTBannerModel) Update(ctx context.Context, in *TBanner) (rows int
 }
 
 // 更新记录（批量操作）
-func (m *defaultTBannerModel) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTPageModel) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Where(conditions, args...).Updates(columns)
@@ -151,7 +153,7 @@ func (m *defaultTBannerModel) Updates(ctx context.Context, columns map[string]in
 }
 
 // 保存记录（更新零值）
-func (m *defaultTBannerModel) Save(ctx context.Context, in *TBanner) (rows int64, err error) {
+func (m *defaultTPageModel) Save(ctx context.Context, in *TPage) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -163,7 +165,7 @@ func (m *defaultTBannerModel) Save(ctx context.Context, in *TBanner) (rows int64
 }
 
 // 查询记录
-func (m *defaultTBannerModel) FindOne(ctx context.Context, id int64) (out *TBanner, err error) {
+func (m *defaultTPageModel) FindOne(ctx context.Context, id int64) (out *TPage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -175,7 +177,7 @@ func (m *defaultTBannerModel) FindOne(ctx context.Context, id int64) (out *TBann
 }
 
 // 查询记录
-func (m *defaultTBannerModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TBanner, err error) {
+func (m *defaultTPageModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TPage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -191,7 +193,7 @@ func (m *defaultTBannerModel) First(ctx context.Context, conditions string, args
 }
 
 // 查询总数
-func (m *defaultTBannerModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTPageModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -199,7 +201,7 @@ func (m *defaultTBannerModel) FindCount(ctx context.Context, conditions string, 
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TBanner{}).Count(&count).Error
+	err = db.Model(&TPage{}).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -207,7 +209,7 @@ func (m *defaultTBannerModel) FindCount(ctx context.Context, conditions string, 
 }
 
 // 查询列表
-func (m *defaultTBannerModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TBanner, err error) {
+func (m *defaultTPageModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TPage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -223,7 +225,7 @@ func (m *defaultTBannerModel) FindALL(ctx context.Context, conditions string, ar
 }
 
 // 分页查询记录
-func (m *defaultTBannerModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TBanner, err error) {
+func (m *defaultTPageModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TPage, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

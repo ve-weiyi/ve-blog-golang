@@ -21,7 +21,7 @@ type OSS interface {
 	UploadHttpFile(file *multipart.FileHeader, prefix string, filename string) (url string, err error)
 	UploadLocalFile(filepath string, prefix string, filename string) (url string, err error)
 	DeleteFile(key string) error
-	ListFiles(prefix string, limit int) (keys []string, err error)
+	ListFiles(prefix string, limit int) (urls []string, err error)
 }
 
 type File interface {
