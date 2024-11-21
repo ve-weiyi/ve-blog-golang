@@ -1,45 +1,45 @@
-package banner
+package page
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/photorpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindBannerListLogic struct {
+type FindPageListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 分页获取页面列表
-func NewFindBannerListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindBannerListLogic {
-	return &FindBannerListLogic{
+func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindPageListLogic {
+	return &FindPageListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindBannerListLogic) FindBannerList(req *types.BannerQuery) (resp *types.PageResp, err error) {
-	in := &photorpc.FindBannerListReq{
+func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.PageResp, err error) {
+	in := &pagerpc.FindPageListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
 	}
 
-	out, err := l.svcCtx.PhotoRpc.FindBannerList(l.ctx, in)
+	out, err := l.svcCtx.PageRpc.FindPageList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	var list []*types.BannerBackDTO
+	var list []*types.PageBackDTO
 	for _, v := range out.List {
-		m := ConvertBannerTypes(v)
+		m := ConvertPageTypes(v)
 		list = append(list, m)
 	}
 

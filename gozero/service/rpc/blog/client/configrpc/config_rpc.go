@@ -20,10 +20,11 @@ type (
 	IdReq          = configrpc.IdReq
 	IdsReq         = configrpc.IdsReq
 	SaveConfigReq  = configrpc.SaveConfigReq
+	SaveConfigResp = configrpc.SaveConfigResp
 
 	ConfigRpc interface {
 		// 保存配置
-		SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*SaveConfigResp, error)
 		// 查询配置
 		FindConfig(ctx context.Context, in *FindConfigReq, opts ...grpc.CallOption) (*FindConfigResp, error)
 	}
@@ -40,7 +41,7 @@ func NewConfigRpc(cli zrpc.Client) ConfigRpc {
 }
 
 // 保存配置
-func (m *defaultConfigRpc) SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultConfigRpc) SaveConfig(ctx context.Context, in *SaveConfigReq, opts ...grpc.CallOption) (*SaveConfigResp, error) {
 	client := configrpc.NewConfigRpcClient(m.cli.Conn())
 	return client.SaveConfig(ctx, in, opts...)
 }

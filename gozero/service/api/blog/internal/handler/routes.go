@@ -7,12 +7,12 @@ import (
 	album "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/album"
 	article "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/auth"
-	banner "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/banner"
 	category "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/category"
 	chat "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/comment"
 	file "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/friend"
+	page "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/page"
 	remark "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/remark"
 	tag "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/tag"
 	talk "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/talk"
@@ -210,21 +210,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.SignToken},
 			[]rest.Route{
 				{
-					// 分页获取页面列表
-					Method:  http.MethodPost,
-					Path:    "/banner/find_banner_list",
-					Handler: banner.FindBannerListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
-			[]rest.Route{
-				{
 					// 分页获取文章分类列表
 					Method:  http.MethodPost,
 					Path:    "/category/find_category_list",
@@ -328,6 +313,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/friend_link/find_friend_list",
 					Handler: friend.FindFriendListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Route{
+				{
+					// 分页获取页面列表
+					Method:  http.MethodPost,
+					Path:    "/page/find_page_list",
+					Handler: page.FindPageListHandler(serverCtx),
 				},
 			}...,
 		),
