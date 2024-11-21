@@ -63,7 +63,7 @@ type ServiceContext struct {
 	TTalkModel         model.TTalkModel
 	TPhotoModel        model.TPhotoModel
 	TAlbumModel        model.TAlbumModel
-	TBannerModel       model.TBannerModel
+	TPageModel         model.TPageModel
 	TVisitHistoryModel model.TVisitHistoryModel
 
 	TOperationLogModel model.TOperationLogModel
@@ -125,7 +125,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TTalkModel:         model.NewTTalkModel(db, rds),
 		TPhotoModel:        model.NewTPhotoModel(db, rds),
 		TAlbumModel:        model.NewTAlbumModel(db, rds),
-		TBannerModel:       model.NewTBannerModel(db, rds),
+		TPageModel:         model.NewTPageModel(db, rds),
 		TVisitHistoryModel: model.NewTVisitHistoryModel(db, rds),
 
 		TOperationLogModel: model.NewTOperationLogModel(db, rds),
