@@ -52,7 +52,7 @@ func (s *ApiCmd) init() {
 
 func (s *ApiCmd) GetDefaultNacosConfig() *nacos.NacosConfig {
 	return &nacos.NacosConfig{
-		IP:          "120.79.136.81",
+		IP:          "veweiyi.cn",
 		Port:        8848,
 		UserName:    "nacos",
 		Password:    "nacos",
