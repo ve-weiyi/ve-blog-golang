@@ -19,13 +19,13 @@ import (
 )
 
 var (
-	nacosIP        = flag.String("nacos-ip", "120.79.136.81", "Input Your Nacos IP")
+	nacosIP        = flag.String("nacos-ip", "veweiyi.cn", "Input Your Nacos IP")
 	nacosPort      = flag.Int64("nacos-port", 8848, "Input Your Nacos Port")
 	nacosUserName  = flag.String("nacos-username", "nacos", "Input Your Nacos Username")
 	nacosPassword  = flag.String("nacos-password", "nacos", "Input Your Nacos Password")
-	nacosDataId    = flag.String("nacos-data-id", "admin-api", "Input Your Nacos DataId")
-	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
 	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceId")
+	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
+	nacosDataId    = flag.String("nacos-data-id", "admin-api", "Input Your Nacos DataId")
 )
 
 var configFile = flag.String("f", "", "the config file")
