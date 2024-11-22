@@ -24,10 +24,11 @@ func RunWindowsServer(c *config.Config) {
 	// 初始化zap日志库
 	SetLog(c.Zap)
 
+	ctx := svctx.NewServiceContext(c)
+
 	// 设置ReleaseMode则不会打印路由注册日志
 	gin.SetMode(gin.DebugMode)
 	engine := gin.Default()
-	ctx := svctx.NewServiceContext(c)
 	RegisterRouters(engine, ctx)
 
 	glog.Info("register router success")
@@ -48,10 +49,9 @@ func RunWindowsServer(c *config.Config) {
 
 	fmt.Printf(`
 	欢迎使用 ve-blog-golang
-	当前版本: v1.0.0
+	当前版本: %s
 	微信号：wy791422171 QQ：791422171
-	默认接口文档地址:http://127.0.0.1%s/api/v1/swagger/index.html
-	默认前端运行地址:http://127.0.0.1:9090
-`, address)
+	默认接口文档地址:http://localhost%s/api/v1/swagger/index.html
+`, c.System.Version, address)
 	glog.Error(s.ListenAndServe().Error())
 }

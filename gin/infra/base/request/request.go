@@ -7,9 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
@@ -29,8 +28,8 @@ func (s *Context) GetContext() context.Context {
 // 获取请求上下文
 func ParseRequestContext(c *gin.Context) (*Context, error) {
 	reqCtx := &Context{}
-	reqCtx.Token = c.GetHeader(constant.HeaderToken)
-	reqCtx.Uid = cast.ToInt64(c.GetHeader(constant.HeaderUid))
+	reqCtx.Token = c.GetHeader(headerconst.HeaderToken)
+	reqCtx.Uid = cast.ToInt64(c.GetHeader(headerconst.HeaderUid))
 	reqCtx.IpAddress = c.ClientIP()
 	reqCtx.UserAgent = c.Request.UserAgent()
 	reqCtx.Context = c.Request.Context()
@@ -62,7 +61,7 @@ func ShouldBindJSON(c *gin.Context, req interface{}) error {
 	//}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		return apierr.NewApiError(codex.CodeInvalidParam, err.Error())
+		return apierr.NewApiError(apierr.CodeInvalidParam, err.Error())
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -71,7 +70,7 @@ func ShouldBindJSON(c *gin.Context, req interface{}) error {
 	}
 
 	if err := isValid.IsValid(); err != nil {
-		return apierr.NewApiError(codex.CodeInvalidParam, err.Error())
+		return apierr.NewApiError(apierr.CodeInvalidParam, err.Error())
 	}
 
 	return nil
@@ -99,7 +98,7 @@ func BindJSONIgnoreCase(c *gin.Context, req interface{}) (err error) {
 func ShouldBindQuery(c *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := c.ShouldBind(req); err != nil {
-		return apierr.NewApiError(codex.CodeInvalidParam, err.Error())
+		return apierr.NewApiError(apierr.CodeInvalidParam, err.Error())
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {

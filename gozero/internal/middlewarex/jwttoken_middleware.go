@@ -4,14 +4,13 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 )
 
 type TokenVerifier interface {
@@ -34,12 +33,12 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		var token string
 		var uid string
 
-		token = r.Header.Get(constant.HeaderAuthorization)
-		uid = r.Header.Get(constant.HeaderUid)
+		token = r.Header.Get(headerconst.HeaderAuthorization)
+		uid = r.Header.Get(headerconst.HeaderUid)
 
 		claims, err := j.verifier.VerifyToken(r.Context(), token, uid)
 		if err != nil {
-			responsex.Response(r, w, nil, apierr.NewApiError(codex.CodeUserNotPermission, err.Error()))
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, err.Error()))
 			return
 		}
 
@@ -47,7 +46,7 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		ctx := r.Context()
 		for k, v := range claims {
 			switch k {
-			case jtoken.JwtAudience, jtoken.JwtExpire, jtoken.JwtId, jtoken.JwtIssueAt, jtoken.JwtIssuer, jtoken.JwtNotBefore, jtoken.JwtSubject:
+			case jwtx.JwtAudience, jwtx.JwtExpire, jwtx.JwtId, jwtx.JwtIssueAt, jwtx.JwtIssuer, jwtx.JwtNotBefore, jwtx.JwtSubject:
 				// ignore the standard claims
 			default:
 				ctx = context.WithValue(ctx, k, v)

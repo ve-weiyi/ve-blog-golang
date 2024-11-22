@@ -11,9 +11,9 @@ type Config struct {
 
 // 系统配置
 type SystemConf struct {
-	Version     string `json:"version" yaml:"version"`           // 程序版本
-	Env         string `json:"env" yaml:"env"`                   // 运行环境
 	Port        int    `json:"port" yaml:"port"`                 // 运行端口
+	Env         string `json:"env" yaml:"env"`                   // 运行环境 dev、test、prod
+	Version     string `json:"version" yaml:"version"`           // 程序版本
 	RuntimePath string `json:"runtime-path" yaml:"runtime-path"` // 运行时目录
 }
 

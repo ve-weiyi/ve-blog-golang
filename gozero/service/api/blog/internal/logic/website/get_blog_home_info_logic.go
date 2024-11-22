@@ -7,6 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/configrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,6 +34,23 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
+	pages, err := l.svcCtx.PageRpc.FindPageList(l.ctx, &pagerpc.FindPageListReq{})
+	if err != nil {
+		return nil, err
+	}
+
+	ps := make([]*types.PageDTO, 0)
+	for _, v := range pages.List {
+		p := &types.PageDTO{
+			Id:         v.Id,
+			PageName:   v.PageName,
+			PageLabel:  v.PageLabel,
+			PageCover:  v.PageCover,
+			IsCarousel: v.IsCarousel,
+		}
+		ps = append(ps, p)
+	}
+
 	in := &configrpc.FindConfigReq{
 		ConfigKey: "website_config",
 	}
@@ -42,7 +60,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	config := &types.WebsiteConfigDTO{}
+	config := types.WebsiteConfigDTO{}
 	jsonconv.JsonToAny(out.ConfigValue, &config)
 
 	resp = &types.GetBlogHomeInfoResp{
@@ -50,8 +68,8 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		CategoryCount: analysis.CategoryCount,
 		TagCount:      analysis.TagCount,
 		ViewsCount:    0,
-		WebsiteConfig: *config,
-		PageList:      make([]*types.PageDTO, 0),
+		WebsiteConfig: config,
+		PageList:      ps,
 	}
 
 	return resp, nil

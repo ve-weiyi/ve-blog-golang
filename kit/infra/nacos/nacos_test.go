@@ -16,7 +16,7 @@ func (sel *ConfigReloaderMock) Reload(data string) error {
 func TestNewNacos(t *testing.T) {
 
 	cfg := &NacosConfig{
-		IP:          "120.79.136.81",
+		IP:          "veweiyi.cn",
 		Port:        8848,
 		DataId:      "ve-blog-golang",
 		Group:       "veweiyi.cn",

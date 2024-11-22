@@ -76,7 +76,7 @@ func (n *NacosReader) GetConfig() (string, error) {
 	return content, nil
 }
 
-func (n *NacosReader) AddListener(listener func(content string) error) error {
+func (n *NacosReader) AddListener(listener func(content string)) error {
 
 	//Listen config change,key=dataId+group+namespaceId.
 	err := n.client.ListenConfig(vo.ConfigParam{
@@ -84,9 +84,7 @@ func (n *NacosReader) AddListener(listener func(content string) error) error {
 		Group:  n.cfg.Group,
 		OnChange: func(namespace, group, dataId, data string) {
 			logger.GetLogger().Info("nacos config changed group:" + group + ", dataId:" + dataId + ", content:" + data)
-			if err := listener(data); err != nil {
-				logger.GetLogger().Error("nacos config changed reload failed")
-			}
+			listener(data)
 		},
 	})
 	if err != nil {

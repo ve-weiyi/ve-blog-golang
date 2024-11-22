@@ -8,11 +8,10 @@ require (
 	github.com/fatih/structtag v1.2.0
 	github.com/go-openapi/loads v0.22.0
 	github.com/go-openapi/spec v0.21.0
-	github.com/redis/go-redis/v9 v9.7.0
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/swag v1.16.3
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241114094159-fb9599310fcd
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20241121072124-7a5c5af34aca
 	github.com/zeromicro/go-zero v1.7.2
 	github.com/zeromicro/go-zero/tools/goctl v1.7.2
 	gorm.io/driver/mysql v1.5.7
@@ -29,7 +28,6 @@ require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fatih/color v1.17.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect

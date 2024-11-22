@@ -25,7 +25,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 // 修改用户信息
 func (l *UpdateUserInfoLogic) UpdateUserInfo(in *accountrpc.UpdateUserInfoReq) (*accountrpc.EmptyResp, error) {
-	ui, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", in.UserId)
+	ui, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
 	if err != nil {
 		return nil, err
 	}

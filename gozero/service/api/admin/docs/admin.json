@@ -894,114 +894,6 @@
         ]
       }
     },
-    "/admin_api/v1/banner/add_banner": {
-      "post": {
-        "summary": "创建页面",
-        "operationId": "AddBanner",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BannerBackDTO"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/BannerNewReq"
-            }
-          }
-        ],
-        "tags": [
-          "banner"
-        ]
-      }
-    },
-    "/admin_api/v1/banner/delete_banner": {
-      "delete": {
-        "summary": "删除页面",
-        "operationId": "DeleteBanner",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
-            }
-          }
-        ],
-        "tags": [
-          "banner"
-        ]
-      }
-    },
-    "/admin_api/v1/banner/find_banner_list": {
-      "post": {
-        "summary": "分页获取页面列表",
-        "operationId": "FindBannerList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/BannerQuery"
-            }
-          }
-        ],
-        "tags": [
-          "banner"
-        ]
-      }
-    },
-    "/admin_api/v1/banner/update_banner": {
-      "put": {
-        "summary": "更新页面",
-        "operationId": "UpdateBanner",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BannerBackDTO"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/BannerNewReq"
-            }
-          }
-        ],
-        "tags": [
-          "banner"
-        ]
-      }
-    },
     "/admin_api/v1/category/add_category": {
       "post": {
         "summary": "创建文章分类",
@@ -1319,6 +1211,33 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/FileQuery"
+            }
+          }
+        ],
+        "tags": [
+          "file"
+        ]
+      }
+    },
+    "/admin_api/v1/file/list_upload_file": {
+      "post": {
+        "summary": "获取文件列表",
+        "operationId": "ListUploadFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListUploadFileResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListUploadFileReq"
             }
           }
         ],
@@ -1846,6 +1765,114 @@
         ],
         "tags": [
           "operation_log"
+        ]
+      }
+    },
+    "/admin_api/v1/page/add_page": {
+      "post": {
+        "summary": "创建页面",
+        "operationId": "AddPage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/admin_api/v1/page/delete_page": {
+      "delete": {
+        "summary": "删除页面",
+        "operationId": "DeletePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/admin_api/v1/page/find_page_list": {
+      "post": {
+        "summary": "分页获取页面列表",
+        "operationId": "FindPageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageQueryReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/admin_api/v1/page/update_page": {
+      "put": {
+        "summary": "更新页面",
+        "operationId": "UpdatePage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageBackDTO"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageNewReq"
+            }
+          }
+        ],
+        "tags": [
+          "page"
         ]
       }
     },
@@ -3437,101 +3464,6 @@
         "count"
       ]
     },
-    "BannerBackDTO": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页面id"
-        },
-        "banner_name": {
-          "type": "string",
-          "description": " 页面名"
-        },
-        "banner_label": {
-          "type": "string",
-          "description": " 页面标签"
-        },
-        "banner_cover": {
-          "type": "string",
-          "description": " 页面封面"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "BannerBackDTO",
-      "required": [
-        "banner_name",
-        "banner_label",
-        "banner_cover",
-        "created_at",
-        "updated_at"
-      ]
-    },
-    "BannerNewReq": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页面id"
-        },
-        "banner_name": {
-          "type": "string",
-          "description": " 页面名"
-        },
-        "banner_label": {
-          "type": "string",
-          "description": " 页面标签"
-        },
-        "banner_cover": {
-          "type": "string",
-          "description": " 页面封面"
-        }
-      },
-      "title": "BannerNewReq",
-      "required": [
-        "banner_name",
-        "banner_label",
-        "banner_cover"
-      ]
-    },
-    "BannerQuery": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 当前页码"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 每页数量"
-        },
-        "sorts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": " 排序"
-        },
-        "banner_name": {
-          "type": "string",
-          "description": " 页面名"
-        }
-      },
-      "title": "BannerQuery"
-    },
     "BatchResp": {
       "type": "object",
       "properties": {
@@ -4046,6 +3978,37 @@
         "ids"
       ]
     },
+    "ListUploadFileReq": {
+      "type": "object",
+      "properties": {
+        "file_path": {
+          "type": "string",
+          "description": " 文件路径"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 限制"
+        }
+      },
+      "title": "ListUploadFileReq"
+    },
+    "ListUploadFileResp": {
+      "type": "object",
+      "properties": {
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 文件路径"
+        }
+      },
+      "title": "ListUploadFileResp",
+      "required": [
+        "urls"
+      ]
+    },
     "LoginReq": {
       "type": "object",
       "properties": {
@@ -4496,6 +4459,60 @@
       },
       "title": "OperationLogQuery"
     },
+    "PageBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页面id"
+        },
+        "page_name": {
+          "type": "string",
+          "description": " 页面名"
+        },
+        "page_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "page_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        },
+        "is_carousel": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否轮播"
+        },
+        "carousel_covers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 轮播封面"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "PageBackDTO",
+      "required": [
+        "page_name",
+        "page_label",
+        "page_cover",
+        "is_carousel",
+        "carousel_covers",
+        "created_at",
+        "updated_at"
+      ]
+    },
     "PageDTO": {
       "type": "object",
       "properties": {
@@ -4524,6 +4541,46 @@
         "page_cover"
       ]
     },
+    "PageNewReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页面id"
+        },
+        "page_name": {
+          "type": "string",
+          "description": " 页面名"
+        },
+        "page_label": {
+          "type": "string",
+          "description": " 页面标签"
+        },
+        "page_cover": {
+          "type": "string",
+          "description": " 页面封面"
+        },
+        "is_carousel": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否轮播"
+        },
+        "carousel_covers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 轮播封面"
+        }
+      },
+      "title": "PageNewReq",
+      "required": [
+        "page_name",
+        "page_label",
+        "page_cover"
+      ]
+    },
     "PageQuery": {
       "type": "object",
       "properties": {
@@ -4546,6 +4603,33 @@
         }
       },
       "title": "PageQuery"
+    },
+    "PageQueryReq": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当前页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 排序"
+        },
+        "page_name": {
+          "type": "string",
+          "description": " 页面名"
+        }
+      },
+      "title": "PageQueryReq"
     },
     "PageResp": {
       "type": "object",

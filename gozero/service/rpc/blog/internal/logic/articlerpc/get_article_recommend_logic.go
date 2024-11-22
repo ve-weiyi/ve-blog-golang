@@ -3,6 +3,7 @@ package articlerpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
@@ -32,22 +33,22 @@ func (l *GetArticleRecommendLogic) GetArticleRecommend(in *articlerpc.IdReq) (*a
 	}
 
 	// 查询上一篇文章
-	last, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 1, "id desc", "id < ?", record.Id)
+	last, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 1, "id desc", "id < ? and status = ?", record.Id, model.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
 	// 查询下一篇文章
-	next, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 1, "id asc", "id > ?", record.Id)
+	next, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 1, "id asc", "id > ? and status = ?", record.Id, model.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
 	// 查询推荐文章
-	recommend, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 5, "id asc", "id != ? and category_id = ?", record.Id, record.CategoryId)
+	recommend, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 5, "id asc", "id != ? and category_id = ? and status = ?", record.Id, record.CategoryId, model.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}
 	// 查询最新文章
-	newest, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 5, "id desc", "")
+	newest, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 5, "id desc", "status = ?", model.ArticleStatusPublic)
 	if err != nil {
 		return nil, err
 	}

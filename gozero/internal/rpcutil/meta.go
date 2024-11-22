@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/peer"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 )
 
 func GetRPCAppName(ctx context.Context) (string, error) {
@@ -18,13 +18,13 @@ func GetRPCAppName(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[constant.HeaderAppName]; ok {
+	if val, ok := md[headerconst.HeaderAppName]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", constant.HeaderAppName)
+	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderAppName)
 }
 
 func GetRPCUserId(ctx context.Context) (string, error) {
@@ -33,13 +33,13 @@ func GetRPCUserId(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[constant.HeaderUid]; ok {
+	if val, ok := md[headerconst.HeaderUid]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", constant.HeaderUid)
+	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderUid)
 }
 
 func GetRPCUserAgent(ctx context.Context) (string, error) {
@@ -48,13 +48,13 @@ func GetRPCUserAgent(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[constant.HeaderRPCUserAgent]; ok {
+	if val, ok := md[headerconst.HeaderRPCUserAgent]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", constant.HeaderRPCUserAgent)
+	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderRPCUserAgent)
 }
 
 // 获取客户端IP地址

@@ -23,19 +23,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PhotoRpc_AddPhoto_FullMethodName       = "/photorpc.PhotoRpc/AddPhoto"
-	PhotoRpc_UpdatePhoto_FullMethodName    = "/photorpc.PhotoRpc/UpdatePhoto"
-	PhotoRpc_DeletePhoto_FullMethodName    = "/photorpc.PhotoRpc/DeletePhoto"
-	PhotoRpc_FindPhotoList_FullMethodName  = "/photorpc.PhotoRpc/FindPhotoList"
-	PhotoRpc_AddAlbum_FullMethodName       = "/photorpc.PhotoRpc/AddAlbum"
-	PhotoRpc_UpdateAlbum_FullMethodName    = "/photorpc.PhotoRpc/UpdateAlbum"
-	PhotoRpc_GetAlbum_FullMethodName       = "/photorpc.PhotoRpc/GetAlbum"
-	PhotoRpc_DeleteAlbum_FullMethodName    = "/photorpc.PhotoRpc/DeleteAlbum"
-	PhotoRpc_FindAlbumList_FullMethodName  = "/photorpc.PhotoRpc/FindAlbumList"
-	PhotoRpc_AddBanner_FullMethodName      = "/photorpc.PhotoRpc/AddBanner"
-	PhotoRpc_UpdateBanner_FullMethodName   = "/photorpc.PhotoRpc/UpdateBanner"
-	PhotoRpc_DeleteBanner_FullMethodName   = "/photorpc.PhotoRpc/DeleteBanner"
-	PhotoRpc_FindBannerList_FullMethodName = "/photorpc.PhotoRpc/FindBannerList"
+	PhotoRpc_AddPhoto_FullMethodName      = "/photorpc.PhotoRpc/AddPhoto"
+	PhotoRpc_UpdatePhoto_FullMethodName   = "/photorpc.PhotoRpc/UpdatePhoto"
+	PhotoRpc_DeletePhoto_FullMethodName   = "/photorpc.PhotoRpc/DeletePhoto"
+	PhotoRpc_FindPhotoList_FullMethodName = "/photorpc.PhotoRpc/FindPhotoList"
+	PhotoRpc_AddAlbum_FullMethodName      = "/photorpc.PhotoRpc/AddAlbum"
+	PhotoRpc_UpdateAlbum_FullMethodName   = "/photorpc.PhotoRpc/UpdateAlbum"
+	PhotoRpc_GetAlbum_FullMethodName      = "/photorpc.PhotoRpc/GetAlbum"
+	PhotoRpc_DeleteAlbum_FullMethodName   = "/photorpc.PhotoRpc/DeleteAlbum"
+	PhotoRpc_FindAlbumList_FullMethodName = "/photorpc.PhotoRpc/FindAlbumList"
 )
 
 // PhotoRpcClient is the client API for PhotoRpc service.
@@ -60,14 +56,6 @@ type PhotoRpcClient interface {
 	DeleteAlbum(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询相册列表
 	FindAlbumList(ctx context.Context, in *FindAlbumListReq, opts ...grpc.CallOption) (*FindAlbumListResp, error)
-	// 创建页面
-	AddBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error)
-	// 更新页面
-	UpdateBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error)
-	// 删除页面
-	DeleteBanner(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-	// 查询页面列表
-	FindBannerList(ctx context.Context, in *FindBannerListReq, opts ...grpc.CallOption) (*FindBannerListResp, error)
 }
 
 type photoRpcClient struct {
@@ -159,42 +147,6 @@ func (c *photoRpcClient) FindAlbumList(ctx context.Context, in *FindAlbumListReq
 	return out, nil
 }
 
-func (c *photoRpcClient) AddBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error) {
-	out := new(BannerDetails)
-	err := c.cc.Invoke(ctx, PhotoRpc_AddBanner_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *photoRpcClient) UpdateBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error) {
-	out := new(BannerDetails)
-	err := c.cc.Invoke(ctx, PhotoRpc_UpdateBanner_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *photoRpcClient) DeleteBanner(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, PhotoRpc_DeleteBanner_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *photoRpcClient) FindBannerList(ctx context.Context, in *FindBannerListReq, opts ...grpc.CallOption) (*FindBannerListResp, error) {
-	out := new(FindBannerListResp)
-	err := c.cc.Invoke(ctx, PhotoRpc_FindBannerList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // PhotoRpcServer is the server API for PhotoRpc service.
 // All implementations must embed UnimplementedPhotoRpcServer
 // for forward compatibility
@@ -217,14 +169,6 @@ type PhotoRpcServer interface {
 	DeleteAlbum(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询相册列表
 	FindAlbumList(context.Context, *FindAlbumListReq) (*FindAlbumListResp, error)
-	// 创建页面
-	AddBanner(context.Context, *BannerNewReq) (*BannerDetails, error)
-	// 更新页面
-	UpdateBanner(context.Context, *BannerNewReq) (*BannerDetails, error)
-	// 删除页面
-	DeleteBanner(context.Context, *IdsReq) (*BatchResp, error)
-	// 查询页面列表
-	FindBannerList(context.Context, *FindBannerListReq) (*FindBannerListResp, error)
 	mustEmbedUnimplementedPhotoRpcServer()
 }
 
@@ -258,18 +202,6 @@ func (UnimplementedPhotoRpcServer) DeleteAlbum(context.Context, *IdsReq) (*Batch
 }
 func (UnimplementedPhotoRpcServer) FindAlbumList(context.Context, *FindAlbumListReq) (*FindAlbumListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindAlbumList not implemented")
-}
-func (UnimplementedPhotoRpcServer) AddBanner(context.Context, *BannerNewReq) (*BannerDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddBanner not implemented")
-}
-func (UnimplementedPhotoRpcServer) UpdateBanner(context.Context, *BannerNewReq) (*BannerDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateBanner not implemented")
-}
-func (UnimplementedPhotoRpcServer) DeleteBanner(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteBanner not implemented")
-}
-func (UnimplementedPhotoRpcServer) FindBannerList(context.Context, *FindBannerListReq) (*FindBannerListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindBannerList not implemented")
 }
 func (UnimplementedPhotoRpcServer) mustEmbedUnimplementedPhotoRpcServer() {}
 
@@ -446,78 +378,6 @@ func _PhotoRpc_FindAlbumList_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhotoRpc_AddBanner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BannerNewReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PhotoRpcServer).AddBanner(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PhotoRpc_AddBanner_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhotoRpcServer).AddBanner(ctx, req.(*BannerNewReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PhotoRpc_UpdateBanner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BannerNewReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PhotoRpcServer).UpdateBanner(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PhotoRpc_UpdateBanner_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhotoRpcServer).UpdateBanner(ctx, req.(*BannerNewReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PhotoRpc_DeleteBanner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IdsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PhotoRpcServer).DeleteBanner(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PhotoRpc_DeleteBanner_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhotoRpcServer).DeleteBanner(ctx, req.(*IdsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _PhotoRpc_FindBannerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindBannerListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PhotoRpcServer).FindBannerList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PhotoRpc_FindBannerList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhotoRpcServer).FindBannerList(ctx, req.(*FindBannerListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // PhotoRpc_ServiceDesc is the grpc.ServiceDesc for PhotoRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -560,22 +420,6 @@ var PhotoRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindAlbumList",
 			Handler:    _PhotoRpc_FindAlbumList_Handler,
-		},
-		{
-			MethodName: "AddBanner",
-			Handler:    _PhotoRpc_AddBanner_Handler,
-		},
-		{
-			MethodName: "UpdateBanner",
-			Handler:    _PhotoRpc_UpdateBanner_Handler,
-		},
-		{
-			MethodName: "DeleteBanner",
-			Handler:    _PhotoRpc_DeleteBanner_Handler,
-		},
-		{
-			MethodName: "FindBannerList",
-			Handler:    _PhotoRpc_FindBannerList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

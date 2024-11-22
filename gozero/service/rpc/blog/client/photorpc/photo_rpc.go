@@ -13,25 +13,21 @@ import (
 )
 
 type (
-	AlbumDetails       = photorpc.AlbumDetails
-	AlbumNewReq        = photorpc.AlbumNewReq
-	BannerDetails      = photorpc.BannerDetails
-	BannerNewReq       = photorpc.BannerNewReq
-	BatchResp          = photorpc.BatchResp
-	CountResp          = photorpc.CountResp
-	EmptyReq           = photorpc.EmptyReq
-	EmptyResp          = photorpc.EmptyResp
-	FindAlbumListReq   = photorpc.FindAlbumListReq
-	FindAlbumListResp  = photorpc.FindAlbumListResp
-	FindBannerListReq  = photorpc.FindBannerListReq
-	FindBannerListResp = photorpc.FindBannerListResp
-	FindPhotoListReq   = photorpc.FindPhotoListReq
-	FindPhotoListResp  = photorpc.FindPhotoListResp
-	IdReq              = photorpc.IdReq
-	IdsReq             = photorpc.IdsReq
-	PhotoDetails       = photorpc.PhotoDetails
-	PhotoNewReq        = photorpc.PhotoNewReq
-	UserIdReq          = photorpc.UserIdReq
+	AlbumDetails      = photorpc.AlbumDetails
+	AlbumNewReq       = photorpc.AlbumNewReq
+	BatchResp         = photorpc.BatchResp
+	CountResp         = photorpc.CountResp
+	EmptyReq          = photorpc.EmptyReq
+	EmptyResp         = photorpc.EmptyResp
+	FindAlbumListReq  = photorpc.FindAlbumListReq
+	FindAlbumListResp = photorpc.FindAlbumListResp
+	FindPhotoListReq  = photorpc.FindPhotoListReq
+	FindPhotoListResp = photorpc.FindPhotoListResp
+	IdReq             = photorpc.IdReq
+	IdsReq            = photorpc.IdsReq
+	PhotoDetails      = photorpc.PhotoDetails
+	PhotoNewReq       = photorpc.PhotoNewReq
+	UserIdReq         = photorpc.UserIdReq
 
 	PhotoRpc interface {
 		// 创建照片
@@ -52,14 +48,6 @@ type (
 		DeleteAlbum(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询相册列表
 		FindAlbumList(ctx context.Context, in *FindAlbumListReq, opts ...grpc.CallOption) (*FindAlbumListResp, error)
-		// 创建页面
-		AddBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error)
-		// 更新页面
-		UpdateBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error)
-		// 删除页面
-		DeleteBanner(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
-		// 查询页面列表
-		FindBannerList(ctx context.Context, in *FindBannerListReq, opts ...grpc.CallOption) (*FindBannerListResp, error)
 	}
 
 	defaultPhotoRpc struct {
@@ -125,28 +113,4 @@ func (m *defaultPhotoRpc) DeleteAlbum(ctx context.Context, in *IdsReq, opts ...g
 func (m *defaultPhotoRpc) FindAlbumList(ctx context.Context, in *FindAlbumListReq, opts ...grpc.CallOption) (*FindAlbumListResp, error) {
 	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
 	return client.FindAlbumList(ctx, in, opts...)
-}
-
-// 创建页面
-func (m *defaultPhotoRpc) AddBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error) {
-	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
-	return client.AddBanner(ctx, in, opts...)
-}
-
-// 更新页面
-func (m *defaultPhotoRpc) UpdateBanner(ctx context.Context, in *BannerNewReq, opts ...grpc.CallOption) (*BannerDetails, error) {
-	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
-	return client.UpdateBanner(ctx, in, opts...)
-}
-
-// 删除页面
-func (m *defaultPhotoRpc) DeleteBanner(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
-	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
-	return client.DeleteBanner(ctx, in, opts...)
-}
-
-// 查询页面列表
-func (m *defaultPhotoRpc) FindBannerList(ctx context.Context, in *FindBannerListReq, opts ...grpc.CallOption) (*FindBannerListResp, error) {
-	client := photorpc.NewPhotoRpcClient(m.cli.Conn())
-	return client.FindBannerList(ctx, in, opts...)
 }

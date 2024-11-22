@@ -4,9 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
@@ -35,13 +34,13 @@ func NewSendResetPasswordEmailLogic(ctx context.Context, svcCtx *svc.ServiceCont
 func (l *SendResetPasswordEmailLogic) SendResetPasswordEmail(in *accountrpc.UserEmailReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.NewApiError(codex.CodeInvalidParam, "邮箱格式不正确")
+		return nil, apierr.NewApiError(apierr.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 验证用户是否存在
 	user, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if user != nil {
-		return nil, apierr.NewApiError(codex.CodeUserAlreadyExist, "用户已存在")
+		return nil, apierr.NewApiError(apierr.CodeUserAlreadyExist, "用户已存在")
 	}
 
 	// 发送验证码邮件

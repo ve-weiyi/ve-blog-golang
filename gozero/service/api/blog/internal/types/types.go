@@ -58,19 +58,6 @@ type ArticlePreview struct {
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 }
 
-type Banner struct {
-	Id          int64  `json:"id"`           // 页面id
-	BannerName  string `json:"banner_name"`  // 页面名
-	BannerLabel string `json:"banner_label"` // 页面标签
-	BannerCover string `json:"banner_cover"` // 页面封面
-	CreatedAt   int64  `json:"created_at"`   // 创建时间
-	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
-}
-
-type BannerQueryReq struct {
-	PageQuery
-}
-
 type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
 }
@@ -275,17 +262,32 @@ type OauthLoginUrlResp struct {
 	Url string `json:"url"` // 授权地址
 }
 
+type Page struct {
+	Id         int64  `json:"id"`                   // 页面id
+	PageName   string `json:"page_name"`            // 页面名
+	PageLabel  string `json:"page_label"`           // 页面标签
+	PageCover  string `json:"page_cover"`           // 页面封面
+	IsCarousel int64  `json:"is_carousel,optional"` // 是否轮播
+	CreatedAt  int64  `json:"created_at"`           // 创建时间
+	UpdatedAt  int64  `json:"updated_at"`           // 更新时间
+}
+
 type PageDTO struct {
-	Id        int64  `json:"id"`         // 页面ID
-	PageName  string `json:"page_name"`  // 页面名称
-	PageLabel string `json:"page_label"` // 页面标签
-	PageCover string `json:"page_cover"` // 页面封面
+	Id         int64  `json:"id"`                   // 页面ID
+	PageName   string `json:"page_name"`            // 页面名称
+	PageLabel  string `json:"page_label"`           // 页面标签
+	PageCover  string `json:"page_cover"`           // 页面封面
+	IsCarousel int64  `json:"is_carousel,optional"` // 是否轮播
 }
 
 type PageQuery struct {
 	Page     int64    `json:"page,optional"`
 	PageSize int64    `json:"page_size,optional"`
 	Sorts    []string `json:"sorts,optional"`
+}
+
+type PageQueryReq struct {
+	PageQuery
 }
 
 type PageResp struct {

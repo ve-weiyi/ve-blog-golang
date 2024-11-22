@@ -5,26 +5,26 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jtoken"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
 )
 
 type JwtTokenHolder struct {
 	issuer string
 
-	token *jtoken.JwtInstance
+	token *jwtx.JwtInstance
 	cache *redis.Redis
 }
 
 func NewJwtTokenHolder(issuer string, secret string, cache *redis.Redis) *JwtTokenHolder {
 	return &JwtTokenHolder{
 		issuer: issuer,
-		token:  jtoken.NewJWTInstance([]byte(secret)),
+		token:  jwtx.NewJWTInstance([]byte(secret)),
 		cache:  cache,
 	}
 }
@@ -33,12 +33,12 @@ func (j *JwtTokenHolder) CreateToken(ctx context.Context, uid string, perms stri
 	issuer := "blog"
 	now := time.Now().Unix()
 
-	opts := []jtoken.Option{
-		jtoken.WithIssuer(issuer),
-		jtoken.WithIssuedAt(now),
-		jtoken.WithExpiresAt(expiresIn),
-		jtoken.WithClaimExt("uid", uid),
-		jtoken.WithClaimExt("roles", perms),
+	opts := []jwtx.Option{
+		jwtx.WithIssuer(issuer),
+		jwtx.WithIssuedAt(now),
+		jwtx.WithExpiresAt(expiresIn),
+		jwtx.WithClaimExt("uid", uid),
+		jwtx.WithClaimExt("roles", perms),
 	}
 
 	tk, err := j.token.CreateToken(opts...)
@@ -73,12 +73,12 @@ func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid stri
 	}
 
 	// uid不一致
-	if uid != cast.ToString(claims[constant.HeaderUid]) {
+	if uid != cast.ToString(claims[headerconst.HeaderUid]) {
 		return nil, fmt.Errorf("token cannot use by uid")
 	}
 
 	//token验证成功,但用户在别处登录或退出登录
-	if j.IsLogout(ctx, cast.ToString(claims[constant.HeaderUid]), cast.ToInt64(claims[jtoken.JwtIssueAt])) {
+	if j.IsLogout(ctx, cast.ToString(claims[headerconst.HeaderUid]), cast.ToInt64(claims[jwtx.JwtIssueAt])) {
 		return nil, fmt.Errorf("user already logout or login in other place")
 	}
 

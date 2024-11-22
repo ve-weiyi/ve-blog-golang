@@ -5,21 +5,15 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr/codex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
 type OauthLoginLogic struct {
@@ -73,9 +67,9 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	}
 
 	// 用户已经注册,查询用户信息
-	user, err := l.svcCtx.TUserModel.First(l.ctx, "id = ?", userOauth.UserId)
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, userOauth.UserId)
 	if err != nil {
-		return nil, apierr.NewApiError(codex.CodeUserNotExist, err.Error())
+		return nil, apierr.NewApiError(apierr.CodeUserNotExist, err.Error())
 	}
 
 	return onLogin(l.ctx, l.svcCtx, user)
@@ -83,14 +77,13 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 
 func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
-	username := info.Email
-	if username == "" {
-		username = info.Mobile
-	}
+	uid := uuid.NewString()
+	// 使用第三方注册时，username需要唯一, 用户不能使用username登录，所以使用uuid生成。
+	username := uid
 
 	// 用户账号
 	user := &model.TUser{
-		UserId:    uuid.NewString(),
+		UserId:    uid,
 		Username:  username,
 		Password:  crypto.BcryptHash(info.EnName),
 		Nickname:  info.NickName,
@@ -98,7 +91,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		Email:     info.Email,
 		Phone:     info.Mobile,
 		Info:      "",
-		Status:    constant.UserStatusNormal,
+		Status:    model.UserStatusNormal,
 		LoginType: platform,
 		IpAddress: "",
 		IpSource:  "",

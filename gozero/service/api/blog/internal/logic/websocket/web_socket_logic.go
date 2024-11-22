@@ -14,7 +14,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/constant"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
@@ -80,8 +80,8 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 	receive := func(msg []byte) (err error) {
 		logx.WithContext(r.Context()).Infof("receive msg: %v", string(msg))
 
-		token := cast.ToString(r.Context().Value(constant.HeaderAuthorization))
-		uid := cast.ToString(r.Context().Value(constant.HeaderUid))
+		token := cast.ToString(r.Context().Value(headerconst.HeaderAuthorization))
+		uid := cast.ToString(r.Context().Value(headerconst.HeaderUid))
 		// 如果有uid,则需要校验用户是否登录
 		if token != "" || uid != "" {
 			_, err = l.svcCtx.TokenHolder.VerifyToken(r.Context(), token, cast.ToString(uid))
@@ -143,7 +143,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 func (l *WebSocketLogic) onHeartBeat(payload string) (data any, err error) {
 	logx.WithContext(l.ctx).Infof("heartbeat: %v", payload)
 
-	addr := cast.ToString(l.ctx.Value(constant.HeaderRemoteAddr))
+	addr := cast.ToString(l.ctx.Value(headerconst.HeaderRemoteAddr))
 	onlineKey := rediskey.GetChatOnlineKey()
 	_, err = l.svcCtx.Redis.ZaddCtx(l.ctx, onlineKey, time.Now().Unix(), addr)
 	if err != nil {
@@ -194,9 +194,9 @@ func (l *WebSocketLogic) onHistoryRecord(payload string) (data []*types.ChatMsgR
 func (l *WebSocketLogic) onSendMessage(payload string) (data *types.ChatMsgResp, err error) {
 	logx.WithContext(l.ctx).Infof("send message: %v", payload)
 
-	uid := cast.ToString(l.ctx.Value(constant.HeaderUid))
-	device := cast.ToString(l.ctx.Value(constant.HeaderTerminal))
-	addr := cast.ToString(l.ctx.Value(constant.HeaderRemoteAddr))
+	uid := cast.ToString(l.ctx.Value(headerconst.HeaderUid))
+	device := cast.ToString(l.ctx.Value(headerconst.HeaderTerminal))
+	addr := cast.ToString(l.ctx.Value(headerconst.HeaderRemoteAddr))
 
 	// 发送消息
 	is, err := ipx.GetIpSourceByBaidu(addr)
@@ -241,8 +241,8 @@ func (l *WebSocketLogic) onRecallMessage(payload string) (out *types.ChatMsgResp
 }
 
 func (l *WebSocketLogic) newSocketMsg(cmd int64, content interface{}) *types.WebSocketMsg {
-	device := cast.ToString(l.ctx.Value(constant.HeaderTerminal))
-	addr := cast.ToString(l.ctx.Value(constant.HeaderRemoteAddr))
+	device := cast.ToString(l.ctx.Value(headerconst.HeaderTerminal))
+	addr := cast.ToString(l.ctx.Value(headerconst.HeaderRemoteAddr))
 
 	msg := &types.WebSocketMsg{
 		ClientId:  device,

@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
@@ -26,7 +27,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/upload"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/config"
 )
@@ -39,6 +40,7 @@ type ServiceContext struct {
 	ArticleRpc    articlerpc.ArticleRpc
 	CommentRpc    commentrpc.CommentRpc
 	MessageRpc    messagerpc.MessageRpc
+	PageRpc       pagerpc.PageRpc
 	PhotoRpc      photorpc.PhotoRpc
 	TalkRpc       talkrpc.TalkRpc
 	FriendRpc     friendrpc.FriendRpc
@@ -49,7 +51,7 @@ type ServiceContext struct {
 
 	Redis            *redis.Redis
 	TokenHolder      *tokenx.JwtTokenHolder
-	Uploader         upload.Uploader
+	Uploader         oss.OSS
 	WebsocketManager *ws.WebSocketManager
 
 	JwtToken  rest.Middleware
@@ -74,6 +76,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
+		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
@@ -82,7 +85,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 
-		Uploader:         upload.NewQiniu(c.UploadConfig),
+		Uploader:         oss.NewQiniu(c.UploadConfig),
 		Redis:            rds,
 		TokenHolder:      th,
 		WebsocketManager: ws.NewWebSocketManager(),
