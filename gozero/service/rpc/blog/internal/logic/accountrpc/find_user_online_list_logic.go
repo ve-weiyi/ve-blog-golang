@@ -27,7 +27,7 @@ func NewFindUserOnlineListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 查找在线用户列表
 func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
-	page, size, sorts, conditions, params := convertQuery(in)
+	page, size, sorts, conditions, params := convertUserQuery(in)
 	if conditions != "" {
 		conditions += " and "
 	}
