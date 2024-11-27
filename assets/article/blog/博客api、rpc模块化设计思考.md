@@ -51,19 +51,23 @@ Q：既然只需要设计两个Rpc服务
   - article_category
   - article_tag
   
+- message 
+ - comment
+ - remark
+ - chat
+
 - photo
   - album
   - photo
 
-- banner
-- remark
-- comment
-- talk
-- friend
-
+- resource
+  - file 
 
 - website
   - visit
+  - page
+  - talk
+  - friend
   
 - config
   - config

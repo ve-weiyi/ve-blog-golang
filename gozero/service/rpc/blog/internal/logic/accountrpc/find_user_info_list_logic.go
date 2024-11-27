@@ -26,7 +26,7 @@ func NewFindUserInfoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 查找用户信息列表
 func (l *FindUserInfoListLogic) FindUserInfoList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
-	page, size, sorts, conditions, params := convertQuery(in)
+	page, size, sorts, conditions, params := convertUserQuery(in)
 
 	result, err := l.svcCtx.TUserModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
