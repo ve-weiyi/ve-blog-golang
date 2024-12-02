@@ -17,7 +17,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/permissionrpc"
@@ -38,7 +37,6 @@ type ServiceContext struct {
 	AccountRpc    accountrpc.AccountRpc
 	PermissionRpc permissionrpc.PermissionRpc
 	ArticleRpc    articlerpc.ArticleRpc
-	CommentRpc    commentrpc.CommentRpc
 	MessageRpc    messagerpc.MessageRpc
 	PageRpc       pagerpc.PageRpc
 	PhotoRpc      photorpc.PhotoRpc
@@ -74,7 +72,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		AccountRpc:    accountrpc.NewAccountRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PermissionRpc: permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),

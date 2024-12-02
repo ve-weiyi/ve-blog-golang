@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,11 +26,11 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeleteCommentLogic) DeleteComment(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &commentrpc.IdsReq{
+	in := &messagerpc.IdsReq{
 		Ids: []int64{req.Id},
 	}
 
-	out, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.DeleteComment(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

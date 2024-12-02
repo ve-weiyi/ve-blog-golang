@@ -44,6 +44,9 @@ message UserDailyVisitRsp{
 }
 
 service WebsiteRpc {
-  // 用户日浏览量
+  // 用户日浏览量分析
   rpc GetUserDailyVisit(EmptyReq) returns(UserDailyVisitRsp);
+
+  // 用户总流量数
+  rpc GetUserTotalVisit(EmptyReq) returns(CountResp);
 }

@@ -1,9 +1,9 @@
-package commentrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +24,7 @@ func NewGetCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCom
 }
 
 // 查询评论
-func (l *GetCommentLogic) GetComment(in *commentrpc.IdReq) (*commentrpc.CommentDetails, error) {
+func (l *GetCommentLogic) GetComment(in *messagerpc.IdReq) (*messagerpc.CommentDetails, error) {
 	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

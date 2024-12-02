@@ -1,9 +1,9 @@
-package commentrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
@@ -25,13 +25,13 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 // 删除评论
-func (l *DeleteCommentLogic) DeleteComment(in *commentrpc.IdsReq) (*commentrpc.BatchResp, error) {
+func (l *DeleteCommentLogic) DeleteComment(in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
 	rows, err := l.svcCtx.TCommentModel.Deletes(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	return &commentrpc.BatchResp{
+	return &messagerpc.BatchResp{
 		SuccessCount: rows,
 	}, nil
 }

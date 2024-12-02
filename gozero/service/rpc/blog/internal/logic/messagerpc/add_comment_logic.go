@@ -1,10 +1,10 @@
-package commentrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 }
 
 // 创建评论
-func (l *AddCommentLogic) AddComment(in *commentrpc.CommentNewReq) (*commentrpc.CommentDetails, error) {
+func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.CommentDetails, error) {
 	entity := convertCommentIn(in)
 
 	_, err := l.svcCtx.TCommentModel.Insert(l.ctx, entity)
@@ -36,7 +36,7 @@ func (l *AddCommentLogic) AddComment(in *commentrpc.CommentNewReq) (*commentrpc.
 	return convertCommentOut(entity), nil
 }
 
-func convertCommentIn(in *commentrpc.CommentNewReq) (out *model.TComment) {
+func convertCommentIn(in *messagerpc.CommentNewReq) (out *model.TComment) {
 	out = &model.TComment{
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,
@@ -54,8 +54,8 @@ func convertCommentIn(in *commentrpc.CommentNewReq) (out *model.TComment) {
 	return out
 }
 
-func convertCommentOut(in *model.TComment) (out *commentrpc.CommentDetails) {
-	out = &commentrpc.CommentDetails{
+func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetails) {
+	out = &messagerpc.CommentDetails{
 		Id:             in.Id,
 		TopicId:        in.TopicId,
 		ParentId:       in.ParentId,

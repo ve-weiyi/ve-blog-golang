@@ -18,7 +18,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
@@ -30,7 +29,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	accountrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/accountrpc"
 	articlerpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/articlerpc"
-	commentrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/commentrpc"
 	configrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/configrpc"
 	friendrpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/friendrpc"
 	messagerpcServer "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/server/messagerpc"
@@ -98,7 +96,6 @@ func main() {
 		permissionrpc.RegisterPermissionRpcServer(grpcServer, permissionrpcServer.NewPermissionRpcServer(ctx))
 		photorpc.RegisterPhotoRpcServer(grpcServer, photorpcServer.NewPhotoRpcServer(ctx))
 		syslogrpc.RegisterSyslogRpcServer(grpcServer, syslogrpcServer.NewSyslogRpcServer(ctx))
-		commentrpc.RegisterCommentRpcServer(grpcServer, commentrpcServer.NewCommentRpcServer(ctx))
 		messagerpc.RegisterMessageRpcServer(grpcServer, messagerpcServer.NewMessageRpcServer(ctx))
 		pagerpc.RegisterPageRpcServer(grpcServer, pegerpcServer.NewPageRpcServer(ctx))
 		friendrpc.RegisterFriendRpcServer(grpcServer, friendrpcServer.NewFriendRpcServer(ctx))

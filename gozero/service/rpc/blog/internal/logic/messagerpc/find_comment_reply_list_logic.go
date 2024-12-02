@@ -1,10 +1,10 @@
-package commentrpclogic
+package messagerpclogic
 
 import (
 	"context"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 // 查询评论回复列表
-func (l *FindCommentReplyListLogic) FindCommentReplyList(in *commentrpc.FindCommentReplyListReq) (*commentrpc.FindCommentReplyListResp, error) {
+func (l *FindCommentReplyListLogic) FindCommentReplyList(in *messagerpc.FindCommentReplyListReq) (*messagerpc.FindCommentReplyListResp, error) {
 	page, size, sorts, conditions, params := convertCommentReplyQuery(in)
 
 	result, err := l.svcCtx.TCommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,19 +38,19 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(in *commentrpc.FindComm
 		return nil, err
 	}
 
-	var list []*commentrpc.CommentDetails
+	var list []*messagerpc.CommentDetails
 	for _, v := range result {
 		m := convertCommentOut(v)
 		list = append(list, m)
 	}
 
-	return &commentrpc.FindCommentReplyListResp{
+	return &messagerpc.FindCommentReplyListResp{
 		List:  list,
 		Total: count,
 	}, nil
 }
 
-func convertCommentReplyQuery(in *commentrpc.FindCommentReplyListReq) (page int, size int, sorts string, conditions string, params []any) {
+func convertCommentReplyQuery(in *messagerpc.FindCommentReplyListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")

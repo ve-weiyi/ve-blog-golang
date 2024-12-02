@@ -1,9 +1,9 @@
-package commentrpclogic
+package messagerpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +24,7 @@ func NewUpdateCommentContentLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 // 更新评论
-func (l *UpdateCommentContentLogic) UpdateCommentContent(in *commentrpc.UpdateCommentContentReq) (*commentrpc.CommentDetails, error) {
+func (l *UpdateCommentContentLogic) UpdateCommentContent(in *messagerpc.UpdateCommentContentReq) (*messagerpc.CommentDetails, error) {
 	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

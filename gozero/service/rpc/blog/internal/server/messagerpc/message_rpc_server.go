@@ -81,3 +81,63 @@ func (s *MessageRpcServer) FindRemarkList(ctx context.Context, in *messagerpc.Fi
 	l := messagerpclogic.NewFindRemarkListLogic(ctx, s.svcCtx)
 	return l.FindRemarkList(in)
 }
+
+// 创建评论
+func (s *MessageRpcServer) AddComment(ctx context.Context, in *messagerpc.CommentNewReq) (*messagerpc.CommentDetails, error) {
+	l := messagerpclogic.NewAddCommentLogic(ctx, s.svcCtx)
+	return l.AddComment(in)
+}
+
+// 删除评论
+func (s *MessageRpcServer) DeleteComment(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
+	l := messagerpclogic.NewDeleteCommentLogic(ctx, s.svcCtx)
+	return l.DeleteComment(in)
+}
+
+// 查询评论
+func (s *MessageRpcServer) GetComment(ctx context.Context, in *messagerpc.IdReq) (*messagerpc.CommentDetails, error) {
+	l := messagerpclogic.NewGetCommentLogic(ctx, s.svcCtx)
+	return l.GetComment(in)
+}
+
+// 查询评论列表
+func (s *MessageRpcServer) FindCommentList(ctx context.Context, in *messagerpc.FindCommentListReq) (*messagerpc.FindCommentListResp, error) {
+	l := messagerpclogic.NewFindCommentListLogic(ctx, s.svcCtx)
+	return l.FindCommentList(in)
+}
+
+// 查询评论回复列表
+func (s *MessageRpcServer) FindCommentReplyList(ctx context.Context, in *messagerpc.FindCommentReplyListReq) (*messagerpc.FindCommentReplyListResp, error) {
+	l := messagerpclogic.NewFindCommentReplyListLogic(ctx, s.svcCtx)
+	return l.FindCommentReplyList(in)
+}
+
+// 查询评论回复数量
+func (s *MessageRpcServer) FindTopicCommentCounts(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.FindTopicCommentCountsResp, error) {
+	l := messagerpclogic.NewFindTopicCommentCountsLogic(ctx, s.svcCtx)
+	return l.FindTopicCommentCounts(in)
+}
+
+// 更新评论审核状态
+func (s *MessageRpcServer) UpdateCommentReview(ctx context.Context, in *messagerpc.UpdateCommentReviewReq) (*messagerpc.BatchResp, error) {
+	l := messagerpclogic.NewUpdateCommentReviewLogic(ctx, s.svcCtx)
+	return l.UpdateCommentReview(in)
+}
+
+// 更新评论
+func (s *MessageRpcServer) UpdateCommentContent(ctx context.Context, in *messagerpc.UpdateCommentContentReq) (*messagerpc.CommentDetails, error) {
+	l := messagerpclogic.NewUpdateCommentContentLogic(ctx, s.svcCtx)
+	return l.UpdateCommentContent(in)
+}
+
+// 点赞评论
+func (s *MessageRpcServer) LikeComment(ctx context.Context, in *messagerpc.IdReq) (*messagerpc.EmptyResp, error) {
+	l := messagerpclogic.NewLikeCommentLogic(ctx, s.svcCtx)
+	return l.LikeComment(in)
+}
+
+// 用户点赞的评论
+func (s *MessageRpcServer) FindUserLikeComment(ctx context.Context, in *messagerpc.UserIdReq) (*messagerpc.FindLikeCommentResp, error) {
+	l := messagerpclogic.NewFindUserLikeCommentLogic(ctx, s.svcCtx)
+	return l.FindUserLikeComment(in)
+}

@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/talkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -38,7 +38,7 @@ func (l *GetUserLikeLogic) GetUserLike(req *types.EmptyReq) (resp *types.UserLik
 		return nil, err
 	}
 
-	comments, err := l.svcCtx.CommentRpc.FindUserLikeComment(l.ctx, &commentrpc.UserIdReq{
+	comments, err := l.svcCtx.MessageRpc.FindUserLikeComment(l.ctx, &messagerpc.UserIdReq{
 		UserId: cast.ToString(l.ctx.Value("uid")),
 	})
 	if err != nil {

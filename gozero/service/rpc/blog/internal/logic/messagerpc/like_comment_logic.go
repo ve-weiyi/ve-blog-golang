@@ -1,4 +1,4 @@
-package commentrpclogic
+package messagerpclogic
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -28,7 +28,7 @@ func NewLikeCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeC
 }
 
 // 点赞评论
-func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyResp, error) {
+func (l *LikeCommentLogic) LikeComment(in *messagerpc.IdReq) (*messagerpc.EmptyResp, error) {
 	uid, err := rpcutil.GetRPCUserId(l.ctx)
 	if err != nil {
 		return nil, err
@@ -73,5 +73,5 @@ func (l *LikeCommentLogic) LikeComment(in *commentrpc.IdReq) (*commentrpc.EmptyR
 	if err != nil {
 		return nil, err
 	}
-	return &commentrpc.EmptyResp{}, nil
+	return &messagerpc.EmptyResp{}, nil
 }
