@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,7 +34,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	pages, err := l.svcCtx.PageRpc.FindPageList(l.ctx, &pagerpc.FindPageListReq{})
+	pages, err := l.svcCtx.WebsiteRpc.FindPageList(l.ctx, &websiterpc.FindPageListReq{})
 	if err != nil {
 		return nil, err
 	}

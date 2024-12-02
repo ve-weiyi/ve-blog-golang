@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,11 +26,11 @@ func NewBatchDeleteFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *BatchDeleteFriendLogic) BatchDeleteFriend(req *types.IdsReq) (resp *types.BatchResp, err error) {
-	in := &friendrpc.IdsReq{
+	in := &websiterpc.IdsReq{
 		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.FriendRpc.DeleteFriend(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.DeleteFriend(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
