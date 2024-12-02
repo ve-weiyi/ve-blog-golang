@@ -1,9 +1,10 @@
-package pagerpclogic
+package websiterpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +25,7 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 // 更新页面
-func (l *UpdatePageLogic) UpdatePage(in *pagerpc.PageNewReq) (*pagerpc.PageDetails, error) {
+func (l *UpdatePageLogic) UpdatePage(in *websiterpc.PageNewReq) (*websiterpc.PageDetails, error) {
 	entity := convertPageIn(in)
 
 	_, err := l.svcCtx.TPageModel.Save(l.ctx, entity)
