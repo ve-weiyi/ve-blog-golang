@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +27,7 @@ func NewAddFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFrie
 
 func (l *AddFriendLogic) AddFriend(req *types.FriendNewReq) (resp *types.FriendBackDTO, err error) {
 	in := ConvertFriendPb(req)
-	out, err := l.svcCtx.FriendRpc.AddFriend(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.AddFriend(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +36,8 @@ func (l *AddFriendLogic) AddFriend(req *types.FriendNewReq) (resp *types.FriendB
 	return resp, nil
 }
 
-func ConvertFriendPb(in *types.FriendNewReq) (out *friendrpc.FriendNewReq) {
-	out = &friendrpc.FriendNewReq{
+func ConvertFriendPb(in *types.FriendNewReq) (out *websiterpc.FriendNewReq) {
+	out = &websiterpc.FriendNewReq{
 		Id:          in.Id,
 		LinkName:    in.LinkName,
 		LinkAvatar:  in.LinkAvatar,
@@ -48,7 +48,7 @@ func ConvertFriendPb(in *types.FriendNewReq) (out *friendrpc.FriendNewReq) {
 	return
 }
 
-func ConvertFriendTypes(in *friendrpc.FriendDetails) (out *types.FriendBackDTO) {
+func ConvertFriendTypes(in *websiterpc.FriendDetails) (out *types.FriendBackDTO) {
 	out = &types.FriendBackDTO{
 		Id:          in.Id,
 		LinkName:    in.LinkName,

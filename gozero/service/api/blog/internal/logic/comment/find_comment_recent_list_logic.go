@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 )
 
 type FindCommentRecentListLogic struct {
@@ -27,7 +27,7 @@ func NewFindCommentRecentListLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
-	in := &commentrpc.FindCommentListReq{
+	in := &messagerpc.FindCommentListReq{
 		Page:       req.Page,
 		PageSize:   req.PageSize,
 		Sorts:      req.Sorts,
@@ -36,7 +36,7 @@ func (l *FindCommentRecentListLogic) FindCommentRecentList(req *types.CommentQue
 		ReplyMsgId: 0,
 		Type:       req.Type,
 	}
-	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

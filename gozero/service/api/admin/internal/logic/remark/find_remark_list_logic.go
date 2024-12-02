@@ -69,3 +69,29 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 	resp.List = list
 	return resp, nil
 }
+
+func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc.User) (out *types.RemarkBackDTO) {
+	out = &types.RemarkBackDTO{
+		Id:             in.Id,
+		Nickname:       "",
+		Avatar:         "",
+		MessageContent: in.MessageContent,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		Time:           0,
+		IsReview:       in.IsReview,
+		CreatedAt:      in.CreatedAt,
+		UpdatedAt:      in.UpdatedAt,
+	}
+
+	// 用户信息
+	if in.UserId != "" {
+		user, ok := usm[in.UserId]
+		if ok && user != nil {
+			out.Nickname = user.Nickname
+			out.Avatar = user.Avatar
+		}
+	}
+
+	return
+}
