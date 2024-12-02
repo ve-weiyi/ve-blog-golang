@@ -23,16 +23,26 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MessageRpc_AddChatMessage_FullMethodName      = "/messagerpc.MessageRpc/AddChatMessage"
-	MessageRpc_UpdateChatMessage_FullMethodName   = "/messagerpc.MessageRpc/UpdateChatMessage"
-	MessageRpc_DeletesChatMessage_FullMethodName  = "/messagerpc.MessageRpc/DeletesChatMessage"
-	MessageRpc_GetChatMessage_FullMethodName      = "/messagerpc.MessageRpc/GetChatMessage"
-	MessageRpc_FindChatMessageList_FullMethodName = "/messagerpc.MessageRpc/FindChatMessageList"
-	MessageRpc_AddRemark_FullMethodName           = "/messagerpc.MessageRpc/AddRemark"
-	MessageRpc_UpdateRemark_FullMethodName        = "/messagerpc.MessageRpc/UpdateRemark"
-	MessageRpc_DeletesRemark_FullMethodName       = "/messagerpc.MessageRpc/DeletesRemark"
-	MessageRpc_GetRemark_FullMethodName           = "/messagerpc.MessageRpc/GetRemark"
-	MessageRpc_FindRemarkList_FullMethodName      = "/messagerpc.MessageRpc/FindRemarkList"
+	MessageRpc_AddChatMessage_FullMethodName         = "/messagerpc.MessageRpc/AddChatMessage"
+	MessageRpc_UpdateChatMessage_FullMethodName      = "/messagerpc.MessageRpc/UpdateChatMessage"
+	MessageRpc_DeletesChatMessage_FullMethodName     = "/messagerpc.MessageRpc/DeletesChatMessage"
+	MessageRpc_GetChatMessage_FullMethodName         = "/messagerpc.MessageRpc/GetChatMessage"
+	MessageRpc_FindChatMessageList_FullMethodName    = "/messagerpc.MessageRpc/FindChatMessageList"
+	MessageRpc_AddRemark_FullMethodName              = "/messagerpc.MessageRpc/AddRemark"
+	MessageRpc_UpdateRemark_FullMethodName           = "/messagerpc.MessageRpc/UpdateRemark"
+	MessageRpc_DeletesRemark_FullMethodName          = "/messagerpc.MessageRpc/DeletesRemark"
+	MessageRpc_GetRemark_FullMethodName              = "/messagerpc.MessageRpc/GetRemark"
+	MessageRpc_FindRemarkList_FullMethodName         = "/messagerpc.MessageRpc/FindRemarkList"
+	MessageRpc_AddComment_FullMethodName             = "/messagerpc.MessageRpc/AddComment"
+	MessageRpc_DeleteComment_FullMethodName          = "/messagerpc.MessageRpc/DeleteComment"
+	MessageRpc_GetComment_FullMethodName             = "/messagerpc.MessageRpc/GetComment"
+	MessageRpc_FindCommentList_FullMethodName        = "/messagerpc.MessageRpc/FindCommentList"
+	MessageRpc_FindCommentReplyList_FullMethodName   = "/messagerpc.MessageRpc/FindCommentReplyList"
+	MessageRpc_FindTopicCommentCounts_FullMethodName = "/messagerpc.MessageRpc/FindTopicCommentCounts"
+	MessageRpc_UpdateCommentReview_FullMethodName    = "/messagerpc.MessageRpc/UpdateCommentReview"
+	MessageRpc_UpdateCommentContent_FullMethodName   = "/messagerpc.MessageRpc/UpdateCommentContent"
+	MessageRpc_LikeComment_FullMethodName            = "/messagerpc.MessageRpc/LikeComment"
+	MessageRpc_FindUserLikeComment_FullMethodName    = "/messagerpc.MessageRpc/FindUserLikeComment"
 )
 
 // MessageRpcClient is the client API for MessageRpc service.
@@ -59,6 +69,26 @@ type MessageRpcClient interface {
 	GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
+	// 创建评论
+	AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error)
+	// 删除评论
+	DeleteComment(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询评论
+	GetComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error)
+	// 查询评论列表
+	FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error)
+	// 查询评论回复列表
+	FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error)
+	// 查询评论回复数量
+	FindTopicCommentCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindTopicCommentCountsResp, error)
+	// 更新评论审核状态
+	UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 更新评论
+	UpdateCommentContent(ctx context.Context, in *UpdateCommentContentReq, opts ...grpc.CallOption) (*CommentDetails, error)
+	// 点赞评论
+	LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 用户点赞的评论
+	FindUserLikeComment(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error)
 }
 
 type messageRpcClient struct {
@@ -159,6 +189,96 @@ func (c *messageRpcClient) FindRemarkList(ctx context.Context, in *FindRemarkLis
 	return out, nil
 }
 
+func (c *messageRpcClient) AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+	out := new(CommentDetails)
+	err := c.cc.Invoke(ctx, MessageRpc_AddComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) DeleteComment(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, MessageRpc_DeleteComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) GetComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+	out := new(CommentDetails)
+	err := c.cc.Invoke(ctx, MessageRpc_GetComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) FindCommentList(ctx context.Context, in *FindCommentListReq, opts ...grpc.CallOption) (*FindCommentListResp, error) {
+	out := new(FindCommentListResp)
+	err := c.cc.Invoke(ctx, MessageRpc_FindCommentList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) FindCommentReplyList(ctx context.Context, in *FindCommentReplyListReq, opts ...grpc.CallOption) (*FindCommentReplyListResp, error) {
+	out := new(FindCommentReplyListResp)
+	err := c.cc.Invoke(ctx, MessageRpc_FindCommentReplyList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) FindTopicCommentCounts(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*FindTopicCommentCountsResp, error) {
+	out := new(FindTopicCommentCountsResp)
+	err := c.cc.Invoke(ctx, MessageRpc_FindTopicCommentCounts_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) UpdateCommentReview(ctx context.Context, in *UpdateCommentReviewReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, MessageRpc_UpdateCommentReview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) UpdateCommentContent(ctx context.Context, in *UpdateCommentContentReq, opts ...grpc.CallOption) (*CommentDetails, error) {
+	out := new(CommentDetails)
+	err := c.cc.Invoke(ctx, MessageRpc_UpdateCommentContent_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) LikeComment(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, MessageRpc_LikeComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageRpcClient) FindUserLikeComment(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeCommentResp, error) {
+	out := new(FindLikeCommentResp)
+	err := c.cc.Invoke(ctx, MessageRpc_FindUserLikeComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MessageRpcServer is the server API for MessageRpc service.
 // All implementations must embed UnimplementedMessageRpcServer
 // for forward compatibility
@@ -183,6 +303,26 @@ type MessageRpcServer interface {
 	GetRemark(context.Context, *IdReq) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error)
+	// 创建评论
+	AddComment(context.Context, *CommentNewReq) (*CommentDetails, error)
+	// 删除评论
+	DeleteComment(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询评论
+	GetComment(context.Context, *IdReq) (*CommentDetails, error)
+	// 查询评论列表
+	FindCommentList(context.Context, *FindCommentListReq) (*FindCommentListResp, error)
+	// 查询评论回复列表
+	FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error)
+	// 查询评论回复数量
+	FindTopicCommentCounts(context.Context, *IdsReq) (*FindTopicCommentCountsResp, error)
+	// 更新评论审核状态
+	UpdateCommentReview(context.Context, *UpdateCommentReviewReq) (*BatchResp, error)
+	// 更新评论
+	UpdateCommentContent(context.Context, *UpdateCommentContentReq) (*CommentDetails, error)
+	// 点赞评论
+	LikeComment(context.Context, *IdReq) (*EmptyResp, error)
+	// 用户点赞的评论
+	FindUserLikeComment(context.Context, *UserIdReq) (*FindLikeCommentResp, error)
 	mustEmbedUnimplementedMessageRpcServer()
 }
 
@@ -219,6 +359,36 @@ func (UnimplementedMessageRpcServer) GetRemark(context.Context, *IdReq) (*Remark
 }
 func (UnimplementedMessageRpcServer) FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRemarkList not implemented")
+}
+func (UnimplementedMessageRpcServer) AddComment(context.Context, *CommentNewReq) (*CommentDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddComment not implemented")
+}
+func (UnimplementedMessageRpcServer) DeleteComment(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
+}
+func (UnimplementedMessageRpcServer) GetComment(context.Context, *IdReq) (*CommentDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetComment not implemented")
+}
+func (UnimplementedMessageRpcServer) FindCommentList(context.Context, *FindCommentListReq) (*FindCommentListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentList not implemented")
+}
+func (UnimplementedMessageRpcServer) FindCommentReplyList(context.Context, *FindCommentReplyListReq) (*FindCommentReplyListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindCommentReplyList not implemented")
+}
+func (UnimplementedMessageRpcServer) FindTopicCommentCounts(context.Context, *IdsReq) (*FindTopicCommentCountsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindTopicCommentCounts not implemented")
+}
+func (UnimplementedMessageRpcServer) UpdateCommentReview(context.Context, *UpdateCommentReviewReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentReview not implemented")
+}
+func (UnimplementedMessageRpcServer) UpdateCommentContent(context.Context, *UpdateCommentContentReq) (*CommentDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentContent not implemented")
+}
+func (UnimplementedMessageRpcServer) LikeComment(context.Context, *IdReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LikeComment not implemented")
+}
+func (UnimplementedMessageRpcServer) FindUserLikeComment(context.Context, *UserIdReq) (*FindLikeCommentResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserLikeComment not implemented")
 }
 func (UnimplementedMessageRpcServer) mustEmbedUnimplementedMessageRpcServer() {}
 
@@ -413,6 +583,186 @@ func _MessageRpc_FindRemarkList_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MessageRpc_AddComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommentNewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).AddComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_AddComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).AddComment(ctx, req.(*CommentNewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).DeleteComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_DeleteComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).DeleteComment(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).GetComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_GetComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).GetComment(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_FindCommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindCommentListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).FindCommentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_FindCommentList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).FindCommentList(ctx, req.(*FindCommentListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_FindCommentReplyList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindCommentReplyListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).FindCommentReplyList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_FindCommentReplyList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).FindCommentReplyList(ctx, req.(*FindCommentReplyListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_FindTopicCommentCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).FindTopicCommentCounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_FindTopicCommentCounts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).FindTopicCommentCounts(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_UpdateCommentReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentReviewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).UpdateCommentReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_UpdateCommentReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).UpdateCommentReview(ctx, req.(*UpdateCommentReviewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_UpdateCommentContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentContentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).UpdateCommentContent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_UpdateCommentContent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).UpdateCommentContent(ctx, req.(*UpdateCommentContentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_LikeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).LikeComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_LikeComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).LikeComment(ctx, req.(*IdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageRpc_FindUserLikeComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).FindUserLikeComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_FindUserLikeComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).FindUserLikeComment(ctx, req.(*UserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MessageRpc_ServiceDesc is the grpc.ServiceDesc for MessageRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -459,6 +809,46 @@ var MessageRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindRemarkList",
 			Handler:    _MessageRpc_FindRemarkList_Handler,
+		},
+		{
+			MethodName: "AddComment",
+			Handler:    _MessageRpc_AddComment_Handler,
+		},
+		{
+			MethodName: "DeleteComment",
+			Handler:    _MessageRpc_DeleteComment_Handler,
+		},
+		{
+			MethodName: "GetComment",
+			Handler:    _MessageRpc_GetComment_Handler,
+		},
+		{
+			MethodName: "FindCommentList",
+			Handler:    _MessageRpc_FindCommentList_Handler,
+		},
+		{
+			MethodName: "FindCommentReplyList",
+			Handler:    _MessageRpc_FindCommentReplyList_Handler,
+		},
+		{
+			MethodName: "FindTopicCommentCounts",
+			Handler:    _MessageRpc_FindTopicCommentCounts_Handler,
+		},
+		{
+			MethodName: "UpdateCommentReview",
+			Handler:    _MessageRpc_UpdateCommentReview_Handler,
+		},
+		{
+			MethodName: "UpdateCommentContent",
+			Handler:    _MessageRpc_UpdateCommentContent_Handler,
+		},
+		{
+			MethodName: "LikeComment",
+			Handler:    _MessageRpc_LikeComment_Handler,
+		},
+		{
+			MethodName: "FindUserLikeComment",
+			Handler:    _MessageRpc_FindUserLikeComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

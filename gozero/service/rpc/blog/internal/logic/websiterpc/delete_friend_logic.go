@@ -1,9 +1,9 @@
-package friendrpclogic
+package websiterpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,13 +24,13 @@ func NewDeleteFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Dele
 }
 
 // 删除友链
-func (l *DeleteFriendLogic) DeleteFriend(in *friendrpc.IdsReq) (*friendrpc.BatchResp, error) {
+func (l *DeleteFriendLogic) DeleteFriend(in *websiterpc.IdsReq) (*websiterpc.BatchResp, error) {
 	rows, err := l.svcCtx.TFriendModel.Deletes(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	return &friendrpc.BatchResp{
+	return &websiterpc.BatchResp{
 		SuccessCount: rows,
 	}, nil
 }

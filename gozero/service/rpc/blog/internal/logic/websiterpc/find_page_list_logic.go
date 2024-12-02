@@ -1,10 +1,10 @@
-package pagerpclogic
+package websiterpclogic
 
 import (
 	"context"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 }
 
 // 查询页面列表
-func (l *FindPageListLogic) FindPageList(in *pagerpc.FindPageListReq) (*pagerpc.FindPageListResp, error) {
+func (l *FindPageListLogic) FindPageList(in *websiterpc.FindPageListReq) (*websiterpc.FindPageListResp, error) {
 	page, size, sorts, conditions, params := convertPageQuery(in)
 
 	result, err := l.svcCtx.TPageModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -33,17 +33,17 @@ func (l *FindPageListLogic) FindPageList(in *pagerpc.FindPageListReq) (*pagerpc.
 		return nil, err
 	}
 
-	var list []*pagerpc.PageDetails
+	var list []*websiterpc.PageDetails
 	for _, v := range result {
 		list = append(list, convertPageOut(v))
 	}
 
-	return &pagerpc.FindPageListResp{
+	return &websiterpc.FindPageListResp{
 		List: list,
 	}, nil
 }
 
-func convertPageQuery(in *pagerpc.FindPageListReq) (page int, size int, sorts string, conditions string, params []any) {
+func convertPageQuery(in *websiterpc.FindPageListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")

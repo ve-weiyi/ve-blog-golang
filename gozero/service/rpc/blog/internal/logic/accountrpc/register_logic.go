@@ -9,11 +9,13 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
 
@@ -76,6 +78,9 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 }
 
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.TUser, err error) {
+	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
+
 	// 邮箱注册
 	user := &model.TUser{
 		UserId:    uuid.NewString(),
@@ -88,8 +93,8 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 		Info:      "",
 		Status:    model.UserStatusNormal,
 		LoginType: model.LoginTypeEmail,
-		IpAddress: "",
-		IpSource:  "",
+		IpAddress: ip,
+		IpSource:  is,
 	}
 
 	return onRegister(l.ctx, l.svcCtx, tx, user)

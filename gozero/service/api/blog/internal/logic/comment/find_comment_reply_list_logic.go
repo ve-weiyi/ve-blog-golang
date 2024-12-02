@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 )
 
 type FindCommentReplyListLogic struct {
@@ -27,7 +27,7 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQueryReq) (resp *types.PageResp, err error) {
-	in := &commentrpc.FindCommentReplyListReq{
+	in := &messagerpc.FindCommentReplyListReq{
 		Page:       req.Page,
 		PageSize:   req.PageSize,
 		Sorts:      req.Sorts,
@@ -38,7 +38,7 @@ func (l *FindCommentReplyListLogic) FindCommentReplyList(req *types.CommentQuery
 	}
 
 	// 查找评论列表
-	out, err := l.svcCtx.CommentRpc.FindCommentReplyList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindCommentReplyList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

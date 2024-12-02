@@ -9,24 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/ws"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/friendrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/talkrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/config"
@@ -38,12 +35,9 @@ type ServiceContext struct {
 	AccountRpc    accountrpc.AccountRpc
 	PermissionRpc permissionrpc.PermissionRpc
 	ArticleRpc    articlerpc.ArticleRpc
-	CommentRpc    commentrpc.CommentRpc
 	MessageRpc    messagerpc.MessageRpc
-	PageRpc       pagerpc.PageRpc
 	PhotoRpc      photorpc.PhotoRpc
 	TalkRpc       talkrpc.TalkRpc
-	FriendRpc     friendrpc.FriendRpc
 	SyslogRpc     syslogrpc.SyslogRpc
 	WebsiteRpc    websiterpc.WebsiteRpc
 	ConfigRpc     configrpc.ConfigRpc
@@ -74,12 +68,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		AccountRpc:    accountrpc.NewAccountRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PermissionRpc: permissionrpc.NewPermissionRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ArticleRpc:    articlerpc.NewArticleRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		CommentRpc:    commentrpc.NewCommentRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		MessageRpc:    messagerpc.NewMessageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		PageRpc:       pagerpc.NewPageRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		PhotoRpc:      photorpc.NewPhotoRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		TalkRpc:       talkrpc.NewTalkRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		FriendRpc:     friendrpc.NewFriendRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		SyslogRpc:     syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
