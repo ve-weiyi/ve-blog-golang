@@ -22,6 +22,18 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 	}
 }
 
+// 获取身份标识
+func (s *WebsiteRpcServer) GetIdentity(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.GetIdentityResp, error) {
+	l := websiterpclogic.NewGetIdentityLogic(ctx, s.svcCtx)
+	return l.GetIdentity(in)
+}
+
+// 上报访问记录
+func (s *WebsiteRpcServer) Report(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.EmptyResp, error) {
+	l := websiterpclogic.NewReportLogic(ctx, s.svcCtx)
+	return l.Report(in)
+}
+
 // 用户日浏览量分析
 func (s *WebsiteRpcServer) GetUserDailyVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
 	l := websiterpclogic.NewGetUserDailyVisitLogic(ctx, s.svcCtx)

@@ -57,14 +57,9 @@ func (l *FindTagListLogic) FindTagList(in *articlerpc.FindTagListReq) (*articler
 		return nil, err
 	}
 
-	acm, err := helper.findArticleCountGroupTag(records)
+	list, err := helper.convertTagDetails(records)
 	if err != nil {
 		return nil, err
-	}
-
-	var list []*articlerpc.TagDetails
-	for _, v := range records {
-		list = append(list, convertTagOut(v, acm))
 	}
 
 	return &articlerpc.FindTagListResp{

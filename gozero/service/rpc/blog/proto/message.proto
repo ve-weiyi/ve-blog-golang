@@ -210,8 +210,14 @@ message FindTopicCommentCountsResp{
   map<int64, int64> topic_comment_counts = 1;
 }
 
+message AnalysisMessageResp {
+  int64 remark_count = 1;
+}
 
 service MessageRpc {
+  // 消息数据分析
+  rpc AnalysisMessage(EmptyReq) returns(AnalysisMessageResp);
+
   // 创建聊天记录
   rpc AddChatMessage(ChatMessageNewReq) returns(ChatMessageDetails);
   // 更新聊天记录

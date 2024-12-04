@@ -34,7 +34,7 @@ func (l *GetUserDailyVisitLogic) GetUserDailyVisit(in *websiterpc.EmptyReq) (*we
 	var list []*websiterpc.UserVisit
 	for _, v := range result {
 		uv := &websiterpc.UserVisit{
-			Date:      v.CreatedAt.Format(time.DateTime),
+			Date:      v.CreatedAt.Format(time.DateOnly),
 			ViewCount: v.ViewsCount,
 		}
 		list = append(list, uv)

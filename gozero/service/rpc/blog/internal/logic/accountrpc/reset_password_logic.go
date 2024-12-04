@@ -2,11 +2,11 @@ package accountrpclogic
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
@@ -42,7 +42,8 @@ func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*ac
 	}
 
 	// 验证code是否正确
-	key := fmt.Sprintf("%s:%s", constant.ResetPwd, in.Username)
+
+	key := rediskey.GetCaptchaKey(constant.ResetPwd, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, apierr.NewApiError(apierr.CodeCaptchaVerify, "验证码错误")
 	}

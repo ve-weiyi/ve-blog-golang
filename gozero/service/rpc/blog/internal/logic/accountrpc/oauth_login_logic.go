@@ -8,6 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
@@ -96,7 +97,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		Email:     info.Email,
 		Phone:     info.Mobile,
 		Info:      "",
-		Status:    model.UserStatusNormal,
+		Status:    constant.UserStatusNormal,
 		LoginType: platform,
 		IpAddress: ip,
 		IpSource:  is,
