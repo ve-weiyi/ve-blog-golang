@@ -18,7 +18,6 @@ type (
 	ArticleDetails             = articlerpc.ArticleDetails
 	ArticleNewReq              = articlerpc.ArticleNewReq
 	ArticlePreview             = articlerpc.ArticlePreview
-	ArticleRecommendResp       = articlerpc.ArticleRecommendResp
 	ArticleTag                 = articlerpc.ArticleTag
 	BatchResp                  = articlerpc.BatchResp
 	CategoryDetails            = articlerpc.CategoryDetails
@@ -28,48 +27,48 @@ type (
 	EmptyResp                  = articlerpc.EmptyResp
 	FindArticleListReq         = articlerpc.FindArticleListReq
 	FindArticleListResp        = articlerpc.FindArticleListResp
-	FindArticlePreviewListReq  = articlerpc.FindArticlePreviewListReq
 	FindArticlePreviewListResp = articlerpc.FindArticlePreviewListResp
 	FindCategoryListReq        = articlerpc.FindCategoryListReq
 	FindCategoryListResp       = articlerpc.FindCategoryListResp
 	FindLikeArticleResp        = articlerpc.FindLikeArticleResp
 	FindTagListReq             = articlerpc.FindTagListReq
 	FindTagListResp            = articlerpc.FindTagListResp
+	GetArticleRelationResp     = articlerpc.GetArticleRelationResp
 	IdReq                      = articlerpc.IdReq
 	IdsReq                     = articlerpc.IdsReq
-	RecycleArticleReq          = articlerpc.RecycleArticleReq
 	TagDetails                 = articlerpc.TagDetails
 	TagNewReq                  = articlerpc.TagNewReq
-	TopArticleReq              = articlerpc.TopArticleReq
+	UpdateArticleDeleteReq     = articlerpc.UpdateArticleDeleteReq
+	UpdateArticleTopReq        = articlerpc.UpdateArticleTopReq
 	UserIdReq                  = articlerpc.UserIdReq
 
 	ArticleRpc interface {
+		// 分析文章数量
+		AnalysisArticle(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
+		// 访问文章
+		VisitArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CountResp, error)
 		// 创建文章
-		AddArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticleDetails, error)
+		AddArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticlePreview, error)
 		// 更新文章
-		UpdateArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticleDetails, error)
+		UpdateArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticlePreview, error)
+		// 更新文章删除
+		UpdateArticleDelete(ctx context.Context, in *UpdateArticleDeleteReq, opts ...grpc.CallOption) (*ArticlePreview, error)
+		// 更新文章置顶
+		UpdateArticleTop(ctx context.Context, in *UpdateArticleTopReq, opts ...grpc.CallOption) (*ArticlePreview, error)
 		// 删除文章
 		DeleteArticle(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		// 查询文章
+		GetArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ArticleDetails, error)
+		// 查询关联文章
+		GetArticleRelation(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*GetArticleRelationResp, error)
 		// 查询文章列表
 		FindArticleList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
 		// 查询文章列表
-		FindArticlePublicList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error)
-		// 查询文章列表
-		FindArticlePreviewList(ctx context.Context, in *FindArticlePreviewListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error)
-		// 回收文章
-		RecycleArticle(ctx context.Context, in *RecycleArticleReq, opts ...grpc.CallOption) (*EmptyResp, error)
-		// 置顶文章
-		TopArticle(ctx context.Context, in *TopArticleReq, opts ...grpc.CallOption) (*EmptyResp, error)
-		// 查询文章
-		GetArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ArticleDetails, error)
-		// 查询文章推荐
-		GetArticleRecommend(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ArticleRecommendResp, error)
+		FindArticlePreviewList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error)
 		// 点赞文章
 		LikeArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 用户点赞的文章
 		FindUserLikeArticle(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeArticleResp, error)
-		// 查询文章数量
-		AnalysisArticle(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error)
 		// 创建文章分类
 		AddCategory(ctx context.Context, in *CategoryNewReq, opts ...grpc.CallOption) (*CategoryDetails, error)
 		// 更新文章分类
@@ -103,22 +102,58 @@ func NewArticleRpc(cli zrpc.Client) ArticleRpc {
 	}
 }
 
+// 分析文章数量
+func (m *defaultArticleRpc) AnalysisArticle(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.AnalysisArticle(ctx, in, opts...)
+}
+
+// 访问文章
+func (m *defaultArticleRpc) VisitArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*CountResp, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.VisitArticle(ctx, in, opts...)
+}
+
 // 创建文章
-func (m *defaultArticleRpc) AddArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticleDetails, error) {
+func (m *defaultArticleRpc) AddArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticlePreview, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.AddArticle(ctx, in, opts...)
 }
 
 // 更新文章
-func (m *defaultArticleRpc) UpdateArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticleDetails, error) {
+func (m *defaultArticleRpc) UpdateArticle(ctx context.Context, in *ArticleNewReq, opts ...grpc.CallOption) (*ArticlePreview, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.UpdateArticle(ctx, in, opts...)
+}
+
+// 更新文章删除
+func (m *defaultArticleRpc) UpdateArticleDelete(ctx context.Context, in *UpdateArticleDeleteReq, opts ...grpc.CallOption) (*ArticlePreview, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.UpdateArticleDelete(ctx, in, opts...)
+}
+
+// 更新文章置顶
+func (m *defaultArticleRpc) UpdateArticleTop(ctx context.Context, in *UpdateArticleTopReq, opts ...grpc.CallOption) (*ArticlePreview, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.UpdateArticleTop(ctx, in, opts...)
 }
 
 // 删除文章
 func (m *defaultArticleRpc) DeleteArticle(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.DeleteArticle(ctx, in, opts...)
+}
+
+// 查询文章
+func (m *defaultArticleRpc) GetArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ArticleDetails, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.GetArticle(ctx, in, opts...)
+}
+
+// 查询关联文章
+func (m *defaultArticleRpc) GetArticleRelation(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*GetArticleRelationResp, error) {
+	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
+	return client.GetArticleRelation(ctx, in, opts...)
 }
 
 // 查询文章列表
@@ -128,39 +163,9 @@ func (m *defaultArticleRpc) FindArticleList(ctx context.Context, in *FindArticle
 }
 
 // 查询文章列表
-func (m *defaultArticleRpc) FindArticlePublicList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticleListResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.FindArticlePublicList(ctx, in, opts...)
-}
-
-// 查询文章列表
-func (m *defaultArticleRpc) FindArticlePreviewList(ctx context.Context, in *FindArticlePreviewListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error) {
+func (m *defaultArticleRpc) FindArticlePreviewList(ctx context.Context, in *FindArticleListReq, opts ...grpc.CallOption) (*FindArticlePreviewListResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.FindArticlePreviewList(ctx, in, opts...)
-}
-
-// 回收文章
-func (m *defaultArticleRpc) RecycleArticle(ctx context.Context, in *RecycleArticleReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.RecycleArticle(ctx, in, opts...)
-}
-
-// 置顶文章
-func (m *defaultArticleRpc) TopArticle(ctx context.Context, in *TopArticleReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.TopArticle(ctx, in, opts...)
-}
-
-// 查询文章
-func (m *defaultArticleRpc) GetArticle(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ArticleDetails, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.GetArticle(ctx, in, opts...)
-}
-
-// 查询文章推荐
-func (m *defaultArticleRpc) GetArticleRecommend(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ArticleRecommendResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.GetArticleRecommend(ctx, in, opts...)
 }
 
 // 点赞文章
@@ -173,12 +178,6 @@ func (m *defaultArticleRpc) LikeArticle(ctx context.Context, in *IdReq, opts ...
 func (m *defaultArticleRpc) FindUserLikeArticle(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*FindLikeArticleResp, error) {
 	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
 	return client.FindUserLikeArticle(ctx, in, opts...)
-}
-
-// 查询文章数量
-func (m *defaultArticleRpc) AnalysisArticle(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisArticleResp, error) {
-	client := articlerpc.NewArticleRpcClient(m.cli.Conn())
-	return client.AnalysisArticle(ctx, in, opts...)
 }
 
 // 创建文章分类

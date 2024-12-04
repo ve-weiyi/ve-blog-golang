@@ -23,6 +23,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	MessageRpc_AnalysisMessage_FullMethodName        = "/messagerpc.MessageRpc/AnalysisMessage"
 	MessageRpc_AddChatMessage_FullMethodName         = "/messagerpc.MessageRpc/AddChatMessage"
 	MessageRpc_UpdateChatMessage_FullMethodName      = "/messagerpc.MessageRpc/UpdateChatMessage"
 	MessageRpc_DeletesChatMessage_FullMethodName     = "/messagerpc.MessageRpc/DeletesChatMessage"
@@ -49,6 +50,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageRpcClient interface {
+	// 消息数据分析
+	AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
 	// 创建聊天记录
 	AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
 	// 更新聊天记录
@@ -97,6 +100,15 @@ type messageRpcClient struct {
 
 func NewMessageRpcClient(cc grpc.ClientConnInterface) MessageRpcClient {
 	return &messageRpcClient{cc}
+}
+
+func (c *messageRpcClient) AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error) {
+	out := new(AnalysisMessageResp)
+	err := c.cc.Invoke(ctx, MessageRpc_AnalysisMessage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *messageRpcClient) AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
@@ -283,6 +295,8 @@ func (c *messageRpcClient) FindUserLikeComment(ctx context.Context, in *UserIdRe
 // All implementations must embed UnimplementedMessageRpcServer
 // for forward compatibility
 type MessageRpcServer interface {
+	// 消息数据分析
+	AnalysisMessage(context.Context, *EmptyReq) (*AnalysisMessageResp, error)
 	// 创建聊天记录
 	AddChatMessage(context.Context, *ChatMessageNewReq) (*ChatMessageDetails, error)
 	// 更新聊天记录
@@ -330,6 +344,9 @@ type MessageRpcServer interface {
 type UnimplementedMessageRpcServer struct {
 }
 
+func (UnimplementedMessageRpcServer) AnalysisMessage(context.Context, *EmptyReq) (*AnalysisMessageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnalysisMessage not implemented")
+}
 func (UnimplementedMessageRpcServer) AddChatMessage(context.Context, *ChatMessageNewReq) (*ChatMessageDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddChatMessage not implemented")
 }
@@ -401,6 +418,24 @@ type UnsafeMessageRpcServer interface {
 
 func RegisterMessageRpcServer(s grpc.ServiceRegistrar, srv MessageRpcServer) {
 	s.RegisterService(&MessageRpc_ServiceDesc, srv)
+}
+
+func _MessageRpc_AnalysisMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).AnalysisMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_AnalysisMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).AnalysisMessage(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _MessageRpc_AddChatMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -770,6 +805,10 @@ var MessageRpc_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "messagerpc.MessageRpc",
 	HandlerType: (*MessageRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AnalysisMessage",
+			Handler:    _MessageRpc_AnalysisMessage_Handler,
+		},
 		{
 			MethodName: "AddChatMessage",
 			Handler:    _MessageRpc_AddChatMessage_Handler,

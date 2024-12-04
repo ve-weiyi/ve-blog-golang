@@ -130,6 +130,12 @@ func (s *AccountRpcServer) FindUserLoginHistoryList(ctx context.Context, in *acc
 	return l.FindUserLoginHistoryList(in)
 }
 
+// 查询用户数量
+func (s *AccountRpcServer) AnalysisUser(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserResp, error) {
+	l := accountrpclogic.NewAnalysisUserLogic(ctx, s.svcCtx)
+	return l.AnalysisUser(in)
+}
+
 // 查询用户分布区域
 func (s *AccountRpcServer) GetUserAreasAnalysis(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.GetUserAreasAnalysisResp, error) {
 	l := accountrpclogic.NewGetUserAreasAnalysisLogic(ctx, s.svcCtx)

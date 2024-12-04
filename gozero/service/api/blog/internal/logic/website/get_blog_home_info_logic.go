@@ -34,6 +34,11 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
+	visit, err := l.svcCtx.WebsiteRpc.GetUserTotalVisit(l.ctx, &websiterpc.EmptyReq{})
+	if err != nil {
+		return nil, err
+	}
+
 	pages, err := l.svcCtx.WebsiteRpc.FindPageList(l.ctx, &websiterpc.FindPageListReq{})
 	if err != nil {
 		return nil, err
@@ -51,23 +56,21 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		ps = append(ps, p)
 	}
 
-	in := &configrpc.FindConfigReq{
+	conf, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, &configrpc.FindConfigReq{
 		ConfigKey: "website_config",
-	}
-
-	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)
+	})
 	if err != nil {
 		return nil, err
 	}
 
 	config := types.WebsiteConfigDTO{}
-	jsonconv.JsonToAny(out.ConfigValue, &config)
+	jsonconv.JsonToAny(conf.ConfigValue, &config)
 
 	resp = &types.GetBlogHomeInfoResp{
 		ArticleCount:  analysis.ArticleCount,
 		CategoryCount: analysis.CategoryCount,
 		TagCount:      analysis.TagCount,
-		ViewsCount:    0,
+		ViewsCount:    visit.Count,
 		WebsiteConfig: config,
 		PageList:      ps,
 	}
