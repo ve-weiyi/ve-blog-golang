@@ -1,10 +1,10 @@
-package pagerpclogic
+package websiterpclogic
 
 import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -26,7 +26,7 @@ func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLo
 }
 
 // 创建页面
-func (l *AddPageLogic) AddPage(in *pagerpc.PageNewReq) (*pagerpc.PageDetails, error) {
+func (l *AddPageLogic) AddPage(in *websiterpc.PageNewReq) (*websiterpc.PageDetails, error) {
 	entity := convertPageIn(in)
 
 	_, err := l.svcCtx.TPageModel.Insert(l.ctx, entity)
@@ -37,7 +37,7 @@ func (l *AddPageLogic) AddPage(in *pagerpc.PageNewReq) (*pagerpc.PageDetails, er
 	return convertPageOut(entity), nil
 }
 
-func convertPageIn(in *pagerpc.PageNewReq) (out *model.TPage) {
+func convertPageIn(in *websiterpc.PageNewReq) (out *model.TPage) {
 	out = &model.TPage{
 		Id:             in.Id,
 		PageName:       in.PageName,
@@ -51,8 +51,8 @@ func convertPageIn(in *pagerpc.PageNewReq) (out *model.TPage) {
 
 }
 
-func convertPageOut(in *model.TPage) (out *pagerpc.PageDetails) {
-	out = &pagerpc.PageDetails{
+func convertPageOut(in *model.TPage) (out *websiterpc.PageDetails) {
+	out = &websiterpc.PageDetails{
 		Id:             in.Id,
 		PageName:       in.PageName,
 		PageLabel:      in.PageLabel,

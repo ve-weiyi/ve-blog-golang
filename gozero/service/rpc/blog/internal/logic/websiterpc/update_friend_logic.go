@@ -1,9 +1,10 @@
-package friendrpclogic
+package websiterpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
+
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,7 +25,7 @@ func NewUpdateFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 }
 
 // 更新友链
-func (l *UpdateFriendLogic) UpdateFriend(in *friendrpc.FriendNewReq) (*friendrpc.FriendDetails, error) {
+func (l *UpdateFriendLogic) UpdateFriend(in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
 	entity := convertFriendIn(in)
 
 	_, err := l.svcCtx.TFriendModel.Save(l.ctx, entity)

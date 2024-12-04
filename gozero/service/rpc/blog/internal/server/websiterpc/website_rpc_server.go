@@ -22,8 +22,62 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 	}
 }
 
-// 用户日浏览量
+// 用户日浏览量分析
 func (s *WebsiteRpcServer) GetUserDailyVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
 	l := websiterpclogic.NewGetUserDailyVisitLogic(ctx, s.svcCtx)
 	return l.GetUserDailyVisit(in)
+}
+
+// 用户总流量数
+func (s *WebsiteRpcServer) GetUserTotalVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.CountResp, error) {
+	l := websiterpclogic.NewGetUserTotalVisitLogic(ctx, s.svcCtx)
+	return l.GetUserTotalVisit(in)
+}
+
+// 创建页面
+func (s *WebsiteRpcServer) AddPage(ctx context.Context, in *websiterpc.PageNewReq) (*websiterpc.PageDetails, error) {
+	l := websiterpclogic.NewAddPageLogic(ctx, s.svcCtx)
+	return l.AddPage(in)
+}
+
+// 更新页面
+func (s *WebsiteRpcServer) UpdatePage(ctx context.Context, in *websiterpc.PageNewReq) (*websiterpc.PageDetails, error) {
+	l := websiterpclogic.NewUpdatePageLogic(ctx, s.svcCtx)
+	return l.UpdatePage(in)
+}
+
+// 删除页面
+func (s *WebsiteRpcServer) DeletePage(ctx context.Context, in *websiterpc.IdsReq) (*websiterpc.BatchResp, error) {
+	l := websiterpclogic.NewDeletePageLogic(ctx, s.svcCtx)
+	return l.DeletePage(in)
+}
+
+// 查询页面列表
+func (s *WebsiteRpcServer) FindPageList(ctx context.Context, in *websiterpc.FindPageListReq) (*websiterpc.FindPageListResp, error) {
+	l := websiterpclogic.NewFindPageListLogic(ctx, s.svcCtx)
+	return l.FindPageList(in)
+}
+
+// 创建友链
+func (s *WebsiteRpcServer) AddFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
+	l := websiterpclogic.NewAddFriendLogic(ctx, s.svcCtx)
+	return l.AddFriend(in)
+}
+
+// 更新友链
+func (s *WebsiteRpcServer) UpdateFriend(ctx context.Context, in *websiterpc.FriendNewReq) (*websiterpc.FriendDetails, error) {
+	l := websiterpclogic.NewUpdateFriendLogic(ctx, s.svcCtx)
+	return l.UpdateFriend(in)
+}
+
+// 删除友链
+func (s *WebsiteRpcServer) DeleteFriend(ctx context.Context, in *websiterpc.IdsReq) (*websiterpc.BatchResp, error) {
+	l := websiterpclogic.NewDeleteFriendLogic(ctx, s.svcCtx)
+	return l.DeleteFriend(in)
+}
+
+// 查询友链列表
+func (s *WebsiteRpcServer) FindFriendList(ctx context.Context, in *websiterpc.FindFriendListReq) (*websiterpc.FindFriendListResp, error) {
+	l := websiterpclogic.NewFindFriendListLogic(ctx, s.svcCtx)
+	return l.FindFriendList(in)
 }

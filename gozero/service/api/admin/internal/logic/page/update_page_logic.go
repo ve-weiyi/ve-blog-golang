@@ -26,7 +26,7 @@ func NewUpdatePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdatePageLogic) UpdatePage(req *types.PageNewReq) (resp *types.PageBackDTO, err error) {
 	in := ConvertPagePb(req)
-	out, err := l.svcCtx.PageRpc.UpdatePage(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.UpdatePage(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

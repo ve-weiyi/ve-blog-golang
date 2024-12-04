@@ -1,9 +1,9 @@
-package pagerpclogic
+package websiterpclogic
 
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -24,13 +24,13 @@ func NewDeletePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 // 删除页面
-func (l *DeletePageLogic) DeletePage(in *pagerpc.IdsReq) (*pagerpc.BatchResp, error) {
+func (l *DeletePageLogic) DeletePage(in *websiterpc.IdsReq) (*websiterpc.BatchResp, error) {
 	rows, err := l.svcCtx.TPageModel.Deletes(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}
 
-	return &pagerpc.BatchResp{
+	return &websiterpc.BatchResp{
 		SuccessCount: rows,
 	}, nil
 }

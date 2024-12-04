@@ -1,10 +1,10 @@
-package friendrpclogic
+package websiterpclogic
 
 import (
 	"context"
 	"strings"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,7 +25,7 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 // 查询友链列表
-func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*friendrpc.FindFriendListResp, error) {
+func (l *FindFriendListLogic) FindFriendList(in *websiterpc.FindFriendListReq) (*websiterpc.FindFriendListResp, error) {
 	page, size, sorts, conditions, params := convertFriendQuery(in)
 
 	result, err := l.svcCtx.TFriendModel.FindList(l.ctx, page, size, sorts, conditions, params...)
@@ -38,18 +38,18 @@ func (l *FindFriendListLogic) FindFriendList(in *friendrpc.FindFriendListReq) (*
 		return nil, err
 	}
 
-	var list []*friendrpc.FriendDetails
+	var list []*websiterpc.FriendDetails
 	for _, v := range result {
 		list = append(list, convertFriendOut(v))
 	}
 
-	return &friendrpc.FindFriendListResp{
+	return &websiterpc.FindFriendListResp{
 		List:  list,
 		Total: count,
 	}, nil
 }
 
-func convertFriendQuery(in *friendrpc.FindFriendListReq) (page int, size int, sorts string, conditions string, params []any) {
+func convertFriendQuery(in *websiterpc.FindFriendListReq) (page int, size int, sorts string, conditions string, params []any) {
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
