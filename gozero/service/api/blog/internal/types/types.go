@@ -55,6 +55,8 @@ type ArticlePreview struct {
 	Id           int64  `json:"id"`            // 文章ID
 	ArticleCover string `json:"article_cover"` // 文章缩略图
 	ArticleTitle string `json:"article_title"` // 标题
+	LikeCount    int64  `json:"like_count"`    // 点赞量
+	ViewsCount   int64  `json:"views_count"`   // 浏览量
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 }
 
@@ -78,29 +80,6 @@ type Category struct {
 type CategoryQueryReq struct {
 	PageQuery
 	CategoryName string `json:"category_name,optional"` // 分类名
-}
-
-type ChatMessage struct {
-	Id          int64  `json:"id"`          // 主键
-	UserId      string `json:"user_id"`     // 用户id
-	Nickname    string `json:"nickname"`    // 昵称
-	Avatar      string `json:"avatar"`      // 头像
-	ChatContent string `json:"chatContent"` // 消息内容
-	IpAddress   string `json:"ip_address"`  // ip地址
-	IpSource    string `json:"ip_source"`   // ip来源
-	Type        string `json:"type"`        // 类型
-	CreatedAt   int64  `json:"created_at"`  // 创建时间
-	UpdatedAt   int64  `json:"updated_at"`  // 更新时间
-}
-
-type ChatMessageQueryReq struct {
-	After   int64  `json:"after,optional"`    // 起始时间
-	Before  int64  `json:"before,optional"`   // 结束时间
-	Limit   int64  `json:"limit,optional"`    // 限制数量
-	UserId  string `json:"user_id,optional"`  // 用户id
-	TopicId string `json:"topic_id,optional"` // 聊天室id
-	Keyword string `json:"keyword,optional"`  // 关键字
-	Type    string `json:"type,optional"`     // 类型
 }
 
 type ChatMsgReq struct {
@@ -344,6 +323,10 @@ type RemarkNewReq struct {
 
 type RemarkQueryReq struct {
 	PageQuery
+}
+
+type ReportResp struct {
+	TerminalId string `json:"terminal_id"`
 }
 
 type ResetPasswordReq struct {

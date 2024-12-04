@@ -34,10 +34,15 @@ type (
 @server(
     prefix: /admin_api/v1
     group: page
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
+    @doc "分页获取页面列表"
+    @handler FindPageList
+    post /page/find_page_list (PageQueryReq) returns (PageResp)
+
+
     @doc "创建页面"
     @handler AddPage
     post /page/add_page (PageNewReq) returns (PageBackDTO)
@@ -49,8 +54,4 @@ service admin-api {
     @doc "删除页面"
     @handler DeletePage
     delete /page/delete_page (IdReq) returns (BatchResp)
-
-    @doc "分页获取页面列表"
-    @handler FindPageList
-    post /page/find_page_list (PageQueryReq) returns (PageResp)
 }

@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type RecycleArticleLogic struct {
+type UpdateArticleDeleteLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewRecycleArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RecycleArticleLogic {
-	return &RecycleArticleLogic{
+func NewUpdateArticleDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateArticleDeleteLogic {
+	return &UpdateArticleDeleteLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 回收文章
-func (l *RecycleArticleLogic) RecycleArticle(in *articlerpc.RecycleArticleReq) (*articlerpc.EmptyResp, error) {
+// 更新文章删除
+func (l *UpdateArticleDeleteLogic) UpdateArticleDelete(in *articlerpc.UpdateArticleDeleteReq) (*articlerpc.ArticlePreview, error) {
 	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.ArticleId)
 	if err != nil {
 		return nil, err
@@ -36,5 +36,6 @@ func (l *RecycleArticleLogic) RecycleArticle(in *articlerpc.RecycleArticleReq) (
 		return nil, err
 	}
 
-	return &articlerpc.EmptyResp{}, nil
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
+	return helper.convertArticlePreviewOut(record), nil
 }

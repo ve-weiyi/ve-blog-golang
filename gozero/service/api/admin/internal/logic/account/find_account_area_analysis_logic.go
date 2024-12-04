@@ -35,10 +35,10 @@ func (l *FindAccountAreaAnalysisLogic) FindAccountAreaAnalysis(req *types.Accoun
 
 	// 分类
 	var list []*types.AccountArea
-	for _, item := range users.List {
+	for _, v := range users.List {
 		m := &types.AccountArea{
-			Name:  item.Region,
-			Value: item.Count,
+			Name:  v.Area,
+			Value: v.Count,
 		}
 
 		list = append(list, m)

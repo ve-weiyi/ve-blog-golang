@@ -28,26 +28,18 @@ type (
     }
 )
 
+
 @server(
     prefix: /admin_api/v1
     group: remark
-    middleware: SignToken
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
     @doc "分页获取留言列表"
     @handler FindRemarkList
     post /remark/find_remark_list (RemarkQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: remark
-    middleware: SignToken,JwtToken,Operation
-)
-
-service admin-api {
     @doc "更新留言"
     @handler UpdateRemark
     put /remark/update_remark (RemarkNewReq) returns (RemarkBackDTO)

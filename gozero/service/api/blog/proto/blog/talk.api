@@ -26,7 +26,7 @@ type (
 @server(
     prefix: /api/v1
     group: talk
-    middleware: SignToken
+    middleware: TimeToken
 )
 
 service blog-api {

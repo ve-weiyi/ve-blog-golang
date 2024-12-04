@@ -28,7 +28,6 @@ const (
 	HeaderRPCReferer      = "rpc-referer"
 	HeaderRPCForwardedFor = "rpc-forwarded-for"
 	HeaderRPCRealIP       = "rpc-real-ip"
-	//HeaderRemoteAddr    = "remote-addr"
 )
 
 // 自定义的HTTP请求头部字段
@@ -36,6 +35,7 @@ const (
 	// 通用请求头部
 	HeaderRemoteAddr = "remote-addr"
 	HeaderUserAgent  = "user-agent"
+	HeaderReferer    = "referer"
 
 	// 自定义请求头部
 	HeaderAppName   = "app-name"
@@ -43,14 +43,17 @@ const (
 	HeaderCountry   = "country"
 	HeaderLanguage  = "language"
 	HeaderTimestamp = "timestamp"
-	HeaderTerminal  = "terminal"
-	HeaderUid       = "uid"
+	// 游客id
+	HeaderTerminal = "terminal"
+	// 游客签名 token = md5(terminal,timestamp)
+	HeaderXAuthToken = "x-auth-token"
 
-	// 用户auth认证信息
-	HeaderAuthorization = "authorization"
-
-	// 用户token认证信息
+	// 用户id
+	HeaderUid = "uid"
+	// 用户token认证信息，与uid一起使用
 	HeaderToken = "token"
+	// 用户auth认证信息,与uid一起使用
+	HeaderAuthorization = "authorization"
 
 	// 防重放限制 sign=md5(id+ts+secret)
 	HeaderXRequestId   = "x-request-id"
@@ -64,13 +67,9 @@ var HeaderFields = []string{
 	HeaderCountry,
 	HeaderLanguage,
 	HeaderTimestamp,
+
 	HeaderTerminal,
 	HeaderUid,
-
-	HeaderAuthorization,
 	HeaderToken,
-
-	HeaderXRequestId,
-	HeaderXRequestTs,
-	HeaderXRequestSign,
+	HeaderAuthorization,
 }

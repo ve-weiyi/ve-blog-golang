@@ -3,6 +3,7 @@ package article
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
@@ -27,9 +28,12 @@ func NewFindArticleRecommendLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 func (l *FindArticleRecommendLogic) FindArticleRecommend(req *types.EmptyReq) (resp *types.PageResp, err error) {
 	in := &articlerpc.FindArticleListReq{
-		IsTop: 1,
+		IsTop:    constant.ArticleIsTopYes,
+		IsDelete: constant.ArticleIsDeleteNo,
+		Status:   constant.ArticleStatusPublic,
 	}
-	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
+
+	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

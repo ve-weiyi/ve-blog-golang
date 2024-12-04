@@ -27,11 +27,14 @@ type (
 	IdsReq             = websiterpc.IdsReq
 	PageDetails        = websiterpc.PageDetails
 	PageNewReq         = websiterpc.PageNewReq
+	ReportResp         = websiterpc.ReportResp
 	UserDailyVisitRsp  = websiterpc.UserDailyVisitRsp
 	UserIdReq          = websiterpc.UserIdReq
 	UserVisit          = websiterpc.UserVisit
 
 	WebsiteRpc interface {
+		// 上报访问记录
+		Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ReportResp, error)
 		// 用户日浏览量分析
 		GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
 		// 用户总流量数
@@ -63,6 +66,12 @@ func NewWebsiteRpc(cli zrpc.Client) WebsiteRpc {
 	return &defaultWebsiteRpc{
 		cli: cli,
 	}
+}
+
+// 上报访问记录
+func (m *defaultWebsiteRpc) Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ReportResp, error) {
+	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
+	return client.Report(ctx, in, opts...)
 }
 
 // 用户日浏览量分析

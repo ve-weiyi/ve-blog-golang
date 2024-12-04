@@ -22,6 +22,12 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 	}
 }
 
+// 上报访问记录
+func (s *WebsiteRpcServer) Report(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.ReportResp, error) {
+	l := websiterpclogic.NewReportLogic(ctx, s.svcCtx)
+	return l.Report(in)
+}
+
 // 用户日浏览量分析
 func (s *WebsiteRpcServer) GetUserDailyVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
 	l := websiterpclogic.NewGetUserDailyVisitLogic(ctx, s.svcCtx)

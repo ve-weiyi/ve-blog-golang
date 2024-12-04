@@ -56,14 +56,9 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 		return nil, err
 	}
 
-	acm, err := helper.findArticleCountGroupCategory(records)
+	list, err := helper.convertCategoryDetails(records)
 	if err != nil {
 		return nil, err
-	}
-
-	var list []*articlerpc.CategoryDetails
-	for _, v := range records {
-		list = append(list, convertCategoryOut(v, acm))
 	}
 
 	return &articlerpc.FindCategoryListResp{

@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"strings"
 	"time"
 
 	"github.com/spf13/cast"
@@ -54,26 +53,20 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 }
 
 func createToken(ctx context.Context, svcCtx *svc.ServiceContext, login *accountrpc.LoginResp) (token *types.Token, err error) {
-	expiresIn := time.Now().Add(7 * 24 * time.Hour).Unix()
+	expires := 7 * 24 * time.Hour
 	uid := login.UserId
-
-	var roles []string
-	for _, role := range login.Roles {
-		roles = append(roles, role.RoleName)
-	}
 
 	accessToken, err := svcCtx.TokenHolder.CreateToken(
 		ctx,
 		cast.ToString(uid),
-		strings.Join(roles, ","),
-		expiresIn,
+		expires,
 	)
 
 	token = &types.Token{
 		UserId:      uid,
 		TokenType:   "Bearer",
 		AccessToken: accessToken,
-		ExpiresIn:   expiresIn,
+		ExpiresIn:   time.Now().Add(expires).Unix(),
 	}
 
 	// 生成token

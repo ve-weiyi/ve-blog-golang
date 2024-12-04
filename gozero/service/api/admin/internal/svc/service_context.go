@@ -9,24 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
-
-	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
-
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rbacx"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/configrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/photorpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/resourcerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/talkrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 )
 
 type ServiceContext struct {
@@ -44,12 +41,12 @@ type ServiceContext struct {
 	ResourceRpc   resourcerpc.ResourceRpc
 
 	Redis       *redis.Redis
-	TokenHolder *tokenx.JwtTokenHolder
 	RbacHolder  *rbacx.RbacHolder
+	TokenHolder tokenx.TokenHolder
 	Uploader    oss.OSS
 
+	TimeToken rest.Middleware
 	JwtToken  rest.Middleware
-	SignToken rest.Middleware
 	Operation rest.Middleware
 }
 
@@ -79,12 +76,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		Uploader:      oss.NewQiniu(c.UploadConfig),
-		TokenHolder:   th,
-		Redis:         rds,
-		RbacHolder:    rh,
-		JwtToken:      middlewarex.NewJwtTokenMiddleware(th).Handle,
-		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
+
+		Redis:       rds,
+		Uploader:    oss.NewQiniu(c.UploadConfig),
+		TokenHolder: th,
+		RbacHolder:  rh,
+		TimeToken:   middlewarex.NewTimeTokenMiddleware().Handle,
+		JwtToken:    middlewarex.NewJwtTokenMiddleware(th).Handle,
 		Operation: middlewarex.NewOperationMiddleware(
 			rh,
 			syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),

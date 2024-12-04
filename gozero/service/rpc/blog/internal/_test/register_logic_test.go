@@ -4,6 +4,8 @@ import (
 	"log"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tracex"
 	accountrpclogic "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/logic/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
@@ -19,9 +21,7 @@ func TestTxRegister(t *testing.T) {
 	}
 
 	register, err := accountrpclogic.NewRegisterLogic(ctx, tsc).Register(in)
-	if err != nil {
-		log.Fatal(err)
-	}
+	assert.Equal(t, nil, err)
 
 	log.Println(register)
 }
