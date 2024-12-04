@@ -8,12 +8,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 )
 
 type OauthLoginLogic struct {
@@ -81,6 +83,9 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	// 使用第三方注册时，username需要唯一, 用户不能使用username登录，所以使用uuid生成。
 	username := uid
 
+	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
+
 	// 用户账号
 	user := &model.TUser{
 		UserId:    uid,
@@ -93,8 +98,8 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		Info:      "",
 		Status:    model.UserStatusNormal,
 		LoginType: platform,
-		IpAddress: "",
-		IpSource:  "",
+		IpAddress: ip,
+		IpSource:  is,
 	}
 
 	/** 创建用户 **/

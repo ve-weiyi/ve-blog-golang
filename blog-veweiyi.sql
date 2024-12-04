@@ -402,7 +402,7 @@ CREATE TABLE `t_user_login_history` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` varchar(64) NOT NULL DEFAULT '' COMMENT '用户id',
   `login_type` varchar(64) NOT NULL DEFAULT '' COMMENT '登录类型',
-  `agent` varchar(255) NOT NULL DEFAULT '' COMMENT '代理',
+  `agent` varchar(1024) NOT NULL DEFAULT '' COMMENT '代理',
   `ip_address` varchar(255) NOT NULL DEFAULT '' COMMENT 'ip host',
   `ip_source` varchar(255) NOT NULL DEFAULT '' COMMENT 'ip 源',
   `login_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
