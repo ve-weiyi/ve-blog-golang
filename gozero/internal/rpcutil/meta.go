@@ -39,6 +39,21 @@ func GetRPCUserId(ctx context.Context) (string, error) {
 	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderUid)
 }
 
+func GetRPCTerminalId(ctx context.Context) (string, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return "", fmt.Errorf("metadata error")
+	}
+
+	if val, ok := md[headerconst.HeaderTerminal]; ok {
+		if len(val) > 0 {
+			return val[0], nil
+		}
+	}
+
+	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderTerminal)
+}
+
 func GetRPCUserAgent(ctx context.Context) (string, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {

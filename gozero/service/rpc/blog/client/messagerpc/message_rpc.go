@@ -13,6 +13,7 @@ import (
 )
 
 type (
+	AnalysisMessageResp        = messagerpc.AnalysisMessageResp
 	BatchResp                  = messagerpc.BatchResp
 	ChatMessageDetails         = messagerpc.ChatMessageDetails
 	ChatMessageNewReq          = messagerpc.ChatMessageNewReq
@@ -42,6 +43,8 @@ type (
 	UserIdReq                  = messagerpc.UserIdReq
 
 	MessageRpc interface {
+		// 消息数据分析
+		AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
 		// 创建聊天记录
 		AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
 		// 更新聊天记录
@@ -95,6 +98,12 @@ func NewMessageRpc(cli zrpc.Client) MessageRpc {
 	return &defaultMessageRpc{
 		cli: cli,
 	}
+}
+
+// 消息数据分析
+func (m *defaultMessageRpc) AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error) {
+	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
+	return client.AnalysisMessage(ctx, in, opts...)
 }
 
 // 创建聊天记录
