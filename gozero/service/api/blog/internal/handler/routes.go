@@ -28,6 +28,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 身份标识
+				Method:  http.MethodGet,
+				Path:    "/identity",
+				Handler: IdentityHandler(serverCtx),
+			},
+			{
 				// ping
 				Method:  http.MethodGet,
 				Path:    "/ping",
@@ -454,6 +460,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/blog/about_me",
 					Handler: website.GetAboutMeHandler(serverCtx),
+				},
+				{
+					// 访客上报
+					Method:  http.MethodGet,
+					Path:    "/report",
+					Handler: website.ReportHandler(serverCtx),
 				},
 			}...,
 		),

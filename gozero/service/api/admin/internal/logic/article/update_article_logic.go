@@ -31,6 +31,7 @@ func (l *UpdateArticleLogic) UpdateArticle(req *types.ArticleNewReq) (resp *type
 		return nil, err
 	}
 
-	resp = ConvertArticleTypes(out)
-	return resp, nil
+	return &types.ArticleBackDTO{
+		Id: out.Id,
+	}, nil
 }

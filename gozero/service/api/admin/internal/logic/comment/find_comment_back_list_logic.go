@@ -64,7 +64,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	// 查询文章信息
-	topics, err := l.svcCtx.ArticleRpc.FindArticlePreviewList(l.ctx, &articlerpc.FindArticlePreviewListReq{
+	topics, err := l.svcCtx.ArticleRpc.FindArticlePreviewList(l.ctx, &articlerpc.FindArticleListReq{
 		Ids: aids,
 	})
 

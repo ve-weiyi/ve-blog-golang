@@ -23,6 +23,7 @@ type (
 	FindPageListResp   = websiterpc.FindPageListResp
 	FriendDetails      = websiterpc.FriendDetails
 	FriendNewReq       = websiterpc.FriendNewReq
+	GetIdentityResp    = websiterpc.GetIdentityResp
 	IdReq              = websiterpc.IdReq
 	IdsReq             = websiterpc.IdsReq
 	PageDetails        = websiterpc.PageDetails
@@ -32,6 +33,10 @@ type (
 	UserVisit          = websiterpc.UserVisit
 
 	WebsiteRpc interface {
+		// 获取身份标识
+		GetIdentity(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetIdentityResp, error)
+		// 上报访问记录
+		Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 用户日浏览量分析
 		GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
 		// 用户总流量数
@@ -63,6 +68,18 @@ func NewWebsiteRpc(cli zrpc.Client) WebsiteRpc {
 	return &defaultWebsiteRpc{
 		cli: cli,
 	}
+}
+
+// 获取身份标识
+func (m *defaultWebsiteRpc) GetIdentity(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetIdentityResp, error) {
+	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
+	return client.GetIdentity(ctx, in, opts...)
+}
+
+// 上报访问记录
+func (m *defaultWebsiteRpc) Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
+	return client.Report(ctx, in, opts...)
 }
 
 // 用户日浏览量分析

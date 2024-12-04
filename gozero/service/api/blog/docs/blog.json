@@ -626,6 +626,23 @@
         ]
       }
     },
+    "/api/v1/identity": {
+      "get": {
+        "summary": "身份标识",
+        "operationId": "Identity",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IdentityResp"
+            }
+          }
+        },
+        "tags": [
+          "blog-api"
+        ]
+      }
+    },
     "/api/v1/login": {
       "post": {
         "summary": "登录",
@@ -889,6 +906,23 @@
         ],
         "tags": [
           "remark"
+        ]
+      }
+    },
+    "/api/v1/report": {
+      "get": {
+        "summary": "访客上报",
+        "operationId": "Report",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "tags": [
+          "website"
         ]
       }
     },
@@ -1536,6 +1570,16 @@
           "type": "string",
           "description": " 标题"
         },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        },
         "created_at": {
           "type": "integer",
           "format": "int64",
@@ -1547,6 +1591,8 @@
         "id",
         "article_cover",
         "article_title",
+        "like_count",
+        "views_count",
         "created_at"
       ]
     },
@@ -2290,6 +2336,18 @@
       "title": "IdReq",
       "required": [
         "id"
+      ]
+    },
+    "IdentityResp": {
+      "type": "object",
+      "properties": {
+        "terminal_id": {
+          "type": "string"
+        }
+      },
+      "title": "IdentityResp",
+      "required": [
+        "terminal_id"
       ]
     },
     "IdsReq": {

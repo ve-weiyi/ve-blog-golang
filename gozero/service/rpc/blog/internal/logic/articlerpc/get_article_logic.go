@@ -32,16 +32,10 @@ func (l *GetArticleLogic) GetArticle(in *articlerpc.IdReq) (*articlerpc.ArticleD
 		return nil, err
 	}
 
-	acm, err := helper.findCategoryGroupArticle([]*model.TArticle{record})
-	if err != nil {
-		return nil, err
-
-	}
-
-	atm, err := helper.findTagGroupArticle([]*model.TArticle{record})
+	acm, err := helper.convertArticleDetails([]*model.TArticle{record})
 	if err != nil {
 		return nil, err
 	}
 
-	return convertArticleOut(record, acm, atm), nil
+	return acm[0], nil
 }

@@ -30,15 +30,15 @@ type AccountQuery struct {
 }
 
 type AdminHomeInfo struct {
-	ViewsCount            int64                   `json:"views_count"`             // 访问量
-	MessageCount          int64                   `json:"message_count"`           // 留言量
-	UserCount             int64                   `json:"user_count"`              // 用户量
-	ArticleCount          int64                   `json:"article_count"`           // 文章量
-	CategoryList          []*CategoryDTO          `json:"category_list"`           // 分类列表
-	TagList               []*TagDTO               `json:"tag_list"`                // 标签列表
-	ArticleViewRankList   []*ArticleViewRankDTO   `json:"article_view_rank_list"`  // 文章浏览量排行
-	ArticleStatisticsList []*ArticleStatisticsDTO `json:"article_statistics_list"` // 每日文章生产量
-	UniqueViewList        []*UniqueViewDTO        `json:"unique_view_list"`        // 每日用户访问量
+	ViewCount         int64                   `json:"view_count"`         // 访问量
+	UserCount         int64                   `json:"user_count"`         // 用户量
+	ArticleCount      int64                   `json:"article_count"`      // 文章量
+	RemarkCount       int64                   `json:"remark_count"`       // 留言量
+	CategoryList      []*CategoryDTO          `json:"category_list"`      // 分类列表
+	TagList           []*TagDTO               `json:"tag_list"`           // 标签列表
+	ArticleViewRanks  []*ArticleViewDTO       `json:"article_view_ranks"` // 文章浏览量排行
+	ArticleStatistics []*ArticleStatisticsDTO `json:"article_statistics"` // 文章提交统计
+	UserVisitDaliy    []*UserVisitDTO         `json:"user_visit_daliy"`   // 用户每日访问量
 }
 
 type AlbumBackDTO struct {
@@ -153,23 +153,14 @@ type ArticleTopReq struct {
 	IsTop int64 `json:"is_top"`      // 是否置顶
 }
 
-type ArticleViewRankDTO struct {
+type ArticleViewDTO struct {
 	Id           int64  `json:"id,optional"`   // 文章ID
 	ArticleTitle string `json:"article_title"` // 文章标题
-	Count        int64  `json:"count"`         // 数量
+	ViewCount    int64  `json:"view_count"`    // 浏览量
 }
 
 type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
-}
-
-type BlogHomeInfo struct {
-	ArticleCount  int64         `json:"article_count"`  // 文章数量
-	CategoryCount int64         `json:"category_count"` // 分类数量
-	TagCount      int64         `json:"tag_count"`      // 标签数量
-	ViewsCount    string        `json:"views_count"`    // 访问量
-	WebsiteConfig WebsiteConfig `json:"website_config"` // 网站配置
-	PageList      []*PageDTO    `json:"page_list"`      // 页面列表
 }
 
 type CategoryBackDTO struct {
@@ -183,6 +174,7 @@ type CategoryBackDTO struct {
 type CategoryDTO struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name"` // 分类名
+	ArticleCount int64  `json:"article_count"` // 文章数量
 }
 
 type CategoryNewReq struct {
@@ -386,13 +378,6 @@ type PageBackDTO struct {
 	UpdatedAt      int64    `json:"updated_at"`      // 更新时间
 }
 
-type PageDTO struct {
-	Id        int64  `json:"id,optional"` // 页面ID
-	PageName  string `json:"page_name"`   // 页面名称
-	PageLabel string `json:"page_label"`  // 页面标签
-	PageCover string `json:"page_cover"`  // 页面封面
-}
-
 type PageNewReq struct {
 	Id             int64    `json:"id,optional"`              // 页面id
 	PageName       string   `json:"page_name"`                // 页面名
@@ -557,8 +542,9 @@ type TagBackDTO struct {
 }
 
 type TagDTO struct {
-	Id      int64  `json:"id,optional"` // 标签ID
-	TagName string `json:"tag_name"`    // 标签名
+	Id           int64  `json:"id,optional"`   // 标签ID
+	TagName      string `json:"tag_name"`      // 标签名
+	ArticleCount int64  `json:"article_count"` // 文章数量
 }
 
 type TagNewReq struct {
@@ -607,11 +593,6 @@ type Token struct {
 	RefreshToken     string `json:"refresh_token"`      // 刷新token,过期时间较长。30d
 	RefreshExpiresIn int64  `json:"refresh_expires_in"` // 刷新token过期时间
 	Scope            string `json:"scope"`              // 作用域
-}
-
-type UniqueViewDTO struct {
-	Date  string `json:"date"`  // 日期
-	Count int64  `json:"count"` // 数量
 }
 
 type UpdateAccountRolesReq struct {
@@ -740,6 +721,11 @@ type UserRoleLabel struct {
 
 type UserRolesResp struct {
 	List []*UserRole `json:"list"`
+}
+
+type UserVisitDTO struct {
+	Date  string `json:"date"`  // 日期
+	Count int64  `json:"count"` // 数量
 }
 
 type WebsiteConfig struct {

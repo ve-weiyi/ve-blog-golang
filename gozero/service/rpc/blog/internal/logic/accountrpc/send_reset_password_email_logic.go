@@ -2,9 +2,9 @@ package accountrpclogic
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
@@ -44,7 +44,7 @@ func (l *SendResetPasswordEmailLogic) SendResetPasswordEmail(in *accountrpc.User
 	}
 
 	// 发送验证码邮件
-	key := fmt.Sprintf("%s:%s", constant.ResetPwd, in.Username)
+	key := rediskey.GetCaptchaKey(constant.ResetPwd, in.Username)
 	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: in.Username,

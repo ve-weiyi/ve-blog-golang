@@ -35,8 +35,9 @@ func (l *AddArticleLogic) AddArticle(req *types.ArticleNewReq) (resp *types.Arti
 		return nil, err
 	}
 
-	resp = ConvertArticleTypes(out)
-	return resp, nil
+	return &types.ArticleBackDTO{
+		Id: out.Id,
+	}, nil
 }
 
 func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {

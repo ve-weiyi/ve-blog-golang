@@ -3,6 +3,7 @@ package websiterpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 
@@ -25,7 +26,13 @@ func NewGetUserTotalVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 // 用户总流量数
 func (l *GetUserTotalVisitLogic) GetUserTotalVisit(in *websiterpc.EmptyReq) (*websiterpc.CountResp, error) {
-	// todo: add your logic here and delete this line
+	totalKey := rediskey.GetBlogViewCountKey()
+	total, err := l.svcCtx.Redis.Get(l.ctx, totalKey).Int64()
+	if err != nil {
+		return nil, err
+	}
 
-	return &websiterpc.CountResp{}, nil
+	return &websiterpc.CountResp{
+		Count: total,
+	}, nil
 }

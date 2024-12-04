@@ -55,6 +55,8 @@ type ArticlePreview struct {
 	Id           int64  `json:"id"`            // 文章ID
 	ArticleCover string `json:"article_cover"` // 文章缩略图
 	ArticleTitle string `json:"article_title"` // 标题
+	LikeCount    int64  `json:"like_count"`    // 点赞量
+	ViewsCount   int64  `json:"views_count"`   // 浏览量
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 }
 
@@ -231,6 +233,10 @@ type GetBlogHomeInfoResp struct {
 
 type IdReq struct {
 	Id int64 `json:"id"`
+}
+
+type IdentityResp struct {
+	TerminalId string `json:"terminal_id"`
 }
 
 type IdsReq struct {

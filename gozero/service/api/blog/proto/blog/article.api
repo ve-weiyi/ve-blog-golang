@@ -24,10 +24,12 @@ type (
 
         // 文章预览
     ArticlePreview {
-        Id int64 `json:"id"`                       // 文章ID
-        ArticleCover string `json:"article_cover"` // 文章缩略图
-        ArticleTitle string `json:"article_title"` // 标题
-        CreatedAt int64 `json:"created_at"`        // 创建时间
+        Id int64 `json:"id"`                                                 // 文章ID
+        ArticleCover string `json:"article_cover"`                           // 文章缩略图
+        ArticleTitle string `json:"article_title"`                           // 标题
+        LikeCount int64 `json:"like_count"`                                  // 点赞量
+        ViewsCount int64 `json:"views_count"`                                // 浏览量
+        CreatedAt int64 `json:"created_at"`                                  // 创建时间
     }
 
         // 文章推荐详情

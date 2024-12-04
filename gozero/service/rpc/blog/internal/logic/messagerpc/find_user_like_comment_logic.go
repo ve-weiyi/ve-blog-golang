@@ -37,8 +37,8 @@ func (l *FindUserLikeCommentLogic) FindUserLikeComment(in *messagerpc.UserIdReq)
 	}
 
 	ids := make([]int64, 0)
-	for k, _ := range result {
-		ids = append(ids, cast.ToInt64(k))
+	for _, v := range result {
+		ids = append(ids, cast.ToInt64(v))
 	}
 
 	return &messagerpc.FindLikeCommentResp{

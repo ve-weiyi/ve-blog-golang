@@ -75,18 +75,13 @@ message ArticleDetails {
   int64 view_count = 17;// 查看数量
 }
 
-message ArticleRecommendResp {
-  ArticlePreview last = 1;
-  ArticlePreview next = 2;
-  repeated ArticlePreview recommend = 3;
-  repeated ArticlePreview newest = 4;
-}
-
 message ArticlePreview {
   int64 id = 1;// id
   string article_cover = 4;// 文章缩略图
   string article_title = 5;// 标题
   int64 created_at = 12;// 发表时间
+  int64 like_count = 16;// 点赞数
+  int64 view_count = 17;// 查看数量
 }
 
 message ArticleCategory {
@@ -99,12 +94,12 @@ message ArticleTag{
   string tag_name = 2;// 标签名
 }
 
-message RecycleArticleReq{
+message UpdateArticleDeleteReq{
   int64 article_id = 1;
   int64 is_delete = 2;// 是否删除  0否 1是
 }
 
-message TopArticleReq{
+message UpdateArticleTopReq{
   int64 article_id = 1;
   int64 is_top = 2;// 是否置顶 0否 1是
 }
@@ -120,15 +115,12 @@ message FindArticleListReq{
   int64 is_top = 9;// 是否置顶 0否 1是
   int64 is_delete = 10;// 是否删除  0否 1是
   int64 status = 11;// 状态值 1公开 2私密 3草稿 4已删除
+  repeated int64 ids = 12; //文章id列表
 }
 
 message FindArticleListResp {
-  int64 total = 1;
-  repeated ArticleDetails list = 2;
-}
-
-message FindArticlePreviewListReq{
-  repeated int64 ids = 1;
+  repeated ArticleDetails list = 1;
+  int64 total = 2;
 }
 
 message FindArticlePreviewListResp{
@@ -193,39 +185,50 @@ message AnalysisArticleResp{
   int64 article_count = 1;
   int64 category_count = 2;
   int64 tag_count = 3;
+
+  repeated CategoryDetails category_list = 4;
+  repeated TagDetails tag_list = 5;
+  repeated ArticlePreview article_rank_list = 6; // 文章浏览排序
+}
+
+message GetArticleRelationResp {
+  ArticlePreview last = 1;
+  ArticlePreview next = 2;
+  repeated ArticlePreview recommend = 3;
+  repeated ArticlePreview newest = 4;
 }
 
 // article服务
 service ArticleRpc {
+  // 分析文章数量
+  rpc AnalysisArticle(EmptyReq) returns(AnalysisArticleResp);
+  // 访问文章
+  rpc VisitArticle(IdReq) returns(CountResp);
+
   // 创建文章
-  rpc AddArticle(ArticleNewReq) returns(ArticleDetails);
+  rpc AddArticle(ArticleNewReq) returns(ArticlePreview);
   // 更新文章
-  rpc UpdateArticle(ArticleNewReq) returns(ArticleDetails);
+  rpc UpdateArticle(ArticleNewReq) returns(ArticlePreview);
+  // 更新文章删除
+  rpc UpdateArticleDelete(UpdateArticleDeleteReq) returns(ArticlePreview);
+  // 更新文章置顶
+  rpc UpdateArticleTop(UpdateArticleTopReq) returns(ArticlePreview);
   // 删除文章
   rpc DeleteArticle(IdsReq) returns(BatchResp);
+  // 查询文章
+  rpc GetArticle(IdReq) returns(ArticleDetails);
+  // 查询关联文章
+  rpc GetArticleRelation(IdReq) returns(GetArticleRelationResp);
+
   // 查询文章列表
   rpc FindArticleList(FindArticleListReq) returns(FindArticleListResp);
   // 查询文章列表
-  rpc FindArticlePublicList(FindArticleListReq) returns(FindArticleListResp);
-  // 查询文章列表
-  rpc FindArticlePreviewList(FindArticlePreviewListReq) returns(FindArticlePreviewListResp);
-  // 回收文章
-  rpc RecycleArticle(RecycleArticleReq) returns(EmptyResp);
-  // 置顶文章
-  rpc TopArticle(TopArticleReq) returns(EmptyResp);
-  // 查询文章
-  rpc GetArticle(IdReq) returns(ArticleDetails);
-  // 查询文章推荐
-  rpc GetArticleRecommend(IdReq) returns(ArticleRecommendResp);
-
+  rpc FindArticlePreviewList(FindArticleListReq) returns(FindArticlePreviewListResp);
 
   // 点赞文章
   rpc LikeArticle(IdReq) returns(EmptyResp);
   // 用户点赞的文章
   rpc FindUserLikeArticle(UserIdReq) returns(FindLikeArticleResp);
-
-  // 查询文章数量
-  rpc AnalysisArticle(EmptyReq) returns(AnalysisArticleResp);
 
   // 创建文章分类
   rpc AddCategory(CategoryNewReq) returns(CategoryDetails);

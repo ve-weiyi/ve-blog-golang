@@ -2841,15 +2841,10 @@
     "AdminHomeInfo": {
       "type": "object",
       "properties": {
-        "views_count": {
+        "view_count": {
           "type": "integer",
           "format": "int64",
           "description": " 访问量"
-        },
-        "message_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 留言量"
         },
         "user_count": {
           "type": "integer",
@@ -2860,6 +2855,11 @@
           "type": "integer",
           "format": "int64",
           "description": " 文章量"
+        },
+        "remark_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 留言量"
         },
         "category_list": {
           "type": "array",
@@ -2875,39 +2875,39 @@
           },
           "description": " 标签列表"
         },
-        "article_view_rank_list": {
+        "article_view_rank": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ArticleViewRankDTO"
+            "$ref": "#/definitions/ArticleViewDTO"
           },
           "description": " 文章浏览量排行"
         },
-        "article_statistics_list": {
+        "article_statistics": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ArticleStatisticsDTO"
           },
-          "description": " 每日文章生产量"
+          "description": " 文章提交统计"
         },
-        "unique_view_list": {
+        "user_visit_daliy": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/UniqueViewDTO"
+            "$ref": "#/definitions/UserVisitDTO"
           },
-          "description": " 每日用户访问量"
+          "description": " 用户每日访问量"
         }
       },
       "title": "AdminHomeInfo",
       "required": [
-        "views_count",
-        "message_count",
+        "view_count",
         "user_count",
         "article_count",
+        "remark_count",
         "category_list",
         "tag_list",
-        "article_view_rank_list",
-        "article_statistics_list",
-        "unique_view_list"
+        "article_view_rank",
+        "article_statistics",
+        "user_visit_daliy"
       ]
     },
     "AlbumBackDTO": {
@@ -3440,7 +3440,7 @@
         "is_top"
       ]
     },
-    "ArticleViewRankDTO": {
+    "ArticleViewDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3452,16 +3452,16 @@
           "type": "string",
           "description": " 文章标题"
         },
-        "count": {
+        "view_count": {
           "type": "integer",
           "format": "int64",
-          "description": " 数量"
+          "description": " 浏览量"
         }
       },
-      "title": "ArticleViewRankDTO",
+      "title": "ArticleViewDTO",
       "required": [
         "article_title",
-        "count"
+        "view_count"
       ]
     },
     "BatchResp": {
@@ -3475,50 +3475,6 @@
       "title": "BatchResp",
       "required": [
         "success_count"
-      ]
-    },
-    "BlogHomeInfo": {
-      "type": "object",
-      "properties": {
-        "article_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文章数量"
-        },
-        "category_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 分类数量"
-        },
-        "tag_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 标签数量"
-        },
-        "views_count": {
-          "type": "string",
-          "description": " 访问量"
-        },
-        "website_config": {
-          "$ref": "#/definitions/WebsiteConfig",
-          "description": " 网站配置"
-        },
-        "page_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PageDTO"
-          },
-          "description": " 页面列表"
-        }
-      },
-      "title": "BlogHomeInfo",
-      "required": [
-        "article_count",
-        "category_count",
-        "tag_count",
-        "views_count",
-        "website_config",
-        "page_list"
       ]
     },
     "CategoryBackDTO": {
@@ -3565,11 +3521,17 @@
         "category_name": {
           "type": "string",
           "description": " 分类名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
         }
       },
       "title": "CategoryDTO",
       "required": [
-        "category_name"
+        "category_name",
+        "article_count"
       ]
     },
     "CategoryNewReq": {
@@ -4513,34 +4475,6 @@
         "updated_at"
       ]
     },
-    "PageDTO": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页面ID"
-        },
-        "page_name": {
-          "type": "string",
-          "description": " 页面名称"
-        },
-        "page_label": {
-          "type": "string",
-          "description": " 页面标签"
-        },
-        "page_cover": {
-          "type": "string",
-          "description": " 页面封面"
-        }
-      },
-      "title": "PageDTO",
-      "required": [
-        "page_name",
-        "page_label",
-        "page_cover"
-      ]
-    },
     "PageNewReq": {
       "type": "object",
       "properties": {
@@ -5227,11 +5161,17 @@
         "tag_name": {
           "type": "string",
           "description": " 标签名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
         }
       },
       "title": "TagDTO",
       "required": [
-        "tag_name"
+        "tag_name",
+        "article_count"
       ]
     },
     "TagNewReq": {
@@ -5464,25 +5404,6 @@
         "refresh_token",
         "refresh_expires_in",
         "scope"
-      ]
-    },
-    "UniqueViewDTO": {
-      "type": "object",
-      "properties": {
-        "date": {
-          "type": "string",
-          "description": " 日期"
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 数量"
-        }
-      },
-      "title": "UniqueViewDTO",
-      "required": [
-        "date",
-        "count"
       ]
     },
     "UpdateAccountRolesReq": {
@@ -6026,6 +5947,25 @@
       "title": "UserRolesResp",
       "required": [
         "list"
+      ]
+    },
+    "UserVisitDTO": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": " 日期"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 数量"
+        }
+      },
+      "title": "UserVisitDTO",
+      "required": [
+        "date",
+        "count"
       ]
     },
     "WebsiteConfig": {

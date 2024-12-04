@@ -22,6 +22,12 @@ func NewMessageRpcServer(svcCtx *svc.ServiceContext) *MessageRpcServer {
 	}
 }
 
+// 消息数据分析
+func (s *MessageRpcServer) AnalysisMessage(ctx context.Context, in *messagerpc.EmptyReq) (*messagerpc.AnalysisMessageResp, error) {
+	l := messagerpclogic.NewAnalysisMessageLogic(ctx, s.svcCtx)
+	return l.AnalysisMessage(in)
+}
+
 // 创建聊天记录
 func (s *MessageRpcServer) AddChatMessage(ctx context.Context, in *messagerpc.ChatMessageNewReq) (*messagerpc.ChatMessageDetails, error) {
 	l := messagerpclogic.NewAddChatMessageLogic(ctx, s.svcCtx)

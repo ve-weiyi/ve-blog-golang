@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type TopArticleLogic struct {
+type UpdateArticleTopLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewTopArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TopArticleLogic {
-	return &TopArticleLogic{
+func NewUpdateArticleTopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateArticleTopLogic {
+	return &UpdateArticleTopLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 置顶文章
-func (l *TopArticleLogic) TopArticle(in *articlerpc.TopArticleReq) (*articlerpc.EmptyResp, error) {
+// 更新文章置顶
+func (l *UpdateArticleTopLogic) UpdateArticleTop(in *articlerpc.UpdateArticleTopReq) (*articlerpc.ArticlePreview, error) {
 
 	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.ArticleId)
 	if err != nil {
@@ -37,5 +37,6 @@ func (l *TopArticleLogic) TopArticle(in *articlerpc.TopArticleReq) (*articlerpc.
 		return nil, err
 	}
 
-	return &articlerpc.EmptyResp{}, nil
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
+	return helper.convertArticlePreviewOut(record), nil
 }

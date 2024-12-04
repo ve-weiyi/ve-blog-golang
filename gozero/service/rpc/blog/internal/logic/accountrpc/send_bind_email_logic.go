@@ -2,11 +2,11 @@ package accountrpclogic
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
@@ -43,7 +43,7 @@ func (l *SendBindEmailLogic) SendBindEmail(in *accountrpc.UserEmailReq) (*accoun
 	}
 
 	// 发送验证码邮件
-	key := fmt.Sprintf("%s:%s", constant.BindEmail, in.Username)
+	key := rediskey.GetCaptchaKey(constant.BindEmail, in.Username)
 	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
 	data := mail.CaptchaEmail{
 		Username: in.Username,
