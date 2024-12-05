@@ -41,7 +41,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: account
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
@@ -60,7 +60,6 @@ service admin-api {
     @doc "获取用户分布地区"
     @handler FindAccountAreaAnalysis
     post /account/find_account_area_analysis (AccountQuery) returns (PageResp)
-
 
 
     @doc "修改用户状态"

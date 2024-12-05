@@ -21,7 +21,7 @@ type (
 @server(
     prefix: /api/v1
     group: friend
-    middleware: SignToken
+    middleware: TimeToken
 )
 
 service blog-api {

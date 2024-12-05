@@ -59,10 +59,23 @@ type (
 @server(
     prefix: /admin_api/v1
     group: menu
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
+    @doc "分页获取菜单列表"
+    @handler FindMenuList
+    post /menu/find_menu_list (MenuQuery) returns (PageResp)
+
+    @doc "同步菜单列表"
+    @handler SyncMenuList
+    post /menu/sync_menu_list (SyncMenuReq) returns (BatchResp)
+
+    @doc "清空菜单列表"
+    @handler CleanMenuList
+    post /menu/clean_menu_list (EmptyReq) returns (BatchResp)
+
+
     @doc "创建菜单"
     @handler AddMenu
     post /menu/add_menu (MenuNewReq) returns (MenuBackDTO)
@@ -78,16 +91,4 @@ service admin-api {
     @doc "批量删除菜单"
     @handler BatchDeleteMenu
     delete /menu/batch_delete_menu (IdsReq) returns (BatchResp)
-
-    @doc "分页获取菜单列表"
-    @handler FindMenuList
-    post /menu/find_menu_list (MenuQuery) returns (PageResp)
-
-    @doc "同步菜单列表"
-    @handler SyncMenuList
-    post /menu/sync_menu_list (SyncMenuReq) returns (BatchResp)
-
-    @doc "清空菜单列表"
-    @handler CleanMenuList
-    post /menu/clean_menu_list (EmptyReq) returns (BatchResp)
 }

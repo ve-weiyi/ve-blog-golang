@@ -82,29 +82,6 @@ type CategoryQueryReq struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type ChatMessage struct {
-	Id          int64  `json:"id"`          // 主键
-	UserId      string `json:"user_id"`     // 用户id
-	Nickname    string `json:"nickname"`    // 昵称
-	Avatar      string `json:"avatar"`      // 头像
-	ChatContent string `json:"chatContent"` // 消息内容
-	IpAddress   string `json:"ip_address"`  // ip地址
-	IpSource    string `json:"ip_source"`   // ip来源
-	Type        string `json:"type"`        // 类型
-	CreatedAt   int64  `json:"created_at"`  // 创建时间
-	UpdatedAt   int64  `json:"updated_at"`  // 更新时间
-}
-
-type ChatMessageQueryReq struct {
-	After   int64  `json:"after,optional"`    // 起始时间
-	Before  int64  `json:"before,optional"`   // 结束时间
-	Limit   int64  `json:"limit,optional"`    // 限制数量
-	UserId  string `json:"user_id,optional"`  // 用户id
-	TopicId string `json:"topic_id,optional"` // 聊天室id
-	Keyword string `json:"keyword,optional"`  // 关键字
-	Type    string `json:"type,optional"`     // 类型
-}
-
 type ChatMsgReq struct {
 	Type        string `json:"type"`         // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
 	ChatContent string `json:"chat_content"` // 消息内容
@@ -235,10 +212,6 @@ type IdReq struct {
 	Id int64 `json:"id"`
 }
 
-type IdentityResp struct {
-	TerminalId string `json:"terminal_id"`
-}
-
 type IdsReq struct {
 	Ids []int64 `json:"ids"`
 }
@@ -350,6 +323,10 @@ type RemarkNewReq struct {
 
 type RemarkQueryReq struct {
 	PageQuery
+}
+
+type ReportResp struct {
+	TerminalId string `json:"terminal_id"`
 }
 
 type ResetPasswordReq struct {

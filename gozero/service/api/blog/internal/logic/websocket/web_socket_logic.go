@@ -84,7 +84,7 @@ func (l *WebSocketLogic) WebSocket(w http.ResponseWriter, r *http.Request) error
 		uid := cast.ToString(r.Context().Value(headerconst.HeaderUid))
 		// 如果有uid,则需要校验用户是否登录
 		if token != "" || uid != "" {
-			_, err = l.svcCtx.TokenHolder.VerifyToken(r.Context(), token, cast.ToString(uid))
+			err = l.svcCtx.TokenHolder.VerifyToken(r.Context(), token, cast.ToString(uid))
 			if err != nil {
 				return err
 			}

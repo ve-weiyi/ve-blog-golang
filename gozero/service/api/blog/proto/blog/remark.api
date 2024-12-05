@@ -29,7 +29,7 @@ type (
 @server(
     prefix: /api/v1
     group: remark
-    middleware: SignToken
+    middleware: TimeToken
 )
 
 service blog-api {
@@ -42,7 +42,7 @@ service blog-api {
 @server(
     prefix: /api/v1
     group: remark
-    middleware: SignToken,JwtToken
+    middleware: TimeToken,SignToken
 )
 
 service blog-api {

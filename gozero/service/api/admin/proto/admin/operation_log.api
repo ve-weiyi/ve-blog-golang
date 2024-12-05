@@ -30,10 +30,15 @@ type (
 @server(
     prefix: /admin_api/v1
     group: operation_log
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
+    @doc "分页获取操作记录列表"
+    @handler FindOperationLogList
+    post /operation_log/find_operation_log_list (OperationLogQuery) returns (PageResp)
+
+
     @doc "删除操作记录"
     @handler DeleteOperationLog
     delete /operation_log/delete_operation_log (IdReq) returns (BatchResp)
@@ -42,8 +47,4 @@ service admin-api {
     @handler BatchDeleteOperationLog
     delete /operation_log/batch_delete_operation_log (IdsReq) returns (BatchResp)
 
-
-    @doc "分页获取操作记录列表"
-    @handler FindOperationLogList
-    post /operation_log/find_operation_log_list (OperationLogQuery) returns (PageResp)
 }

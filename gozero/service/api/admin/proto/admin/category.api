@@ -25,22 +25,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: category
-    middleware: SignToken
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
-    @doc "分页获取文章分类列表"
+@doc "分页获取文章分类列表"
     @handler FindCategoryList
     post /category/find_category_list (CategoryQuery) returns (PageResp)
-}
 
-@server(
-    prefix: /admin_api/v1
-    group: category
-    middleware: SignToken,JwtToken,Operation
-)
-
-service admin-api {
     @doc "创建文章分类"
     @handler AddCategory
     post /category/add_category (CategoryNewReq) returns (CategoryBackDTO)

@@ -22,14 +22,8 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 	}
 }
 
-// 获取身份标识
-func (s *WebsiteRpcServer) GetIdentity(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.GetIdentityResp, error) {
-	l := websiterpclogic.NewGetIdentityLogic(ctx, s.svcCtx)
-	return l.GetIdentity(in)
-}
-
 // 上报访问记录
-func (s *WebsiteRpcServer) Report(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.EmptyResp, error) {
+func (s *WebsiteRpcServer) Report(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.ReportResp, error) {
 	l := websiterpclogic.NewReportLogic(ctx, s.svcCtx)
 	return l.Report(in)
 }

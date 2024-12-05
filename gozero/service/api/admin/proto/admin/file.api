@@ -51,23 +51,15 @@ type (
 @server(
     prefix: /admin_api/v1
     group: file
-    middleware: SignToken
+    middleware: JwtToken,Operation
+    maxBytes:   10485760
 )
 
 service admin-api {
     @doc "分页获取文件列表"
     @handler FindFileList
     post /file/find_file_list (FileQuery) returns (PageResp)
-}
 
-@server(
-    prefix: /admin_api/v1
-    group: file
-    middleware: SignToken,JwtToken,Operation
-    maxBytes:   10485760
-)
-
-service admin-api {
     @doc "创建文件目录"
     @handler AddFileFolder
     post /file/add_file_folder (FileFolderNewReq) returns (FileBackDTO)

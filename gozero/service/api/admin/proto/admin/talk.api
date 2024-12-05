@@ -36,22 +36,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: talk
-    middleware: SignToken
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
     @doc "分页获取说说列表"
     @handler FindTalkList
     post /talk/find_talk_list (TalkQuery) returns (PageResp)
-}
 
-@server(
-    prefix: /admin_api/v1
-    group: talk
-    middleware: SignToken,JwtToken,Operation
-)
-
-service admin-api {
     @doc "创建说说"
     @handler AddTalk
     post /talk/add_talk (TalkNewReq) returns (TalkBackDTO)

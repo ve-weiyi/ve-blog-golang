@@ -2875,7 +2875,7 @@
           },
           "description": " 标签列表"
         },
-        "article_view_rank": {
+        "article_view_ranks": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ArticleViewDTO"
@@ -2905,7 +2905,7 @@
         "remark_count",
         "category_list",
         "tag_list",
-        "article_view_rank",
+        "article_view_ranks",
         "article_statistics",
         "user_visit_daliy"
       ]

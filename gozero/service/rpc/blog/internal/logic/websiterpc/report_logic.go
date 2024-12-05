@@ -2,8 +2,10 @@ package websiterpclogic
 
 import (
 	"context"
+	"strings"
 	"time"
 
+	"github.com/mssola/useragent"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rpcutil"
@@ -11,6 +13,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
 type ReportLogic struct {
@@ -28,8 +31,8 @@ func NewReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ReportLogi
 }
 
 // 上报
-func (l *ReportLogic) Report(in *websiterpc.EmptyReq) (*websiterpc.EmptyResp, error) {
-	visitor, err := rpcutil.GetRPCTerminalId(l.ctx)
+func (l *ReportLogic) Report(in *websiterpc.EmptyReq) (*websiterpc.ReportResp, error) {
+	visitor, err := l.GetIdentity()
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +43,7 @@ func (l *ReportLogic) Report(in *websiterpc.EmptyReq) (*websiterpc.EmptyResp, er
 		return nil, err
 	}
 
-	if ok {
+	if !ok {
 		// 数据库访问量+1
 		l.AddVisit()
 
@@ -58,7 +61,7 @@ func (l *ReportLogic) Report(in *websiterpc.EmptyReq) (*websiterpc.EmptyResp, er
 		}
 	}
 
-	return &websiterpc.EmptyResp{}, nil
+	return &websiterpc.ReportResp{TerminalId: visitor}, nil
 }
 
 func (l *ReportLogic) AddVisit() error {
@@ -77,4 +80,26 @@ func (l *ReportLogic) AddVisit() error {
 	}
 
 	return nil
+}
+
+// 获取身份标识
+func (l *ReportLogic) GetIdentity() (string, error) {
+	ci, err := rpcutil.GetRPCClientIP(l.ctx)
+	if err != nil {
+		return "", err
+	}
+
+	ua, err := rpcutil.GetRPCUserAgent(l.ctx)
+	if err != nil {
+		return "", err
+	}
+
+	// 分割字符串，提取 IP 部分
+	ip := strings.Split(ci, ":")[0]
+	browser, _ := useragent.New(ua).Browser()
+	os := useragent.New(ua).OS()
+
+	terminal := crypto.Md5v(ip+browser+os, "")
+
+	return terminal, nil
 }

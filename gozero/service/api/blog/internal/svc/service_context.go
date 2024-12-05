@@ -41,11 +41,11 @@ type ServiceContext struct {
 	ResourceRpc   resourcerpc.ResourceRpc
 
 	Redis            *redis.Redis
-	TokenHolder      *tokenx.JwtTokenHolder
+	TokenHolder      tokenx.TokenHolder
 	Uploader         oss.OSS
 	WebsocketManager *ws.WebSocketManager
 
-	JwtToken  rest.Middleware
+	TimeToken rest.Middleware
 	SignToken rest.Middleware
 }
 
@@ -58,7 +58,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 
-	th := tokenx.NewJwtTokenHolder(c.Name, c.Name, rds)
+	th := tokenx.NewSignTokenHolder(c.Name, c.Name, rds)
 
 	return &ServiceContext{
 		Config:        c,
@@ -78,8 +78,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TokenHolder:      th,
 		WebsocketManager: ws.NewWebSocketManager(),
 
-		JwtToken:  middlewarex.NewJwtTokenMiddleware(th).Handle,
-		SignToken: middlewarex.NewSignTokenMiddleware().Handle,
+		TimeToken: middlewarex.NewTimeTokenMiddleware().Handle,
+		SignToken: middlewarex.NewSignTokenMiddleware(th).Handle,
 	}
 }
 

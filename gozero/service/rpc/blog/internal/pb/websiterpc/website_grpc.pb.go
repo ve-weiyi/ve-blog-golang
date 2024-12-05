@@ -23,7 +23,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WebsiteRpc_GetIdentity_FullMethodName       = "/websiterpc.WebsiteRpc/GetIdentity"
 	WebsiteRpc_Report_FullMethodName            = "/websiterpc.WebsiteRpc/Report"
 	WebsiteRpc_GetUserDailyVisit_FullMethodName = "/websiterpc.WebsiteRpc/GetUserDailyVisit"
 	WebsiteRpc_GetUserTotalVisit_FullMethodName = "/websiterpc.WebsiteRpc/GetUserTotalVisit"
@@ -41,10 +40,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WebsiteRpcClient interface {
-	// 获取身份标识
-	GetIdentity(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetIdentityResp, error)
 	// 上报访问记录
-	Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ReportResp, error)
 	// 用户日浏览量分析
 	GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
 	// 用户总流量数
@@ -75,17 +72,8 @@ func NewWebsiteRpcClient(cc grpc.ClientConnInterface) WebsiteRpcClient {
 	return &websiteRpcClient{cc}
 }
 
-func (c *websiteRpcClient) GetIdentity(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetIdentityResp, error) {
-	out := new(GetIdentityResp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_GetIdentity_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *websiteRpcClient) Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*EmptyResp, error) {
-	out := new(EmptyResp)
+func (c *websiteRpcClient) Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ReportResp, error) {
+	out := new(ReportResp)
 	err := c.cc.Invoke(ctx, WebsiteRpc_Report_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -187,10 +175,8 @@ func (c *websiteRpcClient) FindFriendList(ctx context.Context, in *FindFriendLis
 // All implementations must embed UnimplementedWebsiteRpcServer
 // for forward compatibility
 type WebsiteRpcServer interface {
-	// 获取身份标识
-	GetIdentity(context.Context, *EmptyReq) (*GetIdentityResp, error)
 	// 上报访问记录
-	Report(context.Context, *EmptyReq) (*EmptyResp, error)
+	Report(context.Context, *EmptyReq) (*ReportResp, error)
 	// 用户日浏览量分析
 	GetUserDailyVisit(context.Context, *EmptyReq) (*UserDailyVisitRsp, error)
 	// 用户总流量数
@@ -218,10 +204,7 @@ type WebsiteRpcServer interface {
 type UnimplementedWebsiteRpcServer struct {
 }
 
-func (UnimplementedWebsiteRpcServer) GetIdentity(context.Context, *EmptyReq) (*GetIdentityResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetIdentity not implemented")
-}
-func (UnimplementedWebsiteRpcServer) Report(context.Context, *EmptyReq) (*EmptyResp, error) {
+func (UnimplementedWebsiteRpcServer) Report(context.Context, *EmptyReq) (*ReportResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Report not implemented")
 }
 func (UnimplementedWebsiteRpcServer) GetUserDailyVisit(context.Context, *EmptyReq) (*UserDailyVisitRsp, error) {
@@ -265,24 +248,6 @@ type UnsafeWebsiteRpcServer interface {
 
 func RegisterWebsiteRpcServer(s grpc.ServiceRegistrar, srv WebsiteRpcServer) {
 	s.RegisterService(&WebsiteRpc_ServiceDesc, srv)
-}
-
-func _WebsiteRpc_GetIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).GetIdentity(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_GetIdentity_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).GetIdentity(ctx, req.(*EmptyReq))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _WebsiteRpc_Report_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -490,10 +455,6 @@ var WebsiteRpc_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "websiterpc.WebsiteRpc",
 	HandlerType: (*WebsiteRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetIdentity",
-			Handler:    _WebsiteRpc_GetIdentity_Handler,
-		},
 		{
 			MethodName: "Report",
 			Handler:    _WebsiteRpc_Report_Handler,

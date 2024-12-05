@@ -88,7 +88,7 @@ type Server {
 @server(
     prefix: /admin_api/v1
     group: website
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 service admin-api {
     @doc "获取后台首页信息"

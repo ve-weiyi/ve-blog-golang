@@ -32,12 +32,12 @@ func (l *LogoutLogic) Logout(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		UserId: cast.ToString(l.ctx.Value("uid")),
 	}
 
-	out, err := l.svcCtx.AccountRpc.Logout(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.Logout(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	l.svcCtx.TokenHolder.SetLogout(l.ctx, cast.ToString(l.ctx.Value("uid")), out.LogoutAt)
+	l.svcCtx.TokenHolder.RemoveToken(l.ctx, cast.ToString(l.ctx.Value("uid")))
 
 	return &types.EmptyResp{}, nil
 }
