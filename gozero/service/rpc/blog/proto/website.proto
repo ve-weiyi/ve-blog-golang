@@ -106,16 +106,14 @@ message FindFriendListResp {
   int64 total = 2;
 }
 
-message GetIdentityResp {
+message ReportResp {
   string terminal_id = 1;
 }
 
 service WebsiteRpc {
-  // 获取身份标识
-  rpc GetIdentity(EmptyReq) returns(GetIdentityResp);
 
   // 上报访问记录
-  rpc Report(EmptyReq) returns(EmptyResp);
+  rpc Report(EmptyReq) returns(ReportResp);
   // 用户日浏览量分析
   rpc GetUserDailyVisit(EmptyReq) returns(UserDailyVisitRsp);
   // 用户总流量数

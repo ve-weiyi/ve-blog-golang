@@ -53,7 +53,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: role
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {

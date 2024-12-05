@@ -41,12 +41,12 @@ type ServiceContext struct {
 	ResourceRpc   resourcerpc.ResourceRpc
 
 	Redis       *redis.Redis
-	TokenHolder *tokenx.JwtTokenHolder
 	RbacHolder  *rbacx.RbacHolder
+	TokenHolder tokenx.TokenHolder
 	Uploader    oss.OSS
 
+	TimeToken rest.Middleware
 	JwtToken  rest.Middleware
-	SignToken rest.Middleware
 	Operation rest.Middleware
 }
 
@@ -76,12 +76,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		WebsiteRpc:    websiterpc.NewWebsiteRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ConfigRpc:     configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
 		ResourceRpc:   resourcerpc.NewResourceRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),
-		Uploader:      oss.NewQiniu(c.UploadConfig),
-		TokenHolder:   th,
-		Redis:         rds,
-		RbacHolder:    rh,
-		JwtToken:      middlewarex.NewJwtTokenMiddleware(th).Handle,
-		SignToken:     middlewarex.NewSignTokenMiddleware().Handle,
+
+		Redis:       rds,
+		Uploader:    oss.NewQiniu(c.UploadConfig),
+		TokenHolder: th,
+		RbacHolder:  rh,
+		TimeToken:   middlewarex.NewTimeTokenMiddleware().Handle,
+		JwtToken:    middlewarex.NewJwtTokenMiddleware(th).Handle,
 		Operation: middlewarex.NewOperationMiddleware(
 			rh,
 			syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...)),

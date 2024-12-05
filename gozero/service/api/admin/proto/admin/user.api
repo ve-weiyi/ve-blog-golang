@@ -113,7 +113,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: user
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {

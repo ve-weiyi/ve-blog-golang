@@ -13,6 +13,7 @@ func ServerMetaInterceptor(ctx context.Context, req interface{}, info *grpc.Unar
 	if ok {
 		var pairs []string
 		for k, v := range md {
+			//logx.Infof("get k=%s, v=%+v", k, v)
 			for _, value := range v {
 				pairs = append(pairs, k, value)
 			}

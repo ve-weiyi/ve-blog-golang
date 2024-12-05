@@ -63,10 +63,19 @@ type (
 @server(
     prefix: /admin_api/v1
     group: article
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
+    @doc "查询文章列表"
+    @handler FindArticleList
+    post /article/find_article_list (ArticleQuery) returns (PageResp)
+
+    @doc "导出文章列表"
+    @handler ExportArticleList
+    post /article/export_article_list (IdsReq) returns (EmptyResp)
+
+
     @doc "查询文章"
     @handler GetArticle
     post /article/get_article (IdReq) returns (ArticleBackDTO)
@@ -90,12 +99,4 @@ service admin-api {
     @doc "置顶文章"
     @handler TopArticle
     post /article/top_article (ArticleTopReq) returns (EmptyResp)
-
-    @doc "查询文章列表"
-    @handler FindArticleList
-    post /article/find_article_list (ArticleQuery) returns (PageResp)
-
-    @doc "导出文章列表"
-    @handler ExportArticleList
-    post /article/export_article_list (IdsReq) returns (EmptyResp)
 }
