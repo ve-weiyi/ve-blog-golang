@@ -8,7 +8,6 @@ import (
 	article "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/article"
 	auth "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/auth"
 	category "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/category"
-	chat "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/chat"
 	comment "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/comment"
 	file "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler/friend"
@@ -28,12 +27,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 身份标识
-				Method:  http.MethodGet,
-				Path:    "/identity",
-				Handler: IdentityHandler(serverCtx),
-			},
-			{
 				// ping
 				Method:  http.MethodGet,
 				Path:    "/ping",
@@ -45,7 +38,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 获取相册列表
@@ -72,7 +65,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 文章归档(时间轴)
@@ -117,7 +110,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 点赞文章
@@ -131,56 +124,59 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				// 登录
-				Method:  http.MethodPost,
-				Path:    "/login",
-				Handler: auth.LoginHandler(serverCtx),
-			},
-			{
-				// 第三方登录授权地址
-				Method:  http.MethodPost,
-				Path:    "/oauth_authorize_url",
-				Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
-			},
-			{
-				// 第三方登录
-				Method:  http.MethodPost,
-				Path:    "/oauth_login",
-				Handler: auth.OauthLoginHandler(serverCtx),
-			},
-			{
-				// 注册
-				Method:  http.MethodPost,
-				Path:    "/register",
-				Handler: auth.RegisterHandler(serverCtx),
-			},
-			{
-				// 发送注册账号邮件
-				Method:  http.MethodPost,
-				Path:    "/send_register_email",
-				Handler: auth.SendRegisterEmailHandler(serverCtx),
-			},
-			{
-				// 重置密码
-				Method:  http.MethodPost,
-				Path:    "/user/reset_password",
-				Handler: auth.ResetPasswordHandler(serverCtx),
-			},
-			{
-				// 发送重置密码邮件
-				Method:  http.MethodPost,
-				Path:    "/user/send_reset_email",
-				Handler: auth.SendResetEmailHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.TimeToken},
+			[]rest.Route{
+				{
+					// 登录
+					Method:  http.MethodPost,
+					Path:    "/login",
+					Handler: auth.LoginHandler(serverCtx),
+				},
+				{
+					// 第三方登录授权地址
+					Method:  http.MethodPost,
+					Path:    "/oauth_authorize_url",
+					Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
+				},
+				{
+					// 第三方登录
+					Method:  http.MethodPost,
+					Path:    "/oauth_login",
+					Handler: auth.OauthLoginHandler(serverCtx),
+				},
+				{
+					// 注册
+					Method:  http.MethodPost,
+					Path:    "/register",
+					Handler: auth.RegisterHandler(serverCtx),
+				},
+				{
+					// 发送注册账号邮件
+					Method:  http.MethodPost,
+					Path:    "/send_register_email",
+					Handler: auth.SendRegisterEmailHandler(serverCtx),
+				},
+				{
+					// 重置密码
+					Method:  http.MethodPost,
+					Path:    "/user/reset_password",
+					Handler: auth.ResetPasswordHandler(serverCtx),
+				},
+				{
+					// 发送重置密码邮件
+					Method:  http.MethodPost,
+					Path:    "/user/send_reset_email",
+					Handler: auth.SendResetEmailHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithPrefix("/api/v1"),
 	)
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 绑定邮箱
@@ -213,7 +209,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取文章分类列表
@@ -228,22 +224,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
-			[]rest.Route{
-				{
-					// 查询聊天记录
-					Method:  http.MethodPost,
-					Path:    "/chat/messages",
-					Handler: chat.GetChatMessagesHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 查询评论列表
@@ -270,7 +251,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 创建评论
@@ -291,7 +272,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 上传文件列表
@@ -312,7 +293,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取友链列表
@@ -327,7 +308,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取页面列表
@@ -342,7 +323,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取留言列表
@@ -357,7 +338,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 创建留言
@@ -372,7 +353,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取标签列表
@@ -387,7 +368,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 分页获取说说列表
@@ -414,7 +395,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken, serverCtx.JwtToken},
+			[]rest.Middleware{serverCtx.TimeToken, serverCtx.SignToken},
 			[]rest.Route{
 				{
 					// 获取用户信息
@@ -447,7 +428,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.SignToken},
+			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
 				{
 					// 获取博客前台首页信息
@@ -461,14 +442,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/blog/about_me",
 					Handler: website.GetAboutMeHandler(serverCtx),
 				},
-				{
-					// 访客上报
-					Method:  http.MethodGet,
-					Path:    "/report",
-					Handler: website.ReportHandler(serverCtx),
-				},
 			}...,
 		),
+		rest.WithPrefix("/api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 访客上报
+				Method:  http.MethodGet,
+				Path:    "/report",
+				Handler: website.ReportHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/api/v1"),
 	)
 

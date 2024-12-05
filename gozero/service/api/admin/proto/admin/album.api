@@ -34,22 +34,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: album
-    middleware: SignToken
+    middleware: JwtToken,Operation
 )
 
 service admin-api {
     @doc "分页获取相册列表"
     @handler FindAlbumList
     post /album/find_album_list (AlbumQuery) returns (PageResp)
-}
 
-@server(
-    prefix: /admin_api/v1
-    group: album
-    middleware: SignToken,JwtToken,Operation
-)
-
-service admin-api {
     @doc "查询相册"
     @handler GetAlbum
     post /album/get_album (IdReq) returns (AlbumBackDTO)

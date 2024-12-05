@@ -60,13 +60,13 @@ func GetRPCUserAgent(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[headerconst.HeaderRPCUserAgent]; ok {
+	if val, ok := md[headerconst.HeaderUserAgent]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderRPCUserAgent)
+	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderUserAgent)
 }
 
 // 获取客户端IP地址

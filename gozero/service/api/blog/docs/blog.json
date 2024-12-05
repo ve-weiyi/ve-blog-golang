@@ -373,33 +373,6 @@
         ]
       }
     },
-    "/api/v1/chat/messages": {
-      "post": {
-        "summary": "查询聊天记录",
-        "operationId": "GetChatMessages",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ChatMessageQueryReq"
-            }
-          }
-        ],
-        "tags": [
-          "chat"
-        ]
-      }
-    },
     "/api/v1/comment/add_comment": {
       "post": {
         "summary": "创建评论",
@@ -623,23 +596,6 @@
         ],
         "tags": [
           "friend"
-        ]
-      }
-    },
-    "/api/v1/identity": {
-      "get": {
-        "summary": "身份标识",
-        "operationId": "Identity",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/IdentityResp"
-            }
-          }
-        },
-        "tags": [
-          "blog-api"
         ]
       }
     },
@@ -1686,104 +1642,6 @@
       },
       "title": "CategoryQueryReq"
     },
-    "ChatMessage": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 主键"
-        },
-        "user_id": {
-          "type": "string",
-          "description": " 用户id"
-        },
-        "nickname": {
-          "type": "string",
-          "description": " 昵称"
-        },
-        "avatar": {
-          "type": "string",
-          "description": " 头像"
-        },
-        "chatContent": {
-          "type": "string",
-          "description": " 消息内容"
-        },
-        "ip_address": {
-          "type": "string",
-          "description": " ip地址"
-        },
-        "ip_source": {
-          "type": "string",
-          "description": " ip来源"
-        },
-        "type": {
-          "type": "string",
-          "description": " 类型"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "ChatMessage",
-      "required": [
-        "id",
-        "user_id",
-        "nickname",
-        "avatar",
-        "chatContent",
-        "ip_address",
-        "ip_source",
-        "type",
-        "created_at",
-        "updated_at"
-      ]
-    },
-    "ChatMessageQueryReq": {
-      "type": "object",
-      "properties": {
-        "after": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 起始时间"
-        },
-        "before": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 结束时间"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 限制数量"
-        },
-        "user_id": {
-          "type": "string",
-          "description": " 用户id"
-        },
-        "topic_id": {
-          "type": "string",
-          "description": " 聊天室id"
-        },
-        "keyword": {
-          "type": "string",
-          "description": " 关键字"
-        },
-        "type": {
-          "type": "string",
-          "description": " 类型"
-        }
-      },
-      "title": "ChatMessageQueryReq"
-    },
     "ChatMsgReq": {
       "type": "object",
       "properties": {
@@ -2338,18 +2196,6 @@
         "id"
       ]
     },
-    "IdentityResp": {
-      "type": "object",
-      "properties": {
-        "terminal_id": {
-          "type": "string"
-        }
-      },
-      "title": "IdentityResp",
-      "required": [
-        "terminal_id"
-      ]
-    },
     "IdsReq": {
       "type": "object",
       "properties": {
@@ -2781,6 +2627,18 @@
         }
       },
       "title": "RemarkQueryReq"
+    },
+    "ReportResp": {
+      "type": "object",
+      "properties": {
+        "terminal_id": {
+          "type": "string"
+        }
+      },
+      "title": "ReportResp",
+      "required": [
+        "terminal_id"
+      ]
     },
     "ResetPasswordReq": {
       "type": "object",

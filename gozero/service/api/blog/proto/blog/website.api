@@ -58,17 +58,12 @@ type (
         Content string `json:"content"`
     }
 )
-
 @server(
     prefix: /api/v1
     group: website
-    middleware: SignToken
+    middleware: TimeToken
 )
 service blog-api {
-    @doc "访客上报"
-    @handler Report
-    get /report (EmptyReq) returns (EmptyResp)
-
     @doc "获取博客前台首页信息"
     @handler GetBlogHomeInfo
     get /blog (GetBlogHomeInfoReq) returns (GetBlogHomeInfoResp)
@@ -76,4 +71,20 @@ service blog-api {
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /blog/about_me (GetAboutMeReq) returns (GetAboutMeResp)
+}
+
+
+type (
+    ReportResp {
+        TerminalId string `json:"terminal_id"`
+    }
+)
+@server(
+    prefix: /api/v1
+    group: website
+)
+service blog-api {
+    @doc "访客上报"
+    @handler Report
+    get /report (EmptyReq) returns (EmptyResp)
 }

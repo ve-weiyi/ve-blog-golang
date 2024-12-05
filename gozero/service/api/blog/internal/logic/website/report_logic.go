@@ -25,7 +25,7 @@ func NewReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ReportLogi
 	}
 }
 
-func (l *ReportLogic) Report(req *types.ReportReq) (resp *types.ReportResp, err error) {
+func (l *ReportLogic) Report(req *types.EmptyReq) (resp *types.ReportResp, err error) {
 	in := &websiterpc.EmptyReq{}
 
 	out, err := l.svcCtx.WebsiteRpc.Report(l.ctx, in)
@@ -34,6 +34,6 @@ func (l *ReportLogic) Report(req *types.ReportReq) (resp *types.ReportResp, err 
 	}
 
 	return &types.ReportResp{
-		TerminalId: out.Visitor,
+		TerminalId: out.TerminalId,
 	}, nil
 }
