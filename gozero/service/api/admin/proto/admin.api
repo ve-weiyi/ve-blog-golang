@@ -12,13 +12,14 @@ import "admin/category.api"
 import "admin/tag.api"
 import "admin/friend.api"
 import "admin/remark.api"
-import "admin/operation_log.api"
 import "admin/page.api"
 import "admin/photo.api"
 import "admin/album.api"
 import "admin/talk.api"
 import "admin/comment.api"
 import "admin/file.api"
+import "admin/operation_log.api"
+import "admin/visit_log.api"
 
 type (
 	PingReq  {}

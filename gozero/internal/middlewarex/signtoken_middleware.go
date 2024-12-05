@@ -6,35 +6,41 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 type SignTokenMiddleware struct {
+	verifier tokenx.TokenHolder
 }
 
-func NewSignTokenMiddleware() *SignTokenMiddleware {
-	return &SignTokenMiddleware{}
+func NewSignTokenMiddleware(verifier tokenx.TokenHolder) *SignTokenMiddleware {
+	return &SignTokenMiddleware{
+		verifier: verifier,
+	}
 }
 
-// 未登录token
-// 未登录时，token = md5(tm,ts)
-func (m *SignTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+// 用户token
+// 缓存验证
+func (j *SignTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		logx.Infof("SignTokenMiddleware Handle")
-		tk := r.Header.Get(headerconst.HeaderToken)
-		tm := r.Header.Get(headerconst.HeaderTerminal)
-		ts := r.Header.Get(headerconst.HeaderTimestamp)
+		var token string
+		var uid string
+
+		token = r.Header.Get(restx.HeaderToken)
+		uid = r.Header.Get(restx.HeaderUid)
 
 		// 请求头缺少参数
-		if tk == "" || tm == "" || ts == "" {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求,缺少签名"))
+		if token == "" || uid == "" {
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求,缺少用户签名"))
 			return
 		}
-		// 判断 token = md5(tm,ts)
-		if tk != crypto.Md5v(tm, ts) {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求,签名错误"))
+
+		err := j.verifier.VerifyToken(r.Context(), token, uid)
+		if err != nil {
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, err.Error()))
 			return
 		}
 

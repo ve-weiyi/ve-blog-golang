@@ -44,16 +44,33 @@ type (
 
     RoleQuery {
         PageQuery
-        RoleName string `json:"role_name,optional"`         // 角色名
+        RoleName string `json:"role_name,optional"`                // 角色名
         RoleLabel string `json:"role_label,optional"`              // 角色标签
-        IsDisable int64 `json:"is_disable,optional"`        // 是否禁用  0否 1是
+        IsDisable int64 `json:"is_disable,optional"`               // 是否禁用  0否 1是
     }
 )
 
 @server(
     prefix: /admin_api/v1
     group: role
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission
+)
+
+service admin-api {
+    @doc "分页获取角色列表"
+    @handler FindRoleList
+    post /role/find_role_list (RoleQuery) returns (PageResp)
+
+    @doc "获取角色资源列表"
+    @handler FindRoleResources
+    post /role/find_role_resources (IdReq) returns (RoleResourcesResp)
+}
+
+
+@server(
+    prefix: /admin_api/v1
+    group: role
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
@@ -74,13 +91,6 @@ service admin-api {
     post /role/batch_delete_role (IdsReq) returns (BatchResp)
 
 
-    @doc "分页获取角色列表"
-    @handler FindRoleList
-    post /role/find_role_list (RoleQuery) returns (PageResp)
-
-    @doc "获取角色资源列表"
-    @handler FindRoleResources
-    post /role/find_role_resources (IdReq) returns (RoleResourcesResp)
 
     @doc "更新角色菜单权限"
     @handler UpdateRoleMenus

@@ -25,7 +25,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: category
-    middleware: SignToken
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
@@ -34,10 +34,11 @@ service admin-api {
     post /category/find_category_list (CategoryQuery) returns (PageResp)
 }
 
+
 @server(
     prefix: /admin_api/v1
     group: category
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {

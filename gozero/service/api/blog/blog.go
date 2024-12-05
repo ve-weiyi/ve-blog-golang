@@ -13,7 +13,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/swagger"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/common/task"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/docs"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
@@ -30,9 +30,6 @@ var (
 )
 
 var configFile = flag.String("f", "", "the config file")
-
-//go:embed docs/blog.json
-var docs []byte
 
 func main() {
 	flag.Parse()
@@ -72,7 +69,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 
-	swagger.RegisterHttpSwagHandler(server, "/api/v1/swagger/", docs)
+	swagger.RegisterHttpSwagHandler(server, "/api/v1/swagger/", []byte(docs.Docs))
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)
@@ -87,6 +84,5 @@ func main() {
 	默认接口文档地址:http://%s:%d/api/v1/swagger/index.html
 `, c.Host, c.Port)
 
-	task.Run(ctx)
 	server.Start()
 }

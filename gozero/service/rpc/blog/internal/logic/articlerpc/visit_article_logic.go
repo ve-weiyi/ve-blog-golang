@@ -29,7 +29,7 @@ func NewVisitArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Visi
 // 访问文章
 func (l *VisitArticleLogic) VisitArticle(in *articlerpc.IdReq) (*articlerpc.CountResp, error) {
 	id := cast.ToString(in.Id)
-	key := rediskey.GetArticleVisitCountKey(id)
+	key := rediskey.GetArticleViewCountKey()
 
 	// 浏览量+1
 	_, err := l.svcCtx.Redis.ZIncrBy(l.ctx, key, 1, id).Result()

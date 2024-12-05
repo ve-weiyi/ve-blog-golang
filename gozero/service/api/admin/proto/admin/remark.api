@@ -31,7 +31,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: remark
-    middleware: SignToken
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
@@ -44,10 +44,11 @@ service admin-api {
 @server(
     prefix: /admin_api/v1
     group: remark
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
+
     @doc "更新留言"
     @handler UpdateRemarkReview
     put /remark/update_remark_review (RemarkReviewReq) returns (BatchResp)

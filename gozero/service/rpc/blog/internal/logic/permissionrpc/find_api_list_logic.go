@@ -6,7 +6,6 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 )
@@ -59,13 +58,20 @@ func (l *FindApiListLogic) FindApiList(in *permissionrpc.FindApiListReq) (*permi
 	}
 
 	out := &permissionrpc.FindApiListResp{}
-	if conditions == "" {
-		var root permissionrpc.ApiDetails
-		root.Children = appendApiChildren(&root, result)
-		out.List = root.Children
-	} else {
-		for _, item := range result {
-			out.List = append(out.List, convertApiOut(item))
+	for _, item := range result {
+		// parentId不在当前菜单id列表，说明为父级菜单id，根据此id作为递归的开始条件节点
+		isParent := true
+		for _, v := range result {
+			if item.ParentId == v.Id {
+				isParent = false
+			}
+		}
+
+		// parentId为0，说明为父级菜单
+		if isParent {
+			root := convertApiOut(item)
+			root.Children = appendApiChildren(root, result)
+			out.List = append(out.List, root)
 		}
 	}
 

@@ -22,28 +22,28 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 	}
 }
 
-// 获取身份标识
-func (s *WebsiteRpcServer) GetIdentity(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.GetIdentityResp, error) {
-	l := websiterpclogic.NewGetIdentityLogic(ctx, s.svcCtx)
-	return l.GetIdentity(in)
+// 获取游客身份
+func (s *WebsiteRpcServer) GetTouristInfo(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.GetTouristInfoResp, error) {
+	l := websiterpclogic.NewGetTouristInfoLogic(ctx, s.svcCtx)
+	return l.GetTouristInfo(in)
 }
 
-// 上报访问记录
-func (s *WebsiteRpcServer) Report(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.EmptyResp, error) {
-	l := websiterpclogic.NewReportLogic(ctx, s.svcCtx)
-	return l.Report(in)
-}
-
-// 用户日浏览量分析
-func (s *WebsiteRpcServer) GetUserDailyVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
-	l := websiterpclogic.NewGetUserDailyVisitLogic(ctx, s.svcCtx)
-	return l.GetUserDailyVisit(in)
+// 添加用户访问记录
+func (s *WebsiteRpcServer) AddVisit(ctx context.Context, in *websiterpc.AddVisitReq) (*websiterpc.AddVisitResp, error) {
+	l := websiterpclogic.NewAddVisitLogic(ctx, s.svcCtx)
+	return l.AddVisit(in)
 }
 
 // 用户总流量数
 func (s *WebsiteRpcServer) GetUserTotalVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.CountResp, error) {
 	l := websiterpclogic.NewGetUserTotalVisitLogic(ctx, s.svcCtx)
 	return l.GetUserTotalVisit(in)
+}
+
+// 用户日浏览量分析
+func (s *WebsiteRpcServer) GetUserDailyVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
+	l := websiterpclogic.NewGetUserDailyVisitLogic(ctx, s.svcCtx)
+	return l.GetUserDailyVisit(in)
 }
 
 // 创建页面

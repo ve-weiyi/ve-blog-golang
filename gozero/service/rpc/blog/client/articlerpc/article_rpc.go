@@ -15,6 +15,7 @@ import (
 type (
 	AnalysisArticleResp        = articlerpc.AnalysisArticleResp
 	ArticleCategory            = articlerpc.ArticleCategory
+	ArticleDailyStatistics     = articlerpc.ArticleDailyStatistics
 	ArticleDetails             = articlerpc.ArticleDetails
 	ArticleNewReq              = articlerpc.ArticleNewReq
 	ArticlePreview             = articlerpc.ArticlePreview
