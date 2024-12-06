@@ -88,6 +88,12 @@ func (s *MessageRpcServer) FindRemarkList(ctx context.Context, in *messagerpc.Fi
 	return l.FindRemarkList(in)
 }
 
+// 更新留言审核状态
+func (s *MessageRpcServer) UpdateRemarkReview(ctx context.Context, in *messagerpc.UpdateRemarkReviewReq) (*messagerpc.BatchResp, error) {
+	l := messagerpclogic.NewUpdateRemarkReviewLogic(ctx, s.svcCtx)
+	return l.UpdateRemarkReview(in)
+}
+
 // 创建评论
 func (s *MessageRpcServer) AddComment(ctx context.Context, in *messagerpc.CommentNewReq) (*messagerpc.CommentDetails, error) {
 	l := messagerpclogic.NewAddCommentLogic(ctx, s.svcCtx)
