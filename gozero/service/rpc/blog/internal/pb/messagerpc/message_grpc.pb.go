@@ -34,6 +34,7 @@ const (
 	MessageRpc_DeletesRemark_FullMethodName          = "/messagerpc.MessageRpc/DeletesRemark"
 	MessageRpc_GetRemark_FullMethodName              = "/messagerpc.MessageRpc/GetRemark"
 	MessageRpc_FindRemarkList_FullMethodName         = "/messagerpc.MessageRpc/FindRemarkList"
+	MessageRpc_UpdateRemarkReview_FullMethodName     = "/messagerpc.MessageRpc/UpdateRemarkReview"
 	MessageRpc_AddComment_FullMethodName             = "/messagerpc.MessageRpc/AddComment"
 	MessageRpc_DeleteComment_FullMethodName          = "/messagerpc.MessageRpc/DeleteComment"
 	MessageRpc_GetComment_FullMethodName             = "/messagerpc.MessageRpc/GetComment"
@@ -72,6 +73,8 @@ type MessageRpcClient interface {
 	GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
+	// 更新留言审核状态
+	UpdateRemarkReview(ctx context.Context, in *UpdateRemarkReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 创建评论
 	AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error)
 	// 删除评论
@@ -201,6 +204,15 @@ func (c *messageRpcClient) FindRemarkList(ctx context.Context, in *FindRemarkLis
 	return out, nil
 }
 
+func (c *messageRpcClient) UpdateRemarkReview(ctx context.Context, in *UpdateRemarkReviewReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, MessageRpc_UpdateRemarkReview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *messageRpcClient) AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error) {
 	out := new(CommentDetails)
 	err := c.cc.Invoke(ctx, MessageRpc_AddComment_FullMethodName, in, out, opts...)
@@ -317,6 +329,8 @@ type MessageRpcServer interface {
 	GetRemark(context.Context, *IdReq) (*RemarkDetails, error)
 	// 查询留言列表
 	FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error)
+	// 更新留言审核状态
+	UpdateRemarkReview(context.Context, *UpdateRemarkReviewReq) (*BatchResp, error)
 	// 创建评论
 	AddComment(context.Context, *CommentNewReq) (*CommentDetails, error)
 	// 删除评论
@@ -376,6 +390,9 @@ func (UnimplementedMessageRpcServer) GetRemark(context.Context, *IdReq) (*Remark
 }
 func (UnimplementedMessageRpcServer) FindRemarkList(context.Context, *FindRemarkListReq) (*FindRemarkListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindRemarkList not implemented")
+}
+func (UnimplementedMessageRpcServer) UpdateRemarkReview(context.Context, *UpdateRemarkReviewReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRemarkReview not implemented")
 }
 func (UnimplementedMessageRpcServer) AddComment(context.Context, *CommentNewReq) (*CommentDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddComment not implemented")
@@ -618,6 +635,24 @@ func _MessageRpc_FindRemarkList_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MessageRpc_UpdateRemarkReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRemarkReviewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageRpcServer).UpdateRemarkReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageRpc_UpdateRemarkReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageRpcServer).UpdateRemarkReview(ctx, req.(*UpdateRemarkReviewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _MessageRpc_AddComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommentNewReq)
 	if err := dec(in); err != nil {
@@ -848,6 +883,10 @@ var MessageRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindRemarkList",
 			Handler:    _MessageRpc_FindRemarkList_Handler,
+		},
+		{
+			MethodName: "UpdateRemarkReview",
+			Handler:    _MessageRpc_UpdateRemarkReview_Handler,
 		},
 		{
 			MethodName: "AddComment",
