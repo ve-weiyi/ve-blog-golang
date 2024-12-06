@@ -39,6 +39,7 @@ type (
 	RemarkUpdateReq            = messagerpc.RemarkUpdateReq
 	UpdateCommentContentReq    = messagerpc.UpdateCommentContentReq
 	UpdateCommentReviewReq     = messagerpc.UpdateCommentReviewReq
+	UpdateRemarkReviewReq      = messagerpc.UpdateRemarkReviewReq
 	UserIdReq                  = messagerpc.UserIdReq
 
 	MessageRpc interface {
@@ -64,6 +65,8 @@ type (
 		GetRemark(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 查询留言列表
 		FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error)
+		// 更新留言审核状态
+		UpdateRemarkReview(ctx context.Context, in *UpdateRemarkReviewReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 创建评论
 		AddComment(ctx context.Context, in *CommentNewReq, opts ...grpc.CallOption) (*CommentDetails, error)
 		// 删除评论
@@ -161,6 +164,12 @@ func (m *defaultMessageRpc) GetRemark(ctx context.Context, in *IdReq, opts ...gr
 func (m *defaultMessageRpc) FindRemarkList(ctx context.Context, in *FindRemarkListReq, opts ...grpc.CallOption) (*FindRemarkListResp, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
 	return client.FindRemarkList(ctx, in, opts...)
+}
+
+// 更新留言审核状态
+func (m *defaultMessageRpc) UpdateRemarkReview(ctx context.Context, in *UpdateRemarkReviewReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
+	return client.UpdateRemarkReview(ctx, in, opts...)
 }
 
 // 创建评论
