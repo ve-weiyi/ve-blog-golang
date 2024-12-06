@@ -455,15 +455,15 @@ type RemarkBackDTO struct {
 	UpdatedAt      int64  `json:"updated_at"`      // 更新时间
 }
 
-type RemarkNewReq struct {
-	Id       int64 `json:"id,optional"` // 主键id
-	IsReview int64 `json:"is_review"`   // 是否审核
-}
-
 type RemarkQuery struct {
 	PageQuery
 	Nickname string `json:"nickname,optional"`  // 昵称
 	IsReview int64  `json:"is_review,optional"` // 是否审核
+}
+
+type RemarkReviewReq struct {
+	Ids      []int64 `json:"ids,optional"`
+	IsReview int64   `json:"is_review"` // 是否审核
 }
 
 type Response struct {

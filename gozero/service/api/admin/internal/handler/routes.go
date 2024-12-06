@@ -97,12 +97,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: album.AddAlbumHandler(serverCtx),
 				},
 				{
-					// 批量删除相册
-					Method:  http.MethodDelete,
-					Path:    "/album/batch_delete_album",
-					Handler: album.BatchDeleteAlbumHandler(serverCtx),
-				},
-				{
 					// 删除相册
 					Method:  http.MethodDelete,
 					Path:    "/album/delete_album",
@@ -598,8 +592,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 更新留言
 					Method:  http.MethodPut,
-					Path:    "/remark/update_remark",
-					Handler: remark.UpdateRemarkHandler(serverCtx),
+					Path:    "/remark/update_remark_review",
+					Handler: remark.UpdateRemarkReviewHandler(serverCtx),
 				},
 			}...,
 		),

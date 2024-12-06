@@ -324,33 +324,6 @@
         ]
       }
     },
-    "/admin_api/v1/album/batch_delete_album": {
-      "delete": {
-        "summary": "批量删除相册",
-        "operationId": "BatchDeleteAlbum",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "album"
-        ]
-      }
-    },
     "/admin_api/v1/album/batch_delete_photo": {
       "delete": {
         "summary": "批量删除照片",
@@ -2082,15 +2055,15 @@
         ]
       }
     },
-    "/admin_api/v1/remark/update_remark": {
+    "/admin_api/v1/remark/update_remark_review": {
       "put": {
         "summary": "更新留言",
-        "operationId": "UpdateRemark",
+        "operationId": "UpdateRemarkReview",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/RemarkBackDTO"
+              "$ref": "#/definitions/BatchResp"
             }
           }
         },
@@ -2100,7 +2073,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RemarkNewReq"
+              "$ref": "#/definitions/RemarkReviewReq"
             }
           }
         ],
@@ -4813,25 +4786,6 @@
         "updated_at"
       ]
     },
-    "RemarkNewReq": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 主键id"
-        },
-        "is_review": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 是否审核"
-        }
-      },
-      "title": "RemarkNewReq",
-      "required": [
-        "is_review"
-      ]
-    },
     "RemarkQuery": {
       "type": "object",
       "properties": {
@@ -4863,6 +4817,27 @@
         }
       },
       "title": "RemarkQuery"
+    },
+    "RemarkReviewReq": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "is_review": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否审核"
+        }
+      },
+      "title": "RemarkReviewReq",
+      "required": [
+        "is_review"
+      ]
     },
     "Response": {
       "type": "object",

@@ -57,8 +57,4 @@ service admin-api {
     @doc "删除相册"
     @handler DeleteAlbum
     delete /album/delete_album (IdReq) returns (BatchResp)
-
-    @doc "批量删除相册"
-    @handler BatchDeleteAlbum
-    delete /album/batch_delete_album (IdsReq) returns (BatchResp)
 }

@@ -108,7 +108,10 @@ message FindRemarkListResp {
   int64 total = 2;
 }
 
-
+message UpdateRemarkReviewReq{
+  repeated int64 ids = 1;// 主键
+  int64 is_review = 2;// 是否审核
+}
 /************** blog 消息管理 **************/
 message CommentNewReq {
   string user_id = 2;// 评论用户id
@@ -240,7 +243,8 @@ service MessageRpc {
   rpc GetRemark(IdReq) returns(RemarkDetails);
   // 查询留言列表
   rpc FindRemarkList(FindRemarkListReq) returns(FindRemarkListResp);
-
+  // 更新留言审核状态
+  rpc UpdateRemarkReview(UpdateRemarkReviewReq) returns(BatchResp);
 
   // 创建评论
   rpc AddComment(CommentNewReq) returns(CommentDetails);
