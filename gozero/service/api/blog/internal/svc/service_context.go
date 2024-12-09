@@ -46,7 +46,7 @@ type ServiceContext struct {
 	Redis            *redis.Redis
 	Uploader         oss.OSS
 	TokenHolder      tokenx.TokenHolder
-	WebsocketManager *ws.WebSocketManager
+	WebsocketManager ws.ClientManager
 
 	TimeToken rest.Middleware
 	SignToken rest.Middleware
@@ -98,7 +98,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:            rds,
 		Uploader:         uploader,
 		TokenHolder:      th,
-		WebsocketManager: ws.NewWebSocketManager(),
+		WebsocketManager: ws.NewDefaultClientManager(),
 
 		TimeToken: middlewarex.NewTimeTokenMiddleware().Handle,
 		SignToken: middlewarex.NewSignTokenMiddleware(th).Handle,
