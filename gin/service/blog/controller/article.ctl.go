@@ -109,7 +109,7 @@ func (s *ArticleController) FindArticleClassifyTag(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.ArticleDeatils}	"返回信息"
+// @Success		200		{object}	response.Body{data=dto.ArticleDetails}	"返回信息"
 // @Router		/api/v1/article/get_article_details [POST]
 func (s *ArticleController) GetArticleDetails(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)

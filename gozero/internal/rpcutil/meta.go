@@ -6,7 +6,7 @@ import (
 
 	"google.golang.org/grpc/metadata"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 func GetRPCAppName(ctx context.Context) (string, error) {
@@ -15,13 +15,13 @@ func GetRPCAppName(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[headerconst.HeaderAppName]; ok {
+	if val, ok := md[restx.HeaderAppName]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderAppName)
+	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderAppName)
 }
 
 func GetRPCUserId(ctx context.Context) (string, error) {
@@ -30,13 +30,13 @@ func GetRPCUserId(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[headerconst.HeaderUid]; ok {
+	if val, ok := md[restx.HeaderUid]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderUid)
+	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderUid)
 }
 
 func GetRPCTerminalId(ctx context.Context) (string, error) {
@@ -45,13 +45,13 @@ func GetRPCTerminalId(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[headerconst.HeaderTerminal]; ok {
+	if val, ok := md[restx.HeaderTerminal]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderTerminal)
+	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderTerminal)
 }
 
 func GetRPCUserAgent(ctx context.Context) (string, error) {
@@ -60,13 +60,13 @@ func GetRPCUserAgent(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[headerconst.HeaderUserAgent]; ok {
+	if val, ok := md[restx.HeaderRPCUserAgent]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderUserAgent)
+	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderRPCUserAgent)
 }
 
 // 获取客户端IP地址
@@ -76,13 +76,13 @@ func GetRPCClientIP(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[headerconst.HeaderRemoteAddr]; ok {
+	if val, ok := md[restx.HeaderRPCClientIP]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", headerconst.HeaderRemoteAddr)
+	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderRPCClientIP)
 }
 
 //func GetRPCClientIP(ctx context.Context) (string, error) {
