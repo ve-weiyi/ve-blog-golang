@@ -43,7 +43,7 @@ type ServiceContext struct {
 	Redis            *redis.Redis
 	TokenHolder      tokenx.TokenHolder
 	Uploader         oss.OSS
-	WebsocketManager *ws.WebSocketManager
+	WebsocketManager ws.ClientManager
 
 	TimeToken rest.Middleware
 	SignToken rest.Middleware
@@ -76,7 +76,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Uploader:         oss.NewQiniu(c.UploadConfig),
 		Redis:            rds,
 		TokenHolder:      th,
-		WebsocketManager: ws.NewWebSocketManager(),
+		WebsocketManager: ws.NewDefaultClientManager(),
 
 		TimeToken: middlewarex.NewTimeTokenMiddleware().Handle,
 		SignToken: middlewarex.NewSignTokenMiddleware(th).Handle,

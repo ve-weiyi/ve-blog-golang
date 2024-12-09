@@ -9,7 +9,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 type AntiReplyMiddleware struct {
@@ -25,7 +25,7 @@ func (m *AntiReplyMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		logx.Infof("AntiReplyMiddleware Handle")
 
 		if r.Method != http.MethodGet {
-			ts := r.Header.Get(headerconst.HeaderTimestamp)
+			ts := r.Header.Get(restx.HeaderTimestamp)
 			if ts == "" {
 				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "timestamp is empty"))
 				return

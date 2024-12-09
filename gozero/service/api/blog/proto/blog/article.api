@@ -33,7 +33,7 @@ type (
     }
 
         // 文章推荐详情
-    ArticleDeatils {
+    ArticleDetails {
         ArticleHome
         LastArticle *ArticlePreview `json:"last_article"`                      // 上一篇文章
         NextArticle *ArticlePreview `json:"next_article"`                      // 下一篇文章
@@ -85,7 +85,7 @@ service blog-api {
 
     @doc "获取文章详情"
     @handler GetArticleDetails
-    post /article/get_article_details (IdReq) returns (ArticleDeatils)
+    post /article/get_article_details (IdReq) returns (ArticleDetails)
 }
 
 @server(
