@@ -38,7 +38,7 @@ func (s *ArticleService) FindArticleClassifyTag(reqCtx *request.Context, in *dto
 }
 
 // 获取文章详情
-func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, in *dto.IdReq) (out *dto.ArticleDeatils, err error) {
+func (s *ArticleService) GetArticleDetails(reqCtx *request.Context, in *dto.IdReq) (out *dto.ArticleDetails, err error) {
 	// todo
 
 	return

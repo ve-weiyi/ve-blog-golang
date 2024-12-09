@@ -465,7 +465,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				// WebSocket消息
 				Method:  http.MethodGet,
 				Path:    "/websocket",
-				Handler: websocket.WebSocketHandler(serverCtx),
+				Handler: websocket.WebsocketHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),

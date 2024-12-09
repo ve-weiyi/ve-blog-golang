@@ -3,6 +3,7 @@ package interceptorx
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
@@ -13,7 +14,7 @@ func ServerMetaInterceptor(ctx context.Context, req interface{}, info *grpc.Unar
 	if ok {
 		var pairs []string
 		for k, v := range md {
-			//logx.Infof("get k=%s, v=%+v", k, v)
+			logx.Infof("get k=%s, v=%+v", k, v)
 			for _, value := range v {
 				pairs = append(pairs, k, value)
 			}

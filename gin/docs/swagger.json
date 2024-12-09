@@ -4913,7 +4913,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleDeatils"
+                                          "$ref": "#/definitions/dto.ArticleDetails"
                                         }
                                     }
                                 }
@@ -7093,7 +7093,7 @@
                 }
             }
         },
-        "dto.ArticleDeatils": {
+      "dto.ArticleDetails": {
             "type": "object",
             "properties": {
                 "article_content": {

@@ -28,10 +28,9 @@ type (
 		Save(ctx context.Context, in *TUserRole) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TUserRole, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *TUserRole, err error)
-		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TUserRole, err error)
 		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserRole, err error)
+		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		// add extra method in here
 	}
 
@@ -170,38 +169,6 @@ func (m *defaultTUserRoleModel) FindOne(ctx context.Context, id int64) (out *TUs
 	return out, err
 }
 
-// 查询记录
-func (m *defaultTUserRoleModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TUserRole, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 查询总数
-func (m *defaultTUserRoleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.Model(&TUserRole{}).Count(&count).Error
-	if err != nil {
-		return 0, err
-	}
-	return count, nil
-}
-
 // 查询列表
 func (m *defaultTUserRoleModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TUserRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -247,6 +214,22 @@ func (m *defaultTUserRoleModel) FindList(ctx context.Context, page int, size int
 	}
 
 	return list, nil
+}
+
+// 查询总数
+func (m *defaultTUserRoleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Model(&TUserRole{}).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }
 
 // add extra method in here

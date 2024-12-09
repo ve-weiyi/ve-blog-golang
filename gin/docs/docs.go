@@ -4920,7 +4920,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleDeatils"
+                                            "$ref": "#/definitions/dto.ArticleDetails"
                                         }
                                     }
                                 }
@@ -7100,7 +7100,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ArticleDeatils": {
+        "dto.ArticleDetails": {
             "type": "object",
             "properties": {
                 "article_content": {

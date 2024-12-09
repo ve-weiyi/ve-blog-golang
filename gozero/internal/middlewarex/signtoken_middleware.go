@@ -8,7 +8,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 type SignTokenMiddleware struct {
@@ -29,8 +29,8 @@ func (j *SignTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		var token string
 		var uid string
 
-		token = r.Header.Get(headerconst.HeaderToken)
-		uid = r.Header.Get(headerconst.HeaderUid)
+		token = r.Header.Get(restx.HeaderToken)
+		uid = r.Header.Get(restx.HeaderUid)
 
 		// 请求头缺少参数
 		if token == "" || uid == "" {
