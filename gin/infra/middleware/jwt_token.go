@@ -10,8 +10,8 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 // JwtToken jwt中间件
@@ -23,8 +23,8 @@ func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 		var token string
 		var uid string
 
-		token = c.Request.Header.Get(headerconst.HeaderToken)
-		uid = c.Request.Header.Get(headerconst.HeaderUid)
+		token = c.Request.Header.Get(restx.HeaderToken)
+		uid = c.Request.Header.Get(restx.HeaderUid)
 
 		// token为空或者uid为空
 		if token == "" || uid == "" {

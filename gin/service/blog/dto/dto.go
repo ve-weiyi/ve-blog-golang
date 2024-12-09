@@ -20,7 +20,7 @@ type ArticleClassifyQueryReq struct {
 	ClassifyName string `json:"classify_name,optional"` // 分类名
 }
 
-type ArticleDeatils struct {
+type ArticleDetails struct {
 	ArticleHome
 	LastArticle          *ArticlePreview   `json:"last_article"`           // 上一篇文章
 	NextArticle          *ArticlePreview   `json:"next_article"`           // 下一篇文章

@@ -25,7 +25,7 @@ func NewGetArticleDetailsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *types.ArticleDeatils, err error) {
+func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *types.ArticleDetails, err error) {
 	in := &articlerpc.IdReq{
 		Id: req.Id,
 	}
@@ -47,7 +47,7 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 		return nil, err
 	}
 
-	resp = &types.ArticleDeatils{
+	resp = &types.ArticleDetails{
 		ArticleHome:          types.ArticleHome{},
 		LastArticle:          nil,
 		NextArticle:          nil,

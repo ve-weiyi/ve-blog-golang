@@ -11,7 +11,7 @@ import (
 	websiterpclogic "github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/logic/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 func TestAddVisit(t *testing.T) {
@@ -19,9 +19,9 @@ func TestAddVisit(t *testing.T) {
 	ctx := tracex.NewRandomTraceContext()
 
 	md := metadata.MD{}
-	md.Set(headerconst.HeaderUid, "1")
-	md.Set(headerconst.HeaderTerminal, "terminal")
-	md.Set(headerconst.HeaderUserAgent, "")
+	md.Set(restx.HeaderUid, "1")
+	md.Set(restx.HeaderTerminal, "terminal")
+	md.Set(restx.HeaderUserAgent, "")
 	ctx = metadata.NewIncomingContext(ctx, md)
 
 	in := &websiterpc.EmptyReq{}

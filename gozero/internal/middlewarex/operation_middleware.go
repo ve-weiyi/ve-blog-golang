@@ -13,7 +13,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -102,7 +102,7 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 					}
 
 					keyLowercase := strings.ToLower(k)
-					for _, key := range headerconst.HeaderFields {
+					for _, key := range restx.HeaderFields {
 						if key == keyLowercase {
 							header[key] = v
 						}
@@ -114,7 +114,7 @@ func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			cost := time.Since(start)
 
 			op := &syslogrpc.OperationLogNewReq{
-				UserId:         cast.ToString(r.Header[headerconst.HeaderUid]),
+				UserId:         cast.ToString(r.Header[restx.HeaderUid]),
 				Nickname:       "",
 				IpAddress:      ip,
 				IpSource:       is,

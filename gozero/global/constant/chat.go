@@ -5,10 +5,10 @@ type ChatTypeEnum int
 
 // 定义ChatTypeEnum的可能值。
 const (
-	OnlineCount   ChatTypeEnum = iota + 1 // 在线人数
-	HistoryRecord                         // 历史记录
-	SendMessage                           // 发送消息
-	RecallMessage                         // 撤回消息
-	VoiceMessage                          // 语音消息
-	HeartBeat                             // 心跳消息
+	OnlineCount   = iota + 1 // 在线人数
+	HistoryRecord            // 历史记录
+	SendMessage              // 发送消息
+	RecallMessage            // 撤回消息
+	HeartBeat                // 心跳消息
+	ClientInfo               // 客户端信息
 )
