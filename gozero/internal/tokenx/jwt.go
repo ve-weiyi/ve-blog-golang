@@ -10,8 +10,8 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/jwtx"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 type JwtTokenHolder struct {
@@ -53,7 +53,7 @@ func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid stri
 	}
 
 	// uid不一致
-	if uid != cast.ToString(claims[headerconst.HeaderUid]) {
+	if uid != cast.ToString(claims[restx.HeaderUid]) {
 		return fmt.Errorf("token cannot use by uid")
 	}
 

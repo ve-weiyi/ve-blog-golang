@@ -13,7 +13,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/swagger"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/common/task"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/handler"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
@@ -87,6 +86,5 @@ func main() {
 	默认接口文档地址:http://%s:%d/api/v1/swagger/index.html
 `, c.Host, c.Port)
 
-	task.Run(ctx)
 	server.Start()
 }

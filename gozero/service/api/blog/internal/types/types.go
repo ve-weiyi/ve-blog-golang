@@ -21,7 +21,7 @@ type ArticleClassifyQueryReq struct {
 	ClassifyName string `json:"classify_name,optional"` // 分类名
 }
 
-type ArticleDeatils struct {
+type ArticleDetails struct {
 	ArticleHome
 	LastArticle          *ArticlePreview   `json:"last_article"`           // 上一篇文章
 	NextArticle          *ArticlePreview   `json:"next_article"`           // 下一篇文章
@@ -82,12 +82,7 @@ type CategoryQueryReq struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type ChatMsgReq struct {
-	Type        string `json:"type"`         // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
-	ChatContent string `json:"chat_content"` // 消息内容
-}
-
-type ChatMsgResp struct {
+type ChatRecordResp struct {
 	Id          int64  `json:"id"`           // 主键
 	UserId      string `json:"user_id"`      // 用户id
 	DeviceId    string `json:"device_id"`    // 设备id
@@ -99,6 +94,15 @@ type ChatMsgResp struct {
 	Type        string `json:"type"`         // 类型
 	CreatedAt   int64  `json:"created_at"`   // 创建时间
 	UpdatedAt   int64  `json:"updated_at"`   // 更新时间
+}
+
+type ClientInfoResp struct {
+	ClientId  string `json:"client_id"`  // 客户端id
+	UserId    string `json:"user_id"`    // 用户id
+	DeviceId  string `json:"device_id"`  // 设备id
+	Nickname  string `json:"nickname"`   // 昵称
+	IpAddress string `json:"ip_address"` // ip地址
+	IpSource  string `json:"ip_source"`  // ip来源
 }
 
 type Comment struct {
@@ -241,6 +245,11 @@ type OauthLoginUrlResp struct {
 	Url string `json:"url"` // 授权地址
 }
 
+type OnlineCountResp struct {
+	Msg   string `json:"msg"`   // 消息
+	Count int    `json:"count"` // 在线人数
+}
+
 type Page struct {
 	Id         int64  `json:"id"`                   // 页面id
 	PageName   string `json:"page_name"`            // 页面名
@@ -297,6 +306,20 @@ type PingResp struct {
 	RpcStatus   []string `json:"rpc_status"`
 }
 
+type RecallMessageReq struct {
+	Id int64 `json:"id"` // 消息id
+}
+
+type RecallMessageResp struct {
+	Id int64 `json:"id"` // 消息id
+}
+
+type ReceiveMsg struct {
+	Type      int    `json:"type"`      // 类型
+	Data      string `json:"data"`      // 数据
+	Timestamp int64  `json:"timestamp"` //时间戳
+}
+
 type RegisterReq struct {
 	Username   string `json:"username"`
 	Password   string `json:"password"`
@@ -325,6 +348,12 @@ type RemarkQueryReq struct {
 	PageQuery
 }
 
+type ReplyMsg struct {
+	Type      int    `json:"type"`      // 类型
+	Data      string `json:"data"`      // 数据
+	Timestamp int64  `json:"timestamp"` //时间戳
+}
+
 type ReportResp struct {
 	TerminalId string `json:"terminal_id"`
 }
@@ -350,6 +379,11 @@ type RestHeader struct {
 	HeaderXUserId    string `header:"X-User-Id,optional"`
 	HeaderXAuthToken string `header:"X-Auth-Token,optional"`
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
+}
+
+type SendMessageReq struct {
+	Type    string `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+	Content string `json:"content"` // 消息内容
 }
 
 type Tag struct {
@@ -432,14 +466,6 @@ type UserLikeResp struct {
 	ArticleLikeSet []int64 `json:"article_like_set"`
 	CommentLikeSet []int64 `json:"comment_like_set"`
 	TalkLikeSet    []int64 `json:"talk_like_set"`
-}
-
-type WebSocketMsg struct {
-	ClientId  string `json:"client_id,optional"` // 客户端id
-	ClientIp  string `json:"client_ip,optional"` // 客户端ip
-	Timestamp int64  `json:"timestamp,optional"` // 时间戳
-	Cmd       int64  `json:"cmd"`                // 消息命令
-	Data      string `json:"data"`               // 消息内容
 }
 
 type WebsiteConfigDTO struct {

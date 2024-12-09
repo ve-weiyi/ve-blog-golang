@@ -29,7 +29,7 @@ func (l *SyncApiListLogic) SyncApiList(in *permissionrpc.SyncApiReq) (*permissio
 	var data int64
 	for _, item := range in.Apis {
 		// 已存在则跳过
-		exist, _ := l.svcCtx.TApiModel.First(l.ctx, "path = ?", item.Path)
+		exist, _ := l.svcCtx.TApiModel.FindOneByPathMethodName(l.ctx, item.Path, item.Method, item.Name)
 		if exist == nil {
 
 			// 插入数据
@@ -44,7 +44,7 @@ func (l *SyncApiListLogic) SyncApiList(in *permissionrpc.SyncApiReq) (*permissio
 
 		for _, child := range item.Children {
 			// 已存在则跳过
-			menu, _ := l.svcCtx.TApiModel.First(l.ctx, "path = ?", child.Path)
+			menu, _ := l.svcCtx.TApiModel.FindOneByPathMethodName(l.ctx, item.Path, item.Method, item.Name)
 			if menu == nil {
 				// 插入数据
 				menu = convertApiIn(child)
