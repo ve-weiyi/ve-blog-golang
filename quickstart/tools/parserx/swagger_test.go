@@ -21,7 +21,7 @@ func Test_NewSwaggerParser(t *testing.T) {
 func Test_Load(t *testing.T) {
 	// Example with default loaders defined at the package level
 
-	path := "./_testdata/test.json"
+	path := "https://static.veweiyi.cn/blog/swagger/admin-20241213164232.json"
 	doc, err := loads.Spec(path)
 	if err != nil {
 		fmt.Println("Could not load this spec")

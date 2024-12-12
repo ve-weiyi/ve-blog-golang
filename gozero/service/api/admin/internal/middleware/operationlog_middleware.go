@@ -2,14 +2,14 @@ package middleware
 
 import "net/http"
 
-type OperationMiddleware struct {
+type OperationLogMiddleware struct {
 }
 
-func NewOperationMiddleware() *OperationMiddleware {
-	return &OperationMiddleware{}
+func NewOperationLogMiddleware() *OperationLogMiddleware {
+	return &OperationLogMiddleware{}
 }
 
-func (m *OperationMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// TODO generate middleware implement function, delete after code implementation
 

@@ -200,7 +200,8 @@ service PermissionRpc {
   rpc SyncApiList(SyncApiReq) returns(BatchResp);
   // 清空接口列表
   rpc CleanApiList(EmptyReq) returns(BatchResp);
-
+  // 查找所有接口
+  rpc FindAllApi(EmptyReq) returns(FindApiListResp);
 
   // 创建菜单
   rpc AddMenu(MenuNewReq) returns(MenuDetails);
@@ -214,6 +215,8 @@ service PermissionRpc {
   rpc SyncMenuList(SyncMenuReq) returns(BatchResp);
   // 清空菜单列表
   rpc CleanMenuList(EmptyReq) returns(BatchResp);
+  // 查找所有菜单
+  rpc FindAllMenu(EmptyReq) returns(FindMenuListResp);
 
 
   // 创建角色

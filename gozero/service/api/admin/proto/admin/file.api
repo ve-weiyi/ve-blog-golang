@@ -51,7 +51,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: file
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
     maxBytes:   10485760
 )
 
@@ -60,6 +60,21 @@ service admin-api {
     @handler FindFileList
     post /file/find_file_list (FileQuery) returns (PageResp)
 
+
+    @doc "获取文件列表"
+    @handler ListUploadFile
+    post /file/list_upload_file (ListUploadFileReq) returns (ListUploadFileResp)
+}
+
+
+@server(
+    prefix: /admin_api/v1
+    group: file
+    middleware: JwtToken,Permission,OperationLog
+    maxBytes:   10485760
+)
+
+service admin-api {
     @doc "创建文件目录"
     @handler AddFileFolder
     post /file/add_file_folder (FileFolderNewReq) returns (FileBackDTO)
@@ -76,8 +91,4 @@ service admin-api {
     @doc "上传文件列表"
     @handler MultiUploadFile
     post /file/multi_upload_file (MultiUploadFileReq) returns ([]*FileBackDTO)
-
-    @doc "获取文件列表"
-    @handler ListUploadFile
-    post /file/list_upload_file (ListUploadFileReq) returns (ListUploadFileResp)
 }
