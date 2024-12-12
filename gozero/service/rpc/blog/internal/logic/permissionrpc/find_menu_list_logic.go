@@ -6,7 +6,6 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 )
@@ -51,16 +50,22 @@ func (l *FindMenuListLogic) FindMenuList(in *permissionrpc.FindMenuListReq) (*pe
 	}
 
 	out := &permissionrpc.FindMenuListResp{}
-	if conditions == "" {
-		var root permissionrpc.MenuDetails
-		root.Children = appendMenuChildren(&root, result)
-		out.List = root.Children
-	} else {
-		for _, item := range result {
-			out.List = append(out.List, convertMenuOut(item))
+	for _, item := range result {
+		// parentId不在当前菜单id列表，说明为父级菜单id，根据此id作为递归的开始条件节点
+		isParent := true
+		for _, v := range result {
+			if item.ParentId == v.Id {
+				isParent = false
+			}
+		}
+
+		// parentId为0，说明为父级菜单
+		if isParent {
+			root := convertMenuOut(item)
+			root.Children = appendMenuChildren(root, result)
+			out.List = append(out.List, root)
 		}
 	}
-
 	return out, nil
 }
 

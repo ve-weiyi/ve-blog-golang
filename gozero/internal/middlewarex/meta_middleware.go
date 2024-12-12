@@ -36,7 +36,7 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 				}
 
 				keyLowercase := strings.ToLower(k)
-				logx.Infof("add k=%s, v=%+v", keyLowercase, value)
+				//logx.Infof("add k=%s, v=%+v", keyLowercase, value)
 				for _, key := range restx.HeaderFields {
 					if key == keyLowercase {
 						md.Set(key, value)

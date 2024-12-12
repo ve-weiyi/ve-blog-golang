@@ -30,13 +30,31 @@ func (s *SyslogRpcServer) AddOperationLog(ctx context.Context, in *syslogrpc.Ope
 }
 
 // 批量删除操作记录
-func (s *SyslogRpcServer) DeleteOperationLog(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
-	l := syslogrpclogic.NewDeleteOperationLogLogic(ctx, s.svcCtx)
-	return l.DeleteOperationLog(in)
+func (s *SyslogRpcServer) DeletesOperationLog(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
+	l := syslogrpclogic.NewDeletesOperationLogLogic(ctx, s.svcCtx)
+	return l.DeletesOperationLog(in)
 }
 
 // 查询操作记录列表
 func (s *SyslogRpcServer) FindOperationLogList(ctx context.Context, in *syslogrpc.FindOperationLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
 	l := syslogrpclogic.NewFindOperationLogListLogic(ctx, s.svcCtx)
 	return l.FindOperationLogList(in)
+}
+
+// 创建访问记录
+func (s *SyslogRpcServer) AddVisitLog(ctx context.Context, in *syslogrpc.VisitLogNewReq) (*syslogrpc.VisitLogDetails, error) {
+	l := syslogrpclogic.NewAddVisitLogLogic(ctx, s.svcCtx)
+	return l.AddVisitLog(in)
+}
+
+// 批量删除访问记录
+func (s *SyslogRpcServer) DeletesVisitLog(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
+	l := syslogrpclogic.NewDeletesVisitLogLogic(ctx, s.svcCtx)
+	return l.DeletesVisitLog(in)
+}
+
+// 查询操作访问列表
+func (s *SyslogRpcServer) FindVisitLogList(ctx context.Context, in *syslogrpc.FindVisitLogListReq) (*syslogrpc.FindVisitLogListResp, error) {
+	l := syslogrpclogic.NewFindVisitLogListLogic(ctx, s.svcCtx)
+	return l.FindVisitLogList(in)
 }
