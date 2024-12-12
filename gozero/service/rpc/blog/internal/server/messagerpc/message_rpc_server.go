@@ -30,33 +30,33 @@ func (s *MessageRpcServer) AnalysisMessage(ctx context.Context, in *messagerpc.E
 }
 
 // 创建聊天记录
-func (s *MessageRpcServer) AddChatMessage(ctx context.Context, in *messagerpc.ChatMessageNewReq) (*messagerpc.ChatMessageDetails, error) {
-	l := messagerpclogic.NewAddChatMessageLogic(ctx, s.svcCtx)
-	return l.AddChatMessage(in)
+func (s *MessageRpcServer) AddChat(ctx context.Context, in *messagerpc.ChatNewReq) (*messagerpc.ChatDetails, error) {
+	l := messagerpclogic.NewAddChatLogic(ctx, s.svcCtx)
+	return l.AddChat(in)
 }
 
 // 更新聊天记录
-func (s *MessageRpcServer) UpdateChatMessage(ctx context.Context, in *messagerpc.ChatMessageNewReq) (*messagerpc.ChatMessageDetails, error) {
-	l := messagerpclogic.NewUpdateChatMessageLogic(ctx, s.svcCtx)
-	return l.UpdateChatMessage(in)
+func (s *MessageRpcServer) UpdateChat(ctx context.Context, in *messagerpc.ChatNewReq) (*messagerpc.ChatDetails, error) {
+	l := messagerpclogic.NewUpdateChatLogic(ctx, s.svcCtx)
+	return l.UpdateChat(in)
 }
 
 // 删除聊天记录
-func (s *MessageRpcServer) DeletesChatMessage(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
-	l := messagerpclogic.NewDeletesChatMessageLogic(ctx, s.svcCtx)
-	return l.DeletesChatMessage(in)
+func (s *MessageRpcServer) DeletesChat(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
+	l := messagerpclogic.NewDeletesChatLogic(ctx, s.svcCtx)
+	return l.DeletesChat(in)
 }
 
 // 查询聊天记录
-func (s *MessageRpcServer) GetChatMessage(ctx context.Context, in *messagerpc.IdReq) (*messagerpc.ChatMessageDetails, error) {
-	l := messagerpclogic.NewGetChatMessageLogic(ctx, s.svcCtx)
-	return l.GetChatMessage(in)
+func (s *MessageRpcServer) GetChat(ctx context.Context, in *messagerpc.IdReq) (*messagerpc.ChatDetails, error) {
+	l := messagerpclogic.NewGetChatLogic(ctx, s.svcCtx)
+	return l.GetChat(in)
 }
 
 // 查询聊天记录列表
-func (s *MessageRpcServer) FindChatMessageList(ctx context.Context, in *messagerpc.FindChatMessageListReq) (*messagerpc.FindChatMessageListResp, error) {
-	l := messagerpclogic.NewFindChatMessageListLogic(ctx, s.svcCtx)
-	return l.FindChatMessageList(in)
+func (s *MessageRpcServer) FindChatList(ctx context.Context, in *messagerpc.FindChatListReq) (*messagerpc.FindChatListResp, error) {
+	l := messagerpclogic.NewFindChatListLogic(ctx, s.svcCtx)
+	return l.FindChatList(in)
 }
 
 // 创建留言

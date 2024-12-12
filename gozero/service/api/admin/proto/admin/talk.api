@@ -32,17 +32,26 @@ type (
         Status int64 `json:"status,optional"`              // 状态 1.公开 2.私密
     }
 )
-
 @server(
     prefix: /admin_api/v1
     group: talk
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
     @doc "分页获取说说列表"
     @handler FindTalkList
     post /talk/find_talk_list (TalkQuery) returns (PageResp)
+}
+
+
+@server(
+    prefix: /admin_api/v1
+    group: talk
+    middleware: JwtToken,Permission,OperationLog
+)
+
+service admin-api {
 
     @doc "创建说说"
     @handler AddTalk
