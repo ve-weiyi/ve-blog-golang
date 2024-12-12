@@ -34,14 +34,23 @@ type (
 @server(
     prefix: /admin_api/v1
     group: photo
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
     @doc "分页获取照片列表"
     @handler FindPhotoList
     post /photo/find_photo_list (PhotoQuery) returns (PageResp)
+}
 
+
+@server(
+    prefix: /admin_api/v1
+    group: photo
+    middleware: JwtToken,Permission,OperationLog
+)
+
+service admin-api {
     @doc "创建照片"
     @handler AddPhoto
     post /photo/add_photo (PhotoNewReq) returns (PhotoBackDTO)

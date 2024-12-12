@@ -219,19 +219,19 @@ func (l *WebsocketLogic) onOnlineCountEvent(client *ws.Client) (err error) {
 
 func (l *WebsocketLogic) onHistoryRecordEvent(client *ws.Client) (err error) {
 
-	in := &messagerpc.FindChatMessageListReq{
+	in := &messagerpc.FindChatListReq{
 		After:  0,
 		Before: time.Now().Unix(),
 	}
 
-	out, err := l.svcCtx.MessageRpc.FindChatMessageList(context.Background(), in)
+	out, err := l.svcCtx.MessageRpc.FindChatList(context.Background(), in)
 	if err != nil {
 		return err
 	}
 
 	list := make([]*types.ChatRecordResp, 0)
 	for _, v := range out.List {
-		m := ConvertChatMessageTypes(v)
+		m := ConvertChatTypes(v)
 
 		list = append(list, m)
 	}
@@ -270,27 +270,23 @@ func (l *WebsocketLogic) onSendMessageEvent(client *ws.Client, msg types.Receive
 		return err
 	}
 
-	in := &messagerpc.ChatMessageNewReq{
-		Id:          0,
-		UserId:      client.UserId,
-		DeviceId:    client.DeviceId,
-		TopicId:     "",
-		ReplyMsgId:  "",
-		ReplyUserId: "",
-		IpAddress:   client.IpAddress,
-		IpSource:    client.IpSource,
-		ChatContent: chat.Content,
-		Type:        chat.Type,
+	in := &messagerpc.ChatNewReq{
+		UserId:     client.UserId,
+		TerminalId: client.ClientId,
+		IpAddress:  client.IpAddress,
+		IpSource:   client.IpSource,
+		Type:       chat.Type,
+		Content:    chat.Content,
 	}
 
-	out, err := l.svcCtx.MessageRpc.AddChatMessage(context.Background(), in)
+	out, err := l.svcCtx.MessageRpc.AddChat(context.Background(), in)
 	if err != nil {
 		return err
 	}
 
 	reply := &types.ReplyMsg{
 		Type:      constant.SendMessage,
-		Data:      jsonconv.AnyToJsonNE(ConvertChatMessageTypes(out)),
+		Data:      jsonconv.AnyToJsonNE(ConvertChatTypes(out)),
 		Timestamp: time.Now().Unix(),
 	}
 
@@ -313,7 +309,7 @@ func (l *WebsocketLogic) onRecallMessageEvent(client *ws.Client, msg types.Recei
 		Ids: []int64{req.Id},
 	}
 
-	_, err = l.svcCtx.MessageRpc.DeletesChatMessage(context.Background(), in)
+	_, err = l.svcCtx.MessageRpc.DeletesChat(context.Background(), in)
 	if err != nil {
 		return err
 	}
@@ -336,17 +332,17 @@ func (l *WebsocketLogic) onRecallMessageEvent(client *ws.Client, msg types.Recei
 	return nil
 }
 
-func ConvertChatMessageTypes(in *messagerpc.ChatMessageDetails) *types.ChatRecordResp {
+func ConvertChatTypes(in *messagerpc.ChatDetails) *types.ChatRecordResp {
 	return &types.ChatRecordResp{
 		Id:          in.Id,
 		UserId:      in.UserId,
-		DeviceId:    in.DeviceId,
+		DeviceId:    in.TerminalId,
 		Nickname:    "",
 		Avatar:      "",
-		ChatContent: in.ChatContent,
 		IpAddress:   in.IpAddress,
 		IpSource:    in.IpSource,
 		Type:        in.Type,
+		ChatContent: in.Content,
 		CreatedAt:   in.CreatedAt,
 		UpdatedAt:   in.UpdatedAt,
 	}

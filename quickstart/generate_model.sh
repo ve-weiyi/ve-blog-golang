@@ -8,7 +8,7 @@
 #-t=./resource/go-zero/template/model.tpl \
 #-n='%v_model.go' \
 #-o='/Users/weiyi/Github/ve-blog-golang/gozero/service/model'  \
-#-s='root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
+#-s='root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
 
 #go run main.go model dsn \
 #-t=./resource/go-zero/template/model.tpl \

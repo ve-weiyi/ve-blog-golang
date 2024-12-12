@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateChatMessageLogic struct {
+type UpdateChatLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUpdateChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateChatMessageLogic {
-	return &UpdateChatMessageLogic{
+func NewUpdateChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateChatLogic {
+	return &UpdateChatLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,13 +25,13 @@ func NewUpdateChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 // 更新聊天记录
-func (l *UpdateChatMessageLogic) UpdateChatMessage(in *messagerpc.ChatMessageNewReq) (*messagerpc.ChatMessageDetails, error) {
-	entity := convertChatMessageIn(in)
+func (l *UpdateChatLogic) UpdateChat(in *messagerpc.ChatNewReq) (*messagerpc.ChatDetails, error) {
+	entity := convertChatIn(in)
 
-	_, err := l.svcCtx.TChatMessageModel.Save(l.ctx, entity)
+	_, err := l.svcCtx.TChatModel.Save(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertChatMessageOut(entity), nil
+	return convertChatOut(entity), nil
 }

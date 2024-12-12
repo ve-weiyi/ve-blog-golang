@@ -10,27 +10,27 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeleteOperationLogLogic struct {
+type DeletesOperationLogLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 删除操作记录
-func NewDeleteOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteOperationLogLogic {
-	return &DeleteOperationLogLogic{
+func NewDeletesOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesOperationLogLogic {
+	return &DeletesOperationLogLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DeleteOperationLogLogic) DeleteOperationLog(req *types.IdReq) (resp *types.BatchResp, err error) {
+func (l *DeletesOperationLogLogic) DeletesOperationLog(req *types.IdsReq) (resp *types.BatchResp, err error) {
 	in := &syslogrpc.IdsReq{
-		Ids: []int64{req.Id},
+		Ids: req.Ids,
 	}
 
-	out, err := l.svcCtx.SyslogRpc.DeleteOperationLog(l.ctx, in)
+	out, err := l.svcCtx.SyslogRpc.DeletesOperationLog(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

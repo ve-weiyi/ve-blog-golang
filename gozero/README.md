@@ -8,7 +8,7 @@
   + [api](service/api) api服务
     + [admin](service/api/admin) 管理后台服务
     + [blog](service/api/blog) 博客服务
-  [model](service/model) 数据库操作层
+  + [model](service/model) 数据库操作层
   + [rpc](service/rpc) rpc服务
     + [blog](service/rpc/blog) 博客rpc服务
 
@@ -33,16 +33,16 @@ etcd
 
 1. 启动rpc服务
 ```sh
-go run service/rpc/blog/blog.go
+  go run service/rpc/blog/blog.go
 ```
 
 2. 启动api服务
 ```sh
-go run service/api/blog/blog.go
+  go run service/api/blog/blog.go
 ```
 
 ```sh
-go run service/api/admin/admin.go
+  go run service/api/admin/admin.go
 ```
 
 
@@ -53,17 +53,17 @@ go run service/api/admin/admin.go
 1. 启动rpc服务
 
 ```sh
-go run service/rpc/blog/blog.go -f service/rpc/blog/etc/blog-rpc.yaml
+  go run service/rpc/blog/blog.go -f service/rpc/blog/etc/blog-rpc.yaml
 ```
 
 2. 启动api服务
 
 ```sh
-go run service/api/blog/blog.go -f service/api/blog/etc/blog-api.yaml
+  go run service/api/blog/blog.go -f service/api/blog/etc/blog-api.yaml
 ```
 
 ```sh
-go run service/api/admin/admin.go -f service/api/admin/etc/admin-api.yaml
+  go run service/api/admin/admin.go -f service/api/admin/etc/admin-api.yaml
 ```
 
 ## 3.部署服务
@@ -71,5 +71,5 @@ go run service/api/admin/admin.go -f service/api/admin/etc/admin-api.yaml
 
 运行docker-compose.yaml文件
 ```sh
-    docker-compose up -d -f docker-compose.yaml
+  docker-compose up -d -f docker-compose.yaml
 ```

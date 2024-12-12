@@ -5,20 +5,20 @@ import "base.api"
 type (
     FriendNewReq {
         Id int64 `json:"id,optional"`                     // id
-        LinkName string `json:"link_name"`       // 链接名
-        LinkAvatar string `json:"link_avatar"`   // 链接头像
-        LinkAddress string `json:"link_address"` // 链接地址
-        LinkIntro string `json:"link_intro"`     // 链接介绍
+        LinkName string `json:"link_name"`                // 链接名
+        LinkAvatar string `json:"link_avatar"`            // 链接头像
+        LinkAddress string `json:"link_address"`          // 链接地址
+        LinkIntro string `json:"link_intro"`              // 链接介绍
     }
 
     FriendBackDTO {
         Id int64 `json:"id,optional"`                     // id
-        LinkName string `json:"link_name"`       // 链接名
-        LinkAvatar string `json:"link_avatar"`   // 链接头像
-        LinkAddress string `json:"link_address"` // 链接地址
-        LinkIntro string `json:"link_intro"`     // 链接介绍
-        CreatedAt int64 `json:"created_at"`      // 创建时间
-        UpdatedAt int64 `json:"updated_at"`      // 更新时间
+        LinkName string `json:"link_name"`                // 链接名
+        LinkAvatar string `json:"link_avatar"`            // 链接头像
+        LinkAddress string `json:"link_address"`          // 链接地址
+        LinkIntro string `json:"link_intro"`              // 链接介绍
+        CreatedAt int64 `json:"created_at"`               // 创建时间
+        UpdatedAt int64 `json:"updated_at"`               // 更新时间
     }
 
     FriendQuery {
@@ -30,14 +30,23 @@ type (
 @server(
     prefix: /admin_api/v1
     group: friend
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
     @doc "分页获取友链列表"
     @handler FindFriendList
     post /friend/find_friend_list (FriendQuery) returns (PageResp)
+}
 
+
+@server(
+    prefix: /admin_api/v1
+    group: friend
+    middleware: JwtToken,Permission,OperationLog
+)
+
+service admin-api {
     @doc "创建友链"
     @handler AddFriend
     post /friend/add_friend (FriendNewReq) returns (FriendBackDTO)

@@ -3,7 +3,7 @@ go 1.23
 use (
 	./gin
 	./gozero
-	//./kit
+	./kit
 	./quickstart
 )
 

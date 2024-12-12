@@ -5302,7 +5302,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.ChatMessageQueryReq"
+                          "$ref": "#/definitions/dto.ChatMessageQueryReq"
                         }
                     }
                 ],
@@ -7572,7 +7572,7 @@
                 }
             }
         },
-        "dto.ChatMessageQueryReq": {
+      "dto.ChatMessageQueryReq": {
             "type": "object",
             "properties": {
                 "after": {

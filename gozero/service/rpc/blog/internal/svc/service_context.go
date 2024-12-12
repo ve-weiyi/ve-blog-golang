@@ -57,6 +57,7 @@ type ServiceContext struct {
 	TTagModel           model.TTagModel
 	TArticleTagModel    model.TArticleTagModel
 
+	TChatModel         model.TChatModel
 	TCommentModel      model.TCommentModel
 	TRemarkModel       model.TRemarkModel
 	TFriendModel       model.TFriendModel
@@ -66,8 +67,8 @@ type ServiceContext struct {
 	TPageModel         model.TPageModel
 	TVisitHistoryModel model.TVisitHistoryModel
 
+	TVisitLogModel     model.TVisitLogModel
 	TOperationLogModel model.TOperationLogModel
-	TChatMessageModel  model.TChatMessageModel
 
 	TFileFolderModel model.TFileFolderModel
 	TFileUploadModel model.TFileUploadModel
@@ -119,6 +120,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TTagModel:           model.NewTTagModel(db, rds),
 		TArticleTagModel:    model.NewTArticleTagModel(db, rds),
 
+		TChatModel:         model.NewTChatModel(db, rds),
 		TCommentModel:      model.NewTCommentModel(db, rds),
 		TRemarkModel:       model.NewTRemarkModel(db, rds),
 		TFriendModel:       model.NewTFriendModel(db, rds),
@@ -128,8 +130,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TPageModel:         model.NewTPageModel(db, rds),
 		TVisitHistoryModel: model.NewTVisitHistoryModel(db, rds),
 
+		TVisitLogModel:     model.NewTVisitLogModel(db, rds),
 		TOperationLogModel: model.NewTOperationLogModel(db, rds),
-		TChatMessageModel:  model.NewTChatMessageModel(db, rds),
 
 		TFileFolderModel: model.NewTFileFolderModel(db, rds),
 		TFileUploadModel: model.NewTFileUploadModel(db, rds),

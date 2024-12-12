@@ -39,15 +39,13 @@ type (
 	TOperationLog struct {
 		Id             int64     `json:"id" gorm:"column:id" `                           // 主键id
 		UserId         string    `json:"user_id" gorm:"column:user_id" `                 // 用户id
-		Nickname       string    `json:"nickname" gorm:"column:nickname" `               // 用户昵称
+		TerminalId     string    `json:"terminal_id" gorm:"column:terminal_id" `         // 设备id
 		IpAddress      string    `json:"ip_address" gorm:"column:ip_address" `           // 操作ip
 		IpSource       string    `json:"ip_source" gorm:"column:ip_source" `             // 操作地址
 		OptModule      string    `json:"opt_module" gorm:"column:opt_module" `           // 操作模块
-		OptHandler     string    `json:"opt_handler" gorm:"column:opt_handler" `         // 操作方法
 		OptDesc        string    `json:"opt_desc" gorm:"column:opt_desc" `               // 操作描述
-		RequestUrl     string    `json:"request_url" gorm:"column:request_url" `         // 请求地址
+		RequestUri     string    `json:"request_uri" gorm:"column:request_uri" `         // 请求地址
 		RequestMethod  string    `json:"request_method" gorm:"column:request_method" `   // 请求方式
-		RequestHeader  string    `json:"request_header" gorm:"column:request_header" `   // 请求头参数
 		RequestData    string    `json:"request_data" gorm:"column:request_data" `       // 请求参数
 		ResponseData   string    `json:"response_data" gorm:"column:response_data" `     // 返回数据
 		ResponseStatus int64     `json:"response_status" gorm:"column:response_status" ` // 响应状态码

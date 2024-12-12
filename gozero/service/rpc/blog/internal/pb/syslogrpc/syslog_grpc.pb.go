@@ -24,8 +24,11 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	SyslogRpc_AddOperationLog_FullMethodName      = "/syslogrpc.SyslogRpc/AddOperationLog"
-	SyslogRpc_DeleteOperationLog_FullMethodName   = "/syslogrpc.SyslogRpc/DeleteOperationLog"
+	SyslogRpc_DeletesOperationLog_FullMethodName  = "/syslogrpc.SyslogRpc/DeletesOperationLog"
 	SyslogRpc_FindOperationLogList_FullMethodName = "/syslogrpc.SyslogRpc/FindOperationLogList"
+	SyslogRpc_AddVisitLog_FullMethodName          = "/syslogrpc.SyslogRpc/AddVisitLog"
+	SyslogRpc_DeletesVisitLog_FullMethodName      = "/syslogrpc.SyslogRpc/DeletesVisitLog"
+	SyslogRpc_FindVisitLogList_FullMethodName     = "/syslogrpc.SyslogRpc/FindVisitLogList"
 )
 
 // SyslogRpcClient is the client API for SyslogRpc service.
@@ -35,9 +38,15 @@ type SyslogRpcClient interface {
 	// 创建操作记录
 	AddOperationLog(ctx context.Context, in *OperationLogNewReq, opts ...grpc.CallOption) (*OperationLogDetails, error)
 	// 批量删除操作记录
-	DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	DeletesOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 	// 查询操作记录列表
 	FindOperationLogList(ctx context.Context, in *FindOperationLogListReq, opts ...grpc.CallOption) (*FindOperationLogListResp, error)
+	// 创建访问记录
+	AddVisitLog(ctx context.Context, in *VisitLogNewReq, opts ...grpc.CallOption) (*VisitLogDetails, error)
+	// 批量删除访问记录
+	DeletesVisitLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询操作访问列表
+	FindVisitLogList(ctx context.Context, in *FindVisitLogListReq, opts ...grpc.CallOption) (*FindVisitLogListResp, error)
 }
 
 type syslogRpcClient struct {
@@ -57,9 +66,9 @@ func (c *syslogRpcClient) AddOperationLog(ctx context.Context, in *OperationLogN
 	return out, nil
 }
 
-func (c *syslogRpcClient) DeleteOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (c *syslogRpcClient) DeletesOperationLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	out := new(BatchResp)
-	err := c.cc.Invoke(ctx, SyslogRpc_DeleteOperationLog_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, SyslogRpc_DeletesOperationLog_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -75,6 +84,33 @@ func (c *syslogRpcClient) FindOperationLogList(ctx context.Context, in *FindOper
 	return out, nil
 }
 
+func (c *syslogRpcClient) AddVisitLog(ctx context.Context, in *VisitLogNewReq, opts ...grpc.CallOption) (*VisitLogDetails, error) {
+	out := new(VisitLogDetails)
+	err := c.cc.Invoke(ctx, SyslogRpc_AddVisitLog_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *syslogRpcClient) DeletesVisitLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, SyslogRpc_DeletesVisitLog_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *syslogRpcClient) FindVisitLogList(ctx context.Context, in *FindVisitLogListReq, opts ...grpc.CallOption) (*FindVisitLogListResp, error) {
+	out := new(FindVisitLogListResp)
+	err := c.cc.Invoke(ctx, SyslogRpc_FindVisitLogList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SyslogRpcServer is the server API for SyslogRpc service.
 // All implementations must embed UnimplementedSyslogRpcServer
 // for forward compatibility
@@ -82,9 +118,15 @@ type SyslogRpcServer interface {
 	// 创建操作记录
 	AddOperationLog(context.Context, *OperationLogNewReq) (*OperationLogDetails, error)
 	// 批量删除操作记录
-	DeleteOperationLog(context.Context, *IdsReq) (*BatchResp, error)
+	DeletesOperationLog(context.Context, *IdsReq) (*BatchResp, error)
 	// 查询操作记录列表
 	FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error)
+	// 创建访问记录
+	AddVisitLog(context.Context, *VisitLogNewReq) (*VisitLogDetails, error)
+	// 批量删除访问记录
+	DeletesVisitLog(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询操作访问列表
+	FindVisitLogList(context.Context, *FindVisitLogListReq) (*FindVisitLogListResp, error)
 	mustEmbedUnimplementedSyslogRpcServer()
 }
 
@@ -95,11 +137,20 @@ type UnimplementedSyslogRpcServer struct {
 func (UnimplementedSyslogRpcServer) AddOperationLog(context.Context, *OperationLogNewReq) (*OperationLogDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddOperationLog not implemented")
 }
-func (UnimplementedSyslogRpcServer) DeleteOperationLog(context.Context, *IdsReq) (*BatchResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteOperationLog not implemented")
+func (UnimplementedSyslogRpcServer) DeletesOperationLog(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletesOperationLog not implemented")
 }
 func (UnimplementedSyslogRpcServer) FindOperationLogList(context.Context, *FindOperationLogListReq) (*FindOperationLogListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOperationLogList not implemented")
+}
+func (UnimplementedSyslogRpcServer) AddVisitLog(context.Context, *VisitLogNewReq) (*VisitLogDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddVisitLog not implemented")
+}
+func (UnimplementedSyslogRpcServer) DeletesVisitLog(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletesVisitLog not implemented")
+}
+func (UnimplementedSyslogRpcServer) FindVisitLogList(context.Context, *FindVisitLogListReq) (*FindVisitLogListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindVisitLogList not implemented")
 }
 func (UnimplementedSyslogRpcServer) mustEmbedUnimplementedSyslogRpcServer() {}
 
@@ -132,20 +183,20 @@ func _SyslogRpc_AddOperationLog_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SyslogRpc_DeleteOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SyslogRpc_DeletesOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IdsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SyslogRpcServer).DeleteOperationLog(ctx, in)
+		return srv.(SyslogRpcServer).DeletesOperationLog(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SyslogRpc_DeleteOperationLog_FullMethodName,
+		FullMethod: SyslogRpc_DeletesOperationLog_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SyslogRpcServer).DeleteOperationLog(ctx, req.(*IdsReq))
+		return srv.(SyslogRpcServer).DeletesOperationLog(ctx, req.(*IdsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -168,6 +219,60 @@ func _SyslogRpc_FindOperationLogList_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SyslogRpc_AddVisitLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VisitLogNewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).AddVisitLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_AddVisitLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).AddVisitLog(ctx, req.(*VisitLogNewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SyslogRpc_DeletesVisitLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).DeletesVisitLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_DeletesVisitLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).DeletesVisitLog(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SyslogRpc_FindVisitLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindVisitLogListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).FindVisitLogList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_FindVisitLogList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).FindVisitLogList(ctx, req.(*FindVisitLogListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SyslogRpc_ServiceDesc is the grpc.ServiceDesc for SyslogRpc service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,12 +285,24 @@ var SyslogRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SyslogRpc_AddOperationLog_Handler,
 		},
 		{
-			MethodName: "DeleteOperationLog",
-			Handler:    _SyslogRpc_DeleteOperationLog_Handler,
+			MethodName: "DeletesOperationLog",
+			Handler:    _SyslogRpc_DeletesOperationLog_Handler,
 		},
 		{
 			MethodName: "FindOperationLogList",
 			Handler:    _SyslogRpc_FindOperationLogList_Handler,
+		},
+		{
+			MethodName: "AddVisitLog",
+			Handler:    _SyslogRpc_AddVisitLog_Handler,
+		},
+		{
+			MethodName: "DeletesVisitLog",
+			Handler:    _SyslogRpc_DeletesVisitLog_Handler,
+		},
+		{
+			MethodName: "FindVisitLogList",
+			Handler:    _SyslogRpc_FindVisitLogList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

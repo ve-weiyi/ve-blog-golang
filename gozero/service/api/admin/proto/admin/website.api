@@ -4,17 +4,17 @@ import "base.api"
 
 type (
     AdminHomeInfo {
-        ViewCount int64 `json:"view_count"`                                                                                // 访问量
-        UserCount int64 `json:"user_count"`                                                                                // 用户量
-        ArticleCount int64 `json:"article_count"`                                                                          // 文章量
-        RemarkCount int64 `json:"remark_count"`                                                                            // 留言量
+        ViewCount int64 `json:"view_count"`                                                                                 // 访问量
+        UserCount int64 `json:"user_count"`                                                                                 // 用户量
+        ArticleCount int64 `json:"article_count"`                                                                           // 文章量
+        RemarkCount int64 `json:"remark_count"`                                                                             // 留言量
 
-        CategoryList []*CategoryDTO `json:"category_list"`                                                                 // 分类列表
-        TagList []*TagDTO `json:"tag_list"`                                                                                // 标签列表
+        CategoryList []*CategoryDTO `json:"category_list"`                                                                  // 分类列表
+        TagList []*TagDTO `json:"tag_list"`                                                                                 // 标签列表
 
         ArticleViewRanks []*ArticleViewDTO `json:"article_view_ranks"`                                                      // 文章浏览量排行
-        ArticleStatistics []*ArticleStatisticsDTO `json:"article_statistics"`                                              // 文章提交统计
-        UserVisitDaliy []*UserVisitDTO `json:"user_visit_daliy"`                                                           // 用户每日访问量
+        ArticleStatistics []*ArticleStatisticsDTO `json:"article_statistics"`                                               // 文章提交统计
+        UserVisitDaliy []*UserVisitDTO `json:"user_visit_daliy"`                                                            // 用户每日访问量
     }
 
     CategoryDTO {
@@ -88,7 +88,7 @@ type Server {
 @server(
     prefix: /admin_api/v1
     group: website
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
 )
 service admin-api {
     @doc "获取后台首页信息"
@@ -100,18 +100,24 @@ service admin-api {
     get /admin/system_state (EmptyReq) returns (Server)
 
 
-
     @doc "获取网站配置"
     @handler GetWebsiteConfig
     get /admin/get_website_config (EmptyReq) returns (WebsiteConfig)
 
-    @doc "更新网站配置"
-    @handler UpdateWebsiteConfig
-    put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)
-
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /admin/about_me (EmptyReq) returns (AboutMe)
+}
+
+@server(
+    prefix: /admin_api/v1
+    group: website
+    middleware: JwtToken,Permission,OperationLog
+)
+service admin-api {
+    @doc "更新网站配置"
+    @handler UpdateWebsiteConfig
+    put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)
 
     @doc "更新关于我的信息"
     @handler UpdateAboutMe

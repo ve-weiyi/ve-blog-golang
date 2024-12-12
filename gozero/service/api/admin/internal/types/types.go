@@ -350,13 +350,13 @@ type OperationLogBackDTO struct {
 	Id             int64  `json:"id,optional"`     // 主键id
 	UserId         string `json:"user_id"`         // 用户id
 	Nickname       string `json:"nickname"`        // 用户昵称
+	Avatar         string `json:"avatar"`          // 用户头像
 	IpAddress      string `json:"ip_address"`      // 操作ip
 	IpSource       string `json:"ip_source"`       // 操作地址
 	OptModule      string `json:"opt_module"`      // 操作模块
 	OptDesc        string `json:"opt_desc"`        // 操作描述
-	RequestUrl     string `json:"request_url"`     // 请求地址
+	RequestUri     string `json:"request_uri"`     // 请求地址
 	RequestMethod  string `json:"request_method"`  // 请求方式
-	RequestHeader  string `json:"request_header"`  // 请求头参数
 	RequestData    string `json:"request_data"`    // 请求参数
 	ResponseData   string `json:"response_data"`   // 返回数据
 	ResponseStatus int64  `json:"response_status"` // 响应状态码
@@ -728,6 +728,25 @@ type UserRolesResp struct {
 type UserVisitDTO struct {
 	Date  string `json:"date"`  // 日期
 	Count int64  `json:"count"` // 数量
+}
+
+type VisitLogBackDTO struct {
+	Id        int64  `json:"id,optional"` // 主键id
+	UserId    string `json:"user_id"`     // 用户id
+	Nickname  string `json:"nickname"`    // 用户昵称
+	Avatar    string `json:"avatar"`      // 用户头像
+	IpAddress string `json:"ip_address"`  // 操作ip
+	IpSource  string `json:"ip_source"`   // 操作地址
+	Os        string `json:"os"`          // 操作系统
+	Browser   string `json:"browser"`     // 浏览器
+	Page      string `json:"page"`        // 页面
+	CreatedAt int64  `json:"created_at"`  // 创建时间
+	UpdatedAt int64  `json:"updated_at"`  // 更新时间
+}
+
+type VisitLogQuery struct {
+	PageQuery
+	Keywords string `json:"keywords,optional"` // 关键字
 }
 
 type WebsiteConfig struct {

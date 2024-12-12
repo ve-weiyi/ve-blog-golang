@@ -41,14 +41,23 @@ type (
 @server(
     prefix: /admin_api/v1
     group: api
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
     @doc "分页获取api路由列表"
     @handler FindApiList
     post /api/find_api_list (ApiQuery) returns (PageResp)
+}
 
+
+@server(
+    prefix: /admin_api/v1
+    group: api
+    middleware: JwtToken,Permission,OperationLog
+)
+
+service admin-api {
     @doc "同步api列表"
     @handler SyncApiList
     post /api/sync_api_list (SyncApiReq) returns (BatchResp)
@@ -58,7 +67,7 @@ service admin-api {
     post /api/clean_api_list (EmptyReq) returns (BatchResp)
 
 
-@doc "创建api路由"
+    @doc "创建api路由"
     @handler AddApi
     post /api/add_api (ApiNewReq) returns (ApiBackDTO)
 

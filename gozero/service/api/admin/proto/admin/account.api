@@ -15,14 +15,14 @@ type (
 
     AccountLoginHistory {
         Id int64 `json:"id,optional"`
-        Username string `json:"username"`           // 用户名
-        Nickname string `json:"nickname"`           // 用户昵称
-        Avatar string `json:"avatar"`               // 用户头像
-        LoginType string `json:"login_type"`        // 登录类型
-        Agent string `json:"agent"`                 // 代理
-        IpAddress string `json:"ip_address"`        // ip host
-        IpSource string `json:"ip_source"`          // ip 源
-        LoginAt int64 `json:"login_at"`             // 登录时间
+        Username string `json:"username"`            // 用户名
+        Nickname string `json:"nickname"`            // 用户昵称
+        Avatar string `json:"avatar"`                // 用户头像
+        LoginType string `json:"login_type"`         // 登录类型
+        Agent string `json:"agent"`                  // 代理
+        IpAddress string `json:"ip_address"`         // ip host
+        IpSource string `json:"ip_source"`           // ip 源
+        LoginAt int64 `json:"login_at"`              // 登录时间
         LogoutAt int64 `json:"logout_out"`           // 登出时间
     }
 
@@ -41,7 +41,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: account
-    middleware: JwtToken,Operation
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
@@ -60,8 +60,16 @@ service admin-api {
     @doc "获取用户分布地区"
     @handler FindAccountAreaAnalysis
     post /account/find_account_area_analysis (AccountQuery) returns (PageResp)
+}
 
 
+@server(
+    prefix: /admin_api/v1
+    group: account
+    middleware: JwtToken,Permission,OperationLog
+)
+
+service admin-api {
     @doc "修改用户状态"
     @handler UpdateAccountStatus
     post /account/update_account_status (UpdateAccountStatusReq) returns (EmptyResp)

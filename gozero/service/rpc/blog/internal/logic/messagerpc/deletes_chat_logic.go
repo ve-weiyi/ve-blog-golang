@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DeletesChatMessageLogic struct {
+type DeletesChatLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewDeletesChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesChatMessageLogic {
-	return &DeletesChatMessageLogic{
+func NewDeletesChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeletesChatLogic {
+	return &DeletesChatLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,8 +25,8 @@ func NewDeletesChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 // 删除聊天记录
-func (l *DeletesChatMessageLogic) DeletesChatMessage(in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
-	rows, err := l.svcCtx.TChatMessageModel.Deletes(l.ctx, "id in (?)", in.Ids)
+func (l *DeletesChatLogic) DeletesChat(in *messagerpc.IdsReq) (*messagerpc.BatchResp, error) {
+	rows, err := l.svcCtx.TChatModel.Deletes(l.ctx, "id in (?)", in.Ids)
 	if err != nil {
 		return nil, err
 	}

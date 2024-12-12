@@ -57,5 +57,12 @@ func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, 
 		sorts = "id desc"
 	}
 
+	if in.Keywords != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += " opt_desc = ?"
+		params = append(params, "%"+in.Keywords+"%")
+	}
 	return
 }

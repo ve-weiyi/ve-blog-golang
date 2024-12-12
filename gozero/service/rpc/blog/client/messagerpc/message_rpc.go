@@ -16,14 +16,14 @@ import (
 type (
 	AnalysisMessageResp        = messagerpc.AnalysisMessageResp
 	BatchResp                  = messagerpc.BatchResp
-	ChatMessageDetails         = messagerpc.ChatMessageDetails
-	ChatMessageNewReq          = messagerpc.ChatMessageNewReq
+	ChatDetails                = messagerpc.ChatDetails
+	ChatNewReq                 = messagerpc.ChatNewReq
 	CommentDetails             = messagerpc.CommentDetails
 	CommentNewReq              = messagerpc.CommentNewReq
 	EmptyReq                   = messagerpc.EmptyReq
 	EmptyResp                  = messagerpc.EmptyResp
-	FindChatMessageListReq     = messagerpc.FindChatMessageListReq
-	FindChatMessageListResp    = messagerpc.FindChatMessageListResp
+	FindChatListReq            = messagerpc.FindChatListReq
+	FindChatListResp           = messagerpc.FindChatListResp
 	FindCommentListReq         = messagerpc.FindCommentListReq
 	FindCommentListResp        = messagerpc.FindCommentListResp
 	FindCommentReplyListReq    = messagerpc.FindCommentReplyListReq
@@ -47,15 +47,15 @@ type (
 		// 消息数据分析
 		AnalysisMessage(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisMessageResp, error)
 		// 创建聊天记录
-		AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
+		AddChat(ctx context.Context, in *ChatNewReq, opts ...grpc.CallOption) (*ChatDetails, error)
 		// 更新聊天记录
-		UpdateChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
+		UpdateChat(ctx context.Context, in *ChatNewReq, opts ...grpc.CallOption) (*ChatDetails, error)
 		// 删除聊天记录
-		DeletesChatMessage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		DeletesChat(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
 		// 查询聊天记录
-		GetChatMessage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatMessageDetails, error)
+		GetChat(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatDetails, error)
 		// 查询聊天记录列表
-		FindChatMessageList(ctx context.Context, in *FindChatMessageListReq, opts ...grpc.CallOption) (*FindChatMessageListResp, error)
+		FindChatList(ctx context.Context, in *FindChatListReq, opts ...grpc.CallOption) (*FindChatListResp, error)
 		// 创建留言
 		AddRemark(ctx context.Context, in *RemarkNewReq, opts ...grpc.CallOption) (*RemarkDetails, error)
 		// 更新留言
@@ -108,33 +108,33 @@ func (m *defaultMessageRpc) AnalysisMessage(ctx context.Context, in *EmptyReq, o
 }
 
 // 创建聊天记录
-func (m *defaultMessageRpc) AddChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
+func (m *defaultMessageRpc) AddChat(ctx context.Context, in *ChatNewReq, opts ...grpc.CallOption) (*ChatDetails, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
-	return client.AddChatMessage(ctx, in, opts...)
+	return client.AddChat(ctx, in, opts...)
 }
 
 // 更新聊天记录
-func (m *defaultMessageRpc) UpdateChatMessage(ctx context.Context, in *ChatMessageNewReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
+func (m *defaultMessageRpc) UpdateChat(ctx context.Context, in *ChatNewReq, opts ...grpc.CallOption) (*ChatDetails, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
-	return client.UpdateChatMessage(ctx, in, opts...)
+	return client.UpdateChat(ctx, in, opts...)
 }
 
 // 删除聊天记录
-func (m *defaultMessageRpc) DeletesChatMessage(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+func (m *defaultMessageRpc) DeletesChat(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
-	return client.DeletesChatMessage(ctx, in, opts...)
+	return client.DeletesChat(ctx, in, opts...)
 }
 
 // 查询聊天记录
-func (m *defaultMessageRpc) GetChatMessage(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatMessageDetails, error) {
+func (m *defaultMessageRpc) GetChat(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*ChatDetails, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
-	return client.GetChatMessage(ctx, in, opts...)
+	return client.GetChat(ctx, in, opts...)
 }
 
 // 查询聊天记录列表
-func (m *defaultMessageRpc) FindChatMessageList(ctx context.Context, in *FindChatMessageListReq, opts ...grpc.CallOption) (*FindChatMessageListResp, error) {
+func (m *defaultMessageRpc) FindChatList(ctx context.Context, in *FindChatListReq, opts ...grpc.CallOption) (*FindChatListResp, error) {
 	client := messagerpc.NewMessageRpcClient(m.cli.Conn())
-	return client.FindChatMessageList(ctx, in, opts...)
+	return client.FindChatList(ctx, in, opts...)
 }
 
 // 创建留言

@@ -1,4 +1,4 @@
-package operation_log
+package visit_log
 
 import (
 	"net/http"
@@ -6,13 +6,13 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/logic/operation_log"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/logic/visit_log"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
 )
 
-// 批量删除操作记录
-func BatchDeleteOperationLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 删除操作记录
+func DeletesVisitLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IdsReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -20,8 +20,8 @@ func BatchDeleteOperationLogHandler(svcCtx *svc.ServiceContext) http.HandlerFunc
 			return
 		}
 
-		l := operation_log.NewBatchDeleteOperationLogLogic(r.Context(), svcCtx)
-		resp, err := l.BatchDeleteOperationLog(&req)
+		l := visit_log.NewDeletesVisitLogLogic(r.Context(), svcCtx)
+		resp, err := l.DeletesVisitLog(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

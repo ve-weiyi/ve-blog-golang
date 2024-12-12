@@ -29,47 +29,40 @@ message UserIdReq {
   string user_id = 1;
 }
 /************** blog 聊天记录 **************/
-message ChatMessageNewReq {
-  int64 id = 1;// 主键
+message ChatNewReq {
   string user_id = 2;// 用户id
-  string device_id = 3;// 设备id
-  string topic_id = 4;// 聊天id
-  string reply_msg_id = 5;// 回复消息id
-  string reply_user_id = 6;// 回复用户列表
-  string ip_address = 7;// ip地址
-  string ip_source = 8;// ip来源
-  string chat_content = 9;// 聊天内容
-  string type = 10;// 类型
+  string terminal_id = 3;// 设备id
+  string ip_address = 4;// ip地址
+  string ip_source = 5;// ip来源
+  string type = 6;// 类型
+  string content = 7;// 聊天内容
 }
 
-message ChatMessageDetails {
+message ChatDetails {
   int64 id = 1;// 主键
   string user_id = 2;// 用户id
-  string device_id = 3;// 设备id
-  string topic_id = 4;// 聊天id
-  string reply_msg_id = 5;// 回复消息id
-  string reply_user_id = 6;// 回复用户列表
-  string chat_content = 7;// 聊天内容
-  string ip_address = 8;// ip地址 127.0.0.1
-  string ip_source = 9;// ip来源
-  string type = 10;// 类型
-  int64 status = 11;// 状态:0正常 1编辑 2撤回 3删除
+  string terminal_id = 3;// 设备id
+  string ip_address = 4;// ip地址
+  string ip_source = 5;// ip来源
+  string type = 6;// 类型
+  string content = 7;// 聊天内容
+  int64 status = 8;// 状态:0正常 1编辑 2撤回 3删除
   int64 created_at = 12;// 创建时间
   int64 updated_at = 13;// 更新时间
 }
 
-message FindChatMessageListReq {
+message FindChatListReq {
   int64 after = 101;
   int64 before = 102;
   int64 limit = 103;
   string user_id = 2;// 用户id
-  string topic_id = 3;// 聊天id
-  string chat_content = 8;// 聊天内容
-  string type = 9;// 类型
+  string type = 6;// 类型
+  string content = 7;// 聊天内容
+  int64 status = 8;// 状态:0正常 1编辑 2撤回 3删除
 }
 
-message FindChatMessageListResp {
-  repeated ChatMessageDetails list = 1;
+message FindChatListResp {
+  repeated ChatDetails list = 1;
   int64 total = 2;
 }
 
@@ -222,15 +215,15 @@ service MessageRpc {
   rpc AnalysisMessage(EmptyReq) returns(AnalysisMessageResp);
 
   // 创建聊天记录
-  rpc AddChatMessage(ChatMessageNewReq) returns(ChatMessageDetails);
+  rpc AddChat(ChatNewReq) returns(ChatDetails);
   // 更新聊天记录
-  rpc UpdateChatMessage(ChatMessageNewReq) returns(ChatMessageDetails);
+  rpc UpdateChat(ChatNewReq) returns(ChatDetails);
   // 删除聊天记录
-  rpc DeletesChatMessage(IdsReq) returns(BatchResp);
+  rpc DeletesChat(IdsReq) returns(BatchResp);
   // 查询聊天记录
-  rpc GetChatMessage(IdReq) returns(ChatMessageDetails);
+  rpc GetChat(IdReq) returns(ChatDetails);
   // 查询聊天记录列表
-  rpc FindChatMessageList(FindChatMessageListReq) returns(FindChatMessageListResp);
+  rpc FindChatList(FindChatListReq) returns(FindChatListResp);
 
 
   // 创建留言

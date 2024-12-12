@@ -9,14 +9,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetChatMessageLogic struct {
+type GetChatLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetChatMessageLogic {
-	return &GetChatMessageLogic{
+func NewGetChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetChatLogic {
+	return &GetChatLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -24,11 +24,11 @@ func NewGetChatMessageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 // 查询聊天记录
-func (l *GetChatMessageLogic) GetChatMessage(in *messagerpc.IdReq) (*messagerpc.ChatMessageDetails, error) {
-	entity, err := l.svcCtx.TChatMessageModel.FindOne(l.ctx, in.Id)
+func (l *GetChatLogic) GetChat(in *messagerpc.IdReq) (*messagerpc.ChatDetails, error) {
+	entity, err := l.svcCtx.TChatModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertChatMessageOut(entity), nil
+	return convertChatOut(entity), nil
 }
