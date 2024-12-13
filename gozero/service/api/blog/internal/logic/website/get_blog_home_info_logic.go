@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/configrpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,7 +34,12 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	pages, err := l.svcCtx.PageRpc.FindPageList(l.ctx, &pagerpc.FindPageListReq{})
+	visit, err := l.svcCtx.WebsiteRpc.GetUserTotalVisit(l.ctx, &websiterpc.EmptyReq{})
+	if err != nil {
+		return nil, err
+	}
+
+	pages, err := l.svcCtx.WebsiteRpc.FindPageList(l.ctx, &websiterpc.FindPageListReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -51,23 +56,21 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		ps = append(ps, p)
 	}
 
-	in := &configrpc.FindConfigReq{
+	conf, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, &configrpc.FindConfigReq{
 		ConfigKey: "website_config",
-	}
-
-	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)
+	})
 	if err != nil {
 		return nil, err
 	}
 
 	config := types.WebsiteConfigDTO{}
-	jsonconv.JsonToAny(out.ConfigValue, &config)
+	jsonconv.JsonToAny(conf.ConfigValue, &config)
 
 	resp = &types.GetBlogHomeInfoResp{
 		ArticleCount:  analysis.ArticleCount,
 		CategoryCount: analysis.CategoryCount,
 		TagCount:      analysis.TagCount,
-		ViewsCount:    0,
+		ViewsCount:    visit.Count,
 		WebsiteConfig: config,
 		PageList:      ps,
 	}

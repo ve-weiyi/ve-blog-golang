@@ -312,7 +312,7 @@ definitions:
           type: string
         type: array
     type: object
-  dto.ArticleDeatils:
+  dto.ArticleDetails:
     properties:
       article_content:
         description: 内容
@@ -5283,7 +5283,7 @@ paths:
             - $ref: '#/definitions/response.Body'
             - properties:
                 data:
-                  $ref: '#/definitions/dto.ArticleDeatils'
+                  $ref: '#/definitions/dto.ArticleDetails'
               type: object
       summary: '"获取文章详情"'
       tags:

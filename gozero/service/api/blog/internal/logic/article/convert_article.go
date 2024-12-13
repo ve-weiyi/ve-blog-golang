@@ -9,6 +9,12 @@ func ConvertArticleHomeTypes(in *articlerpc.ArticleDetails) (out *types.ArticleH
 	if in == nil {
 		return nil
 	}
+
+	var tags []string
+	for _, tag := range in.TagList {
+		tags = append(tags, tag.TagName)
+	}
+
 	out = &types.ArticleHome{
 		Id:             in.Id,
 		ArticleCover:   in.ArticleCover,
@@ -20,10 +26,10 @@ func ConvertArticleHomeTypes(in *articlerpc.ArticleDetails) (out *types.ArticleH
 		Status:         in.Status,
 		CreatedAt:      in.CreatedAt,
 		UpdatedAt:      in.UpdatedAt,
-		CategoryName:   "",
-		TagNameList:    make([]string, 0),
+		CategoryName:   in.Category.CategoryName,
+		TagNameList:    tags,
 		LikeCount:      in.LikeCount,
-		ViewsCount:     0,
+		ViewsCount:     in.ViewCount,
 	}
 
 	return
@@ -38,6 +44,8 @@ func ConvertArticlePreviewTypes(in *articlerpc.ArticlePreview) (out *types.Artic
 		Id:           in.Id,
 		ArticleCover: in.ArticleCover,
 		ArticleTitle: in.ArticleTitle,
+		LikeCount:    in.LikeCount,
+		ViewsCount:   in.ViewCount,
 		CreatedAt:    in.CreatedAt,
 	}
 	return

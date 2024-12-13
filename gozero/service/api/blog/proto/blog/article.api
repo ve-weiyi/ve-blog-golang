@@ -24,14 +24,16 @@ type (
 
         // 文章预览
     ArticlePreview {
-        Id int64 `json:"id"`                       // 文章ID
-        ArticleCover string `json:"article_cover"` // 文章缩略图
-        ArticleTitle string `json:"article_title"` // 标题
-        CreatedAt int64 `json:"created_at"`        // 创建时间
+        Id int64 `json:"id"`                                                 // 文章ID
+        ArticleCover string `json:"article_cover"`                           // 文章缩略图
+        ArticleTitle string `json:"article_title"`                           // 标题
+        LikeCount int64 `json:"like_count"`                                  // 点赞量
+        ViewsCount int64 `json:"views_count"`                                // 浏览量
+        CreatedAt int64 `json:"created_at"`                                  // 创建时间
     }
 
         // 文章推荐详情
-    ArticleDeatils {
+    ArticleDetails {
         ArticleHome
         LastArticle *ArticlePreview `json:"last_article"`                      // 上一篇文章
         NextArticle *ArticlePreview `json:"next_article"`                      // 下一篇文章
@@ -57,7 +59,7 @@ type (
 @server(
     prefix: /api/v1
     group: article
-    middleware: SignToken
+    middleware: TimeToken
 )
 
 service blog-api {
@@ -83,13 +85,13 @@ service blog-api {
 
     @doc "获取文章详情"
     @handler GetArticleDetails
-    post /article/get_article_details (IdReq) returns (ArticleDeatils)
+    post /article/get_article_details (IdReq) returns (ArticleDetails)
 }
 
 @server(
     prefix: /api/v1
     group: article
-    middleware: SignToken,JwtToken
+    middleware: TimeToken,SignToken
 )
 
 service blog-api {

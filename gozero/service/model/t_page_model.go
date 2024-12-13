@@ -29,10 +29,9 @@ type (
 		Save(ctx context.Context, in *TPage) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TPage, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *TPage, err error)
-		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TPage, err error)
 		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TPage, err error)
+		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		// add extra method in here
 	}
 
@@ -176,38 +175,6 @@ func (m *defaultTPageModel) FindOne(ctx context.Context, id int64) (out *TPage, 
 	return out, err
 }
 
-// 查询记录
-func (m *defaultTPageModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TPage, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 查询总数
-func (m *defaultTPageModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.Model(&TPage{}).Count(&count).Error
-	if err != nil {
-		return 0, err
-	}
-	return count, nil
-}
-
 // 查询列表
 func (m *defaultTPageModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TPage, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -253,6 +220,22 @@ func (m *defaultTPageModel) FindList(ctx context.Context, page int, size int, so
 	}
 
 	return list, nil
+}
+
+// 查询总数
+func (m *defaultTPageModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Model(&TPage{}).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }
 
 // add extra method in here

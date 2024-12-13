@@ -40,20 +40,9 @@ func (l *FindArticleListLogic) FindArticleList(in *articlerpc.FindArticleListReq
 		return nil, err
 	}
 
-	acm, err := helper.findCategoryGroupArticle(records)
+	list, err := helper.convertArticleDetails(records)
 	if err != nil {
 		return nil, err
-
-	}
-
-	atm, err := helper.findTagGroupArticle(records)
-	if err != nil {
-		return nil, err
-	}
-
-	var list []*articlerpc.ArticleDetails
-	for _, v := range records {
-		list = append(list, convertArticleOut(v, acm, atm))
 	}
 
 	return &articlerpc.FindArticleListResp{

@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/commentrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -28,7 +28,7 @@ func NewFindCommentBackListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) (resp *types.PageResp, err error) {
-	in := &commentrpc.FindCommentListReq{
+	in := &messagerpc.FindCommentListReq{
 		Page:       req.Page,
 		PageSize:   req.PageSize,
 		Sorts:      req.Sorts,
@@ -37,7 +37,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	// 查找评论列表
-	out, err := l.svcCtx.CommentRpc.FindCommentList(l.ctx, in)
+	out, err := l.svcCtx.MessageRpc.FindCommentList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	// 查询文章信息
-	topics, err := l.svcCtx.ArticleRpc.FindArticlePreviewList(l.ctx, &articlerpc.FindArticlePreviewListReq{
+	topics, err := l.svcCtx.ArticleRpc.FindArticlePreviewList(l.ctx, &articlerpc.FindArticleListReq{
 		Ids: aids,
 	})
 
@@ -88,7 +88,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *commentrpc.CommentDetails, usm map[string]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
+func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
 	out = &types.CommentBackDTO{
 		Id:             in.Id,
 		Type:           in.Type,

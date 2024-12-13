@@ -5,6 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -37,9 +38,27 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 		return nil, err
 	}
 
+	var uids []string
+	for _, v := range out.List {
+		uids = append(uids, v.UserId)
+	}
+
+	// 查询用户信息
+	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
+		UserIds: uids,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	usm := make(map[string]*accountrpc.User)
+	for _, v := range users.List {
+		usm[v.UserId] = v
+	}
+
 	var list []*types.OperationLogBackDTO
 	for _, v := range out.List {
-		m := ConvertOperationLogTypes(v)
+		m := ConvertOperationLogTypes(v, usm)
 		list = append(list, m)
 	}
 
@@ -51,19 +70,19 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 	return resp, nil
 }
 
-func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails) (out *types.OperationLogBackDTO) {
+func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails, usm map[string]*accountrpc.User) (out *types.OperationLogBackDTO) {
 
-	return &types.OperationLogBackDTO{
+	out = &types.OperationLogBackDTO{
 		Id:             in.Id,
 		UserId:         in.UserId,
-		Nickname:       in.Nickname,
+		Nickname:       "",
+		Avatar:         "",
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
 		OptModule:      in.OptModule,
 		OptDesc:        in.OptDesc,
-		RequestUrl:     in.RequestUrl,
+		RequestUri:     in.RequestUri,
 		RequestMethod:  in.RequestMethod,
-		RequestHeader:  in.RequestHeader,
 		RequestData:    in.RequestData,
 		ResponseData:   in.ResponseData,
 		ResponseStatus: in.ResponseStatus,
@@ -71,4 +90,15 @@ func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails) (out *types.Ope
 		CreatedAt:      in.CreatedAt,
 		UpdatedAt:      in.UpdatedAt,
 	}
+
+	// 用户信息
+	if in.UserId != "" {
+		user, ok := usm[in.UserId]
+		if ok && user != nil {
+			out.Nickname = user.Nickname
+			out.Avatar = user.Avatar
+		}
+	}
+
+	return out
 }

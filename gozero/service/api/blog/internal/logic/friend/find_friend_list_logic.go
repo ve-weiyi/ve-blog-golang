@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,12 +26,12 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *types.PageResp, err error) {
-	in := &friendrpc.FindFriendListReq{
+	in := &websiterpc.FindFriendListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
 	}
-	out, err := l.svcCtx.FriendRpc.FindFriendList(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.FindFriendList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (l *FindFriendListLogic) FindFriendList(req *types.FriendQueryReq) (resp *t
 	return resp, nil
 }
 
-func ConvertFriendTypes(req *friendrpc.FriendDetails) (out *types.Friend) {
+func ConvertFriendTypes(req *websiterpc.FriendDetails) (out *types.Friend) {
 	return &types.Friend{
 		Id:          req.Id,
 		LinkName:    req.LinkName,

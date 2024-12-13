@@ -8,7 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
 type CtxMetaMiddleware struct {
@@ -37,7 +37,7 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 				keyLowercase := strings.ToLower(k)
 				//logx.Infof("add k=%s, v=%+v", keyLowercase, value)
-				for _, key := range headerconst.HeaderFields {
+				for _, key := range restx.HeaderFields {
 					if key == keyLowercase {
 						md.Set(key, value)
 						ctx = context.WithValue(ctx, key, value)
@@ -46,11 +46,11 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		ctx = context.WithValue(ctx, headerconst.HeaderRemoteAddr, r.RemoteAddr)
-		ctx = context.WithValue(ctx, headerconst.HeaderUserAgent, r.UserAgent())
+		//ctx = context.WithValue(ctx, headerconst.HeaderReferer, r.Referer())
 
-		md.Set(headerconst.HeaderRPCUserAgent, r.UserAgent())
-		md.Set(headerconst.HeaderRPCReferer, r.Referer())
+		md.Set(restx.HeaderRPCUserAgent, r.UserAgent())
+		md.Set(restx.HeaderRPCClientIP, restx.GetClientIP(r))
+		//md.Set(headerconst.HeaderReferer, r.Referer())
 
 		ctx = metadata.NewOutgoingContext(ctx, md)
 		r = r.WithContext(ctx)

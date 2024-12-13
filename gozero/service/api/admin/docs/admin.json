@@ -324,33 +324,6 @@
         ]
       }
     },
-    "/admin_api/v1/album/batch_delete_album": {
-      "delete": {
-        "summary": "批量删除相册",
-        "operationId": "BatchDeleteAlbum",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "album"
-        ]
-      }
-    },
     "/admin_api/v1/album/batch_delete_photo": {
       "delete": {
         "summary": "批量删除照片",
@@ -1687,10 +1660,10 @@
         ]
       }
     },
-    "/admin_api/v1/operation_log/batch_delete_operation_log": {
+    "/admin_api/v1/operation_log/deletes_operation_log": {
       "delete": {
-        "summary": "批量删除操作记录",
-        "operationId": "BatchDeleteOperationLog",
+        "summary": "删除操作记录",
+        "operationId": "DeletesOperationLog",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1706,33 +1679,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/IdsReq"
-            }
-          }
-        ],
-        "tags": [
-          "operation_log"
-        ]
-      }
-    },
-    "/admin_api/v1/operation_log/delete_operation_log": {
-      "delete": {
-        "summary": "删除操作记录",
-        "operationId": "DeleteOperationLog",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BatchResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IdReq"
             }
           }
         ],
@@ -2082,15 +2028,15 @@
         ]
       }
     },
-    "/admin_api/v1/remark/update_remark": {
+    "/admin_api/v1/remark/update_remark_review": {
       "put": {
         "summary": "更新留言",
-        "operationId": "UpdateRemark",
+        "operationId": "UpdateRemarkReview",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/RemarkBackDTO"
+              "$ref": "#/definitions/BatchResp"
             }
           }
         },
@@ -2100,7 +2046,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RemarkNewReq"
+              "$ref": "#/definitions/RemarkReviewReq"
             }
           }
         ],
@@ -2718,6 +2664,60 @@
           "user"
         ]
       }
+    },
+    "/admin_api/v1/visit_log/deletes_visit_log": {
+      "delete": {
+        "summary": "删除操作记录",
+        "operationId": "DeletesVisitLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BatchResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IdsReq"
+            }
+          }
+        ],
+        "tags": [
+          "visit_log"
+        ]
+      }
+    },
+    "/admin_api/v1/visit_log/find_visit_log_list": {
+      "post": {
+        "summary": "分页获取操作记录列表",
+        "operationId": "FindVisitLogList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VisitLogQuery"
+            }
+          }
+        ],
+        "tags": [
+          "visit_log"
+        ]
+      }
     }
   },
   "definitions": {
@@ -2841,15 +2841,10 @@
     "AdminHomeInfo": {
       "type": "object",
       "properties": {
-        "views_count": {
+        "view_count": {
           "type": "integer",
           "format": "int64",
           "description": " 访问量"
-        },
-        "message_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 留言量"
         },
         "user_count": {
           "type": "integer",
@@ -2860,6 +2855,11 @@
           "type": "integer",
           "format": "int64",
           "description": " 文章量"
+        },
+        "remark_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 留言量"
         },
         "category_list": {
           "type": "array",
@@ -2875,39 +2875,39 @@
           },
           "description": " 标签列表"
         },
-        "article_view_rank_list": {
+        "article_view_ranks": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ArticleViewRankDTO"
+            "$ref": "#/definitions/ArticleViewDTO"
           },
           "description": " 文章浏览量排行"
         },
-        "article_statistics_list": {
+        "article_statistics": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ArticleStatisticsDTO"
           },
-          "description": " 每日文章生产量"
+          "description": " 文章提交统计"
         },
-        "unique_view_list": {
+        "user_visit_daliy": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/UniqueViewDTO"
+            "$ref": "#/definitions/UserVisitDTO"
           },
-          "description": " 每日用户访问量"
+          "description": " 用户每日访问量"
         }
       },
       "title": "AdminHomeInfo",
       "required": [
-        "views_count",
-        "message_count",
+        "view_count",
         "user_count",
         "article_count",
+        "remark_count",
         "category_list",
         "tag_list",
-        "article_view_rank_list",
-        "article_statistics_list",
-        "unique_view_list"
+        "article_view_ranks",
+        "article_statistics",
+        "user_visit_daliy"
       ]
     },
     "AlbumBackDTO": {
@@ -3440,7 +3440,7 @@
         "is_top"
       ]
     },
-    "ArticleViewRankDTO": {
+    "ArticleViewDTO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3452,16 +3452,16 @@
           "type": "string",
           "description": " 文章标题"
         },
-        "count": {
+        "view_count": {
           "type": "integer",
           "format": "int64",
-          "description": " 数量"
+          "description": " 浏览量"
         }
       },
-      "title": "ArticleViewRankDTO",
+      "title": "ArticleViewDTO",
       "required": [
         "article_title",
-        "count"
+        "view_count"
       ]
     },
     "BatchResp": {
@@ -3475,50 +3475,6 @@
       "title": "BatchResp",
       "required": [
         "success_count"
-      ]
-    },
-    "BlogHomeInfo": {
-      "type": "object",
-      "properties": {
-        "article_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 文章数量"
-        },
-        "category_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 分类数量"
-        },
-        "tag_count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 标签数量"
-        },
-        "views_count": {
-          "type": "string",
-          "description": " 访问量"
-        },
-        "website_config": {
-          "$ref": "#/definitions/WebsiteConfig",
-          "description": " 网站配置"
-        },
-        "page_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PageDTO"
-          },
-          "description": " 页面列表"
-        }
-      },
-      "title": "BlogHomeInfo",
-      "required": [
-        "article_count",
-        "category_count",
-        "tag_count",
-        "views_count",
-        "website_config",
-        "page_list"
       ]
     },
     "CategoryBackDTO": {
@@ -3565,11 +3521,17 @@
         "category_name": {
           "type": "string",
           "description": " 分类名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
         }
       },
       "title": "CategoryDTO",
       "required": [
-        "category_name"
+        "category_name",
+        "article_count"
       ]
     },
     "CategoryNewReq": {
@@ -4361,6 +4323,10 @@
           "type": "string",
           "description": " 用户昵称"
         },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
         "ip_address": {
           "type": "string",
           "description": " 操作ip"
@@ -4377,17 +4343,13 @@
           "type": "string",
           "description": " 操作描述"
         },
-        "request_url": {
+        "request_uri": {
           "type": "string",
           "description": " 请求地址"
         },
         "request_method": {
           "type": "string",
           "description": " 请求方式"
-        },
-        "request_header": {
-          "type": "string",
-          "description": " 请求头参数"
         },
         "request_data": {
           "type": "string",
@@ -4421,13 +4383,13 @@
       "required": [
         "user_id",
         "nickname",
+        "avatar",
         "ip_address",
         "ip_source",
         "opt_module",
         "opt_desc",
-        "request_url",
+        "request_uri",
         "request_method",
-        "request_header",
         "request_data",
         "response_data",
         "response_status",
@@ -4511,34 +4473,6 @@
         "carousel_covers",
         "created_at",
         "updated_at"
-      ]
-    },
-    "PageDTO": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 页面ID"
-        },
-        "page_name": {
-          "type": "string",
-          "description": " 页面名称"
-        },
-        "page_label": {
-          "type": "string",
-          "description": " 页面标签"
-        },
-        "page_cover": {
-          "type": "string",
-          "description": " 页面封面"
-        }
-      },
-      "title": "PageDTO",
-      "required": [
-        "page_name",
-        "page_label",
-        "page_cover"
       ]
     },
     "PageNewReq": {
@@ -4879,25 +4813,6 @@
         "updated_at"
       ]
     },
-    "RemarkNewReq": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 主键id"
-        },
-        "is_review": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 是否审核"
-        }
-      },
-      "title": "RemarkNewReq",
-      "required": [
-        "is_review"
-      ]
-    },
     "RemarkQuery": {
       "type": "object",
       "properties": {
@@ -4929,6 +4844,27 @@
         }
       },
       "title": "RemarkQuery"
+    },
+    "RemarkReviewReq": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "is_review": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 是否审核"
+        }
+      },
+      "title": "RemarkReviewReq",
+      "required": [
+        "is_review"
+      ]
     },
     "Response": {
       "type": "object",
@@ -5227,11 +5163,17 @@
         "tag_name": {
           "type": "string",
           "description": " 标签名"
+        },
+        "article_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文章数量"
         }
       },
       "title": "TagDTO",
       "required": [
-        "tag_name"
+        "tag_name",
+        "article_count"
       ]
     },
     "TagNewReq": {
@@ -5464,25 +5406,6 @@
         "refresh_token",
         "refresh_expires_in",
         "scope"
-      ]
-    },
-    "UniqueViewDTO": {
-      "type": "object",
-      "properties": {
-        "date": {
-          "type": "string",
-          "description": " 日期"
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 数量"
-        }
-      },
-      "title": "UniqueViewDTO",
-      "required": [
-        "date",
-        "count"
       ]
     },
     "UpdateAccountRolesReq": {
@@ -6027,6 +5950,117 @@
       "required": [
         "list"
       ]
+    },
+    "UserVisitDTO": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": " 日期"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 数量"
+        }
+      },
+      "title": "UserVisitDTO",
+      "required": [
+        "date",
+        "count"
+      ]
+    },
+    "VisitLogBackDTO": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 主键id"
+        },
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 用户昵称"
+        },
+        "avatar": {
+          "type": "string",
+          "description": " 用户头像"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " 操作ip"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " 操作地址"
+        },
+        "os": {
+          "type": "string",
+          "description": " 操作系统"
+        },
+        "browser": {
+          "type": "string",
+          "description": " 浏览器"
+        },
+        "page": {
+          "type": "string",
+          "description": " 页面"
+        },
+        "created_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新时间"
+        }
+      },
+      "title": "VisitLogBackDTO",
+      "required": [
+        "user_id",
+        "nickname",
+        "avatar",
+        "ip_address",
+        "ip_source",
+        "os",
+        "browser",
+        "page",
+        "created_at",
+        "updated_at"
+      ]
+    },
+    "VisitLogQuery": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当前页码"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页数量"
+        },
+        "sorts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 排序"
+        },
+        "keywords": {
+          "type": "string",
+          "description": " 关键字"
+        }
+      },
+      "title": "VisitLogQuery"
     },
     "WebsiteConfig": {
       "type": "object",

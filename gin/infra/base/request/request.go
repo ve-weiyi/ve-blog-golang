@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/headerconst"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
 
@@ -28,8 +28,8 @@ func (s *Context) GetContext() context.Context {
 // 获取请求上下文
 func ParseRequestContext(c *gin.Context) (*Context, error) {
 	reqCtx := &Context{}
-	reqCtx.Token = c.GetHeader(headerconst.HeaderToken)
-	reqCtx.Uid = cast.ToInt64(c.GetHeader(headerconst.HeaderUid))
+	reqCtx.Token = c.GetHeader(restx.HeaderToken)
+	reqCtx.Uid = cast.ToInt64(c.GetHeader(restx.HeaderUid))
 	reqCtx.IpAddress = c.ClientIP()
 	reqCtx.UserAgent = c.Request.UserAgent()
 	reqCtx.Context = c.Request.Context()

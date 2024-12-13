@@ -1,5 +1,7 @@
 syntax = "v1"
 
+import "base.api"
+
 type (
     GetBlogHomeInfoReq {
     }
@@ -41,10 +43,10 @@ type (
     }
 
     PageDTO {
-        Id int64 `json:"id"`                 // 页面ID
-        PageName string `json:"page_name"`   // 页面名称
-        PageLabel string `json:"page_label"` // 页面标签
-        PageCover string `json:"page_cover"` // 页面封面
+        Id int64 `json:"id"`                                        // 页面ID
+        PageName string `json:"page_name"`                          // 页面名称
+        PageLabel string `json:"page_label"`                        // 页面标签
+        PageCover string `json:"page_cover"`                        // 页面封面
         IsCarousel int64 `json:"is_carousel,optional"`              // 是否轮播
     }
 
@@ -56,11 +58,10 @@ type (
         Content string `json:"content"`
     }
 )
-
 @server(
     prefix: /api/v1
     group: website
-    middleware: SignToken
+    middleware: TimeToken
 )
 service blog-api {
     @doc "获取博客前台首页信息"
@@ -70,4 +71,20 @@ service blog-api {
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /blog/about_me (GetAboutMeReq) returns (GetAboutMeResp)
+}
+
+
+type (
+    ReportResp {
+        TerminalId string `json:"terminal_id"`
+    }
+)
+@server(
+    prefix: /api/v1
+    group: website
+)
+service blog-api {
+    @doc "访客上报"
+    @handler Report
+    get /report (EmptyReq) returns (EmptyResp)
 }

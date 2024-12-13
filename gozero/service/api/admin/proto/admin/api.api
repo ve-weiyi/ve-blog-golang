@@ -41,7 +41,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: api
-    middleware: SignToken
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
@@ -50,13 +50,23 @@ service admin-api {
     post /api/find_api_list (ApiQuery) returns (PageResp)
 }
 
+
 @server(
     prefix: /admin_api/v1
     group: api
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
+    @doc "同步api列表"
+    @handler SyncApiList
+    post /api/sync_api_list (SyncApiReq) returns (BatchResp)
+
+    @doc "清空接口列表"
+    @handler CleanApiList
+    post /api/clean_api_list (EmptyReq) returns (BatchResp)
+
+
     @doc "创建api路由"
     @handler AddApi
     post /api/add_api (ApiNewReq) returns (ApiBackDTO)
@@ -72,12 +82,4 @@ service admin-api {
     @doc "批量删除api路由"
     @handler BatchDeleteApi
     delete /api/batch_delete_api (IdsReq) returns (BatchResp)
-
-    @doc "同步api列表"
-    @handler SyncApiList
-    post /api/sync_api_list (SyncApiReq) returns (BatchResp)
-
-    @doc "清空接口列表"
-    @handler CleanApiList
-    post /api/clean_api_list (EmptyReq) returns (BatchResp)
 }

@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/pagerpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,11 +26,11 @@ func NewDeletePageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeletePageLogic) DeletePage(req *types.IdReq) (resp *types.BatchResp, err error) {
-	in := &pagerpc.IdsReq{
+	in := &websiterpc.IdsReq{
 		Ids: []int64{req.Id},
 	}
 
-	out, err := l.svcCtx.PageRpc.DeletePage(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.DeletePage(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

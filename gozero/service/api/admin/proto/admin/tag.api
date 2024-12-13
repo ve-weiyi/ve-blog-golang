@@ -10,10 +10,10 @@ type (
 
     TagBackDTO {
         Id int64 `json:"id,optional"`                      // 标签ID
-        TagName string `json:"tag_name"`          // 标签名
-        ArticleCount int64 `json:"article_count"` // 文章数量
-        CreatedAt int64 `json:"created_at"`       // 创建时间
-        UpdatedAt int64 `json:"updated_at"`       // 更新时间
+        TagName string `json:"tag_name"`                   // 标签名
+        ArticleCount int64 `json:"article_count"`          // 文章数量
+        CreatedAt int64 `json:"created_at"`                // 创建时间
+        UpdatedAt int64 `json:"updated_at"`                // 更新时间
     }
 
 
@@ -26,7 +26,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: tag
-    middleware: SignToken
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
@@ -35,10 +35,11 @@ service admin-api {
     post /tag/find_tag_list (TagQuery) returns (PageResp)
 }
 
+
 @server(
     prefix: /admin_api/v1
     group: tag
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
@@ -57,5 +58,4 @@ service admin-api {
     @doc "批量删除标签"
     @handler BatchDeleteTag
     delete /tag/batch_delete_tag (IdsReq) returns (BatchResp)
-
 }

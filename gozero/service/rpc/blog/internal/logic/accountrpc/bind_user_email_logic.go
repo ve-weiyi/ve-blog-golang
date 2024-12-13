@@ -2,9 +2,9 @@ package accountrpclogic
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 
@@ -42,7 +42,7 @@ func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUserEmailReq) (*ac
 	}
 
 	// 验证code是否正确
-	key := fmt.Sprintf("%s:%s", constant.BindEmail, in.Email)
+	key := rediskey.GetCaptchaKey(constant.BindEmail, in.Email)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, apierr.NewApiError(apierr.CodeCaptchaVerify, "验证码错误")
 	}

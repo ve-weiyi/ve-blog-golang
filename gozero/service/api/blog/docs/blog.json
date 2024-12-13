@@ -185,7 +185,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ArticleDeatils"
+              "$ref": "#/definitions/ArticleDetails"
             }
           }
         },
@@ -370,33 +370,6 @@
         ],
         "tags": [
           "category"
-        ]
-      }
-    },
-    "/api/v1/chat/messages": {
-      "post": {
-        "summary": "查询聊天记录",
-        "operationId": "GetChatMessages",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/PageResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ChatMessageQueryReq"
-            }
-          }
-        ],
-        "tags": [
-          "chat"
         ]
       }
     },
@@ -892,6 +865,23 @@
         ]
       }
     },
+    "/api/v1/report": {
+      "get": {
+        "summary": "访客上报",
+        "operationId": "Report",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "tags": [
+          "website"
+        ]
+      }
+    },
     "/api/v1/send_bind_email": {
       "post": {
         "summary": "发送绑定邮箱验证码",
@@ -1199,7 +1189,7 @@
     "/api/v1/websocket": {
       "get": {
         "summary": "WebSocket消息",
-        "operationId": "WebSocket",
+        "operationId": "Websocket",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1306,7 +1296,7 @@
       },
       "title": "ArticleClassifyQueryReq"
     },
-    "ArticleDeatils": {
+    "ArticleDetails": {
       "type": "object",
       "properties": {
         "id": {
@@ -1399,7 +1389,7 @@
           "description": " 最新文章列表"
         }
       },
-      "title": "ArticleDeatils",
+      "title": "ArticleDetails",
       "required": [
         "last_article",
         "next_article",
@@ -1536,6 +1526,16 @@
           "type": "string",
           "description": " 标题"
         },
+        "like_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 点赞量"
+        },
+        "views_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 浏览量"
+        },
         "created_at": {
           "type": "integer",
           "format": "int64",
@@ -1547,6 +1547,8 @@
         "id",
         "article_cover",
         "article_title",
+        "like_count",
+        "views_count",
         "created_at"
       ]
     },
@@ -1640,123 +1642,7 @@
       },
       "title": "CategoryQueryReq"
     },
-    "ChatMessage": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 主键"
-        },
-        "user_id": {
-          "type": "string",
-          "description": " 用户id"
-        },
-        "nickname": {
-          "type": "string",
-          "description": " 昵称"
-        },
-        "avatar": {
-          "type": "string",
-          "description": " 头像"
-        },
-        "chatContent": {
-          "type": "string",
-          "description": " 消息内容"
-        },
-        "ip_address": {
-          "type": "string",
-          "description": " ip地址"
-        },
-        "ip_source": {
-          "type": "string",
-          "description": " ip来源"
-        },
-        "type": {
-          "type": "string",
-          "description": " 类型"
-        },
-        "created_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 创建时间"
-        },
-        "updated_at": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 更新时间"
-        }
-      },
-      "title": "ChatMessage",
-      "required": [
-        "id",
-        "user_id",
-        "nickname",
-        "avatar",
-        "chatContent",
-        "ip_address",
-        "ip_source",
-        "type",
-        "created_at",
-        "updated_at"
-      ]
-    },
-    "ChatMessageQueryReq": {
-      "type": "object",
-      "properties": {
-        "after": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 起始时间"
-        },
-        "before": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 结束时间"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 限制数量"
-        },
-        "user_id": {
-          "type": "string",
-          "description": " 用户id"
-        },
-        "topic_id": {
-          "type": "string",
-          "description": " 聊天室id"
-        },
-        "keyword": {
-          "type": "string",
-          "description": " 关键字"
-        },
-        "type": {
-          "type": "string",
-          "description": " 类型"
-        }
-      },
-      "title": "ChatMessageQueryReq"
-    },
-    "ChatMsgReq": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
-        },
-        "chat_content": {
-          "type": "string",
-          "description": " 消息内容"
-        }
-      },
-      "title": "ChatMsgReq",
-      "required": [
-        "type",
-        "chat_content"
-      ]
-    },
-    "ChatMsgResp": {
+    "ChatRecordResp": {
       "type": "object",
       "properties": {
         "id": {
@@ -1807,7 +1693,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "ChatMsgResp",
+      "title": "ChatRecordResp",
       "required": [
         "id",
         "user_id",
@@ -1820,6 +1706,44 @@
         "type",
         "created_at",
         "updated_at"
+      ]
+    },
+    "ClientInfoResp": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": " 客户端id"
+        },
+        "user_id": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "device_id": {
+          "type": "string",
+          "description": " 设备id"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": " ip地址"
+        },
+        "ip_source": {
+          "type": "string",
+          "description": " ip来源"
+        }
+      },
+      "title": "ClientInfoResp",
+      "required": [
+        "client_id",
+        "user_id",
+        "device_id",
+        "nickname",
+        "ip_address",
+        "ip_source"
       ]
     },
     "Comment": {
@@ -2391,6 +2315,25 @@
         "url"
       ]
     },
+    "OnlineCountResp": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string",
+          "description": " 消息"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 在线人数"
+        }
+      },
+      "title": "OnlineCountResp",
+      "required": [
+        "msg",
+        "count"
+      ]
+    },
     "Page": {
       "type": "object",
       "properties": {
@@ -2604,6 +2547,59 @@
         "rpc_status"
       ]
     },
+    "RecallMessageReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息id"
+        }
+      },
+      "title": "RecallMessageReq",
+      "required": [
+        "id"
+      ]
+    },
+    "RecallMessageResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息id"
+        }
+      },
+      "title": "RecallMessageResp",
+      "required": [
+        "id"
+      ]
+    },
+    "ReceiveMsg": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 类型"
+        },
+        "data": {
+          "type": "string",
+          "description": " 数据"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "时间戳"
+        }
+      },
+      "title": "ReceiveMsg",
+      "required": [
+        "type",
+        "data",
+        "timestamp"
+      ]
+    },
     "RegisterReq": {
       "type": "object",
       "properties": {
@@ -2724,6 +2720,43 @@
       },
       "title": "RemarkQueryReq"
     },
+    "ReplyMsg": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 类型"
+        },
+        "data": {
+          "type": "string",
+          "description": " 数据"
+        },
+        "timestamp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "时间戳"
+        }
+      },
+      "title": "ReplyMsg",
+      "required": [
+        "type",
+        "data",
+        "timestamp"
+      ]
+    },
+    "ReportResp": {
+      "type": "object",
+      "properties": {
+        "terminal_id": {
+          "type": "string"
+        }
+      },
+      "title": "ReportResp",
+      "required": [
+        "terminal_id"
+      ]
+    },
     "ResetPasswordReq": {
       "type": "object",
       "properties": {
@@ -2773,6 +2806,24 @@
     "RestHeader": {
       "type": "object",
       "title": "RestHeader"
+    },
+    "SendMessageReq": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": " 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息"
+        },
+        "content": {
+          "type": "string",
+          "description": " 消息内容"
+        }
+      },
+      "title": "SendMessageReq",
+      "required": [
+        "type",
+        "content"
+      ]
     },
     "Tag": {
       "type": "object",
@@ -3133,38 +3184,6 @@
         "article_like_set",
         "comment_like_set",
         "talk_like_set"
-      ]
-    },
-    "WebSocketMsg": {
-      "type": "object",
-      "properties": {
-        "client_id": {
-          "type": "string",
-          "description": " 客户端id"
-        },
-        "client_ip": {
-          "type": "string",
-          "description": " 客户端ip"
-        },
-        "timestamp": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 时间戳"
-        },
-        "cmd": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 消息命令"
-        },
-        "data": {
-          "type": "string",
-          "description": " 消息内容"
-        }
-      },
-      "title": "WebSocketMsg",
-      "required": [
-        "cmd",
-        "data"
       ]
     },
     "WebsiteConfigDTO": {

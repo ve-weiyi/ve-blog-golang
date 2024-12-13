@@ -5,6 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
@@ -29,9 +30,11 @@ func (l *FindArticleArchivesLogic) FindArticleArchives(req *types.ArticleArchive
 	in := &articlerpc.FindArticleListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
+		Sorts:    []string{"created_at desc"},
+		IsDelete: constant.ArticleIsDeleteNo,
+		Status:   constant.ArticleStatusPublic,
 	}
-	out, err := l.svcCtx.ArticleRpc.FindArticlePublicList(l.ctx, in)
+	out, err := l.svcCtx.ArticleRpc.FindArticleList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

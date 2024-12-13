@@ -145,11 +145,6 @@ message UserLoginHistory {
   int64 logout_at = 8;// 登出时间
 }
 
-message UserRegion {
-  string region = 1;
-  int64 count = 2;
-}
-
 message UpdateUserInfoReq {
   string user_id = 1; // 用户id
   string nickname = 2;// 昵称
@@ -196,8 +191,17 @@ message FindLoginHistoryListResp {
   repeated UserLoginHistory list = 2;
 }
 
+message AnalysisUserResp {
+  int64 user_count = 1;
+}
+
 message GetUserAreasAnalysisResp {
-  repeated UserRegion list = 1;
+  repeated UserArea list = 1;
+}
+
+message UserArea {
+  string area = 1;
+  int64 count = 2;
 }
 
 service AccountRpc {
@@ -245,6 +249,8 @@ service AccountRpc {
   // 查询用户登录历史
   rpc FindUserLoginHistoryList(FindLoginHistoryListReq) returns(FindLoginHistoryListResp);
 
+  // 查询用户数量
+  rpc AnalysisUser(EmptyReq) returns(AnalysisUserResp);
   // 查询用户分布区域
   rpc GetUserAreasAnalysis(EmptyReq) returns(GetUserAreasAnalysisResp);
 }

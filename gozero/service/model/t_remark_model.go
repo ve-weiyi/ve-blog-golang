@@ -29,10 +29,9 @@ type (
 		Save(ctx context.Context, in *TRemark) (rows int64, err error)
 		// 查询
 		FindOne(ctx context.Context, id int64) (out *TRemark, err error)
-		First(ctx context.Context, conditions string, args ...interface{}) (out *TRemark, err error)
-		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TRemark, err error)
 		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRemark, err error)
+		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		// add extra method in here
 	}
 
@@ -177,38 +176,6 @@ func (m *defaultTRemarkModel) FindOne(ctx context.Context, id int64) (out *TRema
 	return out, err
 }
 
-// 查询记录
-func (m *defaultTRemarkModel) First(ctx context.Context, conditions string, args ...interface{}) (out *TRemark, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.First(&out).Error
-	if err != nil {
-		return nil, err
-	}
-	return out, err
-}
-
-// 查询总数
-func (m *defaultTRemarkModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.Model(&TRemark{}).Count(&count).Error
-	if err != nil {
-		return 0, err
-	}
-	return count, nil
-}
-
 // 查询列表
 func (m *defaultTRemarkModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TRemark, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -254,6 +221,22 @@ func (m *defaultTRemarkModel) FindList(ctx context.Context, page int, size int, 
 	}
 
 	return list, nil
+}
+
+// 查询总数
+func (m *defaultTRemarkModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Model(&TRemark{}).Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
 }
 
 // add extra method in here

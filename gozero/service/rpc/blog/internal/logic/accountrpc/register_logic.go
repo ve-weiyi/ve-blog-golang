@@ -2,18 +2,20 @@ package accountrpclogic
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rpcutil"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
 
@@ -45,7 +47,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 	}
 
 	// 验证code是否正确
-	key := fmt.Sprintf("%s:%s", constant.Register, in.Username)
+	key := rediskey.GetCaptchaKey(constant.Register, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, apierr.NewApiError(apierr.CodeCaptchaVerify, "验证码错误")
 	}
@@ -76,6 +78,9 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 }
 
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.TUser, err error) {
+	ip, _ := rpcutil.GetRPCClientIP(l.ctx)
+	is, _ := ipx.GetIpSourceByBaidu(ip)
+
 	// 邮箱注册
 	user := &model.TUser{
 		UserId:    uuid.NewString(),
@@ -86,10 +91,10 @@ func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *
 		Email:     in.Username,
 		Phone:     "",
 		Info:      "",
-		Status:    model.UserStatusNormal,
-		LoginType: model.LoginTypeEmail,
-		IpAddress: "",
-		IpSource:  "",
+		Status:    constant.UserStatusNormal,
+		LoginType: constant.LoginTypeEmail,
+		IpAddress: ip,
+		IpSource:  is,
 	}
 
 	return onRegister(l.ctx, l.svcCtx, tx, user)

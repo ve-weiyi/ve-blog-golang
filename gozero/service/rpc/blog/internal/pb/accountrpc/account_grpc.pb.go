@@ -41,6 +41,7 @@ const (
 	AccountRpc_FindUserOnlineList_FullMethodName       = "/accountrpc.AccountRpc/FindUserOnlineList"
 	AccountRpc_FindUserInfoList_FullMethodName         = "/accountrpc.AccountRpc/FindUserInfoList"
 	AccountRpc_FindUserLoginHistoryList_FullMethodName = "/accountrpc.AccountRpc/FindUserLoginHistoryList"
+	AccountRpc_AnalysisUser_FullMethodName             = "/accountrpc.AccountRpc/AnalysisUser"
 	AccountRpc_GetUserAreasAnalysis_FullMethodName     = "/accountrpc.AccountRpc/GetUserAreasAnalysis"
 )
 
@@ -84,6 +85,8 @@ type AccountRpcClient interface {
 	FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 	// 查询用户登录历史
 	FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error)
+	// 查询用户数量
+	AnalysisUser(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserResp, error)
 	// 查询用户分布区域
 	GetUserAreasAnalysis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetUserAreasAnalysisResp, error)
 }
@@ -258,6 +261,15 @@ func (c *accountRpcClient) FindUserLoginHistoryList(ctx context.Context, in *Fin
 	return out, nil
 }
 
+func (c *accountRpcClient) AnalysisUser(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserResp, error) {
+	out := new(AnalysisUserResp)
+	err := c.cc.Invoke(ctx, AccountRpc_AnalysisUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountRpcClient) GetUserAreasAnalysis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetUserAreasAnalysisResp, error) {
 	out := new(GetUserAreasAnalysisResp)
 	err := c.cc.Invoke(ctx, AccountRpc_GetUserAreasAnalysis_FullMethodName, in, out, opts...)
@@ -307,6 +319,8 @@ type AccountRpcServer interface {
 	FindUserInfoList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error)
 	// 查询用户登录历史
 	FindUserLoginHistoryList(context.Context, *FindLoginHistoryListReq) (*FindLoginHistoryListResp, error)
+	// 查询用户数量
+	AnalysisUser(context.Context, *EmptyReq) (*AnalysisUserResp, error)
 	// 查询用户分布区域
 	GetUserAreasAnalysis(context.Context, *EmptyReq) (*GetUserAreasAnalysisResp, error)
 	mustEmbedUnimplementedAccountRpcServer()
@@ -369,6 +383,9 @@ func (UnimplementedAccountRpcServer) FindUserInfoList(context.Context, *FindUser
 }
 func (UnimplementedAccountRpcServer) FindUserLoginHistoryList(context.Context, *FindLoginHistoryListReq) (*FindLoginHistoryListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserLoginHistoryList not implemented")
+}
+func (UnimplementedAccountRpcServer) AnalysisUser(context.Context, *EmptyReq) (*AnalysisUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnalysisUser not implemented")
 }
 func (UnimplementedAccountRpcServer) GetUserAreasAnalysis(context.Context, *EmptyReq) (*GetUserAreasAnalysisResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserAreasAnalysis not implemented")
@@ -710,6 +727,24 @@ func _AccountRpc_FindUserLoginHistoryList_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountRpc_AnalysisUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmptyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).AnalysisUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_AnalysisUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).AnalysisUser(ctx, req.(*EmptyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountRpc_GetUserAreasAnalysis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmptyReq)
 	if err := dec(in); err != nil {
@@ -806,6 +841,10 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindUserLoginHistoryList",
 			Handler:    _AccountRpc_FindUserLoginHistoryList_Handler,
+		},
+		{
+			MethodName: "AnalysisUser",
+			Handler:    _AccountRpc_AnalysisUser_Handler,
 		},
 		{
 			MethodName: "GetUserAreasAnalysis",

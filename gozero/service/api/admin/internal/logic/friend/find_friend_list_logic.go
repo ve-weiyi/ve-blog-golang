@@ -5,7 +5,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/friendrpc"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,14 +26,14 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindFriendListLogic) FindFriendList(req *types.FriendQuery) (resp *types.PageResp, err error) {
-	in := &friendrpc.FindFriendListReq{
+	in := &websiterpc.FindFriendListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
 		LinkName: req.LinkName,
 	}
 
-	out, err := l.svcCtx.FriendRpc.FindFriendList(l.ctx, in)
+	out, err := l.svcCtx.WebsiteRpc.FindFriendList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

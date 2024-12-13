@@ -13,6 +13,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/swagger"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/docs"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/handler"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
@@ -29,9 +30,6 @@ var (
 )
 
 var configFile = flag.String("f", "", "the config file")
-
-//go:embed docs/admin.json
-var docs []byte
 
 func main() {
 	flag.Parse()
@@ -71,7 +69,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 
-	swagger.RegisterKnife4jSwagHandler(server, "/admin_api/v1/swagger/", docs)
+	swagger.RegisterKnife4jSwagHandler(server, "/admin_api/v1/swagger/", []byte(docs.Docs))
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)

@@ -40,10 +40,47 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articl
 		return nil, err
 	}
 
+	articles, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 10, "", "", "")
+	if err != nil {
+		return nil, err
+	}
+
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
+
+	var ars []*articlerpc.ArticlePreview
+	for _, article := range articles {
+		m := helper.convertArticlePreviewOut(article)
+		m.ViewCount = m.Id
+		ars = append(ars, m)
+	}
+
+	cl, err := l.svcCtx.TCategoryModel.FindALL(l.ctx, "")
+	if err != nil {
+		return nil, err
+	}
+
+	cds, err := helper.convertCategoryDetails(cl)
+	if err != nil {
+		return nil, err
+	}
+
+	tl, err := l.svcCtx.TTagModel.FindALL(l.ctx, "")
+	if err != nil {
+		return nil, err
+	}
+
+	tds, err := helper.convertTagDetails(tl)
+	if err != nil {
+		return nil, err
+	}
+
 	out := &articlerpc.AnalysisArticleResp{
-		ArticleCount:  ac,
-		CategoryCount: cc,
-		TagCount:      tc,
+		ArticleCount:    ac,
+		CategoryCount:   cc,
+		TagCount:        tc,
+		CategoryList:    cds,
+		TagList:         tds,
+		ArticleRankList: ars,
 	}
 
 	return out, nil

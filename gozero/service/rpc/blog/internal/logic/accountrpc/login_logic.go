@@ -6,6 +6,7 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/ve-weiyi/ve-blog-golang/gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
@@ -54,7 +55,7 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 
 func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser) (resp *accountrpc.LoginResp, err error) {
 	// 判断用户是否被禁用
-	if user.Status == model.UserStatusDisabled {
+	if user.Status == constant.UserStatusDisabled {
 		return nil, apierr.NewApiError(apierr.CodeUserDisabled, "用户已被禁用")
 	}
 

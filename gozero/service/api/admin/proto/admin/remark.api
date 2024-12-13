@@ -3,8 +3,8 @@ syntax = "v1"
 import "base.api"
 
 type (
-    RemarkNewReq {
-        Id int64 `json:"id,optional"`                           // 主键id
+    RemarkReviewReq {
+        Ids []int64 `json:"ids,optional"`
         IsReview int64 `json:"is_review"`              // 是否审核
     }
 
@@ -31,7 +31,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: remark
-    middleware: SignToken
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
@@ -44,13 +44,14 @@ service admin-api {
 @server(
     prefix: /admin_api/v1
     group: remark
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
+
     @doc "更新留言"
-    @handler UpdateRemark
-    put /remark/update_remark (RemarkNewReq) returns (RemarkBackDTO)
+    @handler UpdateRemarkReview
+    put /remark/update_remark_review (RemarkReviewReq) returns (BatchResp)
 
     @doc "删除留言"
     @handler DeleteRemark

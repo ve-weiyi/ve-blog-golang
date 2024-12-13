@@ -12,23 +12,23 @@ import "blog/friend.api"
 import "blog/comment.api"
 import "blog/page.api"
 import "blog/remark.api"
-import "blog/chat.api"
 import "blog/file.api"
 import "blog/websocket.api"
 
 type (
-	PingReq  {}
+    PingReq{
+    }
 	PingResp {
-		Env         string   `json:"env"`
-		Name        string   `json:"name"`
-		Version     string   `json:"version"`
-		Runtime     string   `json:"runtime"`
-		Description string   `json:"description"`
-		RpcStatus   []string `json:"rpc_status"`
+        Env string `json:"env"`
+        Name string `json:"name"`
+        Version string `json:"version"`
+        Runtime string `json:"runtime"`
+        Description string `json:"description"`
+        RpcStatus []string `json:"rpc_status"`
 	}
 )
 
-@server (
+@server(
 	prefix: /api/v1
 )
 service blog-api {

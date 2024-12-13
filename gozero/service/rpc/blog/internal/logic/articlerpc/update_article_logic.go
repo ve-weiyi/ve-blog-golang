@@ -25,7 +25,7 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 }
 
 // 更新文章
-func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*articlerpc.ArticleDetails, error) {
+func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*articlerpc.ArticlePreview, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
 	entity, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.Id)
@@ -68,5 +68,5 @@ func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*artic
 	l.svcCtx.TArticleTagModel.Deletes(l.ctx, "article_id = ?", entity.Id)
 	l.svcCtx.TArticleTagModel.Inserts(l.ctx, ats...)
 
-	return convertArticleOut(entity, nil, nil), nil
+	return helper.convertArticlePreviewOut(entity), nil
 }

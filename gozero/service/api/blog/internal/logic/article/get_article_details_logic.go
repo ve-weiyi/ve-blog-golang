@@ -25,9 +25,15 @@ func NewGetArticleDetailsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 	}
 }
 
-func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *types.ArticleDeatils, err error) {
+func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *types.ArticleDetails, err error) {
 	in := &articlerpc.IdReq{
 		Id: req.Id,
+	}
+
+	// 添加文章访问量
+	_, err = l.svcCtx.ArticleRpc.VisitArticle(l.ctx, in)
+	if err != nil {
+		return nil, err
 	}
 
 	out, err := l.svcCtx.ArticleRpc.GetArticle(l.ctx, in)
@@ -35,13 +41,13 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 		return nil, err
 	}
 
-	// 查询上一篇文章
-	recommend, err := l.svcCtx.ArticleRpc.GetArticleRecommend(l.ctx, in)
+	// 查询关联文章
+	relation, err := l.svcCtx.ArticleRpc.GetArticleRelation(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	resp = &types.ArticleDeatils{
+	resp = &types.ArticleDetails{
 		ArticleHome:          types.ArticleHome{},
 		LastArticle:          nil,
 		NextArticle:          nil,
@@ -51,15 +57,15 @@ func (l *GetArticleDetailsLogic) GetArticleDetails(req *types.IdReq) (resp *type
 
 	resp.ArticleHome = *ConvertArticleHomeTypes(out)
 
-	resp.LastArticle = ConvertArticlePreviewTypes(recommend.Last)
+	resp.LastArticle = ConvertArticlePreviewTypes(relation.Last)
 
-	resp.NextArticle = ConvertArticlePreviewTypes(recommend.Next)
+	resp.NextArticle = ConvertArticlePreviewTypes(relation.Next)
 
-	for _, v := range recommend.Recommend {
+	for _, v := range relation.Recommend {
 		resp.RecommendArticleList = append(resp.RecommendArticleList, ConvertArticlePreviewTypes(v))
 	}
 
-	for _, v := range recommend.Newest {
+	for _, v := range relation.Newest {
 		resp.NewestArticleList = append(resp.NewestArticleList, ConvertArticlePreviewTypes(v))
 	}
 

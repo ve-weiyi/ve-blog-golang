@@ -34,26 +34,27 @@ type (
 @server(
     prefix: /admin_api/v1
     group: album
-    middleware: SignToken
+    middleware: JwtToken,Permission
 )
 
 service admin-api {
     @doc "分页获取相册列表"
     @handler FindAlbumList
     post /album/find_album_list (AlbumQuery) returns (PageResp)
+
+    @doc "查询相册"
+    @handler GetAlbum
+    post /album/get_album (IdReq) returns (AlbumBackDTO)
 }
+
 
 @server(
     prefix: /admin_api/v1
     group: album
-    middleware: SignToken,JwtToken,Operation
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
-    @doc "查询相册"
-    @handler GetAlbum
-    post /album/get_album (IdReq) returns (AlbumBackDTO)
-
     @doc "创建相册"
     @handler AddAlbum
     post /album/add_album (AlbumNewReq) returns (AlbumBackDTO)
@@ -65,8 +66,4 @@ service admin-api {
     @doc "删除相册"
     @handler DeleteAlbum
     delete /album/delete_album (IdReq) returns (BatchResp)
-
-    @doc "批量删除相册"
-    @handler BatchDeleteAlbum
-    delete /album/batch_delete_album (IdsReq) returns (BatchResp)
 }

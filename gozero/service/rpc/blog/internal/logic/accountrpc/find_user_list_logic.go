@@ -28,7 +28,7 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 
 // 查找用户列表
 func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserListResp, error) {
-	page, size, sorts, conditions, params := convertQuery(in)
+	page, size, sorts, conditions, params := convertUserQuery(in)
 
 	result, err := l.svcCtx.TUserModel.FindList(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
@@ -52,7 +52,7 @@ func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accou
 	return resp, nil
 }
 
-func convertQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
+func convertUserQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts string, conditions string, params []interface{}) {
 	page = int(in.Page)
 	size = int(in.PageSize)
 	sorts = strings.Join(in.Sorts, ",")
@@ -93,7 +93,7 @@ func convertQuery(in *accountrpc.FindUserListReq) (page int, size int, sorts str
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions += "id in (?)"
+		conditions += "user_id in (?)"
 		params = append(params, in.UserIds)
 	}
 
