@@ -10,13 +10,11 @@ import (
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/spec"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/permissionrpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type SyncApiListLogic struct {
@@ -71,8 +69,6 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 			}
 		}
 	}
-
-	glog.Info(jsonconv.AnyToJsonIndent(groups))
 
 	var list []*permissionrpc.ApiNewReq
 	for g, children := range groups {
