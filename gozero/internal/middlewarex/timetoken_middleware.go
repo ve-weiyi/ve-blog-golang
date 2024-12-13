@@ -29,7 +29,7 @@ func (m *TimeTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		tm := r.Header.Get(restx.HeaderTerminal)
 
 		// 请求头缺少参数
-		if tk == "" || tm == "" || ts == "" {
+		if tk == "" {
 			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求,缺少游客签名"))
 			return
 		}

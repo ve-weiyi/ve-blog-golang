@@ -14,6 +14,8 @@ import (
 )
 
 type (
+	AddVisitReq        = websiterpc.AddVisitReq
+	AddVisitResp       = websiterpc.AddVisitResp
 	BatchResp          = websiterpc.BatchResp
 	CountResp          = websiterpc.CountResp
 	EmptyReq           = websiterpc.EmptyReq
@@ -24,22 +26,24 @@ type (
 	FindPageListResp   = websiterpc.FindPageListResp
 	FriendDetails      = websiterpc.FriendDetails
 	FriendNewReq       = websiterpc.FriendNewReq
+	GetTouristInfoResp = websiterpc.GetTouristInfoResp
 	IdReq              = websiterpc.IdReq
 	IdsReq             = websiterpc.IdsReq
 	PageDetails        = websiterpc.PageDetails
 	PageNewReq         = websiterpc.PageNewReq
-	ReportResp         = websiterpc.ReportResp
 	UserDailyVisitRsp  = websiterpc.UserDailyVisitRsp
 	UserIdReq          = websiterpc.UserIdReq
 	UserVisit          = websiterpc.UserVisit
 
 	WebsiteRpc interface {
-		// 上报访问记录
-		Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ReportResp, error)
-		// 用户日浏览量分析
-		GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
+		// 获取游客身份
+		GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
+		// 添加用户访问记录
+		AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
 		// 用户总流量数
 		GetUserTotalVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*CountResp, error)
+		// 用户日浏览量分析
+		GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
 		// 创建页面
 		AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
 		// 更新页面
@@ -69,22 +73,28 @@ func NewWebsiteRpc(cli zrpc.Client) WebsiteRpc {
 	}
 }
 
-// 上报访问记录
-func (m *defaultWebsiteRpc) Report(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*ReportResp, error) {
+// 获取游客身份
+func (m *defaultWebsiteRpc) GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.Report(ctx, in, opts...)
+	return client.GetTouristInfo(ctx, in, opts...)
 }
 
-// 用户日浏览量分析
-func (m *defaultWebsiteRpc) GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error) {
+// 添加用户访问记录
+func (m *defaultWebsiteRpc) AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.GetUserDailyVisit(ctx, in, opts...)
+	return client.AddVisit(ctx, in, opts...)
 }
 
 // 用户总流量数
 func (m *defaultWebsiteRpc) GetUserTotalVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*CountResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.GetUserTotalVisit(ctx, in, opts...)
+}
+
+// 用户日浏览量分析
+func (m *defaultWebsiteRpc) GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error) {
+	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
+	return client.GetUserDailyVisit(ctx, in, opts...)
 }
 
 // 创建页面

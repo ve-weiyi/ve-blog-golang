@@ -19,10 +19,6 @@
 #  fi
 #done
 
-goctl rpc protoc ./syslog.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/syslog.yaml
-rm ../syslog.go
-
-goctl rpc protoc ./message.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
-rm -f ../etc/message.yaml
-rm ../message.go
+goctl rpc protoc ./website.proto --go_out=../internal/pb --go-grpc_out=../internal/pb --zrpc_out=../ -m --style go_zero
+rm -f ../etc/website.yaml
+rm ../website.go
