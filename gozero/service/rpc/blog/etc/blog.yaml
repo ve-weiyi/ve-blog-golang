@@ -14,7 +14,7 @@ Health: true
 Log:
   Mode: console
   Encoding: plain
-  Path: runtime/rpc/logs
+  Path: runtime/blog-rpc/log
 MysqlConf:
   host: veweiyi.cn
   port: "3306"
