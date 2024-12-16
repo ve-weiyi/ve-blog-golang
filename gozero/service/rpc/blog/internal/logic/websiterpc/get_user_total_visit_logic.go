@@ -26,10 +26,11 @@ func NewGetUserTotalVisitLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 // 用户总流量数
 func (l *GetUserTotalVisitLogic) GetUserTotalVisit(in *websiterpc.EmptyReq) (*websiterpc.CountResp, error) {
-	totalKey := rediskey.GetBlogViewCountKey()
+	totalKey := rediskey.GetBlogTotalViewCountKey()
 	total, err := l.svcCtx.Redis.Get(l.ctx, totalKey).Int64()
 	if err != nil {
-		return nil, err
+		l.Errorf("获取用户总访问量失败: %v", err)
+		total = 0
 	}
 
 	return &websiterpc.CountResp{
