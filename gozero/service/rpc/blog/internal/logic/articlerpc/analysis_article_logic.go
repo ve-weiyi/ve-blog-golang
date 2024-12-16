@@ -40,17 +40,16 @@ func (l *AnalysisArticleLogic) AnalysisArticle(in *articlerpc.EmptyReq) (*articl
 		return nil, err
 	}
 
-	articles, err := l.svcCtx.TArticleModel.FindList(l.ctx, 1, 10, "", "", "")
+	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
+
+	tops, err := helper.GetViewTopArticleList(10)
 	if err != nil {
 		return nil, err
 	}
 
-	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
-
 	var ars []*articlerpc.ArticlePreview
-	for _, article := range articles {
+	for _, article := range tops {
 		m := helper.convertArticlePreviewOut(article)
-		m.ViewCount = m.Id
 		ars = append(ars, m)
 	}
 
