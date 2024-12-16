@@ -42,7 +42,7 @@ func (l *LikeCommentLogic) LikeComment(in *messagerpc.IdReq) (*messagerpc.EmptyR
 
 	// 设置集合
 	likeKey := rediskey.GetUserLikeCommentKey(uid)
-	countKey := rediskey.GetCommentLikeCountKey(id)
+	countKey := rediskey.GetCommentLikeCountKey()
 
 	ok, _ := l.svcCtx.Redis.SIsMember(l.ctx, likeKey, id).Result()
 	if ok {
@@ -52,7 +52,7 @@ func (l *LikeCommentLogic) LikeComment(in *messagerpc.IdReq) (*messagerpc.EmptyR
 		if err != nil {
 			return nil, err
 		}
-		err = l.svcCtx.Redis.Decr(l.ctx, countKey).Err()
+		err = l.svcCtx.Redis.ZIncrBy(l.ctx, countKey, -1, id).Err()
 		if err != nil {
 			return nil, err
 		}
@@ -63,7 +63,7 @@ func (l *LikeCommentLogic) LikeComment(in *messagerpc.IdReq) (*messagerpc.EmptyR
 		if err != nil {
 			return nil, err
 		}
-		err = l.svcCtx.Redis.Incr(l.ctx, countKey).Err()
+		err = l.svcCtx.Redis.ZIncrBy(l.ctx, countKey, 1, id).Err()
 		if err != nil {
 			return nil, err
 		}

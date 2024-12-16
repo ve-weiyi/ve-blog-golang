@@ -34,7 +34,7 @@ func (l *AddVisitLogic) AddVisit(in *websiterpc.AddVisitReq) (*websiterpc.AddVis
 		return nil, fmt.Errorf("visitor is empty")
 	}
 
-	key := rediskey.GetBlogVisitorKey(time.Now().Format(time.DateOnly))
+	key := rediskey.GetBlogDailyVisitorKey(time.Now().Format(time.DateOnly))
 	ok, err := l.svcCtx.Redis.SIsMember(l.ctx, key, visitor).Result()
 	if err != nil {
 		return nil, err
@@ -56,8 +56,15 @@ func (l *AddVisitLogic) AddVisit(in *websiterpc.AddVisitReq) (*websiterpc.AddVis
 		}
 
 		// 添加总访问量
-		totalKey := rediskey.GetBlogViewCountKey()
+		totalKey := rediskey.GetBlogTotalViewCountKey()
 		_, err = l.svcCtx.Redis.Incr(l.ctx, totalKey).Result()
+		if err != nil {
+			return nil, err
+		}
+
+		// 添加总访问量
+		dailyKey := rediskey.GetBlogViewCountKey()
+		_, err = l.svcCtx.Redis.ZIncrBy(l.ctx, dailyKey, 1, day).Result()
 		if err != nil {
 			return nil, err
 		}
