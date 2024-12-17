@@ -20,8 +20,8 @@ type AuthOauthURL struct {
 // 获取第三方登录地址
 type Oauth interface {
 	GetName() string
-	GetAuthorizeUrl(state string) string
-	GetUserOpenInfo(code string) (*UserResult, error)
+	GetAuthLoginUrl(state string) string
+	GetAuthUserInfo(code string) (*UserResult, error)
 	// GetAccessToken(code string) (*result.TokenResult, error)
 	// RefreshToken(refreshToken string) (*result.RefreshResult, error)
 }

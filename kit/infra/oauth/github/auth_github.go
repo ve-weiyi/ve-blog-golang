@@ -38,7 +38,7 @@ func (a *AuthGithub) GetName() string {
 }
 
 // 1. 获取第三方登录地址（获取授权码code）
-func (a *AuthGithub) GetAuthorizeUrl(state string) string {
+func (a *AuthGithub) GetAuthLoginUrl(state string) string {
 
 	url := httpx.NewClient(
 		"GET",
@@ -55,7 +55,7 @@ func (a *AuthGithub) GetAuthorizeUrl(state string) string {
 }
 
 // 获取用户信息
-func (a *AuthGithub) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error) {
+func (a *AuthGithub) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error) {
 	token, err := a.GetAccessToken(code)
 	if err != nil {
 		return nil, err
