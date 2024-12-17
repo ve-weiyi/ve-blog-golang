@@ -30,12 +30,18 @@ RedisConf:
   port: "6379"
   password: redis7914
 
-# 共同etcd配置
-#Etcd:
-#  Hosts:
-#    - veweiyi.cn:2379
-#  Key: blog.api
+# etcd模式
+#BlogRpcConf:
+#  Etcd:
+#    Hosts:
+#     - "localhost:2379"
+#    Key: "blog-dev/blog.rpc"
+#    User: "root"
+#    Pass: "etcd7914"
+#  NonBlock: true
+#  Timeout: 5000
 
+# 直连模式
 BlogRpcConf:
   Endpoints:
     - 0.0.0.0:9999
