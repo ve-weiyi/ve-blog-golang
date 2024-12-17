@@ -181,6 +181,11 @@ message FindTagListResp {
   repeated TagDetails list = 2;
 }
 
+message ArticleDailyStatistics{
+  string date = 1;
+  int64 count = 2;
+}
+
 message AnalysisArticleResp{
   int64 article_count = 1;
   int64 category_count = 2;
@@ -189,6 +194,8 @@ message AnalysisArticleResp{
   repeated CategoryDetails category_list = 4;
   repeated TagDetails tag_list = 5;
   repeated ArticlePreview article_rank_list = 6; // 文章浏览排序
+
+  repeated ArticleDailyStatistics article_daily_statistics = 7; // 每日文章数量统计
 }
 
 message GetArticleRelationResp {
