@@ -462,3 +462,23 @@ func (l *ArticleHelperLogic) GetViewTopArticleList(count int64) (list []*model.T
 
 	return list, nil
 }
+
+// 获取每日文章生产数量
+func (l *ArticleHelperLogic) GetArticleDailyStatistics() (out map[string]int64, err error) {
+	var results []struct {
+		Date         string `gorm:"column:date"`
+		ArticleCount int64  `gorm:"column:article_count"`
+	}
+
+	err = l.svcCtx.Gorm.Raw("SELECT DATE(created_at) AS date, COUNT(*) as article_count FROM t_article GROUP BY date order by date desc").Scan(&results).Error
+	if err != nil {
+		return nil, err
+	}
+
+	out = make(map[string]int64)
+	for _, result := range results {
+		out[result.Date] = result.ArticleCount
+	}
+
+	return out, nil
+}
