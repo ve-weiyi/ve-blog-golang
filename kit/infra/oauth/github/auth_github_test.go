@@ -30,11 +30,11 @@ func TestGithub(t *testing.T) {
 	conf := ms["github"]
 	auth := NewAuthGithub(conf)
 	// 获取第三方登录地址
-	url := auth.GetAuthorizeUrl("state")
+	url := auth.GetAuthLoginUrl("state")
 	log.Println("url:", url)
 
 	// 获取用户信息
-	userInfo, err := auth.GetUserOpenInfo("69b1ccc128ef6aada3c4")
+	userInfo, err := auth.GetAuthUserInfo("69b1ccc128ef6aada3c4")
 	if err != nil {
 		log.Fatal(err)
 	}

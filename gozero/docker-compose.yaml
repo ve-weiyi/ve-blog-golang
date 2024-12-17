@@ -11,13 +11,13 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile-rpc
-    image: blog-rpc:latest  # 设置新的镜像名称和标签
+    image: weiyi7914/blog-rpc:latest  # 设置新的镜像名称和标签
     container_name: blog-rpc
     restart: always
     ports:
       - "9999:9999"
     volumes:
-      - ./runtime/rpc:/app/rpc/blog/runtime
+      - ./runtime:/app/rpc/blog/runtime
     command: [
       "./blog",
       "-nacos-ip", "veweiyi.cn",
@@ -33,14 +33,14 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile-blog-api
-    image: blog-api:latest  # 设置新的镜像名称和标签
+    image: weiyi7914/blog-api:latest  # 设置新的镜像名称和标签
     container_name: blog-api
     restart: always
     ports:
       - "6060:6060"
       - "9090:9090"
     volumes:
-      - ./runtime/api:/app/api/blog/runtime
+      - ./runtime:/app/api/blog/runtime
     depends_on:
       - blog-rpc
     command: [
@@ -58,14 +58,14 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile-admin-api
-    image: admin-api:latest  # 设置新的镜像名称和标签
+    image: weiyi7914/admin-api:latest  # 设置新的镜像名称和标签
     container_name: admin-api
     restart: always
     ports:
       - "6061:6061"
       - "9091:9091"
     volumes:
-      - ./runtime/api:/app/api/admin/runtime
+      - ./runtime:/app/api/admin/runtime
     depends_on:
       - blog-rpc
     command: [
