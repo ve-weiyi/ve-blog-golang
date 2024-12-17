@@ -92,11 +92,22 @@ func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *typ
 	if err != nil {
 		return nil, err
 	}
-	ass := make([]*types.ArticleStatisticsDTO, 0)
+
+	asm := make(map[string]int64)
 	for _, v := range archives.List {
+		date := time.Unix(v.CreatedAt, 0).Format(time.DateOnly)
+		if _, ok := asm[date]; ok {
+			asm[date]++
+		} else {
+			asm[date] = 1
+		}
+	}
+
+	ass := make([]*types.ArticleStatisticsDTO, 0)
+	for k, v := range asm {
 		m := &types.ArticleStatisticsDTO{
-			Date:  time.Unix(v.CreatedAt, 0).Format(time.DateOnly),
-			Count: 1,
+			Date:  k,
+			Count: v,
 		}
 
 		ass = append(ass, m)
