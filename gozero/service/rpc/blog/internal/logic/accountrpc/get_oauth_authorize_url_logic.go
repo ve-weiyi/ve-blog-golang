@@ -39,6 +39,6 @@ func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.OauthLog
 	}
 
 	resp := &accountrpc.OauthLoginUrlResp{}
-	resp.Url = auth.GetAuthorizeUrl(in.State)
+	resp.Url = auth.GetAuthLoginUrl(in.State)
 	return resp, nil
 }
