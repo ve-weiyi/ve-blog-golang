@@ -2,8 +2,10 @@ package kafkax
 
 import (
 	"context"
+	"crypto/tls"
 
 	"github.com/segmentio/kafka-go"
+	"github.com/segmentio/kafka-go/sasl/scram"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 )
@@ -15,9 +17,20 @@ type KafkaProducer struct {
 }
 
 func NewKafkaProducer(c *KafkaConf) *KafkaProducer {
+	mechanism, err := scram.Mechanism(scram.SHA512, "username", "password")
+	if err != nil {
+		panic(err)
+	}
+
+	sharedTransport := &kafka.Transport{
+		SASL: mechanism,
+		TLS:  &tls.Config{},
+	}
+
 	w := &kafka.Writer{
-		Addr:  kafka.TCP(c.Brokers...),
-		Topic: c.Topic,
+		Addr:      kafka.TCP(c.Brokers...),
+		Topic:     c.Topic,
+		Transport: sharedTransport,
 	}
 
 	return &KafkaProducer{
