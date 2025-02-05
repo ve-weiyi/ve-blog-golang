@@ -6,13 +6,10 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"time"
 )
 
 // Client 表示HTTP客户端。
 type Client struct {
-	timeout time.Duration // 请求超时时间
-
 	method string // 请求方法
 	url    string // 请求URL
 
@@ -30,7 +27,6 @@ func NewClient(method, url string, options ...Option) *Client {
 		method: method,
 		url:    url,
 
-		timeout: 30 * time.Second, // 默认超时时间
 		headers: make(map[string]string),
 		params:  make(map[string]string),
 		body:    make([]byte, 0),
@@ -42,13 +38,6 @@ func NewClient(method, url string, options ...Option) *Client {
 	}
 
 	return client
-}
-
-// WithTimeout 设置HTTP请求的超时时间。
-func WithTimeout(timeout time.Duration) Option {
-	return func(c *Client) {
-		c.timeout = timeout
-	}
 }
 
 // WithHeaders 设置HTTP请求的头部。
@@ -103,10 +92,7 @@ func (c *Client) DoRequest() (respBody []byte, err error) {
 	req.URL.RawQuery = query.Encode()
 
 	// 底层HTTP客户端
-	httpClient := &http.Client{}
-
-	// 设置超时时间
-	httpClient.Timeout = c.timeout
+	//httpClient := &http.Client{}
 
 	// 执行请求
 	resp, err := httpClient.Do(req)
@@ -116,7 +102,11 @@ func (c *Client) DoRequest() (respBody []byte, err error) {
 
 	// 检查响应状态码
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("http request fail. url:%v, code:%d,err:%s", req.URL.String(), resp.StatusCode, resp.Status)
+		return nil, fmt.Errorf(`
+http request fail.
+status: %s
+curl: %s
+`, resp.Status, c.CURL())
 	}
 
 	defer resp.Body.Close()

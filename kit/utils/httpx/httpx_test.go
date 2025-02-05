@@ -3,7 +3,6 @@ package httpx
 import (
 	"net/http"
 	"testing"
-	"time"
 )
 
 func TestNewClientBuilder(t *testing.T) {
@@ -12,10 +11,10 @@ func TestNewClientBuilder(t *testing.T) {
 		http.MethodGet,
 		"https://baidu.com",
 	).
-		WithTimeout(10 * time.Second).
 		WithHeaders(map[string]string{"Content-Type": "application/json"}).
 		WithParams(map[string]string{"param1": "value1", "param2": "value2"}).
 		WithBody([]byte(`{"key": "value"}`)).
+		Build().
 		DoRequest()
 
 	t.Log(string(resp), err)
@@ -26,7 +25,6 @@ func TestNewClientOptions(t *testing.T) {
 	resp, err := NewClient(
 		http.MethodGet,
 		"https://baidu.com",
-		WithTimeout(10*time.Second),
 		WithHeaders(map[string]string{"Content-Type": "application/json"}),
 		WithParams(map[string]string{"param1": "value1", "param2": "value2"}),
 		WithBody([]byte(`{"key": "value"}`)),
