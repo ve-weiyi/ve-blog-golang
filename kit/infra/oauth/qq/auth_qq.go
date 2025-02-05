@@ -36,7 +36,7 @@ func (a *AuthQq) GetName() string {
 }
 
 // 获取登录地址
-func (a *AuthQq) GetAuthorizeUrl(state string) string {
+func (a *AuthQq) GetAuthLoginUrl(state string) string {
 
 	url := httpx.NewClient(
 		"GET",
@@ -53,7 +53,7 @@ func (a *AuthQq) GetAuthorizeUrl(state string) string {
 	return url
 }
 
-func (a *AuthQq) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error) {
+func (a *AuthQq) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error) {
 	token, err := a.GetAccessToken(code)
 	if err != nil {
 		return nil, err

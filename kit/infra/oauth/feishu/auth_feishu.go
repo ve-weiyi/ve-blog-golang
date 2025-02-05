@@ -41,7 +41,7 @@ func (a *AuthFeishu) GetName() string {
 }
 
 // 获取登录地址（获取授权码code）
-func (a *AuthFeishu) GetAuthorizeUrl(state string) string {
+func (a *AuthFeishu) GetAuthLoginUrl(state string) string {
 
 	url := httpx.NewClient(
 		"GET",
@@ -57,7 +57,7 @@ func (a *AuthFeishu) GetAuthorizeUrl(state string) string {
 }
 
 // 获取用户信息
-func (a *AuthFeishu) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error) {
+func (a *AuthFeishu) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error) {
 	token, err := a.GetUserAccessToken(code)
 	if err != nil {
 		return nil, err

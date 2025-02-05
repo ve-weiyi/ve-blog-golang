@@ -35,7 +35,7 @@ func (a *AuthWb) GetName() string {
 }
 
 // 获取登录地址
-func (a *AuthWb) GetAuthorizeUrl(state string) string {
+func (a *AuthWb) GetAuthLoginUrl(state string) string {
 
 	url := httpx.NewClient(
 		"GET",
@@ -52,7 +52,7 @@ func (a *AuthWb) GetAuthorizeUrl(state string) string {
 }
 
 // 获取用户信息
-func (a *AuthWb) GetUserOpenInfo(code string) (resp *oauth.UserResult, err error) {
+func (a *AuthWb) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error) {
 	tk, err := a.GetAccessToken(code)
 	if err != nil {
 		return nil, err
