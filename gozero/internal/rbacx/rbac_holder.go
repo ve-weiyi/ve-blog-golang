@@ -12,161 +12,186 @@ import (
 )
 
 // 角色资源管理器
-type RbacHolder struct {
+type MemoryHolder struct {
 	sync.RWMutex
 
 	pr permissionrpc.PermissionRpc
 
+	autoload bool
+
 	// key: (user), value: role_name[]
 	lru *collection.Cache
+
+	// 用户角色缓存 key: (user), value: role_name[]
+	user map[string][]string
+
+	// key: roleId, value: apiIds
+	policy map[string][]string
 
 	// key: (role_name), value: role
 	roles map[string]*permissionrpc.RoleDetails
 
 	// key: (api_name), value: api
 	apis map[string]*permissionrpc.ApiDetails
-
-	// key: roleId, value: apiIds
-	rs map[int64][]int64
 }
 
-func NewRbacHolder(pr permissionrpc.PermissionRpc) *RbacHolder {
+func NewMemoryHolder(pr permissionrpc.PermissionRpc) *MemoryHolder {
 	lru, err := collection.NewCache(30 * time.Minute)
 	if err != nil {
 		panic(err)
 	}
 
-	return &RbacHolder{
-		pr:  pr,
-		lru: lru,
+	return &MemoryHolder{
+		pr:       pr,
+		lru:      lru,
+		autoload: false,
 	}
 }
 
-func (m *RbacHolder) LoadPolicy() error {
+func (m *MemoryHolder) StartAutoLoadPolicy() {
+	m.autoload = true
+}
+
+func (m *MemoryHolder) ClearPolicy() error {
+	m.Lock()
+	defer m.Unlock()
+
+	m.policy = make(map[string][]string)
+	m.user = make(map[string][]string)
+	m.roles = make(map[string]*permissionrpc.RoleDetails)
+	m.apis = make(map[string]*permissionrpc.ApiDetails)
+
+	if m.autoload {
+		return m.LoadPolicy()
+	}
+	return nil
+}
+
+func (m *MemoryHolder) LoadPolicy() error {
 	m.Lock()
 	defer m.Unlock()
 
 	var rs = make(map[int64][]int64)
-	var roles = make(map[string]*permissionrpc.RoleDetails)
-	var apis = make(map[string]*permissionrpc.ApiDetails)
+	var roles = make(map[int64]*permissionrpc.RoleDetails)
+	var apis = make(map[int64]*permissionrpc.ApiDetails)
 
 	// 收集角色
 	roleList, err := m.pr.FindRoleList(context.Background(), &permissionrpc.FindRoleListReq{})
 	if err != nil {
 		return err
 	}
+	for _, v := range roleList.List {
+		roles[v.Id] = v
+	}
 
+	// 收集资源
+	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.EmptyReq{})
+	if err != nil {
+		return err
+	}
+	for _, v := range apiList.List {
+		apis[v.Id] = v
+	}
+
+	// 收集角色-资源
 	for _, v := range roleList.List {
 		resource, err := m.pr.FindRoleResources(context.Background(), &permissionrpc.IdReq{Id: v.Id})
 		if err != nil {
 			return err
 		}
 
-		roles[v.RoleName] = v
 		rs[v.Id] = resource.ApiIds
 	}
 
-	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.EmptyReq{})
-	if err != nil {
-		return err
-	}
-	for _, v := range apiList.List {
-		apis[getResourceKey(v.Path, v.Method)] = v
+	for roleId, apiIds := range rs {
+		role, ok := roles[roleId]
+		if !ok {
+			return fmt.Errorf("role %d not found", roleId)
+		}
+
+		if role.IsDisable == 1 {
+			continue
+		}
+
+		for _, apiId := range apiIds {
+			api, ok := apis[apiId]
+			if !ok {
+				return fmt.Errorf("api %d not found", apiId)
+			}
+
+			if api.IsDisable == 1 {
+				continue
+			}
+
+			m.policy[role.RoleName] = append(m.policy[role.RoleName], fmt.Sprintf("%s %s", api.Path, api.Method))
+		}
 	}
 
-	m.roles = roles
-	m.apis = apis
-	m.rs = rs
 	return nil
 }
 
-func (m *RbacHolder) Enforce(ctx context.Context, user string, resource string, action string) error {
+func (m *MemoryHolder) Enforce(user string, resource string, action string) error {
 	m.RLock()
 	defer m.RUnlock()
 
-	// 获取资源
-	api, err := m.GetApi(resource, action)
+	err := m.dynamicLoadUserRoles(user)
 	if err != nil {
 		return err
+	}
+
+	ok, err := m.enforce(user, resource, action)
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return fmt.Errorf("permission denied, user: %s, resource: %s, action: %s", user, resource, action)
+	}
+
+	return nil
+}
+
+// 加载用户角色
+func (m *MemoryHolder) dynamicLoadUserRoles(userId string) error {
+	if _, ok := m.user[userId]; ok {
+		return nil
 	}
 
 	// 获取用户角色
-	userRoles, err := m.getUserRoles(user)
+	userRoles, err := m.pr.FindUserRoles(context.Background(), &permissionrpc.UserIdReq{UserId: userId})
 	if err != nil {
 		return err
 	}
 
-	for _, roleId := range userRoles {
-		// 获取角色资源
-		role, err := m.GetRole(roleId)
-		if err != nil {
-			return err
+	for _, v := range userRoles.List {
+		m.user[userId] = append(m.user[userId], v.RoleName)
+	}
+
+	return nil
+}
+
+func (m *MemoryHolder) enforce(user string, resource string, action string) (bool, error) {
+	m.RLock()
+	defer m.RUnlock()
+
+	roles, ok := m.user[user]
+	if !ok {
+		return false, nil
+	}
+
+	p := fmt.Sprintf("%s %s", resource, action)
+	for _, role := range roles {
+		policies, ok := m.policy[role]
+		if !ok {
+			continue
 		}
 
-		// 判断用户是否有权限
-		if apiIds, ok := m.rs[role.Id]; ok {
-			for _, apiId := range apiIds {
-				if apiId == api.Id {
-					return nil
-				}
+		for _, policy := range policies {
+			if policy == p {
+				return true, nil
 			}
 		}
 	}
 
-	return fmt.Errorf("user %s has no permission to access %s %s", user, resource, action)
-}
-
-func (m *RbacHolder) getUserRoles(userId string) ([]string, error) {
-	// 从缓存中获取用户角色
-	roles, ok := m.lru.Get(userId)
-	if ok {
-		return roles.([]string), nil
-	}
-
-	// 从数据库查找
-	urs, err := m.pr.FindUserRoles(context.Background(), &permissionrpc.UserIdReq{UserId: userId})
-	if err != nil {
-		return nil, err
-	}
-
-	var roleIds []string
-	for _, v := range urs.List {
-		roleIds = append(roleIds, v.RoleName)
-	}
-
-	// 将用户角色放入缓存
-	m.lru.Set(userId, roleIds)
-	return roleIds, nil
-}
-
-func (m *RbacHolder) GetApi(path string, method string) (*permissionrpc.ApiDetails, error) {
-	key := getResourceKey(path, method)
-
-	api, ok := m.apis[key]
-	if !ok {
-		return nil, fmt.Errorf("resource %s not found", key)
-	}
-
-	if api.IsDisable == 1 {
-		return nil, fmt.Errorf("resource %s is disabled", key)
-	}
-
-	return api, nil
-}
-
-func (m *RbacHolder) GetRole(key string) (*permissionrpc.RoleDetails, error) {
-	role, ok := m.roles[key]
-	if !ok {
-		return nil, fmt.Errorf("role %s not found", key)
-	}
-
-	if role.IsDisable == 1 {
-		return nil, fmt.Errorf("role %s is disabled", key)
-	}
-
-	return role, nil
-}
-
-func getResourceKey(path string, method string) string {
-	return fmt.Sprintf("%s %s", path, method)
+	return false, nil
 }

@@ -36,5 +36,10 @@ func (l *UpdateRoleApisLogic) UpdateRoleApis(req *types.UpdateRoleApisReq) (resp
 		return nil, err
 	}
 
+	err = l.svcCtx.PermissionHolder.ClearPolicy()
+	if err != nil {
+		return nil, err
+	}
+
 	return &types.EmptyResp{}, nil
 }

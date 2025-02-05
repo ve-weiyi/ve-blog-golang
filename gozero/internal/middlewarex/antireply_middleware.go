@@ -27,13 +27,13 @@ func (m *AntiReplyMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		if r.Method != http.MethodGet {
 			ts := r.Header.Get(restx.HeaderTimestamp)
 			if ts == "" {
-				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "timestamp is empty"))
+				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeInvalidParam, "timestamp is empty"))
 				return
 			}
 
 			now := time.Now().Unix()
 			if now-cast.ToInt64(ts) > 3600 {
-				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "timestamp is invalid"))
+				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeInvalidParam, "timestamp is invalid"))
 				return
 			}
 		}

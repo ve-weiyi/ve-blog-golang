@@ -31,7 +31,7 @@ func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 			// 有错误，直接返回给前端错误，前端直接报错500
 			// c.AbortWithStatus(http.StatusInternalServerError)
 			// 该方式前端不报错
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "token or uid is empty"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录"))
 			c.Abort()
 			return
 		}
@@ -39,14 +39,14 @@ func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 		// 解析token
 		tok, err := parser.ParseToken(token)
 		if err != nil {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, err.Error()))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserLoginExpired, err.Error()))
 			c.Abort()
 			return
 		}
 
 		// token不合法
 		if !tok.Valid {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "token is invalid"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserLoginExpired, "token is invalid"))
 			c.Abort()
 			return
 		}
@@ -54,14 +54,14 @@ func JwtToken(tk *jwtx.JwtInstance) gin.HandlerFunc {
 		// 获取claims
 		claims, ok := tok.Claims.(jwt.MapClaims)
 		if !ok {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "token claims is not jwt.MapClaims"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserLoginExpired, "token claims is not jwt.MapClaims"))
 			c.Abort()
 			return
 		}
 
 		// uid不一致
 		if uid != cast.ToString(claims["uid"]) {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "token uid is not equal"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserLoginExpired, "token uid is not equal"))
 			c.Abort()
 			return
 		}
