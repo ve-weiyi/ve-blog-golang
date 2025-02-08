@@ -11,12 +11,10 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/docs"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
-
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/middlewarex"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/rbacx"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/internal/tokenx"
+	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/docs"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/articlerpc"
@@ -28,6 +26,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 )
 
 type ServiceContext struct {
@@ -44,10 +43,10 @@ type ServiceContext struct {
 	ConfigRpc     configrpc.ConfigRpc
 	SyslogRpc     syslogrpc.SyslogRpc
 
-	Redis       *redis.Redis
-	RbacHolder  *rbacx.RbacHolder
-	TokenHolder tokenx.TokenHolder
-	Uploader    oss.OSS
+	Redis            *redis.Redis
+	PermissionHolder rbacx.PermissionHolder
+	TokenHolder      tokenx.TokenHolder
+	Uploader         oss.OSS
 
 	TimeToken    rest.Middleware
 	JwtToken     rest.Middleware
@@ -84,8 +83,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	configRpc := configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	syslogRpc := syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 
-	rh := rbacx.NewRbacHolder(permissionRpc)
-	go rh.LoadPolicy()
+	ph := rbacx.NewCasbinHolder(fmt.Sprintf("%s:%s", c.RedisConf.Host, c.RedisConf.Port), permissionRpc)
+	err = ph.LoadPolicy()
+	if err != nil {
+		panic(err)
+	}
+	ph.StartAutoLoadPolicy()
 
 	return &ServiceContext{
 		Config:        c,
@@ -100,13 +103,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ConfigRpc:     configRpc,
 		SyslogRpc:     syslogRpc,
 
-		Redis:       rds,
-		Uploader:    uploader,
-		TokenHolder: th,
-		RbacHolder:  rh,
-		TimeToken:   middlewarex.NewTimeTokenMiddleware().Handle,
-		JwtToken:    middlewarex.NewJwtTokenMiddleware(th).Handle,
-		//Permission:   middlewarex.NewPermissionMiddleware(rh).Handle,
+		Redis:            rds,
+		Uploader:         uploader,
+		TokenHolder:      th,
+		PermissionHolder: ph,
+		TimeToken:        middlewarex.NewTimeTokenMiddleware().Handle,
+		JwtToken:         middlewarex.NewJwtTokenMiddleware(th).Handle,
+		//Permission:       middlewarex.NewPermissionMiddleware(ph).Handle,
 		Permission:   middlewarex.NewMiddleware().Handle, // 不使用接口权限控制
 		OperationLog: middlewarex.NewOperationLogMiddleware(doc.Spec(), syslogRpc).Handle,
 	}

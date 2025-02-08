@@ -98,11 +98,6 @@ func (l *SyncApiListLogic) SyncApiList(req *types.SyncApiReq) (resp *types.Batch
 		return nil, err
 	}
 
-	err = l.svcCtx.RbacHolder.LoadPolicy()
-	if err != nil {
-		return nil, err
-	}
-
 	resp = &types.BatchResp{
 		SuccessCount: out.SuccessCount,
 	}
