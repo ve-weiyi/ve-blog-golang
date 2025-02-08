@@ -498,13 +498,13 @@ type RoleBackDTO struct {
 }
 
 type RoleNewReq struct {
-	Id          int64  `json:"id,optional"`  // 主键id
-	ParentId    int64  `json:"parent_id"`    // 父角色id
-	RoleName    string `json:"role_name"`    // 角色名
-	RoleLabel   string `json:"role_label"`   // 角色标签
-	RoleComment string `json:"role_comment"` // 角色备注
-	IsDisable   int64  `json:"is_disable"`   // 是否禁用  0否 1是
-	IsDefault   int64  `json:"is_default"`   // 是否默认角色 0否 1是
+	Id          int64  `json:"id,optional"`        // 主键id
+	ParentId    int64  `json:"parent_id,optional"` // 父角色id
+	RoleName    string `json:"role_name"`          // 角色名
+	RoleLabel   string `json:"role_label"`         // 角色标签
+	RoleComment string `json:"role_comment"`       // 角色备注
+	IsDisable   int64  `json:"is_disable"`         // 是否禁用  0否 1是
+	IsDefault   int64  `json:"is_default"`         // 是否默认角色 0否 1是
 }
 
 type RoleQuery struct {

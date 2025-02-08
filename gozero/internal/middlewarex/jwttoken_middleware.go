@@ -34,13 +34,13 @@ func (j *JwtTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		// 请求头缺少参数
 		if token == "" || uid == "" {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求,缺少用户签名"))
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录,缺少用户签名"))
 			return
 		}
 
 		err := j.verifier.VerifyToken(r.Context(), token, uid)
 		if err != nil {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, err.Error()))
+			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserLoginExpired, err.Error()))
 			return
 		}
 
