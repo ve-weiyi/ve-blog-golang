@@ -4991,7 +4991,6 @@
       },
       "title": "RoleNewReq",
       "required": [
-        "parent_id",
         "role_name",
         "role_label",
         "role_comment",

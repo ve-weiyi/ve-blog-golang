@@ -8,11 +8,12 @@ const (
 	// 4xx 请求参数错误
 	CodeInvalidParam      = 400 // 请求参数错误
 	CodeUserUnLogin       = 401 // 用户未登录
-	CodeUserDisabled      = 402 // 用户账号错误
+	CodeUserLoginExpired  = 402 // 用户登录过期
 	CodeUserNotPermission = 403 // 用户无权限
 	CodeUserNotExist      = 404 // 用户不存在
 	CodeUserAlreadyExist  = 405 // 用户已存在
 	CodeUserPasswordError = 406 // 用户密码错误
+	CodeUserDisabled      = 407 // 用户被禁用
 
 	// 5xx 服务器错误
 	CodeInternalServerError = 500 // 内部错误
