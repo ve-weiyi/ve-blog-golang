@@ -19,7 +19,7 @@
 ## test
 # ddl(Data Definition Language)生成model文件
 go run main.go model ddl \
--t=./resource/go-zero/template/model.tpl \
+-t=./resource/go-zero/template/model.thin.tpl \
 -n='%v_model.go' \
 -o='./runtime/model'  \
 -s='./testdata/test.sql'

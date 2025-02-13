@@ -47,7 +47,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	}
 
 	// 获取第三方用户信息
-	info, err := auth.GetUserOpenInfo(in.Code)
+	info, err := auth.GetAuthUserInfo(in.Code)
 	if err != nil {
 		return nil, err
 	}

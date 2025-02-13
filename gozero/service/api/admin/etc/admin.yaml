@@ -13,13 +13,13 @@ DevServer:
 Log:
   Mode: console
   Encoding: plain
-  Path: runtime/log/admin
+  Path: runtime/admin-api/log
 # 文件上传配置
 UploadConfig:
   zone: ZoneHuanan
   endpoint: s3.cn-south-1.qiniucs.com
-  access-key-id: gyoAZPHHZrwXt4HhG7SNRaxRShJPhEKvxJJKhDUV
-  access-key-secret: OqbepkdXNm0pKfZMy1ziPqdYjZMCtdzRIrz1Hlhi
+  access-key-id: xxx
+  access-key-secret: xxx
   bucket-name: veweiyi
   bucket-url: https://static.veweiyi.cn
   base-path: blog
@@ -30,12 +30,18 @@ RedisConf:
   port: "6379"
   password: redis7914
 
-# 共同etcd配置
-#Etcd:
-#  Hosts:
-#    - veweiyi.cn:2379
-#  Key: blog.api
+# etcd模式
+#BlogRpcConf:
+#  Etcd:
+#    Hosts:
+#     - "localhost:2379"
+#    Key: "blog-dev/blog.rpc"
+#    User: "root"
+#    Pass: "etcd7914"
+#  NonBlock: true
+#  Timeout: 5000
 
+# 直连模式
 BlogRpcConf:
   Endpoints:
     - 0.0.0.0:9999

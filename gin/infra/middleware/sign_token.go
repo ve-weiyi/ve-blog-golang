@@ -22,13 +22,13 @@ func SignToken() gin.HandlerFunc {
 		//glog.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)
 		// 请求头缺少参数
 		if tk == "" || tm == "" || ts == "" {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录"))
 			c.Abort()
 			return
 		}
 		// 判断 token = md5(tm,ts)
 		if tk != crypto.Md5v(tm, ts) {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserLoginExpired, "无效请求"))
 			c.Abort()
 			return
 		}
@@ -47,7 +47,7 @@ func LoginToken() gin.HandlerFunc {
 		glog.Infof("api is login required. tk:%v, uid:%v", tk, uid)
 		// 请求头缺少参数
 		if tk == "" || uid == "" {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserNotPermission, "无效请求"))
+			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录"))
 			c.Abort()
 			return
 		}

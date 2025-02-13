@@ -83,7 +83,7 @@ func (j *JwtTokenHolder) CreateToken(ctx context.Context, uid string, expires ti
 		jwtx.WithIssuer(issuer),
 		jwtx.WithIssuedAt(now),
 		jwtx.WithExpiresAt(expiresAt),
-		jwtx.WithClaimExt("uid", uid),
+		jwtx.WithClaimExt(restx.HeaderUid, uid),
 	}
 
 	tk, err := j.token.CreateToken(opts...)

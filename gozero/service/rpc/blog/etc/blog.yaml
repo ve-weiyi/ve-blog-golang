@@ -7,14 +7,15 @@ Health: true
 # 检查服务是否注册 etcdctl get --prefix blog.rpc
 #Etcd:
 #  Hosts:
-#    - 0.0.0.0:2379
-#  Key: blog.rpc
-#  User: blog.rpc
-#  Pass: @blog.rpc
+#   - "localhost:2379"
+#  Key: "blog-dev/blog.rpc"
+#  User: "root"
+#  Pass: "etcd7914"
+
 Log:
   Mode: console
   Encoding: plain
-  Path: runtime/rpc/logs
+  Path: runtime/blog-rpc/log
 MysqlConf:
   host: veweiyi.cn
   port: "3306"

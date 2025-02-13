@@ -41,7 +41,7 @@ func (l *LikeArticleLogic) LikeArticle(in *articlerpc.IdReq) (*articlerpc.EmptyR
 	}
 	// 设置集合
 	likeKey := rediskey.GetUserLikeArticleKey(uid)
-	countKey := rediskey.GetArticleLikeCountKey(id)
+	countKey := rediskey.GetArticleLikeCountKey()
 
 	ok, _ := l.svcCtx.Redis.SIsMember(l.ctx, likeKey, id).Result()
 	if ok {
@@ -51,7 +51,7 @@ func (l *LikeArticleLogic) LikeArticle(in *articlerpc.IdReq) (*articlerpc.EmptyR
 		if err != nil {
 			return nil, err
 		}
-		err = l.svcCtx.Redis.Decr(l.ctx, countKey).Err()
+		err = l.svcCtx.Redis.ZIncrBy(l.ctx, countKey, -1, id).Err()
 		if err != nil {
 			return nil, err
 		}
@@ -62,7 +62,7 @@ func (l *LikeArticleLogic) LikeArticle(in *articlerpc.IdReq) (*articlerpc.EmptyR
 		if err != nil {
 			return nil, err
 		}
-		err = l.svcCtx.Redis.Incr(l.ctx, countKey).Err()
+		err = l.svcCtx.Redis.ZIncrBy(l.ctx, countKey, 1, id).Err()
 		if err != nil {
 			return nil, err
 		}

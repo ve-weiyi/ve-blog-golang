@@ -6,7 +6,7 @@ type (
     // 角色
     RoleNewReq {
         Id int64 `json:"id,optional"`                     // 主键id
-        ParentId int64 `json:"parent_id"`                 // 父角色id
+        ParentId int64 `json:"parent_id,optional"`        // 父角色id
         RoleName string `json:"role_name"`                // 角色名
         RoleLabel string `json:"role_label"`              // 角色标签
         RoleComment string `json:"role_comment"`          // 角色备注

@@ -8,15 +8,29 @@ import (
 	"slices"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/files"
 )
 
 func Test_len(t *testing.T) {
-	tx := "AFY59W1E46400039"
-	fmt.Println(len(tx))
-	fmt.Println(maskNickName(tx))
+	// 自定义时区字符串
+	tz := "AEST-10AEDT,M10.1.0,M4.1.0/3"
 
+	// 尝试加载时区
+	loc, err := time.LoadLocation(tz)
+	if err != nil {
+		fmt.Printf("Error loading location: %v\n", err)
+		return
+	}
+
+	// 获取当前时间并转换为自定义时区
+	now := time.Now().In(loc)
+	fmt.Printf("Current time in %s: %v\n", tz, now)
+
+	// 获取当天 0 点
+	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, loc)
+	fmt.Printf("Midnight in %s: %v\n", tz, midnight)
 }
 
 func maskNickName(nickName string) string {

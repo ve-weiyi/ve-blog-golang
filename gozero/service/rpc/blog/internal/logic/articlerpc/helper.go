@@ -422,7 +422,7 @@ func (l *ArticleHelperLogic) convertTagDetails(records []*model.TTag) (out []*ar
 
 func (l *ArticleHelperLogic) GetArticleViewCount(articleId int64) (count int64) {
 	id := cast.ToString(articleId)
-	key := rediskey.GetArticleVisitCountKey(id)
+	key := rediskey.GetArticleViewCountKey()
 	result, err := l.svcCtx.Redis.ZScore(l.ctx, key, id).Result()
 	if err != nil {
 		return 0
@@ -433,11 +433,52 @@ func (l *ArticleHelperLogic) GetArticleViewCount(articleId int64) (count int64) 
 
 func (l *ArticleHelperLogic) GetArticleLikeCount(articleId int64) (count int64) {
 	id := cast.ToString(articleId)
-	key := rediskey.GetArticleLikeCountKey(id)
-	result, err := l.svcCtx.Redis.Get(l.ctx, key).Result()
+	key := rediskey.GetArticleLikeCountKey()
+	result, err := l.svcCtx.Redis.ZScore(l.ctx, key, id).Result()
 	if err != nil {
 		return 0
 	}
 
 	return cast.ToInt64(result)
+}
+
+// 获取浏览人数最高的文章列表
+func (l *ArticleHelperLogic) GetViewTopArticleList(count int64) (list []*model.TArticle, err error) {
+	key := rediskey.GetArticleViewCountKey()
+	ids, err := l.svcCtx.Redis.ZRevRange(l.ctx, key, 0, count).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	var idList []int64
+	for _, v := range ids {
+		idList = append(idList, cast.ToInt64(v))
+	}
+
+	list, err = l.svcCtx.TArticleModel.FindALL(l.ctx, "id in (?)", idList)
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
+}
+
+// 获取每日文章生产数量
+func (l *ArticleHelperLogic) GetArticleDailyStatistics() (out map[string]int64, err error) {
+	var results []struct {
+		Date         string `gorm:"column:date"`
+		ArticleCount int64  `gorm:"column:article_count"`
+	}
+
+	err = l.svcCtx.Gorm.Raw("SELECT DATE(created_at) AS date, COUNT(*) as article_count FROM t_article GROUP BY date order by date desc").Scan(&results).Error
+	if err != nil {
+		return nil, err
+	}
+
+	out = make(map[string]int64)
+	for _, result := range results {
+		out[result.Date] = result.ArticleCount
+	}
+
+	return out, nil
 }
