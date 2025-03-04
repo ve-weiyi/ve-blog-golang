@@ -1,0 +1,151 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package websiterpc;
+
+// 生成 golang 代码后的包名
+option go_package = "./websiterpc";
+
+message EmptyReq {
+}
+
+message EmptyResp {
+}
+
+message IdReq {
+  int64 id = 1;
+}
+
+message IdsReq {
+  repeated int64 ids = 1;
+}
+
+message UserIdReq {
+  string user_id = 1;
+}
+
+message BatchResp {
+  int64 success_count = 1;
+}
+
+message CountResp {
+  int64 count = 1;
+}
+/************** blog 网站管理 **************/
+
+message UserVisit {
+  string date = 1;
+  int64 view_count = 2;
+}
+
+message UserDailyVisitRsp{
+  repeated UserVisit list = 1;
+}
+
+/************** blog 页面管理 **************/
+message PageNewReq {
+  int64 id = 1;// 页面id
+  string page_name = 2;// 页面名
+  string page_label = 3;// 页面标签
+  string page_cover = 4;// 页面封面
+  int64 is_carousel = 5;// 是否轮播
+  repeated string carousel_covers = 6;// 轮播列表
+}
+
+message PageDetails {
+  int64 id = 1;// 页面id
+  string page_name = 2;// 页面名
+  string page_label = 3;// 页面标签
+  string page_cover = 4;// 页面封面
+  int64 is_carousel = 5;// 是否轮播
+  repeated string carousel_covers = 6;// 轮播列表
+  int64 created_at = 7;// 创建时间
+  int64 updated_at = 8;// 更新时间
+}
+
+message FindPageListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  repeated string sorts = 3; // 排序
+}
+
+message FindPageListResp {
+  repeated PageDetails list = 1;
+  int64 total = 2;
+}
+
+/************** blog 友链管理 **************/
+message FriendNewReq {
+  int64 id = 1;// id
+  string link_name = 2;// 链接名
+  string link_avatar = 3;// 链接头像
+  string link_address = 4;// 链接地址
+  string link_intro = 5;// 链接介绍
+}
+
+message FriendDetails {
+  int64 id = 1;// id
+  string link_name = 2;// 链接名
+  string link_avatar = 3;// 链接头像
+  string link_address = 4;// 链接地址
+  string link_intro = 5;// 链接介绍
+  int64 created_at = 6;// 创建时间
+  int64 updated_at = 7;// 更新时间
+}
+
+message FindFriendListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  repeated string sorts = 3; // 排序
+  string link_name = 4;// 链接名
+}
+
+message FindFriendListResp {
+  repeated FriendDetails list = 1;
+  int64 total = 2;
+}
+
+message GetTouristInfoResp {
+  string tourist_id = 1;
+}
+
+message AddVisitReq {
+  string visitor = 1;
+}
+
+message AddVisitResp {
+  int64 count = 1;
+}
+
+service WebsiteRpc {
+  // 获取游客身份
+  rpc GetTouristInfo(EmptyReq) returns(GetTouristInfoResp);
+
+  // 添加用户访问记录
+  rpc AddVisit(AddVisitReq) returns(AddVisitResp);
+  // 用户总流量数
+  rpc GetUserTotalVisit(EmptyReq) returns(CountResp);
+  // 用户日浏览量分析
+  rpc GetUserDailyVisit(EmptyReq) returns(UserDailyVisitRsp);
+
+
+  // 创建页面
+  rpc AddPage(PageNewReq) returns(PageDetails);
+  // 更新页面
+  rpc UpdatePage(PageNewReq) returns(PageDetails);
+  // 删除页面
+  rpc DeletePage(IdsReq) returns(BatchResp);
+  // 查询页面列表
+  rpc FindPageList(FindPageListReq) returns(FindPageListResp);
+
+
+  // 创建友链
+  rpc AddFriend(FriendNewReq) returns(FriendDetails);
+  // 更新友链
+  rpc UpdateFriend(FriendNewReq) returns(FriendDetails);
+  // 删除友链
+  rpc DeleteFriend(IdsReq) returns(BatchResp);
+  // 查询友链列表
+  rpc FindFriendList(FindFriendListReq) returns(FindFriendListResp);
+}

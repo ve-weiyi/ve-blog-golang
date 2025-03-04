@@ -20,7 +20,7 @@ vim /home/nacos/conf/application.properties
 management.endpoints.web.exposure.include=*
 
 访问nacos的prometheus数据
-http://120.79.136.81:8848/nacos/actuator/prometheus
+http://veweiyi.cn:8848/nacos/actuator/prometheus
 
 2. 启动prometheus
 ```shell
@@ -28,4 +28,4 @@ docker-compose -f prometheus/docker-compose.yaml up -d
 ```
 
 查看看板
-http://120.79.136.81:9090/targets
+http://veweiyi.cn:9090/targets

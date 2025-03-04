@@ -1,0 +1,67 @@
+syntax = "v1"
+
+type (
+    ReceiveMsg {
+        Type int `json:"type"`             // 类型
+        Data string `json:"data"`          // 数据
+        Timestamp int64 `json:"timestamp"` //时间戳
+    }
+
+    ReplyMsg {
+        Type int `json:"type"`             // 类型
+        Data string `json:"data"`          // 数据
+        Timestamp int64 `json:"timestamp"` //时间戳
+    }
+
+    OnlineCountResp {
+        Msg string `json:"msg"`   // 消息
+        Count int `json:"count"`  // 在线人数
+    }
+
+    ClientInfoResp {
+        ClientId string `json:"client_id"`       // 客户端id
+        UserId string `json:"user_id"`           // 用户id
+        DeviceId string `json:"device_id"`       // 设备id
+        Nickname string `json:"nickname"`        // 昵称
+        IpAddress string `json:"ip_address"`     // ip地址
+        IpSource string `json:"ip_source"`       // ip来源
+    }
+
+    ChatRecordResp {
+        Id int64 `json:"id"`                     // 主键
+        UserId string `json:"user_id"`           // 用户id
+        DeviceId string `json:"device_id"`       // 设备id
+        Nickname string `json:"nickname"`        // 昵称
+        Avatar string `json:"avatar"`            // 头像
+        ChatContent string `json:"chat_content"` // 消息内容
+        IpAddress string `json:"ip_address"`     // ip地址
+        IpSource string `json:"ip_source"`       // ip来源
+        Type string `json:"type"`                // 类型
+        CreatedAt int64 `json:"created_at"`      // 创建时间
+        UpdatedAt int64 `json:"updated_at"`      // 更新时间
+    }
+
+    SendMessageReq {
+        Type string `json:"type"`                 // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
+        Content string `json:"content"`           // 消息内容
+    }
+
+    RecallMessageReq {
+        Id int64 `json:"id"` // 消息id
+    }
+
+    RecallMessageResp {
+        Id int64 `json:"id"` // 消息id
+    }
+)
+
+@server(
+    prefix: /api/v1
+    group: websocket
+)
+
+service blog-api {
+    @doc "WebSocket消息"
+    @handler Websocket
+    get /websocket
+}

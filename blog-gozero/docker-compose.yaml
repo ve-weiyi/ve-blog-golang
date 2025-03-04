@@ -1,0 +1,84 @@
+version: "3"
+
+# 设置mysql，redis持久化保存
+#volumes:
+#  mysql:
+#  redis:
+
+services:
+
+  blog-rpc:
+    build:
+      context: ./
+      dockerfile: Dockerfile-rpc
+    image: weiyi7914/blog-rpc:latest  # 设置新的镜像名称和标签
+    container_name: blog-rpc
+    restart: always
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./runtime:/app/rpc/blog/runtime
+    command: [
+      "./blog",
+      "-nacos-ip", "veweiyi.cn",
+      "-nacos-port", "8848",
+      "-nacos-username", "nacos",
+      "-nacos-password", "nacos",
+      "-nacos-namespace", "prod",
+      "-nacos-group", "veweiyi.cn",
+      "-nacos-data-id", "rpc"
+    ]
+
+  blog-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile-blog-api
+    image: weiyi7914/blog-api:latest  # 设置新的镜像名称和标签
+    container_name: blog-api
+    restart: always
+    ports:
+      - "6060:6060"
+      - "9090:9090"
+    volumes:
+      - ./runtime:/app/api/blog/runtime
+    depends_on:
+      - blog-rpc
+    command: [
+      "./blog",
+      "-nacos-ip", "veweiyi.cn",
+      "-nacos-port", "8848",
+      "-nacos-username", "nacos",
+      "-nacos-password", "nacos",
+      "-nacos-namespace", "prod",
+      "-nacos-group", "veweiyi.cn",
+      "-nacos-data-id", "api"
+    ]
+
+  admin-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile-admin-api
+    image: weiyi7914/admin-api:latest  # 设置新的镜像名称和标签
+    container_name: admin-api
+    restart: always
+    ports:
+      - "6061:6061"
+      - "9091:9091"
+    volumes:
+      - ./runtime:/app/api/admin/runtime
+    depends_on:
+      - blog-rpc
+    command: [
+      "./admin",
+      "-nacos-ip", "veweiyi.cn",
+      "-nacos-port", "8848",
+      "-nacos-username", "nacos",
+      "-nacos-password", "nacos",
+      "-nacos-namespace", "prod",
+      "-nacos-group", "veweiyi.cn",
+      "-nacos-data-id", "admin-api"
+    ]
+#docker network create blog-network
+#networks:
+#  blog-network:
+#    external: true
