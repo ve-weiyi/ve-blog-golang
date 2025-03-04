@@ -35,7 +35,11 @@ test
 runtime
 default.etcd
 config.yaml
+admin-api.yaml
+blog-api.yaml
 blog-rpc.yaml
 test.sql
 test.api
 test.json
+test.txt
+any_test.go
