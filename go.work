@@ -1,10 +1,10 @@
 go 1.23
 
 use (
-	./gin
-	./gozero
+	./blog-gin
+	./blog-gozero
 	./kit
-	./quickstart
+	./tools
 )
 
 // go work init
