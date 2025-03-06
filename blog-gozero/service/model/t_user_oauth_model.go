@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -38,27 +37,25 @@ type (
 
 	// 表字段定义
 	TUserOauth struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
-		OpenId    string    `json:"open_id" gorm:"column:open_id" `       // 开发平台id，标识唯一用户
-		Platform  string    `json:"platform" gorm:"column:platform" `     // 平台:手机号、邮箱、微信、飞书
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
+		OpenId    string    `json:"open_id" gorm:"column:open_id"`       // 开发平台id，标识唯一用户
+		Platform  string    `json:"platform" gorm:"column:platform"`     // 平台:手机号、邮箱、微信、飞书
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTUserOauthModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTUserOauthModel(db *gorm.DB, cache *redis.Client) TUserOauthModel {
+func NewTUserOauthModel(db *gorm.DB) TUserOauthModel {
 	return &defaultTUserOauthModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_user_oauth`",
+		DbEngin: db,
+		table:   "`t_user_oauth`",
 	}
 }
 
@@ -68,7 +65,7 @@ func (m *defaultTUserOauthModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTUserOauthModel) WithTransaction(tx *gorm.DB) (out TUserOauthModel) {
-	return NewTUserOauthModel(tx, m.CacheEngin)
+	return NewTUserOauthModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

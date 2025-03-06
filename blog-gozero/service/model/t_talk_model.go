@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,30 +36,28 @@ type (
 
 	// 表字段定义
 	TTalk struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // 说说id
-		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
-		Content   string    `json:"content" gorm:"column:content" `       // 说说内容
-		Images    string    `json:"images" gorm:"column:images" `         // 图片
-		IsTop     int64     `json:"is_top" gorm:"column:is_top" `         // 是否置顶
-		Status    int64     `json:"status" gorm:"column:status" `         // 状态 1.公开 2.私密
-		LikeCount int64     `json:"like_count" gorm:"column:like_count" ` // 点赞数
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // 说说id
+		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
+		Content   string    `json:"content" gorm:"column:content"`       // 说说内容
+		Images    string    `json:"images" gorm:"column:images"`         // 图片
+		IsTop     int64     `json:"is_top" gorm:"column:is_top"`         // 是否置顶
+		Status    int64     `json:"status" gorm:"column:status"`         // 状态 1.公开 2.私密
+		LikeCount int64     `json:"like_count" gorm:"column:like_count"` // 点赞数
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTTalkModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTTalkModel(db *gorm.DB, cache *redis.Client) TTalkModel {
+func NewTTalkModel(db *gorm.DB) TTalkModel {
 	return &defaultTTalkModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_talk`",
+		DbEngin: db,
+		table:   "`t_talk`",
 	}
 }
 
@@ -70,7 +67,7 @@ func (m *defaultTTalkModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTTalkModel) WithTransaction(tx *gorm.DB) (out TTalkModel) {
-	return NewTTalkModel(tx, m.CacheEngin)
+	return NewTTalkModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

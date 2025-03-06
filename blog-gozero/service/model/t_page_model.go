@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,29 +36,27 @@ type (
 
 	// 表字段定义
 	TPage struct {
-		Id             int64     `json:"id" gorm:"column:id" `                           // 页面id
-		PageName       string    `json:"page_name" gorm:"column:page_name" `             // 页面名
-		PageLabel      string    `json:"page_label" gorm:"column:page_label" `           // 页面标签
-		PageCover      string    `json:"page_cover" gorm:"column:page_cover" `           // 页面封面
-		IsCarousel     int64     `json:"is_carousel" gorm:"column:is_carousel" `         // 是否轮播
-		CarouselCovers string    `json:"carousel_covers" gorm:"column:carousel_covers" ` // 轮播图片列表
-		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at" `           // 创建时间
-		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at" `           // 更新时间
+		Id             int64     `json:"id" gorm:"column:id"`                           // 页面id
+		PageName       string    `json:"page_name" gorm:"column:page_name"`             // 页面名
+		PageLabel      string    `json:"page_label" gorm:"column:page_label"`           // 页面标签
+		PageCover      string    `json:"page_cover" gorm:"column:page_cover"`           // 页面封面
+		IsCarousel     int64     `json:"is_carousel" gorm:"column:is_carousel"`         // 是否轮播
+		CarouselCovers string    `json:"carousel_covers" gorm:"column:carousel_covers"` // 轮播图片列表
+		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at"`           // 创建时间
+		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at"`           // 更新时间
 	}
 
 	// 接口实现
 	defaultTPageModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTPageModel(db *gorm.DB, cache *redis.Client) TPageModel {
+func NewTPageModel(db *gorm.DB) TPageModel {
 	return &defaultTPageModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_page`",
+		DbEngin: db,
+		table:   "`t_page`",
 	}
 }
 
@@ -69,7 +66,7 @@ func (m *defaultTPageModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTPageModel) WithTransaction(tx *gorm.DB) (out TPageModel) {
-	return NewTPageModel(tx, m.CacheEngin)
+	return NewTPageModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

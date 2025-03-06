@@ -1,4 +1,4 @@
-package gormlogx
+package tracex
 
 import (
 	"context"

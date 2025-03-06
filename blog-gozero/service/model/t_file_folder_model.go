@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -38,28 +37,26 @@ type (
 
 	// 表字段定义
 	TFileFolder struct {
-		Id         int64     `json:"id" gorm:"column:id" `                   // id
-		UserId     string    `json:"user_id" gorm:"column:user_id" `         // 用户id
-		FilePath   string    `json:"file_path" gorm:"column:file_path" `     // 文件路径
-		FolderName string    `json:"folder_name" gorm:"column:folder_name" ` // 文件夹名称
-		FolderDesc string    `json:"folder_desc" gorm:"column:folder_desc" ` // 文件夹描述
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+		Id         int64     `json:"id" gorm:"column:id"`                   // id
+		UserId     string    `json:"user_id" gorm:"column:user_id"`         // 用户id
+		FilePath   string    `json:"file_path" gorm:"column:file_path"`     // 文件路径
+		FolderName string    `json:"folder_name" gorm:"column:folder_name"` // 文件夹名称
+		FolderDesc string    `json:"folder_desc" gorm:"column:folder_desc"` // 文件夹描述
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`   // 更新时间
 	}
 
 	// 接口实现
 	defaultTFileFolderModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTFileFolderModel(db *gorm.DB, cache *redis.Client) TFileFolderModel {
+func NewTFileFolderModel(db *gorm.DB) TFileFolderModel {
 	return &defaultTFileFolderModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_file_folder`",
+		DbEngin: db,
+		table:   "`t_file_folder`",
 	}
 }
 
@@ -69,7 +66,7 @@ func (m *defaultTFileFolderModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTFileFolderModel) WithTransaction(tx *gorm.DB) (out TFileFolderModel) {
-	return NewTFileFolderModel(tx, m.CacheEngin)
+	return NewTFileFolderModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

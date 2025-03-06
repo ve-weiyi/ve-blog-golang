@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,29 +36,27 @@ type (
 
 	// 表字段定义
 	TAlbum struct {
-		Id         int64     `json:"id" gorm:"column:id" `                   // 主键
-		AlbumName  string    `json:"album_name" gorm:"column:album_name" `   // 相册名
-		AlbumDesc  string    `json:"album_desc" gorm:"column:album_desc" `   // 相册描述
-		AlbumCover string    `json:"album_cover" gorm:"column:album_cover" ` // 相册封面
-		IsDelete   int64     `json:"is_delete" gorm:"column:is_delete" `     // 是否删除
-		Status     int64     `json:"status" gorm:"column:status" `           // 状态值 1公开 2私密
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+		Id         int64     `json:"id" gorm:"column:id"`                   // 主键
+		AlbumName  string    `json:"album_name" gorm:"column:album_name"`   // 相册名
+		AlbumDesc  string    `json:"album_desc" gorm:"column:album_desc"`   // 相册描述
+		AlbumCover string    `json:"album_cover" gorm:"column:album_cover"` // 相册封面
+		IsDelete   int64     `json:"is_delete" gorm:"column:is_delete"`     // 是否删除
+		Status     int64     `json:"status" gorm:"column:status"`           // 状态值 1公开 2私密
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`   // 更新时间
 	}
 
 	// 接口实现
 	defaultTAlbumModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTAlbumModel(db *gorm.DB, cache *redis.Client) TAlbumModel {
+func NewTAlbumModel(db *gorm.DB) TAlbumModel {
 	return &defaultTAlbumModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_album`",
+		DbEngin: db,
+		table:   "`t_album`",
 	}
 }
 
@@ -69,7 +66,7 @@ func (m *defaultTAlbumModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTAlbumModel) WithTransaction(tx *gorm.DB) (out TAlbumModel) {
-	return NewTAlbumModel(tx, m.CacheEngin)
+	return NewTAlbumModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,30 +36,28 @@ type (
 
 	// 表字段定义
 	TRole struct {
-		Id          int64     `json:"id" gorm:"column:id" `                     // 主键id
-		ParentId    int64     `json:"parent_id" gorm:"column:parent_id" `       // 父角色id
-		RoleName    string    `json:"role_name" gorm:"column:role_name" `       // 角色名
-		RoleLabel   string    `json:"role_label" gorm:"column:role_label" `     // 角色标签
-		RoleComment string    `json:"role_comment" gorm:"column:role_comment" ` // 角色备注
-		IsDisable   int64     `json:"is_disable" gorm:"column:is_disable" `     // 是否禁用  0否 1是
-		IsDefault   int64     `json:"is_default" gorm:"column:is_default" `     // 是否默认角色 0否 1是
-		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
-		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
+		Id          int64     `json:"id" gorm:"column:id"`                     // 主键id
+		ParentId    int64     `json:"parent_id" gorm:"column:parent_id"`       // 父角色id
+		RoleName    string    `json:"role_name" gorm:"column:role_name"`       // 角色名
+		RoleLabel   string    `json:"role_label" gorm:"column:role_label"`     // 角色标签
+		RoleComment string    `json:"role_comment" gorm:"column:role_comment"` // 角色备注
+		IsDisable   int64     `json:"is_disable" gorm:"column:is_disable"`     // 是否禁用  0否 1是
+		IsDefault   int64     `json:"is_default" gorm:"column:is_default"`     // 是否默认角色 0否 1是
+		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at"`     // 创建时间
+		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at"`     // 更新时间
 	}
 
 	// 接口实现
 	defaultTRoleModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTRoleModel(db *gorm.DB, cache *redis.Client) TRoleModel {
+func NewTRoleModel(db *gorm.DB) TRoleModel {
 	return &defaultTRoleModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_role`",
+		DbEngin: db,
+		table:   "`t_role`",
 	}
 }
 
@@ -70,7 +67,7 @@ func (m *defaultTRoleModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTRoleModel) WithTransaction(tx *gorm.DB) (out TRoleModel) {
-	return NewTRoleModel(tx, m.CacheEngin)
+	return NewTRoleModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

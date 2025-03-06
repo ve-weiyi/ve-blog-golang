@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -39,36 +38,34 @@ type (
 
 	// 表字段定义
 	TUser struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
-		Username  string    `json:"username" gorm:"column:username" `     // 用户名
-		Password  string    `json:"password" gorm:"column:password" `     // 用户密码
-		Nickname  string    `json:"nickname" gorm:"column:nickname" `     // 用户昵称
-		Avatar    string    `json:"avatar" gorm:"column:avatar" `         // 用户头像
-		Email     string    `json:"email" gorm:"column:email" `           // 邮箱
-		Phone     string    `json:"phone" gorm:"column:phone" `           // 手机号
-		Info      string    `json:"info" gorm:"column:info" `             // 用户信息
-		Status    int64     `json:"status" gorm:"column:status" `         // 状态: -1删除 0正常 1禁用
-		LoginType string    `json:"login_type" gorm:"column:login_type" ` // 注册方式
-		IpAddress string    `json:"ip_address" gorm:"column:ip_address" ` // 注册ip
-		IpSource  string    `json:"ip_source" gorm:"column:ip_source" `   // 注册ip 源
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
+		Username  string    `json:"username" gorm:"column:username"`     // 用户名
+		Password  string    `json:"password" gorm:"column:password"`     // 用户密码
+		Nickname  string    `json:"nickname" gorm:"column:nickname"`     // 用户昵称
+		Avatar    string    `json:"avatar" gorm:"column:avatar"`         // 用户头像
+		Email     string    `json:"email" gorm:"column:email"`           // 邮箱
+		Phone     string    `json:"phone" gorm:"column:phone"`           // 手机号
+		Info      string    `json:"info" gorm:"column:info"`             // 用户信息
+		Status    int64     `json:"status" gorm:"column:status"`         // 状态: -1删除 0正常 1禁用
+		LoginType string    `json:"login_type" gorm:"column:login_type"` // 注册方式
+		IpAddress string    `json:"ip_address" gorm:"column:ip_address"` // 注册ip
+		IpSource  string    `json:"ip_source" gorm:"column:ip_source"`   // 注册ip 源
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTUserModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTUserModel(db *gorm.DB, cache *redis.Client) TUserModel {
+func NewTUserModel(db *gorm.DB) TUserModel {
 	return &defaultTUserModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_user`",
+		DbEngin: db,
+		table:   "`t_user`",
 	}
 }
 
@@ -78,7 +75,7 @@ func (m *defaultTUserModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTUserModel) WithTransaction(tx *gorm.DB) (out TUserModel) {
-	return NewTUserModel(tx, m.CacheEngin)
+	return NewTUserModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

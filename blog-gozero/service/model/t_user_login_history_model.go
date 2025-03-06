@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,31 +36,29 @@ type (
 
 	// 表字段定义
 	TUserLoginHistory struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
-		LoginType string    `json:"login_type" gorm:"column:login_type" ` // 登录类型
-		Agent     string    `json:"agent" gorm:"column:agent" `           // 代理
-		IpAddress string    `json:"ip_address" gorm:"column:ip_address" ` // ip host
-		IpSource  string    `json:"ip_source" gorm:"column:ip_source" `   // ip 源
-		LoginAt   time.Time `json:"login_at" gorm:"column:login_at" `     // 登录时间
-		LogoutAt  time.Time `json:"logout_at" gorm:"column:logout_at" `   // 登出时间
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
+		LoginType string    `json:"login_type" gorm:"column:login_type"` // 登录类型
+		Agent     string    `json:"agent" gorm:"column:agent"`           // 代理
+		IpAddress string    `json:"ip_address" gorm:"column:ip_address"` // ip host
+		IpSource  string    `json:"ip_source" gorm:"column:ip_source"`   // ip 源
+		LoginAt   time.Time `json:"login_at" gorm:"column:login_at"`     // 登录时间
+		LogoutAt  time.Time `json:"logout_at" gorm:"column:logout_at"`   // 登出时间
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTUserLoginHistoryModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTUserLoginHistoryModel(db *gorm.DB, cache *redis.Client) TUserLoginHistoryModel {
+func NewTUserLoginHistoryModel(db *gorm.DB) TUserLoginHistoryModel {
 	return &defaultTUserLoginHistoryModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_user_login_history`",
+		DbEngin: db,
+		table:   "`t_user_login_history`",
 	}
 }
 
@@ -71,7 +68,7 @@ func (m *defaultTUserLoginHistoryModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTUserLoginHistoryModel) WithTransaction(tx *gorm.DB) (out TUserLoginHistoryModel) {
-	return NewTUserLoginHistoryModel(tx, m.CacheEngin)
+	return NewTUserLoginHistoryModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

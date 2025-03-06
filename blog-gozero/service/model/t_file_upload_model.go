@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,31 +36,29 @@ type (
 
 	// 表字段定义
 	TFileUpload struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
-		FilePath  string    `json:"file_path" gorm:"column:file_path" `   // 文件路径
-		FileName  string    `json:"file_name" gorm:"column:file_name" `   // 文件名称
-		FileType  string    `json:"file_type" gorm:"column:file_type" `   // 文件类型
-		FileSize  int64     `json:"file_size" gorm:"column:file_size" `   // 文件大小
-		FileMd5   string    `json:"file_md5" gorm:"column:file_md5" `     // 文件md5值
-		FileUrl   string    `json:"file_url" gorm:"column:file_url" `     // 上传路径
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
+		FilePath  string    `json:"file_path" gorm:"column:file_path"`   // 文件路径
+		FileName  string    `json:"file_name" gorm:"column:file_name"`   // 文件名称
+		FileType  string    `json:"file_type" gorm:"column:file_type"`   // 文件类型
+		FileSize  int64     `json:"file_size" gorm:"column:file_size"`   // 文件大小
+		FileMd5   string    `json:"file_md5" gorm:"column:file_md5"`     // 文件md5值
+		FileUrl   string    `json:"file_url" gorm:"column:file_url"`     // 上传路径
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTFileUploadModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTFileUploadModel(db *gorm.DB, cache *redis.Client) TFileUploadModel {
+func NewTFileUploadModel(db *gorm.DB) TFileUploadModel {
 	return &defaultTFileUploadModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_file_upload`",
+		DbEngin: db,
+		table:   "`t_file_upload`",
 	}
 }
 
@@ -71,7 +68,7 @@ func (m *defaultTFileUploadModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTFileUploadModel) WithTransaction(tx *gorm.DB) (out TFileUploadModel) {
-	return NewTFileUploadModel(tx, m.CacheEngin)
+	return NewTFileUploadModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

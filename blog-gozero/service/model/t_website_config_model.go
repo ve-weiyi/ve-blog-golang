@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -38,26 +37,24 @@ type (
 
 	// 表字段定义
 	TWebsiteConfig struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		Key       string    `json:"key" gorm:"column:key" `               // 关键词
-		Config    string    `json:"config" gorm:"column:config" `         // 配置信息
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		Key       string    `json:"key" gorm:"column:key"`               // 关键词
+		Config    string    `json:"config" gorm:"column:config"`         // 配置信息
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTWebsiteConfigModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTWebsiteConfigModel(db *gorm.DB, cache *redis.Client) TWebsiteConfigModel {
+func NewTWebsiteConfigModel(db *gorm.DB) TWebsiteConfigModel {
 	return &defaultTWebsiteConfigModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_website_config`",
+		DbEngin: db,
+		table:   "`t_website_config`",
 	}
 }
 
@@ -67,7 +64,7 @@ func (m *defaultTWebsiteConfigModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTWebsiteConfigModel) WithTransaction(tx *gorm.DB) (out TWebsiteConfigModel) {
-	return NewTWebsiteConfigModel(tx, m.CacheEngin)
+	return NewTWebsiteConfigModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

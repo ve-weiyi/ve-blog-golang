@@ -3,7 +3,6 @@ package model
 import (
 	"context"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -47,15 +46,13 @@ type (
     // 接口实现
     default{{.UpperStartCamelName}}Model struct {
         DbEngin    *gorm.DB
-        CacheEngin *redis.Client
         table       string
     }
 )
 
-func New{{.UpperStartCamelName}}Model(db *gorm.DB, cache *redis.Client) {{.UpperStartCamelName}}Model {
+func New{{.UpperStartCamelName}}Model(db *gorm.DB) {{.UpperStartCamelName}}Model {
 	return &default{{.UpperStartCamelName}}Model{
 		DbEngin:    db,
-		CacheEngin: cache,
 		table:      "`{{.SnakeName}}`",
 	}
 }
@@ -66,7 +63,7 @@ func (m *default{{.UpperStartCamelName}}Model) TableName() string {
 
 // 在事务中操作
 func (m *default{{.UpperStartCamelName}}Model) WithTransaction(tx *gorm.DB) (out {{.UpperStartCamelName}}Model) {
-	return New{{.UpperStartCamelName}}Model(tx, m.CacheEngin)
+	return New{{.UpperStartCamelName}}Model(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

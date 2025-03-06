@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,31 +36,29 @@ type (
 
 	// 表字段定义
 	TChat struct {
-		Id         int64     `json:"id" gorm:"column:id" `                   // 主键
-		UserId     string    `json:"user_id" gorm:"column:user_id" `         // 用户id
-		TerminalId string    `json:"terminal_id" gorm:"column:terminal_id" ` // 设备id
-		IpAddress  string    `json:"ip_address" gorm:"column:ip_address" `   // 用户ip 127.0.0.1
-		IpSource   string    `json:"ip_source" gorm:"column:ip_source" `     // 用户地址 广东省深圳市
-		Type       string    `json:"type" gorm:"column:type" `               // 类型:chatgpt chatroom
-		Content    string    `json:"content" gorm:"column:content" `         // 聊天内容
-		Status     int64     `json:"status" gorm:"column:status" `           // 状态:0正常 1编辑 2撤回 3删除
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+		Id         int64     `json:"id" gorm:"column:id"`                   // 主键
+		UserId     string    `json:"user_id" gorm:"column:user_id"`         // 用户id
+		TerminalId string    `json:"terminal_id" gorm:"column:terminal_id"` // 设备id
+		IpAddress  string    `json:"ip_address" gorm:"column:ip_address"`   // 用户ip 127.0.0.1
+		IpSource   string    `json:"ip_source" gorm:"column:ip_source"`     // 用户地址 广东省深圳市
+		Type       string    `json:"type" gorm:"column:type"`               // 类型:chatgpt chatroom
+		Content    string    `json:"content" gorm:"column:content"`         // 聊天内容
+		Status     int64     `json:"status" gorm:"column:status"`           // 状态:0正常 1编辑 2撤回 3删除
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`   // 更新时间
 	}
 
 	// 接口实现
 	defaultTChatModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTChatModel(db *gorm.DB, cache *redis.Client) TChatModel {
+func NewTChatModel(db *gorm.DB) TChatModel {
 	return &defaultTChatModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_chat`",
+		DbEngin: db,
+		table:   "`t_chat`",
 	}
 }
 
@@ -71,7 +68,7 @@ func (m *defaultTChatModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTChatModel) WithTransaction(tx *gorm.DB) (out TChatModel) {
-	return NewTChatModel(tx, m.CacheEngin)
+	return NewTChatModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

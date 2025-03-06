@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,29 +36,27 @@ type (
 
 	// 表字段定义
 	TPhoto struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // 主键
-		AlbumId   int64     `json:"album_id" gorm:"column:album_id" `     // 相册id
-		PhotoName string    `json:"photo_name" gorm:"column:photo_name" ` // 照片名
-		PhotoDesc string    `json:"photo_desc" gorm:"column:photo_desc" ` // 照片描述
-		PhotoSrc  string    `json:"photo_src" gorm:"column:photo_src" `   // 照片地址
-		IsDelete  int64     `json:"is_delete" gorm:"column:is_delete" `   // 是否删除
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // 主键
+		AlbumId   int64     `json:"album_id" gorm:"column:album_id"`     // 相册id
+		PhotoName string    `json:"photo_name" gorm:"column:photo_name"` // 照片名
+		PhotoDesc string    `json:"photo_desc" gorm:"column:photo_desc"` // 照片描述
+		PhotoSrc  string    `json:"photo_src" gorm:"column:photo_src"`   // 照片地址
+		IsDelete  int64     `json:"is_delete" gorm:"column:is_delete"`   // 是否删除
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTPhotoModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTPhotoModel(db *gorm.DB, cache *redis.Client) TPhotoModel {
+func NewTPhotoModel(db *gorm.DB) TPhotoModel {
 	return &defaultTPhotoModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_photo`",
+		DbEngin: db,
+		table:   "`t_photo`",
 	}
 }
 
@@ -69,7 +66,7 @@ func (m *defaultTPhotoModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTPhotoModel) WithTransaction(tx *gorm.DB) (out TPhotoModel) {
-	return NewTPhotoModel(tx, m.CacheEngin)
+	return NewTPhotoModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

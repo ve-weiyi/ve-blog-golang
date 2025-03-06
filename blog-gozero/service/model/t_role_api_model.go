@@ -3,7 +3,6 @@ package model
 import (
 	"context"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -36,24 +35,22 @@ type (
 
 	// 表字段定义
 	TRoleApi struct {
-		Id     int64 `json:"id" gorm:"column:id" `           // 主键id
-		RoleId int64 `json:"role_id" gorm:"column:role_id" ` // 角色id
-		ApiId  int64 `json:"api_id" gorm:"column:api_id" `   // 接口id
+		Id     int64 `json:"id" gorm:"column:id"`           // 主键id
+		RoleId int64 `json:"role_id" gorm:"column:role_id"` // 角色id
+		ApiId  int64 `json:"api_id" gorm:"column:api_id"`   // 接口id
 	}
 
 	// 接口实现
 	defaultTRoleApiModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTRoleApiModel(db *gorm.DB, cache *redis.Client) TRoleApiModel {
+func NewTRoleApiModel(db *gorm.DB) TRoleApiModel {
 	return &defaultTRoleApiModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_role_api`",
+		DbEngin: db,
+		table:   "`t_role_api`",
 	}
 }
 
@@ -63,7 +60,7 @@ func (m *defaultTRoleApiModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTRoleApiModel) WithTransaction(tx *gorm.DB) (out TRoleApiModel) {
-	return NewTRoleApiModel(tx, m.CacheEngin)
+	return NewTRoleApiModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

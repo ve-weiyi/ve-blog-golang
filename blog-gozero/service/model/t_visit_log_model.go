@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,31 +36,29 @@ type (
 
 	// 表字段定义
 	TVisitLog struct {
-		Id         int64     `json:"id" gorm:"column:id" `                   // id
-		UserId     string    `json:"user_id" gorm:"column:user_id" `         // 用户id
-		TerminalId string    `json:"terminal_id" gorm:"column:terminal_id" ` // 设备id
-		IpAddress  string    `json:"ip_address" gorm:"column:ip_address" `   // 操作ip
-		IpSource   string    `json:"ip_source" gorm:"column:ip_source" `     // 操作地址
-		Os         string    `json:"os" gorm:"column:os" `                   // 操作系统
-		Browser    string    `json:"browser" gorm:"column:browser" `         // 浏览器
-		Page       string    `json:"page" gorm:"column:page" `               // 访问页面
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+		Id         int64     `json:"id" gorm:"column:id"`                   // id
+		UserId     string    `json:"user_id" gorm:"column:user_id"`         // 用户id
+		TerminalId string    `json:"terminal_id" gorm:"column:terminal_id"` // 设备id
+		IpAddress  string    `json:"ip_address" gorm:"column:ip_address"`   // 操作ip
+		IpSource   string    `json:"ip_source" gorm:"column:ip_source"`     // 操作地址
+		Os         string    `json:"os" gorm:"column:os"`                   // 操作系统
+		Browser    string    `json:"browser" gorm:"column:browser"`         // 浏览器
+		Page       string    `json:"page" gorm:"column:page"`               // 访问页面
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`   // 更新时间
 	}
 
 	// 接口实现
 	defaultTVisitLogModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTVisitLogModel(db *gorm.DB, cache *redis.Client) TVisitLogModel {
+func NewTVisitLogModel(db *gorm.DB) TVisitLogModel {
 	return &defaultTVisitLogModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_visit_log`",
+		DbEngin: db,
+		table:   "`t_visit_log`",
 	}
 }
 
@@ -71,7 +68,7 @@ func (m *defaultTVisitLogModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTVisitLogModel) WithTransaction(tx *gorm.DB) (out TVisitLogModel) {
-	return NewTVisitLogModel(tx, m.CacheEngin)
+	return NewTVisitLogModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

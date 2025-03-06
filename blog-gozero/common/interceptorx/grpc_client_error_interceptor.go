@@ -3,7 +3,6 @@ package interceptorx
 import (
 	"context"
 
-	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 )
@@ -15,8 +14,8 @@ func ClientErrorInterceptor(ctx context.Context, method string, req, reply inter
 	if err == nil {
 		return nil
 	}
-	cause := errors.Cause(err)
-	st, ok := status.FromError(cause)
+
+	st, ok := status.FromError(err)
 	if ok {
 		details := st.Details()
 		if len(details) > 0 {

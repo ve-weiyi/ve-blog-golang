@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -38,25 +37,23 @@ type (
 
 	// 表字段定义
 	TTag struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		TagName   string    `json:"tag_name" gorm:"column:tag_name" `     // 标签名
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		TagName   string    `json:"tag_name" gorm:"column:tag_name"`     // 标签名
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTTagModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTTagModel(db *gorm.DB, cache *redis.Client) TTagModel {
+func NewTTagModel(db *gorm.DB) TTagModel {
 	return &defaultTTagModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_tag`",
+		DbEngin: db,
+		table:   "`t_tag`",
 	}
 }
 
@@ -66,7 +63,7 @@ func (m *defaultTTagModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTTagModel) WithTransaction(tx *gorm.DB) (out TTagModel) {
-	return NewTTagModel(tx, m.CacheEngin)
+	return NewTTagModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

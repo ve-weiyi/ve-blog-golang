@@ -3,7 +3,6 @@ package model
 import (
 	"context"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -36,24 +35,22 @@ type (
 
 	// 表字段定义
 	TArticleTag struct {
-		Id        int64 `json:"id" gorm:"column:id" `                 // id
-		ArticleId int64 `json:"article_id" gorm:"column:article_id" ` // 文章id
-		TagId     int64 `json:"tag_id" gorm:"column:tag_id" `         // 标签id
+		Id        int64 `json:"id" gorm:"column:id"`                 // id
+		ArticleId int64 `json:"article_id" gorm:"column:article_id"` // 文章id
+		TagId     int64 `json:"tag_id" gorm:"column:tag_id"`         // 标签id
 	}
 
 	// 接口实现
 	defaultTArticleTagModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTArticleTagModel(db *gorm.DB, cache *redis.Client) TArticleTagModel {
+func NewTArticleTagModel(db *gorm.DB) TArticleTagModel {
 	return &defaultTArticleTagModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_article_tag`",
+		DbEngin: db,
+		table:   "`t_article_tag`",
 	}
 }
 
@@ -63,7 +60,7 @@ func (m *defaultTArticleTagModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTArticleTagModel) WithTransaction(tx *gorm.DB) (out TArticleTagModel) {
-	return NewTArticleTagModel(tx, m.CacheEngin)
+	return NewTArticleTagModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

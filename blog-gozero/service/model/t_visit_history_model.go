@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -38,26 +37,24 @@ type (
 
 	// 表字段定义
 	TVisitHistory struct {
-		Id         int64     `json:"id" gorm:"column:id" `                   // id
-		Date       string    `json:"date" gorm:"column:date" `               // 日期
-		ViewsCount int64     `json:"views_count" gorm:"column:views_count" ` // 访问量
-		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+		Id         int64     `json:"id" gorm:"column:id"`                   // id
+		Date       string    `json:"date" gorm:"column:date"`               // 日期
+		ViewsCount int64     `json:"views_count" gorm:"column:views_count"` // 访问量
+		CreatedAt  time.Time `json:"created_at" gorm:"column:created_at"`   // 创建时间
+		UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at"`   // 更新时间
 	}
 
 	// 接口实现
 	defaultTVisitHistoryModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTVisitHistoryModel(db *gorm.DB, cache *redis.Client) TVisitHistoryModel {
+func NewTVisitHistoryModel(db *gorm.DB) TVisitHistoryModel {
 	return &defaultTVisitHistoryModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_visit_history`",
+		DbEngin: db,
+		table:   "`t_visit_history`",
 	}
 }
 
@@ -67,7 +64,7 @@ func (m *defaultTVisitHistoryModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTVisitHistoryModel) WithTransaction(tx *gorm.DB) (out TVisitHistoryModel) {
-	return NewTVisitHistoryModel(tx, m.CacheEngin)
+	return NewTVisitHistoryModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)

@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -37,28 +36,26 @@ type (
 
 	// 表字段定义
 	TFriend struct {
-		Id          int64     `json:"id" gorm:"column:id" `                     // id
-		LinkName    string    `json:"link_name" gorm:"column:link_name" `       // 链接名
-		LinkAvatar  string    `json:"link_avatar" gorm:"column:link_avatar" `   // 链接头像
-		LinkAddress string    `json:"link_address" gorm:"column:link_address" ` // 链接地址
-		LinkIntro   string    `json:"link_intro" gorm:"column:link_intro" `     // 链接介绍
-		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
-		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
+		Id          int64     `json:"id" gorm:"column:id"`                     // id
+		LinkName    string    `json:"link_name" gorm:"column:link_name"`       // 链接名
+		LinkAvatar  string    `json:"link_avatar" gorm:"column:link_avatar"`   // 链接头像
+		LinkAddress string    `json:"link_address" gorm:"column:link_address"` // 链接地址
+		LinkIntro   string    `json:"link_intro" gorm:"column:link_intro"`     // 链接介绍
+		CreatedAt   time.Time `json:"created_at" gorm:"column:created_at"`     // 创建时间
+		UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at"`     // 更新时间
 	}
 
 	// 接口实现
 	defaultTFriendModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTFriendModel(db *gorm.DB, cache *redis.Client) TFriendModel {
+func NewTFriendModel(db *gorm.DB) TFriendModel {
 	return &defaultTFriendModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_friend`",
+		DbEngin: db,
+		table:   "`t_friend`",
 	}
 }
 
@@ -68,7 +65,7 @@ func (m *defaultTFriendModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTFriendModel) WithTransaction(tx *gorm.DB) (out TFriendModel) {
-	return NewTFriendModel(tx, m.CacheEngin)
+	return NewTFriendModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
