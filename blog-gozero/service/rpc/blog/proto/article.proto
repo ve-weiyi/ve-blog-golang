@@ -125,6 +125,7 @@ message FindArticleListResp {
 
 message FindArticlePreviewListResp{
   repeated ArticlePreview list = 1;
+  int64 total = 2;
 }
 
 message FindLikeArticleResp{

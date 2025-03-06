@@ -27,7 +27,7 @@ func NewGetArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetArt
 // 查询文章
 func (l *GetArticleLogic) GetArticle(in *articlerpc.IdReq) (*articlerpc.ArticleDetails, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
-	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.Id)
+	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

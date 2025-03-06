@@ -29,23 +29,24 @@ func NewFindAlbumListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 func (l *FindAlbumListLogic) FindAlbumList(in *photorpc.FindAlbumListReq) (*photorpc.FindAlbumListResp, error) {
 	page, size, sorts, conditions, params := convertAlbumQuery(in)
 
-	result, err := l.svcCtx.TAlbumModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, total, err := l.svcCtx.TAlbumModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
-	cm, err := findPhotoCountGroupAlbum(l.ctx, l.svcCtx, result)
+	cm, err := findPhotoCountGroupAlbum(l.ctx, l.svcCtx, records)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*photorpc.AlbumDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertAlbumOut(v, cm))
 	}
 
 	return &photorpc.FindAlbumListResp{
-		List: list,
+		List:  list,
+		Total: total,
 	}, nil
 }
 
