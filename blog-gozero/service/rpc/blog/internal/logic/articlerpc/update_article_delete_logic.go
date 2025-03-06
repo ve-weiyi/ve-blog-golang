@@ -25,7 +25,7 @@ func NewUpdateArticleDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // 更新文章删除
 func (l *UpdateArticleDeleteLogic) UpdateArticleDelete(in *articlerpc.UpdateArticleDeleteReq) (*articlerpc.ArticlePreview, error) {
-	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.ArticleId)
+	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.ArticleId)
 	if err != nil {
 		return nil, err
 	}

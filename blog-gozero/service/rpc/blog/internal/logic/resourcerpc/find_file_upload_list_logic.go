@@ -28,24 +28,19 @@ func NewFindFileUploadListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *FindFileUploadListLogic) FindFileUploadList(in *resourcerpc.FindFileUploadListReq) (*resourcerpc.FindFileUploadListResp, error) {
 	page, size, sorts, conditions, params := convertFileUploadQuery(in)
 
-	result, err := l.svcCtx.TFileUploadModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TFileUploadModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TFileUploadModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*resourcerpc.FileUploadDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertFileUploadOut(v))
 	}
 
 	return &resourcerpc.FindFileUploadListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

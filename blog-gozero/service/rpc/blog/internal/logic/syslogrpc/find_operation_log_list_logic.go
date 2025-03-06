@@ -28,24 +28,19 @@ func NewFindOperationLogListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 func (l *FindOperationLogListLogic) FindOperationLogList(in *syslogrpc.FindOperationLogListReq) (*syslogrpc.FindOperationLogListResp, error) {
 	page, size, sorts, conditions, params := convertOperationLogQuery(in)
 
-	result, err := l.svcCtx.TOperationLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TOperationLogModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TOperationLogModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*syslogrpc.OperationLogDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertOperationLogOut(v))
 	}
 
 	return &syslogrpc.FindOperationLogListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

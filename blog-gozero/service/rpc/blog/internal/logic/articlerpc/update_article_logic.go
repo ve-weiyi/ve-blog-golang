@@ -28,7 +28,7 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 func (l *UpdateArticleLogic) UpdateArticle(in *articlerpc.ArticleNewReq) (*articlerpc.ArticlePreview, error) {
 	helper := NewArticleHelperLogic(l.ctx, l.svcCtx)
 
-	entity, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

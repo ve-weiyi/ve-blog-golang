@@ -25,7 +25,7 @@ func NewUpdateCommentContentLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 // 更新评论
 func (l *UpdateCommentContentLogic) UpdateCommentContent(in *messagerpc.UpdateCommentContentReq) (*messagerpc.CommentDetails, error) {
-	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TCommentModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

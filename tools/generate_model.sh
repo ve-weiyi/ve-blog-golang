@@ -3,7 +3,7 @@
 #goctl model mysql ddl -src  test.sql -dir ../ --style go_zero -c --home ../../../../template
 
 
-# dsn(Data Source Name)生成model文件
+# dsn(Data Source Name)数据库生成model文件
 #go run main.go model dsn \
 #-t=./template/go-zero/model.tpl \
 #-n='%v_model.go' \
@@ -13,13 +13,13 @@
 #go run main.go model dsn \
 #-t=./template/go-zero/model.tpl \
 #-n='%v_model.go' \
-#-o='/Users/weiyi/Github/ve-blog-golang/server/model'  \
+#-o='/Users/weiyi/Github/ve-blog-golang/blog-gozero/service/model'  \
 #-s='root:mysql7914@(127.0.0.1:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
 
 ## test
 # ddl(Data Definition Language)生成model文件
 go run main.go model ddl \
--t=./template/go-zero/model.thin.tpl \
+-t=./template/go-zero/model.tpl \
 -n='%v_model.go' \
 -o='./runtime/model'  \
 -s='./testdata/test.sql'

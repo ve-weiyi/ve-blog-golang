@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
@@ -28,37 +27,36 @@ type (
 		// 保存
 		Save(ctx context.Context, in *TUserOauth) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *TUserOauth, err error)
+		FindById(ctx context.Context, id int64) (out *TUserOauth, err error)
+		FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TUserOauth, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TUserOauth, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserOauth, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
+		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserOauth, total int64, err error)
 		// add extra method in here
 		FindOneByOpenIdPlatform(ctx context.Context, open_id string, platform string) (out *TUserOauth, err error)
 	}
 
 	// 表字段定义
 	TUserOauth struct {
-		Id        int64     `json:"id" gorm:"column:id" `                 // id
-		UserId    string    `json:"user_id" gorm:"column:user_id" `       // 用户id
-		OpenId    string    `json:"open_id" gorm:"column:open_id" `       // 开发平台id，标识唯一用户
-		Platform  string    `json:"platform" gorm:"column:platform" `     // 平台:手机号、邮箱、微信、飞书
-		CreatedAt time.Time `json:"created_at" gorm:"column:created_at" ` // 创建时间
-		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at" ` // 更新时间
+		Id        int64     `json:"id" gorm:"column:id"`                 // id
+		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
+		OpenId    string    `json:"open_id" gorm:"column:open_id"`       // 开发平台id，标识唯一用户
+		Platform  string    `json:"platform" gorm:"column:platform"`     // 平台:手机号、邮箱、微信、飞书
+		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
+		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
 
 	// 接口实现
 	defaultTUserOauthModel struct {
-		DbEngin    *gorm.DB
-		CacheEngin *redis.Client
-		table      string
+		DbEngin *gorm.DB
+		table   string
 	}
 )
 
-func NewTUserOauthModel(db *gorm.DB, cache *redis.Client) TUserOauthModel {
+func NewTUserOauthModel(db *gorm.DB) TUserOauthModel {
 	return &defaultTUserOauthModel{
-		DbEngin:    db,
-		CacheEngin: cache,
-		table:      "`t_user_oauth`",
+		DbEngin: db,
+		table:   "`t_user_oauth`",
 	}
 }
 
@@ -68,7 +66,7 @@ func (m *defaultTUserOauthModel) TableName() string {
 
 // 在事务中操作
 func (m *defaultTUserOauthModel) WithTransaction(tx *gorm.DB) (out TUserOauthModel) {
-	return NewTUserOauthModel(tx, m.CacheEngin)
+	return NewTUserOauthModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
@@ -163,10 +161,27 @@ func (m *defaultTUserOauthModel) Save(ctx context.Context, in *TUserOauth) (rows
 }
 
 // 查询记录
-func (m *defaultTUserOauthModel) FindOne(ctx context.Context, id int64) (out *TUserOauth, err error) {
+func (m *defaultTUserOauthModel) FindById(ctx context.Context, id int64) (out *TUserOauth, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, err
+}
+
+// 查询记录
+func (m *defaultTUserOauthModel) FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TUserOauth, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.First(&out).Error
 	if err != nil {
 		return nil, err
 	}
@@ -190,37 +205,6 @@ func (m *defaultTUserOauthModel) FindALL(ctx context.Context, conditions string,
 	return out, err
 }
 
-// 分页查询记录
-func (m *defaultTUserOauthModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserOauth, err error) {
-	// 插入db
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有搜索条件
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	// 如果有排序参数
-	if len(sorts) != 0 {
-		db = db.Order(sorts)
-	}
-
-	// 如果有分页参数
-	if page > 0 && size > 0 {
-		limit := size
-		offset := (page - 1) * limit
-		db = db.Limit(limit).Offset(offset)
-	}
-
-	// 查询数据
-	err = db.Find(&list).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return list, nil
-}
-
 // 查询总数
 func (m *defaultTUserOauthModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -235,6 +219,42 @@ func (m *defaultTUserOauthModel) FindCount(ctx context.Context, conditions strin
 		return 0, err
 	}
 	return count, nil
+}
+
+// 分页查询记录
+func (m *defaultTUserOauthModel) FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserOauth, total int64, err error) {
+	// 插入db
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有搜索条件
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	// 如果有排序参数
+	if len(sorts) != 0 {
+		db = db.Order(sorts)
+	}
+
+	err = db.Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// 如果有分页参数
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return list, total, nil
 }
 
 // add extra method in here

@@ -29,19 +29,14 @@ func NewFindUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCo
 func (l *FindUserLoginHistoryListLogic) FindUserLoginHistoryList(in *accountrpc.FindLoginHistoryListReq) (*accountrpc.FindLoginHistoryListResp, error) {
 	page, size, sorts, conditions, params := convertUserLoginHistoryQuery(in)
 
-	result, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, total, err := l.svcCtx.TUserLoginHistoryModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*accountrpc.UserLoginHistory
-	for _, item := range result {
+	for _, item := range records {
 		list = append(list, convertUserLoginHistoryOut(item))
-	}
-
-	total, err := l.svcCtx.TUserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
-	if err != nil {
-		return nil, err
 	}
 
 	resp := &accountrpc.FindLoginHistoryListResp{}

@@ -25,7 +25,7 @@ func NewGetChatLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetChatLo
 
 // 查询聊天记录
 func (l *GetChatLogic) GetChat(in *messagerpc.IdReq) (*messagerpc.ChatDetails, error) {
-	entity, err := l.svcCtx.TChatModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TChatModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}
