@@ -9,7 +9,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 )
@@ -32,20 +32,20 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.NewApiError(apierr.CodeInvalidParam, "邮箱格式不正确")
+		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 验证用户是否存在
 	user, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
-		return nil, apierr.NewApiError(apierr.CodeUserNotExist, err.Error())
+		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
 	// 验证code是否正确
 
 	key := rediskey.GetCaptchaKey(constant.ResetPwd, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
-		return nil, apierr.NewApiError(apierr.CodeCaptchaVerify, "验证码错误")
+		return nil, bizerr.NewBizError(bizerr.CodeCaptchaVerify, "验证码错误")
 	}
 
 	// 更新密码

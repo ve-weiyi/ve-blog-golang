@@ -11,7 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 )
 
@@ -58,7 +59,8 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 					)
 				}
 
-				c.AbortWithStatusJSON(http.StatusInternalServerError, apierr.NewApiError(apierr.CodeInternalServerError, "系统错误"))
+				response.ResponseError(c, bizerr.NewBizError(bizerr.CodeInternalServerError, "系统错误"))
+				c.AbortWithStatus(http.StatusInternalServerError) // 终止该中间件
 				return
 			}
 		}()
