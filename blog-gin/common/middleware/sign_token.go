@@ -1,11 +1,10 @@
 package middleware
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/glog"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
@@ -22,13 +21,13 @@ func SignToken() gin.HandlerFunc {
 		//glog.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)
 		// 请求头缺少参数
 		if tk == "" || tm == "" || ts == "" {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录"))
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
 			c.Abort()
 			return
 		}
 		// 判断 token = md5(tm,ts)
 		if tk != crypto.Md5v(tm, ts) {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserLoginExpired, "无效请求"))
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserLoginExpired, "无效请求"))
 			c.Abort()
 			return
 		}
@@ -47,7 +46,7 @@ func LoginToken() gin.HandlerFunc {
 		glog.Infof("api is login required. tk:%v, uid:%v", tk, uid)
 		// 请求头缺少参数
 		if tk == "" || uid == "" {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录"))
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
 			c.Abort()
 			return
 		}

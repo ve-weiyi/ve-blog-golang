@@ -1,4 +1,4 @@
-package apierr
+package bizerr
 
 // 错误码定义规则
 const (

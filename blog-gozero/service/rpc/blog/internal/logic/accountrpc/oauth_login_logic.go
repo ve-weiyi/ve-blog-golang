@@ -13,7 +13,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
@@ -72,7 +72,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 	// 用户已经注册,查询用户信息
 	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, userOauth.UserId)
 	if err != nil {
-		return nil, apierr.NewApiError(apierr.CodeUserNotExist, err.Error())
+		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
 	return onLogin(l.ctx, l.svcCtx, user)

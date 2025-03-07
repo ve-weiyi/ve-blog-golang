@@ -8,7 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
@@ -27,13 +27,13 @@ func (m *AntiReplyMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		if r.Method != http.MethodGet {
 			ts := r.Header.Get(restx.HeaderTimestamp)
 			if ts == "" {
-				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeInvalidParam, "timestamp is empty"))
+				responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "timestamp is empty"))
 				return
 			}
 
 			now := time.Now().Unix()
 			if now-cast.ToInt64(ts) > 3600 {
-				responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeInvalidParam, "timestamp is invalid"))
+				responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "timestamp is invalid"))
 				return
 			}
 		}

@@ -7,7 +7,7 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
@@ -33,13 +33,13 @@ func NewSendRegisterEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 func (l *SendRegisterEmailLogic) SendRegisterEmail(in *accountrpc.UserEmailReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Username) {
-		return nil, apierr.NewApiError(apierr.CodeInvalidParam, "邮箱格式不正确")
+		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 验证用户是否存在
 	exist, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if exist != nil {
-		return nil, apierr.NewApiError(apierr.CodeUserAlreadyExist, "用户已存在")
+		return nil, bizerr.NewBizError(bizerr.CodeUserAlreadyExist, "用户已存在")
 	}
 
 	// 发送验证码邮件

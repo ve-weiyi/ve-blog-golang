@@ -2,13 +2,13 @@ package middleware
 
 import (
 	"context"
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gin/common/response"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 )
 
 // 限频
@@ -20,7 +20,7 @@ func Limit(rdb *redis.Client) gin.HandlerFunc {
 
 		// 短时间内请求10次
 		if rateLimiter(rdb, ctx, key) {
-			c.JSON(http.StatusOK, apierr.NewApiError(apierr.CodeTooManyRequests, "操作频繁,请在5分钟后再试"))
+			response.ResponseError(c, bizerr.NewBizError(bizerr.CodeTooManyRequests, "操作频繁,请在5分钟后再试"))
 			c.Abort()
 			return
 		}

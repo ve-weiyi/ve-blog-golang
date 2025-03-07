@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/tokenx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
@@ -34,13 +34,13 @@ func (j *SignTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		// 请求头缺少参数
 		if token == "" || uid == "" {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录,缺少用户签名"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录,缺少用户签名"))
 			return
 		}
 
 		err := j.verifier.VerifyToken(r.Context(), token, uid)
 		if err != nil {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserLoginExpired, err.Error()))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserLoginExpired, err.Error()))
 			return
 		}
 

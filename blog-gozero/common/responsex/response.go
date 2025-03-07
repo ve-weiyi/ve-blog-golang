@@ -9,7 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 )
 
 type Body struct {
@@ -28,7 +28,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 		switch e := err.(type) {
 		case rpc.ServerError:
 
-		case *apierr.ApiError:
+		case *bizerr.BizError:
 			body := Body{
 				Code:    int(e.Code),
 				Message: e.Error(),
