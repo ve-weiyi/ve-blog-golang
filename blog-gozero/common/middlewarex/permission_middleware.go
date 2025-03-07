@@ -7,7 +7,7 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/permissionx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 )
 
@@ -29,14 +29,14 @@ func (m *PermissionMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		uid = r.Header.Get(restx.HeaderUid)
 		// 请求头缺少参数
 		if uid == "" {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserUnLogin, "用户未登录"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录"))
 			return
 		}
 
 		// 验证用户是否有权限访问资源
 		err := m.holder.Enforce(uid, r.URL.Path, r.Method)
 		if err != nil {
-			responsex.Response(r, w, nil, apierr.NewApiError(apierr.CodeUserNotPermission, err.Error()))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserNotPermission, err.Error()))
 			return
 		}
 

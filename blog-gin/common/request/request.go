@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/apierr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 )
@@ -56,12 +56,12 @@ func ShouldBindJSON(c *gin.Context, req interface{}) error {
 	//value := reflect.ValueOf(req)
 	//if value.Kind() == reflect.Ptr && value.Elem().Kind() == reflect.Struct {
 	//	if err := BindJSONIgnoreCase(c, req); err != nil {
-	//		return apierror.NewApiError(apierror.CodeMissingParameter, "参数错误").WrapMessage(err.Error())
+	//		return apierror.NewBizError(apierror.CodeMissingParameter, "参数错误").WrapMessage(err.Error())
 	//	}
 	//}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		return apierr.NewApiError(apierr.CodeInvalidParam, err.Error())
+		return bizerr.NewBizError(bizerr.CodeInvalidParam, err.Error())
 	}
 
 	isValid, ok := req.(IsValidChecker)
@@ -70,7 +70,7 @@ func ShouldBindJSON(c *gin.Context, req interface{}) error {
 	}
 
 	if err := isValid.IsValid(); err != nil {
-		return apierr.NewApiError(apierr.CodeInvalidParam, err.Error())
+		return bizerr.NewBizError(bizerr.CodeInvalidParam, err.Error())
 	}
 
 	return nil
@@ -98,7 +98,7 @@ func BindJSONIgnoreCase(c *gin.Context, req interface{}) (err error) {
 func ShouldBindQuery(c *gin.Context, req interface{}) error {
 	// ShouldBindQuery使用tag "form"
 	if err := c.ShouldBind(req); err != nil {
-		return apierr.NewApiError(apierr.CodeInvalidParam, err.Error())
+		return bizerr.NewBizError(bizerr.CodeInvalidParam, err.Error())
 	}
 	isValid, ok := req.(IsValidChecker)
 	if !ok {
