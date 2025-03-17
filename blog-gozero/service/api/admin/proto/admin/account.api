@@ -41,7 +41,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: account
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
@@ -60,16 +60,7 @@ service admin-api {
     @doc "获取用户分布地区"
     @handler FindAccountAreaAnalysis
     post /account/find_account_area_analysis (AccountQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: account
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "修改用户状态"
     @handler UpdateAccountStatus
     post /account/update_account_status (UpdateAccountStatusReq) returns (EmptyResp)

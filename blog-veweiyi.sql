@@ -207,7 +207,7 @@ CREATE TABLE `t_menu` (
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '路由名称',
   `component` varchar(256) NOT NULL DEFAULT '' COMMENT '路由组件',
   `redirect` varchar(256) NOT NULL DEFAULT '' COMMENT '路由重定向',
-  `type` tinyint NOT NULL DEFAULT '0' COMMENT '菜单类型',
+  `type` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单类型',
   `title` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单标题',
   `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单图标',
   `rank` int NOT NULL DEFAULT '0' COMMENT '排序',
@@ -303,7 +303,7 @@ DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父角色id',
-  `role_name` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名',
+  `role_key` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名',
   `role_label` varchar(64) NOT NULL DEFAULT '' COMMENT '角色标签',
   `role_comment` varchar(64) NOT NULL DEFAULT '' COMMENT '角色备注',
   `is_disable` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用  0否 1是',

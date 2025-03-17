@@ -16,24 +16,24 @@ import "blog/file.api"
 import "blog/websocket.api"
 
 type (
-    PingReq{
-    }
-    PingResp {
-        Env string `json:"env"`
-        Name string `json:"name"`
-        Version string `json:"version"`
-        Runtime string `json:"runtime"`
-        Description string `json:"description"`
-        RpcStatus []string `json:"rpc_status"`
-    }
+	PingReq{
+	}
+	PingResp {
+		Env string `json:"env"`
+		Name string `json:"name"`
+		Version string `json:"version"`
+		Runtime string `json:"runtime"`
+		Description string `json:"description"`
+		RpcStatus []string `json:"rpc_status"`
+	}
 )
 
 @server(
-    prefix: /api/v1
+	prefix: /api/v1
 )
 service blog-api {
-    @doc "ping"
-    @handler Ping
-    get /ping (PingReq) returns (PingResp)
+	@doc "ping"
+	@handler Ping
+	get /ping (PingReq) returns (PingResp)
 }
 

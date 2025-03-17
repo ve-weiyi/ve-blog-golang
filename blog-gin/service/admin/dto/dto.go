@@ -487,7 +487,7 @@ type RestHeader struct {
 type RoleBackDTO struct {
 	Id          int64  `json:"id,optional"`  // 主键id
 	ParentId    int64  `json:"parent_id"`    // 父角色id
-	RoleName    string `json:"role_name"`    // 角色名
+	RoleKey     string `json:"role_key"`     // 角色标识
 	RoleLabel   string `json:"role_label"`   // 角色标签
 	RoleComment string `json:"role_comment"` // 角色备注
 	IsDisable   int64  `json:"is_disable"`   // 是否禁用  0否 1是
@@ -499,7 +499,7 @@ type RoleBackDTO struct {
 type RoleNewReq struct {
 	Id          int64  `json:"id,optional"`  // 主键id
 	ParentId    int64  `json:"parent_id"`    // 父角色id
-	RoleName    string `json:"role_name"`    // 角色名
+	RoleKey     string `json:"role_key"`     // 角色标识
 	RoleLabel   string `json:"role_label"`   // 角色标签
 	RoleComment string `json:"role_comment"` // 角色备注
 	IsDisable   int64  `json:"is_disable"`   // 是否禁用  0否 1是
@@ -508,7 +508,7 @@ type RoleNewReq struct {
 
 type RoleQuery struct {
 	PageQuery
-	RoleName  string `json:"role_name,optional"`  // 角色名
+	RoleKey   string `json:"role_key,optional"`   // 角色标识
 	RoleLabel string `json:"role_label,optional"` // 角色标签
 	IsDisable int64  `json:"is_disable,optional"` // 是否禁用  0否 1是
 }
@@ -713,14 +713,14 @@ type UserMenusResp struct {
 type UserRole struct {
 	Id          int64  `json:"id,optional"`  // 主键id
 	ParentId    int64  `json:"parent_id"`    // 父id
-	RoleName    string `json:"role_name"`    // 角色名
+	RoleKey     string `json:"role_key"`     // 角色标识
 	RoleLabel   string `json:"role_label"`   // 角色标签
 	RoleComment string `json:"role_comment"` // 角色备注
 }
 
 type UserRoleLabel struct {
 	RoleId      int64  `json:"role_id"`
-	RoleName    string `json:"role_name"`
+	RoleKey     string `json:"role_key"`
 	RoleComment string `json:"role_comment"`
 }
 
