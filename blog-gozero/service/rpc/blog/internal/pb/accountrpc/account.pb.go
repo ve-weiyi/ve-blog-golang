@@ -1274,7 +1274,7 @@ type UserRoleLabel struct {
 	unknownFields protoimpl.UnknownFields
 
 	RoleId      int64  `protobuf:"varint,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
-	RoleName    string `protobuf:"bytes,2,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
+	RoleKey     string `protobuf:"bytes,2,opt,name=role_key,json=RoleKey,proto3" json:"role_key,omitempty"`
 	RoleComment string `protobuf:"bytes,3,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"`
 }
 
@@ -1317,9 +1317,9 @@ func (x *UserRoleLabel) GetRoleId() int64 {
 	return 0
 }
 
-func (x *UserRoleLabel) GetRoleName() string {
+func (x *UserRoleLabel) GetRoleKey() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleKey
 	}
 	return ""
 }

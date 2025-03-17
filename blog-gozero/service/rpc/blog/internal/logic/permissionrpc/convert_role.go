@@ -10,7 +10,7 @@ func convertRoleIn(in *permissionrpc.RoleNewReq) (out *model.TRole) {
 	out = &model.TRole{
 		Id:          in.Id,
 		ParentId:    in.ParentId,
-		RoleName:    in.RoleName,
+		RoleKey:     in.RoleKey,
 		RoleLabel:   in.RoleLabel,
 		RoleComment: in.RoleComment,
 		IsDisable:   in.IsDisable,
@@ -24,7 +24,7 @@ func convertRoleOut(in *model.TRole) (out *permissionrpc.RoleDetails) {
 	out = &permissionrpc.RoleDetails{
 		Id:          in.Id,
 		ParentId:    in.ParentId,
-		RoleName:    in.RoleName,
+		RoleKey:     in.RoleKey,
 		RoleLabel:   in.RoleLabel,
 		RoleComment: in.RoleComment,
 		IsDisable:   in.IsDisable,

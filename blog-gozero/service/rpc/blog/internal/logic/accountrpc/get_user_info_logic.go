@@ -70,7 +70,7 @@ func convertUserInfoOut(in *model.TUser, roles []*model.TRole) (out *accountrpc.
 	for _, role := range roles {
 		m := &accountrpc.UserRoleLabel{
 			RoleId:      role.Id,
-			RoleName:    role.RoleName,
+			RoleKey:     role.RoleKey,
 			RoleComment: role.RoleComment,
 		}
 

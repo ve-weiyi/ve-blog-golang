@@ -2,7 +2,9 @@
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_role` (`id`, `parent_id`, `role_name`, `role_label`, `role_comment`, `is_disable`, `is_default`, `created_at`, `updated_at`) VALUES (1, 0, 'super-admin', '超级管理员', '', 0, 0, '2021-03-22 14:10:21', '2024-11-15 17:44:02');
+INSERT INTO `t_role` (`id`, `parent_id`, `role_key`, `role_label`, `role_comment`, `is_disable`, `is_default`,
+                      `created_at`, `updated_at`)
+VALUES (1, 0, 'super-admin', '超级管理员', '', 0, 0, '2021-03-22 14:10:21', '2024-11-15 17:44:02');
 
 INSERT INTO `t_user` (`id`, `user_id`, `username`, `password`, `nickname`, `avatar`, `email`, `phone`, `info`, `status`, `login_type`, `ip_address`, `ip_source`, `created_at`, `updated_at`) VALUES (1, '1', 'admin@qq.com', '$2a$10$ZINovpDg.FxFQRj6nhKDLOH55k19RDViybnVVn5EGuKQAcqChRs1e', '管理员', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&app=138&f=JPEG', 'admin@qq.com', '', '{\"intro\":\"23\",\"website\":\"3\"}', 0, 'email', '127.0.0.1', '广西壮族自治区梧州市 移动', '2024-07-10 16:24:50', '2024-10-25 14:35:59');
 

@@ -303,7 +303,7 @@ DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
   `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `parent_id` int NOT NULL DEFAULT '0' COMMENT '父角色id',
-  `role_name` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名',
+  `role_key` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名',
   `role_label` varchar(64) NOT NULL DEFAULT '' COMMENT '角色标签',
   `role_comment` varchar(64) NOT NULL DEFAULT '' COMMENT '角色备注',
   `is_disable` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用  0否 1是',

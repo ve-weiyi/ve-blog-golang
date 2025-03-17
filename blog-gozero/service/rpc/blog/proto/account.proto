@@ -130,7 +130,7 @@ message UserInfoResp {
 
 message UserRoleLabel{
   int64 role_id = 1;
-  string role_name = 2;
+  string role_key = 2;
   string role_comment = 3;
 }
 
