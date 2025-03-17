@@ -36,7 +36,7 @@ func (l *UpdateRoleMenusLogic) UpdateRoleMenus(req *types.UpdateRoleMenusReq) (r
 		return nil, err
 	}
 
-	err = l.svcCtx.PermissionHolder.ClearPolicy()
+	err = l.svcCtx.PermissionHolder.ReloadPolicy()
 	if err != nil {
 		return nil, err
 	}
