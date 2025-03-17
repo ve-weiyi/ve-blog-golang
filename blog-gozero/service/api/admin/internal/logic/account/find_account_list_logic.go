@@ -63,7 +63,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 	for _, v := range in.Roles {
 		m := &types.UserRoleLabel{
 			RoleId:      v.RoleId,
-			RoleName:    v.RoleName,
+			RoleKey:     v.RoleKey,
 			RoleComment: v.RoleComment,
 		}
 

@@ -29,7 +29,7 @@ func (l *FindRoleListLogic) FindRoleList(req *types.RoleQuery) (resp *types.Page
 	in := &permissionrpc.FindRoleListReq{
 		Page:      req.Page,
 		PageSize:  req.PageSize,
-		RoleName:  req.RoleName,
+		RoleKey:   req.RoleKey,
 		RoleLabel: req.RoleLabel,
 		IsDisable: req.IsDisable,
 	}

@@ -29,7 +29,7 @@ func (l *UpdateRoleLogic) UpdateRole(req *types.RoleNewReq) (resp *types.RoleBac
 	in := &permissionrpc.RoleNewReq{
 		Id:          req.Id,
 		ParentId:    req.ParentId,
-		RoleName:    req.RoleName,
+		RoleKey:     req.RoleKey,
 		RoleLabel:   req.RoleLabel,
 		RoleComment: req.RoleComment,
 		IsDisable:   req.IsDisable,

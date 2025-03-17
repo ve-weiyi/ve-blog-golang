@@ -51,7 +51,7 @@ func convertUserRole(in *permissionrpc.RoleDetails) (out *types.UserRole) {
 	out = &types.UserRole{
 		Id:          in.Id,
 		ParentId:    in.ParentId,
-		RoleName:    in.RoleName,
+		RoleKey:     in.RoleKey,
 		RoleLabel:   in.RoleLabel,
 		RoleComment: in.RoleComment,
 	}

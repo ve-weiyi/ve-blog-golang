@@ -1094,7 +1094,7 @@ type RoleNewReq struct {
 
 	Id          int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // 主键id
 	ParentId    int64  `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`         // 父角色id
-	RoleName    string `protobuf:"bytes,3,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`          // 角色名
+	RoleKey     string `protobuf:"bytes,3,opt,name=role_key,json=RoleKey,proto3" json:"role_key,omitempty"`             // 角色名
 	RoleLabel   string `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
 	RoleComment string `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
 	IsDisable   int64  `protobuf:"varint,6,opt,name=is_disable,json=isDisable,proto3" json:"is_disable,omitempty"`      // 是否禁用  0否 1是
@@ -1147,9 +1147,9 @@ func (x *RoleNewReq) GetParentId() int64 {
 	return 0
 }
 
-func (x *RoleNewReq) GetRoleName() string {
+func (x *RoleNewReq) GetRoleKey() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleKey
 	}
 	return ""
 }
@@ -1189,7 +1189,7 @@ type RoleDetails struct {
 
 	Id          int64          `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                     // 主键id
 	ParentId    int64          `protobuf:"varint,2,opt,name=parent_id,json=parentId,proto3" json:"parent_id,omitempty"`         // 父角色id
-	RoleName    string         `protobuf:"bytes,3,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`          // 角色名
+	RoleKey     string         `protobuf:"bytes,3,opt,name=role_key,json=RoleKey,proto3" json:"role_key,omitempty"`             // 角色名
 	RoleLabel   string         `protobuf:"bytes,4,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`       // 角色标签
 	RoleComment string         `protobuf:"bytes,5,opt,name=role_comment,json=roleComment,proto3" json:"role_comment,omitempty"` // 角色备注
 	IsDisable   int64          `protobuf:"varint,6,opt,name=is_disable,json=isDisable,proto3" json:"is_disable,omitempty"`      // 是否禁用  0否 1是
@@ -1245,9 +1245,9 @@ func (x *RoleDetails) GetParentId() int64 {
 	return 0
 }
 
-func (x *RoleDetails) GetRoleName() string {
+func (x *RoleDetails) GetRoleKey() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleKey
 	}
 	return ""
 }
@@ -1758,7 +1758,7 @@ type FindRoleListReq struct {
 	Page      int64    `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize  int64    `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	Sorts     []string `protobuf:"bytes,3,rep,name=sorts,proto3" json:"sorts,omitempty"`                           // 排序
-	RoleName  string   `protobuf:"bytes,4,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`     // 角色名
+	RoleKey   string   `protobuf:"bytes,4,opt,name=role_key,json=RoleKey,proto3" json:"role_key,omitempty"`        // 角色名
 	RoleLabel string   `protobuf:"bytes,5,opt,name=role_label,json=roleLabel,proto3" json:"role_label,omitempty"`  // 角色标签
 	IsDisable int64    `protobuf:"varint,6,opt,name=is_disable,json=isDisable,proto3" json:"is_disable,omitempty"` // 是否禁用  0否 1是
 }
@@ -1816,9 +1816,9 @@ func (x *FindRoleListReq) GetSorts() []string {
 	return nil
 }
 
-func (x *FindRoleListReq) GetRoleName() string {
+func (x *FindRoleListReq) GetRoleKey() string {
 	if x != nil {
-		return x.RoleName
+		return x.RoleKey
 	}
 	return ""
 }

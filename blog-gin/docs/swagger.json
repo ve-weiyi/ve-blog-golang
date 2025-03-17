@@ -8588,8 +8588,8 @@
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+              "role_key": {
+                "description": "角色标识",
                     "type": "string"
                 },
                 "updated_at": {
@@ -8625,8 +8625,8 @@
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+              "role_key": {
+                "description": "角色标识",
                     "type": "string"
                 }
             }
@@ -8650,8 +8650,8 @@
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+              "role_key": {
+                "description": "角色标识",
                     "type": "string"
                 },
                 "sorts": {
@@ -9314,8 +9314,8 @@
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+              "role_key": {
+                "description": "角色标识",
                     "type": "string"
                 }
             }
@@ -9329,7 +9329,7 @@
                 "role_id": {
                     "type": "integer"
                 },
-                "role_name": {
+              "role_key": {
                     "type": "string"
                 }
             }

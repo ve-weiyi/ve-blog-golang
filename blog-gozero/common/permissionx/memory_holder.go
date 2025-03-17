@@ -19,16 +19,16 @@ type MemoryHolder struct {
 
 	autoload bool
 
-	// key: (user), value: role_name[]
+	// key: (user), value: role_key[]
 	lru *collection.Cache
 
-	// 用户角色缓存 key: (user), value: role_name[]
+	// 用户角色缓存 key: (user), value: role_key[]
 	user map[string][]string
 
 	// key: roleId, value: apiIds
 	policy map[string][]string
 
-	// key: (role_name), value: role
+	// key: (role_key), value: role
 	roles map[string]*permissionrpc.RoleDetails
 
 	// key: (api_name), value: api
@@ -123,7 +123,7 @@ func (m *MemoryHolder) LoadPolicy() error {
 				continue
 			}
 
-			m.policy[role.RoleName] = append(m.policy[role.RoleName], fmt.Sprintf("%s %s", api.Path, api.Method))
+			m.policy[role.RoleKey] = append(m.policy[role.RoleKey], fmt.Sprintf("%s %s", api.Path, api.Method))
 		}
 	}
 
@@ -164,7 +164,7 @@ func (m *MemoryHolder) dynamicLoadUserRoles(userId string) error {
 	}
 
 	for _, v := range userRoles.List {
-		m.user[userId] = append(m.user[userId], v.RoleName)
+		m.user[userId] = append(m.user[userId], v.RoleKey)
 	}
 
 	return nil

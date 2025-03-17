@@ -38,7 +38,7 @@ type (
 	TRole struct {
 		Id          int64     `json:"id" gorm:"column:id"`                     // 主键id
 		ParentId    int64     `json:"parent_id" gorm:"column:parent_id"`       // 父角色id
-		RoleName    string    `json:"role_name" gorm:"column:role_name"`       // 角色名
+		RoleKey     string    `json:"role_key" gorm:"column:role_key"`         // 角色名
 		RoleLabel   string    `json:"role_label" gorm:"column:role_label"`     // 角色标签
 		RoleComment string    `json:"role_comment" gorm:"column:role_comment"` // 角色备注
 		IsDisable   int64     `json:"is_disable" gorm:"column:is_disable"`     // 是否禁用  0否 1是

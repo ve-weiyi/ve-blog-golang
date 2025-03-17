@@ -4908,7 +4908,7 @@
           "format": "int64",
           "description": " 父角色id"
         },
-        "role_name": {
+        "role_key": {
           "type": "string",
           "description": " 角色名"
         },
@@ -4944,7 +4944,7 @@
       "title": "RoleBackDTO",
       "required": [
         "parent_id",
-        "role_name",
+        "role_key",
         "role_label",
         "role_comment",
         "is_disable",
@@ -4966,7 +4966,7 @@
           "format": "int64",
           "description": " 父角色id"
         },
-        "role_name": {
+        "role_key": {
           "type": "string",
           "description": " 角色名"
         },
@@ -4991,7 +4991,7 @@
       },
       "title": "RoleNewReq",
       "required": [
-        "role_name",
+        "role_key",
         "role_label",
         "role_comment",
         "is_disable",
@@ -5018,7 +5018,7 @@
           },
           "description": " 排序"
         },
-        "role_name": {
+        "role_key": {
           "type": "string",
           "description": " 角色名"
         },
@@ -5893,7 +5893,7 @@
           "format": "int64",
           "description": " 父id"
         },
-        "role_name": {
+        "role_key": {
           "type": "string",
           "description": " 角色名"
         },
@@ -5909,7 +5909,7 @@
       "title": "UserRole",
       "required": [
         "parent_id",
-        "role_name",
+        "role_key",
         "role_label",
         "role_comment"
       ]
@@ -5921,7 +5921,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "role_name": {
+        "role_key": {
           "type": "string"
         },
         "role_comment": {
@@ -5931,7 +5931,7 @@
       "title": "UserRoleLabel",
       "required": [
         "role_id",
-        "role_name",
+        "role_key",
         "role_comment"
       ]
     },

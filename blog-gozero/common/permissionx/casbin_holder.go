@@ -52,7 +52,7 @@ type CasbinHolder struct {
 	// casbin
 	enforcer *casbin.SyncedCachedEnforcer
 
-	// 用户角色缓存 key: (user), value: role_name[]
+	// 用户角色缓存 key: (user), value: role_key[]
 	user map[string][]string
 	// 白名单用户
 	whiteList map[string]bool
@@ -154,7 +154,7 @@ func (m *CasbinHolder) LoadPolicy() error {
 				continue
 			}
 
-			_, err = m.enforcer.AddPolicy(role.RoleName, api.Path, api.Method)
+			_, err = m.enforcer.AddPolicy(role.RoleKey, api.Path, api.Method)
 			if err != nil {
 				return err
 			}
@@ -198,12 +198,12 @@ func (m *CasbinHolder) dynamicLoadUserRoles(userId string) error {
 	}
 
 	for _, v := range userRoles.List {
-		_, err = m.enforcer.AddRoleForUser(userId, v.RoleName)
+		_, err = m.enforcer.AddRoleForUser(userId, v.RoleKey)
 		if err != nil {
 			return err
 		}
 
-		m.user[userId] = append(m.user[userId], v.RoleName)
+		m.user[userId] = append(m.user[userId], v.RoleKey)
 	}
 
 	return nil
