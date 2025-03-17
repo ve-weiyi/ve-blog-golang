@@ -29,7 +29,7 @@ func (l *AddRoleLogic) AddRole(req *types.RoleNewReq) (resp *types.RoleBackDTO, 
 	in := &permissionrpc.RoleNewReq{
 		Id:          req.Id,
 		ParentId:    req.ParentId,
-		RoleName:    req.RoleName,
+		RoleKey:     req.RoleKey,
 		RoleLabel:   req.RoleLabel,
 		RoleComment: req.RoleComment,
 		IsDisable:   req.IsDisable,
@@ -48,7 +48,7 @@ func convertRoleTypes(req *permissionrpc.RoleDetails) *types.RoleBackDTO {
 	out := &types.RoleBackDTO{
 		Id:          req.Id,
 		ParentId:    req.ParentId,
-		RoleName:    req.RoleName,
+		RoleKey:     req.RoleKey,
 		RoleLabel:   req.RoleLabel,
 		RoleComment: req.RoleComment,
 		IsDisable:   req.IsDisable,

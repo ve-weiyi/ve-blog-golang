@@ -30,23 +30,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: operation_log
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
     @doc "分页获取操作记录列表"
     @handler FindOperationLogList
     post /operation_log/find_operation_log_list (OperationLogQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: operation_log
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "删除操作记录"
     @handler DeletesOperationLog
     delete /operation_log/deletes_operation_log (IdsReq) returns (BatchResp)

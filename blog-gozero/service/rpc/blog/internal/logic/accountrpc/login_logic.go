@@ -72,7 +72,8 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 	for _, role := range rList {
 		m := &accountrpc.UserRoleLabel{
 			RoleId:      role.Id,
-			RoleName:    role.RoleName,
+			RoleKey:     role.RoleKey,
+			RoleLabel:   role.RoleLabel,
 			RoleComment: role.RoleComment,
 		}
 

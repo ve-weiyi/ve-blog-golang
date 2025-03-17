@@ -8595,8 +8595,8 @@ const docTemplate = `{
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+                "role_key": {
+                    "description": "角色标识",
                     "type": "string"
                 },
                 "updated_at": {
@@ -8632,8 +8632,8 @@ const docTemplate = `{
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+                "role_key": {
+                    "description": "角色标识",
                     "type": "string"
                 }
             }
@@ -8657,8 +8657,8 @@ const docTemplate = `{
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+                "role_key": {
+                    "description": "角色标识",
                     "type": "string"
                 },
                 "sorts": {
@@ -9321,8 +9321,8 @@ const docTemplate = `{
                     "description": "角色标签",
                     "type": "string"
                 },
-                "role_name": {
-                    "description": "角色名",
+                "role_key": {
+                    "description": "角色标识",
                     "type": "string"
                 }
             }
@@ -9336,7 +9336,7 @@ const docTemplate = `{
                 "role_id": {
                     "type": "integer"
                 },
-                "role_name": {
+                "role_key": {
                     "type": "string"
                 }
             }

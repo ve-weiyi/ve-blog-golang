@@ -44,9 +44,9 @@ type ServiceContext struct {
 	SyslogRpc     syslogrpc.SyslogRpc
 
 	Redis            *redis.Redis
-	PermissionHolder permissionx.PermissionHolder
-	TokenHolder      tokenx.TokenHolder
 	Uploader         oss.OSS
+	TokenHolder      tokenx.TokenHolder
+	PermissionHolder permissionx.PermissionHolder
 
 	TimeToken    rest.Middleware
 	JwtToken     rest.Middleware
@@ -83,12 +83,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	configRpc := configrpc.NewConfigRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 	syslogRpc := syslogrpc.NewSyslogRpc(zrpc.MustNewClient(c.BlogRpcConf, options...))
 
-	ph := permissionx.NewCasbinHolder(fmt.Sprintf("%s:%s", c.RedisConf.Host, c.RedisConf.Port), permissionRpc)
+	ph := permissionx.NewMemoryHolder(permissionRpc)
 	err = ph.LoadPolicy()
 	if err != nil {
 		panic(err)
 	}
-	ph.StartAutoLoadPolicy()
 
 	return &ServiceContext{
 		Config:        c,
@@ -109,9 +108,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PermissionHolder: ph,
 		TimeToken:        middlewarex.NewTimeTokenMiddleware().Handle,
 		JwtToken:         middlewarex.NewJwtTokenMiddleware(th).Handle,
+		Permission:       middlewarex.NewMiddleware().Handle, // 不使用接口权限控制
 		//Permission:       middlewarex.NewPermissionMiddleware(ph).Handle,
-		Permission:   middlewarex.NewMiddleware().Handle, // 不使用接口权限控制
-		OperationLog: middlewarex.NewOperationLogMiddleware(doc.Spec(), syslogRpc).Handle,
+		OperationLog: middlewarex.NewOperationLogMiddleware(doc.Spec(), syslogRpc, permissionRpc).Handle,
 	}
 }
 
