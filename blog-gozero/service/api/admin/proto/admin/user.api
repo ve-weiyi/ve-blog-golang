@@ -24,7 +24,7 @@ type (
     UserRoleLabel {
         RoleId int64 `json:"role_id"`
         RoleKey string `json:"role_key"`
-        RoleComment string `json:"role_comment"`
+        RoleLabel string `json:"role_label"`
     }
 
 
@@ -113,7 +113,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: user
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
@@ -124,8 +124,6 @@ service admin-api {
     @doc "修改用户信息"
     @handler UpdateUserInfo
     post /user/update_user_info (UserInfoReq) returns (EmptyResp)
-
-
 
     @doc "获取用户角色"
     @handler GetUserRoles

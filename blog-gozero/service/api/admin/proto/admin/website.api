@@ -88,7 +88,7 @@ type Server {
 @server(
     prefix: /admin_api/v1
     group: website
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 service admin-api {
     @doc "获取后台首页信息"
@@ -107,14 +107,7 @@ service admin-api {
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /admin/about_me (EmptyReq) returns (AboutMe)
-}
 
-@server(
-    prefix: /admin_api/v1
-    group: website
-    middleware: JwtToken,Permission,OperationLog
-)
-service admin-api {
     @doc "更新网站配置"
     @handler UpdateWebsiteConfig
     put /admin/update_website_config (WebsiteConfig) returns (EmptyResp)

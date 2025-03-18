@@ -30,23 +30,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: friend
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
     @doc "分页获取友链列表"
     @handler FindFriendList
     post /friend/find_friend_list (FriendQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: friend
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "创建友链"
     @handler AddFriend
     post /friend/add_friend (FriendNewReq) returns (FriendBackDTO)

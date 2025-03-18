@@ -39,7 +39,7 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 
 			rt := TsApiRoute{
 				Summery:  doc,
-				Handler:  jsonconv.FirstLower(r.Handler) + "Api",
+				Handler:  jsonconv.FirstLower(r.Handler),
 				Path:     r.Path,
 				Method:   strings.ToUpper(r.Method),
 				Request:  req,
@@ -51,7 +51,7 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 
 		var name = v.Annotation.Properties["group"]
 		if name == "" {
-			name = "common"
+			name = sp.Service.Name
 		}
 
 		var prefix = v.Annotation.Properties["prefix"]

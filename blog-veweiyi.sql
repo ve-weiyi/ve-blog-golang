@@ -207,7 +207,7 @@ CREATE TABLE `t_menu` (
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '路由名称',
   `component` varchar(256) NOT NULL DEFAULT '' COMMENT '路由组件',
   `redirect` varchar(256) NOT NULL DEFAULT '' COMMENT '路由重定向',
-  `type` tinyint NOT NULL DEFAULT '0' COMMENT '菜单类型',
+  `type` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单类型',
   `title` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单标题',
   `icon` varchar(64) NOT NULL DEFAULT '' COMMENT '菜单图标',
   `rank` int NOT NULL DEFAULT '0' COMMENT '排序',

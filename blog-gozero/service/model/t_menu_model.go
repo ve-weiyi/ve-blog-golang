@@ -43,7 +43,7 @@ type (
 		Name       string    `json:"name" gorm:"column:name"`               // 路由名称
 		Component  string    `json:"component" gorm:"column:component"`     // 路由组件
 		Redirect   string    `json:"redirect" gorm:"column:redirect"`       // 路由重定向
-		Type       int64     `json:"type" gorm:"column:type"`               // 菜单类型
+		Type       string    `json:"type" gorm:"column:type"`               // 菜单类型
 		Title      string    `json:"title" gorm:"column:title"`             // 菜单标题
 		Icon       string    `json:"icon" gorm:"column:icon"`               // 菜单图标
 		Rank       int64     `json:"rank" gorm:"column:rank"`               // 排序

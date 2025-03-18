@@ -86,5 +86,5 @@ type (
 service blog-api {
     @doc "访客上报"
     @handler Report
-    get /report (EmptyReq) returns (EmptyResp)
+    get /report (EmptyReq) returns (ReportResp)
 }

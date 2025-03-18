@@ -73,7 +73,7 @@ message MenuNewReq {
 }
 
 message MenuMeta{
-  int64 type = 11;// 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）
+  string type = 11;// 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）
   string title = 12;// 菜单标题
   string icon = 13;// 菜单标题
   int64 rank = 14;// 菜单排序

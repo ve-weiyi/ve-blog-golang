@@ -307,7 +307,7 @@ type MenuBackDTO struct {
 }
 
 type MenuMeta struct {
-	Type       int64             `json:"type,optional"`        // 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）
+	Type       string            `json:"type,optional"`        // 菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）
 	Title      string            `json:"title,optional"`       // 菜单标题
 	Icon       string            `json:"icon,optional"`        // 菜单图标
 	Rank       int64             `json:"rank,optional"`        // 排序
@@ -716,9 +716,9 @@ type UserRole struct {
 }
 
 type UserRoleLabel struct {
-	RoleId      int64  `json:"role_id"`
-	RoleKey     string `json:"role_key"`
-	RoleComment string `json:"role_comment"`
+	RoleId    int64  `json:"role_id"`
+	RoleKey   string `json:"role_key"`
+	RoleLabel string `json:"role_label"`
 }
 
 type UserRolesResp struct {

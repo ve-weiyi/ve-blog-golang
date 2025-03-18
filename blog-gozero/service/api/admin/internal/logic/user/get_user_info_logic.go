@@ -46,9 +46,9 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 	roles := make([]*types.UserRoleLabel, 0)
 	for _, v := range in.Roles {
 		m := &types.UserRoleLabel{
-			RoleId:      v.RoleId,
-			RoleKey:     v.RoleKey,
-			RoleComment: v.RoleComment,
+			RoleId:    v.RoleId,
+			RoleKey:   v.RoleKey,
+			RoleLabel: v.RoleLabel,
 		}
 
 		roles = append(roles, m)
@@ -71,6 +71,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 		CreatedAt:   in.CreatedAt,
 		UpdatedAt:   in.UpdatedAt,
 		Roles:       roles,
+		Perms:       make([]*types.UserApi, 0),
 		UserInfoExt: info,
 	}
 

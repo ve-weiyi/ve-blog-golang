@@ -26,23 +26,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: visit_log
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
     @doc "分页获取操作记录列表"
     @handler FindVisitLogList
     post /visit_log/find_visit_log_list (VisitLogQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: visit_log
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "删除操作记录"
     @handler DeletesVisitLog
     delete /visit_log/deletes_visit_log (IdsReq) returns (BatchResp)

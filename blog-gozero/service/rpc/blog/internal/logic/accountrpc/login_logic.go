@@ -73,6 +73,7 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 		m := &accountrpc.UserRoleLabel{
 			RoleId:      role.Id,
 			RoleKey:     role.RoleKey,
+			RoleLabel:   role.RoleLabel,
 			RoleComment: role.RoleComment,
 		}
 

@@ -4,72 +4,47 @@ import (
 	"context"
 	"fmt"
 	"sync"
-	"time"
-
-	"github.com/zeromicro/go-zero/core/collection"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 )
 
 // 角色资源管理器
 type MemoryHolder struct {
-	sync.RWMutex
+	rw sync.RWMutex
 
 	pr permissionrpc.PermissionRpc
 
-	autoload bool
-
-	// key: (user), value: role_key[]
-	lru *collection.Cache
-
-	// 用户角色缓存 key: (user), value: role_key[]
-	user map[string][]string
-
-	// key: roleId, value: apiIds
+	// 角色-权限 key: roleId, value: apiIds
 	policy map[string][]string
 
-	// key: (role_key), value: role
-	roles map[string]*permissionrpc.RoleDetails
-
-	// key: (api_name), value: api
-	apis map[string]*permissionrpc.ApiDetails
+	// 用户-角色 key: (user), value: role_key[]
+	user map[string][]string
 }
 
 func NewMemoryHolder(pr permissionrpc.PermissionRpc) *MemoryHolder {
-	lru, err := collection.NewCache(30 * time.Minute)
-	if err != nil {
-		panic(err)
-	}
 
 	return &MemoryHolder{
-		pr:       pr,
-		lru:      lru,
-		autoload: false,
+		rw:     sync.RWMutex{},
+		pr:     pr,
+		user:   make(map[string][]string),
+		policy: make(map[string][]string),
 	}
 }
 
-func (m *MemoryHolder) StartAutoLoadPolicy() {
-	m.autoload = true
-}
+func (m *MemoryHolder) ReloadPolicy() error {
+	m.rw.Lock()
+	defer m.rw.Unlock()
 
-func (m *MemoryHolder) ClearPolicy() error {
-	m.Lock()
-	defer m.Unlock()
-
-	m.policy = make(map[string][]string)
-	m.user = make(map[string][]string)
-	m.roles = make(map[string]*permissionrpc.RoleDetails)
-	m.apis = make(map[string]*permissionrpc.ApiDetails)
-
-	if m.autoload {
-		return m.LoadPolicy()
-	}
-	return nil
+	return m.LoadPolicy()
 }
 
 func (m *MemoryHolder) LoadPolicy() error {
-	m.Lock()
-	defer m.Unlock()
+	m.rw.Lock()
+	defer m.rw.Unlock()
+
+	// 重置所有权限
+	m.policy = make(map[string][]string)
+	m.user = make(map[string][]string)
 
 	var rs = make(map[int64][]int64)
 	var roles = make(map[int64]*permissionrpc.RoleDetails)
@@ -131,8 +106,8 @@ func (m *MemoryHolder) LoadPolicy() error {
 }
 
 func (m *MemoryHolder) Enforce(user string, resource string, action string) error {
-	m.RLock()
-	defer m.RUnlock()
+	m.rw.RUnlock()
+	defer m.rw.RUnlock()
 
 	err := m.dynamicLoadUserRoles(user)
 	if err != nil {
@@ -171,9 +146,6 @@ func (m *MemoryHolder) dynamicLoadUserRoles(userId string) error {
 }
 
 func (m *MemoryHolder) enforce(user string, resource string, action string) (bool, error) {
-	m.RLock()
-	defer m.RUnlock()
-
 	roles, ok := m.user[user]
 	if !ok {
 		return false, nil
