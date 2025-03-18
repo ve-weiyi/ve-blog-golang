@@ -28,18 +28,19 @@ func NewFindPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindPageListLogic) FindPageList(in *websiterpc.FindPageListReq) (*websiterpc.FindPageListResp, error) {
 	page, size, sorts, conditions, params := convertPageQuery(in)
 
-	result, err := l.svcCtx.TPageModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, total, err := l.svcCtx.TPageModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*websiterpc.PageDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertPageOut(v))
 	}
 
 	return &websiterpc.FindPageListResp{
-		List: list,
+		List:  list,
+		Total: total,
 	}, nil
 }
 

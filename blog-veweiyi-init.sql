@@ -16,11 +16,36 @@ COMMIT;
 -- Records of t_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`, `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`, `is_disable`, `extra`, `created_at`, `updated_at`) VALUES (56, 0, '/system', '', '/src/layout/index', '/system/user', 0, '系统管理', 'el-icon-setting', 6, '', 'null', 0, 0, 0, 0, '{\"title\":\"系统管理\",\"icon\":\"el-icon-setting\",\"rank\":6,\"params\":\"null\"}', '2024-11-21 17:58:47', '2024-11-21 17:58:47');
-INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`, `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`, `is_disable`, `extra`, `created_at`, `updated_at`) VALUES (57, 56, '/system/user', 'User', '/src/views/admin/system/user/User', '', 1, '用户列表', '', 1, '', 'null', 0, 0, 0, 0, '{\"type\":1,\"title\":\"用户列表\",\"rank\":1,\"params\":\"null\"}', '2024-11-21 17:58:47', '2024-11-21 17:58:47');
-INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`, `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`, `is_disable`, `extra`, `created_at`, `updated_at`) VALUES (58, 56, '/system/role', 'Role', '/src/views/admin/system/role/Role', '', 1, '角色管理', '', 2, '', 'null', 0, 0, 0, 0, '{\"type\":1,\"title\":\"角色管理\",\"rank\":2,\"params\":\"null\"}', '2024-11-21 17:58:47', '2024-11-21 17:58:47');
-INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`, `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`, `is_disable`, `extra`, `created_at`, `updated_at`) VALUES (59, 56, '/system/menu', 'Menu', '/src/views/admin/system/menu/Menu', '', 1, '菜单管理', '', 3, '', 'null', 0, 0, 0, 0, '{\"type\":1,\"title\":\"菜单管理\",\"rank\":3,\"params\":\"null\"}', '2024-11-21 17:58:47', '2024-11-21 17:58:47');
-INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`, `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`, `is_disable`, `extra`, `created_at`, `updated_at`) VALUES (60, 56, '/system/api', 'Api', '/src/views/admin/system/api/Api', '', 1, '接口管理', '', 4, '', 'null', 0, 0, 0, 0, '{\"type\":1,\"title\":\"接口管理\",\"rank\":4,\"params\":\"null\"}', '2024-11-21 17:58:47', '2024-11-21 17:58:47');
+INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
+                                     `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
+                                     `is_disable`, `extra`, `created_at`, `updated_at`)
+VALUES (56, 0, '/system', '', '/src/layout/index', '/system/user', '', '系统管理', 'el-icon-setting', 6, '', 'null', 0,
+        0, 0, 0, '{\"title\":\"系统管理\",\"icon\":\"el-icon-setting\",\"rank\":6,\"params\":\"null\"}',
+        '2024-11-21 17:58:47', '2024-11-21 17:58:47');
+INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
+                                     `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
+                                     `is_disable`, `extra`, `created_at`, `updated_at`)
+VALUES (57, 56, '/system/user', 'User', '/src/views/admin/system/user/User', '', '', '用户列表', '', 1, '', 'null', 0,
+        0, 0, 0, '{\"type\":1,\"title\":\"用户列表\",\"rank\":1,\"params\":\"null\"}', '2024-11-21 17:58:47',
+        '2024-11-21 17:58:47');
+INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
+                                     `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
+                                     `is_disable`, `extra`, `created_at`, `updated_at`)
+VALUES (58, 56, '/system/role', 'Role', '/src/views/admin/system/role/Role', '', '', '角色管理', '', 2, '', 'null', 0,
+        0, 0, 0, '{\"type\":1,\"title\":\"角色管理\",\"rank\":2,\"params\":\"null\"}', '2024-11-21 17:58:47',
+        '2024-11-21 17:58:47');
+INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
+                                     `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
+                                     `is_disable`, `extra`, `created_at`, `updated_at`)
+VALUES (59, 56, '/system/menu', 'Menu', '/src/views/admin/system/menu/Menu', '', '', '菜单管理', '', 3, '', 'null', 0,
+        0, 0, 0, '{\"type\":1,\"title\":\"菜单管理\",\"rank\":3,\"params\":\"null\"}', '2024-11-21 17:58:47',
+        '2024-11-21 17:58:47');
+INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
+                                     `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
+                                     `is_disable`, `extra`, `created_at`, `updated_at`)
+VALUES (60, 56, '/system/api', 'Api', '/src/views/admin/system/api/Api', '', '', '接口管理', '', 4, '', 'null', 0, 0, 0,
+        0, '{\"type\":1,\"title\":\"接口管理\",\"rank\":4,\"params\":\"null\"}', '2024-11-21 17:58:47',
+        '2024-11-21 17:58:47');
 
 
 INSERT INTO `blog-veweiyi`.`t_role_menu` (`id`, `role_id`, `menu_id`) VALUES (56, 1, 56);

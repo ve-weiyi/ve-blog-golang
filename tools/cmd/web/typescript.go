@@ -66,6 +66,11 @@ func RunTypescript(conf *CmdVar) {
 	if err != nil {
 		panic(err)
 	}
+
+	err = generatePermsTs(sp, conf)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {
@@ -122,7 +127,8 @@ func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {
 					`import request from "@/utils/request";`,
 					fmt.Sprintf(`import type { %s } from "./types";`, strings.Join(ims, ", ")),
 				},
-				"GroupRoutes": v,
+				"Name":        jsonconv.Case2Camel(k),
+				"TsApiGroups": v,
 			},
 		}
 
@@ -161,6 +167,31 @@ func generateTypesTs(sp *aspec.ApiSpec, conf *CmdVar) error {
 			},
 		},
 		Data: ts,
+	}
+
+	return meta.Execute()
+}
+
+func generatePermsTs(sp *aspec.ApiSpec, conf *CmdVar) error {
+	t := path.Join(conf.VarStringTplPath, "perms.ts.tpl")
+	o := path.Join(conf.VarStringOutPath, "perms.ts")
+
+	tpl, err := os.ReadFile(t)
+	if err != nil {
+		return err
+	}
+
+	groups := helper.ConvertApiTs(sp)
+
+	meta := invent.TemplateMeta{
+		Mode:           invent.ModeCreateOrReplace,
+		CodeOutPath:    o,
+		TemplateString: string(tpl),
+		FunMap:         nil,
+		Data: map[string]any{
+			"Name":   jsonconv.Case2Camel(sp.Service.Name),
+			"Groups": groups,
+		},
 	}
 
 	return meta.Execute()

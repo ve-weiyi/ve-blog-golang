@@ -3,12 +3,12 @@
 #goctl model mysql ddl -src  test.sql -dir ../ --style go_zero -c --home ../../../../template
 
 
-# dsn(Data Source Name)生成model文件
-go run main.go model dsn \
--t=./template/go-zero/model.tpl \
--n='%v_model.go' \
--o='/Users/weiyi/Github/ve-blog-golang/blog-gozero/service/model'  \
--s='root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
+# dsn(Data Source Name)数据库生成model文件
+#go run main.go model dsn \
+#-t=./template/go-zero/model.tpl \
+#-n='%v_model.go' \
+#-o='/Users/weiyi/Github/ve-blog-golang/blog-gozero/service/model'  \
+#-s='root:mysql7914@(veweiyi.cn:3306)/blog-veweiyi?charset=utf8mb4&parseTime=True&loc=Local'
 
 #go run main.go model dsn \
 #-t=./template/go-zero/model.tpl \
@@ -18,8 +18,8 @@ go run main.go model dsn \
 
 ## test
 # ddl(Data Definition Language)生成model文件
-#go run main.go model ddl \
-#-t=./template/go-zero/model.thin.tpl \
-#-n='%v_model.go' \
-#-o='./runtime/model'  \
-#-s='./testdata/test.sql'
+go run main.go model ddl \
+-t=./template/go-zero/model.tpl \
+-n='%v_model.go' \
+-o='./runtime/model'  \
+-s='./testdata/test.sql'

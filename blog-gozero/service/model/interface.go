@@ -17,9 +17,9 @@ type IModel[T any] interface {
 	// 保存
 	Save(ctx context.Context, in *T) (rows int64, err error)
 	// 查询
-	FindOne(ctx context.Context, id int64) (out *T, err error)
+	FindById(ctx context.Context, id int64) (out *T, err error)
 	FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*T, err error)
-	FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*T, err error)
+	FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*T, total int64, err error)
 	FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 }
 

@@ -35,7 +35,7 @@ func (l *LikeArticleLogic) LikeArticle(in *articlerpc.IdReq) (*articlerpc.EmptyR
 	}
 	id := cast.ToString(in.Id)
 
-	entity, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

@@ -53,7 +53,7 @@ type (
 @server(
     prefix: /admin_api/v1
     group: role
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
@@ -64,16 +64,7 @@ service admin-api {
     @doc "获取角色资源列表"
     @handler FindRoleResources
     post /role/find_role_resources (IdReq) returns (RoleResourcesResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: role
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "创建角色"
     @handler AddRole
     post /role/add_role (RoleNewReq) returns (RoleBackDTO)
@@ -89,7 +80,6 @@ service admin-api {
     @doc "批量删除角色"
     @handler BatchDeleteRole
     post /role/batch_delete_role (IdsReq) returns (BatchResp)
-
 
 
     @doc "更新角色菜单权限"

@@ -26,10 +26,11 @@ type (
         // 保存
         Save(ctx context.Context, in *{{.UpperStartCamelName}}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error)
+		FindById(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error)
+		FindOne(ctx context.Context, conditions string, args ...interface{}) (out *{{.UpperStartCamelName}}, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*{{.UpperStartCamelName}}, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*{{.UpperStartCamelName}}, err error)
 	    FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
+		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*{{.UpperStartCamelName}}, total int64, err error)
 	    // add extra method in here
         {{- range $key, $value := .UniqueFields}}
             FindOneBy{{ funcFieldsKey $value}}(ctx context.Context, {{funcFieldsKeyVar $value}}) (out *{{$.UpperStartCamelName}},err error)
@@ -158,10 +159,27 @@ func (m *default{{.UpperStartCamelName}}Model) Save(ctx context.Context, in *{{.
 }
 
 // 查询记录
-func (m *default{{.UpperStartCamelName}}Model) FindOne(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error) {
+func (m *default{{.UpperStartCamelName}}Model) FindById(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, err
+}
+
+// 查询记录
+func (m *default{{.UpperStartCamelName}}Model) FindOne(ctx context.Context, conditions string, args ...interface{}) (out *{{.UpperStartCamelName}}, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.First(&out).Error
 	if err != nil {
 		return nil, err
 	}
@@ -185,8 +203,24 @@ func (m *default{{.UpperStartCamelName}}Model) FindALL(ctx context.Context, cond
 	return out, err
 }
 
+// 查询总数
+func (m *default{{.UpperStartCamelName}}Model) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
 // 分页查询记录
-func (m *default{{.UpperStartCamelName}}Model) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*{{.UpperStartCamelName}}, err error) {
+func (m *default{{.UpperStartCamelName}}Model) FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*{{.UpperStartCamelName}}, total int64, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
@@ -200,6 +234,11 @@ func (m *default{{.UpperStartCamelName}}Model) FindList(ctx context.Context, pag
 		db = db.Order(sorts)
 	}
 
+	err = db.Count(&total).Error
+    if err != nil {
+        return nil, 0, err
+    }
+
 	// 如果有分页参数
 	if page > 0 && size > 0 {
 		limit := size
@@ -210,27 +249,12 @@ func (m *default{{.UpperStartCamelName}}Model) FindList(ctx context.Context, pag
 	// 查询数据
 	err = db.Find(&list).Error
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
-	return list, nil
+	return list, total, nil
 }
 
-// 查询总数
-func (m *default{{.UpperStartCamelName}}Model) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有条件语句
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	err = db.Model(&{{.UpperStartCamelName}}{}).Count(&count).Error
-	if err != nil {
-		return 0, err
-	}
-	return count, nil
-}
 // add extra method in here
 {{- range $key, $value := .UniqueFields}}
 func (m *default{{$.UpperStartCamelName}}Model) FindOneBy{{ funcFieldsKey $value}}(ctx context.Context, {{funcFieldsKeyVar $value}}) (out *{{$.UpperStartCamelName}},err error) {

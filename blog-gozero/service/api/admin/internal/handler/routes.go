@@ -46,7 +46,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
+			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 获取用户分布地区
@@ -72,15 +72,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/account/find_account_online_list",
 					Handler: account.FindAccountOnlineListHandler(serverCtx),
 				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
 				{
 					// 修改用户角色
 					Method:  http.MethodPost,
@@ -92,27 +83,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/account/update_account_status",
 					Handler: account.UpdateAccountStatusHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取相册列表
-					Method:  http.MethodPost,
-					Path:    "/album/find_album_list",
-					Handler: album.FindAlbumListHandler(serverCtx),
-				},
-				{
-					// 查询相册
-					Method:  http.MethodPost,
-					Path:    "/album/get_album",
-					Handler: album.GetAlbumHandler(serverCtx),
 				},
 			}...,
 		),
@@ -136,25 +106,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: album.DeleteAlbumHandler(serverCtx),
 				},
 				{
+					// 分页获取相册列表
+					Method:  http.MethodPost,
+					Path:    "/album/find_album_list",
+					Handler: album.FindAlbumListHandler(serverCtx),
+				},
+				{
+					// 查询相册
+					Method:  http.MethodPost,
+					Path:    "/album/get_album",
+					Handler: album.GetAlbumHandler(serverCtx),
+				},
+				{
 					// 更新相册
 					Method:  http.MethodPut,
 					Path:    "/album/update_album",
 					Handler: album.UpdateAlbumHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取api路由列表
-					Method:  http.MethodPost,
-					Path:    "/api/find_api_list",
-					Handler: api.FindApiListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -190,6 +157,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: api.DeleteApiHandler(serverCtx),
 				},
 				{
+					// 分页获取api路由列表
+					Method:  http.MethodPost,
+					Path:    "/api/find_api_list",
+					Handler: api.FindApiListHandler(serverCtx),
+				},
+				{
 					// 同步api列表
 					Method:  http.MethodPost,
 					Path:    "/api/sync_api_list",
@@ -200,21 +173,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/api/update_api",
 					Handler: api.UpdateApiHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 查询文章列表
-					Method:  http.MethodPost,
-					Path:    "/article/find_article_list",
-					Handler: article.FindArticleListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -242,6 +200,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/article/export_article_list",
 					Handler: article.ExportArticleListHandler(serverCtx),
+				},
+				{
+					// 查询文章列表
+					Method:  http.MethodPost,
+					Path:    "/article/find_article_list",
+					Handler: article.FindArticleListHandler(serverCtx),
 				},
 				{
 					// 查询文章
@@ -301,21 +265,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取文章分类列表
-					Method:  http.MethodPost,
-					Path:    "/category/find_category_list",
-					Handler: category.FindCategoryListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
@@ -337,25 +286,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: category.DeleteCategoryHandler(serverCtx),
 				},
 				{
+					// 分页获取文章分类列表
+					Method:  http.MethodPost,
+					Path:    "/category/find_category_list",
+					Handler: category.FindCategoryListHandler(serverCtx),
+				},
+				{
 					// 更新文章分类
 					Method:  http.MethodPut,
 					Path:    "/category/update_category",
 					Handler: category.UpdateCategoryHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 查询评论列表(后台)
-					Method:  http.MethodPost,
-					Path:    "/comment/find_comment_back_list",
-					Handler: comment.FindCommentBackListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -379,6 +319,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: comment.DeleteCommentHandler(serverCtx),
 				},
 				{
+					// 查询评论列表(后台)
+					Method:  http.MethodPost,
+					Path:    "/comment/find_comment_back_list",
+					Handler: comment.FindCommentBackListHandler(serverCtx),
+				},
+				{
 					// 更新评论审核状态
 					Method:  http.MethodPut,
 					Path:    "/comment/update_comment_review",
@@ -387,28 +333,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			}...,
 		),
 		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取文件列表
-					Method:  http.MethodPost,
-					Path:    "/file/find_file_list",
-					Handler: file.FindFileListHandler(serverCtx),
-				},
-				{
-					// 获取文件列表
-					Method:  http.MethodPost,
-					Path:    "/file/list_upload_file",
-					Handler: file.ListUploadFileHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-		rest.WithMaxBytes(10485760),
 	)
 
 	server.AddRoutes(
@@ -428,6 +352,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: file.DeletesFileHandler(serverCtx),
 				},
 				{
+					// 分页获取文件列表
+					Method:  http.MethodPost,
+					Path:    "/file/find_file_list",
+					Handler: file.FindFileListHandler(serverCtx),
+				},
+				{
+					// 获取文件列表
+					Method:  http.MethodPost,
+					Path:    "/file/list_upload_file",
+					Handler: file.ListUploadFileHandler(serverCtx),
+				},
+				{
 					// 上传文件列表
 					Method:  http.MethodPost,
 					Path:    "/file/multi_upload_file",
@@ -443,21 +379,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		),
 		rest.WithPrefix("/admin_api/v1"),
 		rest.WithMaxBytes(10485760),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取友链列表
-					Method:  http.MethodPost,
-					Path:    "/friend/find_friend_list",
-					Handler: friend.FindFriendListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
 	)
 
 	server.AddRoutes(
@@ -483,25 +404,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: friend.DeleteFriendHandler(serverCtx),
 				},
 				{
+					// 分页获取友链列表
+					Method:  http.MethodPost,
+					Path:    "/friend/find_friend_list",
+					Handler: friend.FindFriendListHandler(serverCtx),
+				},
+				{
 					// 更新友链
 					Method:  http.MethodPut,
 					Path:    "/friend/update_friend",
 					Handler: friend.UpdateFriendHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取菜单列表
-					Method:  http.MethodPost,
-					Path:    "/menu/find_menu_list",
-					Handler: menu.FindMenuListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -537,6 +449,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: menu.DeleteMenuHandler(serverCtx),
 				},
 				{
+					// 分页获取菜单列表
+					Method:  http.MethodPost,
+					Path:    "/menu/find_menu_list",
+					Handler: menu.FindMenuListHandler(serverCtx),
+				},
+				{
 					// 同步菜单列表
 					Method:  http.MethodPost,
 					Path:    "/menu/sync_menu_list",
@@ -555,21 +473,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取操作记录列表
-					Method:  http.MethodPost,
-					Path:    "/operation_log/find_operation_log_list",
-					Handler: operation_log.FindOperationLogListHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
@@ -578,20 +481,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/operation_log/deletes_operation_log",
 					Handler: operation_log.DeletesOperationLogHandler(serverCtx),
 				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
 				{
-					// 分页获取页面列表
+					// 分页获取操作记录列表
 					Method:  http.MethodPost,
-					Path:    "/page/find_page_list",
-					Handler: page.FindPageListHandler(serverCtx),
+					Path:    "/operation_log/find_operation_log_list",
+					Handler: operation_log.FindOperationLogListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -615,25 +509,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: page.DeletePageHandler(serverCtx),
 				},
 				{
+					// 分页获取页面列表
+					Method:  http.MethodPost,
+					Path:    "/page/find_page_list",
+					Handler: page.FindPageListHandler(serverCtx),
+				},
+				{
 					// 更新页面
 					Method:  http.MethodPut,
 					Path:    "/page/update_page",
 					Handler: page.UpdatePageHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取照片列表
-					Method:  http.MethodPost,
-					Path:    "/photo/find_photo_list",
-					Handler: photo.FindPhotoListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -663,25 +548,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: photo.DeletePhotoHandler(serverCtx),
 				},
 				{
+					// 分页获取照片列表
+					Method:  http.MethodPost,
+					Path:    "/photo/find_photo_list",
+					Handler: photo.FindPhotoListHandler(serverCtx),
+				},
+				{
 					// 更新照片
 					Method:  http.MethodPut,
 					Path:    "/photo/update_photo",
 					Handler: photo.UpdatePhotoHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取留言列表
-					Method:  http.MethodPost,
-					Path:    "/remark/find_remark_list",
-					Handler: remark.FindRemarkListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -705,31 +581,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: remark.DeleteRemarkHandler(serverCtx),
 				},
 				{
+					// 分页获取留言列表
+					Method:  http.MethodPost,
+					Path:    "/remark/find_remark_list",
+					Handler: remark.FindRemarkListHandler(serverCtx),
+				},
+				{
 					// 更新留言
 					Method:  http.MethodPut,
 					Path:    "/remark/update_remark_review",
 					Handler: remark.UpdateRemarkReviewHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取角色列表
-					Method:  http.MethodPost,
-					Path:    "/role/find_role_list",
-					Handler: role.FindRoleListHandler(serverCtx),
-				},
-				{
-					// 获取角色资源列表
-					Method:  http.MethodPost,
-					Path:    "/role/find_role_resources",
-					Handler: role.FindRoleResourcesHandler(serverCtx),
 				},
 			}...,
 		),
@@ -759,6 +620,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: role.DeleteRoleHandler(serverCtx),
 				},
 				{
+					// 分页获取角色列表
+					Method:  http.MethodPost,
+					Path:    "/role/find_role_list",
+					Handler: role.FindRoleListHandler(serverCtx),
+				},
+				{
+					// 获取角色资源列表
+					Method:  http.MethodPost,
+					Path:    "/role/find_role_resources",
+					Handler: role.FindRoleResourcesHandler(serverCtx),
+				},
+				{
 					// 更新角色
 					Method:  http.MethodPut,
 					Path:    "/role/update_role",
@@ -775,21 +648,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/role/update_role_menus",
 					Handler: role.UpdateRoleMenusHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取标签列表
-					Method:  http.MethodPost,
-					Path:    "/tag/find_tag_list",
-					Handler: tag.FindTagListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -819,25 +677,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: tag.DeleteTagHandler(serverCtx),
 				},
 				{
+					// 分页获取标签列表
+					Method:  http.MethodPost,
+					Path:    "/tag/find_tag_list",
+					Handler: tag.FindTagListHandler(serverCtx),
+				},
+				{
 					// 更新标签
 					Method:  http.MethodPut,
 					Path:    "/tag/update_tag",
 					Handler: tag.UpdateTagHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
-					// 分页获取说说列表
-					Method:  http.MethodPost,
-					Path:    "/talk/find_talk_list",
-					Handler: talk.FindTalkListHandler(serverCtx),
 				},
 			}...,
 		),
@@ -861,6 +710,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: talk.DeleteTalkHandler(serverCtx),
 				},
 				{
+					// 分页获取说说列表
+					Method:  http.MethodPost,
+					Path:    "/talk/find_talk_list",
+					Handler: talk.FindTalkListHandler(serverCtx),
+				},
+				{
 					// 查询说说
 					Method:  http.MethodPost,
 					Path:    "/talk/get_talk",
@@ -879,7 +734,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
+			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
 					// 获取用户接口权限
@@ -924,8 +779,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
+			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
+				{
+					// 删除操作记录
+					Method:  http.MethodDelete,
+					Path:    "/visit_log/deletes_visit_log",
+					Handler: visit_log.DeletesVisitLogHandler(serverCtx),
+				},
 				{
 					// 分页获取操作记录列表
 					Method:  http.MethodPost,
@@ -942,21 +803,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 删除操作记录
-					Method:  http.MethodDelete,
-					Path:    "/visit_log/deletes_visit_log",
-					Handler: visit_log.DeletesVisitLogHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission},
-			[]rest.Route{
-				{
 					// 获取后台首页信息
 					Method:  http.MethodGet,
 					Path:    "/admin",
@@ -969,6 +815,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: website.GetAboutMeHandler(serverCtx),
 				},
 				{
+					// 更新关于我的信息
+					Method:  http.MethodPut,
+					Path:    "/admin/about_me",
+					Handler: website.UpdateAboutMeHandler(serverCtx),
+				},
+				{
 					// 获取网站配置
 					Method:  http.MethodGet,
 					Path:    "/admin/get_website_config",
@@ -979,21 +831,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/admin/system_state",
 					Handler: website.GetSystemStateHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithPrefix("/admin_api/v1"),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
-			[]rest.Route{
-				{
-					// 更新关于我的信息
-					Method:  http.MethodPut,
-					Path:    "/admin/about_me",
-					Handler: website.UpdateAboutMeHandler(serverCtx),
 				},
 				{
 					// 更新网站配置

@@ -31,23 +31,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: remark
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
     @doc "分页获取留言列表"
     @handler FindRemarkList
     post /remark/find_remark_list (RemarkQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: remark
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "更新留言"
     @handler UpdateRemarkReview
     put /remark/update_remark_review (RemarkReviewReq) returns (BatchResp)

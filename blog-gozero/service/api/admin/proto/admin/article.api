@@ -63,23 +63,14 @@ type (
 @server(
     prefix: /admin_api/v1
     group: article
-    middleware: JwtToken,Permission
+    middleware: JwtToken,Permission,OperationLog
 )
 
 service admin-api {
     @doc "查询文章列表"
     @handler FindArticleList
     post /article/find_article_list (ArticleQuery) returns (PageResp)
-}
 
-
-@server(
-    prefix: /admin_api/v1
-    group: article
-    middleware: JwtToken,Permission,OperationLog
-)
-
-service admin-api {
     @doc "导出文章列表"
     @handler ExportArticleList
     post /article/export_article_list (IdsReq) returns (EmptyResp)

@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"github.com/go-openapi/spec"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
+	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
@@ -23,12 +25,23 @@ type OperationLogMiddleware struct {
 	sp *spec.Swagger
 
 	sr syslogrpc.SyslogRpc
+
+	pr permissionrpc.PermissionRpc
+
+	cache *collection.Cache
 }
 
-func NewOperationLogMiddleware(sp *spec.Swagger, sr syslogrpc.SyslogRpc) *OperationLogMiddleware {
+func NewOperationLogMiddleware(sp *spec.Swagger, sr syslogrpc.SyslogRpc, pr permissionrpc.PermissionRpc) *OperationLogMiddleware {
+	cache, err := collection.NewCache(60 * 30)
+	if err != nil {
+		panic(err)
+	}
+
 	return &OperationLogMiddleware{
-		sp: sp,
-		sr: sr,
+		sp:    sp,
+		sr:    sr,
+		pr:    pr,
+		cache: cache,
 	}
 }
 
@@ -37,8 +50,15 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 	return func(w http.ResponseWriter, r *http.Request) {
 		logx.Infof("OperationLogMiddleware Handle path: %v", r.URL.Path)
 
+		ok, err := m.isTraceable(r.URL.Path)
+		if err != nil || !ok {
+			logx.Infof("OperationLogMiddleware Handle isTraceable err: %v", err)
+			next.ServeHTTP(w, r)
+			return
+		}
+
 		var module, desc string
-		api := m.getApi(r.URL.Path, r.Method)
+		api := m.getApiSpec(r.URL.Path, r.Method)
 		if api != nil {
 			if len(api.Tags) > 0 {
 				module = api.Tags[0]
@@ -130,7 +150,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 	}
 }
 
-func (m *OperationLogMiddleware) getApi(path string, method string) *spec.Operation {
+func (m *OperationLogMiddleware) getApiSpec(path string, method string) *spec.Operation {
 	sp := m.sp
 	for k, v := range sp.Paths.Paths {
 		if k == path {
@@ -154,6 +174,27 @@ func (m *OperationLogMiddleware) getApi(path string, method string) *spec.Operat
 	}
 
 	return nil
+}
+
+func (m *OperationLogMiddleware) isTraceable(path string) (bool, error) {
+	if v, ok := m.cache.Get(path); ok {
+		return v.(bool), nil
+	}
+
+	// 收集资源
+	apiList, err := m.pr.FindAllApi(context.Background(), &permissionrpc.EmptyReq{})
+	if err != nil {
+		return false, err
+	}
+	var res bool
+	for _, v := range apiList.List {
+		if v.Path == path {
+			res = v.Traceable == 1
+		}
+		m.cache.Set(v.Path, v.Traceable == 1)
+	}
+
+	return res, nil
 }
 
 // responseRecorder 记录响应体和状态码

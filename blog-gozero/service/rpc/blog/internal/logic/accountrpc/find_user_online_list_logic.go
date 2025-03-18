@@ -35,18 +35,13 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	params = append(params, time.Now().Add(-time.Hour*24*7))
 
 	// 查找在线用户
-	result, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	total, err := l.svcCtx.TUserLoginHistoryModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TUserLoginHistoryModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var uids []string
-	for _, item := range result {
+	for _, item := range records {
 		uids = append(uids, item.UserId)
 	}
 

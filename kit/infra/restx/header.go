@@ -135,9 +135,9 @@ func GetClientIP(r *http.Request) string {
 
 	// 如果都没有，使用 RemoteAddr，但需要去掉端口
 	hostPort := strings.Split(r.RemoteAddr, ":")
-	if len(hostPort) > 0 {
+	if len(hostPort) == 2 {
 		return hostPort[0]
 	}
 
-	return ""
+	return r.RemoteAddr
 }

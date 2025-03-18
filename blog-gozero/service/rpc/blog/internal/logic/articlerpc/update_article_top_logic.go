@@ -26,7 +26,7 @@ func NewUpdateArticleTopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 // 更新文章置顶
 func (l *UpdateArticleTopLogic) UpdateArticleTop(in *articlerpc.UpdateArticleTopReq) (*articlerpc.ArticlePreview, error) {
 
-	record, err := l.svcCtx.TArticleModel.FindOne(l.ctx, in.ArticleId)
+	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.ArticleId)
 	if err != nil {
 		return nil, err
 	}

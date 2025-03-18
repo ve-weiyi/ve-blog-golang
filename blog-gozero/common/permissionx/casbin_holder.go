@@ -11,7 +11,6 @@ import (
 	jsonadapter "github.com/casbin/json-adapter/v2"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/redismqx"
 )
 
 const SubjectObjectAction = `
@@ -32,30 +31,25 @@ m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 `
 
 type PermissionHolder interface {
-	// 自动加载权限
-	StartAutoLoadPolicy()
 	// 加载权限
 	LoadPolicy() error
 	// 清除权限
-	ClearPolicy() error
+	ReloadPolicy() error
 	// 验证用户是否有权限
 	Enforce(user string, resource string, action string) error
 }
 
 // 角色资源管理器
 type CasbinHolder struct {
-	sync.RWMutex
+	rw sync.RWMutex
 
 	pr permissionrpc.PermissionRpc
 
-	rmq *redismqx.RedisMqConn
 	// casbin
 	enforcer *casbin.SyncedCachedEnforcer
 
 	// 用户角色缓存 key: (user), value: role_key[]
 	user map[string][]string
-	// 白名单用户
-	whiteList map[string]bool
 }
 
 func NewCasbinHolder(redisAddr string, pr permissionrpc.PermissionRpc) *CasbinHolder {
@@ -73,30 +67,23 @@ func NewCasbinHolder(redisAddr string, pr permissionrpc.PermissionRpc) *CasbinHo
 	enforcer, _ := casbin.NewSyncedCachedEnforcer(m, adapter)
 	enforcer.SetExpireTime(60 * 60)
 	return &CasbinHolder{
+		rw:       sync.RWMutex{},
 		pr:       pr,
-		rmq:      redismqx.NewRedisMqConn(redisAddr, "permission:casbin"),
 		enforcer: enforcer,
 		user:     make(map[string][]string),
 	}
 }
 
-func (m *CasbinHolder) StartAutoLoadPolicy() {
-	// 在一个 Goroutine 中启动订阅权限更新消息
-	go m.rmq.SubscribeMessage(func(ctx context.Context, msg []byte) error {
-		fmt.Printf("[收到消息] %s\n", msg)
-		return m.LoadPolicy()
-	})
+func (m *CasbinHolder) ReloadPolicy() error {
+	m.rw.Lock()
+	defer m.rw.Unlock()
 
-	return
-}
-
-func (m *CasbinHolder) ClearPolicy() error {
-	return m.rmq.PublishMessage(context.Background(), []byte("reload policy"))
+	return m.LoadPolicy()
 }
 
 func (m *CasbinHolder) LoadPolicy() error {
-	m.Lock()
-	defer m.Unlock()
+	m.rw.Lock()
+	defer m.rw.Unlock()
 
 	// 重置所有权限
 	m.enforcer.ClearPolicy()
@@ -165,8 +152,8 @@ func (m *CasbinHolder) LoadPolicy() error {
 }
 
 func (m *CasbinHolder) Enforce(user string, resource string, action string) error {
-	m.RLock()
-	defer m.RUnlock()
+	m.rw.RUnlock()
+	defer m.rw.RUnlock()
 
 	err := m.dynamicLoadUserRoles(user)
 	if err != nil {
