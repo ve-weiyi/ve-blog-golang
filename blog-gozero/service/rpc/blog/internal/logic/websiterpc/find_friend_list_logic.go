@@ -28,24 +28,19 @@ func NewFindFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 func (l *FindFriendListLogic) FindFriendList(in *websiterpc.FindFriendListReq) (*websiterpc.FindFriendListResp, error) {
 	page, size, sorts, conditions, params := convertFriendQuery(in)
 
-	result, err := l.svcCtx.TFriendModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TFriendModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TFriendModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*websiterpc.FriendDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertFriendOut(v))
 	}
 
 	return &websiterpc.FindFriendListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

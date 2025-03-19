@@ -26,18 +26,18 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 
 // 登出
 func (l *LogoutLogic) Logout(in *accountrpc.LogoutReq) (*accountrpc.LogoutResp, error) {
-	list, err := l.svcCtx.TUserLoginHistoryModel.FindList(l.ctx, 1, 1, "id desc", "user_id = ?", in.UserId)
+	records, _, err := l.svcCtx.TUserLoginHistoryModel.FindListAndTotal(l.ctx, 1, 1, "id desc", "user_id = ?", in.UserId)
 	if err != nil {
 		return nil, err
 	}
 
-	if len(list) == 0 {
+	if len(records) == 0 {
 		return &accountrpc.LogoutResp{
 			UserId: in.UserId,
 		}, nil
 	}
 
-	find := list[0]
+	find := records[0]
 
 	find.LogoutAt = time.Now()
 	// 修改登出时间

@@ -46,12 +46,7 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 		params = append(params, "%"+in.CategoryName+"%")
 	}
 
-	records, err := l.svcCtx.TCategoryModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TCategoryModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TCategoryModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,6 +58,6 @@ func (l *FindCategoryListLogic) FindCategoryList(in *articlerpc.FindCategoryList
 
 	return &articlerpc.FindCategoryListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }

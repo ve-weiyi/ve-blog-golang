@@ -28,24 +28,19 @@ func NewFindVisitLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *FindVisitLogListLogic) FindVisitLogList(in *syslogrpc.FindVisitLogListReq) (*syslogrpc.FindVisitLogListResp, error) {
 	page, size, sorts, conditions, params := convertVisitLogQuery(in)
 
-	result, err := l.svcCtx.TVisitLogModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TVisitLogModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TVisitLogModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*syslogrpc.VisitLogDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertVisitLogOut(v))
 	}
 
 	return &syslogrpc.FindVisitLogListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

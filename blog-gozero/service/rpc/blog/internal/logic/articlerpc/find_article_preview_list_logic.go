@@ -30,7 +30,7 @@ func (l *FindArticlePreviewListLogic) FindArticlePreviewList(in *articlerpc.Find
 	page, size, sorts, conditions, params := helper.convertArticleQuery(in)
 
 	// 查询文章信息
-	records, err := l.svcCtx.TArticleModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, total, err := l.svcCtx.TArticleModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,8 @@ func (l *FindArticlePreviewListLogic) FindArticlePreviewList(in *articlerpc.Find
 		list = append(list, helper.convertArticlePreviewOut(v))
 	}
 
-	resp := &articlerpc.FindArticlePreviewListResp{}
-	resp.List = list
-	return resp, nil
+	return &articlerpc.FindArticlePreviewListResp{
+		List:  list,
+		Total: total,
+	}, nil
 }

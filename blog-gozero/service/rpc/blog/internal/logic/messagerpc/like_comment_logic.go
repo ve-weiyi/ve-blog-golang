@@ -35,7 +35,7 @@ func (l *LikeCommentLogic) LikeComment(in *messagerpc.IdReq) (*messagerpc.EmptyR
 	}
 	id := cast.ToString(in.Id)
 
-	entity, err := l.svcCtx.TCommentModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TCommentModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

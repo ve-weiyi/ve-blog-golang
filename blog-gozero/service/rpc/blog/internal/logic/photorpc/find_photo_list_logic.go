@@ -28,18 +28,19 @@ func NewFindPhotoListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fin
 func (l *FindPhotoListLogic) FindPhotoList(in *photorpc.FindPhotoListReq) (*photorpc.FindPhotoListResp, error) {
 	page, size, sorts, conditions, params := convertPhotoQuery(in)
 
-	result, err := l.svcCtx.TPhotoModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, total, err := l.svcCtx.TPhotoModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*photorpc.PhotoDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertPhotoOut(v))
 	}
 
 	return &photorpc.FindPhotoListResp{
-		List: list,
+		List:  list,
+		Total: total,
 	}, nil
 }
 

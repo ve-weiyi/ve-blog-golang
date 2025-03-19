@@ -35,7 +35,7 @@ func (l *LikeTalkLogic) LikeTalk(in *talkrpc.IdReq) (*talkrpc.EmptyResp, error) 
 	}
 	id := cast.ToString(in.Id)
 
-	entity, err := l.svcCtx.TTalkModel.FindOne(l.ctx, in.Id)
+	entity, err := l.svcCtx.TTalkModel.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err
 	}

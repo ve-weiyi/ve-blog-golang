@@ -27,10 +27,11 @@ type (
 		// 保存
 		Save(ctx context.Context, in *TRole) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *TRole, err error)
+		FindById(ctx context.Context, id int64) (out *TRole, err error)
+		FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TRole, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TRole, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRole, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
+		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRole, total int64, err error)
 		// add extra method in here
 	}
 
@@ -38,7 +39,7 @@ type (
 	TRole struct {
 		Id          int64     `json:"id" gorm:"column:id"`                     // 主键id
 		ParentId    int64     `json:"parent_id" gorm:"column:parent_id"`       // 父角色id
-		RoleKey     string    `json:"role_key" gorm:"column:role_key"`         // 角色名
+		RoleKey     string    `json:"role_key" gorm:"column:role_key"`         // 角色标识
 		RoleLabel   string    `json:"role_label" gorm:"column:role_label"`     // 角色标签
 		RoleComment string    `json:"role_comment" gorm:"column:role_comment"` // 角色备注
 		IsDisable   int64     `json:"is_disable" gorm:"column:is_disable"`     // 是否禁用  0否 1是
@@ -162,10 +163,27 @@ func (m *defaultTRoleModel) Save(ctx context.Context, in *TRole) (rows int64, er
 }
 
 // 查询记录
-func (m *defaultTRoleModel) FindOne(ctx context.Context, id int64) (out *TRole, err error) {
+func (m *defaultTRoleModel) FindById(ctx context.Context, id int64) (out *TRole, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, err
+}
+
+// 查询记录
+func (m *defaultTRoleModel) FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TRole, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.First(&out).Error
 	if err != nil {
 		return nil, err
 	}
@@ -189,37 +207,6 @@ func (m *defaultTRoleModel) FindALL(ctx context.Context, conditions string, args
 	return out, err
 }
 
-// 分页查询记录
-func (m *defaultTRoleModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRole, err error) {
-	// 插入db
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有搜索条件
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	// 如果有排序参数
-	if len(sorts) != 0 {
-		db = db.Order(sorts)
-	}
-
-	// 如果有分页参数
-	if page > 0 && size > 0 {
-		limit := size
-		offset := (page - 1) * limit
-		db = db.Limit(limit).Offset(offset)
-	}
-
-	// 查询数据
-	err = db.Find(&list).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return list, nil
-}
-
 // 查询总数
 func (m *defaultTRoleModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -234,6 +221,42 @@ func (m *defaultTRoleModel) FindCount(ctx context.Context, conditions string, ar
 		return 0, err
 	}
 	return count, nil
+}
+
+// 分页查询记录
+func (m *defaultTRoleModel) FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TRole, total int64, err error) {
+	// 插入db
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有搜索条件
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	// 如果有排序参数
+	if len(sorts) != 0 {
+		db = db.Order(sorts)
+	}
+
+	err = db.Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// 如果有分页参数
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return list, total, nil
 }
 
 // add extra method in here

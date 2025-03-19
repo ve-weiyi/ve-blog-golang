@@ -30,18 +30,13 @@ func NewFindUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindUserListLogic) FindUserList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserListResp, error) {
 	page, size, sorts, conditions, params := convertUserQuery(in)
 
-	result, err := l.svcCtx.TUserModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	total, err := l.svcCtx.TUserModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TUserModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*accountrpc.User
-	for _, item := range result {
+	for _, item := range records {
 		list = append(list, convertUserOut(item))
 	}
 

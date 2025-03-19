@@ -28,18 +28,19 @@ func NewFindTalkListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindTalkListLogic) FindTalkList(in *talkrpc.FindTalkListReq) (*talkrpc.FindTalkListResp, error) {
 	page, size, sorts, conditions, params := convertTalkQuery(in)
 
-	result, err := l.svcCtx.TTalkModel.FindList(l.ctx, page, size, sorts, conditions, params...)
+	records, total, err := l.svcCtx.TTalkModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*talkrpc.TalkDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertTalkOut(v))
 	}
 
 	return &talkrpc.FindTalkListResp{
-		List: list,
+		List:  list,
+		Total: total,
 	}, nil
 }
 

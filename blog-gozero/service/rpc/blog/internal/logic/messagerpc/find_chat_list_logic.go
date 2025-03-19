@@ -29,24 +29,19 @@ func NewFindChatListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Find
 func (l *FindChatListLogic) FindChatList(in *messagerpc.FindChatListReq) (*messagerpc.FindChatListResp, error) {
 	page, size, sorts, conditions, params := convertChatQuery(in)
 
-	result, err := l.svcCtx.TChatModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TChatModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TChatModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*messagerpc.ChatDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertChatOut(v))
 	}
 
 	return &messagerpc.FindChatListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

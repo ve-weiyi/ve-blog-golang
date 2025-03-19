@@ -28,24 +28,19 @@ func NewFindFileFolderListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *FindFileFolderListLogic) FindFileFolderList(in *resourcerpc.FindFileFolderListReq) (*resourcerpc.FindFileFolderListResp, error) {
 	page, size, sorts, conditions, params := convertFileFolderQuery(in)
 
-	result, err := l.svcCtx.TFileFolderModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TFileFolderModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TFileFolderModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*resourcerpc.FileFolderDetails
-	for _, v := range result {
+	for _, v := range records {
 		list = append(list, convertFileFolderOut(v))
 	}
 
 	return &resourcerpc.FindFileFolderListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

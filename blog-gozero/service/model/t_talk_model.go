@@ -27,10 +27,11 @@ type (
 		// 保存
 		Save(ctx context.Context, in *TTalk) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *TTalk, err error)
+		FindById(ctx context.Context, id int64) (out *TTalk, err error)
+		FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TTalk, err error)
 		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TTalk, err error)
-		FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TTalk, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
+		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TTalk, total int64, err error)
 		// add extra method in here
 	}
 
@@ -162,10 +163,27 @@ func (m *defaultTTalkModel) Save(ctx context.Context, in *TTalk) (rows int64, er
 }
 
 // 查询记录
-func (m *defaultTTalkModel) FindOne(ctx context.Context, id int64) (out *TTalk, err error) {
+func (m *defaultTTalkModel) FindById(ctx context.Context, id int64) (out *TTalk, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, err
+}
+
+// 查询记录
+func (m *defaultTTalkModel) FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TTalk, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有条件语句
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	err = db.First(&out).Error
 	if err != nil {
 		return nil, err
 	}
@@ -189,37 +207,6 @@ func (m *defaultTTalkModel) FindALL(ctx context.Context, conditions string, args
 	return out, err
 }
 
-// 分页查询记录
-func (m *defaultTTalkModel) FindList(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TTalk, err error) {
-	// 插入db
-	db := m.DbEngin.WithContext(ctx).Table(m.table)
-
-	// 如果有搜索条件
-	if len(conditions) != 0 {
-		db = db.Where(conditions, args...)
-	}
-
-	// 如果有排序参数
-	if len(sorts) != 0 {
-		db = db.Order(sorts)
-	}
-
-	// 如果有分页参数
-	if page > 0 && size > 0 {
-		limit := size
-		offset := (page - 1) * limit
-		db = db.Limit(limit).Offset(offset)
-	}
-
-	// 查询数据
-	err = db.Find(&list).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return list, nil
-}
-
 // 查询总数
 func (m *defaultTTalkModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
@@ -234,6 +221,42 @@ func (m *defaultTTalkModel) FindCount(ctx context.Context, conditions string, ar
 		return 0, err
 	}
 	return count, nil
+}
+
+// 分页查询记录
+func (m *defaultTTalkModel) FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TTalk, total int64, err error) {
+	// 插入db
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	// 如果有搜索条件
+	if len(conditions) != 0 {
+		db = db.Where(conditions, args...)
+	}
+
+	// 如果有排序参数
+	if len(sorts) != 0 {
+		db = db.Order(sorts)
+	}
+
+	err = db.Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	// 如果有分页参数
+	if page > 0 && size > 0 {
+		limit := size
+		offset := (page - 1) * limit
+		db = db.Limit(limit).Offset(offset)
+	}
+
+	// 查询数据
+	err = db.Find(&list).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return list, total, nil
 }
 
 // add extra method in here

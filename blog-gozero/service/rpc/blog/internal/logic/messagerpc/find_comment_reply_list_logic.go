@@ -28,25 +28,19 @@ func NewFindCommentReplyListLogic(ctx context.Context, svcCtx *svc.ServiceContex
 func (l *FindCommentReplyListLogic) FindCommentReplyList(in *messagerpc.FindCommentReplyListReq) (*messagerpc.FindCommentReplyListResp, error) {
 	page, size, sorts, conditions, params := convertCommentReplyQuery(in)
 
-	result, err := l.svcCtx.TCommentModel.FindList(l.ctx, page, size, sorts, conditions, params...)
-	if err != nil {
-		return nil, err
-	}
-
-	count, err := l.svcCtx.TCommentModel.FindCount(l.ctx, conditions, params...)
+	records, total, err := l.svcCtx.TCommentModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
 	if err != nil {
 		return nil, err
 	}
 
 	var list []*messagerpc.CommentDetails
-	for _, v := range result {
-		m := convertCommentOut(v)
-		list = append(list, m)
+	for _, v := range records {
+		list = append(list, convertCommentOut(v))
 	}
 
 	return &messagerpc.FindCommentReplyListResp{
 		List:  list,
-		Total: count,
+		Total: total,
 	}, nil
 }
 

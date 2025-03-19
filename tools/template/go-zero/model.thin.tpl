@@ -23,7 +23,7 @@ type (
         // 保存
         Save(ctx context.Context, in *{{.UpperStartCamelName}}) (rows int64, err error)
 		// 查询
-		FindOne(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error)
+		FindById(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error)
 	    // add extra method in here
         {{- range $key, $value := .UniqueFields}}
             FindOneBy{{ funcFieldsKey $value}}(ctx context.Context, {{funcFieldsKeyVar $value}}) (out *{{$.UpperStartCamelName}},err error)
@@ -111,7 +111,7 @@ func (m *default{{.UpperStartCamelName}}Model) Save(ctx context.Context, in *{{.
 }
 
 // 查询记录
-func (m *default{{.UpperStartCamelName}}Model) FindOne(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error) {
+func (m *default{{.UpperStartCamelName}}Model) FindById(ctx context.Context, id int64) (out *{{.UpperStartCamelName}}, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
