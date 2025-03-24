@@ -28,7 +28,7 @@ func NewFindAccountAreaAnalysisLogic(ctx context.Context, svcCtx *svc.ServiceCon
 func (l *FindAccountAreaAnalysisLogic) FindAccountAreaAnalysis(req *types.AccountQuery) (resp *types.PageResp, err error) {
 	in := &accountrpc.EmptyReq{}
 	// 查询用户数量
-	users, err := l.svcCtx.AccountRpc.GetUserAreasAnalysis(l.ctx, in)
+	users, err := l.svcCtx.AccountRpc.AnalysisUserAreas(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

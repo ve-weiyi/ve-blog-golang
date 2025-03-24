@@ -14,6 +14,7 @@ import (
 )
 
 type (
+	AnalysisUserAreasResp    = accountrpc.AnalysisUserAreasResp
 	AnalysisUserResp         = accountrpc.AnalysisUserResp
 	BatchResp                = accountrpc.BatchResp
 	BindUserEmailReq         = accountrpc.BindUserEmailReq
@@ -24,7 +25,6 @@ type (
 	FindUserInfoListResp     = accountrpc.FindUserInfoListResp
 	FindUserListReq          = accountrpc.FindUserListReq
 	FindUserListResp         = accountrpc.FindUserListResp
-	GetUserAreasAnalysisResp = accountrpc.GetUserAreasAnalysisResp
 	IdReq                    = accountrpc.IdReq
 	IdsReq                   = accountrpc.IdsReq
 	LoginReq                 = accountrpc.LoginReq
@@ -37,6 +37,7 @@ type (
 	RegisterReq              = accountrpc.RegisterReq
 	ResetPasswordReq         = accountrpc.ResetPasswordReq
 	UpdateUserInfoReq        = accountrpc.UpdateUserInfoReq
+	UpdateUserPasswordReq    = accountrpc.UpdateUserPasswordReq
 	UpdateUserStatusReq      = accountrpc.UpdateUserStatusReq
 	User                     = accountrpc.User
 	UserArea                 = accountrpc.UserArea
@@ -75,6 +76,8 @@ type (
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户状态
 		UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 修改用户密码
+		UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 查找用户列表
 		FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
 		// 查找在线用户列表
@@ -86,7 +89,7 @@ type (
 		// 查询用户数量
 		AnalysisUser(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserResp, error)
 		// 查询用户分布区域
-		GetUserAreasAnalysis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetUserAreasAnalysisResp, error)
+		AnalysisUserAreas(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error)
 	}
 
 	defaultAccountRpc struct {
@@ -184,6 +187,12 @@ func (m *defaultAccountRpc) UpdateUserStatus(ctx context.Context, in *UpdateUser
 	return client.UpdateUserStatus(ctx, in, opts...)
 }
 
+// 修改用户密码
+func (m *defaultAccountRpc) UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.UpdateUserPassword(ctx, in, opts...)
+}
+
 // 查找用户列表
 func (m *defaultAccountRpc) FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
@@ -215,7 +224,7 @@ func (m *defaultAccountRpc) AnalysisUser(ctx context.Context, in *EmptyReq, opts
 }
 
 // 查询用户分布区域
-func (m *defaultAccountRpc) GetUserAreasAnalysis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetUserAreasAnalysisResp, error) {
+func (m *defaultAccountRpc) AnalysisUserAreas(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.GetUserAreasAnalysis(ctx, in, opts...)
+	return client.AnalysisUserAreas(ctx, in, opts...)
 }

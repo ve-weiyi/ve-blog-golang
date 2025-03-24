@@ -2241,7 +2241,11 @@
         "password": {
           "type": "string"
         },
-        "verify_code": {
+        "captcha_key": {
+          "type": "string",
+          "description": " 验证码key"
+        },
+        "captcha_code": {
           "type": "string",
           "description": " 验证码"
         }
