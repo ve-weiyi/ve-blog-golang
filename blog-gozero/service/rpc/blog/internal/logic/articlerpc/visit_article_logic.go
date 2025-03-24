@@ -28,11 +28,21 @@ func NewVisitArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Visi
 
 // 访问文章
 func (l *VisitArticleLogic) VisitArticle(in *articlerpc.IdReq) (*articlerpc.CountResp, error) {
+	record, err := l.svcCtx.TArticleModel.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	record.ViewCount++
+	_, err = l.svcCtx.TArticleModel.Save(l.ctx, record)
+	if err != nil {
+		return nil, err
+	}
+
 	id := cast.ToString(in.Id)
 	key := rediskey.GetArticleViewCountKey()
-
 	// 浏览量+1
-	_, err := l.svcCtx.Redis.ZIncrBy(l.ctx, key, 1, id).Result()
+	_, err = l.svcCtx.Redis.ZIncrBy(l.ctx, key, 1, id).Result()
 	if err != nil {
 		return nil, err
 	}

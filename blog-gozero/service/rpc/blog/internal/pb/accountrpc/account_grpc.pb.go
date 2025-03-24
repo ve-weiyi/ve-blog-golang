@@ -37,12 +37,13 @@ const (
 	AccountRpc_GetUserInfo_FullMethodName              = "/accountrpc.AccountRpc/GetUserInfo"
 	AccountRpc_UpdateUserInfo_FullMethodName           = "/accountrpc.AccountRpc/UpdateUserInfo"
 	AccountRpc_UpdateUserStatus_FullMethodName         = "/accountrpc.AccountRpc/UpdateUserStatus"
+	AccountRpc_UpdateUserPassword_FullMethodName       = "/accountrpc.AccountRpc/UpdateUserPassword"
 	AccountRpc_FindUserList_FullMethodName             = "/accountrpc.AccountRpc/FindUserList"
 	AccountRpc_FindUserOnlineList_FullMethodName       = "/accountrpc.AccountRpc/FindUserOnlineList"
 	AccountRpc_FindUserInfoList_FullMethodName         = "/accountrpc.AccountRpc/FindUserInfoList"
 	AccountRpc_FindUserLoginHistoryList_FullMethodName = "/accountrpc.AccountRpc/FindUserLoginHistoryList"
 	AccountRpc_AnalysisUser_FullMethodName             = "/accountrpc.AccountRpc/AnalysisUser"
-	AccountRpc_GetUserAreasAnalysis_FullMethodName     = "/accountrpc.AccountRpc/GetUserAreasAnalysis"
+	AccountRpc_AnalysisUserAreas_FullMethodName        = "/accountrpc.AccountRpc/AnalysisUserAreas"
 )
 
 // AccountRpcClient is the client API for AccountRpc service.
@@ -77,6 +78,8 @@ type AccountRpcClient interface {
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户状态
 	UpdateUserStatus(ctx context.Context, in *UpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 修改用户密码
+	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 查找用户列表
 	FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
 	// 查找在线用户列表
@@ -88,7 +91,7 @@ type AccountRpcClient interface {
 	// 查询用户数量
 	AnalysisUser(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserResp, error)
 	// 查询用户分布区域
-	GetUserAreasAnalysis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetUserAreasAnalysisResp, error)
+	AnalysisUserAreas(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error)
 }
 
 type accountRpcClient struct {
@@ -225,6 +228,15 @@ func (c *accountRpcClient) UpdateUserStatus(ctx context.Context, in *UpdateUserS
 	return out, nil
 }
 
+func (c *accountRpcClient) UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, AccountRpc_UpdateUserPassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountRpcClient) FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error) {
 	out := new(FindUserListResp)
 	err := c.cc.Invoke(ctx, AccountRpc_FindUserList_FullMethodName, in, out, opts...)
@@ -270,9 +282,9 @@ func (c *accountRpcClient) AnalysisUser(ctx context.Context, in *EmptyReq, opts 
 	return out, nil
 }
 
-func (c *accountRpcClient) GetUserAreasAnalysis(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetUserAreasAnalysisResp, error) {
-	out := new(GetUserAreasAnalysisResp)
-	err := c.cc.Invoke(ctx, AccountRpc_GetUserAreasAnalysis_FullMethodName, in, out, opts...)
+func (c *accountRpcClient) AnalysisUserAreas(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserAreasResp, error) {
+	out := new(AnalysisUserAreasResp)
+	err := c.cc.Invoke(ctx, AccountRpc_AnalysisUserAreas_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -311,6 +323,8 @@ type AccountRpcServer interface {
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*EmptyResp, error)
 	// 修改用户状态
 	UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*EmptyResp, error)
+	// 修改用户密码
+	UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error)
 	// 查找用户列表
 	FindUserList(context.Context, *FindUserListReq) (*FindUserListResp, error)
 	// 查找在线用户列表
@@ -322,7 +336,7 @@ type AccountRpcServer interface {
 	// 查询用户数量
 	AnalysisUser(context.Context, *EmptyReq) (*AnalysisUserResp, error)
 	// 查询用户分布区域
-	GetUserAreasAnalysis(context.Context, *EmptyReq) (*GetUserAreasAnalysisResp, error)
+	AnalysisUserAreas(context.Context, *EmptyReq) (*AnalysisUserAreasResp, error)
 	mustEmbedUnimplementedAccountRpcServer()
 }
 
@@ -372,6 +386,9 @@ func (UnimplementedAccountRpcServer) UpdateUserInfo(context.Context, *UpdateUser
 func (UnimplementedAccountRpcServer) UpdateUserStatus(context.Context, *UpdateUserStatusReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserStatus not implemented")
 }
+func (UnimplementedAccountRpcServer) UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPassword not implemented")
+}
 func (UnimplementedAccountRpcServer) FindUserList(context.Context, *FindUserListReq) (*FindUserListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserList not implemented")
 }
@@ -387,8 +404,8 @@ func (UnimplementedAccountRpcServer) FindUserLoginHistoryList(context.Context, *
 func (UnimplementedAccountRpcServer) AnalysisUser(context.Context, *EmptyReq) (*AnalysisUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisUser not implemented")
 }
-func (UnimplementedAccountRpcServer) GetUserAreasAnalysis(context.Context, *EmptyReq) (*GetUserAreasAnalysisResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserAreasAnalysis not implemented")
+func (UnimplementedAccountRpcServer) AnalysisUserAreas(context.Context, *EmptyReq) (*AnalysisUserAreasResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnalysisUserAreas not implemented")
 }
 func (UnimplementedAccountRpcServer) mustEmbedUnimplementedAccountRpcServer() {}
 
@@ -655,6 +672,24 @@ func _AccountRpc_UpdateUserStatus_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountRpc_UpdateUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserPasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).UpdateUserPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_UpdateUserPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).UpdateUserPassword(ctx, req.(*UpdateUserPasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountRpc_FindUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FindUserListReq)
 	if err := dec(in); err != nil {
@@ -745,20 +780,20 @@ func _AccountRpc_AnalysisUser_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountRpc_GetUserAreasAnalysis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountRpc_AnalysisUserAreas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EmptyReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountRpcServer).GetUserAreasAnalysis(ctx, in)
+		return srv.(AccountRpcServer).AnalysisUserAreas(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountRpc_GetUserAreasAnalysis_FullMethodName,
+		FullMethod: AccountRpc_AnalysisUserAreas_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).GetUserAreasAnalysis(ctx, req.(*EmptyReq))
+		return srv.(AccountRpcServer).AnalysisUserAreas(ctx, req.(*EmptyReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -827,6 +862,10 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountRpc_UpdateUserStatus_Handler,
 		},
 		{
+			MethodName: "UpdateUserPassword",
+			Handler:    _AccountRpc_UpdateUserPassword_Handler,
+		},
+		{
 			MethodName: "FindUserList",
 			Handler:    _AccountRpc_FindUserList_Handler,
 		},
@@ -847,8 +886,8 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountRpc_AnalysisUser_Handler,
 		},
 		{
-			MethodName: "GetUserAreasAnalysis",
-			Handler:    _AccountRpc_GetUserAreasAnalysis_Handler,
+			MethodName: "AnalysisUserAreas",
+			Handler:    _AccountRpc_AnalysisUserAreas_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
