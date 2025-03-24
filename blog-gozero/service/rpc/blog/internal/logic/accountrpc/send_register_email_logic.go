@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/mailtemplate"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -45,13 +46,14 @@ func (l *SendRegisterEmailLogic) SendRegisterEmail(in *accountrpc.UserEmailReq) 
 	// 发送验证码邮件
 	key := rediskey.GetCaptchaKey(constant.Register, in.Username)
 	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
-	data := mail.CaptchaEmail{
+	data := mailtemplate.CaptchaEmail{
 		Username: in.Username,
+		Content:  "欢迎注册我的博客平台。",
 		Code:     code,
 	}
 
 	// 组装邮件内容
-	content, err := tempx.TempParseString(mail.TempRegister, data)
+	content, err := tempx.TempParseString(mailtemplate.TempCaptchaCode, data)
 	if err != nil {
 		return nil, err
 	}

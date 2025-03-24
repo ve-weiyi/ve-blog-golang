@@ -4,14 +4,14 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/mailtemplate"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/tempx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -46,13 +46,14 @@ func (l *SendResetPasswordEmailLogic) SendResetPasswordEmail(in *accountrpc.User
 	// 发送验证码邮件
 	key := rediskey.GetCaptchaKey(constant.ResetPwd, in.Username)
 	code, _ := l.svcCtx.CaptchaHolder.GetCodeCaptcha(key)
-	data := mail.CaptchaEmail{
+	data := mailtemplate.CaptchaEmail{
 		Username: in.Username,
+		Content:  "你的账号正在重置密码。",
 		Code:     code,
 	}
 
 	// 组装邮件内容
-	content, err := tempx.TempParseString(mail.TempForgetPassword, data)
+	content, err := tempx.TempParseString(mailtemplate.TempCaptchaCode, data)
 	if err != nil {
 		return nil, err
 	}
