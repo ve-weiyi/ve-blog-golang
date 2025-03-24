@@ -49,6 +49,7 @@ type (
 		IsDelete       int64     `json:"is_delete" gorm:"column:is_delete"`             // 是否删除  0否 1是
 		Status         int64     `json:"status" gorm:"column:status"`                   // 状态值 1公开 2私密 3评论可见
 		LikeCount      int64     `json:"like_count" gorm:"column:like_count"`           // 点赞数
+		ViewCount      int64     `json:"view_count" gorm:"column:view_count"`           // 点赞数
 		CreatedAt      time.Time `json:"created_at" gorm:"column:created_at"`           // 发表时间
 		UpdatedAt      time.Time `json:"updated_at" gorm:"column:updated_at"`           // 更新时间
 	}

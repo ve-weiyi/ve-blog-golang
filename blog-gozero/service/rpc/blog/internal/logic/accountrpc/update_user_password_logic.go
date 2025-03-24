@@ -5,34 +5,36 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateUserInfoLogic struct {
+type UpdateUserPasswordLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserInfoLogic {
-	return &UpdateUserInfoLogic{
+func NewUpdateUserPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserPasswordLogic {
+	return &UpdateUserPasswordLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 修改用户信息
-func (l *UpdateUserInfoLogic) UpdateUserInfo(in *accountrpc.UpdateUserInfoReq) (*accountrpc.EmptyResp, error) {
+// 修改用户密码
+func (l *UpdateUserPasswordLogic) UpdateUserPassword(in *accountrpc.UpdateUserPasswordReq) (*accountrpc.EmptyResp, error) {
+	// 验证用户是否存在
 	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
 	if err != nil {
-		return nil, err
+		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
-	user.Nickname = in.Nickname
-	user.Avatar = in.Avatar
-	user.Info = in.Info
+	// 更新密码
+	user.Password = crypto.BcryptHash(in.Password)
 
 	_, err = l.svcCtx.TUserModel.Save(l.ctx, user)
 	if err != nil {

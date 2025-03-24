@@ -5,7 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/internal/responsex"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
 	{{.ImportPackages}}
 )
 

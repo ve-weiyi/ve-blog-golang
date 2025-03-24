@@ -223,9 +223,10 @@ type IdsReq struct {
 }
 
 type LoginReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	VerifyCode string `json:"verify_code,optional"` // 验证码
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	CaptchaKey  string `json:"captcha_key,optional"`  // 验证码key
+	CaptchaCode string `json:"captcha_code,optional"` // 验证码
 }
 
 type LoginResp struct {

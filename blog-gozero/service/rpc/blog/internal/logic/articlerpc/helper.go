@@ -304,7 +304,7 @@ func (l *ArticleHelperLogic) convertArticlePreviewOut(record *model.TArticle) (o
 		ArticleCover: record.ArticleCover,
 		ArticleTitle: record.ArticleTitle,
 		CreatedAt:    record.CreatedAt.Unix(),
-		LikeCount:    l.GetArticleLikeCount(record.Id),
+		LikeCount:    record.LikeCount,
 		ViewCount:    l.GetArticleViewCount(record.Id),
 	}
 	return out
@@ -337,7 +337,7 @@ func (l *ArticleHelperLogic) convertArticleDetails(records []*model.TArticle) (o
 			Status:         entity.Status,
 			CreatedAt:      entity.CreatedAt.Unix(),
 			UpdatedAt:      entity.UpdatedAt.Unix(),
-			LikeCount:      l.GetArticleLikeCount(entity.Id),
+			LikeCount:      entity.LikeCount,
 			ViewCount:      l.GetArticleViewCount(entity.Id),
 			Category:       nil,
 			TagList:        nil,
@@ -425,21 +425,17 @@ func (l *ArticleHelperLogic) GetArticleViewCount(articleId int64) (count int64) 
 	key := rediskey.GetArticleViewCountKey()
 	result, err := l.svcCtx.Redis.ZScore(l.ctx, key, id).Result()
 	if err != nil {
-		return 0
+		// 未找到，从数据库查找，并且设置
+		article, err := l.svcCtx.TArticleModel.FindById(l.ctx, articleId)
+		if err != nil {
+			return 0
+		}
+
+		_ = l.svcCtx.Redis.ZIncrBy(l.ctx, key, float64(article.ViewCount), id).Err()
+		return article.ViewCount
 	}
 
 	return int64(result)
-}
-
-func (l *ArticleHelperLogic) GetArticleLikeCount(articleId int64) (count int64) {
-	id := cast.ToString(articleId)
-	key := rediskey.GetArticleLikeCountKey()
-	result, err := l.svcCtx.Redis.ZScore(l.ctx, key, id).Result()
-	if err != nil {
-		return 0
-	}
-
-	return cast.ToInt64(result)
 }
 
 // 获取浏览人数最高的文章列表
