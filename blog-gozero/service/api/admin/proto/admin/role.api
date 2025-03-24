@@ -14,16 +14,16 @@ type (
         IsDefault int64 `json:"is_default"`               // 是否默认角色 0否 1是
     }
 
-    RoleBackDTO {
-        Id int64 `json:"id,optional"`                     // 主键id
-        ParentId int64 `json:"parent_id"`                 // 父角色id
-        RoleKey string `json:"role_key"`                  // 角色名
-        RoleLabel string `json:"role_label"`              // 角色标签
-        RoleComment string `json:"role_comment"`          // 角色备注
-        IsDisable int64 `json:"is_disable"`               // 是否禁用  0否 1是
-        IsDefault int64 `json:"is_default"`               // 是否默认角色 0否 1是
-        CreatedAt int64 `json:"created_at"`               // 创建时间
-        UpdatedAt int64 `json:"updated_at"`               // 更新时间
+    RoleBackVO {
+        Id int64 `json:"id,optional"`                // 主键id
+        ParentId int64 `json:"parent_id"`            // 父角色id
+        RoleKey string `json:"role_key"`             // 角色名
+        RoleLabel string `json:"role_label"`         // 角色标签
+        RoleComment string `json:"role_comment"`     // 角色备注
+        IsDisable int64 `json:"is_disable"`          // 是否禁用  0否 1是
+        IsDefault int64 `json:"is_default"`          // 是否默认角色 0否 1是
+        CreatedAt int64 `json:"created_at"`          // 创建时间
+        UpdatedAt int64 `json:"updated_at"`          // 更新时间
     }
 
     RoleResourcesResp {
@@ -44,14 +44,14 @@ type (
 
     RoleQuery {
         PageQuery
-        RoleKey string `json:"role_key,optional"`                  // 角色名
-        RoleLabel string `json:"role_label,optional"`              // 角色标签
-        IsDisable int64 `json:"is_disable,optional"`               // 是否禁用  0否 1是
+        RoleKey string `json:"role_key,optional"`         // 角色名
+        RoleLabel string `json:"role_label,optional"`     // 角色标签
+        IsDisable int64 `json:"is_disable,optional"`      // 是否禁用  0否 1是
     }
 )
 
 @server(
-    prefix: /admin_api/v1
+    prefix: /admin-api/v1
     group: role
     middleware: JwtToken,Permission,OperationLog
 )
@@ -67,11 +67,11 @@ service admin-api {
 
     @doc "创建角色"
     @handler AddRole
-    post /role/add_role (RoleNewReq) returns (RoleBackDTO)
+    post /role/add_role (RoleNewReq) returns (RoleBackVO)
 
     @doc "更新角色"
     @handler UpdateRole
-    put /role/update_role (RoleNewReq) returns (RoleBackDTO)
+    put /role/update_role (RoleNewReq) returns (RoleBackVO)
 
     @doc "删除角色"
     @handler DeleteRole

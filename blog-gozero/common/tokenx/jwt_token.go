@@ -29,6 +29,10 @@ func NewJwtTokenHolder(issuer string, secret string, cache *redis.Redis) *JwtTok
 	}
 }
 
+func (j *JwtTokenHolder) TokenType() string {
+	return "Bearer"
+}
+
 func (j *JwtTokenHolder) VerifyToken(ctx context.Context, token string, uid string) error {
 	//token为空或者uid为空
 	if token == "" || uid == "" {

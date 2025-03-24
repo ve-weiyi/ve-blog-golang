@@ -25,7 +25,7 @@ func NewAddFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddFrie
 	}
 }
 
-func (l *AddFriendLogic) AddFriend(req *types.FriendNewReq) (resp *types.FriendBackDTO, err error) {
+func (l *AddFriendLogic) AddFriend(req *types.FriendNewReq) (resp *types.FriendBackVO, err error) {
 	in := ConvertFriendPb(req)
 	out, err := l.svcCtx.WebsiteRpc.AddFriend(l.ctx, in)
 	if err != nil {
@@ -48,8 +48,8 @@ func ConvertFriendPb(in *types.FriendNewReq) (out *websiterpc.FriendNewReq) {
 	return
 }
 
-func ConvertFriendTypes(in *websiterpc.FriendDetails) (out *types.FriendBackDTO) {
-	out = &types.FriendBackDTO{
+func ConvertFriendTypes(in *websiterpc.FriendDetails) (out *types.FriendBackVO) {
+	out = &types.FriendBackVO{
 		Id:          in.Id,
 		LinkName:    in.LinkName,
 		LinkAvatar:  in.LinkAvatar,

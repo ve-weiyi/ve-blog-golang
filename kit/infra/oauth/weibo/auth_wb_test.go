@@ -8,10 +8,10 @@ import (
 )
 
 func TestWeibo(t *testing.T) {
-	conf := &oauth.AuthConfig{
+	conf := &oauth.OauthConfig{
 		ClientId:     "xxx",
 		ClientSecret: "xxx",
-		RedirectUri:  "https://veweiyi.cn/blog/oauth/login/weibo",
+		RedirectUri:  "https://blog.veweiyi.cn/oauth/login/weibo",
 	}
 
 	auth := NewAuthWb(conf)

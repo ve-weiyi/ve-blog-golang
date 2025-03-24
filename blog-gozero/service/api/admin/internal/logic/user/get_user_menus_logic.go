@@ -5,6 +5,8 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
@@ -29,7 +31,7 @@ func NewGetUserMenusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 
 func (l *GetUserMenusLogic) GetUserMenus(req *types.EmptyReq) (resp *types.UserMenusResp, err error) {
 	in := &permissionrpc.UserIdReq{
-		UserId: cast.ToString(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value(restx.HeaderUid)),
 	}
 
 	out, err := l.svcCtx.PermissionRpc.FindUserMenus(l.ctx, in)

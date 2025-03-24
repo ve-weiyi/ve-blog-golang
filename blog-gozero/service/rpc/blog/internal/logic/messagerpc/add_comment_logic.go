@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -26,7 +27,21 @@ func NewAddCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCom
 
 // 创建评论
 func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.CommentDetails, error) {
-	entity := convertCommentIn(in)
+	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+
+	entity := &model.TComment{
+		TopicId:        in.TopicId,
+		ParentId:       in.ParentId,
+		ReplyMsgId:     in.ReplyMsgId,
+		UserId:         uid,
+		ReplyUserId:    in.ReplyUserId,
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+		Status:         in.Status,
+		IsReview:       l.svcCtx.Config.DefaultCommentReviewStatus,
+		// CreatedAt:      time.Unix(in.CreatedAt, 0),
+		// UpdatedAt:      time.Unix(in.UpdatedAt, 0),
+	}
 
 	_, err := l.svcCtx.TCommentModel.Insert(l.ctx, entity)
 	if err != nil {
@@ -34,42 +49,4 @@ func (l *AddCommentLogic) AddComment(in *messagerpc.CommentNewReq) (*messagerpc.
 	}
 
 	return convertCommentOut(entity), nil
-}
-
-func convertCommentIn(in *messagerpc.CommentNewReq) (out *model.TComment) {
-	out = &model.TComment{
-		TopicId:        in.TopicId,
-		ParentId:       in.ParentId,
-		ReplyMsgId:     in.ReplyMsgId,
-		UserId:         in.UserId,
-		ReplyUserId:    in.ReplyUserId,
-		CommentContent: in.CommentContent,
-		Type:           in.Type,
-		Status:         in.Status,
-		IsReview:       in.IsReview,
-		// CreatedAt:      time.Unix(in.CreatedAt, 0),
-		// UpdatedAt:      time.Unix(in.UpdatedAt, 0),
-	}
-
-	return out
-}
-
-func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetails) {
-	out = &messagerpc.CommentDetails{
-		Id:             in.Id,
-		TopicId:        in.TopicId,
-		ParentId:       in.ParentId,
-		ReplyMsgId:     in.ReplyMsgId,
-		UserId:         in.UserId,
-		ReplyUserId:    in.ReplyUserId,
-		CommentContent: in.CommentContent,
-		Type:           in.Type,
-		Status:         in.Status,
-		IsReview:       in.IsReview,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
-		LikeCount:      in.LikeCount,
-	}
-
-	return out
 }

@@ -5,13 +5,14 @@ import (
 	"time"
 
 	"github.com/spf13/cast"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 )
 
 type LoginLogic struct {
@@ -31,9 +32,8 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 
 	in := accountrpc.LoginReq{
-		Username:   req.Username,
-		Password:   req.Password,
-		VerifyCode: req.VerifyCode,
+		Username: req.Username,
+		Password: req.Password,
 	}
 
 	out, err := l.svcCtx.AccountRpc.Login(l.ctx, &in)
@@ -45,6 +45,12 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	if err != nil {
 		return
 	}
+
+	// 登录日志
+	_, err = l.svcCtx.SyslogRpc.AddLoginLog(l.ctx, &syslogrpc.LoginLogNewReq{
+		UserId:    out.UserId,
+		LoginType: out.LoginType,
+	})
 
 	resp = &types.LoginResp{
 		Token: tk,
@@ -65,7 +71,7 @@ func createToken(ctx context.Context, svcCtx *svc.ServiceContext, login *account
 
 	token = &types.Token{
 		UserId:      uid,
-		TokenType:   constant.TokenTypeSign,
+		TokenType:   svcCtx.TokenHolder.TokenType(),
 		AccessToken: accessToken,
 		ExpiresIn:   time.Now().Add(expires).Unix(),
 	}

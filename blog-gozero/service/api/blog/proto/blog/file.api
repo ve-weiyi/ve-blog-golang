@@ -13,7 +13,7 @@ type (
         FilePath string `form:"file_path,optional"`        // 文件路径
     }
 
-    FileBackDTO {
+    FileBackVO {
         Id int64 `json:"id,optional"`              // 文件目录ID
         UserId string `json:"user_id"`             // 用户id
         FilePath string `json:"file_path"`         // 文件路径
@@ -28,7 +28,7 @@ type (
 )
 
 @server(
-    prefix: /api/v1
+    prefix: /blog-api/v1
     group: file
     middleware: TimeToken
 )
@@ -36,9 +36,9 @@ type (
 service blog-api {
     @doc "上传文件"
     @handler UploadFile
-    post /file/upload_file (UploadFileReq) returns (FileBackDTO)
+    post /file/upload_file (UploadFileReq) returns (FileBackVO)
 
     @doc "上传文件列表"
     @handler MultiUploadFile
-    post /file/multi_upload_file (MultiUploadFileReq) returns ([]*FileBackDTO)
+    post /file/multi_upload_file (MultiUploadFileReq) returns ([]*FileBackVO)
 }

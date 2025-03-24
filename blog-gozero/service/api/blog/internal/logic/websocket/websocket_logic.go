@@ -82,13 +82,13 @@ func (l *WebsocketLogic) NewClient(w http.ResponseWriter, r *http.Request) *ws.C
 		panic("http转换升级为websocket失败：")
 	}
 
-	ip := restx.GetClientIP(r)
+	ip := restx.GetRemoteIP(r)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	client := &ws.Client{
 		ClientId:    r.RemoteAddr,
 		UserId:      cast.ToString(l.ctx.Value(restx.HeaderUid)),
-		DeviceId:    cast.ToString(l.ctx.Value(restx.HeaderTerminal)),
+		DeviceId:    cast.ToString(l.ctx.Value(restx.HeaderTerminalId)),
 		IpAddress:   ip,
 		IpSource:    is,
 		ConnectTime: time.Now().Unix(),

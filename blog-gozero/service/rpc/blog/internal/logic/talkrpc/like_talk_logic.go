@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/metadatax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/talkrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -29,7 +29,7 @@ func NewLikeTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LikeTalk
 
 // 点赞说说
 func (l *LikeTalkLogic) LikeTalk(in *talkrpc.IdReq) (*talkrpc.EmptyResp, error) {
-	uid, err := metadatax.GetRPCUserId(l.ctx)
+	uid, err := rpcutils.GetUserIdFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

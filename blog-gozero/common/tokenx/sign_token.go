@@ -12,6 +12,7 @@ import (
 )
 
 type TokenHolder interface {
+	TokenType() string
 	VerifyToken(ctx context.Context, token string, uid string) error
 	CreateToken(ctx context.Context, uid string, expires time.Duration) (string, error)
 	RemoveToken(ctx context.Context, uid string) error
@@ -36,6 +37,10 @@ func NewSignTokenHolder(issuer string, secret string, cache *redis.Redis) *SignT
 		secret: secret,
 		cache:  cache,
 	}
+}
+
+func (j *SignTokenHolder) TokenType() string {
+	return "Sign"
 }
 
 func (j *SignTokenHolder) VerifyToken(ctx context.Context, token string, uid string) error {

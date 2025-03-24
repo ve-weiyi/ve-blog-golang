@@ -52,5 +52,10 @@ func convertPageQuery(in *websiterpc.FindPageListReq) (page int, size int, sorts
 		sorts = "id desc"
 	}
 
+	if in.PageName != "" {
+		conditions += "page_name like ?"
+		params = append(params, "%"+in.PageName+"%")
+	}
+
 	return
 }

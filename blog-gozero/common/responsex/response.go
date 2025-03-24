@@ -14,7 +14,7 @@ import (
 
 type Body struct {
 	Code        int64       `json:"code"`
-	Message     string      `json:"message"`
+	Msg         string      `json:"msg"`
 	Data        interface{} `json:"data,omitempty"`
 	EncryptData interface{} `json:"encrypt_data,omitempty"`
 	TraceId     string      `json:"trace_id"`
@@ -31,7 +31,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 		case *bizerr.BizError:
 			body := Body{
 				Code:    e.Code,
-				Message: e.Error(),
+				Msg:     e.Error(),
 				Data:    "服务错误",
 				TraceId: GetTraceId(r),
 			}
@@ -40,7 +40,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 		case *json.UnmarshalTypeError:
 			body := Body{
 				Code:    http.StatusInternalServerError,
-				Message: e.Error(),
+				Msg:     e.Error(),
 				Data:    "服务错误",
 				TraceId: GetTraceId(r),
 			}
@@ -49,7 +49,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 		case *mysql.MySQLError:
 			body := Body{
 				Code:    http.StatusInternalServerError,
-				Message: e.Error(),
+				Msg:     e.Error(),
 				Data:    "数据库错误",
 				TraceId: GetTraceId(r),
 			}
@@ -58,7 +58,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 		default:
 			body := Body{
 				Code:    http.StatusInternalServerError,
-				Message: err.Error(),
+				Msg:     err.Error(),
 				Data:    "服务错误",
 				TraceId: GetTraceId(r),
 			}
@@ -70,7 +70,7 @@ func Response(r *http.Request, w http.ResponseWriter, resp interface{}, err erro
 	// 2. err为nil的情况，返回成功响应
 	body := Body{
 		Code:    http.StatusOK,
-		Message: "success!",
+		Msg:     "success!",
 		Data:    resp,
 		TraceId: GetTraceId(r),
 	}

@@ -14,21 +14,15 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
 )
 
 type ServiceContext struct {
@@ -38,36 +32,42 @@ type ServiceContext struct {
 	LocalCache    *collection.Cache
 	EmailDeliver  *mail.MqEmailDeliver
 	CaptchaHolder *captcha.CaptchaHolder
-	Oauth         map[string]oauth.Oauth
 
-	TUserModel             model.TUserModel
-	TUserOauthModel        model.TUserOauthModel
-	TUserLoginHistoryModel model.TUserLoginHistoryModel
-	TRoleModel             model.TRoleModel
-	TApiModel              model.TApiModel
-	TMenuModel             model.TMenuModel
-	TUserRoleModel         model.TUserRoleModel
-	TRoleApiModel          model.TRoleApiModel
-	TRoleMenuModel         model.TRoleMenuModel
+	OnlineUserService *online.OnlineUserService
+
+	// account models
+	TUserModel      model.TUserModel
+	TUserOauthModel model.TUserOauthModel
+	TRoleModel      model.TRoleModel
+	TApiModel       model.TApiModel
+	TMenuModel      model.TMenuModel
+	TUserRoleModel  model.TUserRoleModel
+	TRoleApiModel   model.TRoleApiModel
+	TRoleMenuModel  model.TRoleMenuModel
 
 	// blog models
-	TWebsiteConfigModel model.TWebsiteConfigModel
-	TArticleModel       model.TArticleModel
-	TCategoryModel      model.TCategoryModel
-	TTagModel           model.TTagModel
-	TArticleTagModel    model.TArticleTagModel
+	TArticleModel    model.TArticleModel
+	TCategoryModel   model.TCategoryModel
+	TTagModel        model.TTagModel
+	TArticleTagModel model.TArticleTagModel
 
-	TChatModel         model.TChatModel
-	TCommentModel      model.TCommentModel
-	TRemarkModel       model.TRemarkModel
-	TFriendModel       model.TFriendModel
-	TTalkModel         model.TTalkModel
-	TPhotoModel        model.TPhotoModel
-	TAlbumModel        model.TAlbumModel
-	TPageModel         model.TPageModel
-	TVisitHistoryModel model.TVisitHistoryModel
+	// message models
+	TChatModel    model.TChatModel
+	TCommentModel model.TCommentModel
+	TRemarkModel  model.TRemarkModel
+
+	// website models
+	TWebsiteConfigModel   model.TWebsiteConfigModel
+	TAlbumModel           model.TAlbumModel
+	TPhotoModel           model.TPhotoModel
+	TFriendModel          model.TFriendModel
+	TTalkModel            model.TTalkModel
+	TPageModel            model.TPageModel
+	TVisitDailyStatsModel model.TVisitDailyStatsModel
+	TVisitorModel         model.TVisitorModel
 
 	TVisitLogModel     model.TVisitLogModel
+	TLoginLogModel     model.TLoginLogModel
 	TOperationLogModel model.TOperationLogModel
 
 	TFileFolderModel model.TFileFolderModel
@@ -96,45 +96,46 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:                 c,
-		Gorm:                   db,
-		Redis:                  rds,
-		LocalCache:             cache,
-		EmailDeliver:           deliver,
-		CaptchaHolder:          captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
-		Oauth:                  InitOauth(c.OauthConfList),
-		TUserModel:             model.NewTUserModel(db),
-		TUserOauthModel:        model.NewTUserOauthModel(db),
-		TUserLoginHistoryModel: model.NewTUserLoginHistoryModel(db),
-		TRoleModel:             model.NewTRoleModel(db),
-		TApiModel:              model.NewTApiModel(db),
-		TMenuModel:             model.NewTMenuModel(db),
-		TUserRoleModel:         model.NewTUserRoleModel(db),
-		TRoleApiModel:          model.NewTRoleApiModel(db),
-		TRoleMenuModel:         model.NewTRoleMenuModel(db),
+		Config:        c,
+		Gorm:          db,
+		Redis:         rds,
+		LocalCache:    cache,
+		EmailDeliver:  deliver,
+		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 
+		OnlineUserService: online.NewOnlineUserService(rds, 3600),
+		// account models
+		TUserModel:      model.NewTUserModel(db),
+		TUserOauthModel: model.NewTUserOauthModel(db),
+		TRoleModel:      model.NewTRoleModel(db),
+		TApiModel:       model.NewTApiModel(db),
+		TMenuModel:      model.NewTMenuModel(db),
+		TUserRoleModel:  model.NewTUserRoleModel(db),
+		TRoleApiModel:   model.NewTRoleApiModel(db),
+		TRoleMenuModel:  model.NewTRoleMenuModel(db),
 		// blog models
-		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db),
-		TArticleModel:       model.NewTArticleModel(db),
-		TCategoryModel:      model.NewTCategoryModel(db),
-		TTagModel:           model.NewTTagModel(db),
-		TArticleTagModel:    model.NewTArticleTagModel(db),
-
-		TChatModel:         model.NewTChatModel(db),
-		TCommentModel:      model.NewTCommentModel(db),
-		TRemarkModel:       model.NewTRemarkModel(db),
-		TFriendModel:       model.NewTFriendModel(db),
-		TTalkModel:         model.NewTTalkModel(db),
-		TPhotoModel:        model.NewTPhotoModel(db),
-		TAlbumModel:        model.NewTAlbumModel(db),
-		TPageModel:         model.NewTPageModel(db),
-		TVisitHistoryModel: model.NewTVisitHistoryModel(db),
-
-		TVisitLogModel:     model.NewTVisitLogModel(db),
-		TOperationLogModel: model.NewTOperationLogModel(db),
-
-		TFileFolderModel: model.NewTFileFolderModel(db),
-		TFileUploadModel: model.NewTFileUploadModel(db),
+		TArticleModel:    model.NewTArticleModel(db),
+		TCategoryModel:   model.NewTCategoryModel(db),
+		TTagModel:        model.NewTTagModel(db),
+		TArticleTagModel: model.NewTArticleTagModel(db),
+		// message models
+		TChatModel:    model.NewTChatModel(db),
+		TCommentModel: model.NewTCommentModel(db),
+		TRemarkModel:  model.NewTRemarkModel(db),
+		// website models
+		TWebsiteConfigModel:   model.NewTWebsiteConfigModel(db),
+		TAlbumModel:           model.NewTAlbumModel(db),
+		TPhotoModel:           model.NewTPhotoModel(db),
+		TFriendModel:          model.NewTFriendModel(db),
+		TTalkModel:            model.NewTTalkModel(db),
+		TPageModel:            model.NewTPageModel(db),
+		TVisitDailyStatsModel: model.NewTVisitDailyStatsModel(db),
+		TVisitorModel:         model.NewTVisitorModel(db),
+		TVisitLogModel:        model.NewTVisitLogModel(db),
+		TLoginLogModel:        model.NewTLoginLogModel(db),
+		TOperationLogModel:    model.NewTOperationLogModel(db),
+		TFileFolderModel:      model.NewTFileFolderModel(db),
+		TFileUploadModel:      model.NewTFileUploadModel(db),
 	}
 }
 
@@ -211,12 +212,11 @@ func ConnectRedis(c config.RedisConf) (*redis.Client, error) {
 		DB:       c.DB,       // use default DB
 	})
 
-	pong, err := client.Ping(context.Background()).Result()
+	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	client.Set(context.Background(), fmt.Sprintf("redis:rpc:%s", pong), time.Now().String(), -1)
 	return client, nil
 }
 
@@ -277,34 +277,4 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 	go deliver.SubscribeEmail()
 
 	return deliver, nil
-}
-
-func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
-	var om = make(map[string]oauth.Oauth)
-
-	for k, v := range c {
-		conf := &oauth.AuthConfig{
-			ClientId:     v.ClientId,
-			ClientSecret: v.ClientSecret,
-			RedirectUri:  v.RedirectUri,
-		}
-		switch k {
-		case "qq":
-			auth := qq.NewAuthQq(conf)
-			om["qq"] = auth
-		case "weibo":
-			auth := weibo.NewAuthWb(conf)
-			om["weibo"] = auth
-		case "feishu":
-			auth := feishu.NewAuthFeishu(conf)
-			om["feishu"] = auth
-		case "github":
-			auth := github.NewAuthGithub(conf)
-			om["github"] = auth
-		case "gitee":
-			auth := gitee.NewAuthGitee(conf)
-			om["gitee"] = auth
-		}
-	}
-	return om
 }

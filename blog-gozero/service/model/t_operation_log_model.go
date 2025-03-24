@@ -222,7 +222,7 @@ func (m *defaultTOperationLogModel) FindCount(ctx context.Context, conditions st
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TOperationLog{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

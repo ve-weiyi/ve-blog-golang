@@ -209,7 +209,7 @@ func (m *defaultTUserRoleModel) FindCount(ctx context.Context, conditions string
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TUserRole{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

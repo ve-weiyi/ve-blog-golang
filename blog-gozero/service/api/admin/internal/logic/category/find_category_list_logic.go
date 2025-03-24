@@ -38,7 +38,7 @@ func (l *FindCategoryListLogic) FindCategoryList(req *types.CategoryQuery) (resp
 		return nil, err
 	}
 
-	var list []*types.CategoryBackDTO
+	var list []*types.CategoryBackVO
 	for _, v := range out.List {
 		m := ConvertCategoryTypes(v)
 		list = append(list, m)

@@ -24,15 +24,26 @@ func NewTimeTokenMiddleware() *TimeTokenMiddleware {
 func (m *TimeTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		logx.Infof("TimeTokenMiddleware Handle")
-		tk := r.Header.Get(restx.HeaderXAuthToken)
+		tk := r.Header.Get(restx.HeaderXTsToken)
+		tm := r.Header.Get(restx.HeaderTerminalId)
 		ts := r.Header.Get(restx.HeaderTimestamp)
-		tm := r.Header.Get(restx.HeaderTerminal)
 
 		// 请求头缺少参数
 		if tk == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录,缺少游客签名"))
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'x-ts-token' is missing"))
 			return
 		}
+
+		if tm == "" {
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'terminal-id' is missing"))
+			return
+		}
+
+		if ts == "" {
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'timestamp' is missing"))
+			return
+		}
+
 		// 判断 token = md5(tm,ts)
 		if tk != crypto.Md5v(tm, ts) {
 			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserLoginExpired, "无效请求,游客签名错误"))

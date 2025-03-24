@@ -3,6 +3,7 @@ package website
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
@@ -28,7 +29,7 @@ func NewGetAboutMeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAbo
 
 func (l *GetAboutMeLogic) GetAboutMe(req *types.EmptyReq) (resp *types.AboutMe, err error) {
 	in := &configrpc.FindConfigReq{
-		ConfigKey: "about_me",
+		ConfigKey: constant.ConfigKeyAboutMe,
 	}
 
 	out, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, in)

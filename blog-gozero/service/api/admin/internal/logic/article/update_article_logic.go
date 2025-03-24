@@ -24,14 +24,14 @@ func NewUpdateArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upd
 	}
 }
 
-func (l *UpdateArticleLogic) UpdateArticle(req *types.ArticleNewReq) (resp *types.ArticleBackDTO, err error) {
+func (l *UpdateArticleLogic) UpdateArticle(req *types.ArticleNewReq) (resp *types.ArticleBackVO, err error) {
 	in := ConvertArticlePb(req)
 	out, err := l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.ArticleBackDTO{
+	return &types.ArticleBackVO{
 		Id: out.Id,
 	}, nil
 }

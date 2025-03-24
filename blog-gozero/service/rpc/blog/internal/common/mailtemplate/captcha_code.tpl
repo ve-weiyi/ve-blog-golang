@@ -63,10 +63,10 @@
     <div class="container">
         <div class="header">
             <h1>Blog</h1>
-            <p>分享技术，连接世界</p>
+            <p>你能做的，岂止如此</p>
         </div>
         <div class="content">
-            <p>你好，<strong>{{.Username}}</strong></p>
+            <p>Hi，<strong>{{.Username}}</strong></p>
             <p>{{.Content}}</p>
             <p>您的验证码为：</p>
             <div class="code">{{.Code}}</div>

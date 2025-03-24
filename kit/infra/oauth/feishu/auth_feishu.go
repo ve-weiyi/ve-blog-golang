@@ -11,7 +11,7 @@ import (
 
 // Feishu授权登录
 type AuthFeishu struct {
-	Config *oauth.AuthConfig
+	Config *oauth.OauthConfig
 
 	Name string // 第三方名称
 
@@ -23,7 +23,7 @@ type AuthFeishu struct {
 	UserInfoUrl          string // 获取用户信息URL
 }
 
-func NewAuthFeishu(conf *oauth.AuthConfig) *AuthFeishu {
+func NewAuthFeishu(conf *oauth.OauthConfig) *AuthFeishu {
 	return &AuthFeishu{
 		Config:               conf,
 		Name:                 "feishu",

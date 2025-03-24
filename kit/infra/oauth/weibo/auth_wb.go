@@ -12,21 +12,21 @@ import (
 
 // 微博授权登录
 type AuthWb struct {
-	Config *oauth.AuthConfig
-	oauth.AuthOauthURL
+	Config *oauth.OauthConfig
+
+	Name           string // 第三方名称
+	AuthorizeUrl   string // 授权登录URL
+	AccessTokenUrl string // 获得访问令牌URL
+	UserInfoUrl    string // 获取用户信息URL
 }
 
-func NewAuthWb(conf *oauth.AuthConfig) *AuthWb {
-	auth := oauth.AuthOauthURL{}
-
-	auth.Name = "weibo"
-	auth.AuthorizeUrl = "https://api.weibo.com/oauth2/authorize"
-	auth.AccessTokenUrl = "https://api.weibo.com/oauth2/access_token"
-	auth.UserInfoUrl = "https://api.weibo.com/2/users/show.json"
-
+func NewAuthWb(conf *oauth.OauthConfig) *AuthWb {
 	return &AuthWb{
-		Config:       conf,
-		AuthOauthURL: auth,
+		Config:         conf,
+		Name:           "weibo",
+		AuthorizeUrl:   "https://api.weibo.com/oauth2/authorize",
+		AccessTokenUrl: "https://api.weibo.com/oauth2/access_token",
+		UserInfoUrl:    "https://api.weibo.com/2/users/show.json",
 	}
 }
 
@@ -77,7 +77,7 @@ func (a *AuthWb) GetAuthUserInfo(code string) (resp *oauth.UserResult, err error
 func (a *AuthWb) GetAccessToken(code string) (resp *TokenResult, err error) {
 
 	body, err := httpx.NewClient(
-		"GET",
+		"POST",
 		a.AccessTokenUrl,
 		httpx.WithParams(map[string]string{
 			"client_id":     a.Config.ClientId,

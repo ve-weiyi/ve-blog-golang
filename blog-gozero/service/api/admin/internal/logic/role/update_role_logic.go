@@ -25,7 +25,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateRoleLogic) UpdateRole(req *types.RoleNewReq) (resp *types.RoleBackDTO, err error) {
+func (l *UpdateRoleLogic) UpdateRole(req *types.RoleNewReq) (resp *types.RoleBackVO, err error) {
 	in := &permissionrpc.RoleNewReq{
 		Id:          req.Id,
 		ParentId:    req.ParentId,

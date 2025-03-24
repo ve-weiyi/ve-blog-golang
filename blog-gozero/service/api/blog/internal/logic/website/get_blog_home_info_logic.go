@@ -3,6 +3,7 @@ package website
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
@@ -29,12 +30,17 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (resp *types.GetBlogHomeInfoResp, err error) {
+	_, err = l.svcCtx.WebsiteRpc.AddVisit(l.ctx, &websiterpc.AddVisitReq{})
+	if err != nil {
+		return nil, err
+	}
+
 	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
 
-	visit, err := l.svcCtx.WebsiteRpc.GetUserTotalVisit(l.ctx, &websiterpc.EmptyReq{})
+	visit, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -44,9 +50,9 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	ps := make([]*types.PageDTO, 0)
+	ps := make([]*types.PageVO, 0)
 	for _, v := range pages.List {
-		p := &types.PageDTO{
+		p := &types.PageVO{
 			Id:         v.Id,
 			PageName:   v.PageName,
 			PageLabel:  v.PageLabel,
@@ -57,22 +63,26 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 	}
 
 	conf, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, &configrpc.FindConfigReq{
-		ConfigKey: "website_config",
+		ConfigKey: constant.ConfigKeyWebsite,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	config := types.WebsiteConfigDTO{}
-	jsonconv.JsonToAny(conf.ConfigValue, &config)
+	config := types.WebsiteConfigVO{}
+	err = jsonconv.JsonToAny(conf.ConfigValue, &config)
+	if err != nil {
+		return nil, err
+	}
 
 	resp = &types.GetBlogHomeInfoResp{
-		ArticleCount:  analysis.ArticleCount,
-		CategoryCount: analysis.CategoryCount,
-		TagCount:      analysis.TagCount,
-		ViewsCount:    visit.Count,
-		WebsiteConfig: config,
-		PageList:      ps,
+		ArticleCount:       analysis.ArticleCount,
+		CategoryCount:      analysis.CategoryCount,
+		TagCount:           analysis.TagCount,
+		TotalUserViewCount: visit.TotalUvCount,
+		TotalPageViewCount: visit.TotalPvCount,
+		WebsiteConfig:      config,
+		PageList:           ps,
 	}
 
 	return resp, nil

@@ -10,9 +10,11 @@ import (
 	"time"
 
 	"github.com/go-openapi/spec"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/rest/httpx"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
@@ -122,7 +124,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 		// 计算请求响应的耗时
 		cost := time.Since(start)
 
-		ip := restx.GetClientIP(r)
+		ip := httpx.GetRemoteAddr(r)
 		is, err := ipx.GetIpSourceByBaidu(ip)
 		if err != nil {
 			logx.Errorf("OperationLogMiddleware Handle GetIpInfoByBaidu err: %v", err)
@@ -130,7 +132,7 @@ func (m *OperationLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc 
 
 		op := &syslogrpc.OperationLogNewReq{
 			UserId:         r.Header.Get(restx.HeaderUid),
-			TerminalId:     r.Header.Get(restx.HeaderTerminal),
+			TerminalId:     r.Header.Get(restx.HeaderTerminalId),
 			IpAddress:      ip,
 			IpSource:       is,
 			OptModule:      module,

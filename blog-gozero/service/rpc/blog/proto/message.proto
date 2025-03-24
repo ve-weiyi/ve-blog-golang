@@ -68,7 +68,6 @@ message FindChatListResp {
 
 /************** blog 留言 **************/
 message RemarkNewReq {
-  string user_id = 2;// 用户id
   string message_content = 4;// 留言内容
 }
 
@@ -80,6 +79,7 @@ message RemarkUpdateReq {
 message RemarkDetails {
   int64 id = 1;// 主键id
   string user_id = 2;// 用户id
+  string terminal_id = 3;// 终端id
   string message_content = 4;// 留言内容
   string ip_address = 5;// 用户ip
   string ip_source = 6;// 用户地址
@@ -107,7 +107,6 @@ message UpdateRemarkReviewReq{
 }
 /************** blog 消息管理 **************/
 message CommentNewReq {
-  string user_id = 2;// 评论用户id
   int64 topic_id = 3;// 主题id
   int64 parent_id = 4;// 父评论id
   int64 reply_msg_id = 5; // 会话id
@@ -115,7 +114,13 @@ message CommentNewReq {
   string comment_content = 7;// 评论内容
   int64 type = 8;// 评论类型 1.文章 2.友链 3.说说
   int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
-  int64 is_review = 10;// 是否审核
+}
+
+message UpdateCommentReq {
+  int64 id = 1;// 主键
+  string reply_user_id = 6; // 评论回复用户id
+  string comment_content = 7;// 评论内容
+  int64 status = 9;// 状态 0.正常 1.已编辑 2.已删除
 }
 
 message CommentDetails {
@@ -198,11 +203,11 @@ message FindLikeCommentResp{
   repeated int64 like_comment_list = 1;
 }
 
-message FindTopicCommentCountsReq{
+message FindCommentReplyCountsReq{
   repeated int64 topic_ids = 1;
 }
 
-message FindTopicCommentCountsResp{
+message FindCommentReplyCountsResp{
   map<int64, int64> topic_comment_counts = 1;
 }
 
@@ -243,14 +248,17 @@ service MessageRpc {
   rpc AddComment(CommentNewReq) returns(CommentDetails);
   // 删除评论
   rpc DeleteComment(IdsReq) returns(BatchResp);
+  // 更新评论
+  rpc UpdateComment(UpdateCommentReq) returns(CommentDetails);
   // 查询评论
   rpc GetComment(IdReq) returns(CommentDetails);
+
   // 查询评论列表
   rpc FindCommentList(FindCommentListReq) returns(FindCommentListResp);
   // 查询评论回复列表
   rpc FindCommentReplyList(FindCommentReplyListReq) returns(FindCommentReplyListResp);
   // 查询评论回复数量
-  rpc FindTopicCommentCounts(IdsReq) returns(FindTopicCommentCountsResp);
+  rpc FindCommentReplyCounts(IdsReq) returns(FindCommentReplyCountsResp);
 
   // 更新评论审核状态
   rpc UpdateCommentReview(UpdateCommentReviewReq) returns(BatchResp);

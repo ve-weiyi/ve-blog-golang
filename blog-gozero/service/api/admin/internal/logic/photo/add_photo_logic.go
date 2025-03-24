@@ -25,7 +25,7 @@ func NewAddPhotoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPhoto
 	}
 }
 
-func (l *AddPhotoLogic) AddPhoto(req *types.PhotoNewReq) (resp *types.PhotoBackDTO, err error) {
+func (l *AddPhotoLogic) AddPhoto(req *types.PhotoNewReq) (resp *types.PhotoBackVO, err error) {
 	in := ConvertPhotoPb(req)
 	out, err := l.svcCtx.PhotoRpc.AddPhoto(l.ctx, in)
 	if err != nil {
@@ -49,8 +49,8 @@ func ConvertPhotoPb(in *types.PhotoNewReq) (out *photorpc.PhotoNewReq) {
 	return
 }
 
-func ConvertPhotoTypes(in *photorpc.PhotoDetails) (out *types.PhotoBackDTO) {
-	out = &types.PhotoBackDTO{
+func ConvertPhotoTypes(in *photorpc.PhotoDetails) (out *types.PhotoBackVO) {
+	out = &types.PhotoBackVO{
 		Id:        in.Id,
 		AlbumId:   in.AlbumId,
 		PhotoName: in.PhotoName,

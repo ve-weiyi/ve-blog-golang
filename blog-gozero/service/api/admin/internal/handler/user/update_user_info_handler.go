@@ -14,7 +14,7 @@ import (
 // 修改用户信息
 func UpdateUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UserInfoReq
+		var req types.UpdateUserInfoReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return

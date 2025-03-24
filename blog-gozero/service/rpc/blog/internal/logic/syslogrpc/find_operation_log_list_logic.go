@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -60,4 +61,26 @@ func convertOperationLogQuery(in *syslogrpc.FindOperationLogListReq) (page int, 
 		params = append(params, "%"+in.Keywords+"%")
 	}
 	return
+}
+
+func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetails) {
+	out = &syslogrpc.OperationLogDetails{
+		Id:             in.Id,
+		UserId:         in.UserId,
+		TerminalId:     in.TerminalId,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		OptModule:      in.OptModule,
+		OptDesc:        in.OptDesc,
+		RequestUri:     in.RequestUri,
+		RequestMethod:  in.RequestMethod,
+		RequestData:    in.RequestData,
+		ResponseData:   in.ResponseData,
+		ResponseStatus: in.ResponseStatus,
+		Cost:           in.Cost,
+		CreatedAt:      in.CreatedAt.Unix(),
+		UpdatedAt:      in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

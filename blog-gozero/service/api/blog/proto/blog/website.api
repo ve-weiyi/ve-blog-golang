@@ -10,12 +10,13 @@ type (
         ArticleCount int64 `json:"article_count"`                  // 文章数量
         CategoryCount int64 `json:"category_count"`                // 分类数量
         TagCount int64 `json:"tag_count"`                          // 标签数量
-        ViewsCount int64 `json:"views_count"`                      // 访问量
-        WebsiteConfig WebsiteConfigDTO `json:"website_config"`     // 网站配置
-        PageList []*PageDTO `json:"page_list"`                     // 页面列表
+        TotalUserViewCount int64 `json:"total_user_view_count"`    // 总服务量
+        TotalPageViewCount int64 `json:"total_page_view_count"`    // 总浏览量
+        WebsiteConfig WebsiteConfigVO `json:"website_config"`      // 网站配置
+        PageList []*PageVO `json:"page_list"`                      // 页面列表
     }
 
-    WebsiteConfigDTO {
+    WebsiteConfigVO {
         AdminUrl string `json:"admin_url"`                    // 后台地址
         AlipayQrCode string `json:"alipay_qr_code"`           // 支付宝二维码
         Gitee string `json:"gitee"`                           // Gitee
@@ -42,7 +43,7 @@ type (
         WeixinQrCode string `json:"weixin_qr_code"`           // 微信二维码
     }
 
-    PageDTO {
+    PageVO {
         Id int64 `json:"id"`                                        // 页面ID
         PageName string `json:"page_name"`                          // 页面名称
         PageLabel string `json:"page_label"`                        // 页面标签
@@ -59,7 +60,7 @@ type (
     }
 )
 @server(
-    prefix: /api/v1
+    prefix: /blog-api/v1
     group: website
     middleware: TimeToken
 )
@@ -71,20 +72,4 @@ service blog-api {
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /blog/about_me (GetAboutMeReq) returns (GetAboutMeResp)
-}
-
-
-type (
-    ReportResp {
-        TerminalId string `json:"terminal_id"`
-    }
-)
-@server(
-    prefix: /api/v1
-    group: website
-)
-service blog-api {
-    @doc "访客上报"
-    @handler Report
-    get /report (EmptyReq) returns (ReportResp)
 }

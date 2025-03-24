@@ -3,9 +3,9 @@ package operation_log
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -43,20 +43,13 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 		uids = append(uids, v.UserId)
 	}
 
-	// 查询用户信息
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: uids,
-	})
+	// 获取用户信息
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
 	if err != nil {
 		return nil, err
 	}
 
-	usm := make(map[string]*accountrpc.User)
-	for _, v := range users.List {
-		usm[v.UserId] = v
-	}
-
-	var list []*types.OperationLogBackDTO
+	var list []*types.OperationLogBackVO
 	for _, v := range out.List {
 		m := ConvertOperationLogTypes(v, usm)
 		list = append(list, m)
@@ -70,13 +63,11 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 	return resp, nil
 }
 
-func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails, usm map[string]*accountrpc.User) (out *types.OperationLogBackDTO) {
+func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails, usm map[string]*types.UserInfoVO) (out *types.OperationLogBackVO) {
 
-	out = &types.OperationLogBackDTO{
+	out = &types.OperationLogBackVO{
 		Id:             in.Id,
 		UserId:         in.UserId,
-		Nickname:       "",
-		Avatar:         "",
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
 		OptModule:      in.OptModule,
@@ -95,8 +86,7 @@ func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails, usm map[string]
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = user
 		}
 	}
 

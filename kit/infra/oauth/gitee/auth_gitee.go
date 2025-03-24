@@ -13,7 +13,7 @@ import (
 // Gitee授权登录
 // https://gitee.com/api/v5/oauth_doc#/
 type AuthGitee struct {
-	Config *oauth.AuthConfig
+	Config *oauth.OauthConfig
 
 	Name string // 第三方名称
 
@@ -23,7 +23,7 @@ type AuthGitee struct {
 	UserInfoUrl     string // 获取用户信息URL
 }
 
-func NewAuthGitee(conf *oauth.AuthConfig) *AuthGitee {
+func NewAuthGitee(conf *oauth.OauthConfig) *AuthGitee {
 	return &AuthGitee{
 		Config:         conf,
 		Name:           "feishu",

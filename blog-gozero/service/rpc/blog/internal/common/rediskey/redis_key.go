@@ -46,17 +46,32 @@ func GetArticleViewCountKey() string {
 	return fmt.Sprintf("blog:article:view_count")
 }
 
+// 网站日访客集合
+func GetDailyUserVisitKey(day string) string {
+	return fmt.Sprintf("blog:visit:visitor:%v", day)
+}
+
 // 网站日访问量排行
-func GetBlogViewCountKey() string {
-	return fmt.Sprintf("blog:visit:view_count")
+func GetDailyUserViewCountKey() string {
+	return fmt.Sprintf("blog:visit:daily_uv")
+}
+
+// 网站日访问量排行
+func GetDailyPageViewCountKey() string {
+	return fmt.Sprintf("blog:visit:daily_pv")
 }
 
 // 网站总访问量
-func GetBlogTotalViewCountKey() string {
-	return fmt.Sprintf("blog:visit:total_view_count")
+func GetTotalUserViewCountKey() string {
+	return fmt.Sprintf("blog:visit:total_uv")
 }
 
-// 网站每天访客集合
-func GetBlogDailyVisitorKey(day string) string {
-	return fmt.Sprintf("blog:visit:visitor:%v", day)
+// 网站总访问量
+func GetTotalPageViewCountKey() string {
+	return fmt.Sprintf("blog:visit:total_pv")
+}
+
+// 网站在线用户
+func GetOnlineUserKey() string {
+	return fmt.Sprintf("blog:online:user")
 }

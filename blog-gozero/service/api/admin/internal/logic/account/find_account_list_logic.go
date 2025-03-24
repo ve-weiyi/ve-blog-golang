@@ -33,10 +33,10 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 		PageSize: req.PageSize,
 		Username: req.Username,
 		Nickname: req.Nickname,
-		Email:    "",
-		Phone:    "",
-		Status:   0,
-		UserIds:  nil,
+		Email:    req.Email,
+		Phone:    req.Phone,
+		Status:   req.Status,
+		UserIds:  req.UserIds,
 	}
 
 	out, err := l.svcCtx.AccountRpc.FindUserInfoList(l.ctx, in)
@@ -44,7 +44,7 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 		return nil, err
 	}
 
-	var list []*types.UserInfoResp
+	var list []*types.UserInfoDetail
 	for _, v := range out.List {
 		m := ConvertUserInfoTypes(v)
 		list = append(list, m)
@@ -58,7 +58,11 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 	return resp, nil
 }
 
-func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoDetail {
+
+	var info types.UserInfoExt
+	jsonconv.JsonToAny(in.Info, &info)
+
 	roles := make([]*types.UserRoleLabel, 0)
 	for _, v := range in.Roles {
 		m := &types.UserRoleLabel{
@@ -70,24 +74,21 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 		roles = append(roles, m)
 	}
 
-	var info types.UserInfoExt
-	jsonconv.JsonToAny(in.Info, &info)
-
-	out := &types.UserInfoResp{
-		UserId:      in.UserId,
-		Username:    in.Username,
-		Nickname:    in.Nickname,
-		Avatar:      in.Avatar,
-		Email:       in.Email,
-		Phone:       in.Phone,
-		Status:      in.Status,
-		LoginType:   in.LoginType,
-		IpAddress:   in.IpAddress,
-		IpSource:    in.IpSource,
-		CreatedAt:   in.CreatedAt,
-		UpdatedAt:   in.UpdatedAt,
-		Roles:       roles,
-		UserInfoExt: info,
+	out := &types.UserInfoDetail{
+		UserId:       in.UserId,
+		Username:     in.Username,
+		Nickname:     in.Nickname,
+		Avatar:       in.Avatar,
+		Email:        in.Email,
+		Phone:        in.Phone,
+		Status:       in.Status,
+		RegisterType: in.RegisterType,
+		IpAddress:    in.IpAddress,
+		IpSource:     in.IpSource,
+		CreatedAt:    in.CreatedAt,
+		UpdatedAt:    in.UpdatedAt,
+		UserInfoExt:  info,
+		RoleLabels:   roles,
 	}
 
 	return out

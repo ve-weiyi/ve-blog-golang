@@ -39,7 +39,7 @@ func (l *FindRoleListLogic) FindRoleList(req *types.RoleQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var list []*types.RoleBackDTO
+	var list []*types.RoleBackVO
 	for _, v := range out.List {
 		m := convertRoleTypes(v)
 		list = append(list, m)

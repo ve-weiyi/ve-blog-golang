@@ -35,21 +35,77 @@ message CountResp {
 }
 
 /************** blog 日志管理 **************/
-message OperationLogNewReq {
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 设备id
-  string ip_address = 4;// 操作ip
-  string ip_source = 5;// 操作地址
-  string opt_module = 6;// 操作模块
-  string opt_desc = 7;// 操作描述
-  string request_uri = 8;// 请求地址
-  string request_method = 9;// 请求方式
-  string request_data = 11;// 请求参数
-  string response_data = 12;// 返回数据
-  int64 response_status = 13;// 响应状态码
-  string cost = 14;// 耗时（ms）
+message LoginLogDetails {
+  int64 id = 1;
+  string user_id = 2; // 用户id
+  string login_type = 3;// 登录类型
+  string app_name = 4;// 应用名称
+  string os = 5;// 操作系统
+  string browser = 6;// 浏览器
+  string ip_address = 7;// ip host
+  string ip_source = 8;// ip 源
+  int64 login_at = 9;// 登录时间
+  int64 logout_at = 10;// 登出时间
 }
 
+message LoginLogNewReq {
+  string user_id = 2; // 用户id
+  string login_type = 3;// 登录类型
+}
+
+message AddLogoutLogReq{
+  string user_id = 2; // 用户id
+  int64 logout_at = 8;// 登出时间
+}
+
+message AddLogoutLogResp{
+}
+
+message FindLoginLogListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  repeated string sorts = 3; // 排序
+  string user_id = 4; // 用户id
+}
+
+message FindLoginLogListResp {
+  repeated LoginLogDetails list = 1;
+  int64 total = 2;
+}
+
+/************** blog 日志管理 **************/
+message VisitLogDetails {
+  int64 id = 1;// 主键id
+  string user_id = 2;// 用户id
+  string terminal_id = 3;// 设备id
+  string page_name = 4;// 访问页面
+  string ip_address = 5;// 操作ip
+  string ip_source = 6;// 操作地址
+  string os = 7;// 操作系统
+  string browser = 8;// 浏览器
+  int64 created_at = 15;// 创建时间
+  int64 updated_at = 16;// 更新时间
+}
+
+message VisitLogNewReq {
+  string page_name = 1;// 访问页面
+}
+
+message FindVisitLogListReq {
+  int64 page = 1;
+  int64 page_size = 2;
+  repeated string sorts = 3; // 排序
+  string user_id = 4; // 用户id
+  string terminal_id = 5;// 设备id
+  string page_name = 6;// 访问页面
+}
+
+message FindVisitLogListResp {
+  repeated VisitLogDetails list = 1;
+  int64 total = 2;
+}
+
+/************** blog 日志管理 **************/
 message OperationLogDetails {
   int64 id = 1;// 主键id
   string user_id = 2;// 用户id
@@ -68,6 +124,21 @@ message OperationLogDetails {
   int64 updated_at = 16;// 更新时间
 }
 
+message OperationLogNewReq {
+  string user_id = 2;// 用户id
+  string terminal_id = 3;// 设备id
+  string ip_address = 4;// 操作ip
+  string ip_source = 5;// 操作地址
+  string opt_module = 6;// 操作模块
+  string opt_desc = 7;// 操作描述
+  string request_uri = 8;// 请求地址
+  string request_method = 9;// 请求方式
+  string request_data = 11;// 请求参数
+  string response_data = 12;// 返回数据
+  int64 response_status = 13;// 响应状态码
+  string cost = 14;// 耗时（ms）
+}
+
 message FindOperationLogListReq {
   int64 page = 1;
   int64 page_size = 2;
@@ -80,57 +151,29 @@ message FindOperationLogListResp {
   int64 total = 2;
 }
 
-/************** blog 日志管理 **************/
-message VisitLogNewReq {
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 设备id
-  string ip_address = 4;// 操作ip
-  string ip_source = 5;// 操作地址
-  string os = 6;// 操作系统
-  string browser = 7;// 浏览器
-  string page = 8;// 访问页面
-}
-
-message VisitLogDetails {
-  int64 id = 1;// 主键id
-  string user_id = 2;// 用户id
-  string terminal_id = 3;// 设备id
-  string ip_address = 4;// 操作ip
-  string ip_source = 5;// 操作地址
-  string os = 6;// 操作系统
-  string browser = 7;// 浏览器
-  string page = 8;// 访问页面
-  int64 created_at = 15;// 创建时间
-  int64 updated_at = 16;// 更新时间
-}
-
-message FindVisitLogListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string keywords = 4; // 关键字
-}
-
-message FindVisitLogListResp {
-  repeated VisitLogDetails list = 1;
-  int64 total = 2;
-}
-
 
 service SyslogRpc {
-  // 创建操作记录
-  rpc AddOperationLog(OperationLogNewReq) returns(OperationLogDetails);
-  // 批量删除操作记录
-  rpc DeletesOperationLog(IdsReq) returns(BatchResp);
-  // 查询操作记录列表
-  rpc FindOperationLogList(FindOperationLogListReq) returns(FindOperationLogListResp);
-
+  // 创建登录记录
+  rpc AddLoginLog(LoginLogNewReq) returns(EmptyResp);
+  // 更新登录记录
+  rpc AddLogoutLog(AddLogoutLogReq) returns(AddLogoutLogResp);
+  // 批量删除登录记录
+  rpc DeletesLoginLog(IdsReq) returns(BatchResp);
+  // 查询登录记录列表
+  rpc FindLoginLogList(FindLoginLogListReq) returns(FindLoginLogListResp);
 
   // 创建访问记录
-  rpc AddVisitLog(VisitLogNewReq) returns(VisitLogDetails);
+  rpc AddVisitLog(VisitLogNewReq) returns(EmptyResp);
   // 批量删除访问记录
   rpc DeletesVisitLog(IdsReq) returns(BatchResp);
   // 查询操作访问列表
   rpc FindVisitLogList(FindVisitLogListReq) returns(FindVisitLogListResp);
+
+  // 创建操作记录
+  rpc AddOperationLog(OperationLogNewReq) returns(EmptyResp);
+  // 批量删除操作记录
+  rpc DeletesOperationLog(IdsReq) returns(BatchResp);
+  // 查询操作记录列表
+  rpc FindOperationLogList(FindOperationLogListReq) returns(FindOperationLogListResp);
 
 }

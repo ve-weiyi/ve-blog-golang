@@ -7,6 +7,8 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 
@@ -32,7 +34,7 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 	}
 }
 
-func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) (resp *types.FileBackDTO, err error) {
+func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) (resp *types.FileBackVO, err error) {
 	f, h, _ := r.FormFile("file")
 	defer f.Close()
 
@@ -42,7 +44,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 	}
 
 	in := &resourcerpc.FileUploadNewReq{
-		UserId:   cast.ToString(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		FilePath: req.FilePath,
 		FileName: h.Filename,
 		FileType: filepath.Ext(h.Filename),
@@ -59,8 +61,8 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 	return ConvertFileUploadTypes(out), nil
 }
 
-func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails) (out *types.FileBackDTO) {
-	out = &types.FileBackDTO{
+func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails) (out *types.FileBackVO) {
+	out = &types.FileBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		FilePath:  in.FilePath,

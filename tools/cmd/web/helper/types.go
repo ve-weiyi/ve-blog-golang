@@ -14,6 +14,11 @@ type TsApiRoute struct {
 	Method   string
 	Request  string
 	Response string
+
+	PathFields  []string
+	QueryFields []string
+	FormFields  []string
+	BodyFields  []string
 }
 
 type TsType struct {
