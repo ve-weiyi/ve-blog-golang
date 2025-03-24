@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"sort"
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/convertx"
@@ -48,6 +49,10 @@ func ConvertApiTs(sp *aspec.ApiSpec) map[string][]TsApiGroup {
 
 			routes = append(routes, rt)
 		}
+
+		sort.Slice(routes, func(i, j int) bool {
+			return routes[i].Path < routes[j].Path
+		})
 
 		var name = v.Annotation.Properties["group"]
 		if name == "" {
