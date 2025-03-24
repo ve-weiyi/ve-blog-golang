@@ -35,7 +35,6 @@ func generateModel(tables []*helper.Table, conf modelConfig) error {
 		data := helper.ConvertTableToData(table)
 
 		meta := invent.TemplateMeta{
-			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
 			CodeOutPath:    path.Join(o, fmt.Sprintf(n, table.Name)),
 			TemplateString: string(tpl),

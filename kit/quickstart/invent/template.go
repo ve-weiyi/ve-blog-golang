@@ -17,11 +17,10 @@ const (
 
 // 生成目录，文件名，模板内容，填充数据 data
 type TemplateMeta struct {
-	Key         string
 	Mode        int    //模式 0:创建或替换 1:只创建 2:只替换
-	CodeOutPath string //生成的代码路径  test/template.go
+	CodeOutPath string //生成的代码路径  test/captcha_code.go
 
-	//TemplateFile   string      //模版文件路径   tpl/api.go.tpl
+	//TemplateFile   string         //模版文件路径   tpl/api.go.tpl
 	TemplateString string         //模版文件内容
 	FunMap         map[string]any //模版函数
 	Data           interface{}    //填充内容
