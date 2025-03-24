@@ -165,6 +165,11 @@ type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
 }
 
+type BindUserEmailReq struct {
+	Email      string `json:"email"`       // 邮箱
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type CategoryBackDTO struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name"` // 分类名
@@ -284,9 +289,10 @@ type ListUploadFileResp struct {
 }
 
 type LoginReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	VerifyCode string `json:"verify_code"` // 验证码
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	CaptchaKey  string `json:"captcha_key,optional"`  // 验证码key
+	CaptchaCode string `json:"captcha_code,optional"` // 验证码
 }
 
 type LoginResp struct {
@@ -344,6 +350,16 @@ type MenuQuery struct {
 type MultiUploadFileReq struct {
 	Files    []interface{} `form:"files,optional"`     // 文件列表
 	FilePath string        `form:"file_path,optional"` // 文件路径
+}
+
+type OauthLoginReq struct {
+	Platform string `json:"platform"`       // 平台
+	Code     string `json:"code,optional"`  // 授权码
+	State    string `json:"state,optional"` // 状态
+}
+
+type OauthLoginUrlResp struct {
+	Url string `json:"url"` // 授权地址
 }
 
 type OperationLogBackDTO struct {
@@ -444,6 +460,12 @@ type PingResp struct {
 	RpcStatus   []string `json:"rpc_status"`
 }
 
+type RegisterReq struct {
+	Username   string `json:"username"`
+	Password   string `json:"password"`
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type RemarkBackDTO struct {
 	Id             int64  `json:"id,optional"`     // 主键id
 	Nickname       string `json:"nickname"`        // 昵称
@@ -466,6 +488,12 @@ type RemarkQuery struct {
 type RemarkReviewReq struct {
 	Ids      []int64 `json:"ids,optional"`
 	IsReview int64   `json:"is_review"` // 是否审核
+}
+
+type ResetPasswordReq struct {
+	Username   string `json:"username"`
+	Password   string `json:"password"`
+	VerifyCode string `json:"verify_code"` // 验证码
 }
 
 type Response struct {
@@ -597,6 +625,11 @@ type Token struct {
 	Scope            string `json:"scope"`              // 作用域
 }
 
+type UpdateAccountPasswordReq struct {
+	UserId   string `json:"user_id"`
+	Password string `json:"password"`
+}
+
 type UpdateAccountRolesReq struct {
 	UserId  string  `json:"user_id"`
 	RoleIds []int64 `json:"role_ids"`
@@ -635,6 +668,10 @@ type UserApi struct {
 
 type UserApisResp struct {
 	List []*UserApi `json:"list"`
+}
+
+type UserEmailReq struct {
+	Username string `json:"username"`
 }
 
 type UserInfoExt struct {

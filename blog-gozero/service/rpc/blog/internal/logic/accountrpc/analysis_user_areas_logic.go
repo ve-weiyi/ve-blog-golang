@@ -10,14 +10,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserAreasAnalysisLogic struct {
+type AnalysisUserAreasLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetUserAreasAnalysisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserAreasAnalysisLogic {
-	return &GetUserAreasAnalysisLogic{
+func NewAnalysisUserAreasLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AnalysisUserAreasLogic {
+	return &AnalysisUserAreasLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -25,7 +25,7 @@ func NewGetUserAreasAnalysisLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 // 查询用户分布区域
-func (l *GetUserAreasAnalysisLogic) GetUserAreasAnalysis(in *accountrpc.EmptyReq) (*accountrpc.GetUserAreasAnalysisResp, error) {
+func (l *AnalysisUserAreasLogic) AnalysisUserAreas(in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserAreasResp, error) {
 
 	sql := `
 SELECT 
@@ -74,7 +74,7 @@ ORDER BY
 		})
 	}
 
-	return &accountrpc.GetUserAreasAnalysisResp{
+	return &accountrpc.AnalysisUserAreasResp{
 		List: list,
 	}, nil
 }

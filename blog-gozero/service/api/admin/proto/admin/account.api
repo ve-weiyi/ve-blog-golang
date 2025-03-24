@@ -8,6 +8,11 @@ type (
         Status int64 `json:"status"`               // 状态: -1删除 0正常 1禁用
     }
 
+    UpdateAccountPasswordReq {
+        UserId string `json:"user_id"`
+        Password string `json:"password"`
+    }
+
     UpdateAccountRolesReq {
         UserId string `json:"user_id"`
         RoleIds []int64 `json:"role_ids"`
@@ -61,9 +66,14 @@ service admin-api {
     @handler FindAccountAreaAnalysis
     post /account/find_account_area_analysis (AccountQuery) returns (PageResp)
 
+
     @doc "修改用户状态"
     @handler UpdateAccountStatus
     post /account/update_account_status (UpdateAccountStatusReq) returns (EmptyResp)
+
+    @doc "修改用户密码"
+    @handler UpdateAccountPassword
+    post /account/update_account_password (UpdateAccountPasswordReq) returns (EmptyResp)
 
     @doc "修改用户角色"
     @handler UpdateAccountRoles

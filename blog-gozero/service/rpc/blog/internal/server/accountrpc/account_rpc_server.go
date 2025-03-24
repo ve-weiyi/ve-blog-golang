@@ -107,6 +107,12 @@ func (s *AccountRpcServer) UpdateUserStatus(ctx context.Context, in *accountrpc.
 	return l.UpdateUserStatus(in)
 }
 
+// 修改用户密码
+func (s *AccountRpcServer) UpdateUserPassword(ctx context.Context, in *accountrpc.UpdateUserPasswordReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewUpdateUserPasswordLogic(ctx, s.svcCtx)
+	return l.UpdateUserPassword(in)
+}
+
 // 查找用户列表
 func (s *AccountRpcServer) FindUserList(ctx context.Context, in *accountrpc.FindUserListReq) (*accountrpc.FindUserListResp, error) {
 	l := accountrpclogic.NewFindUserListLogic(ctx, s.svcCtx)
@@ -138,7 +144,7 @@ func (s *AccountRpcServer) AnalysisUser(ctx context.Context, in *accountrpc.Empt
 }
 
 // 查询用户分布区域
-func (s *AccountRpcServer) GetUserAreasAnalysis(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.GetUserAreasAnalysisResp, error) {
-	l := accountrpclogic.NewGetUserAreasAnalysisLogic(ctx, s.svcCtx)
-	return l.GetUserAreasAnalysis(in)
+func (s *AccountRpcServer) AnalysisUserAreas(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserAreasResp, error) {
+	l := accountrpclogic.NewAnalysisUserAreasLogic(ctx, s.svcCtx)
+	return l.AnalysisUserAreas(in)
 }

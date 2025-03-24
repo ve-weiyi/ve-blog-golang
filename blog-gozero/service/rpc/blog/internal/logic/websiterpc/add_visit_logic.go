@@ -62,7 +62,7 @@ func (l *AddVisitLogic) AddVisit(in *websiterpc.AddVisitReq) (*websiterpc.AddVis
 			return nil, err
 		}
 
-		// 添加总访问量
+		// 添加日总访问量
 		dailyKey := rediskey.GetBlogViewCountKey()
 		_, err = l.svcCtx.Redis.ZIncrBy(l.ctx, dailyKey, 1, day).Result()
 		if err != nil {

@@ -32,13 +32,6 @@ message UserIdReq {
 message LoginReq {
   string username = 1;
   string password = 2;
-  string verify_code = 3;
-}
-
-message RegisterReq {
-  string username = 1;
-  string password = 2;
-  string verify_code = 3;
 }
 
 message LoginResp {
@@ -71,6 +64,12 @@ message LogoutResp {
 
 message UserEmailReq {
   string username = 1;
+}
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+  string verify_code = 3;
 }
 
 message ResetPasswordReq {
@@ -158,6 +157,11 @@ message UpdateUserStatusReq {
   int64 status = 2;
 }
 
+message UpdateUserPasswordReq {
+  string user_id = 1; // 用户id
+  string password = 2;
+}
+
 message FindUserListReq {
   int64 page = 1;
   int64 page_size = 2;
@@ -196,7 +200,7 @@ message AnalysisUserResp {
   int64 user_count = 1;
 }
 
-message GetUserAreasAnalysisResp {
+message AnalysisUserAreasResp {
   repeated UserArea list = 1;
 }
 
@@ -212,6 +216,7 @@ service AccountRpc {
   rpc Logout(LogoutReq) returns(LogoutResp);
   // 注销
   rpc Logoff(LogoffReq) returns(EmptyResp);
+
   // 注册
   rpc Register(RegisterReq) returns(LoginResp);
   // 重置密码
@@ -230,8 +235,6 @@ service AccountRpc {
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
   // 获取第三方登录授权地址
   rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
-  // 获取用户登录时间
-  //  rpc GetLogoutAt(UserIdReq) returns(LogoutResp);
 
 
   // 获取用户信息
@@ -240,6 +243,8 @@ service AccountRpc {
   rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
   // 修改用户状态
   rpc UpdateUserStatus(UpdateUserStatusReq) returns(EmptyResp);
+  // 修改用户密码
+  rpc UpdateUserPassword(UpdateUserPasswordReq) returns(EmptyResp);
 
   // 查找用户列表
   rpc FindUserList(FindUserListReq) returns(FindUserListResp);
@@ -253,5 +258,5 @@ service AccountRpc {
   // 查询用户数量
   rpc AnalysisUser(EmptyReq) returns(AnalysisUserResp);
   // 查询用户分布区域
-  rpc GetUserAreasAnalysis(EmptyReq) returns(GetUserAreasAnalysisResp);
+  rpc AnalysisUserAreas(EmptyReq) returns(AnalysisUserAreasResp);
 }

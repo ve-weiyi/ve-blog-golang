@@ -30,7 +30,16 @@ func (l *GetUserTotalVisitLogic) GetUserTotalVisit(in *websiterpc.EmptyReq) (*we
 	total, err := l.svcCtx.Redis.Get(l.ctx, totalKey).Int64()
 	if err != nil {
 		l.Errorf("获取用户总访问量失败: %v", err)
-		total = 0
+		records, err := l.svcCtx.TVisitHistoryModel.FindALL(l.ctx, "")
+		if err != nil {
+			return nil, err
+		}
+
+		for _, record := range records {
+			total += record.ViewsCount
+		}
+
+		_, err = l.svcCtx.Redis.Set(l.ctx, totalKey, total, 0).Result()
 	}
 
 	return &websiterpc.CountResp{

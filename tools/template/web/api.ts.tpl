@@ -3,9 +3,8 @@
 {{ end }}
 export const {{ .Name }}API = {
 {{- range .TsApiGroups }}
-  {{- $prefix := .Prefix}}
-
-  {{- range .Routes}}
+{{- $prefix := .Prefix -}}
+{{- range .Routes}}
   /** {{ .Summery }} */
   {{ .Handler }}Api(
   {{- if .Request }}data?: {{ .Request }}{{ end -}}
@@ -16,6 +15,6 @@ export const {{ .Name }}API = {
       {{ if .Request }}data: data,{{ end }}
     });
   },
-  {{ end }}
+{{ end -}}
 {{ end -}}
 };

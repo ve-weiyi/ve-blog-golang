@@ -23,7 +23,7 @@ func NewAnalysisUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Anal
 	}
 }
 
-// 查询用户分布区域
+// 查询用户数量
 func (l *AnalysisUserLogic) AnalysisUser(in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserResp, error) {
 	uc, err := l.svcCtx.TUserModel.FindCount(l.ctx, "")
 	if err != nil {

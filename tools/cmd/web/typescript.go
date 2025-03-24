@@ -67,10 +67,10 @@ func RunTypescript(conf *CmdVar) {
 		panic(err)
 	}
 
-	err = generatePermsTs(sp, conf)
-	if err != nil {
-		panic(err)
-	}
+	//err = generatePermsTs(sp, conf)
+	//if err != nil {
+	//	panic(err)
+	//}
 }
 
 func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {
@@ -113,7 +113,6 @@ func generateApiTs(sp *aspec.ApiSpec, conf *CmdVar) error {
 		})
 
 		meta := invent.TemplateMeta{
-			Key:            "",
 			Mode:           invent.ModeCreateOrReplace,
 			CodeOutPath:    path.Join(conf.VarStringOutPath, fmt.Sprintf("%s.ts", k)),
 			TemplateString: string(tpl),

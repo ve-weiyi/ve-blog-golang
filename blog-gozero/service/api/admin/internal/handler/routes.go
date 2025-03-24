@@ -73,6 +73,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: account.FindAccountOnlineListHandler(serverCtx),
 				},
 				{
+					// 修改用户密码
+					Method:  http.MethodPost,
+					Path:    "/account/update_account_password",
+					Handler: account.UpdateAccountPasswordHandler(serverCtx),
+				},
+				{
 					// 修改用户角色
 					Method:  http.MethodPost,
 					Path:    "/account/update_account_roles",
@@ -244,6 +250,42 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/login",
 				Handler: auth.LoginHandler(serverCtx),
 			},
+			{
+				// 第三方登录授权地址
+				Method:  http.MethodPost,
+				Path:    "/oauth_authorize_url",
+				Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
+			},
+			{
+				// 第三方登录
+				Method:  http.MethodPost,
+				Path:    "/oauth_login",
+				Handler: auth.OauthLoginHandler(serverCtx),
+			},
+			{
+				// 注册
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: auth.RegisterHandler(serverCtx),
+			},
+			{
+				// 发送注册账号邮件
+				Method:  http.MethodPost,
+				Path:    "/send_register_email",
+				Handler: auth.SendRegisterEmailHandler(serverCtx),
+			},
+			{
+				// 重置密码
+				Method:  http.MethodPost,
+				Path:    "/user/reset_password",
+				Handler: auth.ResetPasswordHandler(serverCtx),
+			},
+			{
+				// 发送重置密码邮件
+				Method:  http.MethodPost,
+				Path:    "/user/send_reset_email",
+				Handler: auth.SendResetEmailHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/admin_api/v1"),
 	)
@@ -253,10 +295,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken},
 			[]rest.Route{
 				{
+					// 绑定邮箱
+					Method:  http.MethodPost,
+					Path:    "/bind_user_email",
+					Handler: auth.BindUserEmailHandler(serverCtx),
+				},
+				{
+					// 注销
+					Method:  http.MethodPost,
+					Path:    "/logoff",
+					Handler: auth.LogoffHandler(serverCtx),
+				},
+				{
 					// 登出
 					Method:  http.MethodPost,
 					Path:    "/logout",
 					Handler: auth.LogoutHandler(serverCtx),
+				},
+				{
+					// 发送绑定邮箱验证码
+					Method:  http.MethodPost,
+					Path:    "/send_bind_email",
+					Handler: auth.SendBindEmailHandler(serverCtx),
 				},
 			}...,
 		),

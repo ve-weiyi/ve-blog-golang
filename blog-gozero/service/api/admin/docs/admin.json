@@ -123,6 +123,33 @@
         ]
       }
     },
+    "/admin_api/v1/account/update_account_password": {
+      "post": {
+        "summary": "修改用户密码",
+        "operationId": "UpdateAccountPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateAccountPasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "account"
+        ]
+      }
+    },
     "/admin_api/v1/account/update_account_roles": {
       "post": {
         "summary": "修改用户角色",
@@ -867,6 +894,33 @@
         ]
       }
     },
+    "/admin_api/v1/bind_user_email": {
+      "post": {
+        "summary": "绑定邮箱",
+        "operationId": "BindUserEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BindUserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
     "/admin_api/v1/category/add_category": {
       "post": {
         "summary": "创建文章分类",
@@ -1444,6 +1498,33 @@
         ]
       }
     },
+    "/admin_api/v1/logoff": {
+      "post": {
+        "summary": "注销",
+        "operationId": "Logoff",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
     "/admin_api/v1/logout": {
       "post": {
         "summary": "登出",
@@ -1657,6 +1738,66 @@
         ],
         "tags": [
           "menu"
+        ]
+      }
+    },
+    "/admin_api/v1/oauth_authorize_url": {
+      "post": {
+        "summary": "第三方登录授权地址",
+        "operationId": "OauthAuthorizeUrl",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OauthLoginUrlResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OauthLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/admin_api/v1/oauth_login": {
+      "post": {
+        "summary": "第三方登录",
+        "operationId": "OauthLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OauthLoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
         ]
       }
     },
@@ -1944,6 +2085,33 @@
         },
         "tags": [
           "admin-api"
+        ]
+      }
+    },
+    "/admin_api/v1/register": {
+      "post": {
+        "summary": "注册",
+        "operationId": "Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
         ]
       }
     },
@@ -2270,6 +2438,60 @@
         ],
         "tags": [
           "role"
+        ]
+      }
+    },
+    "/admin_api/v1/send_bind_email": {
+      "post": {
+        "summary": "发送绑定邮箱验证码",
+        "operationId": "SendBindEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/admin_api/v1/send_register_email": {
+      "post": {
+        "summary": "发送注册账号邮件",
+        "operationId": "SendRegisterEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
         ]
       }
     },
@@ -2635,6 +2857,60 @@
         },
         "tags": [
           "user"
+        ]
+      }
+    },
+    "/admin_api/v1/user/reset_password": {
+      "post": {
+        "summary": "重置密码",
+        "operationId": "ResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/admin_api/v1/user/send_reset_email": {
+      "post": {
+        "summary": "发送重置密码邮件",
+        "operationId": "SendResetEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/EmptyResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserEmailReq"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
         ]
       }
     },
@@ -3477,6 +3753,24 @@
         "success_count"
       ]
     },
+    "BindUserEmailReq": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": " 邮箱"
+        },
+        "verify_code": {
+          "type": "string",
+          "description": " 验证码"
+        }
+      },
+      "title": "BindUserEmailReq",
+      "required": [
+        "email",
+        "verify_code"
+      ]
+    },
     "CategoryBackDTO": {
       "type": "object",
       "properties": {
@@ -3980,7 +4274,11 @@
         "password": {
           "type": "string"
         },
-        "verify_code": {
+        "captcha_key": {
+          "type": "string",
+          "description": " 验证码key"
+        },
+        "captcha_code": {
           "type": "string",
           "description": " 验证码"
         }
@@ -3988,8 +4286,7 @@
       "title": "LoginReq",
       "required": [
         "username",
-        "password",
-        "verify_code"
+        "password"
       ]
     },
     "LoginResp": {
@@ -4303,6 +4600,40 @@
         }
       },
       "title": "MultiUploadFileReq"
+    },
+    "OauthLoginReq": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string",
+          "description": " 平台"
+        },
+        "code": {
+          "type": "string",
+          "description": " 授权码"
+        },
+        "state": {
+          "type": "string",
+          "description": " 状态"
+        }
+      },
+      "title": "OauthLoginReq",
+      "required": [
+        "platform"
+      ]
+    },
+    "OauthLoginUrlResp": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": " 授权地址"
+        }
+      },
+      "title": "OauthLoginUrlResp",
+      "required": [
+        "url"
+      ]
     },
     "OperationLogBackDTO": {
       "type": "object",
@@ -4748,6 +5079,27 @@
         "rpc_status"
       ]
     },
+    "RegisterReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "verify_code": {
+          "type": "string",
+          "description": " 验证码"
+        }
+      },
+      "title": "RegisterReq",
+      "required": [
+        "username",
+        "password",
+        "verify_code"
+      ]
+    },
     "RemarkBackDTO": {
       "type": "object",
       "properties": {
@@ -4861,6 +5213,27 @@
       "title": "RemarkReviewReq",
       "required": [
         "is_review"
+      ]
+    },
+    "ResetPasswordReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "verify_code": {
+          "type": "string",
+          "description": " 验证码"
+        }
+      },
+      "title": "ResetPasswordReq",
+      "required": [
+        "username",
+        "password",
+        "verify_code"
       ]
     },
     "Response": {
@@ -5404,6 +5777,22 @@
         "scope"
       ]
     },
+    "UpdateAccountPasswordReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateAccountPasswordReq",
+      "required": [
+        "user_id",
+        "password"
+      ]
+    },
     "UpdateAccountRolesReq": {
       "type": "object",
       "properties": {
@@ -5564,6 +5953,18 @@
       "title": "UserApisResp",
       "required": [
         "list"
+      ]
+    },
+    "UserEmailReq": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        }
+      },
+      "title": "UserEmailReq",
+      "required": [
+        "username"
       ]
     },
     "UserInfoExt": {
