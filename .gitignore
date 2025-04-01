@@ -30,8 +30,6 @@ web/pnpm-lock.yaml
 server/config.yaml
 *.sum
 
-/deploy/docker/
-test
 runtime
 default.etcd
 config.yaml
@@ -43,3 +41,4 @@ test.api
 test.json
 test.txt
 any_test.go
+blog-veweiyi.sql

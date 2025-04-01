@@ -20,7 +20,7 @@
 
 2. 确保运行了 mysql、redis、rabbitmq 等服务。    
    如果没有运行过，可以在[data](../deploy/docker-compose/data)目录下输入命令`docker-compose up -d`快速启动这些服务。     
-   Mysql需要初始化数据，在数据库执行[blog-veweiyi.sql](../blog-veweiyi.sql)、[blog-veweiyi-init.sql](../blog-veweiyi-init.sql)
+   Mysql需要初始化数据，在数据库执行[blog-veweiyi-init.sql](../blog-veweiyi-init.sql)、[blog-veweiyi-data.sql](../blog-veweiyi-data.sql)
 
 3. 修改配置文件。在[blog-api](service/api/blog/etc)、[admin-api](service/api/admin/etc)、[blog-rpc](service/rpc/blog/etc)
    目录下

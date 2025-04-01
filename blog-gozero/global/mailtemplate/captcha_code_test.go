@@ -16,7 +16,7 @@ func Test_Mail(t *testing.T) {
 
 	meta := invent.TemplateMeta{
 		Mode:           invent.ModeCreateOrReplace,
-		CodeOutPath:    "./test/code.html",
+		CodeOutPath:    "./runtime/code.html",
 		TemplateString: TempCaptchaCode,
 		FunMap:         nil,
 		Data:           data,
