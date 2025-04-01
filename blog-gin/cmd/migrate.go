@@ -48,7 +48,7 @@ func NewMigrateCmd() *MigrateCmd {
 
 func (s *MigrateCmd) init() {
 	s.cmd.Flags().StringVarP(&s.action, "action", "a", "migrate", "migrate|reset")
-	s.cmd.Flags().StringVarP(&s.sqlFile, "file", "", "blog-veweiyi.sql", "数据库sql文件")
+	s.cmd.Flags().StringVarP(&s.sqlFile, "file", "", "blog-veweiyi-init.sql", "数据库sql文件")
 
 	s.cmd.Flags().StringVarP(&s.Host, "host", "", "localhost", "数据库ip")
 	s.cmd.Flags().StringVarP(&s.Port, "port", "", "3306", "数据库端口")
