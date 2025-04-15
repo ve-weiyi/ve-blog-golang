@@ -3,9 +3,9 @@ package role
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/svc"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/gozero/service/rpc/blog/client/permissionrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,7 +36,7 @@ func (l *UpdateRoleMenusLogic) UpdateRoleMenus(req *types.UpdateRoleMenusReq) (r
 		return nil, err
 	}
 
-	err = l.svcCtx.PermissionHolder.ClearPolicy()
+	err = l.svcCtx.PermissionHolder.ReloadPolicy()
 	if err != nil {
 		return nil, err
 	}
