@@ -89,16 +89,16 @@ https://admin.veweiyi.cn/admin_api/v1/swagger/index.html
 + [assets](assets) 存放项目图片、文章等资源。
 + [deploy](deploy) 存放项目部署相关的文件，通过 docker-compose 快速部署服务。
 
-+ [gin](gin) 使用 [gin](https://github.com/gin-gonic/gin) 开发的博客后端服务。
++ [blog-gin](blog-gin) 使用 [gin](https://github.com/gin-gonic/gin) 开发的博客后端服务。
   gin框架的优点是轻量、快速、易用，适合快速开发API接口，适用于golang后端初学者。  
   由于修改接口定义时维护麻烦，在v3.0.0之后删除了具体的实现逻辑，只保存了接口定义，具体实现请看go-zero框架。
 
-+ [gozero](gozero) 使用 [go-zero](https://github.com/zeromicro/go-zero) 开发的博客后端服务。
++ [blog-gozero](blog-gozero) 使用 [go-zero](https://github.com/zeromicro/go-zero) 开发的博客后端服务。
   go-zero框架的优点是功能齐全，自带了多种中间件，适合大型项目和复杂业务的解耦。
   使用grpc进行服务间通信，使用etcd进行服务注册和发现，使用gorm进行数据库操作，使用jwt进行鉴权。
 
 + [kit](kit) 存放项目的golang工具包,一些通用的工具会放在这里。
-+ [quickstart](quickstart) 通过cobra命令实现快速生成代码，功能类似于goctl。其实这个目录叫codegen更合适，由于个人对目录排序有强迫症。
++ [tools](tools) 通过cobra命令实现快速生成代码，功能类似于go-zero的goctl。
 
 ## 项目预览
 ![img.png](assets/images/img.png)
