@@ -48,8 +48,8 @@ jobs:
       - name: Build and push blog-rpc
         uses: docker/build-push-action@v5
         with:
-          context: ./blog-gozero
-          file: ./Dockerfile-blog-rpc
+          context: .
+          file: ./blog-gozero/Dockerfile-blog-rpc
           push: true
           tags: |
             ghcr.io/weiyi7914/blog-rpc:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha }}
@@ -59,8 +59,8 @@ jobs:
       - name: Build and push blog-api
         uses: docker/build-push-action@v5
         with:
-          context: ./blog-gozero
-          file: ./Dockerfile-blog-api
+          context: .
+          file: ./blog-gozero/Dockerfile-blog-api
           push: true
           tags: |
             ghcr.io/weiyi7914/blog-api:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha }}
@@ -70,8 +70,8 @@ jobs:
       - name: Build and push admin-api
         uses: docker/build-push-action@v5
         with:
-          context: ./blog-gozero
-          file: ./Dockerfile-admin-api
+          context: .
+          file: ./blog-gozero/Dockerfile-admin-api
           push: true
           tags: |
             ghcr.io/weiyi7914/admin-api:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha }}
