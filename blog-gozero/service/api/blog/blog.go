@@ -26,7 +26,7 @@ var (
 	nacosPassword  = flag.String("nacos-password", "nacos", "Input Your Nacos Password")
 	nacosNameSpace = flag.String("nacos-namespace", "test", "Input Your Nacos NameSpaceId")
 	nacosGroup     = flag.String("nacos-group", "veweiyi.cn", "nacos group")
-	nacosDataId    = flag.String("nacos-data-id", "api", "Input Your Nacos DataId")
+	nacosDataId    = flag.String("nacos-data-id", "blog-api", "Input Your Nacos DataId")
 )
 
 var configFile = flag.String("f", "", "the config file")

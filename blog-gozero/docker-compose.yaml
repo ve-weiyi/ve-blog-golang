@@ -10,8 +10,10 @@ services:
   blog-rpc:
     build:
       context: ./
-      dockerfile: Dockerfile-rpc
-    image: weiyi7914/blog-rpc:latest  # 设置新的镜像名称和标签
+      dockerfile: Dockerfile-blog-rpc
+    env_file:
+      - .env      # 应用配置
+    image: ghcr.io/ve-weiyi/blog-rpc:${IMAGE_TAG}  # 设置新的镜像名称和标签
     container_name: blog-rpc
     restart: always
     ports:
@@ -20,20 +22,22 @@ services:
       - ./runtime:/app/rpc/blog/runtime
     command: [
       "./blog",
-      "-nacos-ip", "veweiyi.cn",
-      "-nacos-port", "8848",
-      "-nacos-username", "nacos",
-      "-nacos-password", "nacos",
-      "-nacos-namespace", "prod",
-      "-nacos-group", "veweiyi.cn",
-      "-nacos-data-id", "rpc"
+      "-nacos-ip", "${NACOS_IP}",
+      "-nacos-port", "${NACOS_PORT}",
+      "-nacos-username", "${NACOS_USERNAME}",
+      "-nacos-password", "${NACOS_PASSWORD}",
+      "-nacos-namespace", "${NACOS_NAMESPACE}",
+      "-nacos-group", "${NACOS_GROUP}",
+      "-nacos-data-id", "blog-rpc"
     ]
 
   blog-api:
     build:
       context: ./
       dockerfile: Dockerfile-blog-api
-    image: weiyi7914/blog-api:latest  # 设置新的镜像名称和标签
+    env_file:
+      - .env      # 应用配置
+    image: ghcr.io/ve-weiyi/blog-api:${IMAGE_TAG}  # 设置新的镜像名称和标签
     container_name: blog-api
     restart: always
     ports:
@@ -45,20 +49,22 @@ services:
       - blog-rpc
     command: [
       "./blog",
-      "-nacos-ip", "veweiyi.cn",
-      "-nacos-port", "8848",
-      "-nacos-username", "nacos",
-      "-nacos-password", "nacos",
-      "-nacos-namespace", "prod",
-      "-nacos-group", "veweiyi.cn",
-      "-nacos-data-id", "api"
+      "-nacos-ip", "${NACOS_IP}",
+      "-nacos-port", "${NACOS_PORT}",
+      "-nacos-username", "${NACOS_USERNAME}",
+      "-nacos-password", "${NACOS_PASSWORD}",
+      "-nacos-namespace", "${NACOS_NAMESPACE}",
+      "-nacos-group", "${NACOS_GROUP}",
+      "-nacos-data-id", "blog-api"
     ]
 
   admin-api:
     build:
       context: ./
       dockerfile: Dockerfile-admin-api
-    image: weiyi7914/admin-api:latest  # 设置新的镜像名称和标签
+    env_file:
+      - .env      # 应用配置
+    image: ghcr.io/ve-weiyi/admin-api:${IMAGE_TAG}  # 设置新的镜像名称和标签
     container_name: admin-api
     restart: always
     ports:
@@ -70,14 +76,19 @@ services:
       - blog-rpc
     command: [
       "./admin",
-      "-nacos-ip", "veweiyi.cn",
-      "-nacos-port", "8848",
-      "-nacos-username", "nacos",
-      "-nacos-password", "nacos",
-      "-nacos-namespace", "prod",
-      "-nacos-group", "veweiyi.cn",
+      "-nacos-ip", "${NACOS_IP}",
+      "-nacos-port", "${NACOS_PORT}",
+      "-nacos-username", "${NACOS_USERNAME}",
+      "-nacos-password", "${NACOS_PASSWORD}",
+      "-nacos-namespace", "${NACOS_NAMESPACE}",
+      "-nacos-group", "${NACOS_GROUP}",
       "-nacos-data-id", "admin-api"
     ]
+
+#使用外部网络。不同dokcer通讯
+#  service:
+#    networks:
+#      - blog-network
 #docker network create blog-network
 #networks:
 #  blog-network:
