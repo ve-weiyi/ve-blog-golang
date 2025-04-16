@@ -9,7 +9,7 @@ services:
 
   blog-rpc:
     build:
-      context: ./
+      context: blog-gozero
       dockerfile: Dockerfile-blog-rpc
     image: weiyi7914/blog-rpc:latest  # 设置新的镜像名称和标签
     container_name: blog-rpc
@@ -31,7 +31,7 @@ services:
 
   blog-api:
     build:
-      context: ./
+      context: blog-gozero
       dockerfile: Dockerfile-blog-api
     image: weiyi7914/blog-api:latest  # 设置新的镜像名称和标签
     container_name: blog-api
@@ -56,7 +56,7 @@ services:
 
   admin-api:
     build:
-      context: ./
+      context: blog-gozero
       dockerfile: Dockerfile-admin-api
     image: weiyi7914/admin-api:latest  # 设置新的镜像名称和标签
     container_name: admin-api
