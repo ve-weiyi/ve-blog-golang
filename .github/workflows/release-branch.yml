@@ -1,0 +1,79 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - master
+      - feature/**  # 监听 master 和所有 feature 分支
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write  # 允许推送镜像到 GitHub Packages
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整的 Git 历史记录以提取 hash
+
+      - name: List files in current directory
+        run: |
+          echo "Contents of current directory:"
+          ls -al  # 列出所有文件（包括隐藏文件）
+
+      - name: Extract branch name and commit hash
+        id: vars
+        run: |
+          # 提取分支名称（移除 refs/heads/ 前缀）
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          BRANCH_NAME=${BRANCH_NAME//\//-}  # 替换斜杠为短横线（防止 feature/xxx 在镜像名中报错）
+          # 提取前 7 位 commit hash
+          SHORT_SHA=$(git rev-parse --short=7 $GITHUB_SHA)
+          echo "branch=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+          echo "sha=${SHORT_SHA}" >> $GITHUB_OUTPUT
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Packages
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push blog-rpc
+        uses: docker/build-push-action@v5
+        with:
+          context: ./blog-gozero
+          file: ./Dockerfile-blog-rpc
+          push: true
+          tags: |
+            ghcr.io/weiyi7914/blog-rpc:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.repository_url }}
+
+      - name: Build and push blog-api
+        uses: docker/build-push-action@v5
+        with:
+          context: ./blog-gozero
+          file: ./Dockerfile-blog-api
+          push: true
+          tags: |
+            ghcr.io/weiyi7914/blog-api:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.repository_url }}
+
+      - name: Build and push admin-api
+        uses: docker/build-push-action@v5
+        with:
+          context: ./blog-gozero
+          file: ./Dockerfile-admin-api
+          push: true
+          tags: |
+            ghcr.io/weiyi7914/admin-api:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha }}
+          labels: |
+            org.opencontainers.image.source=${{ github.repository_url }}

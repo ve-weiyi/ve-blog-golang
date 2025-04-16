@@ -10,7 +10,7 @@ services:
   blog-rpc:
     build:
       context: ./
-      dockerfile: Dockerfile-rpc
+      dockerfile: Dockerfile-blog-rpc
     image: weiyi7914/blog-rpc:latest  # 设置新的镜像名称和标签
     container_name: blog-rpc
     restart: always
