@@ -74,7 +74,7 @@ etcd
 
 ## 3.部署服务
 
-[docker-compose.yaml](docker-compose.yaml)
+[docker-compose.yaml](../docker-compose.yaml)
 
 运行docker-compose.yaml文件
 

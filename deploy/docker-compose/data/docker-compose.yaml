@@ -26,7 +26,7 @@ services:
       --collation-server=utf8mb4_general_ci #设置utf8字符集
 
   redis:
-    image: redis:latest
+    image: redis:alpine
     container_name: redis-server # 容器名
     restart: always
     ports:
