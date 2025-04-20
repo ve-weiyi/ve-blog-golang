@@ -19,7 +19,7 @@ services:
     ports:
       - "9999:9999"
     volumes:
-      - ./runtime:/app/rpc/blog/runtime
+      - ./runtime:/app/runtime
     command: [
       "./blog",
       "-nacos-ip", "${NACOS_IP}",
@@ -44,7 +44,7 @@ services:
       - "6060:6060"
       - "9090:9090"
     volumes:
-      - ./runtime:/app/api/blog/runtime
+      - ./runtime:/app/runtime
     depends_on:
       - blog-rpc
     command: [
@@ -71,7 +71,7 @@ services:
       - "6061:6061"
       - "9091:9091"
     volumes:
-      - ./runtime:/app/api/admin/runtime
+      - ./runtime:/app/runtime
     depends_on:
       - blog-rpc
     command: [

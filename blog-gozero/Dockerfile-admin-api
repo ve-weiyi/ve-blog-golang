@@ -12,7 +12,7 @@ WORKDIR /build
 
 COPY . .
 RUN go mod tidy
-RUN go build -o /app/api/admin/admin service/api/admin/admin.go
+RUN go build -o /app/admin service/api/admin/admin.go
 
 
 FROM scratch
@@ -21,7 +21,7 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifi
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
 ENV TZ Asia/Shanghai
 
-WORKDIR /app/api/admin
-COPY --from=builder /app/api/admin/admin /app/api/admin/admin
+WORKDIR /app
+COPY --from=builder /app/admin /app/admin
 
 CMD ["./admin"]
