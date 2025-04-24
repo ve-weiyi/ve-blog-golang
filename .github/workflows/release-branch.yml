@@ -84,6 +84,7 @@ jobs:
             --name ${{ env.IMAGE_NAME }} \
             --restart always \
             -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
+            -v /data/runtime:/app/runtime \
             ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./blog \
               -nacos-ip "${{ vars.NACOS_IP }}" \
@@ -167,6 +168,7 @@ jobs:
             --name ${{ env.IMAGE_NAME }} \
             --restart always \
             -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
+            -v /data/runtime:/app/runtime \
             ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./blog \
               -nacos-ip "${{ vars.NACOS_IP }}" \
@@ -178,7 +180,7 @@ jobs:
               -nacos-data-id "${{ env.IMAGE_NAME }}"
 
   build-admin-api:
-    needs: build-blog-api
+    needs: build-blog-rpc
     runs-on: ubuntu-latest
     # 设置环境变量
     env:
@@ -250,6 +252,7 @@ jobs:
             --name ${{ env.IMAGE_NAME }} \
             --restart always \
             -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
+            -v /data/runtime:/app/runtime \
             ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
               ./admin \
               -nacos-ip "${{ vars.NACOS_IP }}" \
