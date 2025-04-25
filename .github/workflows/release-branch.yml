@@ -111,7 +111,6 @@ jobs:
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
   build-admin-api:
-    needs: build-blog-rpc
     runs-on: ubuntu-latest
     # 设置环境变量
     env:
