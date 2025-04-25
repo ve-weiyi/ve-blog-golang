@@ -19,8 +19,8 @@
 </div>
 
 <div align="center">
-  <a target="_blank" href="https://blog.veweiyi.cn/api/v1/swagger/index.html">🖥️ 前台接口文档</a> |
-  <a target="_blank" href="https://admin.veweiyi.cn/admin_api/v1/swagger/index.html">🖥️ 后台接口文档</a> 
+  <a target="_blank" href="https://blog.veweiyi.cn/api/v1/swagger/index.html">📑 前台接口文档</a> |
+  <a target="_blank" href="https://admin.veweiyi.cn/admin_api/v1/swagger/index.html">📑 后台接口文档</a> 
 </div>
 
 ### 作者联系方式：
@@ -32,7 +32,7 @@
 
 # 🚀 项目介绍
 
-ve-blog 是一个基于 Go 语言开发的全栈博客系统，采用前后端分离架构，提供完整的博客解决方案。
+ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端，基于微服务架构，提供完整的博客解决方案。
 
 ## 项目预览
 
@@ -67,10 +67,11 @@ ve-blog 是一个基于 Go 语言开发的全栈博客系统，采用前后端�
 
 ### 3. 技术亮点
 
-- **微服务架构**：使用 go-zero 框架，支持服务注册发现、负载均衡
-- **高性能**：Redis 缓存、消息队列优化，支持高并发访问
-- **安全性**：JWT 认证、数据加密、权限控制
-- **可扩展性**：模块化设计，支持功能扩展和定制
+- **微服务架构**：采用 go-zero 框架，支持服务注册发现、负载均衡，实现高可用架构
+- **高性能**：使用 Redis 缓存、消息队列优化，支持高并发访问，轻松应对流量高峰
+- **安全性**：JWT 认证、数据加密、权限控制，全方位保障系统安全
+- **可扩展性**：模块化设计，支持功能扩展和定制，满足个性化需求
+- **开发效率**：提供完整的代码生成工具，快速开发新功能
 
 ## 🛠️ 快速开始
 
@@ -169,7 +170,13 @@ ve-blog-golang/
 
 ## 🤝 参与贡献
 
-欢迎提交 Issue 和 Pull Request，一起完善项目！
+欢迎提交 Issue 和 Pull Request，一起完善项目！您的参与将帮助我们打造更好的博客系统。
+
+1. Fork 本仓库
+2. 创建功能分支：`git checkout -b feature/your-feature`
+3. 提交更改：`git commit -m 'Add some feature'`
+4. 推送到分支：`git push origin feature/your-feature`
+5. 提交 Pull Request
 
 ## 📄 开源协议
 
