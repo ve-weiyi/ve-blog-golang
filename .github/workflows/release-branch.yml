@@ -61,42 +61,7 @@ jobs:
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            echo "=== 部署参数 ==="
-            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
-            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
-            
-            # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            
-            # 先停止并移除旧容器
-            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
-            
-            # 运行新容器
-            docker run -d \
-            --name ${{ env.IMAGE_NAME }} \
-            --restart always \
-            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
-            -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-              ./blog \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
-              -nacos-port "${{ vars.NACOS_PORT }}" \
-              -nacos-username "${{ vars.NACOS_USERNAME }}" \
-              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
-              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
-              -nacos-group "${{ vars.NACOS_GROUP }}" \
-              -nacos-data-id "${{ env.IMAGE_NAME }}"
-
   build-blog-api:
-    needs: build-blog-rpc
     runs-on: ubuntu-latest
     # 设置环境变量
     env:
@@ -144,40 +109,6 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            echo "=== 部署参数 ==="
-            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
-            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
-            
-            # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            
-            # 先停止并移除旧容器
-            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
-            
-            # 运行新容器
-            docker run -d \
-            --name ${{ env.IMAGE_NAME }} \
-            --restart always \
-            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
-            -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-              ./blog \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
-              -nacos-port "${{ vars.NACOS_PORT }}" \
-              -nacos-username "${{ vars.NACOS_USERNAME }}" \
-              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
-              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
-              -nacos-group "${{ vars.NACOS_GROUP }}" \
-              -nacos-data-id "${{ env.IMAGE_NAME }}"
 
   build-admin-api:
     needs: build-blog-rpc
@@ -228,37 +159,3 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            echo "=== 部署参数 ==="
-            echo "IMAGE_TAG: ${{ env.IMAGE_NAME }}"
-            echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
-            echo "NACOS_IP: ${{ vars.NACOS_IP }}"
-            
-            # 拉取新镜像
-            docker pull ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-            
-            # 先停止并移除旧容器
-            docker stop ${{ env.IMAGE_NAME }} || true && docker rm -f ${{ env.IMAGE_NAME }} || true
-            
-            # 运行新容器
-            docker run -d \
-            --name ${{ env.IMAGE_NAME }} \
-            --restart always \
-            -p ${{ env.EXPOSE_PORT }}:${{ env.EXPOSE_PORT }} \
-            -v /data/runtime:/app/runtime \
-            ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-              ./admin \
-              -nacos-ip "${{ vars.NACOS_IP }}" \
-              -nacos-port "${{ vars.NACOS_PORT }}" \
-              -nacos-username "${{ vars.NACOS_USERNAME }}" \
-              -nacos-password "${{ vars.NACOS_PASSWORD }}" \
-              -nacos-namespace "${{ vars.NACOS_NAMESPACE }}" \
-              -nacos-group "${{ vars.NACOS_GROUP }}" \
-              -nacos-data-id "${{ env.IMAGE_NAME }}"
