@@ -11,7 +11,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/swag v1.16.3
-	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250324080216-b06bc272f564
+	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250425095941-da2af16a3ef9
 	github.com/zeromicro/go-zero v1.8.1
 	github.com/zeromicro/go-zero/tools/goctl v1.8.1
 	gorm.io/driver/mysql v1.5.7
