@@ -1,19 +1,50 @@
-# 非常好用的工具包
+# 博客系统代码生成工具
 
-## [quickstart]() 快速代码构建器
+## 快速代码生成器 [quickstart](quickstart)
 
-根据数据库模型生成 router、controller、service、repository、model 代码，并自动注册到 gin 框架中。
+基于数据库模型自动生成完整的 CRUD 代码，包括：
 
-### 1. 介绍
+- 路由配置 (router)
+- 控制器代码 (controller)
+- 服务层代码 (service)
+- 数据访问层代码 (repository)
+- 数据模型代码 (model)
 
-inject 使用ast在文件中指定位置注入代码
-invent 使用template生成代码文件
+### 功能特点
 
-### 2. 使用
+1. 自动生成完整的 CRUD 接口
+2. 支持自定义模板
+3. 自动注册到 Gin 框架
+4. 生成 TypeScript 类型定义
+5. 支持代码注入和修改
 
+### 使用说明
 
-1. 生成model文件
-[generate_model.sh](generate_model.sh)
+#### 1. 生成数据模型
 
-2. 生成接口ts文件
-[generate_typescript.sh](generate_typescript.sh)
+```bash
+# 执行生成脚本
+./generate_model.sh
+```
+
+- 根据数据库表结构生成 Go 结构体
+- 自动添加字段标签和注释
+- 支持自定义模板
+
+#### 2. 生成 TypeScript 类型定义
+
+```bash
+# 执行生成脚本
+./generate_typescript.sh
+```
+
+- 生成前端接口类型定义
+- 生成 API 请求/响应类型
+- 支持自定义类型映射
+
+### 注意事项
+
+1. 生成前请确保数据库连接正常
+2. 建议在生成前备份原有代码
+3. 生成后需要检查并调整生成的代码
+4. 支持自定义模板，可根据项目需求修改
