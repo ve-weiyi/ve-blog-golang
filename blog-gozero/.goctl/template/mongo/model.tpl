@@ -17,7 +17,7 @@ import (
 
 type {{.lowerType}}Model interface{
     Insert(ctx context.Context,data *{{.Type}}) error
-    FindById(ctx context.Context,id string) (*{{.Type}}, error)
+    FindOne(ctx context.Context,id string) (*{{.Type}}, error)
     Update(ctx context.Context,data *{{.Type}}) (*mongo.UpdateResult, error)
     Delete(ctx context.Context,id string) (int64, error)
 }
@@ -43,7 +43,7 @@ func (m *default{{.Type}}Model) Insert(ctx context.Context, data *{{.Type}}) err
     return err
 }
 
-func (m *default{{.Type}}Model) FindById(ctx context.Context, id string) (*{{.Type}}, error) {
+func (m *default{{.Type}}Model) FindOne(ctx context.Context, id string) (*{{.Type}}, error) {
     oid, err := primitive.ObjectIDFromHex(id)
     if err != nil {
         return nil, ErrInvalidObjectId
@@ -51,7 +51,7 @@ func (m *default{{.Type}}Model) FindById(ctx context.Context, id string) (*{{.Ty
 
     var data {{.Type}}
     {{if .Cache}}key := prefix{{.Type}}CacheKey + id{{end}}
-    err = m.conn.FindById(ctx, {{if .Cache}}key, {{end}}&data, bson.M{"_id": oid})
+    err = m.conn.FindOne(ctx, {{if .Cache}}key, {{end}}&data, bson.M{"_id": oid})
     switch err {
     case nil:
         return &data, nil

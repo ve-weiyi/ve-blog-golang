@@ -11,16 +11,16 @@ WORKDIR /build
 
 COPY . .
 RUN go mod tidy
-RUN go build -o /app/rpc/blog/blog service/rpc/blog/blog.go
+RUN go build -o /app/blog service/rpc/blog/blog.go
 
 
-FROM scratch
+FROM alpine
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
 ENV TZ Asia/Shanghai
 
-WORKDIR /app/rpc/blog
-COPY --from=builder /app/rpc/blog/blog /app/rpc/blog/blog
+WORKDIR /app
+COPY --from=builder /app/blog /app/blog
 
 CMD ["./blog"]

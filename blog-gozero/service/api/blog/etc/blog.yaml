@@ -1,6 +1,7 @@
 Name: blog-api
 Host: 0.0.0.0
 Port: 9090
+Mode: dev
 Timeout: 5000
 # 健康检查
 DevServer:
@@ -26,7 +27,7 @@ UploadConfig:
 
 RedisConf:
   db: 0
-  host: 127.0.0.1
+  host: veweiyi.cn
   port: "6379"
   password: redis7914
 

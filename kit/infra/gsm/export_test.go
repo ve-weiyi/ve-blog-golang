@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"strings"
 	"testing"
 	"time"
 
+	"github.com/spf13/cast"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -41,18 +41,19 @@ func init() {
 }
 
 type TDeviceModelInfo struct {
-	Id          int64     `json:"id" gorm:"column:id" `                   // 主键
-	Brand       string    `json:"brand" gorm:"column:brand" `             // 品牌
-	Slug        string    `json:"slug" gorm:"column:slug" `               // slug
-	DeviceName  string    `json:"device_name" gorm:"column:device_name" ` // 设备名称
-	DeviceType  string    `json:"device_type" gorm:"column:device_type" ` // 设备类型
-	DeviceId    string    `json:"device_id" gorm:"column:device_id" `     // 设备id
-	Description string    `json:"description" gorm:"column:description" ` // 描述
-	ImageUrl    string    `json:"image_url" gorm:"column:image_url" `     // 图片
-	Capacity    string    `json:"capacity" gorm:"column:capacity" `       // 电池容量
-	Data        string    `json:"data" gorm:"column:data" `               // json
-	CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `   // 创建时间
-	UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `   // 更新时间
+	Id          int64     `json:"id" gorm:"column:id" `                     // 主键
+	Brand       string    `json:"brand" gorm:"column:brand" `               // 品牌
+	Slug        string    `json:"slug" gorm:"column:slug" `                 // slug
+	DeviceModel string    `json:"device_model" gorm:"column:device_model" ` // 设备型号
+	DeviceName  string    `json:"device_name" gorm:"column:device_name" `   // 设备名称
+	DeviceType  string    `json:"device_type" gorm:"column:device_type" `   // 设备类型
+	DeviceId    string    `json:"device_id" gorm:"column:device_id" `       // 设备id
+	Description string    `json:"description" gorm:"column:description" `   // 描述
+	ImageUrl    string    `json:"image_url" gorm:"column:image_url" `       // 图片
+	Capacity    string    `json:"capacity" gorm:"column:capacity" `         // 电池容量
+	Data        string    `json:"data" gorm:"column:data" `                 // json
+	CreatedAt   time.Time `json:"created_at" gorm:"column:created_at" `     // 创建时间
+	UpdatedAt   time.Time `json:"updated_at" gorm:"column:updated_at" `     // 更新时间
 }
 
 type TDeviceBrand struct {
@@ -86,14 +87,22 @@ func InsertBrandModel(b brand.Brand) error {
 }
 
 func InsertDeviceModel(b brand.Brand, d device.Device, s specification.Specification) error {
+	var models string
+	if s.Detail["misc"] != nil {
+		models = cast.ToString(s.Detail["misc"]["models"])
+	} else {
+		models = ""
+	}
+
 	model := &TDeviceModelInfo{
 		Id:          0,
 		Brand:       s.Brand,
 		Slug:        d.Slug,
-		DeviceId:    strconv.Itoa(d.ID),
-		Description: d.Description,
+		DeviceModel: models,
 		DeviceName:  s.DeviceName,
 		DeviceType:  s.DeviceType,
+		DeviceId:    strconv.Itoa(d.ID),
+		Description: d.Description,
 		ImageUrl:    s.ImageURL,
 		Capacity:    s.Overview.Battery.Capacity,
 		Data:        jsonconv.AnyToJsonNE(s),
@@ -125,9 +134,10 @@ func Test_Sync(t *testing.T) {
 	//log.Println(jsonconv.AnyToJsonIndent(specs))
 
 	for _, b := range brands {
-		if !strings.HasPrefix(strings.ToLower(b.Name), "o") {
-			continue
-		}
+		// 只同步部分设备
+		//if !strings.HasPrefix(strings.ToLower(b.Name), "a") {
+		//	continue
+		//}
 
 		if !checkExist(b.Slug, "t_device_brand") {
 			InsertBrandModel(b)
@@ -151,10 +161,17 @@ func Test_Sync(t *testing.T) {
 					log.Println(err)
 					continue
 				}
-				InsertDeviceModel(b, d, specs)
+
+				log.Println(jsonconv.AnyToJsonIndent(specs))
+
+				err = InsertDeviceModel(b, d, specs)
+				if err != nil {
+					log.Println(err)
+					continue
+				}
 
 				log.Println("insert device:", d.Name)
-				time.Sleep(2 * time.Second)
+				time.Sleep(5 * time.Second)
 			}
 		}
 

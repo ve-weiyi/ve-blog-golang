@@ -1,63 +1,84 @@
-# 项目介绍
+# Gin 博客项目
 
-## 1.项目结构
+## 项目简介
 
-```shell
-├── cmd 项目启动命令
-├── common 项目通用文件
-├── config 配置文件
-├── core 核心运行组件
-├── docs swagger文档
-├── initialize 项目初始化
-├── service 服务接口处理逻辑,根据 router,controller,service,repository,model 分层
-│ └── blog 博客服务
-│    ├── router
-│    └── controller
-│    ├── service
-│    └── repository
-│    ├── model
-├── svctx service_context服务上下文,持有所有项目运行时的资源
+这是一个基于 Gin 框架开发的博客系统，采用分层架构设计，包含完整的博客功能模块。
+
+## 项目结构
+
+```
+.
+├── cmd/              # 项目启动命令
+├── common/           # 项目通用文件
+├── config/           # 配置文件
+├── core/             # 核心运行组件
+├── docs/             # Swagger 文档
+├── initialize/       # 项目初始化
+├── service/          # 服务接口处理逻辑
+│   └── blog/         # 博客服务
+│       ├── router/   # 路由层
+│       ├── controller/ # 控制器层
+│       ├── service/  # 服务层
+│       ├── repository/ # 数据访问层
+│       └── model/    # 数据模型层
+└── svctx/            # 服务上下文，持有项目运行时资源
 ```
 
-## 2.初始化数据库
+## 环境要求
 
-准备工作：
+- Go 1.23+
+- MySQL 8.0+
+- Redis 6.0+
+- RabbitMQ 3.8+
+- Nacos (可选，使用本地配置不需要)
 
-1. 确认已经安装好golang环境
+## 快速开始
 
-2. 确保运行了 mysql、redis、rabbitmq 等服务。在[data](../deploy/docker-compose/data)目录下输入命令`docker-compose up -d`
-   快速启动这些服务。
+### 1. 环境准备
 
-- 初始化数据库,创建表和数据
+1. 安装 Go 环境
 
-```shell
-go run main.go migrate --action=migrate \
---file=./blog-veweiyi-init.sql \
---host=127.0.0.1 \
---port=3307 \
---username=root \
---password=mysql7914 \
---name='blog-veweiyi'  
+2. 启动依赖服务：
+
+```bash
+# 在 deploy/docker-compose/data 目录下执行
+docker-compose up -d
 ```
 
-## 3.启动项目
+3. 初始化数据库：
+   - 执行 `blog-veweiyi-init.sql` 初始化表结构
+   - 执行 `blog-veweiyi-data.sql` 导入初始数据
 
-### 使用nacos配置启动(线上环境)
+### 2. 配置修改
 
-使用nacos的配置文件启动项目
-
-```shell
-go run main.go api -c=nacos --n-namespace=test
+复制配置文件：
+```bash
+cp config.default.yaml config.yaml
 ```
 
-### 项目本地启动(本地环境)
+根据实际环境修改以下配置文件：
 
-**修改配置文件**
+- `config.yaml`
 
-在server目录下新增config.yaml文件，修改config.yaml配置文件中的配置信息，文件内容参考[config.default.yaml](server/config.default.yaml)
+### 3. 启动服务
 
-使用本地配置文件 config.yaml 启动项目
+#### 开发模式（使用本地配置）
 
-```shell
+3. 启动服务：
+
+```bash
 go run main.go api -c=file -f=./config.yaml
 ```
+
+#### 生产模式（使用 Nacos 配置）
+
+```bash
+go run main.go api -c=nacos --n-namespace=prod
+```
+
+## 注意事项
+
+1. 确保所有依赖服务（MySQL、Redis、RabbitMQ）正常运行
+2. 开发环境建议使用本地配置文件
+3. 生产环境建议使用 Nacos 配置中心
+4. 数据库迁移前请确保已备份数据
