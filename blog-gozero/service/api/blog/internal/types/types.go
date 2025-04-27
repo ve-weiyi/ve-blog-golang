@@ -214,6 +214,10 @@ type GetBlogHomeInfoResp struct {
 	PageList      []*PageDTO       `json:"page_list"`      // 页面列表
 }
 
+type GetTouristInfoResp struct {
+	TouristId string `json:"tourist_id"` // 游客id
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
@@ -355,10 +359,6 @@ type ReplyMsg struct {
 	Type      int    `json:"type"`      // 类型
 	Data      string `json:"data"`      // 数据
 	Timestamp int64  `json:"timestamp"` //时间戳
-}
-
-type ReportResp struct {
-	TerminalId string `json:"terminal_id"`
 }
 
 type ResetPasswordReq struct {

@@ -452,10 +452,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 访客上报
+				// 获取游客身份信息
 				Method:  http.MethodGet,
-				Path:    "/report",
-				Handler: website.ReportHandler(serverCtx),
+				Path:    "/tourist",
+				Handler: website.GetTouristInfoHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
