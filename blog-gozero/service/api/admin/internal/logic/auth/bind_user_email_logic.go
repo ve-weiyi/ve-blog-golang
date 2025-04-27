@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 
@@ -31,7 +32,7 @@ func NewBindUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Bin
 func (l *BindUserEmailLogic) BindUserEmail(req *types.BindUserEmailReq) (resp *types.EmptyResp, err error) {
 
 	in := &accountrpc.BindUserEmailReq{
-		UserId:     cast.ToString(l.ctx.Value("uid")),
+		UserId:     cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		Email:      req.Email,
 		VerifyCode: req.VerifyCode,
 	}
