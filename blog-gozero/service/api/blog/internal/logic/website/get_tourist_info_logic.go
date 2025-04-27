@@ -4,30 +4,31 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
-	"github.com/zeromicro/go-zero/core/logx"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type ReportLogic struct {
+type GetTouristInfoLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 访客上报
-func NewReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ReportLogic {
-	return &ReportLogic{
+// 获取游客身份信息
+func NewGetTouristInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTouristInfoLogic {
+	return &GetTouristInfoLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *ReportLogic) Report(req *types.EmptyReq) (resp *types.ReportResp, err error) {
-	terminal := cast.ToString(l.ctx.Value("terminal"))
+func (l *GetTouristInfoLogic) GetTouristInfo(req *types.EmptyReq) (resp *types.GetTouristInfoResp, err error) {
+	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
 
 	if terminal == "" {
 		tourist, err := l.svcCtx.WebsiteRpc.GetTouristInfo(l.ctx, &websiterpc.EmptyReq{})
@@ -38,12 +39,7 @@ func (l *ReportLogic) Report(req *types.EmptyReq) (resp *types.ReportResp, err e
 		terminal = tourist.TouristId
 	}
 
-	_, err = l.svcCtx.WebsiteRpc.AddVisit(l.ctx, &websiterpc.AddVisitReq{Visitor: terminal})
-	if err != nil {
-		return nil, err
-	}
-
-	return &types.ReportResp{
-		TerminalId: terminal,
+	return &types.GetTouristInfoResp{
+		TouristId: terminal,
 	}, nil
 }

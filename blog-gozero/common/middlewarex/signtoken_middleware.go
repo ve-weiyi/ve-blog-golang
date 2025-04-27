@@ -33,8 +33,13 @@ func (j *SignTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		uid = r.Header.Get(restx.HeaderUid)
 
 		// 请求头缺少参数
-		if token == "" || uid == "" {
-			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeUserUnLogin, "用户未登录,缺少用户签名"))
+		if token == "" {
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'token' is missing"))
+			return
+		}
+
+		if uid == "" {
+			responsex.Response(r, w, nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "request header field 'uid' is missing"))
 			return
 		}
 

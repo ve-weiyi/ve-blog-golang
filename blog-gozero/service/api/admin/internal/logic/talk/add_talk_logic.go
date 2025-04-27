@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
@@ -30,7 +31,7 @@ func NewAddTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddTalkLo
 
 func (l *AddTalkLogic) AddTalk(req *types.TalkNewReq) (resp *types.TalkBackDTO, err error) {
 	in := ConvertTalkPb(req)
-	in.UserId = cast.ToString(l.ctx.Value("uid"))
+	in.UserId = cast.ToString(l.ctx.Value(restx.HeaderUid))
 	out, err := l.svcCtx.TalkRpc.AddTalk(l.ctx, in)
 	if err != nil {
 		return nil, err

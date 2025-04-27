@@ -3,11 +3,14 @@ package website
 import (
 	"context"
 
+	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -29,6 +32,12 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (resp *types.GetBlogHomeInfoResp, err error) {
+	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
+	_, err = l.svcCtx.WebsiteRpc.AddVisit(l.ctx, &websiterpc.AddVisitReq{Visitor: terminal})
+	if err != nil {
+		return nil, err
+	}
+
 	analysis, err := l.svcCtx.ArticleRpc.AnalysisArticle(l.ctx, &articlerpc.EmptyReq{})
 	if err != nil {
 		return nil, err
@@ -57,14 +66,17 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 	}
 
 	conf, err := l.svcCtx.ConfigRpc.FindConfig(l.ctx, &configrpc.FindConfigReq{
-		ConfigKey: "website_config",
+		ConfigKey: constant.ConfigKeyWebsite,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	config := types.WebsiteConfigDTO{}
-	jsonconv.JsonToAny(conf.ConfigValue, &config)
+	err = jsonconv.JsonToAny(conf.ConfigValue, &config)
+	if err != nil {
+		return nil, err
+	}
 
 	resp = &types.GetBlogHomeInfoResp{
 		ArticleCount:  analysis.ArticleCount,
