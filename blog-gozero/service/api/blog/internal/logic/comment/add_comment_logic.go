@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
@@ -32,7 +33,7 @@ func (l *AddCommentLogic) AddComment(req *types.CommentNewReq) (resp *types.Comm
 		ParentId:       req.ParentId,
 		TopicId:        req.TopicId,
 		ReplyMsgId:     req.ReplyMsgId,
-		UserId:         cast.ToString(l.ctx.Value("uid")),
+		UserId:         cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		ReplyUserId:    req.ReplyUserId,
 		CommentContent: req.CommentContent,
 		Type:           req.Type,

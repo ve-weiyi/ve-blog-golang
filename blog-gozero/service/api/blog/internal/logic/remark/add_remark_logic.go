@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
@@ -29,7 +30,7 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 
 func (l *AddRemarkLogic) AddRemark(req *types.RemarkNewReq) (resp *types.Remark, err error) {
 	in := &messagerpc.RemarkNewReq{
-		UserId:         cast.ToString(l.ctx.Value("uid")),
+		UserId:         cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		MessageContent: req.MessageContent,
 	}
 
