@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
@@ -42,7 +43,7 @@ func (l *UploadFileLogic) UploadFile(req *types.UploadFileReq, r *http.Request) 
 	}
 
 	in := &resourcerpc.FileUploadNewReq{
-		UserId:   cast.ToString(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		FilePath: req.FilePath,
 		FileName: h.Filename,
 		FileType: filepath.Ext(h.Filename),

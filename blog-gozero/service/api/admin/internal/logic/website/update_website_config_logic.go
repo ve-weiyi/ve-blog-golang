@@ -3,6 +3,7 @@ package website
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
@@ -28,7 +29,7 @@ func NewUpdateWebsiteConfigLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *UpdateWebsiteConfigLogic) UpdateWebsiteConfig(req *types.WebsiteConfig) (resp *types.EmptyResp, err error) {
 	in := &configrpc.SaveConfigReq{
-		ConfigKey:   "website_config",
+		ConfigKey:   constant.ConfigKeyWebsite,
 		ConfigValue: jsonconv.AnyToJsonNE(req),
 	}
 

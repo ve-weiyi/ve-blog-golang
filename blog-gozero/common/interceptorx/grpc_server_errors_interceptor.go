@@ -2,8 +2,8 @@ package interceptorx
 
 import (
 	"context"
-	"log"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -15,8 +15,7 @@ func ServerErrorInterceptor(ctx context.Context, req interface{}, info *grpc.Una
 	resp, err := handler(ctx, req)
 	if err != nil {
 		st := status.New(codes.Internal, err.Error())
-		log.Println("grpc server error", err)
-		log.Println("grpc server status", st)
+		logx.WithContext(ctx).Infof("grpc server error info, full_method=%s, err=%+v", info.FullMethod, err)
 		return resp, st.Err()
 	}
 

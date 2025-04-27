@@ -75,8 +75,8 @@ service blog-api {
 
 
 type (
-    ReportResp {
-        TerminalId string `json:"terminal_id"`
+    GetTouristInfoResp {
+        TouristId string `json:"tourist_id"` // 游客id
     }
 )
 @server(
@@ -84,7 +84,7 @@ type (
     group: website
 )
 service blog-api {
-    @doc "访客上报"
-    @handler Report
-    get /report (EmptyReq) returns (ReportResp)
+    @doc "获取游客身份信息"
+    @handler GetTouristInfo
+    get /tourist (EmptyReq) returns (GetTouristInfoResp)
 }

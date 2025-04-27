@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 
@@ -30,7 +31,7 @@ func NewLogoffLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoffLogi
 
 func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err error) {
 	in := accountrpc.LogoffReq{
-		UserId: cast.ToString(l.ctx.Value("uid")),
+		UserId: cast.ToString(l.ctx.Value(restx.HeaderUid)),
 	}
 
 	_, err = l.svcCtx.AccountRpc.Logoff(l.ctx, &in)
@@ -38,6 +39,6 @@ func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err er
 		return
 	}
 
-	l.svcCtx.TokenHolder.RemoveToken(l.ctx, cast.ToString(l.ctx.Value("uid")))
+	l.svcCtx.TokenHolder.RemoveToken(l.ctx, cast.ToString(l.ctx.Value(restx.HeaderUid)))
 	return &types.EmptyResp{}, nil
 }
