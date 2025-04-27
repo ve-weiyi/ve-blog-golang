@@ -4,8 +4,6 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/permissionrpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -33,9 +31,8 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInfoResp, err error) {
-	userId := cast.ToString(l.ctx.Value(restx.HeaderUid))
 	in := &accountrpc.UserIdReq{
-		UserId: userId,
+		UserId: cast.ToString(l.ctx.Value(restx.HeaderUid)),
 	}
 
 	info, err := l.svcCtx.AccountRpc.GetUserInfo(l.ctx, in)
@@ -43,62 +40,40 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	thp, err := l.svcCtx.AccountRpc.GetUserOauthInfo(l.ctx, in)
-	if err != nil {
-		return nil, err
-	}
-
-	ur, err := l.svcCtx.PermissionRpc.FindUserRoles(l.ctx, &permissionrpc.UserIdReq{
-		UserId: userId,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	up, err := l.svcCtx.PermissionRpc.FindUserApis(l.ctx, &permissionrpc.UserIdReq{
-		UserId: userId,
-	})
-
-	return ConvertUserInfoTypes(info, thp, ur, up), nil
+	return ConvertUserInfoTypes(info), nil
 }
 
-func ConvertUserInfoTypes(in *accountrpc.UserInfoResp, thp *accountrpc.GetUserOauthInfoResp, ur *permissionrpc.FindRoleListResp, up *permissionrpc.FindApiListResp) (out *types.UserInfoResp) {
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
+	roles := make([]*types.UserRoleLabel, 0)
+	for _, v := range in.Roles {
+		m := &types.UserRoleLabel{
+			RoleId:    v.RoleId,
+			RoleKey:   v.RoleKey,
+			RoleLabel: v.RoleLabel,
+		}
+
+		roles = append(roles, m)
+	}
+
 	var info types.UserInfoExt
 	jsonconv.JsonToAny(in.Info, &info)
 
-	thirdParty := make([]*types.UserThirdPartyInfo, 0)
-	for _, v := range thp.List {
-		thirdParty = append(thirdParty, &types.UserThirdPartyInfo{
-			Platform:  v.Platform,
-			OpenId:    v.OpenId,
-			Nickname:  v.Nickname,
-			Avatar:    v.Avatar,
-			CreatedAt: v.CreatedAt,
-		})
-	}
-
-	roles := make([]string, 0)
-	for _, v := range in.Roles {
-		roles = append(roles, v.RoleKey)
-	}
-
-	perms := make([]string, 0)
-	for _, v := range up.List {
-		perms = append(perms, v.Path)
-	}
-
-	out = &types.UserInfoResp{
+	out := &types.UserInfoResp{
 		UserId:      in.UserId,
 		Username:    in.Username,
 		Nickname:    in.Nickname,
 		Avatar:      in.Avatar,
 		Email:       in.Email,
 		Phone:       in.Phone,
+		Status:      in.Status,
+		LoginType:   in.LoginType,
+		IpAddress:   in.IpAddress,
+		IpSource:    in.IpSource,
 		CreatedAt:   in.CreatedAt,
-		UserInfoExt: info,
-		ThirdParty:  thirdParty,
+		UpdatedAt:   in.UpdatedAt,
 		Roles:       roles,
-		Perms:       perms,
+		Perms:       make([]*types.UserApi, 0),
+		UserInfoExt: info,
 	}
 
 	return out

@@ -15,14 +15,20 @@
 
 <div align="center">
   <a target="_blank" href="https://blog.veweiyi.cn">🖥️ 前台在线预览</a> |
-  <a target="_blank" href="https://blog.veweiyi.cn/blog-api/v1/swagger/index.html">📑 前台接口文档</a> |
+  <a target="_blank" href="https://blog.veweiyi.cn/api/v1/swagger/index.html">📑 前台接口文档</a> |
 </div>
 
 <div align="center">
   <a target="_blank" href="https://admin.veweiyi.cn">🖥️ 后台在线预览</a> |
-  <a target="_blank" href="https://admin.veweiyi.cn/admin-api/v1/swagger/index.html">📑 后台接口文档</a>
+  <a target="_blank" href="https://admin.veweiyi.cn/admin_api/v1/swagger/index.html">📑 后台接口文档</a>
 </div>
 
+### 作者联系方式：
+
+* qq 791422171
+* 微信 wy791422171
+
+兴趣是第一驱动力。工作之余持续更新，持续学习新技术。
 
 ## 📚 项目简介
 
@@ -78,21 +84,14 @@ ve-blog-golang/
 └── deploy/           # 部署配置
 ```
 
-## ⚙️ 环境要求
+## 🛠️ 快速开始
+
+### 环境要求
 
 - Go 1.20+
 - MySQL 8.0+
 - Redis 6.2+
 - Docker & Docker Compose
-
-## 🔧 开发工具
-
-- IDE: Intellij IDEA Ultimate
-- 数据库: Navicat
-- Redis: Another Redis Desktop Manager
-- 容器: Docker Desktop
-
-## 🛠️ 快速开始
 
 ### 项目启动
 
@@ -149,10 +148,18 @@ pnpm install
 pnpm run dev
 ```
 
-- 前台接口地址：`http://localhost:9090/blog-api/v1/swagger/index.html`
-- 后台接口地址：`http://localhost:9091/admin-api/v1/swagger/index.html`
+- 前台接口地址：`http://localhost:9090/api/v1/swagger/index.html`
+- 后台接口地址：`http://localhost:9091/admin_api/v1/swagger/index.html`
 - 前台服务地址：`http://localhost:9420`
 - 后台服务地址：`http://localhost:9421`
+
+
+## 🔧 开发工具
+
+- IDE: Intellij IDEA Ultimate
+- 数据库: Navicat
+- Redis: Another Redis Desktop Manager
+- 容器: Docker Desktop
 
 ## 📈 后续计划
 
@@ -181,19 +188,5 @@ pnpm run dev
 
 感谢以下项目的启发：
 
-- [风丶宇的博客(已删库)](https://github.com/X1192176811/blog)
 - [阿冬的个人博客](https://github.com/ttkican/Blog)
 - [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin)
-
-## 其他
-
-### 作者联系方式：
-
-* qq 791422171
-* 微信 wy791422171
-
-### 作者留言
-
-- 遇到问题可以提 issue，在运行或者搭建过程中遇到问题可以加我好友，很乐意解答。
-- 工作之余持续更新，持续学习新技术。个人项目，写着玩的。
-- 注意！！作者经常强制推送feature分支，会覆盖提交。以master分支功能为准。分支功能和版本发布规则见[VERSION.md](VERSION.md)

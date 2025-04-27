@@ -3,12 +3,14 @@ package website
 import (
 	"context"
 
+	"github.com/spf13/cast"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/configrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -30,7 +32,8 @@ func NewGetBlogHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (resp *types.GetBlogHomeInfoResp, err error) {
-	_, err = l.svcCtx.WebsiteRpc.AddVisit(l.ctx, &websiterpc.AddVisitReq{})
+	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
+	_, err = l.svcCtx.WebsiteRpc.AddVisit(l.ctx, &websiterpc.AddVisitReq{Visitor: terminal})
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +43,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	visit, err := l.svcCtx.WebsiteRpc.AnalysisVisit(l.ctx, &websiterpc.EmptyReq{})
+	visit, err := l.svcCtx.WebsiteRpc.GetUserTotalVisit(l.ctx, &websiterpc.EmptyReq{})
 	if err != nil {
 		return nil, err
 	}
@@ -50,9 +53,9 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	ps := make([]*types.PageVO, 0)
+	ps := make([]*types.PageDTO, 0)
 	for _, v := range pages.List {
-		p := &types.PageVO{
+		p := &types.PageDTO{
 			Id:         v.Id,
 			PageName:   v.PageName,
 			PageLabel:  v.PageLabel,
@@ -69,20 +72,19 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	config := types.WebsiteConfigVO{}
+	config := types.WebsiteConfigDTO{}
 	err = jsonconv.JsonToAny(conf.ConfigValue, &config)
 	if err != nil {
 		return nil, err
 	}
 
 	resp = &types.GetBlogHomeInfoResp{
-		ArticleCount:       analysis.ArticleCount,
-		CategoryCount:      analysis.CategoryCount,
-		TagCount:           analysis.TagCount,
-		TotalUserViewCount: visit.TotalUvCount,
-		TotalPageViewCount: visit.TotalPvCount,
-		WebsiteConfig:      config,
-		PageList:           ps,
+		ArticleCount:  analysis.ArticleCount,
+		CategoryCount: analysis.CategoryCount,
+		TagCount:      analysis.TagCount,
+		ViewsCount:    visit.Count,
+		WebsiteConfig: config,
+		PageList:      ps,
 	}
 
 	return resp, nil

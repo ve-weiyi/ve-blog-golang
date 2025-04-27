@@ -239,6 +239,10 @@ type GetTouristInfoResp struct {
 	TouristId string `json:"tourist_id"` // 游客id
 }
 
+type GetTouristInfoResp struct {
+	TouristId string `json:"tourist_id"` // 游客id
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
