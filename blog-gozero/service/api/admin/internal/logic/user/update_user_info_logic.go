@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
 
@@ -32,7 +33,7 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoReq) (resp *types.EmptyResp, err error) {
 
 	in := &accountrpc.UpdateUserInfoReq{
-		UserId:   cast.ToString(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
 		Info:     jsonconv.AnyToJsonNE(req.UserInfoExt),
