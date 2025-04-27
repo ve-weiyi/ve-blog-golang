@@ -3,6 +3,7 @@ package visit_log
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -45,16 +46,9 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 	}
 
 	// 查询用户信息
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: uids,
-	})
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
 	if err != nil {
 		return nil, err
-	}
-
-	usm := make(map[string]*accountrpc.User)
-	for _, v := range users.List {
-		usm[v.UserId] = v
 	}
 
 	var list []*types.VisitLogBackDTO
@@ -76,8 +70,6 @@ func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*account
 	out = &types.VisitLogBackDTO{
 		Id:        in.Id,
 		UserId:    in.UserId,
-		Nickname:  "",
-		Avatar:    "",
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
 		Os:        in.Os,
@@ -91,8 +83,12 @@ func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*account
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = &types.UserInfo{
+				UserId:   user.UserId,
+				Username: user.Username,
+				Avatar:   user.Avatar,
+				Nickname: user.Nickname,
+			}
 		}
 	}
 

@@ -3,7 +3,6 @@ package permissionx
 import (
 	"context"
 	"fmt"
-	"log"
 	"sync"
 
 	"github.com/casbin/casbin/v2"
@@ -56,7 +55,7 @@ func NewCasbinHolder(redisAddr string, pr permissionrpc.PermissionRpc) *CasbinHo
 	// 载入模型
 	m, err := model.NewModelFromString(SubjectObjectAction)
 	if err != nil {
-		log.Fatalln("字符串加载模型失败!", err)
+		panic(fmt.Errorf("字符串加载模型失败: %v", err))
 	}
 
 	// 载入适配器

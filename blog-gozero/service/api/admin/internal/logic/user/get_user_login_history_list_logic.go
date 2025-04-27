@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
@@ -31,7 +32,7 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLo
 	in := &accountrpc.FindLoginHistoryListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
-		UserId:   cast.ToString(l.ctx.Value("uid")),
+		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 	}
 
 	out, err := l.svcCtx.AccountRpc.FindUserLoginHistoryList(l.ctx, in)
