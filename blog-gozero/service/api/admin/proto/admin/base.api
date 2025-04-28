@@ -50,4 +50,11 @@ type (
         Data interface{} `json:"data"`
         TraceId string `json:"trace_id"`
     }
+
+    UserInfo {
+        UserId string `json:"user_id"`
+        Username string `json:"username"`
+        Avatar string `json:"avatar"`
+        Nickname string `json:"nickname"`
+    }
 )
