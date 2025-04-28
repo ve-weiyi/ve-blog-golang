@@ -58,8 +58,6 @@ func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*accountrpc.User) 
 	out = &types.TalkBackDTO{
 		Id:           in.Id,
 		UserId:       in.UserId,
-		Nickname:     "",
-		Avatar:       "",
 		Content:      in.Content,
 		ImgList:      in.ImgList,
 		IsTop:        in.IsTop,
@@ -74,8 +72,12 @@ func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*accountrpc.User) 
 	if out.UserId != "" {
 		user, ok := usm[out.UserId]
 		if ok && user != nil {
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = &types.UserInfo{
+				UserId:   user.UserId,
+				Username: user.Username,
+				Avatar:   user.Avatar,
+				Nickname: user.Nickname,
+			}
 		}
 	}
 
