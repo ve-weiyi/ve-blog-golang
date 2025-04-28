@@ -3,6 +3,7 @@ package comment
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -51,16 +52,9 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	// 查询用户信息
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: uids,
-	})
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
 	if err != nil {
 		return nil, err
-	}
-
-	usm := make(map[string]*accountrpc.User)
-	for _, v := range users.List {
-		usm[v.UserId] = v
 	}
 
 	// 查询文章信息
@@ -93,12 +87,13 @@ func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountr
 		Id:             in.Id,
 		Type:           in.Type,
 		TopicTitle:     "",
-		Avatar:         "",
-		Nickname:       "",
-		ToNickname:     "",
+		UserId:         in.UserId,
+		ReplyUserId:    in.ReplyUserId,
 		CommentContent: in.CommentContent,
 		IsReview:       in.IsReview,
 		CreatedAt:      in.CreatedAt,
+		User:           nil,
+		ReplyUser:      nil,
 	}
 
 	// 文章信息
@@ -113,15 +108,24 @@ func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountr
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = &types.UserInfo{
+				UserId:   user.UserId,
+				Username: user.Username,
+				Avatar:   user.Avatar,
+				Nickname: user.Nickname,
+			}
 		}
 	}
 
 	if in.ReplyUserId != "" {
 		user, ok := usm[in.ReplyUserId]
 		if ok && user != nil {
-			out.ToNickname = user.Nickname
+			out.ReplyUser = &types.UserInfo{
+				UserId:   user.UserId,
+				Username: user.Username,
+				Avatar:   user.Avatar,
+				Nickname: user.Nickname,
+			}
 		}
 	}
 

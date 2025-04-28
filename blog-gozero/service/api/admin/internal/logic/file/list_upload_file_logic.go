@@ -25,7 +25,6 @@ func NewListUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Li
 }
 
 func (l *ListUploadFileLogic) ListUploadFile(req *types.ListUploadFileReq) (resp *types.ListUploadFileResp, err error) {
-	logx.Info("ListUploadFileLogic ListUploadFile")
 	up, err := l.svcCtx.Uploader.ListFiles(req.FilePath, int(req.Limit))
 	if err != nil {
 		return nil, err

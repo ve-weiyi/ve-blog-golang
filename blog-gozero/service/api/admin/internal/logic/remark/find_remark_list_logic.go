@@ -3,6 +3,7 @@ package remark
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -43,17 +44,10 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 		uids = append(uids, v.UserId)
 	}
 
-	// 查询用户信息
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: uids,
-	})
+	// 获取用户信息
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
 	if err != nil {
 		return nil, err
-	}
-
-	usm := make(map[string]*accountrpc.User)
-	for _, v := range users.List {
-		usm[v.UserId] = v
 	}
 
 	var list []*types.RemarkBackDTO
@@ -73,8 +67,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc.User) (out *types.RemarkBackDTO) {
 	out = &types.RemarkBackDTO{
 		Id:             in.Id,
-		Nickname:       "",
-		Avatar:         "",
+		UserId:         in.UserId,
 		MessageContent: in.MessageContent,
 		IpAddress:      in.IpAddress,
 		IpSource:       in.IpSource,
@@ -88,8 +81,12 @@ func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = &types.UserInfo{
+				UserId:   user.UserId,
+				Username: user.Username,
+				Avatar:   user.Avatar,
+				Nickname: user.Nickname,
+			}
 		}
 	}
 

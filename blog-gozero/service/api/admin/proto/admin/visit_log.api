@@ -6,8 +6,6 @@ type (
     VisitLogBackDTO {
         Id int64 `json:"id,optional"`                          // 主键id
         UserId string `json:"user_id"`                         // 用户id
-        Nickname string `json:"nickname"`                      // 用户昵称
-        Avatar string `json:"avatar"`                          // 用户头像
         IpAddress string `json:"ip_address"`                   // 操作ip
         IpSource string `json:"ip_source"`                     // 操作地址
         Os string `json:"os"`                                  // 操作系统
@@ -15,6 +13,7 @@ type (
         Page string `json:"page"`                              // 页面
         CreatedAt int64 `json:"created_at"`                    // 创建时间
         UpdatedAt int64 `json:"updated_at"`                    // 更新时间
+        User *UserInfo `json:"user"`                            // 用户信息
     }
 
     VisitLogQuery {
