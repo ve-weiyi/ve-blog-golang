@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
@@ -14,21 +16,18 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
 )
 
 type ServiceContext struct {
@@ -40,6 +39,7 @@ type ServiceContext struct {
 	CaptchaHolder *captcha.CaptchaHolder
 	Oauth         map[string]oauth.Oauth
 
+	// account models
 	TUserModel             model.TUserModel
 	TUserOauthModel        model.TUserOauthModel
 	TUserLoginHistoryModel model.TUserLoginHistoryModel
@@ -57,13 +57,16 @@ type ServiceContext struct {
 	TTagModel           model.TTagModel
 	TArticleTagModel    model.TArticleTagModel
 
-	TChatModel         model.TChatModel
-	TCommentModel      model.TCommentModel
-	TRemarkModel       model.TRemarkModel
+	// message models
+	TChatModel    model.TChatModel
+	TCommentModel model.TCommentModel
+	TRemarkModel  model.TRemarkModel
+
+	// website models
+	TAlbumModel        model.TAlbumModel
+	TPhotoModel        model.TPhotoModel
 	TFriendModel       model.TFriendModel
 	TTalkModel         model.TTalkModel
-	TPhotoModel        model.TPhotoModel
-	TAlbumModel        model.TAlbumModel
 	TPageModel         model.TPageModel
 	TVisitHistoryModel model.TVisitHistoryModel
 
@@ -96,13 +99,14 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 
 	return &ServiceContext{
-		Config:                 c,
-		Gorm:                   db,
-		Redis:                  rds,
-		LocalCache:             cache,
-		EmailDeliver:           deliver,
-		CaptchaHolder:          captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
-		Oauth:                  InitOauth(c.OauthConfList),
+		Config:        c,
+		Gorm:          db,
+		Redis:         rds,
+		LocalCache:    cache,
+		EmailDeliver:  deliver,
+		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
+		Oauth:         InitOauth(c.OauthConfList),
+		// account models
 		TUserModel:             model.NewTUserModel(db),
 		TUserOauthModel:        model.NewTUserOauthModel(db),
 		TUserLoginHistoryModel: model.NewTUserLoginHistoryModel(db),
@@ -112,29 +116,27 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TUserRoleModel:         model.NewTUserRoleModel(db),
 		TRoleApiModel:          model.NewTRoleApiModel(db),
 		TRoleMenuModel:         model.NewTRoleMenuModel(db),
-
 		// blog models
 		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db),
 		TArticleModel:       model.NewTArticleModel(db),
 		TCategoryModel:      model.NewTCategoryModel(db),
 		TTagModel:           model.NewTTagModel(db),
 		TArticleTagModel:    model.NewTArticleTagModel(db),
-
-		TChatModel:         model.NewTChatModel(db),
-		TCommentModel:      model.NewTCommentModel(db),
-		TRemarkModel:       model.NewTRemarkModel(db),
+		// message models
+		TChatModel:    model.NewTChatModel(db),
+		TCommentModel: model.NewTCommentModel(db),
+		TRemarkModel:  model.NewTRemarkModel(db),
+		// website models
+		TAlbumModel:        model.NewTAlbumModel(db),
+		TPhotoModel:        model.NewTPhotoModel(db),
 		TFriendModel:       model.NewTFriendModel(db),
 		TTalkModel:         model.NewTTalkModel(db),
-		TPhotoModel:        model.NewTPhotoModel(db),
-		TAlbumModel:        model.NewTAlbumModel(db),
 		TPageModel:         model.NewTPageModel(db),
 		TVisitHistoryModel: model.NewTVisitHistoryModel(db),
-
 		TVisitLogModel:     model.NewTVisitLogModel(db),
 		TOperationLogModel: model.NewTOperationLogModel(db),
-
-		TFileFolderModel: model.NewTFileFolderModel(db),
-		TFileUploadModel: model.NewTFileUploadModel(db),
+		TFileFolderModel:   model.NewTFileFolderModel(db),
+		TFileUploadModel:   model.NewTFileUploadModel(db),
 	}
 }
 
@@ -292,18 +294,18 @@ func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
 		case "qq":
 			auth := qq.NewAuthQq(conf)
 			om["qq"] = auth
-		case "weibo":
-			auth := weibo.NewAuthWb(conf)
-			om["weibo"] = auth
-		case "feishu":
-			auth := feishu.NewAuthFeishu(conf)
-			om["feishu"] = auth
 		case "github":
 			auth := github.NewAuthGithub(conf)
 			om["github"] = auth
 		case "gitee":
 			auth := gitee.NewAuthGitee(conf)
 			om["gitee"] = auth
+		case "weibo":
+			auth := weibo.NewAuthWb(conf)
+			om["weibo"] = auth
+		case "feishu":
+			auth := feishu.NewAuthFeishu(conf)
+			om["feishu"] = auth
 		}
 	}
 	return om
