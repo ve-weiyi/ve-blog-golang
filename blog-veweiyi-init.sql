@@ -11,7 +11,7 @@
  Target Server Version : 80034 (8.0.34)
  File Encoding         : 65001
 
- Date: 13/12/2024 14:56:01
+ Date: 29/04/2025 22:47:40
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `t_album`
     `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='相册';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='相册';
 
 -- ----------------------------
 -- Table structure for t_api
@@ -52,7 +52,7 @@ CREATE TABLE `t_api`
     `updated_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `idx_path_method` (`path`,`method`,`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='接口';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='接口';
 
 -- ----------------------------
 -- Table structure for t_article
@@ -72,10 +72,11 @@ CREATE TABLE `t_article`
     `is_delete`       tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除  0否 1是',
     `status`          tinyint       NOT NULL DEFAULT '1' COMMENT '状态值 1公开 2私密 3评论可见',
     `like_count`      int           NOT NULL DEFAULT '0' COMMENT '点赞数',
+    `view_count` int NOT NULL DEFAULT '0' COMMENT '查看数',
     `created_at`      datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发表时间',
     `updated_at`      datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='文章';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='文章';
 
 -- ----------------------------
 -- Table structure for t_article_tag
@@ -89,7 +90,7 @@ CREATE TABLE `t_article_tag`
     PRIMARY KEY (`id`) USING BTREE,
     KEY          `fk_article_tag_1` (`article_id`) USING BTREE,
     KEY          `fk_article_tag_2` (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='文章-标签关联';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='文章-标签关联';
 
 -- ----------------------------
 -- Table structure for t_category
@@ -103,7 +104,7 @@ CREATE TABLE `t_category`
     `updated_at`    datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_name` (`category_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='文章分类';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='文章分类';
 
 -- ----------------------------
 -- Table structure for t_chat
@@ -123,7 +124,7 @@ CREATE TABLE `t_chat`
     `updated_at`  datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     KEY           `idx_uid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='聊天消息';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='聊天消息';
 
 -- ----------------------------
 -- Table structure for t_comment
@@ -149,7 +150,7 @@ CREATE TABLE `t_comment`
     PRIMARY KEY (`id`, `reply_user_id`) USING BTREE,
     KEY               `fk_comment_user` (`user_id`) USING BTREE,
     KEY               `fk_comment_parent` (`parent_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=918 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='评论';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='评论';
 
 -- ----------------------------
 -- Table structure for t_file_folder
@@ -166,7 +167,7 @@ CREATE TABLE `t_file_folder`
     `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_path` (`file_path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件夹记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件夹记录';
 
 -- ----------------------------
 -- Table structure for t_file_upload
@@ -187,7 +188,7 @@ CREATE TABLE `t_file_upload`
     PRIMARY KEY (`id`) USING BTREE,
     KEY          `idx_uid` (`user_id`) USING BTREE,
     KEY          `idx_path` (`file_path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='上传记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='上传记录';
 
 -- ----------------------------
 -- Table structure for t_friend
@@ -203,8 +204,8 @@ CREATE TABLE `t_friend`
     `created_at`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
-    KEY            `fk_friend_link_user` (`link_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='友链';
+    UNIQUE KEY `uk_name` (`link_name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='友链';
 
 -- ----------------------------
 -- Table structure for t_menu
@@ -218,7 +219,7 @@ CREATE TABLE `t_menu`
     `name`        varchar(64)   NOT NULL DEFAULT '' COMMENT '路由名称',
     `component`   varchar(256)  NOT NULL DEFAULT '' COMMENT '路由组件',
     `redirect`    varchar(256)  NOT NULL DEFAULT '' COMMENT '路由重定向',
-    `type`        varchar(64)   NOT NULL DEFAULT '' COMMENT '菜单类型',
+    `type` varchar(64) NOT NULL DEFAULT '0' COMMENT '菜单类型',
     `title`       varchar(64)   NOT NULL DEFAULT '' COMMENT '菜单标题',
     `icon`        varchar(64)   NOT NULL DEFAULT '' COMMENT '菜单图标',
     `rank`        int           NOT NULL DEFAULT '0' COMMENT '排序',
@@ -233,7 +234,7 @@ CREATE TABLE `t_menu`
     `updated_at`  datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_path` (`path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单';
 
 -- ----------------------------
 -- Table structure for t_operation_log
@@ -257,7 +258,7 @@ CREATE TABLE `t_operation_log`
     `created_at`      datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`      datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
 
 -- ----------------------------
 -- Table structure for t_page
@@ -274,7 +275,7 @@ CREATE TABLE `t_page`
     `created_at`      datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`      datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='页面';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='页面';
 
 -- ----------------------------
 -- Table structure for t_photo
@@ -291,7 +292,7 @@ CREATE TABLE `t_photo`
     `created_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='照片';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='照片';
 
 -- ----------------------------
 -- Table structure for t_remark
@@ -309,7 +310,7 @@ CREATE TABLE `t_remark`
     `created_at`      datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
     `updated_at`      datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='留言';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='留言';
 
 -- ----------------------------
 -- Table structure for t_role
@@ -319,7 +320,7 @@ CREATE TABLE `t_role`
 (
     `id`           int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
     `parent_id`    int         NOT NULL DEFAULT '0' COMMENT '父角色id',
-    `role_key`     varchar(64) NOT NULL DEFAULT '' COMMENT '角色名',
+    `role_key` varchar(64) NOT NULL DEFAULT '' COMMENT '角色标识',
     `role_label`   varchar(64) NOT NULL DEFAULT '' COMMENT '角色标签',
     `role_comment` varchar(64) NOT NULL DEFAULT '' COMMENT '角色备注',
     `is_disable`   tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用  0否 1是',
@@ -327,7 +328,7 @@ CREATE TABLE `t_role`
     `created_at`   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at`   datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色';
 
 -- ----------------------------
 -- Table structure for t_role_api
@@ -339,7 +340,7 @@ CREATE TABLE `t_role_api`
     `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
     `api_id`  int NOT NULL DEFAULT '0' COMMENT '接口id',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-api关联';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-api关联';
 
 -- ----------------------------
 -- Table structure for t_role_menu
@@ -351,7 +352,7 @@ CREATE TABLE `t_role_menu`
     `role_id` int NOT NULL DEFAULT '0' COMMENT '角色id',
     `menu_id` int NOT NULL DEFAULT '0' COMMENT '菜单id',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-菜单关联';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色-菜单关联';
 
 -- ----------------------------
 -- Table structure for t_tag
@@ -365,7 +366,7 @@ CREATE TABLE `t_tag`
     `updated_at` datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_name` (`tag_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='标签';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='标签';
 
 -- ----------------------------
 -- Table structure for t_talk
@@ -383,7 +384,7 @@ CREATE TABLE `t_talk`
     `created_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='说说';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='说说';
 
 -- ----------------------------
 -- Table structure for t_user
@@ -395,11 +396,11 @@ CREATE TABLE `t_user`
     `user_id`    varchar(64)   NOT NULL COMMENT '用户id',
     `username`   varchar(64)   NOT NULL DEFAULT '' COMMENT '用户名',
     `password`   varchar(128)  NOT NULL DEFAULT '' COMMENT '用户密码',
-    `nickname`   varchar(64)   NOT NULL COMMENT '用户昵称',
-    `avatar`     varchar(255)  NOT NULL COMMENT '用户头像',
+    `nickname` varchar(64)   NOT NULL DEFAULT '' COMMENT '用户昵称',
+    `avatar`   varchar(255)  NOT NULL DEFAULT '' COMMENT '用户头像',
     `email`      varchar(64)   NOT NULL DEFAULT '' COMMENT '邮箱',
-    `phone`      varchar(64)            DEFAULT '' COMMENT '手机号',
-    `info`       varchar(1024) NOT NULL COMMENT '用户信息',
+    `phone`    varchar(64)   NOT NULL DEFAULT '' COMMENT '手机号',
+    `info`     varchar(1024) NOT NULL DEFAULT '' COMMENT '用户信息',
     `status`     tinyint       NOT NULL DEFAULT '0' COMMENT '状态: -1删除 0正常 1禁用',
     `login_type` varchar(64)   NOT NULL DEFAULT '' COMMENT '注册方式',
     `ip_address` varchar(255)  NOT NULL DEFAULT '' COMMENT '注册ip',
@@ -409,7 +410,7 @@ CREATE TABLE `t_user`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_username` (`username`) USING BTREE,
     UNIQUE KEY `uk_uid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录信息';
 
 -- ----------------------------
 -- Table structure for t_user_login_history
@@ -428,8 +429,8 @@ CREATE TABLE `t_user_login_history`
     `created_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
-    KEY          `uk_uuid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=276 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
+    KEY `idx_uid` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
 
 -- ----------------------------
 -- Table structure for t_user_oauth
@@ -445,8 +446,8 @@ CREATE TABLE `t_user_oauth`
     `updated_at` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_oid_plat` (`open_id`,`platform`) USING BTREE,
-    KEY          `idx_uuid` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='第三方登录信息';
+    KEY `idx_uid` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='第三方登录信息';
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -458,7 +459,7 @@ CREATE TABLE `t_user_role`
     `user_id` varchar(64) NOT NULL DEFAULT '' COMMENT '用户id',
     `role_id` int         NOT NULL DEFAULT '0' COMMENT '角色id',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户-角色关联';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户-角色关联';
 
 -- ----------------------------
 -- Table structure for t_visit_history
@@ -473,7 +474,7 @@ CREATE TABLE `t_visit_history`
     `updated_at`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `uk_date` (`date`)
-) ENGINE=InnoDB AUTO_INCREMENT=712 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='页面访问数量';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='页面访问数量';
 
 -- ----------------------------
 -- Table structure for t_visit_log
@@ -481,18 +482,18 @@ CREATE TABLE `t_visit_history`
 DROP TABLE IF EXISTS `t_visit_log`;
 CREATE TABLE `t_visit_log`
 (
-    `id`          int         NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `user_id`     varchar(64) NOT NULL DEFAULT '' COMMENT '用户id',
-    `terminal_id` varchar(64) NOT NULL DEFAULT '' COMMENT '设备id',
-    `ip_address`  varchar(255)         DEFAULT '' COMMENT '操作ip',
-    `ip_source`   varchar(255)         DEFAULT '' COMMENT '操作地址',
-    `os`          varchar(50)          DEFAULT NULL COMMENT '操作系统',
-    `browser`     varchar(50)          DEFAULT NULL COMMENT '浏览器',
-    `page`        varchar(50)          DEFAULT NULL COMMENT '访问页面',
-    `created_at`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at`  datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `id`          int          NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `user_id`     varchar(64)  NOT NULL DEFAULT '' COMMENT '用户id',
+    `terminal_id` varchar(64)  NOT NULL DEFAULT '' COMMENT '设备id',
+    `ip_address`  varchar(255) NOT NULL DEFAULT '' COMMENT '操作ip',
+    `ip_source`   varchar(255) NOT NULL DEFAULT '' COMMENT '操作地址',
+    `os`          varchar(50)  NOT NULL DEFAULT '' COMMENT '操作系统',
+    `browser`     varchar(50)  NOT NULL DEFAULT '' COMMENT '浏览器',
+    `page`        varchar(50)  NOT NULL DEFAULT '' COMMENT '访问页面',
+    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1672 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for t_website_config
@@ -506,8 +507,8 @@ CREATE TABLE `t_website_config`
     `created_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='网站配置表';
+    UNIQUE KEY `uk_key` (`key`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='网站配置表';
 
 SET
 FOREIGN_KEY_CHECKS = 1;
