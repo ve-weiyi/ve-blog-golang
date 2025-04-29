@@ -4,7 +4,8 @@ Mode: dev
 Timeout: 5000
 Health: true
 # 服务注册，直连模式不需要
-# 检查服务是否注册 etcdctl get --prefix blog.rpc
+# 注意把防火墙 2379、2380口打开
+# 检查服务是否注册 etcdctl get --prefix 'blog' --user=root:etcd7914
 #Etcd:
 #  Hosts:
 #   - "localhost:2379"
