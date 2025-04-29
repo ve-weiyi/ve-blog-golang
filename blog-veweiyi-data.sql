@@ -25,45 +25,45 @@ BEGIN;
 INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
                                      `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
                                      `is_disable`, `extra`, `created_at`, `updated_at`)
-VALUES (56, 0, '/system', '', '/src/layout/index', '/system/user', '', '系统管理', 'el-icon-setting', 6, '', 'null', 0,
+VALUES (1, 0, '/system', '', '/src/layout/index', '/system/user', '', '系统管理', 'el-icon-setting', 6, '', 'null', 0,
         0, 0, 0, '{\"title\":\"系统管理\",\"icon\":\"el-icon-setting\",\"rank\":6,\"params\":\"null\"}',
         '2024-11-21 17:58:47', '2024-11-21 17:58:47');
 INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
                                      `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
                                      `is_disable`, `extra`, `created_at`, `updated_at`)
-VALUES (57, 56, '/system/user', 'User', '/src/views/admin/system/user/User', '', '', '用户列表', '', 1, '', 'null', 0,
+VALUES (2, 1, '/system/user', 'User', '/src/views/admin/system/user/User', '', '', '用户列表', '', 1, '', 'null', 0,
         0, 0, 0, '{\"type\":1,\"title\":\"用户列表\",\"rank\":1,\"params\":\"null\"}', '2024-11-21 17:58:47',
         '2024-11-21 17:58:47');
 INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
                                      `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
                                      `is_disable`, `extra`, `created_at`, `updated_at`)
-VALUES (58, 56, '/system/role', 'Role', '/src/views/admin/system/role/Role', '', '', '角色管理', '', 2, '', 'null', 0,
+VALUES (3, 1, '/system/role', 'Role', '/src/views/admin/system/role/Role', '', '', '角色管理', '', 2, '', 'null', 0,
         0, 0, 0, '{\"type\":1,\"title\":\"角色管理\",\"rank\":2,\"params\":\"null\"}', '2024-11-21 17:58:47',
         '2024-11-21 17:58:47');
 INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
                                      `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
                                      `is_disable`, `extra`, `created_at`, `updated_at`)
-VALUES (59, 56, '/system/menu', 'Menu', '/src/views/admin/system/menu/Menu', '', '', '菜单管理', '', 3, '', 'null', 0,
+VALUES (4, 1, '/system/menu', 'Menu', '/src/views/admin/system/menu/Menu', '', '', '菜单管理', '', 3, '', 'null', 0,
         0, 0, 0, '{\"type\":1,\"title\":\"菜单管理\",\"rank\":3,\"params\":\"null\"}', '2024-11-21 17:58:47',
         '2024-11-21 17:58:47');
 INSERT INTO `blog-veweiyi`.`t_menu` (`id`, `parent_id`, `path`, `name`, `component`, `redirect`, `type`, `title`,
                                      `icon`, `rank`, `perm`, `params`, `keep_alive`, `always_show`, `is_hidden`,
                                      `is_disable`, `extra`, `created_at`, `updated_at`)
-VALUES (60, 56, '/system/api', 'Api', '/src/views/admin/system/api/Api', '', '', '接口管理', '', 4, '', 'null', 0, 0, 0,
+VALUES (5, 1, '/system/api', 'Api', '/src/views/admin/system/api/Api', '', '', '接口管理', '', 4, '', 'null', 0, 0, 0,
         0, '{\"type\":1,\"title\":\"接口管理\",\"rank\":4,\"params\":\"null\"}', '2024-11-21 17:58:47',
         '2024-11-21 17:58:47');
 
 
 INSERT INTO `blog-veweiyi`.`t_role_menu` (`id`, `role_id`, `menu_id`)
-VALUES (56, 1, 56);
+VALUES (1, 1, 1);
 INSERT INTO `blog-veweiyi`.`t_role_menu` (`id`, `role_id`, `menu_id`)
-VALUES (57, 1, 57);
+VALUES (2, 1, 2);
 INSERT INTO `blog-veweiyi`.`t_role_menu` (`id`, `role_id`, `menu_id`)
-VALUES (58, 1, 58);
+VALUES (3, 1, 3);
 INSERT INTO `blog-veweiyi`.`t_role_menu` (`id`, `role_id`, `menu_id`)
-VALUES (59, 1, 59);
+VALUES (4, 1, 4);
 INSERT INTO `blog-veweiyi`.`t_role_menu` (`id`, `role_id`, `menu_id`)
-VALUES (60, 1, 60);
+VALUES (5, 1, 5);
 COMMIT;
 
 
@@ -89,9 +89,9 @@ COMMIT;
 -- ----------------------------
 BEGIN;
 INSERT INTO `t_article_tag` (`id`, `article_id`, `tag_id`)
-VALUES (6, 1, 1);
+VALUES (1, 1, 1);
 INSERT INTO `t_article_tag` (`id`, `article_id`, `tag_id`)
-VALUES (7, 2, 1);
+VALUES (2, 2, 1);
 COMMIT;
 
 -- ----------------------------
@@ -116,7 +116,7 @@ VALUES (1, '与梦', 'https://mms1.baidu.com/it/u=2815887849,1501151317&fm=253&a
         '你能做的，岂止如此。', '2024-11-16 00:43:12', '2024-11-16 00:43:37');
 COMMIT;
 
-----------------------
+-- --------------------
 -- Records of t_talk
 -- ----------------------------
 BEGIN;
@@ -128,10 +128,13 @@ VALUES (1, '1',
 COMMIT;
 
 
+-- --------------------
+-- Records of t_website_config
+-- ----------------------------
 BEGIN;
 INSERT INTO `t_website_config` (`id`, `key`, `config`, `created_at`, `updated_at`)
 VALUES (1, 'website_config',
-        '{\"admin_url\":\"\",\"alipay_qr_code\":\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\",\"gitee\":\"https://gitee.com/wy791422171\",\"github\":\"https://github.com/ve-weiyi\",\"is_chat_room\":1,\"is_comment_review\":1,\"is_email_notice\":1,\"is_message_review\":0,\"is_music_player\":1,\"is_reward\":0,\"qq\":\"791422171\",\"social_login_list\":[\"qq\",\"github\",\"gitee\",\"feishu\",\"weibo\"],\"social_url_list\":[\"qq\",\"github\",\"gitee\"],\"tourist_avatar\":\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\",\"user_avatar\":\"https://static.veweiyi.cn/blog/website/tiger-20241115175820.jpg\",\"website_author\":\"与梦\",\"website_avatar\":\"https://static.veweiyi.cn/blog/website/tiger-20241115175746.jpg\",\"website_create_time\":\"2022-01-17\",\"website_intro\":\"你能做的，岂止如此。\",\"website_name\":\"与梦\",\"website_notice\":\"网站搭建问题请联系QQ 791422171。\",\"website_record_no\":\"桂ICP备2023013735号-1\",\"websocket_url\":\"wss://veweiyi.cn/api/websocket\",\"weixin_qr_code\":\"\"}',
+        '{\"admin_url\":\"\",\"alipay_qr_code\":\"https://veport.oss-cn-beijing.aliyuncs.com/config/17f234dc487c1bb5bbb732869be0eb53.jpg\",\"gitee\":\"https://gitee.com/wy791422171\",\"github\":\"https://github.com/ve-weiyi\",\"is_chat_room\":1,\"is_comment_review\":1,\"is_email_notice\":1,\"is_message_review\":0,\"is_music_player\":1,\"is_reward\":0,\"qq\":\"791422171\",\"social_login_list\":[\"qq\",\"github\",\"gitee\",\"feishu\",\"weibo\"],\"social_url_list\":[\"qq\",\"github\",\"gitee\"],\"tourist_avatar\":\"https://veport.oss-cn-beijing.aliyuncs.com/config/5bfb96809bee5ba80a36811f0bf1d1ea.gif\",\"user_avatar\":\"https://static.veweiyi.cn/blog/website/tiger-20241115175820.jpg\",\"website_author\":\"与梦\",\"website_avatar\":\"https://static.veweiyi.cn/blog/website/tiger-20241115175746.jpg\",\"website_create_time\":\"2022-01-17\",\"website_intro\":\"你能做的，岂止如此。\",\"website_name\":\"与梦\",\"website_notice\":\"网站搭建问题请联系QQ 791422171。\",\"website_record_no\":\"桂ICP备2023013735号-1\",\"websocket_url\":\"wss://blog.veweiyi.cn/api/websocket\",\"weixin_qr_code\":\"\"}',
         '2021-08-09 19:37:30', '2024-11-16 00:44:08');
 INSERT INTO `t_website_config` (`id`, `key`, `config`, `created_at`, `updated_at`)
 VALUES (2, 'about_me', '{\"content\":\"welcome to my blog!\"}', '2024-11-15 17:57:20', '2024-11-15 17:57:20');
