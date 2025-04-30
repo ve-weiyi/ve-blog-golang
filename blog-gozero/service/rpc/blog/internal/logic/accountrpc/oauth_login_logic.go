@@ -5,10 +5,10 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/metadatax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
@@ -84,7 +84,7 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 	// 使用第三方注册时，username需要唯一, 用户不能使用username登录，所以使用uuid生成。
 	username := uid
 
-	ip, _ := metadatax.GetRPCClientIP(l.ctx)
+	ip, _ := rpcutils.GetUserClientIPFromCtx(l.ctx)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	// 用户账号

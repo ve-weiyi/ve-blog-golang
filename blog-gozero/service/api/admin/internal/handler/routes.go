@@ -15,6 +15,7 @@ import (
 	comment "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/comment"
 	file "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/file"
 	friend "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/friend"
+	login_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/login_log"
 	menu "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/menu"
 	operation_log "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/operation_log"
 	page "github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/handler/page"
@@ -49,22 +50,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
-					// 获取用户分布地区
-					Method:  http.MethodPost,
-					Path:    "/account/find_account_area_analysis",
-					Handler: account.FindAccountAreaAnalysisHandler(serverCtx),
-				},
-				{
 					// 查询用户列表
 					Method:  http.MethodPost,
 					Path:    "/account/find_account_list",
 					Handler: account.FindAccountListHandler(serverCtx),
-				},
-				{
-					// 查询用户登录历史
-					Method:  http.MethodPost,
-					Path:    "/account/find_account_login_history_list",
-					Handler: account.FindAccountLoginHistoryListHandler(serverCtx),
 				},
 				{
 					// 查询在线用户列表
@@ -485,6 +474,27 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
+					// 删除登录日志
+					Method:  http.MethodDelete,
+					Path:    "/login_log/deletes_login_log",
+					Handler: login_log.DeletesLoginLogHandler(serverCtx),
+				},
+				{
+					// 查询登录日志
+					Method:  http.MethodPost,
+					Path:    "/user/find_login_history_list",
+					Handler: login_log.FindLoginLogListHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/admin_api/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
+			[]rest.Route{
+				{
 					// 创建菜单
 					Method:  http.MethodPost,
 					Path:    "/menu/add_menu",
@@ -863,6 +873,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
 				{
+					// 获取用户分布地区
+					Method:  http.MethodPost,
+					Path:    "/account/get_user_area_stats",
+					Handler: website.GetUserAreaStatsHandler(serverCtx),
+				},
+				{
 					// 获取后台首页信息
 					Method:  http.MethodGet,
 					Path:    "/admin",
@@ -879,6 +895,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/admin/about_me",
 					Handler: website.UpdateAboutMeHandler(serverCtx),
+				},
+				{
+					// 获取访客数据分析
+					Method:  http.MethodGet,
+					Path:    "/admin/get_visit_stats",
+					Handler: website.GetVisitStatsHandler(serverCtx),
+				},
+				{
+					// 获取访客数据趋势
+					Method:  http.MethodPost,
+					Path:    "/admin/get_visit_trend",
+					Handler: website.GetVisitTrendHandler(serverCtx),
 				},
 				{
 					// 获取网站配置

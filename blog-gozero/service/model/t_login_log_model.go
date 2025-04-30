@@ -7,36 +7,36 @@ import (
 	"gorm.io/gorm"
 )
 
-var _ TUserLoginHistoryModel = (*defaultTUserLoginHistoryModel)(nil)
+var _ TLoginLogModel = (*defaultTLoginLogModel)(nil)
 
 type (
 	// 接口定义
-	TUserLoginHistoryModel interface {
+	TLoginLogModel interface {
 		TableName() string
 		// 在事务中操作
-		WithTransaction(tx *gorm.DB) (out TUserLoginHistoryModel)
+		WithTransaction(tx *gorm.DB) (out TLoginLogModel)
 		// 插入
-		Insert(ctx context.Context, in *TUserLoginHistory) (rows int64, err error)
-		Inserts(ctx context.Context, in ...*TUserLoginHistory) (rows int64, err error)
+		Insert(ctx context.Context, in *TLoginLog) (rows int64, err error)
+		Inserts(ctx context.Context, in ...*TLoginLog) (rows int64, err error)
 		// 删除
 		Delete(ctx context.Context, id int64) (rows int64, err error)
 		Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error)
 		// 更新
-		Update(ctx context.Context, in *TUserLoginHistory) (rows int64, err error)
+		Update(ctx context.Context, in *TLoginLog) (rows int64, err error)
 		Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error)
 		// 保存
-		Save(ctx context.Context, in *TUserLoginHistory) (rows int64, err error)
+		Save(ctx context.Context, in *TLoginLog) (rows int64, err error)
 		// 查询
-		FindById(ctx context.Context, id int64) (out *TUserLoginHistory, err error)
-		FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TUserLoginHistory, err error)
-		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TUserLoginHistory, err error)
+		FindById(ctx context.Context, id int64) (out *TLoginLog, err error)
+		FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TLoginLog, err error)
+		FindALL(ctx context.Context, conditions string, args ...interface{}) (list []*TLoginLog, err error)
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
-		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserLoginHistory, total int64, err error)
+		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TLoginLog, total int64, err error)
 		// add extra method in here
 	}
 
 	// 表字段定义
-	TUserLoginHistory struct {
+	TLoginLog struct {
 		Id        int64     `json:"id" gorm:"column:id"`                 // id
 		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
 		LoginType string    `json:"login_type" gorm:"column:login_type"` // 登录类型
@@ -50,30 +50,30 @@ type (
 	}
 
 	// 接口实现
-	defaultTUserLoginHistoryModel struct {
+	defaultTLoginLogModel struct {
 		DbEngin *gorm.DB
 		table   string
 	}
 )
 
-func NewTUserLoginHistoryModel(db *gorm.DB) TUserLoginHistoryModel {
-	return &defaultTUserLoginHistoryModel{
+func NewTLoginLogModel(db *gorm.DB) TLoginLogModel {
+	return &defaultTLoginLogModel{
 		DbEngin: db,
-		table:   "`t_user_login_history`",
+		table:   "`t_login_log`",
 	}
 }
 
-func (m *defaultTUserLoginHistoryModel) TableName() string {
+func (m *defaultTLoginLogModel) TableName() string {
 	return m.table
 }
 
 // 在事务中操作
-func (m *defaultTUserLoginHistoryModel) WithTransaction(tx *gorm.DB) (out TUserLoginHistoryModel) {
-	return NewTUserLoginHistoryModel(tx)
+func (m *defaultTLoginLogModel) WithTransaction(tx *gorm.DB) (out TLoginLogModel) {
+	return NewTLoginLogModel(tx)
 }
 
 // 插入记录 (返回的是受影响行数，如需获取自增id，请通过data参数获取)
-func (m *defaultTUserLoginHistoryModel) Insert(ctx context.Context, in *TUserLoginHistory) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Insert(ctx context.Context, in *TLoginLog) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Create(&in)
@@ -85,7 +85,7 @@ func (m *defaultTUserLoginHistoryModel) Insert(ctx context.Context, in *TUserLog
 }
 
 // 插入记录（批量操作）
-func (m *defaultTUserLoginHistoryModel) Inserts(ctx context.Context, in ...*TUserLoginHistory) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Inserts(ctx context.Context, in ...*TLoginLog) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.CreateInBatches(&in, len(in))
@@ -97,12 +97,12 @@ func (m *defaultTUserLoginHistoryModel) Inserts(ctx context.Context, in ...*TUse
 }
 
 // 删除记录
-func (m *defaultTUserLoginHistoryModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Delete(ctx context.Context, id int64) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	db = db.Where("id = ?", id)
 
-	result := db.Delete(&TUserLoginHistory{})
+	result := db.Delete(&TLoginLog{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -111,7 +111,7 @@ func (m *defaultTUserLoginHistoryModel) Delete(ctx context.Context, id int64) (r
 }
 
 // 删除记录（批量操作）
-func (m *defaultTUserLoginHistoryModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Deletes(ctx context.Context, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -119,7 +119,7 @@ func (m *defaultTUserLoginHistoryModel) Deletes(ctx context.Context, conditions 
 		db = db.Where(conditions, args...)
 	}
 
-	result := db.Delete(&TUserLoginHistory{})
+	result := db.Delete(&TLoginLog{})
 	if result.Error != nil {
 		return 0, result.Error
 	}
@@ -128,7 +128,7 @@ func (m *defaultTUserLoginHistoryModel) Deletes(ctx context.Context, conditions 
 }
 
 // 更新记录（不更新零值）
-func (m *defaultTUserLoginHistoryModel) Update(ctx context.Context, in *TUserLoginHistory) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Update(ctx context.Context, in *TLoginLog) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Updates(&in)
@@ -140,7 +140,7 @@ func (m *defaultTUserLoginHistoryModel) Update(ctx context.Context, in *TUserLog
 }
 
 // 更新记录（批量操作）
-func (m *defaultTUserLoginHistoryModel) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Updates(ctx context.Context, columns map[string]interface{}, conditions string, args ...interface{}) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Where(conditions, args...).Updates(columns)
@@ -152,7 +152,7 @@ func (m *defaultTUserLoginHistoryModel) Updates(ctx context.Context, columns map
 }
 
 // 保存记录（更新零值）
-func (m *defaultTUserLoginHistoryModel) Save(ctx context.Context, in *TUserLoginHistory) (rows int64, err error) {
+func (m *defaultTLoginLogModel) Save(ctx context.Context, in *TLoginLog) (rows int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	result := db.Omit("created_at").Save(&in)
@@ -164,7 +164,7 @@ func (m *defaultTUserLoginHistoryModel) Save(ctx context.Context, in *TUserLogin
 }
 
 // 查询记录
-func (m *defaultTUserLoginHistoryModel) FindById(ctx context.Context, id int64) (out *TUserLoginHistory, err error) {
+func (m *defaultTLoginLogModel) FindById(ctx context.Context, id int64) (out *TLoginLog, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`id` = ?", id).First(&out).Error
@@ -176,7 +176,7 @@ func (m *defaultTUserLoginHistoryModel) FindById(ctx context.Context, id int64) 
 }
 
 // 查询记录
-func (m *defaultTUserLoginHistoryModel) FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TUserLoginHistory, err error) {
+func (m *defaultTLoginLogModel) FindOne(ctx context.Context, conditions string, args ...interface{}) (out *TLoginLog, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -193,7 +193,7 @@ func (m *defaultTUserLoginHistoryModel) FindOne(ctx context.Context, conditions 
 }
 
 // 查询列表
-func (m *defaultTUserLoginHistoryModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TUserLoginHistory, err error) {
+func (m *defaultTLoginLogModel) FindALL(ctx context.Context, conditions string, args ...interface{}) (out []*TLoginLog, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -209,7 +209,7 @@ func (m *defaultTUserLoginHistoryModel) FindALL(ctx context.Context, conditions 
 }
 
 // 查询总数
-func (m *defaultTUserLoginHistoryModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
+func (m *defaultTLoginLogModel) FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error) {
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	// 如果有条件语句
@@ -217,7 +217,7 @@ func (m *defaultTUserLoginHistoryModel) FindCount(ctx context.Context, condition
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TUserLoginHistory{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -225,7 +225,7 @@ func (m *defaultTUserLoginHistoryModel) FindCount(ctx context.Context, condition
 }
 
 // 分页查询记录
-func (m *defaultTUserLoginHistoryModel) FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserLoginHistory, total int64, err error) {
+func (m *defaultTLoginLogModel) FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TLoginLog, total int64, err error) {
 	// 插入db
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 

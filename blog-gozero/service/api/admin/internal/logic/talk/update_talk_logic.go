@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
@@ -27,7 +28,7 @@ func NewUpdateTalkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 	}
 }
 
-func (l *UpdateTalkLogic) UpdateTalk(req *types.TalkNewReq) (resp *types.TalkBackDTO, err error) {
+func (l *UpdateTalkLogic) UpdateTalk(req *types.TalkNewReq) (resp *types.TalkBackVO, err error) {
 	in := ConvertTalkPb(req)
 	in.UserId = cast.ToString(l.ctx.Value(restx.HeaderUid))
 	out, err := l.svcCtx.TalkRpc.UpdateTalk(l.ctx, in)

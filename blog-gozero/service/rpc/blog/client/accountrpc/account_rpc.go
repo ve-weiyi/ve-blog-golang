@@ -80,12 +80,10 @@ type (
 		UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 查找用户列表
 		FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
-		// 查找在线用户列表
-		FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 		// 查找用户信息列表
 		FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
-		// 查询用户登录历史
-		FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error)
+		// 查找在线用户列表
+		FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 		// 查询用户数量
 		AnalysisUser(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserResp, error)
 		// 查询用户分布区域
@@ -199,22 +197,16 @@ func (m *defaultAccountRpc) FindUserList(ctx context.Context, in *FindUserListRe
 	return client.FindUserList(ctx, in, opts...)
 }
 
-// 查找在线用户列表
-func (m *defaultAccountRpc) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.FindUserOnlineList(ctx, in, opts...)
-}
-
 // 查找用户信息列表
 func (m *defaultAccountRpc) FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.FindUserInfoList(ctx, in, opts...)
 }
 
-// 查询用户登录历史
-func (m *defaultAccountRpc) FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error) {
+// 查找在线用户列表
+func (m *defaultAccountRpc) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.FindUserLoginHistoryList(ctx, in, opts...)
+	return client.FindUserOnlineList(ctx, in, opts...)
 }
 
 // 查询用户数量
