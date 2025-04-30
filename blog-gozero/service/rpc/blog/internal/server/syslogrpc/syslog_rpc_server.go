@@ -23,6 +23,30 @@ func NewSyslogRpcServer(svcCtx *svc.ServiceContext) *SyslogRpcServer {
 	}
 }
 
+// 创建登录记录
+func (s *SyslogRpcServer) AddLoginLog(ctx context.Context, in *syslogrpc.LoginLogNewReq) (*syslogrpc.LoginLogDetails, error) {
+	l := syslogrpclogic.NewAddLoginLogLogic(ctx, s.svcCtx)
+	return l.AddLoginLog(in)
+}
+
+// 更新登录记录
+func (s *SyslogRpcServer) UpdateLoginLog(ctx context.Context, in *syslogrpc.LoginLogUpdateReq) (*syslogrpc.LoginLogDeleteResp, error) {
+	l := syslogrpclogic.NewUpdateLoginLogLogic(ctx, s.svcCtx)
+	return l.UpdateLoginLog(in)
+}
+
+// 批量删除登录记录
+func (s *SyslogRpcServer) DeletesLoginLog(ctx context.Context, in *syslogrpc.IdsReq) (*syslogrpc.BatchResp, error) {
+	l := syslogrpclogic.NewDeletesLoginLogLogic(ctx, s.svcCtx)
+	return l.DeletesLoginLog(in)
+}
+
+// 查询登录记录列表
+func (s *SyslogRpcServer) FindLoginLogList(ctx context.Context, in *syslogrpc.FindLoginLogListReq) (*syslogrpc.FindLoginLogListResp, error) {
+	l := syslogrpclogic.NewFindLoginLogListLogic(ctx, s.svcCtx)
+	return l.FindLoginLogList(in)
+}
+
 // 创建操作记录
 func (s *SyslogRpcServer) AddOperationLog(ctx context.Context, in *syslogrpc.OperationLogNewReq) (*syslogrpc.OperationLogDetails, error) {
 	l := syslogrpclogic.NewAddOperationLogLogic(ctx, s.svcCtx)

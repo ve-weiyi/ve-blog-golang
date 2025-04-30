@@ -3,7 +3,7 @@ package talk
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
@@ -50,7 +50,7 @@ func (l *FindTalkListLogic) FindTalkList(req *types.TalkQuery) (resp *types.Page
 		return nil, err
 	}
 
-	var list []*types.TalkBackDTO
+	var list []*types.TalkBackVO
 	for _, v := range out.List {
 		m := ConvertTalkTypes(v, usm)
 		list = append(list, m)

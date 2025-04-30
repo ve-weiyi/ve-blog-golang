@@ -2,17 +2,14 @@ package accountrpclogic
 
 import (
 	"context"
-	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/metadatax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -59,9 +56,6 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 		return nil, bizerr.NewBizError(bizerr.CodeUserDisabled, "用户已被禁用")
 	}
 
-	agent, _ := metadatax.GetRPCUserAgent(ctx)
-	ip, _ := metadatax.GetRPCClientIP(ctx)
-	is, _ := ipx.GetIpSourceByBaidu(ip)
 	// 查找用户角色
 	rList, err := getUserRoles(ctx, svcCtx, user.UserId)
 	if err != nil {
@@ -89,24 +83,10 @@ func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser)
 		Phone:     user.Phone,
 		Info:      user.Info,
 		LoginType: user.LoginType,
-		IpAddress: ip,
-		IpSource:  is,
 		Roles:     roles,
 	}
 
-	// 登录记录
-	history := &model.TUserLoginHistory{
-		UserId:    user.UserId,
-		LoginType: user.LoginType,
-		IpAddress: ip,
-		IpSource:  is,
-		Agent:     agent,
-		LoginAt:   time.Now(),
-		LogoutAt:  time.Unix(0, 0),
-	}
-
-	// 保存此次登录记录
-	_, err = svcCtx.TUserLoginHistoryModel.Insert(ctx, history)
+	err = svcCtx.OnlineUserService.Login(ctx, user.UserId)
 	if err != nil {
 		return nil, err
 	}

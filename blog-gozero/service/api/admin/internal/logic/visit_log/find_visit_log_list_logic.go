@@ -3,7 +3,7 @@ package visit_log
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -51,7 +51,7 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 		return nil, err
 	}
 
-	var list []*types.VisitLogBackDTO
+	var list []*types.VisitLogBackVO
 	for _, v := range out.List {
 		m := ConvertVisitLogTypes(v, usm)
 		list = append(list, m)
@@ -65,9 +65,9 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 	return resp, nil
 }
 
-func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*accountrpc.User) (out *types.VisitLogBackDTO) {
+func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*accountrpc.User) (out *types.VisitLogBackVO) {
 
-	out = &types.VisitLogBackDTO{
+	out = &types.VisitLogBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		IpAddress: in.IpAddress,

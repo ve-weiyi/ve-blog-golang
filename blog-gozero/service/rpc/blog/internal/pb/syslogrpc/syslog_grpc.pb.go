@@ -23,6 +23,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	SyslogRpc_AddLoginLog_FullMethodName          = "/syslogrpc.SyslogRpc/AddLoginLog"
+	SyslogRpc_UpdateLoginLog_FullMethodName       = "/syslogrpc.SyslogRpc/UpdateLoginLog"
+	SyslogRpc_DeletesLoginLog_FullMethodName      = "/syslogrpc.SyslogRpc/DeletesLoginLog"
+	SyslogRpc_FindLoginLogList_FullMethodName     = "/syslogrpc.SyslogRpc/FindLoginLogList"
 	SyslogRpc_AddOperationLog_FullMethodName      = "/syslogrpc.SyslogRpc/AddOperationLog"
 	SyslogRpc_DeletesOperationLog_FullMethodName  = "/syslogrpc.SyslogRpc/DeletesOperationLog"
 	SyslogRpc_FindOperationLogList_FullMethodName = "/syslogrpc.SyslogRpc/FindOperationLogList"
@@ -35,6 +39,14 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SyslogRpcClient interface {
+	// 创建登录记录
+	AddLoginLog(ctx context.Context, in *LoginLogNewReq, opts ...grpc.CallOption) (*LoginLogDetails, error)
+	// 更新登录记录
+	UpdateLoginLog(ctx context.Context, in *LoginLogUpdateReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error)
+	// 批量删除登录记录
+	DeletesLoginLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+	// 查询登录记录列表
+	FindLoginLogList(ctx context.Context, in *FindLoginLogListReq, opts ...grpc.CallOption) (*FindLoginLogListResp, error)
 	// 创建操作记录
 	AddOperationLog(ctx context.Context, in *OperationLogNewReq, opts ...grpc.CallOption) (*OperationLogDetails, error)
 	// 批量删除操作记录
@@ -55,6 +67,42 @@ type syslogRpcClient struct {
 
 func NewSyslogRpcClient(cc grpc.ClientConnInterface) SyslogRpcClient {
 	return &syslogRpcClient{cc}
+}
+
+func (c *syslogRpcClient) AddLoginLog(ctx context.Context, in *LoginLogNewReq, opts ...grpc.CallOption) (*LoginLogDetails, error) {
+	out := new(LoginLogDetails)
+	err := c.cc.Invoke(ctx, SyslogRpc_AddLoginLog_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *syslogRpcClient) UpdateLoginLog(ctx context.Context, in *LoginLogUpdateReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error) {
+	out := new(LoginLogDeleteResp)
+	err := c.cc.Invoke(ctx, SyslogRpc_UpdateLoginLog_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *syslogRpcClient) DeletesLoginLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	out := new(BatchResp)
+	err := c.cc.Invoke(ctx, SyslogRpc_DeletesLoginLog_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *syslogRpcClient) FindLoginLogList(ctx context.Context, in *FindLoginLogListReq, opts ...grpc.CallOption) (*FindLoginLogListResp, error) {
+	out := new(FindLoginLogListResp)
+	err := c.cc.Invoke(ctx, SyslogRpc_FindLoginLogList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *syslogRpcClient) AddOperationLog(ctx context.Context, in *OperationLogNewReq, opts ...grpc.CallOption) (*OperationLogDetails, error) {
@@ -115,6 +163,14 @@ func (c *syslogRpcClient) FindVisitLogList(ctx context.Context, in *FindVisitLog
 // All implementations must embed UnimplementedSyslogRpcServer
 // for forward compatibility
 type SyslogRpcServer interface {
+	// 创建登录记录
+	AddLoginLog(context.Context, *LoginLogNewReq) (*LoginLogDetails, error)
+	// 更新登录记录
+	UpdateLoginLog(context.Context, *LoginLogUpdateReq) (*LoginLogDeleteResp, error)
+	// 批量删除登录记录
+	DeletesLoginLog(context.Context, *IdsReq) (*BatchResp, error)
+	// 查询登录记录列表
+	FindLoginLogList(context.Context, *FindLoginLogListReq) (*FindLoginLogListResp, error)
 	// 创建操作记录
 	AddOperationLog(context.Context, *OperationLogNewReq) (*OperationLogDetails, error)
 	// 批量删除操作记录
@@ -134,6 +190,18 @@ type SyslogRpcServer interface {
 type UnimplementedSyslogRpcServer struct {
 }
 
+func (UnimplementedSyslogRpcServer) AddLoginLog(context.Context, *LoginLogNewReq) (*LoginLogDetails, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddLoginLog not implemented")
+}
+func (UnimplementedSyslogRpcServer) UpdateLoginLog(context.Context, *LoginLogUpdateReq) (*LoginLogDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateLoginLog not implemented")
+}
+func (UnimplementedSyslogRpcServer) DeletesLoginLog(context.Context, *IdsReq) (*BatchResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletesLoginLog not implemented")
+}
+func (UnimplementedSyslogRpcServer) FindLoginLogList(context.Context, *FindLoginLogListReq) (*FindLoginLogListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindLoginLogList not implemented")
+}
 func (UnimplementedSyslogRpcServer) AddOperationLog(context.Context, *OperationLogNewReq) (*OperationLogDetails, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddOperationLog not implemented")
 }
@@ -163,6 +231,78 @@ type UnsafeSyslogRpcServer interface {
 
 func RegisterSyslogRpcServer(s grpc.ServiceRegistrar, srv SyslogRpcServer) {
 	s.RegisterService(&SyslogRpc_ServiceDesc, srv)
+}
+
+func _SyslogRpc_AddLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginLogNewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).AddLoginLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_AddLoginLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).AddLoginLog(ctx, req.(*LoginLogNewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SyslogRpc_UpdateLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginLogUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).UpdateLoginLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_UpdateLoginLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).UpdateLoginLog(ctx, req.(*LoginLogUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SyslogRpc_DeletesLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).DeletesLoginLog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_DeletesLoginLog_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).DeletesLoginLog(ctx, req.(*IdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SyslogRpc_FindLoginLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindLoginLogListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyslogRpcServer).FindLoginLogList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyslogRpc_FindLoginLogList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyslogRpcServer).FindLoginLogList(ctx, req.(*FindLoginLogListReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _SyslogRpc_AddOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -280,6 +420,22 @@ var SyslogRpc_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "syslogrpc.SyslogRpc",
 	HandlerType: (*SyslogRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddLoginLog",
+			Handler:    _SyslogRpc_AddLoginLog_Handler,
+		},
+		{
+			MethodName: "UpdateLoginLog",
+			Handler:    _SyslogRpc_UpdateLoginLog_Handler,
+		},
+		{
+			MethodName: "DeletesLoginLog",
+			Handler:    _SyslogRpc_DeletesLoginLog_Handler,
+		},
+		{
+			MethodName: "FindLoginLogList",
+			Handler:    _SyslogRpc_FindLoginLogList_Handler,
+		},
 		{
 			MethodName: "AddOperationLog",
 			Handler:    _SyslogRpc_AddOperationLog_Handler,

@@ -18,28 +18,29 @@ import "admin/album.api"
 import "admin/talk.api"
 import "admin/comment.api"
 import "admin/file.api"
+import "admin/login_log.api"
 import "admin/operation_log.api"
 import "admin/visit_log.api"
 
 type (
     PingReq{
     }
-    PingResp {
+	PingResp {
         Env string `json:"env"`
         Name string `json:"name"`
         Version string `json:"version"`
         Runtime string `json:"runtime"`
         Description string `json:"description"`
         RpcStatus []string `json:"rpc_status"`
-    }
+	}
 )
 
 @server(
-    prefix: /admin_api/v1
+	prefix: /admin_api/v1
 )
 service admin-api {
-    @doc "ping"
-    @handler Ping
-    get /ping (PingReq) returns (PingResp)
+	@doc "ping"
+	@handler Ping
+	get /ping (PingReq) returns (PingResp)
 }
 

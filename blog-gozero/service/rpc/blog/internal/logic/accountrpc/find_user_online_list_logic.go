@@ -2,7 +2,6 @@ package accountrpclogic
 
 import (
 	"context"
-	"time"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
@@ -27,22 +26,14 @@ func NewFindUserOnlineListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 查找在线用户列表
 func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserListReq) (*accountrpc.FindUserInfoListResp, error) {
-	page, size, sorts, conditions, params := convertUserQuery(in)
-	if conditions != "" {
-		conditions += " and "
-	}
-	conditions += "login_at > logout_at and login_at > ?"
-	params = append(params, time.Now().Add(-time.Hour*24*7))
-
-	// 查找在线用户
-	records, total, err := l.svcCtx.TUserLoginHistoryModel.FindListAndTotal(l.ctx, page, size, sorts, conditions, params...)
+	total, err := l.svcCtx.OnlineUserService.GetOnlineUserCount(l.ctx)
 	if err != nil {
 		return nil, err
 	}
-
-	var uids []string
-	for _, item := range records {
-		uids = append(uids, item.UserId)
+	// 查找在线用户
+	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, 0, 0)
+	if err != nil {
+		return nil, err
 	}
 
 	users, err := l.svcCtx.TUserModel.FindALL(l.ctx, "id in (?)", uids)

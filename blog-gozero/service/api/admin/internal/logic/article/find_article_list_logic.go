@@ -44,7 +44,7 @@ func (l *FindArticleListLogic) FindArticleList(req *types.ArticleQuery) (resp *t
 		return nil, err
 	}
 
-	var list []*types.ArticleBackDTO
+	var list []*types.ArticleBackVO
 	for _, v := range out.List {
 		m := ConvertArticleTypes(v)
 		list = append(list, m)

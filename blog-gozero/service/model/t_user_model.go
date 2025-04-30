@@ -224,7 +224,7 @@ func (m *defaultTUserModel) FindCount(ctx context.Context, conditions string, ar
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TUser{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

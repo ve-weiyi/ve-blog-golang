@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/zeromicro/go-zero/core/collection"
@@ -39,16 +40,17 @@ type ServiceContext struct {
 	CaptchaHolder *captcha.CaptchaHolder
 	Oauth         map[string]oauth.Oauth
 
+	OnlineUserService *online.OnlineUserService
+
 	// account models
-	TUserModel             model.TUserModel
-	TUserOauthModel        model.TUserOauthModel
-	TUserLoginHistoryModel model.TUserLoginHistoryModel
-	TRoleModel             model.TRoleModel
-	TApiModel              model.TApiModel
-	TMenuModel             model.TMenuModel
-	TUserRoleModel         model.TUserRoleModel
-	TRoleApiModel          model.TRoleApiModel
-	TRoleMenuModel         model.TRoleMenuModel
+	TUserModel      model.TUserModel
+	TUserOauthModel model.TUserOauthModel
+	TRoleModel      model.TRoleModel
+	TApiModel       model.TApiModel
+	TMenuModel      model.TMenuModel
+	TUserRoleModel  model.TUserRoleModel
+	TRoleApiModel   model.TRoleApiModel
+	TRoleMenuModel  model.TRoleMenuModel
 
 	// blog models
 	TWebsiteConfigModel model.TWebsiteConfigModel
@@ -63,13 +65,14 @@ type ServiceContext struct {
 	TRemarkModel  model.TRemarkModel
 
 	// website models
-	TAlbumModel        model.TAlbumModel
-	TPhotoModel        model.TPhotoModel
-	TFriendModel       model.TFriendModel
-	TTalkModel         model.TTalkModel
-	TPageModel         model.TPageModel
-	TVisitHistoryModel model.TVisitHistoryModel
+	TAlbumModel           model.TAlbumModel
+	TPhotoModel           model.TPhotoModel
+	TFriendModel          model.TFriendModel
+	TTalkModel            model.TTalkModel
+	TPageModel            model.TPageModel
+	TVisitDailyStatsModel model.TVisitDailyStatsModel
 
+	TLoginLogModel     model.TLoginLogModel
 	TVisitLogModel     model.TVisitLogModel
 	TOperationLogModel model.TOperationLogModel
 
@@ -106,16 +109,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		EmailDeliver:  deliver,
 		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 		Oauth:         InitOauth(c.OauthConfList),
+
+		OnlineUserService: online.NewOnlineUserService(rds, 3600),
 		// account models
-		TUserModel:             model.NewTUserModel(db),
-		TUserOauthModel:        model.NewTUserOauthModel(db),
-		TUserLoginHistoryModel: model.NewTUserLoginHistoryModel(db),
-		TRoleModel:             model.NewTRoleModel(db),
-		TApiModel:              model.NewTApiModel(db),
-		TMenuModel:             model.NewTMenuModel(db),
-		TUserRoleModel:         model.NewTUserRoleModel(db),
-		TRoleApiModel:          model.NewTRoleApiModel(db),
-		TRoleMenuModel:         model.NewTRoleMenuModel(db),
+		TUserModel:      model.NewTUserModel(db),
+		TUserOauthModel: model.NewTUserOauthModel(db),
+		TRoleModel:      model.NewTRoleModel(db),
+		TApiModel:       model.NewTApiModel(db),
+		TMenuModel:      model.NewTMenuModel(db),
+		TUserRoleModel:  model.NewTUserRoleModel(db),
+		TRoleApiModel:   model.NewTRoleApiModel(db),
+		TRoleMenuModel:  model.NewTRoleMenuModel(db),
 		// blog models
 		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db),
 		TArticleModel:       model.NewTArticleModel(db),
@@ -127,16 +131,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TCommentModel: model.NewTCommentModel(db),
 		TRemarkModel:  model.NewTRemarkModel(db),
 		// website models
-		TAlbumModel:        model.NewTAlbumModel(db),
-		TPhotoModel:        model.NewTPhotoModel(db),
-		TFriendModel:       model.NewTFriendModel(db),
-		TTalkModel:         model.NewTTalkModel(db),
-		TPageModel:         model.NewTPageModel(db),
-		TVisitHistoryModel: model.NewTVisitHistoryModel(db),
-		TVisitLogModel:     model.NewTVisitLogModel(db),
-		TOperationLogModel: model.NewTOperationLogModel(db),
-		TFileFolderModel:   model.NewTFileFolderModel(db),
-		TFileUploadModel:   model.NewTFileUploadModel(db),
+		TAlbumModel:           model.NewTAlbumModel(db),
+		TPhotoModel:           model.NewTPhotoModel(db),
+		TFriendModel:          model.NewTFriendModel(db),
+		TTalkModel:            model.NewTTalkModel(db),
+		TPageModel:            model.NewTPageModel(db),
+		TVisitDailyStatsModel: model.NewTVisitDailyStatsModel(db),
+		TLoginLogModel:        model.NewTLoginLogModel(db),
+		TVisitLogModel:        model.NewTVisitLogModel(db),
+		TOperationLogModel:    model.NewTOperationLogModel(db),
+		TFileFolderModel:      model.NewTFileFolderModel(db),
+		TFileUploadModel:      model.NewTFileUploadModel(db),
 	}
 }
 

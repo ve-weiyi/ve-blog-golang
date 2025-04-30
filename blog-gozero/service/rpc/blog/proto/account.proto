@@ -44,8 +44,6 @@ message LoginResp {
   string info = 7;// 用户信息
 
   string login_type = 9;
-  string ip_address = 10;// ip host
-  string ip_source = 11;// ip 源
   repeated UserRoleLabel roles = 16;
 }
 
@@ -248,12 +246,10 @@ service AccountRpc {
 
   // 查找用户列表
   rpc FindUserList(FindUserListReq) returns(FindUserListResp);
-  // 查找在线用户列表
-  rpc FindUserOnlineList(FindUserListReq) returns(FindUserInfoListResp);
   // 查找用户信息列表
   rpc FindUserInfoList(FindUserListReq) returns(FindUserInfoListResp);
-  // 查询用户登录历史
-  rpc FindUserLoginHistoryList(FindLoginHistoryListReq) returns(FindLoginHistoryListResp);
+  // 查找在线用户列表
+  rpc FindUserOnlineList(FindUserListReq) returns(FindUserInfoListResp);
 
   // 查询用户数量
   rpc AnalysisUser(EmptyReq) returns(AnalysisUserResp);

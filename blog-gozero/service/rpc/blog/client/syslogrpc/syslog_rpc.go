@@ -18,12 +18,18 @@ type (
 	CountResp                = syslogrpc.CountResp
 	EmptyReq                 = syslogrpc.EmptyReq
 	EmptyResp                = syslogrpc.EmptyResp
+	FindLoginLogListReq      = syslogrpc.FindLoginLogListReq
+	FindLoginLogListResp     = syslogrpc.FindLoginLogListResp
 	FindOperationLogListReq  = syslogrpc.FindOperationLogListReq
 	FindOperationLogListResp = syslogrpc.FindOperationLogListResp
 	FindVisitLogListReq      = syslogrpc.FindVisitLogListReq
 	FindVisitLogListResp     = syslogrpc.FindVisitLogListResp
 	IdReq                    = syslogrpc.IdReq
 	IdsReq                   = syslogrpc.IdsReq
+	LoginLogDeleteResp       = syslogrpc.LoginLogDeleteResp
+	LoginLogDetails          = syslogrpc.LoginLogDetails
+	LoginLogNewReq           = syslogrpc.LoginLogNewReq
+	LoginLogUpdateReq        = syslogrpc.LoginLogUpdateReq
 	OperationLogDetails      = syslogrpc.OperationLogDetails
 	OperationLogNewReq       = syslogrpc.OperationLogNewReq
 	UserIdReq                = syslogrpc.UserIdReq
@@ -31,6 +37,14 @@ type (
 	VisitLogNewReq           = syslogrpc.VisitLogNewReq
 
 	SyslogRpc interface {
+		// 创建登录记录
+		AddLoginLog(ctx context.Context, in *LoginLogNewReq, opts ...grpc.CallOption) (*LoginLogDetails, error)
+		// 更新登录记录
+		UpdateLoginLog(ctx context.Context, in *LoginLogUpdateReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error)
+		// 批量删除登录记录
+		DeletesLoginLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error)
+		// 查询登录记录列表
+		FindLoginLogList(ctx context.Context, in *FindLoginLogListReq, opts ...grpc.CallOption) (*FindLoginLogListResp, error)
 		// 创建操作记录
 		AddOperationLog(ctx context.Context, in *OperationLogNewReq, opts ...grpc.CallOption) (*OperationLogDetails, error)
 		// 批量删除操作记录
@@ -54,6 +68,30 @@ func NewSyslogRpc(cli zrpc.Client) SyslogRpc {
 	return &defaultSyslogRpc{
 		cli: cli,
 	}
+}
+
+// 创建登录记录
+func (m *defaultSyslogRpc) AddLoginLog(ctx context.Context, in *LoginLogNewReq, opts ...grpc.CallOption) (*LoginLogDetails, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.AddLoginLog(ctx, in, opts...)
+}
+
+// 更新登录记录
+func (m *defaultSyslogRpc) UpdateLoginLog(ctx context.Context, in *LoginLogUpdateReq, opts ...grpc.CallOption) (*LoginLogDeleteResp, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.UpdateLoginLog(ctx, in, opts...)
+}
+
+// 批量删除登录记录
+func (m *defaultSyslogRpc) DeletesLoginLog(ctx context.Context, in *IdsReq, opts ...grpc.CallOption) (*BatchResp, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.DeletesLoginLog(ctx, in, opts...)
+}
+
+// 查询登录记录列表
+func (m *defaultSyslogRpc) FindLoginLogList(ctx context.Context, in *FindLoginLogListReq, opts ...grpc.CallOption) (*FindLoginLogListResp, error) {
+	client := syslogrpc.NewSyslogRpcClient(m.cli.Conn())
+	return client.FindLoginLogList(ctx, in, opts...)
 }
 
 // 创建操作记录

@@ -6,12 +6,12 @@ import (
 
 	"github.com/spf13/cast"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/zeromicro/go-zero/core/logx"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 )
 
 type LoginLogic struct {
@@ -44,6 +44,12 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	if err != nil {
 		return
 	}
+
+	// 登录日志
+	_, err = l.svcCtx.SyslogRpc.AddLoginLog(l.ctx, &syslogrpc.LoginLogNewReq{
+		UserId:    out.UserId,
+		LoginType: out.LoginType,
+	})
 
 	resp = &types.LoginResp{
 		Token: tk,

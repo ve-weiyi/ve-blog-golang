@@ -39,7 +39,7 @@ func (l *FindApiListLogic) FindApiList(req *types.ApiQuery) (resp *types.PageRes
 		return nil, err
 	}
 
-	var list []*types.ApiBackDTO
+	var list []*types.ApiBackVO
 	for _, v := range out.List {
 		m := convertApiTypes(v)
 		list = append(list, m)

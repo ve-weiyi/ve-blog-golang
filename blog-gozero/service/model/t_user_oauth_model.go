@@ -214,7 +214,7 @@ func (m *defaultTUserOauthModel) FindCount(ctx context.Context, conditions strin
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TUserOauth{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

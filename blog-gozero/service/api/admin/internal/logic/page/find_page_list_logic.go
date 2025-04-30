@@ -37,7 +37,7 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.P
 		return nil, err
 	}
 
-	var list []*types.PageBackDTO
+	var list []*types.PageBackVO
 	for _, v := range out.List {
 		m := ConvertPageTypes(v)
 		list = append(list, m)

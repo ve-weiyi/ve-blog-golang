@@ -8,7 +8,7 @@ type (
         CategoryName string `json:"category_name"` // 分类名
     }
 
-    CategoryBackDTO {
+    CategoryBackVO {
         Id int64 `json:"id,optional"`
         CategoryName string `json:"category_name"` // 分类名
         ArticleCount int64 `json:"article_count"`
@@ -35,11 +35,11 @@ service admin-api {
 
     @doc "创建文章分类"
     @handler AddCategory
-    post /category/add_category (CategoryNewReq) returns (CategoryBackDTO)
+    post /category/add_category (CategoryNewReq) returns (CategoryBackVO)
 
     @doc "更新文章分类"
     @handler UpdateCategory
-    put /category/update_category (CategoryNewReq) returns (CategoryBackDTO)
+    put /category/update_category (CategoryNewReq) returns (CategoryBackVO)
 
     @doc "删除文章分类"
     @handler DeleteCategory

@@ -14,36 +14,38 @@ import (
 )
 
 type (
-	AddVisitReq        = websiterpc.AddVisitReq
-	AddVisitResp       = websiterpc.AddVisitResp
-	BatchResp          = websiterpc.BatchResp
-	CountResp          = websiterpc.CountResp
-	EmptyReq           = websiterpc.EmptyReq
-	EmptyResp          = websiterpc.EmptyResp
-	FindFriendListReq  = websiterpc.FindFriendListReq
-	FindFriendListResp = websiterpc.FindFriendListResp
-	FindPageListReq    = websiterpc.FindPageListReq
-	FindPageListResp   = websiterpc.FindPageListResp
-	FriendDetails      = websiterpc.FriendDetails
-	FriendNewReq       = websiterpc.FriendNewReq
-	GetTouristInfoResp = websiterpc.GetTouristInfoResp
-	IdReq              = websiterpc.IdReq
-	IdsReq             = websiterpc.IdsReq
-	PageDetails        = websiterpc.PageDetails
-	PageNewReq         = websiterpc.PageNewReq
-	UserDailyVisitRsp  = websiterpc.UserDailyVisitRsp
-	UserIdReq          = websiterpc.UserIdReq
-	UserVisit          = websiterpc.UserVisit
+	AddVisitReq          = websiterpc.AddVisitReq
+	AddVisitResp         = websiterpc.AddVisitResp
+	AnalysisVisitResp    = websiterpc.AnalysisVisitResp
+	BatchResp            = websiterpc.BatchResp
+	CountResp            = websiterpc.CountResp
+	EmptyReq             = websiterpc.EmptyReq
+	EmptyResp            = websiterpc.EmptyResp
+	FindFriendListReq    = websiterpc.FindFriendListReq
+	FindFriendListResp   = websiterpc.FindFriendListResp
+	FindPageListReq      = websiterpc.FindPageListReq
+	FindPageListResp     = websiterpc.FindPageListResp
+	FindVisitTrendReq    = websiterpc.FindVisitTrendReq
+	FindVisitTrendResp   = websiterpc.FindVisitTrendResp
+	FriendDetails        = websiterpc.FriendDetails
+	FriendNewReq         = websiterpc.FriendNewReq
+	GetTouristInfoResp   = websiterpc.GetTouristInfoResp
+	IdReq                = websiterpc.IdReq
+	IdsReq               = websiterpc.IdsReq
+	PageDetails          = websiterpc.PageDetails
+	PageNewReq           = websiterpc.PageNewReq
+	UserIdReq            = websiterpc.UserIdReq
+	VisitDailyStatistics = websiterpc.VisitDailyStatistics
 
 	WebsiteRpc interface {
 		// 获取游客身份
 		GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
+		// 用户日浏览量分析
+		AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 		// 添加用户访问记录
 		AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error)
-		// 用户总流量数
-		GetUserTotalVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*CountResp, error)
-		// 用户日浏览量分析
-		GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error)
+		// 查询用户访问趋势
+		FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error)
 		// 创建页面
 		AddPage(ctx context.Context, in *PageNewReq, opts ...grpc.CallOption) (*PageDetails, error)
 		// 更新页面
@@ -79,22 +81,22 @@ func (m *defaultWebsiteRpc) GetTouristInfo(ctx context.Context, in *EmptyReq, op
 	return client.GetTouristInfo(ctx, in, opts...)
 }
 
+// 用户日浏览量分析
+func (m *defaultWebsiteRpc) AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
+	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
+	return client.AnalysisVisit(ctx, in, opts...)
+}
+
 // 添加用户访问记录
 func (m *defaultWebsiteRpc) AddVisit(ctx context.Context, in *AddVisitReq, opts ...grpc.CallOption) (*AddVisitResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
 	return client.AddVisit(ctx, in, opts...)
 }
 
-// 用户总流量数
-func (m *defaultWebsiteRpc) GetUserTotalVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*CountResp, error) {
+// 查询用户访问趋势
+func (m *defaultWebsiteRpc) FindVisitTrend(ctx context.Context, in *FindVisitTrendReq, opts ...grpc.CallOption) (*FindVisitTrendResp, error) {
 	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.GetUserTotalVisit(ctx, in, opts...)
-}
-
-// 用户日浏览量分析
-func (m *defaultWebsiteRpc) GetUserDailyVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*UserDailyVisitRsp, error) {
-	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.GetUserDailyVisit(ctx, in, opts...)
+	return client.FindVisitTrend(ctx, in, opts...)
 }
 
 // 创建页面

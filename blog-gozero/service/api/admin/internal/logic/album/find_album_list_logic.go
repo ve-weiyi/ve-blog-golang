@@ -38,7 +38,7 @@ func (l *FindAlbumListLogic) FindAlbumList(req *types.AlbumQuery) (resp *types.P
 		return nil, err
 	}
 
-	var list []*types.AlbumBackDTO
+	var list []*types.AlbumBackVO
 	for _, v := range out.List {
 		m := ConvertAlbumTypes(v)
 		list = append(list, m)

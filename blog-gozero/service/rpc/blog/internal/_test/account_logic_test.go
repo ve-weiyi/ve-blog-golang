@@ -15,7 +15,7 @@ func TestGetUserAreasAnalysis(t *testing.T) {
 	ctx := tracex.NewRandomTraceContext()
 	in := &accountrpc.EmptyReq{}
 
-	out, err := accountrpclogic.NewGetUserAreasAnalysisLogic(ctx, tsc).GetUserAreasAnalysis(in)
+	out, err := accountrpclogic.NewAnalysisUserLogic(ctx, tsc).AnalysisUser(in)
 	if err != nil {
 		log.Fatal(err)
 	}

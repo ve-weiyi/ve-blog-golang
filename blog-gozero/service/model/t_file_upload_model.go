@@ -217,7 +217,7 @@ func (m *defaultTFileUploadModel) FindCount(ctx context.Context, conditions stri
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TFileUpload{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}

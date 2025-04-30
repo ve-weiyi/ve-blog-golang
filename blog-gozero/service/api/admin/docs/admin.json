@@ -332,7 +332,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/AlbumBackDTO"
+              "$ref": "#/definitions/AlbumBackVO"
             }
           }
         },
@@ -440,7 +440,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/AlbumBackDTO"
+              "$ref": "#/definitions/AlbumBackVO"
             }
           }
         },
@@ -467,7 +467,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/AlbumBackDTO"
+              "$ref": "#/definitions/AlbumBackVO"
             }
           }
         },
@@ -494,7 +494,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ApiBackDTO"
+              "$ref": "#/definitions/ApiBackVO"
             }
           }
         },
@@ -656,7 +656,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ApiBackDTO"
+              "$ref": "#/definitions/ApiBackVO"
             }
           }
         },
@@ -683,7 +683,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ArticleBackDTO"
+              "$ref": "#/definitions/ArticleBackVO"
             }
           }
         },
@@ -793,7 +793,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ArticleBackDTO"
+              "$ref": "#/definitions/ArticleBackVO"
             }
           }
         },
@@ -874,7 +874,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ArticleBackDTO"
+              "$ref": "#/definitions/ArticleBackVO"
             }
           }
         },
@@ -929,7 +929,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CategoryBackDTO"
+              "$ref": "#/definitions/CategoryBackVO"
             }
           }
         },
@@ -1037,7 +1037,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/CategoryBackDTO"
+              "$ref": "#/definitions/CategoryBackVO"
             }
           }
         },
@@ -1173,7 +1173,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/FileBackDTO"
+              "$ref": "#/definitions/FileBackVO"
             }
           }
         },
@@ -1283,7 +1283,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/*FileBackDTO"
+                "$ref": "#/definitions/*FileBackVO"
               }
             }
           }
@@ -1314,7 +1314,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/FileBackDTO"
+              "$ref": "#/definitions/FileBackVO"
             }
           }
         },
@@ -1344,7 +1344,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/FriendBackDTO"
+              "$ref": "#/definitions/FriendBackVO"
             }
           }
         },
@@ -1452,7 +1452,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/FriendBackDTO"
+              "$ref": "#/definitions/FriendBackVO"
             }
           }
         },
@@ -1560,7 +1560,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/MenuBackDTO"
+              "$ref": "#/definitions/MenuBackVO"
             }
           }
         },
@@ -1722,7 +1722,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/MenuBackDTO"
+              "$ref": "#/definitions/MenuBackVO"
             }
           }
         },
@@ -1863,7 +1863,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/PageBackDTO"
+              "$ref": "#/definitions/PageBackVO"
             }
           }
         },
@@ -1944,7 +1944,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/PageBackDTO"
+              "$ref": "#/definitions/PageBackVO"
             }
           }
         },
@@ -1971,7 +1971,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/PhotoBackDTO"
+              "$ref": "#/definitions/PhotoBackVO"
             }
           }
         },
@@ -2052,7 +2052,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/PhotoBackDTO"
+              "$ref": "#/definitions/PhotoBackVO"
             }
           }
         },
@@ -2231,7 +2231,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/RoleBackDTO"
+              "$ref": "#/definitions/RoleBackVO"
             }
           }
         },
@@ -2367,7 +2367,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/RoleBackDTO"
+              "$ref": "#/definitions/RoleBackVO"
             }
           }
         },
@@ -2503,7 +2503,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TagBackDTO"
+              "$ref": "#/definitions/TagBackVO"
             }
           }
         },
@@ -2611,7 +2611,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TagBackDTO"
+              "$ref": "#/definitions/TagBackVO"
             }
           }
         },
@@ -2638,7 +2638,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TalkBackDTO"
+              "$ref": "#/definitions/TalkBackVO"
             }
           }
         },
@@ -2719,7 +2719,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TalkBackDTO"
+              "$ref": "#/definitions/TalkBackVO"
             }
           }
         },
@@ -2746,7 +2746,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TalkBackDTO"
+              "$ref": "#/definitions/TalkBackVO"
             }
           }
         },
@@ -3140,35 +3140,35 @@
         "category_list": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CategoryDTO"
+            "$ref": "#/definitions/CategoryVO"
           },
           "description": " 分类列表"
         },
         "tag_list": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/TagDTO"
+            "$ref": "#/definitions/TagVO"
           },
           "description": " 标签列表"
         },
         "article_view_ranks": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ArticleViewDTO"
+            "$ref": "#/definitions/ArticleViewVO"
           },
           "description": " 文章浏览量排行"
         },
         "article_statistics": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ArticleStatisticsDTO"
+            "$ref": "#/definitions/ArticleStatisticsVO"
           },
           "description": " 文章提交统计"
         },
         "user_visit_daliy": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/UserVisitDTO"
+            "$ref": "#/definitions/UserVisitVO"
           },
           "description": " 用户每日访问量"
         }
@@ -3186,7 +3186,7 @@
         "user_visit_daliy"
       ]
     },
-    "AlbumBackDTO": {
+    "AlbumBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3232,7 +3232,7 @@
           "description": " 照片数量"
         }
       },
-      "title": "AlbumBackDTO",
+      "title": "AlbumBackVO",
       "required": [
         "album_name",
         "album_desc",
@@ -3311,7 +3311,7 @@
       },
       "title": "AlbumQuery"
     },
-    "ApiBackDTO": {
+    "ApiBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3359,11 +3359,11 @@
         "children": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ApiBackDTO"
+            "$ref": "#/definitions/ApiBackVO"
           }
         }
       },
-      "title": "ApiBackDTO",
+      "title": "ApiBackVO",
       "required": [
         "parent_id",
         "name",
@@ -3455,7 +3455,7 @@
       },
       "title": "ApiQuery"
     },
-    "ArticleBackDTO": {
+    "ArticleBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3531,7 +3531,7 @@
           "description": " 浏览量"
         }
       },
-      "title": "ArticleBackDTO",
+      "title": "ArticleBackVO",
       "required": [
         "article_cover",
         "article_title",
@@ -3678,7 +3678,7 @@
         "is_delete"
       ]
     },
-    "ArticleStatisticsDTO": {
+    "ArticleStatisticsVO": {
       "type": "object",
       "properties": {
         "date": {
@@ -3691,7 +3691,7 @@
           "description": " 数量"
         }
       },
-      "title": "ArticleStatisticsDTO",
+      "title": "ArticleStatisticsVO",
       "required": [
         "date",
         "count"
@@ -3716,7 +3716,7 @@
         "is_top"
       ]
     },
-    "ArticleViewDTO": {
+    "ArticleViewVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3734,7 +3734,7 @@
           "description": " 浏览量"
         }
       },
-      "title": "ArticleViewDTO",
+      "title": "ArticleViewVO",
       "required": [
         "article_title",
         "view_count"
@@ -3771,7 +3771,7 @@
         "verify_code"
       ]
     },
-    "CategoryBackDTO": {
+    "CategoryBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3797,7 +3797,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "CategoryBackDTO",
+      "title": "CategoryBackVO",
       "required": [
         "category_name",
         "article_count",
@@ -3805,7 +3805,7 @@
         "updated_at"
       ]
     },
-    "CategoryDTO": {
+    "CategoryVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3822,7 +3822,7 @@
           "description": " 文章数量"
         }
       },
-      "title": "CategoryDTO",
+      "title": "CategoryVO",
       "required": [
         "category_name",
         "article_count"
@@ -3872,7 +3872,7 @@
       },
       "title": "CategoryQuery"
     },
-    "CommentBackDTO": {
+    "CommentBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -3916,7 +3916,7 @@
           "description": " 创建时间"
         }
       },
-      "title": "CommentBackDTO",
+      "title": "CommentBackVO",
       "required": [
         "id",
         "type",
@@ -3990,7 +3990,7 @@
       "type": "object",
       "title": "EmptyResp"
     },
-    "FileBackDTO": {
+    "FileBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4038,7 +4038,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "FileBackDTO",
+      "title": "FileBackVO",
       "required": [
         "user_id",
         "file_path",
@@ -4100,7 +4100,7 @@
       },
       "title": "FileQuery"
     },
-    "FriendBackDTO": {
+    "FriendBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4135,7 +4135,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "FriendBackDTO",
+      "title": "FriendBackVO",
       "required": [
         "link_name",
         "link_avatar",
@@ -4301,7 +4301,7 @@
         "token"
       ]
     },
-    "MenuBackDTO": {
+    "MenuBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4381,7 +4381,7 @@
         "children": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MenuBackDTO"
+            "$ref": "#/definitions/MenuBackVO"
           }
         },
         "created_at": {
@@ -4395,7 +4395,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "MenuBackDTO",
+      "title": "MenuBackVO",
       "required": [
         "created_at",
         "updated_at"
@@ -4635,7 +4635,7 @@
         "url"
       ]
     },
-    "OperationLogBackDTO": {
+    "OperationLogBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4707,7 +4707,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "OperationLogBackDTO",
+      "title": "OperationLogBackVO",
       "required": [
         "user_id",
         "nickname",
@@ -4749,7 +4749,7 @@
       },
       "title": "OperationLogQuery"
     },
-    "PageBackDTO": {
+    "PageBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4792,7 +4792,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "PageBackDTO",
+      "title": "PageBackVO",
       "required": [
         "page_name",
         "page_label",
@@ -4920,7 +4920,7 @@
         "list"
       ]
     },
-    "PhotoBackDTO": {
+    "PhotoBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -4961,7 +4961,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "PhotoBackDTO",
+      "title": "PhotoBackVO",
       "required": [
         "album_id",
         "photo_name",
@@ -5100,7 +5100,7 @@
         "verify_code"
       ]
     },
-    "RemarkBackDTO": {
+    "RemarkBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -5149,7 +5149,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "RemarkBackDTO",
+      "title": "RemarkBackVO",
       "required": [
         "nickname",
         "avatar",
@@ -5265,7 +5265,7 @@
       "type": "object",
       "title": "RestHeader"
     },
-    "RoleBackDTO": {
+    "RoleBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -5311,7 +5311,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "RoleBackDTO",
+      "title": "RoleBackVO",
       "required": [
         "parent_id",
         "role_key",
@@ -5485,7 +5485,7 @@
         "menus"
       ]
     },
-    "TagBackDTO": {
+    "TagBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -5513,7 +5513,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "TagBackDTO",
+      "title": "TagBackVO",
       "required": [
         "tag_name",
         "article_count",
@@ -5521,7 +5521,7 @@
         "updated_at"
       ]
     },
-    "TagDTO": {
+    "TagVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -5539,7 +5539,7 @@
           "description": " 文章数量"
         }
       },
-      "title": "TagDTO",
+      "title": "TagVO",
       "required": [
         "tag_name",
         "article_count"
@@ -5589,7 +5589,7 @@
       },
       "title": "TagQuery"
     },
-    "TalkBackDTO": {
+    "TalkBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -5651,7 +5651,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "TalkBackDTO",
+      "title": "TalkBackVO",
       "required": [
         "user_id",
         "nickname",
@@ -6348,7 +6348,7 @@
         "list"
       ]
     },
-    "UserVisitDTO": {
+    "UserVisitVO": {
       "type": "object",
       "properties": {
         "date": {
@@ -6361,13 +6361,13 @@
           "description": " 数量"
         }
       },
-      "title": "UserVisitDTO",
+      "title": "UserVisitVO",
       "required": [
         "date",
         "count"
       ]
     },
-    "VisitLogBackDTO": {
+    "VisitLogBackVO": {
       "type": "object",
       "properties": {
         "id": {
@@ -6418,7 +6418,7 @@
           "description": " 更新时间"
         }
       },
-      "title": "VisitLogBackDTO",
+      "title": "VisitLogBackVO",
       "required": [
         "user_id",
         "nickname",

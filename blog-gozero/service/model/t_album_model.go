@@ -215,7 +215,7 @@ func (m *defaultTAlbumModel) FindCount(ctx context.Context, conditions string, a
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TAlbum{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
