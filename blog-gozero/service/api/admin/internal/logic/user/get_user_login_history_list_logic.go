@@ -4,13 +4,14 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
+
+	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type GetUserLoginHistoryListLogic struct {
@@ -29,13 +30,13 @@ func NewGetUserLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceCon
 }
 
 func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLoginHistoryQuery) (resp *types.PageResp, err error) {
-	in := &accountrpc.FindLoginHistoryListReq{
+	in := &syslogrpc.FindLoginLogListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 	}
 
-	out, err := l.svcCtx.AccountRpc.FindUserLoginHistoryList(l.ctx, in)
+	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -54,7 +55,7 @@ func (l *GetUserLoginHistoryListLogic) GetUserLoginHistoryList(req *types.UserLo
 	return resp, nil
 }
 
-func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory) *types.UserLoginHistory {
+func ConvertUserLoginHistoryTypes(in *syslogrpc.LoginLogDetails) *types.UserLoginHistory {
 	return &types.UserLoginHistory{
 		Id:        in.Id,
 		LoginType: in.LoginType,

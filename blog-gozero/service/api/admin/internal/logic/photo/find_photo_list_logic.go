@@ -38,7 +38,7 @@ func (l *FindPhotoListLogic) FindPhotoList(req *types.PhotoQuery) (resp *types.P
 		return nil, err
 	}
 
-	var list []*types.PhotoBackDTO
+	var list []*types.PhotoBackVO
 	for _, v := range out.List {
 		m := ConvertPhotoTypes(v)
 		list = append(list, m)

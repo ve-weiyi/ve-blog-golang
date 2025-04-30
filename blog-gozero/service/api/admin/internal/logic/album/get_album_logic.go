@@ -25,7 +25,7 @@ func NewGetAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAlbum
 	}
 }
 
-func (l *GetAlbumLogic) GetAlbum(req *types.IdReq) (resp *types.AlbumBackDTO, err error) {
+func (l *GetAlbumLogic) GetAlbum(req *types.IdReq) (resp *types.AlbumBackVO, err error) {
 	in := &photorpc.IdReq{
 		Id: req.Id,
 	}

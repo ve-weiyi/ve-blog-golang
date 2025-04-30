@@ -75,7 +75,7 @@ func main() {
 
 		content, err := nr.GetConfig()
 		if err != nil {
-			log.Fatal("nacos get config fail", err)
+			log.Fatalf("nacos get config failed, err: %v", err)
 		}
 
 		err = conf.LoadFromYamlBytes([]byte(content), &c)

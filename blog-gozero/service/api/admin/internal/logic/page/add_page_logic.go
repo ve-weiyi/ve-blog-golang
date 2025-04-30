@@ -25,7 +25,7 @@ func NewAddPageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPageLo
 	}
 }
 
-func (l *AddPageLogic) AddPage(req *types.PageNewReq) (resp *types.PageBackDTO, err error) {
+func (l *AddPageLogic) AddPage(req *types.PageNewReq) (resp *types.PageBackVO, err error) {
 	in := ConvertPagePb(req)
 	out, err := l.svcCtx.WebsiteRpc.AddPage(l.ctx, in)
 	if err != nil {
@@ -49,8 +49,8 @@ func ConvertPagePb(in *types.PageNewReq) (out *websiterpc.PageNewReq) {
 	return
 }
 
-func ConvertPageTypes(in *websiterpc.PageDetails) (out *types.PageBackDTO) {
-	out = &types.PageBackDTO{
+func ConvertPageTypes(in *websiterpc.PageDetails) (out *types.PageBackVO) {
+	out = &types.PageBackVO{
 		Id:             in.Id,
 		PageName:       in.PageName,
 		PageLabel:      in.PageLabel,

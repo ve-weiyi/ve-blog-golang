@@ -51,8 +51,8 @@ type (
     }
 
     BindUserEmailReq {
-        Email string `json:"email"`                         // 邮箱
-        VerifyCode string `json:"verify_code"`              // 验证码
+        Email string `json:"email"`                // 邮箱
+        VerifyCode string `json:"verify_code"`     // 验证码
     }
 )
 

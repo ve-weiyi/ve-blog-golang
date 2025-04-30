@@ -13,7 +13,7 @@ type (
         IsDisable int64 `json:"is_disable,optional"`        // 是否禁用 0否 1是
     }
 
-    ApiBackDTO {
+    ApiBackVO {
         Id int64 `json:"id,optional"`                       // 主键id
         ParentId int64 `json:"parent_id"`                   // 分组id
         Name string `json:"name"`                           // api名称
@@ -23,14 +23,14 @@ type (
         IsDisable int64 `json:"is_disable,optional"`        // 是否禁用 0否 1是
         CreatedAt int64 `json:"created_at"`                 // 创建时间
         UpdatedAt int64 `json:"updated_at"`                 // 更新时间
-        Children []*ApiBackDTO `json:"children"`
+        Children []*ApiBackVO `json:"children"`
     }
 
     ApiQuery {
         PageQuery
-        Name string `json:"name,optional"`               // api名称
-        Path string `json:"path,optional"`               // api路径
-        Method string `json:"method,optional"`           // api请求方法
+        Name string `json:"name,optional"`           // api名称
+        Path string `json:"path,optional"`           // api路径
+        Method string `json:"method,optional"`       // api请求方法
     }
 
     SyncApiReq {
@@ -60,11 +60,11 @@ service admin-api {
 
     @doc "创建api路由"
     @handler AddApi
-    post /api/add_api (ApiNewReq) returns (ApiBackDTO)
+    post /api/add_api (ApiNewReq) returns (ApiBackVO)
 
     @doc "更新api路由"
     @handler UpdateApi
-    put /api/update_api (ApiNewReq) returns (ApiBackDTO)
+    put /api/update_api (ApiNewReq) returns (ApiBackVO)
 
     @doc "删除api路由"
     @handler DeleteApi

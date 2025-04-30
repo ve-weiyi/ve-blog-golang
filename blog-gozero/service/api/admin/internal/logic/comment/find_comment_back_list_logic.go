@@ -3,7 +3,7 @@ package comment
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -68,7 +68,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	}
 
 	// 查找评论回复列表
-	var list []*types.CommentBackDTO
+	var list []*types.CommentBackVO
 	for _, v := range out.List {
 		m := ConvertCommentTypes(v, usm, tsm)
 		list = append(list, m)
@@ -82,8 +82,8 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackDTO) {
-	out = &types.CommentBackDTO{
+func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
+	out = &types.CommentBackVO{
 		Id:             in.Id,
 		Type:           in.Type,
 		TopicTitle:     "",

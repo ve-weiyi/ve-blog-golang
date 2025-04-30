@@ -3,7 +3,7 @@ package operation_log
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -50,7 +50,7 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 		return nil, err
 	}
 
-	var list []*types.OperationLogBackDTO
+	var list []*types.OperationLogBackVO
 	for _, v := range out.List {
 		m := ConvertOperationLogTypes(v, usm)
 		list = append(list, m)
@@ -64,9 +64,9 @@ func (l *FindOperationLogListLogic) FindOperationLogList(req *types.OperationLog
 	return resp, nil
 }
 
-func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails, usm map[string]*accountrpc.User) (out *types.OperationLogBackDTO) {
+func ConvertOperationLogTypes(in *syslogrpc.OperationLogDetails, usm map[string]*accountrpc.User) (out *types.OperationLogBackVO) {
 
-	out = &types.OperationLogBackDTO{
+	out = &types.OperationLogBackVO{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		IpAddress:      in.IpAddress,

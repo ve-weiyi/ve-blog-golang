@@ -6,7 +6,8 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cast"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oss"
@@ -34,7 +35,7 @@ func NewMultiUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *M
 	}
 }
 
-func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileBackDTO, err error) {
+func (l *MultiUploadFileLogic) MultiUploadFile(req *types.MultiUploadFileReq, r *http.Request) (resp []*types.FileBackVO, err error) {
 	uid := cast.ToString(l.ctx.Value(restx.HeaderUid))
 	// 获取用户信息
 	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, []string{uid})

@@ -1,37 +1,40 @@
-package account
+package login_log
 
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindAccountLoginHistoryListLogic struct {
+type FindLoginLogListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 查询用户登录历史
-func NewFindAccountLoginHistoryListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAccountLoginHistoryListLogic {
-	return &FindAccountLoginHistoryListLogic{
+func NewFindLoginLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindLoginLogListLogic {
+	return &FindLoginLogListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindAccountLoginHistoryListLogic) FindAccountLoginHistoryList(req *types.AccountQuery) (resp *types.PageResp, err error) {
-	in := &accountrpc.FindLoginHistoryListReq{
+func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp *types.PageResp, err error) {
+	in := &syslogrpc.FindLoginLogListReq{
 		Page:     req.Page,
 		PageSize: req.PageSize,
+		Sorts:    req.Sorts,
 	}
 
-	out, err := l.svcCtx.AccountRpc.FindUserLoginHistoryList(l.ctx, in)
+	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -40,22 +43,16 @@ func (l *FindAccountLoginHistoryListLogic) FindAccountLoginHistoryList(req *type
 	for _, v := range out.List {
 		uids = append(uids, v.UserId)
 	}
+
 	// 查询用户信息
-	users, err := l.svcCtx.AccountRpc.FindUserList(l.ctx, &accountrpc.FindUserListReq{
-		UserIds: uids,
-	})
+	usm, err := apiutils.GetUserInfos(l.ctx, l.svcCtx, uids)
 	if err != nil {
 		return nil, err
 	}
 
-	usm := make(map[string]*accountrpc.User)
-	for _, v := range users.List {
-		usm[v.UserId] = v
-	}
-
-	var list []*types.AccountLoginHistory
+	var list []*types.LoginLogBackVO
 	for _, v := range out.List {
-		m := ConvertUserLoginHistoryTypes(v, usm)
+		m := ConvertLoginLogTypes(v, usm)
 		list = append(list, m)
 	}
 
@@ -67,9 +64,10 @@ func (l *FindAccountLoginHistoryListLogic) FindAccountLoginHistoryList(req *type
 	return resp, nil
 }
 
-func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory, usm map[string]*accountrpc.User) (out *types.AccountLoginHistory) {
-	out = &types.AccountLoginHistory{
+func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetails, usm map[string]*accountrpc.User) (out *types.LoginLogBackVO) {
+	out = &types.LoginLogBackVO{
 		Id:        in.Id,
+		UserId:    in.UserId,
 		LoginType: in.LoginType,
 		Agent:     in.Agent,
 		IpAddress: in.IpAddress,
@@ -82,11 +80,14 @@ func ConvertUserLoginHistoryTypes(in *accountrpc.UserLoginHistory, usm map[strin
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Username = user.Username
-			out.Nickname = user.Nickname
-			out.Avatar = user.Avatar
+			out.User = &types.UserInfo{
+				UserId:   user.UserId,
+				Username: user.Username,
+				Avatar:   user.Avatar,
+				Nickname: user.Nickname,
+			}
 		}
 	}
 
-	return
+	return out
 }

@@ -11,24 +11,14 @@ func ConvertTableToData(table *Table) ModelData {
 
 	var fs []*ModelField
 	for _, e := range table.Fields {
-		fs = append(fs, &ModelField{
-			Name:    jsonconv.Case2Camel(e.Name),
-			Type:    strings.TrimPrefix(e.DataType, "u"),
-			Tag:     fmt.Sprintf(`json:"%v" gorm:"column:%v"`, e.Name, e.Name),
-			Comment: e.Comment,
-		})
+		fs = append(fs, ConvertField(e))
 	}
 
 	var ufs [][]*ModelField
 	for _, es := range table.UniqueIndex {
 		var u []*ModelField
 		for _, e := range es {
-			u = append(u, &ModelField{
-				Name:    jsonconv.Case2Camel(e.Name),
-				Type:    strings.TrimPrefix(e.DataType, "u"),
-				Tag:     fmt.Sprintf(`json:"%v" gorm:"column:%v"`, e.Name, e.Name),
-				Comment: e.Comment,
-			})
+			u = append(u, ConvertField(e))
 		}
 		ufs = append(ufs, u)
 	}
@@ -43,4 +33,13 @@ func ConvertTableToData(table *Table) ModelData {
 	}
 
 	return data
+}
+
+func ConvertField(f *Field) *ModelField {
+	return &ModelField{
+		Name:    jsonconv.Case2Camel(f.Name),
+		Type:    strings.TrimPrefix(f.DataType, "u"),
+		Tag:     fmt.Sprintf(`json:"%v" gorm:"column:%v"`, f.Name, f.Name),
+		Comment: f.Comment,
+	}
 }
