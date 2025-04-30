@@ -31,9 +31,26 @@ ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端�
 ## 项目预览
 
 ### 1. 项目截图
-![img.jpg](assets/images/img.jpg)
 
-![img_1.jpg](assets/images/img_1.jpg)
+✨  **博客网站**
+
+![](assets/images/img.jpg)
+
+![](assets/images/img_1.jpg)
+
+![](assets/images/img_2.jpg)
+
+📲 **移动端**
+
+|                              |                              |                              |
+|------------------------------|------------------------------|------------------------------|
+| ![](assets/images/img_6.jpg) | ![](assets/images/img_7.jpg) | ![](assets/images/img_8.jpg) |
+
+🖥️ **控制台**
+
+![img_3.jpg](assets/images/img_3.jpg)
+
+![img_4.jpg](assets/images/img_4.jpg)
 
 ## ✨ 核心特性
 
@@ -50,6 +67,8 @@ ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端�
 - **文章管理**：支持 Markdown 编辑器、文章分类、标签、评论、点赞
 - **社交功能**：说说、友链、相册、留言弹幕墙、音乐播放器、聊天室
 - **消息通知**：评论回复邮件提醒、系统消息推送
+- **数据统计**：访问量、用户活跃度、文章阅读量等数据可视化
+- **API 文档**：自动生成 Swagger 接口文档，方便前后端协作
 
 ### 3. 技术亮点
 
@@ -61,11 +80,11 @@ ve-blog 是一个现代化的全栈博客系统，采用 Go 语言开发后端�
 
 ## 📁 项目源码
 
-| 项目               | 功能     | Github                                                               |
-|------------------|--------|----------------------------------------------------------------------|
-| ve-blog-golang   | 博客后端服务 | [ve-blog-golang](https://github.com/ve-weiyi/ve-blog-golang.git)     |
-| ve-blog-naive    | 博客前台展示 | [ve-blog-naive](https://github.com/ve-weiyi/ve-blog-naive.git)       |
-| ve-admin-element | 博客后台管理 | [ve-admin-element](https://github.com/ve-weiyi/ve-admin-element.git) |
+| 项目               | 功能     | Github                                                               | Gitee                                                               |
+|------------------|--------|----------------------------------------------------------------------|---------------------------------------------------------------------|
+| ve-blog-golang   | 博客后端服务 | [ve-blog-golang](https://github.com/ve-weiyi/ve-blog-golang.git)     | [ve-blog-golang](https://gitee.com/ve-weiyi/ve-blog-golang.git)     |
+| ve-blog-naive    | 博客前台展示 | [ve-blog-naive](https://github.com/ve-weiyi/ve-blog-naive.git)       | [ve-blog-naive](https://gitee.com/ve-weiyi/ve-blog-naive.git)       |
+| ve-admin-element | 博客后台管理 | [ve-admin-element](https://github.com/ve-weiyi/ve-admin-element.git) | [ve-admin-element](https://gitee.com/ve-weiyi/ve-admin-element.git) |
 
 ## 🏗️ 项目结构
 
@@ -96,7 +115,7 @@ ve-blog-golang/
 
 ### 项目启动
 
-运行接口服务
+**运行接口服务**
 ```bash
 # 克隆项目
 git clone https://github.com/ve-weiyi/ve-blog-golang.git
@@ -117,7 +136,7 @@ go run service/api/blog/blog.go -f service/api/blog/etc/blog.yaml
 go run service/api/admin/admin.go -f service/api/admin/etc/admin.yaml
 ```
 
-运行前台服务
+**运行前台服务**
 
 ```bash
 # 克隆项目
@@ -133,7 +152,7 @@ pnpm install
 pnpm run dev
 ```
 
-运行后台服务
+**运行后台服务**
 
 ```bash
 # 克隆项目
@@ -149,13 +168,16 @@ pnpm install
 pnpm run dev
 ```
 
-- 前台接口地址：`http://localhost:9090/blog-api/v1/swagger/index.html`
-- 后台接口地址：`http://localhost:9091/admin-api/v1/swagger/index.html`
-- 前台服务地址：`http://localhost:9420`
-- 后台服务地址：`http://localhost:9421`
+**本地运行**
+
+- 前台网站服务地址：`http://localhost:9420`
+- 后台网站服务地址：`http://localhost:9421`
+- 前台接口文档地址：`http://localhost:9090/blog-api/v1/swagger/index.html`
+- 后台接口文档地址：`http://localhost:9091/admin-api/v1/swagger/index.html`
 
 ## 📈 后续计划
 
+- [x] 使用Stomp协议+Websocket协议实现聊天室功能
 - [ ] 用户评论邮件提醒
 - [ ] 集成 ElasticSearch 搜索引擎
 - [ ] 添加 Prometheus 监控
