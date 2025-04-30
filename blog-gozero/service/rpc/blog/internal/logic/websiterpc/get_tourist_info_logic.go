@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/mssola/useragent"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/metadatax"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
@@ -30,12 +30,12 @@ func NewGetTouristInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 
 // 获取游客身份
 func (l *GetTouristInfoLogic) GetTouristInfo(in *websiterpc.EmptyReq) (*websiterpc.GetTouristInfoResp, error) {
-	ci, err := metadatax.GetRPCClientIP(l.ctx)
+	ci, err := rpcutils.GetUserClientIPFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	ua, err := metadatax.GetRPCUserAgent(l.ctx)
+	ua, err := rpcutils.GetUserAgentFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
 	}

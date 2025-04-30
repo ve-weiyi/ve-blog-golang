@@ -29,22 +29,22 @@ func (s *WebsiteRpcServer) GetTouristInfo(ctx context.Context, in *websiterpc.Em
 	return l.GetTouristInfo(in)
 }
 
+// 用户日浏览量分析
+func (s *WebsiteRpcServer) AnalysisVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.AnalysisVisitResp, error) {
+	l := websiterpclogic.NewAnalysisVisitLogic(ctx, s.svcCtx)
+	return l.AnalysisVisit(in)
+}
+
 // 添加用户访问记录
 func (s *WebsiteRpcServer) AddVisit(ctx context.Context, in *websiterpc.AddVisitReq) (*websiterpc.AddVisitResp, error) {
 	l := websiterpclogic.NewAddVisitLogic(ctx, s.svcCtx)
 	return l.AddVisit(in)
 }
 
-// 用户总流量数
-func (s *WebsiteRpcServer) GetUserTotalVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.CountResp, error) {
-	l := websiterpclogic.NewGetUserTotalVisitLogic(ctx, s.svcCtx)
-	return l.GetUserTotalVisit(in)
-}
-
-// 用户日浏览量分析
-func (s *WebsiteRpcServer) GetUserDailyVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.UserDailyVisitRsp, error) {
-	l := websiterpclogic.NewGetUserDailyVisitLogic(ctx, s.svcCtx)
-	return l.GetUserDailyVisit(in)
+// 查询用户访问趋势
+func (s *WebsiteRpcServer) FindVisitTrend(ctx context.Context, in *websiterpc.FindVisitTrendReq) (*websiterpc.FindVisitTrendResp, error) {
+	l := websiterpclogic.NewFindVisitTrendLogic(ctx, s.svcCtx)
+	return l.FindVisitTrend(in)
 }
 
 // 创建页面

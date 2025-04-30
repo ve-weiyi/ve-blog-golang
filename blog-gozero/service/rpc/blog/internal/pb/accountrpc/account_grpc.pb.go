@@ -23,27 +23,26 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AccountRpc_Login_FullMethodName                    = "/accountrpc.AccountRpc/Login"
-	AccountRpc_Logout_FullMethodName                   = "/accountrpc.AccountRpc/Logout"
-	AccountRpc_Logoff_FullMethodName                   = "/accountrpc.AccountRpc/Logoff"
-	AccountRpc_Register_FullMethodName                 = "/accountrpc.AccountRpc/Register"
-	AccountRpc_ResetPassword_FullMethodName            = "/accountrpc.AccountRpc/ResetPassword"
-	AccountRpc_BindUserEmail_FullMethodName            = "/accountrpc.AccountRpc/BindUserEmail"
-	AccountRpc_SendRegisterEmail_FullMethodName        = "/accountrpc.AccountRpc/SendRegisterEmail"
-	AccountRpc_SendResetPasswordEmail_FullMethodName   = "/accountrpc.AccountRpc/SendResetPasswordEmail"
-	AccountRpc_SendBindEmail_FullMethodName            = "/accountrpc.AccountRpc/SendBindEmail"
-	AccountRpc_OauthLogin_FullMethodName               = "/accountrpc.AccountRpc/OauthLogin"
-	AccountRpc_GetOauthAuthorizeUrl_FullMethodName     = "/accountrpc.AccountRpc/GetOauthAuthorizeUrl"
-	AccountRpc_GetUserInfo_FullMethodName              = "/accountrpc.AccountRpc/GetUserInfo"
-	AccountRpc_UpdateUserInfo_FullMethodName           = "/accountrpc.AccountRpc/UpdateUserInfo"
-	AccountRpc_UpdateUserStatus_FullMethodName         = "/accountrpc.AccountRpc/UpdateUserStatus"
-	AccountRpc_UpdateUserPassword_FullMethodName       = "/accountrpc.AccountRpc/UpdateUserPassword"
-	AccountRpc_FindUserList_FullMethodName             = "/accountrpc.AccountRpc/FindUserList"
-	AccountRpc_FindUserOnlineList_FullMethodName       = "/accountrpc.AccountRpc/FindUserOnlineList"
-	AccountRpc_FindUserInfoList_FullMethodName         = "/accountrpc.AccountRpc/FindUserInfoList"
-	AccountRpc_FindUserLoginHistoryList_FullMethodName = "/accountrpc.AccountRpc/FindUserLoginHistoryList"
-	AccountRpc_AnalysisUser_FullMethodName             = "/accountrpc.AccountRpc/AnalysisUser"
-	AccountRpc_AnalysisUserAreas_FullMethodName        = "/accountrpc.AccountRpc/AnalysisUserAreas"
+	AccountRpc_Login_FullMethodName                  = "/accountrpc.AccountRpc/Login"
+	AccountRpc_Logout_FullMethodName                 = "/accountrpc.AccountRpc/Logout"
+	AccountRpc_Logoff_FullMethodName                 = "/accountrpc.AccountRpc/Logoff"
+	AccountRpc_Register_FullMethodName               = "/accountrpc.AccountRpc/Register"
+	AccountRpc_ResetPassword_FullMethodName          = "/accountrpc.AccountRpc/ResetPassword"
+	AccountRpc_BindUserEmail_FullMethodName          = "/accountrpc.AccountRpc/BindUserEmail"
+	AccountRpc_SendRegisterEmail_FullMethodName      = "/accountrpc.AccountRpc/SendRegisterEmail"
+	AccountRpc_SendResetPasswordEmail_FullMethodName = "/accountrpc.AccountRpc/SendResetPasswordEmail"
+	AccountRpc_SendBindEmail_FullMethodName          = "/accountrpc.AccountRpc/SendBindEmail"
+	AccountRpc_OauthLogin_FullMethodName             = "/accountrpc.AccountRpc/OauthLogin"
+	AccountRpc_GetOauthAuthorizeUrl_FullMethodName   = "/accountrpc.AccountRpc/GetOauthAuthorizeUrl"
+	AccountRpc_GetUserInfo_FullMethodName            = "/accountrpc.AccountRpc/GetUserInfo"
+	AccountRpc_UpdateUserInfo_FullMethodName         = "/accountrpc.AccountRpc/UpdateUserInfo"
+	AccountRpc_UpdateUserStatus_FullMethodName       = "/accountrpc.AccountRpc/UpdateUserStatus"
+	AccountRpc_UpdateUserPassword_FullMethodName     = "/accountrpc.AccountRpc/UpdateUserPassword"
+	AccountRpc_FindUserList_FullMethodName           = "/accountrpc.AccountRpc/FindUserList"
+	AccountRpc_FindUserInfoList_FullMethodName       = "/accountrpc.AccountRpc/FindUserInfoList"
+	AccountRpc_FindUserOnlineList_FullMethodName     = "/accountrpc.AccountRpc/FindUserOnlineList"
+	AccountRpc_AnalysisUser_FullMethodName           = "/accountrpc.AccountRpc/AnalysisUser"
+	AccountRpc_AnalysisUserAreas_FullMethodName      = "/accountrpc.AccountRpc/AnalysisUserAreas"
 )
 
 // AccountRpcClient is the client API for AccountRpc service.
@@ -82,12 +81,10 @@ type AccountRpcClient interface {
 	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 查找用户列表
 	FindUserList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserListResp, error)
-	// 查找在线用户列表
-	FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 	// 查找用户信息列表
 	FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
-	// 查询用户登录历史
-	FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error)
+	// 查找在线用户列表
+	FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error)
 	// 查询用户数量
 	AnalysisUser(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisUserResp, error)
 	// 查询用户分布区域
@@ -246,15 +243,6 @@ func (c *accountRpcClient) FindUserList(ctx context.Context, in *FindUserListReq
 	return out, nil
 }
 
-func (c *accountRpcClient) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
-	out := new(FindUserInfoListResp)
-	err := c.cc.Invoke(ctx, AccountRpc_FindUserOnlineList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *accountRpcClient) FindUserInfoList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
 	out := new(FindUserInfoListResp)
 	err := c.cc.Invoke(ctx, AccountRpc_FindUserInfoList_FullMethodName, in, out, opts...)
@@ -264,9 +252,9 @@ func (c *accountRpcClient) FindUserInfoList(ctx context.Context, in *FindUserLis
 	return out, nil
 }
 
-func (c *accountRpcClient) FindUserLoginHistoryList(ctx context.Context, in *FindLoginHistoryListReq, opts ...grpc.CallOption) (*FindLoginHistoryListResp, error) {
-	out := new(FindLoginHistoryListResp)
-	err := c.cc.Invoke(ctx, AccountRpc_FindUserLoginHistoryList_FullMethodName, in, out, opts...)
+func (c *accountRpcClient) FindUserOnlineList(ctx context.Context, in *FindUserListReq, opts ...grpc.CallOption) (*FindUserInfoListResp, error) {
+	out := new(FindUserInfoListResp)
+	err := c.cc.Invoke(ctx, AccountRpc_FindUserOnlineList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -327,12 +315,10 @@ type AccountRpcServer interface {
 	UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error)
 	// 查找用户列表
 	FindUserList(context.Context, *FindUserListReq) (*FindUserListResp, error)
-	// 查找在线用户列表
-	FindUserOnlineList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error)
 	// 查找用户信息列表
 	FindUserInfoList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error)
-	// 查询用户登录历史
-	FindUserLoginHistoryList(context.Context, *FindLoginHistoryListReq) (*FindLoginHistoryListResp, error)
+	// 查找在线用户列表
+	FindUserOnlineList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error)
 	// 查询用户数量
 	AnalysisUser(context.Context, *EmptyReq) (*AnalysisUserResp, error)
 	// 查询用户分布区域
@@ -392,14 +378,11 @@ func (UnimplementedAccountRpcServer) UpdateUserPassword(context.Context, *Update
 func (UnimplementedAccountRpcServer) FindUserList(context.Context, *FindUserListReq) (*FindUserListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserList not implemented")
 }
-func (UnimplementedAccountRpcServer) FindUserOnlineList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindUserOnlineList not implemented")
-}
 func (UnimplementedAccountRpcServer) FindUserInfoList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserInfoList not implemented")
 }
-func (UnimplementedAccountRpcServer) FindUserLoginHistoryList(context.Context, *FindLoginHistoryListReq) (*FindLoginHistoryListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindUserLoginHistoryList not implemented")
+func (UnimplementedAccountRpcServer) FindUserOnlineList(context.Context, *FindUserListReq) (*FindUserInfoListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindUserOnlineList not implemented")
 }
 func (UnimplementedAccountRpcServer) AnalysisUser(context.Context, *EmptyReq) (*AnalysisUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisUser not implemented")
@@ -708,24 +691,6 @@ func _AccountRpc_FindUserList_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountRpc_FindUserOnlineList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindUserListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).FindUserOnlineList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_FindUserOnlineList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).FindUserOnlineList(ctx, req.(*FindUserListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AccountRpc_FindUserInfoList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FindUserListReq)
 	if err := dec(in); err != nil {
@@ -744,20 +709,20 @@ func _AccountRpc_FindUserInfoList_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountRpc_FindUserLoginHistoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindLoginHistoryListReq)
+func _AccountRpc_FindUserOnlineList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindUserListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountRpcServer).FindUserLoginHistoryList(ctx, in)
+		return srv.(AccountRpcServer).FindUserOnlineList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountRpc_FindUserLoginHistoryList_FullMethodName,
+		FullMethod: AccountRpc_FindUserOnlineList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).FindUserLoginHistoryList(ctx, req.(*FindLoginHistoryListReq))
+		return srv.(AccountRpcServer).FindUserOnlineList(ctx, req.(*FindUserListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -870,16 +835,12 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountRpc_FindUserList_Handler,
 		},
 		{
-			MethodName: "FindUserOnlineList",
-			Handler:    _AccountRpc_FindUserOnlineList_Handler,
-		},
-		{
 			MethodName: "FindUserInfoList",
 			Handler:    _AccountRpc_FindUserInfoList_Handler,
 		},
 		{
-			MethodName: "FindUserLoginHistoryList",
-			Handler:    _AccountRpc_FindUserLoginHistoryList_Handler,
+			MethodName: "FindUserOnlineList",
+			Handler:    _AccountRpc_FindUserOnlineList_Handler,
 		},
 		{
 			MethodName: "AnalysisUser",

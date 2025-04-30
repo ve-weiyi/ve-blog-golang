@@ -1,4 +1,4 @@
-package account
+package website
 
 import (
 	"context"
@@ -10,22 +10,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindAccountAreaAnalysisLogic struct {
+type GetUserAreaStatsLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 获取用户分布地区
-func NewFindAccountAreaAnalysisLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindAccountAreaAnalysisLogic {
-	return &FindAccountAreaAnalysisLogic{
+func NewGetUserAreaStatsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserAreaStatsLogic {
+	return &GetUserAreaStatsLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FindAccountAreaAnalysisLogic) FindAccountAreaAnalysis(req *types.AccountQuery) (resp *types.PageResp, err error) {
+func (l *GetUserAreaStatsLogic) GetUserAreaStats(req *types.GetUserAreaStatsReq) (resp *types.GetUserAreaStatsResp, err error) {
 	in := &accountrpc.EmptyReq{}
 	// 查询用户数量
 	users, err := l.svcCtx.AccountRpc.AnalysisUserAreas(l.ctx, in)
@@ -34,9 +34,9 @@ func (l *FindAccountAreaAnalysisLogic) FindAccountAreaAnalysis(req *types.Accoun
 	}
 
 	// 分类
-	var list []*types.AccountArea
+	var list []*types.UserAreaVO
 	for _, v := range users.List {
-		m := &types.AccountArea{
+		m := &types.UserAreaVO{
 			Name:  v.Area,
 			Value: v.Count,
 		}
@@ -44,12 +44,8 @@ func (l *FindAccountAreaAnalysisLogic) FindAccountAreaAnalysis(req *types.Accoun
 		list = append(list, m)
 	}
 
-	resp = &types.PageResp{
-		Page:     0,
-		PageSize: 0,
-		Total:    0,
-		List:     list,
-	}
-
-	return
+	return &types.GetUserAreaStatsResp{
+		UserAreas:    list,
+		TouristAreas: list,
+	}, nil
 }

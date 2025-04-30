@@ -1,4 +1,4 @@
-package account
+package login_log
 
 import (
 	"net/http"
@@ -6,22 +6,22 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/logic/account"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/logic/login_log"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 )
 
 // 查询用户登录历史
-func FindAccountLoginHistoryListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func FindLoginLogListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.AccountQuery
+		var req types.LoginLogQuery
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := account.NewFindAccountLoginHistoryListLogic(r.Context(), svcCtx)
-		resp, err := l.FindAccountLoginHistoryList(&req)
+		l := login_log.NewFindLoginLogListLogic(r.Context(), svcCtx)
+		resp, err := l.FindLoginLogList(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }
