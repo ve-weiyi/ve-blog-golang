@@ -1,16 +1,12 @@
 package middlewarex
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/spec"
-	"github.com/mssola/useragent"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
 )
 
 type VisitLogMiddleware struct {
@@ -42,27 +38,11 @@ func (m *VisitLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}
 
-		ip := restx.GetClientIP(r)
-		is, err := ipx.GetIpSourceByBaidu(ip)
-		if err != nil {
-			logx.Errorf("VisitLogMiddleware Handle GetIpInfoByBaidu err: %v", err)
-		}
-
-		// 分割字符串，提取 IP 部分
-		os := useragent.New(r.UserAgent()).OS()
-		browser, _ := useragent.New(r.UserAgent()).Browser()
-
 		op := &syslogrpc.VisitLogNewReq{
-			UserId:     r.Header.Get(restx.HeaderUid),
-			TerminalId: r.Header.Get(restx.HeaderTerminal),
-			IpAddress:  ip,
-			IpSource:   is,
-			Os:         os,
-			Browser:    browser,
-			Page:       module,
+			PageName: module,
 		}
 
-		_, err = m.sr.AddVisitLog(context.Background(), op)
+		_, err := m.sr.AddVisitLog(r.Context(), op)
 		if err != nil {
 			logx.Errorf("VisitLogMiddleware Handle AddVisitLog err: %v", err)
 		}

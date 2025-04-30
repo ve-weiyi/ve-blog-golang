@@ -3,6 +3,7 @@ package accountrpclogic
 import (
 	"context"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
@@ -27,14 +28,24 @@ func NewUpdateUserPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 // 修改用户密码
 func (l *UpdateUserPasswordLogic) UpdateUserPassword(in *accountrpc.UpdateUserPasswordReq) (*accountrpc.EmptyResp, error) {
+	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	// 验证用户是否存在
-	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, in.UserId)
+	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, userId)
 	if err != nil {
 		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
+	// 验证旧密码是否相等
+	if !crypto.BcryptCheck(in.OldPassword, user.Password) {
+		return nil, bizerr.NewBizError(bizerr.CodeUserPasswordError, "旧密码错误")
+	}
+
 	// 更新密码
-	user.Password = crypto.BcryptHash(in.Password)
+	user.Password = crypto.BcryptHash(in.NewPassword)
 
 	_, err = l.svcCtx.TUserModel.Save(l.ctx, user)
 	if err != nil {

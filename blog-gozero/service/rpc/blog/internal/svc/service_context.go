@@ -7,14 +7,16 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
@@ -39,23 +41,23 @@ type ServiceContext struct {
 	CaptchaHolder *captcha.CaptchaHolder
 	Oauth         map[string]oauth.Oauth
 
+	OnlineUserService *online.OnlineUserService
+
 	// account models
-	TUserModel             model.TUserModel
-	TUserOauthModel        model.TUserOauthModel
-	TUserLoginHistoryModel model.TUserLoginHistoryModel
-	TRoleModel             model.TRoleModel
-	TApiModel              model.TApiModel
-	TMenuModel             model.TMenuModel
-	TUserRoleModel         model.TUserRoleModel
-	TRoleApiModel          model.TRoleApiModel
-	TRoleMenuModel         model.TRoleMenuModel
+	TUserModel      model.TUserModel
+	TUserOauthModel model.TUserOauthModel
+	TRoleModel      model.TRoleModel
+	TApiModel       model.TApiModel
+	TMenuModel      model.TMenuModel
+	TUserRoleModel  model.TUserRoleModel
+	TRoleApiModel   model.TRoleApiModel
+	TRoleMenuModel  model.TRoleMenuModel
 
 	// blog models
-	TWebsiteConfigModel model.TWebsiteConfigModel
-	TArticleModel       model.TArticleModel
-	TCategoryModel      model.TCategoryModel
-	TTagModel           model.TTagModel
-	TArticleTagModel    model.TArticleTagModel
+	TArticleModel    model.TArticleModel
+	TCategoryModel   model.TCategoryModel
+	TTagModel        model.TTagModel
+	TArticleTagModel model.TArticleTagModel
 
 	// message models
 	TChatModel    model.TChatModel
@@ -63,14 +65,17 @@ type ServiceContext struct {
 	TRemarkModel  model.TRemarkModel
 
 	// website models
-	TAlbumModel        model.TAlbumModel
-	TPhotoModel        model.TPhotoModel
-	TFriendModel       model.TFriendModel
-	TTalkModel         model.TTalkModel
-	TPageModel         model.TPageModel
-	TVisitHistoryModel model.TVisitHistoryModel
+	TWebsiteConfigModel   model.TWebsiteConfigModel
+	TAlbumModel           model.TAlbumModel
+	TPhotoModel           model.TPhotoModel
+	TFriendModel          model.TFriendModel
+	TTalkModel            model.TTalkModel
+	TPageModel            model.TPageModel
+	TVisitDailyStatsModel model.TVisitDailyStatsModel
+	TVisitorModel         model.TVisitorModel
 
 	TVisitLogModel     model.TVisitLogModel
+	TLoginLogModel     model.TLoginLogModel
 	TOperationLogModel model.TOperationLogModel
 
 	TFileFolderModel model.TFileFolderModel
@@ -106,37 +111,40 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		EmailDeliver:  deliver,
 		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
 		Oauth:         InitOauth(c.OauthConfList),
+
+		OnlineUserService: online.NewOnlineUserService(rds, 3600),
 		// account models
-		TUserModel:             model.NewTUserModel(db),
-		TUserOauthModel:        model.NewTUserOauthModel(db),
-		TUserLoginHistoryModel: model.NewTUserLoginHistoryModel(db),
-		TRoleModel:             model.NewTRoleModel(db),
-		TApiModel:              model.NewTApiModel(db),
-		TMenuModel:             model.NewTMenuModel(db),
-		TUserRoleModel:         model.NewTUserRoleModel(db),
-		TRoleApiModel:          model.NewTRoleApiModel(db),
-		TRoleMenuModel:         model.NewTRoleMenuModel(db),
+		TUserModel:      model.NewTUserModel(db),
+		TUserOauthModel: model.NewTUserOauthModel(db),
+		TRoleModel:      model.NewTRoleModel(db),
+		TApiModel:       model.NewTApiModel(db),
+		TMenuModel:      model.NewTMenuModel(db),
+		TUserRoleModel:  model.NewTUserRoleModel(db),
+		TRoleApiModel:   model.NewTRoleApiModel(db),
+		TRoleMenuModel:  model.NewTRoleMenuModel(db),
 		// blog models
-		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db),
-		TArticleModel:       model.NewTArticleModel(db),
-		TCategoryModel:      model.NewTCategoryModel(db),
-		TTagModel:           model.NewTTagModel(db),
-		TArticleTagModel:    model.NewTArticleTagModel(db),
+		TArticleModel:    model.NewTArticleModel(db),
+		TCategoryModel:   model.NewTCategoryModel(db),
+		TTagModel:        model.NewTTagModel(db),
+		TArticleTagModel: model.NewTArticleTagModel(db),
 		// message models
 		TChatModel:    model.NewTChatModel(db),
 		TCommentModel: model.NewTCommentModel(db),
 		TRemarkModel:  model.NewTRemarkModel(db),
 		// website models
-		TAlbumModel:        model.NewTAlbumModel(db),
-		TPhotoModel:        model.NewTPhotoModel(db),
-		TFriendModel:       model.NewTFriendModel(db),
-		TTalkModel:         model.NewTTalkModel(db),
-		TPageModel:         model.NewTPageModel(db),
-		TVisitHistoryModel: model.NewTVisitHistoryModel(db),
-		TVisitLogModel:     model.NewTVisitLogModel(db),
-		TOperationLogModel: model.NewTOperationLogModel(db),
-		TFileFolderModel:   model.NewTFileFolderModel(db),
-		TFileUploadModel:   model.NewTFileUploadModel(db),
+		TWebsiteConfigModel:   model.NewTWebsiteConfigModel(db),
+		TAlbumModel:           model.NewTAlbumModel(db),
+		TPhotoModel:           model.NewTPhotoModel(db),
+		TFriendModel:          model.NewTFriendModel(db),
+		TTalkModel:            model.NewTTalkModel(db),
+		TPageModel:            model.NewTPageModel(db),
+		TVisitDailyStatsModel: model.NewTVisitDailyStatsModel(db),
+		TVisitorModel:         model.NewTVisitorModel(db),
+		TVisitLogModel:        model.NewTVisitLogModel(db),
+		TLoginLogModel:        model.NewTLoginLogModel(db),
+		TOperationLogModel:    model.NewTOperationLogModel(db),
+		TFileFolderModel:      model.NewTFileFolderModel(db),
+		TFileUploadModel:      model.NewTFileUploadModel(db),
 	}
 }
 
@@ -213,12 +221,11 @@ func ConnectRedis(c config.RedisConf) (*redis.Client, error) {
 		DB:       c.DB,       // use default DB
 	})
 
-	pong, err := client.Ping(context.Background()).Result()
+	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	client.Set(context.Background(), fmt.Sprintf("redis:rpc:%s", pong), time.Now().String(), -1)
 	return client, nil
 }
 

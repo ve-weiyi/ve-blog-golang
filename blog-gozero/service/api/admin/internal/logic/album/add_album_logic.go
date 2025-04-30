@@ -25,7 +25,7 @@ func NewAddAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAlbum
 	}
 }
 
-func (l *AddAlbumLogic) AddAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackDTO, err error) {
+func (l *AddAlbumLogic) AddAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackVO, err error) {
 	in := ConvertAlbumPb(req)
 	out, err := l.svcCtx.PhotoRpc.AddAlbum(l.ctx, in)
 	if err != nil {
@@ -49,8 +49,8 @@ func ConvertAlbumPb(in *types.AlbumNewReq) (out *photorpc.AlbumNewReq) {
 	return
 }
 
-func ConvertAlbumTypes(in *photorpc.AlbumDetails) (out *types.AlbumBackDTO) {
-	out = &types.AlbumBackDTO{
+func ConvertAlbumTypes(in *photorpc.AlbumDetails) (out *types.AlbumBackVO) {
+	out = &types.AlbumBackVO{
 		Id:         in.Id,
 		AlbumName:  in.AlbumName,
 		AlbumDesc:  in.AlbumDesc,

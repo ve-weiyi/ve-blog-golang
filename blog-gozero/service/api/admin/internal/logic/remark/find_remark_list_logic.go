@@ -3,7 +3,7 @@ package remark
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/apiutils"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
@@ -50,7 +50,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 		return nil, err
 	}
 
-	var list []*types.RemarkBackDTO
+	var list []*types.RemarkBackVO
 	for _, v := range out.List {
 		m := ConvertRemarkTypes(v, usm)
 		list = append(list, m)
@@ -64,8 +64,8 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 	return resp, nil
 }
 
-func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc.User) (out *types.RemarkBackDTO) {
-	out = &types.RemarkBackDTO{
+func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc.User) (out *types.RemarkBackVO) {
+	out = &types.RemarkBackVO{
 		Id:             in.Id,
 		UserId:         in.UserId,
 		MessageContent: in.MessageContent,

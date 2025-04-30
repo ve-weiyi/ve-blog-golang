@@ -23,12 +23,6 @@
   <a target="_blank" href="https://admin.veweiyi.cn/admin_api/v1/swagger/index.html">📑 后台接口文档</a>
 </div>
 
-### 作者联系方式：
-
-* qq 791422171
-* 微信 wy791422171
-
-兴趣是第一驱动力。工作之余持续更新，持续学习新技术。
 
 ## 📚 项目简介
 
@@ -190,3 +184,16 @@ pnpm run dev
 - [风丶宇的博客(已删库)](https://github.com/X1192176811/blog)
 - [阿冬的个人博客](https://github.com/ttkican/Blog)
 - [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin)
+
+## 其他
+
+### 作者联系方式：
+
+* qq 791422171
+* 微信 wy791422171
+
+### 作者留言
+
+- 遇到问题可以提 issue，在运行或者搭建过程中遇到问题可以加我好友，很乐意解答。
+- 工作之余持续更新，持续学习新技术。个人项目，写着玩的。
+- 注意！！作者经常强制推送feature分支，会覆盖提交。以master分支功能为准。分支功能和版本发布规则见[VERSION.md](VERSION.md)

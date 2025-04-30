@@ -24,7 +24,7 @@ func NewUpdateAlbumLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 	}
 }
 
-func (l *UpdateAlbumLogic) UpdateAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackDTO, err error) {
+func (l *UpdateAlbumLogic) UpdateAlbum(req *types.AlbumNewReq) (resp *types.AlbumBackVO, err error) {
 	in := ConvertAlbumPb(req)
 	out, err := l.svcCtx.PhotoRpc.UpdateAlbum(l.ctx, in)
 	if err != nil {

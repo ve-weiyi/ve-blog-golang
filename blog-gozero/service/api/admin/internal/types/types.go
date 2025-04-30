@@ -7,24 +7,6 @@ type AboutMe struct {
 	Content string `json:"content"`
 }
 
-type AccountArea struct {
-	Name  string `json:"name"`
-	Value int64  `json:"value"`
-}
-
-type AccountLoginHistory struct {
-	Id        int64  `json:"id,optional"`
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	LoginType string `json:"login_type"` // 登录类型
-	Agent     string `json:"agent"`      // 代理
-	IpAddress string `json:"ip_address"` // ip host
-	IpSource  string `json:"ip_source"`  // ip 源
-	LoginAt   int64  `json:"login_at"`   // 登录时间
-	LogoutAt  int64  `json:"logout_out"` // 登出时间
-}
-
 type AccountQuery struct {
 	PageQuery
 	Username string `json:"username,optional"`
@@ -32,18 +14,16 @@ type AccountQuery struct {
 }
 
 type AdminHomeInfo struct {
-	ViewCount         int64                   `json:"view_count"`         // 访问量
-	UserCount         int64                   `json:"user_count"`         // 用户量
-	ArticleCount      int64                   `json:"article_count"`      // 文章量
-	RemarkCount       int64                   `json:"remark_count"`       // 留言量
-	CategoryList      []*CategoryDTO          `json:"category_list"`      // 分类列表
-	TagList           []*TagDTO               `json:"tag_list"`           // 标签列表
-	ArticleViewRanks  []*ArticleViewDTO       `json:"article_view_ranks"` // 文章浏览量排行
-	ArticleStatistics []*ArticleStatisticsDTO `json:"article_statistics"` // 文章提交统计
-	UserVisitDaliy    []*UserVisitDTO         `json:"user_visit_daliy"`   // 用户每日访问量
+	UserCount         int64                  `json:"user_count"`         // 用户量
+	ArticleCount      int64                  `json:"article_count"`      // 文章量
+	RemarkCount       int64                  `json:"remark_count"`       // 留言量
+	CategoryList      []*CategoryVO          `json:"category_list"`      // 分类列表
+	TagList           []*TagVO               `json:"tag_list"`           // 标签列表
+	ArticleViewRanks  []*ArticleViewVO       `json:"article_view_ranks"` // 文章浏览量排行
+	ArticleStatistics []*ArticleStatisticsVO `json:"article_statistics"` // 文章提交统计
 }
 
-type AlbumBackDTO struct {
+type AlbumBackVO struct {
 	Id         int64  `json:"id,optional"` // 主键
 	AlbumName  string `json:"album_name"`  // 相册名
 	AlbumDesc  string `json:"album_desc"`  // 相册描述
@@ -69,17 +49,17 @@ type AlbumQuery struct {
 	AlbumName string `json:"album_name,optional"` // 相册名
 }
 
-type ApiBackDTO struct {
-	Id        int64         `json:"id,optional"`         // 主键id
-	ParentId  int64         `json:"parent_id"`           // 分组id
-	Name      string        `json:"name"`                // api名称
-	Path      string        `json:"path"`                // api路径
-	Method    string        `json:"method"`              // api请求方法
-	Traceable int64         `json:"traceable"`           // 是否追溯操作记录 0需要，1是
-	IsDisable int64         `json:"is_disable,optional"` // 是否禁用 0否 1是
-	CreatedAt int64         `json:"created_at"`          // 创建时间
-	UpdatedAt int64         `json:"updated_at"`          // 更新时间
-	Children  []*ApiBackDTO `json:"children"`
+type ApiBackVO struct {
+	Id        int64        `json:"id,optional"`         // 主键id
+	ParentId  int64        `json:"parent_id"`           // 分组id
+	Name      string       `json:"name"`                // api名称
+	Path      string       `json:"path"`                // api路径
+	Method    string       `json:"method"`              // api请求方法
+	Traceable int64        `json:"traceable"`           // 是否追溯操作记录 0需要，1是
+	IsDisable int64        `json:"is_disable,optional"` // 是否禁用 0否 1是
+	CreatedAt int64        `json:"created_at"`          // 创建时间
+	UpdatedAt int64        `json:"updated_at"`          // 更新时间
+	Children  []*ApiBackVO `json:"children"`
 }
 
 type ApiNewReq struct {
@@ -99,7 +79,7 @@ type ApiQuery struct {
 	Method string `json:"method,optional"` // api请求方法
 }
 
-type ArticleBackDTO struct {
+type ArticleBackVO struct {
 	Id             int64    `json:"id,optional"`     // 文章ID
 	ArticleCover   string   `json:"article_cover"`   // 文章缩略图
 	ArticleTitle   string   `json:"article_title"`   // 标题
@@ -145,7 +125,7 @@ type ArticleRecycleReq struct {
 	IsDelete int64 `json:"is_delete"`   // 是否删除
 }
 
-type ArticleStatisticsDTO struct {
+type ArticleStatisticsVO struct {
 	Date  string `json:"date"`  // 日期
 	Count int64  `json:"count"` // 数量
 }
@@ -155,7 +135,7 @@ type ArticleTopReq struct {
 	IsTop int64 `json:"is_top"`      // 是否置顶
 }
 
-type ArticleViewDTO struct {
+type ArticleViewVO struct {
 	Id           int64  `json:"id,optional"`   // 文章ID
 	ArticleTitle string `json:"article_title"` // 文章标题
 	ViewCount    int64  `json:"view_count"`    // 浏览量
@@ -170,18 +150,12 @@ type BindUserEmailReq struct {
 	VerifyCode string `json:"verify_code"` // 验证码
 }
 
-type CategoryBackDTO struct {
+type CategoryBackVO struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name"` // 分类名
 	ArticleCount int64  `json:"article_count"`
 	CreatedAt    int64  `json:"created_at"` // 创建时间
 	UpdatedAt    int64  `json:"updated_at"` // 更新时间
-}
-
-type CategoryDTO struct {
-	Id           int64  `json:"id,optional"`
-	CategoryName string `json:"category_name"` // 分类名
-	ArticleCount int64  `json:"article_count"` // 文章数量
 }
 
 type CategoryNewReq struct {
@@ -194,7 +168,13 @@ type CategoryQuery struct {
 	CategoryName string `json:"category_name,optional"` // 分类名
 }
 
-type CommentBackDTO struct {
+type CategoryVO struct {
+	Id           int64  `json:"id,optional"`
+	CategoryName string `json:"category_name"` // 分类名
+	ArticleCount int64  `json:"article_count"` // 文章数量
+}
+
+type CommentBackVO struct {
 	Id             int64     `json:"id"`              // 评论ID
 	Type           int64     `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
 	TopicTitle     string    `json:"topic_title"`     // 评论主题
@@ -225,7 +205,7 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FileBackDTO struct {
+type FileBackVO struct {
 	Id        int64     `json:"id,optional"` // 文件目录ID
 	UserId    string    `json:"user_id"`     // 用户id
 	FilePath  string    `json:"file_path"`   // 文件路径
@@ -250,7 +230,7 @@ type FileQuery struct {
 	FileType string `json:"file_type,optional"` // 文件类型
 }
 
-type FriendBackDTO struct {
+type FriendBackVO struct {
 	Id          int64  `json:"id,optional"`  // id
 	LinkName    string `json:"link_name"`    // 链接名
 	LinkAvatar  string `json:"link_avatar"`  // 链接头像
@@ -273,6 +253,33 @@ type FriendQuery struct {
 	LinkName string `json:"link_name,optional"` // 链接名
 }
 
+type GetUserAreaStatsReq struct {
+	UserType int64 `json:"user_type,optional"` // 用户类型: 0注册用户 1游客
+}
+
+type GetUserAreaStatsResp struct {
+	UserAreas    []*UserAreaVO `json:"user_areas"`    // 用户分布地区
+	TouristAreas []*UserAreaVO `json:"tourist_areas"` // 游客分布地区
+}
+
+type GetVisitStatsResp struct {
+	TodayUvCount int64   `json:"today_uv_count"` // 今日访客数(UV)
+	TotalUvCount int64   `json:"total_uv_count"` // 总访客数
+	UvGrowthRate float64 `json:"uv_growth_rate"` // 访客数同比增长率（相对于昨天同一时间段的增长率）
+	TodayPvCount int64   `json:"today_pv_count"` // 今日浏览量(PV)
+	TotalPvCount int64   `json:"total_pv_count"` // 总浏览量
+	PvGrowthRate float64 `json:"pv_growth_rate"` // 同比增长率（相对于昨天同一时间段的增长率）
+}
+
+type GetVisitTrendReq struct {
+	StartDate string `json:"start_date"`        // 开始日期
+	EndDate   string `json:"end_date,optional"` // 结束日期
+}
+
+type GetVisitTrendResp struct {
+	VisitTrend []VisitTrendVO `json:"visit_trend"` // 访客数和浏览量趋势
+}
+
 type IdReq struct {
 	Id int64 `json:"id"`
 }
@@ -290,6 +297,25 @@ type ListUploadFileResp struct {
 	Urls []string `json:"urls"` // 文件路径
 }
 
+type LoginLogBackVO struct {
+	Id        int64     `json:"id,optional"`
+	UserId    string    `json:"user_id"`    // 用户id
+	LoginType string    `json:"login_type"` // 登录类型
+	AppName   string    `json:"app_name"`   // 应用名称
+	Os        string    `json:"os"`         // 操作系统
+	Browser   string    `json:"browser"`    // 浏览器
+	IpAddress string    `json:"ip_address"` // ip host
+	IpSource  string    `json:"ip_source"`  // ip 源
+	LoginAt   int64     `json:"login_at"`   // 登录时间
+	LogoutAt  int64     `json:"logout_at"`  // 登出时间
+	User      *UserInfo `json:"user"`       // 用户信息
+}
+
+type LoginLogQuery struct {
+	PageQuery
+	UserId string `json:"user_id,optional"` // 用户id
+}
+
 type LoginReq struct {
 	Username    string `json:"username"`
 	Password    string `json:"password"`
@@ -301,7 +327,7 @@ type LoginResp struct {
 	Token *Token `json:"token"`
 }
 
-type MenuBackDTO struct {
+type MenuBackVO struct {
 	Id        int64  `json:"id,optional"`        // 主键
 	ParentId  int64  `json:"parent_id,optional"` // 父id
 	Path      string `json:"path,optional"`      // 路由地址
@@ -309,9 +335,9 @@ type MenuBackDTO struct {
 	Component string `json:"component,optional"` // Layout组件
 	Redirect  string `json:"redirect,optional"`  // 路由重定向
 	MenuMeta
-	Children  []*MenuBackDTO `json:"children,optional"`
-	CreatedAt int64          `json:"created_at"` // 创建时间
-	UpdatedAt int64          `json:"updated_at"` // 更新时间
+	Children  []*MenuBackVO `json:"children,optional"`
+	CreatedAt int64         `json:"created_at"` // 创建时间
+	UpdatedAt int64         `json:"updated_at"` // 更新时间
 }
 
 type MenuMeta struct {
@@ -364,7 +390,7 @@ type OauthLoginUrlResp struct {
 	Url string `json:"url"` // 授权地址
 }
 
-type OperationLogBackDTO struct {
+type OperationLogBackVO struct {
 	Id             int64     `json:"id,optional"`     // 主键id
 	UserId         string    `json:"user_id"`         // 用户id
 	IpAddress      string    `json:"ip_address"`      // 操作ip
@@ -386,7 +412,7 @@ type OperationLogQuery struct {
 	PageQuery
 }
 
-type PageBackDTO struct {
+type PageBackVO struct {
 	Id             int64    `json:"id,optional"`     // 页面id
 	PageName       string   `json:"page_name"`       // 页面名
 	PageLabel      string   `json:"page_label"`      // 页面标签
@@ -424,7 +450,7 @@ type PageResp struct {
 	List     interface{} `json:"list"`
 }
 
-type PhotoBackDTO struct {
+type PhotoBackVO struct {
 	Id        int64  `json:"id,optional"` // 主键
 	AlbumId   int64  `json:"album_id"`    // 相册id
 	PhotoName string `json:"photo_name"`  // 照片名
@@ -467,7 +493,7 @@ type RegisterReq struct {
 	VerifyCode string `json:"verify_code"` // 验证码
 }
 
-type RemarkBackDTO struct {
+type RemarkBackVO struct {
 	Id             int64     `json:"id,optional"`     // 主键id
 	UserId         string    `json:"user_id"`         // 用户ID
 	MessageContent string    `json:"message_content"` // 留言内容
@@ -514,7 +540,7 @@ type RestHeader struct {
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
-type RoleBackDTO struct {
+type RoleBackVO struct {
 	Id          int64  `json:"id,optional"`  // 主键id
 	ParentId    int64  `json:"parent_id"`    // 父角色id
 	RoleKey     string `json:"role_key"`     // 角色名
@@ -549,6 +575,16 @@ type RoleResourcesResp struct {
 	MenuIds []int64 `json:"menu_ids"`
 }
 
+type SendEmailVerifyCodeReq struct {
+	Email string `json:"email"` // 邮箱
+	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
+}
+
+type SendPhoneVerifyCodeReq struct {
+	Phone string `json:"phone"` // 手机号
+	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
+}
+
 type Server struct {
 	Os   interface{} `json:"os"`
 	Cpu  interface{} `json:"cpu"`
@@ -564,18 +600,12 @@ type SyncMenuReq struct {
 	Menus []*MenuNewReq `json:"menus"`
 }
 
-type TagBackDTO struct {
+type TagBackVO struct {
 	Id           int64  `json:"id,optional"`   // 标签ID
 	TagName      string `json:"tag_name"`      // 标签名
 	ArticleCount int64  `json:"article_count"` // 文章数量
 	CreatedAt    int64  `json:"created_at"`    // 创建时间
 	UpdatedAt    int64  `json:"updated_at"`    // 更新时间
-}
-
-type TagDTO struct {
-	Id           int64  `json:"id,optional"`   // 标签ID
-	TagName      string `json:"tag_name"`      // 标签名
-	ArticleCount int64  `json:"article_count"` // 文章数量
 }
 
 type TagNewReq struct {
@@ -588,7 +618,13 @@ type TagQuery struct {
 	TagName string `json:"tag_name,optional"` // 标签名
 }
 
-type TalkBackDTO struct {
+type TagVO struct {
+	Id           int64  `json:"id,optional"`   // 标签ID
+	TagName      string `json:"tag_name"`      // 标签名
+	ArticleCount int64  `json:"article_count"` // 文章数量
+}
+
+type TalkBackVO struct {
 	Id           int64     `json:"id,optional"`   // 说说ID
 	UserId       string    `json:"user_id"`       // 用户ID
 	Content      string    `json:"content"`       // 说说内容
@@ -650,6 +686,31 @@ type UpdateRoleMenusReq struct {
 	MenuIds []int64 `json:"menu_ids"`
 }
 
+type UpdateUserAvatarReq struct {
+	Avatar string `json:"avatar"` // 头像
+}
+
+type UpdateUserBindEmailReq struct {
+	Email      string `json:"email"`       // 邮箱
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserBindPhoneReq struct {
+	Phone      string `json:"phone"`       // 手机号
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserInfoReq struct {
+	Nickname string `json:"nickname"` // 昵称
+	UserInfoExt
+}
+
+type UpdateUserPasswordReq struct {
+	OldPassword     string `json:"old_password"`     // 旧密码
+	NewPassword     string `json:"new_password"`     // 新密码
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+}
+
 type UploadFileReq struct {
 	File     interface{} `form:"file,optional"`      // 文件
 	FilePath string      `form:"file_path,optional"` // 文件路径
@@ -670,8 +731,9 @@ type UserApisResp struct {
 	List []*UserApi `json:"list"`
 }
 
-type UserEmailReq struct {
-	Username string `json:"username"`
+type UserAreaVO struct {
+	Name  string `json:"name"`
+	Value int64  `json:"value"`
 }
 
 type UserInfo struct {
@@ -682,14 +744,9 @@ type UserInfo struct {
 }
 
 type UserInfoExt struct {
+	Gender  int64  `json:"gender"`  // 性别 0未知 1男 2女
 	Intro   string `json:"intro"`   // 简介
 	Website string `json:"website"` // 网站
-}
-
-type UserInfoReq struct {
-	Nickname string `json:"nickname"` // 昵称
-	Avatar   string `json:"avatar"`   // 头像
-	UserInfoExt
 }
 
 type UserInfoResp struct {
@@ -713,11 +770,12 @@ type UserInfoResp struct {
 type UserLoginHistory struct {
 	Id        int64  `json:"id,optional"`
 	LoginType string `json:"login_type"` // 登录类型
-	Agent     string `json:"agent"`      // 代理
+	Os        string `json:"os"`         // 操作系统
+	Browser   string `json:"browser"`    // 浏览器
 	IpAddress string `json:"ip_address"` // ip host
 	IpSource  string `json:"ip_source"`  // ip 源
 	LoginAt   int64  `json:"login_at"`   // 登录时间
-	LogoutAt  int64  `json:"login_out"`  // 登出时间
+	LogoutAt  int64  `json:"logout_at"`  // 登出时间
 }
 
 type UserLoginHistoryQuery struct {
@@ -769,27 +827,31 @@ type UserRolesResp struct {
 	List []*UserRole `json:"list"`
 }
 
-type UserVisitDTO struct {
-	Date  string `json:"date"`  // 日期
-	Count int64  `json:"count"` // 数量
-}
-
-type VisitLogBackDTO struct {
-	Id        int64     `json:"id,optional"` // 主键id
-	UserId    string    `json:"user_id"`     // 用户id
-	IpAddress string    `json:"ip_address"`  // 操作ip
-	IpSource  string    `json:"ip_source"`   // 操作地址
-	Os        string    `json:"os"`          // 操作系统
-	Browser   string    `json:"browser"`     // 浏览器
-	Page      string    `json:"page"`        // 页面
-	CreatedAt int64     `json:"created_at"`  // 创建时间
-	UpdatedAt int64     `json:"updated_at"`  // 更新时间
-	User      *UserInfo `json:"user"`        // 用户信息
+type VisitLogBackVO struct {
+	Id         int64     `json:"id,optional"` // 主键id
+	UserId     string    `json:"user_id"`     // 用户id
+	TerminalId string    `json:"terminal_id"` // 终端id
+	PageName   string    `json:"page_name"`   // 页面
+	IpAddress  string    `json:"ip_address"`  // 操作ip
+	IpSource   string    `json:"ip_source"`   // 操作地址
+	Os         string    `json:"os"`          // 操作系统
+	Browser    string    `json:"browser"`     // 浏览器
+	CreatedAt  int64     `json:"created_at"`  // 创建时间
+	UpdatedAt  int64     `json:"updated_at"`  // 更新时间
+	User       *UserInfo `json:"user"`        // 用户信息
 }
 
 type VisitLogQuery struct {
 	PageQuery
-	Keywords string `json:"keywords,optional"` // 关键字
+	UserId     string `json:"user_id,optional"`     // 用户id
+	TerminalId string `json:"terminal_id,optional"` // 终端id
+	PageName   string `json:"page_name,optional"`   // 页面
+}
+
+type VisitTrendVO struct {
+	Date    string `json:"date"`     // 日期
+	UvCount int64  `json:"uv_count"` // 访客数
+	PvCount int64  `json:"pv_count"` // 浏览量
 }
 
 type WebsiteConfig struct {

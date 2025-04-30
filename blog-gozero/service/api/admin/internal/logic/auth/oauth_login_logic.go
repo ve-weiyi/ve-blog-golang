@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
@@ -42,6 +43,12 @@ func (l *OauthLoginLogic) OauthLogin(req *types.OauthLoginReq) (resp *types.Logi
 	if err != nil {
 		return
 	}
+
+	// 登录日志
+	_, err = l.svcCtx.SyslogRpc.AddLoginLog(l.ctx, &syslogrpc.LoginLogNewReq{
+		UserId:    out.UserId,
+		LoginType: out.LoginType,
+	})
 
 	resp = &types.LoginResp{
 		Token: tk,

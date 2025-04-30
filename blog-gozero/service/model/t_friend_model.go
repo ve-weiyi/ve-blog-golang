@@ -33,6 +33,7 @@ type (
 		FindCount(ctx context.Context, conditions string, args ...interface{}) (count int64, err error)
 		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TFriend, total int64, err error)
 		// add extra method in here
+		FindOneByLinkName(ctx context.Context, link_name string) (out *TFriend, err error)
 	}
 
 	// 表字段定义
@@ -214,7 +215,7 @@ func (m *defaultTFriendModel) FindCount(ctx context.Context, conditions string, 
 		db = db.Where(conditions, args...)
 	}
 
-	err = db.Model(&TFriend{}).Count(&count).Error
+	err = db.Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
@@ -258,3 +259,13 @@ func (m *defaultTFriendModel) FindListAndTotal(ctx context.Context, page int, si
 }
 
 // add extra method in here
+func (m *defaultTFriendModel) FindOneByLinkName(ctx context.Context, link_name string) (out *TFriend, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	err = db.Where("`link_name` = ?", link_name).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

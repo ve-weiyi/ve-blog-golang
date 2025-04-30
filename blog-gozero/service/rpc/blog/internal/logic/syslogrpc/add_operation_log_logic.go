@@ -25,19 +25,8 @@ func NewAddOperationLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 }
 
 // 创建操作记录
-func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLogNewReq) (*syslogrpc.OperationLogDetails, error) {
-	entity := convertOperationLogIn(in)
-
-	_, err := l.svcCtx.TOperationLogModel.Insert(l.ctx, entity)
-	if err != nil {
-		return nil, err
-	}
-
-	return convertOperationLogOut(entity), nil
-}
-
-func convertOperationLogIn(in *syslogrpc.OperationLogNewReq) (out *model.TOperationLog) {
-	out = &model.TOperationLog{
+func (l *AddOperationLogLogic) AddOperationLog(in *syslogrpc.OperationLogNewReq) (*syslogrpc.EmptyResp, error) {
+	entity := &model.TOperationLog{
 		Id:             0,
 		UserId:         in.UserId,
 		TerminalId:     in.TerminalId,
@@ -55,27 +44,10 @@ func convertOperationLogIn(in *syslogrpc.OperationLogNewReq) (out *model.TOperat
 		//UpdatedAt:      time.Unix(in.UpdatedAt, 0),
 	}
 
-	return out
-}
-
-func convertOperationLogOut(in *model.TOperationLog) (out *syslogrpc.OperationLogDetails) {
-	out = &syslogrpc.OperationLogDetails{
-		Id:             in.Id,
-		UserId:         in.UserId,
-		TerminalId:     in.TerminalId,
-		IpAddress:      in.IpAddress,
-		IpSource:       in.IpSource,
-		OptModule:      in.OptModule,
-		OptDesc:        in.OptDesc,
-		RequestUri:     in.RequestUri,
-		RequestMethod:  in.RequestMethod,
-		RequestData:    in.RequestData,
-		ResponseData:   in.ResponseData,
-		ResponseStatus: in.ResponseStatus,
-		Cost:           in.Cost,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
+	_, err := l.svcCtx.TOperationLogModel.Insert(l.ctx, entity)
+	if err != nil {
+		return nil, err
 	}
 
-	return out
+	return &syslogrpc.EmptyResp{}, nil
 }

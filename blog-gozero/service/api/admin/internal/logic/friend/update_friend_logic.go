@@ -24,7 +24,7 @@ func NewUpdateFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 	}
 }
 
-func (l *UpdateFriendLogic) UpdateFriend(req *types.FriendNewReq) (resp *types.FriendBackDTO, err error) {
+func (l *UpdateFriendLogic) UpdateFriend(req *types.FriendNewReq) (resp *types.FriendBackVO, err error) {
 	in := ConvertFriendPb(req)
 	out, err := l.svcCtx.WebsiteRpc.UpdateFriend(l.ctx, in)
 	if err != nil {

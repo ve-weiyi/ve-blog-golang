@@ -25,7 +25,7 @@ func NewAddRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRoleLo
 	}
 }
 
-func (l *AddRoleLogic) AddRole(req *types.RoleNewReq) (resp *types.RoleBackDTO, err error) {
+func (l *AddRoleLogic) AddRole(req *types.RoleNewReq) (resp *types.RoleBackVO, err error) {
 	in := &permissionrpc.RoleNewReq{
 		Id:          req.Id,
 		ParentId:    req.ParentId,
@@ -44,8 +44,8 @@ func (l *AddRoleLogic) AddRole(req *types.RoleNewReq) (resp *types.RoleBackDTO, 
 	return convertRoleTypes(out), nil
 }
 
-func convertRoleTypes(req *permissionrpc.RoleDetails) *types.RoleBackDTO {
-	out := &types.RoleBackDTO{
+func convertRoleTypes(req *permissionrpc.RoleDetails) *types.RoleBackVO {
+	out := &types.RoleBackVO{
 		Id:          req.Id,
 		ParentId:    req.ParentId,
 		RoleKey:     req.RoleKey,

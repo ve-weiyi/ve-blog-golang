@@ -46,6 +46,11 @@ func (l *LogoffLogic) Logoff(in *accountrpc.LogoffReq) (*accountrpc.EmptyResp, e
 		return nil, err
 	}
 
+	err = l.svcCtx.OnlineUserService.Logout(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
+
 	return &accountrpc.EmptyResp{}, nil
 }
 

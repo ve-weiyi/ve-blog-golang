@@ -7,7 +7,8 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/metadatax"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
@@ -47,7 +48,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 	}
 
 	// 验证code是否正确
-	key := rediskey.GetCaptchaKey(constant.Register, in.Username)
+	key := rediskey.GetCaptchaKey(constant.CodeTypeRegister, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, bizerr.NewBizError(bizerr.CodeCaptchaVerify, "验证码错误")
 	}
@@ -78,7 +79,7 @@ func (l *RegisterLogic) Register(in *accountrpc.RegisterReq) (*accountrpc.LoginR
 }
 
 func (l *RegisterLogic) register(tx *gorm.DB, in *accountrpc.RegisterReq) (out *model.TUser, err error) {
-	ip, _ := metadatax.GetRPCClientIP(l.ctx)
+	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	// 邮箱注册
