@@ -2,6 +2,7 @@ package website
 
 import (
 	"context"
+	"sort"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
@@ -35,28 +36,45 @@ func (l *GetVisitTrendLogic) GetVisitTrend(req *types.GetVisitTrendReq) (resp *t
 		return nil, err
 	}
 
-	uvs := make([]*types.VisitTrendVO, 0)
-	for _, v := range visit.UvTrend {
-		m := &types.VisitTrendVO{
-			Date:  v.Date,
-			Count: v.Count,
-		}
+	// 使用map临时存储数据
+	trendMap := make(map[string]types.VisitTrendVO)
+	dates := make([]string, 0)
 
-		uvs = append(uvs, m)
+	// 处理 PV 趋势数据
+	for _, v := range visit.PvTrend {
+		trendMap[v.Date] = types.VisitTrendVO{
+			Date:    v.Date,
+			PvCount: v.Count,
+			UvCount: 0, // 初始化为0
+		}
+		dates = append(dates, v.Date)
 	}
 
-	pvs := make([]*types.VisitTrendVO, 0)
-	for _, v := range visit.PvTrend {
-		m := &types.VisitTrendVO{
-			Date:  v.Date,
-			Count: v.Count,
+	// 处理 UV 趋势数据
+	for _, v := range visit.UvTrend {
+		if data, exists := trendMap[v.Date]; exists {
+			data.UvCount = v.Count
+			trendMap[v.Date] = data
+		} else {
+			trendMap[v.Date] = types.VisitTrendVO{
+				Date:    v.Date,
+				PvCount: 0, // 初始化为0
+				UvCount: v.Count,
+			}
+			dates = append(dates, v.Date)
 		}
+	}
 
-		pvs = append(pvs, m)
+	// 对日期进行排序
+	sort.Strings(dates)
+
+	// 构建返回数据
+	trendList := make([]types.VisitTrendVO, 0, len(dates))
+	for _, date := range dates {
+		trendList = append(trendList, trendMap[date])
 	}
 
 	return &types.GetVisitTrendResp{
-		UvTrend: uvs,
-		PvTrend: pvs,
+		VisitTrend: trendList,
 	}, nil
 }

@@ -53,13 +53,13 @@ type (
     }
 
     GetVisitTrendResp {
-        UvTrend []*VisitTrendVO `json:"uv_trend"`      // 访客数趋势
-        PvTrend []*VisitTrendVO `json:"pv_trend"`      // 浏览量趋势
+        VisitTrend []VisitTrendVO `json:"visit_trend"`  // 访客数和浏览量趋势
     }
 
     VisitTrendVO {
-        Date string `json:"date"`    // 日期
-        Count int64 `json:"count"`   // 数量
+        Date string `json:"date"`           // 日期
+        UvCount int64 `json:"uv_count"`     // 访客数
+        PvCount int64 `json:"pv_count"`     // 浏览量
     }
 
     GetUserAreaStatsReq {

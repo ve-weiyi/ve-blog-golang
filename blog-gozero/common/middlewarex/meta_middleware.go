@@ -48,8 +48,8 @@ func (m *CtxMetaMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		//ctx = context.WithValue(ctx, headerconst.HeaderReferer, r.Referer())
 
-		md.Set(restx.HeaderRPCUserAgent, r.UserAgent())
-		md.Set(restx.HeaderRPCClientIP, restx.GetClientIP(r))
+		md.Set(restx.HeaderRPCRemoteAgent, r.UserAgent())
+		md.Set(restx.HeaderRPCRemoteIP, restx.GetRemoteIP(r))
 		//md.Set(headerconst.HeaderReferer, r.Referer())
 
 		ctx = metadata.NewOutgoingContext(ctx, md)

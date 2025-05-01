@@ -1,4 +1,4 @@
-package website
+package user
 
 import (
 	"net/http"
@@ -6,22 +6,22 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/responsex"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/logic/website"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/logic/user"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 )
 
-// 获取游客身份信息
-func GetTouristInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 修改用户绑定手机号
+func UpdateUserBindPhoneHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmptyReq
+		var req types.UpdateUserBindPhoneReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := website.NewGetTouristInfoLogic(r.Context(), svcCtx)
-		resp, err := l.GetTouristInfo(&req)
+		l := user.NewUpdateUserBindPhoneLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateUserBindPhone(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

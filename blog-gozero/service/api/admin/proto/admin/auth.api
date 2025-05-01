@@ -34,8 +34,14 @@ type (
         Url string `json:"url"` // 授权地址
     }
 
-    UserEmailReq {
-        Username string `json:"username"`
+    SendEmailVerifyCodeReq {
+        Email string `json:"email"`                         // 邮箱
+        Type string `json:"type"`                           // 类型 register,reset_password,bind_email,bind_phone
+    }
+
+    SendPhoneVerifyCodeReq {
+        Phone string `json:"phone"`                         // 手机号
+        Type string `json:"type"`                           // 类型 register,reset_password,bind_email,bind_phone
     }
 
     RegisterReq {
@@ -51,8 +57,8 @@ type (
     }
 
     BindUserEmailReq {
-        Email string `json:"email"`                // 邮箱
-        VerifyCode string `json:"verify_code"`     // 验证码
+        Email string `json:"email"`                         // 邮箱
+        VerifyCode string `json:"verify_code"`              // 验证码
     }
 )
 
@@ -76,13 +82,13 @@ service admin-api {
     post /user/reset_password (ResetPasswordReq) returns (EmptyResp)
 
 
-    @doc "发送注册账号邮件"
-    @handler SendRegisterEmail
-    post /send_register_email (UserEmailReq) returns (EmptyResp)
+    @doc "发送邮件验证码"
+    @handler SendEmailVerifyCode
+    post /send_email_verify_code (SendEmailVerifyCodeReq) returns (EmptyResp)
 
-    @doc "发送重置密码邮件"
-    @handler SendResetEmail
-    post /user/send_reset_email (UserEmailReq) returns (EmptyResp)
+    @doc "发送手机验证码"
+    @handler SendPhoneVerifyCode
+    post /send_phone_verify_code (SendPhoneVerifyCodeReq) returns (EmptyResp)
 
 
     @doc "第三方登录"
@@ -108,12 +114,4 @@ service admin-api {
     @doc "注销"
     @handler Logoff
     post /logoff (EmptyReq) returns (EmptyResp)
-
-    @doc "绑定邮箱"
-    @handler BindUserEmail
-    post /bind_user_email (BindUserEmailReq) returns (EmptyResp)
-
-    @doc "发送绑定邮箱验证码"
-    @handler SendBindEmail
-    post /send_bind_email (UserEmailReq) returns (EmptyResp)
 }

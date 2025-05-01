@@ -29,7 +29,6 @@ type (
 	FindVisitTrendResp   = websiterpc.FindVisitTrendResp
 	FriendDetails        = websiterpc.FriendDetails
 	FriendNewReq         = websiterpc.FriendNewReq
-	GetTouristInfoResp   = websiterpc.GetTouristInfoResp
 	IdReq                = websiterpc.IdReq
 	IdsReq               = websiterpc.IdsReq
 	PageDetails          = websiterpc.PageDetails
@@ -38,8 +37,6 @@ type (
 	VisitDailyStatistics = websiterpc.VisitDailyStatistics
 
 	WebsiteRpc interface {
-		// 获取游客身份
-		GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
 		// 用户日浏览量分析
 		AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 		// 添加用户访问记录
@@ -73,12 +70,6 @@ func NewWebsiteRpc(cli zrpc.Client) WebsiteRpc {
 	return &defaultWebsiteRpc{
 		cli: cli,
 	}
-}
-
-// 获取游客身份
-func (m *defaultWebsiteRpc) GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
-	client := websiterpc.NewWebsiteRpcClient(m.cli.Conn())
-	return client.GetTouristInfo(ctx, in, opts...)
 }
 
 // 用户日浏览量分析

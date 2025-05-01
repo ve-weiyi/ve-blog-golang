@@ -23,7 +23,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	WebsiteRpc_GetTouristInfo_FullMethodName = "/websiterpc.WebsiteRpc/GetTouristInfo"
 	WebsiteRpc_AnalysisVisit_FullMethodName  = "/websiterpc.WebsiteRpc/AnalysisVisit"
 	WebsiteRpc_AddVisit_FullMethodName       = "/websiterpc.WebsiteRpc/AddVisit"
 	WebsiteRpc_FindVisitTrend_FullMethodName = "/websiterpc.WebsiteRpc/FindVisitTrend"
@@ -41,8 +40,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WebsiteRpcClient interface {
-	// 获取游客身份
-	GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error)
 	// 用户日浏览量分析
 	AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error)
 	// 添加用户访问记录
@@ -73,15 +70,6 @@ type websiteRpcClient struct {
 
 func NewWebsiteRpcClient(cc grpc.ClientConnInterface) WebsiteRpcClient {
 	return &websiteRpcClient{cc}
-}
-
-func (c *websiteRpcClient) GetTouristInfo(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*GetTouristInfoResp, error) {
-	out := new(GetTouristInfoResp)
-	err := c.cc.Invoke(ctx, WebsiteRpc_GetTouristInfo_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *websiteRpcClient) AnalysisVisit(ctx context.Context, in *EmptyReq, opts ...grpc.CallOption) (*AnalysisVisitResp, error) {
@@ -187,8 +175,6 @@ func (c *websiteRpcClient) FindFriendList(ctx context.Context, in *FindFriendLis
 // All implementations must embed UnimplementedWebsiteRpcServer
 // for forward compatibility
 type WebsiteRpcServer interface {
-	// 获取游客身份
-	GetTouristInfo(context.Context, *EmptyReq) (*GetTouristInfoResp, error)
 	// 用户日浏览量分析
 	AnalysisVisit(context.Context, *EmptyReq) (*AnalysisVisitResp, error)
 	// 添加用户访问记录
@@ -218,9 +204,6 @@ type WebsiteRpcServer interface {
 type UnimplementedWebsiteRpcServer struct {
 }
 
-func (UnimplementedWebsiteRpcServer) GetTouristInfo(context.Context, *EmptyReq) (*GetTouristInfoResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTouristInfo not implemented")
-}
 func (UnimplementedWebsiteRpcServer) AnalysisVisit(context.Context, *EmptyReq) (*AnalysisVisitResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnalysisVisit not implemented")
 }
@@ -265,24 +248,6 @@ type UnsafeWebsiteRpcServer interface {
 
 func RegisterWebsiteRpcServer(s grpc.ServiceRegistrar, srv WebsiteRpcServer) {
 	s.RegisterService(&WebsiteRpc_ServiceDesc, srv)
-}
-
-func _WebsiteRpc_GetTouristInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmptyReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WebsiteRpcServer).GetTouristInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: WebsiteRpc_GetTouristInfo_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WebsiteRpcServer).GetTouristInfo(ctx, req.(*EmptyReq))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _WebsiteRpc_AnalysisVisit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -490,10 +455,6 @@ var WebsiteRpc_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "websiterpc.WebsiteRpc",
 	HandlerType: (*WebsiteRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetTouristInfo",
-			Handler:    _WebsiteRpc_GetTouristInfo_Handler,
-		},
 		{
 			MethodName: "AnalysisVisit",
 			Handler:    _WebsiteRpc_AnalysisVisit_Handler,

@@ -3,6 +3,37 @@ syntax = "v1"
 import "base.api"
 
 type (
+    UserInfoExt {
+        Gender int64 `json:"gender"`        // 性别 0未知 1男 2女
+        Intro string `json:"intro"`         // 简介
+        Website string `json:"website"`     // 网站
+    }
+
+    UpdateUserInfoReq {
+        Nickname string `json:"nickname"` // 昵称
+        UserInfoExt
+    }
+
+    UpdateUserAvatarReq {
+        Avatar string `json:"avatar"`     // 头像
+    }
+
+    UpdateUserPasswordReq {
+        OldPassword string `json:"old_password"`         // 旧密码
+        NewPassword string `json:"new_password"`         // 新密码
+        ConfirmPassword string `json:"confirm_password"` // 确认密码
+    }
+
+    UpdateUserBindEmailReq {
+        Email string `json:"email"`            // 邮箱
+        VerifyCode string `json:"verify_code"` // 验证码
+    }
+
+    UpdateUserBindPhoneReq {
+        Phone string `json:"phone"`            // 手机号
+        VerifyCode string `json:"verify_code"` // 验证码
+    }
+
     UserInfoResp {
         UserId string `json:"user_id"`               // 用户id
         Username string `json:"username"`            // 用户名
@@ -25,18 +56,6 @@ type (
         RoleId int64 `json:"role_id"`
         RoleKey string `json:"role_key"`
         RoleLabel string `json:"role_label"`
-    }
-
-
-    UserInfoExt {
-        Intro string `json:"intro"`         // 简介
-        Website string `json:"website"`     // 网站
-    }
-
-    UserInfoReq {
-        Nickname string `json:"nickname"` // 昵称
-        Avatar string `json:"avatar"`     // 头像
-        UserInfoExt
     }
 
     UserApi {
@@ -96,11 +115,12 @@ type (
     UserLoginHistory {
         Id int64 `json:"id,optional"`
         LoginType string `json:"login_type"`  // 登录类型
-        Agent string `json:"agent"`           // 代理
+        Os string `json:"os"`                 // 操作系统
+        Browser string `json:"browser"`       // 浏览器
         IpAddress string `json:"ip_address"`  // ip host
         IpSource string `json:"ip_source"`    // ip 源
         LoginAt int64 `json:"login_at"`       // 登录时间
-        LogoutAt int64 `json:"login_out"`     // 登出时间
+        LogoutAt int64 `json:"logout_at"`     // 登出时间
     }
 
     UserLoginHistoryQuery {
@@ -119,23 +139,41 @@ service admin-api {
     @handler GetUserLoginHistoryList
     post /user/get_user_login_history_list (UserLoginHistoryQuery) returns (PageResp)
 
-    @doc "修改用户信息"
-    @handler UpdateUserInfo
-    post /user/update_user_info (UserInfoReq) returns (EmptyResp)
+
+    @doc "获取用户信息"
+    @handler GetUserInfo
+    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
 
     @doc "获取用户角色"
     @handler GetUserRoles
     get /user/get_user_roles (EmptyReq) returns (UserRolesResp)
 
-    @doc "获取用户接口权限"
-    @handler GetUserApis
-    get /user/get_user_apis (EmptyReq) returns (UserApisResp)
-
     @doc "获取用户菜单权限"
     @handler GetUserMenus
     get /user/get_user_menus (EmptyReq) returns (UserMenusResp)
 
-    @doc "获取用户信息"
-    @handler GetUserInfo
-    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
+    @doc "获取用户接口权限"
+    @handler GetUserApis
+    get /user/get_user_apis (EmptyReq) returns (UserApisResp)
+
+
+    @doc "修改用户信息"
+    @handler UpdateUserInfo
+    post /user/update_user_info (UpdateUserInfoReq) returns (EmptyResp)
+
+    @doc "修改用户头像"
+    @handler UpdateUserAvatar
+    post /user/update_user_avatar (UpdateUserAvatarReq) returns (EmptyResp)
+
+    @doc "修改用户密码"
+    @handler UpdateUserPassword
+    post /user/update_user_password (UpdateUserPasswordReq) returns (EmptyResp)
+
+    @doc "修改用户绑定邮箱"
+    @handler UpdateUserBindEmail
+    post /user/update_user_bind_email (UpdateUserBindEmailReq) returns (EmptyResp)
+
+    @doc "修改用户绑定手机号"
+    @handler UpdateUserBindPhone
+    post /user/update_user_bind_phone (UpdateUserBindPhoneReq) returns (EmptyResp)
 }

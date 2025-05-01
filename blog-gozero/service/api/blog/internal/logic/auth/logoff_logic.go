@@ -6,12 +6,13 @@ import (
 
 	"github.com/spf13/cast"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type LogoffLogic struct {
@@ -40,7 +41,7 @@ func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err er
 	}
 
 	// 登录日志
-	_, err = l.svcCtx.SyslogRpc.UpdateLoginLog(l.ctx, &syslogrpc.LoginLogUpdateReq{
+	_, err = l.svcCtx.SyslogRpc.AddLogoutLog(l.ctx, &syslogrpc.AddLogoutLogReq{
 		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		LogoutAt: time.Now().Unix(),
 	})

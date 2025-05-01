@@ -2,7 +2,10 @@ package syslogrpclogic
 
 import (
 	"context"
+	"database/sql"
 	"time"
+
+	"github.com/mssola/useragent"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
@@ -28,44 +31,42 @@ func NewAddLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLo
 }
 
 // 创建登录记录
-func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.LoginLogNewReq) (*syslogrpc.LoginLogDetails, error) {
-	agent, _ := rpcutils.GetUserAgentFromCtx(l.ctx)
-	ip, _ := rpcutils.GetUserClientIPFromCtx(l.ctx)
+func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.LoginLogNewReq) (*syslogrpc.EmptyResp, error) {
+	appname, _ := rpcutils.GetAppNameFromCtx(l.ctx)
+	ip, err := rpcutils.GetRemoteIPFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+	ua, err := rpcutils.GetRemoteAgentFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// 分割字符串，提取 IP 部分
 	is, _ := ipx.GetIpSourceByBaidu(ip)
+	os := useragent.New(ua).OS()
+	browser, _ := useragent.New(ua).Browser()
 
 	now := time.Now()
 	entity := &model.TLoginLog{
 		Id:        0,
 		UserId:    in.UserId,
 		LoginType: in.LoginType,
-		Agent:     agent,
+		AppName:   appname,
+		Os:        os,
+		Browser:   browser,
 		IpAddress: ip,
 		IpSource:  is,
 		LoginAt:   now,
-		LogoutAt:  nil,
+		LogoutAt:  sql.NullTime{},
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
 
-	_, err := l.svcCtx.TLoginLogModel.Insert(l.ctx, entity)
+	_, err = l.svcCtx.TLoginLogModel.Insert(l.ctx, entity)
 	if err != nil {
 		return nil, err
 	}
 
-	return convertLoginLogOut(entity), nil
-}
-
-func convertLoginLogOut(in *model.TLoginLog) (out *syslogrpc.LoginLogDetails) {
-	out = &syslogrpc.LoginLogDetails{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		LoginType: in.LoginType,
-		Agent:     in.Agent,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		LoginAt:   in.LoginAt.Unix(),
-		LogoutAt:  in.LogoutAt.Unix(),
-	}
-
-	return out
+	return &syslogrpc.EmptyResp{}, nil
 }
