@@ -60,7 +60,7 @@ func (l *AddVisitLogic) addUserVisit(day string, visitor string) (any, error) {
 
 	if !ok {
 		// 添加当天的用户访问量+1 mysql
-		result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET views_count = views_count + 1 WHERE date = ?", day)
+		result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET view_count = view_count + 1 WHERE date = ?", day)
 		if result.RowsAffected == 0 {
 			_, err := l.svcCtx.TVisitDailyStatsModel.Insert(l.ctx, &model.TVisitDailyStats{
 				Id:        0,
@@ -93,7 +93,7 @@ func (l *AddVisitLogic) addUserVisit(day string, visitor string) (any, error) {
 // 添加页面浏览量
 func (l *AddVisitLogic) addPageView(day string) (any, error) {
 	// 添加当天的用户访问量+1
-	result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET views_count = views_count + 1 WHERE date = ?", day)
+	result := l.svcCtx.Gorm.Exec("UPDATE t_visit_daily_stats SET view_count = view_count + 1 WHERE date = ?", day)
 	if result.RowsAffected == 0 {
 		_, err := l.svcCtx.TVisitDailyStatsModel.Insert(l.ctx, &model.TVisitDailyStats{
 			Id:        0,
