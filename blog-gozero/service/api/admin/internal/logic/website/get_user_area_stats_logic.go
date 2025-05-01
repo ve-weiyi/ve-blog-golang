@@ -26,7 +26,9 @@ func NewGetUserAreaStatsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetUserAreaStatsLogic) GetUserAreaStats(req *types.GetUserAreaStatsReq) (resp *types.GetUserAreaStatsResp, err error) {
-	in := &accountrpc.EmptyReq{}
+	in := &accountrpc.AnalysisUserAreasReq{
+		UserType: req.UserType,
+	}
 	// 查询用户数量
 	users, err := l.svcCtx.AccountRpc.AnalysisUserAreas(l.ctx, in)
 	if err != nil {

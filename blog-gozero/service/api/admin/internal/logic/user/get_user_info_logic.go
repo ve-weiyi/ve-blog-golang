@@ -57,7 +57,10 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 	}
 
 	var info types.UserInfoExt
-	jsonconv.JsonToAny(in.Info, &info)
+	err := jsonconv.JsonToAny(in.Info, &info)
+	if err != nil {
+		logx.Errorf("jsonconv.JsonToAny err: %v", err)
+	}
 
 	out := &types.UserInfoResp{
 		UserId:      in.UserId,

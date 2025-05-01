@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -60,4 +61,25 @@ func convertLoginLogQuery(in *syslogrpc.FindLoginLogListReq) (page int, size int
 		params = append(params, in.UserId)
 	}
 	return
+}
+
+func convertLoginLogOut(in *model.TLoginLog) (out *syslogrpc.LoginLogDetails) {
+	out = &syslogrpc.LoginLogDetails{
+		Id:        in.Id,
+		UserId:    in.UserId,
+		LoginType: in.LoginType,
+		AppName:   in.AppName,
+		Os:        in.Os,
+		Browser:   in.Browser,
+		IpAddress: in.IpAddress,
+		IpSource:  in.IpSource,
+		LoginAt:   in.LoginAt.Unix(),
+		LogoutAt:  0,
+	}
+
+	if in.LogoutAt.Valid {
+		out.LogoutAt = in.LogoutAt.Time.Unix()
+	}
+
+	return out
 }

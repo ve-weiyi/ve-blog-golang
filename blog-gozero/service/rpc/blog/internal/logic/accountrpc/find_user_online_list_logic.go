@@ -30,13 +30,17 @@ func (l *FindUserOnlineListLogic) FindUserOnlineList(in *accountrpc.FindUserList
 	if err != nil {
 		return nil, err
 	}
+
+	offset := (in.Page - 1) * in.PageSize
+	limit := in.PageSize
+
 	// 查找在线用户
-	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, 0, 0)
+	uids, err := l.svcCtx.OnlineUserService.GetOnlineUsers(l.ctx, offset, limit)
 	if err != nil {
 		return nil, err
 	}
 
-	users, err := l.svcCtx.TUserModel.FindALL(l.ctx, "id in (?)", uids)
+	users, err := l.svcCtx.TUserModel.FindALL(l.ctx, "user_id in (?)", uids)
 	if err != nil {
 		return nil, err
 	}

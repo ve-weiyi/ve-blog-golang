@@ -30,7 +30,7 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 
 // 创建留言
 func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.RemarkDetails, error) {
-	ip, _ := rpcutils.GetUserClientIPFromCtx(l.ctx)
+	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	entity := &model.TRemark{

@@ -32,6 +32,7 @@ func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
+		UserId:   req.UserId,
 	}
 
 	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, in)
@@ -69,11 +70,14 @@ func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetails, usm map[string]*account
 		Id:        in.Id,
 		UserId:    in.UserId,
 		LoginType: in.LoginType,
-		Agent:     in.Agent,
+		AppName:   in.AppName,
+		Os:        in.Os,
+		Browser:   in.Browser,
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
 		LoginAt:   in.LoginAt,
 		LogoutAt:  in.LogoutAt,
+		User:      nil,
 	}
 
 	// 用户信息

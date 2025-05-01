@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 )
 
-// 绑定邮箱
-func BindUserEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 发送邮件验证码
+func SendEmailVerifyCodeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.BindUserEmailReq
+		var req types.SendEmailVerifyCodeReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := auth.NewBindUserEmailLogic(r.Context(), svcCtx)
-		resp, err := l.BindUserEmail(&req)
+		l := auth.NewSendEmailVerifyCodeLogic(r.Context(), svcCtx)
+		resp, err := l.SendEmailVerifyCode(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

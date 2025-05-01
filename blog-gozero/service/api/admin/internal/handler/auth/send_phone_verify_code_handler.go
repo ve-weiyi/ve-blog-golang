@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 )
 
-// 发送重置密码邮件
-func SendResetEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 发送手机验证码
+func SendPhoneVerifyCodeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UserEmailReq
+		var req types.SendPhoneVerifyCodeReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := auth.NewSendResetEmailLogic(r.Context(), svcCtx)
-		resp, err := l.SendResetEmail(&req)
+		l := auth.NewSendPhoneVerifyCodeLogic(r.Context(), svcCtx)
+		resp, err := l.SendPhoneVerifyCode(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

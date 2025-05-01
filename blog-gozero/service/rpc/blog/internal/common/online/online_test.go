@@ -23,7 +23,7 @@ func Test_Online(t *testing.T) {
 	count, _ := sv.GetOnlineUserCount(ctx)
 	fmt.Println("在线用户数量:", count)
 
-	ids, _ := sv.GetOnlineUsers(ctx)
+	ids, _ := sv.GetOnlineUsers(ctx, 0, 0)
 	fmt.Println("在线用户列表:", ids)
 
 	_ = sv.Logout(ctx, "user123")

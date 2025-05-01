@@ -61,8 +61,12 @@ func GetIpInfoByBaidu(ip string) (*BaiduLocation, error) {
 }
 
 func GetIpSourceByBaidu(ip string) (string, error) {
-	if strings.HasPrefix(ip, "localhost") || strings.HasPrefix(ip, "127.0.0.1") {
+	if strings.HasPrefix(ip, "localhost") || strings.HasPrefix(ip, "127.0.0.1") || strings.HasPrefix(ip, "[::1]") {
 		return "本机地址", nil
+	}
+
+	if strings.Contains(ip, ":") {
+		ip = strings.Split(ip, ":")[0]
 	}
 
 	info, err := GetIpInfoByBaidu(ip)

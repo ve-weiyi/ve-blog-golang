@@ -258,22 +258,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.RegisterHandler(serverCtx),
 			},
 			{
-				// 发送注册账号邮件
+				// 发送邮件验证码
 				Method:  http.MethodPost,
-				Path:    "/send_register_email",
-				Handler: auth.SendRegisterEmailHandler(serverCtx),
+				Path:    "/send_email_verify_code",
+				Handler: auth.SendEmailVerifyCodeHandler(serverCtx),
+			},
+			{
+				// 发送手机验证码
+				Method:  http.MethodPost,
+				Path:    "/send_phone_verify_code",
+				Handler: auth.SendPhoneVerifyCodeHandler(serverCtx),
 			},
 			{
 				// 重置密码
 				Method:  http.MethodPost,
 				Path:    "/user/reset_password",
 				Handler: auth.ResetPasswordHandler(serverCtx),
-			},
-			{
-				// 发送重置密码邮件
-				Method:  http.MethodPost,
-				Path:    "/user/send_reset_email",
-				Handler: auth.SendResetEmailHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/admin_api/v1"),
@@ -283,12 +283,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.JwtToken},
 			[]rest.Route{
-				{
-					// 绑定邮箱
-					Method:  http.MethodPost,
-					Path:    "/bind_user_email",
-					Handler: auth.BindUserEmailHandler(serverCtx),
-				},
 				{
 					// 注销
 					Method:  http.MethodPost,
@@ -300,12 +294,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/logout",
 					Handler: auth.LogoutHandler(serverCtx),
-				},
-				{
-					// 发送绑定邮箱验证码
-					Method:  http.MethodPost,
-					Path:    "/send_bind_email",
-					Handler: auth.SendBindEmailHandler(serverCtx),
 				},
 			}...,
 		),
@@ -482,7 +470,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 查询登录日志
 					Method:  http.MethodPost,
-					Path:    "/user/find_login_history_list",
+					Path:    "/user/find_login_log_list",
 					Handler: login_log.FindLoginLogListHandler(serverCtx),
 				},
 			}...,
@@ -837,10 +825,34 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: user.GetUserRolesHandler(serverCtx),
 				},
 				{
+					// 修改用户头像
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_avatar",
+					Handler: user.UpdateUserAvatarHandler(serverCtx),
+				},
+				{
+					// 修改用户绑定邮箱
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_bind_email",
+					Handler: user.UpdateUserBindEmailHandler(serverCtx),
+				},
+				{
+					// 修改用户绑定手机号
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_bind_phone",
+					Handler: user.UpdateUserBindPhoneHandler(serverCtx),
+				},
+				{
 					// 修改用户信息
 					Method:  http.MethodPost,
 					Path:    "/user/update_user_info",
 					Handler: user.UpdateUserInfoHandler(serverCtx),
+				},
+				{
+					// 修改用户密码
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_password",
+					Handler: user.UpdateUserPasswordHandler(serverCtx),
 				},
 			}...,
 		),

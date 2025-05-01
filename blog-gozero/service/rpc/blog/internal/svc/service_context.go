@@ -7,15 +7,16 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
@@ -53,11 +54,10 @@ type ServiceContext struct {
 	TRoleMenuModel  model.TRoleMenuModel
 
 	// blog models
-	TWebsiteConfigModel model.TWebsiteConfigModel
-	TArticleModel       model.TArticleModel
-	TCategoryModel      model.TCategoryModel
-	TTagModel           model.TTagModel
-	TArticleTagModel    model.TArticleTagModel
+	TArticleModel    model.TArticleModel
+	TCategoryModel   model.TCategoryModel
+	TTagModel        model.TTagModel
+	TArticleTagModel model.TArticleTagModel
 
 	// message models
 	TChatModel    model.TChatModel
@@ -65,15 +65,17 @@ type ServiceContext struct {
 	TRemarkModel  model.TRemarkModel
 
 	// website models
+	TWebsiteConfigModel   model.TWebsiteConfigModel
 	TAlbumModel           model.TAlbumModel
 	TPhotoModel           model.TPhotoModel
 	TFriendModel          model.TFriendModel
 	TTalkModel            model.TTalkModel
 	TPageModel            model.TPageModel
 	TVisitDailyStatsModel model.TVisitDailyStatsModel
+	TVisitorModel         model.TVisitorModel
 
-	TLoginLogModel     model.TLoginLogModel
 	TVisitLogModel     model.TVisitLogModel
+	TLoginLogModel     model.TLoginLogModel
 	TOperationLogModel model.TOperationLogModel
 
 	TFileFolderModel model.TFileFolderModel
@@ -121,24 +123,25 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TRoleApiModel:   model.NewTRoleApiModel(db),
 		TRoleMenuModel:  model.NewTRoleMenuModel(db),
 		// blog models
-		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db),
-		TArticleModel:       model.NewTArticleModel(db),
-		TCategoryModel:      model.NewTCategoryModel(db),
-		TTagModel:           model.NewTTagModel(db),
-		TArticleTagModel:    model.NewTArticleTagModel(db),
+		TArticleModel:    model.NewTArticleModel(db),
+		TCategoryModel:   model.NewTCategoryModel(db),
+		TTagModel:        model.NewTTagModel(db),
+		TArticleTagModel: model.NewTArticleTagModel(db),
 		// message models
 		TChatModel:    model.NewTChatModel(db),
 		TCommentModel: model.NewTCommentModel(db),
 		TRemarkModel:  model.NewTRemarkModel(db),
 		// website models
+		TWebsiteConfigModel:   model.NewTWebsiteConfigModel(db),
 		TAlbumModel:           model.NewTAlbumModel(db),
 		TPhotoModel:           model.NewTPhotoModel(db),
 		TFriendModel:          model.NewTFriendModel(db),
 		TTalkModel:            model.NewTTalkModel(db),
 		TPageModel:            model.NewTPageModel(db),
 		TVisitDailyStatsModel: model.NewTVisitDailyStatsModel(db),
-		TLoginLogModel:        model.NewTLoginLogModel(db),
+		TVisitorModel:         model.NewTVisitorModel(db),
 		TVisitLogModel:        model.NewTVisitLogModel(db),
+		TLoginLogModel:        model.NewTLoginLogModel(db),
 		TOperationLogModel:    model.NewTOperationLogModel(db),
 		TFileFolderModel:      model.NewTFileFolderModel(db),
 		TFileUploadModel:      model.NewTFileUploadModel(db),
@@ -218,12 +221,11 @@ func ConnectRedis(c config.RedisConf) (*redis.Client, error) {
 		DB:       c.DB,       // use default DB
 	})
 
-	pong, err := client.Ping(context.Background()).Result()
+	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	client.Set(context.Background(), fmt.Sprintf("redis:rpc:%s", pong), time.Now().String(), -1)
 	return client, nil
 }
 

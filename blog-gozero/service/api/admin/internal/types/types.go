@@ -277,8 +277,7 @@ type GetVisitTrendReq struct {
 }
 
 type GetVisitTrendResp struct {
-	UvTrend []*VisitTrendVO `json:"uv_trend"` // 访客数趋势
-	PvTrend []*VisitTrendVO `json:"pv_trend"` // 浏览量趋势
+	VisitTrend []VisitTrendVO `json:"visit_trend"` // 访客数和浏览量趋势
 }
 
 type IdReq struct {
@@ -302,16 +301,19 @@ type LoginLogBackVO struct {
 	Id        int64     `json:"id,optional"`
 	UserId    string    `json:"user_id"`    // 用户id
 	LoginType string    `json:"login_type"` // 登录类型
-	Agent     string    `json:"agent"`      // 代理
+	AppName   string    `json:"app_name"`   // 应用名称
+	Os        string    `json:"os"`         // 操作系统
+	Browser   string    `json:"browser"`    // 浏览器
 	IpAddress string    `json:"ip_address"` // ip host
 	IpSource  string    `json:"ip_source"`  // ip 源
 	LoginAt   int64     `json:"login_at"`   // 登录时间
-	LogoutAt  int64     `json:"login_out"`  // 登出时间
+	LogoutAt  int64     `json:"logout_at"`  // 登出时间
 	User      *UserInfo `json:"user"`       // 用户信息
 }
 
 type LoginLogQuery struct {
 	PageQuery
+	UserId string `json:"user_id,optional"` // 用户id
 }
 
 type LoginReq struct {
@@ -573,6 +575,16 @@ type RoleResourcesResp struct {
 	MenuIds []int64 `json:"menu_ids"`
 }
 
+type SendEmailVerifyCodeReq struct {
+	Email string `json:"email"` // 邮箱
+	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
+}
+
+type SendPhoneVerifyCodeReq struct {
+	Phone string `json:"phone"` // 手机号
+	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
+}
+
 type Server struct {
 	Os   interface{} `json:"os"`
 	Cpu  interface{} `json:"cpu"`
@@ -674,6 +686,31 @@ type UpdateRoleMenusReq struct {
 	MenuIds []int64 `json:"menu_ids"`
 }
 
+type UpdateUserAvatarReq struct {
+	Avatar string `json:"avatar"` // 头像
+}
+
+type UpdateUserBindEmailReq struct {
+	Email      string `json:"email"`       // 邮箱
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserBindPhoneReq struct {
+	Phone      string `json:"phone"`       // 手机号
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserInfoReq struct {
+	Nickname string `json:"nickname"` // 昵称
+	UserInfoExt
+}
+
+type UpdateUserPasswordReq struct {
+	OldPassword     string `json:"old_password"`     // 旧密码
+	NewPassword     string `json:"new_password"`     // 新密码
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+}
+
 type UploadFileReq struct {
 	File     interface{} `form:"file,optional"`      // 文件
 	FilePath string      `form:"file_path,optional"` // 文件路径
@@ -699,10 +736,6 @@ type UserAreaVO struct {
 	Value int64  `json:"value"`
 }
 
-type UserEmailReq struct {
-	Username string `json:"username"`
-}
-
 type UserInfo struct {
 	UserId   string `json:"user_id"`
 	Username string `json:"username"`
@@ -711,14 +744,9 @@ type UserInfo struct {
 }
 
 type UserInfoExt struct {
+	Gender  int64  `json:"gender"`  // 性别 0未知 1男 2女
 	Intro   string `json:"intro"`   // 简介
 	Website string `json:"website"` // 网站
-}
-
-type UserInfoReq struct {
-	Nickname string `json:"nickname"` // 昵称
-	Avatar   string `json:"avatar"`   // 头像
-	UserInfoExt
 }
 
 type UserInfoResp struct {
@@ -742,11 +770,12 @@ type UserInfoResp struct {
 type UserLoginHistory struct {
 	Id        int64  `json:"id,optional"`
 	LoginType string `json:"login_type"` // 登录类型
-	Agent     string `json:"agent"`      // 代理
+	Os        string `json:"os"`         // 操作系统
+	Browser   string `json:"browser"`    // 浏览器
 	IpAddress string `json:"ip_address"` // ip host
 	IpSource  string `json:"ip_source"`  // ip 源
 	LoginAt   int64  `json:"login_at"`   // 登录时间
-	LogoutAt  int64  `json:"login_out"`  // 登出时间
+	LogoutAt  int64  `json:"logout_at"`  // 登出时间
 }
 
 type UserLoginHistoryQuery struct {
@@ -799,26 +828,30 @@ type UserRolesResp struct {
 }
 
 type VisitLogBackVO struct {
-	Id        int64     `json:"id,optional"` // 主键id
-	UserId    string    `json:"user_id"`     // 用户id
-	IpAddress string    `json:"ip_address"`  // 操作ip
-	IpSource  string    `json:"ip_source"`   // 操作地址
-	Os        string    `json:"os"`          // 操作系统
-	Browser   string    `json:"browser"`     // 浏览器
-	Page      string    `json:"page"`        // 页面
-	CreatedAt int64     `json:"created_at"`  // 创建时间
-	UpdatedAt int64     `json:"updated_at"`  // 更新时间
-	User      *UserInfo `json:"user"`        // 用户信息
+	Id         int64     `json:"id,optional"` // 主键id
+	UserId     string    `json:"user_id"`     // 用户id
+	TerminalId string    `json:"terminal_id"` // 终端id
+	PageName   string    `json:"page_name"`   // 页面
+	IpAddress  string    `json:"ip_address"`  // 操作ip
+	IpSource   string    `json:"ip_source"`   // 操作地址
+	Os         string    `json:"os"`          // 操作系统
+	Browser    string    `json:"browser"`     // 浏览器
+	CreatedAt  int64     `json:"created_at"`  // 创建时间
+	UpdatedAt  int64     `json:"updated_at"`  // 更新时间
+	User       *UserInfo `json:"user"`        // 用户信息
 }
 
 type VisitLogQuery struct {
 	PageQuery
-	Keywords string `json:"keywords,optional"` // 关键字
+	UserId     string `json:"user_id,optional"`     // 用户id
+	TerminalId string `json:"terminal_id,optional"` // 终端id
+	PageName   string `json:"page_name,optional"`   // 页面
 }
 
 type VisitTrendVO struct {
-	Date  string `json:"date"`  // 日期
-	Count int64  `json:"count"` // 数量
+	Date    string `json:"date"`     // 日期
+	UvCount int64  `json:"uv_count"` // 访客数
+	PvCount int64  `json:"pv_count"` // 浏览量
 }
 
 type WebsiteConfig struct {

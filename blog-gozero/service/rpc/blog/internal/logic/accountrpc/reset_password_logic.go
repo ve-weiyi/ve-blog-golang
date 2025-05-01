@@ -43,7 +43,7 @@ func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*ac
 
 	// 验证code是否正确
 
-	key := rediskey.GetCaptchaKey(constant.ResetPwd, in.Username)
+	key := rediskey.GetCaptchaKey(constant.CodeTypeResetPwd, in.Username)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, bizerr.NewBizError(bizerr.CodeCaptchaVerify, "验证码错误")
 	}

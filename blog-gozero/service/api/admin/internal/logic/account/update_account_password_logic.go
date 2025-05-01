@@ -26,12 +26,12 @@ func NewUpdateAccountPasswordLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *UpdateAccountPasswordLogic) UpdateAccountPassword(req *types.UpdateAccountPasswordReq) (resp *types.EmptyResp, err error) {
-	in := &accountrpc.UpdateUserPasswordReq{
+	in := &accountrpc.AdminResetUserPasswordReq{
 		UserId:   req.UserId,
 		Password: req.Password,
 	}
 
-	_, err = l.svcCtx.AccountRpc.UpdateUserPassword(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.AdminResetUserPassword(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

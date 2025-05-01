@@ -495,6 +495,23 @@ CREATE TABLE `t_visit_log`
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 
+
+
+DROP TABLE IF EXISTS `t_visitor`;
+CREATE TABLE `t_visit_log`
+(
+    `id`          int          NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `terminal_id` varchar(64)  NOT NULL DEFAULT '' COMMENT '设备id',
+    `ip_address`  varchar(255) NOT NULL DEFAULT '' COMMENT '操作ip',
+    `ip_source`   varchar(255) NOT NULL DEFAULT '' COMMENT '操作地址',
+    `os`          varchar(50)  NOT NULL DEFAULT '' COMMENT '操作系统',
+    `browser`     varchar(50)  NOT NULL DEFAULT '' COMMENT '浏览器',
+    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+
+
 -- ----------------------------
 -- Table structure for t_website_config
 -- ----------------------------

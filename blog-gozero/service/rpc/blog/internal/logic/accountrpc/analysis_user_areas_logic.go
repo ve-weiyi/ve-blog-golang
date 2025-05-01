@@ -2,6 +2,7 @@ package accountrpclogic
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
@@ -25,24 +26,29 @@ func NewAnalysisUserAreasLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 // 查询用户分布区域
-func (l *AnalysisUserAreasLogic) AnalysisUserAreas(in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserAreasResp, error) {
+func (l *AnalysisUserAreasLogic) AnalysisUserAreas(in *accountrpc.AnalysisUserAreasReq) (*accountrpc.AnalysisUserAreasResp, error) {
 
-	sql := `
-SELECT 
-    ip_source,
-    COUNT(*) AS count
-FROM 
-    t_user
-GROUP BY 
-    ip_source
-ORDER BY 
-    count DESC;
-`
+	tableName := l.svcCtx.TUserModel.TableName()
+	if in.UserType == 1 {
+		tableName = l.svcCtx.TVisitorModel.TableName()
+	}
 
 	type UserArea struct {
 		IpSource string `gorm:"column:ip_source"`
 		Count    int    `gorm:"column:count"`
 	}
+
+	sql := fmt.Sprintf(`
+SELECT 
+    ip_source,
+    COUNT(*) AS count
+FROM 
+    %s
+GROUP BY 
+    ip_source
+ORDER BY 
+    count DESC;
+`, tableName)
 
 	var result []*UserArea
 	err := l.svcCtx.Gorm.Raw(sql).Scan(&result).Error

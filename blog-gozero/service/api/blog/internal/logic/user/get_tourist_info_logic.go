@@ -1,12 +1,13 @@
-package website
+package user
 
 import (
 	"context"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/websiterpc"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -31,7 +32,7 @@ func (l *GetTouristInfoLogic) GetTouristInfo(req *types.EmptyReq) (resp *types.G
 	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
 
 	if terminal == "" {
-		tourist, err := l.svcCtx.WebsiteRpc.GetTouristInfo(l.ctx, &websiterpc.EmptyReq{})
+		tourist, err := l.svcCtx.AccountRpc.GetTouristInfo(l.ctx, &accountrpc.EmptyReq{})
 		if err != nil {
 			return nil, err
 		}

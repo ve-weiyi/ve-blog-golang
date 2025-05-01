@@ -29,10 +29,12 @@ func NewFindVisitLogListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp *types.PageResp, err error) {
 	in := &syslogrpc.FindVisitLogListReq{
-		Page:     req.Page,
-		PageSize: req.PageSize,
-		Sorts:    req.Sorts,
-		Keywords: req.Keywords,
+		Page:       req.Page,
+		PageSize:   req.PageSize,
+		Sorts:      req.Sorts,
+		UserId:     req.UserId,
+		TerminalId: req.TerminalId,
+		PageName:   req.PageName,
 	}
 
 	out, err := l.svcCtx.SyslogRpc.FindVisitLogList(l.ctx, in)
@@ -68,15 +70,16 @@ func (l *FindVisitLogListLogic) FindVisitLogList(req *types.VisitLogQuery) (resp
 func ConvertVisitLogTypes(in *syslogrpc.VisitLogDetails, usm map[string]*accountrpc.User) (out *types.VisitLogBackVO) {
 
 	out = &types.VisitLogBackVO{
-		Id:        in.Id,
-		UserId:    in.UserId,
-		IpAddress: in.IpAddress,
-		IpSource:  in.IpSource,
-		Os:        in.Os,
-		Browser:   in.Browser,
-		Page:      in.Page,
-		CreatedAt: in.CreatedAt,
-		UpdatedAt: in.UpdatedAt,
+		Id:         in.Id,
+		UserId:     in.UserId,
+		TerminalId: in.TerminalId,
+		PageName:   in.PageName,
+		IpAddress:  in.IpAddress,
+		IpSource:   in.IpSource,
+		Os:         in.Os,
+		Browser:    in.Browser,
+		CreatedAt:  in.CreatedAt,
+		UpdatedAt:  in.UpdatedAt,
 	}
 
 	// 用户信息

@@ -76,12 +76,12 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 	}
 
 	resp = &types.GetBlogHomeInfoResp{
-		ArticleCount:  analysis.ArticleCount,
-		CategoryCount: analysis.CategoryCount,
-		TagCount:      analysis.TagCount,
-		ViewsCount:    visit.TotalPvCount,
-		WebsiteConfig: config,
-		PageList:      ps,
+		ArticleCount:       analysis.ArticleCount,
+		CategoryCount:      analysis.CategoryCount,
+		TagCount:           analysis.TagCount,
+		TotalPageViewCount: visit.TotalPvCount,
+		WebsiteConfig:      config,
+		PageList:           ps,
 	}
 
 	return resp, nil

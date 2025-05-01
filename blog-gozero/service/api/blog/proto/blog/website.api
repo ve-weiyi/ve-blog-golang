@@ -10,7 +10,7 @@ type (
         ArticleCount int64 `json:"article_count"`                  // 文章数量
         CategoryCount int64 `json:"category_count"`                // 分类数量
         TagCount int64 `json:"tag_count"`                          // 标签数量
-        ViewsCount int64 `json:"views_count"`                      // 访问量
+        TotalPageViewCount int64 `json:"total_page_view_count"`    // 总浏览量
         WebsiteConfig WebsiteConfigDTO `json:"website_config"`     // 网站配置
         PageList []*PageDTO `json:"page_list"`                     // 页面列表
     }
@@ -71,20 +71,4 @@ service blog-api {
     @doc "获取关于我的信息"
     @handler GetAboutMe
     get /blog/about_me (GetAboutMeReq) returns (GetAboutMeResp)
-}
-
-
-type (
-    GetTouristInfoResp {
-        TouristId string `json:"tourist_id"` // 游客id
-    }
-)
-@server(
-    prefix: /api/v1
-    group: website
-)
-service blog-api {
-    @doc "获取游客身份信息"
-    @handler GetTouristInfo
-    get /tourist (EmptyReq) returns (GetTouristInfoResp)
 }

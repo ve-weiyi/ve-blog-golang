@@ -43,7 +43,7 @@ func (l *LogoffLogic) Logoff(req *types.EmptyReq) (resp *types.EmptyResp, err er
 	}
 
 	// 登录日志
-	_, err = l.svcCtx.SyslogRpc.UpdateLoginLog(l.ctx, &syslogrpc.LoginLogUpdateReq{
+	_, err = l.svcCtx.SyslogRpc.AddLogoutLog(l.ctx, &syslogrpc.AddLogoutLogReq{
 		UserId:   cast.ToString(l.ctx.Value(restx.HeaderUid)),
 		LogoutAt: time.Now().Unix(),
 	})

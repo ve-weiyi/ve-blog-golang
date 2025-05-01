@@ -60,9 +60,6 @@ message LogoutResp {
   int64 logout_at = 2;
 }
 
-message UserEmailReq {
-  string username = 1;
-}
 
 message RegisterReq {
   string username = 1;
@@ -76,10 +73,14 @@ message ResetPasswordReq {
   string verify_code = 3;
 }
 
-message BindUserEmailReq {
-  string user_id = 1;
-  string email = 2;
-  string verify_code = 3;
+message SendEmailVerifyCodeReq {
+  string email = 1;
+  string type = 2; // 类型 register, reset_password, bind_email, bind_phone
+}
+
+message SendPhoneVerifyCodeReq {
+  string phone = 1;
+  string type = 2; // 类型 register, reset_password, bind_email, bind_phone
 }
 
 message OauthLoginReq {
@@ -132,30 +133,36 @@ message UserRoleLabel{
   string role_comment = 4;
 }
 
-message UserLoginHistory {
-  int64 id = 1;
-  string user_id = 2; // 用户id
-  string login_type = 3;// 登录类型
-  string agent = 4;// 代理
-  string ip_address = 5;// ip host
-  string ip_source = 6;// ip 源
-  int64 login_at = 7;// 登录时间
-  int64 logout_at = 8;// 登出时间
-}
-
 message UpdateUserInfoReq {
-  string user_id = 1; // 用户id
-  string nickname = 2;// 昵称
-  string avatar = 3; // 头像
-  string info = 4;// 用户信息
+  string nickname = 1;// 昵称
+  string info = 2;// 用户信息
 }
 
-message UpdateUserStatusReq {
+message UpdateUserAvatarReq {
+  string avatar = 1; // 头像
+}
+
+message UpdateUseEmailReq {
+  string email = 1; // 邮箱
+  string verify_code = 2;
+}
+
+message UpdateUserPhoneReq {
+  string phone = 1; // 手机号
+  string verify_code = 2;
+}
+
+message UpdateUserPasswordReq {
+  string old_password = 1; // 用户id
+  string new_password = 2;
+}
+
+message AdminUpdateUserStatusReq {
   string user_id = 1; // 用户id
   int64 status = 2;
 }
 
-message UpdateUserPasswordReq {
+message AdminResetUserPasswordReq {
   string user_id = 1; // 用户id
   string password = 2;
 }
@@ -182,20 +189,17 @@ message FindUserInfoListResp{
   int64 total = 2;
 }
 
-message FindLoginHistoryListReq {
-  int64 page = 1;
-  int64 page_size = 2;
-  repeated string sorts = 3; // 排序
-  string user_id = 4; // 用户id
-}
 
-message FindLoginHistoryListResp {
-  int64 total = 1;
-  repeated UserLoginHistory list = 2;
+message AnalysisUserReq {
+  int64 user_type = 1; // 用户类型 0用户 1游客
 }
 
 message AnalysisUserResp {
   int64 user_count = 1;
+}
+
+message AnalysisUserAreasReq {
+  int64 user_type = 1; // 用户类型 0用户 1游客
 }
 
 message AnalysisUserAreasResp {
@@ -205,6 +209,10 @@ message AnalysisUserAreasResp {
 message UserArea {
   string area = 1;
   int64 count = 2;
+}
+
+message GetTouristInfoResp {
+  string tourist_id = 1;
 }
 
 service AccountRpc {
@@ -219,15 +227,11 @@ service AccountRpc {
   rpc Register(RegisterReq) returns(LoginResp);
   // 重置密码
   rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
-  // 修改用户邮箱
-  rpc BindUserEmail(BindUserEmailReq) returns(EmptyResp);
 
-  // 发送注册邮件
-  rpc SendRegisterEmail(UserEmailReq) returns(EmptyResp);
-  // 发送重置密码邮件
-  rpc SendResetPasswordEmail(UserEmailReq) returns(EmptyResp);
-  // 发送绑定邮箱邮件
-  rpc SendBindEmail(UserEmailReq) returns(EmptyResp);
+  // 发送邮件验证码
+  rpc SendEmailVerifyCode(SendEmailVerifyCodeReq) returns(EmptyResp);
+  // 发送手机号验证码
+  rpc SendPhoneVerifyCode(SendPhoneVerifyCodeReq) returns(EmptyResp);
 
   // 第三方登录
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
@@ -239,10 +243,20 @@ service AccountRpc {
   rpc GetUserInfo(UserIdReq) returns(UserInfoResp);
   // 修改用户信息
   rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
-  // 修改用户状态
-  rpc UpdateUserStatus(UpdateUserStatusReq) returns(EmptyResp);
+  // 修改用户头像
+  rpc UpdateUserAvatar(UpdateUserAvatarReq) returns(EmptyResp);
   // 修改用户密码
   rpc UpdateUserPassword(UpdateUserPasswordReq) returns(EmptyResp);
+  // 修改用户登录邮箱
+  rpc UpdateUserEmail(UpdateUseEmailReq) returns(EmptyResp);
+  // 修改用户登录手机号
+  rpc UpdateUserPhone(UpdateUserPhoneReq) returns(EmptyResp);
+
+
+  // 修改用户状态
+  rpc AdminUpdateUserStatus(AdminUpdateUserStatusReq) returns(EmptyResp);
+  // 管理员重置用户密码
+  rpc AdminResetUserPassword(AdminResetUserPasswordReq) returns(EmptyResp);
 
   // 查找用户列表
   rpc FindUserList(FindUserListReq) returns(FindUserListResp);
@@ -252,7 +266,11 @@ service AccountRpc {
   rpc FindUserOnlineList(FindUserListReq) returns(FindUserInfoListResp);
 
   // 查询用户数量
-  rpc AnalysisUser(EmptyReq) returns(AnalysisUserResp);
+  rpc AnalysisUser(AnalysisUserReq) returns(AnalysisUserResp);
   // 查询用户分布区域
-  rpc AnalysisUserAreas(EmptyReq) returns(AnalysisUserAreasResp);
+  rpc AnalysisUserAreas(AnalysisUserAreasReq) returns(AnalysisUserAreasResp);
+
+  // 获取游客身份
+  rpc GetTouristInfo(EmptyReq) returns(GetTouristInfoResp);
+
 }
