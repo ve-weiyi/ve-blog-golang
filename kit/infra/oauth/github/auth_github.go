@@ -13,7 +13,7 @@ import (
 // Github授权登录
 // https://docs.github.com/zh/apps/overview
 type AuthGithub struct {
-	Config *oauth.AuthConfig
+	Config *oauth.OauthConfig
 
 	Name string // 第三方名称
 
@@ -23,7 +23,7 @@ type AuthGithub struct {
 	UserInfoUrl     string // 获取用户信息URL
 }
 
-func NewAuthGithub(conf *oauth.AuthConfig) *AuthGithub {
+func NewAuthGithub(conf *oauth.OauthConfig) *AuthGithub {
 	return &AuthGithub{
 		Config:         conf,
 		Name:           "feishu",

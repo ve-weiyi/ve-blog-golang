@@ -31,27 +31,26 @@ func NewResetPasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Res
 // 重置密码
 func (l *ResetPasswordLogic) ResetPassword(in *accountrpc.ResetPasswordReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
-	if !valid.IsEmailValid(in.Username) {
+	if !valid.IsEmailValid(in.Email) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
 	}
 
 	// 验证用户是否存在
-	user, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
-	if err != nil {
-		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
+	exist, _ := l.svcCtx.TUserModel.FindOne(l.ctx, "email = ?", in.Email)
+	if exist == nil {
+		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, "用户不存在")
 	}
 
 	// 验证code是否正确
-
-	key := rediskey.GetCaptchaKey(constant.ResetPwd, in.Username)
+	key := rediskey.GetCaptchaKey(constant.CodeTypeResetPwd, in.Email)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, bizerr.NewBizError(bizerr.CodeCaptchaVerify, "验证码错误")
 	}
 
 	// 更新密码
-	user.Password = crypto.BcryptHash(in.Password)
+	exist.Password = crypto.BcryptHash(in.Password)
 
-	_, err = l.svcCtx.TUserModel.Save(l.ctx, user)
+	_, err := l.svcCtx.TUserModel.Save(l.ctx, exist)
 	if err != nil {
 		return nil, err
 	}

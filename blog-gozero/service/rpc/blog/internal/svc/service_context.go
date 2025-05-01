@@ -7,9 +7,6 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
 	"github.com/zeromicro/go-zero/core/collection"
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/driver/mysql"
@@ -20,15 +17,12 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 )
 
 type ServiceContext struct {
@@ -38,7 +32,6 @@ type ServiceContext struct {
 	LocalCache    *collection.Cache
 	EmailDeliver  *mail.MqEmailDeliver
 	CaptchaHolder *captcha.CaptchaHolder
-	Oauth         map[string]oauth.Oauth
 
 	OnlineUserService *online.OnlineUserService
 
@@ -53,11 +46,10 @@ type ServiceContext struct {
 	TRoleMenuModel  model.TRoleMenuModel
 
 	// blog models
-	TWebsiteConfigModel model.TWebsiteConfigModel
-	TArticleModel       model.TArticleModel
-	TCategoryModel      model.TCategoryModel
-	TTagModel           model.TTagModel
-	TArticleTagModel    model.TArticleTagModel
+	TArticleModel    model.TArticleModel
+	TCategoryModel   model.TCategoryModel
+	TTagModel        model.TTagModel
+	TArticleTagModel model.TArticleTagModel
 
 	// message models
 	TChatModel    model.TChatModel
@@ -65,15 +57,17 @@ type ServiceContext struct {
 	TRemarkModel  model.TRemarkModel
 
 	// website models
+	TWebsiteConfigModel   model.TWebsiteConfigModel
 	TAlbumModel           model.TAlbumModel
 	TPhotoModel           model.TPhotoModel
 	TFriendModel          model.TFriendModel
 	TTalkModel            model.TTalkModel
 	TPageModel            model.TPageModel
 	TVisitDailyStatsModel model.TVisitDailyStatsModel
+	TVisitorModel         model.TVisitorModel
 
-	TLoginLogModel     model.TLoginLogModel
 	TVisitLogModel     model.TVisitLogModel
+	TLoginLogModel     model.TLoginLogModel
 	TOperationLogModel model.TOperationLogModel
 
 	TFileFolderModel model.TFileFolderModel
@@ -108,7 +102,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		LocalCache:    cache,
 		EmailDeliver:  deliver,
 		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
-		Oauth:         InitOauth(c.OauthConfList),
 
 		OnlineUserService: online.NewOnlineUserService(rds, 3600),
 		// account models
@@ -121,24 +114,25 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TRoleApiModel:   model.NewTRoleApiModel(db),
 		TRoleMenuModel:  model.NewTRoleMenuModel(db),
 		// blog models
-		TWebsiteConfigModel: model.NewTWebsiteConfigModel(db),
-		TArticleModel:       model.NewTArticleModel(db),
-		TCategoryModel:      model.NewTCategoryModel(db),
-		TTagModel:           model.NewTTagModel(db),
-		TArticleTagModel:    model.NewTArticleTagModel(db),
+		TArticleModel:    model.NewTArticleModel(db),
+		TCategoryModel:   model.NewTCategoryModel(db),
+		TTagModel:        model.NewTTagModel(db),
+		TArticleTagModel: model.NewTArticleTagModel(db),
 		// message models
 		TChatModel:    model.NewTChatModel(db),
 		TCommentModel: model.NewTCommentModel(db),
 		TRemarkModel:  model.NewTRemarkModel(db),
 		// website models
+		TWebsiteConfigModel:   model.NewTWebsiteConfigModel(db),
 		TAlbumModel:           model.NewTAlbumModel(db),
 		TPhotoModel:           model.NewTPhotoModel(db),
 		TFriendModel:          model.NewTFriendModel(db),
 		TTalkModel:            model.NewTTalkModel(db),
 		TPageModel:            model.NewTPageModel(db),
 		TVisitDailyStatsModel: model.NewTVisitDailyStatsModel(db),
-		TLoginLogModel:        model.NewTLoginLogModel(db),
+		TVisitorModel:         model.NewTVisitorModel(db),
 		TVisitLogModel:        model.NewTVisitLogModel(db),
+		TLoginLogModel:        model.NewTLoginLogModel(db),
 		TOperationLogModel:    model.NewTOperationLogModel(db),
 		TFileFolderModel:      model.NewTFileFolderModel(db),
 		TFileUploadModel:      model.NewTFileUploadModel(db),
@@ -218,12 +212,11 @@ func ConnectRedis(c config.RedisConf) (*redis.Client, error) {
 		DB:       c.DB,       // use default DB
 	})
 
-	pong, err := client.Ping(context.Background()).Result()
+	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	client.Set(context.Background(), fmt.Sprintf("redis:rpc:%s", pong), time.Now().String(), -1)
 	return client, nil
 }
 
@@ -284,34 +277,4 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 	go deliver.SubscribeEmail()
 
 	return deliver, nil
-}
-
-func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
-	var om = make(map[string]oauth.Oauth)
-
-	for k, v := range c {
-		conf := &oauth.AuthConfig{
-			ClientId:     v.ClientId,
-			ClientSecret: v.ClientSecret,
-			RedirectUri:  v.RedirectUri,
-		}
-		switch k {
-		case "qq":
-			auth := qq.NewAuthQq(conf)
-			om["qq"] = auth
-		case "github":
-			auth := github.NewAuthGithub(conf)
-			om["github"] = auth
-		case "gitee":
-			auth := gitee.NewAuthGitee(conf)
-			om["gitee"] = auth
-		case "weibo":
-			auth := weibo.NewAuthWb(conf)
-			om["weibo"] = auth
-		case "feishu":
-			auth := feishu.NewAuthFeishu(conf)
-			om["feishu"] = auth
-		}
-	}
-	return om
 }

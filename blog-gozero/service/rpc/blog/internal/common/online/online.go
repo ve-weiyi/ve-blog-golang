@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
+
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
 )
 
 type OnlineUserService struct {
@@ -17,7 +19,7 @@ type OnlineUserService struct {
 func NewOnlineUserService(rdb *redis.Client, expire int) *OnlineUserService {
 	return &OnlineUserService{
 		rdb:          rdb,
-		key:          "online_users",
+		key:          rediskey.GetOnlineUserKey(),
 		expirePeriod: time.Duration(expire) * time.Second,
 	}
 }
@@ -47,7 +49,18 @@ func (s *OnlineUserService) GetOnlineUsers(ctx context.Context, offset, limit in
 	if err := s.CleanExpired(ctx); err != nil {
 		return nil, err
 	}
-	return s.rdb.ZRevRange(ctx, s.key, offset, offset+limit-1).Result()
+
+	result, err := s.rdb.ZRevRangeWithScores(ctx, s.key, offset, offset+limit-1).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	var uids []string
+	for _, item := range result {
+		uids = append(uids, item.Member.(string))
+	}
+
+	return uids, nil
 }
 
 // 获取在线用户数量（先清理）

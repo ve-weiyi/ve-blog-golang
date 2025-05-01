@@ -23,12 +23,6 @@ func NewWebsiteRpcServer(svcCtx *svc.ServiceContext) *WebsiteRpcServer {
 	}
 }
 
-// 获取游客身份
-func (s *WebsiteRpcServer) GetTouristInfo(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.GetTouristInfoResp, error) {
-	l := websiterpclogic.NewGetTouristInfoLogic(ctx, s.svcCtx)
-	return l.GetTouristInfo(in)
-}
-
 // 用户日浏览量分析
 func (s *WebsiteRpcServer) AnalysisVisit(ctx context.Context, in *websiterpc.EmptyReq) (*websiterpc.AnalysisVisitResp, error) {
 	l := websiterpclogic.NewAnalysisVisitLogic(ctx, s.svcCtx)

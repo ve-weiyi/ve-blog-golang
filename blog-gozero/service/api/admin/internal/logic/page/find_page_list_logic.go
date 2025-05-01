@@ -30,6 +30,7 @@ func (l *FindPageListLogic) FindPageList(req *types.PageQueryReq) (resp *types.P
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
+		PageName: req.PageName,
 	}
 
 	out, err := l.svcCtx.WebsiteRpc.FindPageList(l.ctx, in)

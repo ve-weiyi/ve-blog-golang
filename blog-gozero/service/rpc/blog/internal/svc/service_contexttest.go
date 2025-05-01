@@ -51,7 +51,6 @@ func NewTestConfig() config.Config {
 			Nickname: "",
 			Deliver:  nil,
 		},
-		OauthConfList: nil,
 	}
 }
 

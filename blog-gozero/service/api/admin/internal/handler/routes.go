@@ -42,7 +42,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: PingHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -81,7 +81,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -120,7 +120,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -171,7 +171,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -228,11 +228,41 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
 		[]rest.Route{
+			{
+				// 获取游客身份信息
+				Method:  http.MethodGet,
+				Path:    "/get_tourist_info",
+				Handler: auth.GetTouristInfoHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/admin-api/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 邮箱登录
+				Method:  http.MethodPost,
+				Path:    "/email_login",
+				Handler: auth.EmailLoginHandler(serverCtx),
+			},
+			{
+				// 获取验证码
+				Method:  http.MethodPost,
+				Path:    "/get_captcha_code",
+				Handler: auth.GetCaptchaCodeHandler(serverCtx),
+			},
+			{
+				// 第三方登录授权地址
+				Method:  http.MethodPost,
+				Path:    "/get_oauth_authorize_url",
+				Handler: auth.GetOauthAuthorizeUrlHandler(serverCtx),
+			},
 			{
 				// 登录
 				Method:  http.MethodPost,
@@ -240,16 +270,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.LoginHandler(serverCtx),
 			},
 			{
-				// 第三方登录授权地址
+				// 手机登录
 				Method:  http.MethodPost,
-				Path:    "/oauth_authorize_url",
-				Handler: auth.OauthAuthorizeUrlHandler(serverCtx),
-			},
-			{
-				// 第三方登录
-				Method:  http.MethodPost,
-				Path:    "/oauth_login",
-				Handler: auth.OauthLoginHandler(serverCtx),
+				Path:    "/phone_login",
+				Handler: auth.PhoneLoginHandler(serverCtx),
 			},
 			{
 				// 注册
@@ -258,37 +282,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: auth.RegisterHandler(serverCtx),
 			},
 			{
-				// 发送注册账号邮件
-				Method:  http.MethodPost,
-				Path:    "/send_register_email",
-				Handler: auth.SendRegisterEmailHandler(serverCtx),
-			},
-			{
 				// 重置密码
 				Method:  http.MethodPost,
-				Path:    "/user/reset_password",
+				Path:    "/reset_password",
 				Handler: auth.ResetPasswordHandler(serverCtx),
 			},
 			{
-				// 发送重置密码邮件
+				// 发送邮件验证码
 				Method:  http.MethodPost,
-				Path:    "/user/send_reset_email",
-				Handler: auth.SendResetEmailHandler(serverCtx),
+				Path:    "/send_email_verify_code",
+				Handler: auth.SendEmailVerifyCodeHandler(serverCtx),
+			},
+			{
+				// 发送手机验证码
+				Method:  http.MethodPost,
+				Path:    "/send_phone_verify_code",
+				Handler: auth.SendPhoneVerifyCodeHandler(serverCtx),
+			},
+			{
+				// 第三方登录
+				Method:  http.MethodPost,
+				Path:    "/third_login",
+				Handler: auth.ThirdLoginHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.JwtToken},
 			[]rest.Route{
-				{
-					// 绑定邮箱
-					Method:  http.MethodPost,
-					Path:    "/bind_user_email",
-					Handler: auth.BindUserEmailHandler(serverCtx),
-				},
 				{
 					// 注销
 					Method:  http.MethodPost,
@@ -301,15 +325,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/logout",
 					Handler: auth.LogoutHandler(serverCtx),
 				},
-				{
-					// 发送绑定邮箱验证码
-					Method:  http.MethodPost,
-					Path:    "/send_bind_email",
-					Handler: auth.SendBindEmailHandler(serverCtx),
-				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -348,7 +366,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -381,7 +399,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -426,7 +444,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 		rest.WithMaxBytes(10485760),
 	)
 
@@ -466,7 +484,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -482,12 +500,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				{
 					// 查询登录日志
 					Method:  http.MethodPost,
-					Path:    "/user/find_login_history_list",
+					Path:    "/user/find_login_log_list",
 					Handler: login_log.FindLoginLogListHandler(serverCtx),
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -538,7 +556,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -559,7 +577,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -592,7 +610,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -631,7 +649,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -664,7 +682,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -721,7 +739,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -760,7 +778,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -799,13 +817,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.JwtToken, serverCtx.Permission, serverCtx.OperationLog},
 			[]rest.Route{
+				{
+					// 删除用户绑定第三方平台账号
+					Method:  http.MethodPost,
+					Path:    "/user/delete_user_bind_third_party",
+					Handler: user.DeleteUserBindThirdPartyHandler(serverCtx),
+				},
 				{
 					// 获取用户接口权限
 					Method:  http.MethodGet,
@@ -837,14 +861,44 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: user.GetUserRolesHandler(serverCtx),
 				},
 				{
+					// 修改用户头像
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_avatar",
+					Handler: user.UpdateUserAvatarHandler(serverCtx),
+				},
+				{
+					// 修改用户绑定邮箱
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_bind_email",
+					Handler: user.UpdateUserBindEmailHandler(serverCtx),
+				},
+				{
+					// 修改用户绑定手机号
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_bind_phone",
+					Handler: user.UpdateUserBindPhoneHandler(serverCtx),
+				},
+				{
+					// 修改用户绑定第三方平台账号
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_bind_third_party",
+					Handler: user.UpdateUserBindThirdPartyHandler(serverCtx),
+				},
+				{
 					// 修改用户信息
 					Method:  http.MethodPost,
 					Path:    "/user/update_user_info",
 					Handler: user.UpdateUserInfoHandler(serverCtx),
 				},
+				{
+					// 修改用户密码
+					Method:  http.MethodPost,
+					Path:    "/user/update_user_password",
+					Handler: user.UpdateUserPasswordHandler(serverCtx),
+				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -865,7 +919,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 
 	server.AddRoutes(
@@ -928,6 +982,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/admin_api/v1"),
+		rest.WithPrefix("/admin-api/v1"),
 	)
 }

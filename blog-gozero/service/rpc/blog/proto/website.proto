@@ -58,6 +58,7 @@ message FindPageListReq {
   int64 page = 1;
   int64 page_size = 2;
   repeated string sorts = 3; // 排序
+  string page_name = 4;// 页面名
 }
 
 message FindPageListResp {
@@ -96,10 +97,6 @@ message FindFriendListResp {
   int64 total = 2;
 }
 
-message GetTouristInfoResp {
-  string tourist_id = 1;
-}
-
 /************** blog 网站管理 **************/
 
 message VisitDailyStatistics {
@@ -133,9 +130,6 @@ message FindVisitTrendResp {
 }
 
 service WebsiteRpc {
-  // 获取游客身份
-  rpc GetTouristInfo(EmptyReq) returns(GetTouristInfoResp);
-
   // 用户日浏览量分析
   rpc AnalysisVisit(EmptyReq) returns(AnalysisVisitResp);
   // 添加用户访问记录

@@ -6,7 +6,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -32,6 +31,7 @@ func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp
 		Page:     req.Page,
 		PageSize: req.PageSize,
 		Sorts:    req.Sorts,
+		UserId:   req.UserId,
 	}
 
 	out, err := l.svcCtx.SyslogRpc.FindLoginLogList(l.ctx, in)
@@ -64,28 +64,26 @@ func (l *FindLoginLogListLogic) FindLoginLogList(req *types.LoginLogQuery) (resp
 	return resp, nil
 }
 
-func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetails, usm map[string]*accountrpc.User) (out *types.LoginLogBackVO) {
+func ConvertLoginLogTypes(in *syslogrpc.LoginLogDetails, usm map[string]*types.UserInfoVO) (out *types.LoginLogBackVO) {
 	out = &types.LoginLogBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,
 		LoginType: in.LoginType,
-		Agent:     in.Agent,
+		AppName:   in.AppName,
+		Os:        in.Os,
+		Browser:   in.Browser,
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
 		LoginAt:   in.LoginAt,
 		LogoutAt:  in.LogoutAt,
+		User:      nil,
 	}
 
 	// 用户信息
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.User = &types.UserInfo{
-				UserId:   user.UserId,
-				Username: user.Username,
-				Avatar:   user.Avatar,
-				Nickname: user.Nickname,
-			}
+			out.User = user
 		}
 	}
 

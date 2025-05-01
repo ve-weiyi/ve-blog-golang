@@ -15,12 +15,12 @@
 
 <div align="center">
   <a target="_blank" href="https://blog.veweiyi.cn">🖥️ 前台在线预览</a> |
-  <a target="_blank" href="https://blog.veweiyi.cn/api/v1/swagger/index.html">📑 前台接口文档</a> |
+  <a target="_blank" href="https://blog.veweiyi.cn/blog-api/v1/swagger/index.html">📑 前台接口文档</a> |
 </div>
 
 <div align="center">
   <a target="_blank" href="https://admin.veweiyi.cn">🖥️ 后台在线预览</a> |
-  <a target="_blank" href="https://admin.veweiyi.cn/admin_api/v1/swagger/index.html">📑 后台接口文档</a>
+  <a target="_blank" href="https://admin.veweiyi.cn/admin-api/v1/swagger/index.html">📑 后台接口文档</a>
 </div>
 
 
@@ -149,8 +149,8 @@ pnpm install
 pnpm run dev
 ```
 
-- 前台接口地址：`http://localhost:9090/api/v1/swagger/index.html`
-- 后台接口地址：`http://localhost:9091/admin_api/v1/swagger/index.html`
+- 前台接口地址：`http://localhost:9090/blog-api/v1/swagger/index.html`
+- 后台接口地址：`http://localhost:9091/admin-api/v1/swagger/index.html`
 - 前台服务地址：`http://localhost:9420`
 - 后台服务地址：`http://localhost:9421`
 
