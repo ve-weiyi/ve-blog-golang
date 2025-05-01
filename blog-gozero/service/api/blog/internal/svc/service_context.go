@@ -1,10 +1,8 @@
 package svc
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"time"
 
 	"github.com/go-openapi/loads"
 	"github.com/zeromicro/go-zero/core/stores/redis"
@@ -119,6 +117,5 @@ func ConnectRedis(c config.RedisConf) (*redis.Redis, error) {
 		return nil, fmt.Errorf("redis 连接失败: %v", err)
 	}
 
-	client.SetexCtx(context.Background(), fmt.Sprintf("redis:blog:%s", "PONG"), time.Now().String(), -1)
 	return client, nil
 }

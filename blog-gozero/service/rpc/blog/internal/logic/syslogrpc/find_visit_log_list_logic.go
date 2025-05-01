@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/syslogrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -52,12 +53,46 @@ func convertVisitLogQuery(in *syslogrpc.FindVisitLogListReq) (page int, size int
 		sorts = "id desc"
 	}
 
-	if in.Keywords != "" {
+	if in.UserId != "" {
 		if conditions != "" {
 			conditions += " and "
 		}
-		conditions += " opt_desc = ?"
-		params = append(params, "%"+in.Keywords+"%")
+		conditions += " user_id = ?"
+		params = append(params, in.UserId)
 	}
+
+	if in.TerminalId != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += " terminal_id = ?"
+		params = append(params, in.TerminalId)
+	}
+
+	if in.PageName != "" {
+		if conditions != "" {
+			conditions += " and "
+		}
+		conditions += " page like ?"
+		params = append(params, "%"+in.PageName+"%")
+	}
+
 	return
+}
+
+func convertVisitLogOut(in *model.TVisitLog) (out *syslogrpc.VisitLogDetails) {
+	out = &syslogrpc.VisitLogDetails{
+		Id:         in.Id,
+		UserId:     in.UserId,
+		TerminalId: in.TerminalId,
+		PageName:   in.PageName,
+		IpAddress:  in.IpAddress,
+		IpSource:   in.IpSource,
+		Os:         in.Os,
+		Browser:    in.Browser,
+		CreatedAt:  in.CreatedAt.Unix(),
+		UpdatedAt:  in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

@@ -59,7 +59,8 @@ func ConvertUserLoginHistoryTypes(in *syslogrpc.LoginLogDetails) *types.UserLogi
 	return &types.UserLoginHistory{
 		Id:        in.Id,
 		LoginType: in.LoginType,
-		Agent:     in.Agent,
+		Os:        in.Os,
+		Browser:   in.Browser,
 		IpAddress: in.IpAddress,
 		IpSource:  in.IpSource,
 		LoginAt:   in.LoginAt,

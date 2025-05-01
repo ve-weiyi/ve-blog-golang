@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/websiterpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -39,10 +40,10 @@ func (l *AnalysisVisitLogic) AnalysisVisit(in *websiterpc.EmptyReq) (*websiterpc
 	yesterdayPvCount := l.getTodayPvCount(yesterday)
 	var uvGrowthRate, pvGrowthRate float64
 	if yesterdayUvCount != 0 {
-		uvGrowthRate = float64(todayUvCount-yesterdayUvCount) / float64(yesterdayUvCount) * 100
+		uvGrowthRate = float64(todayUvCount-yesterdayUvCount) / float64(yesterdayUvCount)
 	}
 	if yesterdayPvCount != 0 {
-		pvGrowthRate = float64(todayPvCount-yesterdayPvCount) / float64(yesterdayPvCount) * 100
+		pvGrowthRate = float64(todayPvCount-yesterdayPvCount) / float64(yesterdayPvCount)
 	}
 
 	return &websiterpc.AnalysisVisitResp{
@@ -56,23 +57,41 @@ func (l *AnalysisVisitLogic) AnalysisVisit(in *websiterpc.EmptyReq) (*websiterpc
 }
 
 func (l *AnalysisVisitLogic) getTodayUvCount(day string) int64 {
-	key := rediskey.GetUserViewCountSetKey()
+	key := rediskey.GetDailyUserViewCountKey()
 	// 获取日访客数
 	uvCount, err := l.svcCtx.Redis.ZScore(l.ctx, key, day).Result()
 	if err != nil {
 		l.Logger.Errorf("getTodayUvCount err: %v", err)
-		return 0
+		record, err := l.svcCtx.TVisitDailyStatsModel.FindOneByDateVisitType(l.ctx, day, constant.VisitTypeUv)
+		if err != nil {
+			return 0
+		}
+
+		uvCount = float64(record.ViewCount)
+		// 设置到redis
+		_, err = l.svcCtx.Redis.ZIncrBy(l.ctx, key, uvCount, day).Result()
+
+		return int64(uvCount)
 	}
 	return int64(uvCount)
 }
 
 func (l *AnalysisVisitLogic) getTodayPvCount(day string) int64 {
-	key := rediskey.GetPageViewCountSetKey()
+	key := rediskey.GetDailyPageViewCountKey()
 	// 获取日浏览量
 	pvCount, err := l.svcCtx.Redis.ZScore(l.ctx, key, day).Result()
 	if err != nil {
 		l.Logger.Errorf("getTodayPvCount err: %v", err)
-		return 0
+		record, err := l.svcCtx.TVisitDailyStatsModel.FindOneByDateVisitType(l.ctx, day, constant.VisitTypePv)
+		if err != nil {
+			return 0
+		}
+
+		pvCount = float64(record.ViewCount)
+		// 设置到redis
+		_, err = l.svcCtx.Redis.ZIncrBy(l.ctx, key, pvCount, day).Result()
+
+		return int64(pvCount)
 	}
 
 	return int64(pvCount)
@@ -84,7 +103,7 @@ func (l *AnalysisVisitLogic) getTotalUvCount() int64 {
 	uvCount, err := l.svcCtx.Redis.SCard(l.ctx, key).Result()
 	if err != nil {
 		l.Logger.Errorf("getTotalUvCount err: %v", err)
-		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "")
+		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "visit_type = ?", constant.VisitTypeUv)
 		if err != nil {
 			return 0
 		}
@@ -94,7 +113,7 @@ func (l *AnalysisVisitLogic) getTotalUvCount() int64 {
 		}
 
 		_, err = l.svcCtx.Redis.Set(l.ctx, key, uvCount, 0).Result()
-		return 0
+		return uvCount
 	}
 	return uvCount
 }
@@ -104,7 +123,7 @@ func (l *AnalysisVisitLogic) getTotalPvCount() int64 {
 	pvCount, err := l.svcCtx.Redis.SCard(l.ctx, key).Result()
 	if err != nil {
 		l.Logger.Errorf("getTotalPvCount err: %v", err)
-		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "")
+		records, err := l.svcCtx.TVisitDailyStatsModel.FindALL(l.ctx, "visit_type = ?", constant.VisitTypePv)
 		if err != nil {
 			return 0
 		}
@@ -114,7 +133,7 @@ func (l *AnalysisVisitLogic) getTotalPvCount() int64 {
 		}
 
 		_, err = l.svcCtx.Redis.Set(l.ctx, key, pvCount, 0).Result()
-		return 0
+		return pvCount
 	}
 	return pvCount
 }

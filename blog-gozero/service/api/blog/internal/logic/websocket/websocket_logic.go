@@ -82,7 +82,7 @@ func (l *WebsocketLogic) NewClient(w http.ResponseWriter, r *http.Request) *ws.C
 		panic("http转换升级为websocket失败：")
 	}
 
-	ip := restx.GetClientIP(r)
+	ip := restx.GetRemoteIP(r)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	client := &ws.Client{

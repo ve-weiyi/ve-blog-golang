@@ -53,28 +53,16 @@ func (s *AccountRpcServer) ResetPassword(ctx context.Context, in *accountrpc.Res
 	return l.ResetPassword(in)
 }
 
-// 修改用户邮箱
-func (s *AccountRpcServer) BindUserEmail(ctx context.Context, in *accountrpc.BindUserEmailReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewBindUserEmailLogic(ctx, s.svcCtx)
-	return l.BindUserEmail(in)
+// 发送邮件验证码
+func (s *AccountRpcServer) SendEmailVerifyCode(ctx context.Context, in *accountrpc.SendEmailVerifyCodeReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewSendEmailVerifyCodeLogic(ctx, s.svcCtx)
+	return l.SendEmailVerifyCode(in)
 }
 
-// 发送注册邮件
-func (s *AccountRpcServer) SendRegisterEmail(ctx context.Context, in *accountrpc.UserEmailReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewSendRegisterEmailLogic(ctx, s.svcCtx)
-	return l.SendRegisterEmail(in)
-}
-
-// 发送重置密码邮件
-func (s *AccountRpcServer) SendResetPasswordEmail(ctx context.Context, in *accountrpc.UserEmailReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewSendResetPasswordEmailLogic(ctx, s.svcCtx)
-	return l.SendResetPasswordEmail(in)
-}
-
-// 发送绑定邮箱邮件
-func (s *AccountRpcServer) SendBindEmail(ctx context.Context, in *accountrpc.UserEmailReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewSendBindEmailLogic(ctx, s.svcCtx)
-	return l.SendBindEmail(in)
+// 发送手机号验证码
+func (s *AccountRpcServer) SendPhoneVerifyCode(ctx context.Context, in *accountrpc.SendPhoneVerifyCodeReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewSendPhoneVerifyCodeLogic(ctx, s.svcCtx)
+	return l.SendPhoneVerifyCode(in)
 }
 
 // 第三方登录
@@ -101,16 +89,40 @@ func (s *AccountRpcServer) UpdateUserInfo(ctx context.Context, in *accountrpc.Up
 	return l.UpdateUserInfo(in)
 }
 
-// 修改用户状态
-func (s *AccountRpcServer) UpdateUserStatus(ctx context.Context, in *accountrpc.UpdateUserStatusReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewUpdateUserStatusLogic(ctx, s.svcCtx)
-	return l.UpdateUserStatus(in)
+// 修改用户头像
+func (s *AccountRpcServer) UpdateUserAvatar(ctx context.Context, in *accountrpc.UpdateUserAvatarReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewUpdateUserAvatarLogic(ctx, s.svcCtx)
+	return l.UpdateUserAvatar(in)
 }
 
 // 修改用户密码
 func (s *AccountRpcServer) UpdateUserPassword(ctx context.Context, in *accountrpc.UpdateUserPasswordReq) (*accountrpc.EmptyResp, error) {
 	l := accountrpclogic.NewUpdateUserPasswordLogic(ctx, s.svcCtx)
 	return l.UpdateUserPassword(in)
+}
+
+// 修改用户登录邮箱
+func (s *AccountRpcServer) UpdateUserEmail(ctx context.Context, in *accountrpc.UpdateUseEmailReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewUpdateUserEmailLogic(ctx, s.svcCtx)
+	return l.UpdateUserEmail(in)
+}
+
+// 修改用户登录手机号
+func (s *AccountRpcServer) UpdateUserPhone(ctx context.Context, in *accountrpc.UpdateUserPhoneReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewUpdateUserPhoneLogic(ctx, s.svcCtx)
+	return l.UpdateUserPhone(in)
+}
+
+// 修改用户状态
+func (s *AccountRpcServer) AdminUpdateUserStatus(ctx context.Context, in *accountrpc.AdminUpdateUserStatusReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewAdminUpdateUserStatusLogic(ctx, s.svcCtx)
+	return l.AdminUpdateUserStatus(in)
+}
+
+// 管理员重置用户密码
+func (s *AccountRpcServer) AdminResetUserPassword(ctx context.Context, in *accountrpc.AdminResetUserPasswordReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewAdminResetUserPasswordLogic(ctx, s.svcCtx)
+	return l.AdminResetUserPassword(in)
 }
 
 // 查找用户列表
@@ -132,13 +144,19 @@ func (s *AccountRpcServer) FindUserOnlineList(ctx context.Context, in *accountrp
 }
 
 // 查询用户数量
-func (s *AccountRpcServer) AnalysisUser(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserResp, error) {
+func (s *AccountRpcServer) AnalysisUser(ctx context.Context, in *accountrpc.AnalysisUserReq) (*accountrpc.AnalysisUserResp, error) {
 	l := accountrpclogic.NewAnalysisUserLogic(ctx, s.svcCtx)
 	return l.AnalysisUser(in)
 }
 
 // 查询用户分布区域
-func (s *AccountRpcServer) AnalysisUserAreas(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.AnalysisUserAreasResp, error) {
+func (s *AccountRpcServer) AnalysisUserAreas(ctx context.Context, in *accountrpc.AnalysisUserAreasReq) (*accountrpc.AnalysisUserAreasResp, error) {
 	l := accountrpclogic.NewAnalysisUserAreasLogic(ctx, s.svcCtx)
 	return l.AnalysisUserAreas(in)
+}
+
+// 获取游客身份
+func (s *AccountRpcServer) GetTouristInfo(ctx context.Context, in *accountrpc.EmptyReq) (*accountrpc.GetTouristInfoResp, error) {
+	l := accountrpclogic.NewGetTouristInfoLogic(ctx, s.svcCtx)
+	return l.GetTouristInfo(in)
 }

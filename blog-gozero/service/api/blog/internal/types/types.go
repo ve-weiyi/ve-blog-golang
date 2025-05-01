@@ -206,12 +206,12 @@ type GetBlogHomeInfoReq struct {
 }
 
 type GetBlogHomeInfoResp struct {
-	ArticleCount  int64            `json:"article_count"`  // 文章数量
-	CategoryCount int64            `json:"category_count"` // 分类数量
-	TagCount      int64            `json:"tag_count"`      // 标签数量
-	ViewsCount    int64            `json:"views_count"`    // 访问量
-	WebsiteConfig WebsiteConfigDTO `json:"website_config"` // 网站配置
-	PageList      []*PageDTO       `json:"page_list"`      // 页面列表
+	ArticleCount       int64            `json:"article_count"`         // 文章数量
+	CategoryCount      int64            `json:"category_count"`        // 分类数量
+	TagCount           int64            `json:"tag_count"`             // 标签数量
+	TotalPageViewCount int64            `json:"total_page_view_count"` // 总浏览量
+	WebsiteConfig      WebsiteConfigDTO `json:"website_config"`        // 网站配置
+	PageList           []*PageDTO       `json:"page_list"`             // 页面列表
 }
 
 type GetTouristInfoResp struct {
@@ -384,9 +384,19 @@ type RestHeader struct {
 	HeaderTerminalId string `header:"X-Terminal-Id,optional"`
 }
 
+type SendEmailVerifyCodeReq struct {
+	Email string `json:"email"` // 邮箱
+	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
+}
+
 type SendMessageReq struct {
 	Type    string `json:"type"`    // 消息类型 1: 文本消息 2: 图片消息 3: 文件消息 4: 语音消息 5: 视频消息
 	Content string `json:"content"` // 消息内容
+}
+
+type SendPhoneVerifyCodeReq struct {
+	Phone string `json:"phone"` // 手机号
+	Type  string `json:"type"`  // 类型 register,reset_password,bind_email,bind_phone
 }
 
 type Tag struct {
@@ -435,10 +445,25 @@ type UpdateUserAvatarReq struct {
 	Avatar string `json:"avatar"` // 头像
 }
 
+type UpdateUserBindEmailReq struct {
+	Email      string `json:"email"`       // 邮箱
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserBindPhoneReq struct {
+	Phone      string `json:"phone"`       // 手机号
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type UpdateUserInfoReq struct {
-	Nickname string `json:"nickname,optional"` // 昵称
-	Avatar   string `json:"avatar,optional"`   // 头像
+	Nickname string `json:"nickname"` // 昵称
 	UserInfoExt
+}
+
+type UpdateUserPasswordReq struct {
+	OldPassword     string `json:"old_password"`     // 旧密码
+	NewPassword     string `json:"new_password"`     // 新密码
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
 }
 
 type UploadFileReq struct {
@@ -446,11 +471,8 @@ type UploadFileReq struct {
 	FilePath string      `form:"file_path,optional"` // 文件路径
 }
 
-type UserEmailReq struct {
-	Username string `json:"username"`
-}
-
 type UserInfoExt struct {
+	Gender  int    `json:"gender"`  // 性别 0未知 1男 2女
 	Intro   string `json:"intro"`   // 简介
 	Website string `json:"website"` // 网站
 }

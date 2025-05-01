@@ -30,7 +30,7 @@ func NewGetAdminHomeInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *GetAdminHomeInfoLogic) GetAdminHomeInfo(req *types.EmptyReq) (resp *types.AdminHomeInfo, err error) {
 	// 查询用户数量
-	users, err := l.svcCtx.AccountRpc.AnalysisUser(l.ctx, &accountrpc.EmptyReq{})
+	users, err := l.svcCtx.AccountRpc.AnalysisUser(l.ctx, &accountrpc.AnalysisUserReq{})
 	if err != nil {
 		return nil, err
 	}
