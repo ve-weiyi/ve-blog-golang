@@ -34,14 +34,6 @@ func (m *VisitLogMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		// 调用下一层的处理
 		next.ServeHTTP(w, r)
 
-		var module string
-		api := m.getApi(r.URL.Path, r.Method)
-		if api != nil {
-			if len(api.Tags) > 0 {
-				module = api.Tags[0]
-			}
-		}
-
 		ip := restx.GetClientIP(r)
 		is, err := ipx.GetIpSourceByBaidu(ip)
 		if err != nil {

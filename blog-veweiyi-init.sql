@@ -243,20 +243,20 @@ DROP TABLE IF EXISTS `t_operation_log`;
 CREATE TABLE `t_operation_log`
 (
     `id`              int unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
-    `user_id`         varchar(64) NOT NULL DEFAULT '' COMMENT '用户id',
-    `terminal_id`     varchar(64) NOT NULL DEFAULT '' COMMENT '设备id',
-    `ip_address`      varchar(255)         DEFAULT '' COMMENT '操作ip',
-    `ip_source`       varchar(255)         DEFAULT '' COMMENT '操作地址',
-    `opt_module`      varchar(32)          DEFAULT '' COMMENT '操作模块',
-    `opt_desc`        varchar(255)         DEFAULT '' COMMENT '操作描述',
-    `request_uri`     varchar(255)         DEFAULT '' COMMENT '请求地址',
-    `request_method`  varchar(32)          DEFAULT '' COMMENT '请求方式',
-    `request_data`    varchar(4096)        DEFAULT '' COMMENT '请求参数',
-    `response_data`   varchar(4096)        DEFAULT '' COMMENT '返回数据',
-    `response_status` int         NOT NULL DEFAULT '0' COMMENT '响应状态码',
-    `cost`            varchar(32) NOT NULL DEFAULT '' COMMENT '耗时（ms）',
-    `created_at`      datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at`      datetime    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `user_id`         varchar(64)   NOT NULL DEFAULT '' COMMENT '用户id',
+    `terminal_id`     varchar(64)   NOT NULL DEFAULT '' COMMENT '设备id',
+    `ip_address`      varchar(255)  NOT NULL DEFAULT '' COMMENT '操作ip',
+    `ip_source`       varchar(255)  NOT NULL DEFAULT '' COMMENT '操作地址',
+    `opt_module`      varchar(32)   NOT NULL DEFAULT '' COMMENT '操作模块',
+    `opt_desc`        varchar(255)  NOT NULL DEFAULT '' COMMENT '操作描述',
+    `request_uri`     varchar(255)  NOT NULL DEFAULT '' COMMENT '请求地址',
+    `request_method`  varchar(32)   NOT NULL DEFAULT '' COMMENT '请求方式',
+    `request_data`    varchar(4096) NOT NULL DEFAULT '' COMMENT '请求参数',
+    `response_data`   varchar(4096) NOT NULL DEFAULT '' COMMENT '返回数据',
+    `response_status` int           NOT NULL DEFAULT '0' COMMENT '响应状态码',
+    `cost`            varchar(32)   NOT NULL DEFAULT '' COMMENT '耗时（ms）',
+    `created_at`      datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`      datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作记录';
 
@@ -425,11 +425,11 @@ CREATE TABLE `t_user_login_history`
     `ip_address` varchar(255)  NOT NULL DEFAULT '' COMMENT 'ip host',
     `ip_source`  varchar(255)  NOT NULL DEFAULT '' COMMENT 'ip 源',
     `login_at`   datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登录时间',
-    `logout_at`  datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '登出时间',
+    `logout_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登出时间',
     `created_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
-    KEY `idx_uid` (`user_id`) USING BTREE
+    KEY         `idx_uid` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户登录历史';
 
 -- ----------------------------

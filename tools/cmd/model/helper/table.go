@@ -49,7 +49,7 @@ func ParseTableFromSql(sql string) (list []*Table, err error) {
 	n := strings.TrimRight(sql, ".sql")
 
 	f := files.ToAbs(sql)
-	tables, err := parser.Parse(f, n, false)
+	tables, err := parser.Parse(f, n, true)
 	if err != nil {
 		return nil, err
 	}
@@ -170,6 +170,11 @@ func ConvertColumnToField(col gorm.ColumnType) Field {
 	f.Name = col.Name()
 	f.Comment, _ = col.Comment()
 	f.DataType = convertx.ConvertMysqlToGoType(col.DatabaseTypeName())
+
+	nullable, ok := col.Nullable()
+	if ok && nullable && f.DataType == "time.Time" {
+		f.DataType = "sql.NullTime"
+	}
 
 	// col.DatabaseTypeName() int
 	// col.ColumnType() int unsigned

@@ -42,6 +42,7 @@ func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.LoginLogNewReq) (*syslogrpc
 		IpAddress: ip,
 		IpSource:  is,
 		LoginAt:   now,
+		LogoutAt:  nil,
 		CreatedAt: now,
 		UpdatedAt: now,
 	}

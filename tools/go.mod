@@ -12,8 +12,8 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/swag v1.16.3
 	github.com/ve-weiyi/ve-blog-golang/kit v0.0.0-20250425095941-da2af16a3ef9
-	github.com/zeromicro/go-zero v1.8.1
-	github.com/zeromicro/go-zero/tools/goctl v1.8.1
+	github.com/zeromicro/go-zero v1.8.2
+	github.com/zeromicro/go-zero/tools/goctl v1.8.2
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.12
@@ -56,7 +56,7 @@ require (
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/prometheus/client_golang v1.21.0 // indirect
+	github.com/prometheus/client_golang v1.21.1 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.62.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
