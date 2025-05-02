@@ -26,12 +26,12 @@ func NewUpdateUserBindEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateUserBindEmailLogic) UpdateUserBindEmail(req *types.UpdateUserBindEmailReq) (resp *types.EmptyResp, err error) {
-	in := &accountrpc.UpdateUseEmailReq{
+	in := &accountrpc.BindUseEmailReq{
 		Email:      req.Email,
 		VerifyCode: req.VerifyCode,
 	}
 
-	_, err = l.svcCtx.AccountRpc.UpdateUserEmail(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.BindUserEmail(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

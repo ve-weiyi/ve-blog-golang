@@ -38,19 +38,21 @@ const (
 	HeaderXRealIP       = "x-real-ip"
 
 	// 自定义请求头部
-	HeaderAppName   = "app-name"
-	HeaderTimezone  = "timezone"
-	HeaderCountry   = "country"
-	HeaderLanguage  = "language"
-	HeaderTimestamp = "timestamp"
+	HeaderAppName  = "app-name"
+	HeaderCountry  = "country"
+	HeaderLanguage = "language"
+	HeaderTimezone = "timezone"
 
 	// 游客认证信息 token = md5(terminal,timestamp)
-	HeaderTerminal   = "terminal"
-	HeaderXAuthToken = "x-auth-token"
+	HeaderTimestamp  = "timestamp"
+	HeaderTerminalId = "terminal-id"
+	HeaderXTsToken   = "x-ts-token"
 
 	// 用户认证信息
-	HeaderUid           = "uid"
-	HeaderToken         = "token"
+	HeaderUid   = "uid"
+	HeaderToken = "token"
+
+	// 用户授权信息
 	HeaderAuthorization = "authorization"
 
 	// 防重放限制 sign=md5(id+ts+secret)
@@ -72,8 +74,8 @@ var HeaderFields = []string{
 	HeaderLanguage,
 	HeaderTimestamp,
 
-	HeaderTerminal,
-	HeaderXAuthToken,
+	HeaderTerminalId,
+	HeaderXTsToken,
 	HeaderUid,
 	HeaderToken,
 	HeaderAuthorization,
@@ -113,12 +115,12 @@ func GetRemoteIP(r *http.Request) string {
 // RestHeader restful请求头部(Representational State Transfer 表述性状态转移)
 type RestHeader struct {
 	HeaderAppName       string `json:"app-name" header:"app-name,optional"`
-	HeaderTimezone      string `json:"timezone" header:"timezone,optional"`
 	HeaderCountry       string `json:"country" header:"country,optional"`
 	HeaderLanguage      string `json:"language" header:"language,optional"`
+	HeaderTimezone      string `json:"timezone" header:"timezone,optional"`
 	HeaderTimestamp     string `json:"timestamp" header:"timestamp,optional"`
-	HeaderTerminal      string `json:"terminal" header:"terminal,optional"`
-	HeaderXAuthToken    string `json:"x-auth-token" header:"x-auth-token,optional"`
+	HeaderTerminalId    string `json:"terminal-id" header:"terminal-id,optional"`
+	HeaderXTsToken      string `json:"x-ts-token" header:"x-ts-token,optional"`
 	HeaderUid           string `json:"uid" header:"uid,optional"`
 	HeaderToken         string `json:"token" header:"token,optional"`
 	HeaderAuthorization string `json:"authorization" header:"authorization,optional"`
@@ -127,12 +129,12 @@ type RestHeader struct {
 func ParseRestHeader(r *http.Request) *RestHeader {
 	header := &RestHeader{}
 	header.HeaderAppName = r.Header.Get(HeaderAppName)
-	header.HeaderTimezone = r.Header.Get(HeaderTimezone)
 	header.HeaderCountry = r.Header.Get(HeaderCountry)
 	header.HeaderLanguage = r.Header.Get(HeaderLanguage)
+	header.HeaderTimezone = r.Header.Get(HeaderTimezone)
 	header.HeaderTimestamp = r.Header.Get(HeaderTimestamp)
-	header.HeaderTerminal = r.Header.Get(HeaderTerminal)
-	header.HeaderXAuthToken = r.Header.Get(HeaderXAuthToken)
+	header.HeaderTerminalId = r.Header.Get(HeaderTerminalId)
+	header.HeaderXTsToken = r.Header.Get(HeaderXTsToken)
 	header.HeaderUid = r.Header.Get(HeaderUid)
 	header.HeaderToken = r.Header.Get(HeaderToken)
 	header.HeaderAuthorization = r.Header.Get(HeaderAuthorization)

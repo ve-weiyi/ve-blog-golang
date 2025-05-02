@@ -9,8 +9,12 @@ type AboutMe struct {
 
 type AccountQuery struct {
 	PageQuery
-	Username string `json:"username,optional"`
-	Nickname string `json:"nickname,optional"`
+	Username string   `json:"username,optional"`
+	Nickname string   `json:"nickname,optional"`
+	Email    string   `json:"email,optional"`
+	Phone    string   `json:"phone,optional"`
+	Status   int64    `json:"status,optional"`   // 状态: -1删除 0正常 1禁用
+	UserIds  []string `json:"user_ids,optional"` // 用户ID
 }
 
 type AdminHomeInfo struct {
@@ -104,6 +108,7 @@ type ArticleNewReq struct {
 	ArticleContent string   `json:"article_content"`        // 内容
 	ArticleType    int64    `json:"article_type"`           // 文章类型 1原创 2转载 3翻译
 	OriginalUrl    string   `json:"original_url"`           // 原文链接
+	IsTop          int64    `json:"is_top"`                 // 是否置顶
 	Status         int64    `json:"status"`                 // 状态值 1 公开 2 私密 3 草稿 4 已删除
 	CategoryName   string   `json:"category_name,optional"` // 文章分类名
 	TagNameList    []string `json:"tag_name_list,optional"` // 文章标签列表
@@ -145,11 +150,6 @@ type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
 }
 
-type BindUserEmailReq struct {
-	Email      string `json:"email"`       // 邮箱
-	VerifyCode string `json:"verify_code"` // 验证码
-}
-
 type CategoryBackVO struct {
 	Id           int64  `json:"id,optional"`
 	CategoryName string `json:"category_name"` // 分类名
@@ -175,16 +175,16 @@ type CategoryVO struct {
 }
 
 type CommentBackVO struct {
-	Id             int64     `json:"id"`              // 评论ID
-	Type           int64     `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
-	TopicTitle     string    `json:"topic_title"`     // 评论主题
-	UserId         string    `json:"user_id"`         // 用户ID
-	ReplyUserId    string    `json:"reply_user_id"`   // 回复用户ID
-	CommentContent string    `json:"comment_content"` // 评论内容
-	IsReview       int64     `json:"is_review"`       // 是否审核 0.未审核 1.已审核
-	CreatedAt      int64     `json:"created_at"`      // 创建时间
-	User           *UserInfo `json:"user"`            // 用户信息
-	ReplyUser      *UserInfo `json:"reply_user"`      // 回复用户信息
+	Id             int64       `json:"id"`              // 评论ID
+	Type           int64       `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
+	TopicTitle     string      `json:"topic_title"`     // 评论主题
+	UserId         string      `json:"user_id"`         // 用户ID
+	ReplyUserId    string      `json:"reply_user_id"`   // 回复用户ID
+	CommentContent string      `json:"comment_content"` // 评论内容
+	IsReview       int64       `json:"is_review"`       // 是否审核 0.未审核 1.已审核
+	CreatedAt      int64       `json:"created_at"`      // 创建时间
+	User           *UserInfoVO `json:"user"`            // 用户信息
+	ReplyUser      *UserInfoVO `json:"reply_user"`      // 回复用户信息
 }
 
 type CommentQuery struct {
@@ -199,6 +199,17 @@ type CommentReviewReq struct {
 	IsReview int64   `json:"is_review,optional"`
 }
 
+type DeleteUserBindThirdPartyReq struct {
+	Platform string `json:"platform"` // 平台
+}
+
+type EmailLoginReq struct {
+	Email       string `json:"email"`                 // 邮箱
+	Password    string `json:"password"`              // 密码
+	CaptchaKey  string `json:"captcha_key,optional"`  // 验证码key
+	CaptchaCode string `json:"captcha_code,optional"` // 验证码
+}
+
 type EmptyReq struct {
 }
 
@@ -206,17 +217,17 @@ type EmptyResp struct {
 }
 
 type FileBackVO struct {
-	Id        int64     `json:"id,optional"` // 文件目录ID
-	UserId    string    `json:"user_id"`     // 用户id
-	FilePath  string    `json:"file_path"`   // 文件路径
-	FileName  string    `json:"file_name"`   // 文件名称
-	FileType  string    `json:"file_type"`   // 文件类型
-	FileSize  int64     `json:"file_size"`   // 文件大小
-	FileMd5   string    `json:"file_md5"`    // 文件md5值
-	FileUrl   string    `json:"file_url"`    // 上传路径
-	CreatedAt int64     `json:"created_at"`  // 创建时间
-	UpdatedAt int64     `json:"updated_at"`  // 更新时间
-	Creator   *UserInfo `json:"creator"`     // 创建人
+	Id        int64       `json:"id,optional"` // 文件目录ID
+	UserId    string      `json:"user_id"`     // 用户id
+	FilePath  string      `json:"file_path"`   // 文件路径
+	FileName  string      `json:"file_name"`   // 文件名称
+	FileType  string      `json:"file_type"`   // 文件类型
+	FileSize  int64       `json:"file_size"`   // 文件大小
+	FileMd5   string      `json:"file_md5"`    // 文件md5值
+	FileUrl   string      `json:"file_url"`    // 上传路径
+	CreatedAt int64       `json:"created_at"`  // 创建时间
+	UpdatedAt int64       `json:"updated_at"`  // 更新时间
+	Creator   *UserInfoVO `json:"creator"`     // 创建人
 }
 
 type FileFolderNewReq struct {
@@ -251,6 +262,30 @@ type FriendNewReq struct {
 type FriendQuery struct {
 	PageQuery
 	LinkName string `json:"link_name,optional"` // 链接名
+}
+
+type GetCaptchaCodeReq struct {
+	Width  int64 `json:"width,optional"`  // 宽度
+	Height int64 `json:"height,optional"` // 高度
+}
+
+type GetCaptchaCodeResp struct {
+	CaptchaKey    string `json:"captcha_key"`    // 验证码key
+	CaptchaBase64 string `json:"captcha_base64"` // 验证码base64
+	CaptchaCode   string `json:"captcha_code"`   // 验证码
+}
+
+type GetOauthAuthorizeUrlReq struct {
+	Platform string `json:"platform"`       // 平台
+	State    string `json:"state,optional"` // 状态
+}
+
+type GetOauthAuthorizeUrlResp struct {
+	AuthorizeUrl string `json:"authorize_url"` // 授权地址
+}
+
+type GetTouristInfoResp struct {
+	TouristId string `json:"tourist_id"` // 游客id
 }
 
 type GetUserAreaStatsReq struct {
@@ -298,17 +333,17 @@ type ListUploadFileResp struct {
 }
 
 type LoginLogBackVO struct {
-	Id        int64     `json:"id,optional"`
-	UserId    string    `json:"user_id"`    // 用户id
-	LoginType string    `json:"login_type"` // 登录类型
-	AppName   string    `json:"app_name"`   // 应用名称
-	Os        string    `json:"os"`         // 操作系统
-	Browser   string    `json:"browser"`    // 浏览器
-	IpAddress string    `json:"ip_address"` // ip host
-	IpSource  string    `json:"ip_source"`  // ip 源
-	LoginAt   int64     `json:"login_at"`   // 登录时间
-	LogoutAt  int64     `json:"logout_at"`  // 登出时间
-	User      *UserInfo `json:"user"`       // 用户信息
+	Id        int64       `json:"id,optional"`
+	UserId    string      `json:"user_id"`    // 用户id
+	LoginType string      `json:"login_type"` // 登录类型
+	AppName   string      `json:"app_name"`   // 应用名称
+	Os        string      `json:"os"`         // 操作系统
+	Browser   string      `json:"browser"`    // 浏览器
+	IpAddress string      `json:"ip_address"` // ip host
+	IpSource  string      `json:"ip_source"`  // ip 源
+	LoginAt   int64       `json:"login_at"`   // 登录时间
+	LogoutAt  int64       `json:"logout_at"`  // 登出时间
+	User      *UserInfoVO `json:"user"`       // 用户信息
 }
 
 type LoginLogQuery struct {
@@ -380,32 +415,22 @@ type MultiUploadFileReq struct {
 	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
-type OauthLoginReq struct {
-	Platform string `json:"platform"`       // 平台
-	Code     string `json:"code,optional"`  // 授权码
-	State    string `json:"state,optional"` // 状态
-}
-
-type OauthLoginUrlResp struct {
-	Url string `json:"url"` // 授权地址
-}
-
 type OperationLogBackVO struct {
-	Id             int64     `json:"id,optional"`     // 主键id
-	UserId         string    `json:"user_id"`         // 用户id
-	IpAddress      string    `json:"ip_address"`      // 操作ip
-	IpSource       string    `json:"ip_source"`       // 操作地址
-	OptModule      string    `json:"opt_module"`      // 操作模块
-	OptDesc        string    `json:"opt_desc"`        // 操作描述
-	RequestUri     string    `json:"request_uri"`     // 请求地址
-	RequestMethod  string    `json:"request_method"`  // 请求方式
-	RequestData    string    `json:"request_data"`    // 请求参数
-	ResponseData   string    `json:"response_data"`   // 返回数据
-	ResponseStatus int64     `json:"response_status"` // 响应状态码
-	Cost           string    `json:"cost"`            // 耗时（ms）
-	CreatedAt      int64     `json:"created_at"`      // 创建时间
-	UpdatedAt      int64     `json:"updated_at"`      // 更新时间
-	User           *UserInfo `json:"user"`            // 用户信息
+	Id             int64       `json:"id,optional"`     // 主键id
+	UserId         string      `json:"user_id"`         // 用户id
+	IpAddress      string      `json:"ip_address"`      // 操作ip
+	IpSource       string      `json:"ip_source"`       // 操作地址
+	OptModule      string      `json:"opt_module"`      // 操作模块
+	OptDesc        string      `json:"opt_desc"`        // 操作描述
+	RequestUri     string      `json:"request_uri"`     // 请求地址
+	RequestMethod  string      `json:"request_method"`  // 请求方式
+	RequestData    string      `json:"request_data"`    // 请求参数
+	ResponseData   string      `json:"response_data"`   // 返回数据
+	ResponseStatus int64       `json:"response_status"` // 响应状态码
+	Cost           string      `json:"cost"`            // 耗时（ms）
+	CreatedAt      int64       `json:"created_at"`      // 创建时间
+	UpdatedAt      int64       `json:"updated_at"`      // 更新时间
+	User           *UserInfoVO `json:"user"`            // 用户信息
 }
 
 type OperationLogQuery struct {
@@ -450,6 +475,11 @@ type PageResp struct {
 	List     interface{} `json:"list"`
 }
 
+type PhoneLoginReq struct {
+	Phone      string `json:"phone"`       // 手机号
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type PhotoBackVO struct {
 	Id        int64  `json:"id,optional"` // 主键
 	AlbumId   int64  `json:"album_id"`    // 相册id
@@ -488,22 +518,24 @@ type PingResp struct {
 }
 
 type RegisterReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	VerifyCode string `json:"verify_code"` // 验证码
+	Username        string `json:"username"`
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+	Email           string `json:"email"`            // 邮箱
+	VerifyCode      string `json:"verify_code"`      // 验证码
 }
 
 type RemarkBackVO struct {
-	Id             int64     `json:"id,optional"`     // 主键id
-	UserId         string    `json:"user_id"`         // 用户ID
-	MessageContent string    `json:"message_content"` // 留言内容
-	IpAddress      string    `json:"ip_address"`      // 用户ip
-	IpSource       string    `json:"ip_source"`       // 用户地址
-	Time           int64     `json:"time"`            // 弹幕速度
-	IsReview       int64     `json:"is_review"`       // 是否审核
-	CreatedAt      int64     `json:"created_at"`      // 发布时间
-	UpdatedAt      int64     `json:"updated_at"`      // 更新时间
-	User           *UserInfo `json:"user"`            // 用户信息
+	Id             int64       `json:"id,optional"`     // 主键id
+	UserId         string      `json:"user_id"`         // 用户ID
+	MessageContent string      `json:"message_content"` // 留言内容
+	IpAddress      string      `json:"ip_address"`      // 用户ip
+	IpSource       string      `json:"ip_source"`       // 用户地址
+	Time           int64       `json:"time"`            // 弹幕速度
+	IsReview       int64       `json:"is_review"`       // 是否审核
+	CreatedAt      int64       `json:"created_at"`      // 发布时间
+	UpdatedAt      int64       `json:"updated_at"`      // 更新时间
+	User           *UserInfoVO `json:"user"`            // 用户信息
 }
 
 type RemarkQuery struct {
@@ -518,9 +550,10 @@ type RemarkReviewReq struct {
 }
 
 type ResetPasswordReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	VerifyCode string `json:"verify_code"` // 验证码
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+	Email           string `json:"email"`
+	VerifyCode      string `json:"verify_code"` // 验证码
 }
 
 type Response struct {
@@ -625,17 +658,17 @@ type TagVO struct {
 }
 
 type TalkBackVO struct {
-	Id           int64     `json:"id,optional"`   // 说说ID
-	UserId       string    `json:"user_id"`       // 用户ID
-	Content      string    `json:"content"`       // 说说内容
-	ImgList      []string  `json:"img_list"`      // 图片URL列表
-	IsTop        int64     `json:"is_top"`        // 是否置顶
-	Status       int64     `json:"status"`        // 状态 1.公开 2.私密
-	LikeCount    int64     `json:"like_count"`    // 点赞量
-	CommentCount int64     `json:"comment_count"` // 评论量
-	CreatedAt    int64     `json:"created_at"`    // 创建时间
-	UpdatedAt    int64     `json:"updated_at"`    // 更新时间
-	User         *UserInfo `json:"user"`          // 用户信息
+	Id           int64       `json:"id,optional"`   // 说说ID
+	UserId       string      `json:"user_id"`       // 用户ID
+	Content      string      `json:"content"`       // 说说内容
+	ImgList      []string    `json:"img_list"`      // 图片URL列表
+	IsTop        int64       `json:"is_top"`        // 是否置顶
+	Status       int64       `json:"status"`        // 状态 1.公开 2.私密
+	LikeCount    int64       `json:"like_count"`    // 点赞量
+	CommentCount int64       `json:"comment_count"` // 评论量
+	CreatedAt    int64       `json:"created_at"`    // 创建时间
+	UpdatedAt    int64       `json:"updated_at"`    // 更新时间
+	User         *UserInfoVO `json:"user"`          // 用户信息
 }
 
 type TalkNewReq struct {
@@ -649,6 +682,11 @@ type TalkNewReq struct {
 type TalkQuery struct {
 	PageQuery
 	Status int64 `json:"status,optional"` // 状态 1.公开 2.私密
+}
+
+type ThirdLoginReq struct {
+	Platform string `json:"platform"`      // 平台
+	Code     string `json:"code,optional"` // 授权码
 }
 
 type Token struct {
@@ -700,6 +738,12 @@ type UpdateUserBindPhoneReq struct {
 	VerifyCode string `json:"verify_code"` // 验证码
 }
 
+type UpdateUserBindThirdPartyReq struct {
+	Platform string `json:"platform"`       // 平台
+	Code     string `json:"code"`           // 授权码
+	State    string `json:"state,optional"` // 状态
+}
+
 type UpdateUserInfoReq struct {
 	Nickname string `json:"nickname"` // 昵称
 	UserInfoExt
@@ -736,34 +780,49 @@ type UserAreaVO struct {
 	Value int64  `json:"value"`
 }
 
-type UserInfo struct {
+type UserInfoDetail struct {
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	Status       int64  `json:"status"`        // 状态
+	RegisterType string `json:"register_type"` // 注册方式
+	IpAddress    string `json:"ip_address"`    // ip host
+	IpSource     string `json:"ip_source"`     // ip 源
+	CreatedAt    int64  `json:"created_at"`
+	UpdatedAt    int64  `json:"updated_at"`
+	UserInfoExt
+	RoleLabels []*UserRoleLabel `json:"roles"`
+}
+
+type UserInfoExt struct {
+	Gender  int64  `json:"gender,optional"`  // 性别 0未知 1男 2女
+	Intro   string `json:"intro",optional`   // 简介
+	Website string `json:"website,optional"` // 网站
+}
+
+type UserInfoResp struct {
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
+	RegisterType string `json:"register_type"` // 注册方式
+	UserInfoExt
+	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
+	Roles      []string              `json:"roles"`
+	Perms      []string              `json:"perms"`
+}
+
+type UserInfoVO struct {
 	UserId   string `json:"user_id"`
 	Username string `json:"username"`
 	Avatar   string `json:"avatar"`
 	Nickname string `json:"nickname"`
-}
-
-type UserInfoExt struct {
-	Gender  int64  `json:"gender"`  // 性别 0未知 1男 2女
-	Intro   string `json:"intro"`   // 简介
-	Website string `json:"website"` // 网站
-}
-
-type UserInfoResp struct {
-	UserId    string           `json:"user_id"`    // 用户id
-	Username  string           `json:"username"`   // 用户名
-	Nickname  string           `json:"nickname"`   // 用户昵称
-	Avatar    string           `json:"avatar"`     // 用户头像
-	Email     string           `json:"email"`      // 用户邮箱
-	Phone     string           `json:"phone"`      // 用户手机号
-	Status    int64            `json:"status"`     // 状态
-	LoginType string           `json:"login_type"` // 登录方式
-	IpAddress string           `json:"ip_address"` // ip host
-	IpSource  string           `json:"ip_source"`  // ip 源
-	CreatedAt int64            `json:"created_at"`
-	UpdatedAt int64            `json:"updated_at"`
-	Roles     []*UserRoleLabel `json:"roles"`
-	Perms     []*UserApi       `json:"perms"`
 	UserInfoExt
 }
 
@@ -827,18 +886,26 @@ type UserRolesResp struct {
 	List []*UserRole `json:"list"`
 }
 
+type UserThirdPartyInfo struct {
+	Platform  string `json:"platform"`   // 平台
+	OpenId    string `json:"open_id"`    // 平台用户id
+	Nickname  string `json:"nickname"`   // 昵称
+	Avatar    string `json:"avatar"`     // 头像
+	CreatedAt int64  `json:"created_at"` // 创建时间
+}
+
 type VisitLogBackVO struct {
-	Id         int64     `json:"id,optional"` // 主键id
-	UserId     string    `json:"user_id"`     // 用户id
-	TerminalId string    `json:"terminal_id"` // 终端id
-	PageName   string    `json:"page_name"`   // 页面
-	IpAddress  string    `json:"ip_address"`  // 操作ip
-	IpSource   string    `json:"ip_source"`   // 操作地址
-	Os         string    `json:"os"`          // 操作系统
-	Browser    string    `json:"browser"`     // 浏览器
-	CreatedAt  int64     `json:"created_at"`  // 创建时间
-	UpdatedAt  int64     `json:"updated_at"`  // 更新时间
-	User       *UserInfo `json:"user"`        // 用户信息
+	Id         int64       `json:"id,optional"` // 主键id
+	UserId     string      `json:"user_id"`     // 用户id
+	TerminalId string      `json:"terminal_id"` // 终端id
+	PageName   string      `json:"page_name"`   // 页面
+	IpAddress  string      `json:"ip_address"`  // 操作ip
+	IpSource   string      `json:"ip_source"`   // 操作地址
+	Os         string      `json:"os"`          // 操作系统
+	Browser    string      `json:"browser"`     // 浏览器
+	CreatedAt  int64       `json:"created_at"`  // 创建时间
+	UpdatedAt  int64       `json:"updated_at"`  // 更新时间
+	User       *UserInfoVO `json:"user"`        // 用户信息
 }
 
 type VisitLogQuery struct {

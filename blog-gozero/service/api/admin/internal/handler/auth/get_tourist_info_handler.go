@@ -11,17 +11,17 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
 )
 
-// 第三方登录
-func OauthLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 获取游客身份信息
+func GetTouristInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.OauthLoginReq
+		var req types.EmptyReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := auth.NewOauthLoginLogic(r.Context(), svcCtx)
-		resp, err := l.OauthLogin(&req)
+		l := auth.NewGetTouristInfoLogic(r.Context(), svcCtx)
+		resp, err := l.GetTouristInfo(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

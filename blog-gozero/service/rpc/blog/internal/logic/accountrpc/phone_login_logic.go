@@ -5,7 +5,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rediskey"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
@@ -14,51 +13,38 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateUserPhoneLogic struct {
+type PhoneLoginLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUpdateUserPhoneLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserPhoneLogic {
-	return &UpdateUserPhoneLogic{
+func NewPhoneLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PhoneLoginLogic {
+	return &PhoneLoginLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 修改用户登录手机号
-func (l *UpdateUserPhoneLogic) UpdateUserPhone(in *accountrpc.UpdateUserPhoneReq) (*accountrpc.EmptyResp, error) {
-	// 校验邮箱格式
+// 手机号登录
+func (l *PhoneLoginLogic) PhoneLogin(in *accountrpc.PhoneLoginReq) (*accountrpc.LoginResp, error) {
+	// 校验参数
 	if !valid.IsPhoneValid(in.Phone) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "手机号格式不正确")
 	}
 
-	userId, err := rpcutils.GetUserIdFromCtx(l.ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	// 验证用户是否存在
-	user, err := l.svcCtx.TUserModel.FindOneByUserId(l.ctx, userId)
+	account, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Phone)
 	if err != nil {
-		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
+		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, "用户不存在")
 	}
 
 	// 验证code是否正确
-	key := rediskey.GetCaptchaKey(constant.CodeTypeBindPhone, in.Phone)
+	key := rediskey.GetCaptchaKey(constant.CodeTypePhoneLogin, in.Phone)
 	if !l.svcCtx.CaptchaHolder.VerifyCaptcha(key, in.VerifyCode) {
 		return nil, bizerr.NewBizError(bizerr.CodeCaptchaVerify, "验证码错误")
 	}
 
-	// 更新密码
-	user.Phone = in.Phone
-
-	_, err = l.svcCtx.TUserModel.Save(l.ctx, user)
-	if err != nil {
-		return nil, err
-	}
-
-	return &accountrpc.EmptyResp{}, nil
+	return onLogin(l.ctx, l.svcCtx, account, constant.LoginTypePhone)
 }

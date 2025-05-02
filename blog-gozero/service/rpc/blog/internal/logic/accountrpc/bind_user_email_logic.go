@@ -14,14 +14,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdateUserEmailLogic struct {
+type BindUserEmailLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewUpdateUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserEmailLogic {
-	return &UpdateUserEmailLogic{
+func NewBindUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *BindUserEmailLogic {
+	return &BindUserEmailLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -29,7 +29,7 @@ func NewUpdateUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 // 修改用户登录邮箱
-func (l *UpdateUserEmailLogic) UpdateUserEmail(in *accountrpc.UpdateUseEmailReq) (*accountrpc.EmptyResp, error) {
+func (l *BindUserEmailLogic) BindUserEmail(in *accountrpc.BindUseEmailReq) (*accountrpc.EmptyResp, error) {
 	// 校验邮箱格式
 	if !valid.IsEmailValid(in.Email) {
 		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")

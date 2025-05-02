@@ -6,7 +6,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/articlerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
 
@@ -82,7 +81,7 @@ func (l *FindCommentBackListLogic) FindCommentBackList(req *types.CommentQuery) 
 	return resp, nil
 }
 
-func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountrpc.User, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
+func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*types.UserInfoVO, tsm map[int64]*articlerpc.ArticlePreview) (out *types.CommentBackVO) {
 	out = &types.CommentBackVO{
 		Id:             in.Id,
 		Type:           in.Type,
@@ -108,24 +107,14 @@ func ConvertCommentTypes(in *messagerpc.CommentDetails, usm map[string]*accountr
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.User = &types.UserInfo{
-				UserId:   user.UserId,
-				Username: user.Username,
-				Avatar:   user.Avatar,
-				Nickname: user.Nickname,
-			}
+			out.User = user
 		}
 	}
 
 	if in.ReplyUserId != "" {
 		user, ok := usm[in.ReplyUserId]
 		if ok && user != nil {
-			out.ReplyUser = &types.UserInfo{
-				UserId:   user.UserId,
-				Username: user.Username,
-				Avatar:   user.Avatar,
-				Nickname: user.Nickname,
-			}
+			out.ReplyUser = user
 		}
 	}
 

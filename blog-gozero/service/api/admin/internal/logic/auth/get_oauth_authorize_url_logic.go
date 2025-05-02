@@ -3,33 +3,31 @@ package auth
 import (
 	"context"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type OauthAuthorizeUrlLogic struct {
+type GetOauthAuthorizeUrlLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
 // 第三方登录授权地址
-func NewOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthAuthorizeUrlLogic {
-	return &OauthAuthorizeUrlLogic{
+func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetOauthAuthorizeUrlLogic {
+	return &GetOauthAuthorizeUrlLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(req *types.OauthLoginReq) (resp *types.OauthLoginUrlResp, err error) {
-	in := &accountrpc.OauthLoginReq{
+func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(req *types.GetOauthAuthorizeUrlReq) (resp *types.GetOauthAuthorizeUrlResp, err error) {
+	in := &accountrpc.GetOauthAuthorizeUrlReq{
 		Platform: req.Platform,
-		Code:     req.Code,
 		State:    req.State,
 	}
 
@@ -38,8 +36,8 @@ func (l *OauthAuthorizeUrlLogic) OauthAuthorizeUrl(req *types.OauthLoginReq) (re
 		return nil, err
 	}
 
-	resp = &types.OauthLoginUrlResp{
-		Url: out.Url,
+	resp = &types.GetOauthAuthorizeUrlResp{
+		AuthorizeUrl: out.AuthorizeUrl,
 	}
 	return resp, nil
 }

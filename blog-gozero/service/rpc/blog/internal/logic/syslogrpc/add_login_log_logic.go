@@ -32,7 +32,10 @@ func NewAddLoginLogLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLo
 
 // 创建登录记录
 func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.LoginLogNewReq) (*syslogrpc.EmptyResp, error) {
-	appname, _ := rpcutils.GetAppNameFromCtx(l.ctx)
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
+	}
 	ip, err := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	if err != nil {
 		return nil, err
@@ -52,7 +55,7 @@ func (l *AddLoginLogLogic) AddLoginLog(in *syslogrpc.LoginLogNewReq) (*syslogrpc
 		Id:        0,
 		UserId:    in.UserId,
 		LoginType: in.LoginType,
-		AppName:   appname,
+		AppName:   app,
 		Os:        os,
 		Browser:   browser,
 		IpAddress: ip,

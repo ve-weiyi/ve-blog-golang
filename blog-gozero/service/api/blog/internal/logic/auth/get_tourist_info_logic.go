@@ -1,4 +1,4 @@
-package user
+package auth
 
 import (
 	"context"
@@ -29,7 +29,7 @@ func NewGetTouristInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetTouristInfoLogic) GetTouristInfo(req *types.EmptyReq) (resp *types.GetTouristInfoResp, err error) {
-	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminal))
+	terminal := cast.ToString(l.ctx.Value(restx.HeaderTerminalId))
 
 	if terminal == "" {
 		tourist, err := l.svcCtx.AccountRpc.GetTouristInfo(l.ctx, &accountrpc.EmptyReq{})

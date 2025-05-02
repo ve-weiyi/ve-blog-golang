@@ -22,7 +22,7 @@ func GetUserIdFromCtx(ctx context.Context) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderUid)
+	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderUid)
 }
 
 // 游客id (即是用户的终端设备id)
@@ -32,13 +32,13 @@ func GetTerminalIdFromCtx(ctx context.Context) (string, error) {
 		return "", fmt.Errorf("metadata error")
 	}
 
-	if val, ok := md[restx.HeaderTerminal]; ok {
+	if val, ok := md[restx.HeaderTerminalId]; ok {
 		if len(val) > 0 {
 			return val[0], nil
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderTerminal)
+	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderTerminalId)
 }
 
 func GetAppNameFromCtx(ctx context.Context) (string, error) {
@@ -53,7 +53,7 @@ func GetAppNameFromCtx(ctx context.Context) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderAppName)
+	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderAppName)
 }
 
 func GetRemoteAgentFromCtx(ctx context.Context) (string, error) {
@@ -68,7 +68,7 @@ func GetRemoteAgentFromCtx(ctx context.Context) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderRPCRemoteAgent)
+	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderRPCRemoteAgent)
 }
 
 // 获取客户端IP地址
@@ -84,7 +84,7 @@ func GetRemoteIPFromCtx(ctx context.Context) (string, error) {
 		}
 	}
 
-	return "", fmt.Errorf("get rpc meta error:%v", restx.HeaderRPCRemoteIP)
+	return "", fmt.Errorf("missing rpc meta '%v'", restx.HeaderRPCRemoteIP)
 }
 
 // 获取服务端IP地址

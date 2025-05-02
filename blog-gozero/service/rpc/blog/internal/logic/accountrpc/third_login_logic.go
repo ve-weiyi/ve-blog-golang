@@ -2,32 +2,33 @@ package accountrpclogic
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/rpcutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/ipx"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type OauthLoginLogic struct {
+type ThirdLoginLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthLoginLogic {
-	return &OauthLoginLogic{
+func NewThirdLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ThirdLoginLogic {
+	return &ThirdLoginLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -35,16 +36,15 @@ func NewOauthLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OauthL
 }
 
 // 第三方登录
-func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.LoginResp, error) {
-	var auth oauth.Oauth
-	for platform, v := range l.svcCtx.Oauth {
-		if platform == in.Platform {
-			auth = v
-		}
+func (l *ThirdLoginLogic) ThirdLogin(in *accountrpc.ThirdLoginReq) (*accountrpc.LoginResp, error) {
+	app, err := rpcutils.GetAppNameFromCtx(l.ctx)
+	if err != nil {
+		return nil, err
 	}
 
-	if auth == nil {
-		return nil, fmt.Errorf("platform %s is not support", in.Platform)
+	auth, err := GetPlatformOauth(l.ctx, l.svcCtx, app, in.Platform)
+	if err != nil {
+		return nil, err
 	}
 
 	// 获取第三方用户信息
@@ -76,32 +76,32 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
-	return onLogin(l.ctx, l.svcCtx, user)
+	return onLogin(l.ctx, l.svcCtx, user, userOauth.Platform)
 }
 
-func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
+func (l *ThirdLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {
 	// 用户未注册,先注册用户
 	uid := uuid.NewString()
 	// 使用第三方注册时，username需要唯一, 用户不能使用username登录，所以使用uuid生成。
-	username := uid
+	username := fmt.Sprintf("UID_%s", base64.StdEncoding.EncodeToString([]byte(uid)))
 
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	// 用户账号
 	user := &model.TUser{
-		UserId:    uid,
-		Username:  username,
-		Password:  crypto.BcryptHash(info.EnName),
-		Nickname:  info.NickName,
-		Avatar:    info.Avatar,
-		Email:     info.Email,
-		Phone:     info.Mobile,
-		Info:      "",
-		Status:    constant.UserStatusNormal,
-		LoginType: platform,
-		IpAddress: ip,
-		IpSource:  is,
+		UserId:       uid,
+		Username:     username,
+		Password:     crypto.BcryptHash(info.EnName),
+		Nickname:     info.NickName,
+		Avatar:       info.Avatar,
+		Email:        info.Email,
+		Phone:        info.Mobile,
+		Info:         "",
+		Status:       constant.UserStatusNormal,
+		RegisterType: platform,
+		IpAddress:    ip,
+		IpSource:     is,
 	}
 
 	/** 创建用户 **/
@@ -115,6 +115,8 @@ func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oaut
 		UserId:   ua.UserId,
 		OpenId:   info.OpenId,
 		Platform: platform,
+		Nickname: info.NickName,
+		Avatar:   info.Avatar,
 	}
 
 	/** 创建用户第三方信息 **/

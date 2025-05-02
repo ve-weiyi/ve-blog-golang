@@ -9,14 +9,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindTopicCommentCountsLogic struct {
+type FindCommentReplyCountsLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindTopicCommentCountsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTopicCommentCountsLogic {
-	return &FindTopicCommentCountsLogic{
+func NewFindCommentReplyCountsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCommentReplyCountsLogic {
+	return &FindCommentReplyCountsLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -24,8 +24,7 @@ func NewFindTopicCommentCountsLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 // 查询评论回复数量
-func (l *FindTopicCommentCountsLogic) FindTopicCommentCounts(in *messagerpc.IdsReq) (*messagerpc.FindTopicCommentCountsResp, error) {
-
+func (l *FindCommentReplyCountsLogic) FindCommentReplyCounts(in *messagerpc.IdsReq) (*messagerpc.FindCommentReplyCountsResp, error) {
 	cm := make(map[int64]int64)
 	for _, v := range in.Ids {
 		count, err := l.svcCtx.TCommentModel.FindCount(l.ctx, "topic_id=?", v)
@@ -36,7 +35,7 @@ func (l *FindTopicCommentCountsLogic) FindTopicCommentCounts(in *messagerpc.IdsR
 		cm[v] = count
 	}
 
-	return &messagerpc.FindTopicCommentCountsResp{
+	return &messagerpc.FindCommentReplyCountsResp{
 		TopicCommentCounts: cm,
 	}, nil
 }

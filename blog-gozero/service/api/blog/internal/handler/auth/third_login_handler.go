@@ -12,16 +12,16 @@ import (
 )
 
 // 第三方登录
-func OauthLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func ThirdLoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.OauthLoginReq
+		var req types.ThirdLoginReq
 		if err := httpx.Parse(r, &req); err != nil {
 			responsex.Response(r, w, nil, err)
 			return
 		}
 
-		l := auth.NewOauthLoginLogic(r.Context(), svcCtx)
-		resp, err := l.OauthLogin(&req)
+		l := auth.NewThirdLoginLogic(r.Context(), svcCtx)
+		resp, err := l.ThirdLogin(&req)
 		responsex.Response(r, w, resp, err)
 	}
 }

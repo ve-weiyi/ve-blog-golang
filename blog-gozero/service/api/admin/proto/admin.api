@@ -36,7 +36,7 @@ type (
 )
 
 @server(
-	prefix: /admin_api/v1
+	prefix: /admin-api/v1
 )
 service admin-api {
 	@doc "ping"
