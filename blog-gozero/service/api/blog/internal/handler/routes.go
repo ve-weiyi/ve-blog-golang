@@ -35,7 +35,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: PingHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -62,7 +62,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -107,7 +107,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -122,13 +122,25 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.TimeToken},
 			[]rest.Route{
+				{
+					// 邮箱登录
+					Method:  http.MethodPost,
+					Path:    "/email_login",
+					Handler: auth.EmailLoginHandler(serverCtx),
+				},
+				{
+					// 获取验证码
+					Method:  http.MethodPost,
+					Path:    "/get_captcha_code",
+					Handler: auth.GetCaptchaCodeHandler(serverCtx),
+				},
 				{
 					// 登录
 					Method:  http.MethodPost,
@@ -148,10 +160,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: auth.OauthLoginHandler(serverCtx),
 				},
 				{
+					// 手机登录
+					Method:  http.MethodPost,
+					Path:    "/phone_login",
+					Handler: auth.PhoneLoginHandler(serverCtx),
+				},
+				{
 					// 注册
 					Method:  http.MethodPost,
 					Path:    "/register",
 					Handler: auth.RegisterHandler(serverCtx),
+				},
+				{
+					// 重置密码
+					Method:  http.MethodPost,
+					Path:    "/reset_password",
+					Handler: auth.ResetPasswordHandler(serverCtx),
 				},
 				{
 					// 发送邮件验证码
@@ -165,15 +189,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/send_phone_verify_code",
 					Handler: auth.SendPhoneVerifyCodeHandler(serverCtx),
 				},
-				{
-					// 重置密码
-					Method:  http.MethodPost,
-					Path:    "/user/reset_password",
-					Handler: auth.ResetPasswordHandler(serverCtx),
-				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -194,7 +212,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -209,7 +227,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -236,7 +254,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -257,7 +275,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -278,7 +296,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -293,7 +311,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -308,7 +326,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -323,7 +341,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -338,7 +356,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -353,7 +371,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -380,7 +398,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -431,7 +449,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -443,7 +461,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.GetTouristInfoHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -464,7 +482,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			}...,
 		),
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 
 	server.AddRoutes(
@@ -476,6 +494,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: websocket.WebsocketHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/v1"),
+		rest.WithPrefix("/blog/api/v1"),
 	)
 }

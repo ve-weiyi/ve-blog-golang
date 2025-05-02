@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/syslogrpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
@@ -71,7 +70,7 @@ func createToken(ctx context.Context, svcCtx *svc.ServiceContext, login *account
 
 	token = &types.Token{
 		UserId:      uid,
-		TokenType:   constant.TokenTypeBearer,
+		TokenType:   svcCtx.TokenHolder.TokenType(),
 		AccessToken: accessToken,
 		ExpiresIn:   time.Now().Add(expires).Unix(),
 	}

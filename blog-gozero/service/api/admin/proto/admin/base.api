@@ -1,3 +1,5 @@
+syntax = "v1"
+
 type RestHeader {
     HeaderCountry string `header:"Country,optional"`
     HeaderLanguage string `header:"Language,optional"`

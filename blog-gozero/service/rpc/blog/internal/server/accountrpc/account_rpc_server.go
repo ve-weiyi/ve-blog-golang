@@ -65,6 +65,24 @@ func (s *AccountRpcServer) SendPhoneVerifyCode(ctx context.Context, in *accountr
 	return l.SendPhoneVerifyCode(in)
 }
 
+// 生成验证码
+func (s *AccountRpcServer) GenerateCaptchaCode(ctx context.Context, in *accountrpc.GenerateCaptchaCodeReq) (*accountrpc.GenerateCaptchaCodeResp, error) {
+	l := accountrpclogic.NewGenerateCaptchaCodeLogic(ctx, s.svcCtx)
+	return l.GenerateCaptchaCode(in)
+}
+
+// 邮箱登录
+func (s *AccountRpcServer) EmailLogin(ctx context.Context, in *accountrpc.EmailLoginReq) (*accountrpc.LoginResp, error) {
+	l := accountrpclogic.NewEmailLoginLogic(ctx, s.svcCtx)
+	return l.EmailLogin(in)
+}
+
+// 手机号登录
+func (s *AccountRpcServer) PhoneLogin(ctx context.Context, in *accountrpc.PhoneLoginReq) (*accountrpc.LoginResp, error) {
+	l := accountrpclogic.NewPhoneLoginLogic(ctx, s.svcCtx)
+	return l.PhoneLogin(in)
+}
+
 // 第三方登录
 func (s *AccountRpcServer) OauthLogin(ctx context.Context, in *accountrpc.OauthLoginReq) (*accountrpc.LoginResp, error) {
 	l := accountrpclogic.NewOauthLoginLogic(ctx, s.svcCtx)
@@ -72,7 +90,7 @@ func (s *AccountRpcServer) OauthLogin(ctx context.Context, in *accountrpc.OauthL
 }
 
 // 获取第三方登录授权地址
-func (s *AccountRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *accountrpc.OauthLoginReq) (*accountrpc.OauthLoginUrlResp, error) {
+func (s *AccountRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *accountrpc.OauthLoginReq) (*accountrpc.GetOauthLoginUrlResp, error) {
 	l := accountrpclogic.NewGetOauthAuthorizeUrlLogic(ctx, s.svcCtx)
 	return l.GetOauthAuthorizeUrl(in)
 }

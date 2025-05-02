@@ -6,13 +6,11 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
-	"github.com/ve-weiyi/ve-blog-golang/kit/utils/valid"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
+	"github.com/ve-weiyi/ve-blog-golang/kit/infra/biz/bizerr"
+	"github.com/ve-weiyi/ve-blog-golang/kit/utils/crypto"
 )
 
 type LoginLogic struct {
@@ -31,11 +29,6 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 // 登录
 func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, error) {
-	// 校验邮箱格式
-	if !valid.IsEmailValid(in.Username) {
-		return nil, bizerr.NewBizError(bizerr.CodeInvalidParam, "邮箱格式不正确")
-	}
-
 	// 验证用户是否存在
 	account, err := l.svcCtx.TUserModel.FindOneByUsername(l.ctx, in.Username)
 	if err != nil {
@@ -47,10 +40,10 @@ func (l *LoginLogic) Login(in *accountrpc.LoginReq) (*accountrpc.LoginResp, erro
 		return nil, bizerr.NewBizError(bizerr.CodeUserPasswordError, "密码不正确")
 	}
 
-	return onLogin(l.ctx, l.svcCtx, account)
+	return onLogin(l.ctx, l.svcCtx, account, constant.LoginTypeUsername)
 }
 
-func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser) (resp *accountrpc.LoginResp, err error) {
+func onLogin(ctx context.Context, svcCtx *svc.ServiceContext, user *model.TUser, loginType string) (resp *accountrpc.LoginResp, err error) {
 	// 判断用户是否被禁用
 	if user.Status == constant.UserStatusDisabled {
 		return nil, bizerr.NewBizError(bizerr.CodeUserDisabled, "用户已被禁用")
