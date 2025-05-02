@@ -21,11 +21,15 @@ type (
 	AnalysisUserReq           = accountrpc.AnalysisUserReq
 	AnalysisUserResp          = accountrpc.AnalysisUserResp
 	BatchResp                 = accountrpc.BatchResp
+	EmailLoginReq             = accountrpc.EmailLoginReq
 	EmptyReq                  = accountrpc.EmptyReq
 	EmptyResp                 = accountrpc.EmptyResp
 	FindUserInfoListResp      = accountrpc.FindUserInfoListResp
 	FindUserListReq           = accountrpc.FindUserListReq
 	FindUserListResp          = accountrpc.FindUserListResp
+	GenerateCaptchaCodeReq    = accountrpc.GenerateCaptchaCodeReq
+	GenerateCaptchaCodeResp   = accountrpc.GenerateCaptchaCodeResp
+	GetOauthLoginUrlResp      = accountrpc.GetOauthLoginUrlResp
 	GetTouristInfoResp        = accountrpc.GetTouristInfoResp
 	IdReq                     = accountrpc.IdReq
 	IdsReq                    = accountrpc.IdsReq
@@ -35,7 +39,7 @@ type (
 	LogoutReq                 = accountrpc.LogoutReq
 	LogoutResp                = accountrpc.LogoutResp
 	OauthLoginReq             = accountrpc.OauthLoginReq
-	OauthLoginUrlResp         = accountrpc.OauthLoginUrlResp
+	PhoneLoginReq             = accountrpc.PhoneLoginReq
 	RegisterReq               = accountrpc.RegisterReq
 	ResetPasswordReq          = accountrpc.ResetPasswordReq
 	SendEmailVerifyCodeReq    = accountrpc.SendEmailVerifyCodeReq
@@ -66,10 +70,16 @@ type (
 		SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 发送手机号验证码
 		SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 生成验证码
+		GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error)
+		// 邮箱登录
+		EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// 手机号登录
+		PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// 第三方登录
 		OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// 获取第三方登录授权地址
-		GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error)
+		GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*GetOauthLoginUrlResp, error)
 		// 获取用户信息
 		GetUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 		// 修改用户信息
@@ -153,6 +163,24 @@ func (m *defaultAccountRpc) SendPhoneVerifyCode(ctx context.Context, in *SendPho
 	return client.SendPhoneVerifyCode(ctx, in, opts...)
 }
 
+// 生成验证码
+func (m *defaultAccountRpc) GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.GenerateCaptchaCode(ctx, in, opts...)
+}
+
+// 邮箱登录
+func (m *defaultAccountRpc) EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.EmailLogin(ctx, in, opts...)
+}
+
+// 手机号登录
+func (m *defaultAccountRpc) PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.PhoneLogin(ctx, in, opts...)
+}
+
 // 第三方登录
 func (m *defaultAccountRpc) OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
@@ -160,7 +188,7 @@ func (m *defaultAccountRpc) OauthLogin(ctx context.Context, in *OauthLoginReq, o
 }
 
 // 获取第三方登录授权地址
-func (m *defaultAccountRpc) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*OauthLoginUrlResp, error) {
+func (m *defaultAccountRpc) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*GetOauthLoginUrlResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.GetOauthAuthorizeUrl(ctx, in, opts...)
 }

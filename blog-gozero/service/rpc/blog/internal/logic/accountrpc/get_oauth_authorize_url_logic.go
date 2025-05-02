@@ -26,7 +26,7 @@ func NewGetOauthAuthorizeUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 // 获取授权地址
-func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.OauthLoginReq) (*accountrpc.OauthLoginUrlResp, error) {
+func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.OauthLoginReq) (*accountrpc.GetOauthLoginUrlResp, error) {
 	var auth oauth.Oauth
 	for platform, v := range l.svcCtx.Oauth {
 		if platform == in.Platform {
@@ -38,7 +38,7 @@ func (l *GetOauthAuthorizeUrlLogic) GetOauthAuthorizeUrl(in *accountrpc.OauthLog
 		return nil, fmt.Errorf("platform %s is not support", in.Platform)
 	}
 
-	resp := &accountrpc.OauthLoginUrlResp{}
+	resp := &accountrpc.GetOauthLoginUrlResp{}
 	resp.Url = auth.GetAuthLoginUrl(in.State)
 	return resp, nil
 }

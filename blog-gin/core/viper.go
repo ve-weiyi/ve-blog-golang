@@ -1,11 +1,10 @@
 package core
 
 import (
-	"github.com/mitchellh/mapstructure"
-
 	"fmt"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/go-viper/mapstructure/v2"
 	"github.com/spf13/viper"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/config"
