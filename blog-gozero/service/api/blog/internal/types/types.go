@@ -66,11 +66,6 @@ type BatchResp struct {
 	SuccessCount int64 `json:"success_count"`
 }
 
-type BindUserEmailReq struct {
-	Email      string `json:"email"`       // 邮箱
-	VerifyCode string `json:"verify_code"` // 验证码
-}
-
 type Category struct {
 	Id           int64  `json:"id"`
 	CategoryName string `json:"category_name"` // 分类名
@@ -162,6 +157,13 @@ type CommentUserInfo struct {
 	Website  string `json:"website"`
 }
 
+type EmailLoginReq struct {
+	Email       string `json:"email"`                 // 邮箱
+	Password    string `json:"password"`              // 密码
+	CaptchaKey  string `json:"captcha_key,optional"`  // 验证码key
+	CaptchaCode string `json:"captcha_code,optional"` // 验证码
+}
+
 type EmptyReq struct {
 }
 
@@ -212,6 +214,17 @@ type GetBlogHomeInfoResp struct {
 	TotalPageViewCount int64            `json:"total_page_view_count"` // 总浏览量
 	WebsiteConfig      WebsiteConfigDTO `json:"website_config"`        // 网站配置
 	PageList           []*PageDTO       `json:"page_list"`             // 页面列表
+}
+
+type GetCaptchaCodeReq struct {
+	Width  int64 `json:"width,optional"`  // 宽度
+	Height int64 `json:"height,optional"` // 高度
+}
+
+type GetCaptchaCodeResp struct {
+	CaptchaKey    string `json:"captcha_key"`    // 验证码key
+	CaptchaBase64 string `json:"captcha_base64"` // 验证码base64
+	CaptchaCode   string `json:"captcha_code"`   // 验证码
 }
 
 type GetTouristInfoResp struct {
@@ -292,6 +305,11 @@ type PageResp struct {
 	List     interface{} `json:"list,omitempty"`
 }
 
+type PhoneLoginReq struct {
+	Phone      string `json:"phone"`       // 手机号
+	VerifyCode string `json:"verify_code"` // 验证码
+}
+
 type Photo struct {
 	Id       int64  `json:"id"`        // 主键
 	PhotoUrl string `json:"photo_url"` // 照片地址
@@ -328,9 +346,11 @@ type ReceiveMsg struct {
 }
 
 type RegisterReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	VerifyCode string `json:"verify_code"` // 验证码
+	Username        string `json:"username"`
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+	Email           string `json:"email"`            // 邮箱
+	VerifyCode      string `json:"verify_code"`      // 验证码
 }
 
 type Remark struct {
@@ -362,9 +382,10 @@ type ReplyMsg struct {
 }
 
 type ResetPasswordReq struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	VerifyCode string `json:"verify_code"` // 验证码
+	Password        string `json:"password"`
+	ConfirmPassword string `json:"confirm_password"` // 确认密码
+	Email           string `json:"email"`
+	VerifyCode      string `json:"verify_code"` // 验证码
 }
 
 type Response struct {

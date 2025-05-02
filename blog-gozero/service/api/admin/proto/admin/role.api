@@ -51,7 +51,7 @@ type (
 )
 
 @server(
-    prefix: /admin_api/v1
+    prefix: /admin/api/v1
     group: role
     middleware: JwtToken,Permission,OperationLog
 )

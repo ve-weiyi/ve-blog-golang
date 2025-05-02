@@ -56,7 +56,7 @@ type (
 )
 
 @server(
-    prefix: /api/v1
+    prefix: /blog/api/v1
     group: websocket
 )
 

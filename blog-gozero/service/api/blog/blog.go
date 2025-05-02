@@ -69,7 +69,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 
-	swagger.RegisterHttpSwagHandler(server, "/api/v1/swagger/", []byte(docs.Docs))
+	swagger.RegisterHttpSwagHandler(server, "/blog/api/v1/swagger/", []byte(docs.Docs))
 
 	server.Use(middlewarex.NewCtxMetaMiddleware().Handle)
 	server.Use(middlewarex.NewAntiReplyMiddleware().Handle)
@@ -81,7 +81,7 @@ func main() {
 	//})
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	fmt.Printf(`
-	默认接口文档地址:http://%s:%d/api/v1/swagger/index.html
+	默认接口文档地址:http://%s:%d/blog/api/v1/swagger/index.html
 `, c.Host, c.Port)
 
 	server.Start()

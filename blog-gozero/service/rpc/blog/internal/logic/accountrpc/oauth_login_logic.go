@@ -76,7 +76,7 @@ func (l *OauthLoginLogic) OauthLogin(in *accountrpc.OauthLoginReq) (*accountrpc.
 		return nil, bizerr.NewBizError(bizerr.CodeUserNotExist, err.Error())
 	}
 
-	return onLogin(l.ctx, l.svcCtx, user)
+	return onLogin(l.ctx, l.svcCtx, user, constant.LoginTypeOauth)
 }
 
 func (l *OauthLoginLogic) oauthRegister(tx *gorm.DB, platform string, info *oauth.UserResult) (out *model.TUserOauth, err error) {

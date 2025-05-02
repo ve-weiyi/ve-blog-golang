@@ -64,11 +64,12 @@ message LogoutResp {
 message RegisterReq {
   string username = 1;
   string password = 2;
-  string verify_code = 3;
+  string email = 3;
+  string verify_code = 4;
 }
 
 message ResetPasswordReq {
-  string username = 1;
+  string email = 1;
   string password = 2;
   string verify_code = 3;
 }
@@ -83,13 +84,36 @@ message SendPhoneVerifyCodeReq {
   string type = 2; // 类型 register, reset_password, bind_email, bind_phone
 }
 
+message GenerateCaptchaCodeReq {
+  int64 height = 1; // 高度
+  int64 width = 2; // 宽度
+}
+
+message GenerateCaptchaCodeResp {
+  string captcha_key = 1; // 验证码key
+  string captcha_base64 = 2; // 验证码base64
+  string captcha_code = 3; // 验证码
+}
+
+message EmailLoginReq {
+  string email = 1; // 邮箱
+  string password = 2; // 密码
+  string captcha_key = 3; // 验证码key
+  string captcha_code = 4; // 验证码
+}
+
+message PhoneLoginReq {
+  string phone = 1; // 手机号
+  string verify_code = 3; // 验证码
+}
+
 message OauthLoginReq {
   string platform = 1;// 平台
   string code = 2;// 授权码
   string state = 3;// 状态
 }
 
-message OauthLoginUrlResp {
+message GetOauthLoginUrlResp {
   string url = 1;// 授权地址
 }
 
@@ -232,11 +256,17 @@ service AccountRpc {
   rpc SendEmailVerifyCode(SendEmailVerifyCodeReq) returns(EmptyResp);
   // 发送手机号验证码
   rpc SendPhoneVerifyCode(SendPhoneVerifyCodeReq) returns(EmptyResp);
+  // 生成验证码
+  rpc GenerateCaptchaCode(GenerateCaptchaCodeReq) returns(GenerateCaptchaCodeResp);
 
+  // 邮箱登录
+  rpc EmailLogin(EmailLoginReq) returns(LoginResp);
+  // 手机号登录
+  rpc PhoneLogin(PhoneLoginReq) returns(LoginResp);
   // 第三方登录
   rpc OauthLogin(OauthLoginReq) returns(LoginResp);
   // 获取第三方登录授权地址
-  rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(OauthLoginUrlResp);
+  rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(GetOauthLoginUrlResp);
 
 
   // 获取用户信息
