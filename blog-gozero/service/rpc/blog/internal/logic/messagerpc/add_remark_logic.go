@@ -30,16 +30,19 @@ func NewAddRemarkLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddRema
 
 // 创建留言
 func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.RemarkDetails, error) {
+	uid, _ := rpcutils.GetUserIdFromCtx(l.ctx)
+	tid, _ := rpcutils.GetTerminalIdFromCtx(l.ctx)
 	ip, _ := rpcutils.GetRemoteIPFromCtx(l.ctx)
 	is, _ := ipx.GetIpSourceByBaidu(ip)
 
 	entity := &model.TRemark{
 		Id:             0,
-		UserId:         in.UserId,
+		UserId:         uid,
+		TerminalId:     tid,
 		MessageContent: in.MessageContent,
 		IpAddress:      ip,
 		IpSource:       is,
-		IsReview:       1,
+		IsReview:       l.svcCtx.Config.DefaultRemarkReviewStatus,
 		//CreatedAt:      time.Time{},
 		//UpdatedAt:      time.Time{},
 	}
@@ -50,19 +53,4 @@ func (l *AddRemarkLogic) AddRemark(in *messagerpc.RemarkNewReq) (*messagerpc.Rem
 	}
 
 	return convertRemarkOut(entity), nil
-}
-
-func convertRemarkOut(in *model.TRemark) (out *messagerpc.RemarkDetails) {
-	out = &messagerpc.RemarkDetails{
-		Id:             in.Id,
-		UserId:         in.UserId,
-		MessageContent: in.MessageContent,
-		IpAddress:      in.IpAddress,
-		IpSource:       in.IpSource,
-		IsReview:       in.IsReview,
-		CreatedAt:      in.CreatedAt.Unix(),
-		UpdatedAt:      in.UpdatedAt.Unix(),
-	}
-
-	return out
 }

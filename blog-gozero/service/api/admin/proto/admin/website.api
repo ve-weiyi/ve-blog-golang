@@ -117,7 +117,7 @@ type Server {
 
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: website
     middleware: JwtToken,Permission,OperationLog
 )

@@ -21,7 +21,7 @@ func (s *CommonRouter) Register(r *gin.RouterGroup) {
 	// Common
 	// []
 	{
-		group := r.Group("/admin_api/v1")
+		group := r.Group("/admin-api/v1")
 
 		handler := controller.NewCommonController(s.svcCtx)
 		// ping

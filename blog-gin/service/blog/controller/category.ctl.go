@@ -26,7 +26,7 @@ func NewCategoryController(svcCtx *svctx.ServiceContext) *CategoryController {
 // @Produce		application/json
 // @Param		data	body		dto.CategoryQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/category/find_category_list [POST]
+// @Router		/blog-api/v1/category/find_category_list [POST]
 func (s *CategoryController) FindCategoryList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

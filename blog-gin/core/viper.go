@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/go-viper/mapstructure/v2"
+	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/config"
@@ -24,12 +24,15 @@ func Viper(filename string) *config.Config {
 	}
 
 	// 修改解析的tag（默认是mapstructure）
-	withJsonTag := func(c *mapstructure.DecoderConfig) {
-		c.TagName = "json"
+	withJsonTag := func(dc *mapstructure.DecoderConfig) {
+		dc.TagName = "json"
 	}
 
+	// 包装为 viper.DecoderConfigOption
+	option := viper.DecodeHook(withJsonTag)
+
 	// 解析配置文件
-	if err = v.Unmarshal(&c, withJsonTag); err != nil {
+	if err = v.Unmarshal(&c, option); err != nil {
 		panic(err)
 	}
 
@@ -37,7 +40,7 @@ func Viper(filename string) *config.Config {
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("config file changed:", e.Name)
-		if err = v.Unmarshal(&c, withJsonTag); err != nil {
+		if err = v.Unmarshal(&c, option); err != nil {
 			fmt.Println(err)
 		}
 

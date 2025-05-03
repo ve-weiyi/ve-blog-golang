@@ -25,8 +25,8 @@ func NewMenuController(svcCtx *svctx.ServiceContext) *MenuController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.MenuNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.MenuBackDTO}	"返回信息"
-// @Router		/admin_api/v1/menu/add_menu [POST]
+// @Success		200		{object}	response.Body{data=dto.MenuBackVO}	"返回信息"
+// @Router		/admin-api/v1/menu/add_menu [POST]
 func (s *MenuController) AddMenu(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *MenuController) AddMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/menu/batch_delete_menu [DELETE]
+// @Router		/admin-api/v1/menu/batch_delete_menu [DELETE]
 func (s *MenuController) BatchDeleteMenu(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *MenuController) BatchDeleteMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.EmptyReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/menu/clean_menu_list [POST]
+// @Router		/admin-api/v1/menu/clean_menu_list [POST]
 func (s *MenuController) CleanMenuList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -110,7 +110,7 @@ func (s *MenuController) CleanMenuList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/menu/delete_menu [DELETE]
+// @Router		/admin-api/v1/menu/delete_menu [DELETE]
 func (s *MenuController) DeleteMenu(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -138,7 +138,7 @@ func (s *MenuController) DeleteMenu(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.MenuQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/menu/find_menu_list [POST]
+// @Router		/admin-api/v1/menu/find_menu_list [POST]
 func (s *MenuController) FindMenuList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -166,7 +166,7 @@ func (s *MenuController) FindMenuList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.SyncMenuReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/menu/sync_menu_list [POST]
+// @Router		/admin-api/v1/menu/sync_menu_list [POST]
 func (s *MenuController) SyncMenuList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -193,8 +193,8 @@ func (s *MenuController) SyncMenuList(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.MenuNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.MenuBackDTO}	"返回信息"
-// @Router		/admin_api/v1/menu/update_menu [PUT]
+// @Success		200		{object}	response.Body{data=dto.MenuBackVO}	"返回信息"
+// @Router		/admin-api/v1/menu/update_menu [PUT]
 func (s *MenuController) UpdateMenu(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

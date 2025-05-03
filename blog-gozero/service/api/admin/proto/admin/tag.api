@@ -24,7 +24,7 @@ type (
 )
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: tag
     middleware: JwtToken,Permission,OperationLog
 )

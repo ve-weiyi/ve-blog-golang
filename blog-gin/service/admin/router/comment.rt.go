@@ -19,12 +19,12 @@ func NewCommentRouter(svcCtx *svctx.ServiceContext) *CommentRouter {
 
 func (s *CommentRouter) Register(r *gin.RouterGroup) {
 	// Comment
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewCommentController(s.svcCtx)
 		// 批量删除评论

@@ -28,19 +28,22 @@ const (
 	AccountRpc_Logoff_FullMethodName                 = "/accountrpc.AccountRpc/Logoff"
 	AccountRpc_Register_FullMethodName               = "/accountrpc.AccountRpc/Register"
 	AccountRpc_ResetPassword_FullMethodName          = "/accountrpc.AccountRpc/ResetPassword"
+	AccountRpc_EmailLogin_FullMethodName             = "/accountrpc.AccountRpc/EmailLogin"
+	AccountRpc_PhoneLogin_FullMethodName             = "/accountrpc.AccountRpc/PhoneLogin"
+	AccountRpc_ThirdLogin_FullMethodName             = "/accountrpc.AccountRpc/ThirdLogin"
+	AccountRpc_GetOauthAuthorizeUrl_FullMethodName   = "/accountrpc.AccountRpc/GetOauthAuthorizeUrl"
 	AccountRpc_SendEmailVerifyCode_FullMethodName    = "/accountrpc.AccountRpc/SendEmailVerifyCode"
 	AccountRpc_SendPhoneVerifyCode_FullMethodName    = "/accountrpc.AccountRpc/SendPhoneVerifyCode"
 	AccountRpc_GenerateCaptchaCode_FullMethodName    = "/accountrpc.AccountRpc/GenerateCaptchaCode"
-	AccountRpc_EmailLogin_FullMethodName             = "/accountrpc.AccountRpc/EmailLogin"
-	AccountRpc_PhoneLogin_FullMethodName             = "/accountrpc.AccountRpc/PhoneLogin"
-	AccountRpc_OauthLogin_FullMethodName             = "/accountrpc.AccountRpc/OauthLogin"
-	AccountRpc_GetOauthAuthorizeUrl_FullMethodName   = "/accountrpc.AccountRpc/GetOauthAuthorizeUrl"
 	AccountRpc_GetUserInfo_FullMethodName            = "/accountrpc.AccountRpc/GetUserInfo"
+	AccountRpc_GetUserOauthInfo_FullMethodName       = "/accountrpc.AccountRpc/GetUserOauthInfo"
 	AccountRpc_UpdateUserInfo_FullMethodName         = "/accountrpc.AccountRpc/UpdateUserInfo"
 	AccountRpc_UpdateUserAvatar_FullMethodName       = "/accountrpc.AccountRpc/UpdateUserAvatar"
 	AccountRpc_UpdateUserPassword_FullMethodName     = "/accountrpc.AccountRpc/UpdateUserPassword"
-	AccountRpc_UpdateUserEmail_FullMethodName        = "/accountrpc.AccountRpc/UpdateUserEmail"
-	AccountRpc_UpdateUserPhone_FullMethodName        = "/accountrpc.AccountRpc/UpdateUserPhone"
+	AccountRpc_BindUserEmail_FullMethodName          = "/accountrpc.AccountRpc/BindUserEmail"
+	AccountRpc_BindUserPhone_FullMethodName          = "/accountrpc.AccountRpc/BindUserPhone"
+	AccountRpc_BindUserOauth_FullMethodName          = "/accountrpc.AccountRpc/BindUserOauth"
+	AccountRpc_UnbindUserOauth_FullMethodName        = "/accountrpc.AccountRpc/UnbindUserOauth"
 	AccountRpc_AdminUpdateUserStatus_FullMethodName  = "/accountrpc.AccountRpc/AdminUpdateUserStatus"
 	AccountRpc_AdminResetUserPassword_FullMethodName = "/accountrpc.AccountRpc/AdminResetUserPassword"
 	AccountRpc_FindUserList_FullMethodName           = "/accountrpc.AccountRpc/FindUserList"
@@ -65,22 +68,24 @@ type AccountRpcClient interface {
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// 重置密码
 	ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 邮箱登录
+	EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// 手机号登录
+	PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// 第三方登录
+	ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// 获取第三方登录授权地址
+	GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error)
 	// 发送邮件验证码
 	SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 发送手机号验证码
 	SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 生成验证码
 	GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error)
-	// 邮箱登录
-	EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	// 手机号登录
-	PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	// 第三方登录
-	OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	// 获取第三方登录授权地址
-	GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*GetOauthLoginUrlResp, error)
 	// 获取用户信息
 	GetUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	// 获取用户第三平台信息
+	GetUserOauthInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*GetUserOauthInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户头像
@@ -88,9 +93,13 @@ type AccountRpcClient interface {
 	// 修改用户密码
 	UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户登录邮箱
-	UpdateUserEmail(ctx context.Context, in *UpdateUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户登录手机号
-	UpdateUserPhone(ctx context.Context, in *UpdateUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	BindUserPhone(ctx context.Context, in *BindUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 修改用户第三方账号
+	BindUserOauth(ctx context.Context, in *BindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error)
+	// 解绑第三方账号
+	UnbindUserOauth(ctx context.Context, in *UnbindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 修改用户状态
 	AdminUpdateUserStatus(ctx context.Context, in *AdminUpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
 	// 管理员重置用户密码
@@ -162,6 +171,42 @@ func (c *accountRpcClient) ResetPassword(ctx context.Context, in *ResetPasswordR
 	return out, nil
 }
 
+func (c *accountRpcClient) EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	out := new(LoginResp)
+	err := c.cc.Invoke(ctx, AccountRpc_EmailLogin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountRpcClient) PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	out := new(LoginResp)
+	err := c.cc.Invoke(ctx, AccountRpc_PhoneLogin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountRpcClient) ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	out := new(LoginResp)
+	err := c.cc.Invoke(ctx, AccountRpc_ThirdLogin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountRpcClient) GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error) {
+	out := new(GetOauthAuthorizeUrlResp)
+	err := c.cc.Invoke(ctx, AccountRpc_GetOauthAuthorizeUrl_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountRpcClient) SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
 	err := c.cc.Invoke(ctx, AccountRpc_SendEmailVerifyCode_FullMethodName, in, out, opts...)
@@ -189,45 +234,18 @@ func (c *accountRpcClient) GenerateCaptchaCode(ctx context.Context, in *Generate
 	return out, nil
 }
 
-func (c *accountRpcClient) EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	out := new(LoginResp)
-	err := c.cc.Invoke(ctx, AccountRpc_EmailLogin_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	out := new(LoginResp)
-	err := c.cc.Invoke(ctx, AccountRpc_PhoneLogin_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	out := new(LoginResp)
-	err := c.cc.Invoke(ctx, AccountRpc_OauthLogin_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountRpcClient) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*GetOauthLoginUrlResp, error) {
-	out := new(GetOauthLoginUrlResp)
-	err := c.cc.Invoke(ctx, AccountRpc_GetOauthAuthorizeUrl_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *accountRpcClient) GetUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	out := new(UserInfoResp)
 	err := c.cc.Invoke(ctx, AccountRpc_GetUserInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountRpcClient) GetUserOauthInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*GetUserOauthInfoResp, error) {
+	out := new(GetUserOauthInfoResp)
+	err := c.cc.Invoke(ctx, AccountRpc_GetUserOauthInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -261,18 +279,36 @@ func (c *accountRpcClient) UpdateUserPassword(ctx context.Context, in *UpdateUse
 	return out, nil
 }
 
-func (c *accountRpcClient) UpdateUserEmail(ctx context.Context, in *UpdateUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *accountRpcClient) BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, AccountRpc_UpdateUserEmail_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AccountRpc_BindUserEmail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *accountRpcClient) UpdateUserPhone(ctx context.Context, in *UpdateUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (c *accountRpcClient) BindUserPhone(ctx context.Context, in *BindUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	out := new(EmptyResp)
-	err := c.cc.Invoke(ctx, AccountRpc_UpdateUserPhone_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AccountRpc_BindUserPhone_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountRpcClient) BindUserOauth(ctx context.Context, in *BindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, AccountRpc_BindUserOauth_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountRpcClient) UnbindUserOauth(ctx context.Context, in *UnbindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	out := new(EmptyResp)
+	err := c.cc.Invoke(ctx, AccountRpc_UnbindUserOauth_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -365,22 +401,24 @@ type AccountRpcServer interface {
 	Register(context.Context, *RegisterReq) (*LoginResp, error)
 	// 重置密码
 	ResetPassword(context.Context, *ResetPasswordReq) (*EmptyResp, error)
+	// 邮箱登录
+	EmailLogin(context.Context, *EmailLoginReq) (*LoginResp, error)
+	// 手机号登录
+	PhoneLogin(context.Context, *PhoneLoginReq) (*LoginResp, error)
+	// 第三方登录
+	ThirdLogin(context.Context, *ThirdLoginReq) (*LoginResp, error)
+	// 获取第三方登录授权地址
+	GetOauthAuthorizeUrl(context.Context, *GetOauthAuthorizeUrlReq) (*GetOauthAuthorizeUrlResp, error)
 	// 发送邮件验证码
 	SendEmailVerifyCode(context.Context, *SendEmailVerifyCodeReq) (*EmptyResp, error)
 	// 发送手机号验证码
 	SendPhoneVerifyCode(context.Context, *SendPhoneVerifyCodeReq) (*EmptyResp, error)
 	// 生成验证码
 	GenerateCaptchaCode(context.Context, *GenerateCaptchaCodeReq) (*GenerateCaptchaCodeResp, error)
-	// 邮箱登录
-	EmailLogin(context.Context, *EmailLoginReq) (*LoginResp, error)
-	// 手机号登录
-	PhoneLogin(context.Context, *PhoneLoginReq) (*LoginResp, error)
-	// 第三方登录
-	OauthLogin(context.Context, *OauthLoginReq) (*LoginResp, error)
-	// 获取第三方登录授权地址
-	GetOauthAuthorizeUrl(context.Context, *OauthLoginReq) (*GetOauthLoginUrlResp, error)
 	// 获取用户信息
 	GetUserInfo(context.Context, *UserIdReq) (*UserInfoResp, error)
+	// 获取用户第三平台信息
+	GetUserOauthInfo(context.Context, *UserIdReq) (*GetUserOauthInfoResp, error)
 	// 修改用户信息
 	UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*EmptyResp, error)
 	// 修改用户头像
@@ -388,9 +426,13 @@ type AccountRpcServer interface {
 	// 修改用户密码
 	UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error)
 	// 修改用户登录邮箱
-	UpdateUserEmail(context.Context, *UpdateUseEmailReq) (*EmptyResp, error)
+	BindUserEmail(context.Context, *BindUseEmailReq) (*EmptyResp, error)
 	// 修改用户登录手机号
-	UpdateUserPhone(context.Context, *UpdateUserPhoneReq) (*EmptyResp, error)
+	BindUserPhone(context.Context, *BindUserPhoneReq) (*EmptyResp, error)
+	// 修改用户第三方账号
+	BindUserOauth(context.Context, *BindUserOauthReq) (*EmptyResp, error)
+	// 解绑第三方账号
+	UnbindUserOauth(context.Context, *UnbindUserOauthReq) (*EmptyResp, error)
 	// 修改用户状态
 	AdminUpdateUserStatus(context.Context, *AdminUpdateUserStatusReq) (*EmptyResp, error)
 	// 管理员重置用户密码
@@ -429,6 +471,18 @@ func (UnimplementedAccountRpcServer) Register(context.Context, *RegisterReq) (*L
 func (UnimplementedAccountRpcServer) ResetPassword(context.Context, *ResetPasswordReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
 }
+func (UnimplementedAccountRpcServer) EmailLogin(context.Context, *EmailLoginReq) (*LoginResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EmailLogin not implemented")
+}
+func (UnimplementedAccountRpcServer) PhoneLogin(context.Context, *PhoneLoginReq) (*LoginResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PhoneLogin not implemented")
+}
+func (UnimplementedAccountRpcServer) ThirdLogin(context.Context, *ThirdLoginReq) (*LoginResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ThirdLogin not implemented")
+}
+func (UnimplementedAccountRpcServer) GetOauthAuthorizeUrl(context.Context, *GetOauthAuthorizeUrlReq) (*GetOauthAuthorizeUrlResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOauthAuthorizeUrl not implemented")
+}
 func (UnimplementedAccountRpcServer) SendEmailVerifyCode(context.Context, *SendEmailVerifyCodeReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendEmailVerifyCode not implemented")
 }
@@ -438,20 +492,11 @@ func (UnimplementedAccountRpcServer) SendPhoneVerifyCode(context.Context, *SendP
 func (UnimplementedAccountRpcServer) GenerateCaptchaCode(context.Context, *GenerateCaptchaCodeReq) (*GenerateCaptchaCodeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GenerateCaptchaCode not implemented")
 }
-func (UnimplementedAccountRpcServer) EmailLogin(context.Context, *EmailLoginReq) (*LoginResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method EmailLogin not implemented")
-}
-func (UnimplementedAccountRpcServer) PhoneLogin(context.Context, *PhoneLoginReq) (*LoginResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PhoneLogin not implemented")
-}
-func (UnimplementedAccountRpcServer) OauthLogin(context.Context, *OauthLoginReq) (*LoginResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OauthLogin not implemented")
-}
-func (UnimplementedAccountRpcServer) GetOauthAuthorizeUrl(context.Context, *OauthLoginReq) (*GetOauthLoginUrlResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOauthAuthorizeUrl not implemented")
-}
 func (UnimplementedAccountRpcServer) GetUserInfo(context.Context, *UserIdReq) (*UserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedAccountRpcServer) GetUserOauthInfo(context.Context, *UserIdReq) (*GetUserOauthInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserOauthInfo not implemented")
 }
 func (UnimplementedAccountRpcServer) UpdateUserInfo(context.Context, *UpdateUserInfoReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserInfo not implemented")
@@ -462,11 +507,17 @@ func (UnimplementedAccountRpcServer) UpdateUserAvatar(context.Context, *UpdateUs
 func (UnimplementedAccountRpcServer) UpdateUserPassword(context.Context, *UpdateUserPasswordReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPassword not implemented")
 }
-func (UnimplementedAccountRpcServer) UpdateUserEmail(context.Context, *UpdateUseEmailReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserEmail not implemented")
+func (UnimplementedAccountRpcServer) BindUserEmail(context.Context, *BindUseEmailReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindUserEmail not implemented")
 }
-func (UnimplementedAccountRpcServer) UpdateUserPhone(context.Context, *UpdateUserPhoneReq) (*EmptyResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserPhone not implemented")
+func (UnimplementedAccountRpcServer) BindUserPhone(context.Context, *BindUserPhoneReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindUserPhone not implemented")
+}
+func (UnimplementedAccountRpcServer) BindUserOauth(context.Context, *BindUserOauthReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindUserOauth not implemented")
+}
+func (UnimplementedAccountRpcServer) UnbindUserOauth(context.Context, *UnbindUserOauthReq) (*EmptyResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnbindUserOauth not implemented")
 }
 func (UnimplementedAccountRpcServer) AdminUpdateUserStatus(context.Context, *AdminUpdateUserStatusReq) (*EmptyResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminUpdateUserStatus not implemented")
@@ -595,6 +646,78 @@ func _AccountRpc_ResetPassword_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountRpc_EmailLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EmailLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).EmailLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_EmailLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).EmailLogin(ctx, req.(*EmailLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountRpc_PhoneLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PhoneLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).PhoneLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_PhoneLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).PhoneLogin(ctx, req.(*PhoneLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountRpc_ThirdLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ThirdLoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).ThirdLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_ThirdLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).ThirdLogin(ctx, req.(*ThirdLoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountRpc_GetOauthAuthorizeUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOauthAuthorizeUrlReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).GetOauthAuthorizeUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_GetOauthAuthorizeUrl_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).GetOauthAuthorizeUrl(ctx, req.(*GetOauthAuthorizeUrlReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AccountRpc_SendEmailVerifyCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SendEmailVerifyCodeReq)
 	if err := dec(in); err != nil {
@@ -649,78 +772,6 @@ func _AccountRpc_GenerateCaptchaCode_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountRpc_EmailLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(EmailLoginReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).EmailLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_EmailLogin_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).EmailLogin(ctx, req.(*EmailLoginReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_PhoneLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PhoneLoginReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).PhoneLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_PhoneLogin_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).PhoneLogin(ctx, req.(*PhoneLoginReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_OauthLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OauthLoginReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).OauthLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_OauthLogin_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).OauthLogin(ctx, req.(*OauthLoginReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AccountRpc_GetOauthAuthorizeUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OauthLoginReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountRpcServer).GetOauthAuthorizeUrl(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AccountRpc_GetOauthAuthorizeUrl_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).GetOauthAuthorizeUrl(ctx, req.(*OauthLoginReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AccountRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserIdReq)
 	if err := dec(in); err != nil {
@@ -735,6 +786,24 @@ func _AccountRpc_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AccountRpcServer).GetUserInfo(ctx, req.(*UserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountRpc_GetUserOauthInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).GetUserOauthInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_GetUserOauthInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).GetUserOauthInfo(ctx, req.(*UserIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -793,38 +862,74 @@ func _AccountRpc_UpdateUserPassword_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountRpc_UpdateUserEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUseEmailReq)
+func _AccountRpc_BindUserEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindUseEmailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountRpcServer).UpdateUserEmail(ctx, in)
+		return srv.(AccountRpcServer).BindUserEmail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountRpc_UpdateUserEmail_FullMethodName,
+		FullMethod: AccountRpc_BindUserEmail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).UpdateUserEmail(ctx, req.(*UpdateUseEmailReq))
+		return srv.(AccountRpcServer).BindUserEmail(ctx, req.(*BindUseEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AccountRpc_UpdateUserPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserPhoneReq)
+func _AccountRpc_BindUserPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindUserPhoneReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountRpcServer).UpdateUserPhone(ctx, in)
+		return srv.(AccountRpcServer).BindUserPhone(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AccountRpc_UpdateUserPhone_FullMethodName,
+		FullMethod: AccountRpc_BindUserPhone_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountRpcServer).UpdateUserPhone(ctx, req.(*UpdateUserPhoneReq))
+		return srv.(AccountRpcServer).BindUserPhone(ctx, req.(*BindUserPhoneReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountRpc_BindUserOauth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindUserOauthReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).BindUserOauth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_BindUserOauth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).BindUserOauth(ctx, req.(*BindUserOauthReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AccountRpc_UnbindUserOauth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnbindUserOauthReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountRpcServer).UnbindUserOauth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountRpc_UnbindUserOauth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountRpcServer).UnbindUserOauth(ctx, req.(*UnbindUserOauthReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1001,6 +1106,22 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountRpc_ResetPassword_Handler,
 		},
 		{
+			MethodName: "EmailLogin",
+			Handler:    _AccountRpc_EmailLogin_Handler,
+		},
+		{
+			MethodName: "PhoneLogin",
+			Handler:    _AccountRpc_PhoneLogin_Handler,
+		},
+		{
+			MethodName: "ThirdLogin",
+			Handler:    _AccountRpc_ThirdLogin_Handler,
+		},
+		{
+			MethodName: "GetOauthAuthorizeUrl",
+			Handler:    _AccountRpc_GetOauthAuthorizeUrl_Handler,
+		},
+		{
 			MethodName: "SendEmailVerifyCode",
 			Handler:    _AccountRpc_SendEmailVerifyCode_Handler,
 		},
@@ -1013,24 +1134,12 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountRpc_GenerateCaptchaCode_Handler,
 		},
 		{
-			MethodName: "EmailLogin",
-			Handler:    _AccountRpc_EmailLogin_Handler,
-		},
-		{
-			MethodName: "PhoneLogin",
-			Handler:    _AccountRpc_PhoneLogin_Handler,
-		},
-		{
-			MethodName: "OauthLogin",
-			Handler:    _AccountRpc_OauthLogin_Handler,
-		},
-		{
-			MethodName: "GetOauthAuthorizeUrl",
-			Handler:    _AccountRpc_GetOauthAuthorizeUrl_Handler,
-		},
-		{
 			MethodName: "GetUserInfo",
 			Handler:    _AccountRpc_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "GetUserOauthInfo",
+			Handler:    _AccountRpc_GetUserOauthInfo_Handler,
 		},
 		{
 			MethodName: "UpdateUserInfo",
@@ -1045,12 +1154,20 @@ var AccountRpc_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AccountRpc_UpdateUserPassword_Handler,
 		},
 		{
-			MethodName: "UpdateUserEmail",
-			Handler:    _AccountRpc_UpdateUserEmail_Handler,
+			MethodName: "BindUserEmail",
+			Handler:    _AccountRpc_BindUserEmail_Handler,
 		},
 		{
-			MethodName: "UpdateUserPhone",
-			Handler:    _AccountRpc_UpdateUserPhone_Handler,
+			MethodName: "BindUserPhone",
+			Handler:    _AccountRpc_BindUserPhone_Handler,
+		},
+		{
+			MethodName: "BindUserOauth",
+			Handler:    _AccountRpc_BindUserOauth_Handler,
+		},
+		{
+			MethodName: "UnbindUserOauth",
+			Handler:    _AccountRpc_UnbindUserOauth_Handler,
 		},
 		{
 			MethodName: "AdminUpdateUserStatus",

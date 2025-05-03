@@ -23,20 +23,20 @@ import "admin/operation_log.api"
 import "admin/visit_log.api"
 
 type (
-	PingReq{
-	}
+    PingReq{
+    }
 	PingResp {
-		Env string `json:"env"`
-		Name string `json:"name"`
-		Version string `json:"version"`
-		Runtime string `json:"runtime"`
-		Description string `json:"description"`
-		RpcStatus []string `json:"rpc_status"`
+        Env string `json:"env"`
+        Name string `json:"name"`
+        Version string `json:"version"`
+        Runtime string `json:"runtime"`
+        Description string `json:"description"`
+        RpcStatus []string `json:"rpc_status"`
 	}
 )
 
 @server(
-	prefix: /admin/api/v1
+	prefix: /admin-api/v1
 )
 service admin-api {
 	@doc "ping"

@@ -18,7 +18,7 @@ type (
 )
 
 @server(
-    prefix: /blog/api/v1
+    prefix: /blog-api/v1
     group: tag
     middleware: TimeToken,VisitLog
 )

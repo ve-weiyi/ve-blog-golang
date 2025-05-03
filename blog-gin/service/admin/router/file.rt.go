@@ -19,28 +19,22 @@ func NewFileRouter(svcCtx *svctx.ServiceContext) *FileRouter {
 
 func (s *FileRouter) Register(r *gin.RouterGroup) {
 	// File
-	// [SignToken]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-
-		handler := controller.NewFileController(s.svcCtx)
-		// 分页获取文件列表
-		group.POST("/file/find_file_list", handler.FindFileList)
-	}
-	// File
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewFileController(s.svcCtx)
 		// 创建文件目录
 		group.POST("/file/add_file_folder", handler.AddFileFolder)
 		// 删除文件列表
 		group.DELETE("/file/deletes_file", handler.DeletesFile)
+		// 分页获取文件列表
+		group.POST("/file/find_file_list", handler.FindFileList)
+		// 获取文件列表
+		group.POST("/file/list_upload_file", handler.ListUploadFile)
 		// 上传文件列表
 		group.POST("/file/multi_upload_file", handler.MultiUploadFile)
 		// 上传文件

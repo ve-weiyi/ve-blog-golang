@@ -16,6 +16,13 @@ func NewUserService(svcCtx *svctx.ServiceContext) *UserService {
 	}
 }
 
+// 删除用户绑定第三方平台账号
+func (s *UserService) DeleteUserBindThirdParty(reqCtx *request.Context, in *dto.DeleteUserBindThirdPartyReq) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
 // 获取用户信息
 func (s *UserService) GetUserInfo(reqCtx *request.Context, in *dto.EmptyReq) (out *dto.UserInfoResp, err error) {
 	// todo
@@ -37,8 +44,36 @@ func (s *UserService) UpdateUserAvatar(reqCtx *request.Context, in *dto.UpdateUs
 	return
 }
 
+// 修改用户绑定邮箱
+func (s *UserService) UpdateUserBindEmail(reqCtx *request.Context, in *dto.UpdateUserBindEmailReq) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
+// 修改用户绑定手机号
+func (s *UserService) UpdateUserBindPhone(reqCtx *request.Context, in *dto.UpdateUserBindPhoneReq) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
+// 修改用户绑定第三方平台账号
+func (s *UserService) UpdateUserBindThirdParty(reqCtx *request.Context, in *dto.UpdateUserBindThirdPartyReq) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
 // 修改用户信息
 func (s *UserService) UpdateUserInfo(reqCtx *request.Context, in *dto.UpdateUserInfoReq) (out *dto.EmptyResp, err error) {
+	// todo
+
+	return
+}
+
+// 修改用户密码
+func (s *UserService) UpdateUserPassword(reqCtx *request.Context, in *dto.UpdateUserPasswordReq) (out *dto.EmptyResp, err error) {
 	// todo
 
 	return
