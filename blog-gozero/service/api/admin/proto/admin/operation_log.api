@@ -18,7 +18,7 @@ type (
         Cost string `json:"cost"`                           // 耗时（ms）
         CreatedAt int64 `json:"created_at"`                 // 创建时间
         UpdatedAt int64 `json:"updated_at"`                 // 更新时间
-        User *UserInfo `json:"user"`                        // 用户信息
+        User *UserInfoVO `json:"user"`                        // 用户信息
     }
 
     OperationLogQuery {
@@ -27,7 +27,7 @@ type (
 )
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: operation_log
     middleware: JwtToken,Permission,OperationLog
 )

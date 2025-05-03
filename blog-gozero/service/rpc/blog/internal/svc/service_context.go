@@ -14,22 +14,15 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/feishu"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/weibo"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/common/gormlogx"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/global/constant"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/common/online"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/config"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/captcha"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/gormlogger"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mail"
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/mq/rabbitmqx"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/gitee"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/github"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/oauth/qq"
 )
 
 type ServiceContext struct {
@@ -39,7 +32,6 @@ type ServiceContext struct {
 	LocalCache    *collection.Cache
 	EmailDeliver  *mail.MqEmailDeliver
 	CaptchaHolder *captcha.CaptchaHolder
-	Oauth         map[string]oauth.Oauth
 
 	OnlineUserService *online.OnlineUserService
 
@@ -110,7 +102,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		LocalCache:    cache,
 		EmailDeliver:  deliver,
 		CaptchaHolder: captcha.NewCaptchaHolder(captcha.WithRedisStore(rds)),
-		Oauth:         InitOauth(c.OauthConfList),
 
 		OnlineUserService: online.NewOnlineUserService(rds, 3600),
 		// account models
@@ -286,34 +277,4 @@ func InitEmailDeliver(c config.Config) (*mail.MqEmailDeliver, error) {
 	go deliver.SubscribeEmail()
 
 	return deliver, nil
-}
-
-func InitOauth(c map[string]config.OauthConf) map[string]oauth.Oauth {
-	var om = make(map[string]oauth.Oauth)
-
-	for k, v := range c {
-		conf := &oauth.AuthConfig{
-			ClientId:     v.ClientId,
-			ClientSecret: v.ClientSecret,
-			RedirectUri:  v.RedirectUri,
-		}
-		switch k {
-		case "qq":
-			auth := qq.NewAuthQq(conf)
-			om["qq"] = auth
-		case "github":
-			auth := github.NewAuthGithub(conf)
-			om["github"] = auth
-		case "gitee":
-			auth := gitee.NewAuthGitee(conf)
-			om["gitee"] = auth
-		case "weibo":
-			auth := weibo.NewAuthWb(conf)
-			om["weibo"] = auth
-		case "feishu":
-			auth := feishu.NewAuthFeishu(conf)
-			om["feishu"] = auth
-		}
-	}
-	return om
 }

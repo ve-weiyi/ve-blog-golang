@@ -14,7 +14,7 @@ type (
         IpSource string `json:"ip_source"`             // ip 源
         LoginAt int64 `json:"login_at"`                // 登录时间
         LogoutAt int64 `json:"logout_at"`              // 登出时间
-        User *UserInfo `json:"user"`                   // 用户信息
+        User *UserInfoVO `json:"user"`                   // 用户信息
     }
 
     LoginLogQuery {
@@ -24,7 +24,7 @@ type (
 )
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: login_log
     middleware: JwtToken,Permission,OperationLog
 )

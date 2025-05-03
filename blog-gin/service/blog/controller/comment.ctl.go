@@ -26,7 +26,7 @@ func NewCommentController(svcCtx *svctx.ServiceContext) *CommentController {
 // @Produce		application/json
 // @Param		data	body		dto.CommentQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/comment/find_comment_list [POST]
+// @Router		/blog-api/v1/comment/find_comment_list [POST]
 func (s *CommentController) FindCommentList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *CommentController) FindCommentList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.CommentQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/comment/find_comment_recent_list [POST]
+// @Router		/blog-api/v1/comment/find_comment_recent_list [POST]
 func (s *CommentController) FindCommentRecentList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *CommentController) FindCommentRecentList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.CommentQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/comment/find_comment_reply_list [POST]
+// @Router		/blog-api/v1/comment/find_comment_reply_list [POST]
 func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -110,7 +110,7 @@ func (s *CommentController) FindCommentReplyList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.CommentNewReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.Comment}	"返回信息"
-// @Router		/api/v1/comment/add_comment [POST]
+// @Router		/blog-api/v1/comment/add_comment [POST]
 func (s *CommentController) AddComment(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -138,7 +138,7 @@ func (s *CommentController) AddComment(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.EmptyResp}	"返回信息"
-// @Router		/api/v1/comment/like_comment [POST]
+// @Router		/blog-api/v1/comment/like_comment [POST]
 func (s *CommentController) LikeComment(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -153,6 +153,34 @@ func (s *CommentController) LikeComment(c *gin.Context) {
 	}
 
 	data, err := service.NewCommentService(s.svcCtx).LikeComment(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		Comment
+// @Summary		"更新评论"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.UpdateCommentReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.Comment}	"返回信息"
+// @Router		/blog-api/v1/comment/update_comment [POST]
+func (s *CommentController) UpdateComment(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.UpdateCommentReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewCommentService(s.svcCtx).UpdateComment(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

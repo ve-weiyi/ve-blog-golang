@@ -16,15 +16,8 @@ func NewFileService(svcCtx *svctx.ServiceContext) *FileService {
 	}
 }
 
-// 分页获取文件列表
-func (s *FileService) FindFileList(reqCtx *request.Context, in *dto.FileQuery) (out *dto.PageResp, err error) {
-	// todo
-
-	return
-}
-
 // 创建文件目录
-func (s *FileService) AddFileFolder(reqCtx *request.Context, in *dto.FileFolderNewReq) (out *dto.FileBackDTO, err error) {
+func (s *FileService) AddFileFolder(reqCtx *request.Context, in *dto.FileFolderNewReq) (out *dto.FileBackVO, err error) {
 	// todo
 
 	return
@@ -37,15 +30,29 @@ func (s *FileService) DeletesFile(reqCtx *request.Context, in *dto.IdsReq) (out 
 	return
 }
 
+// 分页获取文件列表
+func (s *FileService) FindFileList(reqCtx *request.Context, in *dto.FileQuery) (out *dto.PageResp, err error) {
+	// todo
+
+	return
+}
+
+// 获取文件列表
+func (s *FileService) ListUploadFile(reqCtx *request.Context, in *dto.ListUploadFileReq) (out *dto.ListUploadFileResp, err error) {
+	// todo
+
+	return
+}
+
 // 上传文件列表
-func (s *FileService) MultiUploadFile(reqCtx *request.Context, in *dto.MultiUploadFileReq) (out []*dto.FileBackDTO, err error) {
+func (s *FileService) MultiUploadFile(reqCtx *request.Context, in *dto.MultiUploadFileReq) (out []*dto.FileBackVO, err error) {
 	// todo
 
 	return
 }
 
 // 上传文件
-func (s *FileService) UploadFile(reqCtx *request.Context, in *dto.UploadFileReq) (out *dto.FileBackDTO, err error) {
+func (s *FileService) UploadFile(reqCtx *request.Context, in *dto.UploadFileReq) (out *dto.FileBackVO, err error) {
 	// todo
 
 	return

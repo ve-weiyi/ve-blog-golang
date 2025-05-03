@@ -107,6 +107,12 @@ func (s *MessageRpcServer) DeleteComment(ctx context.Context, in *messagerpc.Ids
 	return l.DeleteComment(in)
 }
 
+// 更新评论
+func (s *MessageRpcServer) UpdateComment(ctx context.Context, in *messagerpc.UpdateCommentReq) (*messagerpc.CommentDetails, error) {
+	l := messagerpclogic.NewUpdateCommentLogic(ctx, s.svcCtx)
+	return l.UpdateComment(in)
+}
+
 // 查询评论
 func (s *MessageRpcServer) GetComment(ctx context.Context, in *messagerpc.IdReq) (*messagerpc.CommentDetails, error) {
 	l := messagerpclogic.NewGetCommentLogic(ctx, s.svcCtx)
@@ -126,9 +132,9 @@ func (s *MessageRpcServer) FindCommentReplyList(ctx context.Context, in *message
 }
 
 // 查询评论回复数量
-func (s *MessageRpcServer) FindTopicCommentCounts(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.FindTopicCommentCountsResp, error) {
-	l := messagerpclogic.NewFindTopicCommentCountsLogic(ctx, s.svcCtx)
-	return l.FindTopicCommentCounts(in)
+func (s *MessageRpcServer) FindCommentReplyCounts(ctx context.Context, in *messagerpc.IdsReq) (*messagerpc.FindCommentReplyCountsResp, error) {
+	l := messagerpclogic.NewFindCommentReplyCountsLogic(ctx, s.svcCtx)
+	return l.FindCommentReplyCounts(in)
 }
 
 // 更新评论审核状态

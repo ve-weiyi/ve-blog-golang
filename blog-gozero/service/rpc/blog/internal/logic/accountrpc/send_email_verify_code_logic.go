@@ -92,7 +92,7 @@ var emailContent = map[string]string{
 }
 
 var emailSubject = map[string]string{
-	constant.CodeTypeRegister:  "注册邮件提醒",
-	constant.CodeTypeResetPwd:  "重置密码邮件提醒",
-	constant.CodeTypeBindEmail: "修改绑定邮箱邮件提醒",
+	constant.CodeTypeRegister:  "blog|注册邮件提醒",
+	constant.CodeTypeResetPwd:  "blog|重置密码邮件提醒",
+	constant.CodeTypeBindEmail: "blog|修改绑定邮箱邮件提醒",
 }

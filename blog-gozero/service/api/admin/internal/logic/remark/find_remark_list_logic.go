@@ -6,7 +6,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/messagerpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -64,7 +63,7 @@ func (l *FindRemarkListLogic) FindRemarkList(req *types.RemarkQuery) (resp *type
 	return resp, nil
 }
 
-func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc.User) (out *types.RemarkBackVO) {
+func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*types.UserInfoVO) (out *types.RemarkBackVO) {
 	out = &types.RemarkBackVO{
 		Id:             in.Id,
 		UserId:         in.UserId,
@@ -81,12 +80,7 @@ func ConvertRemarkTypes(in *messagerpc.RemarkDetails, usm map[string]*accountrpc
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.User = &types.UserInfo{
-				UserId:   user.UserId,
-				Username: user.Username,
-				Avatar:   user.Avatar,
-				Nickname: user.Nickname,
-			}
+			out.User = user
 		}
 	}
 

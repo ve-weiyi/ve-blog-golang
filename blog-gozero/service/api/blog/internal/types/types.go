@@ -103,29 +103,30 @@ type ClientInfoResp struct {
 }
 
 type Comment struct {
-	Id               int64            `json:"id"`                 // 评论id
-	TopicId          int64            `json:"topic_id"`           // 主题id
-	ParentId         int64            `json:"parent_id"`          // 父评论id
-	ReplyMsgId       int64            `json:"reply_msg_id"`       // 会话id
-	UserId           string           `json:"user_id"`            // 用户id
-	ReplyUserId      string           `json:"reply_user_id"`      // 被回复用户id
-	CommentContent   string           `json:"comment_content"`    // 评论内容
-	Type             int64            `json:"type"`               // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt        int64            `json:"created_at"`         // 评论时间
-	LikeCount        int64            `json:"like_count"`         // 点赞数
-	User             *CommentUserInfo `json:"user"`               // 评论用户
-	ReplyUser        *CommentUserInfo `json:"reply_user"`         // 被回复评论用户
-	ReplyCount       int64            `json:"reply_count"`        // 回复量
-	CommentReplyList []*CommentReply  `json:"comment_reply_list"` // 评论回复列表
+	Id               int64           `json:"id"`                 // 评论id
+	TopicId          int64           `json:"topic_id"`           // 主题id
+	ParentId         int64           `json:"parent_id"`          // 父评论id
+	ReplyMsgId       int64           `json:"reply_msg_id"`       // 会话id
+	UserId           string          `json:"user_id"`            // 用户id
+	ReplyUserId      string          `json:"reply_user_id"`      // 被回复用户id
+	CommentContent   string          `json:"comment_content"`    // 评论内容
+	Type             int64           `json:"type"`               // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt        int64           `json:"created_at"`         // 评论时间
+	LikeCount        int64           `json:"like_count"`         // 点赞数
+	User             *UserInfoVO     `json:"user"`               // 评论用户
+	ReplyUser        *UserInfoVO     `json:"reply_user"`         // 被回复评论用户
+	ReplyCount       int64           `json:"reply_count"`        // 回复量
+	CommentReplyList []*CommentReply `json:"comment_reply_list"` // 评论回复列表
 }
 
 type CommentNewReq struct {
-	TopicId        int64  `json:"topic_id,optional"`        // 主题id
-	ParentId       int64  `json:"parent_id,optional"`       // 父评论id
-	ReplyMsgId     int64  `json:"reply_msg_id,optional"`    // 会话id
-	ReplyUserId    string `json:"reply_user_id,optional"`   // 回复用户id
-	CommentContent string `json:"comment_content,optional"` // 评论内容
-	Type           int64  `json:"type,optional"`            // 评论类型 1.文章 2.友链 3.说说
+	TopicId        int64  `json:"topic_id,optional"`      // 主题id
+	ParentId       int64  `json:"parent_id,optional"`     // 父评论id
+	ReplyMsgId     int64  `json:"reply_msg_id,optional"`  // 会话id
+	ReplyUserId    string `json:"reply_user_id,optional"` // 回复用户id
+	CommentContent string `json:"comment_content"`        // 评论内容
+	Type           int64  `json:"type"`                   // 评论类型 1.文章 2.友链 3.说说
+	Status         int64  `json:"status,optional"`        // 状态 0.正常 1.已编辑 2.已删除
 }
 
 type CommentQueryReq struct {
@@ -136,25 +137,22 @@ type CommentQueryReq struct {
 }
 
 type CommentReply struct {
-	Id             int64            `json:"id"`              // 评论id
-	TopicId        int64            `json:"topic_id"`        // 主题id
-	ParentId       int64            `json:"parent_id"`       // 父评论id
-	ReplyMsgId     int64            `json:"reply_msg_id"`    // 会话id
-	UserId         string           `json:"user_id"`         // 用户id
-	ReplyUserId    string           `json:"reply_user_id"`   // 被回复用户id
-	CommentContent string           `json:"comment_content"` // 评论内容
-	Type           int64            `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
-	CreatedAt      int64            `json:"created_at"`      // 评论时间
-	LikeCount      int64            `json:"like_count"`      // 点赞数
-	User           *CommentUserInfo `json:"user"`            // 评论用户
-	ReplyUser      *CommentUserInfo `json:"reply_user"`      // 被回复评论用户
+	Id             int64       `json:"id"`              // 评论id
+	TopicId        int64       `json:"topic_id"`        // 主题id
+	ParentId       int64       `json:"parent_id"`       // 父评论id
+	ReplyMsgId     int64       `json:"reply_msg_id"`    // 会话id
+	UserId         string      `json:"user_id"`         // 用户id
+	ReplyUserId    string      `json:"reply_user_id"`   // 被回复用户id
+	CommentContent string      `json:"comment_content"` // 评论内容
+	Type           int64       `json:"type"`            // 评论类型 1.文章 2.友链 3.说说
+	CreatedAt      int64       `json:"created_at"`      // 评论时间
+	LikeCount      int64       `json:"like_count"`      // 点赞数
+	User           *UserInfoVO `json:"user"`            // 用户信息
+	ReplyUser      *UserInfoVO `json:"reply_user"`      // 被回复评论用户
 }
 
-type CommentUserInfo struct {
-	UserId   string `json:"user_id"`
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
-	Website  string `json:"website"`
+type DeleteUserBindThirdPartyReq struct {
+	Platform string `json:"platform"` // 平台
 }
 
 type EmailLoginReq struct {
@@ -170,7 +168,7 @@ type EmptyReq struct {
 type EmptyResp struct {
 }
 
-type FileBackDTO struct {
+type FileBackVO struct {
 	Id        int64  `json:"id,optional"` // 文件目录ID
 	UserId    string `json:"user_id"`     // 用户id
 	FilePath  string `json:"file_path"`   // 文件路径
@@ -208,12 +206,13 @@ type GetBlogHomeInfoReq struct {
 }
 
 type GetBlogHomeInfoResp struct {
-	ArticleCount       int64            `json:"article_count"`         // 文章数量
-	CategoryCount      int64            `json:"category_count"`        // 分类数量
-	TagCount           int64            `json:"tag_count"`             // 标签数量
-	TotalPageViewCount int64            `json:"total_page_view_count"` // 总浏览量
-	WebsiteConfig      WebsiteConfigDTO `json:"website_config"`        // 网站配置
-	PageList           []*PageDTO       `json:"page_list"`             // 页面列表
+	ArticleCount       int64           `json:"article_count"`         // 文章数量
+	CategoryCount      int64           `json:"category_count"`        // 分类数量
+	TagCount           int64           `json:"tag_count"`             // 标签数量
+	TotalUserViewCount int64           `json:"total_user_view_count"` // 总服务量
+	TotalPageViewCount int64           `json:"total_page_view_count"` // 总浏览量
+	WebsiteConfig      WebsiteConfigVO `json:"website_config"`        // 网站配置
+	PageList           []*PageVO       `json:"page_list"`             // 页面列表
 }
 
 type GetCaptchaCodeReq struct {
@@ -225,6 +224,15 @@ type GetCaptchaCodeResp struct {
 	CaptchaKey    string `json:"captcha_key"`    // 验证码key
 	CaptchaBase64 string `json:"captcha_base64"` // 验证码base64
 	CaptchaCode   string `json:"captcha_code"`   // 验证码
+}
+
+type GetOauthAuthorizeUrlReq struct {
+	Platform string `json:"platform"`       // 平台
+	State    string `json:"state,optional"` // 状态
+}
+
+type GetOauthAuthorizeUrlResp struct {
+	AuthorizeUrl string `json:"authorize_url"` // 授权地址
 }
 
 type GetTouristInfoResp struct {
@@ -255,16 +263,6 @@ type MultiUploadFileReq struct {
 	FilePath string        `form:"file_path,optional"` // 文件路径
 }
 
-type OauthLoginReq struct {
-	Platform string `json:"platform"`       // 平台
-	Code     string `json:"code,optional"`  // 授权码
-	State    string `json:"state,optional"` // 状态
-}
-
-type OauthLoginUrlResp struct {
-	Url string `json:"url"` // 授权地址
-}
-
 type OnlineCountResp struct {
 	Msg   string `json:"msg"`   // 消息
 	Count int    `json:"count"` // 在线人数
@@ -278,14 +276,6 @@ type Page struct {
 	IsCarousel int64  `json:"is_carousel,optional"` // 是否轮播
 	CreatedAt  int64  `json:"created_at"`           // 创建时间
 	UpdatedAt  int64  `json:"updated_at"`           // 更新时间
-}
-
-type PageDTO struct {
-	Id         int64  `json:"id"`                   // 页面ID
-	PageName   string `json:"page_name"`            // 页面名称
-	PageLabel  string `json:"page_label"`           // 页面标签
-	PageCover  string `json:"page_cover"`           // 页面封面
-	IsCarousel int64  `json:"is_carousel,optional"` // 是否轮播
 }
 
 type PageQuery struct {
@@ -303,6 +293,14 @@ type PageResp struct {
 	PageSize int64       `json:"page_size,omitempty"`
 	Total    int64       `json:"total,omitempty"`
 	List     interface{} `json:"list,omitempty"`
+}
+
+type PageVO struct {
+	Id         int64  `json:"id"`                   // 页面ID
+	PageName   string `json:"page_name"`            // 页面名称
+	PageLabel  string `json:"page_label"`           // 页面标签
+	PageCover  string `json:"page_cover"`           // 页面封面
+	IsCarousel int64  `json:"is_carousel,optional"` // 是否轮播
 }
 
 type PhoneLoginReq struct {
@@ -354,20 +352,19 @@ type RegisterReq struct {
 }
 
 type Remark struct {
-	Id             int64  `json:"id,optional"`     // 主键id
-	Nickname       string `json:"nickname"`        // 昵称
-	Avatar         string `json:"avatar"`          // 头像
-	MessageContent string `json:"message_content"` // 留言内容
-	IpAddress      string `json:"ip_address"`      // 用户ip
-	IpSource       string `json:"ip_source"`       // 用户地址
-	IsReview       int64  `json:"is_review"`       // 是否审核
-	CreatedAt      int64  `json:"created_at"`      // 发布时间
-	UpdatedAt      int64  `json:"updated_at"`      // 更新时间
+	Id             int64       `json:"id,optional"`     // 主键id
+	UserId         string      `json:"user_id"`         // 用户id
+	TerminalId     string      `json:"terminal_id"`     // 终端id
+	MessageContent string      `json:"message_content"` // 留言内容
+	IpAddress      string      `json:"ip_address"`      // 用户ip
+	IpSource       string      `json:"ip_source"`       // 用户地址
+	IsReview       int64       `json:"is_review"`       // 是否审核
+	CreatedAt      int64       `json:"created_at"`      // 发布时间
+	UpdatedAt      int64       `json:"updated_at"`      // 更新时间
+	User           *UserInfoVO `json:"user"`            // 用户信息
 }
 
 type RemarkNewReq struct {
-	Nickname       string `json:"nickname"`        // 昵称
-	Avatar         string `json:"avatar"`          // 头像
 	MessageContent string `json:"message_content"` // 留言内容
 }
 
@@ -434,22 +431,26 @@ type TagQueryReq struct {
 }
 
 type Talk struct {
-	Id           int64    `json:"id"`            // 说说ID
-	UserId       string   `json:"user_id"`       // 用户ID
-	Nickname     string   `json:"nickname"`      // 用户昵称
-	Avatar       string   `json:"avatar"`        // 用户头像
-	Content      string   `json:"content"`       // 评论内容
-	ImgList      []string `json:"img_list"`      // 图片URL列表
-	IsTop        int64    `json:"is_top"`        // 是否置顶
-	Status       int64    `json:"status"`        // 状态 1.公开 2.私密
-	LikeCount    int64    `json:"like_count"`    // 点赞量
-	CommentCount int64    `json:"comment_count"` // 评论量
-	CreatedAt    int64    `json:"created_at"`    // 创建时间
-	UpdatedAt    int64    `json:"updated_at"`    // 更新时间
+	Id           int64       `json:"id"`            // 说说ID
+	UserId       string      `json:"user_id"`       // 用户ID
+	Content      string      `json:"content"`       // 评论内容
+	ImgList      []string    `json:"img_list"`      // 图片URL列表
+	IsTop        int64       `json:"is_top"`        // 是否置顶
+	Status       int64       `json:"status"`        // 状态 1.公开 2.私密
+	LikeCount    int64       `json:"like_count"`    // 点赞量
+	CommentCount int64       `json:"comment_count"` // 评论量
+	CreatedAt    int64       `json:"created_at"`    // 创建时间
+	UpdatedAt    int64       `json:"updated_at"`    // 更新时间
+	User         *UserInfoVO `json:"user"`          // 用户信息
 }
 
 type TalkQueryReq struct {
 	PageQuery
+}
+
+type ThirdLoginReq struct {
+	Platform string `json:"platform"`      // 平台
+	Code     string `json:"code,optional"` // 授权码
 }
 
 type Token struct {
@@ -460,6 +461,13 @@ type Token struct {
 	RefreshToken     string `json:"refresh_token"`      // 刷新token,过期时间较长。30d
 	RefreshExpiresIn int64  `json:"refresh_expires_in"` // 刷新token过期时间
 	Scope            string `json:"scope"`              // 作用域
+}
+
+type UpdateCommentReq struct {
+	Id             int64  `json:"id"`                     // 主键
+	ReplyUserId    string `json:"reply_user_id,optional"` // 回复用户id
+	CommentContent string `json:"comment_content"`        // 评论内容
+	Status         int64  `json:"status,optional"`        // 状态 0.正常 1.已编辑 2.已删除
 }
 
 type UpdateUserAvatarReq struct {
@@ -474,6 +482,12 @@ type UpdateUserBindEmailReq struct {
 type UpdateUserBindPhoneReq struct {
 	Phone      string `json:"phone"`       // 手机号
 	VerifyCode string `json:"verify_code"` // 验证码
+}
+
+type UpdateUserBindThirdPartyReq struct {
+	Platform string `json:"platform"`       // 平台
+	Code     string `json:"code"`           // 授权码
+	State    string `json:"state,optional"` // 状态
 }
 
 type UpdateUserInfoReq struct {
@@ -493,18 +507,28 @@ type UploadFileReq struct {
 }
 
 type UserInfoExt struct {
-	Gender  int    `json:"gender"`  // 性别 0未知 1男 2女
-	Intro   string `json:"intro"`   // 简介
-	Website string `json:"website"` // 网站
+	Gender  int64  `json:"gender,optional"`  // 性别 0未知 1男 2女
+	Intro   string `json:"intro",optional`   // 简介
+	Website string `json:"website,optional"` // 网站
 }
 
 type UserInfoResp struct {
-	UserId   string `json:"user_id"`  // 用户id
-	Username string `json:"username"` // 用户名
-	Nickname string `json:"nickname"` // 用户昵称
-	Avatar   string `json:"avatar"`   // 用户头像
-	Email    string `json:"email"`    // 用户邮箱
-	Phone    string `json:"phone"`    // 用户手机号
+	UserId    string `json:"user_id"`    // 用户id
+	Username  string `json:"username"`   // 用户名
+	Nickname  string `json:"nickname"`   // 用户昵称
+	Avatar    string `json:"avatar"`     // 用户头像
+	Email     string `json:"email"`      // 用户邮箱
+	Phone     string `json:"phone"`      // 用户手机号
+	CreatedAt int64  `json:"created_at"` // 创建时间
+	UserInfoExt
+	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
+}
+
+type UserInfoVO struct {
+	UserId   string `json:"user_id"`
+	Username string `json:"username"`
+	Avatar   string `json:"avatar"`
+	Nickname string `json:"nickname"`
 	UserInfoExt
 }
 
@@ -514,7 +538,15 @@ type UserLikeResp struct {
 	TalkLikeSet    []int64 `json:"talk_like_set"`
 }
 
-type WebsiteConfigDTO struct {
+type UserThirdPartyInfo struct {
+	Platform  string `json:"platform"`   // 平台
+	OpenId    string `json:"open_id"`    // 平台用户id
+	Nickname  string `json:"nickname"`   // 昵称
+	Avatar    string `json:"avatar"`     // 头像
+	CreatedAt int64  `json:"created_at"` // 创建时间
+}
+
+type WebsiteConfigVO struct {
 	AdminUrl          string   `json:"admin_url"`           // 后台地址
 	AlipayQrCode      string   `json:"alipay_qr_code"`      // 支付宝二维码
 	Gitee             string   `json:"gitee"`               // Gitee

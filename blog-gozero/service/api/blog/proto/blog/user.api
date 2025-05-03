@@ -3,11 +3,32 @@ syntax = "v1"
 import "base.api"
 
 type (
-    UserInfoExt {
-        Gender int `json:"gender"`          // 性别 0未知 1男 2女
-        Intro string `json:"intro"`         // 简介
-        Website string `json:"website"`     // 网站
+    UserThirdPartyInfo {
+        Platform string `json:"platform"`             // 平台
+        OpenId string `json:"open_id"`                // 平台用户id
+        Nickname string `json:"nickname"`             // 昵称
+        Avatar string `json:"avatar"`                 // 头像
+        CreatedAt int64 `json:"created_at"`           // 创建时间
     }
+
+    UserInfoResp {
+        UserId string `json:"user_id"`             // 用户id
+        Username string `json:"username"`          // 用户名
+        Nickname string `json:"nickname"`          // 用户昵称
+        Avatar string `json:"avatar"`              // 用户头像
+        Email string `json:"email"`                // 用户邮箱
+        Phone string `json:"phone"`                // 用户手机号
+        CreatedAt int64 `json:"created_at"`        // 创建时间
+        UserInfoExt
+        ThirdParty []*UserThirdPartyInfo `json:"third_party"`
+    }
+
+    UserLikeResp {
+        ArticleLikeSet []int64 `json:"article_like_set"`
+        CommentLikeSet []int64 `json:"comment_like_set"`
+        TalkLikeSet []int64 `json:"talk_like_set"`
+    }
+
 
     UpdateUserInfoReq {
         Nickname string `json:"nickname"` // 昵称
@@ -34,30 +55,34 @@ type (
         VerifyCode string `json:"verify_code"` // 验证码
     }
 
-    UserInfoResp {
-        UserId string `json:"user_id"`                  // 用户id
-        Username string `json:"username"`               // 用户名
-        Nickname string `json:"nickname"`               // 用户昵称
-        Avatar string `json:"avatar"`                   // 用户头像
-        Email string `json:"email"`                     // 用户邮箱
-        Phone string `json:"phone"`                     // 用户手机号
-        UserInfoExt
+    UpdateUserBindThirdPartyReq {
+        Platform string `json:"platform"`          // 平台
+        Code string `json:"code"`                  // 授权码
+        State string `json:"state,optional"`       // 状态
     }
 
-    UserLikeResp {
-        ArticleLikeSet []int64 `json:"article_like_set"`
-        CommentLikeSet []int64 `json:"comment_like_set"`
-        TalkLikeSet []int64 `json:"talk_like_set"`
+    DeleteUserBindThirdPartyReq {
+        Platform string `json:"platform"`          // 平台
     }
 )
 
 @server(
-    prefix: /blog/api/v1
+    prefix: /blog-api/v1
     group: user
     middleware: TimeToken,SignToken
 )
 
 service blog-api {
+    @doc "获取用户信息"
+    @handler GetUserInfo
+    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
+
+    @doc "获取用户点赞列表"
+    @handler GetUserLike
+    get /user/get_user_like (EmptyReq) returns (UserLikeResp)
+
+
+
     @doc "修改用户信息"
     @handler UpdateUserInfo
     post /user/update_user_info (UpdateUserInfoReq) returns (EmptyResp)
@@ -78,27 +103,11 @@ service blog-api {
     @handler UpdateUserBindPhone
     post /user/update_user_bind_phone (UpdateUserBindPhoneReq) returns (EmptyResp)
 
+    @doc "修改用户绑定第三方平台账号"
+    @handler UpdateUserBindThirdParty
+    post /user/update_user_bind_third_party (UpdateUserBindThirdPartyReq) returns (EmptyResp)
 
-    @doc "获取用户信息"
-    @handler GetUserInfo
-    get /user/get_user_info (EmptyReq) returns (UserInfoResp)
-
-    @doc "获取用户点赞列表"
-    @handler GetUserLike
-    get /user/get_user_like (EmptyReq) returns (UserLikeResp)
-}
-
-type (
-    GetTouristInfoResp {
-        TouristId string `json:"tourist_id"` // 游客id
-    }
-)
-@server(
-    prefix: /blog/api/v1
-    group: user
-)
-service blog-api {
-    @doc "获取游客身份信息"
-    @handler GetTouristInfo
-    get /get_tourist_info (EmptyReq) returns (GetTouristInfoResp)
+    @doc "删除用户绑定第三方平台账号"
+    @handler DeleteUserBindThirdParty
+    post /user/delete_user_bind_third_party (DeleteUserBindThirdPartyReq) returns (EmptyResp)
 }

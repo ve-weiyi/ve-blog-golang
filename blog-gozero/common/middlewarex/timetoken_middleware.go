@@ -24,7 +24,7 @@ func NewTimeTokenMiddleware() *TimeTokenMiddleware {
 func (m *TimeTokenMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		logx.Infof("TimeTokenMiddleware Handle")
-		tk := r.Header.Get(restx.HeaderXAuthToken)
+		tk := r.Header.Get(restx.HeaderXToken)
 		tm := r.Header.Get(restx.HeaderTerminal)
 		ts := r.Header.Get(restx.HeaderTimestamp)
 

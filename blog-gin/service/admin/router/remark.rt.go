@@ -19,29 +19,21 @@ func NewRemarkRouter(svcCtx *svctx.ServiceContext) *RemarkRouter {
 
 func (s *RemarkRouter) Register(r *gin.RouterGroup) {
 	// Remark
-	// [SignToken]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-
-		handler := controller.NewRemarkController(s.svcCtx)
-		// 分页获取留言列表
-		group.POST("/remark/find_remark_list", handler.FindRemarkList)
-	}
-	// Remark
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewRemarkController(s.svcCtx)
 		// 批量删除留言
 		group.DELETE("/remark/batch_delete_remark", handler.BatchDeleteRemark)
 		// 删除留言
 		group.DELETE("/remark/delete_remark", handler.DeleteRemark)
+		// 分页获取留言列表
+		group.POST("/remark/find_remark_list", handler.FindRemarkList)
 		// 更新留言
-		group.PUT("/remark/update_remark", handler.UpdateRemark)
+		group.PUT("/remark/update_remark_review", handler.UpdateRemarkReview)
 	}
 }

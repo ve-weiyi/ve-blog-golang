@@ -36,7 +36,7 @@ type (
         FileUrl string `json:"file_url"`          // 上传路径
         CreatedAt int64 `json:"created_at"`       // 创建时间
         UpdatedAt int64 `json:"updated_at"`       // 更新时间
-        Creator *UserInfo `json:"creator"`        // 创建人
+        Creator *UserInfoVO `json:"creator"`        // 创建人
     }
 
     ListUploadFileReq {
@@ -50,7 +50,7 @@ type (
 )
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: file
     middleware: JwtToken,Permission,OperationLog
     maxBytes:   10485760

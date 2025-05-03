@@ -8,7 +8,6 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/common/apiutils"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/resourcerpc"
 )
 
@@ -66,7 +65,7 @@ func (l *FindFileListLogic) FindFileList(req *types.FileQuery) (resp *types.Page
 	return resp, nil
 }
 
-func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails, usm map[string]*accountrpc.User) (out *types.FileBackVO) {
+func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails, usm map[string]*types.UserInfoVO) (out *types.FileBackVO) {
 	out = &types.FileBackVO{
 		Id:        in.Id,
 		UserId:    in.UserId,
@@ -84,12 +83,7 @@ func ConvertFileUploadTypes(in *resourcerpc.FileUploadDetails, usm map[string]*a
 	if in.UserId != "" {
 		user, ok := usm[in.UserId]
 		if ok && user != nil {
-			out.Creator = &types.UserInfo{
-				UserId:   user.UserId,
-				Username: user.Username,
-				Avatar:   user.Avatar,
-				Nickname: user.Nickname,
-			}
+			out.Creator = user
 		}
 	}
 

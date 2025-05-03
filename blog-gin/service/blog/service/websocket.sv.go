@@ -16,7 +16,7 @@ func NewWebsocketService(svcCtx *svctx.ServiceContext) *WebsocketService {
 }
 
 // WebSocket消息
-func (s *WebsocketService) WebSocket(reqCtx *request.Context) (err error) {
+func (s *WebsocketService) Websocket(reqCtx *request.Context) (err error) {
 	// todo
 
 	return

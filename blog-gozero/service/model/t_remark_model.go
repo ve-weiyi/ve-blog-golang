@@ -39,6 +39,7 @@ type (
 	TRemark struct {
 		Id             int64     `json:"id" gorm:"column:id"`                           // 主键id
 		UserId         string    `json:"user_id" gorm:"column:user_id"`                 // 用户id
+		TerminalId     string    `json:"terminal_id" gorm:"column:terminal_id"`         // 终端id
 		MessageContent string    `json:"message_content" gorm:"column:message_content"` // 留言内容
 		IpAddress      string    `json:"ip_address" gorm:"column:ip_address"`           // 用户ip 127.0.0.1
 		IpSource       string    `json:"ip_source" gorm:"column:ip_source"`             // 用户地址 广东省深圳市

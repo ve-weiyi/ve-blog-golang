@@ -23,9 +23,13 @@ type ServiceContext struct {
 	LocalCache *ecache.Cache
 	Token      *jwtx.JwtInstance
 
-	MiddlewareSignToken gin.HandlerFunc
-	MiddlewareJwtToken  gin.HandlerFunc
-	MiddlewareOperation gin.HandlerFunc
+	MiddlewareSignToken    gin.HandlerFunc
+	MiddlewareJwtToken     gin.HandlerFunc
+	MiddlewareOperation    gin.HandlerFunc
+	MiddlewarePermission   gin.HandlerFunc
+	MiddlewareOperationLog gin.HandlerFunc
+	MiddlewareTimeToken    gin.HandlerFunc
+	MiddlewareVisitLog     gin.HandlerFunc
 }
 
 func NewServiceContext(c *config.Config) *ServiceContext {
@@ -44,13 +48,17 @@ func NewServiceContext(c *config.Config) *ServiceContext {
 	tk := jwtx.NewJWTInstance([]byte(c.JWT.SigningKey))
 
 	return &ServiceContext{
-		Config:              c,
-		DbEngin:             db,
-		RedisEngin:          rdb,
-		LocalCache:          cache,
-		Token:               tk,
-		MiddlewareSignToken: middleware.SignToken(),
-		MiddlewareJwtToken:  middleware.JwtToken(tk),
-		MiddlewareOperation: middleware.GinLogger(),
+		Config:                 c,
+		DbEngin:                db,
+		RedisEngin:             rdb,
+		LocalCache:             cache,
+		Token:                  tk,
+		MiddlewareSignToken:    middleware.SignToken(),
+		MiddlewareJwtToken:     middleware.JwtToken(tk),
+		MiddlewareOperation:    middleware.GinLogger(),
+		MiddlewarePermission:   middleware.Trace(),
+		MiddlewareOperationLog: middleware.SignToken(),
+		MiddlewareTimeToken:    middleware.SignToken(),
+		MiddlewareVisitLog:     middleware.SignToken(),
 	}
 }

@@ -3,6 +3,10 @@ syntax = "v1"
 import "base.api"
 
 type (
+    GetTouristInfoResp {
+        TouristId string `json:"tourist_id"` // 游客id
+    }
+
     LoginReq {
         Username string `json:"username"`
         Password string `json:"password"`
@@ -36,14 +40,9 @@ type (
         VerifyCode string `json:"verify_code"`                // 验证码
     }
 
-    OauthLoginReq {
+    ThirdLoginReq {
         Platform string `json:"platform"`          // 平台
         Code string `json:"code,optional"`         // 授权码
-        State string `json:"state,optional"`       // 状态
-    }
-
-    OauthLoginUrlResp {
-        Url string `json:"url"` // 授权地址
     }
 
     RegisterReq {
@@ -61,6 +60,15 @@ type (
         VerifyCode string `json:"verify_code"`              // 验证码
     }
 
+
+    GetOauthAuthorizeUrlReq {
+        Platform string `json:"platform"`                     // 平台
+        State string `json:"state,optional"`                  // 状态
+    }
+
+    GetOauthAuthorizeUrlResp {
+        AuthorizeUrl string `json:"authorize_url"` // 授权地址
+    }
 
     SendEmailVerifyCodeReq {
         Email string `json:"email"`                         // 邮箱
@@ -86,7 +94,19 @@ type (
 
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
+    group: auth
+)
+
+service admin-api {
+    @doc "获取游客身份信息"
+    @handler GetTouristInfo
+    get /get_tourist_info (EmptyReq) returns (GetTouristInfoResp)
+}
+
+
+@server(
+    prefix: /admin-api/v1
     group: auth
 )
 
@@ -104,12 +124,8 @@ service admin-api {
     post /phone_login (PhoneLoginReq) returns (LoginResp)
 
     @doc "第三方登录"
-    @handler OauthLogin
-    post /oauth_login (OauthLoginReq) returns (LoginResp)
-
-    @doc "第三方登录授权地址"
-    @handler OauthAuthorizeUrl
-    post /oauth_authorize_url (OauthLoginReq) returns (OauthLoginUrlResp)
+    @handler ThirdLogin
+    post /third_login (ThirdLoginReq) returns (LoginResp)
 
     @doc "注册"
     @handler Register
@@ -120,6 +136,10 @@ service admin-api {
     post /reset_password (ResetPasswordReq) returns (EmptyResp)
 
 
+
+    @doc "第三方登录授权地址"
+    @handler GetOauthAuthorizeUrl
+    post /get_oauth_authorize_url (GetOauthAuthorizeUrlReq) returns (GetOauthAuthorizeUrlResp)
 
     @doc "发送邮件验证码"
     @handler SendEmailVerifyCode
@@ -135,7 +155,7 @@ service admin-api {
 }
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: auth
     middleware: JwtToken
 )

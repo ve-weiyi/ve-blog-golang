@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cast"
+
 	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
 
 	"github.com/ve-weiyi/ve-blog-golang/kit/utils/jsonconv"
@@ -41,10 +42,29 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.EmptyReq) (resp *types.UserInf
 		return nil, err
 	}
 
-	return ConvertUserInfoTypes(info), nil
+	thp, err := l.svcCtx.AccountRpc.GetUserOauthInfo(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return ConvertUserInfoTypes(info, thp), nil
 }
 
-func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) (out *types.UserInfoResp) {
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp, thp *accountrpc.GetUserOauthInfoResp) (out *types.UserInfoResp) {
+	var info types.UserInfoExt
+	jsonconv.JsonToAny(in.Info, &info)
+
+	thirdParty := make([]*types.UserThirdPartyInfo, 0)
+	for _, v := range thp.List {
+		thirdParty = append(thirdParty, &types.UserThirdPartyInfo{
+			Platform:  v.Platform,
+			OpenId:    v.OpenId,
+			Nickname:  v.Nickname,
+			Avatar:    v.Avatar,
+			CreatedAt: v.CreatedAt,
+		})
+	}
+
 	out = &types.UserInfoResp{
 		UserId:      in.UserId,
 		Username:    in.Username,
@@ -52,10 +72,10 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) (out *types.UserInfoResp)
 		Avatar:      in.Avatar,
 		Email:       in.Email,
 		Phone:       in.Phone,
-		UserInfoExt: types.UserInfoExt{},
+		CreatedAt:   in.CreatedAt,
+		UserInfoExt: info,
+		ThirdParty:  thirdParty,
 	}
-
-	jsonconv.JsonToAny(in.Info, &out.UserInfoExt)
 
 	return out
 }

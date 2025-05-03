@@ -32,7 +32,7 @@ type (
 
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: photo
     middleware: JwtToken,Permission,OperationLog
 )

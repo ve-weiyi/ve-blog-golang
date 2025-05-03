@@ -51,6 +51,7 @@ func ConvertArticlePb(in *types.ArticleNewReq) (out *articlerpc.ArticleNewReq) {
 		ArticleContent: in.ArticleContent,
 		ArticleType:    in.ArticleType,
 		OriginalUrl:    in.OriginalUrl,
+		IsTop:          in.IsTop,
 		Status:         in.Status,
 		CategoryName:   in.CategoryName,
 		TagNameList:    in.TagNameList,

@@ -17,14 +17,14 @@ func NewFileService(svcCtx *svctx.ServiceContext) *FileService {
 }
 
 // 上传文件列表
-func (s *FileService) MultiUploadFile(reqCtx *request.Context, in *dto.MultiUploadFileReq) (out []*dto.FileBackDTO, err error) {
+func (s *FileService) MultiUploadFile(reqCtx *request.Context, in *dto.MultiUploadFileReq) (out []*dto.FileBackVO, err error) {
 	// todo
 
 	return
 }
 
 // 上传文件
-func (s *FileService) UploadFile(reqCtx *request.Context, in *dto.UploadFileReq) (out *dto.FileBackDTO, err error) {
+func (s *FileService) UploadFile(reqCtx *request.Context, in *dto.UploadFileReq) (out *dto.FileBackVO, err error) {
 	// todo
 
 	return

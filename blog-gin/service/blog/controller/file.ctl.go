@@ -25,8 +25,8 @@ func NewFileController(svcCtx *svctx.ServiceContext) *FileController {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=[]dto.FileBackDTO}	"返回信息"
-// @Router		/api/v1/file/multi_upload_file [POST]
+// @Success		200		{object}	response.Body{data=[]dto.FileBackVO}	"返回信息"
+// @Router		/blog-api/v1/file/multi_upload_file [POST]
 func (s *FileController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -53,8 +53,8 @@ func (s *FileController) MultiUploadFile(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.UploadFileReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FileBackDTO}	"返回信息"
-// @Router		/api/v1/file/upload_file [POST]
+// @Success		200		{object}	response.Body{data=dto.FileBackVO}	"返回信息"
+// @Router		/blog-api/v1/file/upload_file [POST]
 func (s *FileController) UploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

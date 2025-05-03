@@ -13,7 +13,7 @@
   "host": "127.0.0.1",
   "basePath": "/",
   "paths": {
-    "/admin/api/v1/account/find_account_list": {
+    "/admin-api/v1/account/find_account_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -82,7 +82,7 @@
         }
       }
     },
-    "/admin/api/v1/account/find_account_online_list": {
+    "/admin-api/v1/account/find_account_online_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -151,7 +151,7 @@
         }
       }
     },
-    "/admin/api/v1/account/get_user_area_stats": {
+    "/admin-api/v1/account/get_user_area_stats": {
       "post": {
         "consumes": [
           "application/json"
@@ -231,7 +231,7 @@
         }
       }
     },
-    "/admin/api/v1/account/update_account_password": {
+    "/admin-api/v1/account/update_account_password": {
       "post": {
         "consumes": [
           "application/json"
@@ -277,7 +277,7 @@
         }
       }
     },
-    "/admin/api/v1/account/update_account_roles": {
+    "/admin-api/v1/account/update_account_roles": {
       "post": {
         "consumes": [
           "application/json"
@@ -326,7 +326,7 @@
         }
       }
     },
-    "/admin/api/v1/account/update_account_status": {
+    "/admin-api/v1/account/update_account_status": {
       "post": {
         "consumes": [
           "application/json"
@@ -373,7 +373,7 @@
         }
       }
     },
-    "/admin/api/v1/admin": {
+    "/admin-api/v1/admin": {
       "get": {
         "produces": [
           "application/json"
@@ -503,7 +503,7 @@
         }
       }
     },
-    "/admin/api/v1/admin/about_me": {
+    "/admin-api/v1/admin/about_me": {
       "get": {
         "produces": [
           "application/json"
@@ -569,7 +569,7 @@
         }
       }
     },
-    "/admin/api/v1/admin/get_visit_stats": {
+    "/admin-api/v1/admin/get_visit_stats": {
       "get": {
         "produces": [
           "application/json"
@@ -616,7 +616,7 @@
         }
       }
     },
-    "/admin/api/v1/admin/get_visit_trend": {
+    "/admin-api/v1/admin/get_visit_trend": {
       "post": {
         "consumes": [
           "application/json"
@@ -691,7 +691,7 @@
         }
       }
     },
-    "/admin/api/v1/admin/get_website_config": {
+    "/admin-api/v1/admin/get_website_config": {
       "get": {
         "produces": [
           "application/json"
@@ -816,7 +816,7 @@
         }
       }
     },
-    "/admin/api/v1/admin/system_state": {
+    "/admin-api/v1/admin/system_state": {
       "get": {
         "produces": [
           "application/json"
@@ -843,7 +843,7 @@
         }
       }
     },
-    "/admin/api/v1/admin/update_website_config": {
+    "/admin-api/v1/admin/update_website_config": {
       "put": {
         "consumes": [
           "application/json"
@@ -1007,7 +1007,7 @@
         }
       }
     },
-    "/admin/api/v1/album/add_album": {
+    "/admin-api/v1/album/add_album": {
       "post": {
         "consumes": [
           "application/json"
@@ -1112,7 +1112,7 @@
         }
       }
     },
-    "/admin/api/v1/album/batch_delete_photo": {
+    "/admin-api/v1/album/batch_delete_photo": {
       "delete": {
         "consumes": [
           "application/json"
@@ -1162,7 +1162,7 @@
         }
       }
     },
-    "/admin/api/v1/album/delete_album": {
+    "/admin-api/v1/album/delete_album": {
       "delete": {
         "consumes": [
           "application/json"
@@ -1209,7 +1209,7 @@
         }
       }
     },
-    "/admin/api/v1/album/find_album_list": {
+    "/admin-api/v1/album/find_album_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1276,7 +1276,7 @@
         }
       }
     },
-    "/admin/api/v1/album/get_album": {
+    "/admin-api/v1/album/get_album": {
       "post": {
         "consumes": [
           "application/json"
@@ -1356,7 +1356,7 @@
         }
       }
     },
-    "/admin/api/v1/album/update_album": {
+    "/admin-api/v1/album/update_album": {
       "put": {
         "consumes": [
           "application/json"
@@ -1461,7 +1461,7 @@
         }
       }
     },
-    "/admin/api/v1/api/add_api": {
+    "/admin-api/v1/api/add_api": {
       "post": {
         "consumes": [
           "application/json"
@@ -1684,7 +1684,7 @@
         }
       }
     },
-    "/admin/api/v1/api/batch_delete_api": {
+    "/admin-api/v1/api/batch_delete_api": {
       "delete": {
         "consumes": [
           "application/json"
@@ -1734,7 +1734,7 @@
         }
       }
     },
-    "/admin/api/v1/api/clean_api_list": {
+    "/admin-api/v1/api/clean_api_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1763,7 +1763,7 @@
         }
       }
     },
-    "/admin/api/v1/api/delete_api": {
+    "/admin-api/v1/api/delete_api": {
       "delete": {
         "consumes": [
           "application/json"
@@ -1810,7 +1810,7 @@
         }
       }
     },
-    "/admin/api/v1/api/find_api_list": {
+    "/admin-api/v1/api/find_api_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1885,7 +1885,7 @@
         }
       }
     },
-    "/admin/api/v1/api/sync_api_list": {
+    "/admin-api/v1/api/sync_api_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1933,7 +1933,7 @@
         }
       }
     },
-    "/admin/api/v1/api/update_api": {
+    "/admin-api/v1/api/update_api": {
       "put": {
         "consumes": [
           "application/json"
@@ -2156,7 +2156,7 @@
         }
       }
     },
-    "/admin/api/v1/article/add_article": {
+    "/admin-api/v1/article/add_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -2304,7 +2304,7 @@
         }
       }
     },
-    "/admin/api/v1/article/delete_article": {
+    "/admin-api/v1/article/delete_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -2351,7 +2351,7 @@
         }
       }
     },
-    "/admin/api/v1/article/export_article_list": {
+    "/admin-api/v1/article/export_article_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -2396,7 +2396,7 @@
         }
       }
     },
-    "/admin/api/v1/article/find_article_list": {
+    "/admin-api/v1/article/find_article_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -2486,7 +2486,7 @@
         }
       }
     },
-    "/admin/api/v1/article/get_article": {
+    "/admin-api/v1/article/get_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -2593,7 +2593,7 @@
         }
       }
     },
-    "/admin/api/v1/article/recycle_article": {
+    "/admin-api/v1/article/recycle_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -2640,7 +2640,7 @@
         }
       }
     },
-    "/admin/api/v1/article/top_article": {
+    "/admin-api/v1/article/top_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -2687,7 +2687,7 @@
         }
       }
     },
-    "/admin/api/v1/article/update_article": {
+    "/admin-api/v1/article/update_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -2835,7 +2835,7 @@
         }
       }
     },
-    "/admin/api/v1/category/add_category": {
+    "/admin-api/v1/category/add_category": {
       "post": {
         "consumes": [
           "application/json"
@@ -2901,7 +2901,7 @@
         }
       }
     },
-    "/admin/api/v1/category/batch_delete_category": {
+    "/admin-api/v1/category/batch_delete_category": {
       "delete": {
         "consumes": [
           "application/json"
@@ -2951,7 +2951,7 @@
         }
       }
     },
-    "/admin/api/v1/category/delete_category": {
+    "/admin-api/v1/category/delete_category": {
       "delete": {
         "consumes": [
           "application/json"
@@ -2998,7 +2998,7 @@
         }
       }
     },
-    "/admin/api/v1/category/find_category_list": {
+    "/admin-api/v1/category/find_category_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -3065,7 +3065,7 @@
         }
       }
     },
-    "/admin/api/v1/category/update_category": {
+    "/admin-api/v1/category/update_category": {
       "put": {
         "consumes": [
           "application/json"
@@ -3131,7 +3131,7 @@
         }
       }
     },
-    "/admin/api/v1/comment/batch_delete_comment": {
+    "/admin-api/v1/comment/batch_delete_comment": {
       "delete": {
         "consumes": [
           "application/json"
@@ -3181,7 +3181,7 @@
         }
       }
     },
-    "/admin/api/v1/comment/delete_comment": {
+    "/admin-api/v1/comment/delete_comment": {
       "delete": {
         "consumes": [
           "application/json"
@@ -3228,7 +3228,7 @@
         }
       }
     },
-    "/admin/api/v1/comment/find_comment_back_list": {
+    "/admin-api/v1/comment/find_comment_back_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -3302,7 +3302,7 @@
         }
       }
     },
-    "/admin/api/v1/comment/update_comment_review": {
+    "/admin-api/v1/comment/update_comment_review": {
       "put": {
         "consumes": [
           "application/json"
@@ -3352,7 +3352,7 @@
         }
       }
     },
-    "/admin/api/v1/email_login": {
+    "/admin-api/v1/email_login": {
       "post": {
         "consumes": [
           "application/json"
@@ -3452,7 +3452,7 @@
         }
       }
     },
-    "/admin/api/v1/file/add_file_folder": {
+    "/admin-api/v1/file/add_file_folder": {
       "post": {
         "consumes": [
           "application/json"
@@ -3566,7 +3566,7 @@
         }
       }
     },
-    "/admin/api/v1/file/deletes_file": {
+    "/admin-api/v1/file/deletes_file": {
       "delete": {
         "consumes": [
           "application/json"
@@ -3616,7 +3616,7 @@
         }
       }
     },
-    "/admin/api/v1/file/find_file_list": {
+    "/admin-api/v1/file/find_file_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -3687,7 +3687,7 @@
         }
       }
     },
-    "/admin/api/v1/file/list_upload_file": {
+    "/admin-api/v1/file/list_upload_file": {
       "post": {
         "consumes": [
           "application/json"
@@ -3740,7 +3740,7 @@
         }
       }
     },
-    "/admin/api/v1/file/multi_upload_file": {
+    "/admin-api/v1/file/multi_upload_file": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -3846,7 +3846,7 @@
         }
       }
     },
-    "/admin/api/v1/file/upload_file": {
+    "/admin-api/v1/file/upload_file": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -3951,7 +3951,7 @@
         }
       }
     },
-    "/admin/api/v1/friend/add_friend": {
+    "/admin-api/v1/friend/add_friend": {
       "post": {
         "consumes": [
           "application/json"
@@ -4043,7 +4043,7 @@
         }
       }
     },
-    "/admin/api/v1/friend/batch_delete_friend": {
+    "/admin-api/v1/friend/batch_delete_friend": {
       "delete": {
         "consumes": [
           "application/json"
@@ -4093,7 +4093,7 @@
         }
       }
     },
-    "/admin/api/v1/friend/delete_friend": {
+    "/admin-api/v1/friend/delete_friend": {
       "delete": {
         "consumes": [
           "application/json"
@@ -4140,7 +4140,7 @@
         }
       }
     },
-    "/admin/api/v1/friend/find_friend_list": {
+    "/admin-api/v1/friend/find_friend_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -4207,7 +4207,7 @@
         }
       }
     },
-    "/admin/api/v1/friend/update_friend": {
+    "/admin-api/v1/friend/update_friend": {
       "put": {
         "consumes": [
           "application/json"
@@ -4299,7 +4299,7 @@
         }
       }
     },
-    "/admin/api/v1/get_captcha_code": {
+    "/admin-api/v1/get_captcha_code": {
       "post": {
         "consumes": [
           "application/json"
@@ -4357,7 +4357,7 @@
         }
       }
     },
-    "/admin/api/v1/login": {
+    "/admin-api/v1/login": {
       "post": {
         "consumes": [
           "application/json"
@@ -4455,7 +4455,7 @@
         }
       }
     },
-    "/admin/api/v1/login_log/deletes_login_log": {
+    "/admin-api/v1/login_log/deletes_login_log": {
       "delete": {
         "consumes": [
           "application/json"
@@ -4505,7 +4505,7 @@
         }
       }
     },
-    "/admin/api/v1/logoff": {
+    "/admin-api/v1/logoff": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -4529,7 +4529,7 @@
         }
       }
     },
-    "/admin/api/v1/logout": {
+    "/admin-api/v1/logout": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -4553,7 +4553,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/add_menu": {
+    "/admin-api/v1/menu/add_menu": {
       "post": {
         "consumes": [
           "application/json"
@@ -5101,7 +5101,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/batch_delete_menu": {
+    "/admin-api/v1/menu/batch_delete_menu": {
       "delete": {
         "consumes": [
           "application/json"
@@ -5151,7 +5151,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/clean_menu_list": {
+    "/admin-api/v1/menu/clean_menu_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -5180,7 +5180,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/delete_menu": {
+    "/admin-api/v1/menu/delete_menu": {
       "delete": {
         "consumes": [
           "application/json"
@@ -5227,7 +5227,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/find_menu_list": {
+    "/admin-api/v1/menu/find_menu_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -5298,7 +5298,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/sync_menu_list": {
+    "/admin-api/v1/menu/sync_menu_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -5506,7 +5506,7 @@
         }
       }
     },
-    "/admin/api/v1/menu/update_menu": {
+    "/admin-api/v1/menu/update_menu": {
       "put": {
         "consumes": [
           "application/json"
@@ -6054,7 +6054,7 @@
         }
       }
     },
-    "/admin/api/v1/oauth_authorize_url": {
+    "/admin-api/v1/oauth_authorize_url": {
       "post": {
         "consumes": [
           "application/json"
@@ -6111,7 +6111,7 @@
         }
       }
     },
-    "/admin/api/v1/oauth_login": {
+    "/admin-api/v1/oauth_login": {
       "post": {
         "consumes": [
           "application/json"
@@ -6206,7 +6206,7 @@
         }
       }
     },
-    "/admin/api/v1/operation_log/deletes_operation_log": {
+    "/admin-api/v1/operation_log/deletes_operation_log": {
       "delete": {
         "consumes": [
           "application/json"
@@ -6256,7 +6256,7 @@
         }
       }
     },
-    "/admin/api/v1/operation_log/find_operation_log_list": {
+    "/admin-api/v1/operation_log/find_operation_log_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -6319,7 +6319,7 @@
         }
       }
     },
-    "/admin/api/v1/page/add_page": {
+    "/admin-api/v1/page/add_page": {
       "post": {
         "consumes": [
           "application/json"
@@ -6424,7 +6424,7 @@
         }
       }
     },
-    "/admin/api/v1/page/delete_page": {
+    "/admin-api/v1/page/delete_page": {
       "delete": {
         "consumes": [
           "application/json"
@@ -6471,7 +6471,7 @@
         }
       }
     },
-    "/admin/api/v1/page/find_page_list": {
+    "/admin-api/v1/page/find_page_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -6538,7 +6538,7 @@
         }
       }
     },
-    "/admin/api/v1/page/update_page": {
+    "/admin-api/v1/page/update_page": {
       "put": {
         "consumes": [
           "application/json"
@@ -6643,7 +6643,7 @@
         }
       }
     },
-    "/admin/api/v1/phone_login": {
+    "/admin-api/v1/phone_login": {
       "post": {
         "consumes": [
           "application/json"
@@ -6735,7 +6735,7 @@
         }
       }
     },
-    "/admin/api/v1/photo/add_photo": {
+    "/admin-api/v1/photo/add_photo": {
       "post": {
         "consumes": [
           "application/json"
@@ -6836,7 +6836,7 @@
         }
       }
     },
-    "/admin/api/v1/photo/delete_photo": {
+    "/admin-api/v1/photo/delete_photo": {
       "delete": {
         "consumes": [
           "application/json"
@@ -6883,7 +6883,7 @@
         }
       }
     },
-    "/admin/api/v1/photo/find_photo_list": {
+    "/admin-api/v1/photo/find_photo_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -6950,7 +6950,7 @@
         }
       }
     },
-    "/admin/api/v1/photo/update_photo": {
+    "/admin-api/v1/photo/update_photo": {
       "put": {
         "consumes": [
           "application/json"
@@ -7051,7 +7051,7 @@
         }
       }
     },
-    "/admin/api/v1/ping": {
+    "/admin-api/v1/ping": {
       "get": {
         "produces": [
           "application/json"
@@ -7095,7 +7095,7 @@
         }
       }
     },
-    "/admin/api/v1/register": {
+    "/admin-api/v1/register": {
       "post": {
         "consumes": [
           "application/json"
@@ -7156,7 +7156,7 @@
         }
       }
     },
-    "/admin/api/v1/remark/batch_delete_remark": {
+    "/admin-api/v1/remark/batch_delete_remark": {
       "delete": {
         "consumes": [
           "application/json"
@@ -7206,7 +7206,7 @@
         }
       }
     },
-    "/admin/api/v1/remark/delete_remark": {
+    "/admin-api/v1/remark/delete_remark": {
       "delete": {
         "consumes": [
           "application/json"
@@ -7253,7 +7253,7 @@
         }
       }
     },
-    "/admin/api/v1/remark/find_remark_list": {
+    "/admin-api/v1/remark/find_remark_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -7324,7 +7324,7 @@
         }
       }
     },
-    "/admin/api/v1/remark/update_remark_review": {
+    "/admin-api/v1/remark/update_remark_review": {
       "put": {
         "consumes": [
           "application/json"
@@ -7378,7 +7378,7 @@
         }
       }
     },
-    "/admin/api/v1/reset_password": {
+    "/admin-api/v1/reset_password": {
       "post": {
         "consumes": [
           "application/json"
@@ -7434,7 +7434,7 @@
         }
       }
     },
-    "/admin/api/v1/role/add_role": {
+    "/admin-api/v1/role/add_role": {
       "post": {
         "consumes": [
           "application/json"
@@ -7543,7 +7543,7 @@
         }
       }
     },
-    "/admin/api/v1/role/batch_delete_role": {
+    "/admin-api/v1/role/batch_delete_role": {
       "post": {
         "consumes": [
           "application/json"
@@ -7593,7 +7593,7 @@
         }
       }
     },
-    "/admin/api/v1/role/delete_role": {
+    "/admin-api/v1/role/delete_role": {
       "delete": {
         "consumes": [
           "application/json"
@@ -7640,7 +7640,7 @@
         }
       }
     },
-    "/admin/api/v1/role/find_role_list": {
+    "/admin-api/v1/role/find_role_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -7715,7 +7715,7 @@
         }
       }
     },
-    "/admin/api/v1/role/find_role_resources": {
+    "/admin-api/v1/role/find_role_resources": {
       "post": {
         "consumes": [
           "application/json"
@@ -7774,7 +7774,7 @@
         }
       }
     },
-    "/admin/api/v1/role/update_role": {
+    "/admin-api/v1/role/update_role": {
       "put": {
         "consumes": [
           "application/json"
@@ -7883,7 +7883,7 @@
         }
       }
     },
-    "/admin/api/v1/role/update_role_apis": {
+    "/admin-api/v1/role/update_role_apis": {
       "post": {
         "consumes": [
           "application/json"
@@ -7932,7 +7932,7 @@
         }
       }
     },
-    "/admin/api/v1/role/update_role_menus": {
+    "/admin-api/v1/role/update_role_menus": {
       "post": {
         "consumes": [
           "application/json"
@@ -7981,7 +7981,7 @@
         }
       }
     },
-    "/admin/api/v1/send_email_verify_code": {
+    "/admin-api/v1/send_email_verify_code": {
       "post": {
         "consumes": [
           "application/json"
@@ -8029,7 +8029,7 @@
         }
       }
     },
-    "/admin/api/v1/send_phone_verify_code": {
+    "/admin-api/v1/send_phone_verify_code": {
       "post": {
         "consumes": [
           "application/json"
@@ -8077,7 +8077,7 @@
         }
       }
     },
-    "/admin/api/v1/tag/add_tag": {
+    "/admin-api/v1/tag/add_tag": {
       "post": {
         "consumes": [
           "application/json"
@@ -8145,7 +8145,7 @@
         }
       }
     },
-    "/admin/api/v1/tag/batch_delete_tag": {
+    "/admin-api/v1/tag/batch_delete_tag": {
       "delete": {
         "consumes": [
           "application/json"
@@ -8195,7 +8195,7 @@
         }
       }
     },
-    "/admin/api/v1/tag/delete_tag": {
+    "/admin-api/v1/tag/delete_tag": {
       "delete": {
         "consumes": [
           "application/json"
@@ -8242,7 +8242,7 @@
         }
       }
     },
-    "/admin/api/v1/tag/find_tag_list": {
+    "/admin-api/v1/tag/find_tag_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -8309,7 +8309,7 @@
         }
       }
     },
-    "/admin/api/v1/tag/update_tag": {
+    "/admin-api/v1/tag/update_tag": {
       "put": {
         "consumes": [
           "application/json"
@@ -8377,7 +8377,7 @@
         }
       }
     },
-    "/admin/api/v1/talk/add_talk": {
+    "/admin-api/v1/talk/add_talk": {
       "post": {
         "consumes": [
           "application/json"
@@ -8511,7 +8511,7 @@
         }
       }
     },
-    "/admin/api/v1/talk/delete_talk": {
+    "/admin-api/v1/talk/delete_talk": {
       "delete": {
         "consumes": [
           "application/json"
@@ -8558,7 +8558,7 @@
         }
       }
     },
-    "/admin/api/v1/talk/find_talk_list": {
+    "/admin-api/v1/talk/find_talk_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -8625,7 +8625,7 @@
         }
       }
     },
-    "/admin/api/v1/talk/get_talk": {
+    "/admin-api/v1/talk/get_talk": {
       "post": {
         "consumes": [
           "application/json"
@@ -8736,7 +8736,7 @@
         }
       }
     },
-    "/admin/api/v1/talk/update_talk": {
+    "/admin-api/v1/talk/update_talk": {
       "put": {
         "consumes": [
           "application/json"
@@ -8870,7 +8870,7 @@
         }
       }
     },
-    "/admin/api/v1/user/find_login_log_list": {
+    "/admin-api/v1/user/find_login_log_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -8937,7 +8937,7 @@
         }
       }
     },
-    "/admin/api/v1/user/get_user_apis": {
+    "/admin-api/v1/user/get_user_apis": {
       "get": {
         "produces": [
           "application/json"
@@ -9056,7 +9056,7 @@
         }
       }
     },
-    "/admin/api/v1/user/get_user_info": {
+    "/admin-api/v1/user/get_user_info": {
       "get": {
         "produces": [
           "application/json"
@@ -9255,7 +9255,7 @@
         }
       }
     },
-    "/admin/api/v1/user/get_user_login_history_list": {
+    "/admin-api/v1/user/get_user_login_history_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -9318,7 +9318,7 @@
         }
       }
     },
-    "/admin/api/v1/user/get_user_menus": {
+    "/admin-api/v1/user/get_user_menus": {
       "get": {
         "produces": [
           "application/json"
@@ -9501,7 +9501,7 @@
         }
       }
     },
-    "/admin/api/v1/user/get_user_roles": {
+    "/admin-api/v1/user/get_user_roles": {
       "get": {
         "produces": [
           "application/json"
@@ -9558,7 +9558,7 @@
         }
       }
     },
-    "/admin/api/v1/user/update_user_avatar": {
+    "/admin-api/v1/user/update_user_avatar": {
       "post": {
         "consumes": [
           "application/json"
@@ -9601,7 +9601,7 @@
         }
       }
     },
-    "/admin/api/v1/user/update_user_bind_email": {
+    "/admin-api/v1/user/update_user_bind_email": {
       "post": {
         "consumes": [
           "application/json"
@@ -9649,7 +9649,7 @@
         }
       }
     },
-    "/admin/api/v1/user/update_user_bind_phone": {
+    "/admin-api/v1/user/update_user_bind_phone": {
       "post": {
         "consumes": [
           "application/json"
@@ -9697,7 +9697,7 @@
         }
       }
     },
-    "/admin/api/v1/user/update_user_info": {
+    "/admin-api/v1/user/update_user_info": {
       "post": {
         "consumes": [
           "application/json"
@@ -9755,7 +9755,7 @@
         }
       }
     },
-    "/admin/api/v1/user/update_user_password": {
+    "/admin-api/v1/user/update_user_password": {
       "post": {
         "consumes": [
           "application/json"
@@ -9808,7 +9808,7 @@
         }
       }
     },
-    "/admin/api/v1/visit_log/deletes_visit_log": {
+    "/admin-api/v1/visit_log/deletes_visit_log": {
       "delete": {
         "consumes": [
           "application/json"
@@ -9858,7 +9858,7 @@
         }
       }
     },
-    "/admin/api/v1/visit_log/find_visit_log_list": {
+    "/admin-api/v1/visit_log/find_visit_log_list": {
       "post": {
         "consumes": [
           "application/json"

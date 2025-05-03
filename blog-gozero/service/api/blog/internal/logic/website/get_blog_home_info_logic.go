@@ -50,9 +50,9 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	ps := make([]*types.PageDTO, 0)
+	ps := make([]*types.PageVO, 0)
 	for _, v := range pages.List {
-		p := &types.PageDTO{
+		p := &types.PageVO{
 			Id:         v.Id,
 			PageName:   v.PageName,
 			PageLabel:  v.PageLabel,
@@ -69,7 +69,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		return nil, err
 	}
 
-	config := types.WebsiteConfigDTO{}
+	config := types.WebsiteConfigVO{}
 	err = jsonconv.JsonToAny(conf.ConfigValue, &config)
 	if err != nil {
 		return nil, err
@@ -79,6 +79,7 @@ func (l *GetBlogHomeInfoLogic) GetBlogHomeInfo(req *types.GetBlogHomeInfoReq) (r
 		ArticleCount:       analysis.ArticleCount,
 		CategoryCount:      analysis.CategoryCount,
 		TagCount:           analysis.TagCount,
+		TotalUserViewCount: visit.TotalUvCount,
 		TotalPageViewCount: visit.TotalPvCount,
 		WebsiteConfig:      config,
 		PageList:           ps,

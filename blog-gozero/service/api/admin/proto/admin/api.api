@@ -39,7 +39,7 @@ type (
 )
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: api
     middleware: JwtToken,Permission,OperationLog
 )

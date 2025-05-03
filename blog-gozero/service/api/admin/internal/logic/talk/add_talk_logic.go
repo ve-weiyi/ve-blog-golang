@@ -9,7 +9,6 @@ import (
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/admin/internal/types"
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/talkrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -55,7 +54,7 @@ func ConvertTalkPb(in *types.TalkNewReq) (out *talkrpc.TalkNewReq) {
 	return
 }
 
-func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*accountrpc.User) (out *types.TalkBackVO) {
+func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*types.UserInfoVO) (out *types.TalkBackVO) {
 	out = &types.TalkBackVO{
 		Id:           in.Id,
 		UserId:       in.UserId,
@@ -73,12 +72,7 @@ func ConvertTalkTypes(in *talkrpc.TalkDetails, usm map[string]*accountrpc.User) 
 	if out.UserId != "" {
 		user, ok := usm[out.UserId]
 		if ok && user != nil {
-			out.User = &types.UserInfo{
-				UserId:   user.UserId,
-				Username: user.Username,
-				Avatar:   user.Avatar,
-				Nickname: user.Nickname,
-			}
+			out.User = user
 		}
 	}
 

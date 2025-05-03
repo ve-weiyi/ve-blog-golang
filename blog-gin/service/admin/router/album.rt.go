@@ -19,30 +19,20 @@ func NewAlbumRouter(svcCtx *svctx.ServiceContext) *AlbumRouter {
 
 func (s *AlbumRouter) Register(r *gin.RouterGroup) {
 	// Album
-	// [SignToken]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-
-		handler := controller.NewAlbumController(s.svcCtx)
-		// 分页获取相册列表
-		group.POST("/album/find_album_list", handler.FindAlbumList)
-	}
-	// Album
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewAlbumController(s.svcCtx)
 		// 创建相册
 		group.POST("/album/add_album", handler.AddAlbum)
-		// 批量删除相册
-		group.DELETE("/album/batch_delete_album", handler.BatchDeleteAlbum)
 		// 删除相册
 		group.DELETE("/album/delete_album", handler.DeleteAlbum)
+		// 分页获取相册列表
+		group.POST("/album/find_album_list", handler.FindAlbumList)
 		// 查询相册
 		group.POST("/album/get_album", handler.GetAlbum)
 		// 更新相册

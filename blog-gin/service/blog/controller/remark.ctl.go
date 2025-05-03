@@ -26,7 +26,7 @@ func NewRemarkController(svcCtx *svctx.ServiceContext) *RemarkController {
 // @Produce		application/json
 // @Param		data	body		dto.RemarkQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/remark/find_remark_list [POST]
+// @Router		/blog-api/v1/remark/find_remark_list [POST]
 func (s *RemarkController) FindRemarkList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *RemarkController) FindRemarkList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.RemarkNewReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.Remark}	"返回信息"
-// @Router		/api/v1/remark/add_remark [POST]
+// @Router		/blog-api/v1/remark/add_remark [POST]
 func (s *RemarkController) AddRemark(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
