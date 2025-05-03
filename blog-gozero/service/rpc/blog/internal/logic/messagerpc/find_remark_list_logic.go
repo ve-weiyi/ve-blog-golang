@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
@@ -53,4 +54,20 @@ func (l *FindRemarkListLogic) FindRemarkList(in *messagerpc.FindRemarkListReq) (
 		List:  list,
 		Total: total,
 	}, nil
+}
+
+func convertRemarkOut(in *model.TRemark) (out *messagerpc.RemarkDetails) {
+	out = &messagerpc.RemarkDetails{
+		Id:             in.Id,
+		UserId:         in.UserId,
+		TerminalId:     in.TerminalId,
+		MessageContent: in.MessageContent,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+		IsReview:       in.IsReview,
+		CreatedAt:      in.CreatedAt.Unix(),
+		UpdatedAt:      in.UpdatedAt.Unix(),
+	}
+
+	return out
 }

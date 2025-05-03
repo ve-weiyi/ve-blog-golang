@@ -19,22 +19,12 @@ func NewApiRouter(svcCtx *svctx.ServiceContext) *ApiRouter {
 
 func (s *ApiRouter) Register(r *gin.RouterGroup) {
 	// Api
-	// [SignToken]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
-
-		handler := controller.NewApiController(s.svcCtx)
-		// 分页获取api路由列表
-		group.POST("/api/find_api_list", handler.FindApiList)
-	}
-	// Api
-	// [SignToken JwtToken Operation]
-	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewApiController(s.svcCtx)
 		// 创建api路由
@@ -45,6 +35,8 @@ func (s *ApiRouter) Register(r *gin.RouterGroup) {
 		group.POST("/api/clean_api_list", handler.CleanApiList)
 		// 删除api路由
 		group.DELETE("/api/delete_api", handler.DeleteApi)
+		// 分页获取api路由列表
+		group.POST("/api/find_api_list", handler.FindApiList)
 		// 同步api列表
 		group.POST("/api/sync_api_list", handler.SyncApiList)
 		// 更新api路由

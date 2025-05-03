@@ -26,7 +26,7 @@ func NewWebsiteController(svcCtx *svctx.ServiceContext) *WebsiteController {
 // @Produce		application/json
 // @Param		data	body		dto.GetBlogHomeInfoReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.GetBlogHomeInfoResp}	"返回信息"
-// @Router		/api/v1/blog [GET]
+// @Router		/blog-api/v1/blog [GET]
 func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *WebsiteController) GetBlogHomeInfo(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.GetAboutMeReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.GetAboutMeResp}	"返回信息"
-// @Router		/api/v1/blog/about_me [GET]
+// @Router		/blog-api/v1/blog/about_me [GET]
 func (s *WebsiteController) GetAboutMe(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

@@ -26,12 +26,12 @@ func NewUpdateUserBindPhoneLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *UpdateUserBindPhoneLogic) UpdateUserBindPhone(req *types.UpdateUserBindPhoneReq) (resp *types.EmptyResp, err error) {
-	in := &accountrpc.UpdateUserPhoneReq{
+	in := &accountrpc.BindUserPhoneReq{
 		Phone:      req.Phone,
 		VerifyCode: req.VerifyCode,
 	}
 
-	_, err = l.svcCtx.AccountRpc.UpdateUserPhone(l.ctx, in)
+	_, err = l.svcCtx.AccountRpc.BindUserPhone(l.ctx, in)
 	if err != nil {
 		return nil, err
 	}

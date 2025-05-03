@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/service/blog/controller"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
@@ -19,10 +18,10 @@ func NewWebsiteRouter(svcCtx *svctx.ServiceContext) *WebsiteRouter {
 
 func (s *WebsiteRouter) Register(r *gin.RouterGroup) {
 	// Website
-	// [SignToken]
+	// [TimeToken]
 	{
-		group := r.Group("/api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/blog-api/v1")
+		group.Use(s.svcCtx.MiddlewareTimeToken)
 
 		handler := controller.NewWebsiteController(s.svcCtx)
 		// 获取博客前台首页信息

@@ -107,14 +107,18 @@ message PhoneLoginReq {
   string verify_code = 3; // 验证码
 }
 
-message OauthLoginReq {
+message ThirdLoginReq {
   string platform = 1;// 平台
   string code = 2;// 授权码
-  string state = 3;// 状态
 }
 
-message GetOauthLoginUrlResp {
-  string url = 1;// 授权地址
+message GetOauthAuthorizeUrlReq {
+  string platform = 1;// 平台
+  string state = 2;// 状态
+}
+
+message GetOauthAuthorizeUrlResp {
+  string authorize_url = 1;// 授权地址
 }
 
 message User {
@@ -166,19 +170,41 @@ message UpdateUserAvatarReq {
   string avatar = 1; // 头像
 }
 
-message UpdateUseEmailReq {
+message UpdateUserPasswordReq {
+  string old_password = 1; // 用户id
+  string new_password = 2;
+}
+
+message BindUseEmailReq {
   string email = 1; // 邮箱
   string verify_code = 2;
 }
 
-message UpdateUserPhoneReq {
+message BindUserPhoneReq {
   string phone = 1; // 手机号
   string verify_code = 2;
 }
 
-message UpdateUserPasswordReq {
-  string old_password = 1; // 用户id
-  string new_password = 2;
+message BindUserOauthReq {
+  string platform = 1;// 平台
+  string code = 2;// 授权码
+}
+
+message UnbindUserOauthReq {
+  string platform = 1;// 平台
+}
+
+message UserOauthInfo {
+  string platform = 1;// 平台
+  string open_id = 2;// 授权码
+  string nickname = 3;// 昵称
+  string avatar = 4;// 头像
+  int64 created_at = 5;// 创建时间
+  int64 updated_at = 6;// 更新时间
+}
+
+message GetUserOauthInfoResp {
+  repeated UserOauthInfo list = 1;
 }
 
 message AdminUpdateUserStatusReq {
@@ -252,6 +278,16 @@ service AccountRpc {
   // 重置密码
   rpc ResetPassword(ResetPasswordReq) returns(EmptyResp);
 
+  // 邮箱登录
+  rpc EmailLogin(EmailLoginReq) returns(LoginResp);
+  // 手机号登录
+  rpc PhoneLogin(PhoneLoginReq) returns(LoginResp);
+  // 第三方登录
+  rpc ThirdLogin(ThirdLoginReq) returns(LoginResp);
+
+
+  // 获取第三方登录授权地址
+  rpc GetOauthAuthorizeUrl(GetOauthAuthorizeUrlReq) returns(GetOauthAuthorizeUrlResp);
   // 发送邮件验证码
   rpc SendEmailVerifyCode(SendEmailVerifyCodeReq) returns(EmptyResp);
   // 发送手机号验证码
@@ -259,28 +295,27 @@ service AccountRpc {
   // 生成验证码
   rpc GenerateCaptchaCode(GenerateCaptchaCodeReq) returns(GenerateCaptchaCodeResp);
 
-  // 邮箱登录
-  rpc EmailLogin(EmailLoginReq) returns(LoginResp);
-  // 手机号登录
-  rpc PhoneLogin(PhoneLoginReq) returns(LoginResp);
-  // 第三方登录
-  rpc OauthLogin(OauthLoginReq) returns(LoginResp);
-  // 获取第三方登录授权地址
-  rpc GetOauthAuthorizeUrl(OauthLoginReq) returns(GetOauthLoginUrlResp);
-
 
   // 获取用户信息
   rpc GetUserInfo(UserIdReq) returns(UserInfoResp);
+  // 获取用户第三平台信息
+  rpc GetUserOauthInfo(UserIdReq) returns(GetUserOauthInfoResp);
   // 修改用户信息
   rpc UpdateUserInfo(UpdateUserInfoReq) returns(EmptyResp);
   // 修改用户头像
   rpc UpdateUserAvatar(UpdateUserAvatarReq) returns(EmptyResp);
   // 修改用户密码
   rpc UpdateUserPassword(UpdateUserPasswordReq) returns(EmptyResp);
+
+
   // 修改用户登录邮箱
-  rpc UpdateUserEmail(UpdateUseEmailReq) returns(EmptyResp);
+  rpc BindUserEmail(BindUseEmailReq) returns(EmptyResp);
   // 修改用户登录手机号
-  rpc UpdateUserPhone(UpdateUserPhoneReq) returns(EmptyResp);
+  rpc BindUserPhone(BindUserPhoneReq) returns(EmptyResp);
+  // 修改用户第三方账号
+  rpc BindUserOauth(BindUserOauthReq) returns(EmptyResp);
+  // 解绑第三方账号
+  rpc UnbindUserOauth(UnbindUserOauthReq) returns(EmptyResp);
 
 
   // 修改用户状态

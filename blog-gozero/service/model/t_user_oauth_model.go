@@ -34,14 +34,17 @@ type (
 		FindListAndTotal(ctx context.Context, page int, size int, sorts string, conditions string, args ...interface{}) (list []*TUserOauth, total int64, err error)
 		// add extra method in here
 		FindOneByOpenIdPlatform(ctx context.Context, open_id string, platform string) (out *TUserOauth, err error)
+		FindOneByUserIdPlatform(ctx context.Context, user_id string, platform string) (out *TUserOauth, err error)
 	}
 
 	// 表字段定义
 	TUserOauth struct {
 		Id        int64     `json:"id" gorm:"column:id"`                 // id
 		UserId    string    `json:"user_id" gorm:"column:user_id"`       // 用户id
-		OpenId    string    `json:"open_id" gorm:"column:open_id"`       // 开发平台id，标识唯一用户
 		Platform  string    `json:"platform" gorm:"column:platform"`     // 平台:手机号、邮箱、微信、飞书
+		OpenId    string    `json:"open_id" gorm:"column:open_id"`       // 第三方平台id，标识唯一用户
+		Nickname  string    `json:"nickname" gorm:"column:nickname"`     // 第三方平台昵称
+		Avatar    string    `json:"avatar" gorm:"column:avatar"`         // 第三方平台头像
 		CreatedAt time.Time `json:"created_at" gorm:"column:created_at"` // 创建时间
 		UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"` // 更新时间
 	}
@@ -262,6 +265,16 @@ func (m *defaultTUserOauthModel) FindOneByOpenIdPlatform(ctx context.Context, op
 	db := m.DbEngin.WithContext(ctx).Table(m.table)
 
 	err = db.Where("`open_id` = ? and `platform` = ?", open_id, platform).First(&out).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+func (m *defaultTUserOauthModel) FindOneByUserIdPlatform(ctx context.Context, user_id string, platform string) (out *TUserOauth, err error) {
+	db := m.DbEngin.WithContext(ctx).Table(m.table)
+
+	err = db.Where("`user_id` = ? and `platform` = ?", user_id, platform).First(&out).Error
 	if err != nil {
 		return nil, err
 	}

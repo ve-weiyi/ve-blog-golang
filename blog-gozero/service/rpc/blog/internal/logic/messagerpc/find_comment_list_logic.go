@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/model"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/pb/messagerpc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/internal/svc"
 
@@ -73,4 +74,26 @@ func convertCommentQuery(in *messagerpc.FindCommentListReq) (page int, size int,
 	params = append(params, in.ParentId)
 
 	return
+}
+
+func convertCommentOut(in *model.TComment) (out *messagerpc.CommentDetails) {
+	out = &messagerpc.CommentDetails{
+		Id:             in.Id,
+		UserId:         in.UserId,
+		TopicId:        in.TopicId,
+		ParentId:       in.ParentId,
+		ReplyMsgId:     in.ReplyMsgId,
+		ReplyUserId:    in.ReplyUserId,
+		CommentContent: in.CommentContent,
+		Type:           in.Type,
+		Status:         in.Status,
+		IsReview:       in.IsReview,
+		CreatedAt:      in.CreatedAt.Unix(),
+		UpdatedAt:      in.UpdatedAt.Unix(),
+		LikeCount:      in.LikeCount,
+		IpAddress:      in.IpAddress,
+		IpSource:       in.IpSource,
+	}
+
+	return out
 }

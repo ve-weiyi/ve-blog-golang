@@ -53,6 +53,30 @@ func (s *AccountRpcServer) ResetPassword(ctx context.Context, in *accountrpc.Res
 	return l.ResetPassword(in)
 }
 
+// 邮箱登录
+func (s *AccountRpcServer) EmailLogin(ctx context.Context, in *accountrpc.EmailLoginReq) (*accountrpc.LoginResp, error) {
+	l := accountrpclogic.NewEmailLoginLogic(ctx, s.svcCtx)
+	return l.EmailLogin(in)
+}
+
+// 手机号登录
+func (s *AccountRpcServer) PhoneLogin(ctx context.Context, in *accountrpc.PhoneLoginReq) (*accountrpc.LoginResp, error) {
+	l := accountrpclogic.NewPhoneLoginLogic(ctx, s.svcCtx)
+	return l.PhoneLogin(in)
+}
+
+// 第三方登录
+func (s *AccountRpcServer) ThirdLogin(ctx context.Context, in *accountrpc.ThirdLoginReq) (*accountrpc.LoginResp, error) {
+	l := accountrpclogic.NewThirdLoginLogic(ctx, s.svcCtx)
+	return l.ThirdLogin(in)
+}
+
+// 获取第三方登录授权地址
+func (s *AccountRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *accountrpc.GetOauthAuthorizeUrlReq) (*accountrpc.GetOauthAuthorizeUrlResp, error) {
+	l := accountrpclogic.NewGetOauthAuthorizeUrlLogic(ctx, s.svcCtx)
+	return l.GetOauthAuthorizeUrl(in)
+}
+
 // 发送邮件验证码
 func (s *AccountRpcServer) SendEmailVerifyCode(ctx context.Context, in *accountrpc.SendEmailVerifyCodeReq) (*accountrpc.EmptyResp, error) {
 	l := accountrpclogic.NewSendEmailVerifyCodeLogic(ctx, s.svcCtx)
@@ -71,34 +95,16 @@ func (s *AccountRpcServer) GenerateCaptchaCode(ctx context.Context, in *accountr
 	return l.GenerateCaptchaCode(in)
 }
 
-// 邮箱登录
-func (s *AccountRpcServer) EmailLogin(ctx context.Context, in *accountrpc.EmailLoginReq) (*accountrpc.LoginResp, error) {
-	l := accountrpclogic.NewEmailLoginLogic(ctx, s.svcCtx)
-	return l.EmailLogin(in)
-}
-
-// 手机号登录
-func (s *AccountRpcServer) PhoneLogin(ctx context.Context, in *accountrpc.PhoneLoginReq) (*accountrpc.LoginResp, error) {
-	l := accountrpclogic.NewPhoneLoginLogic(ctx, s.svcCtx)
-	return l.PhoneLogin(in)
-}
-
-// 第三方登录
-func (s *AccountRpcServer) OauthLogin(ctx context.Context, in *accountrpc.OauthLoginReq) (*accountrpc.LoginResp, error) {
-	l := accountrpclogic.NewOauthLoginLogic(ctx, s.svcCtx)
-	return l.OauthLogin(in)
-}
-
-// 获取第三方登录授权地址
-func (s *AccountRpcServer) GetOauthAuthorizeUrl(ctx context.Context, in *accountrpc.OauthLoginReq) (*accountrpc.GetOauthLoginUrlResp, error) {
-	l := accountrpclogic.NewGetOauthAuthorizeUrlLogic(ctx, s.svcCtx)
-	return l.GetOauthAuthorizeUrl(in)
-}
-
 // 获取用户信息
 func (s *AccountRpcServer) GetUserInfo(ctx context.Context, in *accountrpc.UserIdReq) (*accountrpc.UserInfoResp, error) {
 	l := accountrpclogic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
+}
+
+// 获取用户第三平台信息
+func (s *AccountRpcServer) GetUserOauthInfo(ctx context.Context, in *accountrpc.UserIdReq) (*accountrpc.GetUserOauthInfoResp, error) {
+	l := accountrpclogic.NewGetUserOauthInfoLogic(ctx, s.svcCtx)
+	return l.GetUserOauthInfo(in)
 }
 
 // 修改用户信息
@@ -120,15 +126,27 @@ func (s *AccountRpcServer) UpdateUserPassword(ctx context.Context, in *accountrp
 }
 
 // 修改用户登录邮箱
-func (s *AccountRpcServer) UpdateUserEmail(ctx context.Context, in *accountrpc.UpdateUseEmailReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewUpdateUserEmailLogic(ctx, s.svcCtx)
-	return l.UpdateUserEmail(in)
+func (s *AccountRpcServer) BindUserEmail(ctx context.Context, in *accountrpc.BindUseEmailReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewBindUserEmailLogic(ctx, s.svcCtx)
+	return l.BindUserEmail(in)
 }
 
 // 修改用户登录手机号
-func (s *AccountRpcServer) UpdateUserPhone(ctx context.Context, in *accountrpc.UpdateUserPhoneReq) (*accountrpc.EmptyResp, error) {
-	l := accountrpclogic.NewUpdateUserPhoneLogic(ctx, s.svcCtx)
-	return l.UpdateUserPhone(in)
+func (s *AccountRpcServer) BindUserPhone(ctx context.Context, in *accountrpc.BindUserPhoneReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewBindUserPhoneLogic(ctx, s.svcCtx)
+	return l.BindUserPhone(in)
+}
+
+// 修改用户第三方账号
+func (s *AccountRpcServer) BindUserOauth(ctx context.Context, in *accountrpc.BindUserOauthReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewBindUserOauthLogic(ctx, s.svcCtx)
+	return l.BindUserOauth(in)
+}
+
+// 解绑第三方账号
+func (s *AccountRpcServer) UnbindUserOauth(ctx context.Context, in *accountrpc.UnbindUserOauthReq) (*accountrpc.EmptyResp, error) {
+	l := accountrpclogic.NewUnbindUserOauthLogic(ctx, s.svcCtx)
+	return l.UnbindUserOauth(in)
 }
 
 // 修改用户状态

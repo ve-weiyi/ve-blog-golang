@@ -44,7 +44,7 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 		return nil, err
 	}
 
-	var list []*types.UserInfoResp
+	var list []*types.UserInfoDetail
 	for _, v := range out.List {
 		m := ConvertUserInfoTypes(v)
 		list = append(list, m)
@@ -58,7 +58,11 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 	return resp, nil
 }
 
-func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
+func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoDetail {
+
+	var info types.UserInfoExt
+	jsonconv.JsonToAny(in.Info, &info)
+
 	roles := make([]*types.UserRoleLabel, 0)
 	for _, v := range in.Roles {
 		m := &types.UserRoleLabel{
@@ -70,10 +74,7 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 		roles = append(roles, m)
 	}
 
-	var info types.UserInfoExt
-	jsonconv.JsonToAny(in.Info, &info)
-
-	out := &types.UserInfoResp{
+	out := &types.UserInfoDetail{
 		UserId:      in.UserId,
 		Username:    in.Username,
 		Nickname:    in.Nickname,
@@ -86,8 +87,8 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoResp {
 		IpSource:    in.IpSource,
 		CreatedAt:   in.CreatedAt,
 		UpdatedAt:   in.UpdatedAt,
-		Roles:       roles,
 		UserInfoExt: info,
+		RoleLabels:  roles,
 	}
 
 	return out

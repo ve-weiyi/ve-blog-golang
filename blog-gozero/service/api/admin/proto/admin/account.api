@@ -23,10 +23,33 @@ type (
         Username string `json:"username,optional"`
         Nickname string `json:"nickname,optional"`
     }
+
+    UserRoleLabel {
+        RoleId int64 `json:"role_id"`
+        RoleKey string `json:"role_key"`
+        RoleLabel string `json:"role_label"`
+    }
+
+    UserInfoDetail {
+        UserId string `json:"user_id"`               // 用户id
+        Username string `json:"username"`            // 用户名
+        Nickname string `json:"nickname"`            // 用户昵称
+        Avatar string `json:"avatar"`                // 用户头像
+        Email string `json:"email"`                  // 用户邮箱
+        Phone string `json:"phone"`                  // 用户手机号
+        Status int64 `json:"status"`                 // 状态
+        LoginType string `json:"login_type"`         // 登录方式
+        IpAddress string `json:"ip_address"`         // ip host
+        IpSource string `json:"ip_source"`           // ip 源
+        CreatedAt int64 `json:"created_at"`
+        UpdatedAt int64 `json:"updated_at"`
+        UserInfoExt
+        RoleLabels []*UserRoleLabel `json:"roles"`
+    }
 )
 
 @server(
-    prefix: /admin/api/v1
+    prefix: /admin-api/v1
     group: account
     middleware: JwtToken,Permission,OperationLog
 )

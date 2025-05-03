@@ -17,7 +17,7 @@ func NewRoleService(svcCtx *svctx.ServiceContext) *RoleService {
 }
 
 // 创建角色
-func (s *RoleService) AddRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackDTO, err error) {
+func (s *RoleService) AddRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackVO, err error) {
 	// todo
 
 	return
@@ -52,7 +52,7 @@ func (s *RoleService) FindRoleResources(reqCtx *request.Context, in *dto.IdReq) 
 }
 
 // 更新角色
-func (s *RoleService) UpdateRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackDTO, err error) {
+func (s *RoleService) UpdateRole(reqCtx *request.Context, in *dto.RoleNewReq) (out *dto.RoleBackVO, err error) {
 	// todo
 
 	return

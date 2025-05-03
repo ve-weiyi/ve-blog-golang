@@ -52,11 +52,20 @@ type (
         Data interface{} `json:"data"`
         TraceId string `json:"trace_id"`
     }
+)
 
-    UserInfo {
+type (
+    UserInfoVO {
         UserId string `json:"user_id"`
         Username string `json:"username"`
         Avatar string `json:"avatar"`
         Nickname string `json:"nickname"`
+        UserInfoExt
+    }
+
+    UserInfoExt {
+        Gender int64 `json:"gender,optional"`        // 性别 0未知 1男 2女
+        Intro string `json:"intro",optional`         // 简介
+        Website string `json:"website,optional"`     // 网站
     }
 )

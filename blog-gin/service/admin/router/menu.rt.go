@@ -19,12 +19,12 @@ func NewMenuRouter(svcCtx *svctx.ServiceContext) *MenuRouter {
 
 func (s *MenuRouter) Register(r *gin.RouterGroup) {
 	// Menu
-	// [SignToken JwtToken Operation]
+	// [JwtToken Permission OperationLog]
 	{
-		group := r.Group("/admin_api/v1")
-		group.Use(s.svcCtx.MiddlewareSignToken)
+		group := r.Group("/admin-api/v1")
 		group.Use(s.svcCtx.MiddlewareJwtToken)
-		group.Use(s.svcCtx.MiddlewareOperation)
+		group.Use(s.svcCtx.MiddlewarePermission)
+		group.Use(s.svcCtx.MiddlewareOperationLog)
 
 		handler := controller.NewMenuController(s.svcCtx)
 		// 创建菜单

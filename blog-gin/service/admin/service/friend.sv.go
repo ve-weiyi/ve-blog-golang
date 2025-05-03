@@ -16,15 +16,8 @@ func NewFriendService(svcCtx *svctx.ServiceContext) *FriendService {
 	}
 }
 
-// 分页获取友链列表
-func (s *FriendService) FindFriendList(reqCtx *request.Context, in *dto.FriendQuery) (out *dto.PageResp, err error) {
-	// todo
-
-	return
-}
-
 // 创建友链
-func (s *FriendService) AddFriend(reqCtx *request.Context, in *dto.FriendNewReq) (out *dto.FriendBackDTO, err error) {
+func (s *FriendService) AddFriend(reqCtx *request.Context, in *dto.FriendNewReq) (out *dto.FriendBackVO, err error) {
 	// todo
 
 	return
@@ -44,8 +37,15 @@ func (s *FriendService) DeleteFriend(reqCtx *request.Context, in *dto.IdReq) (ou
 	return
 }
 
+// 分页获取友链列表
+func (s *FriendService) FindFriendList(reqCtx *request.Context, in *dto.FriendQuery) (out *dto.PageResp, err error) {
+	// todo
+
+	return
+}
+
 // 更新友链
-func (s *FriendService) UpdateFriend(reqCtx *request.Context, in *dto.FriendNewReq) (out *dto.FriendBackDTO, err error) {
+func (s *FriendService) UpdateFriend(reqCtx *request.Context, in *dto.FriendNewReq) (out *dto.FriendBackVO, err error) {
 	// todo
 
 	return

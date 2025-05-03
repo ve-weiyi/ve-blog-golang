@@ -21,40 +21,12 @@ func NewFileController(svcCtx *svctx.ServiceContext) *FileController {
 }
 
 // @Tags		File
-// @Summary		"分页获取文件列表"
-// @accept		application/json
-// @Produce		application/json
-// @Param		data	body		dto.FileQuery		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin_api/v1/file/find_file_list [POST]
-func (s *FileController) FindFileList(c *gin.Context) {
-	reqCtx, err := request.ParseRequestContext(c)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	var req *dto.FileQuery
-	err = request.ShouldBind(c, &req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-
-	data, err := service.NewFileService(s.svcCtx).FindFileList(reqCtx, req)
-	if err != nil {
-		response.ResponseError(c, err)
-		return
-	}
-	response.ResponseOk(c, data)
-}
-
-// @Tags		File
 // @Summary		"创建文件目录"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.FileFolderNewReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FileBackDTO}	"返回信息"
-// @Router		/admin_api/v1/file/add_file_folder [POST]
+// @Success		200		{object}	response.Body{data=dto.FileBackVO}	"返回信息"
+// @Router		/admin-api/v1/file/add_file_folder [POST]
 func (s *FileController) AddFileFolder(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -82,7 +54,7 @@ func (s *FileController) AddFileFolder(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin_api/v1/file/deletes_file [DELETE]
+// @Router		/admin-api/v1/file/deletes_file [DELETE]
 func (s *FileController) DeletesFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -105,12 +77,68 @@ func (s *FileController) DeletesFile(c *gin.Context) {
 }
 
 // @Tags		File
+// @Summary		"分页获取文件列表"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.FileQuery		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
+// @Router		/admin-api/v1/file/find_file_list [POST]
+func (s *FileController) FindFileList(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.FileQuery
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewFileService(s.svcCtx).FindFileList(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		File
+// @Summary		"获取文件列表"
+// @accept		application/json
+// @Produce		application/json
+// @Param		data	body		dto.ListUploadFileReq		true	"请求参数"
+// @Success		200		{object}	response.Body{data=dto.ListUploadFileResp}	"返回信息"
+// @Router		/admin-api/v1/file/list_upload_file [POST]
+func (s *FileController) ListUploadFile(c *gin.Context) {
+	reqCtx, err := request.ParseRequestContext(c)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	var req *dto.ListUploadFileReq
+	err = request.ShouldBind(c, &req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+
+	data, err := service.NewFileService(s.svcCtx).ListUploadFile(reqCtx, req)
+	if err != nil {
+		response.ResponseError(c, err)
+		return
+	}
+	response.ResponseOk(c, data)
+}
+
+// @Tags		File
 // @Summary		"上传文件列表"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.MultiUploadFileReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=[]dto.FileBackDTO}	"返回信息"
-// @Router		/admin_api/v1/file/multi_upload_file [POST]
+// @Success		200		{object}	response.Body{data=[]dto.FileBackVO}	"返回信息"
+// @Router		/admin-api/v1/file/multi_upload_file [POST]
 func (s *FileController) MultiUploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -137,8 +165,8 @@ func (s *FileController) MultiUploadFile(c *gin.Context) {
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.UploadFileReq		true	"请求参数"
-// @Success		200		{object}	response.Body{data=dto.FileBackDTO}	"返回信息"
-// @Router		/admin_api/v1/file/upload_file [POST]
+// @Success		200		{object}	response.Body{data=dto.FileBackVO}	"返回信息"
+// @Router		/admin-api/v1/file/upload_file [POST]
 func (s *FileController) UploadFile(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

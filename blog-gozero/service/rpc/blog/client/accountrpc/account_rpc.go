@@ -21,6 +21,9 @@ type (
 	AnalysisUserReq           = accountrpc.AnalysisUserReq
 	AnalysisUserResp          = accountrpc.AnalysisUserResp
 	BatchResp                 = accountrpc.BatchResp
+	BindUseEmailReq           = accountrpc.BindUseEmailReq
+	BindUserOauthReq          = accountrpc.BindUserOauthReq
+	BindUserPhoneReq          = accountrpc.BindUserPhoneReq
 	EmailLoginReq             = accountrpc.EmailLoginReq
 	EmptyReq                  = accountrpc.EmptyReq
 	EmptyResp                 = accountrpc.EmptyResp
@@ -29,8 +32,10 @@ type (
 	FindUserListResp          = accountrpc.FindUserListResp
 	GenerateCaptchaCodeReq    = accountrpc.GenerateCaptchaCodeReq
 	GenerateCaptchaCodeResp   = accountrpc.GenerateCaptchaCodeResp
-	GetOauthLoginUrlResp      = accountrpc.GetOauthLoginUrlResp
+	GetOauthAuthorizeUrlReq   = accountrpc.GetOauthAuthorizeUrlReq
+	GetOauthAuthorizeUrlResp  = accountrpc.GetOauthAuthorizeUrlResp
 	GetTouristInfoResp        = accountrpc.GetTouristInfoResp
+	GetUserOauthInfoResp      = accountrpc.GetUserOauthInfoResp
 	IdReq                     = accountrpc.IdReq
 	IdsReq                    = accountrpc.IdsReq
 	LoginReq                  = accountrpc.LoginReq
@@ -38,21 +43,21 @@ type (
 	LogoffReq                 = accountrpc.LogoffReq
 	LogoutReq                 = accountrpc.LogoutReq
 	LogoutResp                = accountrpc.LogoutResp
-	OauthLoginReq             = accountrpc.OauthLoginReq
 	PhoneLoginReq             = accountrpc.PhoneLoginReq
 	RegisterReq               = accountrpc.RegisterReq
 	ResetPasswordReq          = accountrpc.ResetPasswordReq
 	SendEmailVerifyCodeReq    = accountrpc.SendEmailVerifyCodeReq
 	SendPhoneVerifyCodeReq    = accountrpc.SendPhoneVerifyCodeReq
-	UpdateUseEmailReq         = accountrpc.UpdateUseEmailReq
+	ThirdLoginReq             = accountrpc.ThirdLoginReq
+	UnbindUserOauthReq        = accountrpc.UnbindUserOauthReq
 	UpdateUserAvatarReq       = accountrpc.UpdateUserAvatarReq
 	UpdateUserInfoReq         = accountrpc.UpdateUserInfoReq
 	UpdateUserPasswordReq     = accountrpc.UpdateUserPasswordReq
-	UpdateUserPhoneReq        = accountrpc.UpdateUserPhoneReq
 	User                      = accountrpc.User
 	UserArea                  = accountrpc.UserArea
 	UserIdReq                 = accountrpc.UserIdReq
 	UserInfoResp              = accountrpc.UserInfoResp
+	UserOauthInfo             = accountrpc.UserOauthInfo
 	UserRoleLabel             = accountrpc.UserRoleLabel
 
 	AccountRpc interface {
@@ -66,22 +71,24 @@ type (
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// 重置密码
 		ResetPassword(ctx context.Context, in *ResetPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 邮箱登录
+		EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// 手机号登录
+		PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// 第三方登录
+		ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// 获取第三方登录授权地址
+		GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error)
 		// 发送邮件验证码
 		SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 发送手机号验证码
 		SendPhoneVerifyCode(ctx context.Context, in *SendPhoneVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 生成验证码
 		GenerateCaptchaCode(ctx context.Context, in *GenerateCaptchaCodeReq, opts ...grpc.CallOption) (*GenerateCaptchaCodeResp, error)
-		// 邮箱登录
-		EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// 手机号登录
-		PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// 第三方登录
-		OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// 获取第三方登录授权地址
-		GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*GetOauthLoginUrlResp, error)
 		// 获取用户信息
 		GetUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+		// 获取用户第三平台信息
+		GetUserOauthInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*GetUserOauthInfoResp, error)
 		// 修改用户信息
 		UpdateUserInfo(ctx context.Context, in *UpdateUserInfoReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户头像
@@ -89,9 +96,13 @@ type (
 		// 修改用户密码
 		UpdateUserPassword(ctx context.Context, in *UpdateUserPasswordReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户登录邮箱
-		UpdateUserEmail(ctx context.Context, in *UpdateUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户登录手机号
-		UpdateUserPhone(ctx context.Context, in *UpdateUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		BindUserPhone(ctx context.Context, in *BindUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 修改用户第三方账号
+		BindUserOauth(ctx context.Context, in *BindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error)
+		// 解绑第三方账号
+		UnbindUserOauth(ctx context.Context, in *UnbindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 修改用户状态
 		AdminUpdateUserStatus(ctx context.Context, in *AdminUpdateUserStatusReq, opts ...grpc.CallOption) (*EmptyResp, error)
 		// 管理员重置用户密码
@@ -151,6 +162,30 @@ func (m *defaultAccountRpc) ResetPassword(ctx context.Context, in *ResetPassword
 	return client.ResetPassword(ctx, in, opts...)
 }
 
+// 邮箱登录
+func (m *defaultAccountRpc) EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.EmailLogin(ctx, in, opts...)
+}
+
+// 手机号登录
+func (m *defaultAccountRpc) PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.PhoneLogin(ctx, in, opts...)
+}
+
+// 第三方登录
+func (m *defaultAccountRpc) ThirdLogin(ctx context.Context, in *ThirdLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.ThirdLogin(ctx, in, opts...)
+}
+
+// 获取第三方登录授权地址
+func (m *defaultAccountRpc) GetOauthAuthorizeUrl(ctx context.Context, in *GetOauthAuthorizeUrlReq, opts ...grpc.CallOption) (*GetOauthAuthorizeUrlResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.GetOauthAuthorizeUrl(ctx, in, opts...)
+}
+
 // 发送邮件验证码
 func (m *defaultAccountRpc) SendEmailVerifyCode(ctx context.Context, in *SendEmailVerifyCodeReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
@@ -169,34 +204,16 @@ func (m *defaultAccountRpc) GenerateCaptchaCode(ctx context.Context, in *Generat
 	return client.GenerateCaptchaCode(ctx, in, opts...)
 }
 
-// 邮箱登录
-func (m *defaultAccountRpc) EmailLogin(ctx context.Context, in *EmailLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.EmailLogin(ctx, in, opts...)
-}
-
-// 手机号登录
-func (m *defaultAccountRpc) PhoneLogin(ctx context.Context, in *PhoneLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.PhoneLogin(ctx, in, opts...)
-}
-
-// 第三方登录
-func (m *defaultAccountRpc) OauthLogin(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.OauthLogin(ctx, in, opts...)
-}
-
-// 获取第三方登录授权地址
-func (m *defaultAccountRpc) GetOauthAuthorizeUrl(ctx context.Context, in *OauthLoginReq, opts ...grpc.CallOption) (*GetOauthLoginUrlResp, error) {
-	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.GetOauthAuthorizeUrl(ctx, in, opts...)
-}
-
 // 获取用户信息
 func (m *defaultAccountRpc) GetUserInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
 	return client.GetUserInfo(ctx, in, opts...)
+}
+
+// 获取用户第三平台信息
+func (m *defaultAccountRpc) GetUserOauthInfo(ctx context.Context, in *UserIdReq, opts ...grpc.CallOption) (*GetUserOauthInfoResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.GetUserOauthInfo(ctx, in, opts...)
 }
 
 // 修改用户信息
@@ -218,15 +235,27 @@ func (m *defaultAccountRpc) UpdateUserPassword(ctx context.Context, in *UpdateUs
 }
 
 // 修改用户登录邮箱
-func (m *defaultAccountRpc) UpdateUserEmail(ctx context.Context, in *UpdateUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultAccountRpc) BindUserEmail(ctx context.Context, in *BindUseEmailReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.UpdateUserEmail(ctx, in, opts...)
+	return client.BindUserEmail(ctx, in, opts...)
 }
 
 // 修改用户登录手机号
-func (m *defaultAccountRpc) UpdateUserPhone(ctx context.Context, in *UpdateUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+func (m *defaultAccountRpc) BindUserPhone(ctx context.Context, in *BindUserPhoneReq, opts ...grpc.CallOption) (*EmptyResp, error) {
 	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
-	return client.UpdateUserPhone(ctx, in, opts...)
+	return client.BindUserPhone(ctx, in, opts...)
+}
+
+// 修改用户第三方账号
+func (m *defaultAccountRpc) BindUserOauth(ctx context.Context, in *BindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.BindUserOauth(ctx, in, opts...)
+}
+
+// 解绑第三方账号
+func (m *defaultAccountRpc) UnbindUserOauth(ctx context.Context, in *UnbindUserOauthReq, opts ...grpc.CallOption) (*EmptyResp, error) {
+	client := accountrpc.NewAccountRpcClient(m.cli.Conn())
+	return client.UnbindUserOauth(ctx, in, opts...)
 }
 
 // 修改用户状态

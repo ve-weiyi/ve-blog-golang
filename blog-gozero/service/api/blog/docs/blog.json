@@ -13,7 +13,7 @@
   "host": "127.0.0.1",
   "basePath": "/",
   "paths": {
-    "/blog/api/v1/album/find_album_list": {
+    "/blog-api/v1/album/find_album_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -73,7 +73,7 @@
         }
       }
     },
-    "/blog/api/v1/album/find_photo_list": {
+    "/blog-api/v1/album/find_photo_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -128,7 +128,7 @@
         }
       }
     },
-    "/blog/api/v1/album/get_album": {
+    "/blog-api/v1/album/get_album": {
       "post": {
         "consumes": [
           "application/json"
@@ -188,7 +188,7 @@
         }
       }
     },
-    "/blog/api/v1/article/get_article_archives": {
+    "/blog-api/v1/article/get_article_archives": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -248,7 +248,7 @@
         }
       }
     },
-    "/blog/api/v1/article/get_article_classify_category": {
+    "/blog-api/v1/article/get_article_classify_category": {
       "post": {
         "consumes": [
           "application/json"
@@ -312,7 +312,7 @@
         }
       }
     },
-    "/blog/api/v1/article/get_article_classify_tag": {
+    "/blog-api/v1/article/get_article_classify_tag": {
       "post": {
         "consumes": [
           "application/json"
@@ -376,7 +376,7 @@
         }
       }
     },
-    "/blog/api/v1/article/get_article_details": {
+    "/blog-api/v1/article/get_article_details": {
       "post": {
         "consumes": [
           "application/json"
@@ -637,7 +637,7 @@
         }
       }
     },
-    "/blog/api/v1/article/get_article_home_list": {
+    "/blog-api/v1/article/get_article_home_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -701,7 +701,7 @@
         }
       }
     },
-    "/blog/api/v1/article/get_article_recommend": {
+    "/blog-api/v1/article/get_article_recommend": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -737,7 +737,7 @@
         }
       }
     },
-    "/blog/api/v1/article/like_article": {
+    "/blog-api/v1/article/like_article": {
       "post": {
         "consumes": [
           "application/json"
@@ -779,7 +779,7 @@
         }
       }
     },
-    "/blog/api/v1/blog": {
+    "/blog-api/v1/blog": {
       "get": {
         "produces": [
           "application/json"
@@ -987,7 +987,7 @@
         }
       }
     },
-    "/blog/api/v1/blog/about_me": {
+    "/blog-api/v1/blog/about_me": {
       "get": {
         "produces": [
           "application/json"
@@ -1013,7 +1013,7 @@
         }
       }
     },
-    "/blog/api/v1/category/find_category_list": {
+    "/blog-api/v1/category/find_category_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1077,7 +1077,7 @@
         }
       }
     },
-    "/blog/api/v1/comment/add_comment": {
+    "/blog-api/v1/comment/add_comment": {
       "post": {
         "consumes": [
           "application/json"
@@ -1342,7 +1342,7 @@
         }
       }
     },
-    "/blog/api/v1/comment/find_comment_list": {
+    "/blog-api/v1/comment/find_comment_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1414,7 +1414,7 @@
         }
       }
     },
-    "/blog/api/v1/comment/find_comment_recent_list": {
+    "/blog-api/v1/comment/find_comment_recent_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1486,7 +1486,7 @@
         }
       }
     },
-    "/blog/api/v1/comment/find_comment_reply_list": {
+    "/blog-api/v1/comment/find_comment_reply_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -1558,7 +1558,7 @@
         }
       }
     },
-    "/blog/api/v1/comment/like_comment": {
+    "/blog-api/v1/comment/like_comment": {
       "post": {
         "consumes": [
           "application/json"
@@ -1600,7 +1600,7 @@
         }
       }
     },
-    "/blog/api/v1/email_login": {
+    "/blog-api/v1/email_login": {
       "post": {
         "consumes": [
           "application/json"
@@ -1700,7 +1700,7 @@
         }
       }
     },
-    "/blog/api/v1/file/multi_upload_file": {
+    "/blog-api/v1/file/multi_upload_file": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1782,7 +1782,7 @@
         }
       }
     },
-    "/blog/api/v1/file/upload_file": {
+    "/blog-api/v1/file/upload_file": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1863,7 +1863,7 @@
         }
       }
     },
-    "/blog/api/v1/friend_link/find_friend_list": {
+    "/blog-api/v1/friend_link/find_friend_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -1923,7 +1923,7 @@
         }
       }
     },
-    "/blog/api/v1/get_captcha_code": {
+    "/blog-api/v1/get_captcha_code": {
       "post": {
         "consumes": [
           "application/json"
@@ -1981,7 +1981,7 @@
         }
       }
     },
-    "/blog/api/v1/get_tourist_info": {
+    "/blog-api/v1/get_tourist_info": {
       "get": {
         "produces": [
           "application/json"
@@ -2008,7 +2008,7 @@
         }
       }
     },
-    "/blog/api/v1/login": {
+    "/blog-api/v1/login": {
       "post": {
         "consumes": [
           "application/json"
@@ -2106,7 +2106,7 @@
         }
       }
     },
-    "/blog/api/v1/logoff": {
+    "/blog-api/v1/logoff": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -2130,7 +2130,7 @@
         }
       }
     },
-    "/blog/api/v1/logout": {
+    "/blog-api/v1/logout": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -2154,7 +2154,7 @@
         }
       }
     },
-    "/blog/api/v1/oauth_authorize_url": {
+    "/blog-api/v1/oauth_authorize_url": {
       "post": {
         "consumes": [
           "application/json"
@@ -2211,7 +2211,7 @@
         }
       }
     },
-    "/blog/api/v1/oauth_login": {
+    "/blog-api/v1/oauth_login": {
       "post": {
         "consumes": [
           "application/json"
@@ -2306,7 +2306,7 @@
         }
       }
     },
-    "/blog/api/v1/page/find_page_list": {
+    "/blog-api/v1/page/find_page_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -2366,7 +2366,7 @@
         }
       }
     },
-    "/blog/api/v1/phone_login": {
+    "/blog-api/v1/phone_login": {
       "post": {
         "consumes": [
           "application/json"
@@ -2458,7 +2458,7 @@
         }
       }
     },
-    "/blog/api/v1/ping": {
+    "/blog-api/v1/ping": {
       "get": {
         "produces": [
           "application/json"
@@ -2502,7 +2502,7 @@
         }
       }
     },
-    "/blog/api/v1/register": {
+    "/blog-api/v1/register": {
       "post": {
         "consumes": [
           "application/json"
@@ -2563,7 +2563,7 @@
         }
       }
     },
-    "/blog/api/v1/remark/add_remark": {
+    "/blog-api/v1/remark/add_remark": {
       "post": {
         "consumes": [
           "application/json"
@@ -2654,7 +2654,7 @@
         }
       }
     },
-    "/blog/api/v1/remark/find_remark_list": {
+    "/blog-api/v1/remark/find_remark_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -2714,7 +2714,7 @@
         }
       }
     },
-    "/blog/api/v1/reset_password": {
+    "/blog-api/v1/reset_password": {
       "post": {
         "consumes": [
           "application/json"
@@ -2770,7 +2770,7 @@
         }
       }
     },
-    "/blog/api/v1/send_email_verify_code": {
+    "/blog-api/v1/send_email_verify_code": {
       "post": {
         "consumes": [
           "application/json"
@@ -2818,7 +2818,7 @@
         }
       }
     },
-    "/blog/api/v1/send_phone_verify_code": {
+    "/blog-api/v1/send_phone_verify_code": {
       "post": {
         "consumes": [
           "application/json"
@@ -2866,7 +2866,7 @@
         }
       }
     },
-    "/blog/api/v1/tag/find_tag_list": {
+    "/blog-api/v1/tag/find_tag_list": {
       "post": {
         "consumes": [
           "application/json"
@@ -2930,7 +2930,7 @@
         }
       }
     },
-    "/blog/api/v1/talk/find_talk_list": {
+    "/blog-api/v1/talk/find_talk_list": {
       "post": {
         "consumes": [
           "application/x-www-form-urlencoded"
@@ -2990,7 +2990,7 @@
         }
       }
     },
-    "/blog/api/v1/talk/get_talk": {
+    "/blog-api/v1/talk/get_talk": {
       "post": {
         "consumes": [
           "application/json"
@@ -3085,7 +3085,7 @@
         }
       }
     },
-    "/blog/api/v1/talk/like_talk": {
+    "/blog-api/v1/talk/like_talk": {
       "put": {
         "consumes": [
           "application/json"
@@ -3127,7 +3127,7 @@
         }
       }
     },
-    "/blog/api/v1/user/get_user_info": {
+    "/blog-api/v1/user/get_user_info": {
       "get": {
         "produces": [
           "application/json"
@@ -3186,7 +3186,7 @@
         }
       }
     },
-    "/blog/api/v1/user/get_user_like": {
+    "/blog-api/v1/user/get_user_like": {
       "get": {
         "produces": [
           "application/json"
@@ -3227,7 +3227,7 @@
         }
       }
     },
-    "/blog/api/v1/user/update_user_avatar": {
+    "/blog-api/v1/user/update_user_avatar": {
       "post": {
         "consumes": [
           "application/json"
@@ -3270,7 +3270,7 @@
         }
       }
     },
-    "/blog/api/v1/user/update_user_bind_email": {
+    "/blog-api/v1/user/update_user_bind_email": {
       "post": {
         "consumes": [
           "application/json"
@@ -3318,7 +3318,7 @@
         }
       }
     },
-    "/blog/api/v1/user/update_user_bind_phone": {
+    "/blog-api/v1/user/update_user_bind_phone": {
       "post": {
         "consumes": [
           "application/json"
@@ -3366,7 +3366,7 @@
         }
       }
     },
-    "/blog/api/v1/user/update_user_info": {
+    "/blog-api/v1/user/update_user_info": {
       "post": {
         "consumes": [
           "application/json"
@@ -3424,7 +3424,7 @@
         }
       }
     },
-    "/blog/api/v1/user/update_user_password": {
+    "/blog-api/v1/user/update_user_password": {
       "post": {
         "consumes": [
           "application/json"
@@ -3477,7 +3477,7 @@
         }
       }
     },
-    "/blog/api/v1/websocket": {
+    "/blog-api/v1/websocket": {
       "get": {
         "produces": [
           "application/json"
