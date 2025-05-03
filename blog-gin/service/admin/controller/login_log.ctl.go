@@ -10,24 +10,24 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
-type OperationLogController struct {
+type LoginLogController struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogController(svcCtx *svctx.ServiceContext) *OperationLogController {
-	return &OperationLogController{
+func NewLoginLogController(svcCtx *svctx.ServiceContext) *LoginLogController {
+	return &LoginLogController{
 		svcCtx: svcCtx,
 	}
 }
 
-// @Tags		OperationLog
-// @Summary		"删除操作记录"
+// @Tags		LoginLog
+// @Summary		"删除登录日志"
 // @accept		application/json
 // @Produce		application/json
 // @Param		data	body		dto.IdsReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.BatchResp}	"返回信息"
-// @Router		/admin-api/v1/operation_log/deletes_operation_log [DELETE]
-func (s *OperationLogController) DeletesOperationLog(c *gin.Context) {
+// @Router		/admin-api/v1/login_log/deletes_login_log [DELETE]
+func (s *LoginLogController) DeletesLoginLog(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
@@ -40,7 +40,7 @@ func (s *OperationLogController) DeletesOperationLog(c *gin.Context) {
 		return
 	}
 
-	data, err := service.NewOperationLogService(s.svcCtx).DeletesOperationLog(reqCtx, req)
+	data, err := service.NewLoginLogService(s.svcCtx).DeletesLoginLog(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
@@ -48,27 +48,27 @@ func (s *OperationLogController) DeletesOperationLog(c *gin.Context) {
 	response.ResponseOk(c, data)
 }
 
-// @Tags		OperationLog
-// @Summary		"分页获取操作记录列表"
+// @Tags		LoginLog
+// @Summary		"查询登录日志"
 // @accept		application/json
 // @Produce		application/json
-// @Param		data	body		dto.OperationLogQuery		true	"请求参数"
+// @Param		data	body		dto.LoginLogQuery		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/admin-api/v1/operation_log/find_operation_log_list [POST]
-func (s *OperationLogController) FindOperationLogList(c *gin.Context) {
+// @Router		/admin-api/v1/user/find_login_log_list [POST]
+func (s *LoginLogController) FindLoginLogList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
-	var req *dto.OperationLogQuery
+	var req *dto.LoginLogQuery
 	err = request.ShouldBind(c, &req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return
 	}
 
-	data, err := service.NewOperationLogService(s.svcCtx).FindOperationLogList(reqCtx, req)
+	data, err := service.NewLoginLogService(s.svcCtx).FindLoginLogList(reqCtx, req)
 	if err != nil {
 		response.ResponseError(c, err)
 		return

@@ -17,7 +17,7 @@ func NewMenuService(svcCtx *svctx.ServiceContext) *MenuService {
 }
 
 // 创建菜单
-func (s *MenuService) AddMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackDTO, err error) {
+func (s *MenuService) AddMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackVO, err error) {
 	// todo
 
 	return
@@ -59,7 +59,7 @@ func (s *MenuService) SyncMenuList(reqCtx *request.Context, in *dto.SyncMenuReq)
 }
 
 // 更新菜单
-func (s *MenuService) UpdateMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackDTO, err error) {
+func (s *MenuService) UpdateMenu(reqCtx *request.Context, in *dto.MenuNewReq) (out *dto.MenuBackVO, err error) {
 	// todo
 
 	return

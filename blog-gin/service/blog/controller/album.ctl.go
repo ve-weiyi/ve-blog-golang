@@ -26,7 +26,7 @@ func NewAlbumController(svcCtx *svctx.ServiceContext) *AlbumController {
 // @Produce		application/json
 // @Param		data	body		dto.AlbumQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/album/find_album_list [POST]
+// @Router		/blog-api/v1/album/find_album_list [POST]
 func (s *AlbumController) FindAlbumList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *AlbumController) FindAlbumList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.PhotoQueryReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.PageResp}	"返回信息"
-// @Router		/api/v1/album/find_photo_list [POST]
+// @Router		/blog-api/v1/album/find_photo_list [POST]
 func (s *AlbumController) FindPhotoList(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *AlbumController) FindPhotoList(c *gin.Context) {
 // @Produce		application/json
 // @Param		data	body		dto.IdReq		true	"请求参数"
 // @Success		200		{object}	response.Body{data=dto.Album}	"返回信息"
-// @Router		/api/v1/album/get_album [POST]
+// @Router		/blog-api/v1/album/get_album [POST]
 func (s *AlbumController) GetAlbum(c *gin.Context) {
 	reqCtx, err := request.ParseRequestContext(c)
 	if err != nil {

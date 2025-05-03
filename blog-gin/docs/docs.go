@@ -24,52 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin_api/v1/account/find_account_area_analysis": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "summary": "\"获取用户分布地区\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.AccountQuery"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/account/find_account_list": {
+        "/admin-api/v1/account/find_account_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -114,52 +69,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/account/find_account_login_history_list": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "summary": "\"查询用户登录历史\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.AccountQuery"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/account/find_account_online_list": {
+        "/admin-api/v1/account/find_account_online_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -204,7 +114,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/account/update_account_roles": {
+        "/admin-api/v1/account/get_user_area_stats": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "\"获取用户分布地区\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetUserAreaStatsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetUserAreaStatsResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/account/update_account_password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "\"修改用户密码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAccountPasswordReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/account/update_account_roles": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -249,7 +249,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/account/update_account_status": {
+        "/admin-api/v1/account/update_account_status": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -294,7 +294,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/admin": {
+        "/admin-api/v1/admin": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -339,7 +339,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/admin/about_me": {
+        "/admin-api/v1/admin/about_me": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -427,7 +427,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/admin/get_website_config": {
+        "/admin-api/v1/admin/get_visit_stats": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "\"获取访客数据分析\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetVisitStatsResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/admin/get_visit_trend": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Website"
+                ],
+                "summary": "\"获取访客数据趋势\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetVisitTrendReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetVisitTrendResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/admin/get_website_config": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -472,7 +562,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/admin/system_state": {
+        "/admin-api/v1/admin/system_state": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -517,7 +607,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/admin/update_website_config": {
+        "/admin-api/v1/admin/update_website_config": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -562,7 +652,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/album/add_album": {
+        "/admin-api/v1/album/add_album": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -597,7 +687,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AlbumBackDTO"
+                                            "$ref": "#/definitions/dto.AlbumBackVO"
                                         }
                                     }
                                 }
@@ -607,52 +697,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/album/batch_delete_album": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Album"
-                ],
-                "summary": "\"批量删除相册\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/album/batch_delete_photo": {
+        "/admin-api/v1/album/batch_delete_photo": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -697,7 +742,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/album/delete_album": {
+        "/admin-api/v1/album/delete_album": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -742,7 +787,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/album/find_album_list": {
+        "/admin-api/v1/album/find_album_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -787,7 +832,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/album/get_album": {
+        "/admin-api/v1/album/get_album": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -822,7 +867,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AlbumBackDTO"
+                                            "$ref": "#/definitions/dto.AlbumBackVO"
                                         }
                                     }
                                 }
@@ -832,7 +877,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/album/update_album": {
+        "/admin-api/v1/album/update_album": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -867,7 +912,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.AlbumBackDTO"
+                                            "$ref": "#/definitions/dto.AlbumBackVO"
                                         }
                                     }
                                 }
@@ -877,7 +922,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/add_api": {
+        "/admin-api/v1/api/add_api": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -912,7 +957,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ApiBackDTO"
+                                            "$ref": "#/definitions/dto.ApiBackVO"
                                         }
                                     }
                                 }
@@ -922,7 +967,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/batch_delete_api": {
+        "/admin-api/v1/api/batch_delete_api": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -967,7 +1012,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/clean_api_list": {
+        "/admin-api/v1/api/clean_api_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1012,7 +1057,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/delete_api": {
+        "/admin-api/v1/api/delete_api": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -1057,7 +1102,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/find_api_list": {
+        "/admin-api/v1/api/find_api_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1102,7 +1147,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/sync_api_list": {
+        "/admin-api/v1/api/sync_api_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1147,7 +1192,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/api/update_api": {
+        "/admin-api/v1/api/update_api": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -1182,7 +1227,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ApiBackDTO"
+                                            "$ref": "#/definitions/dto.ApiBackVO"
                                         }
                                     }
                                 }
@@ -1192,7 +1237,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/add_article": {
+        "/admin-api/v1/article/add_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1227,7 +1272,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleBackDTO"
+                                            "$ref": "#/definitions/dto.ArticleBackVO"
                                         }
                                     }
                                 }
@@ -1237,7 +1282,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/delete_article": {
+        "/admin-api/v1/article/delete_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1282,7 +1327,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/export_article_list": {
+        "/admin-api/v1/article/export_article_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1327,7 +1372,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/find_article_list": {
+        "/admin-api/v1/article/find_article_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1372,7 +1417,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/get_article": {
+        "/admin-api/v1/article/get_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1407,7 +1452,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleBackDTO"
+                                            "$ref": "#/definitions/dto.ArticleBackVO"
                                         }
                                     }
                                 }
@@ -1417,7 +1462,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/recycle_article": {
+        "/admin-api/v1/article/recycle_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1462,7 +1507,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/top_article": {
+        "/admin-api/v1/article/top_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1507,7 +1552,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/article/update_article": {
+        "/admin-api/v1/article/update_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1542,7 +1587,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.ArticleBackDTO"
+                                            "$ref": "#/definitions/dto.ArticleBackVO"
                                         }
                                     }
                                 }
@@ -1552,187 +1597,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/banner/add_banner": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Banner"
-                ],
-                "summary": "\"创建页面\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.BannerNewReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/dto.BannerBackDTO"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/banner/delete_banner": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Banner"
-                ],
-                "summary": "\"删除页面\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/banner/find_banner_list": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Banner"
-                ],
-                "summary": "\"分页获取页面列表\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.BannerQuery"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/banner/update_banner": {
-            "put": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Banner"
-                ],
-                "summary": "\"更新页面\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.BannerNewReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/dto.BannerBackDTO"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/category/add_category": {
+        "/admin-api/v1/category/add_category": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1767,7 +1632,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.CategoryBackDTO"
+                                            "$ref": "#/definitions/dto.CategoryBackVO"
                                         }
                                     }
                                 }
@@ -1777,7 +1642,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/category/batch_delete_category": {
+        "/admin-api/v1/category/batch_delete_category": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -1822,7 +1687,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/category/delete_category": {
+        "/admin-api/v1/category/delete_category": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -1867,7 +1732,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/category/find_category_list": {
+        "/admin-api/v1/category/find_category_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1912,7 +1777,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/category/update_category": {
+        "/admin-api/v1/category/update_category": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -1947,7 +1812,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.CategoryBackDTO"
+                                            "$ref": "#/definitions/dto.CategoryBackVO"
                                         }
                                     }
                                 }
@@ -1957,7 +1822,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/comment/batch_delete_comment": {
+        "/admin-api/v1/comment/batch_delete_comment": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2002,7 +1867,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/comment/delete_comment": {
+        "/admin-api/v1/comment/delete_comment": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2047,7 +1912,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/comment/find_comment_back_list": {
+        "/admin-api/v1/comment/find_comment_back_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2092,7 +1957,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/comment/update_comment_review": {
+        "/admin-api/v1/comment/update_comment_review": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -2137,7 +2002,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/file/add_file_folder": {
+        "/admin-api/v1/email_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"邮箱登录\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmailLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/file/add_file_folder": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2172,7 +2082,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileBackDTO"
+                                            "$ref": "#/definitions/dto.FileBackVO"
                                         }
                                     }
                                 }
@@ -2182,7 +2092,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/file/deletes_file": {
+        "/admin-api/v1/file/deletes_file": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2227,7 +2137,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/file/find_file_list": {
+        "/admin-api/v1/file/find_file_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2272,7 +2182,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/file/multi_upload_file": {
+        "/admin-api/v1/file/list_upload_file": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "\"获取文件列表\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ListUploadFileReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.ListUploadFileResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/file/multi_upload_file": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2309,7 +2264,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileBackDTO"
+                                                "$ref": "#/definitions/dto.FileBackVO"
                                             }
                                         }
                                     }
@@ -2320,7 +2275,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/file/upload_file": {
+        "/admin-api/v1/file/upload_file": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2355,7 +2310,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileBackDTO"
+                                            "$ref": "#/definitions/dto.FileBackVO"
                                         }
                                     }
                                 }
@@ -2365,7 +2320,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/friend/add_friend": {
+        "/admin-api/v1/friend/add_friend": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2400,7 +2355,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.FriendBackDTO"
+                                            "$ref": "#/definitions/dto.FriendBackVO"
                                         }
                                     }
                                 }
@@ -2410,7 +2365,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/friend/batch_delete_friend": {
+        "/admin-api/v1/friend/batch_delete_friend": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2455,7 +2410,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/friend/delete_friend": {
+        "/admin-api/v1/friend/delete_friend": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2500,7 +2455,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/friend/find_friend_list": {
+        "/admin-api/v1/friend/find_friend_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2545,7 +2500,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/friend/update_friend": {
+        "/admin-api/v1/friend/update_friend": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -2580,7 +2535,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.FriendBackDTO"
+                                            "$ref": "#/definitions/dto.FriendBackVO"
                                         }
                                     }
                                 }
@@ -2590,7 +2545,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/login": {
+        "/admin-api/v1/get_captcha_code": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"获取验证码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2635,7 +2635,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/logout": {
+        "/admin-api/v1/login_log/deletes_login_log": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LoginLog"
+                ],
+                "summary": "\"删除登录日志\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/logoff": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"注销\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/logout": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2680,7 +2770,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/add_menu": {
+        "/admin-api/v1/menu/add_menu": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2715,7 +2805,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.MenuBackDTO"
+                                            "$ref": "#/definitions/dto.MenuBackVO"
                                         }
                                     }
                                 }
@@ -2725,7 +2815,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/batch_delete_menu": {
+        "/admin-api/v1/menu/batch_delete_menu": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2770,7 +2860,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/clean_menu_list": {
+        "/admin-api/v1/menu/clean_menu_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2815,7 +2905,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/delete_menu": {
+        "/admin-api/v1/menu/delete_menu": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2860,7 +2950,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/find_menu_list": {
+        "/admin-api/v1/menu/find_menu_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2905,7 +2995,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/sync_menu_list": {
+        "/admin-api/v1/menu/sync_menu_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2950,7 +3040,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/menu/update_menu": {
+        "/admin-api/v1/menu/update_menu": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -2985,7 +3075,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.MenuBackDTO"
+                                            "$ref": "#/definitions/dto.MenuBackVO"
                                         }
                                     }
                                 }
@@ -2995,7 +3085,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/operation_log/batch_delete_operation_log": {
+        "/admin-api/v1/oauth_authorize_url": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"第三方登录授权地址\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginUrlResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/oauth_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"第三方登录\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/operation_log/deletes_operation_log": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -3006,7 +3186,7 @@ const docTemplate = `{
                 "tags": [
                     "OperationLog"
                 ],
-                "summary": "\"批量删除操作记录\"",
+                "summary": "\"删除操作记录\"",
                 "parameters": [
                     {
                         "description": "请求参数",
@@ -3040,52 +3220,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/operation_log/delete_operation_log": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "OperationLog"
-                ],
-                "summary": "\"删除操作记录\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/admin_api/v1/operation_log/find_operation_log_list": {
+        "/admin-api/v1/operation_log/find_operation_log_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3130,7 +3265,232 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/photo/add_photo": {
+        "/admin-api/v1/page/add_page": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "\"创建页面\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PageNewReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.PageBackVO"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/page/delete_page": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "\"删除页面\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/page/find_page_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "\"分页获取页面列表\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageQueryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/page/update_page": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "\"更新页面\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PageNewReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.PageBackVO"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/phone_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"手机登录\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PhoneLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/photo/add_photo": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3165,7 +3525,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.PhotoBackDTO"
+                                            "$ref": "#/definitions/dto.PhotoBackVO"
                                         }
                                     }
                                 }
@@ -3175,7 +3535,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/photo/delete_photo": {
+        "/admin-api/v1/photo/delete_photo": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -3220,7 +3580,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/photo/find_photo_list": {
+        "/admin-api/v1/photo/find_photo_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3265,7 +3625,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/photo/update_photo": {
+        "/admin-api/v1/photo/update_photo": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -3300,7 +3660,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.PhotoBackDTO"
+                                            "$ref": "#/definitions/dto.PhotoBackVO"
                                         }
                                     }
                                 }
@@ -3310,7 +3670,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/ping": {
+        "/admin-api/v1/ping": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -3355,7 +3715,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/remark/batch_delete_remark": {
+        "/admin-api/v1/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"注册\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RegisterReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/remark/batch_delete_remark": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -3400,7 +3805,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/remark/delete_remark": {
+        "/admin-api/v1/remark/delete_remark": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -3445,7 +3850,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/remark/find_remark_list": {
+        "/admin-api/v1/remark/find_remark_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3490,7 +3895,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/remark/update_remark": {
+        "/admin-api/v1/remark/update_remark_review": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -3509,7 +3914,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RemarkNewReq"
+                            "$ref": "#/definitions/dto.RemarkReviewReq"
                         }
                     }
                 ],
@@ -3525,7 +3930,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.RemarkBackDTO"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
                                         }
                                     }
                                 }
@@ -3535,7 +3940,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/add_role": {
+        "/admin-api/v1/reset_password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"重置密码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ResetPasswordReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/role/add_role": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3570,7 +4020,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.RoleBackDTO"
+                                            "$ref": "#/definitions/dto.RoleBackVO"
                                         }
                                     }
                                 }
@@ -3580,7 +4030,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/batch_delete_role": {
+        "/admin-api/v1/role/batch_delete_role": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3625,7 +4075,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/delete_role": {
+        "/admin-api/v1/role/delete_role": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -3670,7 +4120,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/find_role_list": {
+        "/admin-api/v1/role/find_role_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3715,7 +4165,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/find_role_resources": {
+        "/admin-api/v1/role/find_role_resources": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3760,7 +4210,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/update_role": {
+        "/admin-api/v1/role/update_role": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -3795,7 +4245,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.RoleBackDTO"
+                                            "$ref": "#/definitions/dto.RoleBackVO"
                                         }
                                     }
                                 }
@@ -3805,7 +4255,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/update_role_apis": {
+        "/admin-api/v1/role/update_role_apis": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3850,7 +4300,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/role/update_role_menus": {
+        "/admin-api/v1/role/update_role_menus": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3895,7 +4345,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/tag/add_tag": {
+        "/admin-api/v1/send_email_verify_code": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"发送邮件验证码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendEmailVerifyCodeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/send_phone_verify_code": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"发送手机验证码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendPhoneVerifyCodeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/tag/add_tag": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3930,7 +4470,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TagBackDTO"
+                                            "$ref": "#/definitions/dto.TagBackVO"
                                         }
                                     }
                                 }
@@ -3940,7 +4480,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/tag/batch_delete_tag": {
+        "/admin-api/v1/tag/batch_delete_tag": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -3985,7 +4525,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/tag/delete_tag": {
+        "/admin-api/v1/tag/delete_tag": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -4030,7 +4570,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/tag/find_tag_list": {
+        "/admin-api/v1/tag/find_tag_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4075,7 +4615,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/tag/update_tag": {
+        "/admin-api/v1/tag/update_tag": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -4110,7 +4650,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TagBackDTO"
+                                            "$ref": "#/definitions/dto.TagBackVO"
                                         }
                                     }
                                 }
@@ -4120,7 +4660,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/talk/add_talk": {
+        "/admin-api/v1/talk/add_talk": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4155,7 +4695,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TalkBackDTO"
+                                            "$ref": "#/definitions/dto.TalkBackVO"
                                         }
                                     }
                                 }
@@ -4165,7 +4705,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/talk/delete_talk": {
+        "/admin-api/v1/talk/delete_talk": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -4210,7 +4750,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/talk/find_talk_list": {
+        "/admin-api/v1/talk/find_talk_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4255,7 +4795,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/talk/get_talk": {
+        "/admin-api/v1/talk/get_talk": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4290,7 +4830,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TalkBackDTO"
+                                            "$ref": "#/definitions/dto.TalkBackVO"
                                         }
                                     }
                                 }
@@ -4300,7 +4840,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/talk/update_talk": {
+        "/admin-api/v1/talk/update_talk": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -4335,7 +4875,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.TalkBackDTO"
+                                            "$ref": "#/definitions/dto.TalkBackVO"
                                         }
                                     }
                                 }
@@ -4345,7 +4885,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/user/get_user_apis": {
+        "/admin-api/v1/user/find_login_log_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "LoginLog"
+                ],
+                "summary": "\"查询登录日志\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginLogQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/user/get_user_apis": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -4390,7 +4975,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/user/get_user_info": {
+        "/admin-api/v1/user/get_user_info": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -4435,7 +5020,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/user/get_user_login_history_list": {
+        "/admin-api/v1/user/get_user_login_history_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4480,7 +5065,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/user/get_user_menus": {
+        "/admin-api/v1/user/get_user_menus": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -4525,7 +5110,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/user/get_user_roles": {
+        "/admin-api/v1/user/get_user_roles": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -4570,7 +5155,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin_api/v1/user/update_user_info": {
+        "/admin-api/v1/user/update_user_avatar": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4581,7 +5166,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "\"修改用户信息\"",
+                "summary": "\"修改用户头像\"",
                 "parameters": [
                     {
                         "description": "请求参数",
@@ -4589,7 +5174,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UserInfoReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserAvatarReq"
                         }
                     }
                 ],
@@ -4615,7 +5200,277 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/album/find_album_list": {
+        "/admin-api/v1/user/update_user_bind_email": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户绑定邮箱\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindEmailReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/user/update_user_bind_phone": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户绑定手机号\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindPhoneReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/user/update_user_info": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户信息\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserInfoReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/user/update_user_password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户密码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserPasswordReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/visit_log/deletes_visit_log": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VisitLog"
+                ],
+                "summary": "\"删除操作记录\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.BatchResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin-api/v1/visit_log/find_visit_log_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VisitLog"
+                ],
+                "summary": "\"分页获取操作记录列表\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.VisitLogQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/album/find_album_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4660,7 +5515,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/album/find_photo_list": {
+        "/blog-api/v1/album/find_photo_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4705,7 +5560,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/album/get_album": {
+        "/blog-api/v1/album/get_album": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4750,7 +5605,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/get_article_archives": {
+        "/blog-api/v1/article/get_article_archives": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4795,7 +5650,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/get_article_classify_category": {
+        "/blog-api/v1/article/get_article_classify_category": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4840,7 +5695,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/get_article_classify_tag": {
+        "/blog-api/v1/article/get_article_classify_tag": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4885,7 +5740,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/get_article_details": {
+        "/blog-api/v1/article/get_article_details": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4930,7 +5785,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/get_article_home_list": {
+        "/blog-api/v1/article/get_article_home_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4975,7 +5830,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/get_article_recommend": {
+        "/blog-api/v1/article/get_article_recommend": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5020,7 +5875,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/article/like_article": {
+        "/blog-api/v1/article/like_article": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5065,97 +5920,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/banner/find_banner_list": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Banner"
-                ],
-                "summary": "\"分页获取页面列表\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.BannerQueryReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/bind_user_email": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "\"绑定邮箱\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.BindUserEmailReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/blog": {
+        "/blog-api/v1/blog": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -5200,7 +5965,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/blog/about_me": {
+        "/blog-api/v1/blog/about_me": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -5245,7 +6010,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/category/find_category_list": {
+        "/blog-api/v1/category/find_category_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5290,52 +6055,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/chat/messages": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Chat"
-                ],
-                "summary": "\"查询聊天记录\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ChatMessageQueryReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/comment/add_comment": {
+        "/blog-api/v1/comment/add_comment": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5380,7 +6100,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/comment/find_comment_list": {
+        "/blog-api/v1/comment/find_comment_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5425,7 +6145,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/comment/find_comment_recent_list": {
+        "/blog-api/v1/comment/find_comment_recent_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5470,7 +6190,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/comment/find_comment_reply_list": {
+        "/blog-api/v1/comment/find_comment_reply_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5515,7 +6235,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/comment/like_comment": {
+        "/blog-api/v1/comment/like_comment": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5560,7 +6280,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/multi_upload_file": {
+        "/blog-api/v1/email_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"邮箱登录\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmailLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/file/multi_upload_file": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5597,7 +6362,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileBackDTO"
+                                                "$ref": "#/definitions/dto.FileBackDTO"
                                             }
                                         }
                                     }
@@ -5608,7 +6373,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/file/upload_file": {
+        "/blog-api/v1/file/upload_file": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5643,7 +6408,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileBackDTO"
+                                            "$ref": "#/definitions/dto.FileBackDTO"
                                         }
                                     }
                                 }
@@ -5653,7 +6418,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/friend_link/find_friend_list": {
+        "/blog-api/v1/friend_link/find_friend_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5698,7 +6463,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/login": {
+        "/blog-api/v1/get_captcha_code": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"获取验证码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/get_tourist_info": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"获取游客身份信息\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetTouristInfoResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5743,7 +6598,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/logoff": {
+        "/blog-api/v1/logoff": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5788,7 +6643,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/logout": {
+        "/blog-api/v1/logout": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5833,7 +6688,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/oauth_authorize_url": {
+        "/blog-api/v1/oauth_authorize_url": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5852,7 +6707,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.OauthLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginReq"
                         }
                     }
                 ],
@@ -5868,7 +6723,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/dto.OauthLoginUrlResp"
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginUrlResp"
                                         }
                                     }
                                 }
@@ -5878,7 +6733,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/oauth_login": {
+        "/blog-api/v1/oauth_login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5897,7 +6752,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.OauthLoginReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginReq"
                         }
                     }
                 ],
@@ -5923,7 +6778,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/ping": {
+        "/blog-api/v1/page/find_page_list": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Page"
+                ],
+                "summary": "\"分页获取页面列表\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageQueryReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/phone_login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"手机登录\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PhoneLoginReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/ping": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -5968,7 +6913,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/register": {
+        "/blog-api/v1/register": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -5987,7 +6932,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RegisterReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RegisterReq"
                         }
                     }
                 ],
@@ -6013,7 +6958,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/remark/add_remark": {
+        "/blog-api/v1/remark/add_remark": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6032,7 +6977,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RemarkNewReq"
+                            "$ref": "#/definitions/dto.RemarkNewReq"
                         }
                     }
                 ],
@@ -6058,7 +7003,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/remark/find_remark_list": {
+        "/blog-api/v1/remark/find_remark_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6103,7 +7048,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/send_bind_email": {
+        "/blog-api/v1/reset_password": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6114,7 +7059,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "\"发送绑定邮箱验证码\"",
+                "summary": "\"重置密码\"",
                 "parameters": [
                     {
                         "description": "请求参数",
@@ -6122,7 +7067,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UserEmailReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ResetPasswordReq"
                         }
                     }
                 ],
@@ -6148,7 +7093,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/send_register_email": {
+        "/blog-api/v1/send_email_verify_code": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6159,7 +7104,7 @@ const docTemplate = `{
                 "tags": [
                     "Auth"
                 ],
-                "summary": "\"发送注册账号邮件\"",
+                "summary": "\"发送邮件验证码\"",
                 "parameters": [
                     {
                         "description": "请求参数",
@@ -6167,7 +7112,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UserEmailReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendEmailVerifyCodeReq"
                         }
                     }
                 ],
@@ -6193,7 +7138,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/tag/find_tag_list": {
+        "/blog-api/v1/send_phone_verify_code": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "\"发送手机验证码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendPhoneVerifyCodeReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/tag/find_tag_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6238,7 +7228,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/talk/find_talk_list": {
+        "/blog-api/v1/talk/find_talk_list": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6283,7 +7273,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/talk/get_talk": {
+        "/blog-api/v1/talk/get_talk": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6328,7 +7318,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/talk/like_talk": {
+        "/blog-api/v1/talk/like_talk": {
             "put": {
                 "consumes": [
                     "application/json"
@@ -6373,7 +7363,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/get_user_info": {
+        "/blog-api/v1/user/get_user_info": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -6418,7 +7408,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/get_user_like": {
+        "/blog-api/v1/user/get_user_like": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -6463,97 +7453,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/reset_password": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "\"重置密码\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ResetPasswordReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user/send_reset_email": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "\"发送重置密码邮件\"",
-                "parameters": [
-                    {
-                        "description": "请求参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UserEmailReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回信息",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Body"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user/update_user_avatar": {
+        "/blog-api/v1/user/update_user_avatar": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6572,7 +7472,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserAvatarReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserAvatarReq"
                         }
                     }
                 ],
@@ -6598,7 +7498,97 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/update_user_info": {
+        "/blog-api/v1/user/update_user_bind_email": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户绑定邮箱\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindEmailReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/user/update_user_bind_phone": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户绑定手机号\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindPhoneReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/user/update_user_info": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -6617,7 +7607,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserInfoReq"
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserInfoReq"
                         }
                     }
                 ],
@@ -6643,7 +7633,52 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/websocket": {
+        "/blog-api/v1/user/update_user_password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "\"修改用户密码\"",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserPasswordReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Body"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog-api/v1/websocket": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -6701,28 +7736,28 @@ const docTemplate = `{
                     "description": "文章量",
                     "type": "integer"
                 },
-                "article_statistics_list": {
-                    "description": "每日文章生产量",
+                "article_statistics": {
+                    "description": "文章提交统计",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.ArticleStatisticsDTO"
+                        "$ref": "#/definitions/dto.ArticleStatisticsVO"
                     }
                 },
-                "article_view_rank_list": {
+                "article_view_ranks": {
                     "description": "文章浏览量排行",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.ArticleViewRankDTO"
+                        "$ref": "#/definitions/dto.ArticleViewVO"
                     }
                 },
                 "category_list": {
                     "description": "分类列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.CategoryDTO"
+                        "$ref": "#/definitions/dto.CategoryVO"
                     }
                 },
-                "message_count": {
+                "remark_count": {
                     "description": "留言量",
                     "type": "integer"
                 },
@@ -6730,22 +7765,11 @@ const docTemplate = `{
                     "description": "标签列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.TagDTO"
-                    }
-                },
-                "unique_view_list": {
-                    "description": "每日用户访问量",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.UniqueViewDTO"
+                        "$ref": "#/definitions/dto.TagVO"
                     }
                 },
                 "user_count": {
                     "description": "用户量",
-                    "type": "integer"
-                },
-                "views_count": {
-                    "description": "访问量",
                     "type": "integer"
                 }
             }
@@ -6771,7 +7795,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.AlbumBackDTO": {
+        "dto.AlbumBackVO": {
             "type": "object",
             "properties": {
                 "album_cover": {
@@ -6882,13 +7906,13 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ApiBackDTO": {
+        "dto.ApiBackVO": {
             "type": "object",
             "properties": {
                 "children": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.ApiBackDTO"
+                        "$ref": "#/definitions/dto.ApiBackVO"
                     }
                 },
                 "created_at": {
@@ -7011,7 +8035,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ArticleBackDTO": {
+        "dto.ArticleBackVO": {
             "type": "object",
             "properties": {
                 "article_content": {
@@ -7277,6 +8301,14 @@ const docTemplate = `{
                 "id": {
                     "description": "文章ID",
                     "type": "integer"
+                },
+                "like_count": {
+                    "description": "点赞量",
+                    "type": "integer"
+                },
+                "views_count": {
+                    "description": "浏览量",
+                    "type": "integer"
                 }
             }
         },
@@ -7340,7 +8372,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ArticleStatisticsDTO": {
+        "dto.ArticleStatisticsVO": {
             "type": "object",
             "properties": {
                 "count": {
@@ -7366,128 +8398,24 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ArticleViewRankDTO": {
+        "dto.ArticleViewVO": {
             "type": "object",
             "properties": {
                 "article_title": {
                     "description": "文章标题",
                     "type": "string"
                 },
-                "count": {
-                    "description": "数量",
-                    "type": "integer"
-                },
                 "id": {
                     "description": "文章ID",
                     "type": "integer"
-                }
-            }
-        },
-        "dto.BannerBackDTO": {
-            "type": "object",
-            "properties": {
-                "banner_cover": {
-                    "description": "页面封面",
-                    "type": "string"
                 },
-                "banner_label": {
-                    "description": "页面标签",
-                    "type": "string"
-                },
-                "banner_name": {
-                    "description": "页面名",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "创建时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "页面id",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
+                "view_count": {
+                    "description": "浏览量",
                     "type": "integer"
                 }
             }
         },
-        "dto.BannerNewReq": {
-            "type": "object",
-            "properties": {
-                "banner_cover": {
-                    "description": "页面封面",
-                    "type": "string"
-                },
-                "banner_label": {
-                    "description": "页面标签",
-                    "type": "string"
-                },
-                "banner_name": {
-                    "description": "页面名",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "页面id",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.BannerQuery": {
-            "type": "object",
-            "properties": {
-                "banner_name": {
-                    "description": "页面名",
-                    "type": "string"
-                },
-                "page": {
-                    "description": "当前页码",
-                    "type": "integer"
-                },
-                "page_size": {
-                    "description": "每页数量",
-                    "type": "integer"
-                },
-                "sorts": {
-                    "description": "排序",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.BannerQueryReq": {
-            "type": "object",
-            "properties": {
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "sorts": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "dto.BindUserEmailReq": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "description": "邮箱",
-                    "type": "string"
-                },
-                "verify_code": {
-                    "description": "验证码",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.CategoryBackDTO": {
+        "dto.CategoryBackVO": {
             "type": "object",
             "properties": {
                 "article_count": {
@@ -7506,18 +8434,6 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "description": "更新时间",
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.CategoryDTO": {
-            "type": "object",
-            "properties": {
-                "category_name": {
-                    "description": "分类名",
-                    "type": "string"
-                },
-                "id": {
                     "type": "integer"
                 }
             }
@@ -7579,36 +8495,19 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ChatMessageQueryReq": {
+        "dto.CategoryVO": {
             "type": "object",
             "properties": {
-                "after": {
-                    "description": "起始时间",
+                "article_count": {
+                    "description": "文章数量",
                     "type": "integer"
                 },
-                "before": {
-                    "description": "结束时间",
+                "category_name": {
+                    "description": "分类名",
+                    "type": "string"
+                },
+                "id": {
                     "type": "integer"
-                },
-                "keyword": {
-                    "description": "关键字",
-                    "type": "string"
-                },
-                "limit": {
-                    "description": "限制数量",
-                    "type": "integer"
-                },
-                "topic_id": {
-                    "description": "聊天室id",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "类型",
-                    "type": "string"
-                },
-                "user_id": {
-                    "description": "用户id",
-                    "type": "string"
                 }
             }
         },
@@ -7865,6 +8764,104 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.FileBackDTO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "file_md5": {
+                    "description": "文件md5值",
+                    "type": "string"
+                },
+                "file_name": {
+                    "description": "文件名称",
+                    "type": "string"
+                },
+                "file_path": {
+                    "description": "文件路径",
+                    "type": "string"
+                },
+                "file_size": {
+                    "description": "文件大小",
+                    "type": "integer"
+                },
+                "file_type": {
+                    "description": "文件类型",
+                    "type": "string"
+                },
+                "file_url": {
+                    "description": "上传路径",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "文件目录ID",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.FileBackVO": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "creator": {
+                    "description": "创建人",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.UserInfo"
+                        }
+                    ]
+                },
+                "file_md5": {
+                    "description": "文件md5值",
+                    "type": "string"
+                },
+                "file_name": {
+                    "description": "文件名称",
+                    "type": "string"
+                },
+                "file_path": {
+                    "description": "文件路径",
+                    "type": "string"
+                },
+                "file_size": {
+                    "description": "文件大小",
+                    "type": "integer"
+                },
+                "file_type": {
+                    "description": "文件类型",
+                    "type": "string"
+                },
+                "file_url": {
+                    "description": "上传路径",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "文件目录ID",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
         "dto.FileFolderNewReq": {
             "type": "object",
             "properties": {
@@ -7906,7 +8903,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.FriendBackDTO": {
+        "dto.FriendBackVO": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -8034,15 +9031,15 @@ const docTemplate = `{
                     "description": "页面列表",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageDTO"
+                        "$ref": "#/definitions/dto.PageDTO"
                     }
                 },
                 "tag_count": {
                     "description": "标签数量",
                     "type": "integer"
                 },
-                "views_count": {
-                    "description": "访问量",
+                "total_page_view_count": {
+                    "description": "总浏览量",
                     "type": "integer"
                 },
                 "website_config": {
@@ -8055,7 +9052,147 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.MenuBackDTO": {
+        "dto.GetTouristInfoResp": {
+            "type": "object",
+            "properties": {
+                "tourist_id": {
+                    "description": "游客id",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetUserAreaStatsReq": {
+            "type": "object",
+            "properties": {
+                "user_type": {
+                    "description": "用户类型: 0注册用户 1游客",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.GetUserAreaStatsResp": {
+            "type": "object",
+            "properties": {
+                "tourist_areas": {
+                    "description": "游客分布地区",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.UserAreaVO"
+                    }
+                },
+                "user_areas": {
+                    "description": "用户分布地区",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.UserAreaVO"
+                    }
+                }
+            }
+        },
+        "dto.GetVisitStatsResp": {
+            "type": "object",
+            "properties": {
+                "pv_growth_rate": {
+                    "description": "同比增长率（相对于昨天同一时间段的增长率）",
+                    "type": "number"
+                },
+                "today_pv_count": {
+                    "description": "今日浏览量(PV)",
+                    "type": "integer"
+                },
+                "today_uv_count": {
+                    "description": "今日访客数(UV)",
+                    "type": "integer"
+                },
+                "total_pv_count": {
+                    "description": "总浏览量",
+                    "type": "integer"
+                },
+                "total_uv_count": {
+                    "description": "总访客数",
+                    "type": "integer"
+                },
+                "uv_growth_rate": {
+                    "description": "访客数同比增长率（相对于昨天同一时间段的增长率）",
+                    "type": "number"
+                }
+            }
+        },
+        "dto.GetVisitTrendReq": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "description": "结束日期",
+                    "type": "string"
+                },
+                "start_date": {
+                    "description": "开始日期",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetVisitTrendResp": {
+            "type": "object",
+            "properties": {
+                "visit_trend": {
+                    "description": "访客数和浏览量趋势",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.VisitTrendVO"
+                    }
+                }
+            }
+        },
+        "dto.ListUploadFileReq": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "description": "文件路径",
+                    "type": "string"
+                },
+                "limit": {
+                    "description": "限制",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ListUploadFileResp": {
+            "type": "object",
+            "properties": {
+                "urls": {
+                    "description": "文件路径",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "dto.LoginLogQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.MenuBackVO": {
             "type": "object",
             "properties": {
                 "always_show": {
@@ -8065,7 +9202,7 @@ const docTemplate = `{
                 "children": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.MenuBackDTO"
+                        "$ref": "#/definitions/dto.MenuBackVO"
                     }
                 },
                 "component": {
@@ -8133,7 +9270,7 @@ const docTemplate = `{
                 },
                 "type": {
                     "description": "菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "updated_at": {
                     "description": "更新时间",
@@ -8226,7 +9363,7 @@ const docTemplate = `{
                 },
                 "type": {
                     "description": "菜单类型（0代表目录、1代表菜单、2代表按钮、3代表外链）",
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -8258,32 +9395,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.OauthLoginReq": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "授权码",
-                    "type": "string"
-                },
-                "platform": {
-                    "description": "平台",
-                    "type": "string"
-                },
-                "state": {
-                    "description": "状态",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.OauthLoginUrlResp": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "description": "授权地址",
-                    "type": "string"
-                }
-            }
-        },
         "dto.OperationLogQuery": {
             "type": "object",
             "properties": {
@@ -8304,7 +9415,104 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.PhotoBackDTO": {
+        "dto.PageBackVO": {
+            "type": "object",
+            "properties": {
+                "carousel_covers": {
+                    "description": "轮播封面",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "页面id",
+                    "type": "integer"
+                },
+                "is_carousel": {
+                    "description": "是否轮播",
+                    "type": "integer"
+                },
+                "page_cover": {
+                    "description": "页面封面",
+                    "type": "string"
+                },
+                "page_label": {
+                    "description": "页面标签",
+                    "type": "string"
+                },
+                "page_name": {
+                    "description": "页面名",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.PageDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "页面ID",
+                    "type": "integer"
+                },
+                "is_carousel": {
+                    "description": "是否轮播",
+                    "type": "integer"
+                },
+                "page_cover": {
+                    "description": "页面封面",
+                    "type": "string"
+                },
+                "page_label": {
+                    "description": "页面标签",
+                    "type": "string"
+                },
+                "page_name": {
+                    "description": "页面名称",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.PageNewReq": {
+            "type": "object",
+            "properties": {
+                "carousel_covers": {
+                    "description": "轮播封面",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "description": "页面id",
+                    "type": "integer"
+                },
+                "is_carousel": {
+                    "description": "是否轮播",
+                    "type": "integer"
+                },
+                "page_cover": {
+                    "description": "页面封面",
+                    "type": "string"
+                },
+                "page_label": {
+                    "description": "页面标签",
+                    "type": "string"
+                },
+                "page_name": {
+                    "description": "页面名",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.PhotoBackVO": {
             "type": "object",
             "properties": {
                 "album_id": {
@@ -8403,21 +9611,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.RegisterReq": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                },
-                "verify_code": {
-                    "description": "验证码",
-                    "type": "string"
-                }
-            }
-        },
         "dto.Remark": {
             "type": "object",
             "properties": {
@@ -8459,32 +9652,12 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.RemarkBackDTO": {
+        "dto.RemarkNewReq": {
             "type": "object",
             "properties": {
                 "avatar": {
                     "description": "头像",
                     "type": "string"
-                },
-                "created_at": {
-                    "description": "发布时间",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
-                },
-                "ip_address": {
-                    "description": "用户ip",
-                    "type": "string"
-                },
-                "ip_source": {
-                    "description": "用户地址",
-                    "type": "string"
-                },
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
                 },
                 "message_content": {
                     "description": "留言内容",
@@ -8493,14 +9666,6 @@ const docTemplate = `{
                 "nickname": {
                     "description": "昵称",
                     "type": "string"
-                },
-                "time": {
-                    "description": "弹幕速度",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
                 }
             }
         },
@@ -8549,22 +9714,22 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ResetPasswordReq": {
+        "dto.RemarkReviewReq": {
             "type": "object",
             "properties": {
-                "password": {
-                    "type": "string"
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
-                "username": {
-                    "type": "string"
-                },
-                "verify_code": {
-                    "description": "验证码",
-                    "type": "string"
+                "is_review": {
+                    "description": "是否审核",
+                    "type": "integer"
                 }
             }
         },
-        "dto.RoleBackDTO": {
+        "dto.RoleBackVO": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -8591,12 +9756,12 @@ const docTemplate = `{
                     "description": "角色备注",
                     "type": "string"
                 },
-                "role_label": {
-                    "description": "角色标签",
+                "role_key": {
+                    "description": "角色名",
                     "type": "string"
                 },
-                "role_key": {
-                    "description": "角色标识",
+                "role_label": {
+                    "description": "角色标签",
                     "type": "string"
                 },
                 "updated_at": {
@@ -8628,12 +9793,12 @@ const docTemplate = `{
                     "description": "角色备注",
                     "type": "string"
                 },
-                "role_label": {
-                    "description": "角色标签",
+                "role_key": {
+                    "description": "角色名",
                     "type": "string"
                 },
-                "role_key": {
-                    "description": "角色标识",
+                "role_label": {
+                    "description": "角色标签",
                     "type": "string"
                 }
             }
@@ -8653,12 +9818,12 @@ const docTemplate = `{
                     "description": "每页数量",
                     "type": "integer"
                 },
-                "role_label": {
-                    "description": "角色标签",
+                "role_key": {
+                    "description": "角色名",
                     "type": "string"
                 },
-                "role_key": {
-                    "description": "角色标识",
+                "role_label": {
+                    "description": "角色标签",
                     "type": "string"
                 },
                 "sorts": {
@@ -8719,7 +9884,7 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.TagBackDTO": {
+        "dto.TagBackVO": {
             "type": "object",
             "properties": {
                 "article_count": {
@@ -8741,19 +9906,6 @@ const docTemplate = `{
                 "updated_at": {
                     "description": "更新时间",
                     "type": "integer"
-                }
-            }
-        },
-        "dto.TagDTO": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "description": "标签ID",
-                    "type": "integer"
-                },
-                "tag_name": {
-                    "description": "标签名",
-                    "type": "string"
                 }
             }
         },
@@ -8807,6 +9959,23 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "tag_name": {
+                    "description": "标签名",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.TagVO": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "description": "文章数量",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "标签ID",
+                    "type": "integer"
                 },
                 "tag_name": {
                     "description": "标签名",
@@ -8870,13 +10039,9 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.TalkBackDTO": {
+        "dto.TalkBackVO": {
             "type": "object",
             "properties": {
-                "avatar": {
-                    "description": "用户头像",
-                    "type": "string"
-                },
                 "comment_count": {
                     "description": "评论量",
                     "type": "integer"
@@ -8908,10 +10073,6 @@ const docTemplate = `{
                     "description": "点赞量",
                     "type": "integer"
                 },
-                "nickname": {
-                    "description": "用户昵称",
-                    "type": "string"
-                },
                 "status": {
                     "description": "状态 1.公开 2.私密",
                     "type": "integer"
@@ -8919,6 +10080,14 @@ const docTemplate = `{
                 "updated_at": {
                     "description": "更新时间",
                     "type": "integer"
+                },
+                "user": {
+                    "description": "用户信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.UserInfo"
+                        }
+                    ]
                 },
                 "user_id": {
                     "description": "用户ID",
@@ -8995,15 +10164,13 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UniqueViewDTO": {
+        "dto.UpdateAccountPasswordReq": {
             "type": "object",
             "properties": {
-                "count": {
-                    "description": "数量",
-                    "type": "integer"
+                "password": {
+                    "type": "string"
                 },
-                "date": {
-                    "description": "日期",
+                "user_id": {
                     "type": "string"
                 }
             }
@@ -9062,36 +10229,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UpdateUserAvatarReq": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "description": "头像",
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UpdateUserInfoReq": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "description": "头像",
-                    "type": "string"
-                },
-                "intro": {
-                    "description": "简介",
-                    "type": "string"
-                },
-                "nickname": {
-                    "description": "昵称",
-                    "type": "string"
-                },
-                "website": {
-                    "description": "网站",
-                    "type": "string"
-                }
-            }
-        },
         "dto.UserApi": {
             "type": "object",
             "properties": {
@@ -9142,31 +10279,30 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UserEmailReq": {
+        "dto.UserAreaVO": {
             "type": "object",
             "properties": {
-                "username": {
+                "name": {
                     "type": "string"
+                },
+                "value": {
+                    "type": "integer"
                 }
             }
         },
-        "dto.UserInfoReq": {
+        "dto.UserInfo": {
             "type": "object",
             "properties": {
                 "avatar": {
-                    "description": "头像",
-                    "type": "string"
-                },
-                "intro": {
-                    "description": "简介",
                     "type": "string"
                 },
                 "nickname": {
-                    "description": "昵称",
                     "type": "string"
                 },
-                "website": {
-                    "description": "网站",
+                "user_id": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -9317,12 +10453,12 @@ const docTemplate = `{
                     "description": "角色备注",
                     "type": "string"
                 },
-                "role_label": {
-                    "description": "角色标签",
+                "role_key": {
+                    "description": "角色名",
                     "type": "string"
                 },
-                "role_key": {
-                    "description": "角色标识",
+                "role_label": {
+                    "description": "角色标签",
                     "type": "string"
                 }
             }
@@ -9330,13 +10466,13 @@ const docTemplate = `{
         "dto.UserRoleLabel": {
             "type": "object",
             "properties": {
-                "role_comment": {
-                    "type": "string"
-                },
                 "role_id": {
                     "type": "integer"
                 },
                 "role_key": {
+                    "type": "string"
+                },
+                "role_label": {
                     "type": "string"
                 }
             }
@@ -9349,6 +10485,55 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/dto.UserRole"
                     }
+                }
+            }
+        },
+        "dto.VisitLogQuery": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_name": {
+                    "description": "页面",
+                    "type": "string"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "terminal_id": {
+                    "description": "终端id",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.VisitTrendVO": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "description": "日期",
+                    "type": "string"
+                },
+                "pv_count": {
+                    "description": "浏览量",
+                    "type": "integer"
+                },
+                "uv_count": {
+                    "description": "访客数",
+                    "type": "integer"
                 }
             }
         },
@@ -9574,53 +10759,59 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmailLoginReq": {
+            "type": "object",
+            "properties": {
+                "captcha_code": {
+                    "description": "验证码",
+                    "type": "string"
+                },
+                "captcha_key": {
+                    "description": "验证码key",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyReq": {
             "type": "object"
         },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.EmptyResp": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.FileBackDTO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeReq": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "description": "创建时间",
+                "height": {
+                    "description": "高度",
                     "type": "integer"
                 },
-                "file_md5": {
-                    "description": "文件md5值",
-                    "type": "string"
-                },
-                "file_name": {
-                    "description": "文件名称",
-                    "type": "string"
-                },
-                "file_path": {
-                    "description": "文件路径",
-                    "type": "string"
-                },
-                "file_size": {
-                    "description": "文件大小",
+                "width": {
+                    "description": "宽度",
                     "type": "integer"
-                },
-                "file_type": {
-                    "description": "文件类型",
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.GetCaptchaCodeResp": {
+            "type": "object",
+            "properties": {
+                "captcha_base64": {
+                    "description": "验证码base64",
                     "type": "string"
                 },
-                "file_url": {
-                    "description": "上传路径",
+                "captcha_code": {
+                    "description": "验证码",
                     "type": "string"
                 },
-                "id": {
-                    "description": "文件目录ID",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "description": "用户id",
+                "captcha_key": {
+                    "description": "验证码key",
                     "type": "string"
                 }
             }
@@ -9647,14 +10838,18 @@ const docTemplate = `{
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.LoginReq": {
             "type": "object",
             "properties": {
+                "captcha_code": {
+                    "description": "验证码",
+                    "type": "string"
+                },
+                "captcha_key": {
+                    "description": "验证码key",
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },
                 "username": {
-                    "type": "string"
-                },
-                "verify_code": {
-                    "description": "验证码",
                     "type": "string"
                 }
             }
@@ -9681,6 +10876,56 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginReq": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "授权码",
+                    "type": "string"
+                },
+                "platform": {
+                    "description": "平台",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "状态",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.OauthLoginUrlResp": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "description": "授权地址",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "description": "当前页码",
+                    "type": "integer"
+                },
+                "page_name": {
+                    "description": "页面名",
+                    "type": "string"
+                },
+                "page_size": {
+                    "description": "每页数量",
+                    "type": "integer"
+                },
+                "sorts": {
+                    "description": "排序",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PageResp": {
             "type": "object",
             "properties": {
@@ -9693,6 +10938,19 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.PhoneLoginReq": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
                 }
             }
         },
@@ -9725,16 +10983,71 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RemarkNewReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.RegisterReq": {
             "type": "object",
             "properties": {
-                "id": {
-                    "description": "主键id",
-                    "type": "integer"
+                "confirm_password": {
+                    "description": "确认密码",
+                    "type": "string"
                 },
-                "is_review": {
-                    "description": "是否审核",
-                    "type": "integer"
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.ResetPasswordReq": {
+            "type": "object",
+            "properties": {
+                "confirm_password": {
+                    "description": "确认密码",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendEmailVerifyCodeReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型 register,reset_password,bind_email,bind_phone",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.SendPhoneVerifyCodeReq": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型 register,reset_password,bind_email,bind_phone",
+                    "type": "string"
                 }
             }
         },
@@ -9771,6 +11084,79 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserAvatarReq": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "头像",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindEmailReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserBindPhoneReq": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserInfoReq": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "description": "性别 0未知 1男 2女",
+                    "type": "integer"
+                },
+                "intro": {
+                    "description": "简介",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "website": {
+                    "description": "网站",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UpdateUserPasswordReq": {
+            "type": "object",
+            "properties": {
+                "confirm_password": {
+                    "description": "确认密码",
+                    "type": "string"
+                },
+                "new_password": {
+                    "description": "新密码",
+                    "type": "string"
+                },
+                "old_password": {
+                    "description": "旧密码",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_admin_dto.UploadFileReq": {
             "type": "object",
             "properties": {
@@ -9796,6 +11182,10 @@ const docTemplate = `{
                 "email": {
                     "description": "用户邮箱",
                     "type": "string"
+                },
+                "gender": {
+                    "description": "性别 0未知 1男 2女",
+                    "type": "integer"
                 },
                 "intro": {
                     "description": "简介",
@@ -9854,53 +11244,59 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmailLoginReq": {
+            "type": "object",
+            "properties": {
+                "captcha_code": {
+                    "description": "验证码",
+                    "type": "string"
+                },
+                "captcha_key": {
+                    "description": "验证码key",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyReq": {
             "type": "object"
         },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.EmptyResp": {
             "type": "object"
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.FileBackDTO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeReq": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "description": "创建时间",
+                "height": {
+                    "description": "高度",
                     "type": "integer"
                 },
-                "file_md5": {
-                    "description": "文件md5值",
-                    "type": "string"
-                },
-                "file_name": {
-                    "description": "文件名称",
-                    "type": "string"
-                },
-                "file_path": {
-                    "description": "文件路径",
-                    "type": "string"
-                },
-                "file_size": {
-                    "description": "文件大小",
+                "width": {
+                    "description": "宽度",
                     "type": "integer"
-                },
-                "file_type": {
-                    "description": "文件类型",
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.GetCaptchaCodeResp": {
+            "type": "object",
+            "properties": {
+                "captcha_base64": {
+                    "description": "验证码base64",
                     "type": "string"
                 },
-                "file_url": {
-                    "description": "上传路径",
+                "captcha_code": {
+                    "description": "验证码",
                     "type": "string"
                 },
-                "id": {
-                    "description": "文件目录ID",
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "description": "更新时间",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "description": "用户id",
+                "captcha_key": {
+                    "description": "验证码key",
                     "type": "string"
                 }
             }
@@ -9916,14 +11312,18 @@ const docTemplate = `{
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.LoginReq": {
             "type": "object",
             "properties": {
+                "captcha_code": {
+                    "description": "验证码",
+                    "type": "string"
+                },
+                "captcha_key": {
+                    "description": "验证码key",
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },
                 "username": {
-                    "type": "string"
-                },
-                "verify_code": {
-                    "description": "验证码",
                     "type": "string"
                 }
             }
@@ -9950,24 +11350,46 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageDTO": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginReq": {
             "type": "object",
             "properties": {
-                "id": {
-                    "description": "页面ID",
+                "code": {
+                    "description": "授权码",
+                    "type": "string"
+                },
+                "platform": {
+                    "description": "平台",
+                    "type": "string"
+                },
+                "state": {
+                    "description": "状态",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.OauthLoginUrlResp": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "description": "授权地址",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PageQueryReq": {
+            "type": "object",
+            "properties": {
+                "page": {
                     "type": "integer"
                 },
-                "page_cover": {
-                    "description": "页面封面",
-                    "type": "string"
+                "page_size": {
+                    "type": "integer"
                 },
-                "page_label": {
-                    "description": "页面标签",
-                    "type": "string"
-                },
-                "page_name": {
-                    "description": "页面名称",
-                    "type": "string"
+                "sorts": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -9983,6 +11405,19 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.PhoneLoginReq": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
                 }
             }
         },
@@ -10015,19 +11450,70 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RemarkNewReq": {
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.RegisterReq": {
             "type": "object",
             "properties": {
-                "avatar": {
-                    "description": "头像",
+                "confirm_password": {
+                    "description": "确认密码",
                     "type": "string"
                 },
-                "message_content": {
-                    "description": "留言内容",
+                "email": {
+                    "description": "邮箱",
                     "type": "string"
                 },
-                "nickname": {
-                    "description": "昵称",
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.ResetPasswordReq": {
+            "type": "object",
+            "properties": {
+                "confirm_password": {
+                    "description": "确认密码",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendEmailVerifyCodeReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型 register,reset_password,bind_email,bind_phone",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.SendPhoneVerifyCodeReq": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型 register,reset_password,bind_email,bind_phone",
                     "type": "string"
                 }
             }
@@ -10065,6 +11551,79 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserAvatarReq": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "头像",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindEmailReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserBindPhoneReq": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "verify_code": {
+                    "description": "验证码",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserInfoReq": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "description": "性别 0未知 1男 2女",
+                    "type": "integer"
+                },
+                "intro": {
+                    "description": "简介",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "website": {
+                    "description": "网站",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UpdateUserPasswordReq": {
+            "type": "object",
+            "properties": {
+                "confirm_password": {
+                    "description": "确认密码",
+                    "type": "string"
+                },
+                "new_password": {
+                    "description": "新密码",
+                    "type": "string"
+                },
+                "old_password": {
+                    "description": "旧密码",
+                    "type": "string"
+                }
+            }
+        },
         "github_com_ve-weiyi_ve-blog-golang_blog-gin_service_blog_dto.UploadFileReq": {
             "type": "object",
             "properties": {
@@ -10087,6 +11646,10 @@ const docTemplate = `{
                 "email": {
                     "description": "用户邮箱",
                     "type": "string"
+                },
+                "gender": {
+                    "description": "性别 0未知 1男 2女",
+                    "type": "integer"
                 },
                 "intro": {
                     "description": "简介",

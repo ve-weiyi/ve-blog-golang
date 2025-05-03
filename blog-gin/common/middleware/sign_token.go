@@ -15,7 +15,7 @@ import (
 func SignToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tk := c.Request.Header.Get(restx.HeaderToken)
-		tm := c.Request.Header.Get(restx.HeaderTerminal)
+		tm := c.Request.Header.Get(restx.HeaderTerminalId)
 		ts := c.Request.Header.Get(restx.HeaderTimestamp)
 
 		//glog.Infof("api is no login required. tk:%v, tm:%v,ts:%v", tk, tm, ts)

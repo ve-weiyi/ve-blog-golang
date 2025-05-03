@@ -6,18 +6,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
-type BannerService struct {
+type PageService struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewBannerService(svcCtx *svctx.ServiceContext) *BannerService {
-	return &BannerService{
+func NewPageService(svcCtx *svctx.ServiceContext) *PageService {
+	return &PageService{
 		svcCtx: svcCtx,
 	}
 }
 
 // 分页获取页面列表
-func (s *BannerService) FindBannerList(reqCtx *request.Context, in *dto.BannerQueryReq) (out *dto.PageResp, err error) {
+func (s *PageService) FindPageList(reqCtx *request.Context, in *dto.PageQueryReq) (out *dto.PageResp, err error) {
 	// todo
 
 	return

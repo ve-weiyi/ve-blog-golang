@@ -16,13 +16,6 @@ func NewAccountService(svcCtx *svctx.ServiceContext) *AccountService {
 	}
 }
 
-// 获取用户分布地区
-func (s *AccountService) FindAccountAreaAnalysis(reqCtx *request.Context, in *dto.AccountQuery) (out *dto.PageResp, err error) {
-	// todo
-
-	return
-}
-
 // 查询用户列表
 func (s *AccountService) FindAccountList(reqCtx *request.Context, in *dto.AccountQuery) (out *dto.PageResp, err error) {
 	// todo
@@ -30,15 +23,15 @@ func (s *AccountService) FindAccountList(reqCtx *request.Context, in *dto.Accoun
 	return
 }
 
-// 查询用户登录历史
-func (s *AccountService) FindAccountLoginHistoryList(reqCtx *request.Context, in *dto.AccountQuery) (out *dto.PageResp, err error) {
+// 查询在线用户列表
+func (s *AccountService) FindAccountOnlineList(reqCtx *request.Context, in *dto.AccountQuery) (out *dto.PageResp, err error) {
 	// todo
 
 	return
 }
 
-// 查询在线用户列表
-func (s *AccountService) FindAccountOnlineList(reqCtx *request.Context, in *dto.AccountQuery) (out *dto.PageResp, err error) {
+// 修改用户密码
+func (s *AccountService) UpdateAccountPassword(reqCtx *request.Context, in *dto.UpdateAccountPasswordReq) (out *dto.EmptyResp, err error) {
 	// todo
 
 	return

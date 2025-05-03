@@ -7,18 +7,18 @@ import (
 	"github.com/ve-weiyi/ve-blog-golang/blog-gin/svctx"
 )
 
-type OperationLogRouter struct {
+type VisitLogRouter struct {
 	svcCtx *svctx.ServiceContext
 }
 
-func NewOperationLogRouter(svcCtx *svctx.ServiceContext) *OperationLogRouter {
-	return &OperationLogRouter{
+func NewVisitLogRouter(svcCtx *svctx.ServiceContext) *VisitLogRouter {
+	return &VisitLogRouter{
 		svcCtx: svcCtx,
 	}
 }
 
-func (s *OperationLogRouter) Register(r *gin.RouterGroup) {
-	// OperationLog
+func (s *VisitLogRouter) Register(r *gin.RouterGroup) {
+	// VisitLog
 	// [JwtToken Permission OperationLog]
 	{
 		group := r.Group("/admin-api/v1")
@@ -26,10 +26,10 @@ func (s *OperationLogRouter) Register(r *gin.RouterGroup) {
 		group.Use(s.svcCtx.MiddlewarePermission)
 		group.Use(s.svcCtx.MiddlewareOperationLog)
 
-		handler := controller.NewOperationLogController(s.svcCtx)
+		handler := controller.NewVisitLogController(s.svcCtx)
 		// 删除操作记录
-		group.DELETE("/operation_log/deletes_operation_log", handler.DeletesOperationLog)
+		group.DELETE("/visit_log/deletes_visit_log", handler.DeletesVisitLog)
 		// 分页获取操作记录列表
-		group.POST("/operation_log/find_operation_log_list", handler.FindOperationLogList)
+		group.POST("/visit_log/find_visit_log_list", handler.FindVisitLogList)
 	}
 }
