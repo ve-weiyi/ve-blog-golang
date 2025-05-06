@@ -1,38 +1,32 @@
-package auth
+package user
 
 import (
 	"context"
 
-	"github.com/spf13/cast"
-	"github.com/ve-weiyi/ve-blog-golang/kit/infra/restx"
-
-	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
-
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/svc"
 	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/api/blog/internal/types"
+	"github.com/ve-weiyi/ve-blog-golang/blog-gozero/service/rpc/blog/client/accountrpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type BindUserEmailLogic struct {
+type UpdateUserBindEmailLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-// 绑定邮箱
-func NewBindUserEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *BindUserEmailLogic {
-	return &BindUserEmailLogic{
+// 修改用户绑定邮箱
+func NewUpdateUserBindEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserBindEmailLogic {
+	return &UpdateUserBindEmailLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *BindUserEmailLogic) BindUserEmail(req *types.BindUserEmailReq) (resp *types.EmptyResp, err error) {
-
-	in := &accountrpc.BindUserEmailReq{
-		UserId:     cast.ToString(l.ctx.Value(restx.HeaderUid)),
+func (l *UpdateUserBindEmailLogic) UpdateUserBindEmail(req *types.UpdateUserBindEmailReq) (resp *types.EmptyResp, err error) {
+	in := &accountrpc.BindUseEmailReq{
 		Email:      req.Email,
 		VerifyCode: req.VerifyCode,
 	}
