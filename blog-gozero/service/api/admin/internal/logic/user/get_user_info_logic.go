@@ -88,17 +88,18 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp, thp *accountrpc.GetUserOa
 	}
 
 	out = &types.UserInfoResp{
-		UserId:      in.UserId,
-		Username:    in.Username,
-		Nickname:    in.Nickname,
-		Avatar:      in.Avatar,
-		Email:       in.Email,
-		Phone:       in.Phone,
-		CreatedAt:   in.CreatedAt,
-		UserInfoExt: info,
-		ThirdParty:  thirdParty,
-		Roles:       roles,
-		Perms:       perms,
+		UserId:       in.UserId,
+		Username:     in.Username,
+		Nickname:     in.Nickname,
+		Avatar:       in.Avatar,
+		Email:        in.Email,
+		Phone:        in.Phone,
+		RegisterType: in.RegisterType,
+		CreatedAt:    in.CreatedAt,
+		UserInfoExt:  info,
+		ThirdParty:   thirdParty,
+		Roles:        roles,
+		Perms:        perms,
 	}
 
 	return out

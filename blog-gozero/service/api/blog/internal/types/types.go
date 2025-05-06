@@ -513,13 +513,14 @@ type UserInfoExt struct {
 }
 
 type UserInfoResp struct {
-	UserId    string `json:"user_id"`    // 用户id
-	Username  string `json:"username"`   // 用户名
-	Nickname  string `json:"nickname"`   // 用户昵称
-	Avatar    string `json:"avatar"`     // 用户头像
-	Email     string `json:"email"`      // 用户邮箱
-	Phone     string `json:"phone"`      // 用户手机号
-	CreatedAt int64  `json:"created_at"` // 创建时间
+	UserId       string `json:"user_id"`       // 用户id
+	Username     string `json:"username"`      // 用户名
+	Nickname     string `json:"nickname"`      // 用户昵称
+	Avatar       string `json:"avatar"`        // 用户头像
+	Email        string `json:"email"`         // 用户邮箱
+	Phone        string `json:"phone"`         // 用户手机号
+	RegisterType string `json:"register_type"` // 注册方式
+	CreatedAt    int64  `json:"created_at"`    // 创建时间
 	UserInfoExt
 	ThirdParty []*UserThirdPartyInfo `json:"third_party"`
 }

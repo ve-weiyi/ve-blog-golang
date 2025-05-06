@@ -33,10 +33,10 @@ func (l *FindAccountListLogic) FindAccountList(req *types.AccountQuery) (resp *t
 		PageSize: req.PageSize,
 		Username: req.Username,
 		Nickname: req.Nickname,
-		Email:    "",
-		Phone:    "",
-		Status:   0,
-		UserIds:  nil,
+		Email:    req.Email,
+		Phone:    req.Phone,
+		Status:   req.Status,
+		UserIds:  req.UserIds,
 	}
 
 	out, err := l.svcCtx.AccountRpc.FindUserInfoList(l.ctx, in)
@@ -75,20 +75,20 @@ func ConvertUserInfoTypes(in *accountrpc.UserInfoResp) *types.UserInfoDetail {
 	}
 
 	out := &types.UserInfoDetail{
-		UserId:      in.UserId,
-		Username:    in.Username,
-		Nickname:    in.Nickname,
-		Avatar:      in.Avatar,
-		Email:       in.Email,
-		Phone:       in.Phone,
-		Status:      in.Status,
-		LoginType:   in.LoginType,
-		IpAddress:   in.IpAddress,
-		IpSource:    in.IpSource,
-		CreatedAt:   in.CreatedAt,
-		UpdatedAt:   in.UpdatedAt,
-		UserInfoExt: info,
-		RoleLabels:  roles,
+		UserId:       in.UserId,
+		Username:     in.Username,
+		Nickname:     in.Nickname,
+		Avatar:       in.Avatar,
+		Email:        in.Email,
+		Phone:        in.Phone,
+		Status:       in.Status,
+		RegisterType: in.RegisterType,
+		IpAddress:    in.IpAddress,
+		IpSource:     in.IpSource,
+		CreatedAt:    in.CreatedAt,
+		UpdatedAt:    in.UpdatedAt,
+		UserInfoExt:  info,
+		RoleLabels:   roles,
 	}
 
 	return out
